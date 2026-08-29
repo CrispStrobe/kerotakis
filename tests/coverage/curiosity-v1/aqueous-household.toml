@@ -221,7 +221,6 @@ age_band = "age9_to12"
 action = "mix_and_dissolve"
 material_class = "flour-water"
 expected = "missing"
-parse_boundary = "unknown_species"
 owning_task = "BRD-014"
 tags = ["material-recipe-gap"]
 script = ["add v1 water 100mL", "add v1 flour 10g", "stir v1"]

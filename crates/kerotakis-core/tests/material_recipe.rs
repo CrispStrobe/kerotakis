@@ -282,3 +282,267 @@ fn cola_keeps_unknown_ingredients_explicit() {
         .iter()
         .any(|part| part.species_id == "H3PO4"));
 }
+
+// --- BRD-014 checkpoints 34-37: wax, paper, flour, dough, juice, glass.
+
+/// Candle wax is a blend of long-chain alkanes, none of which the registry
+/// installs. The recipe therefore conserves the whole dose rather than
+/// inventing a molecule to stand in for it.
+#[test]
+fn candle_wax_is_conserved_whole_with_no_invented_component() {
+    let recipe =
+        kerotakis_core::material::lookup("Kerzenwachs", Some("de")).expect("localized candle wax");
+    assert_eq!(recipe.canonical_key, "candle_wax");
+    let expansion = recipe.expand(25.0, 0).expect("fixed expansion");
+    assert!(
+        expansion.components.is_empty(),
+        "no alkane of candle wax is an installed species"
+    );
+    assert!((expansion.unresolved_amount - 25.0).abs() < 1e-12);
+}
+
+/// The bare words a candle is usually called by are deliberately not claimed:
+/// beeswax and paraffin wax are different materials, British English calls a
+/// lamp fuel "paraffin", and a candle is a wick-and-flame object the bench
+/// does not have.
+#[test]
+fn bare_wax_paraffin_and_candle_remain_unclaimed() {
+    let wax = kerotakis_core::material::lookup("Kerzenwachs", Some("de")).expect("candle wax");
+    for (name, language) in [
+        ("Wachs", Some("de")),
+        ("wax", Some("en")),
+        ("Paraffin", Some("de")),
+        ("paraffin", Some("en")),
+        ("Kerze", Some("de")),
+        ("candle", Some("en")),
+    ] {
+        assert!(!wax.matches(name, language), "{name} must stay unclaimed");
+    }
+}
+
+/// A conserved unresolved solid is still in the beaker, and the bench says
+/// so. Silence would repeat the defect the whole unresolved-fraction contract
+/// exists to prevent: matter the engine holds, reported as absent.
+#[test]
+fn conserved_unresolved_solids_are_visible_without_entering_the_chemistry() {
+    let mut bench = Bench::new();
+    for command in ["add v1 water 100mL", "add v1 Kerzenwachs 20g"] {
+        let op = parse_op(command)
+            .unwrap_or_else(|error| panic!("parse {command}: {error}"))
+            .expect("operator");
+        bench
+            .step(op)
+            .unwrap_or_else(|error| panic!("{command}: {error}"));
+    }
+    let vessel = &bench.vessels[0];
+    assert_eq!(vessel.unresolved_materials.len(), 1);
+    assert!((vessel.unresolved_materials[0].amount - 20.0).abs() < 1e-12);
+
+    let solids = kerotakis_core::material::conserved_unresolved_solids(vessel);
+    assert_eq!(solids.len(), 1);
+    assert_eq!(solids[0].material, "candle wax");
+    assert_eq!(solids[0].colour_word, "off-white");
+
+    let observed = kerotakis_core::appearance::observe(vessel);
+    assert!(
+        observed.words.contains("off-white candle wax"),
+        "{}",
+        observed.words
+    );
+    // The water it sits in is untouched: wax contributes no solute, no
+    // colour and no cloudiness.
+    assert!(observed.words.contains("colourless"), "{}", observed.words);
+    assert!(observed.cloudiness < 0.01);
+    assert!(vessel
+        .contents
+        .iter()
+        .all(|portion| portion.species == SpeciesId::new("water")));
+}
+
+/// Paper is cellulose, and cellulose is not in the registry. The honest
+/// answer is to name the sheet and conserve it, not to resolve it into a
+/// fibre the engine does not have.
+#[test]
+fn paper_is_conserved_unresolved_with_its_identity_stated() {
+    let recipe = kerotakis_core::material::lookup("Papier", Some("de")).expect("localized paper");
+    assert_eq!(recipe.canonical_key, "paper_sheet");
+    assert_eq!(recipe.name, "paper");
+    assert!(recipe.matches("sheet of paper", Some("en")));
+    let expansion = recipe.expand(4.0, 0).expect("fixed expansion");
+    assert!(expansion.components.is_empty());
+    assert!((expansion.unresolved_amount - 4.0).abs() < 1e-12);
+    assert!(
+        recipe
+            .lot_assumptions
+            .iter()
+            .any(|assumption| assumption.contains("cellulose")),
+        "the unresolved substance must be named, not merely omitted"
+    );
+
+    let op = parse_op("add v1 Papier 4g")
+        .expect("valid material command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    let events = bench.step(op).expect("add paper");
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::MaterialAdded { recipe_id, components, unresolved_amount, .. }
+            if recipe_id == "household/paper-sheet"
+                && components.is_empty()
+                && (*unresolved_amount - 4.0).abs() < 1e-12
+    )));
+    let observed = kerotakis_core::appearance::observe(&bench.vessels[0]);
+    assert!(observed.words.contains("white paper"), "{}", observed.words);
+}
+
+/// White wheat flour resolves the starch a school iodine test actually finds,
+/// and conserves the protein, moisture, fibre, lipid and ash that no
+/// installed species describes.
+#[test]
+fn wheat_flour_resolves_its_starch_and_conserves_the_remainder() {
+    let recipe = kerotakis_core::material::lookup("Mehl", Some("de")).expect("localized flour");
+    assert_eq!(recipe.canonical_key, "wheat_flour");
+    assert!(recipe.matches("flour", Some("en")));
+    let expansion = recipe.expand(50.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "starch");
+    assert!((expansion.components[0].amount - 35.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 15.0).abs() < 1e-12);
+    assert!(
+        expansion
+            .components
+            .iter()
+            .all(|component| component.species_id != "water"),
+        "sorbed flour moisture must not become free liquid water"
+    );
+}
+
+/// A dough is wet, but its water is held in the flour. Resolving it would
+/// put a pool of free liquid in the beaker that a real dough never releases,
+/// so the water stays inside the conserved remainder and the boundary is
+/// stated rather than approximated.
+#[test]
+fn dough_keeps_its_water_out_of_the_vessel_s_free_liquid() {
+    let recipe = kerotakis_core::material::lookup("Teig", Some("de")).expect("localized dough");
+    assert_eq!(recipe.canonical_key, "flour_water_dough");
+    let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "starch");
+    assert!((expansion.components[0].amount - 42.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 58.0).abs() < 1e-12);
+
+    let op = parse_op("add v1 Teig 100g")
+        .expect("valid material command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    bench.step(op).expect("add dough");
+    let vessel = &bench.vessels[0];
+    assert!(
+        vessel.liquid_volume().0 < 1e-12,
+        "a dough in a dry beaker is not a beaker of water"
+    );
+    assert!(vessel.moles_of(&SpeciesId::new("starch")).0 > 0.0);
+}
+
+/// Apple juice's sugar is mostly fructose and glucose, and neither is an
+/// installed species. The surrogate resolves only the sucrose that really is
+/// sucrose and leaves the rest — including the malic acid that makes juice
+/// tart — conserved and explicitly unmodelled.
+#[test]
+fn apple_juice_resolves_only_the_sugar_it_can_honestly_name() {
+    let recipe =
+        kerotakis_core::material::lookup("Apfelsaft", Some("de")).expect("localized apple juice");
+    let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
+    let resolved: f64 = expansion.components.iter().map(|part| part.amount).sum();
+    assert!((resolved + expansion.unresolved_amount - 100.0).abs() < 1e-12);
+    let sucrose = expansion
+        .components
+        .iter()
+        .find(|part| part.species_id == "sucrose")
+        .expect("the fraction that really is sucrose");
+    assert!((sucrose.amount - 2.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 10.0).abs() < 1e-12);
+
+    let op = parse_op("add v1 Apfelsaft 100mL")
+        .expect("valid material command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    bench.step(op).expect("add apple juice");
+    let vessel = &bench.vessels[0];
+    assert!(vessel.moles_of(&SpeciesId::new("water")).0 > 5.0);
+    assert!(vessel.moles_of(&SpeciesId::new("sucrose")).0 > 0.0);
+    // No acid is asserted from a molecule the registry does not hold.
+    for acid in ["CH3COOH", "H3PO4", "HCl", "H2SO4"] {
+        assert!(
+            vessel.moles_of(&SpeciesId::new(acid)).0 < 1e-12,
+            "apple juice must not borrow {acid} for its tartness"
+        );
+    }
+}
+
+/// Glass is silica-dominant and unreactive in the terms the aqueous engine
+/// models. Its network modifiers stay conserved rather than becoming free
+/// oxides that would invent an alkaline dissolution.
+#[test]
+fn soda_lime_glass_resolves_silica_and_conserves_its_modifiers() {
+    let recipe = kerotakis_core::material::lookup("Glas", Some("de")).expect("localized glass");
+    assert_eq!(recipe.canonical_key, "glass");
+    assert!(recipe.matches("window glass", Some("en")));
+    let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "SiO2");
+    assert!((expansion.components[0].amount - 73.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 27.0).abs() < 1e-12);
+    for modifier in ["CaO", "MgO"] {
+        assert!(
+            expansion
+                .components
+                .iter()
+                .all(|component| component.species_id != modifier),
+            "{modifier} in a glass network is not {modifier} in a beaker"
+        );
+    }
+    assert!(matches!(
+        recipe.physical_form,
+        kerotakis_core::material::MaterialPhysicalForm::CompositeObject { geometry: Some(_) }
+    ));
+}
+
+/// Named chalk in named vinegar fizzes (checkpoint 27). Named glass in the
+/// same vinegar does nothing, and the acid is still all there afterwards —
+/// the contrast is computed, not narrated.
+#[test]
+fn glass_in_vinegar_is_unreactive_where_chalk_fizzes() {
+    let mut bench = Bench::new();
+    for command in ["add v1 Essig 50mL", "add v1 Glas 10g"] {
+        let op = parse_op(command)
+            .unwrap_or_else(|error| panic!("parse {command}: {error}"))
+            .expect("operator");
+        let events = bench
+            .step(op)
+            .unwrap_or_else(|error| panic!("{command}: {error}"));
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::ReactionOccurred { .. })),
+            "{command} must not react"
+        );
+    }
+    let vessel = &bench.vessels[0];
+    let acid = vessel.moles_of(&SpeciesId::new("CH3COOH")).0
+        + vessel.moles_of(&SpeciesId::new("CH3COO-")).0;
+    assert!(
+        acid > 0.03,
+        "the vinegar's acetic acid is untouched: {acid}"
+    );
+    assert!(vessel.moles_of(&SpeciesId::new("CO2")).0 < 1e-12);
+    assert!((vessel.moles_of(&SpeciesId::new("SiO2")).0 - 7.3 / 60.084).abs() < 1e-6);
+}
+
+/// Unknown material names still report themselves as unknown materials
+/// rather than as unknown species.
+#[test]
+fn a_material_this_tranche_did_not_claim_still_refuses_clearly() {
+    let error = parse_op_typed("add v1 Wachs 10g").expect_err("bare wax is unclaimed");
+    assert_eq!(error.kind, ParseErrorKind::UnknownSpecies);
+}

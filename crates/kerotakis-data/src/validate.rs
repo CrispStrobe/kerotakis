@@ -550,6 +550,36 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::ConservedUnresolvedSolid { colour_word, .. } => {
+                        self.nonempty(&format!("{role_path}.colour_word"), colour_word);
+                        // The role exists to keep a *solid* honest. Declaring
+                        // it on a liquid or a gas would let a recipe describe
+                        // matter the liquid/gas bookkeeping already owns.
+                        if matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                                | MaterialPhysicalForm::Suspension
+                                | MaterialPhysicalForm::GasMixture
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "a conserved unresolved solid role requires a solid physical form",
+                            );
+                        }
+                        // The role speaks for the whole material. A recipe
+                        // with resolved components already reports those
+                        // species, and letting both describe one vessel
+                        // would name the same matter twice.
+                        if !recipe.unresolved_fraction.is_some_and(|fraction| {
+                            (fraction.lower - 1.0).abs() < 1e-12
+                                && (fraction.upper - 1.0).abs() < 1e-12
+                        }) {
+                            self.issue(
+                                format!("{role_path}.unresolved_fraction"),
+                                "a conserved unresolved solid role requires a fully unresolved recipe",
+                            );
+                        }
+                    }
                     MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
                         if recipe.bulk_density.is_none() {
                             self.issue(

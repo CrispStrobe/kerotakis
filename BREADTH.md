@@ -678,9 +678,100 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   into a controlled child-directed comparison. Equal water and indicator doses
   begin brown; only the vessel receiving named cornstarch becomes blue-black.
   The sequence uses localized shelf materials and ordinary `inspect` state, so
-  native and web clients replay the same computed optics. Flour, potato,
+  native and web clients replay the same computed optics. Potato,
   unknown white powders, heating and botanical-source comparisons remain
-  withheld until their own reviewed material/temperature models exist.
+  withheld until their own reviewed material/temperature models exist; flour
+  arrives in checkpoint 35 below.
+- **Checkpoint 34 implemented:** a named solid whose substance the registry
+  does not install is now representable without either discarding it or
+  handing it a stand-in molecule. The reviewed `ConservedUnresolvedSolid`
+  role carries exactly what such a material lets the bench say — that a
+  visible piece of it is in the vessel, and what colour it is — and the
+  validator accepts it only on a fully unresolved solid, so it can never
+  name matter a resolved component already names. Localized candle
+  wax/`Kerzenwachs` and paper/`Papier` are its first two materials: each
+  conserves its whole dose, contributes no solute, no colour and no
+  cloudiness to the water it sits in, and states the substance it cannot
+  resolve instead of omitting it. Melting is not claimed, because the
+  installed state model derives its transitions from water's enthalpies of
+  fusion and vaporisation and covers nothing else; burning is not claimed
+  either, because feed thermochemistry is still missing and a wick is an
+  object the bench does not have. The bare words `wax`/`Wachs` remain
+  unclaimed because beeswax and paraffin wax are different materials,
+  `paraffin` remains unclaimed because British English gives that name to a
+  lamp fuel, and `Kerze`/`candle` remains unclaimed because a candle is the
+  wick-and-flame object rather than this material.
+- **Checkpoint 35 implemented:** localized white wheat flour/`Mehl` resolves
+  a 70% starch fraction and conserves the 30% of protein, moisture, fibre,
+  lipid and ash that no installed species describes; a plain flour-and-water
+  dough/`Teig` resolves the 42% starch that follows from it. Because that
+  starch is real inventory, checkpoint 32's amylose-polyiodide band reaches
+  it: named Lugol solution on named flour and on named dough computes the
+  same blue-black that cornstarch produces, with candle wax as a control
+  that stays brown. Nothing about the positive is scripted for flour. The
+  flour's sorbed moisture is deliberately not resolved as free liquid water,
+  and the dough's water stays inside its conserved remainder, because a
+  dough in a dry beaker is not a beaker of water and the bench has no matrix
+  or water-activity model to say otherwise. Dough is dispensed by mass only:
+  a kneaded mass has no reviewed packing density, and inventing one would be
+  a visible number without provenance. Gluten development, kneading,
+  rheology, proving, gelatinisation and baking remain unclaimed; adding
+  yeast to this dough does not make bread.
+- **Checkpoint 36 implemented:** a localized apple-juice surrogate/`Apfelsaft`
+  expands into 88% water and the 2% of it that genuinely is sucrose, and
+  leaves the roughly 8.5% that is fructose and glucose in its conserved
+  unresolved fraction rather than relabelling it as the one sugar the
+  registry happens to hold. Its acidity is an explicit boundary for the same
+  reason: apple juice is tart because of malic acid, malic acid is not an
+  installed species, and computing a pH from a substituted acid would be a
+  number from the wrong molecule. The surrogate therefore behaves as the
+  neutral sugar solution the engine can actually compute, and the regression
+  test asserts that no acetic, phosphoric, hydrochloric or sulfuric acid is
+  borrowed for the taste. Glucose, fructose and malic acid are named here for
+  BRD-012 rather than added here.
+- **Checkpoint 37 implemented:** a localized soda-lime glass object/`Glas`
+  resolves 73% of its mass as the installed `SiO2` species, so the object's
+  silicon and oxygen are real inventory for search and element coverage, and
+  conserves the 27% of soda, lime, magnesia and alumina that make a melt
+  workable. Those modifiers stay unresolved on purpose: `CaO` and `MgO` in a
+  glass network are not `CaO` and `MgO` in a beaker, and resolving them would
+  invent an alkaline dissolution glass does not perform. Explicit
+  composite-object geometry travels with the recipe. The characteristic
+  behaviour is the computed negative that checkpoint 27's chalk makes
+  meaningful: named glass in named 5% vinegar emits no reaction, evolves no
+  CO2, and leaves the acetic acid exactly where it was. Sharing a species key
+  with play sand implies no polymorph claim, since glass silica is an
+  amorphous network rather than quartz, and hydrofluoric-acid etching,
+  hot-alkali attack, softening, thermal shock and breakage remain chemistry
+  and physics the bench does not have. Clay/`Ton` is deliberately still
+  missing: its retention parameters belong with EXP-15, and `Ton` names a
+  sound as readily as a soil in German, so it waits for the same kind of
+  disambiguation `Soda` already has.
+- **Corpus movement and two defects it exposed (checkpoints 34-37).** Four
+  curiosity prompts stop failing at the parser: `aq-019` (flour in cold
+  water), `th-030` (does candle wax melt before it burns), `th-051` (a candle
+  in a sealed jar) and `th-059` (what paper burning produces). Only `aq-019`
+  is a clean win — it moves from “unknown species” to the specific boundary
+  `starch in contact with liquid: no wired solver models this
+  dissolution/reaction`, which is what BRD-014's acceptance means by a more
+  specific model boundary. The other three now run far enough to expose
+  defects that the parser had been hiding, and neither is caused by the
+  recipes:
+  - the coverage classifier tests `NotYetModelled` only on the script's
+    **last** step, so a trailing `look` reclassifies an honest boundary as
+    `computed`/`typed-engine-event`. `th-030` and `th-059` both print “not
+    yet modelled — whether these contents burn” and are then recorded as
+    computed. An inspection supplies no reactant and must not supersede an
+    earlier boundary; the fix belongs with the coverage tooling.
+  - `ignite` on a sealed vessel holding oxygen and no fuel reports
+    “0.0000 mol carbon dioxide ↑” and “thermal equilibrium at 927 °C”. The
+    same script without any wax prints the identical two lines, so this is
+    the existing CEA ignition route answering a question it has no fuel for.
+    `th-051` is recorded as computed for that reason and is **not** counted
+    as coverage this task earned.
+  Their baseline rows are updated to what the engine now actually does, and
+  their prompts keep `expected = "missing"` so the mismatch stays visible
+  rather than being quietly blessed.
 
 ## Stage B2 — organic structure and curated reaction families
 

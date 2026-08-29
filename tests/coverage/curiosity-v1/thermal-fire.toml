@@ -359,7 +359,6 @@ expected = "missing"
 owning_task = "BRD-014"
 tags = ["melting", "wax"]
 script = ["add v1 candle_wax 5g", "heat v1 5kJ", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -617,7 +616,6 @@ expected = "missing"
 owning_task = "BRD-014"
 tags = ["candle", "oxygen_limited"]
 script = ["add v1 candle_wax 2g", "add v1 O2 0.01mol", "seal v1 1L", "ignite v1", "wait 1min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -714,7 +712,6 @@ expected = "missing"
 owning_task = "BRD-014"
 tags = ["combustion", "paper"]
 script = ["add v1 paper 2g", "add v1 O2 0.5mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

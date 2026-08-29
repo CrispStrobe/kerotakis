@@ -7,7 +7,8 @@
 use std::sync::{OnceLock, RwLock};
 
 pub use kerotakis_data::{
-    ExpandedMaterialComponent, MaterialBasis, MaterialExpansion, MaterialRecipe, MaterialRole,
+    ExpandedMaterialComponent, MaterialBasis, MaterialExpansion, MaterialGeometry,
+    MaterialPhysicalForm, MaterialRecipe, MaterialRole,
 };
 
 include!(concat!(env!("OUT_DIR"), "/materials_generated.rs"));
@@ -197,6 +198,58 @@ pub fn colloid_observation(vessel: &crate::Vessel) -> Option<ColloidObservation>
             })
         })
         .max_by(|a, b| a.cloudiness.total_cmp(&b.cloudiness))
+}
+
+/// One named solid the registry deliberately does not resolve into installed
+/// species, still present as conserved matter.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ConservedSolidObservation {
+    pub material: String,
+    pub recipe_id: String,
+    pub colour_word: String,
+    pub srgb: [u8; 3],
+    /// Conserved amount in the recipe's own basis.
+    pub amount: f64,
+}
+
+/// Named solids whose substance has no installed species, in the order they
+/// were dispensed and aggregated by pinned recipe.
+///
+/// This is the whole visible consequence of `ConservedUnresolvedSolid`: the
+/// bench can say a piece of the named material is there and what colour it
+/// is. It states no position in the vessel, because floating and sinking are
+/// the physics BRD-070/071 own, and no reactivity, because the material has
+/// no resolved composition to react with.
+pub fn conserved_unresolved_solids(vessel: &crate::Vessel) -> Vec<ConservedSolidObservation> {
+    let mut seen: Vec<ConservedSolidObservation> = Vec::new();
+    for portion in &vessel.unresolved_materials {
+        let Some(recipe) = lookup_versioned(&portion.recipe_id, portion.recipe_version) else {
+            continue;
+        };
+        let Some((srgb, colour_word)) = recipe.roles.iter().find_map(|role| match role {
+            MaterialRole::ConservedUnresolvedSolid { srgb, colour_word } => {
+                Some((*srgb, colour_word.clone()))
+            }
+            _ => None,
+        }) else {
+            continue;
+        };
+        if portion.amount <= 0.0 {
+            continue;
+        }
+        if let Some(existing) = seen.iter_mut().find(|item| item.recipe_id == recipe.id) {
+            existing.amount += portion.amount;
+        } else {
+            seen.push(ConservedSolidObservation {
+                material: recipe.name,
+                recipe_id: recipe.id,
+                colour_word,
+                srgb,
+                amount: portion.amount,
+            });
+        }
+    }
+    seen
 }
 
 /// Whether this pinned unresolved portion follows a liquid pour/mix.

@@ -330,6 +330,18 @@ fn describe(
             format!("there is {word} {name} in the beaker")
         });
     }
+    // A named solid the registry does not resolve into species is still
+    // there, and saying nothing about it would be the same defect as
+    // reporting liquid water below its freezing point: a state the engine
+    // holds, returned as though the vessel were empty of it. The wording
+    // stays position-neutral on purpose — whether wax floats and wet paper
+    // sinks is buoyancy physics the bench has not computed.
+    for solid in crate::material::conserved_unresolved_solids(vessel) {
+        parts.push(format!(
+            "a piece of {} {} is in the beaker",
+            solid.colour_word, solid.material
+        ));
+    }
     let mut text = parts.join(", ");
     text.push('.');
     // Sentence case.
