@@ -1034,76 +1034,89 @@ impl Catalyst<'_> {
         if amount <= 0.0 {
             return 0.0;
         }
-        match self.activity {
-            CatalystActivity::Homogeneous {
-                order,
-                reference_molar,
-            } => ((amount / litres) / reference_molar).max(0.0).powf(order),
-            CatalystActivity::Enzyme {
-                substrate,
-                michaelis_molar,
-                reference_molar,
-                thermal_activity_midpoint_k,
-                thermal_activity_width_k,
-            } => {
-                let active_amount = hydrated_enzyme_amount(vessel, self.species, amount);
-                let enzyme_loading = (active_amount / litres) / reference_molar;
-                let substrate_molar = amount_of(substrate).max(0.0) / litres;
-                let saturation = michaelis_molar / (michaelis_molar + substrate_molar);
-                let thermal_retention = 1.0
-                    / (1.0
-                        + ((vessel.temperature.0 - thermal_activity_midpoint_k)
-                            / thermal_activity_width_k.max(0.1))
-                        .exp());
-                enzyme_loading * saturation * thermal_retention
-            }
-            CatalystActivity::Surface {
-                default_diameter_um,
-                reference_area_m2,
-                max_mixing_gain,
-                mixing_half_speed_m_s,
-            } => {
-                let data = species::lookup_key(self.species);
-                let mut tracked_moles = 0.0;
-                let mut area_m2 = 0.0;
-                let mut contact_weight = 0.0;
-                if let Some(data) = data {
-                    for lot in vessel
-                        .lots
-                        .iter()
-                        .filter(|lot| lot.species.0 == self.species && lot.phase == Phase::Solid)
-                    {
-                        let diameter_m = lot
-                            .particle_size_um
-                            .unwrap_or(default_diameter_um)
-                            .max(0.01)
-                            * 1e-6;
-                        let volume_m3 = lot.moles.0 * data.molar_mass / data.density * 1e-6;
-                        let lot_area = 6.0 * volume_m3 / diameter_m;
-                        area_m2 += lot_area;
-                        tracked_moles += lot.moles.0;
-                        contact_weight +=
-                            lot_area * lot.suspended_fraction.unwrap_or(0.35).clamp(0.35, 1.0);
-                    }
-                    let untracked = (amount - tracked_moles).max(0.0);
-                    if untracked > 0.0 {
-                        let diameter_m = default_diameter_um.max(0.01) * 1e-6;
-                        let volume_m3 = untracked * data.molar_mass / data.density * 1e-6;
-                        let untracked_area = 6.0 * volume_m3 / diameter_m;
-                        area_m2 += untracked_area;
-                        contact_weight += untracked_area * 0.35;
-                    }
+        // Every arm below returns a multiplier on a rate constant that was
+        // calibrated so the reference dose is watchable on a bench clock,
+        // and physics puts a ceiling on how far more catalyst can push a
+        // real rate: catalase runs near the diffusion limit, and a
+        // powder's external area cannot outrun film transport. Without a
+        // ceiling, a curiosity-corpus prompt dosing a thousand times the
+        // enzyme reference (th-074, 0.001 mol catalase into 2 mL) drove
+        // the peroxide law ~1e10-fold and the stiff integrator into
+        // "step size too small" at t = 0. At 1e4 the capped reaction is
+        // over within milliseconds of bench time — indistinguishable from
+        // instantaneous — while every calibrated teaching comparison
+        // (double the dose, tenfold grind, mixing gain) sits far below.
+        const ACTIVITY_CEILING: f64 = 1e4;
+        let raw =
+            match self.activity {
+                CatalystActivity::Homogeneous {
+                    order,
+                    reference_molar,
+                } => ((amount / litres) / reference_molar).max(0.0).powf(order),
+                CatalystActivity::Enzyme {
+                    substrate,
+                    michaelis_molar,
+                    reference_molar,
+                    thermal_activity_midpoint_k,
+                    thermal_activity_width_k,
+                } => {
+                    let active_amount = hydrated_enzyme_amount(vessel, self.species, amount);
+                    let enzyme_loading = (active_amount / litres) / reference_molar;
+                    let substrate_molar = amount_of(substrate).max(0.0) / litres;
+                    let saturation = michaelis_molar / (michaelis_molar + substrate_molar);
+                    let thermal_retention = 1.0
+                        / (1.0
+                            + ((vessel.temperature.0 - thermal_activity_midpoint_k)
+                                / thermal_activity_width_k.max(0.1))
+                            .exp());
+                    enzyme_loading * saturation * thermal_retention
                 }
-                if area_m2 <= 0.0 {
-                    return 0.0;
+                CatalystActivity::Surface {
+                    default_diameter_um,
+                    reference_area_m2,
+                    max_mixing_gain,
+                    mixing_half_speed_m_s,
+                } => {
+                    let data = species::lookup_key(self.species);
+                    let mut tracked_moles = 0.0;
+                    let mut area_m2 = 0.0;
+                    let mut contact_weight = 0.0;
+                    if let Some(data) = data {
+                        for lot in vessel.lots.iter().filter(|lot| {
+                            lot.species.0 == self.species && lot.phase == Phase::Solid
+                        }) {
+                            let diameter_m = lot
+                                .particle_size_um
+                                .unwrap_or(default_diameter_um)
+                                .max(0.01)
+                                * 1e-6;
+                            let volume_m3 = lot.moles.0 * data.molar_mass / data.density * 1e-6;
+                            let lot_area = 6.0 * volume_m3 / diameter_m;
+                            area_m2 += lot_area;
+                            tracked_moles += lot.moles.0;
+                            contact_weight +=
+                                lot_area * lot.suspended_fraction.unwrap_or(0.35).clamp(0.35, 1.0);
+                        }
+                        let untracked = (amount - tracked_moles).max(0.0);
+                        if untracked > 0.0 {
+                            let diameter_m = default_diameter_um.max(0.01) * 1e-6;
+                            let volume_m3 = untracked * data.molar_mass / data.density * 1e-6;
+                            let untracked_area = 6.0 * volume_m3 / diameter_m;
+                            area_m2 += untracked_area;
+                            contact_weight += untracked_area * 0.35;
+                        }
+                    }
+                    if area_m2 <= 0.0 {
+                        return 0.0;
+                    }
+                    let contact = (contact_weight / area_m2).clamp(0.35, 1.0);
+                    let tip_speed = context.mixing_tip_speed_m_s.max(0.0);
+                    let mixing =
+                        1.0 + max_mixing_gain * tip_speed / (mixing_half_speed_m_s + tip_speed);
+                    area_m2 / reference_area_m2 * contact * mixing
                 }
-                let contact = (contact_weight / area_m2).clamp(0.35, 1.0);
-                let tip_speed = context.mixing_tip_speed_m_s.max(0.0);
-                let mixing =
-                    1.0 + max_mixing_gain * tip_speed / (mixing_half_speed_m_s + tip_speed);
-                area_m2 / reference_area_m2 * contact * mixing
-            }
-        }
+            };
+        raw.min(ACTIVITY_CEILING)
     }
 }
 
