@@ -236,7 +236,16 @@
   "ethene": "",
   "2-methylpropene": "",
   "2-methylpropan-2-ol": "",
-  "2-bromo-2-methylpropane": ""
+  "2-bromo-2-methylpropane": "",
+  "ammonium chloride": "",
+  "ammonium ion": "",
+  "iron(III) chloride": "",
+  "sodium sulfate": "",
+  "barium chloride": "",
+  "barium hydroxide": "",
+  "barium ion": "",
+  "barium sulfate": "",
+  "apple green": ""
  },
  "messages": {
   "A cloudy water sample arrived without a trustworthy label. Build an evidence trail before the campus reopens its supply line.": "",

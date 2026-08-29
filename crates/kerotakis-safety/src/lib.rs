@@ -37,6 +37,21 @@ pub enum ReactiveGroup {
     WaterReactive,
     AmmoniaAmines,
     Carbonate,
+    /// A salt whose solution is acidic by hydrolysis rather than by
+    /// dissociation: iron(III) chloride reaches about pH 2 at 0.1 mol/L
+    /// and etches metals, but it is not a strong acid and does not carry
+    /// `AcidStrong`'s rules. The group states what the substance is; the
+    /// mixture rules stay with the chemistry that is modelled.
+    AcidicSalt,
+    /// A soluble salt whose *dissolved cation* is an acute systemic
+    /// toxicant. NOAA's methodology screens mixtures, not intrinsic
+    /// toxicity, so this row is the same kind of extension
+    /// `AmmoniaAmines`'s "toxic" label already is: our own encoding of a
+    /// published, non-copyrightable fact about the substance, carried so
+    /// the shelf cannot show a soluble barium salt with no hazard on it.
+    /// Membership follows solubility — barite is the counter-example, and
+    /// deliberately not a member.
+    ToxicSoluble,
 }
 
 pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
@@ -66,6 +81,8 @@ pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
             ReactiveGroup::WaterReactive => "water_reactive",
             ReactiveGroup::AmmoniaAmines => "toxic",
             ReactiveGroup::Carbonate => "irritant",
+            ReactiveGroup::AcidicSalt => "irritant",
+            ReactiveGroup::ToxicSoluble => "toxic",
         })
         .collect();
     (labels, assessed)
@@ -92,6 +109,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "KOH" => &[BaseStrong],
         "OH-" => &[BaseStrong],
         "Ca(OH)2" => &[BaseStrong],
+        // Barium hydroxide is both: a strong base and a soluble barium
+        // salt. Both rows fire.
+        "Ba(OH)2" => &[BaseStrong, ToxicSoluble],
 
         // ── strong oxidizers ──────────────────────────────────────
         "H2O2" => &[OxidizerStrong],
@@ -138,6 +158,19 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "CaCO3" => &[Carbonate],
         "Na2CO3" => &[Carbonate],
         "NaHCO3" => &[Carbonate],
+
+        // ── acidic salts (hydrolysis, not dissociation) ───────────
+        "FeCl3" => &[AcidicSalt],
+
+        // ── soluble barium: acutely toxic by ingestion ────────────
+        // BRD-012's P2 gate. These are virtual-lab reagents; nothing in
+        // the material packs presents them as household supplies, and the
+        // shelf shows them as toxic wherever it shows hazards at all.
+        // BaSO4 is deliberately absent: the insoluble sulfate is the form
+        // people swallow for a radiograph, and that contrast is the
+        // pedagogical point of the sulfate test.
+        "BaCl2" => &[ToxicSoluble],
+        "Ba+2" => &[ToxicSoluble],
 
         // ── inert: solvents, salts, oxides, ions, indicators ──────
         "water"
@@ -218,6 +251,17 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "amylase"
         | "maltose"
         | "SiO2"
+        // Ammonium chloride and sodium sulfate are the school shelf's
+        // neutral-to-mildly-acidic salts: no NOAA reactive group of their
+        // own. Ammonium salts DO liberate ammonia with a strong base and
+        // chloramines with bleach; neither rule is in the matrix yet, so
+        // neither is claimed here rather than approximated by filing them
+        // under `AmmoniaAmines`, whose rules describe ammonia itself.
+        | "NH4Cl"
+        | "NH4+"
+        | "Na2SO4"
+        // The insoluble sulfate: barium that cannot be absorbed.
+        | "BaSO4"
         | "NaBr" => &[],
 
         _ => &[],
@@ -235,6 +279,10 @@ pub const COVERED_KEYS: &[&str] = &[
     "betanin",
     "betanin_ox",
     "AgNO3",
+    "Ba+2",
+    "Ba(OH)2",
+    "BaCl2",
+    "BaSO4",
     "Br-",
     "C",
     "CO2",
@@ -261,6 +309,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Fe(OH)2",
     "Fe(OH)3",
     "Fe2O3",
+    "FeCl3",
     "FeSO4",
     "H2",
     "H2O2",
@@ -291,12 +340,15 @@ pub const COVERED_KEYS: &[&str] = &[
     "N2",
     "NH2Cl",
     "NH3",
+    "NH4+",
+    "NH4Cl",
     "NO3-",
     "Na+",
     "NaBr",
     "Na2CO3",
     "Na2S2O3",
     "Na2SO3",
+    "Na2SO4",
     "NaCl",
     "NaNO3",
     "NaHCO3",
@@ -657,6 +709,41 @@ mod tests {
     fn all_inert_species_allow() {
         let v = vessel_with(&["water", "NaCl", "KCl", "CaCl2", "phenolphthalein", "N2"]);
         assert_eq!(ReactiveGroupScreen.assess(&v), SafetyVerdict::Allow);
+    }
+
+    // ── BRD-012.S02: the barium gate ──────────────────────────────
+
+    #[test]
+    fn soluble_barium_is_labelled_toxic_and_barite_is_not() {
+        for key in ["BaCl2", "Ba(OH)2", "Ba+2"] {
+            let (labels, assessed) = hazard_assessment(key);
+            assert!(assessed, "{key} must carry a safety row");
+            assert!(
+                labels.contains(&"toxic"),
+                "{key} must show as toxic on every shelf that shows hazards, got {labels:?}"
+            );
+        }
+        // The precipitate is the form that is swallowed for a radiograph.
+        let (labels, assessed) = hazard_assessment("BaSO4");
+        assert!(assessed, "barite must still be assessed, not unknown");
+        assert!(
+            !labels.contains(&"toxic"),
+            "the insoluble sulfate is not the toxic form: {labels:?}"
+        );
+    }
+
+    #[test]
+    fn barium_hydroxide_is_a_strong_base_as_well() {
+        let (labels, _) = hazard_assessment("Ba(OH)2");
+        assert!(labels.contains(&"corrosive"), "{labels:?}");
+        assert!(labels.contains(&"toxic"), "{labels:?}");
+    }
+
+    #[test]
+    fn iron_iii_chloride_is_not_silently_harmless() {
+        let (labels, assessed) = hazard_assessment("FeCl3");
+        assert!(assessed);
+        assert!(labels.contains(&"irritant"), "{labels:?}");
     }
 
     #[test]
