@@ -353,19 +353,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   survives review into a compiled pack manifest with its source path intact
   rather than being reattached by hand. 31 tests; nothing enters the runtime
   registry.
-  **Licence finding — promotion blocked pending review:** ChEBI's flat-file
-  `README` names the terms "CC Attribution-ShareAlike 4.0" and points at a
-  `LICENSE` file that is verbatim CC BY 4.0 with no ShareAlike condition
-  anywhere. This adapter does not resolve that contradiction in either
-  direction. The ChEBI record in `provenance/sources.toml` carries
-  `decision = "review-required"`, and **promotion of any ChEBI field past the
-  candidate lane is blocked until the discrepancy is resolved by the repository
-  owner or by an upstream clarification from EMBL-EBI** — not by this task.
-  Which reading governs decides whether ChEBI may ship at all: under
-  ROADMAP-Webapp.md's 2026-08-23 decision, the README's prose name read
-  literally would exclude ChEBI from store builds entirely. The ingestion path,
-  the pinned fixture and the firewall are complete and testable meanwhile;
-  nothing downstream may treat that as clearance.
+  **Licence finding, reviewed and settled at CC BY 4.0 (2026-08-29):** ChEBI's
+  flat-file `README` names the terms "CC Attribution-ShareAlike 4.0" and then
+  points the reader at a `LICENSE` file that is verbatim CC BY 4.0 with no
+  ShareAlike condition anywhere. Two authoritative sources settle it against
+  that one line: the shipped licence text itself, and ChEBI's about page, which
+  states "The data on this website is available under the Creative Commons
+  License (CC BY 4.0)". The record in `provenance/sources.toml` is approved at
+  `CC-BY-4.0` and keeps the conflicting line on file so a later reviewer meets
+  the evidence instead of rediscovering the doubt. This mattered rather than
+  being pedantry: under ROADMAP-Webapp.md's 2026-08-23 decision the README read
+  literally would have excluded ChEBI from store builds altogether.
+  **Follow-up owed upstream:** report the stale README line to EMBL-EBI so the
+  flat-file README matches its own LICENSE file and about page.
 
 ### BRD-012 — Familiar pure-substance pack v1
 

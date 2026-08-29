@@ -208,7 +208,7 @@ id = "ebi-chebi-identity-slice"
 name = "ChEBI identity and ontology slice (release 253)"
 kind = "data"
 lane = "runtime-data"
-decision = "review-required"
+decision = "approved"
 licence = "CC-BY-4.0"
 origin = "https://ftp.ebi.ac.uk/pub/databases/chebi/archive/rel253/flat_files"
 terms = "https://ftp.ebi.ac.uk/pub/databases/chebi/archive/rel253/flat_files/LICENSE"
@@ -228,28 +228,30 @@ compounds, names, chemical_data, structures, relation and relation_type, and \
 the committed artifact is a single JSON snapshot whose checksum is pinned \
 below and in the adapter's manifest.
 
-DECISION IS review-required, NOT approved. Promotion of any ChEBI field past \
-the candidate lane is blocked until the licence discrepancy below is resolved \
-by the repository owner or by an upstream clarification from EMBL-EBI. This \
-record documents an ingestion path and a pinned fixture; it does not clear \
-ChEBI for a shipped pack.
-
-LICENCE DISCREPANCY, flagged for licence review rather than decided in code: \
+LICENCE REVIEW HAPPENED; CC BY 4.0 IS ITS VERDICT, reached on two \
+authoritative sources against one stale line of prose: \
 the README in ChEBI's flat_files directory calls the terms "CC \
 Attribution-ShareAlike 4.0 International" and then says "see LICENSE file". \
 The LICENSE file beside it is the verbatim text of CC BY 4.0 and contains no \
 ShareAlike condition anywhere (the flat_files and ontology copies are \
-byte-identical, sha256 e1d6ea57...). The `licence` field above records \
-CC-BY-4.0 because that is the licence text ChEBI actually ships, not because \
-this record resolves the contradiction — it does not, and it is not ours to \
-resolve. Which reading governs decides whether ChEBI may ship at all: \
-ROADMAP-Webapp.md's 2026-08-23 decision keeps CC BY-SA material out of store \
-builds entirely, so the README's prose name, read literally, would exclude \
-ChEBI from the runtime lane. The question goes to the repository owner or to \
-an upstream clarification from EMBL-EBI. Until then the decision stays \
-review-required. If the answer is ShareAlike, this record and the adapter's \
-CHEBI_LICENCE constant are the two places to change, and the quarantine lint \
-refuses promotion on its own thereafter.
+byte-identical, sha256 e1d6ea57...). ChEBI's official about page \
+(https://www.ebi.ac.uk/chebi/about) states it in prose as well: "The data on \
+this website is available under the Creative Commons License (CC BY 4.0)". \
+Two authoritative statements — the shipped licence text and the project's own \
+about page — agree on CC BY 4.0; the flat-file README's ShareAlike wording is \
+a stale line that contradicts the LICENSE file it points the reader at. The \
+decision is therefore approved at CC-BY-4.0, and this note records the \
+conflicting line so a future reviewer meets the evidence rather than \
+rediscovering the doubt.
+
+This mattered: ROADMAP-Webapp.md's 2026-08-23 decision keeps CC BY-SA material \
+out of store builds entirely, so the README read literally would have excluded \
+ChEBI from the runtime lane altogether. If EMBL-EBI ever confirms ShareAlike, \
+this record and the adapter's CHEBI_LICENCE constant are the two places to \
+change, and the promotion lint refuses on its own thereafter.
+
+FOLLOW-UP OWED UPSTREAM: report the stale README line to EMBL-EBI so the \
+flat-file README matches the LICENSE file and the about page.
 
 Nothing from this source is in the runtime registry. The adapter \
 (crates/kerotakis-data/src/chebi.rs) stops at BRD-003 quarantine; the \
