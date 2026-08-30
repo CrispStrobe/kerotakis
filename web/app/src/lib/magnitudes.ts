@@ -169,6 +169,13 @@ export interface ThermalRun {
   timeCoupled: boolean;
 }
 
+/** Engine-owned surface receiving material after a spill or breakage. */
+export interface SpillRun {
+  surface: "bench" | "tray" | "floor" | string;
+  location: string;
+  fraction: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -220,6 +227,8 @@ export interface Effect {
   irradiation?: IrradiationRun;
   electrolysis?: ElectrolysisRun;
   thermal?: ThermalRun;
+  /** Presentation metadata only; the engine remains owner of spilled material. */
+  spill?: SpillRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -628,6 +637,30 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: scale(Number(e.at_pa ?? 0) / Math.max(1, Number(e.rating_pa ?? 1)), 1, 2),
       };
+    case "container_broken": {
+      const destination = spillDestination(e.destination);
+      return {
+        kind: "break",
+        at: now,
+        durationMs: 5000,
+        magnitude: scale(Number(e.impulse_ns ?? e.impulse ?? 1), 0.25, 8),
+        source: Number(e.vessel ?? 0),
+        spill: { ...destination, fraction: 1 },
+      };
+    }
+    case "spill_created": {
+      const fraction = Math.max(0, Math.min(1, Number(e.fraction ?? 0)));
+      const destination = spillDestination(e.destination);
+      return {
+        kind: "spill",
+        at: now,
+        durationMs: 5000,
+        magnitude: scale(fraction, 0.02, 1),
+        acceptedTransferFraction: fraction,
+        source: Number(e.source ?? e.from ?? 0),
+        spill: { ...destination, fraction },
+      };
+    }
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);
@@ -700,6 +733,15 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     default:
       return null;
   }
+}
+
+function spillDestination(value: unknown): Pick<SpillRun, "surface" | "location"> {
+  const destination = value && typeof value === "object"
+    ? value as Record<string, unknown>
+    : {};
+  const surface = String(destination.surface ?? "bench");
+  const location = String(destination.zone ?? destination.tray ?? "unknown");
+  return { surface, location };
 }
 
 /**

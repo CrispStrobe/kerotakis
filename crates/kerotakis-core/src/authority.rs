@@ -52,7 +52,7 @@ pub enum TransferDestination {
 
 /// Stable spill identities. BRD-073 will make these real compartments and
 /// perform the safety rerun; BRD-070 only prevents ambiguous scene-owned loss.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(tag = "surface", rename_all = "snake_case")]
 pub enum SpillDestination {
     Bench { zone: String },
@@ -68,6 +68,20 @@ pub struct CollisionProposal {
     pub impulse_ns: f64,
     pub destination_if_broken: SpillDestination,
     pub replay_seed: ReplaySeed,
+}
+
+impl CollisionProposal {
+    pub fn to_operator(&self) -> Result<Operator, ReconcileError> {
+        if !self.impulse_ns.is_finite() || self.impulse_ns < 0.0 {
+            return Err(ReconcileError::BadImpulse);
+        }
+        Ok(Operator::Impact {
+            vessel: self.vessel,
+            impulse_ns: self.impulse_ns,
+            destination_if_broken: self.destination_if_broken.clone(),
+            replay_seed: self.replay_seed,
+        })
+    }
 }
 
 /// Chemistry-owned event shapes reserved for BRD-073's accepted collision
@@ -159,6 +173,8 @@ pub enum ReconcileError {
     WrongInteraction,
     #[error("cumulative transfer fraction must be finite and within 0..=1")]
     BadFraction,
+    #[error("collision impulse must be finite and non-negative")]
+    BadImpulse,
     #[error("spill transfer execution belongs to BRD-073")]
     SpillNotImplemented,
     #[error("accepted event ledger did not contain the expected transfer")]
@@ -167,6 +183,102 @@ pub enum ReconcileError {
     AwaitingReceipt,
     #[error("accepted transfer receipt does not match the proposed operator")]
     UnexpectedReceipt,
+}
+
+/// Cumulative controlled-pour authority for an exposed spill destination.
+/// Kept distinct from vessel-to-vessel reconciliation so old serialized
+/// `TransferReconciler` values retain their numeric `to` representation.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SpillTransferReconciler {
+    from: VesselId,
+    destination: SpillDestination,
+    replay_seed: ReplaySeed,
+    committed_fraction: f64,
+    pending_fraction: Option<f64>,
+}
+
+impl SpillTransferReconciler {
+    pub fn new(from: VesselId, destination: SpillDestination, replay_seed: ReplaySeed) -> Self {
+        Self {
+            from,
+            destination,
+            replay_seed,
+            committed_fraction: 0.0,
+            pending_fraction: None,
+        }
+    }
+
+    pub fn committed_fraction(&self) -> f64 {
+        self.committed_fraction
+    }
+
+    pub fn cancel_pending(&mut self) -> bool {
+        self.pending_fraction.take().is_some()
+    }
+
+    pub fn propose(
+        &mut self,
+        proposal: &TransferProposal,
+    ) -> Result<Option<Operator>, ReconcileError> {
+        if self.pending_fraction.is_some() {
+            return Err(ReconcileError::AwaitingReceipt);
+        }
+        if proposal.from != self.from
+            || proposal.to != TransferDestination::Spill(self.destination.clone())
+            || proposal.replay_seed != self.replay_seed
+        {
+            return Err(ReconcileError::WrongInteraction);
+        }
+        let target = proposal.cumulative_fraction;
+        if !target.is_finite() || !(0.0..=1.0).contains(&target) || target < self.committed_fraction
+        {
+            return Err(ReconcileError::BadFraction);
+        }
+        let delta = target - self.committed_fraction;
+        if delta <= f64::EPSILON {
+            return Ok(None);
+        }
+        let fraction = delta / (1.0 - self.committed_fraction);
+        self.pending_fraction = Some(fraction);
+        Ok(Some(Operator::Spill {
+            from: self.from,
+            destination: self.destination.clone(),
+            fraction,
+            replay_seed: self.replay_seed,
+        }))
+    }
+
+    pub fn reconcile(&mut self, events: &[Event]) -> Result<(), ReconcileError> {
+        let expected = self
+            .pending_fraction
+            .ok_or(ReconcileError::UnexpectedReceipt)?;
+        let mut receipts = events.iter().filter_map(|event| match event {
+            Event::SpillCreated {
+                destination,
+                source,
+                fraction,
+                replay_seed,
+            } if *source == self.from
+                && *destination == self.destination
+                && *replay_seed == self.replay_seed =>
+            {
+                Some(*fraction)
+            }
+            _ => None,
+        });
+        let fraction = receipts.next().ok_or(ReconcileError::MissingReceipt)?;
+        if receipts.next().is_some()
+            || (fraction - expected).abs() > 1e-12 * expected.abs().max(1.0)
+        {
+            return Err(ReconcileError::UnexpectedReceipt);
+        }
+        self.pending_fraction = None;
+        self.committed_fraction += (1.0 - self.committed_fraction) * fraction;
+        if (1.0 - self.committed_fraction).abs() < 1e-15 {
+            self.committed_fraction = 1.0;
+        }
+        Ok(())
+    }
 }
 
 impl TransferReconciler {

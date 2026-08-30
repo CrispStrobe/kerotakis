@@ -1110,8 +1110,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-073 — Spills, tipping, drops and breakage
 
-- [ ] **Status:** open. **Size:** large. **Depends on:** BRD-071 and the chosen
-  outcome of BRD-072.
+- [x] **Status:** complete (2026-08-30). **Size:** large. **Depends on:**
+  completed BRD-071 and the closed-no-go BRD-072 outcome.
 - **Scope:** add operator/event semantics for controlled partial pours, bench
   spills, vessel tipping, collision damage and recovery/cleanup. A broken
   vessel creates recoverable consequences and transfers its contents to a
@@ -1121,6 +1121,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** mass/element/energy ledgers close across every failure path;
   identical chemistry with and without animations; hazardous spills emit
   precise safety events; save/load migration and undo cannot duplicate stock.
+- **Completed tasklist:**
+  - [x] authoritative typed bench/tray/floor spill compartments and cumulative
+    partial-pour reconciliation;
+  - [x] deterministic collision thresholds, vessel breakage, full-content
+    transfer, cleanup/recovery and stable replacement-vessel identities;
+  - [x] combined exposed-material safety reruns with sorted contributor species
+    plus cross-location safety findings;
+  - [x] mass, element and energy conservation, zero-fraction/no-break no-ops,
+    animation/reduced-motion/headless endpoint parity;
+  - [x] legacy-save defaults, serialized spill state, exact replay and
+    snapshot-undo recovery without stock duplication;
+  - [x] Burst-style incident presentation, static reduced-motion equivalent,
+    accessible live status, hazard feed cards and durable notebook evidence.
 
 ### BRD-074 — Gas-to-foam observable and elephant-toothpaste slice
 

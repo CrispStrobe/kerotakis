@@ -1690,6 +1690,11 @@
   "{amount} mL liquid": "",
   "{count} solid material(s)": "",
   "{species}: retention {time} s, relative area {area}%": "",
-  "{test}: {result}": ""
+  "{test}: {result}": "",
+  "vessel broke; contents contained at {destination}": "",
+  "spill contained at {destination}: {percent}% transferred": "",
+  "Evidence: vessel v{vessel} broke; contents routed to {destination}.": "",
+  "Evidence: {percent}% of {destination} was recovered into vessel v{vessel}.": "",
+  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": ""
  }
 }

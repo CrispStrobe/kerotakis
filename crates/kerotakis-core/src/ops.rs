@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::authority::{ReplaySeed, SpillDestination};
 use crate::material::MaterialBasis;
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
@@ -100,6 +101,27 @@ pub enum Operator {
     /// Pour a fraction (0..=1) of the liquid contents into another vessel.
     Decant {
         from: VesselId,
+        to: VesselId,
+        fraction: f64,
+    },
+    /// Pour a liquid fraction into an explicit material-holding surface.
+    Spill {
+        from: VesselId,
+        destination: SpillDestination,
+        fraction: f64,
+        replay_seed: ReplaySeed,
+    },
+    /// Submit collision evidence. Breakage is decided by core from vessel kind
+    /// and impulse; the renderer cannot directly mutate or destroy a vessel.
+    Impact {
+        vessel: VesselId,
+        impulse_ns: f64,
+        destination_if_broken: SpillDestination,
+        replay_seed: ReplaySeed,
+    },
+    /// Recover a fraction of a spill into an intact receiver.
+    RecoverSpill {
+        destination: SpillDestination,
         to: VesselId,
         fraction: f64,
     },
@@ -350,6 +372,36 @@ pub enum Event {
     },
     VesselRemoved {
         vessel: VesselId,
+    },
+    SpillCreated {
+        destination: SpillDestination,
+        source: VesselId,
+        fraction: f64,
+        replay_seed: ReplaySeed,
+    },
+    ContainerBroken {
+        vessel: VesselId,
+        destination: SpillDestination,
+        impulse_ns: f64,
+        replay_seed: ReplaySeed,
+    },
+    CollisionWithstood {
+        vessel: VesselId,
+        impulse_ns: f64,
+        replay_seed: ReplaySeed,
+    },
+    SpillRecovered {
+        destination: SpillDestination,
+        to: VesselId,
+        fraction: f64,
+    },
+    SpillHazard {
+        destination: SpillDestination,
+        severity: crate::solve::Severity,
+        hazard: String,
+        real_world: String,
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        contributors: Vec<SpeciesId>,
     },
     Added {
         vessel: VesselId,
