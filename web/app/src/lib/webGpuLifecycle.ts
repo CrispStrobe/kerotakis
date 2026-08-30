@@ -1,5 +1,7 @@
 /** GUI-098 WebGPU acquisition with deterministic lightweight fallback. */
 
+import { selectVisualBackend, type VisualBackendDecision } from "./visualBackend";
+
 export interface WebGpuDeviceLike {
   lost: Promise<unknown>;
   destroy?: () => void;
@@ -128,4 +130,116 @@ export function browserWebGpuProvider(globalObject: unknown = globalThis): WebGp
   const requestAdapter = Reflect.get(gpu, "requestAdapter");
   if (typeof requestAdapter !== "function") return null;
   return { requestAdapter: () => Reflect.apply(requestAdapter, gpu, []) };
+}
+
+export interface MediaQueryListLike {
+  readonly matches: boolean;
+  addEventListener(type: "change", listener: () => void): void;
+  removeEventListener(type: "change", listener: () => void): void;
+}
+
+export interface VisibilityDocumentLike {
+  readonly visibilityState: string;
+  addEventListener(type: "visibilitychange", listener: () => void): void;
+  removeEventListener(type: "visibilitychange", listener: () => void): void;
+}
+
+export interface WebGpuEnvironmentPolicy {
+  start(): void;
+  setEffectApproved(approved: boolean): void;
+  decision(): VisualBackendDecision;
+  dispose(): void;
+}
+
+export interface WebGpuEnvironmentPolicyOptions {
+  provider: WebGpuProviderLike;
+  reducedMotion: MediaQueryListLike;
+  document: VisibilityDocumentLike;
+  effectApproved?: boolean;
+  onChange?: (decision: VisualBackendDecision) => void;
+}
+
+/**
+ * Owns optional GPU work while browser policy permits it. The lightweight
+ * renderer remains authoritative until acquisition has completed.
+ */
+export function createWebGpuEnvironmentPolicy(
+  options: WebGpuEnvironmentPolicyOptions,
+): WebGpuEnvironmentPolicy {
+  let approved = options.effectApproved ?? false;
+  let active = false;
+  let disposed = false;
+  let current: VisualBackendDecision = { backend: "lightweight", reason: "effect-not-approved" };
+
+  const publish = (next: VisualBackendDecision): void => {
+    if (next.backend === current.backend && next.reason === current.reason) return;
+    current = next;
+    options.onChange?.(next);
+  };
+
+  const constrainedDecision = (): VisualBackendDecision => selectVisualBackend({
+    effectApproved: approved,
+    webGpuAvailable: true,
+    deviceHealthy: true,
+    reducedMotion: options.reducedMotion.matches,
+    headless: false,
+    backgrounded: options.document.visibilityState !== "visible",
+  });
+
+  const lifecycle = createWebGpuLifecycle({
+    provider: options.provider,
+    onChange(state) {
+      if (disposed || constrainedDecision().backend !== "webgpu") return;
+      if (state.status === "ready") publish({ backend: "webgpu", reason: "enabled" });
+      if (state.status === "fallback" && state.reason === "device-lost") {
+        publish({ backend: "lightweight", reason: "device-lost" });
+      }
+    },
+  });
+
+  const reconcile = (): void => {
+    if (!active || disposed) return;
+    const constraint = constrainedDecision();
+    if (constraint.backend === "lightweight") {
+      publish(constraint);
+      lifecycle.stop();
+      return;
+    }
+    if (lifecycle.state().status === "ready") {
+      publish({ backend: "webgpu", reason: "enabled" });
+      return;
+    }
+    // Acquisition and all acquisition failures retain the baseline renderer.
+    publish({ backend: "lightweight", reason: "device-lost" });
+    void lifecycle.start();
+  };
+
+  const environmentChanged = (): void => reconcile();
+
+  return {
+    start(): void {
+      if (active || disposed) return;
+      active = true;
+      options.reducedMotion.addEventListener("change", environmentChanged);
+      options.document.addEventListener("visibilitychange", environmentChanged);
+      reconcile();
+    },
+    setEffectApproved(next): void {
+      if (disposed || approved === next) return;
+      approved = next;
+      reconcile();
+    },
+    decision: () => current,
+    dispose(): void {
+      if (disposed) return;
+      disposed = true;
+      if (active) {
+        options.reducedMotion.removeEventListener("change", environmentChanged);
+        options.document.removeEventListener("visibilitychange", environmentChanged);
+      }
+      active = false;
+      lifecycle.stop();
+      publish({ backend: "lightweight", reason: "effect-not-approved" });
+    },
+  };
 }
