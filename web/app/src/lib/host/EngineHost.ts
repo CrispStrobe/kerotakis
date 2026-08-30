@@ -146,6 +146,33 @@ export interface ParticleCensus {
 
 /** One engine-evaluated quest output: a nudge spoken, a claim
  * satisfied, or the quest completed — register texts spelled out. */
+/**
+ * GUI-095: the engine's null-space balance of one skeleton
+ * (`kerotakis-core::stoich::balance_report`).
+ *
+ * `coefficients` is the smallest positive integer answer, or — when `basis`
+ * is non-empty — one all-positive member of an underdetermined family.
+ * `matrix` has one row per entry of `elements` (element symbols, then
+ * `charge`) and one column per species, with products negated: a
+ * coefficient vector balances exactly when every row's dot product with it
+ * is zero. That is what lets the shell mark an answer the solver never
+ * returned — a correct multiple, or a wrong one, with the element that is
+ * out named.
+ */
+export interface BalanceReport {
+  ok: true;
+  species: string[];
+  reactants: number;
+  elements: string[];
+  matrix: number[][];
+  coefficients: number[];
+  basis: number[][];
+  reversible: boolean;
+}
+
+/** A balance that could not be computed says why rather than guessing. */
+export type BalanceReply = BalanceReport | { ok: false; error: string };
+
 export interface QuestOutput {
   kind: "nudge" | "claim_satisfied" | "completed";
   quest: string;
@@ -235,6 +262,10 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
+  /** GUI-095: balance one skeleton by the null space of its composition
+   * matrix, and hand back that matrix so an answer the solver never
+   * produced can still be marked. */
+  balance(equation: string): Promise<BalanceReply>;
   /** Start/stop the engine-evaluated quest (GUI-066); outputs arrive on
    * step results as `quest: QuestOutput[]`. */
   questStart(specJson: string): Promise<void>;

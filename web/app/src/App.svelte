@@ -26,6 +26,7 @@
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
+  import BalanceDrill from "./lib/components/BalanceDrill.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
   import SafetyBoard from "./lib/components/SafetyBoard.svelte";
@@ -420,6 +421,7 @@
       : session.scene?.vessels.find((vessel) => vessel.id === removeRequest) ?? null,
   );
   let toolboxOpen = $state(false);
+  let drillOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
   let catalogInitial = $state<CodexEntry | null>(null);
@@ -618,6 +620,7 @@
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
       else if (safetyOpen) safetyOpen = false;
+      else if (drillOpen) drillOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (aboutOpen) aboutOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -700,6 +703,7 @@
       <strong>{t("explore and study")}</strong>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      <button class="tool" onclick={() => (drillOpen = true)}>{t("balance it")}</button>
       <button class="tool" onclick={() => { toolsOpen = false; roomOpen = true; }}>{t("lab rooms")}</button>
       {#if codexEntries.length > 0}
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
@@ -1057,7 +1061,12 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
-    {#if session.latestResult}
+    <!-- GUI-090's register rule: lv3 is the machine view, where the feed IS
+         the answer and a summary above it is a second, softer telling of
+         what the transcript already says exactly. The card is dropped
+         rather than shrunk — the feed underneath is complete on its own,
+         which is the same reason the card degrades away with JavaScript. -->
+    {#if session.latestResult && session.register !== "lv3"}
       <LatestResultCard result={session.latestResult} />
     {/if}
     <Feed
@@ -1174,6 +1183,12 @@
 
 {#if toolboxOpen}
   <Toolbox {session} onclose={() => (toolboxOpen = false)} />
+{/if}
+
+<!-- GUI-095: practice generated from the catalogue's balanced equations and
+     the session's own reactions, marked by the engine's null-space balance. -->
+{#if drillOpen}
+  <BalanceDrill {session} entries={codexEntries} onclose={() => (drillOpen = false)} />
 {/if}
 
 {#if catalogOpen}
