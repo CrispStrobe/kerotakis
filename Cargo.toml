@@ -1,5 +1,6 @@
 [workspace]
 resolver = "2"
+
 # web/app/src-tauri is the desktop/mobile shell (GUI-030): excluded so the
 # workspace never needs the platform webview toolchains; it builds on its
 # own against the path dependencies.
@@ -18,7 +19,25 @@ members = [
     "crates/kerotakis-registry-export",
     "crates/kerotakis-org",
     "crates/kerotakis-sundials",
+    "crates/kerotakis-scene-physics",
 ]
+
+# chematic 0.18's umbrella crate remains downloadable, but crates.io no longer
+# advertises its 0.18 internal packages in the live index. Keep the audited
+# release sources local so fresh and offline builds remain reproducible.
+[patch.crates-io]
+chematic = { path = "vendor/chematic-0.18/chematic-0.18.0" }
+chematic-chem = { path = "vendor/chematic-0.18/chematic-chem-0.18.0" }
+chematic-cip = { path = "vendor/chematic-0.18/chematic-cip-0.18.0" }
+chematic-core = { path = "vendor/chematic-0.18/chematic-core-0.18.0" }
+chematic-fp = { path = "vendor/chematic-0.18/chematic-fp-0.18.0" }
+chematic-inchi = { path = "vendor/chematic-0.18/chematic-inchi-0.18.0" }
+chematic-iupac = { path = "vendor/chematic-0.18/chematic-iupac-0.18.0" }
+chematic-mol = { path = "vendor/chematic-0.18/chematic-mol-0.18.0" }
+chematic-perception = { path = "vendor/chematic-0.18/chematic-perception-0.18.0" }
+chematic-rxn = { path = "vendor/chematic-0.18/chematic-rxn-0.18.0" }
+chematic-smarts = { path = "vendor/chematic-0.18/chematic-smarts-0.18.0" }
+chematic-smiles = { path = "vendor/chematic-0.18/chematic-smiles-0.18.0" }
 
 [workspace.package]
 version = "0.0.1"

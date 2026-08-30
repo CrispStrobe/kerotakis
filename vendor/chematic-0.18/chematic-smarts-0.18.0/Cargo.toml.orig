@@ -1,0 +1,37 @@
+[package]
+name = "chematic-smarts"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "SMARTS parser, VF2 subgraph isomorphism and MCS for chematic — pure-Rust RDKit alternative"
+keywords = ["smarts", "substructure", "vf2", "mcs", "cheminformatics"]
+categories = ["science", "science::computational-chemistry::cheminformatics", "parser-implementations", "algorithms"]
+readme = "README.md"
+homepage.workspace = true
+documentation = "https://docs.rs/chematic-smarts"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+chematic-core = { path = "../chematic-core", version = "0.18.0" }
+chematic-perception = { path = "../chematic-perception", version = "0.18.0" }
+rustc-hash = "2"
+
+# std::time::Instant panics on wasm32-unknown-unknown (issue #221); web-time
+# is a drop-in Instant replacement backed by Performance.now() there, and
+# re-exports std::time::Instant everywhere else -- see src/clock.rs.
+[target.'cfg(all(target_arch = "wasm32", target_os = "unknown"))'.dependencies]
+web-time = "1"
+
+[dev-dependencies]
+chematic-smiles = { path = "../chematic-smiles" }
+criterion = { version = "0.8", features = ["html_reports"] }
+serde_json = "1.0"
+
+[[bench]]
+name = "smarts_bench"
+harness = false

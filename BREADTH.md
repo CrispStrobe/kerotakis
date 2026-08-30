@@ -1034,7 +1034,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-071 — Rapier rigid-body integration
 
-- [ ] **Status:** open. **Size:** medium-large. **Depends on:** BRD-070.
+- [x] **Status:** complete. **Size:** medium-large. **Depends on:** BRD-070.
 - **Candidate/licence:** Rapier Apache-2.0 with deterministic wasm builds.
   Primary project: <https://github.com/dimforge/rapier>.
 - **Scope:** prototype glassware/apparatus collision, stacking, tipping and
@@ -1044,6 +1044,26 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** deterministic replay on supported hosts, keyboard/touch
   equivalents, no tunnelling in the drop corpus, measured bundle/performance
   budget, and a go/no-go versus simpler local collision handling.
+- **Delivered tasklist:**
+  - [x] isolate Rapier 2-D from chemistry authority behind versioned,
+    quantized replay inputs and bounded untrusted-input limits;
+  - [x] validate a six-item prototype collider/port catalog and exercise
+    stacking, tipping, dropping, collision proposals and an 18-case CCD corpus;
+  - [x] compile mouse, pen, touch and keyboard endpoints to identical canonical
+    intents while reduced-motion/headless/background modes remain visual only;
+  - [x] pin a serialized replay SHA-256 golden for Linux/macOS CI host parity;
+  - [x] measure release-native timing and a retained wasm payload, with stable
+    determinism/payload gates and advisory shared-runner timing thresholds.
+- **Decision/evidence:** **go with optional Rapier 2-D** for tactile bench
+  collision, stacking, tipping and drop proposals; retain the simpler local
+  path for deployments that omit the feature. The current bench has no depth
+  interaction or rendering contract, so 3-D adds cost without an accepted user
+  endpoint and is a no-go for this milestone. The 20-object/360-tick probe was
+  byte-identical across three runs (`efb244de…ce0ea`), measured 0.100 ms p95
+  and 0.113 ms maximum per step on the reference x86_64 Linux host, and the
+  conservative standalone wasm upper bound was 392,897 gzip bytes (below the
+  768,000-byte gate). `tools/brd071_evaluate.py` makes the reproducible gates
+  executable; CI runs the golden on both supported desktop hosts.
 
 ### BRD-072 — Salva fluid-visual integration
 

@@ -1,0 +1,45 @@
+[package]
+name = "chematic-perception"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "SSSR ring perception and Hückel aromaticity for chematic — pure-Rust RDKit alternative"
+keywords = ["aromaticity", "rings", "sssr", "cheminformatics", "chemistry"]
+categories = ["science", "science::computational-chemistry::cheminformatics", "algorithms"]
+readme = "../../README.md"
+homepage.workspace = true
+documentation = "https://docs.rs/chematic-perception"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+# Diagnostic/reference-only APIs not meant for production use, e.g. the
+# RDKit-parity aromaticity reference engine (see docs/rfcs/aromaticity_a1_rfc.md).
+diagnostics = []
+
+[dependencies]
+chematic-core = { path = "../chematic-core", version = "0.18.0" }
+rustc-hash = "2"
+
+[dev-dependencies]
+# Path-only (no `version`): see chematic-smiles/Cargo.toml's dev-dependencies
+# comment for why a version-pinned mutual dev-dependency deadlocks `cargo publish`.
+chematic-smiles = { path = "../chematic-smiles" }
+criterion = { version = "0.8", features = ["html_reports"] }
+serde_json = "1.0"
+
+[[bench]]
+name = "sssr_bench"
+harness = false
+
+[[example]]
+name = "aromaticity_a1_1b_0_report"
+required-features = ["diagnostics"]
+
+[[example]]
+name = "rdkit_parity_full_corpus"
+required-features = ["diagnostics"]
