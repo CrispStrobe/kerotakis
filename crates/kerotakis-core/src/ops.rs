@@ -659,6 +659,12 @@ pub enum Event {
     /// the pedagogy — but this event always precedes the chemistry.
     HazardWarning {
         severity: crate::solve::Severity,
+        /// Stable machine identity of the hazard rule (additive; empty on
+        /// events from older snapshots or producers without a curated
+        /// rule). `hazard`/`real_world` are localized prose — consumers
+        /// that must recognise WHICH hazard fired key on this.
+        #[serde(default)]
+        rule: String,
         hazard: String,
         real_world: String,
     },
