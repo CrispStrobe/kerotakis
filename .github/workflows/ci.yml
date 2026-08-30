@@ -20,6 +20,22 @@ jobs:
       - name: Enforce WCAG AA theme pairs
         run: node tools/test-theme-contrast.mjs
 
+  rigid-intent:
+    name: Rigid input parity
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web/app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/app/package-lock.json
+      - run: npm ci
+      - run: npm test -- src/lib/rigidIntent.test.ts
+
   preflight-gate:
     name: Full preflight gate
     runs-on: ubuntu-latest
@@ -124,8 +140,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
-      - name: Check core and data schemas on wasm
-        run: cargo check -p kerotakis-core -p kerotakis-data --target wasm32-unknown-unknown
+      - name: Check core, data and scene physics on wasm
+        run: cargo check -p kerotakis-core -p kerotakis-data -p kerotakis-scene-physics --target wasm32-unknown-unknown
 
   registry-export:
     name: Current registry source export
