@@ -1810,21 +1810,50 @@ and presents them well.
      presentation-only seed from vessel identity. Unknown colours use a fixed
      safe fallback and reduced motion disables the effect. Thirty-one focused
      uniform tests and the production Vite build pass.
-  4. [ ] **GPU-4 — Project-owned WGSL flame envelope (2–3 h).** Implement one
-     renderer-local procedural envelope from published fire-rendering ideas,
-     without copying `jeantimex/fluid` or its upstream ports. Keep the SVG
-     visible until the GPU reports its first presented frame; device loss
-     restores SVG immediately. **DoD:** shader provenance header cites Nguyen,
-     Fedkiw & Jensen and states independent implementation; bounded canvas,
-     no pointer/a11y ownership, no per-frame allocation/IPC/readback; shader
-     compilation smoke test and deterministic uniform snapshots pass.
-  5. [ ] **GPU-5 — Integration and release gate (1–2 h plus device lab).** Mount
-     the effect beside the existing vessel flame without changing its fallback
-     semantics. Measure payload, startup and p95 frame time against BRD-072's
-     9 ms governor. **DoD:** full Vitest/Vite gates; WebGPU absent, device loss,
-     headless, background and reduced-motion cases retain the SVG endpoint;
-     web/Android/iOS/macOS/Windows results recorded; similarity/provenance
-     review complete. GUI-098 remains open until this cross-host matrix passes.
+  4. [x] **GPU-4a — Shader ABI and fail-closed renderer core (2–3 h).** Define
+     one canonical 32-byte WGSL uniform layout and a renderer adapter that keeps
+     SVG visible through acquisition, configuration and first presentation.
+     **DoD:** project-owned source carries an auditable Nguyen/Fedkiw/Jensen DOI
+     and explicit independent-implementation notice; dimensions, animation
+     time, intensity, colour and seed are finite and bounded; inactive effects
+     schedule nothing; device replacement, canceled-but-delivered frames,
+     presentation failure and exceptions cannot hide SVG or fork render loops;
+     partial GPU resources are destroyed; deterministic ABI snapshots pass;
+     no app-owned hot-path buffer/callback/submission allocation, IPC or
+     readback.
+     *Done 2026-08-30:* the analytic flame shader, canonical buffer writer,
+     generation-guarded adapter and structural canvas surface are implemented.
+     Independent reviews found and integration fixed an ABI mismatch, stale-RAF
+     race, hidden-fallback failure, unbounded time/dimensions and partial-build
+     leak. Focused tests exercise compilation-info rejection, pipeline
+     submission, stale asynchronous configuration, resource cleanup and every
+     fallback edge. GPU-4 remains open pending the real browser compiler gate.
+  5. [ ] **GPU-4b — Browser compiler and bounded canvas host (2–3 h).** Add one
+     concrete, SSR-safe browser host around the surface with an injected
+     preferred-format seam and fixed 48×56 logical target. Cap DPR/pixel size,
+     set `aria-hidden` and `pointer-events:none`, and expose an atomic policy +
+     lifecycle snapshot so one bench-owned device can serve presentation.
+     **DoD:** a real WebGPU shader-module compilation-info check runs where an
+     adapter exists; missing context/format/compiler, resize, setup rejection,
+     device loss, reduced motion and backgrounding all retain SVG; canvas and
+     resources are bounded and cleanup is idempotent; SSR and fake-browser
+     component tests plus full frontend/build gates pass.
+  6. [ ] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
+     fallback-first ignition overlay at the existing vessel flame endpoint.
+     A live `ignite` effect is the sole authority: temperature alone never
+     creates either GPU or SVG combustion, while `flame_test` remains separate.
+     **DoD:** exactly one bench device acquisition, independent per-vessel
+     surfaces, SVG retained until each surface's first successful frame,
+     inactive/expired effects cancel all frames, no pointer/tab/a11y ownership,
+     simultaneous-vessel and hot-without-ignite regressions, no Scene/Event,
+     chemistry, IPC or readback changes; merge as its own checkpoint.
+  7. [ ] **GPU-5b — Release instrumentation and host matrix (2–3 h plus device
+     lab).** Measure payload, startup, first-frame time and p95 frame time
+     against BRD-072's 9 ms governor. **DoD:** full Vitest/Vite/preflight gates;
+     WebGPU absent, compile failure, device loss, headless, background and
+     reduced-motion cases retain the SVG endpoint; web/Android/iOS/macOS/Windows
+     results recorded; shader similarity/provenance review complete. GUI-098
+     remains open until this cross-host matrix passes.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
