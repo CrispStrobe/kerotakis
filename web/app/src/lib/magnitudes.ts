@@ -177,6 +177,9 @@ export interface Effect {
   durationMs?: number;
   /** 0–1 visual intensity, from the event's amount field. */
   magnitude: number;
+  /** Engine-accepted transfer fraction. Visuals may scale to this value,
+   * but must never infer or revise it from pointer travel or animation. */
+  acceptedTransferFraction?: number;
   /** Flame colour CSS value, if the event carries one. */
   flameColour?: string;
   /** Source and destination for spatial bench effects such as pouring. */
@@ -504,6 +507,10 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         kind: "pour",
         at: now,
         magnitude: transferMag(e),
+        acceptedTransferFraction:
+          Number.isFinite(Number(e.fraction)) && Number(e.fraction) >= 0 && Number(e.fraction) <= 1
+            ? Number(e.fraction)
+            : 0,
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "pour",

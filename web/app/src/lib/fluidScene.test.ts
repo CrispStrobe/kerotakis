@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { SceneVessel } from "./host/EngineHost";
 import { fieldTotal, relaxToward, step } from "./fluid";
-import { injectAt, injectStir, layerBands, paint, simFromScene } from "./fluidScene";
+import { fluidVisualPlan, injectAt, injectStir, layerBands, paint, simFromScene } from "./fluidScene";
 
 const LOOKUP = (key: string) =>
   key === "hexane"
@@ -117,5 +117,44 @@ describe("the scene-to-grid bridge", () => {
     const v = vessel([{ species: "water", volume_l: 0.1 }]);
     (v as { layers?: unknown[] }).layers = [];
     expect(simFromScene(v, 8, 8, 1, LOOKUP)).toBeNull();
+  });
+
+  it("keeps authoritative oil over water by bottom-first engine layer order", () => {
+    const sim = simFromScene(
+      vessel([
+        { species: "water", volume_l: 0.1 },
+        { species: "hexane", volume_l: 0.05 },
+      ]), 10, 30, 1, LOOKUP,
+    )!;
+    const water = sim.targets[0]!;
+    const oil = sim.targets[1]!;
+    expect(water.slice(20 * 10).some((value) => value > 0)).toBe(true);
+    expect(oil.slice(0, 10 * 10).some((value) => value > 0)).toBe(true);
+    expect(oil.slice(20 * 10).some((value) => value > 0)).toBe(false);
+  });
+
+  it("makes syrup more dissipative than water from provenanced viscosity", () => {
+    const water = fluidVisualPlan([{ ...LOOKUP("water"), dynamicViscosityPaS: 0.001 }], 1, false);
+    const syrup = fluidVisualPlan([{ ...LOOKUP("syrup"), dynamicViscosityPaS: 2.5 }], 1, false);
+    expect(syrup.damping).toBeLessThan(water.damping);
+  });
+
+  it("uses surface tension only to size conserved visual droplets", () => {
+    const low = fluidVisualPlan([{ ...LOOKUP("water"), surfaceTensionNM: 0.02 }], 0.5, false);
+    const high = fluidVisualPlan([{ ...LOOKUP("water"), surfaceTensionNM: 0.12 }], 0.5, false);
+    expect(high.dropMass).toBeGreaterThan(low.dropMass);
+    expect(high.acceptedMass).toBe(low.acceptedMass);
+  });
+
+  it("uses accepted transfer fraction as the sole pour amount authority", () => {
+    expect(fluidVisualPlan([LOOKUP("water")], 0.25, false, 4).acceptedMass).toBe(1);
+    expect(fluidVisualPlan([LOOKUP("water")], 0, false, 4).animate).toBe(false);
+    expect(fluidVisualPlan([LOOKUP("water")], 1.1, false, 4).acceptedMass).toBe(0);
+  });
+
+  it("reduced motion settles without creating a particle animation", () => {
+    const plan = fluidVisualPlan([LOOKUP("water")], 0.75, true);
+    expect(plan.animate).toBe(false);
+    expect(plan.acceptedMass).toBeCloseTo(1.125);
   });
 });

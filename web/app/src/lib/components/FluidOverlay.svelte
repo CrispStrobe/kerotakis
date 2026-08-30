@@ -12,7 +12,7 @@
    */
   import type { SceneVessel } from "../host/EngineHost";
   import { relaxToward, step } from "../fluid";
-  import { injectStir, simFromScene, paint, type FluidSpecies, type VesselSim } from "../fluidScene";
+  import { fluidVisualPlan, injectStir, simFromScene, paint, type FluidSpecies, type VesselSim } from "../fluidScene";
   import { mulberry32, pourDone, startPour, stepPour, type PourState } from "../pour";
   import type { Effect } from "../magnitudes";
   import { maskFor } from "../glassMask";
@@ -60,6 +60,7 @@
   let ranEffects = new Set<number>();
   // Seeded per run from the effect timestamp: deterministic, replayable.
   let rand: () => number = mulberry32(1);
+  let damping = 0.94;
 
   // Ambient density: the bottom layer's own — buoyancy is RELATIVE.
   function densities(): number[] {
@@ -68,7 +69,7 @@
     return sim.species.map((s) => s.density / ambient);
   }
 
-  function startRun(kinds: string[]) {
+  function startRun(fresh: Effect[]) {
     if (reducedMotion || !canvas) return;
     // The fluid lives inside the ACTUAL glass: the kind's inner path
     // rasterized as the wall mask (cached per kind+resolution).
@@ -80,11 +81,23 @@
     // What just happened enters PHYSICALLY: an add-like effect pours in
     // from above as droplets (GUI-065b — mass ledger-conserved into the
     // grid on surface handoff, splash included); a stir shears the bath.
-    rand = mulberry32((kinds.length * 2654435761) ^ Date.now());
+    // Accepted event timestamps are replay-stable; wall-clock seeding would
+    // make the same ledger paint a different visual trace on every host.
+    const seed = fresh.reduce((value, effect) => (value ^ effect.at) >>> 0, fresh.length * 2654435761);
+    rand = mulberry32(seed);
     pours = [];
-    for (const kind of kinds) {
-      if (kind === "swirl") injectStir(sim, 1.2);
-      else pours.push(startPour(sim.grid.fields.length - 1, 1.5, 0.45 + 0.1 * Math.random()));
+    let animated = false;
+    for (const effect of fresh) {
+      const plan = fluidVisualPlan(sim.species, effect.acceptedTransferFraction, reducedMotion);
+      damping = plan.damping;
+      if (!plan.animate) continue;
+      animated = true;
+      if (effect.kind === "swirl") injectStir(sim, 1.2);
+      else pours.push(startPour(sim.grid.fields.length - 1, plan.acceptedMass, 0.5, plan.dropMass));
+    }
+    if (!animated) {
+      sim = null;
+      return;
     }
     visible = true;
     fading = false;
@@ -103,7 +116,7 @@
         const simStart = performance.now();
         for (const pp of pours) stepPour(pp, sim, dt, rand);
         pours = pours.filter((pp) => !pourDone(pp));
-        step(sim.grid, d, dt, governor >= 1 ? 8 : 14, 0.94);
+        step(sim.grid, d, dt, governor >= 1 ? 8 : 14, damping);
         // Frame governor: shed solver work, then resolution, before FPS.
         frameTimes.push(performance.now() - simStart);
         if (frameTimes.length >= 12) {
@@ -183,12 +196,12 @@
       (e) =>
         !ranEffects.has(e.at) &&
         Date.now() - e.at < 3000 &&
-        ["dissolve", "swirl", "drip", "precipitate"].includes(e.kind),
+        ["dissolve", "swirl", "drip", "precipitate", "pour"].includes(e.kind),
     );
     if (fresh.length === 0) return;
     for (const e of fresh) ranEffects.add(e.at);
     if (ranEffects.size > 64) ranEffects = new Set([...ranEffects].slice(-32));
-    startRun(fresh.map((e) => e.kind));
+    startRun(fresh);
   });
 
   $effect(() => () => cancelAnimationFrame(raf));
