@@ -29,6 +29,33 @@ describe("WebGPU lifecycle", () => {
   });
 
   it.each([
+    ["bgra8unorm", "bgra8unorm"],
+    ["rgba8unorm", "rgba8unorm"],
+    ["", null],
+    ["rgba16float", null],
+    [42, null],
+  ] as const)("resolves a bounded preferred canvas format from %j", (returned, expected) => {
+    const gpu = {
+      requestAdapter: async () => null,
+      getPreferredCanvasFormat: vi.fn(() => returned),
+    };
+    const provider = browserWebGpuProvider({ navigator: { gpu } });
+    expect(provider?.preferredCanvasFormat?.()).toBe(expected);
+    expect(gpu.getPreferredCanvasFormat).toHaveBeenCalledWith();
+  });
+
+  it("fails closed when the preferred format resolver is absent or throws", () => {
+    const absent = browserWebGpuProvider({ navigator: { gpu: { requestAdapter: async () => null } } });
+    expect(absent?.preferredCanvasFormat?.()).toBeNull();
+    const throwing = browserWebGpuProvider({
+      navigator: { gpu: { requestAdapter: async () => null, getPreferredCanvasFormat: () => { throw new Error("format"); } } },
+    });
+    expect(throwing?.preferredCanvasFormat?.()).toBeNull();
+    const hostile = Object.defineProperty({}, "navigator", { get: () => { throw new Error("navigator"); } });
+    expect(browserWebGpuProvider(hostile)).toBeNull();
+  });
+
+  it.each([
     ["missing adapter", async () => null, "adapter-unavailable"],
     ["adapter rejection", async () => { throw new Error("adapter"); }, "adapter-request-failed"],
   ] as const)("fails closed on %s", async (_label, requestAdapter, reason) => {
@@ -226,5 +253,187 @@ describe("dynamic WebGPU environment policy", () => {
     env.media.matches = true;
     env.media.dispatch();
     expect(policy.decision()).toEqual({ backend: "lightweight", reason: "effect-not-approved" });
+  });
+
+  it("publishes atomic lifecycle and decision snapshots in transition order", async () => {
+    const env = environment();
+    const acquired = device();
+    const snapshots: string[] = [];
+    const legacy: string[] = [];
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => ({ requestDevice: async () => acquired.value }) },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+      onChange: (decision) => legacy.push(`${decision.backend}:${decision.reason}`),
+      onSnapshot: ({ lifecycle, decision }) => snapshots.push(
+        `${lifecycle.status === "fallback" ? `${lifecycle.status}:${lifecycle.reason}` : lifecycle.status}|${decision.backend}:${decision.reason}`,
+      ),
+    });
+
+    expect(policy.snapshot()).toEqual({
+      lifecycle: { status: "idle" },
+      decision: { backend: "lightweight", reason: "effect-not-approved" },
+      preferredCanvasFormat: null,
+    });
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().decision.backend).toBe("webgpu"));
+    acquired.lost.resolve(undefined);
+    await vi.waitFor(() => expect(policy.snapshot().lifecycle).toEqual({ status: "fallback", reason: "device-lost" }));
+
+    expect(snapshots).toEqual([
+      "requesting|lightweight:device-lost",
+      "ready|webgpu:enabled",
+      "fallback:device-lost|lightweight:device-lost",
+    ]);
+    expect(legacy).toEqual([
+      "lightweight:device-lost",
+      "webgpu:enabled",
+      "lightweight:device-lost",
+    ]);
+    expect(policy.decision()).toBe(policy.snapshot().decision);
+    policy.dispose();
+  });
+
+  it("pins the safe preferred format into every atomic snapshot", async () => {
+    const env = environment();
+    const resolveFormat = vi.fn(() => "bgra8unorm");
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => null, preferredCanvasFormat: resolveFormat },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+    });
+    expect(policy.snapshot().preferredCanvasFormat).toBe("bgra8unorm");
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().lifecycle.status).toBe("fallback"));
+    expect(policy.snapshot().preferredCanvasFormat).toBe("bgra8unorm");
+    expect(resolveFormat).toHaveBeenCalledTimes(1);
+
+    const throwing = createWebGpuEnvironmentPolicy({
+      provider: {
+        requestAdapter: async () => null,
+        preferredCanvasFormat: () => { throw new Error("format"); },
+      },
+      reducedMotion: env.media,
+      document: env.document,
+    });
+    expect(throwing.snapshot().preferredCanvasFormat).toBeNull();
+  });
+
+  it("publishes constraints only with the stopped lifecycle and disposes fail-closed", async () => {
+    const env = environment();
+    const acquired = device();
+    const observed: Array<{ lifecycle: string; decision: string }> = [];
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => ({ requestDevice: async () => acquired.value }) },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+      onSnapshot: ({ lifecycle, decision }) => observed.push({
+        lifecycle: lifecycle.status === "fallback" ? `${lifecycle.status}:${lifecycle.reason}` : lifecycle.status,
+        decision: `${decision.backend}:${decision.reason}`,
+      }),
+    });
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().decision.backend).toBe("webgpu"));
+
+    env.media.matches = true;
+    env.media.dispatch();
+    expect(policy.snapshot()).toEqual({
+      lifecycle: { status: "fallback", reason: "stopped" },
+      decision: { backend: "lightweight", reason: "reduced-motion" },
+      preferredCanvasFormat: null,
+    });
+    expect(observed.at(-1)).toEqual({
+      lifecycle: "fallback:stopped",
+      decision: "lightweight:reduced-motion",
+    });
+
+    policy.dispose();
+    expect(policy.snapshot()).toEqual({
+      lifecycle: { status: "fallback", reason: "stopped" },
+      decision: { backend: "lightweight", reason: "effect-not-approved" },
+      preferredCanvasFormat: null,
+    });
+    expect(observed.at(-1)).toEqual({
+      lifecycle: "fallback:stopped",
+      decision: "lightweight:effect-not-approved",
+    });
+  });
+
+  it("commits snapshots even when observers throw", async () => {
+    const env = environment();
+    const acquired = device();
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => ({ requestDevice: async () => acquired.value }) },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+      onChange: () => { throw new Error("legacy observer"); },
+      onSnapshot: () => { throw new Error("snapshot observer"); },
+    });
+    expect(() => policy.start()).not.toThrow();
+    await vi.waitFor(() => expect(policy.snapshot().decision.backend).toBe("webgpu"));
+    expect(policy.snapshot().lifecycle).toEqual({ status: "ready", device: acquired.value });
+    expect(() => policy.dispose()).not.toThrow();
+    expect(policy.snapshot()).toEqual({
+      lifecycle: { status: "fallback", reason: "stopped" },
+      decision: { backend: "lightweight", reason: "effect-not-approved" },
+      preferredCanvasFormat: null,
+    });
+  });
+
+  it("disposes to a stopped fallback even when device destruction throws", async () => {
+    const env = environment();
+    const lost = deferred<unknown>();
+    const hostileDevice: WebGpuDeviceLike = {
+      lost: lost.promise,
+      destroy: () => { throw new Error("destroy"); },
+    };
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => ({ requestDevice: async () => hostileDevice }) },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+    });
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().decision.backend).toBe("webgpu"));
+    expect(() => policy.dispose()).not.toThrow();
+    expect(policy.snapshot()).toEqual({
+      lifecycle: { status: "fallback", reason: "stopped" },
+      decision: { backend: "lightweight", reason: "effect-not-approved" },
+      preferredCanvasFormat: null,
+    });
+  });
+
+  it("supports disposable snapshot subscriptions without observer authority", async () => {
+    const env = environment();
+    const acquired = device();
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: {
+        requestAdapter: async () => ({ requestDevice: async () => acquired.value }),
+        preferredCanvasFormat: () => "rgba8unorm",
+      },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+    });
+    const observed: string[] = [];
+    expect(() => policy.subscribe(() => { throw new Error("observer"); })).not.toThrow();
+    const unsubscribe = policy.subscribe(({ lifecycle, preferredCanvasFormat }) => {
+      observed.push(`${lifecycle.status}:${preferredCanvasFormat}`);
+    });
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().decision.backend).toBe("webgpu"));
+    unsubscribe();
+    unsubscribe();
+    const beforeLoss = observed.length;
+    acquired.lost.resolve(undefined);
+    await vi.waitFor(() => expect(policy.snapshot().lifecycle.status).toBe("fallback"));
+    expect(observed).toEqual(["idle:rgba8unorm", "requesting:rgba8unorm", "ready:rgba8unorm"]);
+    expect(observed).toHaveLength(beforeLoss);
+    policy.dispose();
+    expect(() => policy.subscribe(() => { throw new Error("disposed observer"); })).not.toThrow();
   });
 });

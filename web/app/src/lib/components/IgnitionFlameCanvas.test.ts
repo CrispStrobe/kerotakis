@@ -34,6 +34,7 @@ describe("bounded ignition flame canvas host", () => {
     const snapshot = {
       lifecycle: { status: "requesting" },
       decision: { backend: "lightweight", reason: "device-lost" },
+      preferredCanvasFormat: null,
     } satisfies IgnitionFlameGpuSnapshot;
     expect(snapshot.lifecycle.status).toBe("requesting");
     expect(snapshot.decision.backend).toBe("lightweight");
@@ -44,5 +45,6 @@ describe("bounded ignition flame canvas host", () => {
     expect(source).toContain("pointer-events: none");
     expect(source).not.toContain("tabindex");
     expect(source).not.toMatch(/on(?:click|pointer|key)/i);
+    expect(source).not.toContain("bgra8unorm");
   });
 });

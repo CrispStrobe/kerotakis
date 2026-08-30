@@ -20,20 +20,17 @@
   import { onMount } from "svelte";
   import type { Effect } from "../magnitudes";
   import { ignitionFlameUniforms } from "../ignitionFlameUniforms";
-  import type { VisualBackendDecision } from "../visualBackend";
-  import type { WebGpuLifecycleState } from "../webGpuLifecycle";
+  import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
   import {
     browserAnimationScheduler,
     createBrowserIgnitionFlameSurface,
     createWebGpuRendererAdapter,
+    type AnimationSchedulerLike,
     type WebGpuRendererAdapter,
   } from "../webGpuRenderer";
 
   /** One coherent policy/lifecycle observation; callers must not tear the pair. */
-  export interface IgnitionFlameGpuSnapshot {
-    lifecycle: WebGpuLifecycleState;
-    decision: VisualBackendDecision;
-  }
+  export type IgnitionFlameGpuSnapshot = WebGpuEnvironmentSnapshot;
 
   let {
     effect: flameEffect,
@@ -50,21 +47,45 @@
 
   let canvas = $state<HTMLCanvasElement>();
   let adapter = $state<WebGpuRendererAdapter | null>(null);
+  let scheduler = $state<AnimationSchedulerLike | null>(null);
+  let mounted = $state(false);
   let gpuPresented = $state(false);
 
   const publishFallback = (visible: boolean): void => {
     gpuPresented = !visible;
-    onfallbackchange?.(visible);
+    try { onfallbackchange?.(visible); } catch { /* visual observers cannot break fallback */ }
   };
 
   const resizeBackingStore = (): void => {
     if (!canvas) return;
-    const size = ignitionFlameCanvasSize(globalThis.devicePixelRatio);
+    const size = ignitionFlameCanvasSize(Reflect.get(globalThis, "devicePixelRatio"));
     canvas.width = size.width;
     canvas.height = size.height;
   };
 
+  const initializeSurface = (): void => {
+    if (!mounted || adapter || !canvas || !scheduler || !gpu.preferredCanvasFormat) return;
+    try {
+      const surface = createBrowserIgnitionFlameSurface(canvas, gpu.preferredCanvasFormat);
+      adapter = createWebGpuRendererAdapter({
+        surface,
+        scheduler,
+        setFallbackVisible: publishFallback,
+        nowSeconds: () => {
+          const performanceValue = Reflect.get(globalThis, "performance") as object | undefined;
+          const now = performanceValue && Reflect.get(performanceValue, "now");
+          return typeof now === "function"
+            ? Number(Reflect.apply(now, performanceValue, [])) / 1000
+            : Date.now() / 1000;
+        },
+      });
+    } catch {
+      publishFallback(true);
+    }
+  };
+
   $effect(() => {
+    initializeSurface();
     adapter?.sync(
       gpu.lifecycle,
       gpu.decision,
@@ -77,36 +98,24 @@
   });
 
   onMount(() => {
+    mounted = true;
     resizeBackingStore();
-    const scheduler = browserAnimationScheduler();
-    if (!canvas || !scheduler) {
-      publishFallback(true);
-      return;
+    scheduler = browserAnimationScheduler();
+    initializeSurface();
+    if (!canvas || !scheduler || !gpu.preferredCanvasFormat) publishFallback(true);
+    const addEventListener = Reflect.get(globalThis, "addEventListener");
+    const removeEventListener = Reflect.get(globalThis, "removeEventListener");
+    if (typeof addEventListener === "function") {
+      Reflect.apply(addEventListener, globalThis, ["resize", resizeBackingStore]);
     }
-    try {
-      const navigatorValue = Reflect.get(globalThis, "navigator") as object | undefined;
-      const gpu = navigatorValue ? Reflect.get(navigatorValue, "gpu") : undefined;
-      const preferred = gpu && typeof gpu === "object"
-        ? Reflect.get(gpu, "getPreferredCanvasFormat")
-        : undefined;
-      const format = typeof preferred === "function"
-        ? String(Reflect.apply(preferred, gpu, []))
-        : "bgra8unorm";
-      const surface = createBrowserIgnitionFlameSurface(canvas, format);
-      adapter = createWebGpuRendererAdapter({
-        surface,
-        scheduler,
-        setFallbackVisible: publishFallback,
-        nowSeconds: () => performance.now() / 1000,
-      });
-    } catch {
-      publishFallback(true);
-    }
-    globalThis.addEventListener("resize", resizeBackingStore);
     return () => {
-      globalThis.removeEventListener("resize", resizeBackingStore);
+      if (typeof removeEventListener === "function") {
+        Reflect.apply(removeEventListener, globalThis, ["resize", resizeBackingStore]);
+      }
       adapter?.dispose();
       adapter = null;
+      scheduler = null;
+      mounted = false;
       publishFallback(true);
     };
   });

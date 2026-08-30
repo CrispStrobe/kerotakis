@@ -185,7 +185,7 @@ export function createWebGpuRendererAdapter(options: WebGpuRendererOptions): Web
 }
 
 interface GpuCompilationInfoLike { messages: ArrayLike<{ type: string; message: string }> }
-interface GpuShaderModuleLike { getCompilationInfo?: () => Promise<GpuCompilationInfoLike> }
+interface GpuShaderModuleLike { getCompilationInfo: () => Promise<GpuCompilationInfoLike> }
 interface GpuBufferLike { destroy?: () => void }
 interface GpuPipelineLike { getBindGroupLayout(index: number): unknown }
 interface BrowserGpuDeviceLike extends WebGpuDeviceLike {
@@ -238,12 +238,14 @@ export function createBrowserIgnitionFlameSurface(canvas: WebGpuCanvasLike, form
       const candidate = device as BrowserGpuDeviceLike;
       try {
         const module = candidate.createShaderModule({ code: IGNITION_FLAME_WGSL });
-        const info = await module.getCompilationInfo?.();
-        if (ownGeneration !== surfaceGeneration) return;
-        if (info) {
-          const errors = Array.from(info.messages).filter((message) => message.type === "error");
-          if (errors.length > 0) throw new Error(`ignition flame WGSL failed: ${errors.map((error) => error.message).join("; ")}`);
+        const compiler = Reflect.get(module, "getCompilationInfo");
+        if (typeof compiler !== "function") {
+          throw new Error("WebGPU shader compilation information is unavailable");
         }
+        const info = await Reflect.apply(compiler, module, []);
+        if (ownGeneration !== surfaceGeneration) return;
+        const errors = Array.from(info.messages).filter((message) => message.type === "error");
+        if (errors.length > 0) throw new Error(`ignition flame WGSL failed: ${errors.map((error) => error.message).join("; ")}`);
         buffer = candidate.createBuffer({ size: IGNITION_FLAME_UNIFORM_BYTES, usage: 0x40 | 0x08 });
         pipeline = candidate.createRenderPipeline({
           layout: "auto",

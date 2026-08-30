@@ -196,7 +196,7 @@ describe("WebGPU renderer adapter", () => {
     const submit = vi.fn();
     const writeBuffer = vi.fn();
     const draw = vi.fn();
-    const compilation = vi.fn(async () => ({ messages: [] }));
+    const compilation = vi.fn(async () => ({ messages: [{ type: "warning", message: "portable warning" }] }));
     const pass = { setPipeline: vi.fn(), setBindGroup: vi.fn(), draw, end: vi.fn() };
     const encoder = { beginRenderPass: vi.fn(() => pass), finish: vi.fn(() => "commands") };
     const createRenderPipeline = vi.fn(() => ({ getBindGroupLayout: () => "layout" }));
@@ -227,6 +227,58 @@ describe("WebGPU renderer adapter", () => {
     expect(createRenderPipeline.mock.calls[0]![0]).toMatchObject({
       fragment: { targets: [{ blend: { color: { srcFactor: "one" } } }] },
     });
+  });
+
+  it.each([undefined, 42] as const)(
+    "rejects a %s compilation-info gate before allocating GPU resources",
+    async (getCompilationInfo) => {
+      const createBuffer = vi.fn();
+      const createRenderPipeline = vi.fn();
+      const configure = vi.fn();
+      const surface = createBrowserIgnitionFlameSurface(
+        { width: 48, height: 56, getContext: () => ({ configure, getCurrentTexture: vi.fn() as never }) },
+        "bgra8unorm",
+      );
+      const module = { getCompilationInfo };
+      const device = {
+        lost: new Promise(() => undefined),
+        createShaderModule: () => module,
+        createBuffer,
+        createRenderPipeline,
+      };
+      await expect(surface.configure(device as WebGpuDeviceLike)).rejects.toThrow(
+        "compilation information is unavailable",
+      );
+      expect(createBuffer).not.toHaveBeenCalled();
+      expect(createRenderPipeline).not.toHaveBeenCalled();
+      expect(configure).not.toHaveBeenCalled();
+      expect(surface.present()).toBe(false);
+    },
+  );
+
+  it("keeps SVG fallback when the browser compiler gate is missing", async () => {
+    const surface = createBrowserIgnitionFlameSurface(
+      { width: 48, height: 56, getContext: () => ({ configure: vi.fn(), getCurrentTexture: vi.fn() as never }) },
+      "bgra8unorm",
+    );
+    const fallback = vi.fn();
+    const request = vi.fn(() => 1);
+    const adapter = createWebGpuRendererAdapter({
+      surface,
+      scheduler: { request, cancel: vi.fn() },
+      setFallbackVisible: fallback,
+      nowSeconds: () => 0,
+    });
+    const device = {
+      lost: new Promise(() => undefined),
+      createShaderModule: () => ({}),
+    };
+    adapter.sync({ status: "ready", device }, enabled, uniforms);
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(adapter.fallbackVisible()).toBe(true);
+    expect(fallback).toHaveBeenCalledTimes(1);
+    expect(request).not.toHaveBeenCalled();
   });
 
   it("rejects shader compilation errors before a frame can be presented", async () => {

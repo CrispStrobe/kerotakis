@@ -1828,7 +1828,7 @@ and presents them well.
      leak. Focused tests exercise compilation-info rejection, pipeline
      submission, stale asynchronous configuration, resource cleanup and every
      fallback edge. GPU-4 remains open pending the real browser compiler gate.
-  5. [ ] **GPU-4b — Browser compiler and bounded canvas host (2–3 h).** Add one
+  5. [x] **GPU-4b — Browser compiler and bounded canvas host (2–3 h).** Add one
      concrete, SSR-safe browser host around the surface with an injected
      preferred-format seam and fixed 48×56 logical target. Cap DPR/pixel size,
      set `aria-hidden` and `pointer-events:none`, and expose an atomic policy +
@@ -1838,6 +1838,17 @@ and presents them well.
      device loss, reduced motion and backgrounding all retain SVG; canvas and
      resources are bounded and cleanup is idempotent; SSR and fake-browser
      component tests plus full frontend/build gates pass.
+     *Done 2026-08-30:* the single policy-owned lifecycle now publishes atomic
+     lifecycle/decision/format snapshots to disposable subscribers; format
+     resolution is allowlisted, exception-safe and never guessed. The surface
+     refuses to allocate a pipeline when browser compilation information is
+     absent or reports an error. An SSR-safe 48×56 ignition canvas host caps DPR
+     at 2×, owns no pointer or accessibility interaction, and derives uniforms
+     only from the authoritative effect. Tests cover snapshot ordering,
+     subscription disposal, hostile observers/destructors, format failures,
+     compiler rejection, canvas bounds and fallback-first markup. Ninety-three
+     focused GPU tests, all 411 frontend tests, production build and the licence
+     gate pass. Physical browser/device measurements remain GPU-5b work.
   6. [ ] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
      fallback-first ignition overlay at the existing vessel flame endpoint.
      A live `ignite` effect is the sole authority: temperature alone never
