@@ -51,6 +51,13 @@ pub enum ReactiveGroup {
     /// the shelf cannot show a soluble barium salt with no hazard on it.
     /// Membership follows solubility — barite is the counter-example, and
     /// deliberately not a member.
+    ///
+    /// EXP-39 widened it from *cation* to *ion*: soluble oxalate is an
+    /// acute systemic toxicant by exactly the same argument as soluble
+    /// barium — it is absorbed and it interferes with calcium — and which
+    /// end of the salt carries the toxicity is not a distinction the
+    /// shelf label should turn on. The solubility test is unchanged, and
+    /// so is the barite counter-example.
     ToxicSoluble,
 }
 
@@ -127,6 +134,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Na2S2O3" => &[ReducingAgent],
         "KI" => &[ReducingAgent],
         "ascorbic_acid" => &[ReducingAgent],
+        // EXP-39's primary standard. Both rows follow from identity:
+        // oxalic acid is the reductant the permanganate titration is
+        // *for* — that is what its five electrons per two permanganate
+        // are — and soluble oxalate is an acute systemic toxicant. It is
+        // deliberately NOT `AcidStrong`: pKa1 1.25 is a moderately strong
+        // acid, not a dissociating one, and AcidStrong's mixture rules
+        // describe the latter.
+        "H2C2O4" => &[ReducingAgent, ToxicSoluble],
 
         // ── active metals (above H in activity series) ────────────
         "Al" => &[ActiveMetal],
@@ -312,6 +327,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "FeCl3",
     "FeSO4",
     "H2",
+    "H2C2O4",
     "H2O2",
     "H2PO4-",
     "H2SO4",

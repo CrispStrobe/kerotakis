@@ -29,6 +29,9 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("H2SO4", "OS(=O)(=O)O"),
     ("H3PO4", "OP(=O)(O)O"),
     ("CH3COOH", "CC(=O)O"),
+    // EXP-39's primary standard: the diacid whose two carboxyls are
+    // bonded straight to each other, which is why it is a reductant.
+    ("H2C2O4", "OC(=O)C(=O)O"),
     // --- bases ---
     ("NaOH", "[Na+].[OH-]"),
     ("Ca(OH)2", "O[Ca]O"),

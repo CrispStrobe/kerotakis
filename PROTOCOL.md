@@ -198,6 +198,15 @@ the web app (`web/app/src/lib/components/Chart.svelte`, consumer types in
 - `band` is CAP-8's uncertainty envelope (two polylines sharing x values).
 - Transport into a UI session: a step object may carry
   `charts: [Chart]`; the web feed renders them inline (hook live today).
+- One `titrate` step may now earn **two** charts (EXP-39). The pH curve
+  is unchanged. A redox titration additionally emits a `pe` chart —
+  y label `pe`, same x axis — as a separate chart rather than a second
+  series, because pH and pe do not share a y axis. Its series is
+  `scatter`, not `line`, and deliberately: the curve carries no point
+  for a step where the engine declined to pin a potential (at
+  equivalence the electron balance has no root), and joining across
+  that gap would draw a line through the one point that has no value.
+  Consumers that render only the first chart are unaffected.
 - Renderer duties: nice 1/2/5 ticks, responsive SVG, the same data as a
   table for screen readers, SVG export. Numbers arrive in data units —
   the renderer never converts; the emitter labels.

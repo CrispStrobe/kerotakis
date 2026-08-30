@@ -5,7 +5,7 @@
 //! grammar is part of the engine rather than of one front end.
 
 use crate::material::{self, MaterialBasis, MaterialRecipe};
-use crate::ops::{Instrument, Operator};
+use crate::ops::{Compare, Endpoint, Instrument, Operator};
 use crate::species::{self, SpeciesData, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
@@ -51,6 +51,55 @@ pub const VERBS: &[(&str, &str)] = &[
     ("test", "test v1 pop"),
     ("smell", "smell v1"),
 ];
+
+/// The one usage line for `titrate`, kept in one place now that the verb
+/// has three endpoints (EXP-39).
+const TITRATE_USAGE: &str = "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until \
+                             <ph <target> | pe <op> <value> | colour persists> [max <n>]";
+
+/// Refuse a number the operator log could not carry.
+///
+/// Rust parses `1e999` into `f64::INFINITY` without complaint and serde_json
+/// refuses to write it, so a titration with an infinite target would run and
+/// then make the bench unable to save itself. The grammar fuzz target found
+/// this on the endpoint arm; the pH arm had the same hole since CAP-12.
+fn finite(value: f64, what: &str) -> Result<(), String> {
+    if value.is_finite() {
+        Ok(())
+    } else {
+        Err(format!(
+            "{what} must be a finite number — '{value}' cannot be written to \
+             the operator log the bench saves itself with"
+        ))
+    }
+}
+
+/// The widest a *logarithmic* endpoint can sensibly be.
+///
+/// pH and pe are exponents. A pH of 6.7e49 is not a strong acid, it is a
+/// number that got into a chemistry slot, and carrying it costs precision
+/// in the operator log for no chemistry at all — the grammar fuzz target
+/// produced exactly that. Ten to the ninety-ninth is already far past
+/// anything an aqueous solver represents, so the range is generous and
+/// the refusal is about arithmetic, not about taste.
+const LOG_SCALE_LIMIT: f64 = 99.0;
+
+fn log_scale(value: f64, what: &str) -> Result<(), String> {
+    finite(value, what)?;
+    if value.abs() <= LOG_SCALE_LIMIT {
+        Ok(())
+    } else {
+        Err(format!(
+            "{what} must lie within ±{LOG_SCALE_LIMIT} — {value} is an \
+             exponent no aqueous solver represents"
+        ))
+    }
+}
+
+/// The pH slot's filler for the endpoints that do not consult it. Neutral
+/// rather than a sentinel: `Operator::Titrate::target_ph` stays an ordinary
+/// finite pH so the operator log stays plain JSON.
+const NEUTRAL_PH: f64 = 7.0;
 
 /// Stable parse failure classes for corpus coverage and clients. The legacy
 /// `parse_op` API remains source-compatible; new callers should prefer
@@ -573,6 +622,8 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         "titrate" => {
             // titrate v1 NaOH 1mL until ph 7          (1 mol/L standard)
             // titrate v1 NaOH 0.1M 1mL until ph 7 max 200
+            // titrate v1 KMnO4 0.02M 0.1mL until pe > 8       (EXP-39)
+            // titrate v1 KMnO4 0.02M 0.1mL until colour persists
             //
             // The burette holds a *standard solution*, not the pure
             // substance: `<c>M` states its concentration, defaulting to
@@ -581,10 +632,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             // dose ~50× per mL for NaOH and leap the whole curve in one
             // step, which is what this grammar replaced.)
             if words.len() < 7 {
-                return Err(
-                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
-                        .into(),
-                );
+                return Err(TITRATE_USAGE.into());
             }
             let vessel = parse_vessel(words[1])?;
             let titrant_key = words[2];
@@ -598,27 +646,76 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 return Err("titrant concentration must be positive".into());
             }
             if rest.len() < 4 {
-                return Err(
-                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
-                        .into(),
-                );
+                return Err(TITRATE_USAGE.into());
             }
             let step = parse_volume(rest[0])?;
-            if rest[1] != "until" || rest[2] != "ph" {
-                return Err(
-                    "usage: titrate <vessel> <titrant> [<c>M] <step> until ph <target> [max <n>]"
-                        .into(),
-                );
+            finite(step.0, "burette increment")?;
+            finite(concentration, "titrant concentration")?;
+            if rest[1] != "until" {
+                return Err(TITRATE_USAGE.into());
             }
-            let target_ph: f64 = rest[3]
-                .parse()
-                .map_err(|_| format!("bad pH target '{}'", rest[3]))?;
-            let max_steps = match (rest.get(4), rest.get(5)) {
+            // EXP-39: three endpoints. `ph` is CAP-12's and keeps its
+            // exact spelling and its exact meaning — a crossing, in
+            // whichever direction the curve arrives from. The two redox
+            // endpoints are inequalities, because past equivalence a
+            // potential keeps climbing and a colour keeps standing.
+            let (endpoint, target_ph, tail) = match rest[2] {
+                "ph" => {
+                    let target: f64 = rest[3]
+                        .parse()
+                        .map_err(|_| format!("bad pH target '{}'", rest[3]))?;
+                    // `"1e999".parse::<f64>()` is `Ok(inf)`, and serde_json
+                    // cannot write an infinity — so an endpoint like that
+                    // parses, runs, and then produces an operator log the
+                    // bench cannot save. The grammar fuzz target found it.
+                    log_scale(target, "pH target")?;
+                    (Endpoint::Ph, target, &rest[4..])
+                }
+                "pe" => {
+                    if rest.len() < 5 {
+                        return Err("usage: titrate <vessel> <titrant> [<c>M] <step> until \
+                                    pe <op> <value> [max <n>], where <op> is > >= < <="
+                            .into());
+                    }
+                    let compare = match rest[3] {
+                        ">" | "above" => Compare::Above,
+                        ">=" => Compare::AtLeast,
+                        "<" | "below" => Compare::Below,
+                        "<=" => Compare::AtMost,
+                        other => {
+                            return Err(format!(
+                                "'{other}' is not a comparison — write `until pe > 8`, \
+                                 `>=`, `<` or `<=` (or the words `above`/`below`)"
+                            ))
+                        }
+                    };
+                    let value: f64 = rest[4]
+                        .parse()
+                        .map_err(|_| format!("bad pe target '{}'", rest[4]))?;
+                    log_scale(value, "pe target")?;
+                    (Endpoint::Pe { compare, value }, NEUTRAL_PH, &rest[5..])
+                }
+                "colour" | "color" => {
+                    if rest.get(3) != Some(&"persists") {
+                        return Err("usage: titrate <vessel> <titrant> [<c>M] <step> until \
+                                    colour persists [max <n>]"
+                            .into());
+                    }
+                    (Endpoint::ColourPersists, NEUTRAL_PH, &rest[4..])
+                }
+                other => {
+                    return Err(format!(
+                        "'{other}' is not an endpoint — this bench titrates until \
+                         `ph <target>`, `pe <op> <value>`, or `colour persists`"
+                    ))
+                }
+            };
+            let max_steps = match (tail.first(), tail.get(1)) {
                 (Some(&"max"), Some(n)) => {
                     n.parse().map_err(|_| format!("bad max step count '{n}'"))?
                 }
                 (None, _) => 100,
-                _ => return Err("after the pH target, only `max <n>` may follow".into()),
+                _ => return Err("after the endpoint, only `max <n>` may follow".into()),
             };
             Operator::Titrate {
                 vessel,
@@ -627,6 +724,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 step,
                 target_ph,
                 max_steps,
+                endpoint,
             }
         }
         "mix" => {

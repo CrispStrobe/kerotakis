@@ -41,6 +41,20 @@ enum RandOp {
     Dilute {
         volume_ml: f64,
     },
+    /// EXP-39: the burette. In this bench no aqueous solver is wired, so
+    /// the loop deposits exactly one increment and then says honestly
+    /// that it cannot read a pH — which is what `lessons/titration.lab`'s
+    /// golden has pinned since CAP-12. That makes the delivered amount
+    /// exactly `concentration x step` of titrant plus the carrier water
+    /// of one step volume, for every endpoint, and *that* is the
+    /// invariant worth holding: a burette delivers what it says it
+    /// delivers, and changing what stops it must not change what it
+    /// pours.
+    Titrate {
+        concentration: f64,
+        step_ml: f64,
+        endpoint: u8,
+    },
 }
 
 fn rand_op() -> impl Strategy<Value = RandOp> {
@@ -65,6 +79,13 @@ fn rand_op() -> impl Strategy<Value = RandOp> {
         }),
         Just(RandOp::Measure),
         (1.0f64..500.0).prop_map(|volume_ml| RandOp::Dilute { volume_ml }),
+        (0.01f64..2.0, 0.05f64..5.0, 0u8..3).prop_map(|(concentration, step_ml, endpoint)| {
+            RandOp::Titrate {
+                concentration,
+                step_ml,
+                endpoint,
+            }
+        }),
     ]
 }
 
@@ -167,6 +188,31 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 volume: Liters(*volume_ml / 1000.0),
             })
             .map(|_| 0.0),
+        RandOp::Titrate {
+            concentration,
+            step_ml,
+            endpoint,
+        } => bench
+            .step(Operator::Titrate {
+                vessel: pick(0),
+                titrant: SpeciesId::new("NaOH"),
+                concentration: *concentration,
+                step: Liters(*step_ml / 1000.0),
+                target_ph: 7.0,
+                max_steps: 8,
+                endpoint: match endpoint {
+                    0 => kerotakis_core::ops::Endpoint::Ph,
+                    1 => kerotakis_core::ops::Endpoint::Pe {
+                        compare: kerotakis_core::ops::Compare::Above,
+                        value: 8.0,
+                    },
+                    _ => kerotakis_core::ops::Endpoint::ColourPersists,
+                },
+            })
+            // Titrant and its carrier water enter at the standard
+            // temperature and the adiabatic mix conserves enthalpy, so
+            // no heat is deliberately added.
+            .map(|_| 0.0),
     };
     result.ok()
 }
@@ -181,7 +227,7 @@ proptest! {
         let mut bench = Bench::new();
         let mut added: std::collections::BTreeMap<&str, f64> = Default::default();
         for op in &ops {
-            let before: Vec<f64> = ["water", "ethanol", "NaCl"]
+            let before: Vec<f64> = ["water", "ethanol", "NaCl", "NaOH"]
                 .iter()
                 .map(|k| bench.total_moles(&SpeciesId::new(k)).0)
                 .collect();
@@ -201,9 +247,15 @@ proptest! {
                     *added.entry("water").or_default() +=
                         data.moles_from_liters(Liters(*volume_ml / 1000.0)).0;
                 }
+                if let RandOp::Titrate { concentration, step_ml, .. } = op {
+                    let step = Liters(*step_ml / 1000.0);
+                    let data = kerotakis_core::species::lookup(&SpeciesId::new("water")).unwrap();
+                    *added.entry("NaOH").or_default() += concentration * step.0;
+                    *added.entry("water").or_default() += data.moles_from_liters(step).0;
+                }
             } else {
                 // A rejected op must not have mutated anything.
-                for (i, k) in ["water", "ethanol", "NaCl"].iter().enumerate() {
+                for (i, k) in ["water", "ethanol", "NaCl", "NaOH"].iter().enumerate() {
                     prop_assert!((bench.total_moles(&SpeciesId::new(k)).0 - before[i]).abs() < 1e-12);
                 }
             }

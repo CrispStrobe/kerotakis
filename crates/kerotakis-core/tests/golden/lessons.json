@@ -1277,6 +1277,48 @@
       }
     ]
   },
+  "permanganate-standardisation": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0020 mol sulfuric acid",
+      "v1: +0.0002 mol oxalic acid",
+      "v1: 0.0002 mol oxalic acid dissolved",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired"
+    ],
+    "lesson": "permanganate-standardisation.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0002,
+            "phase": "Aqueous",
+            "species": "H2C2O4"
+          },
+          {
+            "moles": 0.002,
+            "phase": "Liquid",
+            "species": "H2SO4"
+          },
+          {
+            "moles": 1e-6,
+            "phase": "Solid",
+            "species": "KMnO4"
+          },
+          {
+            "moles": 5.53704413,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "rates": {
     "event_count": 24,
     "events_sample": [

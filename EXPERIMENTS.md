@@ -747,6 +747,94 @@ only the genuinely new remainder.
   as the classic primary standard. Acceptance: KMnO4 standardised
   against oxalic acid to a value-claim; endpoint within one drop;
   both endpoint modes tested.
+  **DONE** (2026-08-30). `titrate ... until` grew two endpoints beside
+  CAP-12's `ph <target>`, which is untouched and still the default:
+  `until pe <op> <value>` (`>`, `>=`, `<`, `<=`, and the words
+  `above`/`below`) and `until colour persists`. Both read state the
+  engine already computes.
+
+  The potentiometric endpoint is the aqueous engine's own pe —
+  `SolutionInfo::pe`, the electron activity the coupled redox solve has
+  to find anyway to distribute manganese between its oxidation states.
+  No new solver, and no number invented where there is none: a step
+  where the engine withholds pe (at equivalence both members of the
+  couple are spent, the electron balance has no root, and publishing
+  the top of the search bracket would be republishing a ceiling as a
+  measurement) never satisfies the comparison, and contributes no point
+  to the curve.
+
+  **The reported gap: pe is wired but flat.** The potentiometric mode
+  works — it fires, it refuses with a reason, it charts — but on this
+  system the engine cannot deliver a *curve* in pe, for two independent
+  reasons, both pinned by tests rather than worked around. Open, the
+  flask reads its own oxygen: the atmospheric couple buffers pe at
+  19.016 and it does not move over the titration (19.01579 → 19.01523),
+  so `until pe > 5` is satisfied by the first drop. Swept of air, the
+  only redox element left is manganese and the curated row holds all of
+  it at Mn(II) until equivalence — one oxidation state is not a couple,
+  and what comes back is not a *withheld* pe but a flat 4.0 at every one
+  of 150 increments, which is the pe of the input republished as an
+  answer. The engine already knows how to withhold a potential it cannot
+  determine (`redox.rs::the_equivalence_point_reports_no_potential`); it
+  does not do so here. That is an engine finding, not an endpoint bug,
+  and `a_swept_flask_reports_the_default_pe_rather_than_the_couple`
+  fails loudly on the day it is fixed.
+
+  The self-indicating endpoint contains no visibility constant at all.
+  It reads the flask's computed colour *word* — registry ε(λ) for
+  MnO4⁻, Beer–Lambert over the vessel's own path length, the CIE 1931
+  observer, `appearance::colour_word` — and fires on the first
+  increment whose word differs from the word the flask had before the
+  burette was opened. Permanganate is its own indicator here for the
+  same reason it is one in a flask: ε peaks at 2400 L·mol⁻¹·cm⁻¹ at
+  525 nm, so ~10⁻⁵ mol/L is already pink. A species with no curated
+  spectrum simply cannot end a titration this way, and the bench says
+  so rather than failing quietly.
+
+  **The oxalate finding.** No PHREEQC database this lab ships
+  speciates oxalate. `phreeqc.dat`, `wateq4f.dat`, `minteq.v4.dat` and
+  `pitzer.dat` contain no oxalate master species, no solution species,
+  nothing; the only vendored database that spells `C2O4-2` at all is
+  `llnl-organics/llnl_organics.dat`, which is not shipped, has no
+  oxalate master species, and writes both `C2O4-2` and `C2H2O4`
+  themselves as redox reactions off acetate/bicarbonate with O₂ in the
+  equation — so even routing to it would make oxalate's existence
+  depend on the pe. So the coupled solve cannot find this reaction,
+  and the standardisation rides two curated rows (CAP-23 rung-2
+  pattern) instead — one from the burette's solid KMnO₄, one from the
+  dissolved MnO₄⁻. Oxalic acid enters the registry with
+  `dissolves_without_speciation`, and its pKa values are therefore
+  explicitly not modelled.
+
+  **The boundary, stated.** The textbook equation is acidic —
+  2 MnO₄⁻ + 5 H₂C₂O₄ + 6 H⁺ → 2 Mn²⁺ + 10 CO₂ + 8 H₂O — and a vessel
+  on this bench has no proton portion: protons live in PHREEQC's charge
+  balance, not in the inventory. The rows are written in the equivalent
+  basic form (the same reaction plus 6 H₂O on both sides), so the six
+  protons leave as six hydroxides and the flask's sulfuric acid
+  neutralises them on the next solve. Same electrons, same mass, same
+  acid consumed — and the same convention the aqueous
+  permanganate–ethanol row has used since CAP-23. The rows also do not
+  claim the acid or the ~60 °C the real reaction needs to start: they
+  fire on contact, and that is stated rather than gated wrongly.
+
+  The grammar fuzz target earned its keep immediately: it found that
+  `1e999` parses to `f64::INFINITY` and serde_json refuses to write one,
+  so a titration with an infinite target ran and then produced an
+  operator log the bench could not save itself with. The pH slot had
+  carried that hole since CAP-12. Every numeric slot in the verb now
+  refuses a non-finite value and says why.
+
+  Also landed: the curve gains `pe_curve` additively (sparse — a
+  missing point is a withheld potential, which is where the endpoint
+  is) plus `endpoint_reached` and `endpoint`; a second CAP-3 chart with
+  a `pe` y axis, emitted as a `scatter` so nothing is drawn through the
+  gap; three-register narration in English and German for the redox
+  endpoints; refusals that distinguish "pe never got high enough" from
+  "pe was never definable"; the `lab_grammar` fuzz target extended to
+  feed its bytes straight into the endpoint grammar with an operator
+  round-trip assertion; a `Titrate` arm in the conservation proptest;
+  and `lessons/permanganate-standardisation.lab`.
 - **EXP-40 — Biomolecule assays** — the food-test canon: reducing
   sugars (Fehling/Benedict class), proteins (Biuret), starch (Lugol,
   already in EXP-14), fats (grease-spot/emulsion tie to EXP-10).

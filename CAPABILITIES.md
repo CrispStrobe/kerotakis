@@ -672,6 +672,15 @@ heavy). **Depends on:** nothing.
       golden regenerated with both lessons, help text completed for
       all verbs. Titrate reports `NotYetModeled` when no aqueous
       solver is wired — the verb is honest.
+      **EXP-39 (2026-08-30) completed the endpoint half of the scope
+      line below**: `until <ph OP value | endpoint <indicator>>` is now
+      `until <ph <target> | pe <op> <value> | colour persists>`. The
+      pH endpoint is byte-for-byte what it was; the two redox endpoints
+      read the aqueous engine's own pe and the bench's own computed
+      colour, and refuse politely with the reason when the endpoint is
+      unreachable. The named-indicator spelling remains open — the
+      indicator machinery in `indicator.rs` is still not wired to
+      `titrate`.
 
 **Why.** Titration — the quantitative heart of school chemistry — is
 currently spelled as a dozen hand-written `add` lines, and there is no

@@ -21,7 +21,7 @@ cargo-fuzz 0.13 accepts it after and then ignores it.
 
 | Target | What it feeds | First run |
 |---|---|---|
-| `lab_grammar` | `script::parse_op` / `parse_vessel` | 2026-08-20: 4.4M runs, clean |
+| `lab_grammar` | `script::parse_op` / `parse_vessel`, and the same bytes as a `titrate … until <endpoint>` tail with an operator round-trip assertion (EXP-39) | 2026-08-20: 4.4M runs, clean |
 | `stoich` | `parse_equation` + `balance` | 2026-08-20: found a real panic in minutes |
 | `dbindex` | `DbIndex::parse` on corrupted database bytes | 2026-08-20: 2.3M runs, clean |
 | `bench_ops` | arbitrary operator sequences through the bench, NaN and infinity included | 2026-08-20: 3.2M runs, clean |

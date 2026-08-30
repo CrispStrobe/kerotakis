@@ -118,6 +118,71 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
     },
+    // ── EXP-39: the permanganate–oxalate standardisation ──────────
+    //
+    // The classic primary standard, and the one titration in the school
+    // canon whose endpoint you can see without an indicator. It rides a
+    // curated row rather than the aqueous engine for a stated reason:
+    // NO shipped PHREEQC database speciates oxalate. phreeqc.dat,
+    // wateq4f.dat, minteq.v4.dat and pitzer.dat carry no oxalate master
+    // species, no solution species, nothing — the only vendored database
+    // that spells C2O4-2 at all is llnl_organics.dat, which is not
+    // shipped and which writes oxalate as a redox reaction off acetate
+    // and O2 with no master species of its own. So the coupled solve
+    // cannot find this reaction, and pretending otherwise would be worse
+    // than curating it.
+    //
+    // The textbook equation is the acidic one:
+    //
+    //     2 MnO4- + 5 H2C2O4 + 6 H+ -> 2 Mn2+ + 10 CO2 + 8 H2O
+    //
+    // and the six protons are the boundary this row states. A vessel on
+    // this bench has no proton portion — protons live in PHREEQC's
+    // charge balance, not in the inventory — so a curated aqueous row
+    // cannot consume H+ as matter. It is written in the equivalent basic
+    // form instead, which is the same reaction with 6 H2O added to both
+    // sides: the six protons leave as six hydroxides, and the sulfuric
+    // acid the practical puts in the flask neutralises them on the next
+    // solve. Same electrons, same mass, same acid consumed. It is the
+    // convention the aqueous permanganate–ethanol row above already
+    // uses, for the same reason.
+    //
+    // What this row therefore does NOT claim: that the reaction stops
+    // without acid. It fires on contact, where the real one needs the
+    // acidic medium and ~60 C to start. Both are conditions this bench
+    // does not gate on, and stating that is cheaper than a wrong gate.
+    CuratedReaction {
+        equation: "2 MnO₄⁻ + 5 H₂C₂O₄ → 2 Mn²⁺ + 10 CO₂↑ + 2 H₂O + 6 OH⁻",
+        reactants: &[("MnO4-", 2.0), ("H2C2O4", 5.0)],
+        products: &[
+            ("Mn+2", 2.0, Phase::Aqueous),
+            ("CO2", 10.0, Phase::Gas),
+            ("water", 2.0, Phase::Liquid),
+            ("OH-", 6.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
+    // The same reaction reached from the solid in the burette: the
+    // titrant is dosed as KMnO4 and the curated stage runs before the
+    // aqueous one, so the first thing this reaction ever sees is the
+    // undissolved salt. Potassium spectates and is booked as the ion the
+    // databases would have given it.
+    CuratedReaction {
+        equation: "2 KMnO₄ + 5 H₂C₂O₄ → 2 Mn²⁺ + 2 K⁺ + 10 CO₂↑ + 2 H₂O + 6 OH⁻",
+        reactants: &[("KMnO4", 2.0), ("H2C2O4", 5.0)],
+        products: &[
+            ("Mn+2", 2.0, Phase::Aqueous),
+            ("K+", 2.0, Phase::Aqueous),
+            ("CO2", 10.0, Phase::Gas),
+            ("water", 2.0, Phase::Liquid),
+            ("OH-", 6.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
     // in the organic solvent, drawing from the dissolved fraction.
