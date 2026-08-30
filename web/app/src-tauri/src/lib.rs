@@ -264,6 +264,10 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 .map(|s| {
                     let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                     let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
+                    // GUI-093: the same four derivation inputs the wasm
+                    // bridge sends, so the desktop shell groups the shelf
+                    // by role exactly as the web one does.
+                    let composition = kerotakis_core::stoich::parse_formula(s.formula).ok();
                     json!({
                         "key": s.key,
                         "name": s.name,
@@ -277,6 +281,12 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                         "provenance": s.provenance,
                         "hazards": hazards,
                         "hazard_assessed": assessed,
+                        "reactive_groups": kerotakis_safety::groups(s.key),
+                        "elements": composition.as_ref().map(|f| &f.counts),
+                        "charge": composition.as_ref().map(|f| f.charge),
+                        "indicator": kerotakis_core::indicator::lookup(s.key).is_some(),
+                        "solvent": kerotakis_core::nonaqueous::KNOWN_SOLVENTS.contains(&s.key)
+                            || s.key == "water",
                     })
                 })
                 .collect();
@@ -329,6 +339,10 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                     "hazards": hazards,
                     "hazard_assessed": assessed,
                     "material": true,
+                    "components": component_species
+                        .iter()
+                        .map(|species| species.key)
+                        .collect::<Vec<_>>(),
                 })
             }));
             Ok(Value::Array(list).to_string())

@@ -9,6 +9,7 @@
   import { stockRemaining } from "../storyStock";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
+  import { deriveShelfRoles, ROLE_LABELS, REAGENT_ROLES, type ReagentRole } from "../reagentRoles";
 
   let {
     items,
@@ -60,9 +61,31 @@
     if (phase && !phases.includes(phase)) phase = null;
   });
 
+  /**
+   * GUI-093: the chemistry axis beside the phase one. Roles are derived
+   * from engine data (see reagentRoles.ts) over the whole catalogue, so a
+   * material can be classified by the components it names, and the chips
+   * then offer only the roles the visible shelf actually contains.
+   */
+  let role = $state<ReagentRole | null>(null);
+  const roleIndex = $derived(deriveShelfRoles(items));
+  const rolesOf = (key: string): readonly ReagentRole[] => roleIndex.get(key) ?? [];
+  const roles = $derived(
+    REAGENT_ROLES.filter((candidate) =>
+      // i18n-ok: `candidate` is a role key, not a rendered string, and the
+      // chips keep REAGENT_ROLES' pedagogical order in every language
+      // rather than re-sorting acid/base/salt alphabetically per locale.
+      visible.some((item) => rolesOf(item.key).includes(candidate)),
+    ),
+  );
+  $effect(() => {
+    if (role && !roles.includes(role)) role = null;
+  });
+
   const filtered = $derived(
     visible.filter((s) => {
       if (phase && s.phase !== phase) return false;
+      if (role && !rolesOf(s.key).includes(role)) return false;
       const q = query.trim().toLowerCase();
       if (!q) return true;
       return reagentMatches(s, q, t(s.name));
@@ -90,6 +113,7 @@
     handledFocus = focusRequest.nonce;
     query = t(item.name);
     phase = null;
+    role = null;
     open = item.key;
     const suggested = suggestedAmount(item.phase, targetCapacityMl);
     amountValue = suggested.value;
@@ -122,6 +146,21 @@
           onclick={() => (phase = phase === p ? null : p)}
         >
           {t(p)}
+        </button>
+      {/each}
+    </div>
+  {/if}
+  {#if roles.length > 1}
+    <div class="roles" role="radiogroup" aria-label={t("role filter")}>
+      {#each roles as r (r)}
+        <button
+          data-role={r}
+          role="radio"
+          aria-checked={role === r}
+          class:on={role === r}
+          onclick={() => (role = role === r ? null : r)}
+        >
+          {t(ROLE_LABELS[r])}
         </button>
       {/each}
     </div>
@@ -250,6 +289,41 @@
   .phases button[data-phase="liquid"] { --phase-color: var(--instrument); }
   .phases button[data-phase="gas"] { --phase-color: var(--discovery); }
   .phases button[data-phase="solid"] { --phase-color: var(--action); }
+  /* The chemistry axis reads as a second row of the same chip, one step
+     quieter than the phase row above it: the phase filter is where the
+     eye lands first, and two equally loud rows would compete. */
+  .roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0.3rem 0.8rem 0;
+  }
+  .roles button {
+    --role-color: var(--dim);
+    background: transparent;
+    border: 1px dashed color-mix(in srgb, var(--role-color) 40%, var(--edge));
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--role-color) 80%, var(--ink));
+    font: inherit;
+    font-size: 0.68rem;
+    padding: 0.12rem 0.55rem;
+    cursor: pointer;
+  }
+  .roles button.on {
+    color: var(--ink);
+    border-style: solid;
+    border-color: var(--role-color);
+    background: color-mix(in srgb, var(--role-color) 16%, var(--surface));
+  }
+  .roles button[data-role="acid"] { --role-color: var(--warning); }
+  .roles button[data-role="base"] { --role-color: var(--instrument); }
+  .roles button[data-role="oxidiser"],
+  .roles button[data-role="reducer"] { --role-color: var(--discovery); }
+  .roles button[data-role="metal"] { --role-color: var(--action); }
+  .roles button[data-role="indicator"] { --role-color: var(--primary); }
+  /* "Unsorted" is a gap in the data, not a category — it stays grey so it
+     never reads as a chemical family of its own. */
+  .roles button[data-role="unsorted"] { --role-color: var(--dim); font-style: italic; }
   .none {
     color: var(--dim);
     font-size: 0.8rem;

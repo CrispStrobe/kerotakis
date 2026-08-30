@@ -13,6 +13,10 @@ import {
   positionFor,
   positionApparatus,
   positionVessel,
+  tidyLayout,
+  tidyOrder,
+  tidySlots,
+  vesselContent,
   zoneFor,
 } from "./benchLayout";
 
@@ -115,5 +119,69 @@ describe(".lab arrangement metadata", () => {
   it("leaves legacy and malformed files without an imported arrangement", () => {
     expect(benchLayoutFromLab("add v1 water 10mL\n")).toBeNull();
     expect(benchLayoutFromLab("# kerotakis-bench-layout-v2 nope\nnew\n")).toBeNull();
+  });
+});
+
+describe("tidying the bench (GUI-094)", () => {
+  /** The slice of a rendered scene vessel that the ordering reads. */
+  type SceneLike = {
+    id: number;
+    liquid?: { volume_l: number } | null;
+    solids?: { moles: number }[];
+  };
+  const liquid = (id: number): SceneLike => ({ id, liquid: { volume_l: 0.05 }, solids: [] });
+  const solid = (id: number): SceneLike => ({ id, liquid: null, solids: [{ moles: 0.01 }] });
+  const empty = (id: number): SceneLike => ({ id, liquid: null, solids: [] });
+  const state = (vessel: SceneLike) => ({ id: vessel.id, content: vesselContent(vessel) });
+
+  it("reads what a vessel is holding off the rendered scene", () => {
+    expect(vesselContent(liquid(0))).toBe("liquid");
+    expect(vesselContent(solid(0))).toBe("solid");
+    expect(vesselContent(empty(0))).toBe("empty");
+    // A poured-out vessel keeps its zero-volume liquid and zero-mole
+    // solids; both have to read as empty or "tidy" would never move them.
+    expect(vesselContent({ liquid: { volume_l: 0 }, solids: [{ moles: 0 }] })).toBe("empty");
+    expect(vesselContent({})).toBe("empty");
+  });
+
+  it("groups by state and keeps creation order inside a group", () => {
+    const order = tidyOrder([
+      state(empty(0)),
+      state(liquid(1)),
+      state(solid(2)),
+      state(empty(3)),
+      state(liquid(4)),
+    ]);
+    expect(order).toEqual([1, 4, 2, 0, 3]);
+    // Stable: two vessels in the same state are never swapped.
+    expect(tidyOrder([state(empty(5)), state(empty(2))])).toEqual([2, 5]);
+    expect(tidyOrder([])).toEqual([]);
+  });
+
+  it("lays that order across the bench without stacking anything", () => {
+    const before = positionVessel(EMPTY_BENCH_LAYOUT, 0, 0.9, 0.8);
+    const after = tidyLayout(before, [state(empty(0)), state(liquid(1))]);
+    const slots = tidySlots();
+    expect(after.placements[1]).toEqual(slots[0]);
+    expect(after.placements[0]).toEqual(slots[1]);
+    expect(placementsOverlap(after.placements[0]!, after.placements[1]!)).toBe(false);
+    // Immutable, like every other move here.
+    expect(before.placements[0]).toEqual({ zone: "analyse", x: 0.9, y: 0.8 });
+  });
+
+  it("leaves apparatus placement and unplaceable extras alone", () => {
+    const withTool = positionApparatus(EMPTY_BENCH_LAYOUT, "centrifuge", 0.18, 0.22);
+    const many = Array.from({ length: 17 }, (_, id) => state(empty(id)));
+    const tidied = tidyLayout(withTool, many);
+    expect(tidied.apparatus).toEqual(withTool.apparatus);
+    expect(tidied.version).toBe(2);
+    // Fifteen slots exist; the sixteenth and seventeenth vessels keep
+    // whatever position they had rather than being piled on the first.
+    expect(Object.keys(tidied.placements)).toHaveLength(tidySlots().length);
+  });
+
+  it("survives the save/load round trip, so a tidy outlasts a reload", () => {
+    const tidied = tidyLayout(EMPTY_BENCH_LAYOUT, [state(liquid(1)), state(empty(0))]);
+    expect(parseBenchLayout(JSON.stringify(tidied))).toEqual(tidied);
   });
 });

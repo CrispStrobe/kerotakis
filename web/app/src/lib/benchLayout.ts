@@ -146,16 +146,80 @@ export function placeNewVessel(
     ...obstacles,
   ];
   const preferred = defaultPosition(vessel);
-  const slots = [
-    preferred,
-    ...[0.31, 0.53, 0.75].flatMap((y) =>
-      [0.12, 0.31, 0.5, 0.69, 0.88].map((x) => ({ zone: zoneAt(x), x, y })),
-    ),
-  ];
+  const slots = [preferred, ...tidySlots()];
   const open = slots.find((candidate) =>
     occupied.every((position) => !placementsOverlap(candidate, position)),
   );
   return open ? positionVessel(layout, vessel, open.x, open.y) : layout;
+}
+
+/**
+ * GUI-094 — what a vessel is holding, for the tidy ordering below.
+ *
+ * Read off the rendered scene, so it agrees with what is on screen rather
+ * than with a second opinion about the chemistry. Zero-volume liquid and
+ * zero-mole solids are what a poured-out vessel leaves behind, so both
+ * are checked by amount and not by presence.
+ */
+export type VesselContent = "liquid" | "solid" | "empty";
+
+export function vesselContent(vessel: {
+  liquid?: { volume_l: number } | null;
+  solids?: readonly { moles: number }[];
+}): VesselContent {
+  if ((vessel.liquid?.volume_l ?? 0) > 0) return "liquid";
+  if ((vessel.solids ?? []).some((solid) => solid.moles > 0)) return "solid";
+  return "empty";
+}
+
+const CONTENT_RANK: Record<VesselContent, number> = { liquid: 0, solid: 1, empty: 2 };
+
+export interface VesselOrderInput {
+  id: number;
+  content: VesselContent;
+}
+
+/**
+ * The order "tidy" arranges the bench in: what is holding something
+ * first, what is only holding a solid next, empty glassware last — and
+ * within a group, creation order, so a tidy never reshuffles two vessels
+ * that are in the same state. Presentation only: the engine's vessel ids
+ * are untouched and nothing here reaches a command.
+ */
+export function tidyOrder(vessels: readonly VesselOrderInput[]): number[] {
+  // i18n-ok: ordering by content state and vessel id, neither of which is
+  // a rendered string.
+  return [...vessels]
+    .sort((a, b) => CONTENT_RANK[a.content] - CONTENT_RANK[b.content] || a.id - b.id)
+    .map((vessel) => vessel.id);
+}
+
+/** Left-to-right, top-to-bottom slots a tidied bench fills, in order. */
+const TIDY_ROWS = [0.31, 0.53, 0.75];
+const TIDY_COLUMNS = [0.12, 0.31, 0.5, 0.69, 0.88];
+
+export function tidySlots(): BenchPlacement[] {
+  return TIDY_ROWS.flatMap((y) => TIDY_COLUMNS.map((x) => ({ zone: zoneAt(x), x, y })));
+}
+
+/**
+ * Lay the bench out in `tidyOrder` across the reading grid. More vessels
+ * than slots is left alone past the last slot rather than stacked: an
+ * arrangement the user cannot see through would be worse than the one
+ * they already have.
+ */
+export function tidyLayout(
+  layout: BenchLayout,
+  vessels: readonly VesselOrderInput[],
+): BenchLayout {
+  const slots = tidySlots();
+  const placements: Record<number, BenchPlacement> = { ...layout.placements };
+  tidyOrder(vessels).forEach((vessel, index) => {
+    const slot = slots[index];
+    if (!slot) return;
+    placements[vessel] = { ...slot };
+  });
+  return { ...layout, placements };
 }
 
 /** Zone moves remain useful for keyboard users, but preserve vertical placement. */

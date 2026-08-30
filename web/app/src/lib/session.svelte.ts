@@ -70,6 +70,22 @@ export type ShelfItem = {
   density?: number;
   /** A versioned named mixture/object rather than a pure species. */
   material?: boolean;
+  /**
+   * GUI-093 shelf-role inputs. All additive: an older engine build omits
+   * them and `reagentRoles.ts` falls back to what `hazards` still says.
+   */
+  /** Unflattened `kerotakis_safety::groups` rows ("acid_strong", …). */
+  reactive_groups?: string[];
+  /** Element counts from the engine's formula parser. */
+  elements?: Record<string, number>;
+  /** Net charge from the same parse; 0 for a neutral species. */
+  charge?: number;
+  /** In `kerotakis_core::indicator::INDICATORS`. */
+  indicator?: boolean;
+  /** A solvent the engine models solutions in (water, or an organic one). */
+  solvent?: boolean;
+  /** Materials only: the registry keys of what the mixture is made of. */
+  components?: string[];
 };
 
 export type MissionDebrief = {
