@@ -42,11 +42,42 @@ export function summarizeStartup(samples) {
     const values = samples.map((sample) => sample[name]);
     return { median: nearestRank(values, 0.5), p95: nearestRank(values, 0.95) };
   };
+  const raw = {
+    domContentLoadedMs: samples.map((sample) => sample.dom_content_loaded_ms),
+    appReadyMs: samples.map((sample) => sample.app_ready_ms),
+    lightweightReadyMs: samples.map((sample) => sample.lightweight_ready_ms),
+  };
   return {
     runs: samples.length,
+    /** Direct release-gate startup endpoint: ordinary lightweight bench ready. */
+    coldStartupMs: raw.lightweightReadyMs,
+    raw,
     dom_content_loaded_ms: field("dom_content_loaded_ms"),
     app_ready_ms: field("app_ready_ms"),
     lightweight_ready_ms: field("lightweight_ready_ms"),
+  };
+}
+
+export function buildRunEvidence(cpuSamples, rafSamples) {
+  const needed = GPU5_WARMUP_FRAMES + GPU5_MEASURED_FRAMES;
+  if (!Array.isArray(cpuSamples) || cpuSamples.length < needed) throw new Error(`probe needs ${needed} CPU frame samples`);
+  if (!Array.isArray(rafSamples) || rafSamples.length < needed) throw new Error(`probe needs ${needed} rAF samples`);
+  const warmupCpuEncodeSubmitMs = cpuSamples.slice(0, GPU5_WARMUP_FRAMES);
+  const measuredCpuEncodeSubmitMs = cpuSamples.slice(GPU5_WARMUP_FRAMES, needed);
+  const measuredRafIntervalMs = rafSamples.slice(GPU5_WARMUP_FRAMES, needed);
+  // Strict validation is shared with the summaries; raw values remain intact.
+  const cpuSummary = summarizeRun(cpuSamples);
+  const rafSummary = {
+    samples: measuredRafIntervalMs.length,
+    median: nearestRank(measuredRafIntervalMs, 0.5),
+    p95: nearestRank(measuredRafIntervalMs, 0.95),
+    max: nearestRank(measuredRafIntervalMs, 1),
+  };
+  return {
+    warmupCpuEncodeSubmitMs,
+    measuredCpuEncodeSubmitMs,
+    measuredRafIntervalMs,
+    summary: { ...cpuSummary, raf_interval_ms_advisory: rafSummary },
   };
 }
 
@@ -66,6 +97,7 @@ export function emptyReport({ hostLabel, userAgent, startup, fallback, automatio
       per_frame_await: false,
       probe_overhead: "WeakMap bookkeeping plus one numeric sample append per encoder submission and rAF",
       comparison_requires_separate_invocations: true,
+      release_gate_pairing: "pair lightweight.startup.coldStartupMs with webgpu.startup.coldStartupMs and webgpu.runs; add frontend-asset-budget baseline/candidate gzip totals",
     },
     startup,
     fallback,
@@ -81,12 +113,15 @@ export function completeReport(base, runs) {
   if (!Array.isArray(runs) || runs.length !== GPU5_RUNS) {
     throw new Error(`probe needs exactly ${GPU5_RUNS} runs`);
   }
-  const evidenceComplete = base.startup?.runs === 10 && runs.every((run) =>
-    run.samples === GPU5_MEASURED_FRAMES
-      && run.raf_interval_ms_advisory?.samples === GPU5_MEASURED_FRAMES,
+  const evidenceComplete = base.startup?.runs === 10
+    && base.startup?.coldStartupMs?.length === 10
+    && runs.every((run) =>
+      run.warmupCpuEncodeSubmitMs?.length === GPU5_WARMUP_FRAMES
+        && run.measuredCpuEncodeSubmitMs?.length === GPU5_MEASURED_FRAMES
+        && run.measuredRafIntervalMs?.length === GPU5_MEASURED_FRAMES,
   );
   const passed = evidenceComplete
-    && runs.every((run) => run.pass)
+    && runs.every((run) => run.summary?.pass)
     && base.fallback.svg_present_before_gpu === true;
   return {
     ...base,
