@@ -7,6 +7,7 @@
 //! pack behind the runtime registry API.
 
 mod adapter;
+pub mod chebi;
 pub mod model_pack;
 mod pack;
 mod provenance;

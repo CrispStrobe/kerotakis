@@ -29,7 +29,10 @@ fn repository_source_manifest_passes_the_live_gate() {
         String::from_utf8_lossy(&out.stderr)
     );
     let stdout = String::from_utf8(out.stdout).unwrap();
-    assert!(stdout.contains("8 sources valid"), "{stdout}");
+    // BRD-011 added the ChEBI identity slice (CC BY 4.0, release 253) in the
+    // quarantine lane, so the source count rises but the distributed count
+    // does not: a quarantined snapshot ships nowhere.
+    assert!(stdout.contains("9 sources valid"), "{stdout}");
     assert!(stdout.contains("8 distributed"), "{stdout}");
 }
 

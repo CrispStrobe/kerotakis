@@ -1,0 +1,8 @@
+{
+  "adapter_id": "chebi-v1",
+  "canonical_sha256": "78ab879ecfa90ac14ab325009d91bdd08b35bd05bf10df65101796a7571d329f",
+  "field_count": 996,
+  "record_count": 87,
+  "schema": 1,
+  "source_revision": "253"
+}

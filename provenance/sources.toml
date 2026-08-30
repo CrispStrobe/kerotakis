@@ -203,6 +203,72 @@ sha256 = "cf684c72e75af952311e3516646805724993db154602f30ea2026f01cf1999a9"
 path = "vendor/inchi/INCHI_BASE/src/ichi_bns.c"
 sha256 = "5a7aa817de95a5997063a8e656865c773155972abd1e4bb806ef79597f2e31b5"
 
+[[source]]
+id = "ebi-chebi-identity-slice"
+name = "ChEBI identity and ontology slice (release 253)"
+kind = "data"
+lane = "quarantine"
+decision = "approved"
+licence = "CC-BY-4.0"
+origin = "https://ftp.ebi.ac.uk/pub/databases/chebi/archive/rel253/flat_files"
+terms = "https://ftp.ebi.ac.uk/pub/databases/chebi/archive/rel253/flat_files/LICENSE"
+copyright = "EMBL-EBI and the ChEBI curation team"
+retrieved = "2026-08-29"
+attribution = "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0"
+paths = ["crates/kerotakis-data/tests/fixtures/quarantine/chebi-v1"]
+allowed_outputs = ["quarantine-candidate"]
+reviewer = "Kerotakis engineering policy audit (BRD-011)"
+notes = """
+BRD-011. Pinned to ChEBI release 253 (dated 2026-07-07), taken from the \
+immutable per-release archive rather than the rolling current/ directory, so \
+the snapshot is reproducible. Only a curated subset of 87 reviewed three-star \
+entities is committed, not a ChEBI extract of any size: the tables read are \
+compounds, names, chemical_data, structures, relation and relation_type, and \
+the committed artifact is a single JSON snapshot whose checksum is pinned \
+below and in the adapter's manifest.
+
+LICENCE REVIEW HAPPENED; CC BY 4.0 IS ITS VERDICT, reached on two \
+authoritative sources against one stale line of prose: \
+the README in ChEBI's flat_files directory calls the terms "CC \
+Attribution-ShareAlike 4.0 International" and then says "see LICENSE file". \
+The LICENSE file beside it is the verbatim text of CC BY 4.0 and contains no \
+ShareAlike condition anywhere (the flat_files and ontology copies are \
+byte-identical, sha256 e1d6ea57...). ChEBI's official about page \
+(https://www.ebi.ac.uk/chebi/about) states it in prose as well: "The data on \
+this website is available under the Creative Commons License (CC BY 4.0)". \
+Two authoritative statements — the shipped licence text and the project's own \
+about page — agree on CC BY 4.0; the flat-file README's ShareAlike wording is \
+a stale line that contradicts the LICENSE file it points the reader at. The \
+decision is therefore approved at CC-BY-4.0, and this note records the \
+conflicting line so a future reviewer meets the evidence rather than \
+rediscovering the doubt.
+
+This mattered: ROADMAP-Webapp.md's 2026-08-23 decision keeps CC BY-SA material \
+out of store builds entirely, so the README read literally would have excluded \
+ChEBI from the runtime lane altogether. If EMBL-EBI ever confirms ShareAlike, \
+this record and the adapter's CHEBI_LICENCE constant are the two places to \
+change, and the promotion lint refuses on its own thereafter.
+
+FOLLOW-UP OWED UPSTREAM: report the stale README line to EMBL-EBI so the \
+flat-file README matches the LICENSE file and the about page.
+
+Lane is quarantine, which reaches no runtime path and no release payload by \
+construction, so this record clears ChEBI for nothing: promotion into a \
+shipping lane is its own reviewed record, written when a pack actually needs \
+these fields. `allowed_outputs` is quarantine-candidate alone and there are no \
+targets, because a quarantined snapshot ships to none. The adapter \
+(crates/kerotakis-data/src/chebi.rs) stops at BRD-003 quarantine and nothing \
+from this source is in the runtime registry. Per-record CC BY attribution \
+travels as an ordinary promotable candidate field so it survives into a \
+compiled pack manifest rather than living only in a build script. ChEBI \
+ontology roles may seed search tags only — the adapter's role firewall refuses \
+any policy that aims them at a safety or reactivity target.
+"""
+
+[[source.checksum]]
+path = "crates/kerotakis-data/tests/fixtures/quarantine/chebi-v1/raw/chebi-rel253.json"
+sha256 = "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
+
 # ---------------------------------------------------------------------------
 # BRD-040 — Cantera mechanism and API audit (2026-08-29).
 #
@@ -213,4 +279,3 @@ sha256 = "5a7aa817de95a5997063a8e656865c773155972abd1e4bb806ef79597f2e31b5"
 # remains usable as an oracle: running a mechanism outside the repository to
 # check a Kerotakis answer distributes nothing.
 # ---------------------------------------------------------------------------
-

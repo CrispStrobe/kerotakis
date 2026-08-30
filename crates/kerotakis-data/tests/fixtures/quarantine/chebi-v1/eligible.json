@@ -1,0 +1,23 @@
+[
+  {
+    "adapter_id": "chebi-v1",
+    "external_record_id": "CHEBI:15377",
+    "fields": [
+      "chebi_id",
+      "canonical_name",
+      "formula",
+      "average_mass",
+      "standard_inchi_key",
+      "attribution"
+    ]
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "external_record_id": "CHEBI:15366",
+    "fields": [
+      "canonical_name",
+      "search_tags_from_roles",
+      "attribution"
+    ]
+  }
+]
