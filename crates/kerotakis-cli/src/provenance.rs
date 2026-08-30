@@ -82,6 +82,13 @@ enum Lane {
     OracleOnly,
     DevelopmentTool,
     Blocked,
+    /// A pinned upstream snapshot held by the BRD-003 quarantine
+    /// framework: committed for reproducibility, checksummed, and by
+    /// construction outside every runtime path and release payload.
+    /// Cleared for nothing — promotion into a shipping lane is its own
+    /// reviewed record. This is the lane the importer adapters
+    /// (BRD-010/011/013/060) put raw source bytes in.
+    Quarantine,
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq)]
@@ -648,6 +655,41 @@ sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
                 .iter()
                 .any(|problem| problem.contains("hexadecimal object id")),
             "{problems:?}"
+        );
+    }
+
+    #[test]
+    fn a_quarantine_snapshot_may_await_its_review() {
+        // The importer adapters commit pinned upstream bytes into the
+        // BRD-003 quarantine, cleared for nothing. That lane ships in no
+        // payload, so the distributed-means-approved rule must not force
+        // a verdict that has not been reached — review-required is the
+        // truthful state while a licence question stands.
+        let mut manifest = valid_manifest();
+        let source = &mut manifest.sources[0];
+        source.lane = Lane::Quarantine;
+        source.decision = Decision::ReviewRequired;
+        let problems = manifest.problems(Path::new("."));
+        assert!(
+            !problems
+                .iter()
+                .any(|p| p.contains("is distributed but decision")),
+            "quarantine is not a distributed lane: {problems:?}"
+        );
+    }
+
+    #[test]
+    fn a_distributed_lane_still_demands_a_verdict() {
+        // The teeth stay in: anything that actually ships remains
+        // approved-or-refused, never pending.
+        let mut manifest = valid_manifest();
+        manifest.sources[0].decision = Decision::ReviewRequired;
+        let problems = manifest.problems(Path::new("."));
+        assert!(
+            problems
+                .iter()
+                .any(|p| p.contains("is distributed but decision")),
+            "runtime-data must refuse a pending review: {problems:?}"
         );
     }
 }
