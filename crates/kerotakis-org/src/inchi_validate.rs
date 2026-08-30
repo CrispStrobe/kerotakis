@@ -142,6 +142,39 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
         "phenolphthalein",
         "OC1=CC=C(C=C1)C1(OC(=O)C2=CC=CC=C12)C1=CC=C(O)C=C1",
     ),
+    // --- BRD-012.S03: the food-chemistry tranche ---
+    //
+    // These two SMILES are the only ones in this table that carry
+    // tetrahedral stereo descriptors, and adding them found out something
+    // about the pipeline: it drops them. The route from a SMILES through
+    // chematic's molfile writer to the official InChI library does not
+    // preserve parity, so both sugars recompute to their *stereo-free*
+    // skeletons — WQZGKKKJIJFFOK for glucopyranose, LKDRXBCSQODPBY for
+    // fructopyranose. That is why maltose and ascorbic acid above already
+    // sit in the registry with stereo-free keys; nothing here had ever
+    // exercised the case before.
+    //
+    // The `@` marks are kept anyway, deliberately. They are the record of
+    // which stereoisomer these entries mean, which the key can no longer
+    // say, and they are a tripwire: if the writer ever learns parity this
+    // gate fails immediately and the registry keys get updated rather than
+    // quietly drifting away from the structures they claim to identify.
+    //
+    // What survives is what the tranche actually needs — glucose and
+    // fructose are structural isomers, so their skeletons differ and the
+    // two identities stay distinct with or without stereochemistry.
+    ("glucose", "OC[C@H]1OC(O)[C@H](O)[C@@H](O)[C@@H]1O"),
+    ("fructose", "OCC1(O)OC[C@@H](O)[C@@H](O)[C@@H]1O"),
+    // Malic acid is deliberately flat: fruit malic acid is L-(-) and
+    // food-grade malic acid is the DL racemate, and the registry claims
+    // neither. Citric acid has no stereocentre at all, so nothing is
+    // being given up there.
+    ("malic_acid", "OC(=O)CC(O)C(=O)O"),
+    ("citric_acid", "OC(=O)CC(O)(CC(=O)O)C(=O)O"),
+    ("C6H5O7-3", "[O-]C(=O)CC(O)(CC(=O)[O-])C(=O)[O-]"),
+    // Cellulose is deliberately absent: (C6H10O5)n is not a molecule, so
+    // it has no structural identity to curate and asserts no InChIKey —
+    // the same position starch already holds.
 ];
 
 /// Result of cross-validating one species' InChIKey.

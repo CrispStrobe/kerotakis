@@ -52,8 +52,13 @@ fn the_tranche_only_grows_deliberately() {
         // deferral was a wrong curated SMILES rather than a kekulisation
         // problem — see provenance/cap-13-chematic-molfile-spike.md.
         // EXP-39 adds oxalic acid, the permanganate titration's primary
-        // standard.
-        103,
+        // standard. BRD-012.S03 then adds the food-chemistry tranche:
+        // glucose and
+        // fructose (D-configured, anomer unspecified), malic and citric
+        // acid, and the citrate ion minteq.v4 books dissolved citrate
+        // back as. Cellulose deliberately joins none of them — a polymer
+        // has no molecular structure to curate.
+        108,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

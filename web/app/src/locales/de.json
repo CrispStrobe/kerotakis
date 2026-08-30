@@ -361,7 +361,13 @@
   "tube": "Reagenzglas",
   "volume meter": "Volumenmessung",
   "volumetric flask": "Messkolben",
-  "watch glass": "Uhrglas"
+  "watch glass": "Uhrglas",
+  "D-glucose (dextrose)": "D-Glucose (Traubenzucker)",
+  "D-fructose (fruit sugar)": "D-Fructose (Fruchtzucker)",
+  "malic acid": "Apfelsäure",
+  "citric acid": "Citronensäure",
+  "citrate ion": "Citrat-Ion",
+  "cellulose (anhydroglucose unit)": "Cellulose (Anhydroglucose-Einheit)"
  },
  "messages": {
   "English": "Englisch",
