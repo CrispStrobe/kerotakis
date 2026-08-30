@@ -431,6 +431,37 @@ describe("Session", () => {
     expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
   });
 
+  it("surfaces spill hazards and preserves physical incident evidence", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [
+          {
+            event: "spill_created", source: 0, fraction: .25, replay_seed: 7,
+            destination: { surface: "bench", zone: "react" },
+          },
+          {
+            event: "spill_hazard", severity: "danger", hazard: "corrosive spill",
+            real_world: "isolate and neutralise", destination: { surface: "bench", zone: "react" },
+          },
+        ],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("spill v1 25% onto bench react seed 7");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({ kind: "spill", acceptedTransferFraction: .25 });
+    expect(s.feed).toContainEqual(expect.objectContaining({
+      kind: "note", text: "Evidence: 25.0% of vessel v1 entered bench react.",
+    }));
+    expect(s.feed).toContainEqual(expect.objectContaining({
+      kind: "hazard", severity: "danger", hazardText: "corrosive spill",
+      realWorld: "isolate and neutralise",
+    }));
+  });
+
   it("colours a transfer from the computed pre-transfer source liquid", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

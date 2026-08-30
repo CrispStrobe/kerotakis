@@ -66,6 +66,7 @@ pub mod solve;
 pub mod species;
 pub mod species_loader;
 pub mod spectrum;
+pub mod spill;
 mod starch_iodine;
 pub mod states;
 pub mod statistics;
@@ -108,6 +109,7 @@ pub use solve::{
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
+pub use spill::SpillCompartment;
 pub use transport::{
     CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
     TransportError, TransportStep,

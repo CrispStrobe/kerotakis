@@ -33,6 +33,7 @@ import {
   type OutcomeMissionContract,
 } from "./outcomeMission";
 import { summarizeResult, type ResultSummary } from "./resultSummary";
+import { incidentNotebookEvidence } from "./incidents";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart" | "nudge" | "claim";
@@ -614,6 +615,8 @@ export class Session {
         // runs and shows why (the engine's "hazards teach" rule).
         for (const event of step.events as Array<Record<string, unknown>>) {
           this.recordEffect(event);
+          const incidentEvidence = incidentNotebookEvidence(event);
+          if (incidentEvidence) this.feed.push({ kind: "note", text: incidentEvidence });
           if (this.eventCollector) {
             const tag = String(event?.event ?? "");
             if (tag) {
@@ -656,7 +659,7 @@ export class Session {
               (event as { curve: [number, number][] }).curve,
             );
           }
-          if (event?.event === "hazard_warning") {
+          if (event?.event === "hazard_warning" || event?.event === "spill_hazard") {
             const hazardText = String(event.hazard ?? "");
             const realWorld = String(event.real_world ?? "");
             this.feed.push({

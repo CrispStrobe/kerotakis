@@ -294,6 +294,26 @@ describe("effectFromEvent", () => {
     expect(effectFromEvent({ event: "hazard_warning", severity: "danger" })).toBeNull();
   });
 
+  it("maps accepted spill and breakage events without inferring chemistry", () => {
+    const spill = effectFromEvent({
+      event: "spill_created", source: 2, fraction: .4,
+      destination: { surface: "bench", zone: "react" },
+    });
+    expect(spill).toMatchObject({
+      kind: "spill", source: 2, acceptedTransferFraction: .4,
+      spill: { surface: "bench", location: "react", fraction: .4 },
+    });
+    const broken = effectFromEvent({
+      event: "container_broken", vessel: 2, impulse_ns: 4,
+      destination: { surface: "tray", tray: "catch-1" },
+    });
+    expect(broken).toMatchObject({
+      kind: "break", source: 2,
+      spill: { surface: "tray", location: "catch-1", fraction: 1 },
+    });
+    expect(broken!.magnitude).toBeGreaterThan(0);
+  });
+
   it("maps a computed cell voltage to a wired two-vessel rig", () => {
     const e = effectFromEvent({ event: "cell_voltage", anode: 2, cathode: 4, volts: 1.1 });
     expect(e).toMatchObject({ kind: "connection", source: 2, target: 4, operation: "cell" });

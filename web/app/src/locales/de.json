@@ -1698,6 +1698,11 @@
   "show every action": "alle Aktionen zeigen",
   "show one row": "in einer Zeile zeigen",
   "nothing to draw yet — dissolve or add something first": "noch nichts zu zeichnen — löse oder gib zuerst etwas hinzu",
-  "everything here is too dilute to draw even one shape": "alles hier ist zu verdünnt, um auch nur ein Teilchen zu zeichnen"
+  "everything here is too dilute to draw even one shape": "alles hier ist zu verdünnt, um auch nur ein Teilchen zu zeichnen",
+  "vessel broke; contents contained at {destination}": "Gefäß zerbrochen; Inhalt bei {destination} aufgefangen",
+  "spill contained at {destination}: {percent}% transferred": "Verschüttung bei {destination} aufgefangen: {percent} % übertragen",
+  "Evidence: vessel v{vessel} broke; contents routed to {destination}.": "Nachweis: Gefäß v{vessel} zerbrach; der Inhalt wurde nach {destination} geleitet.",
+  "Evidence: {percent}% of {destination} was recovered into vessel v{vessel}.": "Nachweis: {percent} % von {destination} wurden in Gefäß v{vessel} zurückgewonnen.",
+  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": "Nachweis: {percent} % aus Gefäß v{vessel} gelangten nach {destination}."
  }
 }

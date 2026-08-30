@@ -3,6 +3,8 @@
   import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
   import BenchEffect from "./BenchEffect.svelte";
+  import BenchIncident from "./BenchIncident.svelte";
+  import { incidentEffects } from "../incidents";
   import StandaloneApparatus from "./StandaloneApparatus.svelte";
   import { t } from "../i18n.svelte";
   import {
@@ -115,6 +117,7 @@
   const spatialLayoutKey = $derived(
     JSON.stringify({ placements: layout.placements, preview: dragPreview }),
   );
+  const incidents = $derived(incidentEffects(effects));
   const standaloneWorking = $derived(
     apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null),
   );
@@ -392,6 +395,10 @@
       role="group"
       aria-label={t("free-positioned laboratory bench")}
     >
+      {#each incidents as effect (effect.at + ":" + effect.source + ":" + effect.kind)}
+        {@const incidentPosition = positionFor(layout, effect.source ?? 0)}
+        <BenchIncident {effect} x={incidentPosition.x} y={incidentPosition.y} />
+      {/each}
       {#if showZones}
         <div class="zone-guides" aria-label={t("bench work zones")}>
           {#each BENCH_ZONES as zone (zone)}
