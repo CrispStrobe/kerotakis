@@ -1881,6 +1881,17 @@ impl PhreeqcEquilibrator {
         let neutralised =
             0.5 * (a_before.abs() + (a_after - a_before).abs() - a_after.abs()).max(0.0);
         vessel.solute_charge = a_after;
+        // The extent has been computed here for a while to get the heat
+        // right, and then discarded. It is a reaction that happened, so it
+        // belongs in the ledger — and it is what the net ionic equation
+        // `H⁺ + OH⁻ → H₂O` is derived from (GUI-092). The observability
+        // floor is applied at the moment of telling, as everywhere else.
+        if neutralised > 0.0 {
+            events.push(Event::Neutralised {
+                vessel: vessel.id,
+                moles: Moles(neutralised),
+            });
+        }
 
         vessel.contents = contents;
         vessel.surfaces = new_surfaces;

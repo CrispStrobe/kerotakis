@@ -691,6 +691,21 @@ pub enum Event {
         species: SpeciesId,
         moles: Moles,
     },
+    /// Acid met base: this much of the solutes' unspent acidity cancelled.
+    ///
+    /// `H⁺ + OH⁻ → H₂O` is never a reaction PHREEQC reports, because it is
+    /// handed element totals and cannot tell an acid just added from one
+    /// that was always there. The extent is recoverable from the solutes'
+    /// net charge, and the aqueous solver has been computing it for a
+    /// while — to get the heat of neutralisation right — and then throwing
+    /// the number away. It is the ledger's business: it is the commonest
+    /// reaction in a school lab and it was the only one that happened
+    /// without an entry against it.
+    Neutralised {
+        vessel: VesselId,
+        /// Moles of water formed, i.e. moles of acidity cancelled.
+        moles: Moles,
+    },
     /// The aqueous solver characterised the solution (reported when the
     /// values change appreciably).
     SolutionCharacterized {
@@ -1233,6 +1248,7 @@ impl Event {
             | Event::GasContained { moles, .. }
             | Event::Consumed { moles, .. }
             | Event::Plated { moles, .. }
+            | Event::Neutralised { moles, .. }
             | Event::Reacted { moles, .. } => moles.0,
             _ => return true,
         };

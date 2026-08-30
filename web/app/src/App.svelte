@@ -911,9 +911,26 @@
         onclose={closeApparatus}
       />
     {/if}
-    {#if session.register !== "lv1" && session.lastEquation}
+    {#if session.register !== "lv1" && (session.lastEquation || session.lastIonic)}
+      <!-- The molecular equation says which bottles were opened; the ionic
+           one (GUI-092) says what happened. Both, stacked, because the
+           lesson is the difference between them — and the second appears
+           only when the engine derived one from the solved speciation. -->
       <p class="equation" aria-label={t("latest reaction equation")}>
-        {session.lastEquation}
+        {#if session.lastEquation}
+          <span class="molecular">{session.lastEquation}</span>
+        {/if}
+        {#if session.lastIonic}
+          <span class="ionic">
+            <span class="ionic-tag">{t("net ionic")}</span>
+            {session.lastIonic.equation}
+            {#if session.register === "lv3" && session.lastSpectators}
+              <span class="spectators"
+                >{t("spectator ions")}: {session.lastSpectators}</span
+              >
+            {/if}
+          </span>
+        {/if}
       </p>
     {/if}
     <Bench
@@ -1412,6 +1429,29 @@
     background: var(--panel);
     overflow-x: auto;
     white-space: nowrap;
+  }
+  .equation .molecular,
+  .equation .ionic {
+    display: block;
+  }
+  /* Quieter than the molecular line above it: it is the same reaction,
+     said more precisely, not a second reaction. */
+  .equation .ionic {
+    margin-top: 0.2rem;
+    font-size: 0.85em;
+    color: var(--ink-muted);
+  }
+  .equation .ionic-tag {
+    margin-right: 0.45rem;
+    font-size: 0.78em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .equation .spectators {
+    margin-left: 0.7rem;
+    font-size: 0.92em;
+    opacity: 0.8;
   }
   .bench-pane > :global(.bench) {
     flex: 1;

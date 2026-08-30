@@ -1736,6 +1736,19 @@ and presents them well.
   actual concentration, and the neutral complexes that a memorised ionic
   equation omits (AgCl(aq) beside Ag⁺ and Cl⁻) appear because they are
   present. Where speciation is unavailable, show nothing.
+  *First slice landed 2026-08-29 (`kerotakis-core/src/ionic.rs`): for a
+  precipitation the partner for each element of the solid is the most
+  abundant dissolved species carrying it, taken from the solver's own
+  species distribution, and the coefficients are solved as a linear system
+  over the elements and the charge and then verified — so the spectators
+  fall out by never being selected, and nothing that fails to balance is
+  shown. Neutralisation rides on a new `Neutralised` event: the aqueous
+  solver has been computing the extent (from the change in the solutes'
+  net charge) to get the heat right and discarding the number. Carried on
+  the wire as an additive `ionic` field (PROTOCOL.md), rendered at lv2 and
+  above, with the spectators named at lv3. Still open: showing the neutral
+  complexes beside the free ions, and any basis beyond these two — redox
+  and organic steps carry no participant list yet and are not guessed at.*
 
 - [ ] **GUI-093 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
   indicator, gas. We filter by phase — aqueous/liquid/gas/solid — which is a

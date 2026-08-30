@@ -175,6 +175,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 "events": events,
                 "rendered": render_events_in(&events, lab.register, lab.locale),
                 "charts": kerotakis_core::chart::charts_for_events(&events),
+                "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                 "quest": quest,
                 "scene": kerotakis_core::scene(&lab.bench),
                 "bench": { "vessels": lab.bench.vessels },
@@ -200,6 +201,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                             "events": events,
                             "rendered": render_events_in(&events, lab.register, lab.locale),
                             "charts": kerotakis_core::chart::charts_for_events(&events),
+                            "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                             "quest": quest,
                         }));
                     }

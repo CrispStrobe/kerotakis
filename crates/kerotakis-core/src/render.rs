@@ -281,6 +281,54 @@ pub fn render_events_in(events: &[Event], register: Register, locale: Locale) ->
     out
 }
 
+/// The net ionic equation as a line for the feed (GUI-092).
+///
+/// `None` at lv1 on purpose: an equation is lv2's business, and a reader
+/// being told "it went cloudy" is not helped by being handed a charge
+/// balance in the same breath. lv3 adds the ions that stayed out of it,
+/// because naming the spectators is the half of the lesson the equation
+/// itself cannot show.
+pub fn render_ionic(net: &crate::ionic::NetIonic, register: Register) -> Option<String> {
+    render_ionic_in(net, register, Locale::EN)
+}
+
+/// `render_ionic`, in the reader's language. Only the label is translated:
+/// the equation itself is chemical notation, which is the same in every
+/// language and must not be "localised" into something a chemist would not
+/// recognise.
+pub fn render_ionic_in(
+    net: &crate::ionic::NetIonic,
+    register: Register,
+    locale: Locale,
+) -> Option<String> {
+    if register.level() < 2 {
+        return None;
+    }
+    let label = locale.t("ionic.net", "net ionic");
+    let mut line = format!("{}: {label}: {}", net.vessel, net.equation);
+    if register.level() >= 3 {
+        if let Some(phrase) = net.spectator_phrase() {
+            let spectators = locale.t("ionic.spectators", "spectator ions");
+            line.push_str(&format!("  ({spectators}: {phrase})"));
+        }
+    }
+    Some(line)
+}
+
+/// Every net ionic line a step's events earn, in order — the one call a
+/// host needs beside `render_events_in`.
+pub fn render_ionic_for(
+    events: &[Event],
+    vessels: &[Vessel],
+    register: Register,
+    locale: Locale,
+) -> Vec<String> {
+    crate::ionic::net_ionic_for(events, vessels)
+        .iter()
+        .filter_map(|net| render_ionic_in(net, register, locale))
+        .collect()
+}
+
 pub fn render_event(event: &Event, register: Register) -> String {
     render_event_in(event, register, Locale::EN)
 }
@@ -1532,6 +1580,23 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
             }
         }
+        Event::Neutralised { vessel, moles } => match register.level() {
+            1 => locale.fill(
+                "event.neutralised.lv1",
+                "The acid and the alkali cancel each other out in {vessel} — what they make is water.",
+                &[("vessel", &vessel.to_string())],
+            ),
+            2 => locale.fill(
+                "event.neutralised.lv2",
+                "{vessel}: {moles} mol neutralised",
+                &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0)))],
+            ),
+            _ => locale.fill(
+                "event.neutralised.lv3",
+                "{vessel}: {moles} mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)",
+                &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.6}", moles.0)))],
+            ),
+        },
         Event::Precipitated {
             vessel,
             species: sid,
