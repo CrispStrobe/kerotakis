@@ -267,8 +267,14 @@ describe("effectFromEvent", () => {
   it("maps an engine-confirmed transfer to a spatial pour scaled by its fraction", () => {
     const small = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.1 });
     const large = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.9 });
-    expect(small).toMatchObject({ kind: "pour", source: 0, target: 2 });
+    expect(small).toMatchObject({ kind: "pour", source: 0, target: 2, acceptedTransferFraction: 0.1 });
+    expect(large).toMatchObject({ acceptedTransferFraction: 0.9 });
     expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
+  });
+
+  it("does not invent an accepted transfer fraction from malformed engine data", () => {
+    expect(effectFromEvent({ event: "transferred", from: 0, to: 1, fraction: 2 }))
+      .toMatchObject({ kind: "pour", acceptedTransferFraction: 0 });
   });
 
   it("uses the computed temperature delta for heating and cooling", () => {
