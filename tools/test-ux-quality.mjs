@@ -70,6 +70,12 @@ const chooseMobilePane = async (index) => {
 };
 
 const openPeriodicTable = async () => {
+  const hasButton = await page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    /elements|elemente/i.test(item.textContent || "")))`);
+  if (!hasButton) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
   await page.evaluate(`(() => {
     const button = [...document.querySelectorAll('button.tool')].find((item) =>
       /elements|elemente/i.test(item.textContent || ""));
