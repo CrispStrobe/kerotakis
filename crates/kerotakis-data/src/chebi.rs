@@ -238,9 +238,15 @@ pub const CHEBI_SNAPSHOT_SCHEMA: u32 = 1;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ChebiError {
     Malformed(String),
-    UnsupportedSnapshotSchema { found: u32, expected: u32 },
+    UnsupportedSnapshotSchema {
+        found: u32,
+        expected: u32,
+    },
     Manifest(String),
-    AdapterMismatch { found: String, expected: &'static str },
+    AdapterMismatch {
+        found: String,
+        expected: &'static str,
+    },
 }
 
 impl std::fmt::Display for ChebiError {
@@ -561,7 +567,10 @@ pub struct ChebiRelationshipReport {
 
 impl ChebiRelationshipReport {
     /// Related forms involving a given accession.
-    pub fn involving<'a>(&'a self, accession: &'a str) -> impl Iterator<Item = &'a ChebiRelatedForm> {
+    pub fn involving<'a>(
+        &'a self,
+        accession: &'a str,
+    ) -> impl Iterator<Item = &'a ChebiRelatedForm> {
         self.related_forms
             .iter()
             .filter(move |form| form.left == accession || form.right == accession)
@@ -597,10 +606,7 @@ pub fn relationship_report(snapshot: &ChebiSnapshot) -> ChebiRelationshipReport 
                     continue;
                 }
                 let pair = ordered_pair(&entity.chebi_accession, &relation.target);
-                asserted
-                    .entry(pair)
-                    .or_default()
-                    .insert((*kind).to_owned());
+                asserted.entry(pair).or_default().insert((*kind).to_owned());
             }
         }
     }
@@ -788,7 +794,12 @@ pub fn conflict_report(snapshot: &ChebiSnapshot) -> Vec<ChebiConflict> {
             }
         }
 
-        if entity.standard_inchi_key.as_deref().unwrap_or("").is_empty() {
+        if entity
+            .standard_inchi_key
+            .as_deref()
+            .unwrap_or("")
+            .is_empty()
+        {
             conflicts.push(ChebiConflict::NoIdentityKey {
                 chebi_id,
                 name: normalize_chebi_label(&entity.name),
@@ -900,12 +911,7 @@ fn candidate_for(
         })
         .collect();
     if !synonyms.is_empty() {
-        entries.push((
-            fields::SYNONYMS,
-            "synonyms",
-            Value::Array(synonyms),
-            None,
-        ));
+        entries.push((fields::SYNONYMS, "synonyms", Value::Array(synonyms), None));
     }
 
     if let Some(formula) = entity.formula.as_deref() {
@@ -1019,9 +1025,10 @@ pub fn chebi_promotion_policy() -> PromotionPolicy {
     let licences = || [CHEBI_LICENCE];
     let mut policy = PromotionPolicy::default();
     let mut add = |source: &str, target: &str| {
-        policy
-            .fields
-            .insert(source.to_owned(), RuntimeFieldPolicy::new(target, licences()));
+        policy.fields.insert(
+            source.to_owned(),
+            RuntimeFieldPolicy::new(target, licences()),
+        );
     };
 
     add(fields::CHEBI_ID, "external_identifier_chebi");

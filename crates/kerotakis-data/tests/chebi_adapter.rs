@@ -81,8 +81,12 @@ fn assert_fixture(name: &str, actual: &[u8]) {
         std::fs::write(&path, actual).expect("write fixture");
         return;
     }
-    let expected = std::fs::read(&path)
-        .unwrap_or_else(|error| panic!("read {}: {error}\nre-run with BLESS_CHEBI_FIXTURES=1", path.display()));
+    let expected = std::fs::read(&path).unwrap_or_else(|error| {
+        panic!(
+            "read {}: {error}\nre-run with BLESS_CHEBI_FIXTURES=1",
+            path.display()
+        )
+    });
     assert_eq!(
         String::from_utf8_lossy(&expected),
         String::from_utf8_lossy(actual),
@@ -171,8 +175,10 @@ fn candidates_are_byte_reproducible_from_the_pinned_release() {
     let canonical = canonical_quarantine_bytes(candidates.clone()).expect("candidates serialize");
     // Deriving twice from the same bytes must give the same bytes: no map
     // iteration order, no timestamp, no HashMap leaking into the output.
-    let again = canonical_quarantine_bytes(chebi_candidates(&ChebiSnapshot::parse(&raw_snapshot()).unwrap()))
-        .expect("candidates serialize");
+    let again = canonical_quarantine_bytes(chebi_candidates(
+        &ChebiSnapshot::parse(&raw_snapshot()).unwrap(),
+    ))
+    .expect("candidates serialize");
     assert_eq!(canonical, again, "derivation is not deterministic");
 
     let field_count: usize = candidates
@@ -196,10 +202,11 @@ fn candidates_are_byte_reproducible_from_the_pinned_release() {
 
     // A readable slice is committed too, so the candidate shape is reviewable
     // in a diff and the refresh-diff tooling has something to chew on.
-    let sample: Vec<QuarantinedCandidate> = [ACETIC_ACID, ACETATE, WATER, CELLULOSE, D_GLUCOSE, CAFFEINE]
-        .iter()
-        .map(|accession| candidate(&candidates, accession))
-        .collect();
+    let sample: Vec<QuarantinedCandidate> =
+        [ACETIC_ACID, ACETATE, WATER, CELLULOSE, D_GLUCOSE, CAFFEINE]
+            .iter()
+            .map(|accession| candidate(&candidates, accession))
+            .collect();
     assert_fixture(
         "candidates-sample.json",
         &canonical_quarantine_bytes(sample).expect("sample serializes"),
@@ -564,15 +571,16 @@ fn charge_is_cross_checked_against_the_inchi_layers() {
         inchi_charge("InChI=1S/CH2O3.Ca/c2-1(3)4;/h(H2,2,3,4);/q;+2/p-2"),
         Some(0)
     );
-    assert_eq!(inchi_charge("InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)/p-1"), Some(-1));
+    assert_eq!(
+        inchi_charge("InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)/p-1"),
+        Some(-1)
+    );
     assert_eq!(inchi_charge("InChI=1S/H2O/h1H2"), None);
 
     let conflicts = conflict_report(&snapshot);
     let charge_conflicts: Vec<&ChebiConflict> = conflicts
         .iter()
-        .filter(|conflict| {
-            matches!(conflict, ChebiConflict::ChargeDisagreesWithStructure { .. })
-        })
+        .filter(|conflict| matches!(conflict, ChebiConflict::ChargeDisagreesWithStructure { .. }))
         .collect();
     assert!(
         charge_conflicts.is_empty(),
@@ -601,7 +609,10 @@ fn a_planted_charge_error_reaches_the_conflict_report() {
             } if chebi_id == ACETATE
         )
     });
-    assert!(found, "a charge restated against the InChI must be reported");
+    assert!(
+        found,
+        "a charge restated against the InChI must be reported"
+    );
 }
 
 #[test]
@@ -619,7 +630,10 @@ fn entities_without_a_join_key_are_reported() {
     // ChEBI's `D-glucose` is an ontology class covering several defined
     // structures, so it has no single InChIKey. Inventing one would be the
     // silent-merge failure this adapter exists to avoid.
-    assert!(keyless.contains(D_GLUCOSE), "expected D-glucose among {keyless:?}");
+    assert!(
+        keyless.contains(D_GLUCOSE),
+        "expected D-glucose among {keyless:?}"
+    );
     assert!(keyless.contains(CITRATE_2));
     assert_eq!(keyless.len(), 9);
 
@@ -655,7 +669,9 @@ fn the_formula_parser_accepts_chebis_dialect() {
 
     assert_eq!(
         recompute_formula_mass("C6H12Xx"),
-        Err(FormulaIssue::UnknownElement { symbol: "Xx".into() })
+        Err(FormulaIssue::UnknownElement {
+            symbol: "Xx".into()
+        })
     );
     assert!(matches!(
         recompute_formula_mass("(C6H10O5"),
@@ -674,13 +690,22 @@ fn the_formula_parser_accepts_chebis_dialect() {
 #[test]
 fn labels_lose_markup_but_keep_chemistry() {
     // Presentation markup goes.
-    assert_eq!(normalize_chebi_label("<small>D</small>-glucose"), "D-glucose");
+    assert_eq!(
+        normalize_chebi_label("<small>D</small>-glucose"),
+        "D-glucose"
+    );
     assert_eq!(
         normalize_chebi_label("NAD<small><sup>+</small></sup>"),
         "NAD+"
     );
-    assert_eq!(normalize_chebi_label("(<i>S</i>)-malic acid"), "(S)-malic acid");
-    assert_eq!(normalize_chebi_label("chlorophyll <em>a</em>"), "chlorophyll a");
+    assert_eq!(
+        normalize_chebi_label("(<i>S</i>)-malic acid"),
+        "(S)-malic acid"
+    );
+    assert_eq!(
+        normalize_chebi_label("chlorophyll <em>a</em>"),
+        "chlorophyll a"
+    );
     // U+2212 MINUS SIGN folds to ASCII so a typed name can match.
     assert_eq!(normalize_chebi_label("citrate(3\u{2212})"), "citrate(3-)");
     // Chemistry and language survive: Greek letters, arrows, umlauts.
@@ -1069,7 +1094,11 @@ fn the_promotion_dry_run_passes_for_eligible_fields() {
         ),
         eligible_for(
             ACETIC_ACID,
-            &[fields::CANONICAL_NAME, fields::SEARCH_TAGS_FROM_ROLES, fields::ATTRIBUTION],
+            &[
+                fields::CANONICAL_NAME,
+                fields::SEARCH_TAGS_FROM_ROLES,
+                fields::ATTRIBUTION,
+            ],
         ),
     ];
     assert_fixture(
@@ -1135,7 +1164,10 @@ fn the_promotion_dry_run_refuses_planted_violations() {
         &invalid,
     );
     assert!(report.refuses(), "an eligible list must be checked");
-    assert!(report.role_firewall.is_empty(), "this breach is not a firewall one");
+    assert!(
+        report.role_firewall.is_empty(),
+        "this breach is not a firewall one"
+    );
 
     // (b) A policy that would admit a licence outside the runtime lane.
     let mut wide = chebi_promotion_policy();
@@ -1178,7 +1210,10 @@ fn the_promotion_dry_run_refuses_planted_violations() {
         &default_runtime_data_licences(),
         &[eligible_for(WATER, &[fields::FORMULA])],
     );
-    assert!(report.refuses(), "a field without a source path must refuse");
+    assert!(
+        report.refuses(),
+        "a field without a source path must refuse"
+    );
 
     // (d) Candidates that could not have come from the pinned snapshot.
     let mut manifest = manifest();
@@ -1192,10 +1227,7 @@ fn the_promotion_dry_run_refuses_planted_violations() {
         &default_runtime_data_licences(),
         &[],
     );
-    assert!(
-        report.refuses(),
-        "more candidates than records must refuse"
-    );
+    assert!(report.refuses(), "more candidates than records must refuse");
 }
 
 #[test]
