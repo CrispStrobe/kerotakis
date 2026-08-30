@@ -9,6 +9,7 @@ import {
   type AnimationSchedulerLike,
   type WebGpuFrameSurface,
 } from "./webGpuRenderer";
+import { createWebGpuPresentationMetrics } from "./webGpuMetrics";
 
 const uniforms: IgnitionFlameUniforms = {
   active: true,
@@ -85,6 +86,37 @@ describe("WebGPU renderer adapter", () => {
     h.runFrame();
     expect(h.adapter.fallbackVisible()).toBe(false);
     expect(h.fallback.mock.calls).toEqual([[true], [false]]);
+  });
+
+  it("records bounded configure-to-present and CPU submission telemetry", () => {
+    const ticks = [10, 12, 15];
+    const metrics = createWebGpuPresentationMetrics({ capacity: 2, now: () => ticks.shift() ?? 15 });
+    const h = harness([true]);
+    const instrumented = createWebGpuRendererAdapter({
+      surface: h.surface, scheduler: h.scheduler, setFallbackVisible: () => undefined,
+      nowSeconds: () => 0, metrics,
+    });
+    instrumented.sync(readyDevice().lifecycle, enabled, uniforms);
+    h.runFrame();
+    expect(metrics.snapshot()).toMatchObject({
+      successfulPresentations: 1, presentationFailures: 0, submittedFrames: 1,
+      firstPresentationLatencyMs: 5, frameCpuSubmissionP95Ms: 3,
+    });
+  });
+
+  it("contains telemetry sink failures without changing GPU presentation", () => {
+    const h = harness([true]);
+    const metrics = createWebGpuPresentationMetrics();
+    metrics.startSession = () => { throw new Error("telemetry unavailable"); };
+    metrics.startFrame = () => { throw new Error("telemetry unavailable"); };
+    metrics.recordPresentationSuccess = () => { throw new Error("telemetry unavailable"); };
+    const instrumented = createWebGpuRendererAdapter({
+      surface: h.surface, scheduler: h.scheduler, setFallbackVisible: h.fallback,
+      nowSeconds: () => 0, metrics,
+    });
+    expect(() => instrumented.sync(readyDevice().lifecycle, enabled, uniforms)).not.toThrow();
+    expect(() => h.runFrame()).not.toThrow();
+    expect(instrumented.fallbackVisible()).toBe(false);
   });
 
   it("fails closed and stops when presentation fails after a visible frame", () => {

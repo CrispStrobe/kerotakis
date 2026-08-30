@@ -9,6 +9,7 @@ import {
 } from "./ignitionFlameShader";
 import type { VisualBackendDecision } from "./visualBackend";
 import type { WebGpuDeviceLike, WebGpuLifecycleState } from "./webGpuLifecycle";
+import type { WebGpuPresentationMetrics } from "./webGpuMetrics";
 
 /** A pre-built GPU effect supplied by the approved shader/pipeline module. */
 export interface WebGpuFrameSurface {
@@ -44,6 +45,8 @@ export interface WebGpuRendererOptions {
   setFallbackVisible(visible: boolean): void;
   /** Monotonic presentation clock; injected so headless tests need no browser. */
   nowSeconds(): number;
+  /** Optional bounded telemetry sink; failures never control rendering. */
+  metrics?: WebGpuPresentationMetrics;
 }
 
 /**
@@ -65,6 +68,15 @@ export function createWebGpuRendererAdapter(options: WebGpuRendererOptions): Web
   let configuring = false;
   let fallback = true;
   let disposed = false;
+
+  const metric = (record: (metrics: WebGpuPresentationMetrics) => void): void => {
+    if (!options.metrics) return;
+    try { record(options.metrics); } catch { /* telemetry cannot affect presentation */ }
+  };
+  const startMetricFrame = (): number | undefined => {
+    if (!options.metrics) return undefined;
+    try { return options.metrics.startFrame(); } catch { return undefined; }
+  };
 
   const showFallback = (visible: boolean): void => {
     if (fallback === visible) return;
@@ -98,6 +110,7 @@ export function createWebGpuRendererAdapter(options: WebGpuRendererOptions): Web
       frameHandle = undefined;
       if (disposed || ownGeneration !== renderGeneration || device === undefined || currentUniforms?.active !== true) return;
       try {
+        const frameStartedAtMs = startMetricFrame();
         writeIgnitionFlameUniformBuffer(
           packed,
           currentUniforms,
@@ -110,13 +123,17 @@ export function createWebGpuRendererAdapter(options: WebGpuRendererOptions): Web
         // SVG remains correct and we retry. Once GPU pixels are visible, a
         // failed presentation is a lost/invalid surface and must restore SVG.
         if (options.surface.present()) {
+          if (frameStartedAtMs !== undefined) metric((metrics) => metrics.recordFrameSubmitted(frameStartedAtMs));
+          metric((metrics) => metrics.recordPresentationSuccess());
           showFallback(false);
         } else if (!fallback) {
+          metric((metrics) => metrics.recordPresentationFailure());
           deactivate();
           return;
         }
         frameHandle = options.scheduler.request(frame);
       } catch {
+        metric((metrics) => metrics.recordPresentationFailure());
         deactivate();
       }
     };
@@ -147,6 +164,7 @@ export function createWebGpuRendererAdapter(options: WebGpuRendererOptions): Web
       if (device !== lifecycle.device) {
         deactivate();
         device = lifecycle.device;
+        metric((metrics) => { metrics.startSession(); });
         const ownGeneration = ++configureGeneration;
         let configured: void | Promise<void>;
         try {
