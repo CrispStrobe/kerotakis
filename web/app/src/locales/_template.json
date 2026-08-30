@@ -1695,6 +1695,20 @@
   "spill contained at {destination}: {percent}% transferred": "",
   "Evidence: vessel v{vessel} broke; contents routed to {destination}.": "",
   "Evidence: {percent}% of {destination} was recovered into vessel v{vessel}.": "",
-  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": ""
+  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": "",
+  "search elements and lab materials": "",
+  "symbol, element, formula or material": "",
+  "No elements or installed lab materials match that search.": "",
+  "coverage: {level}": "",
+  "identity only": "",
+  "add and observe": "",
+  "property backed": "",
+  "reacting": "",
+  "lesson backed": "",
+  "things you can run with this element:": "",
+  "lesson": "",
+  "experiment": "",
+  "needs: {materials}": "",
+  "No installed reaction or lesson is linked to this element yet.": ""
  }
 }

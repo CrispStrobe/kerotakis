@@ -261,6 +261,7 @@ export interface EngineHost {
   scene(): Promise<Scene>;
   state(): Promise<unknown>;
   species(): Promise<unknown[]>;
+  elementCoverage(): Promise<unknown>;
   inspect(vessel: number): Promise<{ rendered: string[] }>;
   particles(vessel: number): Promise<{ census?: ParticleCensus; rendered: string[] }>;
   reset(): Promise<void>;

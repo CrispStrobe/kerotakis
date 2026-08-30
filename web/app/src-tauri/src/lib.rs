@@ -333,6 +333,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             }));
             Ok(Value::Array(list).to_string())
         }
+        "element_coverage" => kerotakis_core::element_coverage_json(),
         "inspect" => {
             let index = req.get("vessel").and_then(Value::as_u64).unwrap_or(0) as usize;
             let v = lab.vessel(index)?;
@@ -558,6 +559,17 @@ mod protocol_conformance {
             dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
             before
         );
+    }
+
+    #[test]
+    fn element_coverage_is_the_versioned_core_report() {
+        let mut lab = NativeLab::new();
+        let report = ask(&mut lab, json!({"cmd": "element_coverage"}));
+        assert_eq!(report["schema"], 1);
+        assert_eq!(report["elements"].as_array().unwrap().len(), 118);
+        assert!(report["elements"].as_array().unwrap().iter().any(|entry| {
+            entry["symbol"] == "Fe" && !entry["examples"].as_array().unwrap().is_empty()
+        }));
     }
 
     #[test]

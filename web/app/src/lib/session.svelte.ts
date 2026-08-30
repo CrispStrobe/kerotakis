@@ -26,6 +26,7 @@ import { missionTitle } from "./storyProgress";
 import { reagentAccess } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
 import type { LabMode } from "./worldState";
+import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
   outcomeComplete,
   outcomeMissionContract,
@@ -308,6 +309,8 @@ export class Session {
   private lessonFeedStart = $state(0);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
+  /** Core-generated coverage; null only for an older/degraded host. */
+  elementCoverage = $state<ElementCoverageReport | null>(null);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
   reactOptions = $state<string[]>([]);
   /** While set, submit() records event keys (tag and tag:species) here —
@@ -434,6 +437,13 @@ export class Session {
         density: s.density,
         material: s.material === true,
       }));
+      try {
+        this.elementCoverage = parseElementCoverage(await this.host.elementCoverage());
+      } catch {
+        // Host upgrades are rolling; formula-derived shelf coverage remains
+        // an honest fallback until the new endpoint is available.
+        this.elementCoverage = null;
+      }
       try {
         const grammar = (await this.host.grammar()) as {
           verb: string;

@@ -30,6 +30,7 @@ pub mod curdling;
 pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
+pub mod element_coverage;
 pub mod emulsion;
 pub mod exact_stoich;
 pub mod fermentation;
@@ -87,6 +88,12 @@ pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
+pub use element_coverage::{
+    element_coverage_json, element_coverage_report, element_coverage_report_with_lessons,
+    element_coverage_report_with_routes, ElementCapability, ElementCoverageEntry,
+    ElementCoverageError, ElementCoverageReport, ElementShelfItem, InstalledLessonRoute,
+    InstalledRunnableRoute, RunnableElementRoute, ShelfItemKind, ELEMENT_SYMBOLS,
+};
 pub use i18n::Locale;
 pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,

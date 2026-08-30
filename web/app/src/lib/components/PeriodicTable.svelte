@@ -3,8 +3,14 @@
   import {
     ELEMENTS,
     LAB_ELEMENTS,
+    contentRoutesForElement,
+    elementCapability,
+    elementsMatchingSearch,
     shelfItemsContainingElement,
+    type ElementExperimentIndexEntry,
+    type ElementCoverageReport,
     type ElementInfo,
+    type ElementLessonIndexEntry,
   } from "../elements";
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
@@ -13,18 +19,34 @@
   let {
     shelf,
     register,
+    coverage = null,
+    lessons = [],
+    experiments = [],
     onadd,
+    onlesson,
+    onexperiment,
     onclose,
   }: {
     shelf: ShelfItem[];
     register: string;
+    coverage?: ElementCoverageReport | null;
+    lessons?: ElementLessonIndexEntry[];
+    experiments?: ElementExperimentIndexEntry[];
     onadd: (item: ShelfItem) => void;
+    onlesson?: (file: string) => void;
+    onexperiment?: (id: string) => void;
     onclose: () => void;
   } = $props();
 
   let picked = $state<ElementInfo | null>(null);
   let fullTable = $state(false);
-  const visibleElements = $derived(fullTable ? ELEMENTS : LAB_ELEMENTS);
+  let query = $state("");
+  const visibleElements = $derived(elementsMatchingSearch(
+    query,
+    fullTable ? ELEMENTS : LAB_ELEMENTS,
+    shelf,
+    (value) => t(value),
+  ));
 
   onMount(() => {
     try {
@@ -59,14 +81,36 @@
   }
 
   /** The lab connection: shelf species containing the picked element. */
+  function installedExamples(symbol: string): ShelfItem[] {
+    const generated = coverage?.elements.find((entry) => entry.symbol === symbol);
+    if (!generated) return shelfItemsContainingElement(symbol, shelf);
+    const keys = new Set(generated.examples.map((example) => example.shelf_key));
+    return shelf.filter((item) => keys.has(item.key));
+  }
   const inLab = $derived(
     picked
-      ? shelfItemsContainingElement(picked.symbol, shelf)
+      ? installedExamples(picked.symbol)
       : [],
   );
   const flames = $derived(
     [...new Set(inLab.map((s) => s.flame).filter(Boolean))] as string[],
   );
+  const routes = $derived(picked
+    ? contentRoutesForElement(picked.symbol, shelf, lessons, experiments)
+    : []);
+  const capability = $derived(routes.some((route) => route.kind === "lesson")
+    ? "lesson_backed"
+    : routes.length > 0
+      ? "reacting"
+      : coverage?.elements.find((entry) => entry.symbol === picked?.symbol)?.capability
+        ?? elementCapability(inLab, routes));
+  const CAPABILITY_WORDS = {
+    identity_only: "identity only",
+    add_observe: "add and observe",
+    property_backed: "property backed",
+    reacting: "reacting",
+    lesson_backed: "lesson backed",
+  } as const;
   const CATEGORY_WORDS: Record<string, string> = {
     alkali: "alkali metal",
     alkaline: "alkaline-earth metal",
@@ -102,10 +146,20 @@
       <button class="close" onclick={onclose}>{t("close")}</button>
     </header>
 
+    <label class="search">
+      <span>{t("search elements and lab materials")}</span>
+      <input
+        type="search"
+        bind:value={query}
+        placeholder={t("symbol, element, formula or material")}
+        autocomplete="off"
+      />
+    </label>
+
     <div class="grid" role="listbox" aria-label={t("elements")}>
       {#each visibleElements as e (e.z)}
         {@const p = place(e)}
-        {@const count = shelfItemsContainingElement(e.symbol, shelf).length}
+        {@const count = installedExamples(e.symbol).length}
         <button
           class={`el cat-${e.category}`}
           class:picked={picked?.z === e.z}
@@ -113,6 +167,7 @@
           style={`grid-column:${p.col};grid-row:${p.row}`}
           role="option"
           aria-selected={picked?.z === e.z}
+          aria-label={`${t(e.name)}, ${e.symbol}, ${t("{count} shelf examples", { count })}`}
           title={`${t(e.name)} (${e.z}) · ${t("{count} shelf examples", { count })}`}
           onclick={() => (picked = e)}
         >
@@ -122,11 +177,15 @@
         </button>
       {/each}
     </div>
+    {#if visibleElements.length === 0}
+      <p class="empty-search" role="status">{t("No elements or installed lab materials match that search.")}</p>
+    {/if}
 
     {#if picked}
       <aside class="detail">
         <h3>{t(picked.name)} <small>{picked.symbol} · {picked.z}</small></h3>
         <p class="cat">{t(CATEGORY_WORDS[picked.category] ?? picked.category)}</p>
+        <p class="capability">{t("coverage: {level}", { level: t(CAPABILITY_WORDS[capability]) })}</p>
         {#if register !== "lv1"}
           <p class="facts">
             {t("period {period} · group {group} · {block}-block", { period: picked.period, group: picked.group, block: picked.block })}
@@ -152,6 +211,27 @@
           <p class="facts none">
             {t("nothing on the shelf contains {symbol} yet — the registry grows by provenance-carrying tranches, not by wishful entries.", { symbol: picked.symbol })}
           </p>
+        {/if}
+        {#if routes.length > 0}
+          <p class="facts">{t("things you can run with this element:")}</p>
+          <ul class="routes">
+            {#each routes as route (route.kind + route.key)}
+              <li>
+                <button
+                  onclick={() => route.kind === "lesson"
+                    ? onlesson?.(route.key)
+                    : onexperiment?.(route.key)}
+                  disabled={route.kind === "lesson" ? !onlesson : !onexperiment}
+                >
+                  <strong>{route.kind === "lesson" ? t("lesson") : t("experiment")}</strong>
+                  <span>{t(route.label)}</span>
+                  <small>{t("needs: {materials}", { materials: route.requiredShelfKeys.join(", ") })}</small>
+                </button>
+              </li>
+            {/each}
+          </ul>
+        {:else}
+          <p class="facts none">{t("No installed reaction or lesson is linked to this element yet.")}</p>
         {/if}
       </aside>
     {/if}
@@ -224,6 +304,23 @@
     grid-template-columns: repeat(18, minmax(30px, 1fr));
     gap: 2px;
   }
+  .search {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0 0 0.65rem;
+    color: var(--dim);
+    font-size: 0.72rem;
+  }
+  .search input {
+    width: min(100%, 28rem);
+    border: 1px solid var(--edge);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--ink);
+    font: inherit;
+    padding: 0.45rem 0.55rem;
+  }
+  .empty-search { color: var(--dim); font-size: 0.8rem; }
   .el {
     aspect-ratio: 1;
     border: 1px solid var(--edge);
@@ -297,6 +394,15 @@
     color: var(--warn);
     font-size: 0.82rem;
   }
+  .capability {
+    display: inline-block;
+    margin: 0.15rem 0;
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    color: var(--dim);
+    font-size: 0.7rem;
+  }
   .facts {
     margin: 0.15rem 0;
     color: var(--dim);
@@ -332,5 +438,38 @@
   }
   .formula {
     color: var(--dim);
+  }
+  .routes {
+    list-style: none;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.35rem;
+  }
+  .routes button {
+    width: 100%;
+    min-height: 44px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.15rem 0.45rem;
+    text-align: left;
+    border: 1px solid var(--edge);
+    border-radius: 7px;
+    background: var(--panel);
+    color: var(--ink);
+    padding: 0.45rem;
+    cursor: pointer;
+  }
+  .routes small { grid-column: 1 / -1; color: var(--dim); }
+  @media (max-width: 640px) {
+    .table-panel { padding: 0.65rem; }
+    header { align-items: stretch; flex-wrap: wrap; }
+    .hint { flex-basis: 100%; }
+    .grid { grid-template-columns: repeat(18, minmax(24px, 1fr)); overflow-x: auto; }
+    .el { min-width: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .table-panel, .el, .routes button { scroll-behavior: auto; transition: none; }
   }
 </style>

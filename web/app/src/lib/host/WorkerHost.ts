@@ -151,6 +151,10 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("species"));
   }
 
+  async elementCoverage(): Promise<unknown> {
+    return JSON.parse(await this.channel.request("element_coverage"));
+  }
+
   async inspect(vessel: number): Promise<{ rendered: string[] }> {
     return JSON.parse(await this.channel.request("inspect", { vessel }));
   }

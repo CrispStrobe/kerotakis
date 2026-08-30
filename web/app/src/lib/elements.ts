@@ -6,6 +6,7 @@
  * honestly absent otherwise. Numeric breadth arrives via the
  * licence-clean data ETL (roadmap), never by transcription.
  */
+import defaultElements from "./generated/element-default-v1.json";
 
 export interface ElementInfo {
   z: number;
@@ -15,6 +16,65 @@ export interface ElementInfo {
   period: number;
   block: string;
   category: string;
+}
+
+export type ElementCapability =
+  | "identity_only"
+  | "add_observe"
+  | "property_backed"
+  | "reacting"
+  | "lesson_backed";
+
+export interface GeneratedElementExample {
+  shelf_key: string;
+  display_name: string;
+  kind: "species" | "material_recipe";
+  formula_species_keys: string[];
+  formulas: string[];
+  property_backed: boolean;
+}
+
+export interface GeneratedElementCoverageEntry {
+  symbol: string;
+  capability: ElementCapability;
+  examples: GeneratedElementExample[];
+  routes: unknown[];
+}
+
+export interface ElementCoverageReport {
+  schema: 1;
+  elements: GeneratedElementCoverageEntry[];
+}
+
+export function parseElementCoverage(raw: unknown): ElementCoverageReport | null {
+  const report = raw as Partial<ElementCoverageReport> | null;
+  if (report?.schema !== 1 || !Array.isArray(report.elements) || report.elements.length !== 118) return null;
+  if (!report.elements.every((entry, index) =>
+    entry?.symbol === ELEMENTS[index]?.symbol
+      && Array.isArray(entry.examples)
+      && entry.examples.every((example) => typeof example?.shelf_key === "string")
+  )) return null;
+  return report as ElementCoverageReport;
+}
+
+export interface ElementContentRoute {
+  key: string;
+  label: string;
+  requiredShelfKeys: string[];
+  kind: "lesson" | "experiment";
+}
+
+export interface ElementLessonIndexEntry {
+  file: string;
+  name: string;
+  blurb?: string;
+  kit?: string[];
+}
+
+export interface ElementExperimentIndexEntry {
+  id: string;
+  summary?: string | null;
+  setup: { script: string };
 }
 
 export const ELEMENTS: ElementInfo[] = [
@@ -145,12 +205,7 @@ export const ELEMENTS: ElementInfo[] = [
  * young lab user than a visually tidy row containing arsenic and radon.
  * Structural access to all 118 remains in ELEMENTS and the full-table toggle.
  */
-export const LAB_ELEMENT_SYMBOLS = new Set([
-  "H", "He", "Li", "B", "C", "N", "O", "F", "Ne",
-  "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
-  "K", "Ca", "Ti", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Br", "Kr",
-  "Sr", "Ag", "Sn", "I", "Xe", "W", "Pt", "Au", "Bi",
-]);
+export const LAB_ELEMENT_SYMBOLS = new Set(defaultElements.symbols);
 
 export const LAB_ELEMENTS = ELEMENTS.filter((element) =>
   LAB_ELEMENT_SYMBOLS.has(element.symbol)
@@ -161,6 +216,86 @@ export function shelfItemsContainingElement<T extends { formula: string }>(
   shelf: T[],
 ): T[] {
   return shelf.filter((item) => elementsInFormula(item.formula).includes(symbol));
+}
+
+/** Content links are derived from the executable lesson/codex sources. */
+export function contentRoutesForElement(
+  symbol: string,
+  shelf: { key: string; formula: string }[],
+  lessons: ElementLessonIndexEntry[],
+  experiments: ElementExperimentIndexEntry[],
+): ElementContentRoute[] {
+  const matchingKeys = new Set(shelfItemsContainingElement(symbol, shelf).map((item) => item.key));
+  const shelfKeys = new Set(shelf.map((item) => item.key));
+  const routes: ElementContentRoute[] = [];
+  for (const lesson of lessons) {
+    const requiredShelfKeys = [...new Set(lesson.kit ?? [])].sort();
+    if (requiredShelfKeys.length > 0
+      && requiredShelfKeys.every((key) => shelfKeys.has(key))
+      && requiredShelfKeys.some((key) => matchingKeys.has(key))) {
+      routes.push({
+        key: lesson.file,
+        label: lesson.blurb || lesson.name,
+        requiredShelfKeys,
+        kind: "lesson",
+      });
+    }
+  }
+  for (const experiment of experiments) {
+    const requiredShelfKeys = scriptKit(experiment.setup.script);
+    if (requiredShelfKeys.length > 0
+      && requiredShelfKeys.every((key) => shelfKeys.has(key))
+      && requiredShelfKeys.some((key) => matchingKeys.has(key))) {
+      routes.push({
+        key: experiment.id,
+        label: experiment.summary || experiment.id,
+        requiredShelfKeys,
+        kind: "experiment",
+      });
+    }
+  }
+  return routes.sort((a, b) => a.kind.localeCompare(b.kind) || a.key.localeCompare(b.key));
+}
+
+export function elementCapability(
+  examples: { appearance?: string | null; flame?: string | null; srgb?: unknown; solution_srgb?: unknown }[],
+  routes: ElementContentRoute[],
+): ElementCapability {
+  if (routes.some((route) => route.kind === "lesson")) return "lesson_backed";
+  if (routes.length > 0) return "reacting";
+  if (examples.some((item) => item.appearance || item.flame || item.srgb || item.solution_srgb)) {
+    return "property_backed";
+  }
+  return examples.length > 0 ? "add_observe" : "identity_only";
+}
+
+export function elementsMatchingSearch<T extends { name: string; formula: string }>(
+  query: string,
+  elements: ElementInfo[],
+  shelf: T[],
+  localize: (value: string) => string = (value) => value,
+): ElementInfo[] {
+  const needle = query.trim().toLocaleLowerCase();
+  if (!needle) return elements;
+  const matchingSymbols = new Set<string>();
+  for (const item of shelf) {
+    if (`${localize(item.name)} ${item.name} ${item.formula}`.toLocaleLowerCase().includes(needle)) {
+      elementsInFormula(item.formula).forEach((symbol) => matchingSymbols.add(symbol));
+    }
+  }
+  return elements.filter((element) =>
+    `${element.symbol} ${localize(element.name)} ${element.name}`.toLocaleLowerCase().includes(needle)
+      || matchingSymbols.has(element.symbol)
+  );
+}
+
+function scriptKit(script: string): string[] {
+  const keys = new Set<string>();
+  for (const line of script.split("\n")) {
+    const match = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
+    if (match) keys.add(match[1]!);
+  }
+  return [...keys].sort();
 }
 
 const SYMBOLS = new Set(ELEMENTS.map((e) => e.symbol));

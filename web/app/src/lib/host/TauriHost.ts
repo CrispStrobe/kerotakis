@@ -97,6 +97,9 @@ export class TauriHost implements EngineHost {
   async species(): Promise<unknown[]> {
     return JSON.parse(await this.req("species"));
   }
+  async elementCoverage(): Promise<unknown> {
+    return JSON.parse(await this.req("element_coverage"));
+  }
   async inspect(vessel: number): Promise<{ rendered: string[] }> {
     return JSON.parse(await this.req("inspect", { vessel }));
   }
