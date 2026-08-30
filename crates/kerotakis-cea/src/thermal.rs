@@ -97,7 +97,15 @@ fn cea_species(registry_key: &str) -> Option<&'static Species> {
 }
 
 fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
-    if db().get_reactant(&species.name).is_none() {
+    if db().get_reactant(&species.name).is_none() && species.is_gas() {
+        return species.h(temperature);
+    }
+    if db().get_reactant(&species.name).is_none()
+        && !species.is_gas()
+        && species
+            .t_range()
+            .is_some_and(|(low, high)| temperature >= low && temperature <= high)
+    {
         return species.h(temperature);
     }
     if species
@@ -180,7 +188,7 @@ fn pool_for(elements: &[String]) -> Vec<&'static Species> {
     }
     names.sort_unstable();
     names.dedup();
-    names
+    let mut pool: Vec<&'static Species> = names
         .iter()
         .filter_map(|n| db().get(n))
         .filter(|s| {
@@ -189,7 +197,54 @@ fn pool_for(elements: &[String]) -> Vec<&'static Species> {
                     .keys()
                     .all(|el| elements.iter().any(|e| e == el))
         })
-        .collect()
+        .collect();
+    // Each registry key maps to one CEA record — the standard phase at
+    // room temperature. The substance's other phases must be reachable
+    // too, or the solver is structurally unable to boil or melt it: with
+    // `water → H2O(L)` alone a hydrogen flame has no steam to make, and
+    // the minimiser returns H2 and O2 sitting unreacted at 927 °C
+    // labelled equilibrium (curiosity th-034); with `NaNO3 → NaNO3(a)`
+    // alone, sodium above 500 K has no in-range condensed carrier and
+    // leaves the vessel as an absurd nitrate vapour. Admit every
+    // condensed record of identical composition (the (a)/(b)/(L) phase
+    // families). The gas of that composition is admitted only when it is
+    // unique — gas isomers share a composition without being phases of
+    // anything — AND the condensed family's data ends below combustion
+    // temperatures, so the vapour is the substance's only continuation.
+    // Water qualifies (liquid record ends at 600 K); salt, magnesium and
+    // iron do not (liquid records to 6000 K), which keeps burning
+    // magnesium from venting itself as metal vapour and a salted flame
+    // from inventing sodium chloride gas as an ignition.
+    let siblings: Vec<&'static Species> = pool
+        .iter()
+        .flat_map(|mapped| {
+            // The temperature where this substance's condensed data ends,
+            // across its whole phase family. Water: 600 K. Salt, magnesium,
+            // iron: their liquid records run to 6000 K.
+            let condensed_top = db()
+                .species
+                .values()
+                .filter(|s| !s.is_gas() && s.composition == mapped.composition)
+                .filter_map(|s| s.t_range().map(|(_, hi)| hi))
+                .fold(f64::NEG_INFINITY, f64::max);
+            db().species.values().filter(move |s| {
+                s.composition == mapped.composition
+                    && s.name != mapped.name
+                    && (!s.is_gas()
+                        || (condensed_top < 1000.0
+                            && db()
+                                .species
+                                .values()
+                                .filter(|o| o.is_gas() && o.composition == s.composition)
+                                .count()
+                                == 1))
+            })
+        })
+        .collect();
+    pool.extend(siblings);
+    pool.sort_by(|a, b| a.name.cmp(&b.name));
+    pool.dedup_by(|a, b| a.name == b.name);
+    pool
 }
 
 pub struct ThermalEquilibrator;
@@ -344,6 +399,12 @@ impl Equilibrator for ThermalEquilibrator {
         // by the vessel's own heat capacity would be wrong by orders of
         // magnitude here: a gram of burning magnesium heats the air around
         // it, not just the speck of oxide it leaves behind.
+        if std::env::var("KERO_CEA_DEBUG").is_ok() {
+            eprintln!(
+                "CHARGE t={t:.1} budget={:?} mapped={:?} h_before={h_before:.4e} feed={}",
+                charge.budget, charge.mapped, charge.used_feed_thermo
+            );
+        }
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
         let (eq, feed_tp_fallback) = if adiabatic {
             match crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0) {

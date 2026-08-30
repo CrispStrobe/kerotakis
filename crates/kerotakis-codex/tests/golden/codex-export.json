@@ -4815,8 +4815,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2600.0,
-          "max": 2900.0
+          "min": 2700.0,
+          "max": 3050.0
         }
       },
       "registers": {
@@ -6324,8 +6324,8 @@
         },
         "ph": null,
         "temperature_c": {
-          "min": 2600.0,
-          "max": 2900.0
+          "min": 2700.0,
+          "max": 3050.0
         }
       },
       "registers": {

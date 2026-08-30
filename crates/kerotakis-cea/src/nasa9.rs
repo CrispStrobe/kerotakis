@@ -266,15 +266,33 @@ impl ThermoDb {
             } else {
                 &mut db.species
             };
-            target.entry(name.clone()).or_insert(Species {
-                name,
-                reference,
-                composition,
-                phase_code,
-                molar_mass,
-                h_formation,
-                intervals,
-            });
+            // CEA stores each crystal phase of a condensed substance as its
+            // own record, and several share one name: hematite appears as
+            // Fe2O3(cr) below the Curie point and Fe2O3(cr) above it, each
+            // covering its own temperature slice. Keeping only the first
+            // made t_range() end at 600 K and everything above it an
+            // extrapolation. Merge same-name records into one species whose
+            // intervals span the family.
+            match target.entry(name.clone()) {
+                std::collections::btree_map::Entry::Occupied(mut e) => {
+                    let existing = e.get_mut();
+                    existing.intervals.extend(intervals);
+                    existing
+                        .intervals
+                        .sort_by(|a, b| a.t_min.total_cmp(&b.t_min));
+                }
+                std::collections::btree_map::Entry::Vacant(v) => {
+                    v.insert(Species {
+                        name,
+                        reference,
+                        composition,
+                        phase_code,
+                        molar_mass,
+                        h_formation,
+                        intervals,
+                    });
+                }
+            }
             i = cursor;
         }
         db
