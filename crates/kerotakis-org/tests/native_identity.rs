@@ -46,8 +46,13 @@ fn the_tranche_only_grows_deliberately() {
         // products; EXP-30 adds the four qualitative-analysis hydroxides;
         // BRD-012.S02 adds the three P0 school salts (NH4Cl, FeCl3,
         // Na2SO4) with the ammonium ion the databases book them against,
-        // and the gated barium tranche (BaCl2, Ba(OH)2, Ba+2, BaSO4).
-        97,
+        // and the gated barium tranche (BaCl2, Ba(OH)2, Ba+2, BaSO4). A3
+        // adds the four bare elements (Mg, Pb, C, S) that the chematic-mol
+        // V2000 valence-field patch unblocks — their molfiles used to reach
+        // the official library carrying hydrogens nobody wrote — plus
+        // phenolphthalein, whose deferral turned out to be a curated-SMILES
+        // mistake (the open acid form) rather than a kekulisation bug.
+        102,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

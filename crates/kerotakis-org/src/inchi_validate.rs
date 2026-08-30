@@ -124,6 +124,26 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Ba(OH)2", "O[Ba]O"),
     ("Ba+2", "[Ba+2]"),
     ("BaSO4", "[Ba+2].[O-]S(=O)(=O)[O-]"),
+    // --- A3: bare elements, unblocked by the chematic-mol V2000 valence-
+    //     field patch. Their molfiles used to reach the official library
+    //     with the hydrogens a standard-valence reader adds to an atom whose
+    //     valence field says nothing — magnesium as MgH2, carbon as methane,
+    //     sulfur as hydrogen sulfide. See the PATCH.md beside
+    //     vendor/chematic-0.18/chematic-mol-0.18.0/src/mol2000.rs and
+    //     tests/write_mol_repro.rs.
+    ("Mg", "[Mg]"),
+    ("Pb", "[Pb]"),
+    ("C", "[C]"),
+    ("S", "[S]"),
+    // --- A3: phenolphthalein was deferred as a kekulisation failure and is
+    //     not one. chematic kekulises the closed lactone correctly; the
+    //     deferral was written against a SMILES for the *open* (acid) form,
+    //     so the molfile faithfully encoded the wrong tautomer. Curating the
+    //     lactone is the whole fix — no library change involved.
+    (
+        "phenolphthalein",
+        "Oc1ccc(cc1)C1(OC(=O)c2ccccc21)c1ccc(O)cc1",
+    ),
 ];
 
 /// Result of cross-validating one species' InChIKey.

@@ -279,3 +279,34 @@ sha256 = "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
 # remains usable as an oracle: running a mechanism outside the repository to
 # check a Kerotakis answer distributes nothing.
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# A3 (2026-08-30) — the one local delta inside the vendored chematic 0.18 tree.
+# The tree itself is vendored verbatim (see the workspace root's
+# [patch.crates-io] block); this record exists because exactly one file in it
+# is no longer what crates.io published, and an audit needs to be told so by
+# the manifest rather than by a diff.
+# ---------------------------------------------------------------------------
+
+[[source]]
+id = "chematic-mol-v2000-valence-patch"
+name = "chematic-mol 0.18.0, V2000 implicit-hydrogen patch"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT OR Apache-2.0"
+origin = "https://crates.io/crates/chematic-mol/0.18.0"
+terms = "https://github.com/kent-tokyo/chematic/blob/main/LICENSE-MIT"
+copyright = "kent-tokyo, chematic contributors"
+retrieved = "2026-08-30"
+attribution = "chematic-mol, MIT OR Apache-2.0; SPDX expression declared in the crate's own Cargo.toml, which is vendored unmodified"
+paths = ["vendor/chematic-0.18/chematic-mol-0.18.0/src/mol2000.rs"]
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native", "wasm"]
+reviewer = "A3 / CAP-13 identity tranche"
+notes = "The V2000 writer never emitted the atom block's valence field (vvv), so a bracket atom's explicit — and usually zero — hydrogen count was lost and standard-valence readers refilled it: [Mg] reached the official IUPAC InChI library as MgH2, [C] as methane, [S] as H2S. One private helper plus five regression tests fix it. This is the only file in vendor/chematic-0.18/ that differs from the published crates.io sources; everything else in that tree is verbatim. A patch, not a fork — see vendor/chematic-0.18/chematic-mol-0.18.0/PATCH.md for the diff, the rationale and the upstream filing instructions. crates.io .crate sha256 339ad56c77290c0e91e2c427b8b633bf94fa7e773696af09bbaef2e56fb8c23c; upstream git 9cd0f8beac91c41dcd3304049925a0a35ca4eed3."
+
+[[source.checksum]]
+path = "vendor/chematic-0.18/chematic-mol-0.18.0/src/mol2000.rs"
+sha256 = "6a78998d392103d3ac766b8f8ab3120ec0bf3991c16178089c893a043e97b9ba"

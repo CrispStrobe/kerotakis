@@ -2836,17 +2836,17 @@
     },
     {
       "id": "Al",
-      "canonical_key": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N",
+      "canonical_key": "XAGFODPZIPBFFR-UHFFFAOYSA-N",
       "name": "aluminium",
       "identifiers": {
-        "inchikey": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N"
+        "inchikey": "XAGFODPZIPBFFR-UHFFFAOYSA-N"
       },
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al",
         "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+          "kind": "calculated",
+          "detail": "A3 (2026-08-29): recomputed from the curated structure [Al] by the official IUPAC InChI library (CAP-13's native-inchi path). The legacy import carried AZDRQVAHHNSJOQ-UHFFFAOYSA-N, which is aluminium trihydride AlH3 (InChI=1S/Al.3H, CAS 7784-21-6), not the metal this entry describes (formula Al, M 26.982, density 2.70). It passed the CAP-13 identity gate only because chematic's V2000 writer was itself turning [Al] into AlH3 — two errors cancelling. With vendor/chematic-mol's valence-field fix the gate tells the truth, and the truth is InChI=1S/Al -> XAGFODPZIPBFFR-UHFFFAOYSA-N, recomputed here by the official IUPAC library from [Al]."
         }
       }
     },

@@ -1038,6 +1038,62 @@ pub fn parse_sdf_with_coords(
 // Writer
 // ---------------------------------------------------------------------------
 
+/// The V2000 atom block's valence field (`vvv`, columns 49-51) for atom
+/// `idx`, or 0 for "unspecified".
+///
+/// V2000 has no field that says "this atom has exactly N hydrogens" in a
+/// structure (non-query) file: `hhh` is a query field ("H count + 1", read
+/// as *at least*), which is why it is left 0 here. The structural channel
+/// is `vvv` -- the atom's **total** valence, bonds plus hydrogens -- with
+/// two special values: 0 means "unspecified", and 15 is the sentinel for
+/// "zero valence". Every consumer that meets an unspecified `vvv` falls
+/// back to filling the atom to its standard valence with hydrogens.
+///
+/// That fallback is the bug this field exists to prevent. A bracket atom
+/// (`[Mg]`, `[C]`, `[S]`, `[Pb]`) states its hydrogen count explicitly, and
+/// that count is very often **zero** -- precisely the fact an unspecified
+/// `vvv` cannot express. Written without it, `[Mg]` reads back as MgH2,
+/// `[C]` as methane, `[S]` as hydrogen sulfide: the file encodes a
+/// different molecule than the one it was written from. Emitting `vvv` is
+/// the only way V2000 can carry the count.
+///
+/// Atoms with no explicit hydrogen count -- organic-subset SMILES atoms,
+/// and every atom read back from a MOL file, which has no H-count channel
+/// to read -- keep `vvv = 0` deliberately. Their hydrogen count *is* the
+/// standard-valence inference, so restating it would say nothing new while
+/// changing the bytes of every file this writer has ever produced.
+///
+/// Aromatic and query bond orders have no integer valence to sum, so an
+/// atom carrying one declines to state `vvv` at all rather than guess.
+fn v2000_valence_field(mol: &Molecule, idx: AtomIdx) -> u32 {
+    // Only an explicit (bracket-atom) hydrogen count is information the
+    // format would otherwise lose.
+    let Some(hydrogens) = mol.atom(idx).hydrogen_count else {
+        return 0;
+    };
+    let mut bond_valence: u32 = 0;
+    for (_, bidx) in mol.neighbors(idx) {
+        bond_valence += match mol.bond(bidx).order {
+            BondOrder::Single | BondOrder::Up | BondOrder::Down | BondOrder::Dative => 1,
+            BondOrder::Double => 2,
+            BondOrder::Triple => 3,
+            BondOrder::Quadruple => 4,
+            // Aromatic / query / zero orders: no integer contribution.
+            _ => return 0,
+        };
+    }
+    match bond_valence + u32::from(hydrogens) {
+        // MDL's sentinel for a genuinely zero-valence atom -- a bare metal
+        // or noble-gas atom, the case a standard-valence reader gets wrong.
+        0 => 15,
+        total @ 1..=14 => total,
+        // 15 is taken by the sentinel and the field is 3 columns of
+        // meaning, not of width: anything higher is unrepresentable, so
+        // fall back to "unspecified".
+        _ => 0,
+    }
+}
+
 /// Write a `Molecule` to MOL V2000 format.
 ///
 /// Coordinates are written as 0.0 because the core `Molecule` type does not
@@ -1091,9 +1147,13 @@ pub fn write_mol_with_coords(
         let sym = atom.element.symbol();
         let charge_code = encode_charge(atom.charge);
         let (x, y) = coords.get(idx.0 as usize).copied().unwrap_or((0.0, 0.0));
+        // Fields: dd ccc sss hhh bbb vvv HHH rrr iii mmm nnn.
+        // `vvv` (valence) is the only one carrying data -- see
+        // [`v2000_valence_field`].
+        let valence = v2000_valence_field(mol, idx);
         out.push_str(&format!(
-            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0  0  0  0  0  0  0\n",
-            x, y, 0.0_f64, sym, charge_code,
+            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0{:>3}  0  0  0  0  0\n",
+            x, y, 0.0_f64, sym, charge_code, valence,
         ));
     }
 
@@ -1183,9 +1243,13 @@ pub fn write_mol_with_conformer(
             .get(idx.0 as usize)
             .copied()
             .unwrap_or(Point3::zero());
+        // `vvv` (valence) as in the 2D writer -- see
+        // [`v2000_valence_field`]. A real 3D geometry does not make an
+        // atom's hydrogen count any less lost.
+        let valence = v2000_valence_field(mol, idx);
         out.push_str(&format!(
-            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0  0  0  0  0  0  0\n",
-            p.x, p.y, p.z, sym, charge_code,
+            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0{:>3}  0  0  0  0  0\n",
+            p.x, p.y, p.z, sym, charge_code, valence,
         ));
     }
 
@@ -1801,6 +1865,96 @@ M  END
         assert_eq!(mol.atom(AtomIdx(0)).hydrogen_count, None);
         assert_eq!(chematic_smiles::write(&mol), "[NH4+]");
         assert_eq!(chematic_smiles::canonical_smiles(&mol), "[NH4+]");
+    }
+
+    /// The `vvv` (valence) field of atom `i` in a V2000 block, as written.
+    fn written_valence_field(molblock: &str, i: usize) -> &str {
+        let line = molblock.lines().nth(4 + i).expect("atom line");
+        &line[48..51]
+    }
+
+    #[test]
+    fn test_bare_bracket_atom_writes_zero_valence_sentinel() {
+        // `[Mg]` is magnesium, not MgH2. V2000's only structural channel
+        // for "this atom has no hydrogens" is the valence field's 15
+        // sentinel; with `vvv` left unspecified every standard-valence
+        // reader fills the atom to its normal valence and the file names a
+        // different substance than the molecule it was written from.
+        // (Found against the IUPAC InChI reference reader, which turned
+        // `[Mg]` into InChI=1S/Mg.2H, `[C]` into methane and `[S]` into
+        // hydrogen sulfide.)
+        for smiles in ["[Mg]", "[Pb]", "[C]", "[S]", "[Cu]", "[Na+]"] {
+            let mol = chematic_smiles::parse(smiles).expect("parse");
+            let block = write_mol(&mol, &MolMetadata::default());
+            assert_eq!(
+                written_valence_field(&block, 0),
+                " 15",
+                "{smiles} has no hydrogens and no bonds — vvv must be the \
+                 zero-valence sentinel, not unspecified"
+            );
+        }
+    }
+
+    #[test]
+    fn test_bracket_atom_valence_field_counts_bonds_and_hydrogens() {
+        // Ca(OH)2: the calcium is a bracket atom with two single bonds and
+        // no hydrogens, so its total valence is 2. The two oxygens are
+        // organic-subset atoms with no explicit count — their hydrogens
+        // *are* the standard-valence inference, so they stay unspecified.
+        let mol = chematic_smiles::parse("O[Ca]O").expect("parse");
+        let block = write_mol(&mol, &MolMetadata::default());
+        assert_eq!(written_valence_field(&block, 1), "  2", "Ca: 2 bonds, 0 H");
+        assert_eq!(written_valence_field(&block, 0), "  0", "O: unspecified");
+        assert_eq!(written_valence_field(&block, 2), "  0", "O: unspecified");
+
+        // [NH4+] is a bracket atom with no bonds and four hydrogens.
+        let mol = chematic_smiles::parse("[NH4+]").expect("parse");
+        let block = write_mol(&mol, &MolMetadata::default());
+        assert_eq!(written_valence_field(&block, 0), "  4");
+    }
+
+    #[test]
+    fn test_organic_subset_atoms_leave_the_valence_field_unspecified() {
+        // Every atom of an all-organic-subset molecule infers its own
+        // hydrogens, so this writer's output for them is byte-identical to
+        // what it produced before the valence field was ever written.
+        let mol = chematic_smiles::parse("CCO").expect("parse");
+        let block = write_mol(&mol, &MolMetadata::default());
+        for i in 0..3 {
+            assert_eq!(written_valence_field(&block, i), "  0");
+        }
+    }
+
+    #[test]
+    fn test_aromatic_bond_declines_to_state_a_valence() {
+        // An aromatic bond has no integer valence to sum. Guessing one
+        // would be worse than the standard-valence fallback, so an atom
+        // carrying one leaves `vvv` unspecified even though it is a
+        // bracket atom with an explicit hydrogen count.
+        let mut b = MoleculeBuilder::new();
+        let mut n = Atom::new(Element::N);
+        n.hydrogen_count = Some(1);
+        let n = b.add_atom(n);
+        let c = b.add_atom(Atom::new(Element::C));
+        b.add_bond(n, c, BondOrder::Aromatic).unwrap();
+        let mol = b.build();
+        let block = write_mol(&mol, &MolMetadata::default());
+        assert_eq!(written_valence_field(&block, 0), "  0");
+    }
+
+    #[test]
+    fn test_valence_field_does_not_disturb_the_other_atom_columns() {
+        // The field is written *into* the existing fixed-width layout, not
+        // appended to it: charge and symbol must land where they always did.
+        let mol = chematic_smiles::parse("[Mg+2]").expect("parse");
+        let block = write_mol(&mol, &MolMetadata::default());
+        let line = block.lines().nth(4).unwrap();
+        assert_eq!(&line[31..34], "Mg ", "symbol columns");
+        assert_eq!(&line[36..39], "  2", "MDL charge code for +2");
+        assert_eq!(line.len(), 66, "V2000 atom line width is unchanged");
+        let (reparsed, _) = parse_mol(&block).expect("round-trips");
+        assert_eq!(reparsed.atom(AtomIdx(0)).charge, 2);
+        assert_eq!(reparsed.atom(AtomIdx(0)).element, Element::Mg);
     }
 
     #[test]

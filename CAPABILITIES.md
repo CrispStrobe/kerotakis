@@ -767,6 +767,95 @@ nothing).
       implicit-H cases are one fix (bracket-atom H-count in V2000
       writer); the 3 aromatics are kekulisation; the rest are individual
       connectivity/charge bugs.
+- [ ] Tranche growth: **97 → 102**, implicit-H class closed (2026-08-29,
+      A3 / Opus). The four implicit-H deferrals above (Mg, Pb, C, S) were
+      one bug and are now in the tranche. Writing the deferrals down as
+      *running tests* rather than prose then cost a fifth its deferral:
+      phenolphthalein was never a chematic bug (below). Six remain.
+
+      **Diagnosis.** Not "`write_mol` adds implicit H" — `write_mol` adds
+      nothing. It *omits*: the V2000 atom block's valence field (`vvv`,
+      columns 49–51) was written as `0` for every atom, always. V2000 has
+      no field that states an exact hydrogen count in a structure file
+      (`hhh` is a query field, read as "at least"); `vvv` — total valence,
+      bonds plus hydrogens, with `15` the sentinel for zero — is the only
+      channel. A bracket SMILES atom carries an explicit hydrogen count
+      and for a bare element that count is *zero*, which is exactly what
+      an unspecified `vvv` cannot say, so the official library did what
+      any standard-valence reader does and filled the atoms back up. It is
+      not an InChI quirk: RDKit, Open Babel and any CTfile-conformant
+      viewer read the same wrong molecule out of those files.
+
+      **Decision: local patch, not an upstream-PR-and-wait.** The fix is
+      ~30 lines in one file with five regression tests, the tranche is
+      blocked on it *now*, and an upstream PR's round trip is not on our
+      schedule. It lands as a single changed file inside the audited
+      `vendor/chematic-0.18/` tree that the workspace root's
+      `[patch.crates-io]` block already points at (vendored for a different
+      reason — crates.io stopped advertising chematic 0.18's internal
+      packages — but exactly the right home for this):
+      `vendor/chematic-0.18/chematic-mol-0.18.0/src/mol2000.rs` is the
+      **only** file in that whole tree that differs from what crates.io
+      published, so `diff -u` against the registry copy *is* the upstream
+      patch. `provenance/sources.toml` records the delta and its checksum;
+      the `PATCH.md` beside it carries the rationale, the upstream commit,
+      the `.crate` sha256 and the filing instructions. A patch, not a fork
+      — the intended end state is upstream taking the same change and the
+      local delta vanishing at the next chematic bump.
+
+      **Scope held.** The fix only speaks where the format was silent: an
+      atom with no explicit hydrogen count (every organic-subset SMILES
+      atom, and every atom read back from a MOL file, which has no H-count
+      channel) still writes `vvv = 0`, so all-organic molfiles are
+      byte-identical to before — asserted in
+      `tests/write_mol_repro.rs::class1_leaves_organic_subset_molecules_byte_identical`.
+      An atom carrying an aromatic or query bond order declines to state a
+      valence rather than guess one.
+
+      **A curation bug the fix exposed: Al.** The registry booked
+      aluminium as `AZDRQVAHHNSJOQ-UHFFFAOYSA-N`, which is aluminium
+      trihydride AlH₃ (`InChI=1S/Al.3H`, CAS 7784-21-6) — not the metal the
+      entry describes (formula Al, M 26.982, density 2.70 g/cm³). It had
+      been passing the identity gate since the tranche's 23→65 growth
+      because the writer bug was turning `[Al]` into AlH₃ on the way to
+      InChI: two errors cancelling, and a green gate saying nothing. With
+      the valence field written, `[Al]` keys to `InChI=1S/Al` →
+      `XAGFODPZIPBFFR-UHFFFAOYSA-N`, and the registry is corrected to it
+      (`data/registry/registry-source-v1.json`, its evidence note, and the
+      `kerotakis-core` golden snapshot). This is the gate doing exactly
+      what CAP-13 built it for, one bug later than it should have. Al was
+      the only such case: the other bare-element pins (Cu, Zn, Ag, Fe) are
+      transition metals, which the official library never fills with
+      hydrogen, so they were right for the right reason.
+
+      **A misdiagnosis the repro exposed: phenolphthalein.** Filed as a
+      kekulisation bug — "`write_mol` outputs the open (acid) form". It is
+      not a library bug. Given the *closed lactone*
+      (`Oc1ccc(cc1)C1(OC(=O)c2ccccc21)c1ccc(O)cc1`), chematic kekulises it,
+      writes it, and the official library returns
+      `KJFMBFZCATUALV-UHFFFAOYSA-N` — the registry key, exactly. The writer
+      had been faithfully encoding the molecule it was handed; the wrong
+      tautomer went in. Curating the lactone was the entire fix, and
+      phenolphthalein is in the tranche. Nothing about kekulisation was
+      touched to achieve it. The lesson generalises: a deferral written as
+      prose is a claim nobody re-tests, and this one had been wrong since
+      2026-08-24.
+
+      **Still deferred (6), with repro cases.**
+      `crates/kerotakis-org/tests/write_mol_repro.rs` runs all three
+      classes in the gate. The two open classes assert *inequality* with
+      the registry key, so the day either starts matching — from a library
+      fix *or* from a better curated SMILES — the test fails and the
+      failure message is the instruction: promote the species and grow the
+      pin. Kekulisation (methyl_orange, bromothymol_blue) and
+      connectivity/charge (Cu(OH)2, MnO4-, Pb+2, Pb(NO3)2) are unchanged
+      and were not attempted. Given phenolphthalein, the honest statement
+      about the remaining two dyes is that nobody has checked whether they
+      are kekulisation at all — the curated SMILES is the cheaper thing to
+      rule out first. The connectivity four are genuinely the library:
+      InChI disconnects the metal (`Cu.2H2O/q+2;;/p-2`, `Mn.4O`) and the
+      charge layer does not survive, and those are four separate bugs
+      rather than one class.
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
