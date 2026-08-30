@@ -61,6 +61,11 @@ fn species_map_into_the_nasa_data_by_formula() {
         "liquid fuel uses CEA's separate feed-only thermochemistry"
     );
     assert_eq!(
+        kerotakis_cea::cea_name("methanol"),
+        Some("CH3OH(L)"),
+        "methanol has its own feed-only record and must not borrow ethanol's"
+    );
+    assert_eq!(
         kerotakis_cea::cea_name("isopropanol"),
         None,
         "an isopropanol identity must not borrow another C3H8O isomer's thermochemistry"
@@ -157,6 +162,141 @@ fn a_flame_really_burns_liquid_ethanol() {
         event,
         Event::ReactionOccurred { equation, .. } if equation.contains("C₂H₅OH")
     )));
+}
+
+/// Energy released per mole of fuel by the `Ignited` event, in kJ/mol.
+fn released_kj_per_mol(events: &[Event], moles: f64) -> f64 {
+    let energy = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Ignited {
+                energy_j: Some(energy),
+                ..
+            } => Some(*energy),
+            _ => None,
+        })
+        .expect("a flame that caught reports its energy");
+    energy / moles / 1000.0
+}
+
+#[test]
+fn a_flame_really_burns_liquid_methanol() {
+    let mut bench = Bench::new();
+    let mut methanol_stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut methanol_stack, v, "methanol", 0.010);
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut methanol_stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite methanol");
+
+    assert!(
+        bench
+            .vessel(v)
+            .unwrap()
+            .moles_of(&SpeciesId::new("methanol"))
+            .0
+            < 1e-6,
+        "the fuel is consumed: {events:?}"
+    );
+    // CH3OH + 1.5 O2 -> CO2 + 2 H2O: one carbon, two waters per mole.
+    assert!(
+        events.iter().any(
+            |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "CO2" && moles.0 > 0.008)
+        ),
+        "methanol's single carbon must leave as CO2: {events:?}"
+    );
+    assert!(
+        events.iter().any(
+            |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "water" && moles.0 > 0.016)
+        ),
+        "two waters per mole of methanol: {events:?}"
+    );
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::TemperatureChanged { from, to, .. } if to.0 > from.0
+        )),
+        "an adiabatic flame must run hotter than the spark that lit it: {events:?}"
+    );
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::ThermalEquilibrium { provenance, .. }
+                if provenance.dataset.contains("CEA")
+                    && provenance.dataset_sources.iter().any(|source| source.contains("CH3OH(L)"))
+        )),
+        "the feed record that carried the energy must be cited: {events:?}"
+    );
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::ReactionOccurred { equation, .. } if equation.contains("CH₃OH")
+        )),
+        "the burn is announced as an equation: {events:?}"
+    );
+
+    // How much energy, and why this band.
+    //
+    // The textbook number is the standard enthalpy of combustion of LIQUID
+    // methanol to CO2(g) and LIQUID water:
+    //
+    //   ΔcH°(CH3OH, l, 298.15 K) = −726.1 kJ/mol
+    //
+    // Provenance: it is the Hess-law sum of standard formation enthalpies —
+    // ΔfH°(CO2, g) = −393.51 and ΔfH°(H2O, l) = −285.83 kJ/mol (CODATA Key
+    // Values for Thermodynamics), minus ΔfH°(CH3OH, l) = −238.91 kJ/mol,
+    // which is the value carried by the CH3OH(L) record this very solve
+    // reads (vendor/nasa-cea/thermo.inp, "MeOH. TRC(12/87) p5000"):
+    //   −393.51 + 2(−285.83) − (−238.91) = −726.26 kJ/mol.
+    //
+    // What the solver reports is deliberately NOT that number, and the band
+    // below encodes the difference rather than hiding it. `ignite` is a
+    // flame: its water leaves as VAPOUR, and the release is evaluated at the
+    // ignition-zone temperature, where the feed record has already handed
+    // over to the gas-phase polynomial (thermal.rs::enthalpy_within_record).
+    // Condensing the two product waters would add 2 × 44 = 88 kJ/mol, so the
+    // honest expectation for a vapour-product flame is
+    //   −726 + 88 ≈ −638 kJ/mol from the liquid, and ≈ −676 kJ/mol from
+    // vapour methanol (the 38 kJ/mol enthalpy of vaporisation of methanol),
+    // shifting by a few tens of kJ/mol between 298 K and the flame zone.
+    // A band of 560–760 kJ/mol therefore brackets every defensible reading
+    // of "methanol burned" while still failing an answer that is out by a
+    // factor — which is what this assertion is for.
+    let methanol_kj = released_kj_per_mol(&events, 0.010);
+    assert!(
+        (560.0..=760.0).contains(&methanol_kj),
+        "methanol's release should sit near its −726 kJ/mol standard \
+         combustion enthalpy corrected for vapour water, got {methanol_kj:.1} kJ/mol"
+    );
+
+    // The alcohol-burn quest's stated comparison: ethanol carries a second
+    // carbon and releases about 1367 kJ/mol against methanol's 726, so per
+    // MOLE ethanol must win by a clear margin. Both numbers come from the
+    // same solver and the same dataset, so the comparison is meaningful.
+    let mut ethanol_bench = Bench::new();
+    let mut ethanol_stack = stack();
+    add(&mut ethanol_bench, &mut ethanol_stack, v, "ethanol", 0.010);
+    let ethanol_events = ethanol_bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut ethanol_stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite ethanol");
+    let ethanol_kj = released_kj_per_mol(&ethanol_events, 0.010);
+    assert!(
+        ethanol_kj > methanol_kj * 1.5,
+        "per mole, ethanol must clearly out-release methanol \
+         (literature ratio 1367/726 ≈ 1.88): ethanol {ethanol_kj:.1} \
+         vs methanol {methanol_kj:.1} kJ/mol"
+    );
 }
 
 #[test]

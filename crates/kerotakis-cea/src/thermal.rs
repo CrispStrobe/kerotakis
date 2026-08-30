@@ -31,6 +31,19 @@ use crate::nasa9::{db, Species};
 /// Air, as mole fractions of the reservoir the vessel stands in.
 const AIR: &[(&str, f64)] = &[("N2", 0.78), ("O2", 0.21)];
 
+/// The balanced burn a liquid fuel announces once it has caught.
+///
+/// The composition and the energy both come out of the Gibbs solve; this
+/// table only supplies the familiar written equation to put beside them,
+/// because a reader recognises `2 CH₃OH + 3 O₂ → 2 CO₂ + 4 H₂O` and does
+/// not recognise a mole table. A fuel earns a row here once its liquid
+/// record actually burns in the solver — the row is a label, never the
+/// reason anything happened.
+const LIQUID_FUEL_COMBUSTION: &[(&str, &str)] = &[
+    ("methanol", "2 CH₃OH(l) + 3 O₂(g) → 2 CO₂(g) + 4 H₂O(g)"),
+    ("ethanol", "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)"),
+];
+
 /// Below this temperature the thermal solver stands down and lets solids
 /// be: equilibrium would oxidise every metal on the bench, and only
 /// kinetics (L5) explains why the world is not like that.
@@ -64,10 +77,11 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
                     ga.total_cmp(&gb)
                 });
             // CEA deliberately separates feed-only thermochemistry after
-            // `END PRODUCTS`. Liquid ethanol lives there: it may enter an
-            // energy balance, but must never be invented as an equilibrium
-            // product. Prefer the ordinary product set and consult that
-            // separate feed set only when the requested room phase is absent.
+            // `END PRODUCTS`. The liquid alcohols — CH3OH(L), C2H5OH(L) —
+            // live there: such a record may enter an energy balance, but
+            // must never be invented as an equilibrium product. Prefer the
+            // ordinary product set and consult that separate feed set only
+            // when the requested room phase is absent.
             let reactants = db()
                 .reactants
                 .values()
@@ -259,7 +273,7 @@ struct Charge {
     /// Registry species that mapped, with their amounts.
     mapped: Vec<(SpeciesId, f64)>,
     /// At least one input came from CEA's feed-only section rather than its
-    /// admissible equilibrium products (for example liquid ethanol).
+    /// admissible equilibrium products (liquid methanol or ethanol).
     used_feed_thermo: bool,
 }
 
@@ -542,15 +556,20 @@ impl Equilibrator for ThermalEquilibrator {
             }
         }
 
-        if !events.is_empty()
-            && charge
-                .mapped
-                .iter()
-                .any(|(species, _)| species.0 == "ethanol")
-        {
+        let burning_fuel = (!events.is_empty())
+            .then(|| {
+                LIQUID_FUEL_COMBUSTION.iter().find(|(key, _)| {
+                    charge
+                        .mapped
+                        .iter()
+                        .any(|(species, amount)| species.0 == *key && *amount > 1e-12)
+                })
+            })
+            .flatten();
+        if let Some((_, equation)) = burning_fuel {
             events.push(Event::ReactionOccurred {
                 vessel: vessel.id,
-                equation: "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)".to_string(),
+                equation: equation.to_string(),
             });
         }
         if !events.is_empty()
