@@ -1753,6 +1753,66 @@ and presents them well.
   and description for assistive technology. Vitest pins deterministic content,
   escaping, bounds and safe filenames; the full Vite production build passes.*
 
+- [ ] **GUI-098 — Optional WebGPU presentation tier (BRD-094).** Keep the
+  authoritative engine and the shipped deterministic `fluidScene` unchanged.
+  Add a renderer-local capability boundary that may select a project-owned
+  WGSL effect only when WebGPU exists, the effect has been explicitly enabled,
+  motion is allowed and execution is neither headless nor backgrounded. The
+  accelerator consumes bounded Scene/Event data and returns no chemistry,
+  transfer, phase or temperature state. It performs no per-frame Tauri IPC or
+  GPU readback; device loss immediately returns to the lightweight renderer.
+  First implementation candidate must name one missing observable (smoke,
+  flame, foam or a genuinely 3-D pour) and beat BRD-072's baseline on the
+  low-end target. DoD: deterministic selection tests, WebGPU-absent/device-loss
+  fallback, reduced-motion/headless equivalence, shader licence/provenance,
+  payload and frame-budget measurements on web, Android, iOS, macOS and
+  Windows. Taichi and NanoVDB are not dependencies of this task.
+
+  **Owned execution tasklist (estimated 7–10 focused hours; each tranche is
+  independently mergeable):**
+
+  1. [x] **GPU-1 — Lifecycle and fail-closed fallback (2–3 h).** Add an
+     injected, framework-neutral adapter/device lifecycle with idempotent
+     start/stop, concurrent-start coalescing, stale-promise generations,
+     adapter/device rejection handling and immediate `device.lost` fallback.
+     **DoD:** no rejected promise escapes; late work cannot mutate stopped or
+     restarted state; each acquired device is destroyed at most once; SSR and
+     missing/malformed `navigator.gpu` are safe; focused lifecycle tests and
+     the production build pass.
+     *Done 2026-08-30:* structural (ambient-type-free) provider, adapter and
+     device interfaces; deterministic fallback for missing/rejected adapter or
+     device; coalesced starts; generation-guarded stop/restart; immediate
+     device-loss fallback and destroy-once cleanup. Fourteen focused GPU policy
+     and lifecycle tests plus the production Vite build pass.
+  2. [ ] **GPU-2 — Dynamic environment policy (1–1.5 h).** Observe
+     `prefers-reduced-motion` and document visibility through injected,
+     disposable listeners. Stop GPU work on either constraint and permit a
+     restart only when the named effect remains approved. **DoD:** listener
+     cleanup is idempotent; background/reduced-motion transitions never alter
+     Scene/Event state; fake-media/document tests pin ordering and disposal.
+  3. [ ] **GPU-3 — Ignition flame uniform plan (1–1.5 h).** Map only a live
+     authoritative `ignite` effect, its bounded magnitude, curated flame
+     colour and vessel identity to clamped visual uniforms and a deterministic
+     seed. Do not infer flame from temperature alone. **DoD:** absent ignite is
+     inactive; magnitude is monotone and bounded; known colours map exactly;
+     unknown colour falls back safely; reduced motion is inactive; no engine
+     schema, chemistry state, IPC or GPU readback changes.
+  4. [ ] **GPU-4 — Project-owned WGSL flame envelope (2–3 h).** Implement one
+     renderer-local procedural envelope from published fire-rendering ideas,
+     without copying `jeantimex/fluid` or its upstream ports. Keep the SVG
+     visible until the GPU reports its first presented frame; device loss
+     restores SVG immediately. **DoD:** shader provenance header cites Nguyen,
+     Fedkiw & Jensen and states independent implementation; bounded canvas,
+     no pointer/a11y ownership, no per-frame allocation/IPC/readback; shader
+     compilation smoke test and deterministic uniform snapshots pass.
+  5. [ ] **GPU-5 — Integration and release gate (1–2 h plus device lab).** Mount
+     the effect beside the existing vessel flame without changing its fallback
+     semantics. Measure payload, startup and p95 frame time against BRD-072's
+     9 ms governor. **DoD:** full Vitest/Vite gates; WebGPU absent, device loss,
+     headless, background and reduced-motion cases retain the SVG endpoint;
+     web/Android/iOS/macOS/Windows results recorded; similarity/provenance
+     review complete. GUI-098 remains open until this cross-host matrix passes.
+
 ## Localisation is not finished (I18N-1 … I18N-4)
 
 The shell is locale-keyed and English and German ship together. The *content*
