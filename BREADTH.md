@@ -353,6 +353,10 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   survives review into a compiled pack manifest with its source path intact
   rather than being reattached by hand. 31 tests; nothing enters the runtime
   registry.
+  The `provenance/sources.toml` record sits in the `quarantine` lane, which
+  reaches no runtime path and no release payload by construction, so it clears
+  ChEBI for nothing: promotion into a shipping lane is its own reviewed record,
+  written when a pack actually needs these fields.
   **Licence finding, reviewed and settled at CC BY 4.0 (2026-08-29):** ChEBI's
   flat-file `README` names the terms "CC Attribution-ShareAlike 4.0" and then
   points the reader at a `LICENSE` file that is verbatim CC BY 4.0 with no

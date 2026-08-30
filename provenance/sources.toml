@@ -207,7 +207,7 @@ sha256 = "5a7aa817de95a5997063a8e656865c773155972abd1e4bb806ef79597f2e31b5"
 id = "ebi-chebi-identity-slice"
 name = "ChEBI identity and ontology slice (release 253)"
 kind = "data"
-lane = "runtime-data"
+lane = "quarantine"
 decision = "approved"
 licence = "CC-BY-4.0"
 origin = "https://ftp.ebi.ac.uk/pub/databases/chebi/archive/rel253/flat_files"
@@ -216,8 +216,7 @@ copyright = "EMBL-EBI and the ChEBI curation team"
 retrieved = "2026-08-29"
 attribution = "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0"
 paths = ["crates/kerotakis-data/tests/fixtures/quarantine/chebi-v1"]
-allowed_outputs = ["quarantine-candidate", "embedded-runtime-database"]
-targets = ["native", "web", "ios", "android"]
+allowed_outputs = ["quarantine-candidate"]
 reviewer = "Kerotakis engineering policy audit (BRD-011)"
 notes = """
 BRD-011. Pinned to ChEBI release 253 (dated 2026-07-07), taken from the \
@@ -253,9 +252,13 @@ change, and the promotion lint refuses on its own thereafter.
 FOLLOW-UP OWED UPSTREAM: report the stale README line to EMBL-EBI so the \
 flat-file README matches the LICENSE file and the about page.
 
-Nothing from this source is in the runtime registry. The adapter \
-(crates/kerotakis-data/src/chebi.rs) stops at BRD-003 quarantine; the \
-committed artifact is a pinned test fixture. Per-record CC BY attribution \
+Lane is quarantine, which reaches no runtime path and no release payload by \
+construction, so this record clears ChEBI for nothing: promotion into a \
+shipping lane is its own reviewed record, written when a pack actually needs \
+these fields. `allowed_outputs` is quarantine-candidate alone and there are no \
+targets, because a quarantined snapshot ships to none. The adapter \
+(crates/kerotakis-data/src/chebi.rs) stops at BRD-003 quarantine and nothing \
+from this source is in the runtime registry. Per-record CC BY attribution \
 travels as an ordinary promotable candidate field so it survives into a \
 compiled pack manifest rather than living only in a build script. ChEBI \
 ontology roles may seed search tags only — the adapter's role firewall refuses \

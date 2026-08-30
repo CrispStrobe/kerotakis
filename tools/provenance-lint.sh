@@ -41,11 +41,7 @@ done < "$MANIFEST"
 
 # 3. No runtime source uses a non-allowlisted licence
 echo "--- Licence check ---"
-# CC-BY-4.0 is a shipping data licence per ROADMAP-Webapp.md's 2026-08-23
-# decision and already appears in `default_runtime_data_licences()`; this list
-# had only lagged behind it. CC-BY-SA-4.0 still fails: no alternative below
-# matches the start of that string.
-ALLOWED_RUNTIME="MIT|Apache-2.0|AGPL-3.0-or-later|BSD-2-Clause|BSD-3-Clause|CC0-1.0|CC-BY-4.0|ISC|Zlib|LicenseRef-USGS"
+ALLOWED_RUNTIME="MIT|Apache-2.0|AGPL-3.0-or-later|BSD-2-Clause|BSD-3-Clause|CC0-1.0|ISC|Zlib|LicenseRef-USGS"
 while IFS= read -r line; do
     licence=$(echo "$line" | sed -n 's/^licence = "\(.*\)"/\1/p')
     [ -z "$licence" ] && continue
