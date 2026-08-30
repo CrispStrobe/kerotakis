@@ -471,6 +471,35 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     registry solid the Barite phase precipitates into — which is EXP-30's
     open "BaCl2 sulfate row". The litmus/indicator material of item 1 is
     NOT in this slice: it needs colour-state machinery.
+  - `BRD-012.S03` — the food-chemistry identity tranche. The pure species
+    the household-material recipes name and cannot resolve: glucose,
+    fructose, malic acid, citric acid and cellulose, plus the citrate ion
+    minteq.v4 books dissolved citrate back as. Glucose and fructose ride
+    sucrose's finite neutral-solute rung with CRC room-temperature
+    capacities, and are pinned distinct end to end — same C6H12O6,
+    different InChIKeys, and a test that says so. Adding the first
+    stereo-bearing SMILES this repo has ever curated also found a
+    pipeline limit worth recording: the SMILES-to-molfile-to-InChI route
+    does not preserve tetrahedral parity, so both sugars recompute to
+    stereo-free skeletons and no registry key here distinguishes D from
+    L. The sugars stay distinct because they are structural isomers, not
+    because the identity carries chirality. The stereo SMILES are kept as
+    a tripwire, and sucrose's asserted stereo key (never recomputed,
+    because it is not in CURATED_STRUCTURES) is the open question this
+    leaves behind. Cellulose follows
+    starch's precedent exactly: a per-monomer anhydroglucose aggregate
+    with no InChIKey asserted, because (C6H10O5)n is not a molecule.
+    The two acids divide, and the division is the point of the slice:
+    minteq.v4 is the only shipped database defining a Citrate master
+    species, so citric acid computes its own pH from the database's three
+    protonation constants, while malate is in none of the ~40 databases
+    vendored with iphreeqc — so malic acid dissolves and the engine says
+    out loud that its acidity is not in the pH, rather than publishing a
+    neutral number that looks like an answer. Deliberately NOT in this
+    slice: the BRD-014 juice/flour/paper recipes are not re-pointed at
+    the new species, because that tranche was still unmerged when this
+    one landed. That upgrade is the follow-up, and each recipe that gains
+    a resolved fraction needs its own conservation test.
 - **Outcome:** at least 300 reviewed identities that a school-age user is likely
   to name, including common gases, acids/bases, salts, metals, minerals, fuels,
   solvents, sugars, fats, monomers, polymers-as-populations, pigments, and
