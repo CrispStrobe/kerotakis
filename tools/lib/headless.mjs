@@ -113,17 +113,18 @@ export class Cdp {
  * Launch headless Chrome and attach. Returns the connection, a page
  * session, and a `close()` that leaves nothing behind.
  */
-export async function browser() {
+export async function browser({ disableGpu = true, extraArgs = [], headless = true } = {}) {
   const profile = await mkdtemp(join(tmpdir(), "kero-headless-"));
   const args = [
-    "--headless=new",
+    ...(headless ? ["--headless=new"] : []),
     "--remote-debugging-port=0",
     `--user-data-dir=${profile}`,
     "--no-first-run",
     "--no-default-browser-check",
-    "--disable-gpu",
+    ...(disableGpu ? ["--disable-gpu"] : []),
     "--no-sandbox",
     "--hide-scrollbars",
+    ...extraArgs,
     "about:blank",
   ];
 

@@ -5,6 +5,7 @@ import {
   createWebGpuLifecycle,
   type WebGpuAdapterLike,
   type WebGpuDeviceLike,
+  type WebGpuEnvironmentSnapshot,
 } from "./webGpuLifecycle";
 
 const deferred = <T>() => {
@@ -435,5 +436,29 @@ describe("dynamic WebGPU environment policy", () => {
     expect(observed).toHaveLength(beforeLoss);
     policy.dispose();
     expect(() => policy.subscribe(() => { throw new Error("disposed observer"); })).not.toThrow();
+  });
+
+  it("shares one acquired device snapshot across simultaneous consumers", async () => {
+    const env = environment();
+    const acquired = device();
+    const requestAdapter = vi.fn(async () => ({ requestDevice: async () => acquired.value }));
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter, preferredCanvasFormat: () => "bgra8unorm" },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+    });
+    const first: WebGpuEnvironmentSnapshot[] = [];
+    const second: WebGpuEnvironmentSnapshot[] = [];
+    const stopFirst = policy.subscribe((snapshot) => first.push(snapshot));
+    const stopSecond = policy.subscribe((snapshot) => second.push(snapshot));
+    policy.start();
+    await vi.waitFor(() => expect(policy.snapshot().lifecycle.status).toBe("ready"));
+    expect(requestAdapter).toHaveBeenCalledTimes(1);
+    expect(first.at(-1)?.lifecycle).toEqual({ status: "ready", device: acquired.value });
+    expect(second.at(-1)?.lifecycle).toEqual({ status: "ready", device: acquired.value });
+    stopFirst();
+    stopSecond();
+    policy.dispose();
   });
 });

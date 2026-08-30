@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import type { Scene } from "../host/EngineHost";
   import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
@@ -7,6 +8,13 @@
   import { incidentEffects } from "../incidents";
   import StandaloneApparatus from "./StandaloneApparatus.svelte";
   import { t } from "../i18n.svelte";
+  import { benchIgnitionApproved } from "../ignitionBenchApproval";
+  import { browserGpuEnvironment } from "../browserGpuEnvironment";
+  import {
+    createWebGpuEnvironmentPolicy,
+    type WebGpuEnvironmentPolicy,
+    type WebGpuEnvironmentSnapshot,
+  } from "../webGpuLifecycle";
   import {
     BENCH_ZONES,
     apparatusPositionFor,
@@ -97,6 +105,13 @@
   let apparatusPointer = $state<{ tool: string; pointer: number; startX: number; startY: number; moved: boolean } | null>(null);
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
+  let gpuClock = $state(Date.now());
+  let gpuPolicy = $state<WebGpuEnvironmentPolicy | null>(null);
+  let gpuSnapshot = $state<WebGpuEnvironmentSnapshot>({
+    lifecycle: { status: "idle" },
+    decision: { backend: "lightweight", reason: "effect-not-approved" },
+    preferredCanvasFormat: null,
+  });
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
   const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate", "dilute"];
   const zoneHints: Record<BenchZone, string> = {
@@ -118,9 +133,51 @@
     JSON.stringify({ placements: layout.placements, preview: dragPreview }),
   );
   const incidents = $derived(incidentEffects(effects));
+  const gpuApproved = $derived(benchIgnitionApproved(effects, gpuClock));
   const standaloneWorking = $derived(
     apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null),
   );
+
+  $effect(() => {
+    const now = Date.now();
+    gpuClock = now;
+    const nextExpiry = Object.values(effects).flat()
+      .filter((effect) => effect.kind === "ignite" && effect.at <= now)
+      .map((effect) => effect.at + (effect.durationMs ?? 3000))
+      .filter((expiry) => expiry > now)
+      .sort((left, right) => right - left)[0];
+    if (nextExpiry === undefined) return;
+    const delay = Math.min(2_147_483_647, Math.max(0, nextExpiry - now + 1));
+    const timer = globalThis.setTimeout(() => (gpuClock = Date.now()), delay);
+    return () => globalThis.clearTimeout(timer);
+  });
+
+  $effect(() => gpuPolicy?.setEffectApproved(gpuApproved));
+
+  onMount(() => {
+    const environment = browserGpuEnvironment();
+    if (!environment) return;
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: environment.provider,
+      reducedMotion: environment.reducedMotion,
+      document: environment.document,
+      effectApproved: gpuApproved,
+      headless: environment.headless,
+    });
+    gpuPolicy = policy;
+    const unsubscribe = policy.subscribe((snapshot) => (gpuSnapshot = snapshot));
+    policy.start();
+    return () => {
+      unsubscribe();
+      policy.dispose();
+      if (gpuPolicy === policy) gpuPolicy = null;
+      gpuSnapshot = {
+        lifecycle: { status: "fallback", reason: "stopped" },
+        decision: { backend: "lightweight", reason: "effect-not-approved" },
+        preferredCanvasFormat: null,
+      };
+    };
+  });
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) =>
@@ -444,6 +501,7 @@
             {onselect}
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
+            gpuIgnition={gpuSnapshot}
             titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
