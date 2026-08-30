@@ -13,6 +13,7 @@
 mod chart_svg;
 mod coverage;
 mod diagram;
+mod fit;
 mod mcp;
 mod provenance;
 mod study;
@@ -239,6 +240,7 @@ fn main() {
         Some("study") => {
             study::study_command(&args[1..]);
         }
+        Some("fit") => fit::fit_command(&args[1..]),
         Some("prewarm") => {
             // Build-time: replay lesson scripts through the real engine and
             // export every solver result, so guided content never waits for
@@ -1342,6 +1344,9 @@ fn usage() -> ! {
          \x20 kero run FILE.lab [--json] replay a command script\n\
          \x20 kero study FILE.lab --vary add:v1:HCl=0.005..0.02:4\n\
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
+         \x20 kero fit FILE.lab --param rate:REACTION:pre_exponential\n\
+         \x20        --data observations.csv --observe amount:SPECIES@vN\n\
+         \x20        --bounds LO..HI --loss sse    fit one curated rate constant\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \x20 kero coverage curiosity [--smoke] [--json]\n\

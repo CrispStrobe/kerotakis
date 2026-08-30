@@ -1530,6 +1530,11 @@ decorating it.
   tendrils dispersing to exactly the scene srgb; hexane onto water
   visibly separates into GUI-058's two layers; stir drives a vortex
   that decays; all kernels/projection/settle covered by vitest.
+  BRD-070 now types this boundary in `kerotakis_core::authority`: animations
+  propose cumulative endpoints with replay seeds, `Transferred` receipts alone
+  commit them, and reduced-motion/headless/background execution changes no
+  chemistry. Typed collision and spill destinations remain non-mutating until
+  BRD-073 supplies the chemistry-owned break/spill operators and events.
 - [x] **GUI-061 — Volume-true fills.** *Shipped 2026-08-25 (kero-basic, PR #36).* Fill height must come from the
   vessel kind's real capacity and geometry (a conical flask's height vs
   volume is not linear). Per-kind capacity_ml + a volume→height profile;
@@ -1735,11 +1740,18 @@ and presents them well.
   Ea and A constant across the fitted range, and Debye–Hückel's
   A = 0.5091 is water at 25 °C.
 
-- [ ] **GUI-097 — One shareable card per result.** The expanded report as a
+- [x] **GUI-097 — One shareable card per result.** The expanded report as a
   single image a learner can hand in or send: equation, observation, the
   numbers, the provenance line. We have notebook export and print, which are
   documents; this is one result, self-contained. Uses the existing chart
   export path, adds no new dependency.
+  *Done 2026-08-30:* the expanded latest-result disclosure exports one
+  deterministic, self-contained SVG or 2× PNG with the localized reaction
+  class and quantity labels, equation, observation, numeric results and the
+  event's provenance (or an explicit computed-event fallback). The SVG is
+  dependency-free, XML-escaped, bounded for long prose, and carries a title
+  and description for assistive technology. Vitest pins deterministic content,
+  escaping, bounds and safe filenames; the full Vite production build passes.*
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
@@ -1804,10 +1816,15 @@ in a German classroom — which is the audience the curriculum mapping in
   `tSlug`'s source, so changing the de-slugging fails the lint rather than
   silently invalidating it. 308 slugs, 308 answered.
 
-- [ ] **I18N-3 — Engine vocabulary coverage.** `DE_TERMS` translates species,
-  colours, hazards and lesson names. Add a gate that fails when the engine can
-  emit a term the dictionary does not carry, so a new species cannot silently
-  ship an English name into a German sentence.
+- [x] **I18N-3 — Engine vocabulary coverage.** The `terms` map in
+  `web/app/src/locales/de.json` translates species, colours, hazards and lesson
+  names through the locale-bundle loader. Done 2026-08-30: the preflight
+  vocabulary gate derives all 267 substitutable terms from the registry,
+  colour emitter, safety labels, lesson files, and the renderer's value-lookup
+  tables; no duplicate allow-list exists. Its self-test injects a new registry
+  species and proves the audit fails, pins the SpeciesChip/Vessel/lesson
+  substitution call sites, and the complete current tree passes with zero
+  uncovered terms.
 
 - [ ] **I18N-4 — Locale-complete store presence.** German App Store and Play
   listings, German "what to test", and the German privacy policy already at
