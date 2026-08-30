@@ -1,51 +1,47 @@
 # GPU cross-host release matrix
 
-This matrix is a collection template, not evidence of a pass. Run it on each
-physical release host; do not substitute CI, a VM, a simulator, or inferred
-results. Keep the raw JSON artifacts with the release evidence.
+This is a collection template, not evidence of a pass. Run it on each physical
+release host; CI, VMs, simulators and inferred results do not substitute.
 
 ## Exact commands
 
-From a clean checkout of the candidate commit:
+Build and measure both the approved lightweight baseline and candidate in clean
+checkouts. Preserve each JSON file and its SHA-256 digest.
 
 ```sh
 npm --prefix web/app ci
 npm --prefix web/app run build
 node tools/frontend-asset-budget.mjs --dir web/app/dist --json > frontend-assets.json
-node tools/gpu5-probe.mjs web/app/dist --host-label "HOST-OS-GPU" > gpu-probe.json
+node tools/gpu5-probe.mjs web/app/dist --mode lightweight --host-label "HOST-OS-GPU" > gpu-lightweight.json
+node tools/gpu5-probe.mjs web/app/dist --mode webgpu --host-label "HOST-OS-GPU" > gpu-webgpu.json
+node tools/gpu5-release-evaluate.mjs --host PLATFORM \
+  --baseline-probe gpu-lightweight.json --candidate-probe gpu-webgpu.json \
+  --baseline-assets frontend-assets-baseline.json \
+  --candidate-assets frontend-assets.json > gpu-release-row.json
 git rev-parse HEAD
 node --version
 ```
 
-If the release has a checked asset budget, insert
-`--budget path/to/budget.json` before `--json`. A budget file has this form:
+`PLATFORM` is exactly one of `web`, `android`, `ios`, `macos`, or `windows`.
+The single-host evaluator deliberately reports `releasePassed: null`. After all
+five physical rows exist, create a version-1 matrix manifest referencing each
+row's four raw artifacts and run:
 
-```json
-{
-  "version": 1,
-  "limits": {
-    "javascript": { "rawBytes": 0, "gzipBytes": 0 },
-    "css": { "rawBytes": 0, "gzipBytes": 0 },
-    "all": { "rawBytes": 0, "gzipBytes": 0 }
-  }
-}
+```sh
+node tools/gpu5-release-evaluate.mjs --matrix MATRIX.json
 ```
 
-Replace zeroes with approved byte limits. Exceeding any supplied limit exits 1;
-invalid input exits 2. With no budget, the command measures without gating.
+Only that command's complete five-host result may claim release gate passage.
 
 ## Physical-host matrix
 
-| Host | Status | Commit | OS + version | Browser + version | GPU / driver | Adapter backend | Probe artifact + SHA-256 | Asset artifact + SHA-256 | Tester + UTC time | Notes |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Web (physical desktop) | PENDING | — | — | — | — | — | — | — | — | — |
-| Android physical device | PENDING | — | — | — | — | — | — | — | — | — |
-| iOS physical device | PENDING | — | — | — | — | — | — | — | — | — |
-| macOS physical host | PENDING | — | — | — | — | — | — | — | — | — |
-| Windows physical host | PENDING | — | — | — | — | — | — | — | — | — |
+| Host | Status | Commit | OS + runtime | GPU / driver | Probe + asset artifact SHA-256 | Tester + UTC time | Notes |
+|---|---|---|---|---|---|---|---|
+| Web physical desktop | PENDING | — | — | — | — | — | — |
+| Android physical device | PENDING | — | — | — | — | — | — |
+| iOS physical device | PENDING | — | — | — | — | — | — |
+| macOS physical host | PENDING | — | — | — | — | — | — |
+| Windows physical host | PENDING | — | — | — | — | — | — |
 
-For each artifact, record `sha256sum FILE` (Linux) or `shasum -a 256 FILE`
-(macOS). On Windows PowerShell use `Get-FileHash FILE -Algorithm SHA256`.
-Change a row to PASS only after the release gate accepts the saved probe and
-the asset command exits 0 against the approved budget. Record failures as FAIL;
-never delete or relabel a failing artifact.
+Use `sha256sum`, `shasum -a 256`, or PowerShell `Get-FileHash -Algorithm
+SHA256`. Record failures as FAIL; never delete or relabel a failing artifact.

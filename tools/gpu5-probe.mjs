@@ -5,10 +5,9 @@ import {
   GPU5_MEASURED_FRAMES,
   GPU5_RUNS,
   GPU5_WARMUP_FRAMES,
+  buildRunEvidence,
   completeReport,
   emptyReport,
-  nearestRank,
-  summarizeRun,
   summarizeStartup,
 } from "./gpu5-probe-lib.mjs";
 
@@ -22,6 +21,7 @@ const repeated = (name) => argv.flatMap((value, index) => value === `--${name}` 
 if (!site) {
   console.error("usage: node tools/gpu5-probe.mjs <site-dir> --mode lightweight|webgpu [--host-label name] [--command '...'] [--trigger-command 'ignite v1']");
   console.error("run lightweight and webgpu separately; each invocation records ten fresh-profile startups");
+  console.error("pair both startup.coldStartupMs arrays, webgpu.runs, and frontend-asset-budget gzip totals into each five-host release-gate row");
   process.exit(2);
 }
 
@@ -195,15 +195,7 @@ try {
         if (await waitFor(page, `__keroGpu5.samples.length >= ${needed} && __keroGpu5.rafIntervals.length >= ${needed}`, { timeout: 1600, step: 50 })) break;
       }
       const measurement = JSON.parse(await page.evaluate(`JSON.stringify({ samples: __keroGpu5.samples, raf: __keroGpu5.rafIntervals })`));
-      const summary = summarizeRun(measurement.samples);
-      const raf = measurement.raf.slice(GPU5_WARMUP_FRAMES, GPU5_WARMUP_FRAMES + GPU5_MEASURED_FRAMES);
-      summary.raf_interval_ms_advisory = raf.length === GPU5_MEASURED_FRAMES ? {
-        samples: raf.length,
-        median: nearestRank(raf, 0.5),
-        p95: nearestRank(raf, 0.95),
-        max: Math.max(...raf),
-      } : { samples: raf.length, incomplete: true };
-      runs.push(summary);
+      runs.push(buildRunEvidence(measurement.samples, measurement.raf));
     }
     const fallback = JSON.parse(await page.evaluate(`JSON.stringify({
       svg_present_before_gpu: __keroGpu5.svgFallbackObserved,

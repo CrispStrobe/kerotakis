@@ -6,6 +6,7 @@ import {
   GPU5_SCHEMA,
   GPU5_WARMUP_FRAMES,
   completeReport,
+  buildRunEvidence,
   emptyReport,
   nearestRank,
   summarizeRun,
@@ -27,6 +28,12 @@ test("startup summary requires ten cold profiles", () => {
   }));
   assert.deepEqual(summarizeStartup(samples), {
     runs: 10,
+    coldStartupMs: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    raw: {
+      domContentLoadedMs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      appReadyMs: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+      lightweightReadyMs: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    },
     dom_content_loaded_ms: { median: 5, p95: 10 },
     app_ready_ms: { median: 15, p95: 20 },
     lightweight_ready_ms: { median: 25, p95: 30 },
@@ -57,23 +64,31 @@ test("unavailable and complete reports have one stable schema", () => {
   const base = emptyReport({
     hostLabel: "ci", userAgent: "test",
     automationPolicyOverride: true,
-    startup: { runs: 10, dom_content_loaded_ms: {}, app_ready_ms: {}, lightweight_ready_ms: {} },
+    startup: { runs: 10, coldStartupMs: Array(10).fill(1), dom_content_loaded_ms: {}, app_ready_ms: {}, lightweight_ready_ms: {} },
     fallback: { svg_present_before_gpu: true, svg_present_now: true, gpu_presented: false },
   });
   assert.equal(base.schema, GPU5_SCHEMA);
   assert.equal(base.automation_policy_override, true);
   assert.equal(base.protocol.comparison_requires_separate_invocations, true);
   assert.equal(base.outcome, "webgpu-unavailable");
-  const run = {
-    ...summarizeRun(Array(660).fill(1)),
-    raf_interval_ms_advisory: { samples: 600, median: 16, p95: 17, max: 20 },
-  };
+  const run = buildRunEvidence(Array(660).fill(1), Array(660).fill(16));
+  assert.equal(run.warmupCpuEncodeSubmitMs.length, 60);
+  assert.equal(run.measuredCpuEncodeSubmitMs.length, 600);
+  assert.equal(run.measuredRafIntervalMs.length, 600);
   const report = completeReport({ ...base, webgpu_available: true }, Array(GPU5_RUNS).fill(run));
+  const emitted = JSON.parse(JSON.stringify(report));
+  assert.equal(emitted.startup.coldStartupMs.length, 10);
+  assert.equal(emitted.runs.length, 3);
+  for (const emittedRun of emitted.runs) {
+    assert.equal(emittedRun.warmupCpuEncodeSubmitMs.length, 60);
+    assert.equal(emittedRun.measuredCpuEncodeSubmitMs.length, 600);
+    assert.equal(emittedRun.measuredRafIntervalMs.length, 600);
+  }
   assert.equal(report.runs.length, 3);
   assert.equal(report.pass, true);
   assert.equal(report.outcome, "pass");
   const incomplete = completeReport({ ...base, webgpu_available: true }, [
-    { ...run, raf_interval_ms_advisory: { samples: 599, incomplete: true } }, run, run,
+    { ...run, measuredRafIntervalMs: run.measuredRafIntervalMs.slice(1) }, run, run,
   ]);
   assert.equal(incomplete.evidence_complete, false);
   assert.equal(incomplete.pass, false);
