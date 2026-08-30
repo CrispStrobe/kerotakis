@@ -1879,6 +1879,13 @@ and presents them well.
      reduced-motion cases retain the SVG endpoint; web/Android/iOS/macOS/Windows
      results recorded; shader similarity/provenance review complete. GUI-098
      remains open until this cross-host matrix passes.
+     - [x] Code checkpoint: bounded allocation-free renderer telemetry, strict
+       five-host release evaluator, deterministic asset measurement, physical-
+       evidence schema/audit and repeatable browser probe are implemented with
+       unit coverage. No physical result is inferred from CI or headless runs.
+     - [ ] Lab checkpoint: collect and independently review physical web,
+       Android, iOS, macOS and Windows artifacts; the committed template and
+       matrix deliberately remain PENDING until those runs exist.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
