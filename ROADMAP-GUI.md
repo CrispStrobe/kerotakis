@@ -1784,19 +1784,32 @@ and presents them well.
      device; coalesced starts; generation-guarded stop/restart; immediate
      device-loss fallback and destroy-once cleanup. Fourteen focused GPU policy
      and lifecycle tests plus the production Vite build pass.
-  2. [ ] **GPU-2 — Dynamic environment policy (1–1.5 h).** Observe
+  2. [x] **GPU-2 — Dynamic environment policy (1–1.5 h).** Observe
      `prefers-reduced-motion` and document visibility through injected,
      disposable listeners. Stop GPU work on either constraint and permit a
      restart only when the named effect remains approved. **DoD:** listener
      cleanup is idempotent; background/reduced-motion transitions never alter
      Scene/Event state; fake-media/document tests pin ordering and disposal.
-  3. [ ] **GPU-3 — Ignition flame uniform plan (1–1.5 h).** Map only a live
+     *Done 2026-08-30:* an injected environment policy now observes reduced
+     motion and document visibility, gates restart on explicit effect approval,
+     and reconciles through the generation-safe GPU lifecycle. Tests pin
+     fallback-first ordering, background and approval transitions, duplicate
+     listener prevention, idempotent disposal and destruction of a device that
+     arrives after disposal. Seventeen focused lifecycle/policy tests and the
+     production Vite build pass.
+  3. [x] **GPU-3 — Ignition flame uniform plan (1–1.5 h).** Map only a live
      authoritative `ignite` effect, its bounded magnitude, curated flame
      colour and vessel identity to clamped visual uniforms and a deterministic
      seed. Do not infer flame from temperature alone. **DoD:** absent ignite is
      inactive; magnitude is monotone and bounded; known colours map exactly;
      unknown colour falls back safely; reduced motion is inactive; no engine
      schema, chemistry state, IPC or GPU readback changes.
+     *Done 2026-08-30:* a pure renderer-local projection activates only for a
+     live `ignite` effect, clamps non-finite/out-of-range magnitude, maps all
+     eleven emitted curated flame colours to bounded sRGB, and derives a stable
+     presentation-only seed from vessel identity. Unknown colours use a fixed
+     safe fallback and reduced motion disables the effect. Thirty-one focused
+     uniform tests and the production Vite build pass.
   4. [ ] **GPU-4 — Project-owned WGSL flame envelope (2–3 h).** Implement one
      renderer-local procedural envelope from published fire-rendering ideas,
      without copying `jeantimex/fluid` or its upstream ports. Keep the SVG

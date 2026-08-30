@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import {
   browserWebGpuProvider,
+  createWebGpuEnvironmentPolicy,
   createWebGpuLifecycle,
   type WebGpuAdapterLike,
   type WebGpuDeviceLike,
@@ -102,5 +103,128 @@ describe("WebGPU lifecycle", () => {
     lifecycle.stop();
     expect(acquired.destroy).toHaveBeenCalledTimes(1);
     expect(lifecycle.state()).toEqual({ status: "fallback", reason: "stopped" });
+  });
+});
+
+class FakeEventSource {
+  listeners = new Set<() => void>();
+  addCalls = 0;
+  removeCalls = 0;
+
+  addEventListener(_type: string, listener: () => void): void {
+    this.addCalls += 1;
+    this.listeners.add(listener);
+  }
+
+  removeEventListener(_type: string, listener: () => void): void {
+    this.removeCalls += 1;
+    this.listeners.delete(listener);
+  }
+
+  dispatch(): void {
+    for (const listener of [...this.listeners]) listener();
+  }
+}
+
+describe("dynamic WebGPU environment policy", () => {
+  const environment = () => {
+    const media = Object.assign(new FakeEventSource(), { matches: false });
+    const document = Object.assign(new FakeEventSource(), { visibilityState: "visible" });
+    return { media, document };
+  };
+
+  it("requires approval and restarts after reduced motion is disabled", async () => {
+    const env = environment();
+    const first = device();
+    const second = device();
+    const devices = [first, second];
+    const requestAdapter = vi.fn(async () => ({ requestDevice: async () => devices.shift()!.value }));
+    const decisions: string[] = [];
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter },
+      reducedMotion: env.media,
+      document: env.document,
+      onChange: (decision) => decisions.push(`${decision.backend}:${decision.reason}`),
+    });
+
+    policy.start();
+    expect(requestAdapter).not.toHaveBeenCalled();
+    policy.setEffectApproved(true);
+    await vi.waitFor(() => expect(policy.decision().backend).toBe("webgpu"));
+
+    env.media.matches = true;
+    env.media.dispatch();
+    expect(policy.decision()).toEqual({ backend: "lightweight", reason: "reduced-motion" });
+    expect(first.destroy).toHaveBeenCalledTimes(1);
+
+    env.media.matches = false;
+    env.media.dispatch();
+    await vi.waitFor(() => expect(policy.decision().backend).toBe("webgpu"));
+    expect(requestAdapter).toHaveBeenCalledTimes(2);
+    expect(decisions).toEqual([
+      "lightweight:device-lost",
+      "webgpu:enabled",
+      "lightweight:reduced-motion",
+      "lightweight:device-lost",
+      "webgpu:enabled",
+    ]);
+    policy.dispose();
+  });
+
+  it("stops in the background and only restarts while approval remains", async () => {
+    const env = environment();
+    const acquired = [device(), device()];
+    const requestAdapter = vi.fn(async () => ({ requestDevice: async () => acquired.shift()!.value }));
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter }, reducedMotion: env.media, document: env.document, effectApproved: true,
+    });
+    policy.start();
+    await vi.waitFor(() => expect(policy.decision().backend).toBe("webgpu"));
+
+    env.document.visibilityState = "hidden";
+    env.document.dispatch();
+    expect(policy.decision()).toEqual({ backend: "lightweight", reason: "backgrounded" });
+    policy.setEffectApproved(false);
+    env.document.visibilityState = "visible";
+    env.document.dispatch();
+    expect(policy.decision()).toEqual({ backend: "lightweight", reason: "effect-not-approved" });
+    expect(requestAdapter).toHaveBeenCalledTimes(1);
+
+    policy.setEffectApproved(true);
+    await vi.waitFor(() => expect(policy.decision().backend).toBe("webgpu"));
+    expect(requestAdapter).toHaveBeenCalledTimes(2);
+    policy.dispose();
+  });
+
+  it("cancels stale work and disposes listeners exactly once", async () => {
+    const env = environment();
+    const late = device();
+    const deviceRequest = deferred<WebGpuDeviceLike>();
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: { requestAdapter: async () => ({ requestDevice: () => deviceRequest.promise }) },
+      reducedMotion: env.media,
+      document: env.document,
+      effectApproved: true,
+    });
+    policy.start();
+    policy.start();
+    await Promise.resolve();
+    expect(env.media.listeners.size).toBe(1);
+    expect(env.document.listeners.size).toBe(1);
+
+    policy.dispose();
+    policy.dispose();
+    expect(env.media.listeners.size).toBe(0);
+    expect(env.document.listeners.size).toBe(0);
+    expect(env.media.addCalls).toBe(1);
+    expect(env.media.removeCalls).toBe(1);
+    expect(env.document.addCalls).toBe(1);
+    expect(env.document.removeCalls).toBe(1);
+
+    deviceRequest.resolve(late.value);
+    await vi.waitFor(() => expect(late.destroy).toHaveBeenCalledTimes(1));
+    env.media.matches = true;
+    env.media.dispatch();
+    expect(policy.decision()).toEqual({ backend: "lightweight", reason: "effect-not-approved" });
   });
 });
