@@ -13,6 +13,8 @@ export interface WebGpuAdapterLike {
 
 export interface WebGpuProviderLike {
   requestAdapter(): Promise<WebGpuAdapterLike | null>;
+  /** Browser-selected presentation format, when this provider can resolve it safely. */
+  preferredCanvasFormat?(): string | null;
 }
 
 export type WebGpuFallbackReason =
@@ -54,7 +56,7 @@ export function createWebGpuLifecycle(options: WebGpuLifecycleOptions): WebGpuLi
     const identity = device as object;
     if (destroyed.has(identity)) return;
     destroyed.add(identity);
-    device.destroy?.();
+    try { device.destroy?.(); } catch { /* lifecycle still transitions to fallback */ }
   };
 
   const start = (): Promise<WebGpuLifecycleState> => {
@@ -122,14 +124,30 @@ export function createWebGpuLifecycle(options: WebGpuLifecycleOptions): WebGpuLi
 
 /** Structural browser adapter: no dependency on ambient WebGPU TS types. */
 export function browserWebGpuProvider(globalObject: unknown = globalThis): WebGpuProviderLike | null {
-  if (typeof globalObject !== "object" || globalObject === null) return null;
-  const navigatorValue = Reflect.get(globalObject, "navigator");
-  if (typeof navigatorValue !== "object" || navigatorValue === null) return null;
-  const gpu = Reflect.get(navigatorValue, "gpu");
-  if (typeof gpu !== "object" || gpu === null) return null;
-  const requestAdapter = Reflect.get(gpu, "requestAdapter");
-  if (typeof requestAdapter !== "function") return null;
-  return { requestAdapter: () => Reflect.apply(requestAdapter, gpu, []) };
+  try {
+    if (typeof globalObject !== "object" || globalObject === null) return null;
+    const navigatorValue = Reflect.get(globalObject, "navigator");
+    if (typeof navigatorValue !== "object" || navigatorValue === null) return null;
+    const gpu = Reflect.get(navigatorValue, "gpu");
+    if (typeof gpu !== "object" || gpu === null) return null;
+    const requestAdapter = Reflect.get(gpu, "requestAdapter");
+    if (typeof requestAdapter !== "function") return null;
+    return {
+      requestAdapter: () => Reflect.apply(requestAdapter, gpu, []),
+      preferredCanvasFormat(): string | null {
+        try {
+          const resolver = Reflect.get(gpu, "getPreferredCanvasFormat");
+          if (typeof resolver !== "function") return null;
+          const format: unknown = Reflect.apply(resolver, gpu, []);
+          return format === "bgra8unorm" || format === "rgba8unorm" ? format : null;
+        } catch {
+          return null;
+        }
+      },
+    };
+  } catch {
+    return null;
+  }
 }
 
 export interface MediaQueryListLike {
@@ -148,7 +166,16 @@ export interface WebGpuEnvironmentPolicy {
   start(): void;
   setEffectApproved(approved: boolean): void;
   decision(): VisualBackendDecision;
+  snapshot(): WebGpuEnvironmentSnapshot;
+  subscribe(listener: (snapshot: WebGpuEnvironmentSnapshot) => void): () => void;
   dispose(): void;
+}
+
+/** One coherent view for consumers which need both acquisition and policy state. */
+export interface WebGpuEnvironmentSnapshot {
+  readonly lifecycle: WebGpuLifecycleState;
+  readonly decision: VisualBackendDecision;
+  readonly preferredCanvasFormat: string | null;
 }
 
 export interface WebGpuEnvironmentPolicyOptions {
@@ -156,7 +183,11 @@ export interface WebGpuEnvironmentPolicyOptions {
   reducedMotion: MediaQueryListLike;
   document: VisibilityDocumentLike;
   effectApproved?: boolean;
+  /** Explicit execution context; headless callers never acquire a device. */
+  headless?: boolean;
   onChange?: (decision: VisualBackendDecision) => void;
+  /** Published after each lifecycle or policy transition, with no split reads. */
+  onSnapshot?: (snapshot: WebGpuEnvironmentSnapshot) => void;
 }
 
 /**
@@ -169,31 +200,60 @@ export function createWebGpuEnvironmentPolicy(
   let approved = options.effectApproved ?? false;
   let active = false;
   let disposed = false;
+  const preferredCanvasFormat = (() => {
+    try {
+      const format = options.provider.preferredCanvasFormat?.();
+      return format === "bgra8unorm" || format === "rgba8unorm" ? format : null;
+    } catch {
+      return null;
+    }
+  })();
   let current: VisualBackendDecision = { backend: "lightweight", reason: "effect-not-approved" };
-
-  const publish = (next: VisualBackendDecision): void => {
-    if (next.backend === current.backend && next.reason === current.reason) return;
-    current = next;
-    options.onChange?.(next);
+  let currentLifecycle: WebGpuLifecycleState = { status: "idle" };
+  let currentSnapshot: WebGpuEnvironmentSnapshot = {
+    lifecycle: currentLifecycle,
+    decision: current,
+    preferredCanvasFormat,
   };
+  const subscribers = new Set<(snapshot: WebGpuEnvironmentSnapshot) => void>();
 
   const constrainedDecision = (): VisualBackendDecision => selectVisualBackend({
-    effectApproved: approved,
+    effectApproved: disposed ? false : approved,
     webGpuAvailable: true,
     deviceHealthy: true,
     reducedMotion: options.reducedMotion.matches,
-    headless: false,
+    headless: options.headless ?? false,
     backgrounded: options.document.visibilityState !== "visible",
   });
+
+  const decisionFor = (state: WebGpuLifecycleState): VisualBackendDecision => {
+    const constraint = constrainedDecision();
+    if (constraint.backend === "lightweight") return constraint;
+    if (state.status === "ready") return { backend: "webgpu", reason: "enabled" };
+    return { backend: "lightweight", reason: "device-lost" };
+  };
+
+  const publish = (state: WebGpuLifecycleState, next: VisualBackendDecision): void => {
+    const decisionChanged = next.backend !== current.backend || next.reason !== current.reason;
+    currentLifecycle = state;
+    current = next;
+    currentSnapshot = { lifecycle: state, decision: next, preferredCanvasFormat };
+    if (decisionChanged) {
+      try { options.onChange?.(next); } catch { /* observers cannot break fail-closed policy */ }
+    }
+    try { options.onSnapshot?.(currentSnapshot); } catch { /* snapshot is already committed */ }
+    for (const subscriber of subscribers) {
+      try { subscriber(currentSnapshot); } catch { /* observers cannot break policy */ }
+    }
+  };
+
+  const decisionEquals = (left: VisualBackendDecision, right: VisualBackendDecision): boolean =>
+    left.backend === right.backend && left.reason === right.reason;
 
   const lifecycle = createWebGpuLifecycle({
     provider: options.provider,
     onChange(state) {
-      if (disposed || constrainedDecision().backend !== "webgpu") return;
-      if (state.status === "ready") publish({ backend: "webgpu", reason: "enabled" });
-      if (state.status === "fallback" && state.reason === "device-lost") {
-        publish({ backend: "lightweight", reason: "device-lost" });
-      }
+      publish(state, decisionFor(state));
     },
   });
 
@@ -201,16 +261,17 @@ export function createWebGpuEnvironmentPolicy(
     if (!active || disposed) return;
     const constraint = constrainedDecision();
     if (constraint.backend === "lightweight") {
-      publish(constraint);
       lifecycle.stop();
+      // stop() is deliberately idempotent and may have no transition to emit.
+      if (currentLifecycle !== lifecycle.state() || !decisionEquals(current, constraint)) {
+        publish(lifecycle.state(), constraint);
+      }
       return;
     }
     if (lifecycle.state().status === "ready") {
-      publish({ backend: "webgpu", reason: "enabled" });
+      publish(lifecycle.state(), { backend: "webgpu", reason: "enabled" });
       return;
     }
-    // Acquisition and all acquisition failures retain the baseline renderer.
-    publish({ backend: "lightweight", reason: "device-lost" });
     void lifecycle.start();
   };
 
@@ -230,6 +291,21 @@ export function createWebGpuEnvironmentPolicy(
       reconcile();
     },
     decision: () => current,
+    snapshot: () => currentSnapshot,
+    subscribe(listener): () => void {
+      if (disposed) {
+        try { listener(currentSnapshot); } catch { /* observers cannot break disposed policy */ }
+        return () => undefined;
+      }
+      subscribers.add(listener);
+      try { listener(currentSnapshot); } catch { /* subscription remains usable */ }
+      let subscribed = true;
+      return () => {
+        if (!subscribed) return;
+        subscribed = false;
+        subscribers.delete(listener);
+      };
+    },
     dispose(): void {
       if (disposed) return;
       disposed = true;
@@ -239,7 +315,11 @@ export function createWebGpuEnvironmentPolicy(
       }
       active = false;
       lifecycle.stop();
-      publish({ backend: "lightweight", reason: "effect-not-approved" });
+      const fallback: VisualBackendDecision = { backend: "lightweight", reason: "effect-not-approved" };
+      if (currentLifecycle !== lifecycle.state() || current.backend !== fallback.backend || current.reason !== fallback.reason) {
+        publish(lifecycle.state(), fallback);
+      }
+      subscribers.clear();
     },
   };
 }
