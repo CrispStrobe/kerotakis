@@ -1849,15 +1849,29 @@ and presents them well.
      compiler rejection, canvas bounds and fallback-first markup. Ninety-three
      focused GPU tests, all 411 frontend tests, production build and the licence
      gate pass. Physical browser/device measurements remain GPU-5b work.
-  6. [ ] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
+  6. [x] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
      fallback-first ignition overlay at the existing vessel flame endpoint.
-     A live `ignite` effect is the sole authority: temperature alone never
-     creates either GPU or SVG combustion, while `flame_test` remains separate.
+     A live `ignite` effect is the sole GPU and SVG combustion authority;
+     temperature retains separate glow/steam visuals and `flame_test` remains
+     separate.
      **DoD:** exactly one bench device acquisition, independent per-vessel
      surfaces, SVG retained until each surface's first successful frame,
      inactive/expired effects cancel all frames, no pointer/tab/a11y ownership,
      simultaneous-vessel and hot-without-ignite regressions, no Scene/Event,
      chemistry, IPC or readback changes; merge as its own checkpoint.
+     *Done 2026-08-30:* Bench owns one fail-closed browser environment policy
+     and publishes the same atomic device snapshot to every vessel. Acquisition
+     begins only while at least one authoritative ignite effect is live, stays
+     shared across simultaneous vessels, and is revoked at the final exact
+     expiry through one bounded bench clock. Each vessel owns an independent 48×56
+     surface and retains its SVG until that surface submits its first frame;
+     expiry, loss or presentation failure restores SVG without affecting the
+     separate thermal presentation. Headless, incomplete-browser, flame-test and
+     heat-only cases acquire no GPU. Pure authority, shared-device, source-
+     ownership and endpoint regressions accompany the full frontend/build and
+     licence gates. Preliminary production-bundle delta versus GPU-4b is
+     +14.7 kB minified / +5.7 kB gzip; physical frame and host measurements
+     remain GPU-5b work.
   7. [ ] **GPU-5b — Release instrumentation and host matrix (2–3 h plus device
      lab).** Measure payload, startup, first-frame time and p95 frame time
      against BRD-072's 9 ms governor. **DoD:** full Vitest/Vite/preflight gates;
