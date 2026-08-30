@@ -14,6 +14,7 @@ export type ResultSummary = {
   temperatureDeltaK?: number;
   quantities: ResultQuantity[];
   boundary?: string;
+  provenance?: string;
 };
 
 type EngineEvent = Record<string, unknown>;
@@ -111,6 +112,19 @@ function boundary(event: EngineEvent): string | undefined {
   return undefined;
 }
 
+function provenance(event: EngineEvent): string | undefined {
+  if (typeof event.provenance === "string" && event.provenance.trim()) {
+    return event.provenance.trim();
+  }
+  if (event.provenance && typeof event.provenance === "object" && !Array.isArray(event.provenance)) {
+    const record = event.provenance as Record<string, unknown>;
+    const parts = [record.engine, record.dataset, record.model, record.source]
+      .filter((part): part is string => typeof part === "string" && part.trim().length > 0);
+    return parts.length > 0 ? parts.join(" · ") : undefined;
+  }
+  return undefined;
+}
+
 function significantEvent(events: EngineEvent[]): EngineEvent | undefined {
   for (const kind of PRIORITY) {
     for (let index = events.length - 1; index >= 0; index -= 1) {
@@ -163,5 +177,6 @@ export function summarizeResult(
       : undefined,
     quantities: quantities(event),
     boundary: boundary(event),
+    provenance: provenance(event),
   };
 }

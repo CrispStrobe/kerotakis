@@ -100,6 +100,25 @@ quantities (`VesselId`, `SpeciesId`, `Moles`, `Kelvin`). Rules:
 
 ## Scene JSON v1 (GUI-003 — implemented in `kerotakis-core/src/scene.rs`)
 
+### Scene/chemistry authority (BRD-070)
+
+The scene is a one-way projection. Client physics may send the typed
+`authority::SceneProposal` contract, but may never mutate serialized `Bench`
+state or emit chemistry events. A vessel transfer is a cumulative fraction of
+the interaction's initial charge plus a replay seed; `TransferReconciler`
+compiles only the uncommitted remainder to `Operator::Decant` and advances only
+from its returned `Transferred` receipt. Frame cadence is therefore
+non-authoritative. Reduced-motion and headless hosts submit the same endpoint;
+background hosts may suspend painting and polling but must let an accepted
+atomic step finish.
+
+Destinations are explicit (`Vessel` or a typed bench/tray/floor spill). Spill
+compartments and accepted broken-container/spill events deliberately remain
+BRD-073: collision impulse and destination can be proposed now, but cannot
+discard matter or claim breakage before that chemistry-owned operator/event
+semantics lands. Replay persists the proposal seed; visual randomness may use
+it, chemistry amounts may not.
+
 A versioned, per-vessel *render model*, derived engine-side from state +
 `appearance`/`spectrum` so native and web paint identically and golden tests
 can pin frames. The serde types in `scene.rs` are authoritative; the shape

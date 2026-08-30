@@ -118,8 +118,8 @@ Audit of the day's completion claims, each verified against the tree:
   no `kero study`), CAP-3 (no chart contract or renderer), CAP-4
   (`phase_diagram.rs` is library-only; no grid solve, no CLI), CAP-5
   (no relations module, no `kero calc`), CAP-6 (no properties module),
-  CAP-8 (`statistics.rs` types, no `--mc` surface), CAP-9 (no
-  `kero fit`), CAP-13 (`vendor/inchi/` holds one README —
+  CAP-8 (`statistics.rs` types, no `--mc` surface), CAP-13
+  (`vendor/inchi/` holds one README —
   a scaffold is not a vendored library).
   **Now true (2026-08-23 evening):** CAP-11 (77-species safety matrix),
   CAP-12 (titrate and dilute verbs).
@@ -139,7 +139,7 @@ Audit of the day's completion claims, each verified against the tree:
 | Charts / curves | — | ✓ | none (plumbing exists) | **CAP-3** |
 | Predominance / Pourbaix diagrams | — | ✓ | none | **CAP-4** |
 | Monte Carlo uncertainty | — | ✓ | none | **CAP-8** |
-| Parameter fitting to data | — | ✓ | none | **CAP-9** |
+| Parameter fitting to data | — | ✓ | ✓ bounded one-parameter `kero fit` with residual chart/provenance | **CAP-9** |
 | Ion exchange, mixing, solid solutions | — | ✓ | not wired | **CAP-10** / R1 |
 | Reactive-hazard screening | — | — | 4-species stub | **CAP-11** |
 | Titration / dilution as first-class verbs | — | — | repeated `add` | **CAP-12** |
@@ -535,7 +535,18 @@ determinism test; preflight green. **Size.** Small-medium.
 
 ## CAP-9 — Fit a constant to measured data
 
-- [ ] Status: open (lowest priority of the numbered tasks)
+- [x] Status: **done 2026-08-30.** `kero fit` fits one curated forward
+      pre-exponential factor in log space against a strict learner
+      `t,observation` CSV. The observation, positive search bounds, and SSE
+      loss are explicit; every prediction starts from a fresh lesson replay,
+      and embedded waits are refused so time cannot be counted twice. The
+      report places the fitted and curated values, source ids, validity,
+      uncertainty note, and a CAP-3 residual chart together. Acceptance is
+      held by `crates/kerotakis-cli/tests/fit.rs`: deterministic noisy data
+      generated at A = 8.4e7 recovers A within 3% through the real WAIT
+      kinetics path, while malformed data and selectors refuse. Scoped core
+      tests prove nested and unwinding overrides restore the immutable
+      curated network.
 
 **Why.** The workbench class fits model parameters to observations.
 Our one honest use case today: a learner's own (t, observation) CSV
@@ -545,9 +556,10 @@ loop between the virtual bench and a real one.
 **Scope.**
 
 - `kero fit <lesson.lab> --param <selector> --data <csv> --loss sse`
-  — **one scalar parameter, v1**; golden-section or Brent on the
-  replay loss via `argmin` (MIT OR Apache-2.0, pure Rust), data read
-  with the `csv` crate (Unlicense OR MIT). No derivative machinery —
+  — **one scalar parameter, v1**; a local, bounded golden-section search
+  on the replay loss keeps this one-dimensional case deterministic and
+  avoids adding `argmin`'s general optimizer surface. Data is read with the
+  `csv` crate (Unlicense OR MIT). No derivative machinery —
   rust-cv's `levenberg-marquardt` only if multi-parameter fitting is
   ever actually asked for.
 - Report the fitted value with a residual plot (CAP-3) and — pointedly

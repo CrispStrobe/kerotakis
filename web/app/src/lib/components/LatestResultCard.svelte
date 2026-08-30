@@ -1,6 +1,8 @@
 <script lang="ts">
   import { i18n, t } from "../i18n.svelte";
   import type { ResultSummary } from "../resultSummary";
+  import { resultCardFilename, resultCardSvg } from "../resultCardImage";
+  import { engineText } from "../engineText";
 
   let { result }: { result: ResultSummary } = $props();
 
@@ -8,6 +10,54 @@
     return new Intl.NumberFormat(i18n.locale === "de" ? "de-DE" : "en-GB", {
       maximumSignificantDigits: 4,
     }).format(value);
+  }
+
+  function cardSvg(): string {
+    const localized = {
+      ...result,
+      kind: t(result.kind),
+      quantities: result.quantities.map((quantity) => ({ ...quantity, label: t(quantity.label) })),
+    };
+    return resultCardSvg(localized, {
+      title: t("latest computed result"),
+      vessel: result.vessel === undefined ? undefined : `v${result.vessel + 1}`,
+      equation: t("latest reaction equation"),
+      observation: t("observation"),
+      results: t("latest computed result"),
+      provenance: result.provenance
+        ? engineText(result.provenance)
+        : t("from this operation's computed events"),
+      emptyEquation: "—",
+      emptyObservation: "—",
+    }, format);
+  }
+
+  function save(href: string, extension: "svg" | "png") {
+    const anchor = document.createElement("a");
+    anchor.href = href;
+    anchor.download = resultCardFilename(result, extension);
+    anchor.click();
+  }
+
+  function exportSvg() {
+    const url = URL.createObjectURL(new Blob([cardSvg()], { type: "image/svg+xml;charset=utf-8" }));
+    save(url, "svg");
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  function exportPng() {
+    const url = URL.createObjectURL(new Blob([cardSvg()], { type: "image/svg+xml;charset=utf-8" }));
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1600;
+      canvas.height = 1060;
+      canvas.getContext("2d")?.drawImage(image, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      save(canvas.toDataURL("image/png"), "png");
+    };
+    image.onerror = () => URL.revokeObjectURL(url);
+    image.src = url;
   }
 </script>
 
@@ -35,7 +85,11 @@
       </dl>
     {/if}
     {#if result.boundary}<p class="boundary">{t(result.boundary)}</p>{/if}
-    <small class="provenance">{t("from this operation's computed events")}</small>
+    <small class="provenance">{result.provenance ? engineText(result.provenance) : t("from this operation's computed events")}</small>
+    <div class="share-actions" aria-label={t("latest computed result")}>
+      <button type="button" onclick={exportSvg}>{t("save SVG")}</button>
+      <button type="button" onclick={exportPng}>{t("save PNG")}</button>
+    </div>
   </div>
 </details>
 
@@ -59,4 +113,6 @@
   dt { color: var(--dim); font-size: .58rem; font-weight: 750; text-transform: uppercase; }
   dd { margin: 0; font-size: .7rem; font-weight: 750; }
   .provenance { color: var(--dim); font-size: .6rem; }
+  .share-actions { display: flex; gap: .35rem; }
+  .share-actions button { padding: .25rem .5rem; border: 1px solid var(--edge); border-radius: 7px; color: var(--ink); background: var(--surface); font: inherit; font-size: .65rem; cursor: pointer; }
 </style>

@@ -1009,7 +1009,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-070 — Scene/chemistry authority contract
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** GUI scene graph and
+- [x] **Status:** complete (2026-08-30). **Size:** medium. **Depends on:** GUI scene graph and
   current operator/event contract.
 - **Outcome:** physics can make the bench tactile without becoming a second,
   divergent chemistry simulation.
@@ -1023,6 +1023,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   transferred moles; interrupted pours reconcile exactly; reduced-motion and
   headless execution reach the same state; contract referenced from
   `ROADMAP-GUI.md` and `APPARATUS.md`.
+- **Evidence:** `kerotakis_core::authority` provides serde-stable typed
+  proposals, replay seeds, explicit vessel/bench/tray/floor destinations,
+  chemistry-owned break/spill event shapes, presentation-only motion policies,
+  and receipt-driven cumulative transfer reconciliation. The executable
+  `scene_authority` tests pin host serialization, different frame cadences,
+  reduced-motion/headless/background endpoints, exact interruption, and
+  refusal/malformed-proposal non-advancement. BRD-073 still owns emitting the
+  reserved break/spill events and creating material-holding spill state.
 
 ### BRD-071 — Rapier rigid-body integration
 

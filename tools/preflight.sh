@@ -80,6 +80,8 @@ step "wasm32";        gated cargo build -p kerotakis-wasm --target wasm32-unknow
 # dictionary that has no word for it (which renders English inside German).
 step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
 step "i18n engine";    python3 tools/engine-locale-lint.py --check
+step "i18n vocabulary"; python3 tools/i18n-engine-vocabulary-lint.py --check
+step "i18n vocabulary self-test"; python3 -m unittest tools/test_i18n_engine_vocabulary.py
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
 step "i18n slugs";     python3 tools/i18n-slug-lint.py --check

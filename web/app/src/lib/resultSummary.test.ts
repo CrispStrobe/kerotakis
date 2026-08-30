@@ -16,12 +16,13 @@ function scene(temperatureK: number): Scene {
 describe("computed result summary", () => {
   it("uses the structured event classification and equation", () => {
     expect(summarizeResult(
-      [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01, equation: "Ag⁺ + Cl⁻ → AgCl" }],
+      [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01, equation: "Ag⁺ + Cl⁻ → AgCl", provenance: { engine: "phreeqc", dataset: "PHREEQC", model: "wateq4f.dat", dataset_sources: [], routing: "equilibrium" } }],
       ["a white solid forms"], scene(298.15), scene(300.15),
     )).toMatchObject({
       kind: "precipitation", vessel: 0, equation: "Ag⁺ + Cl⁻ → AgCl",
       observation: "a white solid forms", temperatureDeltaK: 2,
       quantities: [{ label: "amount", value: 0.01, unit: "mol" }],
+      provenance: "phreeqc · PHREEQC · wateq4f.dat",
     });
   });
 
