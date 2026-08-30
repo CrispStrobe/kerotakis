@@ -47,6 +47,7 @@
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
   import { apparatusRunsCommand } from "./lib/apparatusRun";
+  import { stockLevels } from "./lib/shelfStock";
   import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
   import { loadApparatusInstallation, saveApparatusInstallation } from "./lib/apparatusInstallation";
   import {
@@ -553,6 +554,10 @@
   let cabinetTab = $state<"reagents" | "equipment">("reagents");
   let catalogScope = $state<CatalogScope>(labMode === "sandbox" ? "all" : "unlocked");
   let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
+  /** BRD-002: the engine's finite bottles, refreshed with every scene —
+   * so the shelf card tracks the ledger through undo and scrub without a
+   * second source of truth to keep in step. */
+  const shelfBottles = $derived(stockLevels(session.scene?.stock));
   let scopedMission = $state<string | null>(null);
   const missionEquipmentVerbs = $derived(missionEquipment(
     session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? [],
@@ -849,6 +854,7 @@
         mode={labMode}
         completed={session.completedMissions.size}
         stockUsed={session.storyStockUsed}
+        bottles={shelfBottles}
         focusRequest={shelfFocusRequest}
         onadd={(line) => {
           void dispense(line);

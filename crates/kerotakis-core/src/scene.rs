@@ -37,6 +37,22 @@ pub struct Scene {
     /// Format version, always [`SCENE_VERSION`].
     pub scene: u32,
     pub vessels: Vec<SceneVessel>,
+    /// BRD-002: the finite bottles on the shelf, in stable key order.
+    /// Empty — and omitted from the wire — in a sandbox where nothing runs
+    /// out, so a host written before this field sees exactly what it saw
+    /// before. Absence of a key here means an unlimited supply, never zero.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub stock: Vec<SceneStockBottle>,
+}
+
+/// What is left in one shelf bottle, in the unit the `add` grammar takes.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneStockBottle {
+    /// The shelf key — the same one `species` reports and `add` accepts.
+    pub key: String,
+    pub remaining: f64,
+    /// "mol", "g" or "mL".
+    pub unit: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -223,7 +239,18 @@ pub struct Badge {
 
 /// The whole bench, as a canvas paints it.
 pub fn scene(bench: &Bench) -> Scene {
-    scene_of(&bench.vessels)
+    Scene {
+        stock: bench
+            .stock
+            .entries()
+            .map(|(key, amount)| SceneStockBottle {
+                key: key.to_string(),
+                remaining: amount.amount,
+                unit: amount.unit.label().to_string(),
+            })
+            .collect(),
+        ..scene_of(&bench.vessels)
+    }
 }
 
 /// The render model over any vessel slice — for callers that hold vessels
@@ -232,6 +259,7 @@ pub fn scene_of(vessels: &[Vessel]) -> Scene {
     Scene {
         scene: SCENE_VERSION,
         vessels: vessels.iter().map(scene_vessel).collect(),
+        stock: Vec::new(),
     }
 }
 

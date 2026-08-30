@@ -213,6 +213,23 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   runtime registry without allowing shadowing. Remaining BRD-002 work is stock
   depletion, proportional transfer of unresolved portions, cabinet cards and
   full undo/UI coverage.
+- **Stockroom checkpoint (2026-08-29):** the shelf now holds finite bottles.
+  `Bench` owns a `StockLedger` (`crates/kerotakis-core/src/stock.rs`), a new
+  `StockShelf` operator (`stock NaCl 0.5mol`) fills one, and `Add`/
+  `AddMaterial` draw against it in the unit the dispense already carries —
+  moles for a registry species, the recipe's own basis for a material. An
+  untracked key stays an unlimited supply, so every existing script and the
+  sandbox default are unchanged. Running out mutates nothing and reports
+  `Event::StockExhausted` with both numbers, in all three registers. Because
+  the ledger lives on `Bench`, the protocol's opaque snapshot token
+  round-trips it — undo and scrub restore the bottle level for free, proved
+  by `the_snapshot_token_round_trips_the_shelf_stock`. The scene carries the
+  bottles additively (`stock`, omitted when empty) and the GUI shelf shows
+  each level, dimming and refusing an emptied card. Proportional transfer was
+  found **already correct**: `Decant` scales every liquid/aqueous portion and
+  every unresolved liquid portion by one shared fraction, so solutes move with
+  their solvent; `tests/proportional_transfer.rs` pins it against regression.
+  Remaining BRD-002 work is cabinet search/`explain` integration for recipes.
 
 ### BRD-003 — Source adapter, quarantine, and promotion framework
 

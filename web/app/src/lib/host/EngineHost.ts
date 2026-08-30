@@ -30,6 +30,17 @@ export type EngineResponse =
 export interface Scene {
   scene: number;
   vessels: SceneVessel[];
+  /** BRD-002: the finite bottles on the shelf. Absent — and absent per
+   * key — means an unlimited supply, never an empty one. */
+  stock?: SceneStockBottle[];
+}
+
+/** What is left in one shelf bottle, in the unit the `add` grammar takes
+ * ("mol", "g" or "mL"). */
+export interface SceneStockBottle {
+  key: string;
+  remaining: number;
+  unit: string;
 }
 
 export interface SceneVessel {

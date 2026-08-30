@@ -7,6 +7,7 @@
   import { stepAmount } from "../stepAmount";
   import { reagentAccess, reagentRequirement } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
+  import { isExhausted, stockBadge, type StockLevels } from "../shelfStock";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { deriveShelfRoles, ROLE_LABELS, REAGENT_ROLES, type ReagentRole } from "../reagentRoles";
@@ -22,6 +23,7 @@
     mode = "sandbox",
     completed = 0,
     stockUsed = {},
+    bottles = {},
     focusRequest = null,
   }: {
     items: ShelfItem[];
@@ -35,6 +37,9 @@
     mode?: LabMode;
     completed?: number;
     stockUsed?: Readonly<Record<string, number>>;
+    /** BRD-002: the engine's own finite bottles, from the scene. A key
+     * that is absent here is an unlimited supply, in every mode. */
+    bottles?: StockLevels;
     focusRequest?: { key: string; nonce: number } | null;
   } = $props();
 
@@ -169,7 +174,11 @@
     {#each filtered as item (item.key)}
       {@const access = reagentAccess(mode, completed, item, kit?.includes(item.key) ?? false)}
       {@const remaining = mode === "story" ? stockRemaining(item, stockUsed) : Number.POSITIVE_INFINITY}
-      {@const depleted = access.available && !access.loaned && remaining === 0}
+      {@const bottle = bottles[item.key]}
+      {@const emptyBottle = isExhausted(bottle)}
+      <!-- An engine-empty bottle is depleted whatever the mode says: a
+           mission kit cannot loan what the ledger no longer holds. -->
+      {@const depleted = emptyBottle || (access.available && !access.loaned && remaining === 0)}
       {@const usable = access.available && !depleted}
       <li data-phase={item.phase}>
         <button
@@ -193,6 +202,7 @@
           <span class="formula">{item.formula}</span>
           {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
           {#if mode === "story" && access.available && !access.loaned}<span class="stock">{stockLabel(remaining)}</span>{/if}
+          {#if bottle}<span class="bottle" class:out={emptyBottle}>{stockBadge(bottle, t)}</span>{/if}
           {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
         </button>
         {#if open === item.key}
@@ -240,6 +250,8 @@
             <p class="stock-lock">{access.minimumCompleted === 1
               ? t("Permanent stock unlocks after one completed mission. Mission kits loan required materials.")
               : t("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", { count: access.minimumCompleted })}</p>
+          {:else if emptyBottle}
+            <p class="stock-lock depleted-note">{t("This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.")}</p>
           {:else}
             <p class="stock-lock depleted-note">{t("This bottle is empty. Mission kits still supply required materials, and permanent stock refills after a new discovery.")}</p>
           {/if}
@@ -400,6 +412,11 @@
   .lock { color: var(--dim); font-weight: 900; }
   .loan { padding: .12rem .28rem; border-radius: 6px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: .48rem; font-weight: 850; text-transform: uppercase; }
   .stock { margin-left: auto; flex: none; color: var(--dim); font-size: .54rem; font-weight: 800; line-height: 1.15; text-align: right; }
+  /* The engine's own bottle level. Reads as a quantity, not a warning,
+     until it is actually empty — a shelf of orange badges teaches
+     nothing except to ignore orange badges. */
+  .bottle { margin-left: auto; flex: none; padding: .12rem .3rem; border-radius: 6px; color: var(--dim); background: color-mix(in srgb, var(--edge) 40%, transparent); font-size: .54rem; font-weight: 800; line-height: 1.15; white-space: nowrap; }
+  .bottle.out { color: var(--warning); background: color-mix(in srgb, var(--warning) 13%, transparent); }
   .stock-lock { margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {

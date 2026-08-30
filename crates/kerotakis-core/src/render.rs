@@ -1975,6 +1975,51 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("reason", &reason.to_string())],
             ),
         },
+        // BRD-002: the cabinet speaks. Stocking is quiet bookkeeping at
+        // lv1 — a learner who just filled a bottle does not need the
+        // number read back — and exact at lv3, where the ledger matters.
+        Event::ShelfStocked { key, amount, unit } => match register.level() {
+            1 => locale.fill(
+                "event.shelf-stocked.lv1",
+                "There is now {amount} {unit} of {key} on the shelf.",
+                &[("amount", &locale.number(format!("{amount:.4}"))), ("unit", &unit.label().to_string()), ("key", &key.to_string())],
+            ),
+            2 => locale.fill(
+                "event.shelf-stocked.lv2",
+                "shelf: {key} stocked at {amount} {unit}",
+                &[("key", &key.to_string()), ("amount", &locale.number(format!("{amount:.4}"))), ("unit", &unit.label().to_string())],
+            ),
+            _ => locale.fill(
+                "event.shelf-stocked.lv3",
+                "SHELF STOCK: {key} = {amount} {unit}",
+                &[("key", &key.to_string()), ("amount", &locale.number(format!("{amount:.6}"))), ("unit", &unit.label().to_string())],
+            ),
+        },
+        // The refusal names both numbers at every level. "There isn't
+        // enough" without saying how much is left is the kind of honesty
+        // that still leaves the reader stuck.
+        Event::StockExhausted {
+            key,
+            requested,
+            remaining,
+            unit,
+        } => match register.level() {
+            1 => locale.fill(
+                "event.stock-exhausted.lv1",
+                "There isn't enough {key} left — the bottle holds {remaining} {unit} and that needed {requested} {unit}. Nothing was poured.",
+                &[("key", &key.to_string()), ("remaining", &locale.number(format!("{remaining:.4}"))), ("unit", &unit.label().to_string()), ("requested", &locale.number(format!("{requested:.4}")))],
+            ),
+            2 => locale.fill(
+                "event.stock-exhausted.lv2",
+                "shelf: not enough {key} — {remaining} {unit} left, {requested} {unit} asked for; nothing was taken",
+                &[("key", &key.to_string()), ("remaining", &locale.number(format!("{remaining:.4}"))), ("unit", &unit.label().to_string()), ("requested", &locale.number(format!("{requested:.4}")))],
+            ),
+            _ => locale.fill(
+                "event.stock-exhausted.lv3",
+                "STOCK REFUSED: {key} remaining {remaining} {unit} < requested {requested} {unit}; bench unchanged",
+                &[("key", &key.to_string()), ("remaining", &locale.number(format!("{remaining:.6}"))), ("unit", &unit.label().to_string()), ("requested", &locale.number(format!("{requested:.6}")))],
+            ),
+        },
         Event::ReactionOccurred { vessel, equation } => match register.level() {
             1 => locale.fill(
                 "event.reaction-occurred.lv1",

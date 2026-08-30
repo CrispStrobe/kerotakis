@@ -21,6 +21,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("new", "new"),
     ("remove", "remove v1"),
     ("add", "add v1 water 100mL"),
+    ("stock", "stock NaCl 0.5mol"),
     ("heat", "heat v1 10kJ"),
     ("cool", "cool v1 10kJ"),
     ("wait", "wait 30s"),
@@ -76,6 +77,13 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
             if species::lookup_key(species).is_none()
                 && crate::nuclide::lookup_notation(species).is_none()
                 && material::lookup(species, None).is_none() =>
+        {
+            ParseErrorKind::UnknownSpecies
+        }
+        // BRD-002: `stock` names a shelf entry in the same vocabulary
+        // `add` does, so an unknown one fails the same way.
+        ["stock", key, ..]
+            if species::lookup_key(key).is_none() && material::lookup(key, None).is_none() =>
         {
             ParseErrorKind::UnknownSpecies
         }
@@ -208,6 +216,30 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     words[2]
                 ));
             }
+        }
+        // BRD-002: `stock NaCl 0.5mol` / `stock vinegar 250mL` — fill one
+        // bottle to a finite level. The amount goes through exactly the
+        // same reader `add` uses, so a bottle and the dispenses against it
+        // are counted in one unit and no conversion is invented here.
+        "stock" => {
+            if words.len() < 3 {
+                return Err("usage: stock <species|material> <amount><mol|g|mL>".into());
+            }
+            let amount = if let Some(data) = species::lookup_key(words[1]) {
+                parse_amount(words[2], data)?.0
+            } else if let Some(recipe) = material::lookup(words[1], None) {
+                parse_material_amount(words[2], &recipe)?
+            } else {
+                return Err(format!(
+                    "unknown species or material '{}' (see 'species')",
+                    words[1]
+                ));
+            };
+            let key = species::lookup_key(words[1])
+                .map(|data| data.key.to_string())
+                .or_else(|| material::lookup(words[1], None).map(|recipe| recipe.canonical_key))
+                .expect("one of the two lookups above resolved");
+            Operator::StockShelf { key, amount }
         }
         "heat" | "cool" => {
             if words.len() < 3 {
