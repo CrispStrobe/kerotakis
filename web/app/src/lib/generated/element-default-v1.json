@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "reviewed": "2026-08-30",
+  "rationale": "Familiar main-group chemistry and high-value school/household transition metals; excludes obscure, synthetic, and highly hazardous defaults.",
+  "symbols": [
+    "H", "He", "Li", "B", "C", "N", "O", "F", "Ne",
+    "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
+    "K", "Ca", "Ti", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Br", "Kr",
+    "Sr", "Ag", "Sn", "I", "Xe", "W", "Pt", "Au", "Bi"
+  ]
+}

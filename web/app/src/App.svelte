@@ -1205,11 +1205,25 @@
   <PeriodicTable
     shelf={session.shelf}
     register={session.register}
+    coverage={session.elementCoverage}
+    {lessons}
+    experiments={codexEntries}
     onadd={(item) => {
       tableOpen = false;
       void dispense(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
+    }}
+    onlesson={(file) => {
+      tableOpen = false;
+      void startLesson(file);
+    }}
+    onexperiment={(id) => {
+      const entry = codexEntries.find((candidate) => candidate.id === id);
+      if (!entry) return;
+      tableOpen = false;
+      catalogInitial = entry;
+      catalogOpen = true;
     }}
     onclose={() => (tableOpen = false)}
   />

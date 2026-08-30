@@ -1,0 +1,33 @@
+import importlib.util
+import pathlib
+import tempfile
+import unittest
+
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+SPEC = importlib.util.spec_from_file_location("lessons_index", ROOT / "tools/lessons-index.py")
+MODULE = importlib.util.module_from_spec(SPEC)
+assert SPEC.loader
+SPEC.loader.exec_module(MODULE)
+
+
+class LessonsIndexTests(unittest.TestCase):
+    def test_kit_is_deduplicated_sorted_and_matches_player_verbs(self):
+        text = """# Demo
+add v1 water 1mL
+titrate v1 HCl NaOH 1mL
+grind v1 NaCl 1g
+add v1 water 2mL
+measure v1 ph
+"""
+        self.assertEqual(MODULE.lesson_kit(text), ["HCl", "NaCl", "water"])
+
+    def test_index_emits_kit_derived_from_lesson(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "demo.lab"
+            path.write_text("# A demo\nadd v1 CuSO4 1g\nadd v1 water 10mL\n")
+            self.assertEqual(MODULE.index(path.parent)[0]["kit"], ["CuSO4", "water"])
+
+
+if __name__ == "__main__":
+    unittest.main()

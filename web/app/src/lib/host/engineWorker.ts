@@ -35,6 +35,7 @@ type Lab = {
   scene(): string;
   state(): string;
   species(): string;
+  element_coverage(): string;
   inspect(vessel: number): string;
   particles(vessel: number): string;
   reset(): void;
@@ -212,6 +213,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "species":
         done(id, lab.species());
+        break;
+      case "element_coverage":
+        done(id, lab.element_coverage());
         break;
       case "inspect":
         done(id, lab.inspect(Number(msg.vessel)));

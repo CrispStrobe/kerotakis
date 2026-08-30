@@ -1703,6 +1703,20 @@
   "spill contained at {destination}: {percent}% transferred": "Verschüttung bei {destination} aufgefangen: {percent} % übertragen",
   "Evidence: vessel v{vessel} broke; contents routed to {destination}.": "Nachweis: Gefäß v{vessel} zerbrach; der Inhalt wurde nach {destination} geleitet.",
   "Evidence: {percent}% of {destination} was recovered into vessel v{vessel}.": "Nachweis: {percent} % von {destination} wurden in Gefäß v{vessel} zurückgewonnen.",
-  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": "Nachweis: {percent} % aus Gefäß v{vessel} gelangten nach {destination}."
+  "Evidence: {percent}% of vessel v{vessel} entered {destination}.": "Nachweis: {percent} % aus Gefäß v{vessel} gelangten nach {destination}.",
+  "search elements and lab materials": "Elemente und Labormaterialien durchsuchen",
+  "symbol, element, formula or material": "Symbol, Element, Formel oder Material",
+  "No elements or installed lab materials match that search.": "Keine Elemente oder installierten Labormaterialien passen zu dieser Suche.",
+  "coverage: {level}": "Abdeckung: {level}",
+  "identity only": "nur Identität",
+  "add and observe": "zugeben und beobachten",
+  "property backed": "mit Stoffdaten",
+  "reacting": "reaktionsfähig",
+  "lesson backed": "mit Lektion",
+  "things you can run with this element:": "Das kannst du mit diesem Element durchführen:",
+  "lesson": "Lektion",
+  "experiment": "Experiment",
+  "needs: {materials}": "benötigt: {materials}",
+  "No installed reaction or lesson is linked to this element yet.": "Mit diesem Element ist noch keine installierte Reaktion oder Lektion verknüpft."
  }
 }

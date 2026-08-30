@@ -102,6 +102,14 @@ class FakeHost implements EngineHost {
     this.calls.push("species");
     return [{ key: "NaCl", name: "sodium chloride", formula: "NaCl", phase: "solid" }];
   }
+  async elementCoverage() {
+    return { schema: 1, elements: Array.from({ length: 118 }, (_, index) => ({
+      symbol: `E${index + 1}`,
+      capability: "identity_only",
+      examples: [],
+      routes: [],
+    })) };
+  }
   async inspect(vessel: number) {
     this.calls.push(`inspect:${vessel}`);
     return { rendered: [`vessel ${vessel} detail`] };

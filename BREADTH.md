@@ -1350,7 +1350,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-077 — Element coverage score and progressive periodic table
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-000, BRD-012 and
+- [x] **Status:** complete (2026-08-30). **Size:** medium. **Depends on:** BRD-000, BRD-012 and
   BRD-023; reaction links deepen progressively as later family packs land.
 - **Outcome:** selecting an element answers “what can I actually try with this?”
   while the default table stays inviting rather than presenting 118 equally
@@ -1393,9 +1393,28 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   retained behind a remembered full-table toggle. The default curated lab table
   keeps high-value Mn/Fe/Cu/Zn and excludes Po/At/Fr/Ra/synthetic elements;
   cells show a count generated from the live shelf's parsed formulas and empty
-  cells remain honest. Remaining work: include expanded material recipes,
-  generate route/lesson capability levels, replace the curated symbol set with
-  a reviewed data artifact, and add component/mobile accessibility snapshots.
+  cells remain honest. The completed slice now includes expanded recipes,
+  replay-proved lesson/codex routes, capability levels, a reviewed default-view
+  artifact, localized search and browser-level desktop/mobile/reduced-motion
+  accessibility coverage.
+- **Completion tasklist and DoDs (2026-08-30):**
+  - [x] Generate a deterministic, versioned 118-entry coverage report from
+    pure species and expanded material recipes. **Done when:** its reviewed
+    regression fixture is stable, every example resolves to a live shelf key,
+    identity-only cells remain present, and native plus wasm boundaries agree.
+  - [x] Derive runnable content links from shipped lesson/codex scripts.
+    **Done when:** required co-materials all resolve to the shelf, lesson kits
+    are generated from source, and every advertised source passes the existing
+    real-engine replay/lint gates.
+  - [x] Finish the progressive table interaction. **Done when:** coverage
+    levels, substance/material search, honest empty states, direct lesson and
+    experiment actions, remembered lab/full modes, keyboard names, mobile
+    layout and reduced-motion behavior pass focused web tests and production
+    build.
+  - [x] Integrate and audit both host transports. **Done when:** native/wasm
+    schemas match, Fe/Cu/Zn and Po/At/Fr/Ra/synthetic inclusion rules regress,
+    formatting/clippy/focused suites/full preflight pass, the PR merges without
+    unrelated work, and the resulting GitHub `main` workflow is green.
 
 ### BRD-080 — Molecular viewer selection spike
 

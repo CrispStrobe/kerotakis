@@ -66,6 +66,7 @@ fi
 step "no-engine";     gated cargo check -p kerotakis-phreeqc --no-default-features
 step "portable deps"; gated python3 tools/portable-dependency-lint.py
 step "portable deps self-test"; gated python3 -m unittest tools.tests.test_portable_dependency_lint
+step "lesson coverage index self-test"; gated python3 -m unittest tools.tests.test_lessons_index
 
 if $LIGHT; then
   printf '\n\033[1;32mpreflight --light clean\033[0m\n'
