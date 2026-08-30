@@ -81,14 +81,23 @@
     // What just happened enters PHYSICALLY: an add-like effect pours in
     // from above as droplets (GUI-065b — mass ledger-conserved into the
     // grid on surface handoff, splash included); a stir shears the bath.
-    rand = mulberry32((fresh.length * 2654435761) ^ Date.now());
+    // Accepted event timestamps are replay-stable; wall-clock seeding would
+    // make the same ledger paint a different visual trace on every host.
+    const seed = fresh.reduce((value, effect) => (value ^ effect.at) >>> 0, fresh.length * 2654435761);
+    rand = mulberry32(seed);
     pours = [];
+    let animated = false;
     for (const effect of fresh) {
       const plan = fluidVisualPlan(sim.species, effect.acceptedTransferFraction, reducedMotion);
       damping = plan.damping;
       if (!plan.animate) continue;
+      animated = true;
       if (effect.kind === "swirl") injectStir(sim, 1.2);
       else pours.push(startPour(sim.grid.fields.length - 1, plan.acceptedMass, 0.5, plan.dropMass));
+    }
+    if (!animated) {
+      sim = null;
+      return;
     }
     visible = true;
     fading = false;

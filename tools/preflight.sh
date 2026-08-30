@@ -73,6 +73,7 @@ fi
 step "tests";         gated cargo test --workspace
 step "wasm32";        gated cargo build -p kerotakis-wasm -p kerotakis-scene-physics --target wasm32-unknown-unknown
 step "BRD-071 evaluator"; python3 -m unittest tools.tests.test_brd071_evaluate
+step "BRD-072 evaluator"; python3 -m unittest tools.tests.test_brd072_evaluate
 # The i18n gates. Seconds each, and each one caught something real while
 # this was being built: a key shared by two different sentences (which
 # renders the WRONG sentence, not a missing one), a placeholder nothing

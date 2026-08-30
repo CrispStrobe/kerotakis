@@ -187,6 +187,8 @@ def build_report(
             if stable_gate and reference_machine is None
             else "all stable gates and the reference 30 fps budget pass"
             if stable_gate and timing_pass
+            else "stable gates pass, but the named reference misses the 30 fps budget"
+            if stable_gate
             else "one or more required gates failed"
         ),
     }

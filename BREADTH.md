@@ -1067,7 +1067,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-072 — Salva fluid-visual integration
 
-- [ ] **Status:** open/decision gate. **Size:** medium-large. **Depends on:**
+- [x] **Status:** complete/no-go. **Size:** medium-large. **Depends on:**
   BRD-070; may run in parallel with BRD-071.
 - **Candidate/licence:** Salva Apache-2.0, Rust SPH with viscosity, surface
   tension, multiphase fluids, wasm and optional Rapier coupling. Primary
@@ -1080,6 +1080,33 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** no particle loss affects chemistry; visual phase ordering
   matches authoritative layers; 60/30 fps budgets are explicit; go/no-go
   report. If no-go, retain Salva as a reference and improve `fluidScene`.
+- **Delivered tasklist:**
+  - [x] build bounded Salva 2-D prototypes for water pouring, authoritative
+    oil/water layers and a high-viscosity syrup;
+  - [x] accept only provenanced density, viscosity and surface-tension values,
+    while keeping all coefficients and particles presentation-only;
+  - [x] map the accepted BRD-070 transfer fraction independently per phase,
+    and prove deliberate render-particle loss cannot alter that endpoint;
+  - [x] improve `fluidScene` with accepted-fraction scaling, viscosity damping,
+    surface-tension droplet sizing, deterministic event seeding and a strict
+    reduced-motion/no-animation path;
+  - [x] measure deterministic replay, phase order, particle-loss isolation,
+    standalone wasm payload and explicit 60/30 fps thresholds.
+- **Decision/evidence:** **no-go for shipping Salva in the interactive path;
+  retain Salva as a reference and ship the improved lightweight `fluidScene`
+  path.** Three reference runs reproduced the exact
+  visual trace (`a472b73…0aeaf8`), retained authoritative chemistry through a
+  forced 50% particle decimation and preserved bottom-to-top phase order. The
+  standalone Salva wasm upper bound was modest at 48,990 gzip bytes, but the
+  96-particle, 120-step stress frame measured 35.99 ms p95 and missed the
+  explicit 33.33 ms/30 fps reference budget (and therefore 16.67 ms/60 fps).
+  More decisively, its dependency closure includes archived
+  `generational-arena` (`RUSTSEC-2024-0014`) and MPL-2.0 code rejected by the
+  shipping licence policy; the measured prototype was therefore removed from
+  the product build graph instead of weakening either gate. The existing path
+  already has a 9 ms governor, economy grid, static/reduced-motion endpoint and
+  no extra runtime boundary. `tools/brd072_evaluate.py` keeps the stable gates
+  and named-reference timing decision executable.
 
 ### BRD-073 — Spills, tipping, drops and breakage
 

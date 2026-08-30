@@ -20,8 +20,8 @@ jobs:
       - name: Enforce WCAG AA theme pairs
         run: node tools/test-theme-contrast.mjs
 
-  rigid-intent:
-    name: Rigid input parity
+  presentation-authority:
+    name: Presentation authority adapters
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,7 +34,9 @@ jobs:
           cache: npm
           cache-dependency-path: web/app/package-lock.json
       - run: npm ci
-      - run: npm test -- src/lib/rigidIntent.test.ts
+      - run: >-
+          npm test -- src/lib/rigidIntent.test.ts src/lib/fluidScene.test.ts
+          src/lib/magnitudes.test.ts src/lib/pour.test.ts
 
   preflight-gate:
     name: Full preflight gate
@@ -141,7 +143,9 @@ jobs:
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
       - name: Check core, data and scene physics on wasm
-        run: cargo check -p kerotakis-core -p kerotakis-data -p kerotakis-scene-physics --target wasm32-unknown-unknown
+        run: >-
+          cargo check -p kerotakis-core -p kerotakis-data
+          -p kerotakis-scene-physics --target wasm32-unknown-unknown
 
   registry-export:
     name: Current registry source export
