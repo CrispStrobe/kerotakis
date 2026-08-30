@@ -1762,22 +1762,47 @@ in a German classroom — which is the audience the curriculum mapping in
   misconception diagnosis that misstates the misconception is worse than an
   English one.
 
-- [ ] **I18N-2 — The map screen's own vocabulary.** English-only today, and
-  the reason is structural: neither a concept nor an entry has a label field.
-  The component de-slugs an identifier and asks the dictionary —
-  `t("activation energy")` — so the German has to land in the dictionary,
-  keyed exactly as the component asks.
+- [x] **I18N-2 — The map screen's own vocabulary.** The reason it was hard is
+  structural: neither a concept nor an entry has a label field. The component
+  de-slugs an identifier and asks the dictionary — `t("activation energy")` —
+  so the German has to land in the dictionary, keyed exactly as the component
+  asks.
 
   `codex/concepts.toml` does not help, despite carrying `label_de`: it is the
   oeh curriculum spine, whose ids are German slugs
-  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 155** concept slugs
+  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 157** concept slugs
   the entries use appears in it. The two vocabularies were never the same one.
 
-  So: 153 concept labels and 103 experiment names, 256 keys. Concept labels
-  are terminology and want the established German term over a paraphrase;
-  experiment names are written as small provocations ("why the shelf is not
-  on fire") and want that voice carried rather than flattened into textbook
-  headings. Different jobs, done separately.
+  Concept labels are terminology and want the established German term over a
+  paraphrase; experiment names are written as small provocations ("why the
+  shelf is not on fire") and want that voice carried rather than flattened
+  into textbook headings. Different jobs, done separately.
+
+  **2026-08-30.** Done, and the interesting part is what "done" turned out to
+  mean. Measured mechanically rather than read off this entry, 256 of the 260
+  keys were already in `de.json` — the vocabulary had shipped inside the big
+  literal map before the bundles were split, and this entry had been counting
+  a screen nobody had re-measured. Four were missing: `heterogeneous
+  catalysis`, `mass transfer`, `surface area` and the experiment name
+  `catalyst area and stirring change the rate`, all of them arriving with one
+  `rates.toml` entry, none of them noticed, because `t()` falls back to its
+  argument and an English node inside a German map fails nothing. That is the
+  failure mode this file names five times over.
+
+  The other direction found two. Walking every slug the codex has ever
+  carried against the slugs it carries now, `unmodelled-variable` and
+  `more-catalyst-and-a-good-stir-change-nothing` were retired by that same
+  entry and their German stayed behind — still asserting that stirring
+  changes nothing, months after the engine learned that it does. Removed:
+  a key translating nothing is an error, not a spare.
+
+  So the durable half is `tools/i18n-slug-lint.py`, in `preflight.sh`: it
+  derives the key set from the codex fields the components actually read
+  (`id`, `concepts`, `requires`, `apparatus`, `models` — never
+  `calculations`, which nothing renders), and fails when German has no word
+  for one, or answers with the English key. It pins its own assumption to
+  `tSlug`'s source, so changing the de-slugging fails the lint rather than
+  silently invalidating it. 308 slugs, 308 answered.
 
 - [ ] **I18N-3 — Engine vocabulary coverage.** `DE_TERMS` translates species,
   colours, hazards and lesson names. Add a gate that fails when the engine can

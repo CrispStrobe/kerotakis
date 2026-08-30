@@ -72,15 +72,17 @@ fi
 
 step "tests";         gated cargo test --workspace
 step "wasm32";        gated cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
-# The three i18n gates. Seconds each, and each one caught something real
-# while this was being built: a key shared by two different sentences (which
+# The i18n gates. Seconds each, and each one caught something real while
+# this was being built: a key shared by two different sentences (which
 # renders the WRONG sentence, not a missing one), a placeholder nothing
-# fills (which renders as literal `{name}` on screen), and a catalogue
-# drifting behind the source it translates.
+# fills (which renders as literal `{name}` on screen), a catalogue drifting
+# behind the source it translates, and a codex slug the map de-slugs into a
+# dictionary that has no word for it (which renders English inside German).
 step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
 step "i18n engine";    python3 tools/engine-locale-lint.py --check
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
+step "i18n slugs";     python3 tools/i18n-slug-lint.py --check
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
