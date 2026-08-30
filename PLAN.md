@@ -1008,15 +1008,21 @@ The pipeline, honestly bounded:
   matching, canonical SMILES, 2D depiction, first-class wasm npm build. Three
   months old, bus-factor 1, self-reported RDKit parity. If it matures it
   replaces the Indigo FFI for everything except InChI; re-evaluate quarterly.
-- **Cantera via its generated C API** (BSD-3-Clause, verified 2026-08-23 —
-  clean under the shipping bar below) — Cantera 3.2 ships a generated clib
-  (handle-based, no C++ at the boundary) covering equilibrate, kinetics rates
-  and reactor networks, and **Emscripten/wasm support was merged upstream**
-  into the 4.0 dev branch (2026-03; lead maintainer: "essentially no issues
-  compiling Cantera and its dependencies as a WASM library"). Still SCons-built,
-  clib marked experimental, mobile unproven. Our slice reimplementation (L5)
-  covers the educational need; full Cantera-by-FFI becomes a real option when
-  4.0 ships — re-evaluate then.
+- **Cantera via its generated C API** (BSD-3-Clause code only) — BRD-040
+  completed the decision on 2026-08-29: the portable Cantera-YAML/diffsol
+  slice covers the educational requirement, every audited upstream mechanism
+  is oracle-only for lack of a redistribution grant, and full C-API shipping
+  closes no current capability gap. Upstream Emscripten work is not an
+  all-target proof: the clib remains experimental and iOS/Android packaging is
+  unproven. BRD-042 is therefore parked until a named capability cannot
+  reasonably be implemented in the portable path; a future Cantera release by
+  itself is not a reason to reopen it.
+- **Thermochimica** — BSD-3-Clause code and potentially valuable for melts,
+  slags and non-ideal condensed phases, but its Fortran + BLAS/LAPACK build and
+  independently licensed thermodynamic data do not satisfy the browser,
+  Android, iOS, macOS and Windows runtime contract. BRD-093 closes universal
+  runtime adoption as no-go; it remains eligible as a native/build-time oracle
+  for a named experiment with a cleared database.
 - `teqp` (NIST) — **public-domain** multiparameter/GERG/SAFT EOS in C++;
   Emscripten side-module feasible. The option if L3 ever needs
   reference-quality multiparameter mixtures beyond feos.

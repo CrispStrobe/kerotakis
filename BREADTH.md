@@ -1495,6 +1495,94 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   at acceptable size and no feos route exists.
 - **Acceptance:** dated comparison and explicit oracle/runtime decision.
 
+### BRD-093 — Permissive thermochemical-engine target gate
+
+- [x] **Status:** closed no-go for universal runtime (2026-08-30); optional
+  native/build-time oracle only. **Size:** small decision record. **Depends
+  on:** a named high-temperature condensed-phase experiment that the existing
+  CEA path cannot represent.
+- **Candidate/licence:** Thermochimica code is BSD-3-Clause. Its thermodynamic
+  databases and individual CALPHAD assessments are separate works and require
+  record-by-record redistribution review. EQ3/6 and OpenGeoSys are also
+  BSD-3-Clause; AqEquil wraps EQ3/6; ChemEQL is MIT. Code licences alone do not
+  make their databases, packaged binaries, or dependency closures shippable.
+- **Target verdict:** none is a new universal Kerotakis engine. Thermochimica
+  requires a Fortran toolchain plus BLAS/LAPACK and has no demonstrated
+  maintained Rust-to-wasm/iOS/Android distribution path. OpenGeoSys is a large
+  native THMC application rather than a bench library. EQ3/6/AqEquil and
+  ChemEQL duplicate the shipped IPhreeqc aqueous domain. PhreeqcRM is useful
+  only after choosing multidimensional porous-media transport, which remains
+  outside the product mission.
+- **Portable rule:** a core runtime model must build behind the same Rust API
+  for browser wasm, Android, iOS, macOS and Windows. A native-only backend may
+  be an optional acceleration or oracle, but it may not own a learner-visible
+  capability or produce a result unavailable in the PWA. Tauri does not make
+  arbitrary native libraries web- or mobile-portable; installed shells use a
+  native Rust core while the browser uses the wasm core. Native-only workspace
+  adapters declare `[package.metadata.kerotakis] runtime = "native-only"`;
+  `tools/portable-dependency-lint.py` rejects any such package in the
+  `kerotakis-wasm` dependency closure and runs in preflight.
+- **Reopen gate:** name the experiment and educational observable; identify a
+  cleared database; prove deterministic C-ABI builds on Windows, macOS,
+  Android and iOS; measure a browser-wasm build or specify a portable
+  Kerotakis fallback with answer-level conformance fixtures. Until then,
+  Thermochimica may generate reviewed fixtures externally, like pycalphad,
+  but does not enter any shipped dependency graph.
+- **Immediate path:** finish the already-claimed BRD-030 `feos` spike for
+  portable fluid thermodynamics and use the completed BRD-040 verdict for gas
+  kinetics: extend the portable Cantera-YAML/diffsol slice; keep full Cantera
+  FFI parked unless a concrete capability gap survives BRD-042's gate.
+
+### BRD-094 — GPU fluid and volumetric-rendering decision record
+
+- [x] **Status:** frontend WebGPU spike only; Taichi/NanoVDB backend adoption
+  closed no-go (2026-08-30). **Size:** small decision record. **Depends on:**
+  completed BRD-070 and BRD-072; reopen implementation only for a named visual
+  that the shipped lightweight `fluidScene` cannot express.
+- **Authority and placement:** chemistry continues to own amounts, phase,
+  temperature, pressure and accepted transfers. GPU state is disposable
+  presentation state. Run an optional accelerator beside the renderer in the
+  webview so particles/textures do not cross Tauri JSON IPC; feed it the same
+  bounded scene/event contract in PWA and installed shells. A deterministic
+  Canvas/WebGL/lightweight fallback remains the release baseline for old
+  Android WebViews, reduced motion, headless tests and absent WebGPU.
+- **Taichi verdict:** Apache-2.0 and useful for native research prototypes, but
+  its AOT/C-API backend matrix is not a demonstrated browser + Android + iOS +
+  macOS + Windows distribution. The official C-API tutorial currently lists
+  Vulkan, OpenGL, x86 and CUDA and explicitly says Metal is unsupported; it
+  does not provide the claimed transparent Metal/DX12 universal binary. Python
+  may generate artifacts at build time, but no Taichi runtime enters a shipped
+  Kerotakis target without passing BRD-093's target gate.
+- **NanoVDB verdict:** current OpenVDB/NanoVDB is Apache-2.0, not BSD-3.
+  NanoVDB is a compact GPU/CPU sparse-grid representation, principally for
+  read access, rendering and collision queries; its topology is static at
+  runtime. It neither calculates combustion chemistry nor supplies a fluid or
+  smoke solver. Consider its C99 `CNanoVDB`/`PNanoVDB` layouts only after a
+  measured sparse-volume transport bottleneck exists; do not stream NanoVDB
+  buffers through ordinary Tauri IPC.
+- **WebGPU candidate:** `jeantimex/fluid` is MIT and demonstrates browser SPH
+  plus 2-D/3-D PIC/FLIP, marching cubes, raymarching and screen-space fluid.
+  Treat it as algorithm/reference code, not a drop-in dependency: it is an
+  application, requires a WebGPU-capable browser, and credits/ports earlier
+  implementations whose exact copied-code provenance must be audited before
+  reuse. Prefer a small project-owned WGSL effect scoped to one accepted
+  observable over importing the whole demo.
+- **Reopen/acceptance gate:** first name the missing visual—volumetric flame,
+  smoke plume, foam or a genuinely 3-D pour. Then measure it against
+  BRD-072's existing 9 ms governor on the low-end Chromebook/Android floor;
+  require no chemistry/particle coupling, no readback per frame, graceful
+  device-loss fallback, reduced-motion equivalence, deterministic endpoint
+  snapshots, shader/source licence records and identical scene semantics on
+  all hosts. Visual fidelity alone cannot make WebGPU mandatory.
+- **First named candidate (2026-08-30):** a procedural envelope for a live
+  vessel `ignite` event. Existing magnitude and curated flame-colour inputs
+  make it bounded without inventing chemistry, while the current fallback is
+  only a two-path SVG flame. Do not render generic evolved gas as smoke (there
+  is no soot/particulate authority), infer burning from temperature alone, or
+  copy `jeantimex/fluid` WGSL: its MIT repository identifies two earlier MIT
+  ports but supplies no per-file lineage map. Implement project-owned WGSL
+  from published fire-rendering ideas and record that provenance explicitly.
+
 ### BRD-100 — Breadth release gate v1
 
 - [ ] **Status:** final integration task. **Size:** large. **Depends on:**
