@@ -61,6 +61,102 @@ impl std::fmt::Display for Register {
     }
 }
 
+// ── The tables a coverage gate can walk ──────────────────────────────
+//
+// Four vocabularies below were written inline as `match` arms, which is
+// the clearest way to read them at the call site and the one shape a test
+// cannot enumerate. They are functions now for exactly one reason: so
+// `tests/i18n_coverage.rs` can ask the engine what words it is able to
+// emit, instead of a person maintaining a second list beside them.
+//
+// That matters more here than the tidiness would justify. Every one of
+// these falls back to English per term, silently, so a word added to one
+// of these tables without German renders in English inside a German
+// sentence and nothing anywhere reports it. Walking the table is the only
+// defence that survives someone adding an instrument in a hurry.
+
+/// The catalogue key naming a phase — `phase.aqueous`.
+///
+/// `{:?}` printed "Liquid" in every language, which is how this started.
+pub fn phase_key(phase: Phase) -> &'static str {
+    match phase {
+        Phase::Aqueous => "phase.aqueous",
+        Phase::Liquid => "phase.liquid",
+        Phase::Solid => "phase.solid",
+        Phase::Gas => "phase.gas",
+    }
+}
+
+/// The English a phase falls back to when a language has not named it.
+pub fn phase_english(phase: Phase) -> &'static str {
+    match phase {
+        Phase::Aqueous => "Aqueous",
+        Phase::Liquid => "Liquid",
+        Phase::Solid => "Solid",
+        Phase::Gas => "Gas",
+    }
+}
+
+/// What the journal calls an instrument, in English.
+///
+/// This English IS the catalogue key — `instrument.pH meter` — the same
+/// lookup-by-value the species and glassware tables use, so an instrument
+/// nobody has translated reads in English inside a German sentence rather
+/// than disappearing from it.
+pub fn instrument_name(instrument: Instrument) -> &'static str {
+    match instrument {
+        Instrument::Thermometer => "thermometer",
+        Instrument::Balance => "balance",
+        Instrument::PhMeter => "pH meter",
+        Instrument::Eyes => "eyes",
+        Instrument::PressureGauge => "pressure gauge",
+        Instrument::VolumeMeter => "volume meter",
+        Instrument::ConductivityMeter => "conductivity meter",
+        Instrument::Spectrophotometer => "spectrophotometer",
+        Instrument::Calorimeter => "calorimeter",
+        // The column never emits a scalar Measured — it reports a peak
+        // table via Chromatographed — but the name must exist.
+        Instrument::Chromatograph => "chromatograph",
+        Instrument::GeigerCounter => "Geiger counter",
+    }
+}
+
+/// The verb for a phase change, in English.
+///
+/// English builds these from a table and drops them into a translated
+/// sentence, so German needs its own — gefror, schmolz, siedete — and a
+/// table is where they belong. A suffix rule cannot inflect a German verb.
+pub fn phase_change_verb(from: Phase, to: Phase) -> &'static str {
+    match (from, to) {
+        (Phase::Liquid, Phase::Solid) => "froze",
+        (Phase::Solid, Phase::Liquid) => "melted",
+        (Phase::Liquid, Phase::Gas) => "boiled",
+        _ => "changed state",
+    }
+}
+
+/// What a precipitate or a plating LOOKS like, in the reader's language.
+///
+/// The registry's `appearance` — "pale blue", "white crystalline powder" —
+/// was dropped straight into a translated sentence, so a German reader got
+/// "Ein white Feststoff erscheint am Boden". The colour is most of what
+/// that sentence is FOR, so leaving it English loses the observation and
+/// keeps the grammar.
+///
+/// German cannot inflect these as attributive adjectives — "weiß" before
+/// "Feststoff" needs an ending, and "weißes kristallines Pulver" cannot
+/// take one at all — so the German sentences carry the word as a free
+/// apposition in parentheses and the table stays uninflected.
+///
+/// `None` is a species the registry does not describe; "new" is the word
+/// English used for it, and it is looked up like any other.
+fn appearance_word(appearance: Option<&'static str>, locale: Locale) -> &'static str {
+    let english = appearance.unwrap_or("new");
+    locale
+        .lookup(&format!("appearance.{english}"))
+        .unwrap_or(english)
+}
+
 /// Render a vessel for a person. CLI, Wasm, and future clients share this
 /// instead of teaching each interface how to turn the state contract back
 /// into laboratory prose.
@@ -155,20 +251,7 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
             .unwrap_or(english);
         // `{:?}` on the phase printed "Liquid" in every language. It is a
         // closed set of four words, so it is worth naming properly.
-        let phase = locale.t(
-            match p.phase {
-                Phase::Aqueous => "phase.aqueous",
-                Phase::Liquid => "phase.liquid",
-                Phase::Solid => "phase.solid",
-                Phase::Gas => "phase.gas",
-            },
-            match p.phase {
-                Phase::Aqueous => "Aqueous",
-                Phase::Liquid => "Liquid",
-                Phase::Solid => "Solid",
-                Phase::Gas => "Gas",
-            },
-        );
+        let phase = locale.t(phase_key(p.phase), phase_english(p.phase));
         // The comma goes here as well: a header reading 25,00 above rows
         // reading 11.0686 is worse than either convention used throughout.
         out.push(
@@ -370,7 +453,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             fraction,
             ..
         } => match register.level() {
-            1 => format!("Material from {source} spills onto {destination:?}."),
+            1 => locale.fill(
+                "event.spill-created.lv1",
+                "Material from {source} spills onto {where}.",
+                &[
+                    ("source", &source.to_string()),
+                    ("where", &format!("{destination:?}")),
+                ],
+            ),
             _ => format!(
                 "{source}: {:.3}% transferred to spill {destination:?}",
                 fraction * 100.0
@@ -382,13 +472,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             impulse_ns,
             ..
         } => match register.level() {
-            1 => format!("{vessel} breaks; its contents spill onto {destination:?}."),
+            1 => locale.fill(
+                "event.container-broken.lv1",
+                "{vessel} breaks; its contents spill onto {where}.",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("where", &format!("{destination:?}")),
+                ],
+            ),
             _ => format!("{vessel}: container broke at {impulse_ns:.3} N·s; destination {destination:?}"),
         },
         Event::CollisionWithstood {
             vessel, impulse_ns, ..
         } => match register.level() {
-            1 => format!("{vessel} is knocked but stays intact."),
+            1 => locale.fill(
+                "event.collision-withstood.lv1",
+                "{vessel} is knocked but stays intact.",
+                &[("vessel", &vessel.to_string())],
+            ),
             _ => format!("{vessel}: collision withstood at {impulse_ns:.3} N·s"),
         },
         Event::SpillRecovered {
@@ -396,7 +497,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             to,
             fraction,
         } => match register.level() {
-            1 => format!("Material from {destination:?} is recovered into {to}."),
+            1 => locale.fill(
+                "event.spill-recovered.lv1",
+                "Material from {where} is recovered into {to}.",
+                &[
+                    ("where", &format!("{destination:?}")),
+                    ("to", &to.to_string()),
+                ],
+            ),
             _ => format!(
                 "spill {destination:?}: {:.3}% recovered into {to}",
                 fraction * 100.0
@@ -409,7 +517,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             real_world,
             ..
         } => match register.level() {
-            1 => format!("Hazard at spill {destination:?}: {hazard} {real_world}"),
+            1 => locale.fill(
+                "event.spill-hazard.lv1",
+                "Hazard at spill {where}: {hazard} {real_world}",
+                &[
+                    ("where", &format!("{destination:?}")),
+                    ("hazard", hazard),
+                    ("real_world", real_world),
+                ],
+            ),
             _ => format!("spill {destination:?}: {severity:?}: {hazard}; {real_world}"),
         },
         Event::Added {
@@ -512,7 +628,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             active_yeast_grams,
             seconds,
         } => match register.level() {
-            1 => format!("Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles."),
+            1 => locale.fill(
+                "event.fermented.lv1",
+                "Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles.",
+                &[("vessel", &vessel.to_string())],
+            ),
             _ => format!(
                 "{vessel}: yeast fermented {:.6} mol sucrose in {seconds:.0} s → {:.6} mol ethanol + {:.6} mol CO2 ({active_yeast_grams:.3} g effective yeast)",
                 sucrose_moles.0,
@@ -562,7 +682,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             to_cleared_fraction,
             ..
         } => match register.level() {
-            1 => format!("The {material} darts away from the soap in {vessel}!"),
+            1 => locale.fill(
+                "event.surface-spread.lv1",
+                "The {material} darts away from the soap in {vessel}!",
+                &[("material", material), ("vessel", &vessel.to_string())],
+            ),
             _ => format!(
                 "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
                 100.0 * from_cleared_fraction,
@@ -575,7 +699,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             to_spread_fraction,
             spot_count,
         } => match register.level() {
-            1 => format!("The colours race and swirl across the milk in {vessel}!"),
+            1 => locale.fill(
+                "event.surface-colour-spread.lv1",
+                "The colours race and swirl across the milk in {vessel}!",
+                &[("vessel", &vessel.to_string())],
+            ),
             _ => format!(
                 "{vessel}: {spot_count} surface colour spot(s) spread from {:.0}% to {:.0}%",
                 100.0 * from_spread_fraction,
@@ -583,7 +711,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::SurfaceColourMixed { vessel, spot_count } => match register.level() {
-            1 => format!("Stirring blends the surface colours through {vessel}."),
+            1 => locale.fill(
+                "event.surface-colour-mixed.lv1",
+                "Stirring blends the surface colours through {vessel}.",
+                &[("vessel", &vessel.to_string())],
+            ),
             _ => format!("{vessel}: homogenized {spot_count} surface colour spot(s)"),
         },
         Event::TemperatureChanged { vessel, from, to } => {
@@ -731,11 +863,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             dispersed_volume_l,
             half_life_seconds,
         } => match register.level() {
-            1 if to_dispersed_fraction > from_dispersed_fraction => format!(
-                "Tiny {material} droplets spread through the water in {vessel}, making it cloudy."
+            // Two directions, two whole sentences. German cannot reach
+            // this by swapping a word inside one of them.
+            1 if to_dispersed_fraction > from_dispersed_fraction => locale.fill(
+                "event.emulsion-changed.lv1-dispersing",
+                "Tiny {material} droplets spread through the water in {vessel}, making it cloudy.",
+                &[("material", material), ("vessel", &vessel.to_string())],
             ),
-            1 => format!(
-                "The droplets in {vessel} join back together, and the {material} layer starts returning."
+            1 => locale.fill(
+                "event.emulsion-changed.lv1-coalescing",
+                "The droplets in {vessel} join back together, and the {material} layer starts returning.",
+                &[("material", material), ("vessel", &vessel.to_string())],
             ),
             2 => format!(
                 "{vessel}: {material} dispersed {:.0}% → {:.0}% ({:.1} mL; {:.0} s coalescence half-life)",
@@ -762,8 +900,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             acid_species,
             acid_moles,
         } => match register.level() {
-            1 => format!(
-                "The {material} in {vessel} separates into soft white curds and cloudy whey."
+            1 => locale.fill(
+                "event.curdling-changed.lv1",
+                "The {material} in {vessel} separates into soft white curds and cloudy whey.",
+                &[("material", material), ("vessel", &vessel.to_string())],
             ),
             2 => format!(
                 "{vessel}: {material} curd solids {:.0}% → {:.0}% ({curd_solids_mass_g:.2} g aggregate solids in visible curds)",
@@ -1460,7 +1600,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             upper_material,
             lower,
         } => match register.level() {
-            1 => format!("The {upper_material} floats in a separate layer above the water in {vessel}."),
+            1 => locale.fill(
+                "event.material-layers-formed.lv1",
+                "The {upper_material} floats in a separate layer above the water in {vessel}.",
+                &[
+                    ("upper_material", upper_material),
+                    ("vessel", &vessel.to_string()),
+                ],
+            ),
             2 => format!(
                 "{vessel}: {upper_material} forms the upper layer; {} is denser and remains below",
                 species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
@@ -1570,6 +1717,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            // The substance is the subject of the sentence. `Added` and
+            // `Ground` already translated it; these three did not, so a
+            // German reader was told "Das sucrose löst sich auf".
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
                 1 => locale.fill(
                     "event.dissolved.lv1",
@@ -1606,7 +1757,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
             match register.level() {
                 1 => {
-                    let colour = data.and_then(|d| d.appearance).unwrap_or("new");
+                    let colour = appearance_word(data.and_then(|d| d.appearance), locale);
                     locale.fill(
                         "event.precipitated.lv1",
                         "It went cloudy in {vessel}! A {colour} solid appears at the bottom — that's called a precipitate.",
@@ -1632,7 +1783,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let host = species::lookup(onto).map(|d| d.name).unwrap_or(onto.0.as_str());
             match register.level() {
                 1 => {
-                    let colour = data.and_then(|d| d.appearance).unwrap_or("new");
+                    let colour = appearance_word(data.and_then(|d| d.appearance), locale);
                     locale.fill(
                         "event.plated.lv1",
                         "A {colour} coating of {name} grows on the {host} in {vessel} — the {name} came out of the water onto it.",
@@ -1653,6 +1804,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         }
         Event::Inert { vessel, species: sid, why } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
                 1 => locale.fill(
                     "event.inert.lv1",
@@ -1674,6 +1826,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             remaining,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
                 // Says exactly as much as the event knows. With the
                 // remainder on the event: gone, or some of it gone. Without
@@ -1709,10 +1862,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         } => match register.level() {
             1 => match flame {
                 Some(colour) => {
+                    // The flame colour is the observation. It goes through
+                    // the same table the flame test uses, or the German
+                    // sentence ends in an English word.
+                    let colour = locale
+                        .lookup(&format!("flame.{colour}"))
+                        .unwrap_or(colour.as_str());
                     locale.fill(
                         "event.ignited.lv1-catches-fire-burning",
                         "It catches fire in {vessel} — burning with {colour} light!",
-                        &[("vessel", &vessel.to_string()), ("colour", &colour.to_string())],
+                        &[("vessel", &vessel.to_string()), ("colour", colour)],
                     )
                 }
                 None => locale.fill(
@@ -1878,21 +2037,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             value,
             unit,
         } => {
-            let device = match instrument {
-                Instrument::Thermometer => "thermometer",
-                Instrument::Balance => "balance",
-                Instrument::PhMeter => "pH meter",
-                Instrument::Eyes => "eyes",
-                Instrument::PressureGauge => "pressure gauge",
-                Instrument::VolumeMeter => "volume meter",
-                Instrument::ConductivityMeter => "conductivity meter",
-                Instrument::Spectrophotometer => "spectrophotometer",
-                Instrument::Calorimeter => "calorimeter",
-                // The column never emits a scalar Measured — it reports a
-                // peak table via Chromatographed — but the name must exist.
-                Instrument::Chromatograph => "chromatograph",
-                Instrument::GeigerCounter => "Geiger counter",
-            };
+            let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
             // comes from the catalogue, keyed by that name. An instrument
             // nobody has translated reads in English inside a German
@@ -2291,15 +2436,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = crate::species::lookup(species)
                 .map(|d| d.name)
                 .unwrap_or(species.0.as_str());
-            // English builds these from a table and drops them into a
-            // translated sentence, so German needs its own — gefror,
-            // schmolz, siedete — and the table is where they belong.
-            let verb_en = match (from, to) {
-                (Phase::Liquid, Phase::Solid) => "froze",
-                (Phase::Solid, Phase::Liquid) => "melted",
-                (Phase::Liquid, Phase::Gas) => "boiled",
-                _ => "changed state",
-            };
+            let verb_en = phase_change_verb(*from, *to);
             let verb = locale
                 .lookup(&format!("verb.{verb_en}"))
                 .unwrap_or(verb_en);
@@ -2641,6 +2778,28 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 .lookup(&format!("real_world.{real_world}"))
                 .map(str::to_string)
                 .unwrap_or_else(|| real_world.clone()),
+        },
+        // A spill warns with the same two sentences a vessel does, and the
+        // shell reads them straight off the event — so they have to be
+        // translated here or not at all. Missing this arm is how
+        // `HazardWarning` shipped a German frame around English prose.
+        Event::SpillHazard {
+            destination,
+            severity,
+            rule,
+            hazard,
+            real_world,
+            contributors,
+        } => Event::SpillHazard {
+            destination: destination.clone(),
+            severity: *severity,
+            rule: rule.clone(),
+            hazard: localize_hazard(hazard, locale),
+            real_world: locale
+                .lookup(&format!("real_world.{real_world}"))
+                .map(str::to_string)
+                .unwrap_or_else(|| real_world.clone()),
+            contributors: contributors.clone(),
         },
         Event::NotYetModeled { vessel, what } => Event::NotYetModeled {
             vessel: *vessel,

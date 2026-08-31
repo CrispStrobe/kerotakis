@@ -678,6 +678,45 @@ mod tests {
         v
     }
 
+    /// Every hazard sentence the matrix can raise has German.
+    ///
+    /// The other half of `kerotakis-core/tests/i18n_coverage.rs`, which
+    /// cannot walk this table: `INCOMPATIBLE` is private to this crate,
+    /// so the only place that can enumerate it is a unit test inside it.
+    ///
+    /// These two strings are the most important prose in the app to not
+    /// leave in English — they say what the danger is and why it matters
+    /// outside the simulation — and they are looked up by their English
+    /// text, so a new row added without German warns a German reader in a
+    /// language they may not read. Nothing reports it: `localize_event`
+    /// returns the English unchanged, which is indistinguishable from a
+    /// sentence somebody chose to leave alone.
+    #[test]
+    fn every_incompatibility_warns_in_german() {
+        let de = kerotakis_core::Locale::parse("de");
+        let mut missing: Vec<String> = Vec::new();
+        for rule in INCOMPATIBLE {
+            if de.lookup(&format!("hazard.{}", rule.hazard)).is_none() {
+                missing.push(format!("[hazard] \"{}\"", rule.hazard));
+            }
+            if de
+                .lookup(&format!("real_world.{}", rule.real_world))
+                .is_none()
+            {
+                missing.push(format!("[real_world] \"{}\"", rule.real_world));
+            }
+        }
+        missing.sort();
+        missing.dedup();
+        assert!(
+            missing.is_empty(),
+            "{} hazard sentence(s) have no German. Add each to \
+             crates/kerotakis-core/i18n/de.toml:\n  {}",
+            missing.len(),
+            missing.join("\n  ")
+        );
+    }
+
     // ── existing tests ────────────────────────────────────────────
 
     #[test]
