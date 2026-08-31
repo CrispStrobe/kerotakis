@@ -1023,6 +1023,19 @@ fn curated_solid_product(species: &SpeciesId) -> bool {
 /// carries it must carry `nonaqueous::NonAqueousEquilibrator` earlier —
 /// otherwise a covered pair gets neither the verdict nor the apology.
 /// All three production stacks and the engine test stack do.
+/// The temperature above which the aqueous model is not asked at all.
+///
+/// The shipped USGS databases express their equilibrium constants as
+/// analytic functions of temperature whose fitted ranges end, at the
+/// most generous, around 300 °C (PHREEQC v3 manual, description of the
+/// -analytic ranges; phreeqc.dat and wateq4f.dat are mostly fitted to
+/// 100 °C and extended by those expressions). Invoking the engine
+/// beyond that produced raw convergence errors on superheated water
+/// (curiosity th-022) — an absence of a model surfacing as a crash.
+/// Above this ceiling the aqueous engine stands aside and the honesty
+/// pass names the boundary instead.
+pub const AQUEOUS_MODEL_CEILING_K: f64 = 573.15;
+
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
@@ -1047,6 +1060,60 @@ impl Equilibrator for HonestyEquilibrator {
             .contents
             .iter()
             .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
+        // Water above the aqueous model's temperature ceiling: the engine
+        // stood aside on purpose, and the reason has to be spoken —
+        // a silent stand-aside reads as "nothing dissolved here".
+        if vessel.temperature.0 > AQUEOUS_MODEL_CEILING_K
+            && vessel
+                .contents
+                .iter()
+                .any(|p| p.species == SpeciesId::new(SOLVENT) && p.phase != Phase::Solid)
+        {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "the aqueous model's temperature ceiling at {:.0} °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
+                    Kelvin(AQUEOUS_MODEL_CEILING_K).to_celsius()
+                ),
+            });
+            return Ok(events);
+        }
+        // Water in the minority beside an organic solvent: the aqueous
+        // engine stood aside (CAP-23 rung 3) and the reason is the
+        // dielectric environment, which is worth a sentence of its own —
+        // but only when something is actually dissolved there. A clean
+        // water–ethanol distillate has no ions to speciate, and an
+        // apology about ionic speciation over pure solvents is noise
+        // dressed as honesty.
+        let has_solute = vessel.contents.iter().any(|p| {
+            p.species.0 != SOLVENT
+                && !crate::nonaqueous::KNOWN_SOLVENTS.contains(&p.species.0.as_str())
+                && p.phase != Phase::Gas
+        });
+        // ...and not when the curated chemistry already answered in this
+        // medium: permanganate meeting ethanol reacts by the curated
+        // route, whose own water byproduct would otherwise trip this
+        // apology right after the answer. The curated product in the
+        // vessel is the evidence the medium was handled.
+        let curated_answered = vessel
+            .contents
+            .iter()
+            .any(|p| curated_solid_product(&p.species));
+        if let Some(x) = crate::nonaqueous::water_fraction_among_solvents(vessel) {
+            if has_solute
+                && !curated_answered
+                && x < crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR
+            {
+                events.push(Event::NotYetModeled {
+                    vessel: vessel.id,
+                    what: format!(
+                        "a mixed solvent that is mostly organic (water is {:.0}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+                        x * 100.0
+                    ),
+                });
+                return Ok(events);
+            }
+        }
         for p in &vessel.contents {
             // Frozen solvent is not an unmodelled dissolution — the state
             // pass just explained it, and saying "ice in contact with

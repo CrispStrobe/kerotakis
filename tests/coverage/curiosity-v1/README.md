@@ -30,13 +30,23 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
-The baseline contains two solver failures. They are regression records,
-not supported or missing chemistry:
+The baseline contains no solver failures. The last two left on
+2026-08-31 when the aqueous engine gained its validity boundaries —
+and both rows got *better* than a refusal, because the crash had been
+sitting on top of an answer. `th-022` (extreme sealed-water heating)
+no longer asks PHREEQC to converge beyond llnl.dat's 300 °C
+parameterisation, and the burst physics that was the question's whole
+point classifies as `computed` — matching the prompt's expectation for
+the first time. `th-057` (permanganate heated with ethanol) no longer
+crashes the aqueous engine on a mixture that was never aqueous, and
+the curated oxidation route underneath answers as `curated`; the
+speciation the model cannot claim is declined, with the reason spoken.
+A solver failure returning here is a regression; record it in this
+table with its owning task while it is being fixed.
 
 | Prompt | Owner | Failure route |
 |---|---|---|
-| `th-022` | `CAP-25` | PHREEQC convergence in extreme sealed-water heating |
-| `th-057` | `BRD-023` | PHREEQC convergence for an organic redox mixture |
+| _none_ | | |
 
 The five CEA failures the initial baseline carried (`aq-106`, `th-034`,
 `th-035`, `th-097`, `th-102`) were removed on 2026-08-29 after the Gibbs

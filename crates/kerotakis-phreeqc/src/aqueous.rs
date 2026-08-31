@@ -1414,7 +1414,14 @@ impl Equilibrator for PhreeqcEquilibrator {
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
-        partition(vessel).is_some()
+        // Above the ceiling the databases' temperature expressions have
+        // ended and a solve is an extrapolated crash waiting to happen
+        // (superheated water, curiosity th-022). The honesty pass names
+        // the boundary when this gate declines.
+        vessel.temperature.0 <= kerotakis_core::solve::AQUEOUS_MODEL_CEILING_K
+            && kerotakis_core::nonaqueous::water_fraction_among_solvents(vessel)
+                .is_none_or(|x| x >= kerotakis_core::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR)
+            && partition(vessel).is_some()
     }
 
     /// Solve, and keep solving until the temperature stops moving.
