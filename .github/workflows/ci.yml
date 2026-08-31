@@ -22,6 +22,25 @@ jobs:
         # release-lab gates; CI only verifies their deterministic tooling.
         run: bash tools/test-gpu-release-tools.sh
 
+  viewer-decision-spike:
+    name: BRD-080 viewer decision spike
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spikes/brd080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: spikes/brd080/package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - name: Exercise both viewers, every fixture, teardown and offline boundary
+        run: npm run test:browser
+
   theme-contrast:
     name: Theme contrast tokens
     runs-on: ubuntu-latest

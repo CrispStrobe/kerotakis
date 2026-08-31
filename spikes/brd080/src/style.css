@@ -1,0 +1,29 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; background: #f4f0e7; color: #202824; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(72rem, 100% - 2rem); margin: auto; padding: 2rem 0 4rem; }
+header, .controls, .visual-card, .semantic-card { background: #fffdf8; border: 1px solid #bbb4a7; border-radius: .8rem; padding: 1.25rem; margin-block: 1rem; }
+h1, h2 { line-height: 1.1; }
+.eyebrow { color: #4c6659; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.skip { position: absolute; left: .5rem; top: -5rem; background: white; color: black; padding: .8rem; z-index: 10; }
+.skip:focus { top: .5rem; }
+.controls { display: grid; gap: 1rem; }
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { font-weight: 700; margin-bottom: .4rem; }
+.choice-row, .toggles { display: flex; flex-wrap: wrap; gap: .65rem 1.2rem; }
+label { min-height: 2.75rem; display: inline-flex; align-items: center; gap: .35rem; }
+input { width: 1.25rem; height: 1.25rem; }
+.status { border-left: .35rem solid #496c5b; padding: .8rem 1rem; background: #fffdf8; }
+.status[data-state="unsupported"], .status[data-state="error"] { border-color: #9b3f28; }
+#viewer { width: 100%; height: clamp(18rem, 55vh, 40rem); background: #e9e6df; overflow: hidden; contain: strict; }
+.boundary { font-size: .9rem; }
+dl { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+dl div { display: grid; grid-template-columns: auto auto; gap: .4rem; }
+dt { font-weight: 700; }
+dd { margin: 0; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border-bottom: 1px solid #ccc5b8; padding: .55rem; text-align: left; }
+tbody tr:has(input:checked) { background: #d9ece1; }
+@media (max-width: 38rem) { main { width: min(100% - 1rem, 72rem); padding-top: .5rem; } header, .controls, .visual-card, .semantic-card { padding: .8rem; } .semantic-card { overflow-x: auto; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .001ms !important; } }
+@media (prefers-color-scheme: dark) { :root { background: #151916; color: #edf3ee; } header, .controls, .visual-card, .semantic-card, .status { background: #202722; border-color: #59645d; } #viewer { background: #111512; } .eyebrow { color: #a9d4bc; } tbody tr:has(input:checked) { background: #30483a; } }

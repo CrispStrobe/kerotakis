@@ -4,7 +4,7 @@
     "node": "v20.20.2",
     "molstarRequiredNode": ">=22.0.0"
   },
-  "lockSha256": "2b84acfe234a5d36280ad696b874d2e4b3eaf6251b5e2027bc803c46411fdda4",
+  "lockSha256": "2eabf910cdcff87848928417123845433b3c43908fde4246e145084490731b88",
   "fixtures": [
     {
       "kind": "molecule",
