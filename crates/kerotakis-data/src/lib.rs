@@ -8,6 +8,7 @@
 
 mod adapter;
 pub mod chebi;
+pub mod fluid_parameters;
 pub mod model_pack;
 mod pack;
 mod provenance;
