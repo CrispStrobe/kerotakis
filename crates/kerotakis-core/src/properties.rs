@@ -308,7 +308,7 @@ const SUCROSE_WATER_DENSITY_PROV: &str =
      cubic inverted by bisection; ρ = d·ρ_water(20 °C, Tanaka 2001); valid 0–40 % w/w";
 
 /// NBS Table 114 cubic: apparent specific gravity (20°/20 °C) → °Brix.
-const NBS114: [f64; 4] = [-669.562_18, 1262.779_4, -775.682_12, 182.460_07];
+const NBS114: [f64; 4] = [-669.562_18, 1_262.779_4, -775.682_12, 182.460_07];
 
 fn nbs114_brix(d: f64) -> f64 {
     NBS114[0] + NBS114[1] * d + NBS114[2] * d * d + NBS114[3] * d * d * d
@@ -430,7 +430,7 @@ pub fn capillary_rise_mm(
     t_kelvin: f64,
     theta_deg: f64,
 ) -> Result<PropertyResult, String> {
-    if !(radius_mm > 0.0) {
+    if radius_mm.is_nan() || radius_mm <= 0.0 {
         return Err(format!(
             "capillary rise: tube radius must be positive, got {radius_mm}"
         ));
