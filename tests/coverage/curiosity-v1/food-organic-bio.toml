@@ -511,7 +511,9 @@ expected = "missing"
 owning_task = "BRD-052"
 tags = ["cellulose", "digestion"]
 script = ["add v1 cellulose 1g", "add v1 water 100mL", "add v1 amylase 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
+# S03 landed cellulose (amylase already parsed via the enzyme rows), so the
+# script now parses end to end; the missing chemistry is BRD-052's, not a
+# vocabulary gap.
 smoke = false
 
 [[prompt]]
@@ -1007,7 +1009,10 @@ expected = "missing"
 owning_task = "BRD-052"
 tags = ["glucose", "respiration"]
 script = ["add v1 glucose 0.1mol", "add v1 O2 0.6mol", "react v1 respiration", "look v1"]
-parse_boundary = "unknown_species"
+# S03 landed glucose, so the boundary moves one word to the right: the
+# species parse and the curated reaction "respiration" is what does not
+# exist yet (BRD-052).
+parse_boundary = "unknown_reaction"
 smoke = false
 
 [[prompt]]
