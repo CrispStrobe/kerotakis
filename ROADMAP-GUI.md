@@ -1930,11 +1930,16 @@ and presents them well.
        cannot claim GPU availability; unavailable/headless evidence is valid
        but exits non-zero and cannot pass. Missing/malformed CLI modes are
        usage errors. Twenty-six offline release-tool tests pass.
-     - [ ] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
+     - [x] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
        probe, evaluator and provenance self-tests one dependency-free command
        and run it in CI/preflight. **DoD:** no browser, GPU, network or physical
        claim is required; a failing self-test blocks CI; local and CI commands
        are identical.
+       *Done 2026-08-31:* `tools/test-gpu-release-tools.sh` is the single local,
+       preflight and CI entrypoint for deterministic asset, probe, evaluator
+       and provenance tests. The dedicated CI job pins Node 22 and explicitly
+       excludes physical measurement and matrix claims. Twenty-six offline
+       tests pass through the exact command CI invokes.
      - [ ] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
        paired baseline/candidate probes, asset reports and provenance hashes in
        one versioned manifest. **DoD:** executable fixtures prove schema and

@@ -9,6 +9,19 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  gpu-release-tools:
+    name: GPU release tools (deterministic)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test asset, probe, evaluator, and audit tooling
+        # Physical WebGPU measurements and the five-host evidence matrix are
+        # release-lab gates; CI only verifies their deterministic tooling.
+        run: bash tools/test-gpu-release-tools.sh
+
   theme-contrast:
     name: Theme contrast tokens
     runs-on: ubuntu-latest
