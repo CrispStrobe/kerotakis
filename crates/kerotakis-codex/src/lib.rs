@@ -1316,6 +1316,11 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::SpillRecovered { .. } => ("spill_recovered", None),
         E::SpillHazard { .. } => ("spill_hazard", None),
         E::SafetyVeto { .. } => ("safety_veto", None),
+        // BRD-002: the shelf's own two events. `key` is a shelf key rather
+        // than a species id — a material recipe has no single species — so
+        // a claim names it the same way `add` does: `stock_exhausted:NaCl`.
+        E::ShelfStocked { key, .. } => ("shelf_stocked", Some(key.as_str())),
+        E::StockExhausted { key, .. } => ("stock_exhausted", Some(key.as_str())),
         E::ReactionOccurred { .. } => ("reaction", None),
         E::SolutionCharacterized { .. } => ("solution", None),
         E::ThermalEquilibrium { .. } => ("thermal_equilibrium", None),

@@ -1,6 +1,7 @@
 {
   "_comment": "The affordance manifest (GUI-029): every grammar verb maps to the GUI surface that invokes it without the command bar. 'planned:GUI-033' rows are the apparatus-palette backlog; the protocol conformance suite fails on any grammar verb MISSING from this file, and reports the planned count so the sandbox-completeness invariant is tracked, not assumed.",
   "add": "Shelf tap-to-add and drag-onto-vessel",
+  "stock": "planned:GUI-033 — the shelf card already READS the level (badge, and a dimmed/disabled card at empty); filling a bottle is authored in a script or lesson today, with no GUI surface that dispenses stock into the cabinet",
   "new": "Bench + button with kind chooser (beaker/flask/tube/cylinder/crucible)",
   "remove": "Selected-vessel remove button (empty vessels only)",
   "heat": "Inspector quick-action (heat 10 kJ)",

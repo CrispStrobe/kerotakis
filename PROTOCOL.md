@@ -154,6 +154,25 @@ turbidity physics). Not yet in v1, arriving additively with their state:
 behind it) and `apparatus`. `step`/`run_script` responses now carry `scene`,
 and `Lab::scene()` serves it standalone.
 
+Additive 2026-08-29 (BRD-002): the scene carries a top-level `stock` array —
+the shelf's *finite* bottles, in stable key order:
+
+```json
+"stock": [{ "key": "white_vinegar_5_percent", "remaining": 40.0, "unit": "g" }]
+```
+
+`unit` is the one the `add` grammar takes for that key: `mol` for a registry
+species, and the recipe's own basis for a named material (`g` for a mass
+basis, `mL` for a volume basis). The array is **omitted when empty**, and a
+key that is absent from it is an *unlimited* supply, never an empty one — so
+a host written before this field sees byte-for-byte what it saw before, and
+the sandbox default is unchanged. Bottles are filled by the `StockShelf`
+operator (`stock <species|material> <amount><mol|g|mL>`) and drawn down by
+`Add`/`AddMaterial`; a draw against an empty bottle mutates nothing and
+reports `Event::StockExhausted` with both numbers. The level lives on
+`Bench`, so the opaque `snapshot`/`restore` token round-trips it with
+everything else.
+
 ## The chart contract (CAP-3; authoritative in `kerotakis-core/src/chart.rs`)
 
 One JSON contract, every renderer consumes it — the CLI's `chart_svg`, and

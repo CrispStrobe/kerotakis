@@ -66,6 +66,14 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         at: Option<Kelvin>,
     },
+    /// BRD-002: put a finite amount of one shelf entry in its bottle.
+    ///
+    /// An operator rather than a bench setter, because the shelf level
+    /// decides whether a later `Add` succeeds — and anything a replay's
+    /// outcome depends on has to be in the log, or the replay is not one.
+    /// A key that is never stocked stays an unlimited supply, which is the
+    /// sandbox every script written before this assumed.
+    StockShelf { key: String, amount: f64 },
     /// Put energy into a vessel (burner, heating mantle). Negative energy is
     /// expressed with `Cool`.
     Heat { vessel: VesselId, energy: Joules },
@@ -676,6 +684,22 @@ pub enum Event {
     /// mutated.
     SafetyVeto {
         reason: String,
+    },
+    /// BRD-002: a bottle was filled to a finite level. From here on, a
+    /// dispense of this key is a withdrawal.
+    ShelfStocked {
+        key: String,
+        amount: f64,
+        unit: crate::stock::StockUnit,
+    },
+    /// BRD-002: the shelf refused a dispense because the bottle does not
+    /// hold that much. Nothing was mutated — not the vessel, and not the
+    /// bottle, which still holds exactly `remaining`.
+    StockExhausted {
+        key: String,
+        requested: f64,
+        remaining: f64,
+        unit: crate::stock::StockUnit,
     },
     /// Everything liquid passed the filter; solids stayed behind.
     Filtered {

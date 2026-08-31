@@ -478,6 +478,8 @@
   "The route is still being surveyed": "",
   "The sample now has a defensible evidence trail. The optional safety audit remains available.": "",
   "This bottle is empty. Mission kits still supply required materials, and permanent stock refills after a new discovery.": "",
+  "{amount} {unit} left": "",
+  "This bottle is empty — the lab would refuse the pour. Stock the shelf again to keep going.": "",
   "This mission needs no additional cabinet equipment.": "",
   "This mission was already complete. Your new run remains in the lab notebook.": "",
   "Toolbox": "",

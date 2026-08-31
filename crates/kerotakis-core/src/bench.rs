@@ -35,6 +35,15 @@ pub enum BenchError {
     MaterialRecipeMismatch,
     #[error("amount must be positive")]
     NonPositiveAmount,
+    #[error("nothing on the shelf is called '{0}' — it is neither a species nor a material")]
+    UnstockableKey(String),
+    #[error("the '{key}' bottle holds {remaining} {unit}, and {requested} {unit} was asked for")]
+    StockExhausted {
+        key: String,
+        requested: f64,
+        remaining: f64,
+        unit: crate::stock::StockUnit,
+    },
     #[error("fraction must be within 0..=1")]
     BadFraction,
     #[error("source and target vessel are the same")]
@@ -76,6 +85,12 @@ pub struct Bench {
     pub spills: Vec<SpillCompartment>,
     #[serde(default)]
     pub broken_vessels: Vec<VesselId>,
+    /// BRD-002: how much of each shelf entry is left. Empty means every
+    /// bottle is bottomless, which is what a sandbox wants and what every
+    /// snapshot written before this field carried — hence `default`, so an
+    /// older token still restores.
+    #[serde(default, skip_serializing_if = "crate::stock::StockLedger::is_empty")]
+    pub stock: crate::stock::StockLedger,
 }
 
 impl Default for Bench {
@@ -93,6 +108,7 @@ impl Bench {
             log: Vec::new(),
             spills: Vec::new(),
             broken_vessels: Vec::new(),
+            stock: crate::stock::StockLedger::default(),
         }
     }
 
@@ -680,6 +696,14 @@ impl Bench {
                     }
                 }
 
+                // BRD-002: the bottle is drawn only once the safety screen
+                // has let the operation through — a vetoed dispense must
+                // not cost the shelf anything, because it never happened.
+                if let Err(refusal) = self.stock.draw(&sid.0, moles.0) {
+                    events.push(stock_refusal_event(&sid.0, refusal));
+                    return Ok(events);
+                }
+
                 let t_in = at.unwrap_or(Kelvin::STANDARD);
                 let cp_in = moles.0 * data.heat_capacity;
                 let v = self.vessel_mut(*vessel)?;
@@ -708,6 +732,19 @@ impl Bench {
                     species: sid.clone(),
                     moles: *moles,
                     total_after: Some(total_after),
+                });
+            }
+            Operator::StockShelf { key, amount } => {
+                if !amount.is_finite() || *amount < 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let unit = crate::stock::stock_unit(key)
+                    .ok_or_else(|| BenchError::UnstockableKey(key.clone()))?;
+                self.stock.stock(key, *amount, unit);
+                events.push(Event::ShelfStocked {
+                    key: key.clone(),
+                    amount: *amount,
+                    unit,
                 });
             }
             Operator::AddMaterial {
@@ -770,6 +807,15 @@ impl Bench {
                         events.push(Event::SafetyVeto { reason });
                         return Ok(events);
                     }
+                }
+
+                // The recipe's own basis amount is what the bottle is
+                // counted in, so a 5% vinegar bottle empties in millilitres
+                // poured — not in moles of acetic acid, which is a number
+                // nobody reads off a label.
+                if let Err(refusal) = self.stock.draw(&recipe.canonical_key, *total_amount) {
+                    events.push(stock_refusal_event(&recipe.canonical_key, refusal));
+                    return Ok(events);
                 }
 
                 let t_in = at.unwrap_or(Kelvin::STANDARD);
@@ -3179,10 +3225,37 @@ fn advance_vessel_time(
     Ok(())
 }
 
+/// BRD-002: carry a typed shelf refusal into the event stream so it reaches
+/// the register in all three voices.
+///
+/// It is an event and not a returned `Err` on purpose, and the choice is
+/// the same one `SafetyVeto` already made: a refusal the learner caused is
+/// something the lab should *say*, in the journal, next to everything else
+/// that happened — not an error string thrown past the narrative. The typed
+/// form still exists ([`crate::stock::StockRefusal`], and
+/// [`BenchError::StockExhausted`] for callers who reach the ledger
+/// directly); this is how it speaks.
+fn stock_refusal_event(key: &str, refusal: crate::stock::StockRefusal) -> Event {
+    let crate::stock::StockRefusal::Exhausted {
+        requested,
+        remaining,
+        unit,
+    } = refusal;
+    Event::StockExhausted {
+        key: key.to_string(),
+        requested,
+        remaining,
+        unit,
+    }
+}
+
 /// Which vessels an operator touches (for re-equilibration).
 fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
-        Operator::NewVessel { .. } | Operator::RemoveVessel { .. } => vec![],
+        Operator::NewVessel { .. }
+        | Operator::RemoveVessel { .. }
+        // Stocking the shelf changes the cabinet, not a vessel.
+        | Operator::StockShelf { .. } => vec![],
         Operator::Add { vessel, .. }
         | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }

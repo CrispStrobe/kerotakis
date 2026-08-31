@@ -73,6 +73,7 @@ pub mod spill;
 mod starch_iodine;
 pub mod states;
 pub mod statistics;
+pub mod stock;
 pub mod stoich;
 pub mod surface_colour;
 pub mod surface_spread;
@@ -109,7 +110,7 @@ pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,
     render_events_in, render_vessel, render_vessel_in, Register,
 };
-pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
+pub use scene::{scene, scene_of, scene_vessel, Scene, SceneStockBottle, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,
     MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity,
@@ -119,6 +120,7 @@ pub use solve::{
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
 pub use spill::SpillCompartment;
+pub use stock::{stock_unit, StockAmount, StockLedger, StockRefusal, StockUnit};
 pub use transport::{
     CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
     TransportError, TransportStep,
