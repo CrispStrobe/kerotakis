@@ -18,10 +18,17 @@ try {
       await page.evaluate(`(() => {
         const candidate = document.querySelector('input[name="candidate"][value=${JSON.stringify(candidate)}]');
         const fixture = document.querySelector('input[name="fixture"][value=${JSON.stringify(fixture)}]');
-        candidate.checked = true; fixture.checked = true;
+        candidate.checked = true;
+        candidate.dispatchEvent(new Event('change', { bubbles: true }));
+        fixture.checked = true;
         fixture.dispatchEvent(new Event('change', { bubbles: true }));
       })()`);
-      const ready = await waitFor(page, `document.querySelector('#status')?.dataset.state === 'ready'`, { timeout: 45_000, step: 100 });
+      const ready = await waitFor(page, `(() => {
+        const snapshot = globalThis.__brd080?.snapshot();
+        return document.querySelector('#status')?.dataset.state === 'ready'
+          && snapshot?.candidate === ${JSON.stringify(candidate)}
+          && snapshot?.fixture === ${JSON.stringify(fixture)};
+      })()`, { timeout: 45_000, step: 100 });
       if (!ready) throw new Error(`${candidate}/${fixture}: ${await page.evaluate("document.querySelector('#status')?.textContent")}`);
       const rows = await page.evaluate("document.querySelectorAll('#atoms tr').length");
       const canvases = await page.evaluate("document.querySelectorAll('#viewer canvas').length");
