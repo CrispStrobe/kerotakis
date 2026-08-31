@@ -343,14 +343,11 @@ pub fn promotion_policy() -> PromotionPolicy {
                     Some(Dimension::Dimensionless),
                 ),
             ),
-            // The schema has no general length dimension. This remains an
-            // explicit promotion refusal rather than being mislabeled as an
-            // optical wavelength.
             (
                 "pc_saft.segment_diameter".into(),
                 rule(
                     "model.pc_saft.segment_diameter",
-                    Some(Dimension::Other("molecular_length".into())),
+                    Some(Dimension::MolecularLength),
                 ),
             ),
             (

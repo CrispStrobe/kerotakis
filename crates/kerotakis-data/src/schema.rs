@@ -678,6 +678,10 @@ pub enum Dimension {
     ThermalConductivity,
     SurfaceTension,
     ElectricalConductivity,
+    /// A molecular-scale physical length, such as the PC-SAFT segment
+    /// diameter. This remains distinct from optical wavelength even when
+    /// both source values happen to be expressed in nanometres.
+    MolecularLength,
     Wavelength,
     MolarAbsorptivity,
     Time,
