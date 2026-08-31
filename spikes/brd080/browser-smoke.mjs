@@ -5,7 +5,10 @@ const { server, origin } = await serve(new URL("dist", import.meta.url).pathname
 let page;
 try {
   page = await browser({ disableGpu: false, extraArgs: ["--enable-unsafe-swiftshader"] });
+  await page.cdp.send("Performance.enable", {}, page.sessionId);
   const requests = [];
+  let maxCanvasPixels = 0;
+  let maxJsHeapBytes = 0;
   page.cdp.on((message) => {
     if (message.sessionId === page.sessionId && message.method === "Network.requestWillBeSent") requests.push(message.params.request.url);
   });
@@ -23,11 +26,24 @@ try {
       const rows = await page.evaluate("document.querySelectorAll('#atoms tr').length");
       const canvases = await page.evaluate("document.querySelectorAll('#viewer canvas').length");
       if (rows < 1 || canvases !== 1) throw new Error(`${candidate}/${fixture}: expected semantic rows and exactly one canvas, got ${rows}/${canvases}`);
+      const canvasPixels = await page.evaluate("[...document.querySelectorAll('#viewer canvas')].reduce((sum, canvas) => sum + canvas.width * canvas.height, 0)");
+      maxCanvasPixels = Math.max(maxCanvasPixels, canvasPixels);
+      const { metrics } = await page.cdp.send("Performance.getMetrics", {}, page.sessionId);
+      maxJsHeapBytes = Math.max(maxJsHeapBytes, metrics.find(({ name }) => name === "JSHeapUsedSize")?.value ?? 0);
     }
   }
+  if (maxCanvasPixels > 1_280 * 960 * 4) throw new Error(`canvas backing store exceeded DPR-2 bound: ${maxCanvasPixels} pixels`);
   const external = requests.filter((url) => !url.startsWith(origin) && !url.startsWith("data:") && !url.startsWith("blob:"));
   if (external.length) throw new Error(`external requests observed: ${[...new Set(external)].join(", ")}`);
-  console.log(`BRD-080 browser smoke clean: 10 candidate/fixture paths, ${requests.length} local requests, no external network`);
+  console.log(JSON.stringify({
+    schema: "kerotakis.brd080-browser-smoke.v1",
+    paths: 10,
+    localRequests: requests.length,
+    externalRequests: 0,
+    maxCanvasPixels,
+    maxJsHeapBytes,
+    memoryQualification: "headless Chromium JS-heap proxy; not physical mobile RAM or GPU memory",
+  }));
 } finally {
   await page?.close();
   server.close();
