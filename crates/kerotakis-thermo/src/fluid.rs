@@ -6,6 +6,69 @@
 //! selected — or whether a cubic equation of state replaces Raoult entirely.
 
 use crate::vle::{Antoine, BubblePoint, DewPoint, FlashResult, Volatile};
+use std::fmt;
+
+/// A thermodynamic operation that a [`FluidModel`] may support.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FluidOperation {
+    BubblePoint,
+    DewPoint,
+    TpFlash,
+    SaturationPressure,
+}
+
+impl fmt::Display for FluidOperation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let name = match self {
+            Self::BubblePoint => "bubble point",
+            Self::DewPoint => "dew point",
+            Self::TpFlash => "TP flash",
+            Self::SaturationPressure => "saturation pressure",
+        };
+        f.write_str(name)
+    }
+}
+
+/// An inspectable, fail-closed refusal from a fluid-model implementation.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FluidModelError {
+    /// The selected model does not implement the requested operation.
+    UnsupportedOperation {
+        model: &'static str,
+        operation: FluidOperation,
+    },
+}
+
+impl FluidModelError {
+    pub const fn unsupported(model: &'static str, operation: FluidOperation) -> Self {
+        Self::UnsupportedOperation { model, operation }
+    }
+}
+
+impl fmt::Display for FluidModelError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::UnsupportedOperation { model, operation } => {
+                write!(f, "fluid model '{model}' does not support {operation}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for FluidModelError {}
+
+/// Explicit capabilities of a fluid model. Capability discovery is separate
+/// from calculation failure: a supported calculation can still return `None`
+/// when no numerical solution exists.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub struct FluidCapabilities {
+    pub bubble_point: bool,
+    pub dew_point: bool,
+    pub tp_flash: bool,
+    pub saturation_pressure: bool,
+}
+
+pub type FluidModelResult<T> = Result<Option<T>, FluidModelError>;
 
 /// Activity coefficient model: given composition and temperature, return
 /// activity coefficients for each component.
@@ -36,13 +99,18 @@ impl ActivityModel for IdealSolution {
 pub trait FluidModel {
     fn name(&self) -> &'static str;
 
+    /// Declare the operations implemented by this model.
+    fn capabilities(&self) -> FluidCapabilities;
+
     /// Bubble-point temperature at a given total pressure.
-    fn bubble_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint>;
+    fn bubble_point(
+        &self,
+        components: &[Volatile],
+        pressure_kpa: f64,
+    ) -> FluidModelResult<BubblePoint>;
 
     /// THERMO-005: Dew-point temperature at a given total pressure.
-    fn dew_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
-        crate::vle::dew_point(components, pressure_kpa)
-    }
+    fn dew_point(&self, components: &[Volatile], pressure_kpa: f64) -> FluidModelResult<DewPoint>;
 
     /// THERMO-005: Isothermal TP flash at given temperature and pressure.
     fn tp_flash(
@@ -50,14 +118,10 @@ pub trait FluidModel {
         components: &[Volatile],
         pressure_kpa: f64,
         t_celsius: f64,
-    ) -> Option<FlashResult> {
-        crate::vle::tp_flash(components, pressure_kpa, t_celsius)
-    }
+    ) -> FluidModelResult<FlashResult>;
 
     /// Saturation pressure for a pure component at a given temperature.
-    fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> Option<f64> {
-        antoine.pressure_kpa(t_celsius)
-    }
+    fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> FluidModelResult<f64>;
 }
 
 /// The ideal fluid model: Raoult's law with γ = 1.
@@ -68,8 +132,38 @@ impl FluidModel for IdealFluid {
         "ideal Raoult"
     }
 
-    fn bubble_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> {
-        crate::vle::bubble_point(components, pressure_kpa)
+    fn capabilities(&self) -> FluidCapabilities {
+        FluidCapabilities {
+            bubble_point: true,
+            dew_point: true,
+            tp_flash: true,
+            saturation_pressure: true,
+        }
+    }
+
+    fn bubble_point(
+        &self,
+        components: &[Volatile],
+        pressure_kpa: f64,
+    ) -> FluidModelResult<BubblePoint> {
+        Ok(crate::vle::bubble_point(components, pressure_kpa))
+    }
+
+    fn dew_point(&self, components: &[Volatile], pressure_kpa: f64) -> FluidModelResult<DewPoint> {
+        Ok(crate::vle::dew_point(components, pressure_kpa))
+    }
+
+    fn tp_flash(
+        &self,
+        components: &[Volatile],
+        pressure_kpa: f64,
+        t_celsius: f64,
+    ) -> FluidModelResult<FlashResult> {
+        Ok(crate::vle::tp_flash(components, pressure_kpa, t_celsius))
+    }
+
+    fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> FluidModelResult<f64> {
+        Ok(antoine.pressure_kpa(t_celsius))
     }
 }
 
@@ -101,6 +195,91 @@ mod tests {
         let model = IdealFluid;
         assert_eq!(model.name(), "ideal Raoult");
         // Just verify it doesn't panic for a pure-component case
-        let _ = model.bubble_point(&[water], 101.325);
+        let mixture = [water];
+        let direct = crate::vle::bubble_point(&mixture, 101.325);
+        assert_eq!(model.bubble_point(&mixture, 101.325), Ok(direct));
+        assert_eq!(
+            model.capabilities(),
+            FluidCapabilities {
+                bubble_point: true,
+                dew_point: true,
+                tp_flash: true,
+                saturation_pressure: true,
+            }
+        );
+    }
+
+    #[test]
+    fn unsupported_operation_is_a_named_refusal_through_trait_object() {
+        struct BubbleOnly;
+
+        impl FluidModel for BubbleOnly {
+            fn name(&self) -> &'static str {
+                "bubble-only test model"
+            }
+
+            fn capabilities(&self) -> FluidCapabilities {
+                FluidCapabilities {
+                    bubble_point: true,
+                    ..FluidCapabilities::default()
+                }
+            }
+
+            fn bubble_point(
+                &self,
+                components: &[Volatile],
+                pressure_kpa: f64,
+            ) -> FluidModelResult<BubblePoint> {
+                Ok(crate::vle::bubble_point(components, pressure_kpa))
+            }
+
+            fn dew_point(
+                &self,
+                _components: &[Volatile],
+                _pressure_kpa: f64,
+            ) -> FluidModelResult<DewPoint> {
+                Err(FluidModelError::unsupported(
+                    self.name(),
+                    FluidOperation::DewPoint,
+                ))
+            }
+
+            fn tp_flash(
+                &self,
+                _components: &[Volatile],
+                _pressure_kpa: f64,
+                _t_celsius: f64,
+            ) -> FluidModelResult<FlashResult> {
+                Err(FluidModelError::unsupported(
+                    self.name(),
+                    FluidOperation::TpFlash,
+                ))
+            }
+
+            fn saturation_pressure_kpa(
+                &self,
+                _antoine: &Antoine,
+                _t_celsius: f64,
+            ) -> FluidModelResult<f64> {
+                Err(FluidModelError::unsupported(
+                    self.name(),
+                    FluidOperation::SaturationPressure,
+                ))
+            }
+        }
+
+        let model: &dyn FluidModel = &BubbleOnly;
+        assert_eq!(
+            model.dew_point(&[], 101.325),
+            Err(FluidModelError::UnsupportedOperation {
+                model: "bubble-only test model",
+                operation: FluidOperation::DewPoint,
+            })
+        );
+        assert!(!model.capabilities().dew_point);
+        assert_eq!(
+            model.dew_point(&[], 101.325).unwrap_err().to_string(),
+            "fluid model 'bubble-only test model' does not support dew point"
+        );
     }
 }

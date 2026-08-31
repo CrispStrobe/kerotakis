@@ -72,28 +72,26 @@ fn an_ideal_mixture_separates_all_the_way() {
     );
 }
 
-/// Ethanol enriches in the vapour under the ideal model — correctly, up to
-/// the point where the real mixture stops, which the ideal model cannot
-/// know about.
+/// The lower-boiling component enriches in the vapour under the ideal model.
 #[test]
 fn the_more_volatile_component_comes_over_first() {
     let mix = [
         Volatile {
-            antoine: ETHANOL,
-            x: 0.1,
+            antoine: METHANOL,
+            x: 0.5,
             gamma: 1.0,
         },
         Volatile {
-            antoine: WATER,
-            x: 0.9,
+            antoine: PROPANONE,
+            x: 0.5,
             gamma: 1.0,
         },
     ];
     let bp = bubble_point(&mix, ATMOSPHERE_KPA).expect("mixture boils");
     assert!(
-        bp.y[0] > 0.1,
-        "ethanol should enrich in the vapour: y = {:.3} from x = 0.1",
-        bp.y[0]
+        bp.y[1] > 0.5,
+        "propanone should enrich in the vapour: y = {:.3} from x = 0.5",
+        bp.y[1]
     );
     assert!(!bp.azeotropic, "an ideal mixture is never azeotropic");
 }

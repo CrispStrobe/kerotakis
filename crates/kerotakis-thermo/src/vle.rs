@@ -35,10 +35,17 @@ impl Antoine {
     /// Saturation vapour pressure, kPa. `None` outside the fitted range,
     /// rather than an extrapolation dressed as a measurement.
     pub fn pressure_kpa(&self, t_celsius: f64) -> Option<f64> {
-        if t_celsius < self.valid_c.0 || t_celsius > self.valid_c.1 {
+        if !t_celsius.is_finite()
+            || !self.valid_c.0.is_finite()
+            || !self.valid_c.1.is_finite()
+            || self.valid_c.0 > self.valid_c.1
+            || t_celsius < self.valid_c.0
+            || t_celsius > self.valid_c.1
+        {
             return None;
         }
-        Some(10f64.powf(self.a - self.b / (t_celsius + self.c)))
+        let pressure = 10f64.powf(self.a - self.b / (t_celsius + self.c));
+        (pressure.is_finite() && pressure > 0.0).then_some(pressure)
     }
 
     /// The same, extrapolated, for the solver's inner loop.
@@ -51,6 +58,44 @@ impl Antoine {
     pub fn pressure_kpa_unchecked(&self, t_celsius: f64) -> f64 {
         10f64.powf(self.a - self.b / (t_celsius + self.c))
     }
+}
+
+/// The common fitted temperature interval shared by every component.
+/// A mixture has no defensible Antoine answer when those intervals do not
+/// overlap: choosing the union would necessarily extrapolate at least one
+/// component.
+fn common_valid_range(antoines: &[Antoine], fractions: &[f64]) -> Option<(f64, f64)> {
+    if antoines.len() != fractions.len() {
+        return None;
+    }
+    let mut lo = f64::NEG_INFINITY;
+    let mut hi = f64::INFINITY;
+    let mut active = false;
+    for (antoine, fraction) in antoines.iter().zip(fractions) {
+        if *fraction == 0.0 {
+            continue;
+        }
+        active = true;
+        let (component_lo, component_hi) = antoine.valid_c;
+        if !component_lo.is_finite()
+            || !component_hi.is_finite()
+            || component_lo > component_hi
+            || !antoine.a.is_finite()
+            || !antoine.b.is_finite()
+            || !antoine.c.is_finite()
+        {
+            return None;
+        }
+        lo = lo.max(component_lo);
+        hi = hi.min(component_hi);
+    }
+    (active && lo <= hi).then_some((lo, hi))
+}
+
+fn valid_fractions(values: &[f64]) -> bool {
+    values
+        .iter()
+        .all(|value| value.is_finite() && *value >= 0.0)
 }
 
 /// Standard atmospheric pressure, kPa.
@@ -198,15 +243,24 @@ pub fn bubble_point_with<F>(
 where
     F: FnMut(f64) -> Vec<f64>,
 {
-    if antoines.is_empty() || antoines.len() != x.len() || pressure_kpa <= 0.0 {
+    if antoines.is_empty()
+        || antoines.len() != x.len()
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
+        || !valid_fractions(x)
+    {
         return None;
     }
+    let (mut lo, mut hi) = common_valid_range(antoines, x)?;
     let total_x: f64 = x.iter().sum();
     if total_x <= 0.0 {
         return None;
     }
     let partials = |t_c: f64, gammas: &mut F| -> Vec<f64> {
         let g = gammas(t_c + KELVIN_OFFSET);
+        if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
+            return vec![f64::NAN];
+        }
         antoines
             .iter()
             .zip(x)
@@ -218,13 +272,22 @@ where
     };
     let total = |t_c: f64, gammas: &mut F| -> f64 { partials(t_c, gammas).iter().sum() };
 
-    let (mut lo, mut hi) = (-100.0f64, 400.0f64);
-    if total(lo, &mut gammas) > pressure_kpa || total(hi, &mut gammas) < pressure_kpa {
+    let total_lo = total(lo, &mut gammas);
+    let total_hi = total(hi, &mut gammas);
+    if !total_lo.is_finite()
+        || !total_hi.is_finite()
+        || total_lo > pressure_kpa
+        || total_hi < pressure_kpa
+    {
         return None;
     }
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
-        if total(mid, &mut gammas) < pressure_kpa {
+        let total_mid = total(mid, &mut gammas);
+        if !total_mid.is_finite() {
+            return None;
+        }
+        if total_mid < pressure_kpa {
             lo = mid;
         } else {
             hi = mid;
@@ -236,6 +299,9 @@ where
     let t = 0.5 * (lo + hi);
     let p = partials(t, &mut gammas);
     let p_total: f64 = p.iter().sum();
+    if !p_total.is_finite() || p_total <= 0.0 {
+        return None;
+    }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
     // An azeotrope is not a special case in the arithmetic — it is what the
     // arithmetic says when the vapour comes out the same as the liquid.
@@ -287,12 +353,26 @@ where
     // The ends are excluded: at x = 0 and x = 1 the vapour trivially
     // matches the liquid, and calling that an azeotrope would report every
     // mixture as having two.
-    let (mut lo, mut hi) = (0.001f64, 0.999f64);
-    let mut f_lo = point(lo, &mut gammas)?.y[0] - lo;
-    let f_hi = point(hi, &mut gammas)?.y[0] - hi;
-    if f_lo.signum() == f_hi.signum() {
-        return None;
+    // Some correlations overlap only on part of the composition axis at the
+    // requested pressure. Find a bracket among valid points instead of making
+    // one out-of-domain endpoint suppress an in-domain azeotrope.
+    let mut previous: Option<(f64, f64)> = None;
+    let mut bracket = None;
+    for step in 1..1000 {
+        let x = step as f64 / 1000.0;
+        let Some(bp) = point(x, &mut gammas) else {
+            continue;
+        };
+        let f = bp.y[0] - x;
+        if let Some((previous_x, previous_f)) = previous {
+            if f.signum() != previous_f.signum() {
+                bracket = Some((previous_x, x, previous_f));
+                break;
+            }
+        }
+        previous = Some((x, f));
     }
+    let (mut lo, mut hi, mut f_lo) = bracket?;
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
         let f_mid = point(mid, &mut gammas)?.y[0] - mid;
@@ -350,9 +430,15 @@ pub fn dew_point_with(
     pressure_kpa: f64,
     gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
 ) -> Option<DewPoint> {
-    if antoines.is_empty() || antoines.len() != y.len() || pressure_kpa <= 0.0 {
+    if antoines.is_empty()
+        || antoines.len() != y.len()
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
+        || !valid_fractions(y)
+    {
         return None;
     }
+    let (range_lo, range_hi) = common_valid_range(antoines, y)?;
     let total_y: f64 = y.iter().sum();
     if total_y <= 0.0 {
         return None;
@@ -362,6 +448,9 @@ pub fn dew_point_with(
     for _ in 0..80 {
         let mut residual = |t: f64, x: &[f64]| -> f64 {
             let g = gammas(x, t + KELVIN_OFFSET);
+            if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
+                return f64::NAN;
+            }
             let sum: f64 = antoines
                 .iter()
                 .zip(&y)
@@ -372,14 +461,19 @@ pub fn dew_point_with(
                 .sum();
             sum - 1.0 / pressure_kpa
         };
-        let (mut lo, mut hi) = (-100.0f64, 400.0f64);
-        if residual(lo, &x).signum() == residual(hi, &x).signum() {
+        let (mut lo, mut hi) = (range_lo, range_hi);
+        let r_lo = residual(lo, &x);
+        let r_hi = residual(hi, &x);
+        if !r_lo.is_finite() || !r_hi.is_finite() || r_lo.signum() == r_hi.signum() {
             return None;
         }
-        let r_lo = residual(lo, &x);
         for _ in 0..200 {
             let mid = 0.5 * (lo + hi);
-            if residual(mid, &x).signum() == r_lo.signum() {
+            let r_mid = residual(mid, &x);
+            if !r_mid.is_finite() {
+                return None;
+            }
+            if r_mid.signum() == r_lo.signum() {
                 lo = mid;
             } else {
                 hi = mid;
@@ -390,6 +484,9 @@ pub fn dew_point_with(
         }
         let t = 0.5 * (lo + hi);
         let g = gammas(&x, t + KELVIN_OFFSET);
+        if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
+            return None;
+        }
         let x_raw: Vec<f64> = antoines
             .iter()
             .zip(&y)
@@ -399,6 +496,9 @@ pub fn dew_point_with(
             })
             .collect();
         let x_sum: f64 = x_raw.iter().sum();
+        if !x_sum.is_finite() || x_sum <= 0.0 {
+            return None;
+        }
         let x_new: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
         let moved = x
             .iter()
@@ -455,7 +555,18 @@ pub fn tp_flash_with(
     t_celsius: f64,
     gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
 ) -> Option<FlashResult> {
-    if antoines.is_empty() || antoines.len() != z.len() || pressure_kpa <= 0.0 {
+    let valid_range = common_valid_range(antoines, z);
+    if antoines.is_empty()
+        || antoines.len() != z.len()
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
+        || !t_celsius.is_finite()
+        || !valid_fractions(z)
+        || match valid_range {
+            Some((lo, hi)) => t_celsius < lo || t_celsius > hi,
+            None => true,
+        }
+    {
         return None;
     }
     let z_total: f64 = z.iter().sum();
@@ -466,6 +577,9 @@ pub fn tp_flash_with(
     let mut x_guess = z.clone();
     for _ in 0..60 {
         let g = gammas(&x_guess, t_celsius + KELVIN_OFFSET);
+        if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
+            return None;
+        }
         let k: Vec<f64> = antoines
             .iter()
             .enumerate()
@@ -605,7 +719,19 @@ pub fn hp_flash_with(
     total_moles: f64,
     gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
 ) -> Option<HpFlashResult> {
-    if components.is_empty() || pressure_kpa <= 0.0 || total_moles <= 0.0 {
+    if components.is_empty()
+        || !pressure_kpa.is_finite()
+        || pressure_kpa <= 0.0
+        || !feed_enthalpy_kj.is_finite()
+        || !total_moles.is_finite()
+        || total_moles <= 0.0
+        || components.iter().any(|component| {
+            !component.volatile.x.is_finite()
+                || component.volatile.x < 0.0
+                || !component.delta_hv_kj_per_mol.is_finite()
+                || !component.cp_liquid_j_per_mol_k.is_finite()
+        })
+    {
         return None;
     }
     let antoines: Vec<Antoine> = components.iter().map(|c| c.volatile.antoine).collect();
@@ -633,7 +759,7 @@ pub fn hp_flash_with(
         };
 
     // Bisection on H(T) - H_feed = 0
-    let (mut lo, mut hi) = (-50.0f64, 350.0f64);
+    let (mut lo, mut hi) = common_valid_range(&antoines, &z)?;
     let (h_lo, _) = enthalpy_at(lo, gammas)?;
     let (h_hi, _) = enthalpy_at(hi, gammas)?;
     let residual_lo = h_lo - feed_enthalpy_kj;
@@ -841,12 +967,12 @@ mod tests {
     fn bubble_below_dew_for_binary() {
         let mix = [
             Volatile {
-                antoine: ETHANOL,
+                antoine: METHANOL,
                 x: 0.5,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: WATER,
+                antoine: PROPANONE,
                 x: 0.5,
                 gamma: 1.0,
             },
@@ -886,20 +1012,21 @@ mod tests {
 
     #[test]
     fn tp_flash_superheated_vapour() {
-        // At 200°C, 1 atm: everything is vapour
+        // At 50°C and 10 kPa, everything is vapour without leaving either
+        // component's fitted interval.
         let mix = [
             Volatile {
-                antoine: ETHANOL,
+                antoine: METHANOL,
                 x: 0.5,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: WATER,
+                antoine: PROPANONE,
                 x: 0.5,
                 gamma: 1.0,
             },
         ];
-        let result = tp_flash(&mix, ATMOSPHERE_KPA, 200.0).unwrap();
+        let result = tp_flash(&mix, 10.0, 50.0).unwrap();
         assert!(
             (result.vapour_fraction - 1.0).abs() < 1e-10,
             "should be all vapour at 200°C, V = {}",
@@ -912,43 +1039,44 @@ mod tests {
         // At bubble point + a few degrees: partial vaporization
         let mix_bp = [
             Volatile {
-                antoine: ETHANOL,
+                antoine: METHANOL,
                 x: 0.3,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: WATER,
+                antoine: PROPANONE,
                 x: 0.7,
                 gamma: 1.0,
             },
         ];
         let bp = bubble_point(&mix_bp, ATMOSPHERE_KPA).unwrap();
 
-        // Flash a few degrees above the bubble point
+        // Flash just above the bubble point, inside this close-boiling
+        // binary's narrow two-phase interval.
         let mix_flash = [
             Volatile {
-                antoine: ETHANOL,
+                antoine: METHANOL,
                 x: 0.3,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: WATER,
+                antoine: PROPANONE,
                 x: 0.7,
                 gamma: 1.0,
             },
         ];
-        let result = tp_flash(&mix_flash, ATMOSPHERE_KPA, bp.t_celsius + 2.0).unwrap();
+        let result = tp_flash(&mix_flash, ATMOSPHERE_KPA, bp.t_celsius + 0.2).unwrap();
         assert!(
             result.vapour_fraction > 0.0 && result.vapour_fraction < 1.0,
-            "should be two-phase at T_bubble + 2°C, V = {}",
+            "should be two-phase just above T_bubble, V = {}",
             result.vapour_fraction
         );
-        // Ethanol should be enriched in the vapour
+        // The lower-boiling propanone should be enriched in the vapour.
         assert!(
-            result.y[0] > result.x[0],
-            "ethanol should enrich in vapour: y={:.4} vs x={:.4}",
-            result.y[0],
-            result.x[0]
+            result.y[1] > result.x[1],
+            "propanone should enrich in vapour: y={:.4} vs x={:.4}",
+            result.y[1],
+            result.x[1]
         );
     }
 
@@ -956,12 +1084,12 @@ mod tests {
     fn flash_compositions_sum_to_one() {
         let mix = [
             Volatile {
-                antoine: ETHANOL,
+                antoine: METHANOL,
                 x: 0.4,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: WATER,
+                antoine: PROPANONE,
                 x: 0.6,
                 gamma: 1.0,
             },
@@ -1050,6 +1178,77 @@ mod tests {
             "should be near 100°C, got {:.1}",
             r.t_celsius
         );
+    }
+
+    #[test]
+    fn antoine_range_endpoints_are_inclusive_and_nonfinite_is_refused() {
+        assert!(WATER.pressure_kpa(WATER.valid_c.0).is_some());
+        assert!(WATER.pressure_kpa(WATER.valid_c.1).is_some());
+        let immediately_below = f64::from_bits(WATER.valid_c.0.to_bits() - 1);
+        assert!(WATER.pressure_kpa(immediately_below).is_none());
+        assert!(WATER.pressure_kpa(f64::NAN).is_none());
+        assert!(WATER.pressure_kpa(f64::INFINITY).is_none());
+    }
+
+    #[test]
+    fn solvers_refuse_non_overlapping_antoine_ranges() {
+        let low = Antoine {
+            valid_c: (0.0, 10.0),
+            ..WATER
+        };
+        let high = Antoine {
+            valid_c: (20.0, 30.0),
+            ..ETHANOL
+        };
+        let mix = [
+            Volatile {
+                antoine: low,
+                x: 0.5,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: high,
+                x: 0.5,
+                gamma: 1.0,
+            },
+        ];
+        assert!(bubble_point(&mix, ATMOSPHERE_KPA).is_none());
+        assert!(dew_point(&mix, ATMOSPHERE_KPA).is_none());
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, 15.0).is_none());
+    }
+
+    #[test]
+    fn tp_flash_refuses_temperature_outside_any_component_fit() {
+        let mix = [
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.5,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.5,
+                gamma: 1.0,
+            },
+        ];
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, 0.0).is_none());
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, 80.0).is_some());
+        let immediately_above = f64::from_bits(80.0f64.to_bits() + 1);
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, immediately_above).is_none());
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, f64::NAN).is_none());
+    }
+
+    #[test]
+    fn solvers_refuse_nonfinite_inputs_and_activity_coefficients() {
+        let mix = [Volatile {
+            antoine: WATER,
+            x: 1.0,
+            gamma: f64::NAN,
+        }];
+        assert!(bubble_point(&mix, ATMOSPHERE_KPA).is_none());
+        assert!(dew_point(&mix, ATMOSPHERE_KPA).is_none());
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, 50.0).is_none());
+        assert!(bubble_point(&mix, f64::INFINITY).is_none());
     }
 }
 

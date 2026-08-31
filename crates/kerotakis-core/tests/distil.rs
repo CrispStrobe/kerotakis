@@ -76,9 +76,10 @@ fn distilling_brine_makes_distilled_water() {
 }
 
 #[test]
-fn distilling_dilute_ethanol_enriches_the_receiver() {
-    // Wine-strength: x_ethanol ≈ 0.06. One stage should lift the receiver
-    // well above the pot — that is what a still is for.
+fn dilute_ethanol_refuses_outside_the_shared_antoine_range() {
+    // Wine-strength: x_ethanol ≈ 0.06 boils above the fitted 80 °C ceiling
+    // of the currently reviewed ethanol correlation. It must remain in the
+    // source vessel until a cleared high-temperature correlation is added.
     let (bench, events) = bench_with(&[
         Operator::NewVessel { kind: None },
         Operator::NewVessel { kind: None },
@@ -103,22 +104,18 @@ fn distilling_dilute_ethanol_enriches_the_receiver() {
         },
     ]);
 
-    let azeotropic = events
-        .iter()
-        .find_map(|e| match e {
-            Event::Distilled { azeotropic, .. } => Some(*azeotropic),
-            _ => None,
-        })
-        .expect("the mixture distils");
-    assert!(!azeotropic, "x = 0.06 is nowhere near the azeotrope");
-
-    let (w2, e2) = (moles_in(&bench, 2, "water"), moles_in(&bench, 2, "ethanol"));
-    let x_receiver = e2 / (w2 + e2);
     assert!(
-        x_receiver > 0.3,
-        "one stage from x = 0.06 should reach x > 0.3 in the receiver \
-         (UNIFAC puts y near 0.4), got {x_receiver:.3}"
+        events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled { what, .. }
+                if what.contains("outside the fitted Antoine ranges")
+        )),
+        "the refusal must name the missing fitted domain"
     );
+    assert_eq!(moles_in(&bench, 2, "water"), 0.0);
+    assert_eq!(moles_in(&bench, 2, "ethanol"), 0.0);
+    assert_eq!(moles_in(&bench, 1, "water"), 9.4);
+    assert_eq!(moles_in(&bench, 1, "ethanol"), 0.6);
 }
 
 #[test]

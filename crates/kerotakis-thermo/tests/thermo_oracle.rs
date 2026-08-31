@@ -7,7 +7,7 @@
 //! chemistry; it is investigated, never tolerated away. At generation
 //! time the two implementations agreed to a part in a million.
 
-use kerotakis_thermo::vle::{ethanol_water_activity, ethanol_water_bubble_point};
+use kerotakis_thermo::vle::{ethanol_water_activity, ethanol_water_bubble_point, ETHANOL};
 
 fn fixtures() -> Vec<Vec<String>> {
     let text = include_str!("fixtures/thermo_oracle.tsv");
@@ -49,7 +49,13 @@ fn bubble_points_agree_with_the_independent_solve() {
         }
         let (x, p): (f64, f64) = (row[1].parse().unwrap(), row[2].parse().unwrap());
         let (t_o, y_o): (f64, f64) = (row[3].parse().unwrap(), row[4].parse().unwrap());
-        let bp = ethanol_water_bubble_point(x, p).expect("bubble point exists");
+        let Some(bp) = ethanol_water_bubble_point(x, p) else {
+            assert!(
+                t_o > ETHANOL.valid_c.1,
+                "only an oracle point outside ethanol's fitted range may be refused: x={x}, T={t_o}"
+            );
+            continue;
+        };
         assert!(
             (bp.t_celsius - t_o).abs() < 0.05,
             "bubble T at x={x}: ours {:.4} °C vs oracle {t_o:.4} °C",
@@ -62,5 +68,8 @@ fn bubble_points_agree_with_the_independent_solve() {
         );
         checked += 1;
     }
-    assert!(checked >= 6, "the bubble set must actually be there");
+    assert!(
+        checked >= 3,
+        "the in-domain bubble subset must actually be there"
+    );
 }
