@@ -1609,6 +1609,28 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
         }
 
+        // Candidate phases for the mixed solution, reconciled with the
+        // routed database by the same `posed_phase` the direct path uses in
+        // `setup_problem`. Keeping only the names the database defines
+        // *natively* was the A4 divergence: polymorph translation and
+        // reviewed foreign-phase injection are chemistry the direct path
+        // applies, and a beaker reached by combining two solutions could
+        // not grow a precipitate the same beaker reached directly grew.
+        // The posed name is carried into `merged_problem` below, because it
+        // is also the selected-output column the readback asks for.
+        let merged_phases: Vec<(String, f64, f64)> = {
+            let mut phases: Vec<(String, f64, f64)> = Vec::new();
+            for (name, _, si) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
+                let Some(posed) = posed_phase(name, db_tag) else {
+                    continue;
+                };
+                if !phases.iter().any(|(candidate, ..)| candidate == posed) {
+                    phases.push((posed.to_string(), 0.0, *si));
+                }
+            }
+            phases
+        };
+
         let input = build_mix_input(
             soln_a,
             &problem_a,
@@ -1618,6 +1640,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             frac_b,
             db_tag,
             &merged_elements,
+            &merged_phases,
         );
 
         if env_dump_input_all() {
@@ -1657,15 +1680,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 }
                 t
             },
-            phases: {
-                let mut p: Vec<(String, f64, f64)> = Vec::new();
-                for (name, _, si) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
-                    if !p.iter().any(|(n, ..)| n == name) {
-                        p.push((name.clone(), 0.0, *si));
-                    }
-                }
-                p
-            },
+            phases: merged_phases,
             gases: Vec::new(),
             external_gases: Vec::new(),
             surfaces: Vec::new(),
@@ -2172,14 +2187,17 @@ impl PhreeqcEquilibrator {
             if coupled_now || !problem.surfaces.is_empty() {
                 return false;
             }
-            if let Some(alt) = derived::phase_in_db(name, db_tag) {
-                *name = alt.to_string();
-                return true;
+            // Translated to the routed database's polymorph, or kept under
+            // its own name if it is a reviewed foreign phase the input will
+            // define; anything else is dropped. `posed_phase` is the whole
+            // rule, and the MIX builder now applies the same one.
+            match posed_phase(name, db_tag).map(str::to_string) {
+                Some(posed) => {
+                    *name = posed;
+                    true
+                }
+                None => false,
             }
-            // No polymorph either — a reviewed foreign phase is kept under
-            // its own name and defined in the input (see
-            // `foreign_phase_definition`); anything else is dropped.
-            derived::foreign_phase_definition(name, db_tag).is_some()
         });
         problem.external_gases.retain(|exchange| {
             problem
@@ -3558,12 +3576,68 @@ fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     build_input_at(vessel, problem, db_tag, None)
 }
 
+/// The name `db_tag` must be asked about to pose the solid the candidate
+/// list calls `name`, or `None` when that database cannot represent it at
+/// all.
+///
+/// The candidate list is database-blind on purpose; the input is not. A
+/// name the routed database defines passes through — this includes gases
+/// like `CO2(g)`, which the mineral map never holds. A name it lacks is
+/// translated to that database's own polymorph of the same solid: the fix
+/// for iron hydroxide sitting at SI +27 while the input asked wateq4f for a
+/// phase only minteq defines. No polymorph but a reviewed foreign
+/// definition (injected by `foreign_phase_definitions`) → posed as itself.
+/// No definition at all → `None`, and that is exactly the case where the
+/// honesty pass's supersaturation note is the right answer.
+///
+/// Every path that poses a phase goes through here. They did not used to:
+/// the MIX builder kept only names the routed database defines natively, so
+/// two solutions combined by fraction could not grow a precipitate the same
+/// reagents in one beaker did.
+fn posed_phase<'a>(name: &'a str, db_tag: &str) -> Option<&'a str> {
+    if derived::index_for(db_tag).has_phase(name) {
+        Some(name)
+    } else if let Some(alt) = derived::phase_in_db(name, db_tag) {
+        Some(alt)
+    } else if derived::foreign_phase_definition(name, db_tag).is_some() {
+        Some(name)
+    } else {
+        None
+    }
+}
+
+/// The `PHASES` blocks a routed database needs before anything in the input
+/// may reference a reviewed foreign phase.
+///
+/// PHREEQC accepts PHASES blocks in the input stream, and the injected
+/// definition carries the home database's log K (see
+/// `derived::foreign_phase_definition`). This is how ferrous hydroxide is
+/// posable on wateq4f, which does not define it, without rerouting the
+/// whole solve — rerouting made the answer depend on the order reagents
+/// were added in.
+fn foreign_phase_definitions(phases: &[(String, f64, f64)], db_tag: &str) -> String {
+    let mut block = String::new();
+    for (phase, ..) in phases {
+        if let Some(definition) = derived::foreign_phase_definition(phase, db_tag) {
+            if !block.contains(definition.as_str()) {
+                block.push_str(&definition);
+            }
+        }
+    }
+    block
+}
+
 /// Build a PHREEQC input that defines two solutions and mixes them.
 ///
 /// The input defines SOLUTION 1 from vessel A and SOLUTION 2 from vessel B,
 /// each with their own END block so they are speciated independently. Then
 /// a MIX block combines them by the given fractions into solution 3, which
 /// is saved and read back through SELECTED_OUTPUT.
+///
+/// `merged_phases` has already been reconciled with the routed database by
+/// `posed_phase`, exactly as `setup_problem` reconciles the direct path's
+/// candidates: the names here are the names PHREEQC is asked about and the
+/// names the readback reads back.
 #[allow(clippy::too_many_arguments)]
 fn build_mix_input(
     vessel_a: &Vessel,
@@ -3574,9 +3648,13 @@ fn build_mix_input(
     frac_b: f64,
     db_tag: &str,
     merged_elements: &[String],
+    merged_phases: &[(String, f64, f64)],
 ) -> String {
     use std::fmt::Write;
     let mut input = String::new();
+    // A reviewed foreign phase is defined before anything references it —
+    // the same injection the direct path makes.
+    input.push_str(&foreign_phase_definitions(merged_phases, db_tag));
 
     // SOLUTION 1 — vessel A.
     let temp_a_c = vessel_a.temperature.to_celsius();
@@ -3626,21 +3704,10 @@ fn build_mix_input(
     writeln!(input, "    2  {frac_b:.12e}").unwrap();
     writeln!(input, "SAVE solution 3").unwrap();
 
-    // Candidate equilibrium phases for the mixed solution, filtered to
-    // what the routed database actually defines.
-    let idx = derived::index_for(db_tag);
-    let merged_phases: Vec<String> = {
-        let mut phases = Vec::new();
-        for (name, ..) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
-            if !phases.contains(name) && idx.has_phase(name) {
-                phases.push(name.clone());
-            }
-        }
-        phases
-    };
+    // Candidate equilibrium phases for the mixed solution.
     if !merged_phases.is_empty() {
         writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
-        for phase in &merged_phases {
+        for (phase, ..) in merged_phases {
             writeln!(input, "    {phase} 0 0").unwrap();
         }
     }
@@ -3663,7 +3730,8 @@ fn build_mix_input(
         writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
     }
     if !merged_phases.is_empty() {
-        writeln!(input, "    -equilibrium_phases {}", merged_phases.join(" ")).unwrap();
+        let names: Vec<&str> = merged_phases.iter().map(|(p, ..)| p.as_str()).collect();
+        writeln!(input, "    -equilibrium_phases {}", names.join(" ")).unwrap();
     }
     writeln!(input, "END").unwrap();
     input
@@ -3683,18 +3751,8 @@ fn build_input_at(
 ) -> String {
     use std::fmt::Write;
     let mut input = String::new();
-    // A reviewed foreign phase is defined before anything references it:
-    // PHREEQC accepts PHASES blocks in the input stream, and the injected
-    // definition carries the home database's log K (see
-    // `derived::foreign_phase_definition`). This is how ferrous hydroxide
-    // is posable on wateq4f, which does not define it, without rerouting
-    // the whole solve — rerouting made the answer depend on the order
-    // reagents were added in.
-    for (phase, ..) in &problem.phases {
-        if let Some(definition) = derived::foreign_phase_definition(phase, db_tag) {
-            input.push_str(&definition);
-        }
-    }
+    // A reviewed foreign phase is defined before anything references it.
+    input.push_str(&foreign_phase_definitions(&problem.phases, db_tag));
     // An uncoupled element keeps the oxidation state it was added in (see
     // FAST_REDOX) — but PHREEQC's reaction step redistributes a trace
     // across states against pe whenever any equilibrium phase is posed,
@@ -3829,21 +3887,9 @@ fn build_input_at(
         writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
         for (phase, moles, target_si) in &problem.phases {
             // The candidate list is database-blind; the input is not.
-            // A name the routed database defines passes through (this
-            // includes gases like CO2(g), which the mineral map never
-            // holds); a name it lacks is translated to that database's
-            // own polymorph of the same solid — the fix for iron
-            // hydroxide sitting at SI +27 while the input asked wateq4f
-            // for a phase only minteq defines. No polymorph but a reviewed
-            // foreign definition (injected above) → posed as itself. No
-            // definition at all → the honesty note keeps the case.
-            let posed: &str = if derived::index_for(db_tag).has_phase(phase) {
-                phase
-            } else if let Some(alt) = derived::phase_in_db(phase, db_tag) {
-                alt
-            } else if derived::foreign_phase_definition(phase, db_tag).is_some() {
-                phase
-            } else {
+            // `posed_phase` is that reconciliation, and a `None` is the
+            // case the honesty note keeps.
+            let Some(posed) = posed_phase(phase, db_tag) else {
                 continue;
             };
             writeln!(input, "    {posed} {target_si} {moles:.12e}").unwrap();
