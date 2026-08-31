@@ -3,7 +3,7 @@ import test from "node:test";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { inventory, licenceAllowed, validateFixtures } from "./evidence.mjs";
+import { candidateClosure, inventory, licenceAllowed, validateFixtures } from "./evidence.mjs";
 
 test("SPDX policy handles conjunctions without accepting an unknown branch", () => {
   assert.equal(licenceAllowed("MIT AND Zlib"), true);
@@ -18,4 +18,13 @@ test("tampered fixture evidence fails closed", async () => {
   for (const fixture of manifest.fixtures) await writeFile(join(dir, fixture.path), "tampered");
   await assert.rejects(validateFixtures(dir), /integrity mismatch/);
 });
-test("lock inventory is exact and licence-complete", async () => assert.ok((await inventory()).length > 200));
+test("lock inventory and candidate closures are exact and licence-complete", async () => {
+  const { lock, rows } = await inventory();
+  assert.equal(rows.length, 222);
+  assert.equal(candidateClosure(lock, "3dmol").length, 6);
+  assert.equal(candidateClosure(lock, "molstar").length, 216);
+});
+test("closure traversal rejects a missing transitive package", () => {
+  const lock = { packages: { "node_modules/a": { dependencies: { b: "1" } } } };
+  assert.throws(() => candidateClosure(lock, "a"), /unresolved production dependency b/);
+});

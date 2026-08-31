@@ -1,4 +1,4 @@
-import { AdapterError, boundedViewport, validateFixture, type CandidateAdapter, type ViewerFixture, type ViewerSession } from "./adapter";
+import { AdapterError, boundedViewport, validateFixture, type CandidateAdapter, type ViewerFixture, type ViewerSession, type ViewerSnapshot } from "./adapter";
 
 export type ComparisonStatus =
   | { state: "idle"; message: string }
@@ -37,6 +37,7 @@ export class ComparisonController {
 
   async setLabels(visible: boolean) { await this.#session?.setLabels(visible); }
   async select(atomIds: readonly number[]) { await this.#session?.select(atomIds); }
+  snapshot(): ViewerSnapshot | null { return this.#session?.snapshot() ?? null; }
   async resize(width: number, height: number, dpr: number) {
     const bounded = boundedViewport(width, height, dpr);
     await this.#session?.resize(bounded.width, bounded.height, bounded.dpr);

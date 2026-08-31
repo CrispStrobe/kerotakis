@@ -26,6 +26,35 @@ export async function validateFixtures(directory = join(root, "fixtures")) {
   }
   return manifest;
 }
+function resolveLocked(packages, parent, name) {
+  let cursor = parent;
+  while (cursor) {
+    const nested = `${cursor}/node_modules/${name}`;
+    if (packages[nested]) return nested;
+    cursor = cursor.replace(/(?:^|\/)node_modules\/(?:@[^/]+\/)?[^/]+$/, "");
+  }
+  const top = `node_modules/${name}`;
+  return packages[top] ? top : undefined;
+}
+export function candidateClosure(lock, rootName) {
+  const start = `node_modules/${rootName}`;
+  if (!lock.packages?.[start]) throw new Error(`missing candidate package: ${rootName}`);
+  const seen = new Set(), queue = [start];
+  while (queue.length) {
+    const path = queue.shift();
+    if (seen.has(path)) continue;
+    seen.add(path);
+    const entry = lock.packages[path];
+    const names = new Set([...Object.keys(entry.dependencies ?? {}), ...Object.keys(entry.optionalDependencies ?? {}), ...Object.keys(entry.peerDependencies ?? {})]);
+    for (const name of [...names].sort()) {
+      if (entry.peerDependenciesMeta?.[name]?.optional && !resolveLocked(lock.packages, path, name)) continue;
+      const resolved = resolveLocked(lock.packages, path, name);
+      if (!resolved) throw new Error(`${path} has unresolved production dependency ${name}`);
+      queue.push(resolved);
+    }
+  }
+  return [...seen].sort();
+}
 export async function inventory(lockPath = join(root, "package-lock.json")) {
   const lock = JSON.parse(await readFile(lockPath, "utf8"));
   if (lock.lockfileVersion !== 3) throw new Error("BRD-080 requires npm lockfileVersion 3");
@@ -40,7 +69,7 @@ export async function inventory(lockPath = join(root, "package-lock.json")) {
     if (manifest.version !== entry.version || !licenceAllowed(manifest.license)) throw new Error(`installed version or licence is disallowed: ${path}`);
     rows.push({ path, version: entry.version, license: manifest.license, integrity: entry.integrity });
   }
-  return rows;
+  return { lock, rows };
 }
 async function files(directory) {
   const result = [];
@@ -53,7 +82,7 @@ async function files(directory) {
 }
 export async function collect() {
   const fixtures = await validateFixtures();
-  const packages = await inventory();
+  const { lock, rows: packages } = await inventory();
   const lockBytes = await readFile(join(root, "package-lock.json"));
   const temporary = await mkdtemp(join(tmpdir(), "kerotakis-brd080-"));
   try {
@@ -62,7 +91,8 @@ export async function collect() {
       const outDir = join(temporary, name);
       await build({ root, configFile: false, logLevel: "silent", build: { outDir, emptyOutDir: true, sourcemap: false, rollupOptions: { input: resolve(root, `src/measure-${name}.ts`), output: { entryFileNames: "candidate.js", chunkFileNames: "chunk-[hash].js", assetFileNames: "asset-[hash][extname]" } } } });
       const artifacts = await files(outDir);
-      candidates.push({ name, packages: packages.filter((row) => row.path === `node_modules/${name}` || (name === "3dmol" && /node_modules\/(iobuffer|netcdfjs|pako|upng-js)/.test(row.path))), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
+      const closure = new Set(candidateClosure(lock, name));
+      candidates.push({ name, packages: packages.filter((row) => closure.has(row.path)), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
     }
     return {
       schema: "kerotakis.brd080-evidence.v1",
