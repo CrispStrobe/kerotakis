@@ -469,8 +469,23 @@ for main, claim-audit statuses with acceptance evidence.
   **Ethanol-water landed 2026-08-24 (kero-basic):**
   `ethanol_water_density_g_ml(w)` in properties.rs, 5th-order fit
   to CRC Handbook 97th ed. at 20 °C, max 1.5 mg/mL residual, 6 tests.
-  CLI: `kero properties ethanol-water-density w=0.4`. Sucrose-water
-  remains.
+  CLI: `kero properties ethanol-water-density w=0.4`.
+  **Sucrose-water landed 2026-08-31:** `sucrose_water_density_g_ml(w)`
+  in properties.rs. The published datum runs the other way — NBS
+  Table 114 (Bates 1942, NBS Circular C440) gives °Brix FROM apparent
+  specific gravity as a cubic — so the function INVERTS it by
+  bisection rather than re-fitting a second polynomial: the cubic's
+  derivative has a negative discriminant, hence is strictly
+  increasing, and the published coefficients stay the only data in the
+  file. ρ = d·ρ_water(20 °C, Tanaka). Valid 0–40 % w/w, the
+  polynomial's own stated range; above that it refuses. Cross-checked
+  against ISCOTABLES 7th ed. (independent source): agreement within
+  1.0 mg/mL at 0/5/10/20/30/40 %. 6 new tests.
+  CLI: `kero properties sucrose-water-density w=0.2` → 1.081028 g/mL.
+  **Codex entry authored:** `sugar-syrup-by-density` in
+  quantitative.toml — the balance reads 124.70 g, the syrup is
+  20.05 % w/w, and all three predict options are real engine numbers
+  (0.998 water, 1.081 syrup, 1.59 crystal sucrose from the registry).
 - **EXP-20 Limiting-reagent pack** — precipitation and gas routes,
   predict-then-check quests with value claims.
   **Quest authored** (kero-basic): `limiting-reagent.toml` — event
@@ -885,7 +900,13 @@ only the genuinely new remainder.
   — the thermo suite pins the deviation so a parameter upgrade
   (modified-UNIFAC/T-dependent aₘₙ) reopens the question loudly.
   Remaining: the acetone–chloroform pair (needs CCl-group growth —
-  agent data task), the mixing-calorimetry quest. Original scope
+  agent data task), the mixing-calorimetry quest. **Re-verified
+  2026-08-31 against the engine, still blocked, and the blocker is
+  three gaps rather than one — chloroform is not a species at all,
+  UNIFAC main group 11 and its twelve a_mn values are absent, and
+  `total_excess_j()` is water-anchored so a non-aqueous binary would
+  return 0.0 even with the parameters. Written up under Part 10.**
+  Original scope
   follows. — the
   acetone–chloroform-class negative deviation: h^E from the
   temperature dependence of UNIFAC activity coefficients
@@ -1016,6 +1037,23 @@ EXP-21 with the energy input booked honestly.
   all on the shelf). Acceptance: curated values sourced; capillary
   rise computed from them; the soap quest (EXP-10) gains the
   surface-tension drop as a measurable.
+  **First slice done 2026-08-31:** `water_surface_tension_mn_m(T)`
+  from IAPWS R1-76 (σ = B·τ^μ·(1 + b·τ), τ = 1 − T/T_c), pinned at the
+  release's own reference points — 75.65 / 72.74 / 71.97 / 58.90 mN/m
+  at 0 / 20 / 25 / 100 °C — and `capillary_rise_mm(r, T, θ)`, Jurin's
+  law COMPUTED from that σ, the Tanaka density and standard gravity,
+  which is the acceptance criterion rather than a second table.
+  CLI: `kero properties water-surface-tension T=293.15` → 72.736140
+  mN/m; `kero properties capillary-rise r=0.5 T=293.15` → 29.721387 mm
+  (halving the bore doubles it: 59.442773 mm). The binding validity
+  range is the DENSITY's 0–40 °C, not the surface tension's 0–100 °C —
+  a computed quantity is only as valid as its narrowest input, and
+  `capillary-rise r=0.5 T=333.15` refuses accordingly. 11 new tests.
+  **Codex entry authored:** `warm-water-climbs-less` in
+  quantitative.toml.
+  Remaining: curated σ rows for ethanol and hexane (the cohesion/
+  adhesion contrast), and the EXP-10 soap surface-tension drop, which
+  needs the surfactant species that entry is itself waiting on.
 - **EXP-49 — The nuclear bench** — [x] **done 2026-08-24** (Fable),
   first slice. The teaching set (C-14, I-131, Rn-222/α, Co-60,
   Tc-99m/γ, and the real Sr-90 → Y-90 → Zr-90 chain; NUBASE2020
@@ -1254,7 +1292,7 @@ required chemistry, data, or model:
 | 9 | photosynthesis curated reaction + glucose species | HARDER (model+data) |
 | 10 | fat/oil species + emulsification demo | NEAR (data) |
 | 15 | clay/sand/silt column materials | HARDER (data) |
-| 19 | sucrose-water density correlation (ethanol-water landed) | NEAR (data) |
+| 19 | ~~sucrose-water density correlation~~ — **landed 2026-08-31**: `sucrose_water_density_g_ml`, NBS Table 114 inverted; codex `sugar-syrup-by-density` | done (data) |
 | 23 | custom weak-acid route (KHP) | HARDER (engine route) |
 | 27 | 1:1 association-K solver | HARDER (model) |
 | 28 | speciation→colour coupling | HARDER (model) |
@@ -1269,13 +1307,47 @@ required chemistry, data, or model:
 | 40 | curated food-test rows (Fehling, Biuret) | NEAR (data) |
 | 41 | functional-group wet tests | HARDER (data+coupling) |
 | 42 | preparative chemistry data (double salts, etc.) | NEAR (data) |
-| 44 | CCl-group growth + mixing quest | HARDER (UNIFAC growth) |
+| 44 | CCl-group growth + mixing quest — **verified still blocked 2026-08-31**, three separate gaps, see below | HARDER (UNIFAC growth) |
 | 46 | cross-coupling SMIRKS templates | HARDER (org) |
 | 47 | semipermeable membrane mechanism | HARDER (model) |
-| 48 | surface tension + capillarity data | NEAR (data) |
+| 48 | ~~surface tension + capillarity data~~ — **first slice landed 2026-08-31**: water σ(T) from IAPWS R1-76 + computed Jurin rise; codex `warm-water-climbs-less`. Remaining: ethanol/hexane σ rows, the EXP-10 soap measurable | part done (data) |
 | 50 | SN1/SN2/E1/E2 selectivity rule table | HARDER (model) |
 | 51 | Michaelis–Menten rate family | HARDER (model) |
 | 52 | disposal rule table | NEAR (data) |
+
+## EXP-44 acetone–chloroform: what is actually missing (audit 2026-08-31)
+
+The row above was re-verified against the engine rather than trusted.
+`add v1 chloroform 1mol` answers **"unknown species or material
+'chloroform' (see 'species')"**, and the pair is blocked by three
+independent gaps, not one:
+
+1. **No species.** `chloroform` / `trichloromethane` / `CHCl3` appears
+   nowhere in `crates/`, `data/`, `codex/` or `quests/`. The registry
+   row itself has to be created first.
+2. **No UNIFAC main group 11.** `approved_table()` in
+   `crates/kerotakis-thermo/src/unifac.rs` carries main groups 1 (CH2),
+   5 (OH), 6 (CH3OH), 7 (H2O), 9 (CH2CO) and 20 (COOH). Chloroform
+   needs the CCl3 main group and, worse, its **twelve directional
+   a_mn values against every main group already present** — and
+   THERMO-004 restricts parameters to the 1975 Fredenslund/Jones/
+   Prausnitz publication and the 1982 Gmehling revision, so these must
+   be read off those papers, not inferred.
+3. **The hᴱ model is water-anchored.** `groups_of()` in
+   `crates/kerotakis-core/src/hmix.rs` decomposes only `water` and
+   `propanone`, and `total_excess_j()` returns 0.0 unless the vessel
+   holds water plus exactly one allowlisted organic — two organics
+   fall through the `Some(_) => return 0.0` arm. Acetone–chloroform is
+   a **non-aqueous** binary, so even a complete parameter table would
+   yield no heat until that structure is generalised.
+
+The machinery around it is healthy, which is why the gap is narrow and
+worth stating precisely: the allowlisted acetone–water pair still runs
+(`add v1 water 5mol` + `add v1 propanone 5mol` → 25.0 °C → 27.12 °C,
+"heat of mixing released 2140.6 J"). Item 3 is the design question —
+whether the state-function bookkeeping generalises to a solvent-free
+binary — and it should be settled before anyone spends a session
+transcribing parameters for item 2.
 
 ## T2 value-claim upgrades — [x] **done 2026-08-29**
 All seven candidates now carry value claims, every target read off the
