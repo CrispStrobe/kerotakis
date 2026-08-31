@@ -26,6 +26,44 @@ export async function validateFixtures(directory = join(root, "fixtures")) {
   }
   return manifest;
 }
+function resolveLocked(packages, parent, name) {
+  let cursor = parent;
+  while (cursor) {
+    const nested = `${cursor}/node_modules/${name}`;
+    if (packages[nested]) return nested;
+    cursor = cursor.replace(/(?:^|\/)node_modules\/(?:@[^/]+\/)?[^/]+$/, "");
+  }
+  const top = `node_modules/${name}`;
+  return packages[top] ? top : undefined;
+}
+function containingPackage(path) {
+  return path.replace(/(?:^|\/)node_modules\/(?:@[^/]+\/)?[^/]+$/, "");
+}
+export function candidateClosure(lock, rootName) {
+  const start = `node_modules/${rootName}`;
+  if (!lock.packages?.[start]) throw new Error(`missing candidate package: ${rootName}`);
+  const seen = new Set(), queue = [start];
+  while (queue.length) {
+    const path = queue.shift();
+    if (seen.has(path)) continue;
+    seen.add(path);
+    const entry = lock.packages[path];
+    const optional = new Set(Object.keys(entry.optionalDependencies ?? {}));
+    for (const name of [...new Set([...Object.keys(entry.dependencies ?? {}), ...optional])].sort()) {
+      const resolved = resolveLocked(lock.packages, path, name);
+      if (!resolved && optional.has(name)) continue;
+      if (!resolved) throw new Error(`${path} has unresolved production dependency ${name}`);
+      queue.push(resolved);
+    }
+    for (const name of Object.keys(entry.peerDependencies ?? {}).sort()) {
+      const resolved = resolveLocked(lock.packages, containingPackage(path), name);
+      if (!resolved && entry.peerDependenciesMeta?.[name]?.optional) continue;
+      if (!resolved) throw new Error(`${path} has unresolved production peer ${name}`);
+      queue.push(resolved);
+    }
+  }
+  return [...seen].sort();
+}
 export async function inventory(lockPath = join(root, "package-lock.json")) {
   const lock = JSON.parse(await readFile(lockPath, "utf8"));
   if (lock.lockfileVersion !== 3) throw new Error("BRD-080 requires npm lockfileVersion 3");
@@ -40,7 +78,7 @@ export async function inventory(lockPath = join(root, "package-lock.json")) {
     if (manifest.version !== entry.version || !licenceAllowed(manifest.license)) throw new Error(`installed version or licence is disallowed: ${path}`);
     rows.push({ path, version: entry.version, license: manifest.license, integrity: entry.integrity });
   }
-  return rows;
+  return { lock, rows };
 }
 async function files(directory) {
   const result = [];
@@ -51,9 +89,42 @@ async function files(directory) {
   }
   return result;
 }
+export function validateEvidence(report, expected) {
+  if (report?.schema !== "kerotakis.brd080-evidence.v1" || !/^v\d+\.\d+\.\d+$/.test(report.environment?.node ?? "")
+    || !/^[a-f0-9]{64}$/.test(report.lockSha256 ?? "") || report.fixtures?.length !== 5
+    || !Number.isSafeInteger(report.productionPackageCount) || report.productionPackageCount !== report.packages?.length) {
+    throw new Error("incomplete BRD-080 evidence envelope");
+  }
+  if (new Set(report.packages.map(({ path }) => path)).size !== report.packages.length
+    || report.packages.some((row) => !row.path || !row.version || !row.integrity || !licenceAllowed(row.license))) {
+    throw new Error("invalid BRD-080 package inventory");
+  }
+  if (!expected || report.lockSha256 !== expected.lockSha256
+    || JSON.stringify(report.fixtures) !== JSON.stringify(expected.fixtures)
+    || JSON.stringify(report.packages) !== JSON.stringify(expected.packages)) {
+    throw new Error("BRD-080 evidence does not match canonical lock, fixtures or inventory");
+  }
+  if (report.candidates?.map(({ name }) => name).join() !== "3dmol,molstar") throw new Error("BRD-080 evidence requires both ordered candidates");
+  for (const candidate of report.candidates) {
+    const closure = new Set(candidateClosure(expected.lock, candidate.name));
+    const expectedRows = expected.packages.filter(({ path }) => closure.has(path));
+    if (!candidate.packages?.length || !candidate.artifacts?.length
+      || JSON.stringify(candidate.packages) !== JSON.stringify(expectedRows)) {
+      throw new Error(`incomplete ${candidate.name} closure or artifacts`);
+    }
+    const totals = candidate.artifacts.reduce((sum, artifact) => {
+      if (!artifact.path || !Number.isSafeInteger(artifact.bytes) || artifact.bytes < 1
+        || !Number.isSafeInteger(artifact.gzipBytes) || artifact.gzipBytes < 1
+        || !/^[a-f0-9]{64}$/.test(artifact.sha256 ?? "")) throw new Error(`invalid ${candidate.name} artifact`);
+      return { bytes: sum.bytes + artifact.bytes, gzipBytes: sum.gzipBytes + artifact.gzipBytes };
+    }, { bytes: 0, gzipBytes: 0 });
+    if (totals.bytes !== candidate.totals?.bytes || totals.gzipBytes !== candidate.totals?.gzipBytes) throw new Error(`incorrect ${candidate.name} totals`);
+  }
+  return report;
+}
 export async function collect() {
   const fixtures = await validateFixtures();
-  const packages = await inventory();
+  const { lock, rows: packages } = await inventory();
   const lockBytes = await readFile(join(root, "package-lock.json"));
   const temporary = await mkdtemp(join(tmpdir(), "kerotakis-brd080-"));
   try {
@@ -62,17 +133,20 @@ export async function collect() {
       const outDir = join(temporary, name);
       await build({ root, configFile: false, logLevel: "silent", build: { outDir, emptyOutDir: true, sourcemap: false, rollupOptions: { input: resolve(root, `src/measure-${name}.ts`), output: { entryFileNames: "candidate.js", chunkFileNames: "chunk-[hash].js", assetFileNames: "asset-[hash][extname]" } } } });
       const artifacts = await files(outDir);
-      candidates.push({ name, packages: packages.filter((row) => row.path === `node_modules/${name}` || (name === "3dmol" && /node_modules\/(iobuffer|netcdfjs|pako|upng-js)/.test(row.path))), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
+      const closure = new Set(candidateClosure(lock, name));
+      candidates.push({ name, packages: packages.filter((row) => closure.has(row.path)), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
     }
-    return {
+    const lockSha256 = sha(lockBytes);
+    const report = {
       schema: "kerotakis.brd080-evidence.v1",
       environment: { node: process.version, molstarRequiredNode: ">=22.0.0" },
-      lockSha256: sha(lockBytes),
+      lockSha256,
       fixtures: fixtures.fixtures,
       productionPackageCount: packages.length,
       packages,
       candidates,
     };
+    return validateEvidence(report, { lock, lockSha256, fixtures: fixtures.fixtures, packages });
   } finally { await rm(temporary, { recursive: true, force: true }); }
 }
 if (import.meta.url === new URL(process.argv[1], "file:").href) console.log(JSON.stringify(await collect(), null, 2));

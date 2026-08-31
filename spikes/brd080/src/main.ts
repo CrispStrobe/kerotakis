@@ -41,6 +41,12 @@ root.innerHTML = `
 const host = document.querySelector<HTMLElement>("#viewer")!;
 const status = document.querySelector<HTMLElement>("#status")!;
 const controller = new ComparisonController(host, (next) => { status.dataset.state = next.state; status.textContent = next.message; });
+(globalThis as typeof globalThis & { __brd080?: { snapshot: () => ReturnType<ComparisonController["snapshot"]>; resize: (width: number, height: number, dpr: number) => Promise<void>; select: (ids: readonly number[]) => Promise<void>; setLabels: (visible: boolean) => Promise<void> } }).__brd080 = {
+  snapshot: () => controller.snapshot(),
+  resize: (width, height, dpr) => controller.resize(width, height, dpr),
+  select: (ids) => controller.select(ids),
+  setLabels: (visible) => controller.setLabels(visible),
+};
 let currentFixture: ViewerFixture | null = null;
 let loadGeneration = 0;
 

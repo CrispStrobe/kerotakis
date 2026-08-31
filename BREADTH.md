@@ -1612,21 +1612,24 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
      gzip bytes and Mol* at 5,345,087 raw / 1,968,375 gzip bytes; the evidence
      also exposes Mol*'s Node >=22 requirement and its 222-instance combined
      spike closure rather than silently accepting the host's Node 20 warning.
-  2. [x] **BRD-080b — Disposable comparison route (45–75 min).** Exercise both
+  2. [ ] **BRD-080b — Disposable comparison route (45–75 min).** Exercise both
      candidates behind one spike-only adapter contract with selection, labels,
      resize/dispose and accessible tabular fallback. **DoD:** identical fixture
      inputs and scripted interactions run for both viewers; teardown and
      unsupported-volume/crystal cases are explicit; keyboard, reduced-motion,
      offline and bounded-mobile-memory evidence is captured; full frontend
      tests/build/licence gates pass.
-     *Done 2026-08-31:* the isolated route gives both candidates the same five
+     *Code/browser checkpoint 2026-08-31:* the isolated route gives both candidates the same five
      local fixtures behind one bounded adapter contract and an always-present
      semantic atom table. SSR guards, exact kind/format gates, source/atom/bond/
      frame/grid/coordinate/unit-cell/canvas limits, labels, selection, reduced
      motion, stale-mount cleanup and idempotent disposal are tested. A dedicated
      Node 22 Chrome lane exercised all ten candidate/fixture paths, required one
      live canvas plus semantic rows after each replacement, and observed no
-     request outside the offline origin. The production app remains unchanged.
+     request outside the locally served origin. The production app remains
+     unchanged. **Pending acceptance:** a disposable Svelte integration and
+     physical constrained-mobile RAM/GPU evidence; the headless JS-heap proxy
+     is explicitly not a substitute for those checks.
   3. [ ] **BRD-080c — Audited go/no-go record (30–60 min).** Independently
      review the measurements and choose exactly one candidate, or close no-go
      with the existing 2-D fallback named. **DoD:** primary-source citations,
