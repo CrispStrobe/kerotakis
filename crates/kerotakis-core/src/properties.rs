@@ -863,7 +863,9 @@ mod tests {
     fn sucrose_water_density_increases_with_sugar() {
         let mut previous = 0.0;
         for step in 0..=40 {
-            let rho = sucrose_water_density_g_ml(step as f64 / 100.0).unwrap().value;
+            let rho = sucrose_water_density_g_ml(step as f64 / 100.0)
+                .unwrap()
+                .value;
             assert!(rho > previous, "density must rise with sugar at {step} %");
             previous = rho;
         }
@@ -880,7 +882,9 @@ mod tests {
     #[test]
     fn sucrose_water_reports_the_specific_gravity_it_solved() {
         let r = sucrose_water_density_g_ml(0.20).unwrap();
-        let note = r.note.expect("the inverted specific gravity is the working");
+        let note = r
+            .note
+            .expect("the inverted specific gravity is the working");
         assert!(note.contains("specific gravity"), "note was {note}");
     }
 
@@ -939,7 +943,10 @@ mod tests {
         // 2 × 0.07274 / (998.207 × 9.80665 × 5e-4) = 29.7 mm — the
         // number every textbook quotes for water in a 1 mm-bore tube.
         let h = capillary_rise_mm(0.5, 293.15, 0.0).unwrap().value;
-        assert!((h - 29.7).abs() < 0.3, "h(r = 0.5 mm, 20 °C) ≈ 29.7 mm: {h}");
+        assert!(
+            (h - 29.7).abs() < 0.3,
+            "h(r = 0.5 mm, 20 °C) ≈ 29.7 mm: {h}"
+        );
     }
 
     #[test]
