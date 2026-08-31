@@ -23,7 +23,6 @@
   import { engineText } from "../engineText";
   import type { ResultSummary } from "../resultSummary";
   import { resultCardFilename, resultCardSvg } from "../resultCardImage";
-  import { engineText } from "../engineText";
 
   let { result }: { result: ResultSummary } = $props();
 
