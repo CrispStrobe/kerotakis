@@ -8,6 +8,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 node --test \
+  tools/brd080-device-evidence.test.mjs \
   tools/frontend-asset-budget.test.mjs \
   tools/gpu5-probe-lib.test.mjs \
   tools/gpu5-release-evaluate.test.mjs \

@@ -1,0 +1,13 @@
+{
+  "schema": "kerotakis.brd080-device-evidence.v1",
+  "candidate": {
+    "name": "3dmol",
+    "version": "2.5.5",
+    "sourceCommit": "c26e390544b6388f86e50387cd4565759b4da0df",
+    "routeCommit": "REPLACE_WITH_40_CHARACTER_REPOSITORY_GIT_SHA",
+    "routeArtifact": { "path": "route-assets.txt", "sha256": "REPLACE_WITH_SHA256" }
+  },
+  "measuredAt": "REPLACE_WITH_ISO_DATE_TIME",
+  "reviewer": "REPLACE_WITH_REVIEWER",
+  "rows": []
+}

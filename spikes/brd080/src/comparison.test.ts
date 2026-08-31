@@ -36,7 +36,7 @@ describe("comparison contract", () => {
   });
 
   it("keeps the semantic table, keyboard-native choices and reduced-motion control in the route", () => {
-    const source = readFileSync(new URL("./main.ts", import.meta.url), "utf8");
+    const source = readFileSync(new URL("./App.svelte", import.meta.url), "utf8");
     const styles = readFileSync(new URL("./style.css", import.meta.url), "utf8");
     expect(source).toContain('id="semantic-view"');
     expect(source).toContain("<table>");

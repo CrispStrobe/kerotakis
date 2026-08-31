@@ -4,7 +4,7 @@
     "node": "v22.23.2",
     "molstarRequiredNode": ">=22.0.0"
   },
-  "lockSha256": "2eabf910cdcff87848928417123845433b3c43908fde4246e145084490731b88",
+  "lockSha256": "e27f1b431bce76ba053ebb2760564b5525bd74384360039d4fb50ae690bc7539",
   "fixtures": [
     {
       "kind": "molecule",
