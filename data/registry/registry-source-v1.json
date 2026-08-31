@@ -1181,6 +1181,15 @@
       "retrieved": null
     },
     {
+      "id": "us-federal/usgs-chalcanthite",
+      "citation": "USGS PHREEQC wateq4f.dat Chalcanthite phase supplies the CuSO4:5H2O dissolution stoichiometry and log K. Molar mass 249.684 g/mol is the anhydrous salt plus five waters from the same IUPAC/CIAAW 2021 atomic weights, additive by construction so the dehydration mass ledger closes exactly; heat capacity 281.0 J/(mol.K) is the anhydrous value plus a Kopp's-rule increment of 36.2 per water of crystallisation, an explicit editorial estimate; crystal density 2.286 g/mL and the deep-blue appearance are room-temperature teaching properties. No InChIKey crosswalk is claimed. Dissolution enthalpy remains unclaimed: it is hydrate-dependent and the anhydrous value would be wrong here. Retrieved 2026-08-29",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/iphreeqc/database/wateq4f.dat",
+      "revision": "USGS WATEQ4F Chalcanthite",
+      "retrieved": "2026-08-29"
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3278,6 +3287,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "chalcanthite",
+      "canonical_key": "legacy:species/chalcanthite",
+      "name": "copper(II) sulfate pentahydrate (chalcanthite)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -16682,6 +16705,152 @@
       },
       "evidence": {
         "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/chalcanthite",
+      "species_id": "chalcanthite",
+      "formula": "CuSO4·5H2O",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 9.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -31750,6 +31919,135 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 249.684,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 281.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.286,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dehydration-point/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": {
+        "other": "dehydration_temperature"
+      },
+      "quantity": {
+        "value": 523.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
     }
   ],
   "transport": [],
@@ -37561,6 +37859,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "appearance": "deep blue crystals",
+      "flame_colour": "blue-green",
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -43739,6 +44053,39 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/chalcanthite",
+      "subject": {
+        "kind": "species",
+        "id": "chalcanthite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     }
