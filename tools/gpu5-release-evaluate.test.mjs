@@ -9,9 +9,15 @@ import { PROBE_SCHEMA, RELEASE_HOSTS, evaluateReleaseMatrix, mapProbeArtifacts }
 const values = (count, value) => Array(count).fill(value);
 const probe = (mode, cpu = 9) => ({
   schema: PROBE_SCHEMA, mode,
+  host: "test-host",
   evidence_complete: true,
   webgpu_available: mode === "webgpu", outcome: mode === "webgpu" ? "pass" : "lightweight-baseline-recorded",
-  startup: { coldStartupMs: values(10, mode === "webgpu" ? 1050 : 1000) },
+  pass: true,
+  fallback: { svg_present_before_gpu: true, svg_present_now: mode !== "webgpu", gpu_presented: mode === "webgpu" },
+  startup: {
+    coldStartupMs: values(10, mode === "webgpu" ? 1050 : 1000),
+    raw: { domContentLoadedMs: values(10, 1), appReadyMs: values(10, 2), lightweightReadyMs: values(10, 3) },
+  },
   runs: mode === "webgpu" ? Array.from({ length: 3 }, () => ({
     warmupCpuEncodeSubmitMs: values(60, 50), measuredCpuEncodeSubmitMs: values(600, cpu), measuredRafIntervalMs: values(600, 16),
   })) : [],
@@ -55,9 +61,23 @@ test("rejects undersampled startup and measured arrays", () => {
 
 test("rejects artifacts that do not declare complete evidence", () => {
   const baseline = probe("lightweight"); baseline.evidence_complete = false;
-  assert.match(mapProbeArtifacts("web", baseline, probe("webgpu"), asset(1), asset(1)).errors.join("\n"), /baseline probe must declare complete evidence/);
+  assert.match(mapProbeArtifacts("web", baseline, probe("webgpu"), asset(1), asset(1)).errors.join("\n"), /baseline: lightweight probe must declare complete evidence/);
   const candidate = probe("webgpu"); candidate.evidence_complete = false;
-  assert.match(mapProbeArtifacts("web", probe("lightweight"), candidate, asset(1), asset(1)).errors.join("\n"), /candidate probe must declare complete evidence/);
+  assert.match(mapProbeArtifacts("web", probe("lightweight"), candidate, asset(1), asset(1)).errors.join("\n"), /candidate: available WebGPU probe must declare complete evidence/);
+});
+
+test("rejects missing modes and incomplete raw arrays before mapping", () => {
+  const baseline = probe("lightweight"); delete baseline.mode;
+  assert.match(mapProbeArtifacts("web", baseline, probe("webgpu"), asset(1), asset(1)).errors.join("\n"), /mode/);
+  const candidate = probe("webgpu"); candidate.startup.raw.lightweightReadyMs.pop();
+  assert.match(mapProbeArtifacts("web", probe("lightweight"), candidate, asset(1), asset(1)).errors.join("\n"), /raw\.lightweightReadyMs/);
+});
+
+test("rejects incomplete run arrays and absent fallback proof even when summaries claim pass", () => {
+  const incomplete = probe("webgpu"); incomplete.runs[1].measuredRafIntervalMs.pop();
+  assert.match(mapProbeArtifacts("web", probe("lightweight"), incomplete, asset(1), asset(1)).errors.join("\n"), /run 2 rAF samples are incomplete/);
+  const noFallback = probe("webgpu"); noFallback.fallback.svg_present_before_gpu = false;
+  assert.match(mapProbeArtifacts("web", probe("lightweight"), noFallback, asset(1), asset(1)).errors.join("\n"), /prove SVG fallback/);
 });
 
 test("CLI consumes four evidence files and does not claim matrix release from one host", async () => {

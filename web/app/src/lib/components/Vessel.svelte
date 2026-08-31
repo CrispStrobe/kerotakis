@@ -11,6 +11,7 @@
   import { liveIgnitionEffect } from "../ignitionPresentation";
   import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
   import IgnitionFlameCanvas from "./IgnitionFlameCanvas.svelte";
+  import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
 
   let {
     vessel,
@@ -28,6 +29,7 @@
     apparatusWorking = false,
     apparatusValues = {},
     gpuIgnition = null,
+    gpuMetricsRegistry = null,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -48,6 +50,7 @@
     apparatusWorking?: boolean;
     apparatusValues?: Record<string, number | string>;
     gpuIgnition?: WebGpuEnvironmentSnapshot | null;
+    gpuMetricsRegistry?: WebGpuMetricsRegistry | null;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -1096,14 +1099,17 @@
     {/if}
   </svg>
   {#if ignitionEffect && gpuIgnition}
-    <span class="ignition-flame-gpu" aria-hidden="true">
-      <IgnitionFlameCanvas
-        effect={ignitionEffect}
-        vesselIdentity={vessel.id}
-        gpu={gpuIgnition}
-        onfallbackchange={(visible) => (ignitionFallbackVisible = visible)}
-      />
-    </span>
+    {#if gpuMetricsRegistry}
+      <span class="ignition-flame-gpu" aria-hidden="true">
+        <IgnitionFlameCanvas
+          effect={ignitionEffect}
+          vesselIdentity={vessel.id}
+          gpu={gpuIgnition}
+          metricsRegistry={gpuMetricsRegistry}
+          onfallbackchange={(visible) => (ignitionFallbackVisible = visible)}
+        />
+      </span>
+    {/if}
   {/if}
   </button>
 

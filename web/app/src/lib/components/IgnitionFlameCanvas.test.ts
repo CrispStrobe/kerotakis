@@ -47,4 +47,10 @@ describe("bounded ignition flame canvas host", () => {
     expect(source).not.toMatch(/on(?:click|pointer|key)/i);
     expect(source).not.toContain("bgra8unorm");
   });
+
+  it("passes a disposable registry session into the renderer", () => {
+    expect(source).toContain("metricsRegistry.open(vesselIdentity)");
+    expect(source).toContain("metrics: metricsSession?.metrics");
+    expect(source).toContain("metricsSession?.dispose()");
+  });
 });

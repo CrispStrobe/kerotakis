@@ -2,6 +2,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { validateProbeArtifact } from "./gpu5-probe-lib.mjs";
 
 export const RELEASE_HOSTS = ["web", "android", "ios", "macos", "windows"];
 export const CPU_P95_LIMIT_MS = 9;
@@ -25,9 +26,8 @@ const gzip = (asset) => asset?.totals?.all?.gzipBytes;
 export function mapProbeArtifacts(host, baselineProbe, candidateProbe, baselineAssets, candidateAssets) {
   if (!RELEASE_HOSTS.includes(host)) return { status: "invalid", host, errors: [`unsupported host: ${host}`] };
   const errors = [];
-  if (baselineProbe?.schema !== PROBE_SCHEMA || baselineProbe?.mode !== "lightweight") errors.push("baseline probe must be a lightweight GPU-5 v1 probe");
-  if (candidateProbe?.schema !== PROBE_SCHEMA || candidateProbe?.mode !== "webgpu") errors.push("candidate probe must be a WebGPU GPU-5 v1 probe");
-  if (baselineProbe?.evidence_complete !== true) errors.push("baseline probe must declare complete evidence");
+  errors.push(...validateProbeArtifact(baselineProbe, "lightweight").map((error) => `baseline: ${error}`));
+  errors.push(...validateProbeArtifact(candidateProbe, "webgpu").map((error) => `candidate: ${error}`));
   if (baselineAssets?.version !== 1 || candidateAssets?.version !== 1) errors.push("asset reports must have version 1");
   if (errors.length) return { status: "invalid", host, errors };
   if (candidateProbe?.webgpu_available !== true) {
