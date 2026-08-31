@@ -501,16 +501,16 @@ fn gauss_jordan(rows: &mut [Vec<f64>], n: usize) -> Option<Vec<f64>> {
             *value /= lead;
         }
         let pivot_row = rows[r].clone();
-        for other in 0..m {
+        for (other, row) in rows.iter_mut().enumerate().take(m) {
             if other == r {
                 continue;
             }
-            let factor = rows[other][c];
+            let factor = row[c];
             if factor.abs() < 1e-12 {
                 continue;
             }
             for k in c..=n {
-                rows[other][k] -= factor * pivot_row[k];
+                row[k] -= factor * pivot_row[k];
             }
         }
         pivot_of[c] = Some(r);
