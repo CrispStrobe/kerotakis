@@ -30,6 +30,15 @@ pub const PILOT_IDENTITIES: [(&str, &str); 6] = [
     ("ethanol", "LFQSCWFLJHTTHZ-UHFFFAOYSA-N"),
 ];
 
+const PILOT_CANONICAL_NAMES: [(&str, &str); 6] = [
+    ("water", "water"),
+    ("CO2", "carbon dioxide"),
+    ("N2", "nitrogen"),
+    ("O2", "oxygen"),
+    ("NH3", "ammonia"),
+    ("ethanol", "ethanol"),
+];
+
 #[derive(Debug, Deserialize)]
 struct SourceDocument {
     source_id: String,
@@ -102,6 +111,11 @@ pub enum FluidParameterImportError {
         expected_inchikey: String,
         found_inchikey: String,
     },
+    CanonicalNameMismatch {
+        id: String,
+        expected_name: String,
+        found_name: String,
+    },
     InvalidQuantity {
         id: String,
         field: String,
@@ -143,6 +157,14 @@ impl fmt::Display for FluidParameterImportError {
             } => write!(
                 formatter,
                 "identity mismatch for {id}: expected {expected_inchikey}, found {found_inchikey}"
+            ),
+            Self::CanonicalNameMismatch {
+                id,
+                expected_name,
+                found_name,
+            } => write!(
+                formatter,
+                "canonical name mismatch for {id}: expected {expected_name}, found {found_name}"
             ),
             Self::InvalidQuantity { id, field } => {
                 write!(formatter, "invalid quantity for {id}.{field}")
@@ -264,6 +286,7 @@ pub fn parse_source_document(
     }
 
     let expected: BTreeMap<&str, &str> = PILOT_IDENTITIES.into_iter().collect();
+    let expected_names: BTreeMap<&str, &str> = PILOT_CANONICAL_NAMES.into_iter().collect();
     let mut records = BTreeMap::new();
     for record in document.records {
         if !expected.contains_key(record.id.as_str()) {
@@ -286,6 +309,14 @@ pub fn parse_source_document(
                     id: id.to_owned(),
                     expected_inchikey: expected_key.to_owned(),
                     found_inchikey: record.inchikey,
+                });
+            }
+            let expected_name = expected_names[id];
+            if record.canonical_name != expected_name {
+                return Err(FluidParameterImportError::CanonicalNameMismatch {
+                    id: id.to_owned(),
+                    expected_name: expected_name.to_owned(),
+                    found_name: record.canonical_name,
                 });
             }
             candidate(

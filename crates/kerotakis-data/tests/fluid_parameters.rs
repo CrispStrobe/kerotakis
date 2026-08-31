@@ -120,6 +120,26 @@ fn pilot_ids_and_inchikeys_join_the_checked_registry() {
 }
 
 #[test]
+fn a_pilot_identity_cannot_be_renamed_behind_a_valid_inchikey() {
+    let mut document: Value = serde_json::from_slice(&fixture()).unwrap();
+    let water = document["records"]
+        .as_array_mut()
+        .unwrap()
+        .iter_mut()
+        .find(|record| record["id"] == "water")
+        .unwrap();
+    water["canonical_name"] = json!("benzene");
+    assert_eq!(
+        parse_source_document(&serde_json::to_vec(&document).unwrap()).unwrap_err(),
+        FluidParameterImportError::CanonicalNameMismatch {
+            id: "water".into(),
+            expected_name: "water".into(),
+            found_name: "benzene".into(),
+        }
+    );
+}
+
+#[test]
 fn malformed_and_nonfinite_numbers_are_refused() {
     assert!(matches!(
         parse_source_document(br#"{"records": [}"#),
