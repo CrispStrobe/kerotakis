@@ -2381,8 +2381,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-022"
 owning_task = "CAP-25"
-outcome = "solver_failure"
-reason_code = "solver-failed-phreeqc-aqueous"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-023"
@@ -2591,8 +2591,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-057"
 owning_task = "BRD-023"
-outcome = "solver_failure"
-reason_code = "solver-failed-phreeqc-aqueous"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-058"

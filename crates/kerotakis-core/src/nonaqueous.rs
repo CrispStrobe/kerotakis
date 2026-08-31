@@ -607,6 +607,40 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
     found
 }
 
+/// The mole fraction of water among the liquids that could act as a
+/// solvent, when at least one known organic solvent is present beside
+/// water. `None` when the question does not arise (no organic solvent,
+/// or no water).
+///
+/// CAP-23 rung 3, routing half: an aqueous activity model describes a
+/// solution IN WATER. Below [`AQUEOUS_WATER_FRACTION_FLOOR`] the liquid
+/// is chiefly the organic, water is the minority guest, and asking the
+/// aqueous engine anyway produced divergence dressed as a crash
+/// (curiosity th-057: permanganate in ethanol, whose curated oxidation
+/// leaves a trace of by-product water). The Born-corrected mixed-solvent
+/// log K remains declined until someone brings data worth trusting.
+pub fn water_fraction_among_solvents(vessel: &Vessel) -> Option<f64> {
+    let mut water = 0.0f64;
+    let mut organic = 0.0f64;
+    for p in &vessel.contents {
+        if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
+            continue;
+        }
+        if p.species.0 == "water" {
+            water += p.moles.0;
+        } else if KNOWN_SOLVENTS.contains(&p.species.0.as_str()) {
+            organic += p.moles.0;
+        }
+    }
+    (organic > 0.0 && water > 0.0).then(|| water / (water + organic))
+}
+
+/// Below this water mole fraction the aqueous engine is not asked: the
+/// mixture's dielectric environment is the organic's, not water's, and
+/// every shipped activity model assumes the latter. An editorial teaching
+/// boundary, stated wherever it acts.
+pub const AQUEOUS_WATER_FRACTION_FLOOR: f64 = 0.5;
+
 /// True when this rung has a computed verdict for the pair — the
 /// honesty pass consults this so a spoken answer is not followed by an
 /// apology for the same solid.
