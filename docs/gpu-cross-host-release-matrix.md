@@ -24,7 +24,7 @@ node --version
 
 `PLATFORM` is exactly one of `web`, `android`, `ios`, `macos`, or `windows`.
 The single-host evaluator deliberately reports `releasePassed: null`. After all
-five physical rows exist, create a version-1 matrix manifest referencing each
+five physical rows exist, create a version-2 matrix manifest referencing each
 row's four raw artifacts and run:
 
 ```sh
@@ -32,6 +32,17 @@ node tools/gpu5-release-evaluate.mjs --matrix MATRIX.json
 ```
 
 Only that command's complete five-host result may claim release gate passage.
+Every artifact descriptor is `{ "path": "relative/file.json", "sha256":
+"64-lowercase-hex" }`. Each row must also contain `physical: true`, a non-empty
+`reviewer`, an ISO `measuredAt`, and exactly one of the five platform names.
+The manifest-level `shaderSource` uses the same descriptor shape and must point
+to the exact independently implemented WGSL TypeScript source under review.
+The evaluator reads paths relative to the manifest, rejects escapes, hashes the
+bytes before parsing them, reruns the shader provenance rules, and fails the
+matrix on any mismatch. Available GPU
+probes must additionally contain the app's bounded
+`kerotakis.webgpu-metrics.v1` report captured through the request-only browser
+diagnostics handshake.
 
 ## Physical-host matrix
 

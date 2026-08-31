@@ -15,7 +15,12 @@
     type WebGpuEnvironmentPolicy,
     type WebGpuEnvironmentSnapshot,
   } from "../webGpuLifecycle";
-  import { createWebGpuMetricsRegistry, type WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
+  import {
+    attachWebGpuMetricsReporter,
+    browserWebGpuMetricsReporterTarget,
+    createWebGpuMetricsRegistry,
+    type WebGpuMetricsRegistry,
+  } from "../webGpuMetricsRegistry";
   import {
     BENCH_ZONES,
     apparatusPositionFor,
@@ -161,8 +166,12 @@
   $effect(() => gpuPolicy?.setEffectApproved(gpuApproved));
 
   onMount(() => {
+    const reporterTarget = browserWebGpuMetricsReporterTarget();
+    const detachMetricsReporter = reporterTarget
+      ? attachWebGpuMetricsReporter(reporterTarget, gpuMetricsRegistry)
+      : () => undefined;
     const environment = browserGpuEnvironment();
-    if (!environment) return () => gpuMetricsRegistry.dispose();
+    if (!environment) return () => { detachMetricsReporter(); gpuMetricsRegistry.dispose(); };
     const policy = createWebGpuEnvironmentPolicy({
       provider: environment.provider,
       reducedMotion: environment.reducedMotion,
@@ -174,6 +183,7 @@
     const unsubscribe = policy.subscribe((snapshot) => (gpuSnapshot = snapshot));
     policy.start();
     return () => {
+      detachMetricsReporter();
       unsubscribe();
       policy.dispose();
       if (gpuPolicy === policy) gpuPolicy = null;

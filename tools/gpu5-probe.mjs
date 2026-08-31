@@ -5,6 +5,7 @@ import {
   GPU5_MEASURED_FRAMES,
   GPU5_RUNS,
   GPU5_WARMUP_FRAMES,
+  GPU5_APP_METRICS_REQUEST_EVENT,
   buildRunEvidence,
   completeReport,
   emptyReport,
@@ -109,6 +110,13 @@ const submitCommand = (page, command) => page.evaluate(`(() => {
   return true;
 })()`);
 
+const readApplicationMetrics = (page) => page.evaluate(`JSON.stringify((() => {
+  let report = null;
+  const detail = { respond(value) { report = value; } };
+  dispatchEvent(new CustomEvent(${JSON.stringify(GPU5_APP_METRICS_REQUEST_EVENT)}, { detail }));
+  return report;
+})())`);
+
 const { server, origin } = await serve(site);
 const coldStartupSamples = [];
 for (let run = 0; run < startupRuns; run += 1) {
@@ -205,7 +213,8 @@ try {
       svg_present_now: Boolean(document.querySelector("g.flame")),
       gpu_presented: Boolean(document.querySelector('canvas[data-visual-backend="webgpu"]'))
     })`));
-    const report = completeReport({ ...base, fallback, webgpu_available: true }, runs);
+    const applicationMetrics = JSON.parse(await readApplicationMetrics(page));
+    const report = completeReport({ ...base, fallback, application_metrics: applicationMetrics, webgpu_available: true }, runs);
     console.log(JSON.stringify(report, null, 2));
     exitCode = report.pass ? 0 : 1;
     }
