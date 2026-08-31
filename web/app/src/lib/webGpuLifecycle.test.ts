@@ -57,8 +57,8 @@ describe("WebGPU lifecycle", () => {
   });
 
   it.each([
-    ["missing adapter", async () => null, "adapter-unavailable"],
-    ["adapter rejection", async () => { throw new Error("adapter"); }, "adapter-request-failed"],
+    ["missing adapter", async (): Promise<null> => null, "adapter-unavailable"],
+    ["adapter rejection", async (): Promise<null> => { throw new Error("adapter"); }, "adapter-request-failed"],
   ] as const)("fails closed on %s", async (_label, requestAdapter, reason) => {
     const lifecycle = createWebGpuLifecycle({ provider: { requestAdapter } });
     await expect(lifecycle.start()).resolves.toEqual({ status: "fallback", reason });

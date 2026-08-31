@@ -34,7 +34,7 @@ const vessel = (layers: { species: string; volume_l: number }[]): SceneVessel =>
     elapsed_s: 0,
     words: "",
     badges: [],
-  }) as SceneVessel;
+  }) as unknown as SceneVessel;
 
 describe("the scene-to-grid bridge", () => {
   it("layer bands split rows by volume, bottom first, exactly covering", () => {

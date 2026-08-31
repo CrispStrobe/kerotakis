@@ -112,7 +112,7 @@ describe("the About dialog's third-party list", () => {
       ["my-basic-license", "vendor/my-basic/LICENSE"],
       ["nasa-cea-notice", "vendor/nasa-cea/NOTICE.txt"],
       ["nasa-cea-license", "vendor/nasa-cea/LICENSE.txt"],
-    ]) {
+    ] as const) {
       const hash = createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
       expect(bundled).toContain(`name="kerotakis-${marker}-sha256" content="${hash}"`);
     }

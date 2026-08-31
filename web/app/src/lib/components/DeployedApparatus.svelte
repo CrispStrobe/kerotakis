@@ -89,7 +89,7 @@
       <path class="bath-shell" d="M14 84 V122 Q15 134 28 136 H72 Q85 134 86 122 V84" />
       <path class="bath-coolant" d="M17 99 Q50 94 83 99 V122 Q82 130 72 132 H28 Q18 130 17 122Z" />
       <path class="bath-rim" d="M14 84 Q50 91 86 84" />
-      {#each [[23, 103, -8], [34, 115, 7], [67, 105, 9], [74, 119, -5]] as [x, y, rotate], i (i)}
+      {#each [[23, 103, -8], [34, 115, 7], [67, 105, 9], [74, 119, -5]] as const as [x, y, rotate], i (i)}
         <rect class="ice" x={x} y={y} width="10" height="7" rx="2" transform={`rotate(${rotate} ${x + 5} ${y + 3.5})`} style={`--ice-delay:${i * .17}s`} />
       {/each}
       {#each [27, 50, 73] as x, i (x)}

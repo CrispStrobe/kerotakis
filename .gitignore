@@ -27,3 +27,4 @@ THIRD_PARTY_LICENSES.html
 *.p12
 *.mobileprovision
 *.provisionprofile
+web/app/node_modules

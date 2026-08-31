@@ -70,7 +70,10 @@
   const initializeSurface = (): void => {
     if (!mounted || adapter || !canvas || !scheduler || !gpu.preferredCanvasFormat) return;
     try {
-      const surface = createBrowserIgnitionFlameSurface(canvas, gpu.preferredCanvasFormat);
+      // TS's DOM lib has no "webgpu" getContext overload (that lives in
+      // @webgpu/types, not a dependency here); the structural contract is
+      // what WebGpuCanvasLike states, and a real canvas satisfies it.
+      const surface = createBrowserIgnitionFlameSurface(canvas as unknown as Parameters<typeof createBrowserIgnitionFlameSurface>[0], gpu.preferredCanvasFormat);
       adapter = createWebGpuRendererAdapter({
         surface,
         scheduler,

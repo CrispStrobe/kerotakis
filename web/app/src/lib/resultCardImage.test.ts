@@ -6,6 +6,7 @@ const result: ResultSummary = {
   kind: "precipitation",
   vessel: 0,
   equation: "Ag⁺ + Cl⁻ → AgCl",
+  reactants: ["Ag⁺", "Cl⁻"],
   observation: "a white solid forms",
   quantities: [{ label: "amount", value: 0.01, unit: "mol" }],
   temperatureDeltaK: 2,
@@ -39,7 +40,7 @@ describe("shareable result card image", () => {
     expect(svg).not.toContain("A < B & C");
     expect(wrapCardText("word ".repeat(200), 20, 2)).toHaveLength(2);
     expect(wrapCardText("word ".repeat(200), 20, 2)[1]).toMatch(/…$/);
-    const renderedNumbers = [...svg.matchAll(/class="number">([^<]*)<\/text>/g)].map((match) => match[1]);
+    const renderedNumbers = [...svg.matchAll(/class="number">([^<]*)<\/text>/g)].map((match) => match[1] ?? "");
     expect(renderedNumbers).toHaveLength(4);
     expect(renderedNumbers.every((line) => line.length <= 82)).toBe(true);
     expect(renderedNumbers[3]).toMatch(/…$/);

@@ -490,7 +490,7 @@ describe("Session", () => {
       vessels: [{
         id: 0,
         liquid: { volume_l: 0.1, srgb: [93, 42, 181], colour_word: "violet", cloudiness: 0, path_length_cm: 2 },
-      } as Scene["vessels"][number]],
+      } as unknown as Scene["vessels"][number]],
     };
     await s.submit("pour v1 into v2 50%");
     expect(s.vesselEffects[0]?.[0]).toMatchObject({
@@ -512,7 +512,7 @@ describe("Session", () => {
         id: 0,
         liquid: { volume_l: 0.08, srgb: [210, 232, 248], colour_word: "pale blue", cloudiness: .3, path_length_cm: 2 },
         solids: [{ species: "CuO", name: "copper(II) oxide", moles: .025, srgb: [35, 31, 28], colour_word: "black", metallic: false, settled_fraction: .8 }],
-      } as Scene["vessels"][number]],
+      } as unknown as Scene["vessels"][number]],
     };
     await s.submit("filter v1 into v2");
     expect(s.vesselEffects[0]?.[0]).toMatchObject({
@@ -540,7 +540,7 @@ describe("Session", () => {
           { species: "hexane", name: "hexane", volume_l: .04, srgb: [240, 210, 60], colour_word: "yellow" },
         ],
         solids: [],
-      } as Scene["vessels"][number]],
+      } as unknown as Scene["vessels"][number]],
     };
     await s.submit("drain v1 into v2");
     expect(s.vesselEffects[0]?.[0]).toMatchObject({
@@ -571,7 +571,7 @@ describe("Session", () => {
           { species: "Fe", name: "iron", moles: .04, srgb: [82, 86, 91], colour_word: "grey", metallic: true, settled_fraction: 1 },
           { species: "S", name: "sulfur", moles: .08, srgb: [240, 205, 40], colour_word: "yellow", metallic: false, settled_fraction: 1 },
         ],
-      } as Scene["vessels"][number]],
+      } as unknown as Scene["vessels"][number]],
     };
     await s.submit("magnet v1 v2");
     expect(s.vesselEffects[0]?.[0]).toMatchObject({
@@ -603,7 +603,7 @@ describe("Session", () => {
         id: 0,
         liquid: { volume_l: .1, srgb: [245, 245, 245], colour_word: "colourless", cloudiness: .5, path_length_cm: 2 },
         solids: [{ species: "SiO2", name: "silica", moles: .03, srgb: [226, 219, 194], colour_word: "sand", metallic: false, settled_fraction: .1 }],
-      } as Scene["vessels"][number]],
+      } as unknown as Scene["vessels"][number]],
     };
     await s.submit("wait 5s");
     expect(s.vesselEffects[0]?.[0]?.settling?.populations[0]).toMatchObject({
@@ -628,7 +628,7 @@ describe("Session", () => {
     s.scene = { scene: 1, vessels: [{
       id: 0, liquid: null,
       solids: [{ species: "CuO", name: "copper(II) oxide", moles: .02, srgb: [38, 32, 28], colour_word: "black", metallic: false, settled_fraction: .1 }],
-    } as Scene["vessels"][number]] };
+    } as unknown as Scene["vessels"][number]] };
     await s.submit("centrifuge v1 3000rpm 10s 8cm 2g");
     expect(s.vesselEffects[0]?.[0]?.centrifuge?.populations[0]).toMatchObject({
       species: "CuO", colour: "rgb(38 32 28)", separatedFraction: .75,
@@ -651,7 +651,7 @@ describe("Session", () => {
         { species: "SiO2", name: "silica", moles: .02, srgb: [220, 210, 185], colour_word: "sand", metallic: false, settled_fraction: .8 },
         { species: "Fe", name: "iron", moles: .01, srgb: [80, 84, 88], colour_word: "grey", metallic: true, settled_fraction: .9 },
       ],
-    } as Scene["vessels"][number]] };
+    } as unknown as Scene["vessels"][number]] };
     await s.submit("stir v1 700rpm 8s");
     expect(s.vesselEffects[0]?.[0]?.stir).toMatchObject({
       rpm: 700, tipSpeedMS: .916, resuspendedFraction: .72, rateCoupled: false,
@@ -720,7 +720,7 @@ describe("Session", () => {
       id: 0,
       liquid: { volume_l: .1, srgb: [90, 130, 210], colour_word: "blue", cloudiness: .1, path_length_cm: 2 },
       solids: [],
-    } as Scene["vessels"][number]] };
+    } as unknown as Scene["vessels"][number]] };
     await s.submit("evaporate v1 .5");
     expect(s.vesselEffects[0]?.[0]).toMatchObject({
       kind: "evaporate",

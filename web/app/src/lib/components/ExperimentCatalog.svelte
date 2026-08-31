@@ -140,7 +140,7 @@
         <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
-        {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as [key, label] (key)}
+        {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
           <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
         <input
@@ -229,7 +229,7 @@
         <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
-        {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as [key, label] (key)}
+        {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as const as [key, label] (key)}
           <button class:on={tab === key} onclick={() => (tab = key as typeof tab)}>{t(label)}</button>
         {/each}
       </nav>

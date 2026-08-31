@@ -25,7 +25,7 @@ const sim = () =>
       elapsed_s: 0,
       words: "",
       badges: [],
-    } as SceneVessel,
+    } as unknown as SceneVessel,
     20,
     40,
     1,
