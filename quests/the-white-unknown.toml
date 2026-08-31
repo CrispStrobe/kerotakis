@@ -17,6 +17,12 @@ lv3 = "unknown-a is a sealed registry species; the engine computes its true chem
 [unknowns]
 unknown-a = "NaCl"
 
+# What the sample becomes in water: the ion rows in `inspect` and
+# `particles` would name it otherwise. Water's own H+/OH- stay visible —
+# measuring those is the quest.
+[covers]
+unknown-a = ["Na+", "Cl-"]
+
 [[nudges]]
 id = "it-dissolved"
 when = "dissolved:NaCl"

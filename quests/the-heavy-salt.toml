@@ -23,6 +23,9 @@ lv3 = "unknown-heavy is a sealed registry salt. The scheme inverts: (1) dilute a
 [unknowns]
 unknown-heavy = "BaCl2"
 
+[covers]
+unknown-heavy = ["Ba+2", "Cl-"]
+
 [[nudges]]
 id = "in-the-water"
 when = "added:BaCl2"
