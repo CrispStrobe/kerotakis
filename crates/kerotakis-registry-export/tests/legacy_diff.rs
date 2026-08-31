@@ -180,14 +180,9 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
         assert_eq!(source.origin.as_deref(), Some("vendor/nasa-cea/thermo.inp"));
-    } else if species.key == "epsomite" {
-        assert_eq!(source.lane, SourceLane::Runtime);
-        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
-        assert_eq!(
-            source.origin.as_deref(),
-            Some("vendor/iphreeqc/database/wateq4f.dat")
-        );
-    } else if species.key == "chalcanthite" {
+    } else if matches!(species.key, "epsomite" | "chalcanthite") {
+        // Both hydrates come from the same USGS database and therefore
+        // share a provenance shape; asserting them together says so.
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
         assert_eq!(

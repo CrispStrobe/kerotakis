@@ -21,7 +21,13 @@
     "name": "water",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 373.15,
+      "boundary": "the pure substance's transitions at one atmosphere. A solution's are shifted by whatever is dissolved in it, and that shift is computed elsewhere (kerotakis_core::states) rather than recorded here",
+      "melting_k": 273.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -40,7 +46,12 @@
     "name": "ethanol",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 351.44,
+      "melting_k": 159.01,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -64,7 +75,12 @@
     "name": "sodium chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1738.15,
+      "melting_k": 1073.85,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -83,7 +99,12 @@
     "name": "silver nitrate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "silver nitrate decomposes well below any boiling point; no boiling point is claimed",
+      "melting_k": 485.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -107,7 +128,12 @@
     "name": "silver chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1820.15,
+      "melting_k": 728.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -126,7 +152,13 @@
     "name": "hydrogen peroxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values. Absent from every shipped PHREEQC database, so it has a decomposition rate but no equilibrium speciation",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 423.35,
+      "boundary": "the boiling point is the pure liquid's; concentrated hydrogen peroxide decomposes well before reaching it, and that decomposition is not modelled by this row",
+      "melting_k": 272.72,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -241,7 +273,13 @@
     "name": "sulfur",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values for alpha-sulfur",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 717.76,
+      "boundary": "the melting point is the alpha-rhombic form's; sulfur has several solid polymorphs and this registry carries one",
+      "melting_k": 388.36,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -465,7 +503,12 @@
     "name": "sodium hydroxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1661.15,
+      "melting_k": 596.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless, sharp smell",
@@ -560,7 +603,13 @@
     "name": "acetic acid",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 391.05,
+      "boundary": "glacial acetic acid freezes just below room temperature, which is where the name comes from",
+      "melting_k": 289.75,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -636,7 +685,12 @@
     "name": "washing soda (sodium carbonate)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy not yet curated",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "sodium carbonate decomposes above its melting point rather than boiling; no boiling point is claimed",
+      "melting_k": 1124.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -731,7 +785,12 @@
     "name": "potassium chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "potassium chloride sublimes appreciably before it boils; no boiling point is claimed",
+      "melting_k": 1044.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -750,7 +809,12 @@
     "name": "calcium chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy (anhydrous): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 2208.15,
+      "melting_k": 1048.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -793,7 +857,12 @@
     "name": "magnesium sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy not curated (hydrate-dependent)",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "magnesium sulfate melts with decomposition; no boiling point is claimed",
+      "melting_k": 1397.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -931,7 +1000,11 @@
     "name": "quicklime (calcium oxide)",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. The heat of slaking is NOT modelled: see the note on dissolution_enthalpy_kj",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 2886.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "silvery",
@@ -955,7 +1028,12 @@
     "name": "magnesium",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1363.15,
+      "melting_k": 923.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "reddish-brown",
@@ -979,7 +1057,12 @@
     "name": "copper",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 2835.15,
+      "melting_k": 1357.77,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "bluish-silver",
@@ -1003,7 +1086,12 @@
     "name": "zinc",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1180.15,
+      "melting_k": 692.68,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "silvery-white",
@@ -1027,7 +1115,12 @@
     "name": "silver",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 2435.15,
+      "melting_k": 1234.93,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "grey",
@@ -1051,7 +1144,12 @@
     "name": "iron",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 3134.15,
+      "melting_k": 1811.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "brilliant white",
@@ -1075,7 +1173,11 @@
     "name": "magnesium oxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 3098.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "black",
@@ -1161,7 +1263,12 @@
     "name": "copper sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy (anhydrous): standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 833.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "blue",
@@ -1226,7 +1333,12 @@
     "name": "potassium permanganate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 513.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "pale green",
@@ -1250,7 +1362,12 @@
     "name": "iron(II) sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. The reagent a permanganate titration is standardised against, and the cleanest way to put a reducing agent in the beaker",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 953.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "pale green",
@@ -1505,7 +1622,12 @@
     "name": "zinc sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy -80.4 kJ/mol derived from NBS/Wagman 1982 formation enthalpies (ZnSO4(s) -982.8, Zn2+(aq) -153.9, SO4 2-(aq) -909.3 kJ/mol)",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 953.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -1548,7 +1670,12 @@
     "name": "lead",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. NOT flagged as a toxic metal: the L0 screen has no class for that, so lead is as unremarked here as sodium chloride, which is wrong about the world and is written down rather than hidden",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 2022.15,
+      "melting_k": 600.61,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -1591,7 +1718,12 @@
     "name": "lead(II) nitrate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density standard reference. Dissolution enthalpy +35.4 kJ/mol derived from NBS/Wagman 1982 formation enthalpies: Pb(NO3)2(s) -451.9, Pb2+(aq) -1.7, NO3-(aq) -207.4 kJ/mol, so -1.7 + 2(-207.4) + 451.9 = +35.4. Calorimetric values around +33.6 are also quoted; the 2 kJ/mol spread is the disagreement between the two routes and is not resolved here. Cp(s) 145 is an ESTIMATE from the nitrates' range, not a sourced value, and nothing computed depends on it while the salt is dissolved",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 743.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": null,
@@ -1610,7 +1742,12 @@
     "name": "methanol",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 81.1 J/(mol.K) and density 0.7914 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 337.75,
+      "melting_k": 175.62,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": null,
@@ -1629,7 +1766,12 @@
     "name": "hexane",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 195.6 J/(mol.K) and density 0.6606 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 341.88,
+      "melting_k": 177.8,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": null,
@@ -1648,7 +1790,12 @@
     "name": "propanone",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.7845 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 329.2,
+      "melting_k": 178.45,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": null,
@@ -1667,7 +1814,12 @@
     "name": "ethyl_acetate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.9003 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 350.26,
+      "melting_k": 189.55,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -1686,7 +1838,12 @@
     "name": "potassium hydroxide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook 97th ed. (64.9 J/(mol·K)); density: 2.044 g/mL (CRC); dissolution enthalpy: −57.6 kJ/mol (CRC)",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1600.15,
+      "melting_k": 679.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": null,
@@ -1729,7 +1886,12 @@
     "name": "sodium nitrate",
     "provenance": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "sodium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed",
+      "melting_k": 579.65,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -1753,7 +1915,12 @@
     "name": "potassium nitrate",
     "provenance": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed",
+      "melting_k": 607.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white crystalline powder",
@@ -1796,7 +1963,13 @@
     "name": "iodine",
     "provenance": "CRC Handbook, 97th ed.; NIST WebBook",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 457.55,
+      "boundary": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model",
+      "melting_k": 386.85,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white to yellowish powder",
@@ -1910,7 +2083,12 @@
     "name": "potassium iodide",
     "provenance": "CRC Handbook, 97th ed.; NIST WebBook",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1596.15,
+      "melting_k": 954.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white crystalline powder",
@@ -2140,10 +2318,10 @@
       0.03662098808421523,
       0.0008376488859591947,
       0.000012284972899117373,
-      1.155225e-7,
-      6.965291052001796e-10,
-      2.6927258955223627e-12,
-      6.6746001746918315e-15
+      1.155225E-7,
+      6.965291052001796E-10,
+      2.6927258955223627E-12,
+      6.6746001746918315E-15
     ],
     "standard_phase": "aqueous"
   },
@@ -2282,7 +2460,12 @@
     "name": "aluminium",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 2792.15,
+      "melting_k": 933.47,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "red-brown",
@@ -2435,7 +2618,12 @@
     "name": "sodium bromide",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1663.15,
+      "melting_k": 1020.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -2454,7 +2642,12 @@
     "name": "bromoethane",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) CRC Handbook 97th ed.; density at 20 °C, Merck Index 15th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 311.45,
+      "melting_k": 154.55,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -2511,7 +2704,13 @@
     "name": "2-methylpropan-2-ol",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density at 25 °C: CRC Handbook 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 355.55,
+      "boundary": "the melting point is barely above room temperature, so this liquid is a solid on a cold morning",
+      "melting_k": 298.85,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless",
@@ -2549,7 +2748,12 @@
     "name": "isopropanol",
     "provenance": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
     "spectrum_bands": null,
-    "standard_phase": "liquid"
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 355.65,
+      "melting_k": 185.25,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -2569,7 +2773,12 @@
     "name": "sucrose",
     "provenance": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "sucrose does not melt: what a capillary shows near this temperature is the beginning of thermal decomposition, which is why sucrose 'melting points' in the literature disagree with each other. decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting",
+      "decomposition_k": 459.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "reddish brown",
@@ -2612,7 +2821,12 @@
     "name": "magnesium sulfate heptahydrate (epsomite)",
     "provenance": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent",
+      "dehydration_k": 473.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "colourless to white grains",
@@ -2655,7 +2869,12 @@
     "name": "ammonium chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 84.1 J/(mol.K), density 1.5274 g/mL at 25 C and enthalpy of solution +14.78 kJ/mol at infinite dilution: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "ammonium chloride vapour is really ammonia and hydrogen chloride, recombining on the cold surface; the bench moves the intact formula unit, which is what the recovered crust weighs but is not what the vapour contains",
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+      "sublimation_k": 611.15
+    }
   },
   {
     "appearance": null,
@@ -2698,7 +2917,12 @@
     "name": "iron(III) chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 96.65 J/(mol.K) and density 2.90 g/mL for the anhydrous salt at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Enthalpy of solution is not claimed: dissolution is strongly exothermic and hydrolytic, and no primary tabulation for it is carried here",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boundary": "iron(III) chloride boils barely a dozen degrees above its melting point and is partly dimerised and partly dissociated in the vapour; no boiling point is claimed",
+      "melting_k": 577.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -2722,7 +2946,11 @@
     "name": "sodium sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 128.2 J/(mol.K), density 2.664 g/mL (thenardite) at 25 C and enthalpy of solution -2.43 kJ/mol for the anhydrous salt at infinite dilution: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1157.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -2746,7 +2974,12 @@
     "name": "barium chloride",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 75.14 J/(mol.K) and density 3.856 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Soluble barium salts are acutely toxic by ingestion; this is a virtual-lab reagent and never a household supply. Enthalpy of solution is not claimed",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "boiling_k": 1833.15,
+      "melting_k": 1234.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white",
@@ -2813,7 +3046,11 @@
     "name": "barium sulfate",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 101.75 J/(mol.K) and density 4.49 g/mL (barite) at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Solubility is the engine's: the Barite phase of the shipped USGS PHREEQC databases",
     "spectrum_bands": null,
-    "standard_phase": "solid"
+    "standard_phase": "solid",
+    "transitions": {
+      "melting_k": 1853.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   },
   {
     "appearance": "white crystals",
