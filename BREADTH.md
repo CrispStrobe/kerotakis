@@ -318,14 +318,20 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   have conflated two different questions. Re-keying PubChem's own published
   Standard InChI puts nothing of ours in the path, so a disagreement there
   would be a statement about the source: it agrees on **100 of 100**, and the
-  test asserts that exact count. Round-tripping the structure
-  (SMILES → molfile → InChI → key) also exercises our own `chematic` bridge:
-  73 agree, 27 conflict, and 23 of those 27 keep the record's connectivity
-  block while returning the `UHFFFAOYSA` "no stereo, no isotope" hash — our
-  molfile writer dropping layers on precisely the stereochemistry pairs and
-  isotopologues this fixture was built to contain. The remaining four are
-  `[Al]`, `[S]`, `[Mg]` and brass. None is repaired here; teaching the bridge
-  to carry stereo and isotope layers is CAP-13 work. The per-record verdict is
+  test asserts that exact count. Re-deriving the key from the structure
+  exercises our own toolchain as well, and it now also agrees on **100 of
+  100**.
+  That second number is worth its history. On the molfile bridge this branch
+  was first written against, the structure route agreed on only 73: 23 of the
+  27 conflicts kept the record's connectivity block and returned the
+  `UHFFFAOYSA` "no stereo, no isotope" hash, and the other four were `[Al]`,
+  `[S]`, `[Mg]` and brass. Reported as one blended number that would have read
+  as 27 defective PubChem records; split across the two routes it read
+  correctly as a limitation of our own writer, on precisely the
+  stereochemistry pairs, isotopologues and bare metals this fixture was built
+  to contain. CAP-13 has since replaced the molfile detour with the library's
+  own 0D input, and every one of those 27 disagreements went away — which is
+  the confirmation that the split diagnosis was right. The per-record verdict is
   pinned beside the fixture so the dependency-free crate reads it in every
   build, and every disagreement surfaces as a BRD-003 `IdentityConflict` row
   naming its route rather than being resolved. The full dry run — snapshot → quarantine →

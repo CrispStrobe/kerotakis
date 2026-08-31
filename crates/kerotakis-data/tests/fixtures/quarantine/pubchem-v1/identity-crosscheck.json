@@ -8,8 +8,8 @@
     "no_snapshot_identity": 0
   },
   "from_structure": {
-    "agreements": 73,
-    "conflicts": 27,
+    "agreements": 100,
+    "conflicts": 0,
     "not_recomputed": 0,
     "no_snapshot_identity": 0
   },
@@ -479,8 +479,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -493,8 +492,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "QNAYBMKLOCPYGJ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -507,8 +505,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "CZMRCDWAGMRECN-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -807,8 +804,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "UFHFLCQGNIYNRP-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -834,8 +830,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -874,8 +869,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "UFHFLCQGNIYNRP-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -940,8 +934,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -967,8 +960,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "IAQRGUVFOMOMEM-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -981,8 +973,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -995,8 +986,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "QNAYBMKLOCPYGJ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1009,8 +999,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "OKKJLVBELUTLKV-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1023,8 +1012,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "HEDRZPFGACZZDS-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1037,8 +1025,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "UHOVQNZJYSORNB-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1064,8 +1051,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1078,8 +1064,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1105,8 +1090,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "XMGQYMWWDOXHJM-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1119,8 +1103,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1133,8 +1116,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "XMGQYMWWDOXHJM-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1147,8 +1129,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1161,8 +1142,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1201,8 +1181,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1228,8 +1207,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "IAQRGUVFOMOMEM-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1242,8 +1220,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1256,8 +1233,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "RWSOTUBLDIXVET-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1270,8 +1246,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "RSHAOIXHUHAZPM-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1310,8 +1285,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "CIWBSHSKHKDKBQ-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
@@ -1324,8 +1298,7 @@
         "outcome": "agrees"
       },
       "from_structure": {
-        "outcome": "conflicts",
-        "recomputed": "LPRWSYZVCAPKNX-UHFFFAOYSA-N"
+        "outcome": "agrees"
       }
     },
     {
