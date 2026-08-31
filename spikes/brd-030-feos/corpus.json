@@ -1,0 +1,84 @@
+{
+  "_comment": [
+    "BRD-030 comparison corpus. Read by BOTH sides of the spike (the Rust",
+    "binary that drives kerotakis-thermo and feos, and the Python script that",
+    "drives the `thermo` referee) so that all three engines are asked exactly",
+    "the same question. Editing this file changes every fixture.",
+    "",
+    "`feos` names index feos's esper2023.json parameter file (Esper et al.,",
+    "doi:10.1021/acs.iecr.3c02255). `kerotakis` names the `pub const` Antoine",
+    "set in crates/kerotakis-thermo/src/vle.rs, or null where kerotakis-thermo",
+    "has no model for the fluid at all — that null IS a result.",
+    "`cas` drives the Python `thermo` referee."
+  ],
+  "pressure_kpa": 101.325,
+  "pures": [
+    {"key": "water",          "feos": "water",          "kerotakis": "WATER",         "cas": "7732-18-5",  "temps_c": [25.0, 50.0, 75.0, 100.0], "groups": {"16": 1}},
+    {"key": "methanol",       "feos": "methanol",       "kerotakis": "METHANOL",      "cas": "67-56-1",    "temps_c": [25.0, 40.0, 64.7], "groups": {"15": 1}},
+    {"key": "ethanol",        "feos": "ethanol",        "kerotakis": "ETHANOL",       "cas": "64-17-5",    "temps_c": [25.0, 50.0, 78.4], "groups": {"1": 1, "2": 1, "14": 1}},
+    {"key": "propan-1-ol",    "feos": "1-propanol",     "kerotakis": null,            "cas": "71-23-8",    "temps_c": [25.0, 60.0, 97.0], "groups": {"1": 1, "2": 2, "14": 1}},
+    {"key": "propan-2-ol",    "feos": "2-propanol",     "kerotakis": "ISOPROPANOL",   "cas": "67-63-0",    "temps_c": [25.0, 60.0, 82.4], "groups": {"1": 2, "3": 1, "14": 1}},
+    {"key": "acetone",        "feos": "acetone",        "kerotakis": "PROPANONE",     "cas": "67-64-1",    "temps_c": [0.0, 25.0, 56.0], "groups": {"1": 1, "18": 1}},
+    {"key": "butanone",       "feos": "2-butanone",     "kerotakis": null,            "cas": "78-93-3",    "temps_c": [25.0, 50.0, 79.6], "groups": {"1": 1, "2": 1, "18": 1}},
+    {"key": "ethyl-ethanoate","feos": "ethyl acetate",  "kerotakis": null,            "cas": "141-78-6",   "temps_c": [25.0, 50.0, 77.0], "groups": {"1": 1, "2": 1, "21": 1}},
+    {"key": "ethanoic-acid",  "feos": "acetic acid",    "kerotakis": "ETHANOIC_ACID", "cas": "64-19-7",    "temps_c": [25.0, 80.0, 118.0], "groups": {"1": 1, "42": 1}},
+    {"key": "propane",        "feos": "propane",        "kerotakis": null,            "cas": "74-98-6",    "temps_c": [-60.0, -42.1, 0.0, 25.0], "groups": {"1": 2, "2": 1}},
+    {"key": "butane",         "feos": "n-butane",       "kerotakis": null,            "cas": "106-97-8",   "temps_c": [-20.0, -0.5, 25.0], "groups": {"1": 2, "2": 2}},
+    {"key": "pentane",        "feos": "pentane",        "kerotakis": null,            "cas": "109-66-0",   "temps_c": [0.0, 25.0, 36.1], "groups": {"1": 2, "2": 3}},
+    {"key": "hexane",         "feos": "hexane",         "kerotakis": null,            "cas": "110-54-3",   "temps_c": [25.0, 50.0, 68.7], "groups": {"1": 2, "2": 4}},
+    {"key": "heptane",        "feos": "heptane",        "kerotakis": null,            "cas": "142-82-5",   "temps_c": [25.0, 60.0, 98.4], "groups": {"1": 2, "2": 5}},
+    {"key": "octane",         "feos": "octane",         "kerotakis": null,            "cas": "111-65-9",   "temps_c": [25.0, 80.0, 125.6], "groups": {"1": 2, "2": 6}},
+    {"key": "cyclohexane",    "feos": "cyclohexane",    "kerotakis": null,            "cas": "110-82-7",   "temps_c": [25.0, 50.0, 80.7], "groups": {"2": 6}},
+    {"key": "toluene",        "feos": "toluene",        "kerotakis": null,            "cas": "108-88-3",   "temps_c": [25.0, 60.0, 110.6], "groups": {"9": 5, "11": 1}},
+    {"key": "carbon-dioxide", "feos": "carbon dioxide", "kerotakis": null,            "cas": "124-38-9",   "temps_c": [-50.0, -25.0, 0.0, 25.0], "groups": null},
+    {"key": "nitrogen",       "feos": "nitrogen",       "kerotakis": null,            "cas": "7727-37-9",  "temps_c": [-200.0, -195.8, -190.0], "groups": null},
+    {"key": "oxygen",         "feos": "oxygen",         "kerotakis": null,            "cas": "7782-44-7",  "temps_c": [-200.0, -183.0, -175.0], "groups": null},
+    {"key": "ammonia",        "feos": "ammonia",        "kerotakis": null,            "cas": "7664-41-7",  "temps_c": [-50.0, -33.3, 0.0, 25.0], "groups": null},
+    {"key": "chloroform",     "feos": "chloroform",     "kerotakis": null,            "cas": "67-66-3",    "temps_c": [25.0, 50.0, 61.2], "groups": {"50": 1}}
+  ],
+  "binaries": [
+    {"key": "ethanol-water",           "a": "ethanol",        "b": "water",         "kerotakis": true},
+    {"key": "methanol-water",          "a": "methanol",       "b": "water",         "kerotakis": true},
+    {"key": "acetone-water",           "a": "acetone",        "b": "water",         "kerotakis": true},
+    {"key": "propan-2-ol-water",       "a": "propan-2-ol",    "b": "water",         "kerotakis": true},
+    {"key": "ethanoic-acid-water",     "a": "ethanoic-acid",  "b": "water",         "kerotakis": true},
+    {"key": "acetone-methanol",        "a": "acetone",        "b": "methanol",      "kerotakis": true},
+    {"key": "acetone-ethanol",         "a": "acetone",        "b": "ethanol",       "kerotakis": true},
+    {"key": "methanol-ethanol",        "a": "methanol",       "b": "ethanol",       "kerotakis": true},
+    {"key": "ethanol-propan-2-ol",     "a": "ethanol",        "b": "propan-2-ol",   "kerotakis": true},
+    {"key": "acetone-ethanoic-acid",   "a": "acetone",        "b": "ethanoic-acid", "kerotakis": true},
+    {"key": "hexane-ethanol",          "a": "hexane",         "b": "ethanol",       "kerotakis": false},
+    {"key": "acetone-chloroform",      "a": "acetone",        "b": "chloroform",    "kerotakis": false},
+    {"key": "methanol-cyclohexane",    "a": "methanol",       "b": "cyclohexane",   "kerotakis": false},
+    {"key": "ethanol-toluene",         "a": "ethanol",        "b": "toluene",       "kerotakis": false},
+    {"key": "ethyl-ethanoate-ethanol", "a": "ethyl-ethanoate","b": "ethanol",       "kerotakis": false},
+    {"key": "hexane-heptane",          "a": "hexane",         "b": "heptane",       "kerotakis": false},
+    {"key": "pentane-hexane",          "a": "pentane",        "b": "hexane",        "kerotakis": false},
+    {"key": "toluene-heptane",         "a": "toluene",        "b": "heptane",       "kerotakis": false},
+    {"key": "carbon-dioxide-ethanol",  "a": "carbon-dioxide", "b": "ethanol",       "kerotakis": false},
+    {"key": "nitrogen-oxygen",         "a": "nitrogen",       "b": "oxygen",        "kerotakis": false}
+  ],
+  "binary_x1": [0.1, 0.3, 0.5, 0.7, 0.9],
+  "flash": {"t_celsius": 78.0, "p_kpa": 101.325, "z1": 0.4},
+  "peng_robinson": {
+    "_comment": [
+      "THERMO-007 curates critical properties for exactly three fluids. The",
+      "same three numbers feed kerotakis-thermo's PengRobinson and feos-core's",
+      "PengRobinson, so this row is an implementation-vs-implementation check",
+      "with no parameter difference in it at all."
+    ],
+    "fluids": [
+      {"key": "water",    "tc_k": 647.096, "pc_pa": 22064000.0, "omega": 0.3443, "mw": 18.01528},
+      {"key": "ethanol",  "tc_k": 513.92,  "pc_pa": 6148000.0,  "omega": 0.6436, "mw": 46.06844},
+      {"key": "nitrogen", "tc_k": 126.19,  "pc_pa": 3396000.0,  "omega": 0.0372, "mw": 28.0134}
+    ],
+    "states": [
+      {"t_k": 300.0, "p_pa": 1000.0},
+      {"t_k": 300.0, "p_pa": 101325.0},
+      {"t_k": 300.0, "p_pa": 1013250.0},
+      {"t_k": 300.0, "p_pa": 10132500.0},
+      {"t_k": 500.0, "p_pa": 101325.0},
+      {"t_k": 500.0, "p_pa": 5000000.0}
+    ]
+  }
+}

@@ -496,12 +496,25 @@ impl Lab {
     }
 
     /// Every species the lab knows, as JSON — what a UI offers on a shelf.
+    ///
+    /// GUI-093: the shelf groups by chemical role, and it derives those
+    /// roles rather than carrying a second species list of its own. The
+    /// four fields below are the engine facts that derivation needs and
+    /// the hazard labels lose: `hazard_assessment` collapses `AcidStrong`
+    /// and `BaseStrong` into one "corrosive", so the reactive groups
+    /// travel unflattened; the element counts come from the engine's own
+    /// formula parser rather than a second one written in TypeScript; and
+    /// the indicator and solvent flags are membership in the tables that
+    /// already decide those behaviours. All four are additive — an older
+    /// bridge simply omits them and the client falls back to what the
+    /// hazard labels still say.
     pub fn species(&self) -> String {
         let mut list: Vec<serde_json::Value> = kerotakis_core::species::all_species()
             .into_iter()
             .map(|s| {
                 let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                 let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
+                let composition = kerotakis_core::stoich::parse_formula(s.formula).ok();
                 serde_json::json!({
                     "key": s.key,
                     "name": s.name,
@@ -515,6 +528,14 @@ impl Lab {
                     "provenance": s.provenance,
                     "hazards": hazards,
                     "hazard_assessed": assessed,
+                    "reactive_groups": kerotakis_safety::groups(s.key),
+                    "elements": composition.as_ref().map(|f| &f.counts),
+                    "charge": composition.as_ref().map(|f| f.charge),
+                    "indicator": kerotakis_core::indicator::lookup(s.key).is_some(),
+                    // Water is the solvent the aqueous engine is written
+                    // around, which is why it is not in the organic list.
+                    "solvent": kerotakis_core::nonaqueous::KNOWN_SOLVENTS.contains(&s.key)
+                        || s.key == "water",
                 })
             })
             .collect();
@@ -567,6 +588,14 @@ impl Lab {
                 "hazards": hazards,
                 "hazard_assessed": assessed,
                 "material": true,
+                // A mixture has no formula of its own to parse, so it
+                // carries the keys of what is in it and the shelf takes
+                // the roles of those. Component keys, not a second
+                // classification: iron filings are iron.
+                "components": component_species
+                    .iter()
+                    .map(|species| species.key)
+                    .collect::<Vec<_>>(),
             })
         }));
         serde_json::Value::Array(list).to_string()

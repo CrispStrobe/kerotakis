@@ -24,6 +24,8 @@
     apparatusRoute,
     positionVessel,
     placementsOverlap,
+    tidyLayout,
+    vesselContent,
     zoneAt,
     zoneFor,
     type BenchLayout,
@@ -366,6 +368,24 @@
     placeApparatusAt(tool, target, current.x + dx, current.y + dy);
   }
 
+  /**
+   * GUI-094: one press puts the bench back in reading order — what is
+   * holding something first, empty glassware last. Presentation only: it
+   * writes placements, which is the same client-side state a drag writes
+   * and which the session already persists, and sends nothing to the
+   * engine. Vessel ids, contents and history are untouched.
+   */
+  const tidyable = $derived((scene?.vessels.length ?? 0) > 1 && Boolean(onmove));
+  function tidyBench() {
+    if (!scene) return;
+    const next = tidyLayout(
+      layout,
+      scene.vessels.map((vessel) => ({ id: vessel.id, content: vesselContent(vessel) })),
+    );
+    onmove?.(next);
+    announceMove(t("bench tidied — full vessels first, empty ones last"));
+  }
+
   function apparatusKeydown(event: KeyboardEvent, tool: string, target: number) {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -416,6 +436,17 @@
     <button class="guide-toggle" aria-pressed={showZones} onclick={ontogglezones}>
       <span aria-hidden="true">{showZones ? "▦" : "☷"}</span>
       {showZones ? t("hide workflow guides") : t("show workflow guides")}
+    </button>
+  {/if}
+  {#if tidyable}
+    <button
+      class="guide-toggle tidy-toggle"
+      class:stacked={Boolean(ontogglezones)}
+      title={t("arrange the bench: full vessels first, empty ones last")}
+      onclick={tidyBench}
+    >
+      <span aria-hidden="true">⇲</span>
+      {t("tidy bench")}
     </button>
   {/if}
   {#if onopensafety}
@@ -803,6 +834,10 @@
     cursor: pointer;
   }
   .guide-toggle:hover { color: var(--primary); border-color: var(--primary); }
+  /* Same pill, same rail as the workflow-guide toggle — both are
+     bench-arrangement controls and belong to one another. It takes the
+     rail's second slot only when that toggle is actually there. */
+  .tidy-toggle.stacked { top: 5.1rem; }
   .wall-safety {
     position: absolute;
     z-index: 8;
