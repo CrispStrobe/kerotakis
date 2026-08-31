@@ -15,9 +15,13 @@ describe("contaminated sample chapter", () => {
     expect(leads).toHaveLength(4);
     expect(leads.filter((lead) => !lead.optional)).toHaveLength(3);
     expect(leads.filter((lead) => lead.optional).map((lead) => lead.id)).toEqual(["never-mix"]);
+    // All four leads are solver-assessed since the typed-leads slice —
+    // a lead falling OFF this list means its contract went missing.
     expect(leads.filter((lead) => lead.outcomeAssessed).map((lead) => lead.id)).toEqual([
       "silver-and-salt",
       "first-warmth",
+      "one-thing-at-a-time",
+      "never-mix",
     ]);
   });
 

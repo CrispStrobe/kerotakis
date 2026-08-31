@@ -6,7 +6,9 @@
 //! its own, so the specific conductance is the sum of each ion's limiting
 //! molar conductivity times its concentration,
 //!
-//!     κ = Σᵢ λ°ᵢ · cᵢ
+//! ```text
+//! κ = Σᵢ λ°ᵢ · cᵢ
+//! ```
 //!
 //! with λ°ᵢ in S·cm²·mol⁻¹ and cᵢ in mol·L⁻¹ (κ then lands in µS·cm⁻¹
 //! after the factor 1000). The λ° table is measured data, not theory.
