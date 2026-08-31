@@ -10,6 +10,7 @@
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
 
+mod balance_exercise;
 mod chart_svg;
 mod coverage;
 mod diagram;
@@ -557,6 +558,21 @@ fn main() {
                 eprintln!("usage: kero balance \"Mg + O2 -> MgO\"");
                 std::process::exit(2);
             };
+            // GUI-095: the same solver posed as a drill. An equation is
+            // never the bare word "exercise" — it has no arrow — so the
+            // two readings of `args[1]` cannot collide.
+            if equation == "exercise" {
+                match balance_exercise_text(&args[2..]) {
+                    Ok(text) => {
+                        print!("{text}");
+                        return;
+                    }
+                    Err(e) => {
+                        eprintln!("kero balance exercise: {e}");
+                        std::process::exit(2);
+                    }
+                }
+            }
             if !ARROWS.iter().any(|a| equation.contains(a)) {
                 eprintln!("kero balance: no reaction arrow in '{equation}'");
                 std::process::exit(2);
@@ -769,6 +785,207 @@ fn balance_text(equation: &str) -> Result<String, String> {
         }
         Err(e) => Err(e.to_string()),
     }
+}
+
+/// Everything `kero balance exercise` says, as a string (GUI-095).
+///
+/// The headless half of the balancing drill: the browser panel and this
+/// share the engine's `balance_report` and the marking rule it makes
+/// possible, so a reaction that drills one way drills the other.
+fn balance_exercise_text(args: &[String]) -> Result<String, String> {
+    use crate::balance_exercise::{blank_equation, mark, pool, write_equation, Verdict};
+    use std::fmt::Write as _;
+
+    let flag = |name: &str| -> Option<&str> {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .map(String::as_str)
+    };
+    // Positionals: everything that is neither a flag nor a flag's value.
+    let mut positional: Vec<&str> = Vec::new();
+    let mut skip = false;
+    for a in args {
+        if skip {
+            skip = false;
+            continue;
+        }
+        if a.starts_with("--") {
+            skip = true;
+            continue;
+        }
+        positional.push(a.as_str());
+    }
+
+    let usage = "usage: kero balance exercise list|unusable|show|check|answer \
+                 [--dir codex] [--limit N]";
+    let Some(sub) = positional.first().copied() else {
+        return Err(usage.to_string());
+    };
+    let dir = flag("--dir").unwrap_or("codex");
+    let limit: usize = match flag("--limit") {
+        Some(n) => n
+            .parse()
+            .map_err(|_| format!("--limit {n:?} is not a number"))?,
+        None => 20,
+    };
+
+    let p = pool(dir);
+    let find = |id: &str| {
+        p.exercises
+            .iter()
+            .find(|e| e.id == id)
+            .ok_or_else(|| format!("no exercise {id:?} — try `kero balance exercise list`"))
+    };
+
+    let mut out = String::new();
+    match sub {
+        "list" => {
+            for e in p.exercises.iter().take(limit) {
+                writeln!(out, "{}\t{}", e.id, blank_equation(&e.report)).expect("string");
+            }
+            writeln!(
+                out,
+                "\n{} exercises, {} shown; {} equations could not be drilled",
+                p.exercises.len(),
+                p.exercises.len().min(limit),
+                p.unusable.len()
+            )
+            .expect("string");
+        }
+        "unusable" => {
+            // The other half of the audit: what the field carries that is
+            // not an equation is counted, never quietly skipped.
+            for (id, why) in p.unusable.iter().take(limit) {
+                writeln!(out, "{id}\t{why}").expect("string");
+            }
+            writeln!(out, "\n{} could not be drilled", p.unusable.len()).expect("string");
+        }
+        "show" => {
+            let id = positional
+                .get(1)
+                .copied()
+                .ok_or("usage: kero balance exercise show <id>")?;
+            let e = find(id)?;
+            writeln!(out, "{}", e.id).expect("string");
+            writeln!(out, "  as shipped: {}", e.source).expect("string");
+            writeln!(out, "  skeleton:   {}", blank_equation(&e.report)).expect("string");
+            // The answer's positions, so a coefficient list is unambiguous
+            // — and no more than that: the answer itself is not shown.
+            let order: Vec<String> = e
+                .report
+                .species
+                .iter()
+                .enumerate()
+                .map(|(i, name)| format!("{}={name}", i + 1))
+                .collect();
+            writeln!(out, "  order:      {}", order.join("  ")).expect("string");
+            if !e.report.basis.is_empty() {
+                writeln!(
+                    out,
+                    "  note:       underdetermined — {} independent reactions share these species",
+                    e.report.basis.len() + 1
+                )
+                .expect("string");
+            }
+            writeln!(
+                out,
+                "  answer with: kero balance exercise check {id} {}",
+                vec!["1"; e.report.species.len()].join(",")
+            )
+            .expect("string");
+        }
+        "answer" => {
+            let id = positional
+                .get(1)
+                .copied()
+                .ok_or("usage: kero balance exercise answer <id>")?;
+            let e = find(id)?;
+            writeln!(out, "{}", write_equation(&e.report, &e.report.coefficients)).expect("string");
+        }
+        "check" => {
+            let id = positional
+                .get(1)
+                .copied()
+                .ok_or("usage: kero balance exercise check <id> <c1,c2,…>")?;
+            let e = find(id)?;
+            let text = positional
+                .get(2)
+                .copied()
+                .ok_or("usage: kero balance exercise check <id> <c1,c2,…>")?;
+            let answer: Vec<i64> = text
+                .split([',', ' '])
+                .filter(|t| !t.is_empty())
+                .map(|t| {
+                    t.parse::<i64>()
+                        .map_err(|_| format!("{t:?} is not a whole number"))
+                })
+                .collect::<Result<_, _>>()?;
+            let m = mark(&e.report, &answer);
+            writeln!(out, "{}", m.verdict.tag()).expect("string");
+            match m.verdict {
+                Verdict::Correct => {
+                    writeln!(out, "  {}", write_equation(&e.report, &answer)).expect("string");
+                    writeln!(
+                        out,
+                        "  every element and the charge cancel, in the smallest whole numbers"
+                    )
+                    .expect("string");
+                }
+                Verdict::Multiple => {
+                    let simplest: Vec<i64> = answer.iter().map(|c| c / m.factor).collect();
+                    writeln!(
+                        out,
+                        "  balanced, but every coefficient is {} times larger than it needs to be",
+                        m.factor
+                    )
+                    .expect("string");
+                    writeln!(
+                        out,
+                        "  divide through: {}",
+                        write_equation(&e.report, &simplest)
+                    )
+                    .expect("string");
+                }
+                Verdict::Unbalanced => {
+                    // `amount` is the surplus on the LEFT: the report
+                    // negates right-hand species so a balanced answer is
+                    // exactly one the matrix sends to zero.
+                    for miss in &m.misses {
+                        let side = if miss.amount > 0.0 { "left" } else { "right" };
+                        // The magnitude only: "too many on the right"
+                        // already carries the direction, and a `+` in
+                        // front of it reads as a second, contradictory one.
+                        writeln!(
+                            out,
+                            "  {}: {} too many on the {side}",
+                            miss.element,
+                            miss.amount.abs()
+                        )
+                        .expect("string");
+                    }
+                }
+                Verdict::Incomplete => {
+                    writeln!(
+                        out,
+                        "  this skeleton takes {} whole coefficients of at least 1; got {}",
+                        e.report.species.len(),
+                        answer.len()
+                    )
+                    .expect("string");
+                }
+            }
+            if m.family {
+                writeln!(
+                    out,
+                    "  (underdetermined: more than one independent reaction balances this)"
+                )
+                .expect("string");
+            }
+        }
+        other => return Err(format!("unknown subcommand {other:?}\n{usage}")),
+    }
+    Ok(out)
 }
 
 /// Everything `explain` says, as a string — the REPL prints it, the MCP
@@ -1374,6 +1591,11 @@ fn usage() -> ! {
          \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
+         \x20 kero balance \"Mg + O2 -> MgO\"   find the coefficients\n\
+         \x20 kero balance exercise list|unusable [--dir codex] [--limit N]\n\
+         \x20 kero balance exercise show <id>\n\
+         \x20 kero balance exercise check <id> <c1,c2,…>\n\
+         \x20 kero balance exercise answer <id>\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
          \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K\n\
