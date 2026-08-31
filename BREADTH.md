@@ -1846,9 +1846,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
      Node 22 Chrome lane exercised all ten candidate/fixture paths, required one
      live canvas plus semantic rows after each replacement, and observed no
      request outside the locally served origin. The production app remains
-     unchanged. **Pending acceptance:** a disposable Svelte integration and
-     physical constrained-mobile RAM/GPU evidence; the headless JS-heap proxy
-     is explicitly not a substitute for those checks.
+     unchanged. *Svelte/deployment checkpoint:* the disposable route is now a
+     strict Svelte 5 component, passes `svelte-check`, and its ten paths pass a
+     keyboard-driven Playwright Pixel 7 profile against the isolated HTTPS
+     Vercel deployment with zero external requests. **Pending acceptance:**
+     physical constrained-mobile RAM/GPU evidence; Playwright emulation and
+     SwiftShader are explicitly not substitutes for that check.
   3. [ ] **BRD-080c — Audited go/no-go record (30–60 min).** Independently
      review the measurements and choose exactly one candidate, or close no-go
      with the existing 2-D fallback named. **DoD:** primary-source citations,

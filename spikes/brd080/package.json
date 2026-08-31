@@ -7,16 +7,23 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
     "test:browser": "node browser-smoke.mjs",
+    "test:hosted": "node playwright-hosted.mjs",
     "evidence": "node evidence.mjs",
-    "test": "node --test evidence.test.mjs && vitest run src/comparison.test.ts && node src/3dmolAdapter.test.mjs && node run-molstar-test.mjs"
+    "test": "npm run check && node --test evidence.test.mjs && vitest run src/comparison.test.ts && node src/3dmolAdapter.test.mjs && node run-molstar-test.mjs"
   },
   "dependencies": {
     "3dmol": "2.5.5",
     "molstar": "5.11.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@sveltejs/vite-plugin-svelte": "6.2.4",
     "sass-embedded": "1.103.1",
+    "svelte": "5.56.10",
+    "svelte-check": "4.7.6",
+    "typescript": "5.9.3",
     "vite": "7.3.1",
     "vitest": "3.2.4"
   }

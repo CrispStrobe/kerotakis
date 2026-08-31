@@ -41,8 +41,8 @@ npm run test:browser --prefix spikes/brd080
 
 The committed evidence is schema `kerotakis.brd080-evidence.v1`:
 
-- lock SHA-256 `2eabf910cdcff87848928417123845433b3c43908fde4246e145084490731b88`;
-- evidence SHA-256 `708adf161f30fb0ae9c4d1940297ab1d243d0adb4ad4869846651a76a5f12c60`
+- lock SHA-256 `e27f1b431bce76ba053ebb2760564b5525bd74384360039d4fb50ae690bc7539`;
+- evidence SHA-256 `721ab64692d052640dbf84d1c86a6fadfbec7d90916990b06ecdddb1f2d1470e`
   (regenerated with Node 22.23.2 and canonically checked against the lock and
   fixture manifest);
 - fixture-manifest SHA-256 `810427932c6037f7d385149df4fe9ac6bcc732b3c8bcee1605334c44c5bf9dfa`;
@@ -72,6 +72,16 @@ evidence, not a hash-backed committed artifact. BRD-081 must retain the
 1280x960 and DPR-2 bounds; physical mobile release measurements remain a
 separate acceptance item rather than an inferred pass.
 
+The comparison is now a strict isolated Svelte 5 component and is deployed at
+the disposable [Vercel origin](https://dist-a3br8svxu-crispstrobes-projects.vercel.app).
+Playwright's Pixel 7 profile exercised keyboard selection, labels, bounded
+resize and reduced-motion reload across all ten paths over HTTPS, observing
+nine same-origin requests and zero external requests. The committed hosted
+record identifies Chromium 151 and SwiftShader explicitly: this is deployed-
+origin and mobile-layout evidence, not physical Android/iOS RAM or GPU evidence.
+The latter must satisfy `tools/brd080-device-evidence.mjs` with one real Android
+and one real iOS evidence row before this decision becomes final.
+
 ## Functional and accessibility findings
 
 Both adapters reach ready state for the molecule, crystal, protein, cube and
@@ -100,8 +110,9 @@ accepted observable in this slice.
 
 ## Decision and BRD-081 boundary
 
-3Dmol is the smaller adequate provisional selection. BRD-080 remains open until
-a disposable Svelte route and physical constrained-mobile RAM/GPU run pass.
+3Dmol is the smaller adequate provisional selection. The disposable Svelte
+route and deployed Playwright checkpoint pass; BRD-080 remains open until the
+physical constrained-mobile Android and iOS RAM/GPU runs pass.
 Only then may BRD-081a land a renderer-neutral `ScientificView` contract and
 accessible semantic fallback; its crystal slice remains separately blocked on
 BRD-060. The production adapter must preserve the limits and offline/teardown

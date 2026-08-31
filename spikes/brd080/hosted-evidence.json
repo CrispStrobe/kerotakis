@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.brd080-playwright-hosted.v1",
+  "deployment": {
+    "provider": "Vercel",
+    "project": "kerotakis-brd080-viewer-spike",
+    "deploymentId": "dpl_BS2BNKdTJoj8t7jRuSFo1KT78wpA",
+    "origin": "https://dist-a3br8svxu-crispstrobes-projects.vercel.app",
+    "artifactManifestSha256": "07f2a5e370706bb15adaa94ccb8469c8e337317ccf4901930988bb159b19bd45"
+  },
+  "engine": "151.0.7922.34",
+  "emulation": "Playwright Pixel 7 profile; not physical-device evidence",
+  "paths": ["3dmol/water", "3dmol/nacl", "3dmol/peptide", "3dmol/orbital", "3dmol/trajectory", "molstar/water", "molstar/nacl", "molstar/peptide", "molstar/orbital", "molstar/trajectory"],
+  "requests": 9,
+  "externalRequests": 0,
+  "webgl": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "maxTextureSize": 8192
+  }
+}
