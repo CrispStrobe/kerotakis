@@ -1,0 +1,380 @@
+{
+  "schema": 1,
+  "adapter_id": "usda-fdc",
+  "source_id": "usda-fdc-foundation",
+  "licence": "CC0-1.0",
+  "basis": "100 g edible portion",
+  "food_count": 15,
+  "candidate_count": 12,
+  "conflict_count": 3,
+  "ledger": [
+    {
+      "fdc_id": 746775,
+      "description": "Salt, table, iodized",
+      "resolved_grams": 0.42,
+      "named_unresolved_grams": 99.0,
+      "total_grams": 99.42,
+      "residual_grams": 0.5799999999999983,
+      "tolerance_grams": 1.324999999999997,
+      "closure": "absent",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "ash"
+      ],
+      "conflicts": [
+        {
+          "conflict": "missing_proximate",
+          "missing": [
+            "protein",
+            "total lipid (fat)",
+            "carbohydrate"
+          ]
+        }
+      ]
+    },
+    {
+      "fdc_id": 746782,
+      "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+      "resolved_grams": 88.1,
+      "named_unresolved_grams": 12.079999999999998,
+      "total_grams": 100.17999999999999,
+      "residual_grams": -0.1799999999999926,
+      "tolerance_grams": 2.3999999999999986,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "lactose",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 746784,
+      "description": "Sugars, granulated",
+      "resolved_grams": 99.82,
+      "named_unresolved_grams": 0.42000000000000004,
+      "total_grams": 100.24,
+      "residual_grams": -0.23999999999999488,
+      "tolerance_grams": 0.7999999999999986,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "sucrose",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "galactose",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 748366,
+      "description": "Oil, soybean",
+      "resolved_grams": 0.0,
+      "named_unresolved_grams": 0.0,
+      "total_grams": 0.0,
+      "residual_grams": 100.0,
+      "tolerance_grams": 0.05,
+      "closure": "absent",
+      "sugars_reported_individually": false,
+      "resolved_species": [],
+      "named_unresolved": [],
+      "conflicts": [
+        {
+          "conflict": "missing_proximate",
+          "missing": [
+            "water",
+            "protein",
+            "total lipid (fat)",
+            "ash",
+            "carbohydrate"
+          ]
+        },
+        {
+          "conflict": "residual_outside_uncertainty",
+          "residual_grams": 100.0,
+          "tolerance_grams": 0.05
+        }
+      ]
+    },
+    {
+      "fdc_id": 748967,
+      "description": "Eggs, Grade A, Large, egg whole",
+      "resolved_grams": 76.0,
+      "named_unresolved_grams": 23.97,
+      "total_grams": 99.97,
+      "residual_grams": 0.030000000000001137,
+      "tolerance_grams": 4.14,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "glucose",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "dietary_fibre",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 789828,
+      "description": "Butter, stick, unsalted",
+      "resolved_grams": 17.4,
+      "named_unresolved_grams": 81.5,
+      "total_grams": 98.9,
+      "residual_grams": 1.0999999999999943,
+      "tolerance_grams": 1.4999999999999964,
+      "closure": "absent",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "fat"
+      ],
+      "conflicts": [
+        {
+          "conflict": "missing_proximate",
+          "missing": [
+            "protein",
+            "ash",
+            "carbohydrate"
+          ]
+        }
+      ]
+    },
+    {
+      "fdc_id": 789951,
+      "description": "Flour, wheat, all-purpose, enriched, unbleached",
+      "resolved_grams": 11.7,
+      "named_unresolved_grams": 88.31,
+      "total_grams": 100.01,
+      "residual_grams": -0.010000000000005116,
+      "tolerance_grams": 2.5349999999999997,
+      "closure": "by_difference",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2003590,
+      "description": "Apple juice, with added vitamin C, from concentrate, shelf stable",
+      "resolved_grams": 98.8112,
+      "named_unresolved_grams": 1.1848000000000005,
+      "total_grams": 99.996,
+      "residual_grams": 0.0040000000000048885,
+      "tolerance_grams": 2.3542500000000013,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "ascorbic_acid",
+        "fructose",
+        "glucose",
+        "malic_acid",
+        "sucrose",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2003597,
+      "description": "Orange juice, no pulp, not fortified, not from concentrate, refrigerated",
+      "resolved_grams": 97.5175,
+      "named_unresolved_grams": 2.4895,
+      "total_grams": 100.007,
+      "residual_grams": -0.007000000000005002,
+      "tolerance_grams": 1.9638999999999998,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "ascorbic_acid",
+        "citric_acid",
+        "fructose",
+        "glucose",
+        "malic_acid",
+        "sucrose",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2258586,
+      "description": "Carrots, mature, raw",
+      "resolved_grams": 87.7,
+      "named_unresolved_grams": 12.313000000000002,
+      "total_grams": 100.013,
+      "residual_grams": -0.01300000000000523,
+      "tolerance_grams": 3.6459999999999986,
+      "closure": "by_difference",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "dietary_fibre",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2259793,
+      "description": "Yogurt, plain, whole milk",
+      "resolved_grams": 85.3,
+      "named_unresolved_grams": 14.717,
+      "total_grams": 100.017,
+      "residual_grams": -0.016999999999995907,
+      "tolerance_grams": 6.040000000000002,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "galactose",
+        "lactose",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2346396,
+      "description": "Oats, whole grain, rolled, old fashioned",
+      "resolved_grams": 64.0,
+      "named_unresolved_grams": 36.00000000000001,
+      "total_grams": 100.0,
+      "residual_grams": 0.0,
+      "tolerance_grams": 5.22,
+      "closure": "by_difference",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "starch",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2346401,
+      "description": "Potatoes, russet, without skin, raw",
+      "resolved_grams": 79.13589999999999,
+      "named_unresolved_grams": 20.879099999999998,
+      "total_grams": 100.01499999999999,
+      "residual_grams": -0.014999999999986358,
+      "tolerance_grams": 6.291179999999997,
+      "closure": "by_difference",
+      "sugars_reported_individually": true,
+      "resolved_species": [
+        "ascorbic_acid",
+        "fructose",
+        "glucose",
+        "sucrose",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2512381,
+      "description": "Rice, white, long grain, unenriched, raw",
+      "resolved_grams": 85.60000000000001,
+      "named_unresolved_grams": 14.39499999999999,
+      "total_grams": 99.995,
+      "residual_grams": 0.0049999999999954525,
+      "tolerance_grams": 8.884999999999996,
+      "closure": "by_difference",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "starch",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "dietary_fibre",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    },
+    {
+      "fdc_id": 2644281,
+      "description": "Beans, cannellini, dry",
+      "resolved_grams": 42.2,
+      "named_unresolved_grams": 57.839999999999996,
+      "total_grams": 100.03999999999999,
+      "residual_grams": -0.03999999999999204,
+      "tolerance_grams": 6.119999999999999,
+      "closure": "by_difference",
+      "sugars_reported_individually": false,
+      "resolved_species": [
+        "starch",
+        "water"
+      ],
+      "named_unresolved": [
+        "ash",
+        "fat",
+        "other_carbohydrate",
+        "protein"
+      ],
+      "conflicts": []
+    }
+  ],
+  "rejection_counts": {
+    "category_header": 1,
+    "duplicate_total": 44,
+    "elemental_total_not_speciated": 142,
+    "no_reviewed_component": 278,
+    "unit_is_not_a_mass": 27
+  }
+}

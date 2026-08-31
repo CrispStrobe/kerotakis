@@ -279,3 +279,33 @@ sha256 = "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
 # remains usable as an oracle: running a mechanism outside the repository to
 # check a Kerotakis answer distributes nothing.
 # ---------------------------------------------------------------------------
+
+# BRD-013. The quarantine lane: these bytes are committed so the import is
+# reproducible and reviewable, and they enter no pack, binary or release
+# payload. Promotion into a runtime lane is a separate reviewed record, which
+# is why the decision here is 'review-required' rather than 'approved' — the
+# licence is settled, the promotion is not.
+[[source]]
+id = "usda-fdc-foundation"
+name = "USDA FoodData Central Foundation Foods, 2025-04-24 release"
+kind = "data"
+lane = "quarantine"
+decision = "review-required"
+licence = "CC0-1.0"
+origin = "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2025-04-24.zip"
+terms = "https://fdc.nal.usda.gov/api-guide"
+copyright = "United States Department of Agriculture, Agricultural Research Service; no rights reserved"
+retrieved = "2026-08-30"
+attribution = "U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov. Foundation Foods, release 2025-04-24."
+paths = ["crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1"]
+allowed_outputs = ["quarantine-candidate", "quarantine-review-report"]
+reviewer = "BRD-013 import review"
+notes = "Fifteen Foundation Foods records, extracted by tools/fetch-usda-snapshot.py from the pinned release archive (sha256 8d1f520a9a63fd34bd66c541f7ae6ac7bcc7edefae5ee3ce90202d825d7f47a2) under the declared usda-foundation-projection-v1 projection. The release archive is used rather than the REST API because it carries a release identity, needs no API key, and contains two records the detail endpoints 404 on. FoodData Central states: 'USDA FoodData Central data are in the public domain and they are not copyrighted. They are published under CC0 1.0 Universal (CC0 1.0)'."
+
+[[source.checksum]]
+path = "crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1/raw/snapshot.json"
+sha256 = "8c17d7c825b266383547993e175c619b3dda264930545dbe50251fea2a5047e2"
+
+[[source.checksum]]
+path = "crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1/manifest.json"
+sha256 = "5c157b7b3411827e0ca76d36544220e3df42e3386833a32fac7e34a396881557"

@@ -1,0 +1,10 @@
+{
+  "adapter_id": "usda-fdc",
+  "raw_artifact": "raw/snapshot.json",
+  "record_count": 15,
+  "retrieved": "2026-08-30",
+  "schema": 1,
+  "sha256": "8c17d7c825b266383547993e175c619b3dda264930545dbe50251fea2a5047e2",
+  "source_id": "usda-fdc-foundation",
+  "source_revision": "FoodData_Central_foundation_food_json_2025-04-24.zip sha256:8d1f520a9a63fd34bd66c541f7ae6ac7bcc7edefae5ee3ce90202d825d7f47a2;usda-foundation-projection-v1"
+}
