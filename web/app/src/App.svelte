@@ -736,7 +736,7 @@
       <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
       <div class="theme-choice" role="radiogroup" aria-label={t("appearance")}>
         <span>{t("appearance")}</span>
-        {#each [["light", "light"], ["dark", "dark"], ["contrast", "high contrast"]] as [value, label] (value)}
+        {#each [["light", "light"], ["dark", "dark"], ["contrast", "high contrast"]] as const as [value, label] (value)}
           <button class="theme-button" role="radio" aria-checked={theme === value} class:active={theme === value} onclick={() => setTheme(value as Theme)}>{t(label)}</button>
         {/each}
       </div>
@@ -1086,7 +1086,7 @@
 />
 
 <nav class="tabs" aria-label={t("panes")}>
-  {#each [["bench", "workspace"], ["shelf", "cabinet"], ["notes", "journal"]] as [key, label] (key)}
+  {#each [["bench", "workspace"], ["shelf", "cabinet"], ["notes", "journal"]] as const as [key, label] (key)}
     <button
       aria-pressed={pane === key}
       class:active={pane === key}
@@ -1278,12 +1278,12 @@
   {@const vessel = removeVessel}
   <RemoveVesselDialog
     {vessel}
-    vesselCount={session.scene.vessels.length}
+    vesselCount={session.scene?.vessels.length ?? 0}
     onconfirm={() => {
       removeRequest = null;
       void session.submit(`remove v${vessel.id + 1}`);
     }}
-    ontransfer={session.scene.vessels.length > 1 && vessel.liquid
+    ontransfer={(session.scene?.vessels.length ?? 0) > 1 && vessel.liquid
       ? () => {
           removeRequest = null;
           transfer = { verb: "decant", fraction: 1, from: vessel.id };

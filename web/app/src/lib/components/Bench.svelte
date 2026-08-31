@@ -221,7 +221,8 @@
   function apparatusPlacement(target: number) {
     const anchor = placement(target);
     return {
-      zone: anchor.zone,
+      // A drag preview carries no zone; the vessel's stored placement does.
+      zone: "zone" in anchor ? anchor.zone : positionFor(layout, target).zone,
       x: anchor.x,
       y: anchor.y >= 0.5
         ? Math.max(0.12, anchor.y - 0.48)

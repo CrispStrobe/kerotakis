@@ -26,7 +26,7 @@ describe("browser GPU environment", () => {
   it.each([
     undefined,
     {},
-    { navigator: { gpu: { requestAdapter() {} } }, document: {}, matchMedia: () => null },
+    { navigator: { gpu: { requestAdapter() {} } }, document: {}, matchMedia: (): null => null },
     { navigator: { gpu: { requestAdapter() {} } }, document: { ...eventSource(), visibilityState: "visible" }, matchMedia: () => ({ matches: false }) },
   ])("fails an incomplete environment closed (case %#)", (globalObject) => {
     expect(browserGpuEnvironment(globalObject)).toBeNull();

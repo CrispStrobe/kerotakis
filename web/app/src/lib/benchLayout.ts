@@ -294,5 +294,7 @@ export function benchLayoutFromLab(text: string): BenchLayout | null {
 
 export function adjacentZone(zone: BenchZone, direction: -1 | 1): BenchZone {
   const index = BENCH_ZONES.indexOf(zone);
-  return BENCH_ZONES[Math.max(0, Math.min(BENCH_ZONES.length - 1, index + direction))];
+  // The index is clamped into range, but noUncheckedIndexedAccess cannot
+  // see that; the input zone is the only honest fallback.
+  return BENCH_ZONES[Math.max(0, Math.min(BENCH_ZONES.length - 1, index + direction))] ?? zone;
 }

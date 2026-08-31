@@ -256,7 +256,7 @@ describe("WebGPU renderer adapter", () => {
     expect(writeBuffer).toHaveBeenCalledTimes(1);
     expect(draw).toHaveBeenCalledWith(3);
     expect(submit).toHaveBeenCalledWith(["commands"]);
-    expect(createRenderPipeline.mock.calls[0]![0]).toMatchObject({
+    expect((createRenderPipeline.mock.calls as unknown[][])[0]![0]).toMatchObject({
       fragment: { targets: [{ blend: { color: { srcFactor: "one" } } }] },
     });
   });
