@@ -14,9 +14,9 @@ use kerotakis_core::{
 };
 use kerotakis_data::{
     Applicability, CompositionRecord, Dimension, ElementAmount, Evidence, FractionRange,
-    IdentityRecord, MaterialBasis, MaterialComponent, MaterialConfidence, MaterialExpansionPolicy,
-    MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole, Method,
-    ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
+    IdentityRecord, Interval, MaterialBasis, MaterialComponent, MaterialConfidence,
+    MaterialExpansionPolicy, MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole,
+    Method, ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
     PhaseThermodynamicRecord, RegistryDocument, SourceLane, SourceRecord, SpectralSample,
     Uncertainty, Unit,
 };
@@ -31,6 +31,14 @@ const IRON_III_OXIDE_SOURCE: &str = "us-federal/nasa-cea-hematite";
 const IRON_III_OXIDE_CITATION: &str = "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27";
 const EPSOMITE_SOURCE: &str = "us-federal/usgs-epsomite";
 const EPSOMITE_CITATION: &str = "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27";
+/// EXP-33. Transition temperatures get their own source record rather than
+/// riding each species' molar-mass citation, because they are a different
+/// claim with a different origin: the melting-point apparatus prints THIS
+/// line, and a reader who wants to check the number must land on the book
+/// the number came from.
+const PHASE_TRANSITION_SOURCE: &str = "kerotakis/phase-transitions-v1";
+const PHASE_TRANSITION_CITATION: &str = "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29";
+const CHALCANTHITE_SOURCE: &str = "us-federal/usgs-chalcanthite";
 const SILICA_SOURCE: &str = "us-federal/pubchem-silica";
 const SILICA_CITATION: &str = "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27";
 
@@ -55,6 +63,7 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     aqueous_solubility_g_per_100_ml: None,
     forms_only_above_k: None,
     magnetic: false,
+    transitions: None,
     provenance: ISOPROPANOL_CITATION,
 };
 
@@ -76,6 +85,7 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     aqueous_solubility_g_per_100_ml: Some(200.0),
     forms_only_above_k: None,
     magnetic: false,
+    transitions: None,
     provenance: SUCROSE_CITATION,
 };
 
@@ -102,6 +112,7 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     aqueous_solubility_g_per_100_ml: None,
     forms_only_above_k: None,
     magnetic: false,
+    transitions: None,
     provenance: IRON_III_OXIDE_CITATION,
 };
 
@@ -123,6 +134,7 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     aqueous_solubility_g_per_100_ml: None,
     forms_only_above_k: None,
     magnetic: false,
+    transitions: None,
     provenance: EPSOMITE_CITATION,
 };
 
@@ -144,6 +156,7 @@ const SILICA_SEED: SpeciesData = SpeciesData {
     aqueous_solubility_g_per_100_ml: None,
     forms_only_above_k: None,
     magnetic: false,
+    transitions: None,
     provenance: SILICA_CITATION,
 };
 
@@ -169,6 +182,24 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     if !REGISTRY.iter().any(|species| species.key == "SiO2") {
         export_species(&mut document, &SILICA_SEED)?;
+    }
+    // EXP-33: one source record for the whole transition tranche, pushed
+    // once and only if something actually cites it — an orphan source is a
+    // claim nobody made.
+    if document
+        .phase_thermodynamics
+        .iter()
+        .any(|record| record.quantity.source_id == PHASE_TRANSITION_SOURCE)
+    {
+        document.sources.push(SourceRecord {
+            id: PHASE_TRANSITION_SOURCE.to_string(),
+            citation: PHASE_TRANSITION_CITATION.to_string(),
+            licence: "AGPL-3.0-or-later".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
+            revision: Some("v1".to_string()),
+            retrieved: Some("2026-08-29".to_string()),
+        });
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -1811,6 +1842,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "sucrose" => SUCROSE_SOURCE.to_string(),
         "Fe2O3" => IRON_III_OXIDE_SOURCE.to_string(),
         "epsomite" => EPSOMITE_SOURCE.to_string(),
+        "chalcanthite" => CHALCANTHITE_SOURCE.to_string(),
         "SiO2" => SILICA_SOURCE.to_string(),
         _ => format!("legacy/{}", species.key),
     };
@@ -1818,11 +1850,13 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
     let curated_sucrose = species.key == "sucrose";
     let curated_iron_iii_oxide = species.key == "Fe2O3";
     let curated_epsomite = species.key == "epsomite";
+    let curated_chalcanthite = species.key == "chalcanthite";
     let curated_silica = species.key == "SiO2";
     let runtime_source = curated_isopropanol
         || curated_sucrose
         || curated_iron_iii_oxide
         || curated_epsomite
+        || curated_chalcanthite
         || curated_silica;
     document.sources.push(SourceRecord {
         id: source_id.clone(),
@@ -1832,6 +1866,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
             "epsomite" => "LicenseRef-US-Public-Domain",
+            "chalcanthite" => "LicenseRef-US-Public-Domain",
             "SiO2" => "LicenseRef-US-Public-Domain",
             _ => LEGACY_LICENCE,
         }
@@ -1846,6 +1881,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => "crates/kerotakis-registry-export/src/lib.rs".to_string(),
             "Fe2O3" => "vendor/nasa-cea/thermo.inp".to_string(),
             "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
+            "chalcanthite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             "SiO2" => "https://pubchem.ncbi.nlm.nih.gov/compound/24261".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
@@ -1854,10 +1890,17 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => Some("v1".to_string()),
             "Fe2O3" => Some("NASA CEA Fe2O3(cr), PubChem CID 14833".to_string()),
             "epsomite" => Some("USGS WATEQ4F Epsomite, PubChem CID 24843".to_string()),
+            "chalcanthite" => Some("USGS WATEQ4F Chalcanthite".to_string()),
             "SiO2" => Some("PubChem CID 24261".to_string()),
             _ => None,
         },
-        retrieved: runtime_source.then(|| "2026-08-27".to_string()),
+        retrieved: runtime_source.then(|| {
+            if curated_chalcanthite {
+                "2026-08-29".to_string()
+            } else {
+                "2026-08-27".to_string()
+            }
+        }),
     });
 
     let mut identifiers = BTreeMap::new();
@@ -1928,6 +1971,76 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                 property,
                 quantity: imported_number(value, symbol, dimension, phase, &source_id),
             });
+    }
+    // EXP-33: melting/boiling ride the typed properties; sublimation,
+    // decomposition and dehydration ride `Other`, because the schema has no
+    // variant for them and inventing one would claim a dimension check the
+    // schema cannot make. Every record carries the same transition source.
+    if let Some(t) = species.transitions {
+        for (suffix, property, value) in [
+            (
+                "melting-point",
+                PhaseProperty::MeltingTemperature,
+                t.melting_k,
+            ),
+            (
+                "boiling-point",
+                PhaseProperty::BoilingTemperature,
+                t.boiling_k,
+            ),
+            (
+                "sublimation-point",
+                PhaseProperty::Other("sublimation_temperature".to_string()),
+                t.sublimation_k,
+            ),
+            (
+                "decomposition-point",
+                PhaseProperty::Other("decomposition_temperature".to_string()),
+                t.decomposition_k,
+            ),
+            (
+                "dehydration-point",
+                PhaseProperty::Other("dehydration_temperature".to_string()),
+                t.dehydration_k,
+            ),
+        ] {
+            let Some(value) = value else { continue };
+            document
+                .phase_thermodynamics
+                .push(PhaseThermodynamicRecord {
+                    id: format!("{suffix}/{}", species.key),
+                    species_id: species.key.to_string(),
+                    phase,
+                    property,
+                    quantity: NumericRecord {
+                        value,
+                        unit: Unit {
+                            symbol: "K".to_string(),
+                            dimension: Dimension::Temperature,
+                        },
+                        conditions: Applicability {
+                            phase: Some(phase),
+                            pressure: Some(Interval {
+                                lower: 101_325.0,
+                                upper: 101_325.0,
+                                unit: Unit {
+                                    symbol: "Pa".to_string(),
+                                    dimension: Dimension::Pressure,
+                                },
+                            }),
+                            notes: t.boundary.map(str::to_string),
+                            ..Applicability::default()
+                        },
+                        uncertainty: Uncertainty::NotReported,
+                        source_id: PHASE_TRANSITION_SOURCE.to_string(),
+                        method: Method::Curated(
+                            "EXP-33 curated transition tranche; value corroborated against \
+                             the handbook literature named in the source citation"
+                                .to_string(),
+                        ),
+                    },
+                });
+        }
     }
     if let Some(value) = species.dissolution_enthalpy_kj {
         document

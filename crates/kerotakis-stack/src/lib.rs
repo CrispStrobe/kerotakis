@@ -27,6 +27,12 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
     let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
         Box::new(MixingEquilibrator),
         Box::new(CuratedEquilibrator),
+        // EXP-33: sublimation and hydrate bookkeeping sit beside the
+        // curated reactions and before anything aqueous. A hydrate must
+        // have decided whether it still holds its water before a solver
+        // asks what is dissolved, and a solid that has already left as
+        // vapour must not be offered to one.
+        Box::new(kerotakis_core::phase_route::PhaseRouteEquilibrator),
         Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
         Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
         Box::new(kerotakis_cea::ThermalEquilibrator),

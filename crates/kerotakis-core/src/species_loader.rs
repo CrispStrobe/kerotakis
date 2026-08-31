@@ -86,6 +86,14 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             .iter()
             .find(|t| t["species_id"] == key && t["property"] == prop)
     };
+    // EXP-33: sublimation, decomposition and dehydration have no typed
+    // `PhaseProperty`, so they arrive under the schema's `Other(String)`
+    // escape — an object, not a bare string.
+    let thermo_other = |key: &str, name: &str| -> Option<&serde_json::Value> {
+        thermo
+            .iter()
+            .find(|t| t["species_id"] == key && t["property"]["other"] == name)
+    };
     let param_for = |key: &str, parameter: &str| -> Option<f64> {
         params
             .iter()
@@ -152,6 +160,72 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             None => None,
         };
 
+        // EXP-33, mirroring build.rs: one citation stands behind the row,
+        // taken from the transition records' own `source_id` rather than
+        // the species' general provenance line.
+        let transitions = {
+            let rows: [(&str, Option<&serde_json::Value>); 5] = [
+                ("melting point", thermo_for(key, "melting_temperature")),
+                ("boiling point", thermo_for(key, "boiling_temperature")),
+                (
+                    "sublimation point",
+                    thermo_other(key, "sublimation_temperature"),
+                ),
+                (
+                    "decomposition point",
+                    thermo_other(key, "decomposition_temperature"),
+                ),
+                (
+                    "dehydration point",
+                    thermo_other(key, "dehydration_temperature"),
+                ),
+            ];
+            if rows.iter().all(|(_, r)| r.is_none()) {
+                None
+            } else {
+                let mut values: [Option<f64>; 5] = [None; 5];
+                let mut source: Option<&'static str> = None;
+                let mut boundary: Option<&'static str> = None;
+                for (slot, (what, row)) in rows.iter().enumerate() {
+                    let Some(r) = row else { continue };
+                    let v = r["quantity"]["value"]
+                        .as_f64()
+                        .ok_or_else(|| fail(&format!("{what} has no value")))?;
+                    if r["quantity"]["unit"]["symbol"].as_str() != Some("K") {
+                        return Err(fail(&format!("{what} must be given in kelvin")));
+                    }
+                    values[slot] = Some(v);
+                    let citation = leak(find_source(
+                        r["quantity"]["source_id"]
+                            .as_str()
+                            .ok_or_else(|| fail(&format!("{what} has no source")))?,
+                    )?);
+                    match source {
+                        None => source = Some(citation),
+                        Some(seen) if seen != citation => {
+                            return Err(fail(
+                                "transition records disagree about their source; one \
+                                 citation must stand behind the row the apparatus prints",
+                            ))
+                        }
+                        Some(_) => {}
+                    }
+                    if boundary.is_none() {
+                        boundary = r["quantity"]["conditions"]["notes"].as_str().map(leak);
+                    }
+                }
+                Some(crate::species::PhaseTransitions {
+                    melting_k: values[0],
+                    boiling_k: values[1],
+                    sublimation_k: values[2],
+                    decomposition_k: values[3],
+                    dehydration_k: values[4],
+                    source: source.ok_or_else(|| fail("no transition source"))?,
+                    boundary,
+                })
+            }
+        };
+
         out.push(SpeciesData {
             key: leak(key),
             name: leak(identity["name"].as_str().ok_or_else(|| fail("no name"))?),
@@ -172,6 +246,7 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             aqueous_solubility_g_per_100_ml: param_for(key, "aqueous-solubility-g-per-100-ml"),
             forms_only_above_k: param_for(key, "forms-only-above"),
             magnetic: param_for(key, "magnetic").unwrap_or(0.0) != 0.0,
+            transitions,
             provenance: leak(find_source(
                 identity["evidence"]["source_id"]
                     .as_str()

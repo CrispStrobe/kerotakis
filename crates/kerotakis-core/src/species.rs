@@ -68,6 +68,105 @@ pub fn shelf_swatch(s: &SpeciesData) -> (Option<[u8; 3]>, Option<[u8; 3]>) {
     (reflective, solution)
 }
 
+/// EXP-33: where a pure substance changes state, and what it does instead
+/// when it has no sharp point to change state at.
+///
+/// This is the data behind the melting-point apparatus, and it is curated
+/// per record rather than computed: a melting point is a measured constant,
+/// not something a Gibbs minimiser on this bench can find. Every field is
+/// optional because "we do not know" and "it does not happen" are different
+/// answers and both are common — potassium permanganate has no melting
+/// point to record because it decomposes first, and saying so is the
+/// chemistry, not a gap.
+///
+/// All temperatures are kelvin, at 1 atm.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct PhaseTransitions {
+    /// Normal melting point. `None` where the substance decomposes or
+    /// sublimes instead, or where no value is curated.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub melting_k: Option<f64>,
+    /// Normal boiling point.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boiling_k: Option<f64>,
+    /// The temperature at which the solid passes straight to vapour at
+    /// 1 atm — set only where sublimation, not melting, is what a bench
+    /// actually sees.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sublimation_k: Option<f64>,
+    /// The substance comes apart here instead of melting. Recording it is
+    /// the honest answer to "what is its melting point?" for every salt of
+    /// an oxidising anion and every sugar.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub decomposition_k: Option<f64>,
+    /// Hydrates only: where this bench drives the waters of crystallisation
+    /// off. See `crate::phase_route` for what that claim does and does not
+    /// include.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub dehydration_k: Option<f64>,
+    /// Per-record provenance for the temperatures above — not the species'
+    /// general citation, because these values have their own source.
+    pub source: &'static str,
+    /// What this row does NOT claim, shown at lv3.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boundary: Option<&'static str>,
+}
+
+impl PhaseTransitions {
+    /// The temperature a melting-point apparatus would report, and whether
+    /// it is really a melting point at all.
+    pub fn melting_reading(&self) -> Option<(f64, TransitionOutcome)> {
+        if let Some(k) = self.melting_k {
+            return Some((k, TransitionOutcome::Melts));
+        }
+        if let Some(k) = self.sublimation_k {
+            return Some((k, TransitionOutcome::Sublimes));
+        }
+        if let Some(k) = self.decomposition_k {
+            return Some((k, TransitionOutcome::Decomposes));
+        }
+        self.dehydration_k
+            .map(|k| (k, TransitionOutcome::LosesWater))
+    }
+
+    /// The temperature a boiling apparatus would report.
+    pub fn boiling_reading(&self) -> Option<(f64, TransitionOutcome)> {
+        if let Some(k) = self.boiling_k {
+            return Some((k, TransitionOutcome::Boils));
+        }
+        if let Some(k) = self.sublimation_k {
+            return Some((k, TransitionOutcome::Sublimes));
+        }
+        self.decomposition_k
+            .map(|k| (k, TransitionOutcome::Decomposes))
+    }
+}
+
+/// What actually happens when a pure sample is heated past its recorded
+/// temperature. A melting point that is really a decomposition is one of
+/// the commonest things a school table hides.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TransitionOutcome {
+    Melts,
+    Boils,
+    Sublimes,
+    Decomposes,
+    LosesWater,
+}
+
+impl TransitionOutcome {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Melts => "melts",
+            Self::Boils => "boils",
+            Self::Sublimes => "sublimes",
+            Self::Decomposes => "decomposes",
+            Self::LosesWater => "loses its water of crystallisation",
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpeciesData {
     pub key: &'static str,
@@ -140,6 +239,12 @@ pub struct SpeciesData {
     pub forms_only_above_k: Option<f64>,
     #[serde(default)]
     pub magnetic: bool,
+    /// EXP-33: melting, boiling, sublimation, decomposition, dehydration —
+    /// with their own citation. `None` means no transition temperature has
+    /// been curated for this species and the apparatus says so rather than
+    /// guessing one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub transitions: Option<PhaseTransitions>,
     pub provenance: &'static str,
 }
 

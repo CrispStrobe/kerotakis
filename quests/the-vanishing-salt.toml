@@ -1,0 +1,72 @@
+# EXP-33 (sublimation as a separation route): getting two solids apart
+# without a solvent, a filter or a funnel.
+#
+# The classic. Ammonium chloride and common salt are both white powders
+# and neither dissolves the other. Heat the mixture and one of them is
+# simply gone — it goes straight from solid to vapour at 338 °C and
+# leaves the salt behind. The crucible is lighter by exactly the mass
+# that left, and what remains is pure enough that the melting-point
+# apparatus will give a sharp answer for it, which is the proof that the
+# separation worked.
+#
+# The quest chains EXP-33's two halves: the phase route does the
+# separating, and the instrument certifies the result.
+id = "the-vanishing-salt"
+
+[title]
+lv1 = "The vanishing salt"
+lv2 = "The vanishing salt: separating two powders with heat alone"
+lv3 = "Sublimation as a separation route, with the residue's purity certified by melting point"
+
+[goal]
+lv1 = "One jar holds two white powders mixed together: ammonium chloride and ordinary salt. You cannot pick them apart and no filter will help. But one of them turns straight into a gas when it gets hot enough, and floats away — so heat the mixture and watch one of them disappear. Weigh the beaker before and after, and check what is left with the melting-point apparatus."
+lv2 = "Separate a mixture of ammonium chloride and sodium chloride using heat alone. Ammonium chloride sublimes — solid straight to vapour, no melting — at 338 °C, while sodium chloride does not melt until 800.7 °C, so heating past the first and not the second removes one component completely. Weigh before and after with `measure v1 balance`, and confirm the residue is now a single pure substance with `measure v1 melting_point`."
+lv3 = "Sublimation route: `kerotakis_core::phase_route` moves a solid whose registry row carries a sublimation point and no melting point directly to the gas phase once the vessel reaches it, and deposits it back below. In an open vessel the vapour crosses the boundary and the balance records the loss; in a sealed one it stays in the headspace and cooling returns every mole to the solid. Mass conserves exactly either way. The residue then satisfies the melting-point apparatus's purity precondition, so it reads sharp where the original mixture would have been refused. Stated boundary: ammonium chloride vapour is really ammonia and hydrogen chloride recombining on the cold surface — this bench moves the intact formula unit, which is what the recovered crust weighs but not what the vapour contains."
+
+[[nudges]]
+id = "both-in"
+when = "added:NaCl"
+[nudges.say]
+lv1 = "Both powders are in the beaker now. Weigh it first — `measure v1 balance` — because you will want to know what it weighed before."
+lv2 = "The mixture is made. Record the starting mass with `measure v1 balance` before you heat anything: the mass that leaves is the evidence."
+lv3 = "Mixture assembled. Take the tare reading now; the sublimed mass is the only quantitative evidence the separation produces, and it is only evidence if the before-reading exists."
+
+[[nudges]]
+id = "mixed-refusal"
+when = "transition_point"
+[nudges.say]
+lv1 = "If the apparatus would not give you a number, that is because there are still two things in there. Heat it first, then try again."
+lv2 = "A mixed sample gets a refusal, not a value — that is the apparatus working correctly. Drive the ammonium chloride off with heat, then measure the residue."
+lv3 = "The Mixture verdict names both components and gives the lowest pure point as the bound the range begins below. After sublimation the vessel holds one solid, the isolation precondition is met, and the same command returns a sharp value with its citation."
+
+[[nudges]]
+id = "it-left"
+when = "gas_evolved:NH4Cl"
+[nudges.say]
+lv1 = "There it goes — straight from powder to vapour, without ever being a liquid. Weigh the beaker again and see how much lighter it is."
+lv2 = "The ammonium chloride has sublimed and left the open vessel. Weigh again: the difference is its mass, and it should match what you put in."
+lv3 = "Sublimation complete, vapour across the open boundary. The balance difference equals moles × 53.489 g/mol exactly; nothing is lost to rounding because the phase route moves whole portions rather than integrating a rate."
+
+[[claims]]
+id = "weighed-first"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh the beaker before you heat it"
+lv2 = "Record the starting mass of the mixture"
+lv3 = "A `measured` event — the balance tare that makes the mass loss quantitative"
+
+[[claims]]
+id = "it-sublimed"
+matches = "gas_evolved:NH4Cl"
+[claims.title]
+lv1 = "Make the ammonium chloride disappear with heat"
+lv2 = "Sublime the ammonium chloride out of the mixture"
+lv3 = "gas_evolved:NH4Cl — the solid crossed the open boundary as vapour, never having been a liquid"
+
+[[claims]]
+id = "residue-is-pure"
+matches = "transition_point:NaCl"
+[claims.title]
+lv1 = "Check that what is left is just one thing"
+lv2 = "Certify the residue's purity with the melting-point apparatus"
+lv3 = "transition_point:NaCl — a Pure verdict on the residue, which the original mixture could not have produced"

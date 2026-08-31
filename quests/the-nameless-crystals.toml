@@ -1,0 +1,84 @@
+# EXP-33 (sealed unknown by melting point alone): identification with
+# one instrument and no reagents at all.
+#
+# The other sealed-unknown quests spend reagents — hydroxide, barium
+# chloride, silver nitrate — and read colours out of a solve. This one
+# spends nothing. A capillary of dry powder goes into a heated block and
+# the number that comes out is the whole answer, because a pure
+# substance's melting point is a constant and no two of these four share
+# one. The candidates are deliberately far apart: 186, 212, 306.5 and
+# 800.7 °C, so a half-degree instrument cannot confuse them.
+#
+# The second half of the quest is the purity lesson, and it is the part
+# that actually teaches. Mix the identified solid with anything else and
+# the block stops giving a number at all — because a mixture has no
+# melting point, only a range, and the apparatus says so instead of
+# averaging two constants into a lie.
+id = "the-nameless-crystals"
+
+[title]
+lv1 = "The nameless crystals"
+lv2 = "The nameless crystals: naming a solid by the temperature it melts at"
+lv3 = "Sealed-solid identification by melting point, with the mixed-sample purity control"
+
+[goal]
+lv1 = "A jar called unknown-white holds a white powder. You do not have to add anything to it at all — just put a little in the melting-point apparatus and see what temperature it melts at. Every pure substance melts at its own temperature, always the same one. Look up which of the four it matches, and name it. Then try again with a pinch of something else mixed in, and see what happens to the answer."
+lv2 = "Identify unknown-white using the melting-point apparatus alone: `measure v1 melting_point`. The candidates are sucrose, silver nitrate, sodium nitrate and sodium chloride, and their melting points are far enough apart that one reading settles it. Then run the control: put a second solid in with it and measure again. A mixture does not melt at a point, and the reading you get back is the lesson."
+lv3 = "unknown-white is a sealed registry solid. `measure <vessel> melting_point` reads the curated transition temperature for the substance in the capillary and prints its citation at lv3; it refuses a sample that is not one substance above the purity threshold, and it distinguishes melting from decomposition and from sublimation, so a candidate that decomposes is excluded by the verdict and not only by the number. Candidates: sucrose (decomposes, 186), AgNO3 (212), NaNO3 (306.5), NaCl (800.7). The control half asks for a deliberately impure sample: the apparatus then reports no sharp point, names the components in the way, and states the one bound it is entitled to — the lowest pure component's point, which the mixture's range begins below. The size of the depression is NOT claimed; see the reading's own boundary line."
+
+[unknowns]
+unknown-white = "NaNO3"
+
+[[nudges]]
+id = "in-the-tube"
+when = "added:NaNO3"
+[nudges.say]
+lv1 = "The powder is in the beaker. Now measure its melting point — type `measure v1 melting_point`."
+lv2 = "The sample is in. Measure its melting point: the apparatus needs a dry solid and nothing else in the vessel, which is exactly what you have."
+lv3 = "Sample loaded, single solid phase, nothing else present — the apparatus's isolation precondition is met. `measure v1 melting_point` will return a sharp value with its provenance."
+
+[[nudges]]
+id = "the-reading"
+when = "transition_point"
+[nudges.say]
+lv1 = "There is your number. Now find which of the four substances melts at exactly that temperature — that is what is in the jar."
+lv2 = "A sharp point means a pure substance, and the value names it. Compare against the four candidates; only one is within half a degree. Then answer with `quest answer unknown-white <name>`."
+lv3 = "A sharp reading with a Melts outcome excludes sucrose outright (its verdict is Decomposes, not Melts) before any number is compared. Among the remaining three the nearest candidate is unambiguous at ±0.5 °C. Note the citation the lv3 line prints: the value is curated data with its own source record, not a solved quantity."
+
+[[nudges]]
+id = "spoiled"
+when = "added:KNO3"
+[nudges.say]
+lv1 = "Now there are two things in the beaker. Measure the melting point again and see what the apparatus says."
+lv2 = "The sample is no longer pure. Measure it again: a mixture behaves quite differently from either of the two pure substances in it."
+lv3 = "Two solids above the purity threshold. The next reading will be a refusal rather than a value, with the components named and the lowest pure melting point given as the bound the mixture's range begins below."
+
+[[claims]]
+id = "measured-it"
+matches = "transition_point:NaNO3"
+[claims.title]
+lv1 = "Find the temperature the powder melts at"
+lv2 = "Read a sharp melting point off the pure sample"
+lv3 = "transition_point:NaNO3 — a Pure verdict naming the species; a refusal names none and does not satisfy this"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-white"
+[claims.title]
+lv1 = "Say what the white powder really is"
+lv2 = "Identify unknown-white from its melting point"
+lv3 = "Identify claim on unknown-white; the melting point alone is sufficient evidence here"
+
+[[claims]]
+# Deliberately a claim on the ADDITION, not on a second reading. A bare
+# `transition_point` claim would already have been satisfied by the first,
+# pure measurement, which would make this rung free — and a claim that
+# completes itself teaches nothing. The nudge asks for the re-measurement;
+# the refusal it produces is the lesson, and the claim only certifies that
+# the learner spoiled the sample on purpose.
+id = "spoiled-it"
+matches = "added:KNO3"
+[claims.title]
+lv1 = "Mix a second solid in, then measure the melting point again"
+lv2 = "Spoil the sample on purpose, then re-run the apparatus on the mixture"
+lv3 = "added:KNO3 — the purity control's setup; the re-measurement it invites returns the Mixture refusal rather than a value"

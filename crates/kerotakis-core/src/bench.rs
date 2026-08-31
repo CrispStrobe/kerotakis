@@ -2181,6 +2181,27 @@ impl Bench {
                             });
                         }
                     }
+                    // EXP-33: not a scalar `Measured`, because the useful
+                    // answer is often a refusal with a reason, and because
+                    // a curated constant travels with its citation.
+                    Instrument::MeltingPointApparatus => {
+                        events.push(Event::TransitionPointRead {
+                            vessel: *vessel,
+                            reading: crate::instrument::read_transition(
+                                v,
+                                crate::instrument::TransitionRead::Melting,
+                            ),
+                        });
+                    }
+                    Instrument::BoilingPointApparatus => {
+                        events.push(Event::TransitionPointRead {
+                            vessel: *vessel,
+                            reading: crate::instrument::read_transition(
+                                v,
+                                crate::instrument::TransitionRead::Boiling,
+                            ),
+                        });
+                    }
                     Instrument::GeigerCounter => {
                         events.push(Event::Measured {
                             vessel: *vessel,

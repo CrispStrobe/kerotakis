@@ -51,6 +51,15 @@ fn main() {
     let optical_for = |key: &str| -> Option<&serde_json::Value> {
         optical.iter().find(|o| o["species_id"] == key)
     };
+    // EXP-33: the transition temperatures. Sublimation, decomposition and
+    // dehydration have no typed `PhaseProperty` variant, so they ride the
+    // schema's `Other(String)` escape, which serialises as
+    // `{"other": "sublimation_temperature"}` rather than a bare string.
+    let thermo_other = |key: &str, name: &str| -> Option<&serde_json::Value> {
+        thermo
+            .iter()
+            .find(|t| t["species_id"] == key && t["property"]["other"] == name)
+    };
     let param_for = |key: &str, parameter: &str| -> Option<f64> {
         params
             .iter()
@@ -138,6 +147,74 @@ fn main() {
             None => "None".to_string(),
         };
 
+        // EXP-33. Every transition record carries its own `source_id`, so
+        // the citation the melting-point apparatus prints is the one that
+        // stands behind the number — not the species' general provenance
+        // line, which is about its molar mass and density.
+        let transitions = {
+            let rows = [
+                ("melting_k", thermo_for(key, "melting_temperature")),
+                ("boiling_k", thermo_for(key, "boiling_temperature")),
+                (
+                    "sublimation_k",
+                    thermo_other(key, "sublimation_temperature"),
+                ),
+                (
+                    "decomposition_k",
+                    thermo_other(key, "decomposition_temperature"),
+                ),
+                (
+                    "dehydration_k",
+                    thermo_other(key, "dehydration_temperature"),
+                ),
+            ];
+            if rows.iter().all(|(_, r)| r.is_none()) {
+                "None".to_string()
+            } else {
+                let mut fields = String::new();
+                let mut source: Option<&str> = None;
+                let mut boundary = "None".to_string();
+                for (field, row) in rows {
+                    match row {
+                        Some(r) => {
+                            let v = r["quantity"]["value"].as_f64().unwrap_or_else(|| {
+                                panic!("{key}: {field} record has no numeric value")
+                            });
+                            let symbol = r["quantity"]["unit"]["symbol"].as_str();
+                            assert_eq!(
+                                symbol,
+                                Some("K"),
+                                "{key}: {field} must be kelvin, got {symbol:?}"
+                            );
+                            write!(fields, " {field}: Some({}),", f64_lit(v)).unwrap();
+                            let sid = r["quantity"]["source_id"]
+                                .as_str()
+                                .unwrap_or_else(|| panic!("{key}: {field} has no source"));
+                            let citation = find_source(sid);
+                            match source {
+                                None => source = Some(citation),
+                                Some(seen) => assert_eq!(
+                                    seen, citation,
+                                    "{key}: transition records disagree about their source; \
+                                     one citation must stand behind the row the apparatus prints"
+                                ),
+                            }
+                            if boundary == "None" {
+                                if let Some(note) = r["quantity"]["conditions"]["notes"].as_str() {
+                                    boundary = format!("Some({note:?})");
+                                }
+                            }
+                        }
+                        None => write!(fields, " {field}: None,").unwrap(),
+                    }
+                }
+                format!(
+                    "Some(PhaseTransitions {{{fields} source: {:?}, boundary: {boundary} }})",
+                    source.expect("at least one transition record")
+                )
+            }
+        };
+
         let dws = param_for(key, "dissolves-without-speciation").unwrap_or(0.0) != 0.0;
         let aqueous_solubility = param_for(key, "aqueous-solubility-g-per-100-ml")
             .map_or("None".to_string(), |v| format!("Some({})", f64_lit(v)));
@@ -152,7 +229,7 @@ fn main() {
 
         writeln!(
             out,
-            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        provenance: {provenance:?},\n    }},",
+            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        transitions: {transitions},\n        provenance: {provenance:?},\n    }},",
             identity["name"].as_str().expect("name"),
             comp["formula"].as_str().expect("formula"),
             // identifiers.inchikey, not canonical_key: the pack synthesizes

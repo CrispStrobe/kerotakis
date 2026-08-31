@@ -54,7 +54,7 @@ fn every_legacy_field_is_present_and_unchanged() {
             .filter(|species| {
                 !matches!(
                     species.key,
-                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite" | "SiO2"
+                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite" | "chalcanthite" | "SiO2"
                 )
             })
             .count()
@@ -68,6 +68,29 @@ fn every_legacy_field_is_present_and_unchanged() {
     assert!(lugol.unresolved_fraction.is_none());
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
+    // EXP-33: three mandatory records per species, plus the optional
+    // dissolution enthalpy, plus one record per curated transition
+    // temperature the species carries.
+    let transition_records: usize = REGISTRY
+        .iter()
+        .filter_map(|species| species.transitions)
+        .map(|t| {
+            [
+                t.melting_k,
+                t.boiling_k,
+                t.sublimation_k,
+                t.decomposition_k,
+                t.dehydration_k,
+            ]
+            .iter()
+            .filter(|v| v.is_some())
+            .count()
+        })
+        .sum();
+    assert!(
+        transition_records > 0,
+        "the transition tranche must survive the round trip"
+    );
     assert_eq!(
         document.phase_thermodynamics.len(),
         REGISTRY.len() * 3
@@ -75,6 +98,16 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .iter()
                 .filter(|species| species.dissolution_enthalpy_kj.is_some())
                 .count()
+            + transition_records
+    );
+    // The tranche is one source record, cited by every transition value.
+    assert_eq!(
+        document
+            .sources
+            .iter()
+            .filter(|source| source.id == "kerotakis/phase-transitions-v1")
+            .count(),
+        1
     );
     assert_eq!(
         document.optical.len(),
@@ -115,6 +148,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "sucrose" => "kerotakis/sucrose-teaching-properties-v1".to_string(),
         "Fe2O3" => "us-federal/nasa-cea-hematite".to_string(),
         "epsomite" => "us-federal/usgs-epsomite".to_string(),
+        "chalcanthite" => "us-federal/usgs-chalcanthite".to_string(),
         "SiO2" => "us-federal/pubchem-silica".to_string(),
         _ => format!("legacy/{}", species.key),
     };
@@ -147,6 +181,13 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
         assert_eq!(source.origin.as_deref(), Some("vendor/nasa-cea/thermo.inp"));
     } else if species.key == "epsomite" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("vendor/iphreeqc/database/wateq4f.dat")
+        );
+    } else if species.key == "chalcanthite" {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
         assert_eq!(

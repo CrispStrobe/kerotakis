@@ -396,6 +396,13 @@ pub enum Instrument {
     /// EXP-49: Geiger counter — total activity of the vessel's
     /// nuclide inventory, in becquerels.
     GeigerCounter,
+    /// EXP-33: Melting-point apparatus — a capillary of dry solid in a
+    /// heated block. Answers with the curated transition temperature for a
+    /// pure sample and with the reason for a refusal otherwise.
+    MeltingPointApparatus,
+    /// EXP-33: the same instrument set up for a liquid: a distillation head
+    /// with the bulb in the vapour.
+    BoilingPointApparatus,
     /// INST-007: Chromatography column — separates dissolved neutral
     /// solutes by their computed partition coefficients and reports the
     /// peak table. Non-destructive here: an analytical injection is an
@@ -763,6 +770,36 @@ pub enum Event {
         a: VesselId,
         b: VesselId,
         why: String,
+    },
+    /// EXP-33: the melting-point block's answer, refusals included.
+    ///
+    /// Carries its own citation because the number is curated data rather
+    /// than a solved quantity, and a transition temperature printed without
+    /// the book behind it is a claim the learner cannot check.
+    TransitionPointRead {
+        vessel: VesselId,
+        reading: crate::instrument::TransitionReading,
+    },
+    /// EXP-33: a hydrate gave up its water of crystallisation to heat.
+    ///
+    /// Every field of the ledger travels: how many formula units broke, how
+    /// much water left, and at what temperature — because the crucible
+    /// lesson is the arithmetic, not the colour change.
+    Dehydrated {
+        vessel: VesselId,
+        hydrate: SpeciesId,
+        anhydrous: SpeciesId,
+        formula_units: Moles,
+        water: Moles,
+        at: Kelvin,
+    },
+    /// EXP-33: the water went back in and the colour came back with it.
+    Hydrated {
+        vessel: VesselId,
+        anhydrous: SpeciesId,
+        hydrate: SpeciesId,
+        formula_units: Moles,
+        water: Moles,
     },
     /// What the vessel looks like.
     Observed {

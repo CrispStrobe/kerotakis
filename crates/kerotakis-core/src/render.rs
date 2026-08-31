@@ -118,6 +118,8 @@ pub fn instrument_name(instrument: Instrument) -> &'static str {
         // table via Chromatographed — but the name must exist.
         Instrument::Chromatograph => "chromatograph",
         Instrument::GeigerCounter => "Geiger counter",
+        Instrument::MeltingPointApparatus => "melting-point apparatus",
+        Instrument::BoilingPointApparatus => "boiling-point apparatus",
     }
 }
 
@@ -2031,6 +2033,182 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
+        // EXP-33. The refusals are the lesson, so they get the same care as
+        // the number: a mixture is told what is in the way, and a sample
+        // that decomposes is told that it decomposes.
+        Event::TransitionPointRead { vessel, reading } => {
+            use crate::instrument::PurityVerdict as V;
+            let what = locale
+                .lookup(&format!("transition.{}", reading.kind.as_str()))
+                .unwrap_or(reading.kind.as_str());
+            let name = |s: &crate::SpeciesId| {
+                species::lookup(s)
+                    .map(|d| d.name.to_string())
+                    .unwrap_or_else(|| s.0.to_string())
+            };
+            let subject = reading.species.as_ref().map(name).unwrap_or_default();
+            let listed = reading
+                .components
+                .iter()
+                .map(name)
+                .collect::<Vec<_>>()
+                .join(", ");
+            match (&reading.verdict, register.level()) {
+                (V::Pure, level) => {
+                    let value = reading.value_c.unwrap_or_default();
+                    let outcome = reading
+                        .outcome
+                        .map(|o| o.as_str())
+                        .unwrap_or("changes state");
+                    let outcome = locale
+                        .lookup(&format!("transition.outcome.{outcome}"))
+                        .unwrap_or(outcome);
+                    match level {
+                        1 => locale.fill(
+                            "event.transition-point.lv1",
+                            "The sample from {vessel} {outcome} at {value} °C. Every pure substance has its own, always the same — which is how you tell one white powder from another.",
+                            &[("vessel", &vessel.to_string()), ("outcome", outcome), ("value", &locale.number(format!("{value:.1}")))],
+                        ),
+                        2 => locale.fill(
+                            "event.transition-point.lv2",
+                            "{vessel} {what}: {subject} {outcome} at {value} °C (± 0.5), sharp — one substance",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("outcome", outcome), ("value", &locale.number(format!("{value:.1}")))],
+                        ),
+                        _ => {
+                            let source = reading.source.as_deref().unwrap_or("uncited");
+                            let boundary = reading.boundary.as_deref().unwrap_or("");
+                            locale.fill(
+                                "event.transition-point.lv3",
+                                "{vessel} {what}: {subject} {outcome} at {value} °C ± 0.5 (sharp: one substance above the {trace} mole-fraction purity threshold). Source: {source}. Boundary: {boundary}",
+                                &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("outcome", outcome), ("value", &locale.number(format!("{value:.2}"))), ("trace", &locale.number(format!("{:.0e}", crate::instrument::PURITY_TRACE_FRACTION))), ("source", source), ("boundary", boundary)],
+                            )
+                        }
+                    }
+                }
+                (V::Mixture, level) => {
+                    let bound = reading
+                        .lowest_component_c
+                        .map(|c| locale.number(format!("{c:.1}")))
+                        .unwrap_or_else(|| "—".to_string());
+                    match level {
+                        1 => locale.fill(
+                            "event.transition-point.mixture.lv1",
+                            "It will not melt at one temperature — it goes soft and mushy over a whole range. That is what a mixture always does, and it is how you know this sample is not pure.",
+                            &[],
+                        ),
+                        2 => locale.fill(
+                            "event.transition-point.mixture.lv2",
+                            "{vessel} {what}: no sharp point — the sample is a mixture ({listed}). It softens and melts over a range, beginning below {bound} °C",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("listed", &listed), ("bound", &bound)],
+                        ),
+                        _ => locale.fill(
+                            "event.transition-point.mixture.lv3",
+                            "{vessel} {what}: refused — {listed} are all present above the purity threshold, so no sharp transition exists to report. {boundary}",
+                            &[("vessel", &vessel.to_string()), ("what", what), ("listed", &listed), ("boundary", reading.boundary.as_deref().unwrap_or(""))],
+                        ),
+                    }
+                }
+                (V::NotIsolated, level) => match level {
+                    1 => locale.fill(
+                        "event.transition-point.wet.lv1",
+                        "The sample is still wet. Dry it first — a damp sample melts low and messily, and the reading would be a lie.",
+                        &[],
+                    ),
+                    2 => locale.fill(
+                        "event.transition-point.wet.lv2",
+                        "{vessel} {what}: the sample is not isolated — something of another phase shares the vessel with the {subject}. Dry or separate it first",
+                        &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject)],
+                    ),
+                    _ => locale.fill(
+                        "event.transition-point.wet.lv3",
+                        "{vessel} {what}: refused — {subject} is the only substance of the wanted phase, but matter of another phase is present, so this is a wet or dissolved sample rather than an isolated one. {boundary}",
+                        &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject), ("boundary", reading.boundary.as_deref().unwrap_or(""))],
+                    ),
+                },
+                (V::NoData, level) => match level {
+                    1 => locale.fill(
+                        "event.transition-point.nodata.lv1",
+                        "Nobody has written this one down in the lab's book yet, so the apparatus has nothing to tell you.",
+                        &[],
+                    ),
+                    _ => locale.fill(
+                        "event.transition-point.nodata.lv2",
+                        "{vessel} {what}: the sample is one substance ({subject}), but the registry carries no {what} for it — no value is invented",
+                        &[("vessel", &vessel.to_string()), ("what", what), ("subject", &subject)],
+                    ),
+                },
+                (V::NothingToTest, level) => match level {
+                    1 => locale.fill(
+                        "event.transition-point.empty.lv1",
+                        "There is nothing in the tube to melt.",
+                        &[],
+                    ),
+                    _ => locale.fill(
+                        "event.transition-point.empty.lv2",
+                        "{vessel} {what}: nothing of the required phase is in the vessel",
+                        &[("vessel", &vessel.to_string()), ("what", what)],
+                    ),
+                },
+            }
+        }
+        Event::Dehydrated {
+            vessel,
+            hydrate,
+            anhydrous,
+            formula_units,
+            water,
+            at,
+        } => {
+            let hname = species::lookup(hydrate).map(|d| d.name).unwrap_or(hydrate.0.as_str());
+            let aname = species::lookup(anhydrous).map(|d| d.name).unwrap_or(anhydrous.0.as_str());
+            let water_g = species::lookup(&crate::SpeciesId::new("water"))
+                .map(|d| water.0 * d.molar_mass)
+                .unwrap_or(0.0);
+            match register.level() {
+                1 => locale.fill(
+                    "event.dehydrated.lv1",
+                    "The blue crystals turn white as the water is driven out of them. The water was never wet — it was locked inside the crystal, and now it has gone off as steam.",
+                    &[],
+                ),
+                2 => locale.fill(
+                    "event.dehydrated.lv2",
+                    "{vessel}: {hydrate} → {anhydrous} + water, driven off at {at} °C — {water_g} g of water left the crucible",
+                    &[("vessel", &vessel.to_string()), ("hydrate", hname), ("anhydrous", aname), ("at", &locale.number(format!("{:.0}", at.to_celsius()))), ("water_g", &locale.number(format!("{water_g:.4}")))],
+                ),
+                _ => locale.fill(
+                    "event.dehydrated.lv3",
+                    "{vessel}: dehydration at {at} K — {units} mol {hydrate} → {units} mol {anhydrous} + {water} mol H2O ({water_g} g). One step, to the anhydrous salt: the intermediate hydrates are real and are not modelled here",
+                    &[("vessel", &vessel.to_string()), ("at", &locale.number(format!("{:.1}", at.0))), ("units", &locale.number(format!("{:.6}", formula_units.0))), ("hydrate", hname), ("anhydrous", aname), ("water", &locale.number(format!("{:.6}", water.0))), ("water_g", &locale.number(format!("{water_g:.4}")))],
+                ),
+            }
+        }
+        Event::Hydrated {
+            vessel,
+            anhydrous,
+            hydrate,
+            formula_units,
+            water,
+        } => {
+            let hname = species::lookup(hydrate).map(|d| d.name).unwrap_or(hydrate.0.as_str());
+            let aname = species::lookup(anhydrous).map(|d| d.name).unwrap_or(anhydrous.0.as_str());
+            match register.level() {
+                1 => locale.fill(
+                    "event.hydrated.lv1",
+                    "A drop of water and the white powder goes blue again. The water has gone back into the crystal, exactly as much as came out.",
+                    &[],
+                ),
+                2 => locale.fill(
+                    "event.hydrated.lv2",
+                    "{vessel}: {anhydrous} + water → {hydrate}; {water} mol of water taken back into the crystal",
+                    &[("vessel", &vessel.to_string()), ("anhydrous", aname), ("hydrate", hname), ("water", &locale.number(format!("{:.6}", water.0)))],
+                ),
+                _ => locale.fill(
+                    "event.hydrated.lv3",
+                    "{vessel}: rehydration — {units} mol {anhydrous} + {water} mol H2O → {units} mol {hydrate}. Fired because the free water present is within the crystal's own stoichiometric demand; with more water than that, dissolution is the honest answer and the aqueous engine owns it",
+                    &[("vessel", &vessel.to_string()), ("units", &locale.number(format!("{:.6}", formula_units.0))), ("anhydrous", aname), ("water", &locale.number(format!("{:.6}", water.0))), ("hydrate", hname)],
+                ),
+            }
+        }
         Event::Measured {
             vessel,
             instrument,
