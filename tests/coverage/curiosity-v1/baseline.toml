@@ -995,8 +995,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-041"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "qualitative-route"
 
 [[observation]]
 id = "bio-042"
@@ -1230,7 +1230,7 @@ reason_code = "computed-route"
 id = "bio-080"
 owning_task = "BRD-052"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "unknown-reaction"
 
 [[observation]]
 id = "bio-081"
