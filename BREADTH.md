@@ -277,7 +277,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-010 — PubChem identity and approved-property adapter
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-003.
+- [x] **Status:** done on `brd010/pubchem-adapter`. **Size:** medium.
+  **Depends on:** BRD-003.
 - **Source/licence:** PubChem PUG REST and bulk records; US-government core is
   public-domain-like, but depositor annotations retain source-specific terms.
   Continue the existing per-field source allowlist; do not interpret “found in
@@ -312,11 +313,22 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   by check digit so the refusal is exact), the depositor synonym list itself,
   other registry identifiers, `ExactMass` and the database descriptors, and
   **every** depositor annotation — see the finding below.
-  The official IUPAC InChI library recomputes each record's Standard InChIKey
-  from its SMILES in `kerotakis-org`'s `native-inchi` gate; the per-record
-  verdict is pinned beside the fixture so the dependency-free crate can read it
-  in every build, and disagreements surface as BRD-003 `IdentityConflict` rows
-  rather than being resolved. The full dry run — snapshot → quarantine →
+  The official IUPAC InChI library recomputes identity along **two independent
+  routes** in `kerotakis-org`'s `native-inchi` gate, because one number would
+  have conflated two different questions. Re-keying PubChem's own published
+  Standard InChI puts nothing of ours in the path, so a disagreement there
+  would be a statement about the source: it agrees on **100 of 100**, and the
+  test asserts that exact count. Round-tripping the structure
+  (SMILES → molfile → InChI → key) also exercises our own `chematic` bridge:
+  73 agree, 27 conflict, and 23 of those 27 keep the record's connectivity
+  block while returning the `UHFFFAOYSA` "no stereo, no isotope" hash — our
+  molfile writer dropping layers on precisely the stereochemistry pairs and
+  isotopologues this fixture was built to contain. The remaining four are
+  `[Al]`, `[S]`, `[Mg]` and brass. None is repaired here; teaching the bridge
+  to carry stereo and isotope layers is CAP-13 work. The per-record verdict is
+  pinned beside the fixture so the dependency-free crate reads it in every
+  build, and every disagreement surfaces as a BRD-003 `IdentityConflict` row
+  naming its route rather than being resolved. The full dry run — snapshot → quarantine →
   allowlist → normalized candidates → `lint_promotion` — passes over 100
   records and 1297 policy-covered fields, and refuses each planted violation.
   Nothing was promoted: `registry-source-v1.json` is untouched, and
