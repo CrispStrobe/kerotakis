@@ -1518,7 +1518,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-080 — Molecular viewer selection spike
 
-- [ ] **Status:** open/decision gate. **Size:** small-medium. **Depends on:**
+- [ ] **Status:** claimed 2026-08-31 on `brd080/viewer-decision`; decision work
+  in progress. **Size:** small-medium. **Depends on:**
   BRD-012.
 - **Candidates/licences:** 3Dmol.js (BSD) and Mol* (MIT). Primary projects:
   <https://github.com/3dmol/3Dmol.js> and
@@ -1530,6 +1531,35 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   macromolecular/volume capability justifies its complexity. Do not ship both.
 - **Acceptance:** report and prototype behind a disposable route; exact licence
   inventory; no production dependency in the decision PR.
+- **Claimed progression (minimum 2 h; merge each checkpoint independently):**
+  1. [ ] **BRD-080a — Reproducible candidate evidence (45–75 min).** Pin the
+     exact 3Dmol.js and Mol* releases, licences and dependency closures; build
+     the same molecule, CIF, protein, cube and trajectory fixture matrix with
+     cold bundle-size and offline checks. **DoD:** a committed, deterministic
+     evidence command refuses missing fixtures/unknown licences, records raw +
+     gzip bytes and dependency counts, and tests malformed/incomplete reports;
+     no runtime dependency enters the production app.
+  2. [ ] **BRD-080b — Disposable comparison route (45–75 min).** Exercise both
+     candidates behind one spike-only adapter contract with selection, labels,
+     resize/dispose and accessible tabular fallback. **DoD:** identical fixture
+     inputs and scripted interactions run for both viewers; teardown and
+     unsupported-volume/crystal cases are explicit; keyboard, reduced-motion,
+     offline and bounded-mobile-memory evidence is captured; full frontend
+     tests/build/licence gates pass.
+  3. [ ] **BRD-080c — Audited go/no-go record (30–60 min).** Independently
+     review the measurements and choose exactly one candidate, or close no-go
+     with the existing 2-D fallback named. **DoD:** primary-source citations,
+     exact transitive licence inventory, target/bundle/memory table, decision
+     rule application and reproducible artifact hashes are committed; BRD-080
+     closes and BRD-081 is either unblocked with a bounded first slice or
+     marked not-applicable without overstating capability.
+  4. [ ] **BRD-081a — Renderer-neutral accessible core (60–90 min,
+     conditional on go).** Land `ScientificView` data/view-state contracts and
+     the plain-language/table alternative before the selected renderer.
+     **DoD:** deterministic serialization, hostile/invalid input bounds,
+     molecule + crystal + orbital fixture coverage, SSR/offline behavior and
+     full workspace/preflight gates; no conformer, unit cell or surface is
+     inferred.
 
 ### BRD-081 — Molecular/crystal viewer integration
 
