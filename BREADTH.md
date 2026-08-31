@@ -441,6 +441,47 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   mass; API keys and network access never enter builds or runtime.
 - **Out of scope:** nutrition advice, branded-product fidelity, flavor chemistry,
   or inferring pH/reactions from nutrient labels.
+- **Adapter checkpoint (2026-08-30):** the adapter lands as
+  `kerotakis_data::usda` over a pinned snapshot of fifteen Foundation Foods
+  records — milk, egg, wheat flour, apple and orange juice, soybean oil,
+  granulated sugar, butter, table salt, yogurt, oats, potato, carrot, white
+  rice and dry cannellini beans. The pin is the versioned release archive
+  (`FoodData_Central_foundation_food_json_2025-04-24.zip`, checksummed before
+  it is read), not the REST API: the archive carries a release identity, needs
+  no API key at all, and contains two records — whole milk (fdcId 746782) and
+  whole egg (748967) — that `/food/{id}` returns 404 for and that the bulk
+  endpoint silently omits from a fifteen-id request. Honey is absent because
+  Foundation Foods carries no honey record.
+  Mapping is deliberately narrow. Water, individually determined sugars,
+  individually determined organic acids, starch and alcohol become proposed
+  registry species; `protein`, `fat`, `ash`, `dietary fibre` and the
+  carbohydrate no determination accounts for stay named, conserved, unresolved
+  components. A sugar becomes a species only where USDA determined *that*
+  sugar: wheat flour, oats, rice, carrots and beans report no individual
+  sugar, so their whole carbohydrate stays unresolved, and `Sugars, Total` is
+  refused as a restatement rather than read. Minerals are elemental totals —
+  USDA measured how much sodium is in the food, never which salt it was in —
+  so they are reported as an element inventory inside `ash` and never become
+  an ion or a salt. Table salt is the sharpest case: its record states 38.7 g
+  of sodium and no chlorine at all, so `NaCl` is an inference the adapter
+  declines to make. Lactose, galactose, oxalic and quinic acid are determined
+  but have no registry species; their mass stays named under its own compound
+  name instead of vanishing into an anonymous remainder. Glucose, fructose,
+  citric acid and malic acid are proposed species the registry does not carry
+  yet, reported as a registry-gap list rather than silently dropped.
+  Every amount is converted to the record's own per-100 g basis before any
+  unit reaches a candidate, so a candidate quantity carries the reviewed
+  `g/100g` spelling and normalizes onto `MassPerMass`; `kcal`, `kJ` and `IU`
+  are typed rejections that keep their original spelling.
+  Twelve of the fifteen foods reconcile — resolved plus named unresolved
+  equals the declared 100 g within the record's own stated min/max spread —
+  and three are reported conflicts rather than candidates: soybean oil,
+  unsalted butter and table salt each leave a proximate unstated, and an
+  unstated proximate is not a zero. `lint_promotion` passes the clean flow and
+  refuses four planted violations plus a policy that would admit a ShareAlike
+  licence. Nothing is promoted: the runtime registry and the material packs
+  are untouched, and the snapshot sits in the new `quarantine` provenance lane
+  with a CC0 licence and a `review-required` decision.
 
 ### BRD-014 — Household and school material packs
 
