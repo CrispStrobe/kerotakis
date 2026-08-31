@@ -16,8 +16,15 @@ describe("shelf stock levels", () => {
       { key: "NaCl", remaining: 0.2, unit: "mol" },
       { key: "white_vinegar_5_percent", remaining: 40, unit: "g" },
     ]);
-    expect(levels["NaCl"].remaining).toBe(0.2);
-    expect(levels["white_vinegar_5_percent"].unit).toBe("g");
+    // Asserted through the whole object rather than by indexing into a
+    // possibly-undefined one: `noUncheckedIndexedAccess` is right that a
+    // lookup can miss, and this says what the entry should BE anyway.
+    expect(levels["NaCl"]).toEqual({ key: "NaCl", remaining: 0.2, unit: "mol" });
+    expect(levels["white_vinegar_5_percent"]).toEqual({
+      key: "white_vinegar_5_percent",
+      remaining: 40,
+      unit: "g",
+    });
     expect(levels["water"]).toBeUndefined();
   });
 
