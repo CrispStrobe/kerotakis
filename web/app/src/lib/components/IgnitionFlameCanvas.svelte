@@ -21,6 +21,7 @@
   import type { Effect } from "../magnitudes";
   import { ignitionFlameUniforms } from "../ignitionFlameUniforms";
   import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
+  import type { WebGpuMetricsRegistry, WebGpuMetricsSession } from "../webGpuMetricsRegistry";
   import {
     browserAnimationScheduler,
     createBrowserIgnitionFlameSurface,
@@ -36,11 +37,13 @@
     effect: flameEffect,
     vesselIdentity,
     gpu,
+    metricsRegistry,
     onfallbackchange,
   }: {
     effect: Effect | null | undefined;
     vesselIdentity: number | string;
     gpu: IgnitionFlameGpuSnapshot;
+    metricsRegistry: WebGpuMetricsRegistry;
     /** Reports whether the sibling SVG correctness layer must be visible. */
     onfallbackchange?: (visible: boolean) => void;
   } = $props();
@@ -50,6 +53,7 @@
   let scheduler = $state<AnimationSchedulerLike | null>(null);
   let mounted = $state(false);
   let gpuPresented = $state(false);
+  let metricsSession: WebGpuMetricsSession | null = null;
 
   const publishFallback = (visible: boolean): void => {
     gpuPresented = !visible;
@@ -70,6 +74,7 @@
       adapter = createWebGpuRendererAdapter({
         surface,
         scheduler,
+        metrics: metricsSession?.metrics,
         setFallbackVisible: publishFallback,
         nowSeconds: () => {
           const performanceValue = Reflect.get(globalThis, "performance") as object | undefined;
@@ -99,6 +104,7 @@
 
   onMount(() => {
     mounted = true;
+    metricsSession = metricsRegistry.open(vesselIdentity);
     resizeBackingStore();
     scheduler = browserAnimationScheduler();
     initializeSurface();
@@ -113,6 +119,8 @@
         Reflect.apply(removeEventListener, globalThis, ["resize", resizeBackingStore]);
       }
       adapter?.dispose();
+      metricsSession?.dispose();
+      metricsSession = null;
       adapter = null;
       scheduler = null;
       mounted = false;

@@ -6,6 +6,8 @@ describe("Bench WebGPU ownership", () => {
 
   it("owns one policy and passes one atomic snapshot to every vessel", () => {
     expect(source.match(/createWebGpuEnvironmentPolicy\(/g)).toHaveLength(1);
+    expect(source.match(/createWebGpuMetricsRegistry\(/g)).toHaveLength(1);
+    expect(source).toContain("{gpuMetricsRegistry}");
     expect(source.match(/browserGpuEnvironment\(\)/g)).toHaveLength(1);
     expect(source).toContain("gpuIgnition={gpuSnapshot}");
     expect(source).not.toContain("requestAdapter(");

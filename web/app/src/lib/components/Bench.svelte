@@ -15,6 +15,7 @@
     type WebGpuEnvironmentPolicy,
     type WebGpuEnvironmentSnapshot,
   } from "../webGpuLifecycle";
+  import { createWebGpuMetricsRegistry, type WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
   import {
     BENCH_ZONES,
     apparatusPositionFor,
@@ -61,6 +62,7 @@
     missionEvidence = false,
     onopenmission,
     onremove,
+    gpuMetricsRegistry = createWebGpuMetricsRegistry(),
   }: {
     scene: Scene | null;
     room?: "discovery" | "research" | "orbital";
@@ -93,6 +95,8 @@
     missionEvidence?: boolean;
     onopenmission?: () => void;
     onremove?: (vessel: number) => void;
+    /** Optional injection seam for a local diagnostics probe. */
+    gpuMetricsRegistry?: WebGpuMetricsRegistry;
   } = $props();
 
   let choosing = $state(false);
@@ -156,7 +160,7 @@
 
   onMount(() => {
     const environment = browserGpuEnvironment();
-    if (!environment) return;
+    if (!environment) return () => gpuMetricsRegistry.dispose();
     const policy = createWebGpuEnvironmentPolicy({
       provider: environment.provider,
       reducedMotion: environment.reducedMotion,
@@ -176,6 +180,7 @@
         decision: { backend: "lightweight", reason: "effect-not-approved" },
         preferredCanvasFormat: null,
       };
+      gpuMetricsRegistry.dispose();
     };
   });
 
@@ -502,6 +507,7 @@
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
             gpuIgnition={gpuSnapshot}
+            {gpuMetricsRegistry}
             titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}

@@ -1899,6 +1899,41 @@ and presents them well.
      - [ ] Lab checkpoint: collect and independently review physical web,
        Android, iOS, macOS and Windows artifacts; the committed template and
        matrix deliberately remain PENDING until those runs exist.
+  8. [ ] **GPU-6 — Runtime-to-release evidence pipeline (10–13 h).** Close the
+     gap between the renderer's bounded telemetry and the physical release
+     artifacts. This is four independently mergeable checkpoints; none may
+     turn CI, a simulator or an unavailable adapter into physical evidence.
+     - [x] **GPU-6a — Runtime metrics ownership (2–3 h).** Inject a real
+       collector into every active flame renderer and expose one bounded,
+       renderer-local report seam. **DoD:** simultaneous vessels remain
+       bounded; disposal removes sessions; SSR and hostile observers are safe;
+       no per-frame IPC/readback/allocation or Scene/Event authority changes;
+       focused and full frontend/build gates pass.
+       *Done 2026-08-31:* one bench-owned, injectable registry opens a bounded
+       session for each mounted vessel flame and passes its preallocated
+       collector into the real renderer. The 32-session cap evicts only
+       diagnostics, never presentation; unmount and bench disposal reset and
+       remove sessions. Snapshots aggregate detached scalar reports, and
+       hostile factories, snapshot/reset hooks and report observers are
+       contained. Forty-six focused tests and the production build pass;
+       candidate JavaScript is 599.48 kB minified / 199.66 kB gzip. The
+       physical probe/export handshake remains GPU-6d.
+     - [ ] **GPU-6b — Probe contract hardening (2–3 h).** Validate raw startup,
+       warmup, CPU submission, rAF and unavailable-adapter artifacts before
+       evaluation. **DoD:** malformed versions/modes/counts/non-finite samples
+       and incomplete reports fail closed with deterministic CLI exit codes;
+       a single host can never claim matrix passage; Node contract tests pass.
+     - [ ] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
+       probe, evaluator and provenance self-tests one dependency-free command
+       and run it in CI/preflight. **DoD:** no browser, GPU, network or physical
+       claim is required; a failing self-test blocks CI; local and CI commands
+       are identical.
+     - [ ] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
+       paired baseline/candidate probes, asset reports and provenance hashes in
+       one versioned manifest. **DoD:** executable fixtures prove schema and
+       hash consistency, bounded runtime aggregation and five unique physical
+       rows; payload/startup/frame thresholds remain explicit; full repository
+       gates and protected-main delivery pass.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
