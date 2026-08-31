@@ -443,6 +443,7 @@ const REGISTRY_PREFIXES: &[&str] = &[
     "BDBM",
     "FT-",
     "CS-",
+    "DB-",
     "AI3-",
     "WLN:",
     "EPA PESTICIDE",

@@ -53,13 +53,28 @@ fuzz_target!(|data: &[u8]| {
         }
 
         let _ = review_candidates(import.candidates.clone(), &policy);
-        // A recomputation oracle that answers nonsense must still produce a
-        // report, and must never be read as an agreement.
-        let crosscheck = cross_check_identity(&import, |smiles| Ok(smiles.to_uppercase()));
-        assert_eq!(
-            crosscheck.checked,
-            crosscheck.agreements + crosscheck.conflicts + crosscheck.not_recomputed
+        // Recomputation oracles that answer nonsense must still produce a
+        // report, and must never be read as an agreement. Both routes are
+        // driven: one answers garbage, one refuses outright.
+        let crosscheck = cross_check_identity(
+            &import,
+            |smiles| Ok(smiles.to_uppercase()),
+            |_| Err("fuzz: no library here".to_owned()),
         );
+        for route in [&crosscheck.from_structure, &crosscheck.from_published_inchi] {
+            assert_eq!(
+                crosscheck.checked,
+                route.agreements
+                    + route.conflicts
+                    + route.not_recomputed
+                    + route.no_snapshot_identity,
+                "every record must land in exactly one outcome per route"
+            );
+        }
+        // A refusing oracle can never manufacture an agreement or a conflict.
+        assert_eq!(crosscheck.from_published_inchi.agreements, 0);
+        assert_eq!(crosscheck.from_published_inchi.conflicts, 0);
+        assert!(crosscheck.skeleton_preserving_conflicts() <= crosscheck.from_structure.conflicts);
     }
 
     if let Ok(text) = std::str::from_utf8(data) {
