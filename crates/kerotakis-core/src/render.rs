@@ -316,6 +316,54 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string())],
             ),
         },
+        Event::SpillCreated {
+            destination,
+            source,
+            fraction,
+            ..
+        } => match register.level() {
+            1 => format!("Material from {source} spills onto {destination:?}."),
+            _ => format!(
+                "{source}: {:.3}% transferred to spill {destination:?}",
+                fraction * 100.0
+            ),
+        },
+        Event::ContainerBroken {
+            vessel,
+            destination,
+            impulse_ns,
+            ..
+        } => match register.level() {
+            1 => format!("{vessel} breaks; its contents spill onto {destination:?}."),
+            _ => format!("{vessel}: container broke at {impulse_ns:.3} N·s; destination {destination:?}"),
+        },
+        Event::CollisionWithstood {
+            vessel, impulse_ns, ..
+        } => match register.level() {
+            1 => format!("{vessel} is knocked but stays intact."),
+            _ => format!("{vessel}: collision withstood at {impulse_ns:.3} N·s"),
+        },
+        Event::SpillRecovered {
+            destination,
+            to,
+            fraction,
+        } => match register.level() {
+            1 => format!("Material from {destination:?} is recovered into {to}."),
+            _ => format!(
+                "spill {destination:?}: {:.3}% recovered into {to}",
+                fraction * 100.0
+            ),
+        },
+        Event::SpillHazard {
+            destination,
+            severity,
+            hazard,
+            real_world,
+            ..
+        } => match register.level() {
+            1 => format!("Hazard at spill {destination:?}: {hazard} {real_world}"),
+            _ => format!("spill {destination:?}: {severity:?}: {hazard}; {real_world}"),
+        },
         Event::Added {
             vessel,
             species: sid,
@@ -1894,6 +1942,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             severity,
             hazard,
             real_world,
+            ..
         } => {
             let severity_en = format!("{severity:?}");
             let severity_text = locale
@@ -2400,10 +2449,15 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
     match event {
         Event::HazardWarning {
             severity,
+            rule,
             hazard,
             real_world,
         } => Event::HazardWarning {
             severity: *severity,
+            // The rule id is machine identity, not prose: it crosses the
+            // locale boundary untranslated so contracts recognise it in
+            // every language.
+            rule: rule.clone(),
             hazard: localize_hazard(hazard, locale),
             real_world: locale
                 .lookup(&format!("real_world.{real_world}"))

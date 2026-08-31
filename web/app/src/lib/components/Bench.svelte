@@ -1,10 +1,26 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import type { Scene } from "../host/EngineHost";
   import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
   import BenchEffect from "./BenchEffect.svelte";
+  import BenchIncident from "./BenchIncident.svelte";
+  import { incidentEffects } from "../incidents";
   import StandaloneApparatus from "./StandaloneApparatus.svelte";
   import { t } from "../i18n.svelte";
+  import { benchIgnitionApproved } from "../ignitionBenchApproval";
+  import { browserGpuEnvironment } from "../browserGpuEnvironment";
+  import {
+    createWebGpuEnvironmentPolicy,
+    type WebGpuEnvironmentPolicy,
+    type WebGpuEnvironmentSnapshot,
+  } from "../webGpuLifecycle";
+  import {
+    attachWebGpuMetricsReporter,
+    browserWebGpuMetricsReporterTarget,
+    createWebGpuMetricsRegistry,
+    type WebGpuMetricsRegistry,
+  } from "../webGpuMetricsRegistry";
   import {
     BENCH_ZONES,
     apparatusPositionFor,
@@ -13,6 +29,8 @@
     apparatusRoute,
     positionVessel,
     placementsOverlap,
+    tidyLayout,
+    vesselContent,
     zoneAt,
     zoneFor,
     type BenchLayout,
@@ -51,6 +69,7 @@
     missionEvidence = false,
     onopenmission,
     onremove,
+    gpuMetricsRegistry = createWebGpuMetricsRegistry(),
   }: {
     scene: Scene | null;
     room?: "discovery" | "research" | "orbital";
@@ -83,6 +102,8 @@
     missionEvidence?: boolean;
     onopenmission?: () => void;
     onremove?: (vessel: number) => void;
+    /** Optional injection seam for a local diagnostics probe. */
+    gpuMetricsRegistry?: WebGpuMetricsRegistry;
   } = $props();
 
   let choosing = $state(false);
@@ -95,6 +116,13 @@
   let apparatusPointer = $state<{ tool: string; pointer: number; startX: number; startY: number; moved: boolean } | null>(null);
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
+  let gpuClock = $state(Date.now());
+  let gpuPolicy = $state<WebGpuEnvironmentPolicy | null>(null);
+  let gpuSnapshot = $state<WebGpuEnvironmentSnapshot>({
+    lifecycle: { status: "idle" },
+    decision: { backend: "lightweight", reason: "effect-not-approved" },
+    preferredCanvasFormat: null,
+  });
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
   const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate", "dilute"];
   const zoneHints: Record<BenchZone, string> = {
@@ -115,9 +143,58 @@
   const spatialLayoutKey = $derived(
     JSON.stringify({ placements: layout.placements, preview: dragPreview }),
   );
+  const incidents = $derived(incidentEffects(effects));
+  const gpuApproved = $derived(benchIgnitionApproved(effects, gpuClock));
   const standaloneWorking = $derived(
     apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null),
   );
+
+  $effect(() => {
+    const now = Date.now();
+    gpuClock = now;
+    const nextExpiry = Object.values(effects).flat()
+      .filter((effect) => effect.kind === "ignite" && effect.at <= now)
+      .map((effect) => effect.at + (effect.durationMs ?? 3000))
+      .filter((expiry) => expiry > now)
+      .sort((left, right) => right - left)[0];
+    if (nextExpiry === undefined) return;
+    const delay = Math.min(2_147_483_647, Math.max(0, nextExpiry - now + 1));
+    const timer = globalThis.setTimeout(() => (gpuClock = Date.now()), delay);
+    return () => globalThis.clearTimeout(timer);
+  });
+
+  $effect(() => gpuPolicy?.setEffectApproved(gpuApproved));
+
+  onMount(() => {
+    const reporterTarget = browserWebGpuMetricsReporterTarget();
+    const detachMetricsReporter = reporterTarget
+      ? attachWebGpuMetricsReporter(reporterTarget, gpuMetricsRegistry)
+      : () => undefined;
+    const environment = browserGpuEnvironment();
+    if (!environment) return () => { detachMetricsReporter(); gpuMetricsRegistry.dispose(); };
+    const policy = createWebGpuEnvironmentPolicy({
+      provider: environment.provider,
+      reducedMotion: environment.reducedMotion,
+      document: environment.document,
+      effectApproved: gpuApproved,
+      headless: environment.headless,
+    });
+    gpuPolicy = policy;
+    const unsubscribe = policy.subscribe((snapshot) => (gpuSnapshot = snapshot));
+    policy.start();
+    return () => {
+      detachMetricsReporter();
+      unsubscribe();
+      policy.dispose();
+      if (gpuPolicy === policy) gpuPolicy = null;
+      gpuSnapshot = {
+        lifecycle: { status: "fallback", reason: "stopped" },
+        decision: { backend: "lightweight", reason: "effect-not-approved" },
+        preferredCanvasFormat: null,
+      };
+      gpuMetricsRegistry.dispose();
+    };
+  });
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) =>
@@ -301,6 +378,24 @@
     placeApparatusAt(tool, target, current.x + dx, current.y + dy);
   }
 
+  /**
+   * GUI-094: one press puts the bench back in reading order — what is
+   * holding something first, empty glassware last. Presentation only: it
+   * writes placements, which is the same client-side state a drag writes
+   * and which the session already persists, and sends nothing to the
+   * engine. Vessel ids, contents and history are untouched.
+   */
+  const tidyable = $derived((scene?.vessels.length ?? 0) > 1 && Boolean(onmove));
+  function tidyBench() {
+    if (!scene) return;
+    const next = tidyLayout(
+      layout,
+      scene.vessels.map((vessel) => ({ id: vessel.id, content: vesselContent(vessel) })),
+    );
+    onmove?.(next);
+    announceMove(t("bench tidied — full vessels first, empty ones last"));
+  }
+
   function apparatusKeydown(event: KeyboardEvent, tool: string, target: number) {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -353,6 +448,17 @@
       {showZones ? t("hide workflow guides") : t("show workflow guides")}
     </button>
   {/if}
+  {#if tidyable}
+    <button
+      class="guide-toggle tidy-toggle"
+      class:stacked={Boolean(ontogglezones)}
+      title={t("arrange the bench: full vessels first, empty ones last")}
+      onclick={tidyBench}
+    >
+      <span aria-hidden="true">⇲</span>
+      {t("tidy bench")}
+    </button>
+  {/if}
   {#if onopensafety}
     <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
       <span class="safety-mark" aria-hidden="true">✦</span>
@@ -392,6 +498,10 @@
       role="group"
       aria-label={t("free-positioned laboratory bench")}
     >
+      {#each incidents as effect (effect.at + ":" + effect.source + ":" + effect.kind)}
+        {@const incidentPosition = positionFor(layout, effect.source ?? 0)}
+        <BenchIncident {effect} x={incidentPosition.x} y={incidentPosition.y} />
+      {/each}
       {#if showZones}
         <div class="zone-guides" aria-label={t("bench work zones")}>
           {#each BENCH_ZONES as zone (zone)}
@@ -437,6 +547,8 @@
             {onselect}
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
+            gpuIgnition={gpuSnapshot}
+            {gpuMetricsRegistry}
             titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
@@ -732,6 +844,10 @@
     cursor: pointer;
   }
   .guide-toggle:hover { color: var(--primary); border-color: var(--primary); }
+  /* Same pill, same rail as the workflow-guide toggle — both are
+     bench-arrangement controls and belong to one another. It takes the
+     rail's second slot only when that toggle is actually there. */
+  .tidy-toggle.stacked { top: 5.1rem; }
   .wall-safety {
     position: absolute;
     z-index: 8;

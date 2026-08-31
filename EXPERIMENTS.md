@@ -560,12 +560,16 @@ What follows is only what is genuinely NEW.
   solution precipitates barite, computed from the shipped USGS
   database's own Barite phase rather than curated, with barium and
   sulfur conserved across the solve
-  (`kerotakis-phreeqc/tests/school_salts.rs`). STILL OPEN: NH3/SO2
-  gas test observables (EXP-31 overlap), flame tests wiring,
-  sealed-unknown salt quests, MIX-path parity
-  (the MIX input builder still filters phases to native names, so
-  polymorph translation and foreign injection do not apply when two
-  solutions are combined by fraction). The INST-008
+  (`kerotakis-phreeqc/tests/school_salts.rs`). THIRD SLICE
+  (2026-08-29): the **sealed-unknown salt quests** — seven quest specs
+  (six single unknowns plus a two-unknown capstone), authoring only,
+  no engine change; see the gap log below for what the authoring could
+  NOT reach. STILL OPEN: NH3/SO2 gas test observables (EXP-31
+  overlap), a dedicated flame-test verb, excess-alkali amphoterism,
+  MIX-path parity (the MIX input builder still filters phases to
+  native names, so polymorph translation and foreign injection do not
+  apply when two solutions are combined by fraction), and the
+  sealed-unknown display layer outside the CLI. The INST-008
   `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
   the classic scheme as computed chemistry — cation tests (NaOH/NH3
   precipitation with excess behaviour), anion tests (AgNO3 halide
@@ -577,6 +581,80 @@ What follows is only what is genuinely NEW.
   backed by a computed solve or a curated row with provenance; wrong
   inferences get diagnosis lines in the codex predict style. HARDER
   (breadth, not depth) — the highest-value single item in this part.
+
+  ### EXP-30 quest slice (2026-08-29) — what landed
+  Seven sealed-unknown specs in `quests/`, TOML only, every hit path
+  and one wrong-identification path run in the REPL before it was
+  written down. Salts sealed: CuSO4, FeSO4, MgSO4, Na2CO3, FeCl3,
+  BaCl2 (single unknowns) and Na2SO4 + NaCl together (capstone).
+  Acceptance's "six unknown salts identifiable by tests alone" is met,
+  and the multi-unknown question is **answered rather than blocked**:
+  `QuestSpec.unknowns` is a map, the CLI installs every alias on the
+  shelf at `quest start`, and `two-white-jars.toml` completes in both
+  interleavings — no engine change was needed.
+
+  ### EXP-30 engine gap log — classic tests NOT usable in a quest
+  One line each, from running them, not from reading the source. The
+  list is deliberately not shrinking: two entries below were *added*
+  by this slice.
+  - **NH3 from an ammonium salt** — `NH4Cl + NaOH` in an open beaker
+    produces no gas event of any kind (pH goes 4.93 → 12.65 and that
+    is all), so the damp-litmus test has nothing to work on and
+    ammonium cannot be a sealed unknown. Blocker: no NH3 degassing
+    path out of the aqueous solve. NEAR (engine route).
+  - **SO2 from a sulfite** — same shape; only the *thermal* route
+    (`ignite` on a dry sulfate) emits SO2, which is decomposition, not
+    the acid + sulfite bench test. NEAR (engine route).
+  - **Flame tests** — partly reachable, and only by accident of
+    plumbing: there is no flame-test verb, the `FlameTest` event falls
+    out of `ignite` when the CEA thermal solver declines to burn the
+    contents, and it reports the FIRST content that carries a
+    `flame_colour`. It works cleanly on dry BaCl2 (apple green),
+    NaCl / Na2SO4 (bright yellow) and KCl (lilac) — `the-heavy-salt`
+    claims it — but dry CuSO4, MgSO4 and FeSO4 thermally decompose
+    instead (CuO/MgO/Fe2O3 + SO2) and emit no flame-test event at all,
+    and Na2CO3 carries no flame colour in the registry. On a solution
+    the event names the dissolved ion (`Na+`), which is correct
+    chemistry but bypasses the alias mask. NEAR (a `flame <vessel>`
+    verb over the registry colour, independent of combustion).
+  - **Excess-alkali amphoterism (Zn, Al)** — measured, not assumed:
+    0.01 mol ZnSO4 + 0.02 mol NaOH gives 0.0100 mol Zn(OH)2, and a
+    further 0.10 mol NaOH returns only **0.0002 mol** to solution.
+    The zincate complex is not in the candidate phase set, so the
+    hydroxide does not redissolve and Zn cannot be told from Mg. This
+    is why `the-bitter-salt` states its candidate list excludes zinc
+    instead of pretending. NEAR (data: zincate/aluminate species).
+  - **MIX parity** — unchanged and still open; every quest here adds
+    reagents to one vessel rather than combining solutions by
+    fraction, which is the only reason the polymorph translation holds
+    throughout. HARDER (engine route).
+  - **Sealed unknowns leak through `inspect`** (new) — `print_vessel`
+    is the one CLI render path that does not call `mask()`, so
+    `inspect v1` on a sealed BaCl2 prints "barium ion" in full. Even
+    masked it would leak: `mask()` rewrites only the sealed key and
+    its display name, never the ions it dissociates into. Pre-existing
+    (it affects `the-white-unknown` too), out of scope for a TOML-only
+    change. NEAR (CLI display layer).
+  - **Sealing a hazardous species drops its hazard chip** (new) — the
+    "toxic" label on soluble barium hangs off the registry KEY
+    (`kerotakis_safety::hazard_labels`), and a sealed alias has no
+    key, so on every surface that renders hazards the sealed jar shows
+    nothing. In the CLI this is invisible either way (the REPL never
+    renders hazard labels on an `add`), but it means the BaCl2
+    teaching moment in `the-heavy-salt` lives in the quest prose
+    rather than on the bench. Worth a decision before sealed unknowns
+    reach the GUI. NEAR (safety/display).
+  - **Sealed unknowns are CLI-only** — `kerotakis-wasm` exposes
+    `questStart`/`questAnswer` but has no alias map and no mask, so a
+    sealed-unknown quest exported to the web bench would show the real
+    species on the shelf. GUI work, not authoring. NEAR (GUI).
+  - **A sealed species that is also a standard reagent is ambiguous**
+    — `mask()` is a global string substitution, so with BaCl2 sealed
+    every line mentioning the *reagent* barium chloride would read as
+    the alias. `the-heavy-salt` sidesteps it by running the sulfate
+    test backwards (Na2SO4 is the reagent, the unknown supplies the
+    barium), which turned out to be the better quest anyway. Authoring
+    constraint, not a bug.
 - **EXP-31 — Gas tests** — [x] **done 2026-08-25** (kero1), branch
   `kero1/exp31-gas-tests`. Pop (H2), glowing splint (O2), limewater
   (CO2), damp litmus (NH3) as curated test actions on the headspace,
@@ -1034,9 +1112,11 @@ quest prose, and EXP-0 is still the gate everything waits behind.
 # Part 10: quest authoring coverage (audit 2026-08-25)
 
 ## Current state
-25 quest TOML files in `quests/`, all passing `kero quest lint`.
+32 quest TOML files in `quests/`, all passing `kero quest lint`.
 18 authored 2026-08-25 (kero-basic); 5 pre-existing; 2 sealed-unknown
-variants added 2026-08-29 with the T2 value-claim upgrades below.
+variants added 2026-08-29 with the T2 value-claim upgrades below;
+7 EXP-30 salt-analysis quests added 2026-08-29 (six single sealed
+unknowns and the first two-unknown capstone).
 
 ## Quests authored (by EXP number)
 | EXP | File | Claim types | Gap |
@@ -1059,6 +1139,13 @@ variants added 2026-08-29 with the T2 value-claim upgrades below.
 | 24 | solubility.toml | event + value | molarity:Na+ at saturation (6.10 ± 0.05 mol/L) |
 | 25 | redox-ordering.toml | event | — |
 | 26 | gravimetric.toml | event + value + identify | mass_g claim and sealed unknown landed |
+| 30 | the-blue-salt.toml | event + identify | sealed CuSO4; hydroxide colour + BaSO4 |
+| 30 | the-green-salt.toml | event + identify | sealed FeSO4; Fe(OH)2 with Fe(OH)3 absent |
+| 30 | the-bitter-salt.toml | event + identify | sealed MgSO4; candidate list excludes Zn (no amphoterism) |
+| 30 | the-fizzing-salt.toml | event + value + identify | sealed Na2CO3; ph 11.26 ± 0.6, gas_contained + limewater |
+| 30 | the-rust-maker.toml | event + value + identify | sealed FeCl3; hydrolysis ph 1.92 ± 0.5, Fe(OH)3, AgCl |
+| 30 | the-heavy-salt.toml | event + identify | sealed BaCl2; inverted sulfate test + flame_test (apple green) |
+| 30 | two-white-jars.toml | event + identify ×2 | capstone: TWO sealed unknowns (Na2SO4 + NaCl), any interleaving |
 | 31 | gas-tests.toml | event | — |
 | 35 | alcohol-burn.toml | event + value | temperature_c on the ethanol flame (2496.3 ± 2.0 °C); methanol does not ignite — no CEA mapping |
 | 37 | spectrophotometry.toml | event | — |
@@ -1084,7 +1171,7 @@ required chemistry, data, or model:
 | 27 | 1:1 association-K solver | HARDER (model) |
 | 28 | speciation→colour coupling | HARDER (model) |
 | 29 | arsenic-series registry rows | NEAR (data) |
-| 30 | qualitative inorganic test scheme (6+ salts) | HARDER (breadth) |
+| 30 | ~~qualitative inorganic test scheme (6+ salts)~~ — **authored 2026-08-29**: 6 single unknowns + a 2-unknown capstone | done |
 | 32 | particle-size classification + Tyndall flag | NEAR (data+model) |
 | 33 | MP/BP instrument + sublimation phase route | NEAR (instrument) |
 | 34 | curated slow iron oxidation (water+O₂ gated) | NEAR (data) |

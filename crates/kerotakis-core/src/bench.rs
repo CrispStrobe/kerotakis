@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::authority::SpillDestination;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{
@@ -13,6 +14,7 @@ use crate::solve::{
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
+use crate::spill::SpillCompartment;
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{
     Headspace, MaterialLot, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
@@ -41,6 +43,10 @@ pub enum BenchError {
     VesselNotEmpty(VesselId),
     #[error("the last vessel must stay on the bench")]
     LastVessel,
+    #[error("vessel {0} is broken and cannot be used")]
+    BrokenVessel(VesselId),
+    #[error("no spill exists at the requested destination")]
+    NoSuchSpill,
     #[error("vessel {vessel} contains no solid {species} to grind")]
     SolidNotPresent {
         vessel: VesselId,
@@ -66,6 +72,10 @@ pub enum BenchError {
 pub struct Bench {
     pub vessels: Vec<Vessel>,
     pub log: Vec<LogEntry>,
+    #[serde(default)]
+    pub spills: Vec<SpillCompartment>,
+    #[serde(default)]
+    pub broken_vessels: Vec<VesselId>,
 }
 
 impl Default for Bench {
@@ -81,6 +91,8 @@ impl Bench {
         Bench {
             vessels: vec![Vessel::new(VesselId(0), "beaker")],
             log: Vec::new(),
+            spills: Vec::new(),
+            broken_vessels: Vec::new(),
         }
     }
 
@@ -91,11 +103,241 @@ impl Bench {
             .ok_or(BenchError::NoSuchVessel(id))
     }
 
+    pub fn spill(&self, destination: &SpillDestination) -> Option<&SpillCompartment> {
+        self.spills
+            .iter()
+            .find(|spill| &spill.destination == destination)
+    }
+
+    pub fn is_broken(&self, vessel: VesselId) -> bool {
+        self.broken_vessels.contains(&vessel)
+    }
+
     fn vessel_mut(&mut self, id: VesselId) -> Result<&mut Vessel, BenchError> {
         self.vessels
             .iter_mut()
             .find(|v| v.id == id)
             .ok_or(BenchError::NoSuchVessel(id))
+    }
+
+    fn move_to_spill(
+        &mut self,
+        from: VesselId,
+        destination: &SpillDestination,
+        fraction: f64,
+        all_phases: bool,
+        screen: &dyn SafetyScreen,
+        events: &mut Vec<Event>,
+    ) -> Result<(), BenchError> {
+        let source = self.vessel(from)?.clone();
+        let eligible = |phase: Phase| all_phases || matches!(phase, Phase::Liquid | Phase::Aqueous);
+        let moved = source
+            .contents
+            .iter()
+            .filter(|portion| eligible(portion.phase))
+            .map(|portion| {
+                let mut moved = portion.clone();
+                moved.moles.0 *= fraction;
+                moved
+            })
+            .filter(|portion| portion.moles.0 > 1e-15)
+            .collect::<Vec<_>>();
+        let unresolved = source
+            .unresolved_materials
+            .iter()
+            .filter(|portion| all_phases || material::unresolved_portion_is_liquid(portion))
+            .map(|portion| {
+                let mut moved = portion.clone();
+                moved.amount *= fraction;
+                moved
+            })
+            .filter(|portion| portion.amount > 1e-15)
+            .collect::<Vec<_>>();
+
+        let mut spill = self
+            .spill(destination)
+            .cloned()
+            .unwrap_or_else(|| SpillCompartment::new(destination.clone(), source.temperature));
+        let old_cp: f64 = spill
+            .contents
+            .iter()
+            .filter_map(|portion| {
+                species::lookup(&portion.species).map(|data| data.heat_capacity * portion.moles.0)
+            })
+            .sum();
+        let incoming_cp: f64 = moved
+            .iter()
+            .filter_map(|portion| {
+                species::lookup(&portion.species).map(|data| data.heat_capacity * portion.moles.0)
+            })
+            .sum();
+        if old_cp + incoming_cp > 0.0 {
+            spill.temperature = Kelvin(
+                (old_cp * spill.temperature.0 + incoming_cp * source.temperature.0)
+                    / (old_cp + incoming_cp),
+            );
+        }
+        for portion in &moved {
+            if let Some(existing) = spill.contents.iter_mut().find(|candidate| {
+                candidate.species == portion.species && candidate.phase == portion.phase
+            }) {
+                existing.moles.0 += portion.moles.0;
+            } else {
+                spill.contents.push(portion.clone());
+            }
+        }
+        spill.unresolved_materials.extend(unresolved.clone());
+        if !spill.sources.contains(&from) {
+            spill.sources.push(from);
+        }
+        let mut contributors = spill
+            .contents
+            .iter()
+            .map(|portion| portion.species.clone())
+            .collect::<Vec<_>>();
+        contributors.sort_by(|a, b| a.0.cmp(&b.0));
+        contributors.dedup();
+        match screen.assess(&spill.as_vessel_probe()) {
+            SafetyVerdict::Allow => {}
+            SafetyVerdict::Warn {
+                severity,
+                rule,
+                hazard,
+                real_world,
+            } => events.push(Event::SpillHazard {
+                destination: destination.clone(),
+                severity,
+                rule,
+                hazard,
+                real_world,
+                contributors: contributors.clone(),
+            }),
+            SafetyVerdict::Veto { reason } => events.push(Event::SpillHazard {
+                destination: destination.clone(),
+                severity: crate::solve::Severity::Danger,
+                rule: String::new(),
+                hazard: reason,
+                real_world: "Do not touch the spill; follow the declared cleanup procedure.".into(),
+                contributors,
+            }),
+        }
+
+        let source = self.vessel_mut(from)?;
+        for portion in &mut source.contents {
+            if eligible(portion.phase) {
+                portion.moles.0 *= 1.0 - fraction;
+            }
+        }
+        source.contents.retain(|portion| portion.moles.0 > 1e-15);
+        for portion in &mut source.unresolved_materials {
+            if all_phases || material::unresolved_portion_is_liquid(portion) {
+                portion.amount *= 1.0 - fraction;
+            }
+        }
+        source
+            .unresolved_materials
+            .retain(|portion| portion.amount > 1e-15);
+        if let Some(existing) = self
+            .spills
+            .iter_mut()
+            .find(|item| item.destination == *destination)
+        {
+            *existing = spill;
+        } else {
+            self.spills.push(spill);
+        }
+        Ok(())
+    }
+
+    fn recover_spill(
+        &mut self,
+        destination: &SpillDestination,
+        to: VesselId,
+        fraction: f64,
+        screen: &dyn SafetyScreen,
+        events: &mut Vec<Event>,
+    ) -> Result<bool, BenchError> {
+        let index = self
+            .spills
+            .iter()
+            .position(|spill| spill.destination == *destination)
+            .ok_or(BenchError::NoSuchSpill)?;
+        let spill = self.spills[index].clone();
+        let mut probe = self.vessel(to)?.clone();
+        for portion in &spill.contents {
+            probe.deposit(
+                portion.species.clone(),
+                Moles(portion.moles.0 * fraction),
+                portion.phase,
+            );
+        }
+        match screen.assess(&probe) {
+            SafetyVerdict::Allow => {}
+            SafetyVerdict::Warn {
+                severity,
+                rule,
+                hazard,
+                real_world,
+            } => events.push(Event::HazardWarning {
+                severity,
+                rule,
+                hazard,
+                real_world,
+            }),
+            SafetyVerdict::Veto { reason } => {
+                events.push(Event::SafetyVeto { reason });
+                return Ok(false);
+            }
+        }
+        let incoming_cp: f64 = spill
+            .contents
+            .iter()
+            .filter_map(|portion| {
+                species::lookup(&portion.species)
+                    .map(|data| data.heat_capacity * portion.moles.0 * fraction)
+            })
+            .sum();
+        let receiver = self.vessel_mut(to)?;
+        if matches!(receiver.thermal_mode, ThermalMode::Adiabatic) {
+            receiver.temperature = adiabatic_mix_temperature(
+                receiver.temperature,
+                receiver.heat_capacity(),
+                spill.temperature,
+                incoming_cp,
+            );
+        }
+        for portion in &spill.contents {
+            receiver.deposit(
+                portion.species.clone(),
+                Moles(portion.moles.0 * fraction),
+                portion.phase,
+            );
+        }
+        receiver
+            .unresolved_materials
+            .extend(spill.unresolved_materials.iter().map(|portion| {
+                let mut moved = portion.clone();
+                moved.amount *= fraction;
+                moved
+            }));
+        for portion in &mut self.spills[index].contents {
+            portion.moles.0 *= 1.0 - fraction;
+        }
+        self.spills[index]
+            .contents
+            .retain(|portion| portion.moles.0 > 1e-15);
+        for portion in &mut self.spills[index].unresolved_materials {
+            portion.amount *= 1.0 - fraction;
+        }
+        self.spills[index]
+            .unresolved_materials
+            .retain(|portion| portion.amount > 1e-15);
+        if self.spills[index].contents.is_empty()
+            && self.spills[index].unresolved_materials.is_empty()
+        {
+            self.spills.remove(index);
+        }
+        Ok(true)
     }
 
     /// Run one operator through the full loop with the default solver stack
@@ -211,6 +453,7 @@ impl Bench {
                 });
                 events.push(Event::HazardWarning {
                     severity: crate::solve::Severity::Danger,
+                    rule: "sealed-vessel-burst".to_string(),
                     hazard: "sealed vessel over-pressurised and burst".to_string(),
                     real_world: "flying glass and a pressure wave — sealed \
                                  systems on a heat source are how real labs \
@@ -374,10 +617,22 @@ impl Bench {
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
         let mut events = Vec::new();
+        if !matches!(op, Operator::Impact { .. } | Operator::RemoveVessel { .. }) {
+            if let Some(vessel) = op_touches(op).into_iter().find(|id| self.is_broken(*id)) {
+                return Err(BenchError::BrokenVessel(vessel));
+            }
+        }
         match op {
             Operator::NewVessel { kind } => {
                 let label = kind.as_deref().unwrap_or("beaker");
-                let id = VesselId(self.vessels.iter().map(|v| v.id.0 + 1).max().unwrap_or(0));
+                let id = VesselId(
+                    self.vessels
+                        .iter()
+                        .map(|v| v.id.0)
+                        .chain(self.broken_vessels.iter().map(|id| id.0))
+                        .max()
+                        .map_or(0, |id| id + 1),
+                );
                 self.vessels.push(Vessel::new(id, label));
                 events.push(Event::VesselCreated { vessel: id });
             }
@@ -410,10 +665,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -500,10 +757,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -851,6 +1110,95 @@ impl Bench {
                     });
                 }
             }
+            Operator::Spill {
+                from,
+                destination,
+                fraction,
+                replay_seed,
+            } => {
+                if !fraction.is_finite() || !(0.0..=1.0).contains(fraction) {
+                    return Err(BenchError::BadFraction);
+                }
+                if *fraction == 0.0 {
+                    return Ok(events);
+                }
+                if self.is_broken(*from) {
+                    return Err(BenchError::BrokenVessel(*from));
+                }
+                self.move_to_spill(*from, destination, *fraction, false, screen, &mut events)?;
+                events.push(Event::SpillCreated {
+                    destination: destination.clone(),
+                    source: *from,
+                    fraction: *fraction,
+                    replay_seed: *replay_seed,
+                });
+            }
+            Operator::Impact {
+                vessel,
+                impulse_ns,
+                destination_if_broken,
+                replay_seed,
+            } => {
+                if !impulse_ns.is_finite() || *impulse_ns < 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                if self.is_broken(*vessel) {
+                    return Err(BenchError::BrokenVessel(*vessel));
+                }
+                let kind = self.vessel(*vessel)?.label.as_str();
+                let threshold = impact_threshold_ns(kind);
+                if *impulse_ns < threshold {
+                    events.push(Event::CollisionWithstood {
+                        vessel: *vessel,
+                        impulse_ns: *impulse_ns,
+                        replay_seed: *replay_seed,
+                    });
+                } else {
+                    self.move_to_spill(
+                        *vessel,
+                        destination_if_broken,
+                        1.0,
+                        true,
+                        screen,
+                        &mut events,
+                    )?;
+                    self.broken_vessels.push(*vessel);
+                    events.push(Event::ContainerBroken {
+                        vessel: *vessel,
+                        destination: destination_if_broken.clone(),
+                        impulse_ns: *impulse_ns,
+                        replay_seed: *replay_seed,
+                    });
+                    events.push(Event::SpillCreated {
+                        destination: destination_if_broken.clone(),
+                        source: *vessel,
+                        fraction: 1.0,
+                        replay_seed: *replay_seed,
+                    });
+                }
+            }
+            Operator::RecoverSpill {
+                destination,
+                to,
+                fraction,
+            } => {
+                if !fraction.is_finite() || !(0.0..=1.0).contains(fraction) {
+                    return Err(BenchError::BadFraction);
+                }
+                if *fraction == 0.0 {
+                    return Ok(events);
+                }
+                if self.is_broken(*to) {
+                    return Err(BenchError::BrokenVessel(*to));
+                }
+                if self.recover_spill(destination, *to, *fraction, screen, &mut events)? {
+                    events.push(Event::SpillRecovered {
+                        destination: destination.clone(),
+                        to: *to,
+                        fraction: *fraction,
+                    });
+                }
+            }
             Operator::Decant { from, to, fraction } => {
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
@@ -894,10 +1242,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1048,10 +1398,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1185,10 +1537,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1726,7 +2080,8 @@ impl Bench {
                         Some(info) => events.push(Event::Measured {
                             vessel: *vessel,
                             instrument: *instrument,
-                            value: info.ionic_strength * 100_000.0,
+                            value: crate::conductivity::specific_conductance(info)
+                                .microsiemens_per_cm,
                             unit: "µS/cm".to_string(),
                         }),
                         None => events.push(Event::NotYetModeled {
@@ -2192,6 +2547,7 @@ impl Bench {
                     if o.hazardous {
                         events.push(Event::HazardWarning {
                             severity: crate::solve::Severity::Caution,
+                            rule: "hazardous-vapour".to_string(),
                             hazard: format!("{} vapour is hazardous to inhale", o.species),
                             real_world: "on a real bench this one is never \
                                          smelled directly — fume hood, waft \
@@ -2248,6 +2604,7 @@ impl Bench {
                     .unwrap_or(0.0);
                 events.push(Event::HazardWarning {
                     severity: crate::solve::Severity::Caution,
+                    rule: "ionising-radiation".to_string(),
                     hazard: "radioactive source: ionising radiation".to_string(),
                     real_world: "on a real bench this needs shielding, \
                                  dosimetry and a licence; safe only because \
@@ -2838,6 +3195,9 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
+        Operator::Spill { from, .. } => vec![*from],
+        Operator::Impact { vessel, .. } => vec![*vessel],
+        Operator::RecoverSpill { to, .. } => vec![*to],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
         | Operator::Magnet { from, to }
@@ -2862,6 +3222,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
+    }
+}
+
+/// Conservative deterministic break thresholds in N·s. Unknown glassware
+/// uses the beaker threshold; replay therefore never depends on scene timing.
+fn impact_threshold_ns(kind: &str) -> f64 {
+    match kind {
+        "tube" => 0.8,
+        "flask" => 1.2,
+        "cylinder" => 1.0,
+        "crucible" => 2.5,
+        _ => 1.5,
     }
 }
 

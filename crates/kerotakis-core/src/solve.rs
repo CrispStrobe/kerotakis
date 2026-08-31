@@ -284,6 +284,12 @@ pub enum SafetyVerdict {
     /// it would mean outside the simulation.
     Warn {
         severity: Severity,
+        /// Stable machine identity of the hazard (e.g.
+        /// `bleach-ammonia-chloramine`). The prose fields are localized on
+        /// their way to the reader, so anything that needs to RECOGNISE a
+        /// hazard — a mission contract, a test — must key on this, never
+        /// on the wording. Empty when a producer has no curated rule.
+        rule: String,
         hazard: String,
         real_world: String,
     },

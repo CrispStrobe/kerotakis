@@ -26,6 +26,7 @@ import { missionTitle } from "./storyProgress";
 import { reagentAccess } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
 import type { LabMode } from "./worldState";
+import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
   outcomeComplete,
   outcomeMissionContract,
@@ -33,6 +34,7 @@ import {
   type OutcomeMissionContract,
 } from "./outcomeMission";
 import { summarizeResult, type ResultSummary } from "./resultSummary";
+import { incidentNotebookEvidence } from "./incidents";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart" | "nudge" | "claim";
@@ -68,6 +70,22 @@ export type ShelfItem = {
   density?: number;
   /** A versioned named mixture/object rather than a pure species. */
   material?: boolean;
+  /**
+   * GUI-093 shelf-role inputs. All additive: an older engine build omits
+   * them and `reagentRoles.ts` falls back to what `hazards` still says.
+   */
+  /** Unflattened `kerotakis_safety::groups` rows ("acid_strong", …). */
+  reactive_groups?: string[];
+  /** Element counts from the engine's formula parser. */
+  elements?: Record<string, number>;
+  /** Net charge from the same parse; 0 for a neutral species. */
+  charge?: number;
+  /** In `kerotakis_core::indicator::INDICATORS`. */
+  indicator?: boolean;
+  /** A solvent the engine models solutions in (water, or an organic one). */
+  solvent?: boolean;
+  /** Materials only: the registry keys of what the mixture is made of. */
+  components?: string[];
 };
 
 export type MissionDebrief = {
@@ -307,6 +325,8 @@ export class Session {
   private lessonFeedStart = $state(0);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
+  /** Core-generated coverage; null only for an older/degraded host. */
+  elementCoverage = $state<ElementCoverageReport | null>(null);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
   reactOptions = $state<string[]>([]);
   /** While set, submit() records event keys (tag and tag:species) here —
@@ -323,6 +343,17 @@ export class Session {
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
+  /**
+   * Every distinct balanced equation this session's own reactions produced,
+   * newest first (GUI-095).
+   *
+   * The balancing drill prefers these over the catalogue's: an equation the
+   * learner just made happen on the bench is a better question than one out
+   * of a book they have not opened. Bounded, because it is practice
+   * material rather than a record — the feed and the notebook are the
+   * record, and they keep everything.
+   */
+  benchEquations = $state<string[]>([]);
   /** Compact evidence digest for the latest accepted operation. */
   latestResult = $state<ResultSummary | null>(null);
   /**
@@ -433,6 +464,13 @@ export class Session {
         density: s.density,
         material: s.material === true,
       }));
+      try {
+        this.elementCoverage = parseElementCoverage(await this.host.elementCoverage());
+      } catch {
+        // Host upgrades are rolling; formula-derived shelf coverage remains
+        // an honest fallback until the new endpoint is available.
+        this.elementCoverage = null;
+      }
       try {
         const grammar = (await this.host.grammar()) as {
           verb: string;
@@ -614,6 +652,8 @@ export class Session {
         // runs and shows why (the engine's "hazards teach" rule).
         for (const event of step.events as Array<Record<string, unknown>>) {
           this.recordEffect(event);
+          const incidentEvidence = incidentNotebookEvidence(event);
+          if (incidentEvidence) this.feed.push({ kind: "note", text: incidentEvidence });
           if (this.eventCollector) {
             const tag = String(event?.event ?? "");
             if (tag) {
@@ -656,7 +696,7 @@ export class Session {
               (event as { curve: [number, number][] }).curve,
             );
           }
-          if (event?.event === "hazard_warning") {
+          if (event?.event === "hazard_warning" || event?.event === "spill_hazard") {
             const hazardText = String(event.hazard ?? "");
             const realWorld = String(event.real_world ?? "");
             this.feed.push({
@@ -690,7 +730,11 @@ export class Session {
           // The engine writes balanced equations with a real arrow; the
           // latest one is the reaction the bench is showing right now.
           const eq = rendered.match(/\S[^.:]*(?:→|⇌)[^.]*/);
-          if (eq) this.lastEquation = eq[0].trim();
+          if (eq) {
+            const equation = eq[0].trim();
+            this.lastEquation = equation;
+            this.rememberEquation(equation);
+          }
         }
         // Charts (the CAP-3 contract, kerotakis-core::chart): rendered
         // inline the moment a step object carries them.
@@ -1310,6 +1354,31 @@ export class Session {
   async calc(name: string, args: string[]) {
     try {
       return await this.host.calc(name, args);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  /**
+   * Keep one of the bench's own equations for the balancing drill.
+   *
+   * Newest first and capped: this is practice material, not a record. The
+   * feed and the notebook are the record and they keep everything, so
+   * dropping the twenty-first equation loses nothing a learner can go and
+   * look up.
+   */
+  private rememberEquation(equation: string) {
+    if (!/→|⇌/.test(equation)) return;
+    this.benchEquations = [
+      equation,
+      ...this.benchEquations.filter((existing) => existing !== equation),
+    ].slice(0, 20);
+  }
+
+  /** Balance one skeleton (GUI-095); the drill marks answers against it. */
+  async balance(equation: string) {
+    try {
+      return await this.host.balance(equation);
     } catch (e) {
       return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
     }

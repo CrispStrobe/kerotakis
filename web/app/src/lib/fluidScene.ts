@@ -16,6 +16,50 @@ export interface FluidSpecies {
   srgb: [number, number, number];
   /** Relative density vs the ambient bath (1 = neutral). */
   density: number;
+  /** Solver/provenance-owned dynamic viscosity in Pa s, when known. */
+  dynamicViscosityPaS?: number;
+  /** Solver/provenance-owned surface tension in N/m, when known. */
+  surfaceTensionNM?: number;
+}
+
+export interface FluidVisualPlan {
+  animate: boolean;
+  /** Velocity retained per lightweight solver step. */
+  damping: number;
+  /** Particle size is presentation only; transferred mass remains authoritative. */
+  dropMass: number;
+  acceptedMass: number;
+}
+
+/**
+ * BRD-072 lightweight visual adapter. Physical parameters alter only the
+ * presentation between accepted scene states. Reduced motion creates no
+ * particle run at all, and transfer mass comes solely from the accepted event.
+ */
+export function fluidVisualPlan(
+  species: FluidSpecies[],
+  acceptedTransferFraction: number | undefined,
+  reducedMotion: boolean,
+  fullVisualMass = 1.5,
+): FluidVisualPlan {
+  const fraction = acceptedTransferFraction === undefined
+    ? 1
+    : Number.isFinite(acceptedTransferFraction) && acceptedTransferFraction >= 0 && acceptedTransferFraction <= 1
+      ? acceptedTransferFraction
+      : 0;
+  const viscosity = Math.max(0.000_001, ...species.map((item) => item.dynamicViscosityPaS ?? 0.001));
+  const tension = Math.max(0.001, ...species.map((item) => item.surfaceTensionNM ?? 0.072));
+  // Water (~1 mPa s) remains lively; syrup-like values rapidly dissipate.
+  const damping = Math.max(0.72, Math.min(0.96, 0.96 - Math.log10(Math.max(1, viscosity / 0.001)) * 0.08));
+  // Higher surface tension forms larger coherent droplets. This changes only
+  // particle count: startPour still conserves acceptedMass exactly.
+  const dropMass = Math.max(0.06, Math.min(0.24, 0.12 * Math.sqrt(tension / 0.072)));
+  return {
+    animate: !reducedMotion && fraction > 0,
+    damping,
+    dropMass,
+    acceptedMass: fullVisualMass * fraction,
+  };
 }
 
 /** The sim bound to one vessel: the grid plus what its fields mean. */

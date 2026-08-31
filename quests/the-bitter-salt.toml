@@ -1,0 +1,88 @@
+# EXP-30 (sealed-unknown salt analysis): the colourless cation.
+# The hard case of the scheme — nothing is coloured, so the whole
+# identification rests on WHICH tests fire and which stay silent. A
+# white hydroxide plus a positive sulfate test, with no fizz and no
+# colour anywhere, is a real verdict and not a guess.
+#
+# Honest boundary, stated in the goal: the excess-alkali redissolution
+# that separates zinc from magnesium is amphoterism, and the bench does
+# not compute it yet (see EXPERIMENTS.md § EXP-30, STILL OPEN). This
+# quest's candidate list therefore excludes zinc.
+id = "the-bitter-salt"
+
+[title]
+lv1 = "The bitter salt"
+lv2 = "The bitter salt: a colourless cation with a white hydroxide"
+lv3 = "Sealed-salt analysis III — identification from a white precipitate and a positive anion test"
+
+[goal]
+lv1 = "unknown-bitter is a white salt. Nothing about it is coloured, so you have to work by which tests say yes and which say no. Try acid, sodium hydroxide, and barium chloride, and write down what each one does."
+lv2 = "Identify unknown-bitter. The solution is colourless and so is the hydroxide, so the identification comes from the pattern: no effervescence with acid, a white precipitate with sodium hydroxide, a dense white precipitate with barium chloride. Name it when the pattern is complete."
+lv3 = "unknown-bitter is a sealed registry salt with a colourless cation. Evidence is the pattern of yes/no across the scheme: (1) dilute acid — no CO2, so not a carbonate; (2) NaOH — a white hydroxide precipitates, which excludes Cu (pale blue) and both irons (red-brown, pale green), and also excludes the alkali-metal salts whose hydroxides are soluble, leaving the white-hydroxide group; (3) BaCl2 on a fresh portion — Barite, so the anion is sulfate, which excludes the chlorides including calcium's. Candidates for this quest: MgSO4, CuSO4, FeSO4, FeCl3, CaCl2, Na2SO4, Na2CO3, NaCl. Zinc is deliberately NOT among them: separating Zn from Mg needs the white hydroxide to redissolve in excess alkali, and that amphoteric route is not yet computed here — a large excess of NaOH returns only a trace of the zinc hydroxide to solution, not the clear liquid the schoolbook promises. Claims complete in any order."
+
+[unknowns]
+unknown-bitter = "MgSO4"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:MgSO4"
+[nudges.say]
+lv1 = "It dissolved and the water stayed clear. That is already a clue — no colour means no coloured metal."
+lv2 = "Dissolved, colourless. A colourless solution rules out the copper and iron salts on the shelf before you have spent a single drop of reagent. Now start the scheme: acid, then hydroxide, then the anion test."
+lv3 = "Colourless solution. Absence of a d-block chromophore excludes Cu(II) and both iron states. The remaining discrimination is by precipitate behaviour, not colour, so run every branch of the scheme and record the negatives as carefully as the positives."
+
+[[nudges]]
+id = "acid-went-in"
+when = "added:HCl"
+[nudges.say]
+lv1 = "Watch for bubbles. No bubbles means it is not a carbonate."
+lv2 = "Acid added. Effervescence would identify a carbonate at once; silence removes them from the list. Carry on to the group reagent."
+lv3 = "Carbonate branch closed. Nothing gassed off, so no carbonate or hydrogencarbonate. Next: NaOH into a fresh portion for the cation, BaCl2 into another for the anion."
+
+[[nudges]]
+id = "the-hydroxide"
+when = "precipitated:Mg(OH)2"
+[nudges.say]
+lv1 = "A white solid came out. It is not blue and it is not rusty — that rules a lot out."
+lv2 = "A white hydroxide. That is a negative for copper and for both irons, and a positive for the colourless-cation group. The anion test is still owed."
+lv3 = "White hydroxide precipitated: Ksp exceeded once the solution went alkaline. Colour excludes Cu(OH)2, Fe(OH)3 and Fe(OH)2; a precipitate at all excludes the alkali metals. Calcium also gives a white hydroxide here, so the cation test alone does not finish the job — the anion test does. Confirm it before naming."
+
+[[nudges]]
+id = "the-sulfate"
+when = "precipitated:BaSO4"
+[nudges.say]
+lv1 = "Another white powder, but a much heavier one — that one means sulfate."
+lv2 = "Barium sulfate: the anion is sulfate. Two white precipitates, but they mean completely different things — one named the metal, this one names the acid radical."
+lv3 = "Barite. The pedagogical point of the pair: identical appearance, orthogonal information. A precipitate is only evidence together with the reagent that caused it."
+
+[[claims]]
+id = "looked-at-it"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the clear solution"
+lv2 = "Observe the dissolved unknown — the absence of colour is data"
+lv3 = "Observed event — a colourless solution excludes the chromophoric cations"
+
+[[claims]]
+id = "white-hydroxide"
+matches = "precipitated:Mg(OH)2"
+[claims.title]
+lv1 = "Make a white solid appear with sodium hydroxide"
+lv2 = "Precipitate the white hydroxide — the cation test"
+lv3 = "Precipitated:Mg(OH)2 — the colourless-cation verdict"
+
+[[claims]]
+id = "anion-sulfate"
+matches = "precipitated:BaSO4"
+[claims.title]
+lv1 = "Get the heavy white powder with barium chloride"
+lv2 = "Confirm the anion with the barium chloride test"
+lv3 = "Precipitated:BaSO4 — the sulfate confirmation"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-bitter"
+[claims.title]
+lv1 = "Say what the bitter salt really is"
+lv2 = "Identify unknown-bitter by name"
+lv3 = "Identify claim on unknown-bitter; a wrong name is answered with the evidence, not punished"

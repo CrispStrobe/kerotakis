@@ -1,0 +1,27 @@
+[package]
+name = "chematic-iupac"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Local IUPAC name generation for chematic — pure-Rust, no network required"
+keywords = ["cheminformatics", "iupac", "chemistry", "nomenclature", "systematic-name"]
+categories = ["science", "science::computational-chemistry::cheminformatics", "algorithms"]
+readme = "README.md"
+homepage.workspace = true
+documentation = "https://docs.rs/chematic-iupac"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+chematic-core       = { path = "../chematic-core",       version = "0.18.0" }
+chematic-perception = { path = "../chematic-perception", version = "0.18.0" }
+
+[dev-dependencies]
+# Path-only (no `version`): see chematic-smiles/Cargo.toml's dev-dependencies
+# comment -- a version-pinned dev-dependency must resolve against the
+# registry at `cargo publish` time, which a forward reference can't satisfy.
+chematic-smiles = { path = "../chematic-smiles" }

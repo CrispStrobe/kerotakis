@@ -35,6 +35,7 @@
 //! That last point is what makes a fair test possible — two beakers, one
 //! variable, the same thirty seconds.
 
+use std::cell::RefCell;
 use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
@@ -825,6 +826,94 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
     },
 ];
 
+thread_local! {
+    static PRE_EXPONENTIAL_OVERRIDE: RefCell<Option<(&'static str, f64)>> = const { RefCell::new(None) };
+}
+
+/// Run one replay with one curated pre-exponential factor replaced. The
+/// override is scoped and thread-local, so fitting cannot mutate the registry
+/// or leak a candidate into an ordinary (or concurrent) bench run.
+pub fn with_pre_exponential_override<T>(
+    reaction_id: &str,
+    value: f64,
+    f: impl FnOnce() -> T,
+) -> Result<T, String> {
+    let reaction = lookup(reaction_id)
+        .ok_or_else(|| format!("unknown curated kinetic reaction '{reaction_id}'"))?;
+    if !value.is_finite() || value <= 0.0 {
+        return Err("pre-exponential factor must be finite and positive".into());
+    }
+    struct Restore(Option<(&'static str, f64)>);
+    impl Drop for Restore {
+        fn drop(&mut self) {
+            PRE_EXPONENTIAL_OVERRIDE.with(|slot| *slot.borrow_mut() = self.0);
+        }
+    }
+    let previous =
+        PRE_EXPONENTIAL_OVERRIDE.with(|slot| slot.borrow_mut().replace((reaction.id, value)));
+    let _restore = Restore(previous);
+    Ok(f())
+}
+
+fn overridden_reactions() -> Option<Vec<KineticReaction<'static>>> {
+    PRE_EXPONENTIAL_OVERRIDE.with(|slot| {
+        (*slot.borrow()).map(|(id, value)| {
+            REGISTRY
+                .iter()
+                .copied()
+                .map(|mut reaction| {
+                    if reaction.id == id {
+                        reaction.forward.arrhenius.pre_exponential = value;
+                    }
+                    reaction
+                })
+                .collect()
+        })
+    })
+}
+
+#[cfg(test)]
+mod fit_override_tests {
+    use super::*;
+
+    #[test]
+    fn pre_exponential_override_is_scoped_and_nestable() {
+        assert!(overridden_reactions().is_none());
+        with_pre_exponential_override("peroxide-decomposition", 7.5e7, || {
+            let outer = overridden_reactions().expect("override is active");
+            assert_eq!(outer[1].forward.arrhenius.pre_exponential, 7.5e7);
+
+            with_pre_exponential_override("thiosulfate-acid", 3.0e8, || {
+                let inner = overridden_reactions().expect("nested override is active");
+                assert_eq!(inner[0].forward.arrhenius.pre_exponential, 3.0e8);
+                assert_eq!(
+                    inner[1].forward.arrhenius.pre_exponential,
+                    REGISTRY[1].forward.arrhenius.pre_exponential,
+                    "v1 fits one scalar at a time"
+                );
+            })
+            .unwrap();
+
+            let restored = overridden_reactions().expect("outer override was restored");
+            assert_eq!(restored[1].forward.arrhenius.pre_exponential, 7.5e7);
+        })
+        .unwrap();
+        assert!(overridden_reactions().is_none());
+        assert_eq!(REGISTRY[1].forward.arrhenius.pre_exponential, 5.6e7);
+    }
+
+    #[test]
+    fn pre_exponential_override_restores_after_unwind() {
+        let _ = std::panic::catch_unwind(|| {
+            with_pre_exponential_override("peroxide-decomposition", 7.5e7, || {
+                panic!("exercise the RAII guard")
+            })
+            .unwrap();
+        });
+        assert!(overridden_reactions().is_none());
+    }
+}
+
 /// The order key that means "the proton activity of this solution".
 ///
 /// Acid dependence cannot be read from the inventory: adding HCl to water
@@ -1483,6 +1572,29 @@ pub fn advance_with_context(
     seconds: f64,
     context: KineticContext,
 ) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
+    if let Some(reactions) = overridden_reactions() {
+        let network = ReactionNetwork {
+            id: NETWORK.id,
+            reactions: &reactions,
+        };
+        let report = advance_network_with_context_and_options(
+            vessel,
+            seconds,
+            &network,
+            IntegrationOptions::default(),
+            context,
+        )?;
+        return Ok(report
+            .extents
+            .into_iter()
+            .map(|(reaction, amount)| {
+                (
+                    lookup(reaction.id).expect("override resolved against registry"),
+                    amount,
+                )
+            })
+            .collect());
+    }
     advance_network_with_context_and_options(
         vessel,
         seconds,

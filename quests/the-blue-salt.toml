@@ -1,0 +1,86 @@
+# EXP-30 (sealed-unknown salt analysis): the coloured cation.
+# The classic scheme, run for real: acid first (no fizz — not a
+# carbonate), then the group reagent (sodium hydroxide gives a coloured
+# hydroxide that names the cation), then the anion confirmation (barium
+# chloride into a second portion). Every verdict below is a computed
+# solve — the pale-blue hydroxide is Cu(OH)2 out of the shipped USGS
+# database, the white curd is Barite, and nothing about the identity is
+# scripted.
+id = "the-blue-salt"
+
+[title]
+lv1 = "The blue salt"
+lv2 = "The blue salt: a coloured cation, named by its hydroxide"
+lv3 = "Sealed-salt analysis I — coloured cation by hydroxide precipitation, anion by the barium test"
+
+[goal]
+lv1 = "A jar called unknown-blue holds a salt. Put some in water and look at it. Then add sodium hydroxide to one portion and barium chloride to another, and watch what falls out. The colours will tell you what it is."
+lv2 = "Identify unknown-blue by wet tests. Work in two portions: one gets sodium hydroxide (the cation test — the colour of the hydroxide names the metal), the other gets barium chloride (the anion test — a dense white precipitate means sulfate). Add acid first if you want to rule a carbonate out. Then name it."
+lv3 = "unknown-blue is a sealed registry salt; the aqueous solve is truthful throughout. Run the school scheme in its own order: (1) dilute acid — effervescence would mean carbonate; (2) NaOH into a portion — the hydroxide's colour is the cation verdict (Cu(OH)2 pale blue, Fe(OH)3 red-brown, Fe(OH)2 pale green, Mg(OH)2 / Zn(OH)2 white); (3) BaCl2 into a fresh portion — Barite is the sulfate verdict; AgNO3 would be the halide one. The candidates on this shelf are CuSO4, FeSO4, MgSO4, ZnSO4, FeCl3, NaCl, Na2CO3. Claims complete in any order and in any vessel."
+
+[unknowns]
+unknown-blue = "CuSO4"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:CuSO4"
+[nudges.say]
+lv1 = "It went into the water. Look at the beaker before you add anything else — the colour is your first clue."
+lv2 = "The salt is in solution. Look at it: a coloured solution means a coloured cation, which already cuts the candidate list in half. Then start the scheme — acid first, then the hydroxide test."
+lv3 = "Dissolution complete. Before any reagent goes in, record the solution colour: only a few school cations tint water at all, and a tinted solution excludes the colourless-cation salts outright. The scheme proper begins with dilute acid (carbonate test), then the group reagent."
+
+[[nudges]]
+id = "acid-went-in"
+when = "added:HCl"
+[nudges.say]
+lv1 = "No fizzing? Then it is not one of the carbonates. Move on to the sodium hydroxide."
+lv2 = "Acid added. Effervescence would have been the carbonate verdict; silence rules the carbonates out. Next step of the scheme: the group reagent, sodium hydroxide, into a portion."
+lv3 = "The carbonate test is the first branch of the scheme because it is destructive of the sample and unambiguous either way. No CO2 evolved means no carbonate or hydrogencarbonate present. Proceed to the hydroxide precipitation on a fresh portion."
+
+[[nudges]]
+id = "the-hydroxide"
+when = "precipitated:Cu(OH)2"
+[nudges.say]
+lv1 = "Something pale blue came out of the solution. Only one metal on this shelf makes a hydroxide that colour."
+lv2 = "A coloured hydroxide has precipitated. Its colour is the cation verdict — compare it against what iron(II), iron(III) and magnesium give, and you have your metal. The anion is still open: a fresh portion and barium chloride will settle that."
+lv3 = "The precipitate is the metal hydroxide, formed because the solubility product was exceeded once the solution was made alkaline. The colour is the identification: this one is not the red-brown of Fe(III), not the pale green of Fe(II), and not the white of Mg or Zn. Cation named; the anion needs its own test."
+
+[[nudges]]
+id = "the-sulfate"
+when = "precipitated:BaSO4"
+[nudges.say]
+lv1 = "A heavy white powder appeared. That is the sulfate answer."
+lv2 = "Barium and sulfate have made barium sulfate, which is almost insoluble — the classic sulfate confirmation. With the cation from the hydroxide test and the anion from this one, you can name the salt."
+lv3 = "Barite precipitated (log K ≈ -9.97): the ion product of Ba2+ and SO4^2- exceeds Ksp by orders of magnitude, so the test is effectively quantitative. Cation from the hydroxide colour plus anion from this precipitate gives the full formula."
+
+[[claims]]
+id = "looked-at-it"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the solution you made"
+lv2 = "Observe the dissolved unknown"
+lv3 = "Observed event — the solution colour is the first, free piece of evidence"
+
+[[claims]]
+id = "cation-hydroxide"
+matches = "precipitated:Cu(OH)2"
+[claims.title]
+lv1 = "Make the coloured stuff fall out with sodium hydroxide"
+lv2 = "Precipitate the metal hydroxide — the cation test"
+lv3 = "Precipitated:Cu(OH)2 — the group-reagent verdict, computed from the solve"
+
+[[claims]]
+id = "anion-sulfate"
+matches = "precipitated:BaSO4"
+[claims.title]
+lv1 = "Get the heavy white powder with barium chloride"
+lv2 = "Confirm the anion with the barium chloride test"
+lv3 = "Precipitated:BaSO4 — Barite, the sulfate confirmation"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-blue"
+[claims.title]
+lv1 = "Say what the blue salt really is"
+lv2 = "Identify unknown-blue by name"
+lv3 = "Identify claim on unknown-blue; a wrong name is answered with the evidence, not punished"

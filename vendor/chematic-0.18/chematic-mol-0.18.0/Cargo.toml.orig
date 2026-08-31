@@ -1,0 +1,41 @@
+[package]
+name = "chematic-mol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "MOL/SDF V2000 and V3000 parser and writer for chematic — pure-Rust RDKit alternative"
+keywords = ["sdf", "mol", "ctfile", "cheminformatics", "chemistry"]
+categories = ["science", "science::computational-chemistry::cheminformatics", "parser-implementations", "encoding"]
+readme = "../../README.md"
+homepage.workspace = true
+documentation = "https://docs.rs/chematic-mol"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+# Adapter connecting the existing CIF reader/writer to chematic-crystal's
+# PeriodicStructure. Off by default -- chematic-mol has no `[features]`
+# table until this crate; this is its first optional dependency. See
+# docs/rfcs/chematic_crystal_foundation.md's "CIF migration" section for
+# why this was deferred and the sketch this implements.
+crystal = ["dep:chematic-crystal"]
+
+[dependencies]
+chematic-core        = { path = "../chematic-core",        version = "0.18.0" }
+chematic-rxn         = { path = "../chematic-rxn",         version = "0.18.0" }
+chematic-perception  = { path = "../chematic-perception",  version = "0.18.0" }
+chematic-smiles      = { path = "../chematic-smiles",      version = "0.18.0" }
+chematic-crystal     = { path = "../chematic-crystal",     version = "0.18.0", optional = true }
+serde_json           = "1.0"
+
+[dev-dependencies]
+# Path-only (no `version`): see chematic-smiles/Cargo.toml's dev-dependencies
+# comment -- a version-pinned dev-dependency must resolve against the
+# registry at `cargo publish` time, which a forward reference can't satisfy.
+chematic-chem   = { path = "../chematic-chem" }
+chematic-fp     = { path = "../chematic-fp" }
+chematic-smarts = { path = "../chematic-smarts" }

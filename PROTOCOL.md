@@ -71,6 +71,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
 | `relations` | done (GUI-027) | `{}` → `[{ name, equation, args, purpose, validity, source, …_<locale> }]` — the CAP-5 named-relations catalogue. `args` is the CLI arg-spec string (`k=<hint>`, brackets for optional); clients build forms from it rather than hard-coding fields. Additive 2026-08-25 (GUI-087): `purpose` (what question it answers) and `validity` (where it stops being true). Additive 2026-08-29 (GUI-096): `source` — who published it and when, the leading clause of the same provenance line `calc` returns, so the catalogue and the computed result cannot cite different papers. Each prose field carries a `_<locale>` sibling per shipped language (`purpose_de`, `validity_de`, `source_de`); the unsuffixed field is English and is the per-string fallback, so a client selects `field_<locale> ?? field` and never a blank. Every one is non-empty for every row — a relation whose validity range is unstated teaches a learner to apply it outside that range. |
 | `calc` | done (GUI-027) | `{ name, args: ["k=v", …] }` → `{ ok, value, unit, provenance, lv1, lv2, lv3 }` or `{ ok: false, error }`. One evaluation of a named relation; the result explains itself at every register and names its source. Same argument grammar as `kero calc`. |
+| `balance` | done (GUI-095) | `{ equation }` → `{ ok: true, species, reactants, elements, matrix, coefficients, basis, reversible }` or `{ ok: false, error }`. The null-space balance of one skeleton (`kerotakis-core::stoich::balance_report`), the same machinery `kero balance` prints. Coefficients written on the input are stripped, so a balanced equation and its bare skeleton set the identical question. `species` is the formulas AS WRITTEN, reactants first; `reactants` is how many of them are left of the arrow. `coefficients` is the smallest positive integer answer, or one all-positive member when `basis` is non-empty and the skeleton is therefore underdetermined. `matrix` is the composition matrix the answer is the null space of: one row per entry of `elements` (element symbols, then `charge`), one column per species, products negated — so a client can decide whether coefficients THE ENGINE NEVER RETURNED still balance, which is what marking a learner's answer requires (GUI-095's "correct multiple, not the smallest ratio"). Prose in the equation field is refused rather than balanced. |
 | `set_register` | existing | `{ level }` → `{}`. Presentation only; never re-solves. |
 | `state` | existing | `{}` → `{ vessels, steps }` (full serde `Vessel`s — the lv3/machine contract). |
 | `scene` | done (GUI-003) | `{}` → Scene JSON v1 (below). The render model; everything a bench canvas needs, nothing it must derive. Additive 2026-08-25 (GUI-058): SceneVessel carries `layers` — the liquid as visible layers, bottom first, one for a mixed solution, two when computed LLE splits the phases; volumes sum to `liquid.volume_l`. |
@@ -99,6 +100,25 @@ quantities (`VesselId`, `SpeciesId`, `Moles`, `Kelvin`). Rules:
   and gets one fixed visual encoding in every UI (GUI-023).
 
 ## Scene JSON v1 (GUI-003 — implemented in `kerotakis-core/src/scene.rs`)
+
+### Scene/chemistry authority (BRD-070)
+
+The scene is a one-way projection. Client physics may send the typed
+`authority::SceneProposal` contract, but may never mutate serialized `Bench`
+state or emit chemistry events. A vessel transfer is a cumulative fraction of
+the interaction's initial charge plus a replay seed; `TransferReconciler`
+compiles only the uncommitted remainder to `Operator::Decant` and advances only
+from its returned `Transferred` receipt. Frame cadence is therefore
+non-authoritative. Reduced-motion and headless hosts submit the same endpoint;
+background hosts may suspend painting and polling but must let an accepted
+atomic step finish.
+
+Destinations are explicit (`Vessel` or a typed bench/tray/floor spill). Spill
+compartments and accepted broken-container/spill events deliberately remain
+BRD-073: collision impulse and destination can be proposed now, but cannot
+discard matter or claim breakage before that chemistry-owned operator/event
+semantics lands. Replay persists the proposal seed; visual randomness may use
+it, chemistry amounts may not.
 
 A versioned, per-vessel *render model*, derived engine-side from state +
 `appearance`/`spectrum` so native and web paint identically and golden tests

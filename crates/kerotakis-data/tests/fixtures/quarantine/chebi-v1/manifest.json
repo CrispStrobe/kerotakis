@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "adapter_id": "chebi-v1",
+  "source_id": "chebi",
+  "source_revision": "253",
+  "retrieved": "2026-08-29",
+  "raw_artifact": "raw/chebi-rel253.json",
+  "record_count": 87,
+  "sha256": "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
+}

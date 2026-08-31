@@ -46,9 +46,33 @@ fn the_tranche_only_grows_deliberately() {
         // products; EXP-30 adds the four qualitative-analysis hydroxides;
         // BRD-012.S02 adds the three P0 school salts (NH4Cl, FeCl3,
         // Na2SO4) with the ammonium ion the databases book them against,
-        // and the gated barium tranche (BaCl2, Ba(OH)2, Ba+2, BaSO4).
-        97,
+        // and the gated barium tranche (BaCl2, Ba(OH)2, Ba+2, BaSO4). The
+        // CAP-13 spike adds the four bare bracket atoms the molfile bridge
+        // could not spell (Mg, Pb, C, S) and phenolphthalein, whose
+        // deferral was a wrong curated SMILES rather than a kekulisation
+        // problem — see provenance/cap-13-chematic-molfile-spike.md.
+        102,
         "structures were added or removed — update this pin and say why \
          in the same commit"
+    );
+}
+
+/// The aluminium correction, shown rather than asserted. The key the
+/// registry carried until 2026-08-30 is the one the *hydride* has — which
+/// is why nothing caught it: the identity gate reached the InChI library
+/// through a V2000 molfile that could not say a bracket atom has no
+/// hydrogens, so it recomputed AlH3 from `[Al]` and the two wrong answers
+/// agreed with each other.
+#[test]
+fn the_aluminium_key_the_registry_used_to_carry_is_alumane() {
+    assert_eq!(
+        native_inchikey_from_smiles("[AlH3]").expect("alumane"),
+        "AZDRQVAHHNSJOQ-UHFFFAOYSA-N",
+        "the retired key is alumane's"
+    );
+    assert_eq!(
+        native_inchikey_from_smiles("[Al]").expect("aluminium"),
+        "XAGFODPZIPBFFR-UHFFFAOYSA-N",
+        "the metal's own key (PubChem CID 5359268)"
     );
 }

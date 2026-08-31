@@ -21,7 +21,7 @@
 //! the groups those species populate.
 
 use kerotakis_core::{SafetyScreen, SafetyVerdict, Severity, Vessel};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -408,8 +408,133 @@ struct Incompatibility {
     a: ReactiveGroup,
     b: ReactiveGroup,
     severity: Severity,
+    /// Stable machine identity, carried through `ExposureFinding` and
+    /// `SafetyVerdict::Warn` into the `HazardWarning` event so contracts
+    /// and tests can recognise WHICH rule fired without matching
+    /// localized prose.
+    rule: &'static str,
     hazard: &'static str,
     real_world: &'static str,
+}
+
+/// One precisely attributed hazard found across exposed material.
+///
+/// Unlike [`SafetyVerdict`], this record retains the species and locations
+/// that triggered the rule. Spill handling uses that attribution to explain
+/// whether the danger was already present in one puddle or was created when
+/// material reached an occupied spill compartment.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ExposureFinding {
+    pub severity: Severity,
+    /// Stable machine identity of the rule (untranslated across locales;
+    /// additive, defaults empty on older serialized findings).
+    #[serde(default)]
+    pub rule: String,
+    pub hazard: String,
+    pub real_world: String,
+    /// The two species participating in the rule. For a water-reactive rule,
+    /// these are the water-reactive species and water, in that order.
+    pub species: [String; 2],
+    /// Stable caller-provided location labels corresponding to `species`.
+    pub locations: [String; 2],
+}
+
+#[derive(Debug, Clone)]
+struct PresentSpecies<'a> {
+    key: &'a str,
+    location: &'a str,
+    groups: &'static [ReactiveGroup],
+}
+
+/// Assess all material sharing an exposed area, including incompatibilities
+/// whose two reactants came from different vessels or spill deposits.
+///
+/// `location` is deliberately an opaque stable label: core can pass a spill
+/// destination while tests and other clients can use their own identifiers.
+/// Findings are deterministic, deduplicated, and retain enough attribution
+/// for a precise safety event or notebook entry.
+pub fn assess_exposures<'a>(
+    exposures: impl IntoIterator<Item = (&'a str, &'a Vessel)>,
+) -> Vec<ExposureFinding> {
+    let mut present = Vec::new();
+    for (location, vessel) in exposures {
+        for portion in &vessel.contents {
+            if portion.moles.0 <= 1e-12 {
+                continue;
+            }
+            present.push(PresentSpecies {
+                key: portion.species.0.as_str(),
+                location,
+                groups: groups(portion.species.0.as_str()),
+            });
+        }
+    }
+
+    let mut findings = Vec::new();
+    // Preserve the historical screen priority: water-reactive exposure is
+    // reported first even if another incompatible pair appears earlier in
+    // vessel order.
+    for (index, a) in present.iter().enumerate() {
+        for b in present.iter().skip(index + 1) {
+            let water_reactive =
+                if a.key == "water" && b.groups.contains(&ReactiveGroup::WaterReactive) {
+                    Some((b, a))
+                } else if b.key == "water" && a.groups.contains(&ReactiveGroup::WaterReactive) {
+                    Some((a, b))
+                } else {
+                    None
+                };
+            if let Some((reactive, water)) = water_reactive {
+                push_unique(
+                    &mut findings,
+                    ExposureFinding {
+                        severity: Severity::Caution,
+                        rule: "water-reactive-slaking".to_string(),
+                        hazard: "this substance reacts violently with water, releasing a large amount of heat".to_string(),
+                        real_world: "Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse.".to_string(),
+                        species: [reactive.key.to_string(), water.key.to_string()],
+                        locations: [reactive.location.to_string(), water.location.to_string()],
+                    },
+                );
+            }
+        }
+    }
+
+    for (index, a) in present.iter().enumerate() {
+        for b in present.iter().skip(index + 1) {
+            for inc in INCOMPATIBLE {
+                if a.groups.contains(&inc.a) && b.groups.contains(&inc.b)
+                    || a.groups.contains(&inc.b) && b.groups.contains(&inc.a)
+                {
+                    push_unique(
+                        &mut findings,
+                        ExposureFinding {
+                            severity: inc.severity,
+                            rule: inc.rule.to_string(),
+                            hazard: inc.hazard.to_string(),
+                            real_world: inc.real_world.to_string(),
+                            species: [a.key.to_string(), b.key.to_string()],
+                            locations: [a.location.to_string(), b.location.to_string()],
+                        },
+                    );
+                }
+            }
+        }
+    }
+    findings
+}
+
+fn push_unique(findings: &mut Vec<ExposureFinding>, finding: ExposureFinding) {
+    let duplicate = findings.iter().any(|existing| {
+        existing.hazard == finding.hazard
+            && ((existing.species == finding.species && existing.locations == finding.locations)
+                || (existing.species == [finding.species[1].clone(), finding.species[0].clone()]
+                    && existing.locations
+                        == [finding.locations[1].clone(), finding.locations[0].clone()]))
+    });
+    if !duplicate {
+        findings.push(finding);
+    }
 }
 
 /// The incompatibility matrix. Symmetric; checked both ways.
@@ -419,6 +544,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerHypochlorite,
         b: ReactiveGroup::AmmoniaAmines,
         severity: Severity::Danger,
+        rule: "bleach-ammonia-chloramine",
         hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
         real_world: "People are hospitalised every year from mixing \
                      these two household cleaners.",
@@ -427,6 +553,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerHypochlorite,
         b: ReactiveGroup::AcidStrong,
         severity: Severity::Danger,
+        rule: "bleach-acid-chlorine",
         hazard: "mixing bleach with acid releases chlorine, a toxic gas",
         real_world: "Chlorine gas was used as a chemical weapon; even \
                      small amounts damage lungs.",
@@ -436,6 +563,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::FlammableLiquid,
         severity: Severity::Danger,
+        rule: "oxidizer-flammable-liquid",
         hazard: "a strong oxidizer mixed with a flammable liquid \
                  can ignite or explode",
         real_world: "Potassium permanganate and glycerol ignite on \
@@ -445,6 +573,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::FlammableGas,
         severity: Severity::Danger,
+        rule: "oxidizer-flammable-gas",
         hazard: "a strong oxidizer in the presence of a flammable gas \
                  creates an explosion risk",
         real_world: "Hydrogen and chlorine mixtures can detonate when \
@@ -454,6 +583,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::ReducingAgent,
         severity: Severity::Danger,
+        rule: "oxidizer-reducer",
         hazard: "mixing a strong oxidizer with a reducing agent can \
                  cause a violent, potentially explosive reaction",
         real_world: "Permanganate and sulfite solutions react vigorously; \
@@ -464,6 +594,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::AcidStrong,
         b: ReactiveGroup::ActiveMetal,
         severity: Severity::Caution,
+        rule: "acid-metal-hydrogen",
         hazard: "strong acid dissolves this metal, releasing hydrogen \
                  gas which is flammable",
         real_world: "Magnesium ribbon in hydrochloric acid produces \
@@ -476,6 +607,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::AcidStrong,
         b: ReactiveGroup::Carbonate,
         severity: Severity::Caution,
+        rule: "acid-carbonate-co2",
         hazard: "strong acid and carbonate fizz vigorously, releasing \
                  carbon dioxide — the mixture can spatter",
         real_world: "Adding acid to chalk or baking soda foams over \
@@ -487,6 +619,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::WaterReactive,
         b: ReactiveGroup::BaseStrong,
         severity: Severity::Caution,
+        rule: "water-reactive-base",
         hazard: "this water-reactive substance already reacted with \
                  water; combining with a strong base adds further heat",
         real_world: "Quicklime (CaO) generates enough heat on contact \
@@ -504,43 +637,13 @@ pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
-        let present: Vec<ReactiveGroup> = vessel
-            .contents
-            .iter()
-            .flat_map(|p| groups(p.species.0.as_str()).iter().copied())
-            .collect();
-
-        // Water-reactive + water is a special case: the hazard is the
-        // exothermic slaking, not a group-vs-group incompatibility.
-        let has_water = vessel
-            .contents
-            .iter()
-            .any(|p| p.species.0 == "water" && p.moles.0 > 1e-12);
-        if has_water && present.contains(&ReactiveGroup::WaterReactive) {
+        if let Some(finding) = assess_exposures([("vessel", vessel)]).into_iter().next() {
             return SafetyVerdict::Warn {
-                severity: Severity::Caution,
-                hazard: "this substance reacts violently with water, \
-                         releasing a large amount of heat"
-                    .to_string(),
-                real_world: "Quicklime (CaO) in water can reach 100 °C \
-                             and cause severe burns. Always add the solid \
-                             to the water slowly, never the reverse."
-                    .to_string(),
+                severity: finding.severity,
+                rule: finding.rule,
+                hazard: finding.hazard,
+                real_world: finding.real_world,
             };
-        }
-
-        for (i, a) in present.iter().enumerate() {
-            for b in present.iter().skip(i + 1) {
-                for inc in INCOMPATIBLE {
-                    if (*a == inc.a && *b == inc.b) || (*a == inc.b && *b == inc.a) {
-                        return SafetyVerdict::Warn {
-                            severity: inc.severity,
-                            hazard: inc.hazard.to_string(),
-                            real_world: inc.real_world.to_string(),
-                        };
-                    }
-                }
-            }
         }
         SafetyVerdict::Allow
     }
@@ -577,6 +680,36 @@ mod tests {
             SafetyVerdict::Warn { hazard, .. } => assert!(hazard.contains("chlorine")),
             other => panic!("expected Warn, got {other:?}"),
         }
+    }
+
+    #[test]
+    fn exposed_material_is_assessed_across_locations_with_precise_sources() {
+        let bleach = vessel_with(&["water", "NaOCl"]);
+        let acid = vessel_with(&["HCl"]);
+        let findings = assess_exposures([("bench", &bleach), ("tray", &acid)]);
+
+        let chlorine = findings
+            .iter()
+            .find(|finding| finding.hazard.contains("chlorine"))
+            .expect("cross-location chlorine hazard");
+        assert_eq!(chlorine.severity, Severity::Danger);
+        assert_eq!(chlorine.species, ["NaOCl", "HCl"]);
+        assert_eq!(chlorine.locations, ["bench", "tray"]);
+    }
+
+    #[test]
+    fn exposure_findings_round_trip_for_save_and_notebook_evidence() {
+        let lime = vessel_with(&["CaO"]);
+        let water = vessel_with(&["water"]);
+        let finding = assess_exposures([("new spill", &lime), ("old spill", &water)])
+            .into_iter()
+            .next()
+            .expect("water-reactive finding");
+
+        assert_eq!(finding.species, ["CaO", "water"]);
+        let encoded = serde_json::to_string(&finding).expect("serialize finding");
+        let decoded: ExposureFinding = serde_json::from_str(&encoded).expect("restore finding");
+        assert_eq!(decoded, finding);
     }
 
     #[test]
@@ -737,6 +870,30 @@ mod tests {
         let (labels, _) = hazard_assessment("Ba(OH)2");
         assert!(labels.contains(&"corrosive"), "{labels:?}");
         assert!(labels.contains(&"toxic"), "{labels:?}");
+    }
+
+    /// The GUI-080 safety-audit mission recognises hazards by these rule
+    /// ids (`outcomeMission.ts`), and they cross the locale boundary
+    /// untranslated. Renaming one silently breaks a shipped mission
+    /// contract — this test is the tripwire.
+    #[test]
+    fn rule_ids_are_stable_contract_surface() {
+        let cases: &[(&[&str], &str)] = &[
+            (&["NaOCl", "NH3"], "bleach-ammonia-chloramine"),
+            (&["NaOCl", "HCl"], "bleach-acid-chlorine"),
+            (&["KMnO4", "ethanol"], "oxidizer-flammable-liquid"),
+            (&["HCl", "Mg"], "acid-metal-hydrogen"),
+            (&["HCl", "CaCO3"], "acid-carbonate-co2"),
+            (&["CaO", "water"], "water-reactive-slaking"),
+        ];
+        for (keys, expected) in cases {
+            match ReactiveGroupScreen.assess(&vessel_with(keys)) {
+                SafetyVerdict::Warn { rule, .. } => {
+                    assert_eq!(rule, *expected, "for {keys:?}");
+                }
+                other => panic!("expected a warning for {keys:?}, got {other:?}"),
+            }
+        }
     }
 
     #[test]

@@ -65,6 +65,10 @@ class FakeHost implements EngineHost {
   async calc() {
     return { ok: false as const, error: "not in the fake" };
   }
+  async balance(equation: string) {
+    this.calls.push(`balance:${equation}`);
+    return { ok: false as const, error: "not in the fake" };
+  }
   async parse(line: string) {
     this.calls.push(`parse:${line}`);
     return line.startsWith("boom")
@@ -101,6 +105,14 @@ class FakeHost implements EngineHost {
   async species() {
     this.calls.push("species");
     return [{ key: "NaCl", name: "sodium chloride", formula: "NaCl", phase: "solid" }];
+  }
+  async elementCoverage() {
+    return { schema: 1, elements: Array.from({ length: 118 }, (_, index) => ({
+      symbol: `E${index + 1}`,
+      capability: "identity_only",
+      examples: [],
+      routes: [],
+    })) };
   }
   async inspect(vessel: number) {
     this.calls.push(`inspect:${vessel}`);
@@ -429,6 +441,37 @@ describe("Session", () => {
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate", "vent"]);
     expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
+  });
+
+  it("surfaces spill hazards and preserves physical incident evidence", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [
+          {
+            event: "spill_created", source: 0, fraction: .25, replay_seed: 7,
+            destination: { surface: "bench", zone: "react" },
+          },
+          {
+            event: "spill_hazard", severity: "danger", hazard: "corrosive spill",
+            real_world: "isolate and neutralise", destination: { surface: "bench", zone: "react" },
+          },
+        ],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("spill v1 25% onto bench react seed 7");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({ kind: "spill", acceptedTransferFraction: .25 });
+    expect(s.feed).toContainEqual(expect.objectContaining({
+      kind: "note", text: "Evidence: 25.0% of vessel v1 entered bench react.",
+    }));
+    expect(s.feed).toContainEqual(expect.objectContaining({
+      kind: "hazard", severity: "danger", hazardText: "corrosive spill",
+      realWorld: "isolate and neutralise",
+    }));
   });
 
   it("colours a transfer from the computed pre-transfer source liquid", async () => {

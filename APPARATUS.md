@@ -22,6 +22,14 @@ Rapier/Salva; and `BRD-073` owns spill, tip, drop and breakage semantics. An
 apparatus row may depend on those tasks, but this catalog remains the owner of
 its ports, limits, affordances and cabinet metadata.
 
+The executable BRD-070 contract is `kerotakis_core::authority`: scene physics
+proposes cumulative transfers, gestures, or collisions with a pinned replay
+seed; only an accepted operator and its event receipt can change the ledger.
+Spill destinations are typed as bench zone, tray, or floor zone. Until BRD-073
+adds material-holding spill compartments and broken-container events, collision
+proposals are non-mutating and contents remain in their vessel. Reduced-motion,
+headless, and background modes change painting cadence only.
+
 ## From catalog to in-world equipment cabinet (2026-08-26)
 
 This file also feeds the player's supply room. The UI may present it as an

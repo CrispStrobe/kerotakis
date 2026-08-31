@@ -16,12 +16,14 @@ pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
 pub mod apparatus;
 pub mod appearance;
+pub mod authority;
 pub mod bench;
 pub mod butler_volmer;
 pub mod cache_key;
 pub mod centrifuge;
 pub mod chart;
 pub mod compartment;
+pub mod conductivity;
 pub mod constants;
 pub mod coverage;
 pub mod curated;
@@ -29,6 +31,7 @@ pub mod curdling;
 pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
+pub mod element_coverage;
 pub mod emulsion;
 pub mod exact_stoich;
 pub mod fermentation;
@@ -65,6 +68,7 @@ pub mod solve;
 pub mod species;
 pub mod species_loader;
 pub mod spectrum;
+pub mod spill;
 mod starch_iodine;
 pub mod states;
 pub mod statistics;
@@ -85,6 +89,12 @@ pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
+pub use element_coverage::{
+    element_coverage_json, element_coverage_report, element_coverage_report_with_lessons,
+    element_coverage_report_with_routes, ElementCapability, ElementCoverageEntry,
+    ElementCoverageError, ElementCoverageReport, ElementShelfItem, InstalledLessonRoute,
+    InstalledRunnableRoute, RunnableElementRoute, ShelfItemKind, ELEMENT_SYMBOLS,
+};
 pub use i18n::Locale;
 pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
@@ -107,6 +117,7 @@ pub use solve::{
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
+pub use spill::SpillCompartment;
 pub use transport::{
     CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
     TransportError, TransportStep,

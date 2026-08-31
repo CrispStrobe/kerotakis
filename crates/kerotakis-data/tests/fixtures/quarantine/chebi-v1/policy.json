@@ -1,0 +1,77 @@
+{
+  "fields": {
+    "attribution": {
+      "target_field": "attribution",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "average_mass": {
+      "target_field": "molar_mass",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ],
+      "target_dimension": "molar_mass"
+    },
+    "canonical_name": {
+      "target_field": "name",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "charge": {
+      "target_field": "charge",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "chebi_id": {
+      "target_field": "external_identifier_chebi",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "definition": {
+      "target_field": "description",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "formula": {
+      "target_field": "formula",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "search_tags_from_parents": {
+      "target_field": "class_tags",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "search_tags_from_roles": {
+      "target_field": "search_tags",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "standard_inchi": {
+      "target_field": "standard_inchi",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "standard_inchi_key": {
+      "target_field": "standard_inchi_key",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    },
+    "synonyms": {
+      "target_field": "aliases",
+      "allowed_licences": [
+        "CC-BY-4.0"
+      ]
+    }
+  }
+}

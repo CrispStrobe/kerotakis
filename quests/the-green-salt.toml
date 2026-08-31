@@ -1,0 +1,76 @@
+# EXP-30 (sealed-unknown salt analysis): the oxidation state matters.
+# Two iron salts sit on the school shelf and they are NOT the same
+# unknown: iron(II) gives the pale-green hydroxide, iron(III) the
+# red-brown one. Getting the engine to say that honestly took four
+# repairs (EXPERIMENTS.md § EXP-30) — there is no oxidant in this
+# beaker, so the ferric hydroxide must not appear, and it does not.
+id = "the-green-salt"
+
+[title]
+lv1 = "The green salt"
+lv2 = "The green salt: telling two irons apart"
+lv3 = "Sealed-salt analysis II — oxidation state from hydroxide colour, anion by the barium test"
+
+[goal]
+lv1 = "unknown-green is a salt in a jar. Dissolve some, then drop sodium hydroxide into it and look hard at what falls out: iron can make two different hydroxides and they are different colours. Test another portion with barium chloride for the other half of the name."
+lv2 = "Identify unknown-green. The cation test is sodium hydroxide, and here the colour of the precipitate carries more than the metal — it carries the metal's oxidation state. Confirm the anion with barium chloride on a fresh portion, then name the salt."
+lv3 = "unknown-green is a sealed registry salt. Run the scheme: dilute acid rules the carbonates out; NaOH precipitates the hydroxide, whose colour distinguishes Fe(OH)2 (pale green) from Fe(OH)3 (red-brown) from Mg(OH)2 / Zn(OH)2 (white) from Cu(OH)2 (pale blue); BaCl2 into a fresh portion gives Barite if the anion is sulfate. There is no oxidant in the beaker, so an iron(II) salt must NOT give the ferric hydroxide — the absence is as much a verdict as the presence. Candidates: FeSO4, FeCl3, CuSO4, MgSO4, ZnSO4, Na2CO3, NaCl. Claims complete in any order."
+
+[unknowns]
+unknown-green = "FeSO4"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:FeSO4"
+[nudges.say]
+lv1 = "It is in the water now. Look at the beaker, then reach for the sodium hydroxide."
+lv2 = "The salt has dissolved. Note the solution's own tint before you add anything — then run the cation test with sodium hydroxide."
+lv3 = "In solution. The dissolved cation may already tint the water faintly; the strong evidence is the hydroxide you are about to precipitate. Add NaOH in excess of the stoichiometric requirement so the precipitation is complete."
+
+[[nudges]]
+id = "the-hydroxide"
+when = "precipitated:Fe(OH)2"
+[nudges.say]
+lv1 = "A pale green solid. Iron has two forms, and this is the one that has NOT met any air yet."
+lv2 = "A pale-green hydroxide: this is iron in its lower oxidation state. The red-brown hydroxide of the higher state did not appear, because nothing in this beaker could oxidise the metal — that absence is evidence too."
+lv3 = "Fe(OH)2 precipitated and Fe(OH)3 did not. The engine admits a ferric phase against ferrous totals only with a redox partner present; there is none, so the solve keeps the iron where it was added. Cation and oxidation state are now fixed; the anion still needs its own test."
+
+[[nudges]]
+id = "the-sulfate"
+when = "precipitated:BaSO4"
+[nudges.say]
+lv1 = "Heavy white powder — that is the sulfate test saying yes."
+lv2 = "Barium sulfate. The anion is sulfate; with the cation from the hydroxide colour you now have the whole formula."
+lv3 = "Barite. Combined with the ferrous verdict from the hydroxide colour, the salt is determined. Note that the same white precipitate here would have appeared for any sulfate — it is the cation test that made it specific."
+
+[[claims]]
+id = "looked-at-it"
+matches = "observed"
+[claims.title]
+lv1 = "Look at what you made"
+lv2 = "Observe the dissolved unknown"
+lv3 = "Observed event — solution appearance before any reagent"
+
+[[claims]]
+id = "ferrous-hydroxide"
+matches = "precipitated:Fe(OH)2"
+[claims.title]
+lv1 = "Get the pale green solid to fall out"
+lv2 = "Precipitate the hydroxide of the lower oxidation state"
+lv3 = "Precipitated:Fe(OH)2 — the ferrous verdict, with the ferric hydroxide absent"
+
+[[claims]]
+id = "anion-sulfate"
+matches = "precipitated:BaSO4"
+[claims.title]
+lv1 = "Get the heavy white powder with barium chloride"
+lv2 = "Confirm the anion with the barium chloride test"
+lv3 = "Precipitated:BaSO4 — the sulfate confirmation"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-green"
+[claims.title]
+lv1 = "Say what the green salt really is"
+lv2 = "Identify unknown-green by name"
+lv3 = "Identify claim on unknown-green; a wrong name is answered with the evidence, not punished"

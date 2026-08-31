@@ -8,6 +8,10 @@
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
   import { engineText } from "../engineText";
+  import { liveIgnitionEffect } from "../ignitionPresentation";
+  import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
+  import IgnitionFlameCanvas from "./IgnitionFlameCanvas.svelte";
+  import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
 
   let {
     vessel,
@@ -24,6 +28,8 @@
     linkedTool = null,
     apparatusWorking = false,
     apparatusValues = {},
+    gpuIgnition = null,
+    gpuMetricsRegistry = null,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -43,6 +49,8 @@
     linkedTool?: string | null;
     apparatusWorking?: boolean;
     apparatusValues?: Record<string, number | string>;
+    gpuIgnition?: WebGpuEnvironmentSnapshot | null;
+    gpuMetricsRegistry?: WebGpuMetricsRegistry | null;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -83,6 +91,7 @@
   const inspectionEffect = $derived(latestEffect("inspect", 4500));
   const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
   const flameTestEffect = $derived(latestEffect("flame_test", 3000));
+  const ignitionEffect = $derived(liveIgnitionEffect(effects, effectClock));
   const settlingEffect = $derived(latestEffect("settle", 8000));
   const stirEffect = $derived.by(() => {
     const effect = latestEffect("swirl", 8000);
@@ -102,11 +111,7 @@
     const species = electrolysisEffect?.electrolysis?.species;
     return species ? vessel.solids.find((solid) => solid.species === species) : undefined;
   });
-  const latestFlameColour = $derived.by(() => {
-    const n = effectClock;
-    const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
-    return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
-  });
+  const latestFlameColour = $derived(ignitionEffect?.flameColour);
 
   function surfaceParticleX(index: number, count: number, cleared: number): number {
     const gap = Math.max(0, Math.min(0.94, cleared));
@@ -235,8 +240,9 @@
     return `hsl(${270 - ((clamped - 380) / 360) * 270} 88% 54%)`;
   };
   const sealed = $derived(vessel.boundary !== "open");
-  // State-driven effects, straight from the computed temperature.
-  const burning = $derived(vessel.temperature_k > 600 || active("ignite", 3000));
+  // Combustion is event-authoritative; temperature still owns glow/steam.
+  const burning = $derived(ignitionEffect !== undefined);
+  let ignitionFallbackVisible = $state(true);
   const steaming = $derived(
     (vessel.liquid !== null && vessel.temperature_k >= 368) || active("evaporate", 2500),
   );
@@ -548,7 +554,7 @@
         {/each}
       </g>
     {/if}
-    {#if burning}
+    {#if burning && ignitionFallbackVisible}
       {@const flameMagnitude = mag("ignite", 3000)}
       {@const flameScale = 0.42 + flameMagnitude * 0.88}
       {@const flameDuration = 0.48 - flameMagnitude * 0.25}
@@ -1092,6 +1098,19 @@
       </g>
     {/if}
   </svg>
+  {#if ignitionEffect && gpuIgnition}
+    {#if gpuMetricsRegistry}
+      <span class="ignition-flame-gpu" aria-hidden="true">
+        <IgnitionFlameCanvas
+          effect={ignitionEffect}
+          vesselIdentity={vessel.id}
+          gpu={gpuIgnition}
+          metricsRegistry={gpuMetricsRegistry}
+          onfallbackchange={(visible) => (ignitionFallbackVisible = visible)}
+        />
+      </span>
+    {/if}
+  {/if}
   </button>
 
   {#if dropReady}<span class="drop-hint">{t("add here")}</span>{/if}
@@ -1158,6 +1177,17 @@
     display: block;
     border-radius: 12px;
     transform-origin: 52% 78%;
+    position: relative;
+  }
+  .ignition-flame-gpu {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: -4px;
+    width: 48px;
+    height: 56px;
+    transform: translateX(-50%);
+    pointer-events: none;
   }
   .glassbtn.pouring { animation: vessel-pour 1.5s cubic-bezier(.3,.05,.3,1) both; }
   @keyframes vessel-pour {

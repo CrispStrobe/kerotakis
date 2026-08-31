@@ -1,0 +1,12 @@
+# feos parameter files the BRD-030 measurements were taken against.
+# Fetched 2026-08-30 from github.com/feos-org/feos@main:parameters/pcsaft/
+# by fetch-parameters.sh. The files themselves are NOT committed (see README).
+87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679  ./esper2023.json
+f4b4018c7f02341b937c086cbb38626b72c1f3f3d9677a26b463112e16dfd404  ./gross2001.json
+1093a489fe6b98e2bdb3ece7280fbc4d10570d32d427cf51b4cfbe0f0a10d64f  ./gross2002_binary.json
+9680ae8998565feabf6b3808bc2f11df288f55db049677ccebe08a937332c491  ./gross2002.json
+5acc4394a3e3b66ded7d69d72b03ea5da0b9b8a3a3f81d5709c22b1687aad9cf  ./gross2005_literature.json
+fee426beb766169bf7592050e6057a6035dc07dd75e8c00e671640bb878ff3a7  ./gross2006.json
+8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335  ./rehner2023_binary.json
+6e22267ad524f949dd1d93db60ae898f6e943d1535d3475c7fdb643b7800ddcc  ./README.md
+fe9e6f62a917f8e054555c4f8e0af9b749584290a942e8a6e53893c4a1f13a70  ./literature.bib

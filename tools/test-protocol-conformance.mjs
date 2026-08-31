@@ -322,6 +322,79 @@ for (const file of lessons) {
         + `${["en", ...shippedLocales].join("/")}, evaluation + refusal conform`);
 }
 
+// --- balance (GUI-095) ---------------------------------------------------
+// The balancing exercise is generated, not authored, so the command has to
+// carry enough for a client to mark answers the solver never returned. Two
+// claims are pinned: the reported matrix is the one the reported answer is
+// the null space of (otherwise a client marks against a different reaction
+// than the engine solved), and a balanced equation sets the same question
+// as its bare skeleton (otherwise the codex's own coefficients leak the
+// answer into the question).
+{
+    const lab = new Lab();
+    const report = JSON.parse(lab.balance("Mg + O2 -> MgO"));
+    checks++;
+    if (report.ok !== true) fail("balance", `refused a balanceable skeleton: ${JSON.stringify(report)}`);
+    for (const [field, kind] of [["species", "array"], ["elements", "array"],
+        ["matrix", "array"], ["coefficients", "array"], ["basis", "array"],
+        ["reactants", "number"], ["reversible", "boolean"]]) {
+        checks++;
+        const ok = kind === "array" ? Array.isArray(report[field]) : typeof report[field] === kind;
+        if (!ok) fail("balance", `${field} missing or not ${kind}: ${JSON.stringify(report)}`);
+    }
+    checks++;
+    if (report.species.join(" ") !== "Mg O2 MgO" || report.reactants !== 2) {
+        fail("balance", `species/reactants wrong: ${JSON.stringify(report)}`);
+    }
+    checks++;
+    if (report.coefficients.join(",") !== "2,1,2") {
+        fail("balance", `2 Mg + O2 -> 2 MgO expected; got ${report.coefficients.join(",")}`);
+    }
+    checks++;
+    if (report.elements.at(-1) !== "charge") {
+        fail("balance", `charge must be the last matrix row: ${JSON.stringify(report.elements)}`);
+    }
+    // The invariant the marking rests on: matrix · coefficients = 0.
+    const annihilates = (matrix, vector) => matrix.every(
+        (row) => Math.abs(row.reduce((sum, count, i) => sum + count * vector[i], 0)) < 1e-9,
+    );
+    checks++;
+    if (!annihilates(report.matrix, report.coefficients)) {
+        fail("balance", "the reported matrix does not annihilate the reported answer");
+    }
+    // A correct multiple must still balance — that is the whole lesson.
+    checks++;
+    if (!annihilates(report.matrix, report.coefficients.map((c) => c * 3))) {
+        fail("balance", "a multiple of the answer must still balance");
+    }
+    checks++;
+    const alreadyBalanced = JSON.parse(lab.balance("2 Mg + O₂ → 2 MgO"));
+    if (alreadyBalanced.ok !== true
+        || alreadyBalanced.coefficients.join(",") !== report.coefficients.join(",")
+        || alreadyBalanced.species.length !== report.species.length) {
+        fail("balance", `a balanced equation must set the same question as its skeleton: `
+            + `${JSON.stringify(alreadyBalanced)}`);
+    }
+    // Underdetermined: C + O2 -> CO + CO2 admits two independent reactions.
+    const family = JSON.parse(lab.balance("C + O2 -> CO + CO2"));
+    checks++;
+    if (family.ok !== true || family.basis.length === 0) {
+        fail("balance", `an underdetermined skeleton must report its basis: ${JSON.stringify(family)}`);
+    }
+    checks++;
+    if (family.ok === true && !family.basis.every((v) => annihilates(family.matrix, v))) {
+        fail("balance", "every basis vector must lie in the reported null space");
+    }
+    // Prose in an equation field is refused rather than balanced.
+    const refused = JSON.parse(lab.balance("CH₃COOH / CH₃COO⁻ buffer"));
+    checks++;
+    if (refused.ok !== false || typeof refused.error !== "string") {
+        fail("balance", `prose must refuse with an error: ${JSON.stringify(refused)}`);
+    }
+    console.log(`balance: ${report.species.length}-species skeleton solved, `
+        + `matrix annihilates it, family reported, prose refused`);
+}
+
 // --- The chart contract on the wire (GUI-021/CAP-12) ---------------------
 // A titration must EARN its chart: the titrate step carries a charts
 // array in the CAP-3 shape — axes with labels, a line series of [x,y]

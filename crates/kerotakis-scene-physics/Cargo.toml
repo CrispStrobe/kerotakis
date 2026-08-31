@@ -1,0 +1,22 @@
+[package]
+name = "kerotakis-scene-physics"
+description = "Deterministic Rapier 2-D decision spike for the Kerotakis bench scene"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+rapier2d = { version = "=0.35.3", default-features = false, features = ["dim2", "f32", "std", "enhanced-determinism"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = "0.10"
+thiserror = { workspace = true }
+
+[[example]]
+name = "measure"

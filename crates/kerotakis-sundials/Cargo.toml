@@ -5,6 +5,11 @@ edition.workspace = true
 license = "MIT"
 description = "CVODE-based kinetics integrator backend for kerotakis (native-only)"
 
+[package.metadata.kerotakis]
+# tools/portable-dependency-lint.py rejects this crate anywhere below the
+# browser runtime. Future native-only solver adapters use the same marker.
+runtime = "native-only"
+
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
 # default-features = false drops the `klu` sparse-solver feature: this crate

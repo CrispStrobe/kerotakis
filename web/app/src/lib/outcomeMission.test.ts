@@ -3,6 +3,7 @@ import {
   eventSecuresCriterion,
   outcomeComplete,
   outcomeMissionContract,
+  resolvedComponents,
   secureOutcomeEvidence,
 } from "./outcomeMission";
 
@@ -59,5 +60,78 @@ describe("open-ended mission outcomes", () => {
     expect(eventSecuresCriterion(criterion, { ...base, temperature_into: 293.15 })).toBe(false);
     expect(eventSecuresCriterion(criterion, { ...base, fraction_a: 0.01, temperature_into: 352.55 })).toBe(false);
     expect(eventSecuresCriterion(criterion, { event: "temperature_changed", from: 293.15, to: 323.15 })).toBe(false);
+  });
+
+  it("assesses the separation lead from the solver's own peak table", () => {
+    const separation = outcomeMissionContract("one-thing-at-a-time")!;
+    // The lesson's own mixture, as the school column actually elutes it.
+    const resolved = secureOutcomeEvidence(separation, [], [{
+      event: "chromatographed",
+      plates: 10000,
+      peaks: [
+        { species: "methanol", retention_time_s: 63, width_s: 2.5 },
+        { species: "ethanol", retention_time_s: 68, width_s: 2.7 },
+        { species: "propanone", retention_time_s: 115, width_s: 4.6 },
+      ],
+    }]);
+    expect(outcomeComplete(separation, resolved)).toBe(true);
+  });
+
+  it("rejects a failed separation: co-eluting peaks count as one component", () => {
+    const criterion = outcomeMissionContract("one-thing-at-a-time")!.criteria[0]!;
+    // Three peaks on paper, but the first two overlap (resolution < 1):
+    // the trace shows two components, and the contract must agree.
+    expect(eventSecuresCriterion(criterion, {
+      event: "chromatographed",
+      peaks: [
+        { species: "methanol", retention_time_s: 63, width_s: 6 },
+        { species: "ethanol", retention_time_s: 66, width_s: 6 },
+        { species: "propanone", retention_time_s: 115, width_s: 4.6 },
+      ],
+    })).toBe(false);
+    expect(eventSecuresCriterion(criterion, { event: "chromatographed", peaks: [] })).toBe(false);
+    expect(eventSecuresCriterion(criterion, { event: "filtered", from: 1, to: 2 })).toBe(false);
+  });
+
+  it("clusters overlapping peaks by chromatographic resolution", () => {
+    expect(resolvedComponents([
+      { retention_time_s: 63, width_s: 2.5 },
+      { retention_time_s: 68, width_s: 2.7 },
+      { retention_time_s: 115, width_s: 4.6 },
+    ])).toBe(3);
+    expect(resolvedComponents([
+      { retention_time_s: 63, width_s: 6 },
+      { retention_time_s: 66, width_s: 6 },
+    ])).toBe(1);
+    expect(resolvedComponents([])).toBe(0);
+  });
+
+  it("assesses the safety audit on the engine's typed rule ids, never prose", () => {
+    const audit = outcomeMissionContract("never-mix")!;
+    // German-localized prose around the stable rule id — exactly what a
+    // de-locale session's events look like. The id is what must match.
+    const secured = secureOutcomeEvidence(audit, [], [
+      { event: "hazard_warning", rule: "bleach-ammonia-chloramine", hazard: "Bleiche und Ammoniak…", real_world: "…" },
+      { event: "hazard_warning", rule: "oxidizer-flammable-liquid", hazard: "…", real_world: "…" },
+      { event: "hazard_warning", rule: "acid-metal-hydrogen", hazard: "…", real_world: "…" },
+      { event: "hazard_warning", rule: "acid-carbonate-co2", hazard: "…", real_world: "…" },
+    ]);
+    expect(outcomeComplete(audit, secured)).toBe(true);
+  });
+
+  it("safety-audit evidence accumulates one hazard at a time and ignores impostors", () => {
+    const audit = outcomeMissionContract("never-mix")!;
+    const first = secureOutcomeEvidence(audit, [], [
+      { event: "hazard_warning", rule: "bleach-ammonia-chloramine", hazard: "…", real_world: "…" },
+    ]);
+    expect(first).toEqual(["toxic-gas-chloramine"]);
+    expect(outcomeComplete(audit, first)).toBe(false);
+    // A different rule, a rule-less warning (old snapshot), and prose that
+    // merely MENTIONS chloramine must not secure anything further.
+    const second = secureOutcomeEvidence(audit, first, [
+      { event: "hazard_warning", rule: "water-reactive-slaking", hazard: "…", real_world: "…" },
+      { event: "hazard_warning", hazard: "mixing bleach with ammonia makes chloramine, a toxic gas", real_world: "…" },
+    ]);
+    expect(second).toEqual(["toxic-gas-chloramine"]);
   });
 });

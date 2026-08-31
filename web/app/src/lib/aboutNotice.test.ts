@@ -102,7 +102,13 @@ describe("the About dialog's third-party list", () => {
       ["npm-lock", "web/app/package-lock.json"],
       ["project-license", "LICENSE"],
       ["project-notice", "NOTICE"],
-      ["iphreeqc-notice", "vendor/iphreeqc/doc/NOTICE"],
+      // The USGS notice is hashed at its TRACKED location. The IPhreeqc
+      // build copies the same bytes to vendor/iphreeqc/doc/NOTICE (see
+      // vendor/iphreeqc/doc/CMakeLists.txt), so at the pinned submodule
+      // commit that copy does not exist until the engine has been built —
+      // and this suite must pass on a fresh checkout that has only run
+      // `npm ci`. Same file, same sha256, no build dependency.
+      ["iphreeqc-notice", "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"],
       ["my-basic-license", "vendor/my-basic/LICENSE"],
       ["nasa-cea-notice", "vendor/nasa-cea/NOTICE.txt"],
       ["nasa-cea-license", "vendor/nasa-cea/LICENSE.txt"],

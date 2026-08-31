@@ -1,0 +1,17 @@
+[
+  {
+    "adapter_id": "chebi-v1",
+    "external_record_id": "CHEBI:15377",
+    "fields": [
+      "canonical_name",
+      "boiling_point"
+    ]
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "external_record_id": "CHEBI:99999999",
+    "fields": [
+      "canonical_name"
+    ]
+  }
+]

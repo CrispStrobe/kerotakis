@@ -7,12 +7,14 @@
 //! pack behind the runtime registry API.
 
 mod adapter;
+pub mod chebi;
 pub mod model_pack;
 mod pack;
 mod provenance;
 mod resolve;
 mod schema;
 mod units;
+pub mod usda;
 mod validate;
 
 pub use adapter::*;

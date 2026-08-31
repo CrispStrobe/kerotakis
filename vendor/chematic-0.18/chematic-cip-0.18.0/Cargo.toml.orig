@@ -1,0 +1,35 @@
+[package]
+name = "chematic-cip"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Low-level accurate CIP (Cahn-Ingold-Prelog) digraph engine for chematic -- most applications should use chematic_chem::assign_cip_with_mode instead. Experimental, may have breaking 0.x changes."
+keywords = ["cheminformatics", "cip", "stereochemistry", "chemistry"]
+categories = ["science", "science::computational-chemistry::cheminformatics", "algorithms"]
+readme = "../../README.md"
+homepage.workspace = true
+documentation = "https://docs.rs/chematic-cip"
+publish = ["crates-io"]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+chematic-core       = { path = "../chematic-core",       version = "0.18.0" }
+chematic-perception = { path = "../chematic-perception", version = "0.18.0" }
+
+[dev-dependencies]
+# Path-only (no `version`): see chematic-smiles/Cargo.toml's dev-dependencies
+# comment -- a version-pinned dev-dependency must resolve against the
+# registry at `cargo publish` time, which a forward reference can't satisfy.
+chematic-chem   = { path = "../chematic-chem" }
+chematic-smiles = { path = "../chematic-smiles" }
+serde_json      = "1.0"
+criterion       = { version = "0.8", features = ["html_reports"] }
+
+[[bench]]
+name = "mancude_overhead"
+harness = false

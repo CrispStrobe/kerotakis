@@ -69,6 +69,35 @@ const chooseMobilePane = async (index) => {
   return JSON.parse(await layoutAudit());
 };
 
+const openPeriodicTable = async () => {
+  const hasButton = await page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    /elements|elemente/i.test(item.textContent || "")))`);
+  if (!hasButton) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button.tool')].find((item) =>
+      /elements|elemente/i.test(item.textContent || ""));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelector('dialog.table-panel')`, { timeout: 5000 });
+};
+
+const periodicAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.table-panel');
+  const options = [...(panel?.querySelectorAll('[role="option"]') || [])];
+  const symbols = options.map((option) => option.querySelector('.sym')?.textContent?.trim());
+  return JSON.stringify({
+    options: options.length,
+    symbols,
+    unnamed: options.filter((option) => !option.getAttribute('aria-label')).length,
+    panelOverflow: panel ? panel.scrollWidth - panel.clientWidth : null,
+    viewportOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    animations: panel?.getAnimations({ subtree: true }).filter((animation) => animation.playState === 'running').length ?? 0,
+  });
+})()`);
+
 try {
   await viewport(1440, 900);
   await page.goto(`${origin}/app/`);
@@ -81,6 +110,17 @@ try {
   }
   check("visible buttons have an accessible name", desktop.unnamed === 0, `${desktop.unnamed} unnamed`);
   check("the rendered page has no duplicate ids", desktop.duplicateIds.length === 0, desktop.duplicateIds.join(", "));
+
+  check("the periodic table opens from the bench", await openPeriodicTable());
+  const labTable = JSON.parse(await periodicAudit());
+  check("the default table keeps Fe, Cu, and Zn", ["Fe", "Cu", "Zn"].every((symbol) => labTable.symbols.includes(symbol)));
+  check("the default table omits hazardous and synthetic identities",
+    ["Po", "At", "Fr", "Ra", "Og"].every((symbol) => !labTable.symbols.includes(symbol)));
+  check("every element cell has an accessible name", labTable.unnamed === 0, `${labTable.unnamed} unnamed`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.mode')?.click()`);
+  const fullTable = JSON.parse(await periodicAudit());
+  check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
 
   const dockTargets = JSON.parse(await page.evaluate(`JSON.stringify(
     [...document.querySelectorAll('.actions button')].filter((button) => button.offsetParent)
@@ -104,6 +144,10 @@ try {
   const tabs = JSON.parse(await mobileTabs());
   check("phone navigation exposes three tabs", tabs.length === 3, `${tabs.length} tabs`);
   check("phone tabs meet the 44 px touch minimum", tabs.every((tab) => tab.width >= 44 && tab.height >= 44));
+  check("the periodic table opens on a phone", await openPeriodicTable());
+  const phoneTable = JSON.parse(await periodicAudit());
+  check("the phone periodic table stays inside the viewport", phoneTable.viewportOverflow <= 1, `${phoneTable.viewportOverflow}px`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
 
   // 320 CSS pixels remains a real supported width: compact phones, split
   // views and a 640px browser at 200% zoom all reach it. Audit every pane,
@@ -143,6 +187,10 @@ try {
   await page.cdp.send("Emulation.setEmulatedMedia", {
     media: "screen", features: [{ name: "prefers-reduced-motion", value: "reduce" }],
   }, page.sessionId);
+  check("the periodic table opens with reduced motion", await openPeriodicTable());
+  const reducedTable = JSON.parse(await periodicAudit());
+  check("reduced motion leaves no running periodic-table animation", reducedTable.animations === 0, `${reducedTable.animations} animations`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
   const inputReady = await waitFor(page, `!document.querySelector('form.bar input')?.disabled`, { timeout: 60000 });
   if (inputReady) {
     await page.evaluate(`(() => {

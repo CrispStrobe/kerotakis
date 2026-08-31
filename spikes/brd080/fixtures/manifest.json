@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "authorship": "Project-authored synthetic format probes; no scientific property claim",
+  "fixtures": [
+    {"kind":"molecule","path":"water.sdf","bytes":338,"sha256":"c54ae8f5c515de9b05cbac3b372a8673a19836ba8ac27bfba134d61cc7eb93f2"},
+    {"kind":"crystal","path":"nacl.cif","bytes":286,"sha256":"1f5c149573fd7ceb528f8fb7f8321cc04942b87a09db42eeea1478277e7f9459"},
+    {"kind":"protein","path":"peptide.pdb","bytes":357,"sha256":"8c508558c43c52c7a9536a93ec7d6f0ca3a4b2354fcb254b8de70a7670ceeec2"},
+    {"kind":"orbital","path":"orbital.cube","bytes":330,"sha256":"7ea1df1ad05c32478ed55f45e5777ae2ed83498e4233c3b20060e3047b664b96"},
+    {"kind":"trajectory","path":"trajectory.xyz","bytes":122,"sha256":"bc5c67dd12fcba71a0b2e937a924a022188168211745d8225165c4ff79de5e81"}
+  ]
+}

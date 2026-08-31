@@ -9,6 +9,38 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  gpu-release-tools:
+    name: GPU release tools (deterministic)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test asset, probe, evaluator, and audit tooling
+        # Physical WebGPU measurements and the five-host evidence matrix are
+        # release-lab gates; CI only verifies their deterministic tooling.
+        run: bash tools/test-gpu-release-tools.sh
+
+  viewer-decision-spike:
+    name: BRD-080 viewer decision spike
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spikes/brd080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: spikes/brd080/package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - name: Exercise both viewers, every fixture, teardown and offline boundary
+        run: npm run test:browser
+
   theme-contrast:
     name: Theme contrast tokens
     runs-on: ubuntu-latest
@@ -19,6 +51,24 @@ jobs:
           node-version: "22"
       - name: Enforce WCAG AA theme pairs
         run: node tools/test-theme-contrast.mjs
+
+  presentation-authority:
+    name: Presentation authority adapters
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web/app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/app/package-lock.json
+      - run: npm ci
+      - run: >-
+          npm test -- src/lib/rigidIntent.test.ts src/lib/fluidScene.test.ts
+          src/lib/magnitudes.test.ts src/lib/pour.test.ts
 
   preflight-gate:
     name: Full preflight gate
@@ -124,8 +174,10 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
-      - name: Check core and data schemas on wasm
-        run: cargo check -p kerotakis-core -p kerotakis-data --target wasm32-unknown-unknown
+      - name: Check core, data and scene physics on wasm
+        run: >-
+          cargo check -p kerotakis-core -p kerotakis-data
+          -p kerotakis-scene-physics --target wasm32-unknown-unknown
 
   registry-export:
     name: Current registry source export

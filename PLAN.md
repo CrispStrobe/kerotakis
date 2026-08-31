@@ -371,10 +371,13 @@ Notes per layer:
 - **L5** — reaction networks are **stiff**; explicit Runge–Kutta will not
   integrate them. diffsol's default backends are pure Rust (nalgebra/faer);
   the `diffsl` JIT stays off for iOS and wasm. For gas kinetics we parse the
-  **Cantera YAML mechanism format** (publicly documented; the shipped data
-  files — gri30.yaml etc. — are part of Cantera's BSD-3 distribution and
-  freely redistributable) and evaluate rates ourselves: GRI-Mech-class
-  education mechanisms need only **Arrhenius + three-body + Troe falloff**.
+  **Cantera YAML mechanism format** (publicly documented) and evaluate rates
+  ourselves: GRI-Mech-class education mechanisms need only **Arrhenius +
+  three-body + Troe falloff**, plus reversible forms of the last two and
+  negative activation energies (measured in BRD-040). The *format* is free to
+  implement; the *mechanism files* are not free to redistribute — Cantera's
+  BSD-3 licence covers its code only, and BRD-040 found no open licence for any
+  candidate mechanism. See `provenance/brd-040-cantera-audit.md`.
   Precedent: KiThe and Fauconneau/combustion in Rust; Arrhenius.jl and
   ReactionMechanismSimulator.jl in Julia.
 - **L6** — most of the age-9 register is *observations*, and they need a
@@ -1005,15 +1008,21 @@ The pipeline, honestly bounded:
   matching, canonical SMILES, 2D depiction, first-class wasm npm build. Three
   months old, bus-factor 1, self-reported RDKit parity. If it matures it
   replaces the Indigo FFI for everything except InChI; re-evaluate quarterly.
-- **Cantera via its generated C API** (BSD-3-Clause, verified 2026-08-23 —
-  clean under the shipping bar below) — Cantera 3.2 ships a generated clib
-  (handle-based, no C++ at the boundary) covering equilibrate, kinetics rates
-  and reactor networks, and **Emscripten/wasm support was merged upstream**
-  into the 4.0 dev branch (2026-03; lead maintainer: "essentially no issues
-  compiling Cantera and its dependencies as a WASM library"). Still SCons-built,
-  clib marked experimental, mobile unproven. Our slice reimplementation (L5)
-  covers the educational need; full Cantera-by-FFI becomes a real option when
-  4.0 ships — re-evaluate then.
+- **Cantera via its generated C API** (BSD-3-Clause code only) — BRD-040
+  completed the decision on 2026-08-29: the portable Cantera-YAML/diffsol
+  slice covers the educational requirement, every audited upstream mechanism
+  is oracle-only for lack of a redistribution grant, and full C-API shipping
+  closes no current capability gap. Upstream Emscripten work is not an
+  all-target proof: the clib remains experimental and iOS/Android packaging is
+  unproven. BRD-042 is therefore parked until a named capability cannot
+  reasonably be implemented in the portable path; a future Cantera release by
+  itself is not a reason to reopen it.
+- **Thermochimica** — BSD-3-Clause code and potentially valuable for melts,
+  slags and non-ideal condensed phases, but its Fortran + BLAS/LAPACK build and
+  independently licensed thermodynamic data do not satisfy the browser,
+  Android, iOS, macOS and Windows runtime contract. BRD-093 closes universal
+  runtime adoption as no-go; it remains eligible as a native/build-time oracle
+  for a named experiment with a cleared database.
 - `teqp` (NIST) — **public-domain** multiparameter/GERG/SAFT EOS in C++;
   Emscripten side-module feasible. The option if L3 ever needs
   reference-quality multiparameter mixtures beyond feos.
@@ -1130,8 +1139,10 @@ licences verified via repository metadata that day):
   identity engine. Upstream-proven wasm build exists. Vendored on the IPhreeqc
   pattern with a CI check that every registry InChIKey recomputes and matches.
 - **Cantera** (BSD-3-Clause, verified 2026-08-23) — reaction mechanism format
-  and rate-law definitions. Mechanism YAML files are part of the BSD-3
-  distribution. Already used for the GRI-Mech hydrogen subset (KIN-008).
+  and rate-law definitions, implemented independently; the code itself stays
+  oracle-only. The mechanism YAML files Cantera ships are **not** covered by
+  that licence and are not redistributable (BRD-040, 2026-08-29). No mechanism
+  data has been imported.
 - `contour` (MIT) — contour line generation for phase diagrams.
 - `rayon` (MIT/Apache-2.0) — data parallelism for multi-vessel benchmarks.
 - `rand_chacha` / `rand_distr` / `statrs` (MIT/Apache-2.0) — reproducible
@@ -1356,7 +1367,7 @@ The traps are all about data, not code. Checked against primary sources
 | PubChem (NCBI bulk) | No NCBI restrictions, commercial OK; per-annotation source attribution expected | **Primary property + GHS source.** Keep attribution per record |
 | Wikidata | CC0 | Clean supplement; coverage is thin (≈2k boiling points, ≈310 pKa) — cannot carry the load |
 | NASA CEA (`github.com/nasa/cea`) | **Apache-2.0** incl. `data/thermo.inp` | **Primary thermochemistry source** for L2g and formation enthalpies |
-| Cantera data files (gri30.yaml etc.) | Part of Cantera's BSD-3 distribution | Redistributable mechanism data for L5. (GRI-Mech 3.0's own site imposes no restriction, but has no formal licence text — the BSD-3 Cantera copy is the clean channel) |
+| Cantera data files (gri30.yaml etc.) | **No licence granted** — BSD-3 covers Cantera's code only | **Not redistributable.** Cantera states it "is not claiming to grant a license to" the mechanisms it ships, and that its input files are "for illustration purposes only". GRI-Mech's own site carries a disclaimer, never a grant. Oracle-only; see `provenance/brd-040-cantera-audit.md` (BRD-040) |
 | CLP Annex VI via EUR-Lex | EU legislation, reuse with acknowledgment | Harmonised GHS/CLP hazard classes — take from EUR-Lex, not ECHA dumps |
 | PHREEQC databases | USGS User Rights Notice (public-domain-like, attribution) | Embed (except `sit.dat` — ThermoChimie provenance, needs a terms check) |
 | CAS Common Chemistry | **CC BY-NC 4.0** | Unusable commercially. Never present CAS RNs as licensed-from-CAS data; identifiers come from PubChem/Wikidata |

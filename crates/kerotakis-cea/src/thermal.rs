@@ -31,6 +31,19 @@ use crate::nasa9::{db, Species};
 /// Air, as mole fractions of the reservoir the vessel stands in.
 const AIR: &[(&str, f64)] = &[("N2", 0.78), ("O2", 0.21)];
 
+/// The balanced burn a liquid fuel announces once it has caught.
+///
+/// The composition and the energy both come out of the Gibbs solve; this
+/// table only supplies the familiar written equation to put beside them,
+/// because a reader recognises `2 CH₃OH + 3 O₂ → 2 CO₂ + 4 H₂O` and does
+/// not recognise a mole table. A fuel earns a row here once its liquid
+/// record actually burns in the solver — the row is a label, never the
+/// reason anything happened.
+const LIQUID_FUEL_COMBUSTION: &[(&str, &str)] = &[
+    ("methanol", "2 CH₃OH(l) + 3 O₂(g) → 2 CO₂(g) + 4 H₂O(g)"),
+    ("ethanol", "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)"),
+];
+
 /// Below this temperature the thermal solver stands down and lets solids
 /// be: equilibrium would oxidise every metal on the bench, and only
 /// kinetics (L5) explains why the world is not like that.
@@ -64,10 +77,11 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
                     ga.total_cmp(&gb)
                 });
             // CEA deliberately separates feed-only thermochemistry after
-            // `END PRODUCTS`. Liquid ethanol lives there: it may enter an
-            // energy balance, but must never be invented as an equilibrium
-            // product. Prefer the ordinary product set and consult that
-            // separate feed set only when the requested room phase is absent.
+            // `END PRODUCTS`. The liquid alcohols — CH3OH(L), C2H5OH(L) —
+            // live there: such a record may enter an energy balance, but
+            // must never be invented as an equilibrium product. Prefer the
+            // ordinary product set and consult that separate feed set only
+            // when the requested room phase is absent.
             let reactants = db()
                 .reactants
                 .values()
@@ -97,7 +111,15 @@ fn cea_species(registry_key: &str) -> Option<&'static Species> {
 }
 
 fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
-    if db().get_reactant(&species.name).is_none() {
+    if db().get_reactant(&species.name).is_none() && species.is_gas() {
+        return species.h(temperature);
+    }
+    if db().get_reactant(&species.name).is_none()
+        && !species.is_gas()
+        && species
+            .t_range()
+            .is_some_and(|(low, high)| temperature >= low && temperature <= high)
+    {
         return species.h(temperature);
     }
     if species
@@ -180,7 +202,7 @@ fn pool_for(elements: &[String]) -> Vec<&'static Species> {
     }
     names.sort_unstable();
     names.dedup();
-    names
+    let mut pool: Vec<&'static Species> = names
         .iter()
         .filter_map(|n| db().get(n))
         .filter(|s| {
@@ -189,7 +211,54 @@ fn pool_for(elements: &[String]) -> Vec<&'static Species> {
                     .keys()
                     .all(|el| elements.iter().any(|e| e == el))
         })
-        .collect()
+        .collect();
+    // Each registry key maps to one CEA record — the standard phase at
+    // room temperature. The substance's other phases must be reachable
+    // too, or the solver is structurally unable to boil or melt it: with
+    // `water → H2O(L)` alone a hydrogen flame has no steam to make, and
+    // the minimiser returns H2 and O2 sitting unreacted at 927 °C
+    // labelled equilibrium (curiosity th-034); with `NaNO3 → NaNO3(a)`
+    // alone, sodium above 500 K has no in-range condensed carrier and
+    // leaves the vessel as an absurd nitrate vapour. Admit every
+    // condensed record of identical composition (the (a)/(b)/(L) phase
+    // families). The gas of that composition is admitted only when it is
+    // unique — gas isomers share a composition without being phases of
+    // anything — AND the condensed family's data ends below combustion
+    // temperatures, so the vapour is the substance's only continuation.
+    // Water qualifies (liquid record ends at 600 K); salt, magnesium and
+    // iron do not (liquid records to 6000 K), which keeps burning
+    // magnesium from venting itself as metal vapour and a salted flame
+    // from inventing sodium chloride gas as an ignition.
+    let siblings: Vec<&'static Species> = pool
+        .iter()
+        .flat_map(|mapped| {
+            // The temperature where this substance's condensed data ends,
+            // across its whole phase family. Water: 600 K. Salt, magnesium,
+            // iron: their liquid records run to 6000 K.
+            let condensed_top = db()
+                .species
+                .values()
+                .filter(|s| !s.is_gas() && s.composition == mapped.composition)
+                .filter_map(|s| s.t_range().map(|(_, hi)| hi))
+                .fold(f64::NEG_INFINITY, f64::max);
+            db().species.values().filter(move |s| {
+                s.composition == mapped.composition
+                    && s.name != mapped.name
+                    && (!s.is_gas()
+                        || (condensed_top < 1000.0
+                            && db()
+                                .species
+                                .values()
+                                .filter(|o| o.is_gas() && o.composition == s.composition)
+                                .count()
+                                == 1))
+            })
+        })
+        .collect();
+    pool.extend(siblings);
+    pool.sort_by(|a, b| a.name.cmp(&b.name));
+    pool.dedup_by(|a, b| a.name == b.name);
+    pool
 }
 
 pub struct ThermalEquilibrator;
@@ -204,7 +273,7 @@ struct Charge {
     /// Registry species that mapped, with their amounts.
     mapped: Vec<(SpeciesId, f64)>,
     /// At least one input came from CEA's feed-only section rather than its
-    /// admissible equilibrium products (for example liquid ethanol).
+    /// admissible equilibrium products (liquid methanol or ethanol).
     used_feed_thermo: bool,
 }
 
@@ -344,6 +413,12 @@ impl Equilibrator for ThermalEquilibrator {
         // by the vessel's own heat capacity would be wrong by orders of
         // magnitude here: a gram of burning magnesium heats the air around
         // it, not just the speck of oxide it leaves behind.
+        if std::env::var("KERO_CEA_DEBUG").is_ok() {
+            eprintln!(
+                "CHARGE t={t:.1} budget={:?} mapped={:?} h_before={h_before:.4e} feed={}",
+                charge.budget, charge.mapped, charge.used_feed_thermo
+            );
+        }
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
         let (eq, feed_tp_fallback) = if adiabatic {
             match crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0) {
@@ -481,15 +556,20 @@ impl Equilibrator for ThermalEquilibrator {
             }
         }
 
-        if !events.is_empty()
-            && charge
-                .mapped
-                .iter()
-                .any(|(species, _)| species.0 == "ethanol")
-        {
+        let burning_fuel = (!events.is_empty())
+            .then(|| {
+                LIQUID_FUEL_COMBUSTION.iter().find(|(key, _)| {
+                    charge
+                        .mapped
+                        .iter()
+                        .any(|(species, amount)| species.0 == *key && *amount > 1e-12)
+                })
+            })
+            .flatten();
+        if let Some((_, equation)) = burning_fuel {
             events.push(Event::ReactionOccurred {
                 vessel: vessel.id,
-                equation: "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)".to_string(),
+                equation: equation.to_string(),
             });
         }
         if !events.is_empty()

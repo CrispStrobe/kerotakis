@@ -130,7 +130,7 @@ pub fn path_cm_for(label: &str) -> f64 {
         .unwrap_or(4.0)
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Portion {
     pub species: SpeciesId,
     pub moles: Moles,

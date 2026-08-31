@@ -11,6 +11,7 @@ Usage: python3 tools/lessons-index.py <dir-of-.lab-files>
 
 import json
 import pathlib
+import re
 import sys
 
 # Topic grouping for the picker — the curated order the console page's
@@ -31,6 +32,14 @@ TOPICS = {
     "safety": ["never-mix"],
 }
 
+REAGENT = re.compile(r"^(?:add|titrate|grind)\s+\S+\s+(\S+)")
+
+
+def lesson_kit(text: str) -> list[str]:
+    """Shelf keys used by the same commands the lesson player executes."""
+    return sorted({match.group(1) for line in text.splitlines()
+                   if (match := REAGENT.match(line.strip()))})
+
 
 def index(directory: pathlib.Path) -> list[dict]:
     topic_of = {stem: topic for topic, stems in TOPICS.items() for stem in stems}
@@ -38,9 +47,10 @@ def index(directory: pathlib.Path) -> list[dict]:
 
     out = []
     for p in sorted(directory.glob("*.lab")):
+        text = p.read_text()
         # The first comment line is the lesson's own description.
         blurb = next(
-            (l.lstrip("#").strip() for l in p.read_text().splitlines() if l.startswith("#")),
+            (l.lstrip("#").strip() for l in text.splitlines() if l.startswith("#")),
             "",
         )
         out.append({
@@ -48,6 +58,10 @@ def index(directory: pathlib.Path) -> list[dict]:
             "name": p.stem.replace("-", " "),
             "blurb": blurb,
             "topic": topic_of.get(p.stem, "more"),
+            # Enables generated element-to-lesson links without downloading
+            # and reparsing every lesson in the browser. The .lab file stays
+            # authoritative; this field is rebuilt for every payload.
+            "kit": lesson_kit(text),
         })
     topics = list(TOPICS) + ["more"]
     out.sort(key=lambda e: (topics.index(e["topic"]), order.get(e["file"][:-4], 99)))

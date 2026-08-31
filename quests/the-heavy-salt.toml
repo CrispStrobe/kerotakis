@@ -1,0 +1,104 @@
+# EXP-30 (sealed-unknown salt analysis): the reagent that is itself an
+# unknown. Every other quest in this pack uses barium chloride as a
+# tool; here it is the thing being identified, so the sulfate test runs
+# backwards — a sulfate solution is the reagent and the unknown supplies
+# the barium.
+#
+# It is also the pack's safety lesson. Soluble barium salts are acutely
+# toxic by ingestion, while barium sulfate is what people swallow for a
+# radiograph — the same element, and the difference is solubility. The
+# bench labels the soluble ones toxic and barite not at all.
+id = "the-heavy-salt"
+
+[title]
+lv1 = "The heavy salt"
+lv2 = "The heavy salt: the sulfate test, run backwards"
+lv3 = "Sealed-salt analysis VI — a cation identified by being the reagent for someone else's anion test"
+
+[goal]
+lv1 = "unknown-heavy is a white salt that dissolves to a clear solution. Silver nitrate will tell you about one half of it. For the other half, do not add a sulfate reagent expecting the usual answer — add it and see what the unknown does to IT. And hold a dry pinch in a flame: the colour it turns is the metal signing its name."
+lv2 = "Identify unknown-heavy. Sodium hydroxide gives no precipitate, so the cation is not one of the insoluble-hydroxide metals. Silver nitrate gives the halide answer. For the cation, add a sulfate solution: if the unknown supplies a cation that makes an insoluble sulfate, the white precipitate appears from the other direction — the unknown is the reagent, not the sample. A dry pinch held in a flame gives the cation a second, independent voice."
+lv3 = "unknown-heavy is a sealed registry salt. The scheme inverts: (1) dilute acid — no effervescence, no carbonate; (2) NaOH — no precipitate, so no Cu, Fe, Mg, Zn or Ca; (3) AgNO3 — curdy white AgCl, so chloride; (4) a sodium sulfate solution — Barite precipitates, which means the unknown's cation is the one that forms an insoluble sulfate; (5) the flame test on a dry portion — hold a flame to the solid and the cation paints it, apple green here against the bright yellow of sodium and the lilac of potassium. Only one cation on this shelf answers all of those, and it is the one every other quest in this pack uses as its sulfate reagent. Note also what the bench says about handling it: the soluble salt carries a toxicity label the insoluble sulfate does not, and that contrast is the point. Candidates: BaCl2, CaCl2, NaCl, KCl, MgSO4. Claims complete in any order."
+
+[unknowns]
+unknown-heavy = "BaCl2"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:BaCl2"
+[nudges.say]
+lv1 = "Clear solution, nothing to see. Start with the tests that say no: acid, then sodium hydroxide."
+lv2 = "In solution and colourless. Work the negatives first — no fizz with acid and no precipitate with alkali between them remove most of the shelf."
+lv3 = "In solution. A colourless solution that gives neither effervescence with acid nor a hydroxide with alkali leaves the group-1 and group-2 chlorides and the alkali sulfates. Only the anion test and the inverted sulfate test can separate those."
+
+[[nudges]]
+id = "the-halide"
+when = "precipitated:AgCl"
+[nudges.say]
+lv1 = "A white curdy solid — so there is chloride in there. That is half the name; now find the metal."
+lv2 = "Silver chloride: the anion is chloride. The cation is still open, and the alkali test has already told you it is not one of the metals with an insoluble hydroxide."
+lv3 = "AgCl precipitated. Anion assigned. The cation cannot be resolved by hydroxide precipitation here — its hydroxide is soluble — so it needs a different insoluble salt, and the obvious candidate is the sulfate."
+
+[[nudges]]
+id = "the-inverted-test"
+when = "precipitated:BaSO4"
+[nudges.say]
+lv1 = "You added a sulfate and a heavy white powder appeared. Normally that test tells you about a sulfate — this time it told you about the metal."
+lv2 = "Barium sulfate. You supplied the sulfate, so the insoluble half came from the unknown: its cation is the one that makes an insoluble sulfate. That, with the chloride from the silver test, names the salt."
+lv3 = "Barite from the reverse direction. The test is symmetric in the two ions — the precipitate says only that both were present — so which ion is being identified depends entirely on which one you knowingly added. This is the same computed phase (log K about -9.97) that the other quests in this pack use as an anion test."
+
+[[nudges]]
+id = "the-flame"
+when = "flame_test"
+[nudges.say]
+lv1 = "The flame changed colour! Every metal paints it a different one, and that colour is the metal's name."
+lv2 = "A flame test. The colour comes from the cation alone — sodium is bright yellow, potassium lilac, copper blue-green — so this one colour identifies the metal without any precipitate at all."
+lv3 = "Flame test on the dry salt: thermal excitation of the cation's valence electron, and the emission wavelength is characteristic. This is the cleanest cation evidence available for a metal whose hydroxide is soluble — the group reagent has nothing to say about it, but the flame does."
+
+[[nudges]]
+id = "no-hydroxide"
+when = "added:NaOH"
+[nudges.say]
+lv1 = "Nothing fell out with the sodium hydroxide. That silence is a real clue, not a failed test."
+lv2 = "No precipitate with alkali. That excludes copper, both irons, magnesium and zinc in one step — a negative result that does more work than most positives."
+lv3 = "No hydroxide precipitated: the cation's hydroxide is soluble at this concentration. Groups 1 and 2 survive this test; the transition-metal and magnesium candidates do not. Record it as evidence."
+
+[[claims]]
+id = "halide-test"
+matches = "precipitated:AgCl"
+[claims.title]
+lv1 = "Get the white curdy solid with silver nitrate"
+lv2 = "Establish the anion with the silver nitrate test"
+lv3 = "Precipitated:AgCl — the chloride verdict"
+
+[[claims]]
+id = "inverted-sulfate"
+matches = "precipitated:BaSO4"
+[claims.title]
+lv1 = "Add a sulfate and make the heavy white powder appear"
+lv2 = "Run the sulfate test backwards — the unknown is the reagent"
+lv3 = "Precipitated:BaSO4 — here the cation verdict, because the sulfate is the known half"
+
+[[claims]]
+id = "flame-colour"
+matches = "flame_test"
+[claims.title]
+lv1 = "Hold a flame to a dry pinch of it and watch the colour"
+lv2 = "Run the flame test on a dry portion — the cation paints the flame"
+lv3 = "Flame_test event — the cation evidence for a metal whose hydroxide is soluble"
+
+[[claims]]
+id = "looked-at-it"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the solution"
+lv2 = "Observe the dissolved unknown"
+lv3 = "Observed event — a colourless solution, which is itself evidence"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-heavy"
+[claims.title]
+lv1 = "Say what the heavy salt really is"
+lv2 = "Identify unknown-heavy by name"
+lv3 = "Identify claim on unknown-heavy; a wrong name is answered with the evidence, not punished"

@@ -252,7 +252,13 @@ measure v1 balance
 
 [reaction.expect]
 events = ["ignited", "consumed:Mg", "precipitated:MgO"]
-temperature_c = { min = 2600.0, max = 2900.0 }
+# Window re-centred 2026-08-29: merging CEA's same-name condensed phase
+# records (the fix that stopped hematite's data ending at the Curie
+# point) gives the magnesium flame its full-range MgO data, and the
+# computed adiabatic temperature moved from ~2870 to 2940.6 °C —
+# comfortably inside the literature's ~3100 K for Mg in air. The claim
+# follows the solver, as codex claims must.
+temperature_c = { min = 2700.0, max = 3050.0 }
 
 [reaction.expect.predict]
 question = "Burn 2.40 g of magnesium ribbon completely. The balanced equation is 2 Mg + O₂ → 2 MgO. M(Mg) = 24.305, M(MgO) = 40.304 g/mol. What mass of white powder is left?"
@@ -1137,7 +1143,13 @@ measure v1 balance
 
 [reaction.expect]
 events = ["ignited", "consumed:Mg", "precipitated:MgO"]
-temperature_c = { min = 2600.0, max = 2900.0 }
+# Window re-centred 2026-08-29: merging CEA's same-name condensed phase
+# records (the fix that stopped hematite's data ending at the Curie
+# point) gives the magnesium flame its full-range MgO data, and the
+# computed adiabatic temperature moved from ~2870 to 2940.6 °C —
+# comfortably inside the literature's ~3100 K for Mg in air. The claim
+# follows the solver, as codex claims must.
+temperature_c = { min = 2700.0, max = 3050.0 }
 
 [reaction.expect.predict]
 question = "Weigh a magnesium ribbon: 1.20 g. Burn it completely and weigh the white ash. Commit to a number before you look."

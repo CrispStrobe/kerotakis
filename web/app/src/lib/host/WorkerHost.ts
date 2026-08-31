@@ -8,6 +8,7 @@
 
 import {
   RequestChannel,
+  type BalanceReply,
   type EngineHost,
   type MessagePortLike,
   type Scene,
@@ -105,6 +106,10 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("calc", { name, args }));
   }
 
+  async balance(equation: string): Promise<BalanceReply> {
+    return JSON.parse(await this.channel.request("balance", { equation }));
+  }
+
   async questStart(specJson: string): Promise<void> {
     await this.channel.request("quest_start", { spec_json: specJson });
   }
@@ -149,6 +154,10 @@ export class WorkerHost implements EngineHost {
 
   async species(): Promise<unknown[]> {
     return JSON.parse(await this.channel.request("species"));
+  }
+
+  async elementCoverage(): Promise<unknown> {
+    return JSON.parse(await this.channel.request("element_coverage"));
   }
 
   async inspect(vessel: number): Promise<{ rendered: string[] }> {

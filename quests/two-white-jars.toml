@@ -1,0 +1,98 @@
+# EXP-30 capstone: two sealed unknowns on the bench at once.
+# The quest engine's `unknowns` map takes any number of aliases, so a
+# single spec can hide two salts and demand both be named — in either
+# order, by whichever route the learner reaches first.
+#
+# The pair is chosen so that neither can be identified by looking: same
+# cation, same colour (none), same solubility behaviour. Only the anion
+# tests separate them, and each test is positive on exactly one jar. The
+# four-cell matrix — two reagents across two jars, two yes and two no —
+# is the whole lesson: a negative result identifies as sharply as a
+# positive one when the pair is known.
+id = "two-white-jars"
+
+[title]
+lv1 = "Two white jars"
+lv2 = "Two white jars: two unknowns, one pair of tests"
+lv3 = "Sealed-salt capstone — two simultaneous unknowns separated by orthogonal anion tests"
+
+[goal]
+lv1 = "There are two jars on your shelf, unknown-left and unknown-right, and both hold a white salt that dissolves to a clear solution. Looking will not help. Try silver nitrate on each, and barium chloride on each — one jar will react with one and not the other. Name them both."
+lv2 = "Identify unknown-left and unknown-right. They share a cation and neither solution is coloured, so the cation tests cannot separate them: sodium hydroxide gives nothing with either. The anion tests do. Run silver nitrate and barium chloride against BOTH jars — four tests, two positives, two negatives — each in its own fresh portion, because a second reagent poured onto the leftovers of the first answers a question you did not ask. Then name each jar; either may be named first."
+lv3 = "Two sealed registry salts, both truthfully computed. They differ only in the acid radical, so the discrimination is entirely anionic: AgNO3 gives curdy white AgCl with a chloride and nothing with a sulfate; BaCl2 gives Barite with a sulfate and nothing with a chloride. Run the full 2x2 matrix rather than stopping at the first positive — the negative cells are what turn a suggestion into an identification. Use a FRESH portion for each cell: put both reagents into one vessel and the second one meets the leftovers of the first, so barium chloride after silver nitrate precipitates silver chloride as well as barite, and the vessel no longer answers a single question. The bench computes that confounding faithfully, which is exactly why the discipline matters. NaOH is worth one portion too: no precipitate from either jar puts the cation in group 1, and a flame test on a dry pinch of each gives the SAME colour from both — a test that cannot discriminate is still worth running once, because knowing it cannot is knowledge. Candidates: NaCl, Na2SO4, KCl, MgSO4, Na2CO3. Both identify claims and both precipitate claims complete in any interleaving."
+
+[unknowns]
+unknown-left = "Na2SO4"
+unknown-right = "NaCl"
+
+[[nudges]]
+id = "left-in-water"
+when = "added:Na2SO4"
+[nudges.say]
+lv1 = "One jar is in the water and the water is still clear. The other jar will look exactly the same — so plan tests, not looks."
+lv2 = "A portion is in solution, colourless. Since both jars will look identical, decide your test matrix now: each reagent against each jar."
+lv3 = "In solution. With two unknowns the efficient design is factorial, not sequential: two reagents by two samples gives four results, and the pattern of the four is the identification of both."
+
+[[nudges]]
+id = "right-in-water"
+when = "added:NaCl"
+[nudges.say]
+lv1 = "The other jar dissolves the same way. You cannot tell them apart by looking — the reagents will have to do it."
+lv2 = "The second portion is in solution and indistinguishable from the first. Every discrimination from here is chemical."
+lv3 = "The second unknown in solution. Note that both give a neutral or near-neutral solution and no precipitate with alkali; the pH meter will not separate them either. The anion tests are the only orthogonal axis available."
+
+[[nudges]]
+id = "the-sulfate"
+when = "precipitated:BaSO4"
+[nudges.say]
+lv1 = "Heavy white powder with barium chloride — that jar holds a sulfate. Now check the OTHER jar with the same reagent."
+lv2 = "Barium sulfate: that jar's anion is sulfate. Run the same reagent on the other jar — the expected nothing is the second half of the evidence."
+lv3 = "Barite from one jar. Do not stop: the control is the same reagent on the other jar. A positive alone leaves open whether the reagent simply always precipitates; the paired negative closes it."
+
+[[nudges]]
+id = "the-halide"
+when = "precipitated:AgCl"
+[nudges.say]
+lv1 = "A white curdy solid with silver nitrate — that jar holds a chloride. Check the other jar with silver nitrate too."
+lv2 = "Silver chloride: that jar's anion is chloride. The same reagent on the other jar should give nothing, and that nothing is evidence."
+lv3 = "AgCl from one jar. With the barium result on the other, the two anions are assigned and the shared cation follows from the alkali test's silence. Both jars can now be named."
+
+[[claims]]
+id = "looked-at-them"
+matches = "observed"
+[claims.title]
+lv1 = "Look at what you dissolved"
+lv2 = "Observe a dissolved unknown — and record that looking does not separate them"
+lv3 = "Observed event — establishing that appearance is not a discriminator here"
+
+[[claims]]
+id = "sulfate-cell"
+matches = "precipitated:BaSO4"
+[claims.title]
+lv1 = "Find the jar that gives the heavy white powder"
+lv2 = "Get a positive barium chloride test from one of the jars"
+lv3 = "Precipitated:BaSO4 — the sulfate cell of the matrix"
+
+[[claims]]
+id = "halide-cell"
+matches = "precipitated:AgCl"
+[claims.title]
+lv1 = "Find the jar that gives the white curdy solid"
+lv2 = "Get a positive silver nitrate test from one of the jars"
+lv3 = "Precipitated:AgCl — the chloride cell of the matrix"
+
+[[claims]]
+id = "named-left"
+alias = "unknown-left"
+[claims.title]
+lv1 = "Say what is in the left jar"
+lv2 = "Identify unknown-left by name"
+lv3 = "Identify claim on unknown-left; either jar may be named first"
+
+[[claims]]
+id = "named-right"
+alias = "unknown-right"
+[claims.title]
+lv1 = "Say what is in the right jar"
+lv2 = "Identify unknown-right by name"
+lv3 = "Identify claim on unknown-right; either jar may be named first"

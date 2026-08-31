@@ -297,7 +297,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-011 — ChEBI identity and ontology adapter
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-003.
+- [x] **Status:** done. **Size:** medium. **Depends on:** BRD-003.
 - **Source/licence:** ChEBI CC BY 4.0, monthly/nightly versioned dumps. Primary
   docs: <https://www.ebi.ac.uk/chebi/about> and
   <https://www.ebi.ac.uk/chebi/downloads>.
@@ -311,6 +311,65 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** pinned-release reproducibility; tautomer/protonation conflicts
   are reported rather than merged; attribution survives pack compilation; no
   biological role is converted into a reaction rule.
+- **Adapter checkpoint (2026-08-29):** `kerotakis-data::chebi` reads ChEBI
+  release 253 (2026-07-07) from the immutable per-release archive, not the
+  rolling `current/` directory, so the pin is a pin. The committed snapshot is
+  87 curated reviewed three-star entities — common sugars, organic acids and
+  their conjugate bases, amino-acid and nucleotide exemplars, salts, gases,
+  polymers and familiar alkaloids — drawn from `compounds`, `names`,
+  `chemical_data`, `structures` and `relation`, checksummed whole and pinned by
+  the BRD-003 snapshot manifest. Ingestion is reviewed-only twice over: three
+  stars *and* a curated status on the entity, and independently on every
+  ontology relation, so ChEBI's `SUBMITTED` third-party deposits never become
+  candidates.
+  **Protonation and tautomer families are reported, never merged.** The join
+  key is the full Standard InChIKey, so acetic acid and acetate stay two
+  records with two keys and `identity_conflicts` finds nothing to merge across
+  the whole snapshot. The relationship itself is published separately, from two
+  independent signals: ChEBI's own `is_conjugate_acid_of` /
+  `is_conjugate_base_of` / `is_tautomer_of` assertions, and shared InChIKey
+  family membership. Where they disagree the report says which — 10 pairs
+  corroborated both ways, 4 structural-only (citric acid to citrate(3−), which
+  ChEBI links through the intermediate protonation states), 1 ontology-only
+  (citrate(2−), an ontology class with no single defined structure). Family
+  membership needs the skeleton *and* stereo blocks: maltose/lactose and
+  cellulose/amylose share a skeleton block while being diastereomers, and a
+  skeleton-only heuristic would have merged them.
+  Identity is recomputed rather than believed. Mass is recalculated from
+  ChEBI's own formula against a local IUPAC-2021 weight table — tolerance
+  0.05 Da, ~7x the 0.007 Da atomic-weight-revision noise floor — and charge is
+  cross-checked against the Standard InChI's `/q` and `/p` layers. Every
+  disagreement, every polymer whose `(C6H10O5)n` formula admits no finite mass,
+  and every entity with no InChIKey to join on, lands in the conflict report
+  instead of being repaired or quietly promoted.
+  **Roles are search tags and nothing else.** The firewall is default-deny in
+  both directions: an ontology-derived field may only reach a tag target, no
+  ChEBI field of any kind may reach a target whose name carries a
+  safety/hazard/reactivity marker, and no non-ontology field may reach the tag
+  lane. Planted violations — roles aimed at `safety_flags`, nine reserved
+  target spellings, formula aimed at `reactivity_class` — are all refused, and
+  the refusal stops the whole promotion.
+  Per-record CC BY attribution travels as an ordinary promotable field, so it
+  survives review into a compiled pack manifest with its source path intact
+  rather than being reattached by hand. 31 tests; nothing enters the runtime
+  registry.
+  The `provenance/sources.toml` record sits in the `quarantine` lane, which
+  reaches no runtime path and no release payload by construction, so it clears
+  ChEBI for nothing: promotion into a shipping lane is its own reviewed record,
+  written when a pack actually needs these fields.
+  **Licence finding, reviewed and settled at CC BY 4.0 (2026-08-29):** ChEBI's
+  flat-file `README` names the terms "CC Attribution-ShareAlike 4.0" and then
+  points the reader at a `LICENSE` file that is verbatim CC BY 4.0 with no
+  ShareAlike condition anywhere. Two authoritative sources settle it against
+  that one line: the shipped licence text itself, and ChEBI's about page, which
+  states "The data on this website is available under the Creative Commons
+  License (CC BY 4.0)". The record in `provenance/sources.toml` is approved at
+  `CC-BY-4.0` and keeps the conflicting line on file so a later reviewer meets
+  the evidence instead of rediscovering the doubt. This mattered rather than
+  being pedantry: under ROADMAP-Webapp.md's 2026-08-23 decision the README read
+  literally would have excluded ChEBI from store builds altogether.
+  **Follow-up owed upstream:** report the stale README line to EMBL-EBI so the
+  flat-file README matches its own LICENSE file and about page.
 
 ### BRD-012 — Familiar pure-substance pack v1
 
@@ -382,6 +441,47 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   mass; API keys and network access never enter builds or runtime.
 - **Out of scope:** nutrition advice, branded-product fidelity, flavor chemistry,
   or inferring pH/reactions from nutrient labels.
+- **Adapter checkpoint (2026-08-30):** the adapter lands as
+  `kerotakis_data::usda` over a pinned snapshot of fifteen Foundation Foods
+  records — milk, egg, wheat flour, apple and orange juice, soybean oil,
+  granulated sugar, butter, table salt, yogurt, oats, potato, carrot, white
+  rice and dry cannellini beans. The pin is the versioned release archive
+  (`FoodData_Central_foundation_food_json_2025-04-24.zip`, checksummed before
+  it is read), not the REST API: the archive carries a release identity, needs
+  no API key at all, and contains two records — whole milk (fdcId 746782) and
+  whole egg (748967) — that `/food/{id}` returns 404 for and that the bulk
+  endpoint silently omits from a fifteen-id request. Honey is absent because
+  Foundation Foods carries no honey record.
+  Mapping is deliberately narrow. Water, individually determined sugars,
+  individually determined organic acids, starch and alcohol become proposed
+  registry species; `protein`, `fat`, `ash`, `dietary fibre` and the
+  carbohydrate no determination accounts for stay named, conserved, unresolved
+  components. A sugar becomes a species only where USDA determined *that*
+  sugar: wheat flour, oats, rice, carrots and beans report no individual
+  sugar, so their whole carbohydrate stays unresolved, and `Sugars, Total` is
+  refused as a restatement rather than read. Minerals are elemental totals —
+  USDA measured how much sodium is in the food, never which salt it was in —
+  so they are reported as an element inventory inside `ash` and never become
+  an ion or a salt. Table salt is the sharpest case: its record states 38.7 g
+  of sodium and no chlorine at all, so `NaCl` is an inference the adapter
+  declines to make. Lactose, galactose, oxalic and quinic acid are determined
+  but have no registry species; their mass stays named under its own compound
+  name instead of vanishing into an anonymous remainder. Glucose, fructose,
+  citric acid and malic acid are proposed species the registry does not carry
+  yet, reported as a registry-gap list rather than silently dropped.
+  Every amount is converted to the record's own per-100 g basis before any
+  unit reaches a candidate, so a candidate quantity carries the reviewed
+  `g/100g` spelling and normalizes onto `MassPerMass`; `kcal`, `kJ` and `IU`
+  are typed rejections that keep their original spelling.
+  Twelve of the fifteen foods reconcile — resolved plus named unresolved
+  equals the declared 100 g within the record's own stated min/max spread —
+  and three are reported conflicts rather than candidates: soybean oil,
+  unsalted butter and table salt each leave a proximate unstated, and an
+  unstated proximate is not a zero. `lint_promotion` passes the clean flow and
+  refuses four planted violations plus a policy that would admit a ShareAlike
+  licence. Nothing is promoted: the runtime registry and the material packs
+  are untouched, and the snapshot sits in the new `quarantine` provenance lane
+  with a CC0 licence and a `review-required` decision.
 
 ### BRD-014 — Household and school material packs
 
@@ -859,8 +959,52 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-030 — Direct feos integration spike
 
-- [ ] **Status:** open/decision gate. **Size:** medium. **Depends on:** BRD-012
-  and completed CAP-1 routing.
+- [x] **Status:** closed `go` (scoped) on `brd030/feos-spike` (2026-08-30).
+  **Size:** medium. **Depends on:** BRD-012 and completed CAP-1 routing.
+- **Checkpoint 2026-08-30 — decision: `go`, scoped and conditional.** Full
+  report in `provenance/brd-030-feos-spike.md`; three-way fixtures and the
+  disposable prototype in `spikes/brd-030-feos/` (its own `[workspace]`, not a
+  member of this one). Nothing shipped: no workspace `Cargo.toml` change, no
+  third-party parameter file committed, no `sources.toml` record. Five
+  findings:
+  1. **feos replaces nothing.** It ships no activity-coefficient model of any
+     kind — no UNIFAC, NRTL, Wilson or UNIQUAC — so the Antoine + UNIFAC γ–φ
+     route in `vle.rs`/`unifac.rs`, and everything built on it, stays. Its
+     `feos_core::cubic` Peng-Robinson is a documented 234-line teaching
+     example, not a replacement for THERMO-007.
+  2. **What it adds is what `kerotakis-thermo` structurally cannot compute:**
+     liquid density, enthalpy of vaporisation and critical points (no model
+     exists for any fluid), the gases BRD-000/014 demand (CO₂, N₂, O₂, NH₃),
+     the sixteen corpus fluids with no curated Antoine set, and the binaries
+     outside the ten UNIFAC groups in `approved_table()` — including
+     acetone–chloroform, the maximum-boiling azeotrope the bench cannot teach
+     today.
+  3. **wasm re-verified at 0.10.1: yes.** 55 pure-Rust crates with
+     `default-features = false, features = ["pcsaft"]`; no pyo3, rayon,
+     rusqlite, cc or libc. Upstream CI already ships a Pyodide/emscripten
+     build of every model. One design constraint: `Parameters::from_json` and
+     friends call `std::fs` unconditionally, so they compile for wasm and then
+     fail at runtime — browser use must embed parameters with `include_str!`.
+  4. **Parameter provenance is the real risk, not the code.** The published
+     crate contains no `parameters/` directory, so BRD-031 must supply
+     everything; the repository's `parameters/` tree carries **no licence
+     statement at all**, so silence must not be read as clearance. DIPPR and
+     UNIFAC are genuinely absent upstream (feos refuses to ship DIPPR by
+     policy). Two files are excluded by name: `ideal_gas/poling2000.json`
+     (transcribed from a McGraw-Hill book) and `multiparameter/coolprop.json`
+     (CoolProp's MIT notice and per-fluid citations stripped — an upstream
+     compliance defect worth reporting). One literature table *is* compiled
+     into the crate: the Joback & Reid 1987 group coefficients in
+     `src/ideal_gas/joback.rs`, ungated.
+  5. **`FluidModel` must be fixed before BRD-032 routes anything.** The trait
+     passes the Raoult model's own Antoine constants and γ through a
+     model-agnostic seam, and its default `dew_point`/`tp_flash`/
+     `saturation_pressure_kpa` bodies would make a feos backend answer those
+     three questions with the ideal model *silently*. That is the
+     fall-through this document forbids. A day's work in a 2 775-line crate.
+  Conditions on the `go`, all owned by BRD-031: build for macOS and iOS (only
+  native and `wasm32-unknown-unknown` were tested here); clear every parameter
+  table independently; fix `FluidModel`; pin `=0.10.x` and embed parameters.
 - **Candidate/licence:** `feos`, MIT OR Apache-2.0. It supplies PC-SAFT,
   ePC-SAFT, group-contribution/multiparameter models, phase equilibrium and
   transport calculations. Audit parameter-file provenance independently.
@@ -876,12 +1020,33 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-031 — Cleared fluid parameter pack
 
-- [ ] **Status:** blocked on BRD-030 go. **Size:** large/data-heavy.
-  **Depends on:** BRD-030.
+- [ ] **Status:** unblocked by the BRD-030 `go` (2026-08-30); open.
+  **Size:** large/data-heavy. **Depends on:** BRD-030.
 - **Scope:** curate parameters for the fluids and mixtures actually demanded by
   BRD-000/014: water, common alcohols/ketones/esters/hydrocarbons, CO2, air
   gases, ammonia, light fuels and selected refrigerants. Every parameter set
   records its original publication/data licence and model validity range.
+- **Carried in from BRD-030 (2026-08-30):** scope is limited to the properties
+  `kerotakis-thermo` cannot compute at all — density, enthalpy of
+  vaporisation, critical points, the air gases and CO2/NH3, and fluids or
+  UNIFAC groups outside the curated tables. Extending `vle.rs`'s Antoine set
+  and `unifac.rs`'s `approved_table()` by hand remains the cheaper answer for
+  the *binary* gap and should be preferred where it suffices. Excluded by
+  name: feos's `parameters/ideal_gas/poling2000.json` and
+  `parameters/multiparameter/coolprop.json`. feos's `parameters/` tree carries
+  no licence statement, so every table needs its own record reasoned from the
+  primary publication; the Joback & Reid 1987 table compiled into
+  `feos/src/ideal_gas/joback.rs` needs a NOTICE entry if the crate is adopted.
+  `FluidModel`'s trait shape and its silent default methods must be fixed here,
+  before BRD-032. macOS and iOS builds of feos are still unproven. Two latent
+  bugs in `kerotakis-thermo` fire on this task's first day and must be fixed
+  with it: `unifac.rs`'s `psi` closure turns a missing `a_mn` into ψ = 1, i.e.
+  exactly the silent ideality the integration rule below forbids (the current
+  six main groups happen to form a complete 30-entry matrix, so nothing has
+  hit it yet); and `bubble_point_with`/`dew_point_with`/`tp_flash_with` use
+  `pressure_kpa_unchecked` and never range-check the converged answer, so a
+  binary can return a temperature outside a component's fitted Antoine range
+  unlabelled while the pure-fluid path correctly refuses.
 - **Integration:** join by canonical species identity; model selection is
   explicit and inspectable. Missing binary parameters produce a named refusal
   or a labelled lower-fidelity route, never silent ideality.
@@ -904,10 +1069,44 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-040 — Cantera mechanism and API audit
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-012 and current
-  Cantera-YAML/kinetics support.
-- **Candidate/licence:** Cantera BSD-3-Clause. Mechanism files and their original
-  provenance/licences require separate review. Primary project and licence:
+- [x] **Status:** complete on `brd040/cantera-audit` (2026-08-29). **Size:**
+  medium. **Depends on:** BRD-012 and current Cantera-YAML/kinetics support.
+- **Checkpoint 2026-08-29:** full report in
+  `provenance/brd-040-cantera-audit.md`; machine-readable licence verdicts in
+  `provenance/sources.toml`; rejection matrix executed by
+  `crates/kerotakis-core/tests/mechanism_cantera_audit.rs`. No runtime FFI and
+  no mechanism file shipped, per the acceptance criterion. Four findings:
+  1. **Parser bugs fixed.** Reaction orders were derived from *net*
+     stoichiometry rather than each side of the equation, giving a wrong rate
+     order and a mis-scaled pre-exponential wherever a species appears on both
+     sides (6 of 29 reactions in Cantera's `h2o2.yaml`, 18 of 325 in
+     `gri30.yaml`). The default activation-energy unit ignored the `energy` and
+     `quantity` directives, misreading `units: {quantity: mol}` by 10³. Phase
+     reaction selectors and named reaction sections were ignored. Unknown keys
+     — including `orders`, `SRI`, `Tsang`, `negative-A` and nested `units` —
+     were silently dropped; all six raw structures now refuse anything outside
+     a documented allowlist.
+  2. **Smallest additional subset for BRD-041 is three rate-law items** —
+     reversible three-body reactions, reversible falloff (Troe and Lindemann),
+     and negative activation energies — **plus one piece of document handling**:
+     select a phase rather than validating every phase in the file, since real
+     mechanism files pair an ideal-gas phase with a real-gas variant of the same
+     species. With those, H₂/O₂, N₂/NOₓ and CH₄ + CO teaching mechanisms are
+     fully expressible. PLOG is already supported and unused by them; Chebyshev,
+     NASA9, explicit orders and plasma rates are not needed.
+  3. **Licence verdict: every audited mechanism is oracle-only.** None of
+     GRI-Mech 3.0, Ó Conaire, Boivin, the syngas sets, FFCM-1 or San Diego
+     carries a redistribution grant, and Cantera states it "is not claiming to
+     grant a license to" the mechanisms it ships. PLAN.md's claim that those
+     files are BSD-3 redistributable is **wrong** and is corrected in this
+     change. BRD-041 must author its own reduced mechanisms from primary
+     literature, find a genuinely CC-licensed one, or obtain written permission.
+  4. **C-API verdict: no gap; BRD-042 stays parked.** Nothing BRD-041 needs
+     requires Cantera's C API, and linking it would not touch the licensing
+     problem that actually blocks the mechanism packs.
+- **Candidate/licence:** Cantera BSD-3-Clause **for its code only**; the shipped
+  mechanism files carry no grant (audited 2026-08-29). Mechanism files and their
+  original provenance/licences require separate review. Primary project and licence:
   <https://github.com/Cantera/cantera> and
   <https://github.com/Cantera/cantera/blob/main/License.txt>.
 - **Scope:** inventory the current parser against Cantera YAML rate-law,
@@ -921,7 +1120,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-041 — Familiar gas/combustion mechanism packs
 
-- [ ] **Status:** open. **Size:** large/data-heavy. **Depends on:** BRD-040.
+- [ ] **Status:** open, and now blocked on a sourcing decision rather than on
+  engineering. **Size:** large/data-heavy. **Depends on:** BRD-040 (complete).
+- **BRD-040 finding (2026-08-29):** *no* audited mechanism may ship as
+  runtime-data — not GRI-Mech 3.0, Ó Conaire, Boivin, the syngas sets, FFCM-1 or
+  San Diego. None carries a redistribution grant, and Cantera states it "is not
+  claiming to grant a license to" the mechanisms it ships. Three routes remain,
+  in order of preference: author project-original reduced networks from
+  primary-literature rate constants with per-reaction source records (the
+  pattern KIN-001…003 already uses); find a mechanism under a real open licence;
+  or obtain written permission recorded as a `LicenseRef-` grant. The parser
+  work is small by comparison — three rate-law items and phase selection. Full
+  reasoning and the ordered candidate list: `provenance/brd-040-cantera-audit.md`.
 - **Scope:** add reviewed reduced mechanisms for hydrogen/oxygen, methane,
   carbon monoxide, selected light hydrocarbon/alcohol fuel exemplars, and
   nitrogen chemistry only where the mechanism licence and educational need are
@@ -937,8 +1147,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-042 — Full Cantera C-API shipping gate
 
-- [ ] **Status:** optional/parked until BRD-040 proves need. **Size:** extra
-  large. **Depends on:** BRD-040 and a stable upstream C API on all targets.
+- [ ] **Status:** parked — BRD-040 recorded a **no-go** on 2026-08-29. **Size:**
+  extra large. **Depends on:** BRD-040 (complete) and a stable upstream C API on
+  all targets.
+- **BRD-040 finding:** no BRD-041 need requires the C API. The portable parser,
+  diffsol, the CEA equilibrium path and the existing apparatus models cover
+  every item in BRD-041's acceptance criteria; the only capability the portable
+  path lacks is mixture transport, which BRD-041 does not ask for and which is a
+  self-contained kinetic-theory calculation rather than a reason to link a C++
+  engine. Linking Cantera would also not touch what actually blocks BRD-041,
+  which is that no candidate mechanism carries a redistribution grant. Re-open
+  this task only on a required capability that is genuinely infeasible in Rust.
+  Reasoning in `provenance/brd-040-cantera-audit.md` § 6.
 - **Scope:** compile a minimal handle-based API for desktop, wasm and mobile;
   compare binary size, startup, determinism, resource limits and answers with
   the portable Kerotakis mechanism path. Keep one engine instance per worker.
@@ -1045,7 +1265,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-070 — Scene/chemistry authority contract
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** GUI scene graph and
+- [x] **Status:** complete (2026-08-30). **Size:** medium. **Depends on:** GUI scene graph and
   current operator/event contract.
 - **Outcome:** physics can make the bench tactile without becoming a second,
   divergent chemistry simulation.
@@ -1059,10 +1279,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   transferred moles; interrupted pours reconcile exactly; reduced-motion and
   headless execution reach the same state; contract referenced from
   `ROADMAP-GUI.md` and `APPARATUS.md`.
+- **Evidence:** `kerotakis_core::authority` provides serde-stable typed
+  proposals, replay seeds, explicit vessel/bench/tray/floor destinations,
+  chemistry-owned break/spill event shapes, presentation-only motion policies,
+  and receipt-driven cumulative transfer reconciliation. The executable
+  `scene_authority` tests pin host serialization, different frame cadences,
+  reduced-motion/headless/background endpoints, exact interruption, and
+  refusal/malformed-proposal non-advancement. BRD-073 still owns emitting the
+  reserved break/spill events and creating material-holding spill state.
 
 ### BRD-071 — Rapier rigid-body integration
 
-- [ ] **Status:** open. **Size:** medium-large. **Depends on:** BRD-070.
+- [x] **Status:** complete. **Size:** medium-large. **Depends on:** BRD-070.
 - **Candidate/licence:** Rapier Apache-2.0 with deterministic wasm builds.
   Primary project: <https://github.com/dimforge/rapier>.
 - **Scope:** prototype glassware/apparatus collision, stacking, tipping and
@@ -1072,10 +1300,30 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** deterministic replay on supported hosts, keyboard/touch
   equivalents, no tunnelling in the drop corpus, measured bundle/performance
   budget, and a go/no-go versus simpler local collision handling.
+- **Delivered tasklist:**
+  - [x] isolate Rapier 2-D from chemistry authority behind versioned,
+    quantized replay inputs and bounded untrusted-input limits;
+  - [x] validate a six-item prototype collider/port catalog and exercise
+    stacking, tipping, dropping, collision proposals and an 18-case CCD corpus;
+  - [x] compile mouse, pen, touch and keyboard endpoints to identical canonical
+    intents while reduced-motion/headless/background modes remain visual only;
+  - [x] pin a serialized replay SHA-256 golden for Linux/macOS CI host parity;
+  - [x] measure release-native timing and a retained wasm payload, with stable
+    determinism/payload gates and advisory shared-runner timing thresholds.
+- **Decision/evidence:** **go with optional Rapier 2-D** for tactile bench
+  collision, stacking, tipping and drop proposals; retain the simpler local
+  path for deployments that omit the feature. The current bench has no depth
+  interaction or rendering contract, so 3-D adds cost without an accepted user
+  endpoint and is a no-go for this milestone. The 20-object/360-tick probe was
+  byte-identical across three runs (`efb244de…ce0ea`), measured 0.100 ms p95
+  and 0.113 ms maximum per step on the reference x86_64 Linux host, and the
+  conservative standalone wasm upper bound was 392,897 gzip bytes (below the
+  768,000-byte gate). `tools/brd071_evaluate.py` makes the reproducible gates
+  executable; CI runs the golden on both supported desktop hosts.
 
 ### BRD-072 — Salva fluid-visual integration
 
-- [ ] **Status:** open/decision gate. **Size:** medium-large. **Depends on:**
+- [x] **Status:** complete/no-go. **Size:** medium-large. **Depends on:**
   BRD-070; may run in parallel with BRD-071.
 - **Candidate/licence:** Salva Apache-2.0, Rust SPH with viscosity, surface
   tension, multiphase fluids, wasm and optional Rapier coupling. Primary
@@ -1088,11 +1336,38 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** no particle loss affects chemistry; visual phase ordering
   matches authoritative layers; 60/30 fps budgets are explicit; go/no-go
   report. If no-go, retain Salva as a reference and improve `fluidScene`.
+- **Delivered tasklist:**
+  - [x] build bounded Salva 2-D prototypes for water pouring, authoritative
+    oil/water layers and a high-viscosity syrup;
+  - [x] accept only provenanced density, viscosity and surface-tension values,
+    while keeping all coefficients and particles presentation-only;
+  - [x] map the accepted BRD-070 transfer fraction independently per phase,
+    and prove deliberate render-particle loss cannot alter that endpoint;
+  - [x] improve `fluidScene` with accepted-fraction scaling, viscosity damping,
+    surface-tension droplet sizing, deterministic event seeding and a strict
+    reduced-motion/no-animation path;
+  - [x] measure deterministic replay, phase order, particle-loss isolation,
+    standalone wasm payload and explicit 60/30 fps thresholds.
+- **Decision/evidence:** **no-go for shipping Salva in the interactive path;
+  retain Salva as a reference and ship the improved lightweight `fluidScene`
+  path.** Three reference runs reproduced the exact
+  visual trace (`a472b73…0aeaf8`), retained authoritative chemistry through a
+  forced 50% particle decimation and preserved bottom-to-top phase order. The
+  standalone Salva wasm upper bound was modest at 48,990 gzip bytes, but the
+  96-particle, 120-step stress frame measured 35.99 ms p95 and missed the
+  explicit 33.33 ms/30 fps reference budget (and therefore 16.67 ms/60 fps).
+  More decisively, its dependency closure includes archived
+  `generational-arena` (`RUSTSEC-2024-0014`) and MPL-2.0 code rejected by the
+  shipping licence policy; the measured prototype was therefore removed from
+  the product build graph instead of weakening either gate. The existing path
+  already has a 9 ms governor, economy grid, static/reduced-motion endpoint and
+  no extra runtime boundary. `tools/brd072_evaluate.py` keeps the stable gates
+  and named-reference timing decision executable.
 
 ### BRD-073 — Spills, tipping, drops and breakage
 
-- [ ] **Status:** open. **Size:** large. **Depends on:** BRD-071 and the chosen
-  outcome of BRD-072.
+- [x] **Status:** complete (2026-08-30). **Size:** large. **Depends on:**
+  completed BRD-071 and the closed-no-go BRD-072 outcome.
 - **Scope:** add operator/event semantics for controlled partial pours, bench
   spills, vessel tipping, collision damage and recovery/cleanup. A broken
   vessel creates recoverable consequences and transfers its contents to a
@@ -1102,6 +1377,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** mass/element/energy ledgers close across every failure path;
   identical chemistry with and without animations; hazardous spills emit
   precise safety events; save/load migration and undo cannot duplicate stock.
+- **Completed tasklist:**
+  - [x] authoritative typed bench/tray/floor spill compartments and cumulative
+    partial-pour reconciliation;
+  - [x] deterministic collision thresholds, vessel breakage, full-content
+    transfer, cleanup/recovery and stable replacement-vessel identities;
+  - [x] combined exposed-material safety reruns with sorted contributor species
+    plus cross-location safety findings;
+  - [x] mass, element and energy conservation, zero-fraction/no-break no-ops,
+    animation/reduced-motion/headless endpoint parity;
+  - [x] legacy-save defaults, serialized spill state, exact replay and
+    snapshot-undo recovery without stock duplication;
+  - [x] Burst-style incident presentation, static reduced-motion equivalent,
+    accessible live status, hazard feed cards and durable notebook evidence.
 
 ### BRD-074 — Gas-to-foam observable and elephant-toothpaste slice
 
@@ -1318,7 +1606,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-077 — Element coverage score and progressive periodic table
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-000, BRD-012 and
+- [x] **Status:** complete (2026-08-30). **Size:** medium. **Depends on:** BRD-000, BRD-012 and
   BRD-023; reaction links deepen progressively as later family packs land.
 - **Outcome:** selecting an element answers “what can I actually try with this?”
   while the default table stays inviting rather than presenting 118 equally
@@ -1361,13 +1649,33 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   retained behind a remembered full-table toggle. The default curated lab table
   keeps high-value Mn/Fe/Cu/Zn and excludes Po/At/Fr/Ra/synthetic elements;
   cells show a count generated from the live shelf's parsed formulas and empty
-  cells remain honest. Remaining work: include expanded material recipes,
-  generate route/lesson capability levels, replace the curated symbol set with
-  a reviewed data artifact, and add component/mobile accessibility snapshots.
+  cells remain honest. The completed slice now includes expanded recipes,
+  replay-proved lesson/codex routes, capability levels, a reviewed default-view
+  artifact, localized search and browser-level desktop/mobile/reduced-motion
+  accessibility coverage.
+- **Completion tasklist and DoDs (2026-08-30):**
+  - [x] Generate a deterministic, versioned 118-entry coverage report from
+    pure species and expanded material recipes. **Done when:** its reviewed
+    regression fixture is stable, every example resolves to a live shelf key,
+    identity-only cells remain present, and native plus wasm boundaries agree.
+  - [x] Derive runnable content links from shipped lesson/codex scripts.
+    **Done when:** required co-materials all resolve to the shelf, lesson kits
+    are generated from source, and every advertised source passes the existing
+    real-engine replay/lint gates.
+  - [x] Finish the progressive table interaction. **Done when:** coverage
+    levels, substance/material search, honest empty states, direct lesson and
+    experiment actions, remembered lab/full modes, keyboard names, mobile
+    layout and reduced-motion behavior pass focused web tests and production
+    build.
+  - [x] Integrate and audit both host transports. **Done when:** native/wasm
+    schemas match, Fe/Cu/Zn and Po/At/Fr/Ra/synthetic inclusion rules regress,
+    formatting/clippy/focused suites/full preflight pass, the PR merges without
+    unrelated work, and the resulting GitHub `main` workflow is green.
 
 ### BRD-080 — Molecular viewer selection spike
 
-- [ ] **Status:** open/decision gate. **Size:** small-medium. **Depends on:**
+- [ ] **Status:** claimed 2026-08-31 on `brd080/viewer-decision`; decision work
+  in progress. **Size:** small-medium. **Depends on:**
   BRD-012.
 - **Candidates/licences:** 3Dmol.js (BSD) and Mol* (MIT). Primary projects:
   <https://github.com/3dmol/3Dmol.js> and
@@ -1379,6 +1687,51 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   macromolecular/volume capability justifies its complexity. Do not ship both.
 - **Acceptance:** report and prototype behind a disposable route; exact licence
   inventory; no production dependency in the decision PR.
+- **Claimed progression (minimum 2 h; merge each checkpoint independently):**
+  1. [x] **BRD-080a — Reproducible candidate evidence (45–75 min).** Pin the
+     exact 3Dmol.js and Mol* releases, licences and dependency closures; build
+     the same molecule, CIF, protein, cube and trajectory fixture matrix with
+     cold bundle-size and offline checks. **DoD:** a committed, deterministic
+     evidence command refuses missing fixtures/unknown licences, records raw +
+     gzip bytes and dependency counts, and tests malformed/incomplete reports;
+     no runtime dependency enters the production app.
+     *Done 2026-08-31:* the isolated exact lock pins 3Dmol 2.5.5 and Mol*
+     5.11.0 without touching the app dependency graph. Five project-authored,
+     hash-pinned format probes and a fail-closed Node test validate fixture
+     integrity, exact top-level pins, every installed production licence and
+     lock integrity. Real Vite entries measure 3Dmol at 586,724 raw / 168,749
+     gzip bytes and Mol* at 5,345,087 raw / 1,968,375 gzip bytes; the evidence
+     also exposes Mol*'s Node >=22 requirement and its 222-instance combined
+     spike closure rather than silently accepting the host's Node 20 warning.
+  2. [x] **BRD-080b — Disposable comparison route (45–75 min).** Exercise both
+     candidates behind one spike-only adapter contract with selection, labels,
+     resize/dispose and accessible tabular fallback. **DoD:** identical fixture
+     inputs and scripted interactions run for both viewers; teardown and
+     unsupported-volume/crystal cases are explicit; keyboard, reduced-motion,
+     offline and bounded-mobile-memory evidence is captured; full frontend
+     tests/build/licence gates pass.
+     *Done 2026-08-31:* the isolated route gives both candidates the same five
+     local fixtures behind one bounded adapter contract and an always-present
+     semantic atom table. SSR guards, exact kind/format gates, source/atom/bond/
+     frame/grid/coordinate/unit-cell/canvas limits, labels, selection, reduced
+     motion, stale-mount cleanup and idempotent disposal are tested. A dedicated
+     Node 22 Chrome lane exercised all ten candidate/fixture paths, required one
+     live canvas plus semantic rows after each replacement, and observed no
+     request outside the offline origin. The production app remains unchanged.
+  3. [ ] **BRD-080c — Audited go/no-go record (30–60 min).** Independently
+     review the measurements and choose exactly one candidate, or close no-go
+     with the existing 2-D fallback named. **DoD:** primary-source citations,
+     exact transitive licence inventory, target/bundle/memory table, decision
+     rule application and reproducible artifact hashes are committed; BRD-080
+     closes and BRD-081 is either unblocked with a bounded first slice or
+     marked not-applicable without overstating capability.
+  4. [ ] **BRD-081a — Renderer-neutral accessible core (60–90 min,
+     conditional on go).** Land `ScientificView` data/view-state contracts and
+     the plain-language/table alternative before the selected renderer.
+     **DoD:** deterministic serialization, hostile/invalid input bounds,
+     molecule + crystal + orbital fixture coverage, SSR/offline behavior and
+     full workspace/preflight gates; no conformer, unit cell or surface is
+     inferred.
 
 ### BRD-081 — Molecular/crystal viewer integration
 
@@ -1461,7 +1814,101 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Gate:** prefer it as a desktop/build-time differential oracle. Shipping is
   reconsidered only if it closes a named high-demand fluid gap on every target
   at acceptable size and no feos route exists.
+- **Note from BRD-030 (2026-08-30):** do **not** reach CoolProp data by way of
+  feos. `feos:parameters/multiparameter/coolprop.json` carries CoolProp's
+  reference-EOS coefficients with the MIT notice and the per-fluid citations
+  removed; if CoolProp data is ever wanted it must come from CoolProp itself,
+  with its notice, or from the primary publications. See
+  `provenance/brd-030-feos-spike.md` § 4.2.
 - **Acceptance:** dated comparison and explicit oracle/runtime decision.
+
+### BRD-093 — Permissive thermochemical-engine target gate
+
+- [x] **Status:** closed no-go for universal runtime (2026-08-30); optional
+  native/build-time oracle only. **Size:** small decision record. **Depends
+  on:** a named high-temperature condensed-phase experiment that the existing
+  CEA path cannot represent.
+- **Candidate/licence:** Thermochimica code is BSD-3-Clause. Its thermodynamic
+  databases and individual CALPHAD assessments are separate works and require
+  record-by-record redistribution review. EQ3/6 and OpenGeoSys are also
+  BSD-3-Clause; AqEquil wraps EQ3/6; ChemEQL is MIT. Code licences alone do not
+  make their databases, packaged binaries, or dependency closures shippable.
+- **Target verdict:** none is a new universal Kerotakis engine. Thermochimica
+  requires a Fortran toolchain plus BLAS/LAPACK and has no demonstrated
+  maintained Rust-to-wasm/iOS/Android distribution path. OpenGeoSys is a large
+  native THMC application rather than a bench library. EQ3/6/AqEquil and
+  ChemEQL duplicate the shipped IPhreeqc aqueous domain. PhreeqcRM is useful
+  only after choosing multidimensional porous-media transport, which remains
+  outside the product mission.
+- **Portable rule:** a core runtime model must build behind the same Rust API
+  for browser wasm, Android, iOS, macOS and Windows. A native-only backend may
+  be an optional acceleration or oracle, but it may not own a learner-visible
+  capability or produce a result unavailable in the PWA. Tauri does not make
+  arbitrary native libraries web- or mobile-portable; installed shells use a
+  native Rust core while the browser uses the wasm core. Native-only workspace
+  adapters declare `[package.metadata.kerotakis] runtime = "native-only"`;
+  `tools/portable-dependency-lint.py` rejects any such package in the
+  `kerotakis-wasm` dependency closure and runs in preflight.
+- **Reopen gate:** name the experiment and educational observable; identify a
+  cleared database; prove deterministic C-ABI builds on Windows, macOS,
+  Android and iOS; measure a browser-wasm build or specify a portable
+  Kerotakis fallback with answer-level conformance fixtures. Until then,
+  Thermochimica may generate reviewed fixtures externally, like pycalphad,
+  but does not enter any shipped dependency graph.
+- **Immediate path:** finish the already-claimed BRD-030 `feos` spike for
+  portable fluid thermodynamics and use the completed BRD-040 verdict for gas
+  kinetics: extend the portable Cantera-YAML/diffsol slice; keep full Cantera
+  FFI parked unless a concrete capability gap survives BRD-042's gate.
+
+### BRD-094 — GPU fluid and volumetric-rendering decision record
+
+- [x] **Status:** frontend WebGPU spike only; Taichi/NanoVDB backend adoption
+  closed no-go (2026-08-30). **Size:** small decision record. **Depends on:**
+  completed BRD-070 and BRD-072; reopen implementation only for a named visual
+  that the shipped lightweight `fluidScene` cannot express.
+- **Authority and placement:** chemistry continues to own amounts, phase,
+  temperature, pressure and accepted transfers. GPU state is disposable
+  presentation state. Run an optional accelerator beside the renderer in the
+  webview so particles/textures do not cross Tauri JSON IPC; feed it the same
+  bounded scene/event contract in PWA and installed shells. A deterministic
+  Canvas/WebGL/lightweight fallback remains the release baseline for old
+  Android WebViews, reduced motion, headless tests and absent WebGPU.
+- **Taichi verdict:** Apache-2.0 and useful for native research prototypes, but
+  its AOT/C-API backend matrix is not a demonstrated browser + Android + iOS +
+  macOS + Windows distribution. The official C-API tutorial currently lists
+  Vulkan, OpenGL, x86 and CUDA and explicitly says Metal is unsupported; it
+  does not provide the claimed transparent Metal/DX12 universal binary. Python
+  may generate artifacts at build time, but no Taichi runtime enters a shipped
+  Kerotakis target without passing BRD-093's target gate.
+- **NanoVDB verdict:** current OpenVDB/NanoVDB is Apache-2.0, not BSD-3.
+  NanoVDB is a compact GPU/CPU sparse-grid representation, principally for
+  read access, rendering and collision queries; its topology is static at
+  runtime. It neither calculates combustion chemistry nor supplies a fluid or
+  smoke solver. Consider its C99 `CNanoVDB`/`PNanoVDB` layouts only after a
+  measured sparse-volume transport bottleneck exists; do not stream NanoVDB
+  buffers through ordinary Tauri IPC.
+- **WebGPU candidate:** `jeantimex/fluid` is MIT and demonstrates browser SPH
+  plus 2-D/3-D PIC/FLIP, marching cubes, raymarching and screen-space fluid.
+  Treat it as algorithm/reference code, not a drop-in dependency: it is an
+  application, requires a WebGPU-capable browser, and credits/ports earlier
+  implementations whose exact copied-code provenance must be audited before
+  reuse. Prefer a small project-owned WGSL effect scoped to one accepted
+  observable over importing the whole demo.
+- **Reopen/acceptance gate:** first name the missing visual—volumetric flame,
+  smoke plume, foam or a genuinely 3-D pour. Then measure it against
+  BRD-072's existing 9 ms governor on the low-end Chromebook/Android floor;
+  require no chemistry/particle coupling, no readback per frame, graceful
+  device-loss fallback, reduced-motion equivalence, deterministic endpoint
+  snapshots, shader/source licence records and identical scene semantics on
+  all hosts. Visual fidelity alone cannot make WebGPU mandatory.
+- **First named candidate (2026-08-30):** a procedural envelope for a live
+  vessel `ignite` event. Existing magnitude and curated flame-colour inputs
+  make it bounded without inventing chemistry, while the current fallback is
+  only a two-path SVG flame. Do not render generic evolved gas as smoke (there
+  is no soot/particulate authority), infer burning from temperature alone, or
+  copy `jeantimex/fluid` WGSL: its MIT repository identifies two earlier MIT
+  ports but supplies no per-file lineage map. Implement project-owned WGSL
+  from published fire-rendering ideas and record that provenance explicitly.
 
 ### BRD-100 — Breadth release gate v1
 

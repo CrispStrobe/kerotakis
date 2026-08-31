@@ -1,0 +1,1208 @@
+engine	case	quantity	status	value	note
+kerotakis	water@25C	psat_kpa	ok	3.1579067938e0	Antoine constants for water (1-100 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)
+kerotakis	water@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	water@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	water@50C	psat_kpa	ok	1.2305554109e1	Antoine constants for water (1-100 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)
+kerotakis	water@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	water@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	water@75C	psat_kpa	ok	3.8462926882e1	Antoine constants for water (1-100 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)
+kerotakis	water@75C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	water@75C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	water@100C	psat_kpa	ok	1.0133581024e2	Antoine constants for water (1-100 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)
+kerotakis	water@100C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	water@100C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	water	tboil_c	ok	9.9997023742e1	Antoine constants for water (1-100 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)
+kerotakis	water	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	water	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	water@25C	psat_kpa	ok	3.1859862465e0	esper2023
+feos-pcsaft	water@25C	rho_liq_mol_m3	ok	5.7245669534e4	esper2023
+feos-pcsaft	water@25C	dhvap_kj_mol	ok	4.3422543345e1	esper2023
+feos-pcsaft	water@50C	psat_kpa	ok	1.2279077189e1	esper2023
+feos-pcsaft	water@50C	rho_liq_mol_m3	ok	5.6005083004e4	esper2023
+feos-pcsaft	water@50C	dhvap_kj_mol	ok	4.2438949565e1	esper2023
+feos-pcsaft	water@75C	psat_kpa	ok	3.8205806491e1	esper2023
+feos-pcsaft	water@75C	rho_liq_mol_m3	ok	5.4755635283e4	esper2023
+feos-pcsaft	water@75C	dhvap_kj_mol	ok	4.1400739437e1	esper2023
+feos-pcsaft	water@100C	psat_kpa	ok	1.0046191254e2	esper2023
+feos-pcsaft	water@100C	rho_liq_mol_m3	ok	5.3476954297e4	esper2023
+feos-pcsaft	water@100C	dhvap_kj_mol	ok	4.0289275181e1	esper2023
+feos-pcsaft	water	tboil_c	ok	1.0023919081e2	esper2023
+feos-pcsaft	water	tcrit_k	ok	6.7793765995e2	esper2023
+feos-pcsaft	water	pcrit_kpa	ok	3.0213398571e4	esper2023
+feos-pcsaft-gross2002	water@25C	psat_kpa	ok	3.3115299445e0	gross2002
+feos-pcsaft-gross2002	water@25C	rho_liq_mol_m3	ok	5.1177825654e4	gross2002
+feos-pcsaft-gross2002	water@25C	dhvap_kj_mol	ok	4.2710974008e1	gross2002
+feos-pcsaft-gross2002	water@50C	psat_kpa	ok	1.2521045284e1	gross2002
+feos-pcsaft-gross2002	water@50C	rho_liq_mol_m3	ok	5.0376956506e4	gross2002
+feos-pcsaft-gross2002	water@50C	dhvap_kj_mol	ok	4.2065676282e1	gross2002
+feos-pcsaft-gross2002	water@75C	psat_kpa	ok	3.8565891886e1	gross2002
+feos-pcsaft-gross2002	water@75C	rho_liq_mol_m3	ok	4.9573509046e4	gross2002
+feos-pcsaft-gross2002	water@75C	dhvap_kj_mol	ok	4.1324591203e1	gross2002
+feos-pcsaft-gross2002	water@100C	psat_kpa	ok	1.0089027302e2	gross2002
+feos-pcsaft-gross2002	water@100C	rho_liq_mol_m3	ok	4.8755509564e4	gross2002
+feos-pcsaft-gross2002	water@100C	dhvap_kj_mol	ok	4.0485022372e1	gross2002
+kerotakis	methanol@25C	psat_kpa	ok	1.6945564109e1	Antoine constants for methanol (15-84 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.08097 - 1582.271/(T/°C + 239.726); `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)
+kerotakis	methanol@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	methanol@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	methanol@40C	psat_kpa	ok	3.5445968769e1	Antoine constants for methanol (15-84 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.08097 - 1582.271/(T/°C + 239.726); `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)
+kerotakis	methanol@40C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	methanol@40C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	methanol@64.7C	psat_kpa	ok	1.0197990444e2	Antoine constants for methanol (15-84 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.08097 - 1582.271/(T/°C + 239.726); `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)
+kerotakis	methanol@64.7C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	methanol@64.7C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	methanol	tboil_c	ok	6.4536207214e1	Antoine constants for methanol (15-84 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.08097 - 1582.271/(T/°C + 239.726); `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)
+kerotakis	methanol	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	methanol	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	methanol@25C	psat_kpa	ok	1.6809373997e1	esper2023
+feos-pcsaft	methanol@25C	rho_liq_mol_m3	ok	2.4657129677e4	esper2023
+feos-pcsaft	methanol@25C	dhvap_kj_mol	ok	3.7170609417e1	esper2023
+feos-pcsaft	methanol@40C	psat_kpa	ok	3.5175244777e1	esper2023
+feos-pcsaft	methanol@40C	rho_liq_mol_m3	ok	2.4216988731e4	esper2023
+feos-pcsaft	methanol@40C	dhvap_kj_mol	ok	3.6365097991e1	esper2023
+feos-pcsaft	methanol@64.7C	psat_kpa	ok	1.0143065576e2	esper2023
+feos-pcsaft	methanol@64.7C	rho_liq_mol_m3	ok	2.3453470361e4	esper2023
+feos-pcsaft	methanol@64.7C	dhvap_kj_mol	ok	3.4884038112e1	esper2023
+feos-pcsaft	methanol	tboil_c	ok	6.4673555160e1	esper2023
+feos-pcsaft	methanol	tcrit_k	ok	5.3617148351e2	esper2023
+feos-pcsaft	methanol	pcrit_kpa	ok	1.0992089708e4	esper2023
+feos-pcsaft-gross2002	methanol@25C	psat_kpa	ok	1.6406883481e1	gross2002
+feos-pcsaft-gross2002	methanol@25C	rho_liq_mol_m3	ok	2.4672790150e4	gross2002
+feos-pcsaft-gross2002	methanol@25C	dhvap_kj_mol	ok	3.5268023003e1	gross2002
+feos-pcsaft-gross2002	methanol@40C	psat_kpa	ok	3.4204257490e1	gross2002
+feos-pcsaft-gross2002	methanol@40C	rho_liq_mol_m3	ok	2.4254743816e4	gross2002
+feos-pcsaft-gross2002	methanol@40C	dhvap_kj_mol	ok	3.4433400755e1	gross2002
+feos-pcsaft-gross2002	methanol@64.7C	psat_kpa	ok	9.8764490237e1	gross2002
+feos-pcsaft-gross2002	methanol@64.7C	rho_liq_mol_m3	ok	2.3523733421e4	gross2002
+feos-pcsaft-gross2002	methanol@64.7C	dhvap_kj_mol	ok	3.2910005061e1	gross2002
+kerotakis	ethanol@25C	psat_kpa	ok	7.8331215343e0	Antoine constants for ethanol (-57 to 80 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.20417 - 1642.89/(T/°C + 230.300); `a` carries the kPa conversion: 8.20417 - log10(760/101.325) = 7.32907. Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)
+kerotakis	ethanol@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanol@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanol@50C	psat_kpa	ok	2.9368756248e1	Antoine constants for ethanol (-57 to 80 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.20417 - 1642.89/(T/°C + 230.300); `a` carries the kPa conversion: 8.20417 - log10(760/101.325) = 7.32907. Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)
+kerotakis	ethanol@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanol@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanol@78.4C	psat_kpa	ok	1.0164989376e2	Antoine constants for ethanol (-57 to 80 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.20417 - 1642.89/(T/°C + 230.300); `a` carries the kPa conversion: 8.20417 - log10(760/101.325) = 7.32907. Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)
+kerotakis	ethanol@78.4C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanol@78.4C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanol	tboil_c	ok	7.8319375868e1	Antoine constants for ethanol (-57 to 80 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 8.20417 - 1642.89/(T/°C + 230.300); `a` carries the kPa conversion: 8.20417 - log10(760/101.325) = 7.32907. Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)
+kerotakis	ethanol	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	ethanol	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	ethanol@25C	psat_kpa	ok	7.8819455186e0	esper2023
+feos-pcsaft	ethanol@25C	rho_liq_mol_m3	ok	1.7122711621e4	esper2023
+feos-pcsaft	ethanol@25C	dhvap_kj_mol	ok	4.2287294255e1	esper2023
+feos-pcsaft	ethanol@50C	psat_kpa	ok	2.9464083303e1	esper2023
+feos-pcsaft	ethanol@50C	rho_liq_mol_m3	ok	1.6615352762e4	esper2023
+feos-pcsaft	ethanol@50C	dhvap_kj_mol	ok	4.0712873883e1	esper2023
+feos-pcsaft	ethanol@78.4C	psat_kpa	ok	1.0132713138e2	esper2023
+feos-pcsaft	ethanol@78.4C	rho_liq_mol_m3	ok	1.5993971358e4	esper2023
+feos-pcsaft	ethanol@78.4C	dhvap_kj_mol	ok	3.8662322427e1	esper2023
+feos-pcsaft	ethanol	tboil_c	ok	7.8399465709e1	esper2023
+feos-pcsaft	ethanol	tcrit_k	ok	5.3151641130e2	esper2023
+feos-pcsaft	ethanol	pcrit_kpa	ok	8.2035014141e3	esper2023
+feos-pcsaft-gross2002	ethanol@25C	psat_kpa	ok	7.9725504029e0	gross2002
+feos-pcsaft-gross2002	ethanol@25C	rho_liq_mol_m3	ok	1.6924667725e4	gross2002
+feos-pcsaft-gross2002	ethanol@25C	dhvap_kj_mol	ok	4.1712785214e1	gross2002
+feos-pcsaft-gross2002	ethanol@50C	psat_kpa	ok	2.9496088122e1	gross2002
+feos-pcsaft-gross2002	ethanol@50C	rho_liq_mol_m3	ok	1.6451809144e4	gross2002
+feos-pcsaft-gross2002	ethanol@50C	dhvap_kj_mol	ok	4.0239820016e1	gross2002
+feos-pcsaft-gross2002	ethanol@78.4C	psat_kpa	ok	1.0088674576e2	gross2002
+feos-pcsaft-gross2002	ethanol@78.4C	rho_liq_mol_m3	ok	1.5871332482e4	gross2002
+feos-pcsaft-gross2002	ethanol@78.4C	dhvap_kj_mol	ok	3.8284976548e1	gross2002
+kerotakis	propan-1-ol@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propan-1-ol@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-1-ol@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-1-ol@60C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propan-1-ol@60C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-1-ol@60C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-1-ol@97C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propan-1-ol@97C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-1-ol@97C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-1-ol	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propan-1-ol	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	propan-1-ol	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	propan-1-ol@25C	psat_kpa	ok	2.7878222506e0	esper2023
+feos-pcsaft	propan-1-ol@25C	rho_liq_mol_m3	ok	1.3309947059e4	esper2023
+feos-pcsaft	propan-1-ol@25C	dhvap_kj_mol	ok	4.8312241952e1	esper2023
+feos-pcsaft	propan-1-ol@60C	psat_kpa	ok	2.0436560079e1	esper2023
+feos-pcsaft	propan-1-ol@60C	rho_liq_mol_m3	ok	1.2784268071e4	esper2023
+feos-pcsaft	propan-1-ol@60C	dhvap_kj_mol	ok	4.5194374792e1	esper2023
+feos-pcsaft	propan-1-ol@97C	psat_kpa	ok	1.0061651042e2	esper2023
+feos-pcsaft	propan-1-ol@97C	rho_liq_mol_m3	ok	1.2177328622e4	esper2023
+feos-pcsaft	propan-1-ol@97C	dhvap_kj_mol	ok	4.1649925155e1	esper2023
+feos-pcsaft	propan-1-ol	tboil_c	ok	9.7187023793e1	esper2023
+feos-pcsaft	propan-1-ol	tcrit_k	ok	5.5250878096e2	esper2023
+feos-pcsaft	propan-1-ol	pcrit_kpa	ok	6.7599512816e3	esper2023
+feos-pcsaft-gross2002	propan-1-ol@25C	psat_kpa	ok	2.7581258971e0	gross2002
+feos-pcsaft-gross2002	propan-1-ol@25C	rho_liq_mol_m3	ok	1.3096550878e4	gross2002
+feos-pcsaft-gross2002	propan-1-ol@25C	dhvap_kj_mol	ok	4.8491918034e1	gross2002
+feos-pcsaft-gross2002	propan-1-ol@60C	psat_kpa	ok	2.0405074462e1	gross2002
+feos-pcsaft-gross2002	propan-1-ol@60C	rho_liq_mol_m3	ok	1.2608263680e4	gross2002
+feos-pcsaft-gross2002	propan-1-ol@60C	dhvap_kj_mol	ok	4.5414863779e1	gross2002
+feos-pcsaft-gross2002	propan-1-ol@97C	psat_kpa	ok	1.0117487072e2	gross2002
+feos-pcsaft-gross2002	propan-1-ol@97C	rho_liq_mol_m3	ok	1.2040363507e4	gross2002
+feos-pcsaft-gross2002	propan-1-ol@97C	dhvap_kj_mol	ok	4.1801499649e1	gross2002
+kerotakis	propan-2-ol@25C	psat_kpa	unavailable		outside fitted Antoine range 56.8..89.3 C
+kerotakis	propan-2-ol@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-2-ol@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-2-ol@60C	psat_kpa	ok	3.8554872724e1	NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius
+kerotakis	propan-2-ol@60C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-2-ol@60C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-2-ol@82.4C	psat_kpa	ok	1.0196971069e2	NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius
+kerotakis	propan-2-ol@82.4C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propan-2-ol@82.4C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propan-2-ol	tboil_c	ok	8.2241295832e1	NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius
+kerotakis	propan-2-ol	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	propan-2-ol	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	propan-2-ol@25C	psat_kpa	ok	5.8329253064e0	esper2023
+feos-pcsaft	propan-2-ol@25C	rho_liq_mol_m3	ok	1.3065885760e4	esper2023
+feos-pcsaft	propan-2-ol@25C	dhvap_kj_mol	ok	4.6116694792e1	esper2023
+feos-pcsaft	propan-2-ol@60C	psat_kpa	ok	3.8898674011e1	esper2023
+feos-pcsaft	propan-2-ol@60C	rho_liq_mol_m3	ok	1.2481958889e4	esper2023
+feos-pcsaft	propan-2-ol@60C	dhvap_kj_mol	ok	4.2665415658e1	esper2023
+feos-pcsaft	propan-2-ol@82.4C	psat_kpa	ok	1.0191188530e2	esper2023
+feos-pcsaft	propan-2-ol@82.4C	rho_liq_mol_m3	ok	1.2074760735e4	esper2023
+feos-pcsaft	propan-2-ol@82.4C	dhvap_kj_mol	ok	4.0312784124e1	esper2023
+feos-pcsaft	propan-2-ol	tboil_c	ok	8.2253666645e1	esper2023
+feos-pcsaft	propan-2-ol	tcrit_k	ok	5.2369445758e2	esper2023
+feos-pcsaft	propan-2-ol	pcrit_kpa	ok	6.3049326166e3	esper2023
+feos-pcsaft-gross2002	propan-2-ol@25C	psat_kpa	ok	6.1032751083e0	gross2002
+feos-pcsaft-gross2002	propan-2-ol@25C	rho_liq_mol_m3	ok	1.2865432704e4	gross2002
+feos-pcsaft-gross2002	propan-2-ol@25C	dhvap_kj_mol	ok	4.4869456069e1	gross2002
+feos-pcsaft-gross2002	propan-2-ol@60C	psat_kpa	ok	3.9200273627e1	gross2002
+feos-pcsaft-gross2002	propan-2-ol@60C	rho_liq_mol_m3	ok	1.2337337340e4	gross2002
+feos-pcsaft-gross2002	propan-2-ol@60C	dhvap_kj_mol	ok	4.1993214197e1	gross2002
+feos-pcsaft-gross2002	propan-2-ol@82.4C	psat_kpa	ok	1.0167879882e2	gross2002
+feos-pcsaft-gross2002	propan-2-ol@82.4C	rho_liq_mol_m3	ok	1.1967644748e4	gross2002
+feos-pcsaft-gross2002	propan-2-ol@82.4C	dhvap_kj_mol	ok	3.9938518232e1	gross2002
+kerotakis	acetone@0C	psat_kpa	ok	9.2583647311e0	Antoine constants for propanone (-20 to 77 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.02447 - 1161.0/(T/°C + 224.0); `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)
+kerotakis	acetone@0C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	acetone@0C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	acetone@25C	psat_kpa	ok	3.0684524495e1	Antoine constants for propanone (-20 to 77 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.02447 - 1161.0/(T/°C + 224.0); `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)
+kerotakis	acetone@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	acetone@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	acetone@56C	psat_kpa	ok	1.0072596309e2	Antoine constants for propanone (-20 to 77 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.02447 - 1161.0/(T/°C + 224.0); `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)
+kerotakis	acetone@56C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	acetone@56C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	acetone	tboil_c	ok	5.6174005064e1	Antoine constants for propanone (-20 to 77 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.02447 - 1161.0/(T/°C + 224.0); `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)
+kerotakis	acetone	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	acetone	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	acetone@0C	psat_kpa	ok	9.1768601934e0	esper2023
+feos-pcsaft	acetone@0C	rho_liq_mol_m3	ok	1.3888890006e4	esper2023
+feos-pcsaft	acetone@0C	dhvap_kj_mol	ok	3.2843588225e1	esper2023
+feos-pcsaft	acetone@25C	psat_kpa	ok	3.0484583181e1	esper2023
+feos-pcsaft	acetone@25C	rho_liq_mol_m3	ok	1.3433236845e4	esper2023
+feos-pcsaft	acetone@25C	dhvap_kj_mol	ok	3.1656929221e1	esper2023
+feos-pcsaft	acetone@56C	psat_kpa	ok	1.0097744547e2	esper2023
+feos-pcsaft	acetone@56C	rho_liq_mol_m3	ok	1.2850800926e4	esper2023
+feos-pcsaft	acetone@56C	dhvap_kj_mol	ok	3.0074956563e1	esper2023
+feos-pcsaft	acetone	tboil_c	ok	5.6099820837e1	esper2023
+feos-pcsaft	acetone	tcrit_k	ok	5.2093903992e2	esper2023
+feos-pcsaft	acetone	pcrit_kpa	ok	5.6823556385e3	esper2023
+kerotakis	butanone@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butanone@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butanone@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butanone@50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butanone@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butanone@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butanone@79.6C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butanone@79.6C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butanone@79.6C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butanone	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butanone	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	butanone	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	butanone@25C	psat_kpa	ok	1.2070805264e1	esper2023
+feos-pcsaft	butanone@25C	rho_liq_mol_m3	ok	1.1114669499e4	esper2023
+feos-pcsaft	butanone@25C	dhvap_kj_mol	ok	3.4885484294e1	esper2023
+feos-pcsaft	butanone@50C	psat_kpa	ok	3.5547220861e1	esper2023
+feos-pcsaft	butanone@50C	rho_liq_mol_m3	ok	1.0756976852e4	esper2023
+feos-pcsaft	butanone@50C	dhvap_kj_mol	ok	3.3594183635e1	esper2023
+feos-pcsaft	butanone@79.6C	psat_kpa	ok	1.0151546843e2	esper2023
+feos-pcsaft	butanone@79.6C	rho_liq_mol_m3	ok	1.0317185721e4	esper2023
+feos-pcsaft	butanone@79.6C	dhvap_kj_mol	ok	3.1958019819e1	esper2023
+feos-pcsaft	butanone	tboil_c	ok	7.9541309547e1	esper2023
+feos-pcsaft	butanone	tcrit_k	ok	5.4622494889e2	esper2023
+feos-pcsaft	butanone	pcrit_kpa	ok	4.8312890274e3	esper2023
+kerotakis	ethyl-ethanoate@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ethyl-ethanoate@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethyl-ethanoate@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethyl-ethanoate@50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ethyl-ethanoate@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethyl-ethanoate@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethyl-ethanoate@77C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ethyl-ethanoate@77C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethyl-ethanoate@77C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethyl-ethanoate	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ethyl-ethanoate	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	ethyl-ethanoate	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	ethyl-ethanoate@25C	psat_kpa	ok	1.2595449563e1	esper2023
+feos-pcsaft	ethyl-ethanoate@25C	rho_liq_mol_m3	ok	1.0099891043e4	esper2023
+feos-pcsaft	ethyl-ethanoate@25C	dhvap_kj_mol	ok	3.5755384198e1	esper2023
+feos-pcsaft	ethyl-ethanoate@50C	psat_kpa	ok	3.7982139877e1	esper2023
+feos-pcsaft	ethyl-ethanoate@50C	rho_liq_mol_m3	ok	9.7661455069e3	esper2023
+feos-pcsaft	ethyl-ethanoate@50C	dhvap_kj_mol	ok	3.4183215121e1	esper2023
+feos-pcsaft	ethyl-ethanoate@77C	psat_kpa	ok	1.0128974029e2	esper2023
+feos-pcsaft	ethyl-ethanoate@77C	rho_liq_mol_m3	ok	9.3904784437e3	esper2023
+feos-pcsaft	ethyl-ethanoate@77C	dhvap_kj_mol	ok	3.2432350582e1	esper2023
+feos-pcsaft	ethyl-ethanoate	tboil_c	ok	7.7010553006e1	esper2023
+feos-pcsaft	ethyl-ethanoate	tcrit_k	ok	5.3568145793e2	esper2023
+feos-pcsaft	ethyl-ethanoate	pcrit_kpa	ok	4.7508230840e3	esper2023
+kerotakis	ethanoic-acid@25C	psat_kpa	ok	2.0555655088e0	Antoine constants for ethanoic acid (17-157 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.38782 - 1533.313/(T/°C + 222.309); `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)
+kerotakis	ethanoic-acid@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanoic-acid@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanoic-acid@80C	psat_kpa	ok	2.7600325546e1	Antoine constants for ethanoic acid (17-157 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.38782 - 1533.313/(T/°C + 222.309); `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)
+kerotakis	ethanoic-acid@80C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanoic-acid@80C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanoic-acid@118C	psat_kpa	ok	1.0168823806e2	Antoine constants for ethanoic acid (17-157 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.38782 - 1533.313/(T/°C + 222.309); `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)
+kerotakis	ethanoic-acid@118C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ethanoic-acid@118C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ethanoic-acid	tboil_c	ok	1.1788265947e2	Antoine constants for ethanoic acid (17-157 °C): Stull, D.R., Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. Published as log10(P/mmHg) = 7.38782 - 1533.313/(T/°C + 222.309); `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)
+kerotakis	ethanoic-acid	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	ethanoic-acid	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	ethanoic-acid@25C	psat_kpa	ok	1.9411831039e0	esper2023
+feos-pcsaft	ethanoic-acid@25C	rho_liq_mol_m3	ok	1.7102971107e4	esper2023
+feos-pcsaft	ethanoic-acid@25C	dhvap_kj_mol	ok	4.3752424658e1	esper2023
+feos-pcsaft	ethanoic-acid@80C	psat_kpa	ok	2.7783081193e1	esper2023
+feos-pcsaft	ethanoic-acid@80C	rho_liq_mol_m3	ok	1.6157888504e4	esper2023
+feos-pcsaft	ethanoic-acid@80C	dhvap_kj_mol	ok	4.0559987588e1	esper2023
+feos-pcsaft	ethanoic-acid@118C	psat_kpa	ok	1.0448399158e2	esper2023
+feos-pcsaft	ethanoic-acid@118C	rho_liq_mol_m3	ok	1.5492148179e4	esper2023
+feos-pcsaft	ethanoic-acid@118C	dhvap_kj_mol	ok	3.8376711338e1	esper2023
+feos-pcsaft	ethanoic-acid	tboil_c	ok	1.1700706692e2	esper2023
+feos-pcsaft	ethanoic-acid	tcrit_k	ok	6.4164762451e2	esper2023
+feos-pcsaft	ethanoic-acid	pcrit_kpa	ok	9.2129137008e3	esper2023
+feos-pcsaft-gross2002	ethanoic-acid@25C	psat_kpa	ok	2.1521472826e0	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@25C	rho_liq_mol_m3	ok	1.7067536666e4	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@25C	dhvap_kj_mol	ok	3.7756862425e1	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@80C	psat_kpa	ok	2.6510537788e1	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@80C	rho_liq_mol_m3	ok	1.6199823581e4	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@80C	dhvap_kj_mol	ok	3.5113977971e1	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@118C	psat_kpa	ok	9.8565445756e1	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@118C	rho_liq_mol_m3	ok	1.5537193756e4	gross2002
+feos-pcsaft-gross2002	ethanoic-acid@118C	dhvap_kj_mol	ok	3.2926940823e1	gross2002
+kerotakis	propane@-60C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propane@-60C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propane@-60C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propane@-42.1C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propane@-42.1C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propane@-42.1C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propane@0C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propane@0C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propane@0C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	propane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	propane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	propane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	propane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	propane@-60C	psat_kpa	ok	4.2942413560e1	esper2023
+feos-pcsaft	propane@-60C	rho_liq_mol_m3	ok	1.3624600227e4	esper2023
+feos-pcsaft	propane@-60C	dhvap_kj_mol	ok	1.9625659266e1	esper2023
+feos-pcsaft	propane@-42.1C	psat_kpa	ok	1.0190242670e2	esper2023
+feos-pcsaft	propane@-42.1C	rho_liq_mol_m3	ok	1.3180251721e4	esper2023
+feos-pcsaft	propane@-42.1C	dhvap_kj_mol	ok	1.8855639466e1	esper2023
+feos-pcsaft	propane@0C	psat_kpa	ok	4.7587784446e2	esper2023
+feos-pcsaft	propane@0C	rho_liq_mol_m3	ok	1.2028623874e4	esper2023
+feos-pcsaft	propane@0C	dhvap_kj_mol	ok	1.6718627683e1	esper2023
+feos-pcsaft	propane@25C	psat_kpa	ok	9.5426204229e2	esper2023
+feos-pcsaft	propane@25C	rho_liq_mol_m3	ok	1.1213211877e4	esper2023
+feos-pcsaft	propane@25C	dhvap_kj_mol	ok	1.5065983386e1	esper2023
+feos-pcsaft	propane	tboil_c	ok	-4.2228916573e1	esper2023
+feos-pcsaft	propane	tcrit_k	ok	3.7541140522e2	esper2023
+feos-pcsaft	propane	pcrit_kpa	ok	4.6259850093e3	esper2023
+kerotakis	butane@-20C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butane@-20C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butane@-20C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butane@-0.5C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butane@-0.5C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butane@-0.5C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	butane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	butane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	butane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	butane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	butane@-20C	psat_kpa	ok	4.5546058018e1	esper2023
+feos-pcsaft	butane@-20C	rho_liq_mol_m3	ok	1.0679472026e4	esper2023
+feos-pcsaft	butane@-20C	dhvap_kj_mol	ok	2.3496740894e1	esper2023
+feos-pcsaft	butane@-0.5C	psat_kpa	ok	1.0195536374e2	esper2023
+feos-pcsaft	butane@-0.5C	rho_liq_mol_m3	ok	1.0338236670e4	esper2023
+feos-pcsaft	butane@-0.5C	dhvap_kj_mol	ok	2.2555822767e1	esper2023
+feos-pcsaft	butane@25C	psat_kpa	ok	2.4449187118e2	esper2023
+feos-pcsaft	butane@25C	rho_liq_mol_m3	ok	9.8645398065e3	esper2023
+feos-pcsaft	butane@25C	dhvap_kj_mol	ok	2.1207819311e1	esper2023
+feos-pcsaft	butane	tboil_c	ok	-6.6334230126e-1	esper2023
+feos-pcsaft	butane	tcrit_k	ok	4.3299784680e2	esper2023
+feos-pcsaft	butane	pcrit_kpa	ok	4.2380790799e3	esper2023
+kerotakis	pentane@0C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	pentane@0C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	pentane@0C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	pentane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	pentane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	pentane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	pentane@36.1C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	pentane@36.1C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	pentane@36.1C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	pentane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	pentane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	pentane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	pentane@0C	psat_kpa	ok	2.4242988206e1	esper2023
+feos-pcsaft	pentane@0C	rho_liq_mol_m3	ok	8.9130219576e3	esper2023
+feos-pcsaft	pentane@0C	dhvap_kj_mol	ok	2.8043819513e1	esper2023
+feos-pcsaft	pentane@25C	psat_kpa	ok	6.8113508861e1	esper2023
+feos-pcsaft	pentane@25C	rho_liq_mol_m3	ok	8.5846036982e3	esper2023
+feos-pcsaft	pentane@25C	dhvap_kj_mol	ok	2.6719147314e1	esper2023
+feos-pcsaft	pentane@36.1C	psat_kpa	ok	1.0125770679e2	esper2023
+feos-pcsaft	pentane@36.1C	rho_liq_mol_m3	ok	8.4335591387e3	esper2023
+feos-pcsaft	pentane@36.1C	dhvap_kj_mol	ok	2.6104793519e1	esper2023
+feos-pcsaft	pentane	tboil_c	ok	3.6119406982e1	esper2023
+feos-pcsaft	pentane	tcrit_k	ok	4.7882913765e2	esper2023
+feos-pcsaft	pentane	pcrit_kpa	ok	3.8669399735e3	esper2023
+kerotakis	hexane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	hexane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	hexane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	hexane@50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	hexane@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	hexane@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	hexane@68.7C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	hexane@68.7C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	hexane@68.7C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	hexane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	hexane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	hexane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	hexane@25C	psat_kpa	ok	2.0221826571e1	esper2023
+feos-pcsaft	hexane@25C	rho_liq_mol_m3	ok	7.5622381747e3	esper2023
+feos-pcsaft	hexane@25C	dhvap_kj_mol	ok	3.1649726797e1	esper2023
+feos-pcsaft	hexane@50C	psat_kpa	ok	5.4133314237e1	esper2023
+feos-pcsaft	hexane@50C	rho_liq_mol_m3	ok	7.3021242885e3	esper2023
+feos-pcsaft	hexane@50C	dhvap_kj_mol	ok	3.0231182528e1	esper2023
+feos-pcsaft	hexane@68.7C	psat_kpa	ok	1.0126814912e2	esper2023
+feos-pcsaft	hexane@68.7C	rho_liq_mol_m3	ok	7.0993535844e3	esper2023
+feos-pcsaft	hexane@68.7C	dhvap_kj_mol	ok	2.9120466522e1	esper2023
+feos-pcsaft	hexane	tboil_c	ok	6.8717900697e1	esper2023
+feos-pcsaft	hexane	tcrit_k	ok	5.1921724763e2	esper2023
+feos-pcsaft	hexane	pcrit_kpa	ok	3.5535385358e3	esper2023
+kerotakis	heptane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	heptane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	heptane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	heptane@60C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	heptane@60C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	heptane@60C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	heptane@98.4C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	heptane@98.4C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	heptane@98.4C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	heptane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	heptane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	heptane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	heptane@25C	psat_kpa	ok	6.0865083279e0	esper2023
+feos-pcsaft	heptane@25C	rho_liq_mol_m3	ok	6.7540998606e3	esper2023
+feos-pcsaft	heptane@25C	dhvap_kj_mol	ok	3.6728234364e1	esper2023
+feos-pcsaft	heptane@60C	psat_kpa	ok	2.8051744757e1	esper2023
+feos-pcsaft	heptane@60C	rho_liq_mol_m3	ok	6.4575888171e3	esper2023
+feos-pcsaft	heptane@60C	dhvap_kj_mol	ok	3.4590647852e1	esper2023
+feos-pcsaft	heptane@98.4C	psat_kpa	ok	1.0145384354e2	esper2023
+feos-pcsaft	heptane@98.4C	rho_liq_mol_m3	ok	6.1129513621e3	esper2023
+feos-pcsaft	heptane@98.4C	dhvap_kj_mol	ok	3.2133317390e1	esper2023
+feos-pcsaft	heptane	tboil_c	ok	9.8356777499e1	esper2023
+feos-pcsaft	heptane	tcrit_k	ok	5.5214267289e2	esper2023
+feos-pcsaft	heptane	pcrit_kpa	ok	3.2697470595e3	esper2023
+kerotakis	octane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	octane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	octane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	octane@80C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	octane@80C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	octane@80C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	octane@125.6C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	octane@125.6C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	octane@125.6C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	octane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	octane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	octane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	octane@25C	psat_kpa	ok	1.8655085234e0	esper2023
+feos-pcsaft	octane@25C	rho_liq_mol_m3	ok	6.1023687002e3	esper2023
+feos-pcsaft	octane@25C	dhvap_kj_mol	ok	4.1620907566e1	esper2023
+feos-pcsaft	octane@80C	psat_kpa	ok	2.3287985016e1	esper2023
+feos-pcsaft	octane@80C	rho_liq_mol_m3	ok	5.7094136050e3	esper2023
+feos-pcsaft	octane@80C	dhvap_kj_mol	ok	3.8013820638e1	esper2023
+feos-pcsaft	octane@125.6C	psat_kpa	ok	1.0100610539e2	esper2023
+feos-pcsaft	octane@125.6C	rho_liq_mol_m3	ok	5.3593716396e3	esper2023
+feos-pcsaft	octane@125.6C	dhvap_kj_mol	ok	3.4888159625e1	esper2023
+feos-pcsaft	octane	tboil_c	ok	1.2571339990e2	esper2023
+feos-pcsaft	octane	tcrit_k	ok	5.8235293736e2	esper2023
+feos-pcsaft	octane	pcrit_kpa	ok	3.0300984635e3	esper2023
+kerotakis	cyclohexane@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	cyclohexane@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	cyclohexane@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	cyclohexane@50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	cyclohexane@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	cyclohexane@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	cyclohexane@80.7C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	cyclohexane@80.7C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	cyclohexane@80.7C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	cyclohexane	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	cyclohexane	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	cyclohexane	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	cyclohexane@25C	psat_kpa	ok	1.3063762251e1	esper2023
+feos-pcsaft	cyclohexane@25C	rho_liq_mol_m3	ok	9.1704634975e3	esper2023
+feos-pcsaft	cyclohexane@25C	dhvap_kj_mol	ok	3.2854614320e1	esper2023
+feos-pcsaft	cyclohexane@50C	psat_kpa	ok	3.6160124589e1	esper2023
+feos-pcsaft	cyclohexane@50C	rho_liq_mol_m3	ok	8.8996182604e3	esper2023
+feos-pcsaft	cyclohexane@50C	dhvap_kj_mol	ok	3.1645355794e1	esper2023
+feos-pcsaft	cyclohexane@80.7C	psat_kpa	ok	1.0058999498e2	esper2023
+feos-pcsaft	cyclohexane@80.7C	rho_liq_mol_m3	ok	8.5564336405e3	esper2023
+feos-pcsaft	cyclohexane@80.7C	dhvap_kj_mol	ok	3.0101042001e1	esper2023
+feos-pcsaft	cyclohexane	tboil_c	ok	8.0942969044e1	esper2023
+feos-pcsaft	cyclohexane	tcrit_k	ok	5.6215093271e2	esper2023
+feos-pcsaft	cyclohexane	pcrit_kpa	ok	4.5535547618e3	esper2023
+kerotakis	toluene@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	toluene@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	toluene@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	toluene@60C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	toluene@60C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	toluene@60C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	toluene@110.6C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	toluene@110.6C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	toluene@110.6C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	toluene	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	toluene	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	toluene	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	toluene@25C	psat_kpa	ok	3.8026254716e0	esper2023
+feos-pcsaft	toluene@25C	rho_liq_mol_m3	ok	9.3057688829e3	esper2023
+feos-pcsaft	toluene@25C	dhvap_kj_mol	ok	3.8134579334e1	esper2023
+feos-pcsaft	toluene@60C	psat_kpa	ok	1.8584767604e1	esper2023
+feos-pcsaft	toluene@60C	rho_liq_mol_m3	ok	8.9568974032e3	esper2023
+feos-pcsaft	toluene@60C	dhvap_kj_mol	ok	3.6307282199e1	esper2023
+feos-pcsaft	toluene@110.6C	psat_kpa	ok	1.0173102424e2	esper2023
+feos-pcsaft	toluene@110.6C	rho_liq_mol_m3	ok	8.4365261522e3	esper2023
+feos-pcsaft	toluene@110.6C	dhvap_kj_mol	ok	3.3605913331e1	esper2023
+feos-pcsaft	toluene	tboil_c	ok	1.1045938610e2	esper2023
+feos-pcsaft	toluene	tcrit_k	ok	6.0563638736e2	esper2023
+feos-pcsaft	toluene	pcrit_kpa	ok	4.8452329392e3	esper2023
+kerotakis	carbon-dioxide@-50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	carbon-dioxide@-50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	carbon-dioxide@-50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	carbon-dioxide@-25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	carbon-dioxide@-25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	carbon-dioxide@-25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	carbon-dioxide@0C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	carbon-dioxide@0C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	carbon-dioxide@0C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	carbon-dioxide@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	carbon-dioxide@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	carbon-dioxide@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	carbon-dioxide	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	carbon-dioxide	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	carbon-dioxide	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	carbon-dioxide@-50C	psat_kpa	ok	6.8485480519e2	esper2023
+feos-pcsaft	carbon-dioxide@-50C	rho_liq_mol_m3	ok	2.6059139456e4	esper2023
+feos-pcsaft	carbon-dioxide@-50C	dhvap_kj_mol	ok	1.4981153805e1	esper2023
+feos-pcsaft	carbon-dioxide@-25C	psat_kpa	ok	1.6793541583e3	esper2023
+feos-pcsaft	carbon-dioxide@-25C	rho_liq_mol_m3	ok	2.3883275899e4	esper2023
+feos-pcsaft	carbon-dioxide@-25C	dhvap_kj_mol	ok	1.3143093305e1	esper2023
+feos-pcsaft	carbon-dioxide@0C	psat_kpa	ok	3.4817829388e3	esper2023
+feos-pcsaft	carbon-dioxide@0C	rho_liq_mol_m3	ok	2.1058181557e4	esper2023
+feos-pcsaft	carbon-dioxide@0C	dhvap_kj_mol	ok	1.0576993018e1	esper2023
+feos-pcsaft	carbon-dioxide@25C	psat_kpa	ok	6.4432971498e3	esper2023
+feos-pcsaft	carbon-dioxide@25C	rho_liq_mol_m3	ok	1.6481750100e4	esper2023
+feos-pcsaft	carbon-dioxide@25C	dhvap_kj_mol	ok	6.1713409469e0	esper2023
+feos-pcsaft	carbon-dioxide	tboil_c	ok	-8.8398353117e1	esper2023
+feos-pcsaft	carbon-dioxide	tcrit_k	ok	3.0914737606e2	esper2023
+feos-pcsaft	carbon-dioxide	pcrit_kpa	ok	8.2379568025e3	esper2023
+kerotakis	nitrogen@-200C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	nitrogen@-200C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	nitrogen@-200C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	nitrogen@-195.8C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	nitrogen@-195.8C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	nitrogen@-195.8C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	nitrogen@-190C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	nitrogen@-190C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	nitrogen@-190C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	nitrogen	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	nitrogen	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	nitrogen	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	nitrogen@-200C	psat_kpa	ok	5.9575925816e1	esper2023
+feos-pcsaft	nitrogen@-200C	rho_liq_mol_m3	ok	2.9503653422e4	esper2023
+feos-pcsaft	nitrogen@-200C	dhvap_kj_mol	ok	5.7150957670e0	esper2023
+feos-pcsaft	nitrogen@-195.8C	psat_kpa	ok	1.0065172498e2	esper2023
+feos-pcsaft	nitrogen@-195.8C	rho_liq_mol_m3	ok	2.8859344093e4	esper2023
+feos-pcsaft	nitrogen@-195.8C	dhvap_kj_mol	ok	5.5819288958e0	esper2023
+feos-pcsaft	nitrogen@-190C	psat_kpa	ok	1.8937763333e2	esper2023
+feos-pcsaft	nitrogen@-190C	rho_liq_mol_m3	ok	2.7928778966e4	esper2023
+feos-pcsaft	nitrogen@-190C	dhvap_kj_mol	ok	5.3755107552e0	esper2023
+feos-pcsaft	nitrogen	tboil_c	ok	-1.9574327905e2	esper2023
+feos-pcsaft	nitrogen	tcrit_k	ok	1.2641327559e2	esper2023
+feos-pcsaft	nitrogen	pcrit_kpa	ok	3.3885930444e3	esper2023
+kerotakis	oxygen@-200C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	oxygen@-200C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	oxygen@-200C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	oxygen@-183C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	oxygen@-183C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	oxygen@-183C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	oxygen@-175C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	oxygen@-175C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	oxygen@-175C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	oxygen	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	oxygen	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	oxygen	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	oxygen@-200C	psat_kpa	ok	1.0770901561e1	esper2023
+feos-pcsaft	oxygen@-200C	rho_liq_mol_m3	ok	3.8205590998e4	esper2023
+feos-pcsaft	oxygen@-200C	dhvap_kj_mol	ok	7.2670671182e0	esper2023
+feos-pcsaft	oxygen@-183C	psat_kpa	ok	1.0028867010e2	esper2023
+feos-pcsaft	oxygen@-183C	rho_liq_mol_m3	ok	3.5764045796e4	esper2023
+feos-pcsaft	oxygen@-183C	dhvap_kj_mol	ok	6.8407436104e0	esper2023
+feos-pcsaft	oxygen@-175C	psat_kpa	ok	2.1585476744e2	esper2023
+feos-pcsaft	oxygen@-175C	rho_liq_mol_m3	ok	3.4541328374e4	esper2023
+feos-pcsaft	oxygen@-175C	dhvap_kj_mol	ok	6.5898047239e0	esper2023
+feos-pcsaft	oxygen	tboil_c	ok	-1.8290181409e2	esper2023
+feos-pcsaft	oxygen	tcrit_k	ok	1.5466746042e2	esper2023
+feos-pcsaft	oxygen	pcrit_kpa	ok	5.0582387700e3	esper2023
+kerotakis	ammonia@-50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ammonia@-50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ammonia@-50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ammonia@-33.3C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ammonia@-33.3C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ammonia@-33.3C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ammonia@0C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ammonia@0C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ammonia@0C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ammonia@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ammonia@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	ammonia@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	ammonia	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	ammonia	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	ammonia	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	ammonia@-50C	psat_kpa	ok	4.0668621439e1	esper2023
+feos-pcsaft	ammonia@-50C	rho_liq_mol_m3	ok	4.0311369628e4	esper2023
+feos-pcsaft	ammonia@-50C	dhvap_kj_mol	ok	2.4648819880e1	esper2023
+feos-pcsaft	ammonia@-33.3C	psat_kpa	ok	1.0201247067e2	esper2023
+feos-pcsaft	ammonia@-33.3C	rho_liq_mol_m3	ok	3.9263939027e4	esper2023
+feos-pcsaft	ammonia@-33.3C	dhvap_kj_mol	ok	2.3855597213e1	esper2023
+feos-pcsaft	ammonia@0C	psat_kpa	ok	4.3431575566e2	esper2023
+feos-pcsaft	ammonia@0C	rho_liq_mol_m3	ok	3.7094560271e4	esper2023
+feos-pcsaft	ammonia@0C	dhvap_kj_mol	ok	2.2192884431e1	esper2023
+feos-pcsaft	ammonia@25C	psat_kpa	ok	1.0136847264e3	esper2023
+feos-pcsaft	ammonia@25C	rho_liq_mol_m3	ok	3.5328746430e4	esper2023
+feos-pcsaft	ammonia@25C	dhvap_kj_mol	ok	2.0788467817e1	esper2023
+feos-pcsaft	ammonia	tboil_c	ok	-3.3433586745e1	esper2023
+feos-pcsaft	ammonia	tcrit_k	ok	4.2388431427e2	esper2023
+feos-pcsaft	ammonia	pcrit_kpa	ok	1.5057077254e4	esper2023
+kerotakis	chloroform@25C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	chloroform@25C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	chloroform@25C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	chloroform@50C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	chloroform@50C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	chloroform@50C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	chloroform@61.2C	psat_kpa	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	chloroform@61.2C	rho_liq_mol_m3	unavailable		kerotakis-thermo has no liquid-density model
+kerotakis	chloroform@61.2C	dhvap_kj_mol	unavailable		kerotakis-thermo has no enthalpy model for pure fluids
+kerotakis	chloroform	tboil_c	unavailable		no Antoine constants curated in kerotakis-thermo
+kerotakis	chloroform	tcrit_k	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+kerotakis	chloroform	pcrit_kpa	unavailable		kerotakis-thermo curates critical properties for 3 fluids only (eos.rs)
+feos-pcsaft	chloroform@25C	psat_kpa	ok	2.6192769909e1	esper2023
+feos-pcsaft	chloroform@25C	rho_liq_mol_m3	ok	1.2701058783e4	esper2023
+feos-pcsaft	chloroform@25C	dhvap_kj_mol	ok	3.1513800125e1	esper2023
+feos-pcsaft	chloroform@50C	psat_kpa	ok	6.9738956253e1	esper2023
+feos-pcsaft	chloroform@50C	rho_liq_mol_m3	ok	1.2305948583e4	esper2023
+feos-pcsaft	chloroform@50C	dhvap_kj_mol	ok	3.0286247925e1	esper2023
+feos-pcsaft	chloroform@61.2C	psat_kpa	ok	1.0234320871e2	esper2023
+feos-pcsaft	chloroform@61.2C	rho_liq_mol_m3	ok	1.2124894242e4	esper2023
+feos-pcsaft	chloroform@61.2C	dhvap_kj_mol	ok	2.9720267335e1	esper2023
+feos-pcsaft	chloroform	tboil_c	ok	6.0896549891e1	esper2023
+feos-pcsaft	chloroform	tcrit_k	ok	5.4507522126e2	esper2023
+feos-pcsaft	chloroform	pcrit_kpa	ok	6.1735447087e3	esper2023
+kerotakis	ethanol-water@x1=0.1	tbub_c	ok	8.5806011985e1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.1	y1	ok	4.5228038182e-1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.3	tbub_c	ok	8.1739440922e1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.3	y1	ok	5.7206991099e-1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.5	tbub_c	ok	7.9882945386e1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.5	y1	ok	6.5529228150e-1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.7	tbub_c	ok	7.8598113124e1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.7	y1	ok	7.5952194323e-1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.9	tbub_c	ok	7.8073676163e1	Antoine+UNIFAC
+kerotakis	ethanol-water@x1=0.9	y1	ok	8.9947128317e-1	Antoine+UNIFAC
+kerotakis	ethanol-water@flash	vapour_fraction	ok	0.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	ethanol-water@x1=0.1	tbub_c	ok	8.9223400973e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.1	y1	ok	3.7501798077e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.3	tbub_c	ok	8.4492038026e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.3	y1	ok	5.3236441608e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.5	tbub_c	ok	8.2030752797e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.5	y1	ok	6.4718620144e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.7	tbub_c	ok	8.0213160296e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.7	y1	ok	7.7419507219e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.9	tbub_c	ok	7.8893550464e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@x1=0.9	y1	ok	9.1948215773e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-water@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	ethanol-water@x1=0.1	tbub_c	ok	8.9223400973e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-water@x1=0.3	tbub_c	ok	8.4492038026e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-water@x1=0.5	tbub_c	ok	8.2030752797e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-water@x1=0.7	tbub_c	ok	8.0213160296e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-water@x1=0.9	tbub_c	ok	7.8893550464e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	methanol-water@x1=0.1	tbub_c	ok	8.7732663508e1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.1	y1	ok	4.2291486163e-1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.3	tbub_c	ok	7.8220878864e1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.3	y1	ok	6.6932066658e-1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.5	tbub_c	ok	7.3213689318e1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.5	y1	ok	7.8659688557e-1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.7	tbub_c	ok	6.9405153839e1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.7	y1	ok	8.7709065998e-1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.9	tbub_c	ok	6.6086716013e1	Antoine+UNIFAC
+kerotakis	methanol-water@x1=0.9	y1	ok	9.5972586953e-1	Antoine+UNIFAC
+kerotakis	methanol-water@flash	vapour_fraction	ok	2.5261930384e-1	Antoine+UNIFAC
+feos-pcsaft	methanol-water@x1=0.1	tbub_c	ok	8.9260704365e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.1	y1	ok	3.8637969929e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.3	tbub_c	ok	7.9444074968e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.3	y1	ok	6.4845736615e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.5	tbub_c	ok	7.4010090072e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.5	y1	ok	7.7641039779e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.7	tbub_c	ok	6.9874290587e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.7	y1	ok	8.7299016283e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.9	tbub_c	ok	6.6317375505e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@x1=0.9	y1	ok	9.5880690745e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-water@flash	vapour_fraction	ok	1.6048117884e-1	esper2023+rehner2023
+adapter	methanol-water@x1=0.1	tbub_c	ok	8.9260704365e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-water@x1=0.3	tbub_c	ok	7.9444074968e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-water@x1=0.5	tbub_c	ok	7.4010090072e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-water@x1=0.7	tbub_c	ok	6.9874290587e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-water@x1=0.9	tbub_c	ok	6.6317375505e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	acetone-water@x1=0.1	tbub_c	ok	6.7726548778e1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.1	y1	ok	7.3999093473e-1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.3	tbub_c	ok	6.2124487857e1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.3	y1	ok	8.0868680163e-1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.5	tbub_c	ok	5.9901735555e1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.5	y1	ok	8.3985598437e-1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.7	tbub_c	ok	5.7965745618e1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.7	y1	ok	8.7608491911e-1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.9	tbub_c	ok	5.6436009579e1	Antoine+UNIFAC
+kerotakis	acetone-water@x1=0.9	y1	ok	9.3150050875e-1	Antoine+UNIFAC
+kerotakis	acetone-water@flash	vapour_fraction	ok	6.6472101947e-1	Antoine+UNIFAC
+feos-pcsaft	acetone-water@x1=0.1	tbub_c	ok	7.1805646539e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.1	y1	ok	6.8698402095e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.3	tbub_c	ok	6.4323396475e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.3	y1	ok	7.8895680323e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.5	tbub_c	ok	6.1386371453e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.5	y1	ok	8.3098290882e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.7	tbub_c	ok	5.8972339850e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.7	y1	ok	8.7540866058e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.9	tbub_c	ok	5.6859176171e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@x1=0.9	y1	ok	9.4026085664e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-water@flash	vapour_fraction	ok	6.5086707345e-1	esper2023+rehner2023
+adapter	acetone-water@x1=0.1	tbub_c	ok	7.1805646539e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-water@x1=0.3	tbub_c	ok	6.4323396475e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-water@x1=0.5	tbub_c	ok	6.1386371453e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-water@x1=0.7	tbub_c	ok	5.8972339850e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-water@x1=0.9	tbub_c	ok	5.6859176171e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	propan-2-ol-water@x1=0.1	tbub_c	ok	8.2355369333e1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.1	y1	ok	5.1141564017e-1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.3	tbub_c	ok	8.1476463006e1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.3	y1	ok	5.3719684939e-1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.5	tbub_c	ok	8.0618786181e1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.5	y1	ok	5.9340632320e-1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.7	tbub_c	ok	8.0213053513e1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.7	y1	ok	6.9680057773e-1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.9	tbub_c	ok	8.0964324186e1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@x1=0.9	y1	ok	8.6330197313e-1	Antoine+UNIFAC
+kerotakis	propan-2-ol-water@flash	vapour_fraction	ok	0.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	propan-2-ol-water@x1=0.1	tbub_c	ok	8.7284310398e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.1	y1	ok	4.1346730008e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.3	tbub_c	ok	8.4034235854e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.3	y1	ok	5.2093002030e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.5	tbub_c	ok	8.2430117410e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.5	y1	ok	6.1205963450e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.7	tbub_c	ok	8.1570133159e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.7	y1	ok	7.2616338456e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.9	tbub_c	ok	8.1653471289e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@x1=0.9	y1	ok	8.8556481155e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	propan-2-ol-water@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	propan-2-ol-water@x1=0.1	tbub_c	ok	8.7284310398e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	propan-2-ol-water@x1=0.3	tbub_c	ok	8.4034235854e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	propan-2-ol-water@x1=0.5	tbub_c	ok	8.2430117410e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	propan-2-ol-water@x1=0.7	tbub_c	ok	8.1570133159e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	propan-2-ol-water@x1=0.9	tbub_c	ok	8.1653471289e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	ethanoic-acid-water@x1=0.1	tbub_c	ok	9.8685296705e1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.1	y1	ok	1.2283176810e-1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.3	tbub_c	ok	9.8908469718e1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.3	y1	ok	2.2933585587e-1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.5	tbub_c	ok	1.0062725738e2	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.5	y1	ok	3.2590404175e-1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.7	tbub_c	ok	1.0436009367e2	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.7	y1	ok	4.7122968136e-1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.9	tbub_c	ok	1.1167072851e2	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@x1=0.9	y1	ok	7.4415855898e-1	Antoine+UNIFAC
+kerotakis	ethanoic-acid-water@flash	vapour_fraction	ok	0.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	ethanoic-acid-water@x1=0.1	tbub_c	ok	9.8039627526e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.1	y1	ok	1.6186410249e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.3	tbub_c	ok	9.6349665997e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.3	y1	ok	3.3362652362e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.5	tbub_c	ok	9.6502293450e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.5	y1	ok	4.1497864814e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.7	tbub_c	ok	9.7536739195e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.7	y1	ok	4.7261132547e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.9	tbub_c	ok	1.0066427087e2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@x1=0.9	y1	ok	5.6162446619e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanoic-acid-water@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	ethanoic-acid-water@x1=0.1	tbub_c	ok	9.8039627526e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanoic-acid-water@x1=0.3	tbub_c	ok	9.6349665997e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanoic-acid-water@x1=0.5	tbub_c	ok	9.6502293450e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanoic-acid-water@x1=0.7	tbub_c	ok	9.7536739195e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanoic-acid-water@x1=0.9	tbub_c	ok	1.0066427087e2	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	acetone-methanol@x1=0.1	tbub_c	ok	6.1499531783e1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.1	y1	ok	1.9715613143e-1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.3	tbub_c	ok	5.7972393580e1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.3	y1	ok	4.3071640923e-1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.5	tbub_c	ok	5.6186844872e1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.5	y1	ok	5.8272241148e-1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.7	tbub_c	ok	5.5374744211e1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.7	y1	ok	7.1951815937e-1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.9	tbub_c	ok	5.5526676782e1	Antoine+UNIFAC
+kerotakis	acetone-methanol@x1=0.9	y1	ok	8.8569862232e-1	Antoine+UNIFAC
+kerotakis	acetone-methanol@flash	vapour_fraction	ok	1.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	acetone-methanol@x1=0.1	tbub_c	ok	6.2015080748e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.1	y1	ok	1.8216012189e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.3	tbub_c	ok	5.8340344848e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.3	y1	ok	4.3247713251e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.5	tbub_c	ok	5.6184652574e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.5	y1	ok	5.9830393965e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.7	tbub_c	ok	5.5093573700e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.7	y1	ok	7.3252989859e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.9	tbub_c	ok	5.5124878299e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@x1=0.9	y1	ok	8.8190365102e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-methanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	acetone-methanol@x1=0.1	tbub_c	ok	6.2015080748e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-methanol@x1=0.3	tbub_c	ok	5.8340344848e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-methanol@x1=0.5	tbub_c	ok	5.6184652574e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-methanol@x1=0.7	tbub_c	ok	5.5093573700e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-methanol@x1=0.9	tbub_c	ok	5.5124878299e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	acetone-ethanol@x1=0.1	tbub_c	ok	7.1956002860e1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.1	y1	ok	2.9947952062e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.3	tbub_c	ok	6.4802433714e1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.3	y1	ok	5.7269514412e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.5	tbub_c	ok	6.1016380384e1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.5	y1	ok	7.0845848591e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.7	tbub_c	ok	5.8562532210e1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.7	y1	ok	8.1212469943e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.9	tbub_c	ok	5.6791808712e1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@x1=0.9	y1	ok	9.2617226746e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanol@flash	vapour_fraction	ok	1.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	acetone-ethanol@x1=0.1	tbub_c	ok	7.2998403062e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.1	y1	ok	2.6520579315e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.3	tbub_c	ok	6.6036938974e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.3	y1	ok	5.5377705169e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.5	tbub_c	ok	6.1635138308e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.5	y1	ok	7.1407295497e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.7	tbub_c	ok	5.8678112419e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.7	y1	ok	8.2547056439e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.9	tbub_c	ok	5.6678659940e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@x1=0.9	y1	ok	9.2947096181e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	acetone-ethanol@x1=0.1	tbub_c	ok	7.2998403062e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanol@x1=0.3	tbub_c	ok	6.6036938974e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanol@x1=0.5	tbub_c	ok	6.1635138308e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanol@x1=0.7	tbub_c	ok	5.8678112419e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanol@x1=0.9	tbub_c	ok	5.6678659940e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	methanol-ethanol@x1=0.1	tbub_c	ok	7.6085587927e1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.1	y1	ok	1.7613771754e-1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.3	tbub_c	ok	7.2369966002e1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.3	y1	ok	4.4414139303e-1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.5	tbub_c	ok	6.9449670701e1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.5	y1	ok	6.3984981248e-1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.7	tbub_c	ok	6.7139739939e1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.7	y1	ok	7.9435137826e-1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.9	tbub_c	ok	6.5303888933e1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@x1=0.9	y1	ok	9.3075418185e-1	Antoine+UNIFAC
+kerotakis	methanol-ethanol@flash	vapour_fraction	ok	1.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	methanol-ethanol@x1=0.1	tbub_c	ok	7.6677576090e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.1	y1	ok	1.5663212468e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.3	tbub_c	ok	7.3509066197e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.3	y1	ok	4.1832426885e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.5	tbub_c	ok	7.0665690095e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.5	y1	ok	6.2674895934e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.7	tbub_c	ok	6.8100223865e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.7	y1	ok	7.9615705483e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.9	tbub_c	ok	6.5767275548e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@x1=0.9	y1	ok	9.3729784657e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-ethanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	methanol-ethanol@x1=0.1	tbub_c	ok	7.6677576090e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-ethanol@x1=0.3	tbub_c	ok	7.3509066197e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-ethanol@x1=0.5	tbub_c	ok	7.0665690095e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-ethanol@x1=0.7	tbub_c	ok	6.8100223865e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	methanol-ethanol@x1=0.9	tbub_c	ok	6.5767275548e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	ethanol-propan-2-ol@x1=0.1	tbub_c	ok	8.1794108185e1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.1	y1	ok	1.1587847940e-1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.3	tbub_c	ok	8.0938794413e1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.3	y1	ok	3.3497512007e-1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.5	tbub_c	ok	8.0133146293e1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.5	y1	ok	5.3923508010e-1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.7	tbub_c	ok	7.9374493824e1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.7	y1	ok	7.3097430314e-1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.9	tbub_c	ok	7.8660404806e1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@x1=0.9	y1	ok	9.1242899239e-1	Antoine+UNIFAC
+kerotakis	ethanol-propan-2-ol@flash	vapour_fraction	ok	0.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	ethanol-propan-2-ol@x1=0.1	tbub_c	ok	8.1976875335e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.1	y1	ok	1.1015479050e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.3	tbub_c	ok	8.1315836689e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.3	y1	ok	3.2866213272e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.5	tbub_c	ok	8.0546118601e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.5	y1	ok	5.3825049658e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.7	tbub_c	ok	7.9708901957e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.7	y1	ok	7.3413541440e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.9	tbub_c	ok	7.8838772031e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@x1=0.9	y1	ok	9.1492394758e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-propan-2-ol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	ethanol-propan-2-ol@x1=0.1	tbub_c	ok	8.1976875335e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-propan-2-ol@x1=0.3	tbub_c	ok	8.1315836689e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-propan-2-ol@x1=0.5	tbub_c	ok	8.0546118601e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-propan-2-ol@x1=0.7	tbub_c	ok	7.9708901957e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	ethanol-propan-2-ol@x1=0.9	tbub_c	ok	7.8838772031e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	acetone-ethanoic-acid@x1=0.1	tbub_c	ok	1.0490563452e2	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.1	y1	ok	4.0494156515e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.3	tbub_c	ok	8.5981766930e1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.3	y1	ok	7.6532205116e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.5	tbub_c	ok	7.3214984468e1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.5	y1	ok	9.0055323732e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.7	tbub_c	ok	6.4473365803e1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.7	y1	ok	9.5895367769e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.9	tbub_c	ok	5.8589906418e1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@x1=0.9	y1	ok	9.8801914582e-1	Antoine+UNIFAC
+kerotakis	acetone-ethanoic-acid@flash	vapour_fraction	ok	0.0000000000e0	Antoine+UNIFAC
+feos-pcsaft	acetone-ethanoic-acid@x1=0.1	tbub_c	ok	1.0502490920e2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.1	y1	ok	3.8171320169e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.3	tbub_c	ok	8.8378447927e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.3	y1	ok	7.2876885956e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.5	tbub_c	ok	7.6002197457e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.5	y1	ok	8.8186142903e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.7	tbub_c	ok	6.6374573196e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.7	y1	ok	9.5492467629e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.9	tbub_c	ok	5.9047117517e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@x1=0.9	y1	ok	9.8993972165e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-ethanoic-acid@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+adapter	acetone-ethanoic-acid@x1=0.1	tbub_c	ok	1.0502490920e2	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanoic-acid@x1=0.3	tbub_c	ok	8.8378447927e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanoic-acid@x1=0.5	tbub_c	ok	7.6002197457e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanoic-acid@x1=0.7	tbub_c	ok	6.6374573196e1	feos PC-SAFT (BRD-030 spike adapter)
+adapter	acetone-ethanoic-acid@x1=0.9	tbub_c	ok	5.9047117517e1	feos PC-SAFT (BRD-030 spike adapter)
+kerotakis	hexane-ethanol@x1=0.1	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.1	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.3	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.3	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.5	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.5	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.7	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.7	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.9	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@x1=0.9	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-ethanol@flash	vapour_fraction	unavailable		no Antoine constants for hexane
+feos-pcsaft	hexane-ethanol@x1=0.1	tbub_c	ok	6.4822742109e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.1	y1	ok	4.6543231027e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.3	tbub_c	ok	5.9611914275e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.3	y1	ok	6.0799839092e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.5	tbub_c	ok	5.8822148336e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.5	y1	ok	6.3846010750e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.7	tbub_c	ok	5.8696394021e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.7	y1	ok	6.6231791592e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.9	tbub_c	ok	5.9760687519e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@x1=0.9	y1	ok	7.1981387312e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-ethanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	acetone-chloroform@x1=0.1	tbub_c	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.1	y1	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.3	tbub_c	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.3	y1	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.5	tbub_c	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.5	y1	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.7	tbub_c	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.7	y1	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.9	tbub_c	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@x1=0.9	y1	unavailable		no Antoine constants for chloroform
+kerotakis	acetone-chloroform@flash	vapour_fraction	unavailable		no Antoine constants for chloroform
+feos-pcsaft	acetone-chloroform@x1=0.1	tbub_c	ok	6.1999211780e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.1	y1	ok	7.0987376872e-2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.3	tbub_c	ok	6.3825015638e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.3	y1	ok	2.6514366050e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.5	tbub_c	ok	6.4142717920e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.5	y1	ok	5.2459758927e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.7	tbub_c	ok	6.2040508757e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.7	y1	ok	7.8155680740e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.9	tbub_c	ok	5.8131733584e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@x1=0.9	y1	ok	9.5302877064e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	acetone-chloroform@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	methanol-cyclohexane@x1=0.1	tbub_c	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.1	y1	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.3	tbub_c	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.3	y1	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.5	tbub_c	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.5	y1	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.7	tbub_c	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.7	y1	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.9	tbub_c	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@x1=0.9	y1	unavailable		no Antoine constants for cyclohexane
+kerotakis	methanol-cyclohexane@flash	vapour_fraction	unavailable		no Antoine constants for cyclohexane
+feos-pcsaft	methanol-cyclohexane@x1=0.1	tbub_c	ok	5.6409272505e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.1	y1	ok	5.6814859274e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.3	tbub_c	ok	5.4455079138e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.3	y1	ok	6.0916465698e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.5	tbub_c	ok	5.4334451909e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.5	y1	ok	6.1301188825e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.7	tbub_c	ok	5.4339155660e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.7	y1	ok	6.0834876911e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.9	tbub_c	ok	5.5475704351e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@x1=0.9	y1	ok	6.5461163514e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	methanol-cyclohexane@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	ethanol-toluene@x1=0.1	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.1	y1	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.3	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.3	y1	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.5	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.5	y1	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.7	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.7	y1	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.9	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@x1=0.9	y1	unavailable		no Antoine constants for toluene
+kerotakis	ethanol-toluene@flash	vapour_fraction	unavailable		no Antoine constants for toluene
+feos-pcsaft	ethanol-toluene@x1=0.1	tbub_c	ok	8.5482149970e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.1	y1	ok	5.5547227295e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.3	tbub_c	ok	8.0643518102e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.3	y1	ok	6.4765092898e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.5	tbub_c	ok	7.8797533996e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.5	y1	ok	6.9951436576e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.7	tbub_c	ok	7.7685575929e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.7	y1	ok	7.6355852110e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.9	tbub_c	ok	7.7534667024e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@x1=0.9	y1	ok	8.8248890207e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethanol-toluene@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	ethyl-ethanoate-ethanol@x1=0.1	tbub_c	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.1	y1	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.3	tbub_c	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.3	y1	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.5	tbub_c	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.5	y1	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.7	tbub_c	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.7	y1	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.9	tbub_c	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@x1=0.9	y1	unavailable		no Antoine constants for ethyl-ethanoate
+kerotakis	ethyl-ethanoate-ethanol@flash	vapour_fraction	unavailable		no Antoine constants for ethyl-ethanoate
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.1	tbub_c	ok	7.6380597156e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.1	y1	ok	1.6652147246e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.3	tbub_c	ok	7.3312740809e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.3	y1	ok	4.0848273209e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.5	tbub_c	ok	7.1821727620e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.5	y1	ok	5.5971781980e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.7	tbub_c	ok	7.1577539040e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.7	y1	ok	6.7450902416e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.9	tbub_c	ok	7.3056862829e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@x1=0.9	y1	ok	8.1357932053e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	ethyl-ethanoate-ethanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	hexane-heptane@x1=0.1	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.1	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.3	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.3	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.5	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.5	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.7	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.7	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.9	tbub_c	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@x1=0.9	y1	unavailable		no Antoine constants for hexane
+kerotakis	hexane-heptane@flash	vapour_fraction	unavailable		no Antoine constants for hexane
+feos-pcsaft	hexane-heptane@x1=0.1	tbub_c	ok	9.4201517112e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.1	y1	ok	2.0029868395e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.3	tbub_c	ok	8.6898718712e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.3	y1	ok	4.9912272779e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.5	tbub_c	ok	8.0708933627e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.5	y1	ok	7.0497318212e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.7	tbub_c	ok	7.5402349670e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.7	y1	ok	8.5101394955e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.9	tbub_c	ok	7.0799700751e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@x1=0.9	y1	ok	9.5746871503e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	hexane-heptane@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	pentane-hexane@x1=0.1	tbub_c	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.1	y1	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.3	tbub_c	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.3	y1	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.5	tbub_c	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.5	y1	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.7	tbub_c	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.7	y1	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.9	tbub_c	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@x1=0.9	y1	unavailable		no Antoine constants for pentane
+kerotakis	pentane-hexane@flash	vapour_fraction	unavailable		no Antoine constants for pentane
+feos-pcsaft	pentane-hexane@x1=0.1	tbub_c	ok	6.3221255582e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.1	y1	ok	2.3881498508e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.3	tbub_c	ok	5.4478958476e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.3	y1	ok	5.5078212582e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.5	tbub_c	ok	4.7826332244e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.5	y1	ok	7.4071027455e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.7	tbub_c	ok	4.2525553064e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.7	y1	ok	8.6807206718e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.9	tbub_c	ok	3.8103886963e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@x1=0.9	y1	ok	9.6126175419e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	pentane-hexane@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	toluene-heptane@x1=0.1	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.1	y1	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.3	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.3	y1	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.5	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.5	y1	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.7	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.7	y1	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.9	tbub_c	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@x1=0.9	y1	unavailable		no Antoine constants for toluene
+kerotakis	toluene-heptane@flash	vapour_fraction	unavailable		no Antoine constants for toluene
+feos-pcsaft	toluene-heptane@x1=0.1	tbub_c	ok	9.8722797992e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.1	y1	ok	8.8970044720e-2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.3	tbub_c	ok	9.9800761146e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.3	y1	ok	2.5679585974e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.5	tbub_c	ok	1.0141388765e2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.5	y1	ok	4.2125933997e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.7	tbub_c	ok	1.0379365734e2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.7	y1	ok	6.0076536634e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.9	tbub_c	ok	1.0757123090e2	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@x1=0.9	y1	ok	8.3429380299e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	toluene-heptane@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	carbon-dioxide-ethanol@x1=0.1	tbub_c	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.1	y1	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.3	tbub_c	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.3	y1	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.5	tbub_c	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.5	y1	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.7	tbub_c	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.7	y1	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.9	tbub_c	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@x1=0.9	y1	unavailable		no Antoine constants for carbon-dioxide
+kerotakis	carbon-dioxide-ethanol@flash	vapour_fraction	unavailable		no Antoine constants for carbon-dioxide
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.1	tbub_c	ok	-5.6538182816e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.1	y1	ok	9.9991970070e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.3	tbub_c	ok	-7.7409625263e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.3	y1	ok	9.9999596137e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.5	tbub_c	ok	-8.4092284435e1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.5	y1	ok	9.9999886290e-1	esper2023+rehner2023; needed 1 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.7	tbub_c	ok	-8.7086286918e1	esper2023+rehner2023; needed 2 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.7	y1	ok	9.9999946022e-1	esper2023+rehner2023; needed 2 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.9	tbub_c	ok	-8.8256524986e1	esper2023+rehner2023; needed 2 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@x1=0.9	y1	ok	9.9999966268e-1	esper2023+rehner2023; needed 2 restart(s)
+feos-pcsaft	carbon-dioxide-ethanol@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis	nitrogen-oxygen@x1=0.1	tbub_c	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.1	y1	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.3	tbub_c	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.3	y1	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.5	tbub_c	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.5	y1	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.7	tbub_c	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.7	y1	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.9	tbub_c	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@x1=0.9	y1	unavailable		no Antoine constants for nitrogen
+kerotakis	nitrogen-oxygen@flash	vapour_fraction	unavailable		no Antoine constants for nitrogen
+feos-pcsaft	nitrogen-oxygen@x1=0.1	tbub_c	ok	-1.8580615180e2	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.1	y1	ok	3.3389840695e-1	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.3	tbub_c	ok	-1.8953917448e2	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.3	y1	ok	6.5252175003e-1	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.5	tbub_c	ok	-1.9190457046e2	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.5	y1	ok	8.0505363846e-1	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.7	tbub_c	ok	-1.9365162481e2	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.7	y1	ok	8.9996876881e-1	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.9	tbub_c	ok	-1.9509088936e2	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@x1=0.9	y1	ok	9.7003255049e-1	esper2023+rehner2023; needed 7 restart(s)
+feos-pcsaft	nitrogen-oxygen@flash	vapour_fraction	unavailable		No phase split according to stability analysis.
+kerotakis-pr	water@300K,1000Pa	z_vapour	ok	9.9984991434e-1	THERMO-007
+kerotakis-pr	water@300K,1000Pa	molar_volume_m3_mol	ok	2.4939644209e0	THERMO-007
+kerotakis-pr	water@300K,1000Pa	phi	ok	9.9984993563e-1	THERMO-007
+feos-pr	water@300K,1000Pa	z_vapour	ok	9.9984991434e-1	feos_core::cubic
+feos-pr	water@300K,1000Pa	molar_volume_m3_mol	ok	2.4939644210e0	feos_core::cubic
+feos-pr	water@300K,1000Pa	phi	ok	9.9984993563e-1	feos_core::cubic
+kerotakis-pr	water@300K,101325Pa	z_vapour	ok	9.8458246780e-1	THERMO-007
+kerotakis-pr	water@300K,101325Pa	molar_volume_m3_mol	ok	2.4237673199e-2	THERMO-007
+kerotakis-pr	water@300K,101325Pa	phi	ok	9.8480618826e-1	THERMO-007
+feos-pr	water@300K,101325Pa	z_vapour	ok	9.8458246780e-1	feos_core::cubic
+feos-pr	water@300K,101325Pa	molar_volume_m3_mol	ok	2.4237673199e-2	feos_core::cubic
+feos-pr	water@300K,101325Pa	phi	ok	9.8480618826e-1	feos_core::cubic
+kerotakis-pr	water@300K,1013250Pa	z_vapour	ok	8.1774390956e-1	THERMO-007
+kerotakis-pr	water@300K,1013250Pa	molar_volume_m3_mol	ok	2.0130573404e-3	THERMO-007
+kerotakis-pr	water@300K,1013250Pa	phi	ok	8.4777851570e-1	THERMO-007
+feos-pr	water@300K,1013250Pa	z_vapour	ok	8.1774390956e-1	feos_core::cubic
+feos-pr	water@300K,1013250Pa	molar_volume_m3_mol	ok	2.0130573404e-3	feos_core::cubic
+feos-pr	water@300K,1013250Pa	phi	ok	8.4777851570e-1	feos_core::cubic
+kerotakis-pr	water@300K,10132500Pa	z_vapour	ok	8.6237992902e-2	THERMO-007
+kerotakis-pr	water@300K,10132500Pa	molar_volume_m3_mol	ok	2.1229387660e-5	THERMO-007
+kerotakis-pr	water@300K,10132500Pa	phi	ok	3.2313794611e-4	THERMO-007
+feos-pr	water@300K,10132500Pa	z_vapour	ok	8.6237992902e-2	feos_core::cubic
+feos-pr	water@300K,10132500Pa	molar_volume_m3_mol	ok	2.1229387661e-5	feos_core::cubic
+feos-pr	water@300K,10132500Pa	phi	ok	3.2313794611e-4	feos_core::cubic
+kerotakis-pr	water@500K,101325Pa	z_vapour	ok	9.9615206164e-1	THERMO-007
+kerotakis-pr	water@500K,101325Pa	molar_volume_m3_mol	ok	4.0870807196e-2	THERMO-007
+kerotakis-pr	water@500K,101325Pa	phi	ok	9.9616474918e-1	THERMO-007
+feos-pr	water@500K,101325Pa	z_vapour	ok	9.9615206164e-1	feos_core::cubic
+feos-pr	water@500K,101325Pa	molar_volume_m3_mol	ok	4.0870807197e-2	feos_core::cubic
+feos-pr	water@500K,101325Pa	phi	ok	9.9616474918e-1	feos_core::cubic
+kerotakis-pr	water@500K,5000000Pa	z_vapour	ok	7.7025941581e-1	THERMO-007
+kerotakis-pr	water@500K,5000000Pa	molar_volume_m3_mol	ok	6.4042931189e-4	THERMO-007
+kerotakis-pr	water@500K,5000000Pa	phi	ok	8.1356947333e-1	THERMO-007
+feos-pr	water@500K,5000000Pa	z_vapour	ok	7.7025941581e-1	feos_core::cubic
+feos-pr	water@500K,5000000Pa	molar_volume_m3_mol	ok	6.4042931191e-4	feos_core::cubic
+feos-pr	water@500K,5000000Pa	phi	ok	8.1356947333e-1	feos_core::cubic
+kerotakis-pr	ethanol@300K,1000Pa	z_vapour	ok	9.9965486005e-1	THERMO-007
+kerotakis-pr	ethanol@300K,1000Pa	molar_volume_m3_mol	ok	2.4934778894e0	THERMO-007
+kerotakis-pr	ethanol@300K,1000Pa	phi	ok	9.9965497097e-1	THERMO-007
+feos-pr	ethanol@300K,1000Pa	z_vapour	ok	9.9965486005e-1	feos_core::cubic
+feos-pr	ethanol@300K,1000Pa	molar_volume_m3_mol	ok	2.4934778895e0	feos_core::cubic
+feos-pr	ethanol@300K,1000Pa	phi	ok	9.9965497097e-1	feos_core::cubic
+kerotakis-pr	ethanol@300K,101325Pa	z_vapour	ok	9.6391002215e-1	THERMO-007
+kerotakis-pr	ethanol@300K,101325Pa	molar_volume_m3_mol	ok	2.3728775267e-2	THERMO-007
+kerotakis-pr	ethanol@300K,101325Pa	phi	ok	9.6511075376e-1	THERMO-007
+feos-pr	ethanol@300K,101325Pa	z_vapour	ok	9.6391002215e-1	feos_core::cubic
+feos-pr	ethanol@300K,101325Pa	molar_volume_m3_mol	ok	2.3728775267e-2	feos_core::cubic
+feos-pr	ethanol@300K,101325Pa	phi	ok	9.6511075376e-1	feos_core::cubic
+kerotakis-pr	ethanol@300K,1013250Pa	z_vapour	ok	2.5392370191e-2	THERMO-007
+kerotakis-pr	ethanol@300K,1013250Pa	molar_volume_m3_mol	ok	6.2508930492e-5	THERMO-007
+kerotakis-pr	ethanol@300K,1013250Pa	phi	ok	9.1293173210e-3	THERMO-007
+feos-pr	ethanol@300K,1013250Pa	z_vapour	ok	2.5392370191e-2	feos_core::cubic
+feos-pr	ethanol@300K,1013250Pa	molar_volume_m3_mol	ok	6.2508930493e-5	feos_core::cubic
+feos-pr	ethanol@300K,1013250Pa	phi	ok	9.1293173210e-3	feos_core::cubic
+kerotakis-pr	ethanol@300K,10132500Pa	z_vapour	ok	2.5257804697e-1	THERMO-007
+kerotakis-pr	ethanol@300K,10132500Pa	molar_volume_m3_mol	ok	6.2177667792e-5	THERMO-007
+kerotakis-pr	ethanol@300K,10132500Pa	phi	ok	1.1466234156e-3	THERMO-007
+feos-pr	ethanol@300K,10132500Pa	z_vapour	ok	2.5257804697e-1	feos_core::cubic
+feos-pr	ethanol@300K,10132500Pa	molar_volume_m3_mol	ok	6.2177667793e-5	feos_core::cubic
+feos-pr	ethanol@300K,10132500Pa	phi	ok	1.1466234156e-3	feos_core::cubic
+kerotakis-pr	ethanol@500K,101325Pa	z_vapour	ok	9.9305715481e-1	THERMO-007
+kerotakis-pr	ethanol@500K,101325Pa	molar_volume_m3_mol	ok	4.0743827245e-2	THERMO-007
+kerotakis-pr	ethanol@500K,101325Pa	phi	ok	9.9309348836e-1	THERMO-007
+feos-pr	ethanol@500K,101325Pa	z_vapour	ok	9.9305715481e-1	feos_core::cubic
+feos-pr	ethanol@500K,101325Pa	molar_volume_m3_mol	ok	4.0743827246e-2	feos_core::cubic
+feos-pr	ethanol@500K,101325Pa	phi	ok	9.9309348836e-1	feos_core::cubic
+kerotakis-pr	ethanol@500K,5000000Pa	z_vapour	ok	4.8326375141e-1	THERMO-007
+kerotakis-pr	ethanol@500K,5000000Pa	molar_volume_m3_mol	ok	4.0180783957e-4	THERMO-007
+kerotakis-pr	ethanol@500K,5000000Pa	phi	ok	6.7481097753e-1	THERMO-007
+feos-pr	ethanol@500K,5000000Pa	z_vapour	ok	4.8326375141e-1	feos_core::cubic
+feos-pr	ethanol@500K,5000000Pa	molar_volume_m3_mol	ok	4.0180783958e-4	feos_core::cubic
+feos-pr	ethanol@500K,5000000Pa	phi	ok	6.7481097753e-1	feos_core::cubic
+kerotakis-pr	nitrogen@300K,1000Pa	z_vapour	ok	9.9999565496e-1	THERMO-007
+kerotakis-pr	nitrogen@300K,1000Pa	molar_volume_m3_mol	ok	2.4943279474e0	THERMO-007
+kerotakis-pr	nitrogen@300K,1000Pa	phi	ok	9.9999565479e-1	THERMO-007
+feos-pr	nitrogen@300K,1000Pa	z_vapour	ok	9.9999565496e-1	feos_core::cubic
+feos-pr	nitrogen@300K,1000Pa	molar_volume_m3_mol	ok	2.4943279474e0	feos_core::cubic
+feos-pr	nitrogen@300K,1000Pa	phi	ok	9.9999565479e-1	feos_core::cubic
+kerotakis-pr	nitrogen@300K,101325Pa	z_vapour	ok	9.9956322862e-1	THERMO-007
+kerotakis-pr	nitrogen@300K,101325Pa	molar_volume_m3_mol	ok	2.4606457731e-2	THERMO-007
+kerotakis-pr	nitrogen@300K,101325Pa	phi	ok	9.9956156245e-1	THERMO-007
+feos-pr	nitrogen@300K,101325Pa	z_vapour	ok	9.9956322862e-1	feos_core::cubic
+feos-pr	nitrogen@300K,101325Pa	molar_volume_m3_mol	ok	2.4606457732e-2	feos_core::cubic
+feos-pr	nitrogen@300K,101325Pa	phi	ok	9.9956156245e-1	feos_core::cubic
+kerotakis-pr	nitrogen@300K,1013250Pa	z_vapour	ok	9.9594842512e-1	THERMO-007
+kerotakis-pr	nitrogen@300K,1013250Pa	molar_volume_m3_mol	ok	2.4517471355e-3	THERMO-007
+kerotakis-pr	nitrogen@300K,1013250Pa	phi	ok	9.9578186707e-1	THERMO-007
+feos-pr	nitrogen@300K,1013250Pa	z_vapour	ok	9.9594842512e-1	feos_core::cubic
+feos-pr	nitrogen@300K,1013250Pa	molar_volume_m3_mol	ok	2.4517471355e-3	feos_core::cubic
+feos-pr	nitrogen@300K,1013250Pa	phi	ok	9.9578186707e-1	feos_core::cubic
+kerotakis-pr	nitrogen@300K,10132500Pa	z_vapour	ok	9.8893547983e-1	THERMO-007
+kerotakis-pr	nitrogen@300K,10132500Pa	molar_volume_m3_mol	ok	2.4344832209e-4	THERMO-007
+kerotakis-pr	nitrogen@300K,10132500Pa	phi	ok	9.7328778642e-1	THERMO-007
+feos-pr	nitrogen@300K,10132500Pa	z_vapour	ok	9.8893547983e-1	feos_core::cubic
+feos-pr	nitrogen@300K,10132500Pa	molar_volume_m3_mol	ok	2.4344832210e-4	feos_core::cubic
+feos-pr	nitrogen@300K,10132500Pa	phi	ok	9.7328778642e-1	feos_core::cubic
+kerotakis-pr	nitrogen@500K,101325Pa	z_vapour	ok	1.0003016803e0	THERMO-007
+kerotakis-pr	nitrogen@500K,101325Pa	molar_volume_m3_mol	ok	4.1041060586e-2	THERMO-007
+kerotakis-pr	nitrogen@500K,101325Pa	phi	ok	1.0003014332e0	THERMO-007
+feos-pr	nitrogen@500K,101325Pa	z_vapour	ok	1.0003016803e0	feos_core::cubic
+feos-pr	nitrogen@500K,101325Pa	molar_volume_m3_mol	ok	4.1041060586e-2	feos_core::cubic
+feos-pr	nitrogen@500K,101325Pa	phi	ok	1.0003014332e0	feos_core::cubic
+kerotakis-pr	nitrogen@500K,5000000Pa	z_vapour	ok	1.0161885823e0	THERMO-007
+kerotakis-pr	nitrogen@500K,5000000Pa	molar_volume_m3_mol	ok	8.4490619801e-4	THERMO-007
+kerotakis-pr	nitrogen@500K,5000000Pa	phi	ok	1.0156603158e0	THERMO-007
+feos-pr	nitrogen@500K,5000000Pa	z_vapour	ok	1.0161885823e0	feos_core::cubic
+feos-pr	nitrogen@500K,5000000Pa	molar_volume_m3_mol	ok	8.4490619802e-4	feos_core::cubic
+feos-pr	nitrogen@500K,5000000Pa	phi	ok	1.0156603158e0	feos_core::cubic

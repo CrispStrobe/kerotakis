@@ -1,0 +1,316 @@
+{
+  "fields": {
+    "basis": {
+      "target_field": "material.basis",
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
+    },
+    "component.ascorbic_acid": {
+      "target_field": "material.component.ascorbic_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.citric_acid": {
+      "target_field": "material.component.citric_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.fructose": {
+      "target_field": "material.component.fructose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.glucose": {
+      "target_field": "material.component.glucose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.malic_acid": {
+      "target_field": "material.component.malic_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.starch": {
+      "target_field": "material.component.starch",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.sucrose": {
+      "target_field": "material.component.sucrose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "component.water": {
+      "target_field": "material.component.water",
+      "allowed_licences": [
+        "CC-BY-SA-4.0",
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "description": {
+      "target_field": "material.description",
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
+    },
+    "food_category": {
+      "target_field": "material.food_category",
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
+    },
+    "mineral_element.Ca": {
+      "target_field": "material.mineral_element.Ca",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Cu": {
+      "target_field": "material.mineral_element.Cu",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Fe": {
+      "target_field": "material.mineral_element.Fe",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.I": {
+      "target_field": "material.mineral_element.I",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.K": {
+      "target_field": "material.mineral_element.K",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Mg": {
+      "target_field": "material.mineral_element.Mg",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Mn": {
+      "target_field": "material.mineral_element.Mn",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Mo": {
+      "target_field": "material.mineral_element.Mo",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Na": {
+      "target_field": "material.mineral_element.Na",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.P": {
+      "target_field": "material.mineral_element.P",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Se": {
+      "target_field": "material.mineral_element.Se",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "mineral_element.Zn": {
+      "target_field": "material.mineral_element.Zn",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "publication_date": {
+      "target_field": "material.publication_date",
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
+    },
+    "spread.ascorbic_acid": {
+      "target_field": "material.spread.ascorbic_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.ash": {
+      "target_field": "material.spread.ash",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.citric_acid": {
+      "target_field": "material.spread.citric_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.dietary_fibre": {
+      "target_field": "material.spread.dietary_fibre",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.fat": {
+      "target_field": "material.spread.fat",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.fructose": {
+      "target_field": "material.spread.fructose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.galactose": {
+      "target_field": "material.spread.galactose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.glucose": {
+      "target_field": "material.spread.glucose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.lactose": {
+      "target_field": "material.spread.lactose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.malic_acid": {
+      "target_field": "material.spread.malic_acid",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.protein": {
+      "target_field": "material.spread.protein",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.starch": {
+      "target_field": "material.spread.starch",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.sucrose": {
+      "target_field": "material.spread.sucrose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "spread.water": {
+      "target_field": "material.spread.water",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.ash": {
+      "target_field": "material.unresolved.ash",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.dietary_fibre": {
+      "target_field": "material.unresolved.dietary_fibre",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.fat": {
+      "target_field": "material.unresolved.fat",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.galactose": {
+      "target_field": "material.unresolved.galactose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.lactose": {
+      "target_field": "material.unresolved.lactose",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.other_carbohydrate": {
+      "target_field": "material.unresolved.other_carbohydrate",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    },
+    "unresolved.protein": {
+      "target_field": "material.unresolved.protein",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_per_mass"
+    }
+  }
+}

@@ -1,0 +1,220 @@
+From b187b265aada5075ed1c8551623993498979829a Mon Sep 17 00:00:00 2001
+From: Kerotakis <cze@mailbox.org>
+Date: Sun, 30 Aug 2026 06:22:11 +0000
+Subject: [PATCH] mol2000: the V2000 writer can say 'no hydrogens' and 'this
+ isotope'
+
+A coordinate-less molecule written to V2000 loses two statements a bracket
+atom makes, and both change the structure a reader reconstructs:
+
+* An explicit hydrogen count. `[Mg]` means elemental magnesium; the atom
+  line's valence field stayed at 0 ('use the default valence'), so a reader
+  that honours the periodic-table default -- the IUPAC InChI reference
+  implementation among them -- reconstructs MgH2. `[C]` came back as
+  methane and `[S]` as hydrogen sulfide. The valence field is the one
+  channel V2000 has for this, with 15 as its spelling for zero, and it is
+  now written for every bracket atom (organic-subset atoms keep 0: their
+  hydrogen count *is* the default valence).
+
+* The isotope. Nothing was ever emitted, so every isotopologue wrote out as
+  its natural-abundance structure and heavy water became water. The atom
+  line's mass-difference field only reaches -3..=+4 and is superseded
+  wherever `M  ISO` appears, so the property line is what carries it.
+
+Both writers (2D and the 3D-conformer one) are fixed together.
+---
+ crates/chematic-mol/src/mol2000.rs | 128 +++++++++++++++++++++++++++--
+ 1 file changed, 123 insertions(+), 5 deletions(-)
+
+diff --git a/crates/chematic-mol/src/mol2000.rs b/crates/chematic-mol/src/mol2000.rs
+index 7ffeb0c..4f7f652 100644
+--- a/crates/chematic-mol/src/mol2000.rs
++++ b/crates/chematic-mol/src/mol2000.rs
+@@ -11,7 +11,7 @@
+ 
+ use chematic_core::{
+     Atom, AtomIdx, BondIdx, BondOrder, Chirality, Coords3D, Element, Molecule, MoleculeBuilder,
+-    Point3, STEREO_H_SENTINEL, SquarePlanarPermutation, StereoGeometry,
++    Point3, STEREO_H_SENTINEL, SquarePlanarPermutation, StereoGeometry, valence::bond_order_sum,
+ };
+ use chematic_perception::{
+     EzDirectionDiagnostic, StereoDiagnostic, apply_ez_directions_from_2d_ex,
+@@ -596,6 +596,57 @@ fn decode_charge(code: i8) -> i8 {
+ }
+ 
+ /// Encode a formal charge into a V2000 charge code.
++/// The V2000 atom-line valence field (`vvv`) for `idx`.
++///
++/// A bracket atom carries an *explicit* hydrogen count -- `[Mg]` means "no
++/// hydrogens", not "however many magnesium's default valence implies". The
++/// V2000 atom line has exactly one channel for that statement, the valence
++/// field: `0` means "use the periodic-table default", `1..=14` is the total
++/// valence, and `15` means zero. Leaving it at `0` is what makes a reader
++/// that honours the default valence table (the IUPAC InChI reference
++/// implementation among them) turn `[Mg]` into MgH2, `[C]` into methane and
++/// `[S]` into hydrogen sulfide.
++///
++/// Organic-subset atoms (`hydrogen_count == None`) keep `0`: their hydrogen
++/// count *is* the default valence, so saying so again would only add a field
++/// for readers to disagree about.
++fn valence_code(mol: &Molecule, idx: AtomIdx) -> u8 {
++    let Some(h) = mol.atom(idx).hydrogen_count else {
++        return 0;
++    };
++    let total = u16::from(bond_order_sum(mol, idx)) + u16::from(h);
++    match total {
++        0 => 15,
++        1..=14 => total as u8,
++        // Above 14 the field cannot say it; `0` (default) is the honest
++        // fallback rather than a truncated number.
++        _ => 0,
++    }
++}
++
++/// Append the `M  ISO` property lines for every isotopically labelled atom.
++///
++/// The atom line's own mass-difference field is limited to -3..=+4 relative
++/// to the most abundant isotope and is superseded by `M  ISO` wherever both
++/// appear, so the property line is the only channel that can carry, say,
++/// `[13C]` or `[2H]` without arithmetic. Without it every isotopologue
++/// writes out as the natural-abundance structure -- the deuterated solvents
++/// and labelled tracers all collapse onto one identifier.
++fn append_isotope_properties(out: &mut String, mol: &Molecule) {
++    let labelled: Vec<(u32, u16)> = mol
++        .atoms()
++        .filter_map(|(idx, atom)| atom.isotope.map(|iso| (idx.0 + 1, iso)))
++        .collect();
++    // The format allows at most 8 entries per `M  ISO` line.
++    for chunk in labelled.chunks(8) {
++        out.push_str(&format!("M  ISO{:>3}", chunk.len()));
++        for (atom_no, iso) in chunk {
++            out.push_str(&format!("{atom_no:>4}{iso:>4}"));
++        }
++        out.push('\n');
++    }
++}
++
+ fn encode_charge(charge: i8) -> u8 {
+     match charge {
+         3 => 1,
+@@ -1090,10 +1141,11 @@ pub fn write_mol_with_coords(
+     for (idx, atom) in mol.atoms() {
+         let sym = atom.element.symbol();
+         let charge_code = encode_charge(atom.charge);
++        let valence = valence_code(mol, idx);
+         let (x, y) = coords.get(idx.0 as usize).copied().unwrap_or((0.0, 0.0));
+         out.push_str(&format!(
+-            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0  0  0  0  0  0  0\n",
+-            x, y, 0.0_f64, sym, charge_code,
++            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0{:>3}  0  0  0  0  0\n",
++            x, y, 0.0_f64, sym, charge_code, valence,
+         ));
+     }
+ 
+@@ -1124,6 +1176,9 @@ pub fn write_mol_with_coords(
+         out.push_str(&format!("{:>3}{:>3}{:>3}{:>3}\n", a1, a2, btype, stereo));
+     }
+ 
++    // Properties
++    append_isotope_properties(&mut out, mol);
++
+     // Terminator
+     out.push_str("M  END\n");
+ 
+@@ -1178,14 +1233,15 @@ pub fn write_mol_with_conformer(
+     for (idx, atom) in mol.atoms() {
+         let sym = atom.element.symbol();
+         let charge_code = encode_charge(atom.charge);
++        let valence = valence_code(mol, idx);
+         let p = conformer
+             .points
+             .get(idx.0 as usize)
+             .copied()
+             .unwrap_or(Point3::zero());
+         out.push_str(&format!(
+-            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0  0  0  0  0  0  0\n",
+-            p.x, p.y, p.z, sym, charge_code,
++            "{:>10.4}{:>10.4}{:>10.4} {:<3} 0{:>3}  0  0  0{:>3}  0  0  0  0  0\n",
++            p.x, p.y, p.z, sym, charge_code, valence,
+         ));
+     }
+ 
+@@ -1207,6 +1263,8 @@ pub fn write_mol_with_conformer(
+         out.push_str(&format!("{:>3}{:>3}{:>3}{:>3}\n", a1, a2, btype, 0));
+     }
+ 
++    append_isotope_properties(&mut out, mol);
++
+     out.push_str("M  END\n");
+     out
+ }
+@@ -1627,6 +1685,66 @@ pub fn write_sdf_record_with_conformer_checked(
+ mod tests {
+     use super::*;
+ 
++    // ---- CAP-13: what a coordinate-less bracket atom has to be able to say ----
++
++    fn atom_line(molfile: &str, n: usize) -> String {
++        molfile.lines().nth(3 + n).expect("atom line").to_string()
++    }
++
++    /// `[Mg]` is elemental magnesium, not MgH2. The only V2000 channel that
++    /// can say so is the valence field, and `15` is its spelling for zero.
++    #[test]
++    fn a_bare_bracket_atom_writes_zero_valence() {
++        let mol = chematic_smiles::parse("[Mg]").expect("parse");
++        let molfile = write_mol(&mol, &MolMetadata::default());
++        // Field layout after the charge: sss hhh bbb vvv ...
++        assert_eq!(
++            &atom_line(&molfile, 0)[48..51],
++            " 15",
++            "atom line was: {:?}",
++            atom_line(&molfile, 0)
++        );
++    }
++
++    /// A bracket atom with bonds and an explicit H count states the total.
++    #[test]
++    fn a_bonded_bracket_atom_writes_its_total_valence() {
++        let mol = chematic_smiles::parse("O[Cu]O").expect("parse");
++        let molfile = write_mol(&mol, &MolMetadata::default());
++        assert_eq!(&atom_line(&molfile, 1)[48..51], "  2");
++    }
++
++    /// An organic-subset atom's hydrogen count *is* the default valence;
++    /// restating it would only give readers something to disagree about.
++    #[test]
++    fn an_organic_subset_atom_leaves_the_valence_field_alone() {
++        let mol = chematic_smiles::parse("CCO").expect("parse");
++        let molfile = write_mol(&mol, &MolMetadata::default());
++        assert_eq!(&atom_line(&molfile, 0)[48..51], "  0");
++    }
++
++    /// Heavy water is not water. The atom line's mass-difference field
++    /// cannot carry an arbitrary label, so `M  ISO` has to.
++    #[test]
++    fn isotopic_labels_write_an_m_iso_line() {
++        let mol = chematic_smiles::parse("[2H]O[2H]").expect("parse");
++        let molfile = write_mol(&mol, &MolMetadata::default());
++        assert!(
++            molfile.contains("M  ISO  2   1   2   3   2\n"),
++            "molfile was:\n{molfile}"
++        );
++        assert!(molfile.find("M  ISO") < molfile.find("M  END"));
++    }
++
++    /// Nothing isotopic, nothing written -- the property block stays empty
++    /// for the overwhelming majority of structures.
++    #[test]
++    fn an_unlabelled_molecule_writes_no_iso_line() {
++        let mol = chematic_smiles::parse("CCO").expect("parse");
++        let molfile = write_mol(&mol, &MolMetadata::default());
++        assert!(!molfile.contains("M  ISO"));
++    }
++
+     /// Minimal ethanol MOL V2000 block (CCO, 3 atoms, 2 bonds).
+     const ETHANOL_MOL: &str = "\
+ ethanol
+-- 
+2.43.0
+

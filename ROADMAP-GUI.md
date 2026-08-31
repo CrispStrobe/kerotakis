@@ -1315,6 +1315,19 @@ hide them completely.
   strictly between them; heating alone, isothermal mixing, endpoint results,
   and trace contributions cannot pass. One core separation lead and the
   optional safety audit remain procedural, so GUI-080 stays open.*
+  *Typed-leads slice shipped 2026-08-30: the last two procedural leads now
+  carry outcome contracts. "Separate the unknown mixture" is secured by the
+  engine's `chromatographed` peak table — at least three components at
+  chromatographic resolution ≥ 1, so co-eluting peaks honestly count as one
+  and a failed separation cannot pass on peak count. "Audit the abandoned
+  workbench" is secured by the safety layer's own warnings, recognised by a
+  new stable `rule` id carried on `HazardWarning` (additive protocol field,
+  untranslated across locales; prose matching is impossible by
+  construction) — four classic incompatibilities, each a separate criterion
+  that accumulates one experiment at a time. All four case leads are now
+  solver-assessed; what keeps GUI-080 open is the case-level transaction
+  (permanent instrument unlock + debrief) and the mission that accepts two
+  materially different valid solutions beyond silver-and-salt.*
 
 ### Phase G3 — Desktop
 
@@ -1530,6 +1543,11 @@ decorating it.
   tendrils dispersing to exactly the scene srgb; hexane onto water
   visibly separates into GUI-058's two layers; stir drives a vortex
   that decays; all kernels/projection/settle covered by vitest.
+  BRD-070 now types this boundary in `kerotakis_core::authority`: animations
+  propose cumulative endpoints with replay seeds, `Transferred` receipts alone
+  commit them, and reduced-motion/headless/background execution changes no
+  chemistry. Typed collision and spill destinations remain non-mutating until
+  BRD-073 supplies the chemistry-owned break/spill operators and events.
 - [x] **GUI-061 — Volume-true fills.** *Shipped 2026-08-25 (kero-basic, PR #36).* Fill height must come from the
   vessel kind's real capacity and geometry (a conical flask's height vs
   volume is not linear). Per-kind capacity_ml + a volume→height profile;
@@ -1665,8 +1683,23 @@ and presents them well.
   accepted command's typed events and before/after scenes without another
   engine call. The richer reactant, ionic-equation and concept/safety detail
   remains.
+  *Second slice 2026-08-30:* reactant chips, the concept and safety notes,
+  and the lv3 rule land, leaving only the ionic equation — which is GUI-092's
+  work and is deliberately not faked here. The chips are the left-hand side
+  of the engine's own balanced equation, split rather than looked up, so they
+  cannot disagree with the equation printed above them. The safety note is
+  the `hazard_warning` this same command raised (most severe wins); the
+  concept note is `inert.why` or `org_reacted.boundary` — the two events that
+  *explain* rather than report — and is absent when neither is there. The
+  equation itself now comes from anywhere in the accepted command rather than
+  from the one event that won the priority list, which is why a curated
+  precipitation showed none: `reaction_occurred` carries the equation and
+  `precipitated` wins the list. At lv3 the card is dropped entirely rather
+  than shrunk, because the machine view's feed already says exactly what the
+  card would say approximately. Still no second engine call. Five vitest
+  cases for the added fields.
 
-- [ ] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
+- [x] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
   Two labels the engine can already justify. A **class badge** — displacement,
   neutralisation, precipitation, combustion, decomposition — derived from the
   event stream, never authored per reaction, and absent rather than guessed
@@ -1679,6 +1712,22 @@ and presents them well.
   and electrolysis); unknown tags are not promoted to named reaction classes.
   A computed scene delta is shown when the target vessel's temperature really
   changed. Before/after temperature and confidence presentation remain.*
+  *Done 2026-08-30:* the card reads `25 °C → 90 °C` with a `+65 K` chip, from
+  `temperature_changed`'s own `from`/`to` where the engine reports the pair
+  and from the two scenes the command was computed between otherwise. Both
+  temperature carries GUI-023's encoding through `data-confidence`. The
+  class badge is drawn from a SECOND, smaller table than the operation
+  labels, which is where "absent rather than guessed" became enforced rather
+  than merely intended: most of what a bench does is not a reaction, so
+  stirring is honestly "mixing" and gets no class badge at all rather than
+  being promoted into a classification the engine never made. The first
+  attempt marked such tags `unknown`, and a test caught that the branch was
+  unreachable — every tag the priority list can return was already
+  classified, so the strictness existed only in the comment. A heat of
+  mixing is `modeled`, not `computed`, because
+  UNIFAC-derived hᴱ is a fitted model verified pair by pair (`hmix.rs`), and
+  a dashed border is the difference between the two claims. Nine vitest
+  cases, including one that fails if a confidence word ships without German.
 
 - [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
@@ -1705,13 +1754,30 @@ and presents them well.
   every experiment needs — water, heat, and the reagent last used — so the
   common path does not cross the whole screen.
 
-- [ ] **GUI-095 — Balancing as a generated exercise.** We balance by the null
+- [x] **GUI-095 — Balancing as a generated exercise.** We balance by the null
   space of the element-count matrix including charge, so we can *generate*
   practice rather than author it: take any equation the codex or a session
   produced, strip the coefficients, and mark the learner's answer against the
   solver — including telling them when their answer is a correct multiple but
   not the simplest whole-number ratio, which is the actual lesson. Unlimited,
   never wrong, and free of a hand-maintained question bank.
+  *Done 2026-08-30:* `balance` is a protocol command on both bindings
+  (PROTOCOL.md row; wasm `Lab::balance`, the native dispatch arm, both TS
+  hosts, and the conformance suite). It returns the solver's coefficients
+  **and the composition matrix they are the null space of**, which is the
+  design decision the whole item turns on: comparing a learner's numbers to
+  the solver's would mark `4 Mg + 2 O₂ → 4 MgO` wrong, and it is not wrong,
+  it is twice the answer. So the mark is arithmetic over the learner's own
+  vector — every entry a positive integer, `matrix · v = 0`, `gcd(v) = 1` —
+  which also names the element that is out and by how much, and which makes
+  the under-determined family fall out for free: `C + O₂ → CO + CO₂` has no
+  single right answer, and any primitive positive vector in its null space is
+  a correct balancing of a real reaction, marked correct and told it is one
+  of several. Coefficients on the input are stripped, so the codex's own
+  balanced equations set the question without leaking it, and the drill
+  prefers equations this session's bench actually produced. 19 vitest cases
+  on the marker and the question source, five Rust tests on the report, one
+  native-host test, eleven conformance assertions.
 
 - [x] **GUI-096 — The toolbox tools say what they are for.** *Done
   2026-08-29:* all seven relations carry `purpose`, `validity` and `source`
@@ -1735,11 +1801,210 @@ and presents them well.
   Ea and A constant across the fitted range, and Debye–Hückel's
   A = 0.5091 is water at 25 °C.
 
-- [ ] **GUI-097 — One shareable card per result.** The expanded report as a
+- [x] **GUI-097 — One shareable card per result.** The expanded report as a
   single image a learner can hand in or send: equation, observation, the
   numbers, the provenance line. We have notebook export and print, which are
   documents; this is one result, self-contained. Uses the existing chart
   export path, adds no new dependency.
+  *Done 2026-08-30:* the expanded latest-result disclosure exports one
+  deterministic, self-contained SVG or 2× PNG with the localized reaction
+  class and quantity labels, equation, observation, numeric results and the
+  event's provenance (or an explicit computed-event fallback). The SVG is
+  dependency-free, XML-escaped, bounded for long prose, and carries a title
+  and description for assistive technology. Vitest pins deterministic content,
+  escaping, bounds and safe filenames; the full Vite production build passes.*
+
+- [ ] **GUI-098 — Optional WebGPU presentation tier (BRD-094).** Keep the
+  authoritative engine and the shipped deterministic `fluidScene` unchanged.
+  Add a renderer-local capability boundary that may select a project-owned
+  WGSL effect only when WebGPU exists, the effect has been explicitly enabled,
+  motion is allowed and execution is neither headless nor backgrounded. The
+  accelerator consumes bounded Scene/Event data and returns no chemistry,
+  transfer, phase or temperature state. It performs no per-frame Tauri IPC or
+  GPU readback; device loss immediately returns to the lightweight renderer.
+  First implementation candidate must name one missing observable (smoke,
+  flame, foam or a genuinely 3-D pour) and beat BRD-072's baseline on the
+  low-end target. DoD: deterministic selection tests, WebGPU-absent/device-loss
+  fallback, reduced-motion/headless equivalence, shader licence/provenance,
+  payload and frame-budget measurements on web, Android, iOS, macOS and
+  Windows. Taichi and NanoVDB are not dependencies of this task.
+
+  **Owned execution tasklist (estimated 7–10 focused hours; each tranche is
+  independently mergeable):**
+
+  1. [x] **GPU-1 — Lifecycle and fail-closed fallback (2–3 h).** Add an
+     injected, framework-neutral adapter/device lifecycle with idempotent
+     start/stop, concurrent-start coalescing, stale-promise generations,
+     adapter/device rejection handling and immediate `device.lost` fallback.
+     **DoD:** no rejected promise escapes; late work cannot mutate stopped or
+     restarted state; each acquired device is destroyed at most once; SSR and
+     missing/malformed `navigator.gpu` are safe; focused lifecycle tests and
+     the production build pass.
+     *Done 2026-08-30:* structural (ambient-type-free) provider, adapter and
+     device interfaces; deterministic fallback for missing/rejected adapter or
+     device; coalesced starts; generation-guarded stop/restart; immediate
+     device-loss fallback and destroy-once cleanup. Fourteen focused GPU policy
+     and lifecycle tests plus the production Vite build pass.
+  2. [x] **GPU-2 — Dynamic environment policy (1–1.5 h).** Observe
+     `prefers-reduced-motion` and document visibility through injected,
+     disposable listeners. Stop GPU work on either constraint and permit a
+     restart only when the named effect remains approved. **DoD:** listener
+     cleanup is idempotent; background/reduced-motion transitions never alter
+     Scene/Event state; fake-media/document tests pin ordering and disposal.
+     *Done 2026-08-30:* an injected environment policy now observes reduced
+     motion and document visibility, gates restart on explicit effect approval,
+     and reconciles through the generation-safe GPU lifecycle. Tests pin
+     fallback-first ordering, background and approval transitions, duplicate
+     listener prevention, idempotent disposal and destruction of a device that
+     arrives after disposal. Seventeen focused lifecycle/policy tests and the
+     production Vite build pass.
+  3. [x] **GPU-3 — Ignition flame uniform plan (1–1.5 h).** Map only a live
+     authoritative `ignite` effect, its bounded magnitude, curated flame
+     colour and vessel identity to clamped visual uniforms and a deterministic
+     seed. Do not infer flame from temperature alone. **DoD:** absent ignite is
+     inactive; magnitude is monotone and bounded; known colours map exactly;
+     unknown colour falls back safely; reduced motion is inactive; no engine
+     schema, chemistry state, IPC or GPU readback changes.
+     *Done 2026-08-30:* a pure renderer-local projection activates only for a
+     live `ignite` effect, clamps non-finite/out-of-range magnitude, maps all
+     eleven emitted curated flame colours to bounded sRGB, and derives a stable
+     presentation-only seed from vessel identity. Unknown colours use a fixed
+     safe fallback and reduced motion disables the effect. Thirty-one focused
+     uniform tests and the production Vite build pass.
+  4. [x] **GPU-4a — Shader ABI and fail-closed renderer core (2–3 h).** Define
+     one canonical 32-byte WGSL uniform layout and a renderer adapter that keeps
+     SVG visible through acquisition, configuration and first presentation.
+     **DoD:** project-owned source carries an auditable Nguyen/Fedkiw/Jensen DOI
+     and explicit independent-implementation notice; dimensions, animation
+     time, intensity, colour and seed are finite and bounded; inactive effects
+     schedule nothing; device replacement, canceled-but-delivered frames,
+     presentation failure and exceptions cannot hide SVG or fork render loops;
+     partial GPU resources are destroyed; deterministic ABI snapshots pass;
+     no app-owned hot-path buffer/callback/submission allocation, IPC or
+     readback.
+     *Done 2026-08-30:* the analytic flame shader, canonical buffer writer,
+     generation-guarded adapter and structural canvas surface are implemented.
+     Independent reviews found and integration fixed an ABI mismatch, stale-RAF
+     race, hidden-fallback failure, unbounded time/dimensions and partial-build
+     leak. Focused tests exercise compilation-info rejection, pipeline
+     submission, stale asynchronous configuration, resource cleanup and every
+     fallback edge. GPU-4 remains open pending the real browser compiler gate.
+  5. [x] **GPU-4b — Browser compiler and bounded canvas host (2–3 h).** Add one
+     concrete, SSR-safe browser host around the surface with an injected
+     preferred-format seam and fixed 48×56 logical target. Cap DPR/pixel size,
+     set `aria-hidden` and `pointer-events:none`, and expose an atomic policy +
+     lifecycle snapshot so one bench-owned device can serve presentation.
+     **DoD:** a real WebGPU shader-module compilation-info check runs where an
+     adapter exists; missing context/format/compiler, resize, setup rejection,
+     device loss, reduced motion and backgrounding all retain SVG; canvas and
+     resources are bounded and cleanup is idempotent; SSR and fake-browser
+     component tests plus full frontend/build gates pass.
+     *Done 2026-08-30:* the single policy-owned lifecycle now publishes atomic
+     lifecycle/decision/format snapshots to disposable subscribers; format
+     resolution is allowlisted, exception-safe and never guessed. The surface
+     refuses to allocate a pipeline when browser compilation information is
+     absent or reports an error. An SSR-safe 48×56 ignition canvas host caps DPR
+     at 2×, owns no pointer or accessibility interaction, and derives uniforms
+     only from the authoritative effect. Tests cover snapshot ordering,
+     subscription disposal, hostile observers/destructors, format failures,
+     compiler rejection, canvas bounds and fallback-first markup. Ninety-three
+     focused GPU tests, all 411 frontend tests, production build and the licence
+     gate pass. Physical browser/device measurements remain GPU-5b work.
+  6. [x] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
+     fallback-first ignition overlay at the existing vessel flame endpoint.
+     A live `ignite` effect is the sole GPU and SVG combustion authority;
+     temperature retains separate glow/steam visuals and `flame_test` remains
+     separate.
+     **DoD:** exactly one bench device acquisition, independent per-vessel
+     surfaces, SVG retained until each surface's first successful frame,
+     inactive/expired effects cancel all frames, no pointer/tab/a11y ownership,
+     simultaneous-vessel and hot-without-ignite regressions, no Scene/Event,
+     chemistry, IPC or readback changes; merge as its own checkpoint.
+     *Done 2026-08-30:* Bench owns one fail-closed browser environment policy
+     and publishes the same atomic device snapshot to every vessel. Acquisition
+     begins only while at least one authoritative ignite effect is live, stays
+     shared across simultaneous vessels, and is revoked at the final exact
+     expiry through one bounded bench clock. Each vessel owns an independent 48×56
+     surface and retains its SVG until that surface submits its first frame;
+     expiry, loss or presentation failure restores SVG without affecting the
+     separate thermal presentation. Headless, incomplete-browser, flame-test and
+     heat-only cases acquire no GPU. Pure authority, shared-device, source-
+     ownership and endpoint regressions accompany the full frontend/build and
+     licence gates. Preliminary production-bundle delta versus GPU-4b is
+     +14.7 kB minified / +5.7 kB gzip; physical frame and host measurements
+     remain GPU-5b work.
+  7. [ ] **GPU-5b — Release instrumentation and host matrix (2–3 h plus device
+     lab).** Measure payload, startup, first-frame time and p95 frame time
+     against BRD-072's 9 ms governor. **DoD:** full Vitest/Vite/preflight gates;
+     WebGPU absent, compile failure, device loss, headless, background and
+     reduced-motion cases retain the SVG endpoint; web/Android/iOS/macOS/Windows
+     results recorded; shader similarity/provenance review complete. GUI-098
+     remains open until this cross-host matrix passes.
+     - [x] Code checkpoint: bounded allocation-free renderer telemetry, strict
+       five-host release evaluator, deterministic asset measurement, physical-
+       evidence schema/audit and repeatable browser probe are implemented with
+       unit coverage. No physical result is inferred from CI or headless runs.
+     - [ ] Lab checkpoint: collect and independently review physical web,
+       Android, iOS, macOS and Windows artifacts; the committed template and
+       matrix deliberately remain PENDING until those runs exist.
+  8. [ ] **GPU-6 — Runtime-to-release evidence pipeline (10–13 h).** Close the
+     gap between the renderer's bounded telemetry and the physical release
+     artifacts. This is four independently mergeable checkpoints; none may
+     turn CI, a simulator or an unavailable adapter into physical evidence.
+     - [x] **GPU-6a — Runtime metrics ownership (2–3 h).** Inject a real
+       collector into every active flame renderer and expose one bounded,
+       renderer-local report seam. **DoD:** simultaneous vessels remain
+       bounded; disposal removes sessions; SSR and hostile observers are safe;
+       no per-frame IPC/readback/allocation or Scene/Event authority changes;
+       focused and full frontend/build gates pass.
+       *Done 2026-08-31:* one bench-owned, injectable registry opens a bounded
+       session for each mounted vessel flame and passes its preallocated
+       collector into the real renderer. The 32-session cap evicts only
+       diagnostics, never presentation; unmount and bench disposal reset and
+       remove sessions. Snapshots aggregate detached scalar reports, and
+       hostile factories, snapshot/reset hooks and report observers are
+       contained. Forty-six focused tests and the production build pass;
+       candidate JavaScript is 599.48 kB minified / 199.66 kB gzip. The
+       physical probe/export handshake remains GPU-6d.
+     - [x] **GPU-6b — Probe contract hardening (2–3 h).** Validate raw startup,
+       warmup, CPU submission, rAF and unavailable-adapter artifacts before
+       evaluation. **DoD:** malformed versions/modes/counts/non-finite samples
+       and incomplete reports fail closed with deterministic CLI exit codes;
+       a single host can never claim matrix passage; Node contract tests pass.
+       *Done 2026-08-31:* the evaluator now validates the raw v1 artifact
+       instead of trusting its summaries. Exact ten-run startup arrays, three
+       60+600-frame CPU/rAF runs, explicit mode/availability, SVG-before-GPU
+       proof and pass/outcome consistency are required. Lightweight evidence
+       cannot claim GPU availability; unavailable/headless evidence is valid
+       but exits non-zero and cannot pass. Missing/malformed CLI modes are
+       usage errors. Twenty-six offline release-tool tests pass.
+     - [x] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
+       probe, evaluator and provenance self-tests one dependency-free command
+       and run it in CI/preflight. **DoD:** no browser, GPU, network or physical
+       claim is required; a failing self-test blocks CI; local and CI commands
+       are identical.
+       *Done 2026-08-31:* `tools/test-gpu-release-tools.sh` is the single local,
+       preflight and CI entrypoint for deterministic asset, probe, evaluator
+       and provenance tests. The dedicated CI job pins Node 22 and explicitly
+       excludes physical measurement and matrix claims. Twenty-six offline
+       tests pass through the exact command CI invokes.
+     - [x] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
+       paired baseline/candidate probes, asset reports and provenance hashes in
+       one versioned manifest. **DoD:** executable fixtures prove schema and
+       hash consistency, bounded runtime aggregation and five unique physical
+       rows; payload/startup/frame thresholds remain explicit; full repository
+       gates and protected-main delivery pass.
+       *Done 2026-08-31 (code; lab remains pending):* a synchronous request-only
+       browser handshake returns the bench registry's detached v1 snapshot and
+       is removed on teardown. Available-GPU artifacts must cross-check at
+       least one successful app-owned presentation, internally consistent
+       aggregate/session counts, at most 32 sessions and 120 retained samples
+       per session. The version-2 matrix requires five explicit physical rows,
+       reviewer/time metadata and SHA-256 descriptors for every paired probe,
+       asset report and the reviewed WGSL source; path escapes, tampering and
+       provenance failures block passage. Twenty-eight offline tests, seven
+       registry tests and the production build pass. This completes the
+       evidence pipeline, not the still-PENDING physical device matrix.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
@@ -1762,27 +2027,57 @@ in a German classroom — which is the audience the curriculum mapping in
   misconception diagnosis that misstates the misconception is worse than an
   English one.
 
-- [ ] **I18N-2 — The map screen's own vocabulary.** English-only today, and
-  the reason is structural: neither a concept nor an entry has a label field.
-  The component de-slugs an identifier and asks the dictionary —
-  `t("activation energy")` — so the German has to land in the dictionary,
-  keyed exactly as the component asks.
+- [x] **I18N-2 — The map screen's own vocabulary.** The reason it was hard is
+  structural: neither a concept nor an entry has a label field. The component
+  de-slugs an identifier and asks the dictionary — `t("activation energy")` —
+  so the German has to land in the dictionary, keyed exactly as the component
+  asks.
 
   `codex/concepts.toml` does not help, despite carrying `label_de`: it is the
   oeh curriculum spine, whose ids are German slugs
-  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 155** concept slugs
+  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 157** concept slugs
   the entries use appears in it. The two vocabularies were never the same one.
 
-  So: 153 concept labels and 103 experiment names, 256 keys. Concept labels
-  are terminology and want the established German term over a paraphrase;
-  experiment names are written as small provocations ("why the shelf is not
-  on fire") and want that voice carried rather than flattened into textbook
-  headings. Different jobs, done separately.
+  Concept labels are terminology and want the established German term over a
+  paraphrase; experiment names are written as small provocations ("why the
+  shelf is not on fire") and want that voice carried rather than flattened
+  into textbook headings. Different jobs, done separately.
 
-- [ ] **I18N-3 — Engine vocabulary coverage.** `DE_TERMS` translates species,
-  colours, hazards and lesson names. Add a gate that fails when the engine can
-  emit a term the dictionary does not carry, so a new species cannot silently
-  ship an English name into a German sentence.
+  **2026-08-30.** Done, and the interesting part is what "done" turned out to
+  mean. Measured mechanically rather than read off this entry, 256 of the 260
+  keys were already in `de.json` — the vocabulary had shipped inside the big
+  literal map before the bundles were split, and this entry had been counting
+  a screen nobody had re-measured. Four were missing: `heterogeneous
+  catalysis`, `mass transfer`, `surface area` and the experiment name
+  `catalyst area and stirring change the rate`, all of them arriving with one
+  `rates.toml` entry, none of them noticed, because `t()` falls back to its
+  argument and an English node inside a German map fails nothing. That is the
+  failure mode this file names five times over.
+
+  The other direction found two. Walking every slug the codex has ever
+  carried against the slugs it carries now, `unmodelled-variable` and
+  `more-catalyst-and-a-good-stir-change-nothing` were retired by that same
+  entry and their German stayed behind — still asserting that stirring
+  changes nothing, months after the engine learned that it does. Removed:
+  a key translating nothing is an error, not a spare.
+
+  So the durable half is `tools/i18n-slug-lint.py`, in `preflight.sh`: it
+  derives the key set from the codex fields the components actually read
+  (`id`, `concepts`, `requires`, `apparatus`, `models` — never
+  `calculations`, which nothing renders), and fails when German has no word
+  for one, or answers with the English key. It pins its own assumption to
+  `tSlug`'s source, so changing the de-slugging fails the lint rather than
+  silently invalidating it. 308 slugs, 308 answered.
+
+- [x] **I18N-3 — Engine vocabulary coverage.** The `terms` map in
+  `web/app/src/locales/de.json` translates species, colours, hazards and lesson
+  names through the locale-bundle loader. Done 2026-08-30: the preflight
+  vocabulary gate derives all 267 substitutable terms from the registry,
+  colour emitter, safety labels, lesson files, and the renderer's value-lookup
+  tables; no duplicate allow-list exists. Its self-test injects a new registry
+  species and proves the audit fails, pins the SpeciesChip/Vessel/lesson
+  substitution call sites, and the complete current tree passes with zero
+  uncovered terms.
 
 - [ ] **I18N-4 — Locale-complete store presence.** German App Store and Play
   listings, German "what to test", and the German privacy policy already at

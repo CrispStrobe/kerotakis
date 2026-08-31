@@ -130,6 +130,17 @@ pub fn equilibrate_tp(
         .collect();
 
     // Only species entirely composed of budgeted elements can appear.
+    //
+    // A condensed phase additionally exists in this solve only where its
+    // data does. `interval_for` clamps to the nearest interval rather than
+    // refusing — right for reading a feed enthalpy near its range edge,
+    // catastrophically wrong for judging phase stability: the liquid-water
+    // polynomial extrapolated to 3125 K says liquid is the stable phase of
+    // steam, and a hydrogen flame then "converges" onto boiling-hot
+    // H2O(L) or, worse, never converges at all (curiosity th-034). Gases
+    // keep their historical clamped treatment: their records span the
+    // whole working range, and a pool that loses its only carrier of an
+    // element would turn a data gap into a silent element sink.
     let pool: Vec<&Species> = candidates
         .iter()
         .copied()
@@ -138,6 +149,7 @@ pub fn equilibrate_tp(
                 && s.composition
                     .keys()
                     .all(|el| elements.iter().any(|e| e == el))
+                && (s.is_gas() || s.t_range().is_some_and(|(lo, hi)| t >= lo && t <= hi))
         })
         .collect();
     if pool.is_empty() {
@@ -208,6 +220,18 @@ pub fn equilibrate_tp(
     // iterations.
     let mut admissions = vec![0u8; pool.len()];
 
+    // How often a singular linear solve has been repaired by re-seeding a
+    // crushed gas carrier (see the rescue below). Capped so a genuinely
+    // degenerate problem cannot cycle seed → crush → seed forever.
+    let mut rescues = 0u8;
+    // Once a rescue has fired, extinction is rate-limited too (see the λ
+    // loop): the same violent transient that crushed the species once
+    // will otherwise crush the re-seeded copy in a single step and the
+    // solve cycles instead of converging. The guard is armed only after
+    // a rescue so every problem that never goes singular keeps its exact
+    // current iteration path.
+    let mut decay_guard = false;
+
     // Which elements a gas can carry at all. An element with no gaseous
     // form — calcium in a limestone kiln — lives entirely in the condensed
     // phases, so the last solid holding it may not leave: its balance row
@@ -232,7 +256,13 @@ pub fn equilibrate_tp(
     let mut d_ln = vec![0.0f64; pool.len()];
     let mut gas_ni = vec![0.0f64; nel];
 
-    for iteration in 0..400 {
+    // 400 iterations is generous for a healthy problem; a rescued one pays
+    // for its guarded, slower steps with a larger budget. Only solves that
+    // actually went singular — which today fail outright — ever see the
+    // extra iterations, so no other problem's outcome can move.
+    let mut iteration = 0usize;
+    while iteration < if decay_guard { 1200 } else { 400 } {
+        iteration += 1;
         let dim = nel + active_cond.len() + 1;
         let stride = dim + 1;
         m_flat[..dim * stride].fill(0.0);
@@ -290,10 +320,48 @@ pub fn equilibrate_tp(
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
         if !solve_flat(&mut m_flat, dim, stride) {
-            // Singular. This happens when one condensed phase is the sole
-            // repository of every element and the gas phase has collapsed:
-            // the element rows then differ only by a stoichiometric factor
-            // in that phase's single column, so the multipliers are
+            // Singular. Two distinct situations land here.
+            //
+            // The repairable one: a Newton transient crushed a gas species
+            // the element balance still needs. A cold H2/O2/air charge
+            // (curiosity th-034) drives O2 and H2 to the trace floor within
+            // a few iterations, leaving only saturated carriers — CO2, H2O,
+            // N2 — whose compositions are linearly dependent (every
+            // survivor's O content is exactly 2·C + H/2), while the oxygen
+            // budget cannot fit that subspace. The rows are then dependent
+            // but the RHS is not: no step exists, though the equilibrium —
+            // with its leftover O2 — certainly does. Re-seed the most
+            // stable crushed carrier of each under-carried element with the
+            // missing amount and iterate on; this touches only states the
+            // solve had already failed on, so every previously converging
+            // problem is bit-identical.
+            let mut reseeded = false;
+            if rescues < 8 {
+                // Re-seed every gas species sitting at the trace floor with
+                // the same kind of trace the condensed admission uses. The
+                // seeds are far below the balance tolerance, but they put
+                // every composition direction back into the row space, so
+                // the multipliers become determined again; Newton then
+                // grows the ones the equilibrium wants (that leftover O2)
+                // and re-extinguishes the rest.
+                let seed = (total_budget * 1e-9).max(1e-14);
+                for &i in &gas {
+                    if n[i] < seed {
+                        n[i] = seed;
+                        reseeded = true;
+                    }
+                }
+            }
+            if reseeded {
+                rescues += 1;
+                decay_guard = true;
+                n_total = gas.iter().map(|&i| n[i]).sum::<f64>().max(TRACE);
+                continue;
+            }
+            // The genuine one: one condensed phase is the sole repository
+            // of every element and the gas phase has collapsed — the
+            // element rows differ only by a stoichiometric factor in that
+            // phase's single column, so the multipliers are
             // underdetermined. The composition is not in doubt there, but
             // this formulation cannot produce it, and saying so is better
             // than returning whichever answer the arithmetic fell into.
@@ -316,6 +384,13 @@ pub fn equilibrate_tp(
         for &i in &gas {
             if d_ln[i] > 0.0 {
                 lambda = lambda.min(2.0 / d_ln[i].abs().max(2.0));
+            } else if decay_guard && n[i] > TRACE * 10.0 {
+                // After a rescue: a species may fall by at most three
+                // decades per iteration, so a stiff transient can no
+                // longer erase in one step the very carrier whose absence
+                // made the matrix singular. Legitimate extinction still
+                // completes in a handful of iterations.
+                lambda = lambda.min(6.9 / d_ln[i].abs().max(6.9));
             }
         }
         // A condensed phase being driven out must not be allowed to freeze
@@ -413,7 +488,7 @@ pub fn equilibrate_tp(
             }
         }
     }
-    Err(CeaError::NotConverged(400))
+    Err(CeaError::NotConverged(if decay_guard { 1200 } else { 400 }))
 }
 
 fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibrium {
@@ -464,18 +539,78 @@ pub fn equilibrate_hp(
 ) -> Result<Equilibrium, CeaError> {
     // Bisection on T: H(T) rises monotonically, so this is robust where a
     // Newton step on a stiff flame problem is not.
+    //
+    // The bracket endpoints are not the flame problem. An ignited H2/O2
+    // charge at 250 K is frozen chemistry evaluated only to anchor the
+    // search, and it is exactly where the equilibrium constants are most
+    // savage (e^Δμ/RT in the hundreds) and the minimiser most likely to
+    // stall. A convergence failure at a cold bracket point therefore does
+    // not doom the flame solve: raise the floor until a temperature
+    // converges, and treat a failing midpoint as belonging to the cold,
+    // stiff side. This extends the existing convention — "colder than the
+    // data supports; honest floor" — from data range to convergence range.
+    let dbg = std::env::var("KERO_CEA_DEBUG").is_ok();
     let (mut lo, mut hi) = (250.0f64, 6000.0f64);
-    let mut last = equilibrate_tp(budget, candidates, lo, pressure_bar)?;
+    let mut last = loop {
+        match equilibrate_tp(budget, candidates, lo, pressure_bar) {
+            Ok(eq) => {
+                if dbg {
+                    eprintln!(
+                        "HP floor {lo:.0} K ok, H={:.3e} vs target {enthalpy:.3e}",
+                        eq.enthalpy
+                    );
+                }
+                break eq;
+            }
+            // 250 → 400 → 640 → 1024 → 1638 K; a charge whose equilibrium
+            // cannot be computed anywhere below the search midpoint is
+            // genuinely unsolved and keeps its honest error.
+            Err(_) if lo < 2000.0 => {
+                if std::env::var("KERO_CEA_DEBUG").is_ok() {
+                    eprintln!("HP floor {lo:.0} K failed, raising");
+                }
+                lo *= 1.6;
+            }
+            Err(e) => return Err(e),
+        }
+    };
     if last.enthalpy > enthalpy {
         return Ok(last); // colder than the data supports; honest floor
     }
+    let mut failed_mids = 0u8;
     for _ in 0..60 {
         let mid = 0.5 * (lo + hi);
-        last = equilibrate_tp(budget, candidates, mid, pressure_bar)?;
-        if last.enthalpy < enthalpy {
-            lo = mid;
-        } else {
-            hi = mid;
+        match equilibrate_tp(budget, candidates, mid, pressure_bar) {
+            Ok(eq) => {
+                if dbg {
+                    eprintln!("HP mid {mid:.0} K ok, H={:.3e}", eq.enthalpy);
+                }
+                last = eq;
+                if last.enthalpy < enthalpy {
+                    lo = mid;
+                } else {
+                    hi = mid;
+                }
+            }
+            Err(e) => {
+                failed_mids += 1;
+                if dbg {
+                    eprintln!("HP mid {mid:.0} K FAILED ({e})");
+                }
+                if failed_mids > 8 {
+                    return Err(e);
+                }
+                match e {
+                    // Representability has a ceiling, not a floor: every
+                    // condensed record ends somewhere, and above the last
+                    // one an element with no gaseous form has no carrier.
+                    // The answer, if the pool holds one, lies below.
+                    CeaError::NoSpecies | CeaError::OutOfRange(_, _) => hi = mid,
+                    // Stiffness lives on the cold side, where the
+                    // equilibrium constants are most savage.
+                    _ => lo = mid,
+                }
+            }
         }
         if hi - lo < 0.5 {
             break;

@@ -267,8 +267,14 @@ describe("effectFromEvent", () => {
   it("maps an engine-confirmed transfer to a spatial pour scaled by its fraction", () => {
     const small = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.1 });
     const large = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.9 });
-    expect(small).toMatchObject({ kind: "pour", source: 0, target: 2 });
+    expect(small).toMatchObject({ kind: "pour", source: 0, target: 2, acceptedTransferFraction: 0.1 });
+    expect(large).toMatchObject({ acceptedTransferFraction: 0.9 });
     expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
+  });
+
+  it("does not invent an accepted transfer fraction from malformed engine data", () => {
+    expect(effectFromEvent({ event: "transferred", from: 0, to: 1, fraction: 2 }))
+      .toMatchObject({ kind: "pour", acceptedTransferFraction: 0 });
   });
 
   it("uses the computed temperature delta for heating and cooling", () => {
@@ -286,6 +292,26 @@ describe("effectFromEvent", () => {
     expect(justOver!.kind).toBe("burst");
     expect(severe!.magnitude).toBeGreaterThan(justOver!.magnitude);
     expect(effectFromEvent({ event: "hazard_warning", severity: "danger" })).toBeNull();
+  });
+
+  it("maps accepted spill and breakage events without inferring chemistry", () => {
+    const spill = effectFromEvent({
+      event: "spill_created", source: 2, fraction: .4,
+      destination: { surface: "bench", zone: "react" },
+    });
+    expect(spill).toMatchObject({
+      kind: "spill", source: 2, acceptedTransferFraction: .4,
+      spill: { surface: "bench", location: "react", fraction: .4 },
+    });
+    const broken = effectFromEvent({
+      event: "container_broken", vessel: 2, impulse_ns: 4,
+      destination: { surface: "tray", tray: "catch-1" },
+    });
+    expect(broken).toMatchObject({
+      kind: "break", source: 2,
+      spill: { surface: "tray", location: "catch-1", fraction: 1 },
+    });
+    expect(broken!.magnitude).toBeGreaterThan(0);
   });
 
   it("maps a computed cell voltage to a wired two-vessel rig", () => {

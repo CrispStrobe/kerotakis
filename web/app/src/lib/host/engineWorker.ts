@@ -29,12 +29,14 @@ type Lab = {
   restore(snapshot: string): void;
   relations(): string;
   calc(name: string, argsJson: string): string;
+  balance(equation: string): string;
   setRegister(level: string): void;
   setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
   state(): string;
   species(): string;
+  element_coverage(): string;
   inspect(vessel: number): string;
   particles(vessel: number): string;
   reset(): void;
@@ -172,6 +174,9 @@ onmessage = async (ev: MessageEvent) => {
       case "relations":
         done(id, lab.relations());
         break;
+      case "balance":
+        done(id, lab.balance(String(msg.equation)));
+        break;
       case "quest_start":
         lab.questStart(String(msg.spec_json));
         done(id, "{}");
@@ -212,6 +217,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "species":
         done(id, lab.species());
+        break;
+      case "element_coverage":
+        done(id, lab.element_coverage());
         break;
       case "inspect":
         done(id, lab.inspect(Number(msg.vessel)));
