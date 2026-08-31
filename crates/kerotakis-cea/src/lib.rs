@@ -10,6 +10,7 @@
 
 pub mod gibbs;
 pub mod nasa9;
+pub mod scoped_ideal_gas;
 pub mod thermal;
 
 pub use gibbs::{equilibrate_hp, equilibrate_tp, CeaError, Equilibrium};
