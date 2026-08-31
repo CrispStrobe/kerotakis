@@ -365,8 +365,12 @@ def main() -> None:
     default_cargo = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo")) / "registry/src"
     parser.add_argument("--cargo-registry-root", type=Path, default=default_cargo)
     parser.add_argument("--node-modules", type=Path, default=ROOT / "web/app/node_modules")
+    # The tracked upstream copy, not the build-time one. IPhreeqc's CMake
+    # copies phreeqc3-doc/NOTICE.TXT to doc/NOTICE byte-for-byte; only the
+    # former exists in a checkout that has not built the engine, so reading
+    # it keeps this generator runnable from a bare clone.
     parser.add_argument(
-        "--iphreeqc-notice", type=Path, default=ROOT / "vendor/iphreeqc/doc/NOTICE"
+        "--iphreeqc-notice", type=Path, default=ROOT / "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
     )
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()

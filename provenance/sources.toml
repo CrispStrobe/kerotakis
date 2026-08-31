@@ -5,6 +5,12 @@
 # generated assets are the next inventory increment (ROADMAP-Webapp.md,
 # LIC-004). A record here approves only the named version, paths, outputs, and
 # targets; it is not a blanket approval of an upstream project.
+#
+# `terms` paths must be TRACKED files. The USGS notice is cited at
+# vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT rather than at the identical
+# vendor/iphreeqc/doc/NOTICE the IPhreeqc CMake build copies it to, so
+# `provenance lint` resolves the citation in a checkout that has not yet
+# built the engine.
 
 schema = 1
 policy = "store-permissive-v1"
@@ -18,7 +24,7 @@ lane = "runtime-code"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
 origin = "https://github.com/CrispStrobe/iphreeqc"
-terms = "vendor/iphreeqc/doc/NOTICE"
+terms = "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
 copyright = "United States Geological Survey and identified bundled contributors"
 retrieved = "2026-08-26"
 revision = "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
@@ -38,7 +44,7 @@ lane = "runtime-data"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
 origin = "https://github.com/phreeqc-dev/iphreeqc"
-terms = "vendor/iphreeqc/doc/NOTICE"
+terms = "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
 copyright = "United States Geological Survey and cited database contributors"
 retrieved = "2026-08-20"
 attribution = "PHREEQC database, United States Geological Survey; preserve database comments, citations, and the USGS notice"
@@ -59,7 +65,7 @@ lane = "runtime-data"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
 origin = "https://github.com/phreeqc-dev/iphreeqc"
-terms = "vendor/iphreeqc/doc/NOTICE"
+terms = "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
 copyright = "United States Geological Survey and cited database contributors"
 retrieved = "2026-08-20"
 attribution = "WATEQ4F database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"
@@ -80,7 +86,7 @@ lane = "runtime-data"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
 origin = "https://github.com/phreeqc-dev/iphreeqc"
-terms = "vendor/iphreeqc/doc/NOTICE"
+terms = "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
 copyright = "United States Geological Survey and cited database contributors"
 retrieved = "2026-08-20"
 attribution = "MINTEQ version 4 database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"
@@ -101,7 +107,7 @@ lane = "runtime-data"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
 origin = "https://github.com/phreeqc-dev/iphreeqc"
-terms = "vendor/iphreeqc/doc/NOTICE"
+terms = "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"
 copyright = "United States Geological Survey and cited database contributors"
 retrieved = "2026-08-20"
 attribution = "Pitzer database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"

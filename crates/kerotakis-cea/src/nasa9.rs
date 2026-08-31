@@ -259,7 +259,31 @@ impl ThermoDb {
                 cursor += 3;
             }
             if n_intervals == 0 {
-                cursor = i + 2;
+                // A zero-interval record is THREE lines, not two. CEA uses
+                // this form for feed species it stores as a single assigned
+                // enthalpy rather than a polynomial, and the third line
+                // carries the reference temperature that enthalpy belongs
+                // to. Skipping only two left the walk standing on that
+                // third line and reading it as the next record's header,
+                // which then consumed the following record's header as its
+                // own composition line — so a real species vanished and a
+                // fabricated one took its place.
+                //
+                // That is how liquid methanol went missing. CH4(L) is a
+                // zero-interval record; the walk then mistook CH3OH(L)'s
+                // header for a composition line, and `CH3OH(L)` never
+                // entered the database at all, so `cea_name("methanol")`
+                // was None and a methanol flame had nothing to burn.
+                // Liquid ethanol survived only by coincidence: the garbage
+                // interval count read off a coefficient line happened to
+                // advance the cursor exactly onto its header.
+                //
+                // Across the reactants section this also invented 42
+                // records out of numeric data lines. With the correct
+                // stride the section yields 80 real species and no junk,
+                // and the products section is untouched (it contains no
+                // zero-interval records).
+                cursor = i + 3;
             }
             let target = if in_reactants {
                 &mut db.reactants
@@ -324,8 +348,46 @@ mod tests {
             "feed-only liquid ethanol is parsed separately from products"
         );
         assert!(!db.species.contains_key("C2H5OH(L)"));
+        assert!(
+            db.reactants.contains_key("CH3OH(L)"),
+            "feed-only liquid methanol must parse too: it sits directly \
+             after the zero-interval CH4(L) record, so a wrong stride over \
+             zero-interval records swallows it"
+        );
         for name in ["CO2", "H2O", "O2", "N2", "CH4"] {
             assert!(db.get(name).is_some(), "{name} missing");
+        }
+    }
+
+    /// The reactants walk must land only on real record headers.
+    ///
+    /// A record header is a species name; the numeric lines that follow it
+    /// are not. When the walk mis-strides it starts reading those data
+    /// lines as headers, which both invents species and hides real ones —
+    /// silently, because every individual record still looks well-formed.
+    /// Before the zero-interval stride was fixed this section produced 42
+    /// such phantoms.
+    #[test]
+    fn the_reactant_walk_never_lands_on_a_data_line() {
+        let junk: Vec<&str> = db()
+            .reactants
+            .keys()
+            .filter(|name| {
+                name.starts_with('-') || name.chars().next().is_some_and(|c| c.is_ascii_digit())
+            })
+            .map(String::as_str)
+            .collect();
+        assert!(
+            junk.is_empty(),
+            "these are numeric data lines misread as species: {junk:?}"
+        );
+        // Every feed record must carry a composition; a phantom parsed out
+        // of a coefficient line generally does not.
+        for (name, species) in &db().reactants {
+            assert!(
+                !species.composition.is_empty(),
+                "feed record {name} parsed with no composition"
+            );
         }
     }
 
