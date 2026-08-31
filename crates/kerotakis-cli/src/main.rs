@@ -39,6 +39,19 @@ struct Session {
     /// is never touched — input words are unmasked before parsing, and
     /// rendered lines are re-masked before printing.
     aliases: std::collections::BTreeMap<String, String>,
+    /// The display mask, one (real, alias) pair per sealed unknown. Kept
+    /// longest-real-first so `sodium chloride` is rewritten before any
+    /// fragment of it can shadow the replacement.
+    masks: Vec<(String, String)>,
+    /// A quest's `covers` list: the unknown's dissociation ions, which
+    /// have no alias of their own to type. Applied only to lines about
+    /// vessels the unknown has actually touched — chloride from a bottle
+    /// of acid the learner poured themselves is not the sample's, and
+    /// must not be dressed as it.
+    cover_masks: Vec<(String, String)>,
+    /// The vessels a sealed unknown has touched: sealed on `add`, and
+    /// spread by every `Transferred` event out of a sealed vessel.
+    sealed_vessels: std::collections::HashSet<VesselId>,
 }
 
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
@@ -84,6 +97,9 @@ fn main() {
                 quests: Vec::new(),
                 quest_states: Default::default(),
                 aliases: Default::default(),
+                masks: Vec::new(),
+                cover_masks: Vec::new(),
+                sealed_vessels: Default::default(),
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -603,6 +619,12 @@ fn json_step(
     })
 }
 
+/// KNOWN LIMIT, on the record: the JSON stream carries true species keys
+/// even while a sealed unknown is on the bench — hosts key rendering,
+/// colours and spectra off those ids, so masking them here would be a
+/// breaking protocol change. Sealed-unknown masking in `--json` needs an
+/// additive protocol field and host cooperation; until that lands, the
+/// mask is a text-REPL guarantee only.
 fn json_inspect(step: usize, vessels: &[&Vessel]) -> serde_json::Value {
     serde_json::json!({
         "step": step,
@@ -2025,6 +2047,9 @@ fn repl() {
         quests: Vec::new(),
         quest_states: Default::default(),
         aliases: Default::default(),
+        masks: Vec::new(),
+        cover_masks: Vec::new(),
+        sealed_vessels: Default::default(),
     };
     let stdin = std::io::stdin();
     loop {
@@ -2095,7 +2120,9 @@ impl Session {
                 if self.json {
                     println!("{}", json_explain(self.bench.log.len(), target, &text));
                 } else {
-                    print!("{text}");
+                    // Provenance prose names species too; sealed unknowns
+                    // keep their mask on in `explain` like everywhere else.
+                    print!("{}", self.mask_for(target, &text));
                 }
                 Ok(())
             }
@@ -2115,9 +2142,16 @@ impl Session {
                         println!("{}", json_particles(self.bench.log.len(), v));
                     } else {
                         println!("  {} — what the particles are doing:", v.id);
+                        // The census names ions the vessel line never
+                        // shows; a sealed unknown's `Na+` row is the
+                        // answer in a different font, so it wears the
+                        // mask like every other rendered line.
                         print!(
                             "{}",
-                            kerotakis_core::particles::census(v, 30).render(self.register)
+                            self.mask_for(
+                                v.id,
+                                &kerotakis_core::particles::census(v, 30).render(self.register)
+                            )
                         );
                     }
                 }
@@ -2146,34 +2180,89 @@ impl Session {
             _ => {
                 // Sealed unknowns: the learner types the alias; the parser
                 // gets the truth. Whole-word substitution only.
+                let mut used_alias = false;
                 let unmasked = if self.aliases.is_empty() {
                     trimmed.to_string()
                 } else {
                     trimmed
                         .split_whitespace()
-                        .map(|w| self.aliases.get(w).map(String::as_str).unwrap_or(w))
+                        .map(|w| match self.aliases.get(w) {
+                            Some(real) => {
+                                used_alias = true;
+                                real.as_str()
+                            }
+                            None => w,
+                        })
                         .collect::<Vec<_>>()
                         .join(" ")
                 };
                 match parse_op(&unmasked)? {
-                    Some(op) => self.run_op(op),
+                    Some(op) => {
+                        // Sealing keys on the alias being typed, not on the
+                        // species: `add v2 NaCl` from the learner's own
+                        // shelf must not put v2 behind the covers just
+                        // because NaCl is also this quest's secret.
+                        if used_alias {
+                            if let Operator::Add { vessel, .. } = &op {
+                                self.sealed_vessels.insert(*vessel);
+                            }
+                        }
+                        self.run_op(op)
+                    }
                     None => Ok(()),
                 }
             }
         }
     }
 
-    /// Re-mask a rendered line for sealed unknowns: the species' key and
-    /// display name both become the alias. Display-layer only.
+    /// Re-mask a rendered line for sealed unknowns: each masked species'
+    /// key and display name both become the alias. Display-layer only.
     fn mask(&self, line: &str) -> String {
+        Self::apply_masks(&self.masks, line)
+    }
+
+    /// The mask plus the covers — for lines about a vessel the unknown
+    /// has touched, where an ion row is the answer in a different font.
+    fn mask_covered(&self, line: &str) -> String {
+        Self::apply_masks(&self.cover_masks, &Self::apply_masks(&self.masks, line))
+    }
+
+    /// The right mask for a line about one specific vessel.
+    fn mask_for(&self, vessel: VesselId, line: &str) -> String {
+        if self.sealed_vessels.contains(&vessel) {
+            self.mask_covered(line)
+        } else {
+            self.mask(line)
+        }
+    }
+
+    fn apply_masks(masks: &[(String, String)], line: &str) -> String {
         let mut out = line.to_string();
-        for (alias, real) in &self.aliases {
+        for (real, alias) in masks {
             out = out.replace(real, alias);
-            if let Some(d) = kerotakis_core::species::lookup(&SpeciesId::new(real)) {
+            // Every spelling the registry knows for this species: the
+            // level-1 census names ions by formula lookup, so the mask
+            // matches by key OR formula and covers name and formula both.
+            for d in kerotakis_core::species::registry()
+                .iter()
+                .filter(|d| d.key == real.as_str() || d.formula == real.as_str())
+            {
                 out = out.replace(d.name, alias);
+                out = out.replace(d.formula, alias);
             }
         }
         out
+    }
+
+    /// One string a mask table must cover, as (real, alias). Tables stay
+    /// longest-real-first so a compound's full name is rewritten before
+    /// any of its fragments can shadow it.
+    fn add_mask(table: &mut Vec<(String, String)>, real: &str, alias: &str) {
+        if table.iter().any(|(r, _)| r == real) {
+            return;
+        }
+        table.push((real.to_string(), alias.to_string()));
+        table.sort_by_key(|entry| std::cmp::Reverse(entry.0.len()));
     }
 
     fn quest_command(&mut self, words: &[&str]) -> Result<(), String> {
@@ -2215,6 +2304,12 @@ impl Session {
                 self.quest_states.entry(spec.id.clone()).or_default();
                 for (alias, real) in &spec.unknowns {
                     self.aliases.insert(alias.clone(), real.clone());
+                    Self::add_mask(&mut self.masks, real, alias);
+                }
+                for (alias, keys) in &spec.covers {
+                    for key in keys {
+                        Self::add_mask(&mut self.cover_masks, key, alias);
+                    }
                 }
                 println!("  quest started: {}", spec.title.at(self.register.level()));
                 println!("  {}", spec.goal.at(self.register.level()));
@@ -2306,6 +2401,17 @@ impl Session {
                 &kerotakis_safety::ReactiveGroupScreen,
             )
             .map_err(|e| e.to_string())?;
+        // The sealed set follows the matter: `exec_line` seals the vessel
+        // an alias was added to, and every transfer out of a sealed
+        // vessel seals the destination. Chemistry is untouched — this
+        // only decides which lines the covers apply to.
+        for event in &events {
+            if let kerotakis_core::ops::Event::Transferred { from, to, .. } = event {
+                if self.sealed_vessels.contains(from) {
+                    self.sealed_vessels.insert(*to);
+                }
+            }
+        }
         if self.json {
             println!(
                 "{}",
@@ -2313,9 +2419,16 @@ impl Session {
             );
         } else {
             // The ledger records everything; a person is shown what they
-            // could notice, once each.
+            // could notice, once each. Event lines are not scoped to one
+            // vessel, so the covers join the mask as soon as any vessel
+            // is sealed — conservative on purpose.
+            let masker = if self.sealed_vessels.is_empty() {
+                Self::mask
+            } else {
+                Self::mask_covered
+            };
             for line in render_events(&events, self.register) {
-                println!("  {}", self.mask(&line));
+                println!("  {}", masker(self, &line));
             }
         }
         if !self.quest_states.is_empty() {
@@ -2331,8 +2444,11 @@ impl Session {
     }
 
     fn print_vessel(&self, v: &Vessel) {
+        // Through the mask: `inspect` on a sealed unknown was the one
+        // window that printed the vessel's truth unmasked, which made
+        // the identification quest a reading exercise.
         for line in render_vessel(v, self.register) {
-            println!("  {line}");
+            println!("  {}", self.mask_for(v.id, &line));
         }
     }
 }

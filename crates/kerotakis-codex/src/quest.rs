@@ -123,6 +123,15 @@ pub struct QuestSpec {
     /// never altered — only the display layer wears the mask.
     #[serde(default)]
     pub unknowns: BTreeMap<String, String>,
+    /// Everything else the mask must cover, alias → species keys. A
+    /// dissolved unknown does not sit in the vessel under its own name:
+    /// it dissociates, and a census line reading `Na+` answers the quest
+    /// no less than one reading `NaCl`. The quest author, who knows what
+    /// the sample becomes on the bench, lists those keys here; keys of
+    /// species the learner is meant to identify by measurement, not by
+    /// reading (`H+`, `OH-` — water's own) do not belong in this list.
+    #[serde(default)]
+    pub covers: BTreeMap<String, Vec<String>>,
 }
 
 /// Live progress of one started quest.

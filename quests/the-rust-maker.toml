@@ -18,6 +18,9 @@ lv3 = "unknown-rust is a sealed registry salt. Three independent pieces of evide
 [unknowns]
 unknown-rust = "FeCl3"
 
+[covers]
+unknown-rust = ["Fe+3", "Cl-"]
+
 [[nudges]]
 id = "in-the-water"
 when = "added:FeCl3"
