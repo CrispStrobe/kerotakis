@@ -723,50 +723,104 @@ nothing).
       asserted away. Remaining (not claimed): the Emscripten/wasm
       InChI build, and growing the tranche to species without simple
       SMILES (minerals, enzymes, aromatic dyes).
-- [ ] Tranche growth: **23 → 65** (2026-08-24, Opus). Added 42 species:
+- [x] Tranche growth: **23 → 65** (2026-08-24, Opus). Added 42 species:
       monatomic ions (Na+ K+ Cl- Ca+2 Mg+2 Sr+2 Ag+ Cu+2 Cu+1 Fe+2
       Fe+3 Zn+2 Mn+2), polyatomic ions (NO3- SO4-2 HCO3- H2PO4-),
       metals (Cu Zn Ag Fe), oxides (CaO MgO CuO MnO2), hydroxide
       Ca(OH)2, salts (AgCl NaOCl NaHCO3 Na2CO3 Na2SO3 Na2S2O3 AgNO3
       CaCl2 CaCO3 MgSO4 gypsum CuSO4 KMnO4 FeSO4 ZnSO4), and
-      chloramine NH2Cl. All 65 InChIKeys recompute and match via
-      the official IUPAC library.
-      **Deferred species** (11, all chematic `write_mol` limitations —
-      SMILES parse succeeds, molfile is generated, but the molfile
-      encodes the wrong structure for the official InChI library):
-      - **Mg** `[Mg]`: `write_mol` adds 2 implicit H → InChI sees
-        `Mg.2H` (InChI=1S/Mg.2H) instead of bare Mg.
-      - **Pb** `[Pb]`: same — `write_mol` adds 2 implicit H → `Pb.2H`.
-      - **C** `[C]`: `write_mol` adds 4 implicit H → InChI sees CH₄
-        (methane), not elemental carbon.
-      - **S** `[S]`: `write_mol` adds 2 implicit H → InChI sees H₂S,
-        not elemental sulfur.
-      - **Cu(OH)2** `O[Cu]O`: `write_mol` outputs disconnected
-        `Cu.2H₂O` with charge q+2/p-2 instead of connected copper
-        dihydroxide; all ionic variants (`[Cu+2].[OH-].[OH-]`) produce
-        the same wrong key.
-      - **MnO4-** `[O-][Mn](=O)(=O)=O`: `write_mol` outputs
-        disconnected `Mn.4O` losing Mn–O bond connectivity and charge;
-        InChI sees `InChI=1S/Mn.4O/q;;;;-1`.
-      - **Pb+2** `[Pb+2]`: `write_mol` preserves charge but the InChI
-        connectivity hash differs from the registry key (InChI=1S/Pb/q+2
-        produces RVPVRDXYQKGNMQ, registry expects XMOCLSLCDHWDHP).
-      - **Pb(NO3)2** `[Pb+2].[O-][N+](=O)[O-]…`: connectivity hash
-        matches (RLJMLMKIBZAXJO) but InChI charge layer differs (N vs L)
-        — `write_mol` loses the net -2 proton balance across fragments.
-      - **phenolphthalein**: `write_mol` outputs the open (acid) form;
-        InChI encodes different connectivity than the closed lactone the
-        registry expects (KMBTWMWDXLZUHH vs KJFMBFZCATUALV).
-      - **methyl_orange**: azo-bond and Na⁺ fragment handling in
-        `write_mol` produces wrong connectivity (STZCRXQWRGQSJD vs
-        BSKHPKMHTQYZBB).
-      - **bromothymol_blue**: sulfonphthalein ring system connectivity
-        differs (MEEJMWWOAOVJHW vs FBSFWRHWHYMIOG).
-      Fix scope: all 11 are chematic `mol::write_mol` bugs, not InChI
-      or registry issues. Fixes belong upstream in chematic-mol. The 4
-      implicit-H cases are one fix (bracket-atom H-count in V2000
-      writer); the 3 aromatics are kekulisation; the rest are individual
-      connectivity/charge bugs.
+      chloramine NH2Cl. Eleven species were deferred as `write_mol`
+      limitations; **that diagnosis is superseded — see the spike
+      below.**
+- [x] **The chematic molfile spike** (2026-08-30, Opus). Full evidence:
+      [`provenance/cap-13-chematic-molfile-spike.md`](provenance/cap-13-chematic-molfile-spike.md).
+
+      **What was actually wrong.** The bridge went SMILES → chematic
+      `Molecule` → **V2000 molfile** → official library. That middle
+      step is a narrows: a molecule parsed from SMILES has no
+      coordinates, and chematic 0.18's V2000 writer emits zeros in every
+      field except symbol, charge and bond order. So it cannot say "this
+      bracket atom has no hydrogens" (the valence field is hardcoded 0,
+      and 0 means *use the default valence*), cannot say "this is
+      deuterium" (no mass field, no `M  ISO`), cannot carry a
+      stereocentre at all, and re-spells a SMILES `/` `\` E/Z direction
+      as a **tetrahedral wedge**. That code is byte-identical at
+      upstream `v0.18.0`, `v0.23.0` and `HEAD` — no version bump fixes
+      it.
+
+      **The fix needs no dependency change.** `inchi` 0.1.4 already
+      exposes the reference implementation's own **0D input structure**
+      (`inchi::Molecule` + `Atom::isotope`/`charge`/
+      `implicit_hydrogens(Exactly(n))` + `add_stereo`), which is
+      precisely the API for a coordinate-less structure. The bridge now
+      builds that directly — `crates/kerotakis-org/src/native_inchi.rs`,
+      no molfile in the path, no Cargo change, no fork, no `[patch]`.
+
+      **Result.** Five of the eleven deferred species now recompute to
+      their registry keys (Mg, Pb, C, S — the bracket-atom class; and
+      phenolphthalein, whose deferral was a wrong curated SMILES, not
+      kekulisation) and joined `CURATED_STRUCTURES`, pinned at 102. On
+      BRD-010's 100-record PubChem fixture the molfile route agrees on
+      **73/100** and the direct route on **100/100**, closing the
+      `UHFFFAOYSA` stereo/isotope signature BRD-010 reported; 19 of
+      those cases are checked in as `tests/stereo_isotope_identity.rs`.
+
+      **The six still deferred are not writer bugs.** Cu(OH)2, MnO4-,
+      Pb+2, Pb(NO3)2, methyl orange and bromothymol blue compute the
+      *same* key on both routes — which is the proof: a writer defect
+      would show as a difference between the two. They are curation
+      disagreements (four look like the stored key, two like the curated
+      SMILES) and cannot be settled from inside the tree. They wait on
+      BRD-010's external identity source. The 2026-08-24 per-species
+      diagnosis is retired.
+
+      **And one the gate had been certifying wrong.** `Al` was already
+      in the tranche and green, because the registry key
+      `AZDRQVAHHNSJOQ-UHFFFAOYSA-N` is **alumane (AlH3)** and the
+      molfile bridge recomputed AlH3 from `[Al]` — two wrong answers
+      agreeing. Corrected here to `XAGFODPZIPBFFR-UHFFFAOYSA-N`
+      (PubChem CID 5359268), with both keys pinned in
+      `tests/native_identity.rs` so the retired one stays on record as
+      the hydride's.
+
+- [ ] **Dependency routing decision (needs the owner's call).**
+
+      **(a) Upstream PR — prepared, not sent.** The V2000 writer gaps are
+      real for anyone else round-tripping chematic through a molfile, and
+      PLAN.md's rule is "upstream patches where the project is alive"
+      — chematic plainly is (v0.24.0 while this was written). A patch
+      against `v0.18.0` is ready: emit the atom line's valence field
+      from the bracket atom's explicit H count (15 = zero valence), and
+      emit `M  ISO` for isotopic labels, in both the 2D and 3D-conformer
+      writers, with five tests. It is in the branch as
+      `provenance/chematic/0001-mol2000-*.patch`. **Opening it upstream
+      needs the owner's say-so** — it is a patch to a third party's
+      project under our name. Two things belong in the PR text if it
+      goes: the reader skips every `M  ` property line (so `M  ISO` /
+      `M  CHG` do not round-trip back), and `encode_charge` silently
+      writes 0 for any charge outside ±3. Neither is on our path.
+
+      **(b) Vendoring / a git-pinned fork — recommended against, with a
+      cost.** `deny.toml` sets `unknown-git = "deny"` with an empty
+      `allow-git`, so a `[patch.crates-io]` pointing at a fork fails
+      `cargo deny`, i.e. fails preflight, until the licence policy is
+      amended — an owner decision. Vendoring instead means carrying
+      `chematic-mol` *and* its `-core`/`-perception`/`-rxn`/`-smiles`
+      dependencies (≈28 kLOC in `mol` alone) plus NOTICE and
+      `about.toml` attribution, and re-basing it at every chematic bump.
+      Licence is not the obstacle (MIT OR Apache-2.0, inside the
+      shipping bar); maintenance is.
+
+      **(c) What the tree should do now — the recommendation.** Keep the
+      pinned crates.io `chematic 0.18`, unchanged, and take the 0D
+      structure route. It costs one new module, removes a whole format
+      from the identity path, and is strictly better than the fixed
+      molfile would be: even a perfect V2000 writer cannot express E/Z
+      geometry without 2D coordinates, so the stereo half of BRD-010's
+      finding is **not** reachable through a molfile at all. There is
+      therefore no version of this where forking chematic is the answer
+      for us. The upstream patch is a courtesy to other users, not our
+      dependency plan.
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
