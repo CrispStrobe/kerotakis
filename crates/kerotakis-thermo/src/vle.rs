@@ -72,17 +72,27 @@ pub enum VapourPressure {
 }
 
 impl VapourPressure {
-    const fn segments(&self) -> &[Antoine] {
+    /// The source correlations in selection order.
+    pub const fn segments(&self) -> &[Antoine] {
         match self {
             Self::Antoine(segment) => std::slice::from_ref(segment),
             Self::Piecewise(segments) => segments,
         }
     }
 
+    /// The correlation selected at this temperature, if the temperature is
+    /// inside a reviewed segment. Overlaps deliberately select the earlier
+    /// segment until its upper bound.
+    pub fn segment_at(&self, t_celsius: f64) -> Option<&Antoine> {
+        self.segments()
+            .iter()
+            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+    }
+
     pub fn valid_range(&self) -> Option<(f64, f64)> {
         let segments = self.segments();
         let first = segments.first()?;
-        let mut lo = first.valid_c.0;
+        let lo = first.valid_c.0;
         let mut hi = first.valid_c.1;
         if !lo.is_finite()
             || !hi.is_finite()
@@ -99,22 +109,34 @@ impl VapourPressure {
                 || !next_hi.is_finite()
                 || next_lo > next_hi
                 || next_lo > hi
+                || next_lo < lo
+                || next_hi <= hi
                 || !segment.a.is_finite()
                 || !segment.b.is_finite()
                 || !segment.c.is_finite()
             {
                 return None;
             }
+            // The implementation selects the earlier segment throughout the
+            // overlap and switches at its upper bound. A large jump there can
+            // manufacture a bisection "root", so reject it as an invalid
+            // correlation rather than trusting a final solver temperature.
+            let previous = segments
+                .iter()
+                .find(|candidate| candidate.valid_c.1 == hi)?;
+            let p_before = previous.pressure_kpa(hi)?;
+            let p_after = segment.pressure_kpa(hi)?;
+            let relative_jump = (p_before - p_after).abs() / p_before.max(p_after);
+            if relative_jump > 0.01 {
+                return None;
+            }
             hi = hi.max(next_hi);
-            lo = lo.min(next_lo);
         }
         Some((lo, hi))
     }
 
     pub fn pressure_kpa(&self, t_celsius: f64) -> Option<f64> {
-        self.segments()
-            .iter()
-            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+        self.segment_at(t_celsius)
             .and_then(|segment| segment.pressure_kpa(t_celsius))
     }
 
@@ -153,11 +175,11 @@ fn common_valid_range(antoines: &[VapourPressure], fractions: &[f64]) -> Option<
     let mut hi = f64::INFINITY;
     let mut active = false;
     for (antoine, fraction) in antoines.iter().zip(fractions) {
+        let (component_lo, component_hi) = antoine.valid_range()?;
         if *fraction == 0.0 {
             continue;
         }
         active = true;
-        let (component_lo, component_hi) = antoine.valid_range()?;
         lo = lo.max(component_lo);
         hi = hi.min(component_hi);
     }
@@ -399,7 +421,10 @@ where
     let t = 0.5 * (lo + hi);
     let p = partials(t, &mut gammas);
     let p_total: f64 = p.iter().sum();
-    if !p_total.is_finite() || p_total <= 0.0 {
+    if !p_total.is_finite()
+        || p_total <= 0.0
+        || (p_total - pressure_kpa).abs() / pressure_kpa > 1e-8
+    {
         return None;
     }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
@@ -583,6 +608,10 @@ pub fn dew_point_with(
             }
         }
         let t = 0.5 * (lo + hi);
+        let solved_residual = residual(t, &x);
+        if !solved_residual.is_finite() || solved_residual.abs() * pressure_kpa > 1e-8 {
+            return None;
+        }
         let g = gammas(&x, t + KELVIN_OFFSET);
         if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
             return None;
@@ -1309,6 +1338,64 @@ mod tests {
             "80 °C segment jump must remain below 0.05%, got {:.5}%",
             relative_jump * 100.0
         );
+    }
+
+    #[test]
+    fn ethanol_high_fit_agrees_with_independent_published_observations() {
+        // Table 2 of Susial Badajoz et al. reports (352.8 K, 107 kPa) and
+        // (425.1 K, 1015 kPa). The paper gives expanded pressure uncertainty
+        // U(k=2) = 3 kPa and a fit SD of 1.11 kPa; 5 kPa covers both without
+        // regenerating an oracle from these same coefficients.
+        for (t_celsius, observed_kpa) in [(79.65, 107.0), (151.95, 1015.0)] {
+            let fitted = ETHANOL_HIGH.pressure_kpa(t_celsius).unwrap();
+            assert!((fitted - observed_kpa).abs() < 5.0);
+        }
+    }
+
+    #[test]
+    fn malformed_piecewise_correlations_refuse_without_zero_fraction_panics() {
+        const EMPTY: VapourPressure = VapourPressure::Piecewise(&[]);
+        let mix = [
+            Volatile {
+                antoine: EMPTY,
+                x: 0.0,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 1.0,
+                gamma: 1.0,
+            },
+        ];
+        assert!(bubble_point(&mix, ATMOSPHERE_KPA).is_none());
+
+        const DISCONTINUOUS_SEGMENTS: &[Antoine] = &[
+            Antoine {
+                a: 1.0,
+                b: 0.0,
+                c: 1.0,
+                valid_c: (0.0, 10.0),
+                source: "synthetic discontinuity test, low",
+            },
+            Antoine {
+                a: 2.0,
+                b: 0.0,
+                c: 1.0,
+                valid_c: (9.0, 20.0),
+                source: "synthetic discontinuity test, high",
+            },
+        ];
+        const DISCONTINUOUS: VapourPressure = VapourPressure::Piecewise(DISCONTINUOUS_SEGMENTS);
+        assert!(DISCONTINUOUS.valid_range().is_none());
+        assert!(bubble_point(
+            &[Volatile {
+                antoine: DISCONTINUOUS,
+                x: 1.0,
+                gamma: 1.0,
+            }],
+            50.0,
+        )
+        .is_none());
     }
 
     #[test]
