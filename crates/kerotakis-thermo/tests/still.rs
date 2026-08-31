@@ -8,17 +8,17 @@ use kerotakis_thermo::vle::*;
 /// one-shot can show.
 #[test]
 fn rayleigh_drift_depletes_the_pot_and_raises_the_boil() {
-    let cut = ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.5), 1, ATMOSPHERE_KPA)
-        .expect("wine distils");
-    let x0 = 0.6 / 10.0;
+    let cut = ethanol_water_still(4.0, 6.0, StillTake::Fraction(0.2), 1, ATMOSPHERE_KPA)
+        .expect("ethanol-rich charge distils inside the shared fit range");
+    let x0 = 0.6;
     let x_dist = cut.ethanol_over / (cut.ethanol_over + cut.water_over);
-    let residue_e = 0.6 - cut.ethanol_over;
-    let residue_w = 9.4 - cut.water_over;
+    let residue_e = 6.0 - cut.ethanol_over;
+    let residue_w = 4.0 - cut.water_over;
     let x_res = residue_e / (residue_e + residue_w);
     assert!(x_dist > x0, "distillate must be richer than the charge");
     assert!(x_res < x0, "residue must be leaner than the charge");
     assert!(
-        cut.t_end_c > cut.t_start_c + 0.5,
+        cut.t_end_c > cut.t_start_c + 0.1,
         "the boil must climb as ethanol leaves: {:.2} -> {:.2}",
         cut.t_start_c,
         cut.t_end_c
@@ -29,9 +29,9 @@ fn rayleigh_drift_depletes_the_pot_and_raises_the_boil() {
 /// More stages, more separation — up to the azeotrope and never past it.
 #[test]
 fn stages_climb_to_the_azeotrope_and_stop() {
-    let one = ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 1, ATMOSPHERE_KPA)
+    let one = ethanol_water_still(4.0, 6.0, StillTake::Fraction(0.05), 1, ATMOSPHERE_KPA)
         .expect("one stage");
-    let five = ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 5, ATMOSPHERE_KPA)
+    let five = ethanol_water_still(4.0, 6.0, StillTake::Fraction(0.05), 5, ATMOSPHERE_KPA)
         .expect("five stages");
     let x1 = one.ethanol_over / (one.ethanol_over + one.water_over);
     let x5 = five.ethanol_over / (five.ethanol_over + five.water_over);
@@ -44,12 +44,12 @@ fn stages_climb_to_the_azeotrope_and_stop() {
         "no column passes the azeotrope at x = 0.894, got {x5:.3}"
     );
 
-    let tall = ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 40, ATMOSPHERE_KPA)
+    let tall = ethanol_water_still(4.0, 6.0, StillTake::Fraction(0.05), 40, ATMOSPHERE_KPA)
         .expect("forty stages");
     let x40 = tall.ethanol_over / (tall.ethanol_over + tall.water_over);
     assert!(
         tall.azeotrope_limited,
-        "a forty-stage column from wine must report the azeotrope wall"
+        "a forty-stage column must report the azeotrope wall"
     );
     assert!(
         (x40 - 0.894).abs() < 0.02,
@@ -69,7 +69,7 @@ fn the_energy_budget_is_a_real_meter() {
     );
     assert!((cut.energy_kj - 40.657).abs() < 1e-6);
 
-    let small = ethanol_water_still(9.4, 0.6, StillTake::EnergyKj(8.0), 1, ATMOSPHERE_KPA)
+    let small = ethanol_water_still(4.0, 6.0, StillTake::EnergyKj(8.0), 1, ATMOSPHERE_KPA)
         .expect("a short burn");
     let latent =
         small.ethanol_over * ETHANOL_HVAP_KJ_PER_MOL + small.water_over * WATER_HVAP_KJ_PER_MOL;
@@ -77,4 +77,9 @@ fn the_energy_budget_is_a_real_meter() {
         (latent - small.energy_kj).abs() < 1e-9 && small.energy_kj <= 8.0 + 1e-9,
         "the meter must equal the latent heat of what came over"
     );
+}
+
+#[test]
+fn water_rich_ethanol_charge_refuses_antoine_extrapolation() {
+    assert!(ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 1, ATMOSPHERE_KPA).is_none());
 }

@@ -929,7 +929,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-031 — Cleared fluid parameter pack
 
-- [ ] **Status:** unblocked by the BRD-030 `go` (2026-08-30); open.
+- [ ] **Status:** in progress on `brd031/fluid-safety` (2026-08-31), unblocked
+  by the BRD-030 `go`.
   **Size:** large/data-heavy. **Depends on:** BRD-030.
 - **Scope:** curate parameters for the fluids and mixtures actually demanded by
   BRD-000/014: water, common alcohols/ketones/esters/hydrocarbons, CO2, air
@@ -962,6 +963,40 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** coverage matrix and one literature/oracle fixture per model
   family; no proprietary DIPPR, NIST SRD/WebBook, UNIFAC Consortium, or
   otherwise encumbered parameter enters the pack.
+- **Checkpoint plan and DoDs (2026-08-31):** this is deliberately a sequence
+  of independently reviewable deliveries, not one data dump. Estimates are
+  engineering effort, not elapsed promises.
+  1. **BRD-031a — fail-closed fluid contract (2–3 h).** Remove inherited
+     calculations from `FluidModel`, declare capabilities, and distinguish a
+     named unsupported operation from a supported calculation with no
+     numerical solution. **DoD:** every operation is implemented explicitly;
+     a deliberately partial trait object refuses by operation and model name;
+     all thermo targets and clippy pass.
+  2. **BRD-031b — current-solver domain safety (4–6 h).** Enforce the common
+     Antoine fit interval in bubble, dew, TP and HP flash; reject nonfinite
+     inputs/coefficients; make a missing directional UNIFAC interaction a
+     checked, named error. **DoD:** endpoint, just-outside, disjoint-range,
+     malformed-gamma, missing-forward and missing-reverse tests pass; existing
+     literature fixtures remain within their stated domains; no missing
+     interaction can become `psi = 1` silently.
+  3. **BRD-031.S01 — six-fluid pilot pack (4–6 h).** Curate only water, CO2,
+     N2, O2, NH3 and one common alcohol, using the smallest feos model family
+     that answers a currently missing property. **DoD:** each field has a
+     canonical species key, units, validity range, primary citation, licence,
+     retrieval date and checksum; an importer emits a quarantine report and
+     an allowlist emits deterministic embedded records; any unclear data right
+     is a recorded rejection, never an inferred permission.
+  4. **BRD-031d — disposable feos adapter evidence (3–5 h).** Consume the
+     embedded pilot records with pinned feos `=0.10.x`; keep routing unchanged.
+     **DoD:** native and wasm compile/run fixtures pass; macOS and iOS targets
+     compile in CI or remain explicitly unproven (never inferred from Metal or
+     WebGPU support); package size/dependency/licence reports are checked in;
+     filesystem parameter loading is absent from browser/mobile paths.
+  5. **BRD-031e — integration audit (2–4 h).** Join only by canonical species
+     identity and compare the pilot against an independent fixture per model
+     family. **DoD:** conservation/metamorphic checks, exact model/parameter
+     provenance in every result, repository policy gates, replay determinism,
+     and protected-main CI all pass. Only then may BRD-032 be unblocked.
 
 ### BRD-032 — feos-backed bench routing
 

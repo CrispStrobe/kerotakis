@@ -7,6 +7,7 @@
 //! Consortium parameter matrix.
 
 use std::collections::BTreeMap;
+use std::fmt;
 
 /// A UNIFAC functional group with its van der Waals parameters.
 #[derive(Debug, Clone)]
@@ -51,6 +52,29 @@ impl UnifacTable {
             .map(|p| p.a_mn)
     }
 }
+
+/// A named refusal to evaluate UNIFAC with an incomplete parameter set.
+///
+/// Interaction parameters are directional: having `a_mn` does not imply
+/// that `a_nm` is known.  Treating an absent value as zero would silently
+/// turn its interaction factor into `exp(0) = 1` (ideal behaviour).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct MissingInteraction {
+    pub from_main_group: u32,
+    pub to_main_group: u32,
+}
+
+impl fmt::Display for MissingInteraction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "UNIFAC parameter table is missing directional interaction a_{}_{}",
+            self.from_main_group, self.to_main_group
+        )
+    }
+}
+
+impl std::error::Error for MissingInteraction {}
 
 const SOURCE_1975: &str = "Fredenslund, Jones & Prausnitz, AIChE J. 21(6), 1086-1099, 1975";
 const SOURCE_1982: &str =
@@ -353,9 +377,24 @@ pub fn activity_coefficients(
     compositions: &[(GroupDecomposition, f64)],
     t_kelvin: f64,
 ) -> Vec<f64> {
+    try_activity_coefficients(table, compositions, t_kelvin)
+        .unwrap_or_else(|error| panic!("UNIFAC calculation refused: {error}"))
+}
+
+/// Compute UNIFAC activity coefficients, refusing incomplete interaction data.
+///
+/// Use this checked entry point when a refusal should be propagated to a
+/// caller. [`activity_coefficients`] remains as the compatibility entry point,
+/// but fails closed with the same named error rather than returning a result
+/// calculated with an implicit ideal interaction.
+pub fn try_activity_coefficients(
+    table: &UnifacTable,
+    compositions: &[(GroupDecomposition, f64)],
+    t_kelvin: f64,
+) -> Result<Vec<f64>, MissingInteraction> {
     let n = compositions.len();
     if n == 0 {
-        return Vec::new();
+        return Ok(Vec::new());
     }
 
     // Combinatorial part (Staverman-Guggenheim)
@@ -408,18 +447,39 @@ pub fn activity_coefficients(
 
     // Residual part: ln γ_i^R = Σ_k ν_ki [ln Γ_k - ln Γ_k^(i)]
     let all_main: Vec<u32> = {
-        let mut v: Vec<u32> = table.groups.iter().map(|g| g.main_group).collect();
+        let mut v: Vec<u32> = compositions
+            .iter()
+            .flat_map(|(groups, _)| groups.keys())
+            .filter_map(|&gid| table.group(gid).map(|g| g.main_group))
+            .collect();
         v.sort();
         v.dedup();
         v
     };
+
+    // Validate the complete directional matrix used by this calculation up
+    // front. This makes absence unrepresentable inside the numerical loop.
+    for &m in &all_main {
+        for &n_g in &all_main {
+            if m != n_g && table.interaction(m, n_g).is_none() {
+                return Err(MissingInteraction {
+                    from_main_group: m,
+                    to_main_group: n_g,
+                });
+            }
+        }
+    }
     let psi = |m: u32, n_g: u32| -> f64 {
         if m == n_g {
+            // UNIFAC defines same-main-group interactions as zero, hence ψ_mm=1;
+            // no table row is required or consulted for this identity.
             return 1.0;
         }
-        table
+        (-table
             .interaction(m, n_g)
-            .map_or(1.0, |a| (-a / t_kelvin).exp())
+            .expect("directional UNIFAC matrix was validated above")
+            / t_kelvin)
+            .exp()
     };
     let ln_gamma_groups = |xg: &BTreeMap<u32, f64>| -> BTreeMap<u32, f64> {
         let qt: f64 = xg
@@ -485,9 +545,9 @@ pub fn activity_coefficients(
                 c as f64 * (lg_mix.get(&gid).unwrap_or(&0.0) - lg_pure.get(&gid).unwrap_or(&0.0));
         }
     }
-    (0..n)
+    Ok((0..n)
         .map(|i| (ln_gamma_c[i] + ln_gamma_r[i]).exp())
-        .collect()
+        .collect())
 }
 
 #[cfg(test)]
@@ -664,5 +724,69 @@ mod tests {
         mains.sort();
         mains.dedup();
         assert_eq!(mains, vec![1, 5, 6, 7, 9, 20]);
+    }
+
+    fn ethanol_water_composition() -> Vec<(GroupDecomposition, f64)> {
+        let mut ethanol = GroupDecomposition::new();
+        ethanol.insert(1, 1);
+        ethanol.insert(2, 1);
+        ethanol.insert(14, 1);
+        let mut water = GroupDecomposition::new();
+        water.insert(16, 1);
+        vec![(ethanol, 0.5), (water, 0.5)]
+    }
+
+    #[test]
+    fn missing_forward_interaction_is_a_named_refusal() {
+        let mut table = approved_table();
+        table.interactions.retain(|p| !(p.m == 1 && p.n == 7));
+
+        let error = try_activity_coefficients(&table, &ethanol_water_composition(), 298.15)
+            .expect_err("a missing a_1_7 must never become an ideal interaction");
+
+        assert_eq!(
+            error,
+            MissingInteraction {
+                from_main_group: 1,
+                to_main_group: 7,
+            }
+        );
+        assert!(error.to_string().contains("a_1_7"));
+    }
+
+    #[test]
+    fn reverse_interaction_does_not_stand_in_for_missing_direction() {
+        let mut table = approved_table();
+        table.interactions.retain(|p| !(p.m == 7 && p.n == 1));
+        assert!(table.interaction(1, 7).is_some());
+
+        let error = try_activity_coefficients(&table, &ethanol_water_composition(), 298.15)
+            .expect_err("a_1_7 cannot substitute for missing a_7_1");
+
+        assert_eq!(error.from_main_group, 7);
+        assert_eq!(error.to_main_group, 1);
+    }
+
+    #[test]
+    fn self_interaction_is_defined_without_a_table_row() {
+        let mut table = approved_table();
+        table.groups.retain(|g| g.main_group == 7);
+        table.interactions.clear();
+        let mut water = GroupDecomposition::new();
+        water.insert(16, 1);
+
+        let gamma = try_activity_coefficients(&table, &[(water, 1.0)], 298.15)
+            .expect("UNIFAC defines a_mm=0 and psi_mm=1");
+
+        assert!((gamma[0] - 1.0).abs() < 1e-12);
+    }
+
+    #[test]
+    #[should_panic(expected = "UNIFAC calculation refused: UNIFAC parameter table is missing")]
+    fn compatibility_entry_point_also_fails_closed() {
+        let mut table = approved_table();
+        table.interactions.retain(|p| !(p.m == 1 && p.n == 7));
+
+        let _ = activity_coefficients(&table, &ethanol_water_composition(), 298.15);
     }
 }
