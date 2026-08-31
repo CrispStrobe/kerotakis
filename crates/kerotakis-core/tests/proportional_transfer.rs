@@ -48,7 +48,11 @@ fn total(bench: &Bench, key: &str) -> f64 {
 }
 
 fn held(bench: &Bench, vessel: VesselId, key: &str) -> f64 {
-    bench.vessel(vessel).unwrap().moles_of(&SpeciesId::new(key)).0
+    bench
+        .vessel(vessel)
+        .unwrap()
+        .moles_of(&SpeciesId::new(key))
+        .0
 }
 
 #[test]
@@ -56,7 +60,10 @@ fn decanting_part_of_a_vessel_moves_solute_in_proportion_with_solvent() {
     let mut bench = brine();
     let water_before = total(&bench, "water");
     let sodium_before = total(&bench, "Na+");
-    assert!(sodium_before > 0.0, "the solute has to be dissolved to move");
+    assert!(
+        sodium_before > 0.0,
+        "the solute has to be dissolved to move"
+    );
 
     bench
         .step(Operator::Decant {

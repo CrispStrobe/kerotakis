@@ -33,7 +33,16 @@ fn an_unstocked_bottle_is_an_unlimited_supply() {
         bench.step(salt(0.1)).expect("nothing limits an open shelf");
     }
     assert!(bench.stock.is_empty(), "no bottle was ever stocked");
-    assert!((bench.vessel(VesselId(0)).unwrap().moles_of(&SpeciesId::new("NaCl")).0 - 2.0).abs() < 1e-9);
+    assert!(
+        (bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .moles_of(&SpeciesId::new("NaCl"))
+            .0
+            - 2.0)
+            .abs()
+            < 1e-9
+    );
 }
 
 #[test]
@@ -50,7 +59,9 @@ fn a_stocked_bottle_empties_and_then_refuses_the_next_dispense() {
     bench.step(salt(0.3)).expect("0.3 of 0.5 fits");
     assert!((bench.stock.remaining("NaCl").unwrap().amount - 0.2).abs() < 1e-12);
 
-    let events = bench.step(salt(0.3)).expect("a refusal is not an engine error");
+    let events = bench
+        .step(salt(0.3))
+        .expect("a refusal is not an engine error");
     let refusal = events
         .iter()
         .find_map(|event| match event {
@@ -71,11 +82,20 @@ fn a_stocked_bottle_empties_and_then_refuses_the_next_dispense() {
     // Nothing moved: not the bottle, and not the beaker.
     assert!((bench.stock.remaining("NaCl").unwrap().amount - 0.2).abs() < 1e-12);
     assert!(
-        (bench.vessel(VesselId(0)).unwrap().moles_of(&SpeciesId::new("NaCl")).0 - 0.3).abs() < 1e-9,
+        (bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .moles_of(&SpeciesId::new("NaCl"))
+            .0
+            - 0.3)
+            .abs()
+            < 1e-9,
         "the refused dispense deposited nothing"
     );
     assert!(
-        !events.iter().any(|event| matches!(event, Event::Added { .. })),
+        !events
+            .iter()
+            .any(|event| matches!(event, Event::Added { .. })),
         "a refusal must not also claim the addition happened"
     );
 }
@@ -91,9 +111,15 @@ fn the_refusal_speaks_in_all_three_registers_and_names_both_numbers() {
     for register in [Register::LV1, Register::LV2, Register::LV3] {
         let line = render_event(&event, register);
         assert!(!line.is_empty(), "{register} has prose");
-        assert!(line.contains("NaCl"), "{register} names the substance: {line}");
+        assert!(
+            line.contains("NaCl"),
+            "{register} names the substance: {line}"
+        );
         assert!(line.contains("0.2"), "{register} says what is left: {line}");
-        assert!(line.contains("0.3"), "{register} says what was asked: {line}");
+        assert!(
+            line.contains("0.3"),
+            "{register} says what was asked: {line}"
+        );
     }
     // The three voices are three sentences, not one repeated.
     let lv1 = render_event(&event, Register::LV1);
@@ -111,7 +137,11 @@ fn a_material_bottle_is_counted_in_the_recipes_own_basis() {
         })
         .expect("a household recipe is stockable");
     assert_eq!(
-        bench.stock.remaining("white_vinegar_5_percent").unwrap().unit,
+        bench
+            .stock
+            .remaining("white_vinegar_5_percent")
+            .unwrap()
+            .unit,
         StockUnit::Gram,
         "a mass-fraction recipe empties in grams, not in moles of acetic acid"
     );
@@ -135,11 +165,13 @@ fn a_material_bottle_is_counted_in_the_recipes_own_basis() {
             < 1e-9
     );
 
-    let events = bench.step(pour(60.0)).expect("a refusal is not an engine error");
+    let events = bench
+        .step(pour(60.0))
+        .expect("a refusal is not an engine error");
     assert!(
-        events
-            .iter()
-            .any(|event| matches!(event, Event::StockExhausted { unit, .. } if *unit == StockUnit::Gram)),
+        events.iter().any(
+            |event| matches!(event, Event::StockExhausted { unit, .. } if *unit == StockUnit::Gram)
+        ),
         "the second 60 g is refused in grams"
     );
     assert!(
@@ -215,5 +247,8 @@ fn the_stock_line_parses_and_pins_the_canonical_key() {
         panic!("stock parses to StockShelf");
     };
     assert_eq!(key, "white_vinegar_5_percent");
-    assert!(amount > 90.0 && amount < 120.0, "100 mL of a watery liquid is ~100 g, got {amount}");
+    assert!(
+        amount > 90.0 && amount < 120.0,
+        "100 mL of a watery liquid is ~100 g, got {amount}"
+    );
 }
