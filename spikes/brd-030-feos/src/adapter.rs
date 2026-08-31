@@ -38,7 +38,7 @@ use feos_core::{PhaseEquilibrium, SolverOptions};
 use kerotakis_thermo::fluid::{
     FluidCapabilities, FluidModel, FluidModelError, FluidModelResult, FluidOperation,
 };
-use kerotakis_thermo::vle::{Antoine, BubblePoint, DewPoint, FlashResult, Volatile};
+use kerotakis_thermo::vle::{BubblePoint, DewPoint, FlashResult, VapourPressure, Volatile};
 use nalgebra::DVector;
 use quantity::{KELVIN, PASCAL};
 use std::sync::Arc;
@@ -150,7 +150,7 @@ impl FluidModel for FeosPcSaftFluid {
 
     fn saturation_pressure_kpa(
         &self,
-        _antoine: &Antoine,
+        _correlation: &VapourPressure,
         _t_celsius: f64,
     ) -> FluidModelResult<f64> {
         Err(FluidModelError::unsupported(

@@ -1706,21 +1706,21 @@
       "v4: new vessel",
       "v1: +9.4000 mol water",
       "v1: +0.6000 mol ethanol",
-      "v1: not yet modelled — a bubble point for this mixture at 101.3 kPa — outside the fitted Antoine ranges",
-      "v2: not yet modelled — distillation of a vessel with no liquid water or ethanol — other volatile liquids need their Antoine constants curated first",
-      "v3: not yet modelled — distillation of a vessel with no liquid water or ethanol — other volatile liquids need their Antoine constants curated first"
+      "v1 → v2: 0.671 mol water + 0.329 mol ethanol over; the pot boiled at 88.5 °C and climbed to 92.2 °C as the light component left",
+      "v2 → v3: 0.131 mol water + 0.169 mol ethanol over; the pot boiled at 81.4 °C and climbed to 82.7 °C as the light component left",
+      "v3 → v4: 0.017 mol water + 0.073 mol ethanol over through a 4-stage column; the pot boiled at 79.4 °C and climbed to 80.2 °C as the light component left"
     ],
     "lesson": "spirit-still.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.6,
+            "moles": 0.27108082,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 9.4,
+            "moles": 8.72891918,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1730,19 +1730,52 @@
         "temperature_k": 298.15
       },
       {
-        "contents": [],
+        "contents": [
+          {
+            "moles": 0.15942175,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.54057825,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
       },
       {
-        "contents": [],
+        "contents": [
+          {
+            "moles": 0.09642894,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.11357106,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
       },
       {
-        "contents": [],
+        "contents": [
+          {
+            "moles": 0.07306849,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.01693151,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15

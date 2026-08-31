@@ -76,10 +76,10 @@ fn distilling_brine_makes_distilled_water() {
 }
 
 #[test]
-fn dilute_ethanol_refuses_outside_the_shared_antoine_range() {
-    // Wine-strength: x_ethanol ≈ 0.06 boils above the fitted 80 °C ceiling
-    // of the currently reviewed ethanol correlation. It must remain in the
-    // source vessel until a cleared high-temperature correlation is added.
+fn dilute_ethanol_uses_the_cleared_high_temperature_range() {
+    // Wine-strength: x_ethanol ≈ 0.06 boils above 80 °C. The explicitly
+    // licensed high-temperature segment must carry this core operation rather
+    // than leaving the charge untouched behind the old fitted-domain refusal.
     let (bench, events) = bench_with(&[
         Operator::NewVessel { kind: None },
         Operator::NewVessel { kind: None },
@@ -98,24 +98,31 @@ fn dilute_ethanol_refuses_outside_the_shared_antoine_range() {
         Operator::Distil {
             from: VesselId(1),
             to: VesselId(2),
-            fraction: Some(0.1),
+            fraction: Some(0.01),
             energy: None,
             stages: 1,
         },
     ]);
 
-    assert!(
-        events.iter().any(|event| matches!(
-            event,
-            Event::NotYetModeled { what, .. }
-                if what.contains("outside the fitted Antoine ranges")
-        )),
-        "the refusal must name the missing fitted domain"
-    );
-    assert_eq!(moles_in(&bench, 2, "water"), 0.0);
-    assert_eq!(moles_in(&bench, 2, "ethanol"), 0.0);
-    assert_eq!(moles_in(&bench, 1, "water"), 9.4);
-    assert_eq!(moles_in(&bench, 1, "ethanol"), 0.6);
+    let (water_over, ethanol_over, start_c) = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Distilled {
+                water, ethanol, at, ..
+            } => Some((water.0, ethanol.0, at.to_celsius())),
+            _ => None,
+        })
+        .unwrap_or_else(|| {
+            panic!(
+                "wine-strength charge did not distil: {events:?}; contents: {:?}",
+                bench.vessels[1].contents
+            )
+        });
+    assert!(start_c > 80.0 && start_c < 100.0);
+    assert!(water_over > 0.0 && ethanol_over > 0.0);
+    assert!(ethanol_over / (water_over + ethanol_over) > 0.06);
+    assert!((moles_in(&bench, 1, "water") + moles_in(&bench, 2, "water") - 9.4).abs() < 1e-12);
+    assert!((moles_in(&bench, 1, "ethanol") + moles_in(&bench, 2, "ethanol") - 0.6).abs() < 1e-12);
 }
 
 #[test]

@@ -26,7 +26,7 @@ use feos_core::{
 use kerotakis_thermo::eos::{CriticalProperties, PengRobinson as KeroPr};
 use kerotakis_thermo::fluid::FluidModel;
 use kerotakis_thermo::unifac;
-use kerotakis_thermo::vle::{self, Antoine, Volatile};
+use kerotakis_thermo::vle::{self, VapourPressure, Volatile};
 use nalgebra::DVector;
 use quantity::{JOULE, KELVIN, METER, MOL, PASCAL};
 use serde_json::Value;
@@ -67,7 +67,7 @@ fn f(v: &Value, k: &str) -> f64 {
 
 /// The six fluids `kerotakis-thermo` curates Antoine constants for. Anything
 /// else is `None`, and that `None` is the coverage gap this spike measures.
-fn kero_antoine(name: &str) -> Option<Antoine> {
+fn kero_vapour_pressure(name: &str) -> Option<VapourPressure> {
     Some(match name {
         "WATER" => vle::WATER,
         "ETHANOL" => vle::ETHANOL,
@@ -134,7 +134,7 @@ fn pures(c: &Value) {
         let kero_name = fl["kerotakis"].as_str();
 
         // ---- kerotakis-thermo: Antoine, inside its stated range only ----
-        match kero_name.and_then(kero_antoine) {
+        match kero_name.and_then(kero_vapour_pressure) {
             None => {
                 for t in fl["temps_c"].as_array().unwrap() {
                     let case = format!("{key}@{}C", t.as_f64().unwrap());
@@ -177,14 +177,22 @@ fn pures(c: &Value) {
                     let tc = t.as_f64().unwrap();
                     let case = format!("{key}@{tc}C");
                     match a.pressure_kpa(tc) {
-                        Some(p) => ok("kerotakis", &case, "psat_kpa", p, a.source),
+                        Some(p) => ok(
+                            "kerotakis",
+                            &case,
+                            "psat_kpa",
+                            p,
+                            a.segment_at(tc)
+                                .map_or("unknown correlation", |fit| fit.source),
+                        ),
                         None => unavailable(
                             "kerotakis",
                             &case,
                             "psat_kpa",
                             &format!(
                                 "outside fitted Antoine range {:.1}..{:.1} C",
-                                a.valid_c.0, a.valid_c.1
+                                a.valid_range().map_or(f64::NAN, |range| range.0),
+                                a.valid_range().map_or(f64::NAN, |range| range.1)
                             ),
                         ),
                     }
@@ -210,7 +218,14 @@ fn pures(c: &Value) {
                     gamma: 1.0,
                 }];
                 match vle::bubble_point(&mix, p_atm) {
-                    Some(bp) => ok("kerotakis", &key, "tboil_c", bp.t_celsius, a.source),
+                    Some(bp) => ok(
+                        "kerotakis",
+                        &key,
+                        "tboil_c",
+                        bp.t_celsius,
+                        a.segment_at(bp.t_celsius)
+                            .map_or("unknown correlation", |fit| fit.source),
+                    ),
                     None => unavailable("kerotakis", &key, "tboil_c", "bisection did not bracket"),
                 }
                 for q in ["tcrit_k", "pcrit_kpa"] {
@@ -488,8 +503,8 @@ fn binaries(c: &Value) {
 
         // ---- the adapter, on the same case, proving the seam ----
         if let (Some(aa), Some(ab)) = (
-            fa["kerotakis"].as_str().and_then(kero_antoine),
-            fb["kerotakis"].as_str().and_then(kero_antoine),
+            fa["kerotakis"].as_str().and_then(kero_vapour_pressure),
+            fb["kerotakis"].as_str().and_then(kero_vapour_pressure),
         ) {
             let model = adapter::FeosPcSaftFluid::new(eos.clone(), vec![na.clone(), nb.clone()]);
             for &x1 in &xs {
@@ -517,8 +532,8 @@ fn binaries(c: &Value) {
 }
 
 type KeroBinary = (
-    Antoine,
-    Antoine,
+    VapourPressure,
+    VapourPressure,
     unifac::GroupDecomposition,
     unifac::GroupDecomposition,
 );
@@ -529,11 +544,11 @@ type KeroBinary = (
 fn kero_binary(fa: &Value, fb: &Value) -> Result<KeroBinary, String> {
     let aa = fa["kerotakis"]
         .as_str()
-        .and_then(kero_antoine)
+        .and_then(kero_vapour_pressure)
         .ok_or_else(|| format!("no Antoine constants for {}", s(fa, "key")))?;
     let ab = fb["kerotakis"]
         .as_str()
-        .and_then(kero_antoine)
+        .and_then(kero_vapour_pressure)
         .ok_or_else(|| format!("no Antoine constants for {}", s(fb, "key")))?;
     let ga = groups(&fa["groups"]).ok_or("no group decomposition")?;
     let gb = groups(&fb["groups"]).ok_or("no group decomposition")?;

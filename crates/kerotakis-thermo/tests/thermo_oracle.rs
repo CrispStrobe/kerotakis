@@ -51,7 +51,7 @@ fn bubble_points_agree_with_the_independent_solve() {
         let (t_o, y_o): (f64, f64) = (row[3].parse().unwrap(), row[4].parse().unwrap());
         let Some(bp) = ethanol_water_bubble_point(x, p) else {
             assert!(
-                t_o > ETHANOL.valid_c.1,
+                t_o > ETHANOL.valid_range().unwrap().1,
                 "only an oracle point outside ethanol's fitted range may be refused: x={x}, T={t_o}"
             );
             continue;

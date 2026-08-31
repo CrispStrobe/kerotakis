@@ -60,11 +60,114 @@ impl Antoine {
     }
 }
 
+/// A saturation-pressure correlation composed of contiguous Antoine fits.
+///
+/// Antoine fits are local correlations. This small value type lets a fluid
+/// retain a trusted low-temperature fit while extending its domain with a
+/// separately sourced fit; gaps remain refusals rather than extrapolations.
+#[derive(Debug, Clone, Copy)]
+pub enum VapourPressure {
+    Antoine(Antoine),
+    Piecewise(&'static [Antoine]),
+}
+
+impl VapourPressure {
+    /// The source correlations in selection order.
+    pub const fn segments(&self) -> &[Antoine] {
+        match self {
+            Self::Antoine(segment) => std::slice::from_ref(segment),
+            Self::Piecewise(segments) => segments,
+        }
+    }
+
+    /// The correlation selected at this temperature, if the temperature is
+    /// inside a reviewed segment. Overlaps deliberately select the earlier
+    /// segment until its upper bound.
+    pub fn segment_at(&self, t_celsius: f64) -> Option<&Antoine> {
+        self.segments()
+            .iter()
+            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+    }
+
+    pub fn valid_range(&self) -> Option<(f64, f64)> {
+        let segments = self.segments();
+        let first = segments.first()?;
+        let lo = first.valid_c.0;
+        let mut hi = first.valid_c.1;
+        if !lo.is_finite()
+            || !hi.is_finite()
+            || lo > hi
+            || !first.a.is_finite()
+            || !first.b.is_finite()
+            || !first.c.is_finite()
+        {
+            return None;
+        }
+        for segment in &segments[1..] {
+            let (next_lo, next_hi) = segment.valid_c;
+            if !next_lo.is_finite()
+                || !next_hi.is_finite()
+                || next_lo > next_hi
+                || next_lo > hi
+                || next_lo < lo
+                || next_hi <= hi
+                || !segment.a.is_finite()
+                || !segment.b.is_finite()
+                || !segment.c.is_finite()
+            {
+                return None;
+            }
+            // The implementation selects the earlier segment throughout the
+            // overlap and switches at its upper bound. A large jump there can
+            // manufacture a bisection "root", so reject it as an invalid
+            // correlation rather than trusting a final solver temperature.
+            let previous = segments
+                .iter()
+                .find(|candidate| candidate.valid_c.1 == hi)?;
+            let p_before = previous.pressure_kpa(hi)?;
+            let p_after = segment.pressure_kpa(hi)?;
+            let relative_jump = (p_before - p_after).abs() / p_before.max(p_after);
+            if relative_jump > 0.01 {
+                return None;
+            }
+            hi = hi.max(next_hi);
+        }
+        Some((lo, hi))
+    }
+
+    pub fn pressure_kpa(&self, t_celsius: f64) -> Option<f64> {
+        self.segment_at(t_celsius)
+            .and_then(|segment| segment.pressure_kpa(t_celsius))
+    }
+
+    fn pressure_kpa_unchecked(&self, t_celsius: f64) -> f64 {
+        let segments = self.segments();
+        let segment = self
+            .segments()
+            .iter()
+            .find(|segment| t_celsius >= segment.valid_c.0 && t_celsius <= segment.valid_c.1)
+            .unwrap_or_else(|| {
+                if t_celsius < segments[0].valid_c.0 {
+                    &segments[0]
+                } else {
+                    segments.last().expect("vapour-pressure segments")
+                }
+            });
+        10f64.powf(segment.a - segment.b / (t_celsius + segment.c))
+    }
+}
+
+impl From<Antoine> for VapourPressure {
+    fn from(value: Antoine) -> Self {
+        Self::Antoine(value)
+    }
+}
+
 /// The common fitted temperature interval shared by every component.
 /// A mixture has no defensible Antoine answer when those intervals do not
 /// overlap: choosing the union would necessarily extrapolate at least one
 /// component.
-fn common_valid_range(antoines: &[Antoine], fractions: &[f64]) -> Option<(f64, f64)> {
+fn common_valid_range(antoines: &[VapourPressure], fractions: &[f64]) -> Option<(f64, f64)> {
     if antoines.len() != fractions.len() {
         return None;
     }
@@ -72,20 +175,11 @@ fn common_valid_range(antoines: &[Antoine], fractions: &[f64]) -> Option<(f64, f
     let mut hi = f64::INFINITY;
     let mut active = false;
     for (antoine, fraction) in antoines.iter().zip(fractions) {
+        let (component_lo, component_hi) = antoine.valid_range()?;
         if *fraction == 0.0 {
             continue;
         }
         active = true;
-        let (component_lo, component_hi) = antoine.valid_c;
-        if !component_lo.is_finite()
-            || !component_hi.is_finite()
-            || component_lo > component_hi
-            || !antoine.a.is_finite()
-            || !antoine.b.is_finite()
-            || !antoine.c.is_finite()
-        {
-            return None;
-        }
         lo = lo.max(component_lo);
         hi = hi.min(component_hi);
     }
@@ -103,7 +197,7 @@ pub const ATMOSPHERE_KPA: f64 = 101.325;
 
 /// Water, from the classic two-range Antoine fit. This is the 1–100 °C
 /// range, which is the one a bench lives in.
-pub const WATER: Antoine = Antoine {
+const WATER_ANTOINE: Antoine = Antoine {
     a: 7.19621,
     b: 1730.63,
     c: 233.426,
@@ -114,9 +208,10 @@ pub const WATER: Antoine = Antoine {
              `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. \
              Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)",
 };
+pub const WATER: VapourPressure = VapourPressure::Antoine(WATER_ANTOINE);
 
 /// Ethanol, over the range that spans its boiling point.
-pub const ETHANOL: Antoine = Antoine {
+pub const ETHANOL_LOW: Antoine = Antoine {
     a: 7.32907,
     b: 1642.89,
     c: 230.300,
@@ -128,19 +223,43 @@ pub const ETHANOL: Antoine = Antoine {
              Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)",
 };
 
+/// Experimentally fitted high-temperature ethanol saturation pressure.
+///
+/// Susial Badajoz, García Montesdeoca, and Santiago measured pure-ethanol
+/// vapour pressures from 107 to 1015 kPa and fitted
+/// `log10(P/kPa) = 6.99161 - 1460.701/(T/K - 58.477)`. The Celsius `c`
+/// below is the exact unit transform `273.15 - 58.477`. Their article and
+/// its data tables are licensed CC BY 4.0:
+/// <https://doi.org/10.1021/acsomega.6c04827>.
+pub const ETHANOL_HIGH: Antoine = Antoine {
+    a: 6.99161,
+    b: 1460.701,
+    c: 214.673,
+    valid_c: (79.65, 151.95),
+    source: "Susial Badajoz, P., Garcia Montesdeoca, I., & Santiago, D.E. (2026), \
+             ACS Omega 11, 48295-48312, DOI 10.1021/acsomega.6c04827, CC BY 4.0. \
+             Experimental pure-ethanol fit over 107-1015 kPa (352.8-425.1 K): \
+             log10(P/kPa) = 6.99161 - 1460.701/(T/K - 58.477); \
+             converted exactly to the Celsius denominator T/°C + 214.673",
+};
+
+const ETHANOL_SEGMENTS: &[Antoine] = &[ETHANOL_LOW, ETHANOL_HIGH];
+pub const ETHANOL: VapourPressure = VapourPressure::Piecewise(ETHANOL_SEGMENTS);
+
 /// Isopropanol over the NIST fit range that spans its normal boiling point.
 /// NIST publishes pressure in bar and temperature in kelvin; `a` includes
 /// the bar-to-kPa factor and `c` includes the kelvin-to-Celsius offset.
-pub const ISOPROPANOL: Antoine = Antoine {
+const ISOPROPANOL_ANTOINE: Antoine = Antoine {
     a: 6.861,
     b: 1357.427,
     c: 197.336,
     valid_c: (56.77, 89.26),
     source: "NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius",
 };
+pub const ISOPROPANOL: VapourPressure = VapourPressure::Antoine(ISOPROPANOL_ANTOINE);
 
 /// Methanol, over the range spanning its boiling point at 64.7 °C.
-pub const METHANOL: Antoine = Antoine {
+const METHANOL_ANTOINE: Antoine = Antoine {
     a: 7.20607,
     b: 1582.271,
     c: 239.726,
@@ -151,9 +270,10 @@ pub const METHANOL: Antoine = Antoine {
              `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. \
              Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)",
 };
+pub const METHANOL: VapourPressure = VapourPressure::Antoine(METHANOL_ANTOINE);
 
 /// Propanone (acetone), over the range spanning its boiling point at 56.05 °C.
-pub const PROPANONE: Antoine = Antoine {
+const PROPANONE_ANTOINE: Antoine = Antoine {
     a: 6.14957,
     b: 1161.0,
     c: 224.0,
@@ -164,9 +284,10 @@ pub const PROPANONE: Antoine = Antoine {
              `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. \
              Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)",
 };
+pub const PROPANONE: VapourPressure = VapourPressure::Antoine(PROPANONE_ANTOINE);
 
 /// Ethanoic acid (acetic acid), over the range spanning its boiling point at 117.9 °C.
-pub const ETHANOIC_ACID: Antoine = Antoine {
+const ETHANOIC_ACID_ANTOINE: Antoine = Antoine {
     a: 6.51292,
     b: 1533.313,
     c: 222.309,
@@ -177,10 +298,11 @@ pub const ETHANOIC_ACID: Antoine = Antoine {
              `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. \
              Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)",
 };
+pub const ETHANOIC_ACID: VapourPressure = VapourPressure::Antoine(ETHANOIC_ACID_ANTOINE);
 
 /// A pure component's contribution to a mixture.
 pub struct Volatile {
-    pub antoine: Antoine,
+    pub antoine: VapourPressure,
     /// Mole fraction in the liquid (or feed z, or vapour y, depending on context).
     pub x: f64,
     /// Activity coefficient. 1.0 is Raoult's law.
@@ -235,7 +357,7 @@ pub const KELVIN_OFFSET: f64 = 273.15;
 /// bug waiting for a tired reader. Antoine is in Celsius on this side; the
 /// conversion happens here, once, where it can be seen.
 pub fn bubble_point_with<F>(
-    antoines: &[Antoine],
+    antoines: &[VapourPressure],
     x: &[f64],
     pressure_kpa: f64,
     mut gammas: F,
@@ -299,7 +421,10 @@ where
     let t = 0.5 * (lo + hi);
     let p = partials(t, &mut gammas);
     let p_total: f64 = p.iter().sum();
-    if !p_total.is_finite() || p_total <= 0.0 {
+    if !p_total.is_finite()
+        || p_total <= 0.0
+        || (p_total - pressure_kpa).abs() / pressure_kpa > 1e-8
+    {
         return None;
     }
     let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
@@ -319,7 +444,7 @@ where
 /// The same, for a mixture whose activity coefficients do not move with
 /// temperature — an ideal one, or a curated γ held fixed.
 pub fn bubble_point(mix: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> {
-    let antoines: Vec<Antoine> = mix.iter().map(|c| c.antoine).collect();
+    let antoines: Vec<VapourPressure> = mix.iter().map(|c| c.antoine).collect();
     let x: Vec<f64> = mix.iter().map(|c| c.x).collect();
     let g: Vec<f64> = mix.iter().map(|c| c.gamma).collect();
     bubble_point_with(&antoines, &x, pressure_kpa, |_| g.clone())
@@ -336,8 +461,8 @@ pub fn bubble_point(mix: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> 
 /// Ideal mixtures never produce one, which is exactly why running this with
 /// γ = 1 and then with real activity coefficients is the demonstration.
 pub fn azeotrope<F>(
-    a: Antoine,
-    b: Antoine,
+    a: VapourPressure,
+    b: VapourPressure,
     pressure_kpa: f64,
     mut gammas: F,
 ) -> Option<(f64, BubblePoint)>
@@ -407,7 +532,7 @@ pub struct DewPoint {
 /// `mix[i].x` is treated as the vapour mole fraction yᵢ.
 /// The same, for fixed activity coefficients: γ pinned per component.
 pub fn dew_point(mix: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
-    let antoines: Vec<Antoine> = mix.iter().map(|c| c.antoine).collect();
+    let antoines: Vec<VapourPressure> = mix.iter().map(|c| c.antoine).collect();
     let y: Vec<f64> = mix.iter().map(|c| c.x).collect();
     let g: Vec<f64> = mix.iter().map(|c| c.gamma).collect();
     dew_point_with(&antoines, &y, pressure_kpa, &mut |_, _| g.clone())
@@ -425,7 +550,7 @@ pub fn dew_point(mix: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
 /// until x stops moving. Constant γ converges on the first pass to the
 /// same arithmetic the fixed wrapper always did.
 pub fn dew_point_with(
-    antoines: &[Antoine],
+    antoines: &[VapourPressure],
     y: &[f64],
     pressure_kpa: f64,
     gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
@@ -483,6 +608,10 @@ pub fn dew_point_with(
             }
         }
         let t = 0.5 * (lo + hi);
+        let solved_residual = residual(t, &x);
+        if !solved_residual.is_finite() || solved_residual.abs() * pressure_kpa > 1e-8 {
+            return None;
+        }
         let g = gammas(&x, t + KELVIN_OFFSET);
         if g.len() != antoines.len() || g.iter().any(|v| !v.is_finite() || *v <= 0.0) {
             return None;
@@ -535,7 +664,7 @@ pub struct FlashResult {
 /// Isothermal TP flash via the Rachford-Rice equation, γ fixed per
 /// component. `components[i].x` is the overall feed mole fraction zᵢ.
 pub fn tp_flash(components: &[Volatile], pressure_kpa: f64, t_celsius: f64) -> Option<FlashResult> {
-    let antoines: Vec<Antoine> = components.iter().map(|c| c.antoine).collect();
+    let antoines: Vec<VapourPressure> = components.iter().map(|c| c.antoine).collect();
     let z: Vec<f64> = components.iter().map(|c| c.x).collect();
     let g: Vec<f64> = components.iter().map(|c| c.gamma).collect();
     tp_flash_with(&antoines, &z, pressure_kpa, t_celsius, &mut |_, _| {
@@ -549,24 +678,26 @@ pub fn tp_flash(components: &[Volatile], pressure_kpa: f64, t_celsius: f64) -> O
 /// liquid stops moving. Constant γ converges on the first pass to the
 /// same arithmetic the fixed wrapper always did.
 pub fn tp_flash_with(
-    antoines: &[Antoine],
+    antoines: &[VapourPressure],
     z: &[f64],
     pressure_kpa: f64,
     t_celsius: f64,
     gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
 ) -> Option<FlashResult> {
-    let valid_range = common_valid_range(antoines, z);
     if antoines.is_empty()
         || antoines.len() != z.len()
         || !pressure_kpa.is_finite()
         || pressure_kpa <= 0.0
         || !t_celsius.is_finite()
         || !valid_fractions(z)
-        || match valid_range {
-            Some((lo, hi)) => t_celsius < lo || t_celsius > hi,
-            None => true,
-        }
     {
+        return None;
+    }
+    let valid_range = common_valid_range(antoines, z);
+    if match valid_range {
+        Some((lo, hi)) => t_celsius < lo || t_celsius > hi,
+        None => true,
+    } {
         return None;
     }
     let z_total: f64 = z.iter().sum();
@@ -734,7 +865,7 @@ pub fn hp_flash_with(
     {
         return None;
     }
-    let antoines: Vec<Antoine> = components.iter().map(|c| c.volatile.antoine).collect();
+    let antoines: Vec<VapourPressure> = components.iter().map(|c| c.volatile.antoine).collect();
     let z: Vec<f64> = components.iter().map(|c| c.volatile.x).collect();
 
     // Energy balance residual: H_feed - H(T, V) = 0
@@ -1182,32 +1313,121 @@ mod tests {
 
     #[test]
     fn antoine_range_endpoints_are_inclusive_and_nonfinite_is_refused() {
-        assert!(WATER.pressure_kpa(WATER.valid_c.0).is_some());
-        assert!(WATER.pressure_kpa(WATER.valid_c.1).is_some());
-        let immediately_below = f64::from_bits(WATER.valid_c.0.to_bits() - 1);
+        let (lo, hi) = WATER.valid_range().unwrap();
+        assert!(WATER.pressure_kpa(lo).is_some());
+        assert!(WATER.pressure_kpa(hi).is_some());
+        let immediately_below = f64::from_bits(lo.to_bits() - 1);
         assert!(WATER.pressure_kpa(immediately_below).is_none());
         assert!(WATER.pressure_kpa(f64::NAN).is_none());
         assert!(WATER.pressure_kpa(f64::INFINITY).is_none());
     }
 
     #[test]
+    fn ethanol_piecewise_range_is_continuous_inclusive_and_bounded() {
+        assert!(ETHANOL.pressure_kpa(ETHANOL_LOW.valid_c.0).is_some());
+        assert!(ETHANOL.pressure_kpa(ETHANOL_HIGH.valid_c.1).is_some());
+        assert!(ETHANOL
+            .pressure_kpa(ETHANOL_HIGH.valid_c.1 + 1e-9)
+            .is_none());
+
+        let low = ETHANOL_LOW.pressure_kpa(80.0).unwrap();
+        let high = ETHANOL_HIGH.pressure_kpa(80.0).unwrap();
+        let relative_jump = (high - low).abs() / low;
+        assert!(
+            relative_jump < 0.0005,
+            "80 °C segment jump must remain below 0.05%, got {:.5}%",
+            relative_jump * 100.0
+        );
+    }
+
+    #[test]
+    fn ethanol_high_fit_agrees_with_independent_published_observations() {
+        // Table 2 of Susial Badajoz et al. reports (352.8 K, 107 kPa) and
+        // (425.1 K, 1015 kPa). The paper gives expanded pressure uncertainty
+        // U(k=2) = 3 kPa and a fit SD of 1.11 kPa; 5 kPa covers both without
+        // regenerating an oracle from these same coefficients.
+        for (t_celsius, observed_kpa) in [(79.65, 107.0), (151.95, 1015.0)] {
+            let fitted = ETHANOL_HIGH.pressure_kpa(t_celsius).unwrap();
+            assert!((fitted - observed_kpa).abs() < 5.0);
+        }
+    }
+
+    #[test]
+    fn malformed_piecewise_correlations_refuse_without_zero_fraction_panics() {
+        const EMPTY: VapourPressure = VapourPressure::Piecewise(&[]);
+        let mix = [
+            Volatile {
+                antoine: EMPTY,
+                x: 0.0,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 1.0,
+                gamma: 1.0,
+            },
+        ];
+        assert!(bubble_point(&mix, ATMOSPHERE_KPA).is_none());
+
+        const DISCONTINUOUS_SEGMENTS: &[Antoine] = &[
+            Antoine {
+                a: 1.0,
+                b: 0.0,
+                c: 1.0,
+                valid_c: (0.0, 10.0),
+                source: "synthetic discontinuity test, low",
+            },
+            Antoine {
+                a: 2.0,
+                b: 0.0,
+                c: 1.0,
+                valid_c: (9.0, 20.0),
+                source: "synthetic discontinuity test, high",
+            },
+        ];
+        const DISCONTINUOUS: VapourPressure = VapourPressure::Piecewise(DISCONTINUOUS_SEGMENTS);
+        assert!(DISCONTINUOUS.valid_range().is_none());
+        assert!(bubble_point(
+            &[Volatile {
+                antoine: DISCONTINUOUS,
+                x: 1.0,
+                gamma: 1.0,
+            }],
+            50.0,
+        )
+        .is_none());
+    }
+
+    #[test]
+    fn water_rich_atmospheric_distillation_uses_high_ethanol_segment() {
+        let bubble = ethanol_water_bubble_point(0.05, ATMOSPHERE_KPA)
+            .expect("five mole-percent ethanol must have an in-range atmospheric root");
+        assert!(bubble.t_celsius > 80.0 && bubble.t_celsius < 100.0);
+
+        let cut = ethanol_water_still(0.95, 0.05, StillTake::Fraction(0.01), 1, ATMOSPHERE_KPA)
+            .expect("water-rich wine-strength feed must no longer be range-refused");
+        assert!(cut.t_start_c > 80.0 && cut.t_start_c < 100.0);
+        assert!(cut.ethanol_over > 0.0);
+    }
+
+    #[test]
     fn solvers_refuse_non_overlapping_antoine_ranges() {
         let low = Antoine {
             valid_c: (0.0, 10.0),
-            ..WATER
+            ..WATER_ANTOINE
         };
         let high = Antoine {
             valid_c: (20.0, 30.0),
-            ..ETHANOL
+            ..ETHANOL_LOW
         };
         let mix = [
             Volatile {
-                antoine: low,
+                antoine: low.into(),
                 x: 0.5,
                 gamma: 1.0,
             },
             Volatile {
-                antoine: high,
+                antoine: high.into(),
                 x: 0.5,
                 gamma: 1.0,
             },
@@ -1233,7 +1453,8 @@ mod tests {
         ];
         assert!(tp_flash(&mix, ATMOSPHERE_KPA, 0.0).is_none());
         assert!(tp_flash(&mix, ATMOSPHERE_KPA, 80.0).is_some());
-        let immediately_above = f64::from_bits(80.0f64.to_bits() + 1);
+        assert!(tp_flash(&mix, ATMOSPHERE_KPA, 90.0).is_some());
+        let immediately_above = f64::from_bits(100.0f64.to_bits() + 1);
         assert!(tp_flash(&mix, ATMOSPHERE_KPA, immediately_above).is_none());
         assert!(tp_flash(&mix, ATMOSPHERE_KPA, f64::NAN).is_none());
     }

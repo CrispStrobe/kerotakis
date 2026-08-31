@@ -5,7 +5,7 @@
 //! routes the same way regardless of which activity-coefficient model is
 //! selected — or whether a cubic equation of state replaces Raoult entirely.
 
-use crate::vle::{Antoine, BubblePoint, DewPoint, FlashResult, Volatile};
+use crate::vle::{BubblePoint, DewPoint, FlashResult, VapourPressure, Volatile};
 use std::fmt;
 
 /// A thermodynamic operation that a [`FluidModel`] may support.
@@ -121,7 +121,11 @@ pub trait FluidModel {
     ) -> FluidModelResult<FlashResult>;
 
     /// Saturation pressure for a pure component at a given temperature.
-    fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> FluidModelResult<f64>;
+    fn saturation_pressure_kpa(
+        &self,
+        correlation: &VapourPressure,
+        t_celsius: f64,
+    ) -> FluidModelResult<f64>;
 }
 
 /// The ideal fluid model: Raoult's law with γ = 1.
@@ -162,8 +166,12 @@ impl FluidModel for IdealFluid {
         Ok(crate::vle::tp_flash(components, pressure_kpa, t_celsius))
     }
 
-    fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> FluidModelResult<f64> {
-        Ok(antoine.pressure_kpa(t_celsius))
+    fn saturation_pressure_kpa(
+        &self,
+        correlation: &VapourPressure,
+        t_celsius: f64,
+    ) -> FluidModelResult<f64> {
+        Ok(correlation.pressure_kpa(t_celsius))
     }
 }
 
@@ -181,13 +189,14 @@ mod tests {
     fn ideal_fluid_delegates_to_vle() {
         // Water Antoine constants (Stull 1947, kPa form)
         let water = Volatile {
-            antoine: Antoine {
+            antoine: crate::vle::Antoine {
                 a: 8.07131 - 2.0, // adjusted to kPa
                 b: 1730.63,
                 c: 233.426,
                 valid_c: (1.0, 100.0),
                 source: "test",
-            },
+            }
+            .into(),
             x: 1.0,
             gamma: 1.0,
         };
@@ -258,7 +267,7 @@ mod tests {
 
             fn saturation_pressure_kpa(
                 &self,
-                _antoine: &Antoine,
+                _correlation: &VapourPressure,
                 _t_celsius: f64,
             ) -> FluidModelResult<f64> {
                 Err(FluidModelError::unsupported(
