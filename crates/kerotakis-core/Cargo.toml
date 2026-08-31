@@ -46,7 +46,11 @@ serde_json = { workspace = true }
 criterion = { version = "0.5", features = ["html_reports"] }
 dhat = "0.3"
 proptest = "1"
+serde = { workspace = true }
 serde_json = { workspace = true }
+# `tests/i18n_coverage.rs` reads i18n/de.toml to ask whether ANY key
+# exists under a prefix, which `Locale::lookup` cannot answer.
+toml = "0.8"
 
 [[bench]]
 name = "solve"

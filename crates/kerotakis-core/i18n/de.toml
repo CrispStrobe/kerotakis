@@ -36,6 +36,12 @@ flask = "Kolben"
 "test tube" = "Reagenzglas"
 "measuring cylinder" = "Messzylinder"
 burette = "Bürette"
+# The five kinds `Vessel::new` actually draws are `beaker`, `flask`,
+# `tube`, `cylinder` and `crucible` — the short labels, not the long names
+# below them. `every_glassware_kind_the_bench_draws_has_german` walks
+# `vessel::VESSEL_KINDS`; before it did, a tube read "tube" in German.
+tube = "Reagenzglas"
+cylinder = "Messzylinder"
 pipette = "Pipette"
 crucible = "Tiegel"
 "evaporating basin" = "Abdampfschale"
@@ -184,6 +190,29 @@ zinc = "Zink"
 "zinc ion" = "Zink-Ion"
 "zinc sulfate" = "Zinksulfat"
 
+# Added by `every_species_the_registry_names_has_german`, which walks
+# `species::registry()` rather than this file. These seventeen had been
+# added to the registry since the last translation pass and read in
+# English inside German sentences; nothing reported them, because the
+# fallback is per key and silent.
+"2-bromo-2-methylpropane" = "2-Brom-2-methylpropan"
+"2-methylpropan-2-ol" = "2-Methylpropan-2-ol"
+"2-methylpropene" = "2-Methylpropen"
+"bromide ion" = "Bromid-Ion"
+bromoethane = "Bromethan"
+ethene = "Ethen"
+"hydrogen bromide" = "Bromwasserstoff"
+"iron(II) hydroxide" = "Eisen(II)-hydroxid"
+"iron(III) hydroxide" = "Eisen(III)-hydroxid"
+"iron(III) oxide (hematite)" = "Eisen(III)-oxid (Hämatit)"
+isopropanol = "Isopropanol"
+"magnesium hydroxide" = "Magnesiumhydroxid"
+"magnesium sulfate heptahydrate (epsomite)" = "Magnesiumsulfat-Heptahydrat (Epsomit)"
+"silicon dioxide (quartz)" = "Siliciumdioxid (Quarz)"
+"sodium bromide" = "Natriumbromid"
+sucrose = "Saccharose"
+"zinc hydroxide" = "Zinkhydroxid"
+
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
 "vessel-created.lv2" = "{vessel}: neues Gefäß"
@@ -316,8 +345,12 @@ zinc = "Zink"
 "magnet-separated.lv3" = "{from}: keine magnetischen Spezies vorhanden"
 "not-yet-modeled.lv3" = "{vessel}: NICHT MODELLIERT: {what}"
 "org-reacted.lv1" = "In {vessel} entsteht etwas Neues — die {name}-Reaktion verwandelt das Gemisch in andere Stoffe."
-"plated.lv1" = "Auf {host} in {vessel} wächst ein {colour} Belag aus {name} — das {name} hat sich aus dem Wasser darauf abgeschieden."
-"precipitated.lv1" = "In {vessel} wird es trüb! Ein {colour} Feststoff erscheint am Boden — das nennt man einen Niederschlag."
+# {colour} is a registry appearance and arrives uninflected, so it stands
+# in parentheses rather than in front of the noun: "ein weiß Belag" is not
+# German, and "weißes kristallines Pulver" cannot be given an ending at
+# all. See [appearance].
+"plated.lv1" = "Auf {host} in {vessel} wächst ein Belag aus {name} ({colour}) — das {name} hat sich aus dem Wasser darauf abgeschieden."
+"precipitated.lv1" = "In {vessel} wird es trüb! Am Boden erscheint ein Feststoff ({colour}) — das nennt man einen Niederschlag."
 "reacted.lv1-after-seconds-something" = "Nach {seconds} Sekunden tut sich etwas in {vessel}."
 "reacted.lv1-making-happen-much" = "In {vessel} lässt {c} es viel schneller ablaufen — nach {seconds} Sekunden hat sich schon viel verändert!"
 "reacted.lv2" = ", beschleunigt durch {c}"
@@ -403,6 +436,30 @@ zinc = "Zink"
 "vessel-sealed.lv3" = "{vessel}: Randbedingung=offen → verschlossen; V_gas={headspace_volume} L, Näherung Trockenluft eingeschlossen={trapped_air} mol"
 "vessel-swept.lv2" = "{vessel}: mit Stickstoff gespült bei {pressure} bar; flüchtige Produkte werden ausgetragen"
 "vessel-swept.lv3" = "{vessel}: Randbedingung=gespült; inerte N2-Spülung bei P={pressure} Pa, Gasbestand extern"
+
+# Seven event variants whose learner-facing sentence was still inside a
+# bare format!, so no catalogue could reach them and German readers got
+# English no matter how complete this file was. Found by
+# `every_event_the_engine_can_emit_has_a_german_sentence`, which walks the
+# serde variant names of the Event enum rather than a list kept by hand.
+# The spill and breakage events, merged the day this gate was written and
+# caught by it the same afternoon: five variants, no German at all. Nothing
+# else noticed, because an untranslated event renders English and reads as
+# a sentence somebody chose to leave alone.
+"spill-created.lv1" = "Material aus {source} ergießt sich auf {where}."
+"container-broken.lv1" = "{vessel} zerbricht; der Inhalt ergießt sich auf {where}."
+"collision-withstood.lv1" = "{vessel} bekommt einen Stoß ab, bleibt aber heil."
+"spill-recovered.lv1" = "Material von {where} wird in {to} zurückgeholt."
+"spill-hazard.lv1" = "Gefahr an der verschütteten Stelle {where}: {hazard} {real_world}"
+
+"fermented.lv1" = "Hefe ernährt sich vom Zucker in {vessel} und erzeugt Alkohol und Kohlendioxid-Bläschen."
+"surface-spread.lv1" = "Das {material} flieht vor der Seife in {vessel}!"
+"surface-colour-spread.lv1" = "Die Farben jagen und wirbeln über die Milch in {vessel}!"
+"surface-colour-mixed.lv1" = "Das Rühren verteilt die Oberflächenfarben in {vessel}."
+"emulsion-changed.lv1-dispersing" = "Winzige {material}-Tröpfchen verteilen sich im Wasser in {vessel} und trüben es ein."
+"emulsion-changed.lv1-coalescing" = "Die Tröpfchen in {vessel} fließen wieder zusammen, und die {material}-Schicht kehrt zurück."
+"curdling-changed.lv1" = "Das {material} in {vessel} trennt sich in weiche weiße Quarkflocken und trübe Molke."
+"material-layers-formed.lv1" = "Das {upper_material} schwimmt in einer eigenen Schicht über dem Wasser in {vessel}."
 
 # Words that a branch used to choose in English and drop into a sentence.
 # They go through the catalogue now, so German picks German words.
@@ -535,6 +592,70 @@ Danger = "Gefahr"
 # flame test — leaving it in English under a German sentence loses the
 # only word that mattered. `flame_colours_are_translated` walks the
 # registry so a new one cannot be added without German.
+# What a precipitate or a plating LOOKS like, by its English.
+#
+# These are `SpeciesData.appearance` and they were dropped into a
+# translated sentence verbatim: "Ein white Feststoff erscheint am Boden".
+# The colour is what that sentence is FOR, so English there loses the
+# observation and keeps only the grammar.
+#
+# Uninflected on purpose. German adjectives before a noun take an ending
+# that depends on the noun, and "weißes kristallines Pulver" cannot take
+# one at all — so the two sentences that use these carry the word as an
+# apposition in parentheses instead of as an attribute, and one form fits
+# every site. `every_appearance_word_has_german` walks the registry.
+[appearance]
+black = "schwarz"
+blue = "blau"
+"bluish-silver" = "bläulich silbern"
+"bright yellow powder" = "leuchtend gelbes Pulver"
+"brilliant white" = "strahlend weiß"
+"clear plastic" = "klarer Kunststoff"
+"colorless solution" = "farblose Lösung"
+colourless = "farblos"
+"colourless to white crystals" = "farblose bis weiße Kristalle"
+"colourless to white grains" = "farblose bis weiße Körner"
+"colourless, oily" = "farblos, ölig"
+"colourless, sharp smell" = "farblos, stechender Geruch"
+"colourless, syrupy" = "farblos, sirupartig"
+"colourless, vinegar smell" = "farblos, essigartiger Geruch"
+"dark blue powder" = "dunkelblaues Pulver"
+"dark green-black crystals" = "dunkelgrün-schwarze Kristalle"
+"dark purple crystals" = "dunkelpurpurne Kristalle"
+"dark red powder" = "dunkelrotes Pulver"
+"dark violet crystals" = "dunkelviolette Kristalle"
+"dull grey" = "mattgrau"
+"fuming colorless liquid" = "rauchende farblose Flüssigkeit"
+green = "grün"
+grey = "grau"
+"intense purple" = "intensiv purpurn"
+# A species the registry does not describe. English says "new"; the
+# fallback is looked up like any other word rather than left in English.
+new = "neu"
+"pale blue" = "hellblau"
+"pale green" = "hellgrün"
+"pale yellow" = "blassgelb"
+"pale yellow-green" = "blass gelbgrün"
+red = "rot"
+"red-brown" = "rotbraun"
+"reddish brown" = "rötlich braun"
+"reddish-brown" = "rötlichbraun"
+"sharp-smelling, toxic" = "stechend riechend, giftig"
+silver = "silbern"
+silvery = "silbrig"
+"silvery-white" = "silberweiß"
+"translucent white plastic" = "durchscheinender weißer Kunststoff"
+"very pale pink" = "sehr blassrosa"
+white = "weiß"
+"white crystalline powder" = "weißes kristallines Pulver"
+"white crystalline solid" = "weißer kristalliner Feststoff"
+"white granular solid" = "weißer körniger Feststoff"
+"white opaque plastic" = "weißer undurchsichtiger Kunststoff"
+"white powder" = "weißes Pulver"
+"white to yellowish powder" = "weißes bis gelbliches Pulver"
+"white when dry" = "weiß im trockenen Zustand"
+"yellow-green, toxic" = "gelbgrün, giftig"
+
 [flame]
 "a blinding white" = "blendend weiß"
 "apple green" = "apfelgrün"
