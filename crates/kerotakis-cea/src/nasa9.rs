@@ -373,8 +373,7 @@ mod tests {
             .reactants
             .keys()
             .filter(|name| {
-                name.starts_with('-')
-                    || name.chars().next().is_some_and(|c| c.is_ascii_digit())
+                name.starts_with('-') || name.chars().next().is_some_and(|c| c.is_ascii_digit())
             })
             .map(String::as_str)
             .collect();
