@@ -14,6 +14,14 @@ No numerical parameter from either candidate is copied into this repository by
 this checkpoint. The importer is tested with synthetic records. Runtime routing
 remains unchanged and BRD-032 remains blocked.
 
+Subsequent engineering checkpoints do not change that decision. PR #278 merged
+the quarantine-only importer with synthetic PC-SAFT-shaped fixtures; PR #289
+merged molecular-length typing, and PR #291 merged scoped access to the already
+vendored NASA-9 ideal-gas records. None contains a promoted residual parameter
+pack. PR #290 (a CC-BY-4.0 ethanol vapour-pressure fit) and PR #293 (verified
+offline snapshot tooling) remain open review checkpoints as of this audit date
+and must not be described as shipped.
+
 ## Pilot identities
 
 The proposed slice is water, carbon dioxide, nitrogen, oxygen, ammonia, and
@@ -75,3 +83,23 @@ relevant rights holder; or a replacement dataset released explicitly under
 CC0, CC BY 4.0, MIT, BSD, Apache-2.0, or U.S. public domain terms. The evidence
 must identify the exact revision/files and be recorded in `sources.toml` before
 any candidate bytes or generated runtime pack are committed.
+
+## Recorded permissive-source status
+
+This repository contains no exact source bytes and grant clearing a direct
+six-fluid PC-SAFT table under CC0, CC BY 4.0, or U.S. public-domain terms. No
+reproducible search log accompanies this checkpoint, so it does not claim an
+exhaustive or independently repeatable external search. In particular:
+
+- a permissive code licence does not automatically license third-party-derived
+  numerical values stored beside the code;
+- NIST WebBook/ThermoML records and journal tables are not assumed public
+  domain merely because they are publicly accessible or citable; and
+- NASA CEA's cleared NASA-9 records provide ideal-gas heat capacity, enthalpy
+  and entropy. They do not provide PC-SAFT segment count/diameter, dispersion
+  energy, association parameters or binary interactions.
+
+Therefore an agent can safely write generated tables only after the exact
+source bytes and grant have passed the existing snapshot, checksum and
+per-field promotion gate. The NASA ideal-gas slice can complement a future
+residual model, but it cannot satisfy or bypass the residual-parameter gate.

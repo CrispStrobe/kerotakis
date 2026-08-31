@@ -592,7 +592,10 @@ size number in § 5.3 is a floor, not the whole cost.
 > `UnsupportedOperation` errors. Native and `wasm32-unknown-unknown` library
 > checks pass against the exact `=0.10.1` feos/feos-core requirements and the
 > spike's newly checked-in lockfile. The component-identity leak below remains
-> unresolved, and macOS/iOS remain unproven.
+> unresolved in this historical spike implementation. PR #279 subsequently
+> added compile-only CI for wasm32, Android, Windows, macOS and iOS, so those
+> target builds are no longer unproven. That portability result does not clear
+> or embed any third-party numerical parameter table.
 
 `spikes/brd-030-feos/src/adapter.rs` implements
 `kerotakis_thermo::fluid::FluidModel` over feos PC-SAFT for bubble points.
