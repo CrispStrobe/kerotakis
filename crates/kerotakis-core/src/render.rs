@@ -2065,7 +2065,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .unwrap_or(outcome);
                     match level {
                         1 => locale.fill(
-                            "event.transition-point.lv1",
+                            "event.transition-point-read.lv1",
                             "The sample from {vessel} {outcome} at {value} °C. Every pure substance has its own, always the same — which is how you tell one white powder from another.",
                             &[("vessel", &vessel.to_string()), ("outcome", outcome), ("value", &locale.number(format!("{value:.1}")))],
                         ),
