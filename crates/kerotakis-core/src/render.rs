@@ -2406,6 +2406,74 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             steps,
             total_volume,
             final_ph,
+            pe_curve,
+            endpoint_reached,
+            endpoint,
+            ..
+        } if !endpoint.is_ph() => {
+            // EXP-39. A redox titration is not narrated as "the pH
+            // reaches 7": the number a reader wants is the potential or
+            // the colour, and the pH is a bystander. It is still printed
+            // at lv3, because the endpoint of a permanganate titration
+            // depends on the flask staying acidic and a reader checking
+            // the work needs to see that it did.
+            let name = species::lookup(titrant)
+                .map(|d| d.name)
+                .unwrap_or(titrant.0.as_str());
+            // A noun phrase in both languages, so the three sentences
+            // below can slot it in without either one fighting the other
+            // language's word order.
+            let arrival = match endpoint {
+                crate::ops::Endpoint::Pe { compare, value } => locale.fill(
+                    "event.titrated.endpoint.pe",
+                    "pe {compare} {value}",
+                    &[("compare", compare.symbol()), ("value", &locale.number(format!("{value}")))],
+                ),
+                _ => locale.fill(
+                    "event.titrated.endpoint.colour",
+                    "a {name} colour that stays",
+                    &[("name", name)],
+                ),
+            };
+            let final_pe = match pe_curve.last() {
+                Some(&(_, pe)) => locale.number(format!("{pe:.2}")),
+                None => locale
+                    .t(
+                        "event.titrated.no_potential",
+                        "undefined — no potential was pinned",
+                    )
+                    .to_string(),
+            };
+            let outcome = if endpoint_reached.unwrap_or(false) {
+                locale.t("event.titrated.reached", "endpoint reached")
+            } else {
+                locale.t("event.titrated.not_reached", "endpoint NOT reached")
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.titrated.redox.lv1",
+                    "You titrate {vessel} with {name} until you get {arrival} — that took {steps} additions.",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("steps", &steps.to_string()), ("arrival", &arrival)],
+                ),
+                2 => locale.fill(
+                    "event.titrated.redox.lv2",
+                    "{vessel}: titrated with {concentration} mol/L {name} to {arrival}; {steps} steps, {total_volume} mL total, {outcome}",
+                    &[("vessel", &vessel.to_string()), ("concentration", &concentration.to_string()), ("name", name), ("arrival", &arrival), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.1}", total_volume.0 * 1000.0))), ("outcome", outcome)],
+                ),
+                _ => locale.fill(
+                    "event.titrated.redox.lv3",
+                    "{vessel}: auto-titration with {titrant} standard solution ({concentration} mol/L; {steps} steps, {total_volume} mL cumulative = {delivered} mol delivered with its carrier water); endpoint = {arrival}, {outcome}; final pe {final_pe}, final pH {final_ph}",
+                    &[("vessel", &vessel.to_string()), ("titrant", &titrant.0.to_string()), ("concentration", &concentration.to_string()), ("steps", &steps.to_string()), ("total_volume", &locale.number(format!("{:.3}", total_volume.0 * 1000.0))), ("delivered", &locale.number(format!("{:.5}", concentration * total_volume.0))), ("arrival", &arrival), ("outcome", outcome), ("final_pe", &final_pe), ("final_ph", &locale.number(format!("{final_ph:.3}")))],
+                ),
+            }
+        }
+        Event::Titrated {
+            vessel,
+            titrant,
+            concentration,
+            steps,
+            total_volume,
+            final_ph,
             ..
         } => {
             let name = species::lookup(titrant)

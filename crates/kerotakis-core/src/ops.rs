@@ -27,6 +27,81 @@ fn default_stir_seconds() -> f64 {
     10.0
 }
 
+/// Which side of a threshold a titration is waiting to land on.
+///
+/// A pH endpoint is a *crossing* — the curve arrives from one side and
+/// leaves on the other, so the direction is discovered rather than
+/// declared. A redox endpoint is not: past equivalence the potential
+/// keeps climbing, and the practical says "titrate until the potential
+/// passes X", which is an inequality and has to be written as one.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Compare {
+    Above,
+    AtLeast,
+    Below,
+    AtMost,
+}
+
+impl Compare {
+    pub fn holds(self, value: f64, threshold: f64) -> bool {
+        match self {
+            Compare::Above => value > threshold,
+            Compare::AtLeast => value >= threshold,
+            Compare::Below => value < threshold,
+            Compare::AtMost => value <= threshold,
+        }
+    }
+
+    /// The token that spells it, for narration and round-tripping.
+    pub fn symbol(self) -> &'static str {
+        match self {
+            Compare::Above => ">",
+            Compare::AtLeast => ">=",
+            Compare::Below => "<",
+            Compare::AtMost => "<=",
+        }
+    }
+}
+
+/// EXP-39: how a titration knows it has arrived.
+///
+/// CAP-12 could only chase a pH, which is the endpoint of exactly one
+/// family of titrations. A redox titration has two of its own, and both
+/// are read off state the engine already computes rather than off a new
+/// solver: the potentiometric endpoint is the aqueous engine's own pe,
+/// and the self-indicating endpoint is the computed colour of the
+/// liquid — permanganate is its own indicator because ε(λ) says it is
+/// visible at 10⁻⁵ mol/L, not because a constant somewhere says so.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum Endpoint {
+    /// The pH crosses `Operator::Titrate::target_ph`. CAP-12's endpoint,
+    /// and still the default.
+    #[default]
+    Ph,
+    /// Potentiometric: the solver's own pe passes `value`. A step where
+    /// the engine withholds pe — at equivalence the electron balance has
+    /// no root and printing a number there would republish a bracket
+    /// ceiling as a measurement — never satisfies the comparison.
+    Pe { compare: Compare, value: f64 },
+    /// Self-indicating: the titrant's own colour survives in the flask.
+    /// The flask's computed colour word is read before the first drop
+    /// and after every one; the endpoint is the first increment whose
+    /// colour differs from that baseline. Everything is equilibrated, so
+    /// a colour that appears here is by construction a colour that
+    /// stays — which is exactly what "persists" means at the bench.
+    ColourPersists,
+}
+
+impl Endpoint {
+    /// Whether this is the legacy pH endpoint, and so may be omitted
+    /// from the wire entirely.
+    pub fn is_ph(&self) -> bool {
+        matches!(self, Endpoint::Ph)
+    }
+}
+
 /// A mutating or measuring action. One `Operator` in is one step of the bench
 /// loop: L0 safety pass → apply → re-equilibrate → events out.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -245,9 +320,10 @@ pub enum Operator {
     /// see `curated::ORG_REACTIONS`.
     React { vessel: VesselId, reaction: String },
     /// Auto-stepped titration: add `titrant` to `vessel` in increments of
-    /// `step` volume, re-equilibrating after each addition, until the pH
-    /// crosses `target_ph` or `max_steps` additions are exhausted. Records
-    /// (cumulative volume, pH) at every step.
+    /// `step` volume, re-equilibrating after each addition, until the
+    /// `endpoint` is reached or `max_steps` additions are exhausted.
+    /// Records (cumulative volume, pH) at every step, and (cumulative
+    /// volume, pe) wherever the solver pinned a potential.
     Titrate {
         vessel: VesselId,
         titrant: SpeciesId,
@@ -258,8 +334,19 @@ pub enum Operator {
         #[serde(default = "one_molar")]
         concentration: f64,
         step: Liters,
+        /// The pH the burette is chasing. Read only by `Endpoint::Ph`,
+        /// which is the default and was CAP-12's only endpoint; the
+        /// EXP-39 redox endpoints carry their own target inside
+        /// `endpoint` and leave this field at the neutral 7 they never
+        /// consult. It keeps its name and its meaning so that every
+        /// script, log and protocol payload written before EXP-39
+        /// deserialises unchanged.
         target_ph: f64,
         max_steps: u32,
+        /// EXP-39: what stops the burette. Absent from every payload
+        /// written before EXP-39, and absent means the pH target above.
+        #[serde(default, skip_serializing_if = "Endpoint::is_ph")]
+        endpoint: Endpoint,
     },
     /// Mix fractions of two solved solutions into a third vessel using
     /// PHREEQC's MIX keyword, which combines them at the thermodynamic
@@ -1061,6 +1148,31 @@ pub enum Event {
         total_volume: Liters,
         final_ph: f64,
         curve: Vec<(f64, f64)>,
+        /// EXP-39: the redox half of the same titration — (cumulative mL,
+        /// pe) at every step where the aqueous engine *pinned* a
+        /// potential.
+        ///
+        /// Deliberately sparse rather than nullable: a point is missing
+        /// exactly where pe is undefined, and at the equivalence point of
+        /// a redox titration pe genuinely is undefined — both members of
+        /// the couple are spent, the electron balance has no root, and
+        /// the engine withholds the number rather than publish the top of
+        /// its own search bracket as a measurement. The gap in this curve
+        /// is therefore not missing data; it is where the endpoint is.
+        ///
+        /// Empty for a pH titration of a beaker with no redox chemistry,
+        /// which is every payload written before EXP-39.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        pe_curve: Vec<(f64, f64)>,
+        /// EXP-39: whether the endpoint was actually reached, as opposed
+        /// to the step budget running out first. `None` on payloads that
+        /// do not state it.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        endpoint_reached: Option<bool>,
+        /// EXP-39: which endpoint the burette was chasing. Omitted when
+        /// it is the pH endpoint that every payload before EXP-39 meant.
+        #[serde(default, skip_serializing_if = "Endpoint::is_ph")]
+        endpoint: Endpoint,
     },
     /// Fractions of two solutions were mixed into a third vessel.
     Mixed {

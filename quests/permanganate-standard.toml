@@ -1,0 +1,71 @@
+# EXP-39: redox titrimetry — standardising a permanganate burette.
+#
+# The value claim is on the endpoint *volume*, expressed as the matter it
+# produces: every mole of permanganate that reaches the flask before the
+# endpoint becomes a mole of manganese(II), so 0.0002 mol of oxalic acid
+# titrated to its endpoint leaves 0.00008 mol of Mn²⁺ — two for five.
+# Claiming the manganese rather than the millilitres keeps the claim in
+# the quest vocabulary that already exists, and it is the same number:
+# 0.00008 mol from a 0.02 mol/L burette is 4.00 mL.
+id = "permanganate-standard"
+
+[title]
+lv1 = "The burette that tells you when to stop"
+lv2 = "Standardising permanganate against oxalic acid"
+lv3 = "Redox titrimetry: KMnO₄ standardised against a primary standard, self-indicating endpoint"
+
+[goal]
+lv1 = "Put 0.0002 mol of oxalic acid in a flask with some dilute sulfuric acid, then add purple permanganate a drop at a time. Every drop goes colourless — until one does not. Stop there."
+lv2 = "Weigh out 0.0002 mol of oxalic acid, acidify with dilute sulfuric acid, and titrate with 0.02 mol/L potassium permanganate until the colour persists. Two permanganate oxidise five oxalic acid, so the endpoint should arrive at 0.00008 mol of permanganate delivered — and every one of those has become manganese(II) in your flask."
+lv3 = "Standardise a permanganate burette against oxalic acid, the classic primary standard. The half-equations give 2 MnO₄⁻ + 5 H₂C₂O₄ + 6 H⁺ → 2 Mn²⁺ + 10 CO₂ + 8 H₂O — five electrons per permanganate, two per oxalic acid. The endpoint is self-indicating: past equivalence there is nothing left to reduce the permanganate, so its own absorption at 525 nm survives in the flask. Titrate `until colour persists` and check the endpoint against the stoichiometry; `until pe > 5` finds the same volume from the potential instead of the eye."
+
+[[nudges]]
+id = "acidified"
+when = "added"
+[nudges.say]
+lv1 = "Good — the acid in the flask is what lets the purple disappear. Now open the burette."
+lv2 = "The flask needs to be acidic: without acid the permanganate reduces only as far as brown manganese dioxide, and there is no sharp endpoint to see."
+lv3 = "The acidic medium selects the Mn(VII) → Mn(II) five-electron route. In neutral or alkaline conditions the reduction stops at MnO₂, which is a brown precipitate rather than a clean decolourisation — a different equation and a much worse endpoint."
+
+[[nudges]]
+id = "reacting"
+when = "reaction"
+[nudges.say]
+lv1 = "The purple keeps vanishing. Something in the flask is eating it — keep going until it stops."
+lv2 = "Each addition is being consumed by the oxalic acid. The endpoint is the first drop with nothing left to react with."
+lv3 = "The curated row fires to completion each increment while oxalate remains. Past equivalence the extent is zero, the permanganate survives the solve, and the computed colour of the liquid changes — which is what ends the titration."
+
+[[nudges]]
+id = "at-the-endpoint"
+when = "titrated"
+[nudges.say]
+lv1 = "The pink stayed! That is the end. Work out how much you poured in."
+lv2 = "Endpoint reached. Compare the volume delivered with what the 2:5 ratio predicts — if they agree, your burette is standardised."
+lv3 = "Compare the delivered moles against 0.4 × n(oxalic acid). A systematic excess means the endpoint was overshot; a deficit means the flask was not fully acidic or the titration was run too fast for the autocatalysis to keep up."
+
+[[claims]]
+id = "acid-in-the-flask"
+matches = "added"
+[claims.title]
+lv1 = "Put the oxalic acid and the sulfuric acid in the flask"
+lv2 = "Charge the flask with the primary standard and dilute acid"
+lv3 = "Prepare the analyte: weighed oxalic acid in excess sulfuric acid"
+
+[[claims]]
+id = "endpoint-seen"
+matches = "titrated"
+[claims.title]
+lv1 = "Titrate until the pink stays"
+lv2 = "Reach the self-indicating endpoint"
+lv3 = "Titrate to the permanganate endpoint (colour persists, or pe past the jump)"
+
+[[claims]]
+id = "endpoint-volume"
+vessel = "v1"
+quantity = "moles:Mn+2"
+target = 0.00008
+tolerance = 0.000005
+[claims.title]
+lv1 = "Stop within a drop of the right place"
+lv2 = "Land the endpoint on the 2:5 stoichiometry"
+lv3 = "Endpoint volume within one drop: n(MnO₄⁻) delivered = 0.4 × n(H₂C₂O₄), read back as the Mn²⁺ it became"

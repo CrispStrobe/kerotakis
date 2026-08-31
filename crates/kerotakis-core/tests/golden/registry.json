@@ -2814,5 +2814,25 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 101.75 J/(mol.K) and density 4.49 g/mL (barite) at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Solubility is the engine's: the Barite phase of the shipped USGS PHREEQC databases",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "white crystals",
+    "aqueous_solubility_g_per_100_ml": 11.8,
+    "colour": null,
+    "density": 1.9,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "H2C2O4",
+    "heat_capacity": 91.0,
+    "inchikey": "MUBZPKHOEPUJKR-UHFFFAOYSA-N",
+    "key": "H2C2O4",
+    "magnetic": false,
+    "molar_mass": 90.034,
+    "name": "oxalic acid",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 91.0 J/(mol.K) for the anhydrous acid: CRC Handbook of Chemistry and Physics, 97th ed.; density 1.90 g/mL (anhydrous, 17 C): GESTIS Substance Database, IFA; aqueous solubility 11.8 g/100 mL at 25 C: Apelblat and Manzurola, J. Chem. Thermodyn. 19 (1987) 317-320. No PHREEQC database this lab ships speciates oxalate, so the acid dissolves without speciation: its pKa1 1.25 and pKa2 4.28 are NOT modelled and it contributes nothing to pH or ionic strength. Enthalpy of solution is not claimed",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

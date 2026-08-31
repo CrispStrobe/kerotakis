@@ -1172,6 +1172,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/H2C2O4",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) 91.0 J/(mol.K) for the anhydrous acid: CRC Handbook of Chemistry and Physics, 97th ed.; density 1.90 g/mL (anhydrous, 17 C): GESTIS Substance Database, IFA; aqueous solubility 11.8 g/100 mL at 25 C: Apelblat and Manzurola, J. Chem. Thermodyn. 19 (1987) 317-320. No PHREEQC database this lab ships speciates oxalate, so the acid dissolves without speciation: its pKa1 1.25 and pKa2 4.28 are NOT modelled and it contributes nothing to pH or ionic strength. Enthalpy of solution is not claimed",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL",
       "licence": "AGPL-3.0-or-later",
@@ -3244,6 +3253,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/BaSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "H2C2O4",
+      "canonical_key": "MUBZPKHOEPUJKR-UHFFFAOYSA-N",
+      "name": "oxalic acid",
+      "identifiers": {
+        "inchikey": "MUBZPKHOEPUJKR-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/H2C2O4",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -16534,6 +16559,125 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/H2C2O4",
+      "species_id": "H2C2O4",
+      "formula": "H2C2O4",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2C2O4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2C2O4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/H2C2O4",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -28716,6 +28860,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/H2C2O4",
+      "species_id": "H2C2O4",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 90.034,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/H2C2O4",
+      "species_id": "H2C2O4",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 91.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/H2C2O4",
+      "species_id": "H2C2O4",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -34511,6 +34745,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/BaSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/H2C2O4",
+      "species_id": "H2C2O4",
+      "phase": "solid",
+      "appearance": "white crystals",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/H2C2O4",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -40620,6 +40870,72 @@
           "kind": "not_reported"
         },
         "source_id": "legacy/BaSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/H2C2O4",
+      "subject": {
+        "kind": "species",
+        "id": "H2C2O4"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/H2C2O4",
+      "subject": {
+        "kind": "species",
+        "id": "H2C2O4"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 11.8,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/H2C2O4",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"

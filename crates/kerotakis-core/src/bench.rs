@@ -7,7 +7,8 @@ use crate::authority::SpillDestination;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{
-    CentrifugeSeparation, ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator,
+    CentrifugeSeparation, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
+    MaterialComponentAdded, Operator,
 };
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
@@ -22,6 +23,24 @@ use crate::vessel::{
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
+
+/// The one word a person would use for the liquid in this vessel.
+///
+/// EXP-39's self-indicating endpoint reads this and nothing else. There is
+/// no visibility constant anywhere in the path: the word comes out of the
+/// registry's ε(λ) for whatever is dissolved, Beer–Lambert over the
+/// vessel's own path length, and the CIE observer — the same pipeline that
+/// paints the bench. Permanganate is its own indicator here for the reason
+/// it is one in a flask, that its molar absorptivity is enormous, and a
+/// species without a curated spectrum simply cannot end a titration this
+/// way, which is the honest answer rather than a silent one.
+fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
+    let seen = crate::appearance::observe(vessel);
+    seen.liquid
+        .as_ref()
+        .map(|colour| crate::appearance::liquid_colour_word(colour, seen.cloudiness))
+        .unwrap_or("colourless")
+}
 
 #[derive(Debug, thiserror::Error)]
 pub enum BenchError {
@@ -2856,7 +2875,7 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         _screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
-        let (vessel, titrant, concentration, step, target_ph, max_steps) = match &op {
+        let (vessel, titrant, concentration, step, target_ph, max_steps, endpoint) = match &op {
             Operator::Titrate {
                 vessel,
                 titrant,
@@ -2864,6 +2883,7 @@ impl Bench {
                 step,
                 target_ph,
                 max_steps,
+                endpoint,
             } => (
                 *vessel,
                 titrant.clone(),
@@ -2871,6 +2891,7 @@ impl Bench {
                 *step,
                 *target_ph,
                 *max_steps,
+                *endpoint,
             ),
             _ => unreachable!(),
         };
@@ -2893,17 +2914,32 @@ impl Bench {
 
         let mut events = Vec::new();
         let mut curve: Vec<(f64, f64)> = Vec::new();
+        // EXP-39: the redox half of the same curve, sparse by design —
+        // a step where the engine withholds pe contributes no point,
+        // because at equivalence pe is undefined rather than large.
+        let mut pe_curve: Vec<(f64, f64)> = Vec::new();
 
         // Read initial pH if available.
         {
             let v = self.vessel(vessel)?;
             if let Some(info) = &v.solution {
                 curve.push((0.0, info.ph));
+                if let Some(pe) = info.pe {
+                    pe_curve.push((0.0, pe));
+                }
             }
         }
 
+        // EXP-39: the flask as the eye finds it before the first drop.
+        // A self-indicating endpoint is a *change* from this, not an
+        // absolute colour — a titration into an already-yellow solution
+        // still has an endpoint, and hard-coding "not colourless" would
+        // have declared it reached before the burette was opened.
+        let baseline_colour = liquid_colour_word_of(self.vessel(vessel)?);
+
         let mut total_volume = Liters(0.0);
         let mut reached = false;
+        let mut pe_ever_pinned = false;
 
         for _ in 0..max_steps {
             // Sub-step: add one increment of titrant at standard temperature.
@@ -2939,22 +2975,43 @@ impl Bench {
 
             // Read pH after this step.
             let v = self.vessel(vessel)?;
+            // The colour is read from the same equilibrated vessel, so a
+            // colour seen here is a colour that stays: the endpoint of a
+            // self-indicating titration is a statement about equilibrium,
+            // not about how long you stand and watch.
+            let colour = liquid_colour_word_of(v);
             match &v.solution {
                 Some(info) => {
                     let ml = total_volume.0 * 1000.0;
                     let ph = info.ph;
                     let prev_ph = curve.last().map(|&(_, p)| p);
                     curve.push((ml, ph));
-                    if let Some(prev) = prev_ph {
-                        let crossed = (prev <= target_ph && ph >= target_ph)
-                            || (prev >= target_ph && ph <= target_ph);
-                        if crossed {
-                            reached = true;
-                            break;
+                    if let Some(pe) = info.pe {
+                        pe_curve.push((ml, pe));
+                        pe_ever_pinned = true;
+                    }
+                    let arrived = match endpoint {
+                        Endpoint::Ph => prev_ph.is_some_and(|prev| {
+                            (prev <= target_ph && ph >= target_ph)
+                                || (prev >= target_ph && ph <= target_ph)
+                        }),
+                        Endpoint::Pe { compare, value } => {
+                            info.pe.is_some_and(|pe| compare.holds(pe, value))
                         }
+                        Endpoint::ColourPersists => colour != baseline_colour,
+                    };
+                    if arrived {
+                        reached = true;
+                        break;
                     }
                 }
                 None => {
+                    // Without a characterised solution there is no pH and
+                    // no speciation, so no endpoint of any kind can be
+                    // read. The colour endpoint is the one exception worth
+                    // naming: it is read off the vessel, not the solve —
+                    // but an unsolved vessel holds the titrant as the
+                    // solid it was added as, and a solid has no ε(λ).
                     events.push(Event::NotYetModeled {
                         vessel,
                         what: "titration needs an aqueous solver to compute pH \
@@ -2963,6 +3020,47 @@ impl Bench {
                     });
                     break;
                 }
+            }
+        }
+
+        // CAP-12 promised a titration that "refuses politely when no
+        // endpoint is reachable and says why". The pH endpoint keeps its
+        // original silence — changing it would rewrite curves that are
+        // already pinned — but the EXP-39 endpoints say so, and say which
+        // of the two ways they failed: the target was never met, or, for
+        // the potentiometric one, no potential was ever definable at all.
+        // Those are different findings and a reader is owed the difference:
+        // a flask holding only the reduced half of a couple has no
+        // potential, and reporting that as "pe never got high enough"
+        // would invent a measurement to explain a missing one.
+        if !reached && !curve.is_empty() {
+            let what = match endpoint {
+                Endpoint::Ph => None,
+                Endpoint::Pe { compare, value } if !pe_ever_pinned => Some(format!(
+                    "the burette ran to its {max_steps}-step limit without reaching \
+                     pe {} {value}: no potential was pinned at any point in this \
+                     titration. With only one oxidation state of a couple in the \
+                     flask the electron balance has no root, so pe is undefined \
+                     rather than low — add the other half of a redox couple, or \
+                     titrate to a colour instead",
+                    compare.symbol()
+                )),
+                Endpoint::Pe { compare, value } => Some(format!(
+                    "the burette ran to its {max_steps}-step limit without reaching \
+                     pe {} {value}; the last potential this flask pinned was {:.2}",
+                    compare.symbol(),
+                    pe_curve.last().map(|&(_, pe)| pe).unwrap_or(f64::NAN),
+                )),
+                Endpoint::ColourPersists => Some(format!(
+                    "the burette ran to its {max_steps}-step limit and the liquid is \
+                     still {baseline_colour}: either the endpoint is further away \
+                     than {max_steps} increments, or nothing here carries a curated \
+                     absorption spectrum for the eye to read. Raise `max`, or \
+                     titrate to a pH or a pe instead"
+                )),
+            };
+            if let Some(what) = what {
+                events.push(Event::NotYetModeled { vessel, what });
             }
         }
 
@@ -2982,6 +3080,9 @@ impl Bench {
                 total_volume,
                 final_ph,
                 curve,
+                pe_curve,
+                endpoint_reached: Some(reached),
+                endpoint,
             });
         }
 

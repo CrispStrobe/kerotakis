@@ -24,7 +24,7 @@ TOPICS = {
                       "there-and-back"],
     "heat & fire": ["calorimetry", "fire", "grit"],
     "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
-                            "counting-in-fives"],
+                            "counting-in-fives", "permanganate-standardisation"],
     "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
     "gases & pressure": ["sealed-gas"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates"],

@@ -51,7 +51,9 @@ fn the_tranche_only_grows_deliberately() {
         // could not spell (Mg, Pb, C, S) and phenolphthalein, whose
         // deferral was a wrong curated SMILES rather than a kekulisation
         // problem — see provenance/cap-13-chematic-molfile-spike.md.
-        102,
+        // EXP-39 adds oxalic acid, the permanganate titration's primary
+        // standard.
+        103,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

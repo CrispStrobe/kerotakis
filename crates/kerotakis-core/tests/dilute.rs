@@ -134,7 +134,13 @@ fn titrate_parsed_from_script() {
             step,
             target_ph,
             max_steps,
+            endpoint,
         } => {
+            assert_eq!(
+                endpoint,
+                kerotakis_core::ops::Endpoint::Ph,
+                "CAP-12's line still means the pH endpoint"
+            );
             assert_eq!(vessel, VesselId(0));
             assert_eq!(titrant, SpeciesId::new("NaOH"));
             assert!(

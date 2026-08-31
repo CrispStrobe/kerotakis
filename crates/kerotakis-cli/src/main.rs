@@ -1621,7 +1621,8 @@ fn usage() -> ! {
          \x20 distil <from> <to> <frac|energy> [stages <n>]\n\
          \x20 drain <from> <to>                      lower layer through stopcock\n\
          \x20 transport <v..> from <inlet> to <recv> steps <n> [courant <f>]\n\
-         \x20 titrate <v> <titrant> <step><mL|L> until ph <target> [max <n>]\n\
+         \x20 titrate <v> <titrant> [<c>M] <step><mL|L> until <endpoint> [max <n>]\n\
+         \x20   endpoint: ph <target> | pe <op> <value> | colour persists\n\
          \x20 measure <vessel> <thermometer|balance|ph|pressure|conductivity|uvvis|calorimeter>\n\
          \x20 look <vessel>                          observe with your eyes\n\
          \x20 cell <vessel> <vessel>                 wire two half-cells\n\
@@ -2293,7 +2294,7 @@ fn repl() {
                  stir <v> · wait <t><s|min|h> · seal/open <v> · ignite <v>\n\
                  decant/filter <from> <to> · evaporate <v> <frac> · dilute <v> <vol><mL|L>\n\
                  distil <from> <to> <frac|energy> · drain <from> <to>\n\
-                 titrate <v> <species> <step><mL|L> until ph <target>\n\
+                 titrate <v> <species> <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
                  measure <v> <thermometer|balance|ph|…> · look <v> · cell <v> <v>\n\
                  electrolyse <v> <A> <t> · grind <v> <species> <um>\n\
                  new · inspect [v] · register <lv1|lv2|lv3> · species · quit"

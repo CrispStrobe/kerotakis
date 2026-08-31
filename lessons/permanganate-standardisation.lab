@@ -1,0 +1,9 @@
+# Standardising permanganate: the burette tells you its own strength
+register lv2
+add v1 water 100mL
+add v1 H2SO4 0.002mol
+add v1 H2C2O4 0.0002mol
+measure v1 ph
+inspect v1
+titrate v1 KMnO4 0.02M 0.05mL until colour persists max 150
+inspect v1
