@@ -1,16 +1,29 @@
 {
   "adapter_id": "pubchem-v1",
   "checked": 100,
-  "agreements": 73,
-  "conflicts": 27,
-  "not_recomputed": 0,
+  "from_published_inchi": {
+    "agreements": 100,
+    "conflicts": 0,
+    "not_recomputed": 0,
+    "no_snapshot_identity": 0
+  },
+  "from_structure": {
+    "agreements": 73,
+    "conflicts": 27,
+    "not_recomputed": 0,
+    "no_snapshot_identity": 0
+  },
   "records": [
     {
       "external_record_id": "CID174",
       "cid": 174,
       "smiles": "C(CO)O",
+      "snapshot_inchi": "InChI=1S/C2H6O2/c3-1-2-4/h3-4H,1-2H2",
       "snapshot_inchikey": "LYCAIKOWRPUZTN-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -18,8 +31,12 @@
       "external_record_id": "CID176",
       "cid": 176,
       "smiles": "CC(=O)O",
+      "snapshot_inchi": "InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)",
       "snapshot_inchikey": "QTBSBXVTEAMEQO-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -27,8 +44,12 @@
       "external_record_id": "CID180",
       "cid": 180,
       "smiles": "CC(=O)C",
+      "snapshot_inchi": "InChI=1S/C3H6O/c1-3(2)4/h1-2H3",
       "snapshot_inchikey": "CSCPPACGZOOCGX-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -36,8 +57,12 @@
       "external_record_id": "CID222",
       "cid": 222,
       "smiles": "N",
+      "snapshot_inchi": "InChI=1S/H3N/h1H3",
       "snapshot_inchikey": "QGZKDVFQNNGYKY-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -45,8 +70,12 @@
       "external_record_id": "CID241",
       "cid": 241,
       "smiles": "C1=CC=CC=C1",
+      "snapshot_inchi": "InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H",
       "snapshot_inchikey": "UHOVQNZJYSORNB-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -54,8 +83,12 @@
       "external_record_id": "CID280",
       "cid": 280,
       "smiles": "C(=O)=O",
+      "snapshot_inchi": "InChI=1S/CO2/c2-1-3",
       "snapshot_inchikey": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -63,8 +96,12 @@
       "external_record_id": "CID281",
       "cid": 281,
       "smiles": "[C-]#[O+]",
+      "snapshot_inchi": "InChI=1S/CO/c1-2",
       "snapshot_inchikey": "UGFAIRIUMAVXCW-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -72,8 +109,12 @@
       "external_record_id": "CID284",
       "cid": 284,
       "smiles": "C(=O)O",
+      "snapshot_inchi": "InChI=1S/CH2O2/c2-1-3/h1H,(H,2,3)",
       "snapshot_inchikey": "BDAGIHXWWSANSR-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -81,8 +122,12 @@
       "external_record_id": "CID297",
       "cid": 297,
       "smiles": "C",
+      "snapshot_inchi": "InChI=1S/CH4/h1H4",
       "snapshot_inchikey": "VNWKTOKETHGBQD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -90,8 +135,12 @@
       "external_record_id": "CID311",
       "cid": 311,
       "smiles": "C(C(=O)O)C(CC(=O)O)(C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)",
       "snapshot_inchikey": "KRKNYBCHXYNGOX-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -99,8 +148,12 @@
       "external_record_id": "CID313",
       "cid": 313,
       "smiles": "Cl",
+      "snapshot_inchi": "InChI=1S/ClH/h1H",
       "snapshot_inchikey": "VEXZGXHMUGYJMC-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -108,8 +161,12 @@
       "external_record_id": "CID702",
       "cid": 702,
       "smiles": "CCO",
+      "snapshot_inchi": "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3",
       "snapshot_inchikey": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -117,8 +174,12 @@
       "external_record_id": "CID712",
       "cid": 712,
       "smiles": "C=O",
+      "snapshot_inchi": "InChI=1S/CH2O/c1-2/h1H2",
       "snapshot_inchikey": "WSFSSNUMVMOOMR-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -126,8 +187,12 @@
       "external_record_id": "CID753",
       "cid": 753,
       "smiles": "C(C(CO)O)O",
+      "snapshot_inchi": "InChI=1S/C3H8O3/c4-1-3(6)2-5/h3-6H,1-2H2",
       "snapshot_inchikey": "PEDCQBHIVMGVHV-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -135,8 +200,12 @@
       "external_record_id": "CID783",
       "cid": 783,
       "smiles": "[HH]",
+      "snapshot_inchi": "InChI=1S/H2/h1H",
       "snapshot_inchikey": "UFHFLCQGNIYNRP-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -144,8 +213,12 @@
       "external_record_id": "CID784",
       "cid": 784,
       "smiles": "OO",
+      "snapshot_inchi": "InChI=1S/H2O2/c1-2/h1-2H",
       "snapshot_inchikey": "MHAJPDPJQMAIIY-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -153,8 +226,12 @@
       "external_record_id": "CID807",
       "cid": 807,
       "smiles": "II",
+      "snapshot_inchi": "InChI=1S/I2/c1-2",
       "snapshot_inchikey": "PNDPGZBMCMUPRI-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -162,8 +239,12 @@
       "external_record_id": "CID887",
       "cid": 887,
       "smiles": "CO",
+      "snapshot_inchi": "InChI=1S/CH4O/c1-2/h2H,1H3",
       "snapshot_inchikey": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -171,8 +252,12 @@
       "external_record_id": "CID944",
       "cid": 944,
       "smiles": "[N+](=O)(O)[O-]",
+      "snapshot_inchi": "InChI=1S/HNO3/c2-1(3)4/h(H,2,3,4)",
       "snapshot_inchikey": "GRYLNZFGIOXLOG-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -180,8 +265,12 @@
       "external_record_id": "CID947",
       "cid": 947,
       "smiles": "N#N",
+      "snapshot_inchi": "InChI=1S/N2/c1-2",
       "snapshot_inchikey": "IJGRMHOSHXDMSA-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -189,8 +278,12 @@
       "external_record_id": "CID962",
       "cid": 962,
       "smiles": "O",
+      "snapshot_inchi": "InChI=1S/H2O/h1H2",
       "snapshot_inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -198,8 +291,12 @@
       "external_record_id": "CID977",
       "cid": 977,
       "smiles": "O=O",
+      "snapshot_inchi": "InChI=1S/O2/c1-2",
       "snapshot_inchikey": "MYMOFIZGZYHOMD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -207,8 +304,12 @@
       "external_record_id": "CID996",
       "cid": 996,
       "smiles": "C1=CC=C(C=C1)O",
+      "snapshot_inchi": "InChI=1S/C6H6O/c7-6-4-2-1-3-5-6/h1-5,7H",
       "snapshot_inchikey": "ISWSIDIOOBJBQZ-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -216,8 +317,12 @@
       "external_record_id": "CID1004",
       "cid": 1004,
       "smiles": "OP(=O)(O)O",
+      "snapshot_inchi": "InChI=1S/H3O4P/c1-5(2,3)4/h(H3,1,2,3,4)",
       "snapshot_inchikey": "NBIIXXVUZAFLBC-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -225,8 +330,12 @@
       "external_record_id": "CID1118",
       "cid": 1118,
       "smiles": "OS(=O)(=O)O",
+      "snapshot_inchi": "InChI=1S/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)",
       "snapshot_inchikey": "QAOWNCQODCNURD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -234,8 +343,12 @@
       "external_record_id": "CID1119",
       "cid": 1119,
       "smiles": "O=S=O",
+      "snapshot_inchi": "InChI=1S/O2S/c1-3-2",
       "snapshot_inchikey": "RAHZWNYVWXNFOC-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -243,8 +356,12 @@
       "external_record_id": "CID1140",
       "cid": 1140,
       "smiles": "CC1=CC=CC=C1",
+      "snapshot_inchi": "InChI=1S/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3",
       "snapshot_inchikey": "YXFVVABEGXRONW-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -252,8 +369,12 @@
       "external_record_id": "CID1176",
       "cid": 1176,
       "smiles": "C(=O)(N)N",
+      "snapshot_inchi": "InChI=1S/CH4N2O/c2-1(3)4/h(H4,2,3,4)",
       "snapshot_inchikey": "XSQUKJJJFZCRTK-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -261,8 +382,12 @@
       "external_record_id": "CID2244",
       "cid": 2244,
       "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+      "snapshot_inchi": "InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)",
       "snapshot_inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -270,8 +395,12 @@
       "external_record_id": "CID2519",
       "cid": 2519,
       "smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+      "snapshot_inchi": "InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3",
       "snapshot_inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -279,8 +408,12 @@
       "external_record_id": "CID3776",
       "cid": 3776,
       "smiles": "CC(C)O",
+      "snapshot_inchi": "InChI=1S/C3H8O/c1-3(2)4/h3-4H,1-2H3",
       "snapshot_inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -288,8 +421,12 @@
       "external_record_id": "CID4873",
       "cid": 4873,
       "smiles": "[Cl-].[K+]",
+      "snapshot_inchi": "InChI=1S/ClH.K/h1H;/q;+1/p-1",
       "snapshot_inchikey": "WCUXLLCKKVVCTQ-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -297,8 +434,12 @@
       "external_record_id": "CID4875",
       "cid": 4875,
       "smiles": "[K+].[I-]",
+      "snapshot_inchi": "InChI=1S/HI.K/h1H;/q;+1/p-1",
       "snapshot_inchikey": "NLKNQRATVPKPDG-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -306,8 +447,12 @@
       "external_record_id": "CID5234",
       "cid": 5234,
       "smiles": "[Na+].[Cl-]",
+      "snapshot_inchi": "InChI=1S/ClH.Na/h1H;/q;+1/p-1",
       "snapshot_inchikey": "FAPWRFPIFSIZLT-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -315,8 +460,12 @@
       "external_record_id": "CID5235",
       "cid": 5235,
       "smiles": "[F-].[Na+]",
+      "snapshot_inchi": "InChI=1S/FH.Na/h1H;/q;+1/p-1",
       "snapshot_inchikey": "PUZPDOWCWNUUKD-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -324,8 +473,12 @@
       "external_record_id": "CID5793",
       "cid": 5793,
       "smiles": "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6?/m1/s1",
       "snapshot_inchikey": "WQZGKKKJIJFFOK-GASJEMHNSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
       }
@@ -334,8 +487,12 @@
       "external_record_id": "CID5950",
       "cid": 5950,
       "smiles": "C[C@@H](C(=O)O)N",
+      "snapshot_inchi": "InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m0/s1",
       "snapshot_inchikey": "QNAYBMKLOCPYGJ-REOHCLBHSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "QNAYBMKLOCPYGJ-UHFFFAOYSA-N"
       }
@@ -344,8 +501,12 @@
       "external_record_id": "CID5988",
       "cid": 5988,
       "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O[C@]2([C@H]([C@@H]([C@H](O2)CO)O)O)CO)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C12H22O11/c13-1-4-6(16)8(18)9(19)11(21-4)23-12(3-15)10(20)7(17)5(2-14)22-12/h4-11,13-20H,1-3H2/t4-,5-,6-,7-,8+,9-,10+,11-,12+/m1/s1",
       "snapshot_inchikey": "CZMRCDWAGMRECN-UGDNZRGBSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "CZMRCDWAGMRECN-UHFFFAOYSA-N"
       }
@@ -354,8 +515,12 @@
       "external_record_id": "CID6212",
       "cid": 6212,
       "smiles": "C(Cl)(Cl)Cl",
+      "snapshot_inchi": "InChI=1S/CHCl3/c2-1(3)4/h1H",
       "snapshot_inchikey": "HEDRZPFGACZZDS-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -363,8 +528,12 @@
       "external_record_id": "CID6325",
       "cid": 6325,
       "smiles": "C=C",
+      "snapshot_inchi": "InChI=1S/C2H4/c1-2/h1-2H2",
       "snapshot_inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -372,8 +541,12 @@
       "external_record_id": "CID6326",
       "cid": 6326,
       "smiles": "C#C",
+      "snapshot_inchi": "InChI=1S/C2H2/c1-2/h1-2H",
       "snapshot_inchikey": "HSFWRNGVRCDJHI-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -381,8 +554,12 @@
       "external_record_id": "CID6334",
       "cid": 6334,
       "smiles": "CCC",
+      "snapshot_inchi": "InChI=1S/C3H8/c1-3-2/h3H2,1-2H3",
       "snapshot_inchikey": "ATUOYWHBWRKTHZ-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -390,8 +567,12 @@
       "external_record_id": "CID7843",
       "cid": 7843,
       "smiles": "CCCC",
+      "snapshot_inchi": "InChI=1S/C4H10/c1-3-4-2/h3-4H2,1-2H3",
       "snapshot_inchikey": "IJDNQMDRQITEOD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -399,8 +580,12 @@
       "external_record_id": "CID10112",
       "cid": 10112,
       "smiles": "C(=O)([O-])[O-].[Ca+2]",
+      "snapshot_inchi": "InChI=1S/CH2O3.Ca/c2-1(3)4;/h(H2,2,3,4);/q;+2/p-2",
       "snapshot_inchikey": "VTYYLEPIZMXCLO-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -408,8 +593,12 @@
       "external_record_id": "CID10340",
       "cid": 10340,
       "smiles": "C(=O)([O-])[O-].[Na+].[Na+]",
+      "snapshot_inchi": "InChI=1S/CH2O3.2Na/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2",
       "snapshot_inchikey": "CDBYLPFSWZWCQE-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -417,8 +606,12 @@
       "external_record_id": "CID14798",
       "cid": 14798,
       "smiles": "[OH-].[Na+]",
+      "snapshot_inchi": "InChI=1S/Na.H2O/h;1H2/q+1;/p-1",
       "snapshot_inchikey": "HEMHJVSKTPXQMS-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -426,8 +619,12 @@
       "external_record_id": "CID22985",
       "cid": 22985,
       "smiles": "[NH4+].[N+](=O)([O-])[O-]",
+      "snapshot_inchi": "InChI=1S/NO3.H3N/c2-1(3)4;/h;1H3/q-1;/p+1",
       "snapshot_inchikey": "DVARTQFDIMZBAA-UHFFFAOYSA-O",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -435,8 +632,12 @@
       "external_record_id": "CID23925",
       "cid": 23925,
       "smiles": "[Fe]",
+      "snapshot_inchi": "InChI=1S/Fe",
       "snapshot_inchikey": "XEEYBQQBJWHFJM-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -444,8 +645,12 @@
       "external_record_id": "CID23954",
       "cid": 23954,
       "smiles": "[Ag]",
+      "snapshot_inchi": "InChI=1S/Ag",
       "snapshot_inchikey": "BQCADISMDOOEFD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -453,8 +658,12 @@
       "external_record_id": "CID23978",
       "cid": 23978,
       "smiles": "[Cu]",
+      "snapshot_inchi": "InChI=1S/Cu",
       "snapshot_inchikey": "RYGMFSIKBFXOCR-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -462,8 +671,12 @@
       "external_record_id": "CID23994",
       "cid": 23994,
       "smiles": "[Zn]",
+      "snapshot_inchi": "InChI=1S/Zn",
       "snapshot_inchikey": "HCHKCACWOHOZIP-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -471,8 +684,12 @@
       "external_record_id": "CID24083",
       "cid": 24083,
       "smiles": "[O-]S(=O)(=O)[O-].[Mg+2]",
+      "snapshot_inchi": "InChI=1S/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2",
       "snapshot_inchikey": "CSNNHWWHGAXBCP-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -480,8 +697,12 @@
       "external_record_id": "CID24380",
       "cid": 24380,
       "smiles": "Cl[Fe](Cl)Cl",
+      "snapshot_inchi": "InChI=1S/3ClH.Fe/h3*1H;/q;;;+3/p-3",
       "snapshot_inchikey": "RBTARNINKXHZNM-UHFFFAOYSA-K",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -489,8 +710,12 @@
       "external_record_id": "CID24408",
       "cid": 24408,
       "smiles": "BrBr",
+      "snapshot_inchi": "InChI=1S/Br2/c1-2",
       "snapshot_inchikey": "GDTBXPJZTBHREO-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -498,8 +723,12 @@
       "external_record_id": "CID24424",
       "cid": 24424,
       "smiles": "[O-]S(=O)(=O)[O-].[Zn+2]",
+      "snapshot_inchi": "InChI=1S/H2O4S.Zn/c1-5(2,3)4;/h(H2,1,2,3,4);/q;+2/p-2",
       "snapshot_inchikey": "NWONKYPBYAMBJT-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -507,8 +736,12 @@
       "external_record_id": "CID24434",
       "cid": 24434,
       "smiles": "[N+](=O)([O-])[O-].[K+]",
+      "snapshot_inchi": "InChI=1S/K.NO3/c;2-1(3)4/q+1;-1",
       "snapshot_inchikey": "FGIUAXJPYTZDNR-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -516,8 +749,12 @@
       "external_record_id": "CID24436",
       "cid": 24436,
       "smiles": "[O-]S(=O)(=O)[O-].[Na+].[Na+]",
+      "snapshot_inchi": "InChI=1S/2Na.H2O4S/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2",
       "snapshot_inchikey": "PMZURENOXWZQFD-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -525,8 +762,12 @@
       "external_record_id": "CID24462",
       "cid": 24462,
       "smiles": "[O-]S(=O)(=O)[O-].[Cu+2]",
+      "snapshot_inchi": "InChI=1S/Cu.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2",
       "snapshot_inchikey": "ARUVKPQLZAKDPS-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -534,8 +775,12 @@
       "external_record_id": "CID24463",
       "cid": 24463,
       "smiles": "O.O.O.O.O.[O-]S(=O)(=O)[O-].[Cu+2]",
+      "snapshot_inchi": "InChI=1S/Cu.H2O4S.5H2O/c;1-5(2,3)4;;;;;/h;(H2,1,2,3,4);5*1H2/q+2;;;;;;/p-2",
       "snapshot_inchikey": "JZCCFEFSEZPSOG-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -543,8 +788,12 @@
       "external_record_id": "CID24470",
       "cid": 24470,
       "smiles": "[N+](=O)([O-])[O-].[Ag+]",
+      "snapshot_inchi": "InChI=1S/Ag.NO3/c;2-1(3)4/q+1;-1",
       "snapshot_inchikey": "SQGYOTSLMSWVJD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -552,8 +801,12 @@
       "external_record_id": "CID24523",
       "cid": 24523,
       "smiles": "[2H][2H]",
+      "snapshot_inchi": "InChI=1S/H2/h1H/i1+1D",
       "snapshot_inchikey": "UFHFLCQGNIYNRP-VVKOMZTBSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "UFHFLCQGNIYNRP-UHFFFAOYSA-N"
       }
@@ -562,8 +815,12 @@
       "external_record_id": "CID24526",
       "cid": 24526,
       "smiles": "ClCl",
+      "snapshot_inchi": "InChI=1S/Cl2/c1-2",
       "snapshot_inchikey": "KZBUYRJDOAKODT-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -571,8 +828,12 @@
       "external_record_id": "CID24602",
       "cid": 24602,
       "smiles": "[2H]O[2H]",
+      "snapshot_inchi": "InChI=1S/H2O/h1H2/i/hD2",
       "snapshot_inchikey": "XLYOFNOQVPJJNP-ZSJDYOACSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
       }
@@ -581,8 +842,12 @@
       "external_record_id": "CID24643",
       "cid": 24643,
       "smiles": "O.O.O.O.O.O.[Cl-].[Cl-].[Co+2]",
+      "snapshot_inchi": "InChI=1S/2ClH.Co.6H2O/h2*1H;;6*1H2/q;;+2;;;;;;/p-2",
       "snapshot_inchikey": "GFHNAMRJFCEERV-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -590,8 +855,12 @@
       "external_record_id": "CID24823",
       "cid": 24823,
       "smiles": "[O-][O+]=O",
+      "snapshot_inchi": "InChI=1S/O3/c1-3-2",
       "snapshot_inchikey": "CBENFWSGALASAD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -599,8 +868,12 @@
       "external_record_id": "CID24824",
       "cid": 24824,
       "smiles": "[3H][3H]",
+      "snapshot_inchi": "InChI=1S/H2/h1H/i1+2T",
       "snapshot_inchikey": "UFHFLCQGNIYNRP-JMRXTUGHSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "UFHFLCQGNIYNRP-UHFFFAOYSA-N"
       }
@@ -609,8 +882,12 @@
       "external_record_id": "CID24843",
       "cid": 24843,
       "smiles": "O.O.O.O.O.O.O.[O-]S(=O)(=O)[O-].[Mg+2]",
+      "snapshot_inchi": "InChI=1S/Mg.H2O4S.7H2O/c;1-5(2,3)4;;;;;;;/h;(H2,1,2,3,4);7*1H2/q+2;;;;;;;;/p-2",
       "snapshot_inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -618,8 +895,12 @@
       "external_record_id": "CID24928",
       "cid": 24928,
       "smiles": "O.O.[O-]S(=O)(=O)[O-].[Ca+2]",
+      "snapshot_inchi": "InChI=1S/Ca.H2O4S.2H2O/c;1-5(2,3)4;;/h;(H2,1,2,3,4);2*1H2/q+2;;;/p-2",
       "snapshot_inchikey": "PASHVRUKOFIRIK-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -627,8 +908,12 @@
       "external_record_id": "CID25517",
       "cid": 25517,
       "smiles": "[NH4+].[Cl-]",
+      "snapshot_inchi": "InChI=1S/ClH.H3N/h1H;1H3",
       "snapshot_inchikey": "NLXLAEXVIDQMFP-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -636,8 +921,12 @@
       "external_record_id": "CID61475",
       "cid": 61475,
       "smiles": "O.O.O.O.O.[O-]S(=O)(=S)[O-].[Na+].[Na+]",
+      "snapshot_inchi": "InChI=1S/2Na.H2O3S2.5H2O/c;;1-5(2,3)4;;;;;/h;;(H2,1,2,3,4);5*1H2/q2*+1;;;;;;/p-2",
       "snapshot_inchikey": "PODWXQQNRWNDGD-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -645,8 +934,12 @@
       "external_record_id": "CID61503",
       "cid": 61503,
       "smiles": "C[C@H](C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C3H6O3/c1-2(4)3(5)6/h2,4H,1H3,(H,5,6)/t2-/m1/s1",
       "snapshot_inchikey": "JVTAAEKCZFNVCJ-UWTATZPHSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N"
       }
@@ -655,8 +948,12 @@
       "external_record_id": "CID62662",
       "cid": 62662,
       "smiles": "O.O.O.O.O.O.O.[O-]S(=O)(=O)[O-].[Fe+2]",
+      "snapshot_inchi": "InChI=1S/Fe.H2O4S.7H2O/c;1-5(2,3)4;;;;;;;/h;(H2,1,2,3,4);7*1H2/q+2;;;;;;;;/p-2",
       "snapshot_inchikey": "SURQXAFEQWPFPV-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -664,8 +961,12 @@
       "external_record_id": "CID62695",
       "cid": 62695,
       "smiles": "C/C=C/C",
+      "snapshot_inchi": "InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3+",
       "snapshot_inchikey": "IAQRGUVFOMOMEM-ONEGZZNKSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "IAQRGUVFOMOMEM-UHFFFAOYSA-N"
       }
@@ -674,8 +975,12 @@
       "external_record_id": "CID64689",
       "cid": 64689,
       "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6-/m1/s1",
       "snapshot_inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
       }
@@ -684,8 +989,12 @@
       "external_record_id": "CID71080",
       "cid": 71080,
       "smiles": "C[C@H](C(=O)O)N",
+      "snapshot_inchi": "InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m1/s1",
       "snapshot_inchikey": "QNAYBMKLOCPYGJ-UWTATZPHSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "QNAYBMKLOCPYGJ-UHFFFAOYSA-N"
       }
@@ -694,8 +1003,12 @@
       "external_record_id": "CID71568",
       "cid": 71568,
       "smiles": "[2H]C([2H])([2H])O[2H]",
+      "snapshot_inchi": "InChI=1S/CH4O/c1-2/h2H,1H3/i1D3,2D",
       "snapshot_inchikey": "OKKJLVBELUTLKV-MZCSYVLQSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "OKKJLVBELUTLKV-UHFFFAOYSA-N"
       }
@@ -704,8 +1017,12 @@
       "external_record_id": "CID71583",
       "cid": 71583,
       "smiles": "[2H]C(Cl)(Cl)Cl",
+      "snapshot_inchi": "InChI=1S/CHCl3/c2-1(3)4/h1H/i1D",
       "snapshot_inchikey": "HEDRZPFGACZZDS-MICDWDOJSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "HEDRZPFGACZZDS-UHFFFAOYSA-N"
       }
@@ -714,8 +1031,12 @@
       "external_record_id": "CID71601",
       "cid": 71601,
       "smiles": "[2H]C1=C(C(=C(C(=C1[2H])[2H])[2H])[2H])[2H]",
+      "snapshot_inchi": "InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H/i1D,2D,3D,4D,5D,6D",
       "snapshot_inchikey": "UHOVQNZJYSORNB-MZWXYZOWSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "UHOVQNZJYSORNB-UHFFFAOYSA-N"
       }
@@ -724,8 +1045,12 @@
       "external_record_id": "CID73981",
       "cid": 73981,
       "smiles": "[OH-].[OH-].[Mg+2]",
+      "snapshot_inchi": "InChI=1S/Mg.2H2O/h;2*1H2/q+2;;/p-2",
       "snapshot_inchikey": "VTHJTEIRLNZDEV-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -733,8 +1058,12 @@
       "external_record_id": "CID79025",
       "cid": 79025,
       "smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1",
       "snapshot_inchikey": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
       }
@@ -743,8 +1072,12 @@
       "external_record_id": "CID107689",
       "cid": 107689,
       "smiles": "C[C@@H](C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C3H6O3/c1-2(4)3(5)6/h2,4H,1H3,(H,5,6)/t2-/m0/s1",
       "snapshot_inchikey": "JVTAAEKCZFNVCJ-REOHCLBHSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N"
       }
@@ -753,8 +1086,12 @@
       "external_record_id": "CID151402",
       "cid": 151402,
       "smiles": "C(=O)([O-])[O-].O.O.O.O.O.O.O.O.O.O.[Na+].[Na+]",
+      "snapshot_inchi": "InChI=1S/CH2O3.2Na.10H2O/c2-1(3)4;;;;;;;;;;;;/h(H2,2,3,4);;;10*1H2/q;2*+1;;;;;;;;;;/p-2",
       "snapshot_inchikey": "XYQRXRFVKUPBQN-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -762,8 +1099,12 @@
       "external_record_id": "CID439250",
       "cid": 439250,
       "smiles": "CC1=CC[C@H](CC1)C(=C)C",
+      "snapshot_inchi": "InChI=1S/C10H16/c1-8(2)10-6-4-9(3)5-7-10/h4,10H,1,5-7H2,2-3H3/t10-/m1/s1",
       "snapshot_inchikey": "XMGQYMWWDOXHJM-SNVBAGLBSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "XMGQYMWWDOXHJM-UHFFFAOYSA-N"
       }
@@ -772,8 +1113,12 @@
       "external_record_id": "CID439655",
       "cid": 439655,
       "smiles": "[C@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2-/m0/s1",
       "snapshot_inchikey": "FEWJPZIEWOKRBE-LWMBPPNESA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
       }
@@ -782,8 +1127,12 @@
       "external_record_id": "CID440917",
       "cid": 440917,
       "smiles": "CC1=CC[C@@H](CC1)C(=C)C",
+      "snapshot_inchi": "InChI=1S/C10H16/c1-8(2)10-6-4-9(3)5-7-10/h4,10H,1,5-7H2,2-3H3/t10-/m0/s1",
       "snapshot_inchikey": "XMGQYMWWDOXHJM-JTQLQIEISA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "XMGQYMWWDOXHJM-UHFFFAOYSA-N"
       }
@@ -792,8 +1141,12 @@
       "external_record_id": "CID444305",
       "cid": 444305,
       "smiles": "[C@@H]([C@H](C(=O)O)O)(C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2-/m1/s1",
       "snapshot_inchikey": "FEWJPZIEWOKRBE-JCYAYHJZSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
       }
@@ -802,8 +1155,12 @@
       "external_record_id": "CID447315",
       "cid": 447315,
       "smiles": "[C@@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+      "snapshot_inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2+",
       "snapshot_inchikey": "FEWJPZIEWOKRBE-XIXRPRMCSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "FEWJPZIEWOKRBE-UHFFFAOYSA-N"
       }
@@ -812,8 +1169,12 @@
       "external_record_id": "CID516875",
       "cid": 516875,
       "smiles": "[O-][Mn](=O)(=O)=O.[K+]",
+      "snapshot_inchi": "InChI=1S/K.Mn.4O/q+1;;;;;-1",
       "snapshot_inchikey": "VZJVWSHVAAUDKD-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -821,8 +1182,12 @@
       "external_record_id": "CID516892",
       "cid": 516892,
       "smiles": "C(=O)(O)[O-].[Na+]",
+      "snapshot_inchi": "InChI=1S/CH2O3.Na/c2-1(3)4;/h(H2,2,3,4);/q;+1/p-1",
       "snapshot_inchikey": "UIIMBOGNXHQVGW-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -830,8 +1195,12 @@
       "external_record_id": "CID2724488",
       "cid": 2724488,
       "smiles": "C([C@H]1[C@@H]([C@H]([C@@H](C(O1)O)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6?/m0/s1",
       "snapshot_inchikey": "WQZGKKKJIJFFOK-ZZWDRFIYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "WQZGKKKJIJFFOK-UHFFFAOYSA-N"
       }
@@ -840,8 +1209,12 @@
       "external_record_id": "CID5284359",
       "cid": 5284359,
       "smiles": "[Cl-].[Cl-].[Ca+2]",
+      "snapshot_inchi": "InChI=1S/Ca.2ClH/h;2*1H/q+2;;/p-2",
       "snapshot_inchikey": "UXVMQQNJUSDDNG-UHFFFAOYSA-L",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -849,8 +1222,12 @@
       "external_record_id": "CID5287573",
       "cid": 5287573,
       "smiles": "C/C=C\\C",
+      "snapshot_inchi": "InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3-",
       "snapshot_inchikey": "IAQRGUVFOMOMEM-ARJAWSKDSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "IAQRGUVFOMOMEM-UHFFFAOYSA-N"
       }
@@ -859,8 +1236,12 @@
       "external_record_id": "CID5359268",
       "cid": 5359268,
       "smiles": "[Al]",
+      "snapshot_inchi": "InChI=1S/Al",
       "snapshot_inchikey": "XAGFODPZIPBFFR-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N"
       }
@@ -869,8 +1250,12 @@
       "external_record_id": "CID5362487",
       "cid": 5362487,
       "smiles": "[S]",
+      "snapshot_inchi": "InChI=1S/S",
       "snapshot_inchikey": "NINIDFKCEFEMDL-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "RWSOTUBLDIXVET-UHFFFAOYSA-N"
       }
@@ -879,8 +1264,12 @@
       "external_record_id": "CID5462224",
       "cid": 5462224,
       "smiles": "[Mg]",
+      "snapshot_inchi": "InChI=1S/Mg",
       "snapshot_inchikey": "FYYHWMGAXLPEAU-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "RSHAOIXHUHAZPM-UHFFFAOYSA-N"
       }
@@ -889,8 +1278,12 @@
       "external_record_id": "CID23665404",
       "cid": 23665404,
       "smiles": "CC(=O)[O-].O.O.O.[Na+]",
+      "snapshot_inchi": "InChI=1S/C2H4O2.Na.3H2O/c1-2(3)4;;;;/h1H3,(H,3,4);;3*1H2/q;+1;;;/p-1",
       "snapshot_inchikey": "AYRVGWHSXIMRAB-UHFFFAOYSA-M",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -898,8 +1291,12 @@
       "external_record_id": "CID23665760",
       "cid": 23665760,
       "smiles": "[O-]Cl.[Na+]",
+      "snapshot_inchi": "InChI=1S/ClO.Na/c1-2;/q-1;+1",
       "snapshot_inchikey": "SUKJFIGYRHOWBL-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     },
@@ -907,8 +1304,12 @@
       "external_record_id": "CID54670067",
       "cid": 54670067,
       "smiles": "C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O",
+      "snapshot_inchi": "InChI=1S/C6H8O6/c7-1-2(8)5-3(9)4(10)6(11)12-5/h2,5,7-10H,1H2/t2-,5+/m0/s1",
       "snapshot_inchikey": "CIWBSHSKHKDKBQ-JLAZNSOCSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "CIWBSHSKHKDKBQ-UHFFFAOYSA-N"
       }
@@ -917,8 +1318,12 @@
       "external_record_id": "CID57448781",
       "cid": 57448781,
       "smiles": "[Cu].[Zn].[Pb]",
+      "snapshot_inchi": "InChI=1S/Cu.Pb.Zn",
       "snapshot_inchikey": "UXNBTDLSBQFMEH-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "conflicts",
         "recomputed": "LPRWSYZVCAPKNX-UHFFFAOYSA-N"
       }
@@ -927,8 +1332,12 @@
       "external_record_id": "CID90477010",
       "cid": 90477010,
       "smiles": "[N+](=O)(O)[O-].Cl.Cl.Cl",
+      "snapshot_inchi": "InChI=1S/3ClH.HNO3/c;;;2-1(3)4/h3*1H;(H,2,3,4)",
       "snapshot_inchikey": "NICDRCVJGXLKSF-UHFFFAOYSA-N",
-      "outcome": {
+      "from_published_inchi": {
+        "outcome": "agrees"
+      },
+      "from_structure": {
         "outcome": "agrees"
       }
     }

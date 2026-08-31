@@ -29,14 +29,15 @@ fn repository_source_manifest_passes_the_live_gate() {
         String::from_utf8_lossy(&out.stderr)
     );
     let stdout = String::from_utf8(out.stdout).unwrap();
-    // Two quarantine snapshots now sit beside the eight distributed sources:
-    // BRD-011's ChEBI identity slice (CC BY 4.0, release 253) and BRD-013's
-    // USDA FoodData Central Foundation Foods release. Both are committed for
-    // reproducibility and ship in nothing, so the source count rises while the
-    // distributed count does not. Pinning the two numbers separately is the
-    // point: a quarantine record that quietly became a distributed one would
-    // move the second number and fail here.
-    assert!(stdout.contains("10 sources valid"), "{stdout}");
+    // Three quarantine snapshots now sit beside the eight distributed sources:
+    // BRD-011's ChEBI identity slice (CC BY 4.0, release 253), BRD-013's USDA
+    // FoodData Central Foundation Foods release, and BRD-010's PubChem PUG
+    // REST snapshot. All three are committed for reproducibility and ship in
+    // nothing, so the source count rises while the distributed count does not.
+    // Pinning the two numbers separately is the point: a quarantine record
+    // that quietly became a distributed one would move the second number and
+    // fail here.
+    assert!(stdout.contains("11 sources valid"), "{stdout}");
     assert!(stdout.contains("8 distributed"), "{stdout}");
 }
 

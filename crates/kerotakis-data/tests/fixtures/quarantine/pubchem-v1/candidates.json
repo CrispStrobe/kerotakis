@@ -10820,6 +10820,7 @@
           "Caffeine [BAN:JAN]",
           "1,3,7-trimethyl-1,3,7-trihydropurine-2,6-dione",
           "Caffeine (USP)",
+          "SMR000326667",
           "SR-01000075187",
           "Anhydrous caffeine (TN)",
           "Monomethyl derivative of Theophylline",
@@ -10940,7 +10941,6 @@
           "MFCD00005758",
           "CHEMBL113",
           "CAS-58-08-2",
-          "SMR000326667",
           "CCRIS 1314",
           "EINECS 200-362-1",
           "UNII-3G6A5W338E"
@@ -13884,6 +13884,7 @@
           "BP-13000",
           "BP-31023",
           "DL-Tartaric acid, ReagentPlus(R), 99%",
+          "SMR000499572",
           "NS00074105",
           "T4906",
           "D-(-)-Tartaric acid, ReagentPlus(R), 99%",
@@ -13977,7 +13978,6 @@
           "AKOS005067832",
           "NCGC00014424-02",
           "NCGC00097529-01",
-          "SMR000499572",
           "CS-0017144",
           "Q23034947"
         ],
@@ -14472,6 +14472,7 @@
           "Butanedioic acid, 2,3-dihydroxy-; Butanedioic acid, 2,3-dihydroxy-, (R-(R*,R*))-",
           "L-(+)-Tartaric acid, AR, >=99%",
           "BP-31012",
+          "SMR000112492",
           "SBI-0207063.P001",
           "NS00074184",
           "T5059",
@@ -14581,8 +14582,7 @@
           "CS-W020107",
           "CAS-87-69-4",
           "NCGC00247911-01",
-          "NCGC00254043-01",
-          "SMR000112492"
+          "NCGC00254043-01"
         ],
         "source_field": "synonyms/JSON InformationList.Information.Synonym",
         "licence": "LicenseRef-PubChem-Depositor-Supplied"
@@ -24646,6 +24646,7 @@
           "MG03219",
           "AC-15067",
           "BS-17112",
+          "SMR004703328",
           "SY012757",
           "D-(+)-Glucose, >=99.5% (GC)",
           "GLUCOSUM, ANHYDROUS [WHO-IP LATIN]",
@@ -24762,7 +24763,6 @@
           "NCGC00160621-01",
           "NCGC00160621-05",
           "NCGC00160621-08",
-          "SMR004703328",
           "CS-0099249"
         ],
         "source_field": "synonyms/JSON InformationList.Information.Synonym",
