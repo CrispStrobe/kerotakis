@@ -1918,11 +1918,18 @@ and presents them well.
        contained. Forty-six focused tests and the production build pass;
        candidate JavaScript is 599.48 kB minified / 199.66 kB gzip. The
        physical probe/export handshake remains GPU-6d.
-     - [ ] **GPU-6b — Probe contract hardening (2–3 h).** Validate raw startup,
+     - [x] **GPU-6b — Probe contract hardening (2–3 h).** Validate raw startup,
        warmup, CPU submission, rAF and unavailable-adapter artifacts before
        evaluation. **DoD:** malformed versions/modes/counts/non-finite samples
        and incomplete reports fail closed with deterministic CLI exit codes;
        a single host can never claim matrix passage; Node contract tests pass.
+       *Done 2026-08-31:* the evaluator now validates the raw v1 artifact
+       instead of trusting its summaries. Exact ten-run startup arrays, three
+       60+600-frame CPU/rAF runs, explicit mode/availability, SVG-before-GPU
+       proof and pass/outcome consistency are required. Lightweight evidence
+       cannot claim GPU availability; unavailable/headless evidence is valid
+       but exits non-zero and cannot pass. Missing/malformed CLI modes are
+       usage errors. Twenty-six offline release-tool tests pass.
      - [ ] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
        probe, evaluator and provenance self-tests one dependency-free command
        and run it in CI/preflight. **DoD:** no browser, GPU, network or physical

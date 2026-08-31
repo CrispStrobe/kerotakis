@@ -26,8 +26,11 @@ if (!site) {
 }
 
 const hostLabel = option("host-label", "unnamed-host");
-const mode = option("mode", "webgpu");
-if (mode !== "lightweight" && mode !== "webgpu") throw new Error("--mode must be lightweight or webgpu");
+const mode = option("mode");
+if (mode !== "lightweight" && mode !== "webgpu") {
+  console.error("--mode must be explicitly set to lightweight or webgpu");
+  process.exit(2);
+}
 const setupCommands = repeated("command");
 const triggerCommand = option("trigger-command", "ignite v1");
 const timeoutMs = Number(option("timeout-ms", "90000"));
@@ -169,10 +172,10 @@ try {
     process.exitCode = 0;
   } else if (initial.webdriver) {
     console.log(JSON.stringify({ ...base, outcome: "headless-policy-active" }, null, 2));
-    process.exitCode = 0;
+    exitCode = 1;
   } else if (!initial.supported) {
     console.log(JSON.stringify(base, null, 2));
-    process.exitCode = 0; // Honest unsupported evidence is not a probe crash.
+    exitCode = 1; // Honest unsupported evidence is valid evidence, but not a successful gate.
   } else {
     await submitCommand(page, triggerCommand);
     const presented = await waitFor(page, `__keroGpu5.samples.length > 0`, { timeout: 5000, step: 50 });
@@ -183,7 +186,7 @@ try {
         gpu_presented: false
       })`));
       console.log(JSON.stringify({ ...base, fallback }, null, 2));
-      process.exitCode = 0;
+      exitCode = 1;
     } else {
     const runs = [];
     const needed = GPU5_WARMUP_FRAMES + GPU5_MEASURED_FRAMES;
