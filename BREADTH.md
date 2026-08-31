@@ -1088,8 +1088,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
      three questions with the ideal model *silently*. That is the
      fall-through this document forbids. A day's work in a 2 775-line crate.
   Conditions on the `go`, all owned by BRD-031: build for macOS and iOS (only
-  native and `wasm32-unknown-unknown` were tested here); clear every parameter
-  table independently; fix `FluidModel`; pin `=0.10.x` and embed parameters.
+  native and `wasm32-unknown-unknown` were tested by the original spike); clear
+  every parameter table independently; fix `FluidModel`; pin `=0.10.x` and
+  embed parameters. The code/target conditions were subsequently discharged by
+  PRs #274 and #279; the independently cleared parameter-table condition is
+  still open and continues to block runtime routing.
 - **Candidate/licence:** `feos`, MIT OR Apache-2.0. It supplies PC-SAFT,
   ePC-SAFT, group-contribution/multiparameter models, phase equilibrium and
   transport calculations. Audit parameter-file provenance independently.
@@ -1105,8 +1108,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-031 — Cleared fluid parameter pack
 
-- [ ] **Status:** in progress on `brd031/fluid-safety` (2026-08-31), unblocked
-  by the BRD-030 `go`.
+- [ ] **Status:** in progress through independently reviewable checkpoints
+  (2026-08-31), unblocked by the BRD-030 `go`; BRD-032 remains blocked on a
+  cleared residual-fluid parameter pack.
   **Size:** large/data-heavy. **Depends on:** BRD-030.
 - **Scope:** curate parameters for the fluids and mixtures actually demanded by
   BRD-000/014: water, common alcohols/ketones/esters/hydrocarbons, CO2, air
@@ -1123,16 +1127,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   no licence statement, so every table needs its own record reasoned from the
   primary publication; the Joback & Reid 1987 table compiled into
   `feos/src/ideal_gas/joback.rs` needs a NOTICE entry if the crate is adopted.
-  `FluidModel`'s trait shape and its silent default methods must be fixed here,
-  before BRD-032. macOS and iOS builds of feos are still unproven. Two latent
-  bugs in `kerotakis-thermo` fire on this task's first day and must be fixed
-  with it: `unifac.rs`'s `psi` closure turns a missing `a_mn` into ψ = 1, i.e.
-  exactly the silent ideality the integration rule below forbids (the current
-  six main groups happen to form a complete 30-entry matrix, so nothing has
-  hit it yet); and `bubble_point_with`/`dew_point_with`/`tp_flash_with` use
-  `pressure_kpa_unchecked` and never range-check the converged answer, so a
-  binary can return a temperature outside a component's fitted Antoine range
-  unlabelled while the pure-fluid path correctly refuses.
+  PR #274 fixed `FluidModel`'s trait shape, silent inherited methods, missing
+  UNIFAC interactions and converged-domain checks. PR #279 pins feos and
+  feos-core exactly at `=0.10.1`, checks in the disposable adapter lockfile,
+  avoids filesystem parameter loading, and compiles that adapter in CI for
+  wasm32, Android, Windows, macOS and iOS. These close the code/target hazards,
+  not the independent rights review for numerical residual parameters.
 - **Integration:** join by canonical species identity; model selection is
   explicit and inspectable. Missing binary parameters produce a named refusal
   or a labelled lower-fidelity route, never silent ideality.
@@ -1180,6 +1180,33 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   the third-party-derived numerical parameter tables. Work therefore proceeds
   only on a quarantine importer with synthetic fixtures. No candidate value is
   copied, no pack is embedded, and BRD-032 remains blocked.
+- **Delivered checkpoint ledger (2026-08-31):** PR #274 merged the fail-closed
+  fluid contract and current-solver safety work; PR #279 merged the exact feos
+  adapter pin/lock and five-target CI matrix; PR #278 merged the six-fluid
+  quarantine importer, canonical identity join, licence/unit refusals and
+  synthetic PC-SAFT-shaped fixture. PR #289 merged a dedicated
+  `MolecularLength` dimension so reviewed segment diameters cannot be confused
+  with optical wavelengths. PR #291 merged canonical access to the already
+  vendored NASA-9 ideal-gas records for the six pilot identities. None promotes
+  third-party residual parameters or changes runtime model selection.
+- **Open checkpoint ledger (do not treat as shipped):** PR #290 proposes a
+  piecewise ethanol vapour-pressure route, preserving the existing
+  low-temperature correlation and adding an explicitly CC-BY-4.0 experimental
+  fit for 79.65–151.95 °C.
+  PR #293 proposes pinned-manifest/checksum verification, a deterministic
+  offline importer CLI/report, and parser fuzzing. These are open review
+  checkpoints. In particular, NASA ideal-gas heat-capacity/enthalpy/entropy
+  data complement a residual EOS; they are not PC-SAFT segment, dispersion,
+  association or binary-interaction parameters and therefore cannot unblock
+  feos routing.
+- **Permissive-source result (2026-08-31):** the focused CC0/CC-BY-4.0/U.S.
+  public-domain search found no explicitly cleared direct PC-SAFT parameter
+  table covering all six pilot fluids. NIST WebBook/ThermoML, journal tables,
+  and permissively licensed software repositories are not relabelled as open
+  numerical data. An agent may generate a table only from exact source bytes
+  whose grant covers the numerical fields, with per-field provenance and a
+  reproducible checksum; it may not reconstruct or transcribe the currently
+  blocked candidates under a new label.
 
 ### BRD-032 — feos-backed bench routing
 
