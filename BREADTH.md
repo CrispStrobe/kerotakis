@@ -1532,13 +1532,21 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** report and prototype behind a disposable route; exact licence
   inventory; no production dependency in the decision PR.
 - **Claimed progression (minimum 2 h; merge each checkpoint independently):**
-  1. [ ] **BRD-080a — Reproducible candidate evidence (45–75 min).** Pin the
+  1. [x] **BRD-080a — Reproducible candidate evidence (45–75 min).** Pin the
      exact 3Dmol.js and Mol* releases, licences and dependency closures; build
      the same molecule, CIF, protein, cube and trajectory fixture matrix with
      cold bundle-size and offline checks. **DoD:** a committed, deterministic
      evidence command refuses missing fixtures/unknown licences, records raw +
      gzip bytes and dependency counts, and tests malformed/incomplete reports;
      no runtime dependency enters the production app.
+     *Done 2026-08-31:* the isolated exact lock pins 3Dmol 2.5.5 and Mol*
+     5.11.0 without touching the app dependency graph. Five project-authored,
+     hash-pinned format probes and a fail-closed Node test validate fixture
+     integrity, exact top-level pins, every installed production licence and
+     lock integrity. Real Vite entries measure 3Dmol at 586,724 raw / 168,749
+     gzip bytes and Mol* at 5,345,087 raw / 1,968,375 gzip bytes; the evidence
+     also exposes Mol*'s Node >=22 requirement and its 222-instance combined
+     spike closure rather than silently accepting the host's Node 20 warning.
   2. [ ] **BRD-080b — Disposable comparison route (45–75 min).** Exercise both
      candidates behind one spike-only adapter contract with selection, labels,
      resize/dispose and accessible tabular fallback. **DoD:** identical fixture
