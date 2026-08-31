@@ -84,11 +84,12 @@ CC0, CC BY 4.0, MIT, BSD, Apache-2.0, or U.S. public domain terms. The evidence
 must identify the exact revision/files and be recorded in `sources.toml` before
 any candidate bytes or generated runtime pack are committed.
 
-## Focused permissive-source follow-up
+## Recorded permissive-source status
 
-A focused search for a direct six-fluid PC-SAFT table carrying an explicit
-CC0, CC BY 4.0, or U.S.-public-domain grant found none. That is a scoped search
-result, not a claim that no such dataset can ever exist. In particular:
+This repository contains no exact source bytes and grant clearing a direct
+six-fluid PC-SAFT table under CC0, CC BY 4.0, or U.S. public-domain terms. No
+reproducible search log accompanies this checkpoint, so it does not claim an
+exhaustive or independently repeatable external search. In particular:
 
 - a permissive code licence does not automatically license third-party-derived
   numerical values stored beside the code;

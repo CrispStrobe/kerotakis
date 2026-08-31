@@ -1090,9 +1090,10 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Conditions on the `go`, all owned by BRD-031: build for macOS and iOS (only
   native and `wasm32-unknown-unknown` were tested by the original spike); clear
   every parameter table independently; fix `FluidModel`; pin `=0.10.x` and
-  embed parameters. The code/target conditions were subsequently discharged by
-  PRs #274 and #279; the independently cleared parameter-table condition is
-  still open and continues to block runtime routing.
+  embed parameters. PRs #274 and #279 subsequently discharged the silent
+  inherited-method, exact-pin and target-build conditions. The model-neutral
+  component-identity seam and independently cleared parameter-table condition
+  remain open and continue to block runtime routing.
 - **Candidate/licence:** `feos`, MIT OR Apache-2.0. It supplies PC-SAFT,
   ePC-SAFT, group-contribution/multiparameter models, phase equilibrium and
   transport calculations. Audit parameter-file provenance independently.
@@ -1127,12 +1128,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   no licence statement, so every table needs its own record reasoned from the
   primary publication; the Joback & Reid 1987 table compiled into
   `feos/src/ideal_gas/joback.rs` needs a NOTICE entry if the crate is adopted.
-  PR #274 fixed `FluidModel`'s trait shape, silent inherited methods, missing
-  UNIFAC interactions and converged-domain checks. PR #279 pins feos and
-  feos-core exactly at `=0.10.1`, checks in the disposable adapter lockfile,
-  avoids filesystem parameter loading, and compiles that adapter in CI for
-  wasm32, Android, Windows, macOS and iOS. These close the code/target hazards,
-  not the independent rights review for numerical residual parameters.
+  PR #274 removed `FluidModel`'s silent inherited methods, made capabilities
+  explicit, and fixed missing UNIFAC interactions and converged-domain checks.
+  The trait still accepts Raoult-shaped `Volatile` values, so the historical
+  spike's positional component-identity seam remains unresolved. PR #279 pins
+  feos and feos-core exactly at `=0.10.1`, checks in the disposable adapter
+  lockfile, keeps the browser-facing adapter library free of filesystem
+  parameter loading, and compiles that library in CI for wasm32, Android,
+  Windows, macOS and iOS. These close named fail-closed/pin/target hazards, not
+  the identity seam or independent rights review for residual parameters.
 - **Integration:** join by canonical species identity; model selection is
   explicit and inspectable. Missing binary parameters produce a named refusal
   or a labelled lower-fidelity route, never silent ideality.
@@ -1199,10 +1203,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   data complement a residual EOS; they are not PC-SAFT segment, dispersion,
   association or binary-interaction parameters and therefore cannot unblock
   feos routing.
-- **Permissive-source result (2026-08-31):** the focused CC0/CC-BY-4.0/U.S.
-  public-domain search found no explicitly cleared direct PC-SAFT parameter
-  table covering all six pilot fluids. NIST WebBook/ThermoML, journal tables,
-  and permissively licensed software repositories are not relabelled as open
+- **Permissive-source result (2026-08-31):** this repository records no exact
+  source bytes and grant that clear a direct PC-SAFT parameter table covering
+  all six pilot fluids. That is the auditable result here; it is not evidence
+  of an exhaustive external search. NIST WebBook/ThermoML, journal tables, and
+  permissively licensed software repositories are not relabelled as open
   numerical data. An agent may generate a table only from exact source bytes
   whose grant covers the numerical fields, with per-field provenance and a
   reproducible checksum; it may not reconstruct or transcribe the currently
