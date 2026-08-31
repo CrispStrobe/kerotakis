@@ -103,8 +103,8 @@ pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
     Reading, Thermometer,
 };
-pub use ledger::{audit_conservation, ConservedLedger};
 pub use ionic::{net_ionic, net_ionic_for, IonTerm, IonicBasis, NetIonic};
+pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};

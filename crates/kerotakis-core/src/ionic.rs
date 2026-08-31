@@ -299,26 +299,22 @@ fn from_precipitate(vessel: &Vessel, solid_id: &SpeciesId) -> Option<NetIonic> {
         stoich::parse_formula("H2O").expect("H2O is a formula"),
     ));
 
-    let terms: Vec<(String, Formula)> = participants.iter().chain(balancers.iter()).cloned().collect();
+    let terms: Vec<(String, Formula)> = participants
+        .iter()
+        .chain(balancers.iter())
+        .cloned()
+        .collect();
     let coefficients = balance_against(&terms, &solid_formula)?;
 
     // Every chosen partner must actually take part: a "net ionic equation"
     // in which the silver ion has coefficient zero is not one.
-    if coefficients[..participants.len()]
-        .iter()
-        .any(|c| *c <= 0.0)
-    {
+    if coefficients[..participants.len()].iter().any(|c| *c <= 0.0) {
         return None;
     }
     let scale = integer_scale(&coefficients)?;
 
     let mut reactants: Vec<IonTerm> = Vec::new();
-    let mut products: Vec<IonTerm> = vec![IonTerm::new(
-        &solid_id.0,
-        scale,
-        0,
-        Phase::Solid,
-    )];
+    let mut products: Vec<IonTerm> = vec![IonTerm::new(&solid_id.0, scale, 0, Phase::Solid)];
     for ((name, formula), coefficient) in terms.iter().zip(coefficients.iter()) {
         let n = coefficient * scale as f64;
         if n.abs() < 0.5 {
@@ -385,7 +381,8 @@ fn dissolved_species(vessel: &Vessel) -> Option<Vec<(&SpeciesDetail, Formula)>> 
         .iter()
         .filter(|d| d.molality > TRACE_MOLALITY)
         .filter_map(|d| {
-            let formula = stoich::parse_formula_with(&d.name, FormulaDialect::PhreeqcMaster).ok()?;
+            let formula =
+                stoich::parse_formula_with(&d.name, FormulaDialect::PhreeqcMaster).ok()?;
             Some((d, formula))
         })
         .collect();
