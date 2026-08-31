@@ -1,8 +1,3 @@
-import * as ThreeDMol from "3dmol";
-
-// Exercise the real package entry and the APIs required by the comparison.
-export const candidate = {
-  createViewer: ThreeDMol.createViewer,
-  volumeData: ThreeDMol.VolumeData,
-  surfaceType: ThreeDMol.SurfaceType,
-};
+// The adapter owns the browser-only dynamic import. Keeping this entry tiny
+// lets the disposable route remain SSR-safe and load 3Dmol only on demand.
+export { threeDMolAdapter as adapter, threeDMolAdapter as default } from "./3dmolAdapter";

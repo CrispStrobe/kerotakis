@@ -60,7 +60,7 @@ export async function collect() {
     const candidates = [];
     for (const name of ["3dmol", "molstar"]) {
       const outDir = join(temporary, name);
-      await build({ root, configFile: false, logLevel: "silent", build: { outDir, emptyOutDir: true, sourcemap: false, rollupOptions: { input: resolve(root, `src/${name}.ts`), output: { entryFileNames: "candidate.js", chunkFileNames: "chunk-[hash].js", assetFileNames: "asset-[hash][extname]" } } } });
+      await build({ root, configFile: false, logLevel: "silent", build: { outDir, emptyOutDir: true, sourcemap: false, rollupOptions: { input: resolve(root, `src/measure-${name}.ts`), output: { entryFileNames: "candidate.js", chunkFileNames: "chunk-[hash].js", assetFileNames: "asset-[hash][extname]" } } } });
       const artifacts = await files(outDir);
       candidates.push({ name, packages: packages.filter((row) => row.path === `node_modules/${name}` || (name === "3dmol" && /node_modules\/(iobuffer|netcdfjs|pako|upng-js)/.test(row.path))), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
     }

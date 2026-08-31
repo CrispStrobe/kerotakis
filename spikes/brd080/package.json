@@ -5,8 +5,11 @@
   "type": "module",
   "license": "AGPL-3.0-or-later",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test:browser": "node browser-smoke.mjs",
     "evidence": "node evidence.mjs",
-    "test": "node --test evidence.test.mjs"
+    "test": "node --test evidence.test.mjs && vitest run src/comparison.test.ts && node src/3dmolAdapter.test.mjs && node run-molstar-test.mjs"
   },
   "dependencies": {
     "3dmol": "2.5.5",
@@ -14,6 +17,7 @@
   },
   "devDependencies": {
     "sass-embedded": "1.103.1",
-    "vite": "7.3.1"
+    "vite": "7.3.1",
+    "vitest": "3.2.4"
   }
 }
