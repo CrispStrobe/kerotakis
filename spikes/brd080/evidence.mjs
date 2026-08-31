@@ -36,6 +36,9 @@ function resolveLocked(packages, parent, name) {
   const top = `node_modules/${name}`;
   return packages[top] ? top : undefined;
 }
+function containingPackage(path) {
+  return path.replace(/(?:^|\/)node_modules\/(?:@[^/]+\/)?[^/]+$/, "");
+}
 export function candidateClosure(lock, rootName) {
   const start = `node_modules/${rootName}`;
   if (!lock.packages?.[start]) throw new Error(`missing candidate package: ${rootName}`);
@@ -45,11 +48,17 @@ export function candidateClosure(lock, rootName) {
     if (seen.has(path)) continue;
     seen.add(path);
     const entry = lock.packages[path];
-    const names = new Set([...Object.keys(entry.dependencies ?? {}), ...Object.keys(entry.optionalDependencies ?? {}), ...Object.keys(entry.peerDependencies ?? {})]);
-    for (const name of [...names].sort()) {
-      if (entry.peerDependenciesMeta?.[name]?.optional && !resolveLocked(lock.packages, path, name)) continue;
+    const optional = new Set(Object.keys(entry.optionalDependencies ?? {}));
+    for (const name of [...new Set([...Object.keys(entry.dependencies ?? {}), ...optional])].sort()) {
       const resolved = resolveLocked(lock.packages, path, name);
+      if (!resolved && optional.has(name)) continue;
       if (!resolved) throw new Error(`${path} has unresolved production dependency ${name}`);
+      queue.push(resolved);
+    }
+    for (const name of Object.keys(entry.peerDependencies ?? {}).sort()) {
+      const resolved = resolveLocked(lock.packages, containingPackage(path), name);
+      if (!resolved && entry.peerDependenciesMeta?.[name]?.optional) continue;
+      if (!resolved) throw new Error(`${path} has unresolved production peer ${name}`);
       queue.push(resolved);
     }
   }
@@ -80,7 +89,7 @@ async function files(directory) {
   }
   return result;
 }
-export function validateEvidence(report) {
+export function validateEvidence(report, expected) {
   if (report?.schema !== "kerotakis.brd080-evidence.v1" || !/^v\d+\.\d+\.\d+$/.test(report.environment?.node ?? "")
     || !/^[a-f0-9]{64}$/.test(report.lockSha256 ?? "") || report.fixtures?.length !== 5
     || !Number.isSafeInteger(report.productionPackageCount) || report.productionPackageCount !== report.packages?.length) {
@@ -90,10 +99,17 @@ export function validateEvidence(report) {
     || report.packages.some((row) => !row.path || !row.version || !row.integrity || !licenceAllowed(row.license))) {
     throw new Error("invalid BRD-080 package inventory");
   }
+  if (!expected || report.lockSha256 !== expected.lockSha256
+    || JSON.stringify(report.fixtures) !== JSON.stringify(expected.fixtures)
+    || JSON.stringify(report.packages) !== JSON.stringify(expected.packages)) {
+    throw new Error("BRD-080 evidence does not match canonical lock, fixtures or inventory");
+  }
   if (report.candidates?.map(({ name }) => name).join() !== "3dmol,molstar") throw new Error("BRD-080 evidence requires both ordered candidates");
   for (const candidate of report.candidates) {
+    const closure = new Set(candidateClosure(expected.lock, candidate.name));
+    const expectedRows = expected.packages.filter(({ path }) => closure.has(path));
     if (!candidate.packages?.length || !candidate.artifacts?.length
-      || candidate.packages.some(({ path }) => !report.packages.some((row) => row.path === path))) {
+      || JSON.stringify(candidate.packages) !== JSON.stringify(expectedRows)) {
       throw new Error(`incomplete ${candidate.name} closure or artifacts`);
     }
     const totals = candidate.artifacts.reduce((sum, artifact) => {
@@ -120,15 +136,17 @@ export async function collect() {
       const closure = new Set(candidateClosure(lock, name));
       candidates.push({ name, packages: packages.filter((row) => closure.has(row.path)), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
     }
-    return validateEvidence({
+    const lockSha256 = sha(lockBytes);
+    const report = {
       schema: "kerotakis.brd080-evidence.v1",
       environment: { node: process.version, molstarRequiredNode: ">=22.0.0" },
-      lockSha256: sha(lockBytes),
+      lockSha256,
       fixtures: fixtures.fixtures,
       productionPackageCount: packages.length,
       packages,
       candidates,
-    });
+    };
+    return validateEvidence(report, { lock, lockSha256, fixtures: fixtures.fixtures, packages });
   } finally { await rm(temporary, { recursive: true, force: true }); }
 }
 if (import.meta.url === new URL(process.argv[1], "file:").href) console.log(JSON.stringify(await collect(), null, 2));

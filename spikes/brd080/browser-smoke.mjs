@@ -29,15 +29,15 @@ try {
       const interaction = await page.evaluate(`(async () => {
         const atom = document.querySelector('[data-atom]');
         atom.checked = true;
-        atom.dispatchEvent(new Event('change', { bubbles: true }));
         const labels = document.querySelector('#labels');
         labels.checked = true;
-        labels.dispatchEvent(new Event('change', { bubbles: true }));
+        await globalThis.__brd080.select([0]);
+        await globalThis.__brd080.setLabels(true);
         await globalThis.__brd080.resize(5000, 5000, 9);
-        await new Promise((resolve) => setTimeout(resolve, 25));
         return globalThis.__brd080.snapshot();
       })()`);
-      if (interaction?.selectedAtomIds?.[0] !== 0 || interaction.labelsVisible !== true
+      if (interaction?.candidate !== candidate || interaction?.fixture !== fixture || interaction?.status !== "ready"
+        || interaction?.selectedAtomIds?.[0] !== 0 || interaction.labelsVisible !== true
         || interaction.width !== 1280 || interaction.height !== 960 || interaction.dpr !== 2) {
         throw new Error(`${candidate}/${fixture}: interaction snapshot failed: ${JSON.stringify(interaction)}`);
       }
