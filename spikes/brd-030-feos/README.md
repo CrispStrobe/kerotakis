@@ -12,8 +12,8 @@ this directory is the evidence behind it.
 * the kerotakis workspace's `members` list is untouched, so no production
   build, `Cargo.lock`, `cargo deny` run, or NOTICE generation can pick feos
   up by accident;
-* the spike keeps its own lockfile, which records the exact versions the
-  measurements were taken against;
+* the spike keeps its own lockfile, added by BRD-031 after its absence was
+  caught in audit, and pins feos/feos-core to exactly `0.10.1`;
 * deleting this directory removes the dependency completely.
 
 It depends on `kerotakis-thermo` by path, read-only. No file under
@@ -45,11 +45,11 @@ measurements were taken against.
 ```sh
 export CARGO_TARGET_DIR=/somewhere/with/room
 ./fetch-parameters.sh
-cargo build --release
+cargo build --release --locked
 ../../../target/release/brd030-feos-spike emit > fixtures/engines.tsv
 python3 oracle.py > fixtures/oracle.tsv          # needs `thermo` (MIT)
 python3 compare.py                                # writes fixtures/discrepancies.tsv
-cargo run --release -- bench                      # order-of-magnitude timings
-cargo build --release --lib --target wasm32-unknown-unknown
-cargo build --release --target wasm32-unknown-unknown -p wasm-probe-feos -p wasm-probe-base
+cargo run --release --locked -- bench             # order-of-magnitude timings
+cargo build --release --locked --lib --target wasm32-unknown-unknown
+cargo build --release --locked --target wasm32-unknown-unknown -p wasm-probe-feos -p wasm-probe-base
 ```

@@ -179,6 +179,36 @@ jobs:
           cargo check -p kerotakis-core -p kerotakis-data
           -p kerotakis-scene-physics --target wasm32-unknown-unknown
 
+  feos-target-contract:
+    name: feos adapter (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: wasm32-unknown-unknown
+          - os: ubuntu-latest
+            target: aarch64-linux-android
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-latest
+            target: aarch64-apple-ios
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: spikes/brd-030-feos
+      - name: Compile the locked disposable adapter
+        run: >-
+          cargo check --manifest-path spikes/brd-030-feos/Cargo.toml
+          --locked --lib --target ${{ matrix.target }}
+
   registry-export:
     name: Current registry source export
     runs-on: ubuntu-latest

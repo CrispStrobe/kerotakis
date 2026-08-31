@@ -17,20 +17,10 @@
 //! other model's parameters is a trait that will silently accept a
 //! mismatched pairing.
 //!
-//! **The sharper problem is the trait's default methods.** `FluidModel`
-//! provides bodies for `dew_point`, `tp_flash` and `saturation_pressure_kpa`
-//! that call `crate::vle::*` directly — the Raoult implementation. A backend
-//! that overrides only `bubble_point`, as this one does, therefore answers
-//! dew points and flashes *with the ideal model*, silently, using whatever
-//! Antoine constants the caller happened to put in the `Volatile`s. Nothing
-//! in the type system or at runtime says so. BREADTH.md's own rule is that
-//! "silent fall-through is a failure"; these defaults are a fall-through
-//! waiting to happen, and they exist because the trait was extracted from one
-//! model rather than designed across two.
-//!
-//! This adapter deliberately does **not** override them, so that the spike
-//! demonstrates the hazard instead of papering over it. The corpus only ever
-//! asks it for bubble points.
+//! BRD-031 removed the trait's inherited calculation bodies. This adapter now
+//! advertises bubble-point support only and explicitly refuses dew point, TP
+//! flash, and saturation pressure. The spike therefore remains honest while
+//! the component-identity seam described above is still unresolved.
 //!
 //! What BRD-032 would need before routing through this:
 //!
@@ -45,8 +35,10 @@
 
 use feos::pcsaft::PcSaft;
 use feos_core::{PhaseEquilibrium, SolverOptions};
-use kerotakis_thermo::fluid::FluidModel;
-use kerotakis_thermo::vle::{BubblePoint, Volatile};
+use kerotakis_thermo::fluid::{
+    FluidCapabilities, FluidModel, FluidModelError, FluidModelResult, FluidOperation,
+};
+use kerotakis_thermo::vle::{Antoine, BubblePoint, DewPoint, FlashResult, Volatile};
 use nalgebra::DVector;
 use quantity::{KELVIN, PASCAL};
 use std::sync::Arc;
@@ -80,13 +72,24 @@ impl FluidModel for FeosPcSaftFluid {
         "feos PC-SAFT (BRD-030 spike adapter)"
     }
 
-    fn bubble_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> {
+    fn capabilities(&self) -> FluidCapabilities {
+        FluidCapabilities {
+            bubble_point: true,
+            ..FluidCapabilities::default()
+        }
+    }
+
+    fn bubble_point(
+        &self,
+        components: &[Volatile],
+        pressure_kpa: f64,
+    ) -> FluidModelResult<BubblePoint> {
         if components.len() != self.components.len() {
-            return None;
+            return Ok(None);
         }
         let total: f64 = components.iter().map(|c| c.x).sum();
         if total <= 0.0 || pressure_kpa <= 0.0 {
-            return None;
+            return Ok(None);
         }
         // Only `x` crosses the seam. `antoine` and `gamma` are the Raoult
         // model's own state and are deliberately dropped.
@@ -105,7 +108,9 @@ impl FluidModel for FeosPcSaftFluid {
             vle = PhaseEquilibrium::bubble_point(&self.eos, p, &x, Some(t0 * KELVIN), None, opts)
                 .ok();
         }
-        let vle = vle?;
+        let Some(vle) = vle else {
+            return Ok(None);
+        };
 
         let t_celsius = vle.vapor().temperature.convert_into(KELVIN) - 273.15;
         let y: Vec<f64> = vle.vapor().molefracs.iter().copied().collect();
@@ -113,10 +118,44 @@ impl FluidModel for FeosPcSaftFluid {
             .iter()
             .zip(&y)
             .all(|(xi, yi)| (xi - yi).abs() < AZEOTROPE_TOLERANCE);
-        Some(BubblePoint {
+        Ok(Some(BubblePoint {
             t_celsius,
             y,
             azeotropic,
-        })
+        }))
+    }
+
+    fn dew_point(
+        &self,
+        _components: &[Volatile],
+        _pressure_kpa: f64,
+    ) -> FluidModelResult<DewPoint> {
+        Err(FluidModelError::unsupported(
+            self.name(),
+            FluidOperation::DewPoint,
+        ))
+    }
+
+    fn tp_flash(
+        &self,
+        _components: &[Volatile],
+        _pressure_kpa: f64,
+        _t_celsius: f64,
+    ) -> FluidModelResult<FlashResult> {
+        Err(FluidModelError::unsupported(
+            self.name(),
+            FluidOperation::TpFlash,
+        ))
+    }
+
+    fn saturation_pressure_kpa(
+        &self,
+        _antoine: &Antoine,
+        _t_celsius: f64,
+    ) -> FluidModelResult<f64> {
+        Err(FluidModelError::unsupported(
+            self.name(),
+            FluidOperation::SaturationPressure,
+        ))
     }
 }

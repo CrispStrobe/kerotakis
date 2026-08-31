@@ -507,8 +507,9 @@ fn binaries(c: &Value) {
                     },
                 ];
                 match model.bubble_point(&mix, p_atm) {
-                    Some(bp) => ok("adapter", &case, "tbub_c", bp.t_celsius, model.name()),
-                    None => unavailable("adapter", &case, "tbub_c", "adapter refused"),
+                    Ok(Some(bp)) => ok("adapter", &case, "tbub_c", bp.t_celsius, model.name()),
+                    Ok(None) => unavailable("adapter", &case, "tbub_c", "no numerical solution"),
+                    Err(error) => unavailable("adapter", &case, "tbub_c", &error.to_string()),
                 }
             }
         }
