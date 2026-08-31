@@ -1,0 +1,15 @@
+[package]
+name = "wasm-probe-base"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "AGPL-3.0-or-later"
+
+# The baseline for the size probe: the same shape of exported symbol
+# reaching kerotakis-thermo's existing Antoine + UNIFAC bubble point and
+# nothing else.
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+kerotakis-thermo = { path = "../../../crates/kerotakis-thermo" }

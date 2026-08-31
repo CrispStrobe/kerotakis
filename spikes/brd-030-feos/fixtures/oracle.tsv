@@ -1,0 +1,731 @@
+engine	case	quantity	status	value	note
+oracle-corr	water@25.0C	psat_kpa	ok	3.1699293389e+00	thermo.VaporPressure method=IAPWS_PSAT
+oracle-corr	water@25.0C	rho_liq_mol_m3	ok	5.5344575602e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	water@25.0C	dhvap_kj_mol	ok	4.3987446056e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	water@50.0C	psat_kpa	ok	1.2351945838e+01	thermo.VaporPressure method=IAPWS_PSAT
+oracle-corr	water@50.0C	rho_liq_mol_m3	ok	5.4844298503e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	water@50.0C	dhvap_kj_mol	ok	4.2911418734e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	water@75.0C	psat_kpa	ok	3.8595395847e+01	thermo.VaporPressure method=IAPWS_PSAT
+oracle-corr	water@75.0C	rho_liq_mol_m3	ok	5.4112067412e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	water@75.0C	dhvap_kj_mol	ok	4.1805736899e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	water@100.0C	psat_kpa	ok	1.0141799666e+02	thermo.VaporPressure method=IAPWS_PSAT
+oracle-corr	water@100.0C	rho_liq_mol_m3	ok	5.3196677148e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	water@100.0C	dhvap_kj_mol	ok	4.0649721827e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	water	tboil_c	ok	9.9974295848e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	water	tcrit_k	ok	6.4709600000e+02	chemicals.Tc (experimental)
+oracle-corr	water	pcrit_kpa	ok	2.2064000000e+04	chemicals.Pc (experimental)
+oracle-corr	methanol@25.0C	psat_kpa	ok	1.6981497124e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	methanol@25.0C	rho_liq_mol_m3	ok	2.4540340077e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	methanol@25.0C	dhvap_kj_mol	ok	3.7457193574e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	methanol@40.0C	psat_kpa	ok	3.5518028244e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	methanol@40.0C	rho_liq_mol_m3	ok	2.4098573804e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	methanol@40.0C	dhvap_kj_mol	ok	3.6689338024e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	methanol@64.7C	psat_kpa	ok	1.0219682934e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	methanol@64.7C	rho_liq_mol_m3	ok	2.3348922430e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	methanol@64.7C	dhvap_kj_mol	ok	3.5267134804e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	methanol	tboil_c	ok	6.4482383296e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	methanol	tcrit_k	ok	5.1338000000e+02	chemicals.Tc (experimental)
+oracle-corr	methanol	pcrit_kpa	ok	8.2158500000e+03	chemicals.Pc (experimental)
+oracle-corr	ethanol@25.0C	psat_kpa	ok	7.8853862992e+00	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ethanol@25.0C	rho_liq_mol_m3	ok	1.7042745369e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ethanol@25.0C	dhvap_kj_mol	ok	4.2413437042e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ethanol@50.0C	psat_kpa	ok	2.9408513241e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ethanol@50.0C	rho_liq_mol_m3	ok	1.6566428263e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ethanol@50.0C	dhvap_kj_mol	ok	4.1048110954e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ethanol@78.4C	psat_kpa	ok	1.0124100623e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ethanol@78.4C	rho_liq_mol_m3	ok	1.5985803468e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ethanol@78.4C	dhvap_kj_mol	ok	3.9141820466e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ethanol	tboil_c	ok	7.8420441659e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	ethanol	tcrit_k	ok	5.1471000000e+02	chemicals.Tc (experimental)
+oracle-corr	ethanol	pcrit_kpa	ok	6.2680000000e+03	chemicals.Pc (experimental)
+oracle-corr	propan-1-ol@25.0C	psat_kpa	ok	2.7990988122e+00	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-1-ol@25.0C	rho_liq_mol_m3	ok	1.3303874112e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol@25.0C	dhvap_kj_mol	ok	4.7937076286e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol@60.0C	psat_kpa	ok	2.0311916982e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-1-ol@60.0C	rho_liq_mol_m3	ok	1.2783131030e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol@60.0C	dhvap_kj_mol	ok	4.5061946799e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol@97.0C	psat_kpa	ok	1.0089975213e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-1-ol@97.0C	rho_liq_mol_m3	ok	1.2179722070e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol@97.0C	dhvap_kj_mol	ok	4.1608393288e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-1-ol	tboil_c	ok	9.7040000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	propan-1-ol	tcrit_k	ok	5.3680000000e+02	chemicals.Tc (experimental)
+oracle-corr	propan-1-ol	pcrit_kpa	ok	5.1690000000e+03	chemicals.Pc (experimental)
+oracle-corr	propan-2-ol@25.0C	psat_kpa	ok	5.7798736273e+00	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-2-ol@25.0C	rho_liq_mol_m3	ok	1.3009938665e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol@25.0C	dhvap_kj_mol	ok	4.5768641717e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol@60.0C	psat_kpa	ok	3.8655303793e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-2-ol@60.0C	rho_liq_mol_m3	ok	1.2412707089e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol@60.0C	dhvap_kj_mol	ok	4.2347412673e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol@82.4C	psat_kpa	ok	1.0214917301e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	propan-2-ol@82.4C	rho_liq_mol_m3	ok	1.1998543501e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol@82.4C	dhvap_kj_mol	ok	3.9933871351e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	propan-2-ol	tboil_c	ok	8.2210000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	propan-2-ol	tcrit_k	ok	5.0830000000e+02	chemicals.Tc (experimental)
+oracle-corr	propan-2-ol	pcrit_kpa	ok	4.7640000000e+03	chemicals.Pc (experimental)
+oracle-corr	acetone@0.0C	psat_kpa	ok	9.2991295838e+00	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	acetone@0.0C	rho_liq_mol_m3	ok	1.3984016299e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	acetone@0.0C	dhvap_kj_mol	ok	3.2458479105e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	acetone@25.0C	psat_kpa	ok	3.0727143693e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	acetone@25.0C	rho_liq_mol_m3	ok	1.3510903267e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	acetone@25.0C	dhvap_kj_mol	ok	3.1025372528e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	acetone@56.0C	psat_kpa	ok	1.0106570242e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	acetone@56.0C	rho_liq_mol_m3	ok	1.2896995402e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	acetone@56.0C	dhvap_kj_mol	ok	2.9127118141e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	acetone	tboil_c	ok	5.6074922705e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	acetone	tcrit_k	ok	5.0810000000e+02	chemicals.Tc (experimental)
+oracle-corr	acetone	pcrit_kpa	ok	4.6924000000e+03	chemicals.Pc (experimental)
+oracle-corr	butanone@25.0C	psat_kpa	ok	1.2090943789e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	butanone@25.0C	rho_liq_mol_m3	ok	1.1087256490e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	butanone@25.0C	dhvap_kj_mol	ok	3.4624499652e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	butanone@50.0C	psat_kpa	ok	3.5523729321e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	butanone@50.0C	rho_liq_mol_m3	ok	1.0699531635e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	butanone@50.0C	dhvap_kj_mol	ok	3.3283108568e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	butanone@79.6C	psat_kpa	ok	1.0126714846e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	butanone@79.6C	rho_liq_mol_m3	ok	1.0216778145e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	butanone@79.6C	dhvap_kj_mol	ok	3.1555836658e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	butanone	tboil_c	ok	7.9600000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	butanone	tcrit_k	ok	5.3670000000e+02	chemicals.Tc (experimental)
+oracle-corr	butanone	pcrit_kpa	ok	4.2070000000e+03	chemicals.Pc (experimental)
+oracle-corr	ethyl-ethanoate@25.0C	psat_kpa	ok	1.2614169514e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethyl-ethanoate@25.0C	rho_liq_mol_m3	ok	1.0142615555e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate@25.0C	dhvap_kj_mol	ok	3.5661833455e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate@50.0C	psat_kpa	ok	3.7961109611e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethyl-ethanoate@50.0C	rho_liq_mol_m3	ok	9.7992317938e+03	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate@50.0C	dhvap_kj_mol	ok	3.4083109120e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate@77.0C	psat_kpa	ok	1.0108295209e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethyl-ethanoate@77.0C	rho_liq_mol_m3	ok	9.4066701611e+03	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate@77.0C	dhvap_kj_mol	ok	3.2235086651e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethyl-ethanoate	tboil_c	ok	7.7100000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	ethyl-ethanoate	tcrit_k	ok	5.2330000000e+02	chemicals.Tc (experimental)
+oracle-corr	ethyl-ethanoate	pcrit_kpa	ok	3.8700000000e+03	chemicals.Pc (experimental)
+oracle-corr	ethanoic-acid@25.0C	psat_kpa	ok	2.0817528026e+00	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethanoic-acid@25.0C	rho_liq_mol_m3	ok	1.7351663727e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid@25.0C	dhvap_kj_mol	ok	2.3420444718e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid@80.0C	psat_kpa	ok	2.7550295972e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethanoic-acid@80.0C	rho_liq_mol_m3	ok	1.6377125550e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid@80.0C	dhvap_kj_mol	ok	2.3681526212e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid@118.0C	psat_kpa	ok	1.0175210830e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	ethanoic-acid@118.0C	rho_liq_mol_m3	ok	1.5639890277e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid@118.0C	dhvap_kj_mol	ok	2.3921433887e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	ethanoic-acid	tboil_c	ok	1.1790000000e+02	chemicals.Tb (experimental normal boiling point)
+oracle-corr	ethanoic-acid	tcrit_k	ok	5.9070000000e+02	chemicals.Tc (experimental)
+oracle-corr	ethanoic-acid	pcrit_kpa	ok	5.7800000000e+03	chemicals.Pc (experimental)
+oracle-corr	propane@-60.0C	psat_kpa	ok	4.2692805640e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	propane@-60.0C	rho_liq_mol_m3	ok	1.3632481621e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	propane@-60.0C	dhvap_kj_mol	ok	1.9561935390e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	propane@-42.1C	psat_kpa	ok	1.0138718790e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	propane@-42.1C	rho_liq_mol_m3	ok	1.3173076482e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	propane@-42.1C	dhvap_kj_mol	ok	1.8766054097e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	propane@0.0C	psat_kpa	ok	4.7445856905e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	propane@0.0C	rho_liq_mol_m3	ok	1.1987430477e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	propane@0.0C	dhvap_kj_mol	ok	1.6529928489e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	propane@25.0C	psat_kpa	ok	9.5207877847e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	propane@25.0C	rho_liq_mol_m3	ok	1.1165791384e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	propane@25.0C	dhvap_kj_mol	ok	1.4804465541e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	propane	tboil_c	ok	-4.2113752090e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	propane	tcrit_k	ok	3.6989000000e+02	chemicals.Tc (experimental)
+oracle-corr	propane	pcrit_kpa	ok	4.2512000000e+03	chemicals.Pc (experimental)
+oracle-corr	butane@-20.0C	psat_kpa	ok	4.5212612367e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	butane@-20.0C	rho_liq_mol_m3	ok	1.0698001987e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	butane@-20.0C	dhvap_kj_mol	ok	2.3387503154e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	butane@-0.5C	psat_kpa	ok	1.0128690996e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	butane@-0.5C	rho_liq_mol_m3	ok	1.0345035537e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	butane@-0.5C	dhvap_kj_mol	ok	2.2418742196e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	butane@25.0C	psat_kpa	ok	2.4329158674e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	butane@25.0C	rho_liq_mol_m3	ok	9.8557175128e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	butane@25.0C	dhvap_kj_mol	ok	2.1009843850e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	butane	tboil_c	ok	-4.9009947400e-01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	butane	tcrit_k	ok	4.2512500000e+02	chemicals.Tc (experimental)
+oracle-corr	butane	pcrit_kpa	ok	3.7960000000e+03	chemicals.Pc (experimental)
+oracle-corr	pentane@0.0C	psat_kpa	ok	2.4455312356e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	pentane@0.0C	rho_liq_mol_m3	ok	8.9484343113e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	pentane@0.0C	dhvap_kj_mol	ok	2.7769986996e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	pentane@25.0C	psat_kpa	ok	6.8355120065e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	pentane@25.0C	rho_liq_mol_m3	ok	8.6100796863e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	pentane@25.0C	dhvap_kj_mol	ok	2.6435684166e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	pentane@36.1C	psat_kpa	ok	1.0146565234e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	pentane@36.1C	rho_liq_mol_m3	ok	8.4538812369e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	pentane@36.1C	dhvap_kj_mol	ok	2.5805579609e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	pentane	tboil_c	ok	3.6059345820e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	pentane	tcrit_k	ok	4.6970000000e+02	chemicals.Tc (experimental)
+oracle-corr	pentane	pcrit_kpa	ok	3.3675000000e+03	chemicals.Pc (experimental)
+oracle-corr	hexane@25.0C	psat_kpa	ok	2.0164100143e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	hexane@25.0C	rho_liq_mol_m3	ok	7.5990699591e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	hexane@25.0C	dhvap_kj_mol	ok	3.1556674030e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	hexane@50.0C	psat_kpa	ok	5.4069518039e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	hexane@50.0C	rho_liq_mol_m3	ok	7.3292411559e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	hexane@50.0C	dhvap_kj_mol	ok	3.0066334226e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	hexane@68.7C	psat_kpa	ok	1.0127532964e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	hexane@68.7C	rho_liq_mol_m3	ok	7.1179418778e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	hexane@68.7C	dhvap_kj_mol	ok	2.8881830420e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	hexane	tboil_c	ok	6.8715616634e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	hexane	tcrit_k	ok	5.0782000000e+02	chemicals.Tc (experimental)
+oracle-corr	hexane	pcrit_kpa	ok	3.0441000000e+03	chemicals.Pc (experimental)
+oracle-corr	heptane@25.0C	psat_kpa	ok	6.0998483818e+00	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	heptane@25.0C	rho_liq_mol_m3	ok	6.7823724709e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	heptane@25.0C	dhvap_kj_mol	ok	3.6574873714e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	heptane@60.0C	psat_kpa	ok	2.8053838810e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	heptane@60.0C	rho_liq_mol_m3	ok	6.4787011554e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	heptane@60.0C	dhvap_kj_mol	ok	3.4350825889e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	heptane@98.4C	psat_kpa	ok	1.0132390773e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	heptane@98.4C	rho_liq_mol_m3	ok	6.1230128677e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	heptane@98.4C	dhvap_kj_mol	ok	3.1732648868e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	heptane	tboil_c	ok	9.8400360483e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	heptane	tcrit_k	ok	5.4020000000e+02	chemicals.Tc (experimental)
+oracle-corr	heptane	pcrit_kpa	ok	2.7357300000e+03	chemicals.Pc (experimental)
+oracle-corr	octane@25.0C	psat_kpa	ok	1.8734533154e+00	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	octane@25.0C	rho_liq_mol_m3	ok	6.1155885430e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	octane@25.0C	dhvap_kj_mol	ok	4.1512961324e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	octane@80.0C	psat_kpa	ok	2.3349310139e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	octane@80.0C	rho_liq_mol_m3	ok	5.7137708518e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	octane@80.0C	dhvap_kj_mol	ok	3.7796829933e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	octane@125.6C	psat_kpa	ok	1.0120195227e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	octane@125.6C	rho_liq_mol_m3	ok	5.3510951514e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	octane@125.6C	dhvap_kj_mol	ok	3.4441204781e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	octane	tboil_c	ok	1.2564375514e+02	chemicals.Tb (experimental normal boiling point)
+oracle-corr	octane	tcrit_k	ok	5.6874000000e+02	chemicals.Tc (experimental)
+oracle-corr	octane	pcrit_kpa	ok	2.4835900000e+03	chemicals.Pc (experimental)
+oracle-corr	cyclohexane@25.0C	psat_kpa	ok	1.3018857847e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	cyclohexane@25.0C	rho_liq_mol_m3	ok	9.1964300847e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	cyclohexane@25.0C	dhvap_kj_mol	ok	3.3033991829e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	cyclohexane@50.0C	psat_kpa	ok	3.6267183581e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	cyclohexane@50.0C	rho_liq_mol_m3	ok	8.9118818524e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	cyclohexane@50.0C	dhvap_kj_mol	ok	3.1700094953e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	cyclohexane@80.7C	psat_kpa	ok	1.0127948891e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	cyclohexane@80.7C	rho_liq_mol_m3	ok	8.5490309295e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	cyclohexane@80.7C	dhvap_kj_mol	ok	2.9992136995e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	cyclohexane	tboil_c	ok	8.0714948368e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	cyclohexane	tcrit_k	ok	5.5360000000e+02	chemicals.Tc (experimental)
+oracle-corr	cyclohexane	pcrit_kpa	ok	4.0805000000e+03	chemicals.Pc (experimental)
+oracle-corr	toluene@25.0C	psat_kpa	ok	3.7992916086e+00	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	toluene@25.0C	rho_liq_mol_m3	ok	9.3580761491e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	toluene@25.0C	dhvap_kj_mol	ok	3.8039539662e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	toluene@60.0C	psat_kpa	ok	1.8540207066e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	toluene@60.0C	rho_liq_mol_m3	ok	8.9998185124e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	toluene@60.0C	dhvap_kj_mol	ok	3.6132548514e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	toluene@110.6C	psat_kpa	ok	1.0133723101e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	toluene@110.6C	rho_liq_mol_m3	ok	8.4562870905e+03	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	toluene@110.6C	dhvap_kj_mol	ok	3.3233895862e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	toluene	tboil_c	ok	1.1059575315e+02	chemicals.Tb (experimental normal boiling point)
+oracle-corr	toluene	tcrit_k	ok	5.9175000000e+02	chemicals.Tc (experimental)
+oracle-corr	toluene	pcrit_kpa	ok	4.1263000000e+03	chemicals.Pc (experimental)
+oracle-corr	carbon-dioxide@-50.0C	psat_kpa	ok	6.8234165435e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	carbon-dioxide@-50.0C	rho_liq_mol_m3	ok	2.6234179260e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	carbon-dioxide@-50.0C	dhvap_kj_mol	ok	1.4951573175e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	carbon-dioxide@-25.0C	psat_kpa	ok	1.6827382236e+03	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	carbon-dioxide@-25.0C	rho_liq_mol_m3	ok	2.3953390755e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	carbon-dioxide@-25.0C	dhvap_kj_mol	ok	1.2906422186e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	carbon-dioxide@0.0C	psat_kpa	ok	3.4851406208e+03	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	carbon-dioxide@0.0C	rho_liq_mol_m3	ok	2.1073305237e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	carbon-dioxide@0.0C	dhvap_kj_mol	ok	1.0161569721e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	carbon-dioxide@25.0C	psat_kpa	ok	6.4342432595e+03	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	carbon-dioxide@25.0C	rho_liq_mol_m3	ok	1.8098174894e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	carbon-dioxide@25.0C	dhvap_kj_mol	ok	5.2655436244e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	carbon-dioxide	tboil_c	ok	-7.8480000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	carbon-dioxide	tcrit_k	ok	3.0412820000e+02	chemicals.Tc (experimental)
+oracle-corr	carbon-dioxide	pcrit_kpa	ok	7.3773000000e+03	chemicals.Pc (experimental)
+oracle-corr	nitrogen@-200.0C	psat_kpa	ok	5.9841800020e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	nitrogen@-200.0C	rho_liq_mol_m3	ok	2.9448201372e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	nitrogen@-200.0C	dhvap_kj_mol	ok	5.7258281371e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	nitrogen@-195.8C	psat_kpa	ok	1.0126535769e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	nitrogen@-195.8C	rho_liq_mol_m3	ok	2.8776007502e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	nitrogen@-195.8C	dhvap_kj_mol	ok	5.5797948108e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	nitrogen@-190.0C	psat_kpa	ok	1.9067092826e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	nitrogen@-190.0C	rho_liq_mol_m3	ok	2.7810904156e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	nitrogen@-190.0C	dhvap_kj_mol	ok	5.3576439604e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	nitrogen	tboil_c	ok	-1.9579500498e+02	chemicals.Tb (experimental normal boiling point)
+oracle-corr	nitrogen	tcrit_k	ok	1.2619200000e+02	chemicals.Tc (experimental)
+oracle-corr	nitrogen	pcrit_kpa	ok	3.3958000000e+03	chemicals.Pc (experimental)
+oracle-corr	oxygen@-200.0C	psat_kpa	ok	1.0808283809e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	oxygen@-200.0C	rho_liq_mol_m3	ok	3.8207848183e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	oxygen@-200.0C	dhvap_kj_mol	ok	7.2950958332e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	oxygen@-183.0C	psat_kpa	ok	1.0092505442e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	oxygen@-183.0C	rho_liq_mol_m3	ok	3.5669227534e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	oxygen@-183.0C	dhvap_kj_mol	ok	6.8187139540e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	oxygen@-175.0C	psat_kpa	ok	2.1679632724e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	oxygen@-175.0C	rho_liq_mol_m3	ok	3.4396146660e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	oxygen@-175.0C	dhvap_kj_mol	ok	6.5508635146e+00	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	oxygen	tboil_c	ok	-1.8296219212e+02	chemicals.Tb (experimental normal boiling point)
+oracle-corr	oxygen	tcrit_k	ok	1.5458100000e+02	chemicals.Tc (experimental)
+oracle-corr	oxygen	pcrit_kpa	ok	5.0430000000e+03	chemicals.Pc (experimental)
+oracle-corr	ammonia@-50.0C	psat_kpa	ok	4.0776012936e+01	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ammonia@-50.0C	rho_liq_mol_m3	ok	4.1206491216e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ammonia@-50.0C	dhvap_kj_mol	ok	2.4136954909e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ammonia@-33.3C	psat_kpa	ok	1.0140482954e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ammonia@-33.3C	rho_liq_mol_m3	ok	4.0023303708e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ammonia@-33.3C	dhvap_kj_mol	ok	2.3325374887e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ammonia@0.0C	psat_kpa	ok	4.2924781150e+02	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ammonia@0.0C	rho_liq_mol_m3	ok	3.7499636123e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ammonia@0.0C	dhvap_kj_mol	ok	2.1488653669e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ammonia@25.0C	psat_kpa	ok	1.0026950096e+03	thermo.VaporPressure method=HEOS_FIT
+oracle-corr	ammonia@25.0C	rho_liq_mol_m3	ok	3.5404678058e+04	thermo.VolumeLiquid method=HEOS_FIT
+oracle-corr	ammonia@25.0C	dhvap_kj_mol	ok	1.9854454215e+01	thermo.EnthalpyVaporization method=HEOS_FIT
+oracle-corr	ammonia	tboil_c	ok	-3.3315681380e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	ammonia	tcrit_k	ok	4.0556000000e+02	chemicals.Tc (experimental)
+oracle-corr	ammonia	pcrit_kpa	ok	1.1363400000e+04	chemicals.Pc (experimental)
+oracle-corr	chloroform@25.0C	psat_kpa	ok	2.6204428726e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	chloroform@25.0C	rho_liq_mol_m3	ok	1.2421616739e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	chloroform@25.0C	dhvap_kj_mol	ok	3.1295294576e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	chloroform@50.0C	psat_kpa	ok	6.9222970249e+01	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	chloroform@50.0C	rho_liq_mol_m3	ok	1.2024995200e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	chloroform@50.0C	dhvap_kj_mol	ok	3.0076291198e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	chloroform@61.2C	psat_kpa	ok	1.0127725205e+02	thermo.VaporPressure method=WAGNER_MCGARRY
+oracle-corr	chloroform@61.2C	rho_liq_mol_m3	ok	1.1840758980e+04	thermo.VolumeLiquid method=DIPPR_PERRY_8E
+oracle-corr	chloroform@61.2C	dhvap_kj_mol	ok	2.9500331937e+01	thermo.EnthalpyVaporization method=DIPPR_PERRY_8E
+oracle-corr	chloroform	tboil_c	ok	6.1200000000e+01	chemicals.Tb (experimental normal boiling point)
+oracle-corr	chloroform	tcrit_k	ok	5.3620000000e+02	chemicals.Tc (experimental)
+oracle-corr	chloroform	pcrit_kpa	ok	5.3300000000e+03	chemicals.Pc (experimental)
+oracle-unifac-corr	ethanol-water@x1=0.1	tbub_c	ok	8.5837848366e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	ethanol-water@x1=0.1	y1	ok	4.5016061544e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	ethanol-water@x1=0.1	tbub_c	ok	8.5806011985e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-water@x1=0.1	y1	ok	4.5228038182e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-water@x1=0.3	tbub_c	ok	8.1777019610e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	ethanol-water@x1=0.3	y1	ok	5.7014693809e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	ethanol-water@x1=0.3	tbub_c	ok	8.1739440923e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-water@x1=0.3	y1	ok	5.7206991099e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-water@x1=0.5	tbub_c	ok	7.9927880977e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	ethanol-water@x1=0.5	y1	ok	6.5358412713e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	ethanol-water@x1=0.5	tbub_c	ok	7.9882945386e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-water@x1=0.5	y1	ok	6.5529228150e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-water@x1=0.7	tbub_c	ok	7.8656234035e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	ethanol-water@x1=0.7	y1	ok	7.5817109416e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	ethanol-water@x1=0.7	tbub_c	ok	7.8598113124e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-water@x1=0.7	y1	ok	7.5952194323e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-water@x1=0.9	tbub_c	ok	7.8154911696e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	ethanol-water@x1=0.9	y1	ok	8.9880284770e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	ethanol-water@x1=0.9	tbub_c	ok	7.8073676164e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-water@x1=0.9	y1	ok	8.9947128317e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-water@x1=0.1	tbub_c	ok	8.7680882806e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	methanol-water@x1=0.1	y1	ok	4.2266589120e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	methanol-water@x1=0.1	tbub_c	ok	8.7732663508e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-water@x1=0.1	y1	ok	4.2291486163e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-water@x1=0.3	tbub_c	ok	7.8162092644e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	methanol-water@x1=0.3	y1	ok	6.6904408648e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	methanol-water@x1=0.3	tbub_c	ok	7.8220878864e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-water@x1=0.3	y1	ok	6.6932066658e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-water@x1=0.5	tbub_c	ok	7.3154756155e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	methanol-water@x1=0.5	y1	ok	7.8637802651e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	methanol-water@x1=0.5	tbub_c	ok	7.3213689319e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-water@x1=0.5	y1	ok	7.8659688557e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-water@x1=0.7	tbub_c	ok	6.9347577114e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	methanol-water@x1=0.7	y1	ok	8.7694810825e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	methanol-water@x1=0.7	tbub_c	ok	6.9405153839e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-water@x1=0.7	y1	ok	8.7709065998e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-water@x1=0.9	tbub_c	ok	6.6031331515e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	methanol-water@x1=0.9	y1	ok	9.5967446112e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	methanol-water@x1=0.9	tbub_c	ok	6.6086716013e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-water@x1=0.9	y1	ok	9.5972586953e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-water@x1=0.1	tbub_c	ok	6.7596217924e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	acetone-water@x1=0.1	y1	ok	7.4050883002e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	acetone-water@x1=0.1	tbub_c	ok	6.7726548778e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-water@x1=0.1	y1	ok	7.3999093473e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-water@x1=0.3	tbub_c	ok	6.2010599811e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	acetone-water@x1=0.3	y1	ok	8.0894810686e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	acetone-water@x1=0.3	tbub_c	ok	6.2124487857e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-water@x1=0.3	y1	ok	8.0868680163e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-water@x1=0.5	tbub_c	ok	5.9793882516e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	acetone-water@x1=0.5	y1	ok	8.4004431677e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	acetone-water@x1=0.5	tbub_c	ok	5.9901735555e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-water@x1=0.5	y1	ok	8.3985598437e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-water@x1=0.7	tbub_c	ok	5.7863165313e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	acetone-water@x1=0.7	y1	ok	8.7621215148e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	acetone-water@x1=0.7	tbub_c	ok	5.7965745618e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-water@x1=0.7	y1	ok	8.7608491911e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-water@x1=0.9	tbub_c	ok	5.6337459022e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-corr	acetone-water@x1=0.9	y1	ok	9.3155836388e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/IAPWS_PSAT)
+oracle-unifac-kero	acetone-water@x1=0.9	tbub_c	ok	5.6436009580e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-water@x1=0.9	y1	ok	9.3150050875e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	propan-2-ol-water@x1=0.1	tbub_c	ok	8.2296248696e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	propan-2-ol-water@x1=0.1	y1	ok	5.1113100354e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	propan-2-ol-water@x1=0.1	tbub_c	ok	8.2355369333e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	propan-2-ol-water@x1=0.1	y1	ok	5.1141564017e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	propan-2-ol-water@x1=0.3	tbub_c	ok	8.1417011802e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	propan-2-ol-water@x1=0.3	y1	ok	5.3690121379e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	propan-2-ol-water@x1=0.3	tbub_c	ok	8.1476463006e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	propan-2-ol-water@x1=0.3	y1	ok	5.3719684939e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	propan-2-ol-water@x1=0.5	tbub_c	ok	8.0559496948e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	propan-2-ol-water@x1=0.5	y1	ok	5.9312286154e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	propan-2-ol-water@x1=0.5	tbub_c	ok	8.0618786181e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	propan-2-ol-water@x1=0.5	y1	ok	5.9340632320e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	propan-2-ol-water@x1=0.7	tbub_c	ok	8.0156029655e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	propan-2-ol-water@x1=0.7	y1	ok	6.9655909567e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	propan-2-ol-water@x1=0.7	tbub_c	ok	8.0213053513e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	propan-2-ol-water@x1=0.7	y1	ok	6.9680057773e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	propan-2-ol-water@x1=0.9	tbub_c	ok	8.0913288197e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	propan-2-ol-water@x1=0.9	y1	ok	8.6316901417e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	propan-2-ol-water@x1=0.9	tbub_c	ok	8.0964324186e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	propan-2-ol-water@x1=0.9	y1	ok	8.6330197313e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.1	tbub_c	ok	9.8668118600e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.1	y1	ok	1.2248456337e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.1	tbub_c	ok	9.8685296706e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.1	y1	ok	1.2283176810e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.3	tbub_c	ok	9.8901559620e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.3	y1	ok	2.2877189904e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.3	tbub_c	ok	9.8908469718e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.3	y1	ok	2.2933585587e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.5	tbub_c	ok	1.0063311510e+02	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.5	y1	ok	3.2528358361e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.5	tbub_c	ok	1.0062725738e+02	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.5	y1	ok	3.2590404175e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.7	tbub_c	ok	1.0438294201e+02	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.7	y1	ok	4.7076035384e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.7	tbub_c	ok	1.0436009367e+02	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.7	y1	ok	4.7122968136e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.9	tbub_c	ok	1.1169698045e+02	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-corr	ethanoic-acid-water@x1=0.9	y1	ok	7.4426166581e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/IAPWS_PSAT)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.9	tbub_c	ok	1.1167072851e+02	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanoic-acid-water@x1=0.9	y1	ok	7.4415855898e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-methanol@x1=0.1	tbub_c	ok	6.1433981849e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-methanol@x1=0.1	y1	ok	1.9753690809e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-methanol@x1=0.1	tbub_c	ok	6.1499531783e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-methanol@x1=0.1	y1	ok	1.9715613143e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-methanol@x1=0.3	tbub_c	ok	5.7898320792e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-methanol@x1=0.3	y1	ok	4.3121118780e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-methanol@x1=0.3	tbub_c	ok	5.7972393580e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-methanol@x1=0.3	y1	ok	4.3071640923e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-methanol@x1=0.5	tbub_c	ok	5.6108814986e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-methanol@x1=0.5	y1	ok	5.8316279029e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-methanol@x1=0.5	tbub_c	ok	5.6186844872e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-methanol@x1=0.5	y1	ok	5.8272241148e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-methanol@x1=0.7	tbub_c	ok	5.5292286848e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-methanol@x1=0.7	y1	ok	7.1986228157e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-methanol@x1=0.7	tbub_c	ok	5.5374744210e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-methanol@x1=0.7	y1	ok	7.1951815937e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-methanol@x1=0.9	tbub_c	ok	5.5435768930e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-methanol@x1=0.9	y1	ok	8.8587153881e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-methanol@x1=0.9	tbub_c	ok	5.5526676783e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-methanol@x1=0.9	y1	ok	8.8569862232e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanol@x1=0.1	tbub_c	ok	7.1961446053e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-ethanol@x1=0.1	y1	ok	3.0116171464e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-ethanol@x1=0.1	tbub_c	ok	7.1956002860e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanol@x1=0.1	y1	ok	2.9947952062e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanol@x1=0.3	tbub_c	ok	6.4746364385e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-ethanol@x1=0.3	y1	ok	5.7424719073e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-ethanol@x1=0.3	tbub_c	ok	6.4802433714e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanol@x1=0.3	y1	ok	5.7269514412e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanol@x1=0.5	tbub_c	ok	6.0942116286e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-ethanol@x1=0.5	y1	ok	7.0955901659e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-ethanol@x1=0.5	tbub_c	ok	6.1016380384e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanol@x1=0.5	y1	ok	7.0845848591e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanol@x1=0.7	tbub_c	ok	5.8478868751e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-ethanol@x1=0.7	y1	ok	8.1283149175e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-ethanol@x1=0.7	tbub_c	ok	5.8562532210e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanol@x1=0.7	y1	ok	8.1212469943e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanol@x1=0.9	tbub_c	ok	5.6699108845e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	acetone-ethanol@x1=0.9	y1	ok	9.2645431753e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	acetone-ethanol@x1=0.9	tbub_c	ok	5.6791808712e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanol@x1=0.9	y1	ok	9.2617226746e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-ethanol@x1=0.1	tbub_c	ok	7.6150739401e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-ethanol@x1=0.1	y1	ok	1.7687689543e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-ethanol@x1=0.1	tbub_c	ok	7.6085587927e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-ethanol@x1=0.1	y1	ok	1.7613771754e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-ethanol@x1=0.3	tbub_c	ok	7.2386189947e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-ethanol@x1=0.3	y1	ok	4.4527817803e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-ethanol@x1=0.3	tbub_c	ok	7.2369966002e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-ethanol@x1=0.3	y1	ok	4.4414139303e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-ethanol@x1=0.5	tbub_c	ok	6.9435983495e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-ethanol@x1=0.5	y1	ok	6.4081927305e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-ethanol@x1=0.5	tbub_c	ok	6.9449670701e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-ethanol@x1=0.5	y1	ok	6.3984981248e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-ethanol@x1=0.7	tbub_c	ok	6.7106412863e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-ethanol@x1=0.7	y1	ok	7.9498543663e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-ethanol@x1=0.7	tbub_c	ok	6.7139739939e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-ethanol@x1=0.7	y1	ok	7.9435137826e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	methanol-ethanol@x1=0.9	tbub_c	ok	6.5256202638e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-ethanol@x1=0.9	y1	ok	9.3098686412e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-ethanol@x1=0.9	tbub_c	ok	6.5303888933e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	methanol-ethanol@x1=0.9	y1	ok	9.3075418185e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.1	tbub_c	ok	8.1767733693e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.1	y1	ok	1.1520144087e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.1	tbub_c	ok	8.1794108185e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.1	y1	ok	1.1587847940e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.3	tbub_c	ok	8.0945859238e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.3	y1	ok	3.3351842735e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.3	tbub_c	ok	8.0938794412e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.3	y1	ok	3.3497512007e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.5	tbub_c	ok	8.0170372144e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.5	y1	ok	5.3762739930e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.5	tbub_c	ok	8.0133146293e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.5	y1	ok	5.3923508010e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.7	tbub_c	ok	7.9439125853e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.7	y1	ok	7.2971506843e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.7	tbub_c	ok	7.9374493823e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.7	y1	ok	7.3097430314e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.9	tbub_c	ok	7.8750176442e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	ethanol-propan-2-ol@x1=0.9	y1	ok	9.1192256063e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.9	tbub_c	ok	7.8660404806e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	ethanol-propan-2-ol@x1=0.9	y1	ok	9.1242899239e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.1	tbub_c	ok	1.0477962429e+02	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.1	y1	ok	4.0842359162e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.1	tbub_c	ok	1.0490563452e+02	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.1	y1	ok	4.0494156515e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.3	tbub_c	ok	8.5806949254e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.3	y1	ok	7.6737708689e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.3	tbub_c	ok	8.5981766930e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.3	y1	ok	7.6532205116e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.5	tbub_c	ok	7.3059643392e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.5	y1	ok	9.0128041745e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.5	tbub_c	ok	7.3214984468e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.5	y1	ok	9.0055323732e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.7	tbub_c	ok	6.4344520940e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.7	y1	ok	9.5916366565e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.7	tbub_c	ok	6.4473365803e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.7	y1	ok	9.5895367769e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.9	tbub_c	ok	5.8481890948e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-ethanoic-acid@x1=0.9	y1	ok	9.8805731550e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.9	tbub_c	ok	5.8589906418e+01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-kero	acetone-ethanoic-acid@x1=0.9	y1	ok	9.8801914582e-01	thermo UNIFAC + kerotakis Antoine (isolates gamma)
+oracle-unifac-corr	hexane-ethanol@x1=0.1	tbub_c	ok	6.5918386109e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-ethanol@x1=0.1	y1	ok	4.5186755164e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-ethanol@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-ethanol@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-ethanol@x1=0.3	tbub_c	ok	5.9547173979e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-ethanol@x1=0.3	y1	ok	6.2820014997e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-ethanol@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-ethanol@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-ethanol@x1=0.5	tbub_c	ok	5.8620181168e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-ethanol@x1=0.5	y1	ok	6.5975152553e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-ethanol@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-ethanol@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-ethanol@x1=0.7	tbub_c	ok	5.8573328283e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-ethanol@x1=0.7	y1	ok	6.6378188142e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-ethanol@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-ethanol@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-ethanol@x1=0.9	tbub_c	ok	5.9299364771e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-ethanol@x1=0.9	y1	ok	6.9525017019e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-ethanol@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-ethanol@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	acetone-chloroform@x1=0.1	tbub_c	ok	6.2452972590e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-chloroform@x1=0.1	y1	ok	6.7770693056e-02	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-chloroform@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	acetone-chloroform@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	acetone-chloroform@x1=0.3	tbub_c	ok	6.4278164873e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-chloroform@x1=0.3	y1	ok	2.7663669492e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-chloroform@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	acetone-chloroform@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	acetone-chloroform@x1=0.5	tbub_c	ok	6.3908323529e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-chloroform@x1=0.5	y1	ok	5.4942034959e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-chloroform@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	acetone-chloroform@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	acetone-chloroform@x1=0.7	tbub_c	ok	6.1347813212e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-chloroform@x1=0.7	y1	ok	7.9087712124e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-chloroform@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	acetone-chloroform@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	acetone-chloroform@x1=0.9	tbub_c	ok	5.7819602538e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-corr	acetone-chloroform@x1=0.9	y1	ok	9.4964693449e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/WAGNER_MCGARRY)
+oracle-unifac-kero	acetone-chloroform@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	acetone-chloroform@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	methanol-cyclohexane@x1=0.1	tbub_c	ok	5.5667369093e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-cyclohexane@x1=0.1	y1	ok	5.8875203535e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-cyclohexane@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	methanol-cyclohexane@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	methanol-cyclohexane@x1=0.3	tbub_c	ok	5.3406574863e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-cyclohexane@x1=0.3	y1	ok	6.2886110448e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-cyclohexane@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	methanol-cyclohexane@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	methanol-cyclohexane@x1=0.5	tbub_c	ok	5.4031271393e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-cyclohexane@x1=0.5	y1	ok	6.0230982944e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-cyclohexane@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	methanol-cyclohexane@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	methanol-cyclohexane@x1=0.7	tbub_c	ok	5.4057029746e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-cyclohexane@x1=0.7	y1	ok	5.8082732123e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-cyclohexane@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	methanol-cyclohexane@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	methanol-cyclohexane@x1=0.9	tbub_c	ok	5.5847411303e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	methanol-cyclohexane@x1=0.9	y1	ok	6.5422179336e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	methanol-cyclohexane@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	methanol-cyclohexane@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethanol-toluene@x1=0.1	tbub_c	ok	8.6683261452e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	ethanol-toluene@x1=0.1	y1	ok	5.5700446091e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	ethanol-toluene@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethanol-toluene@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethanol-toluene@x1=0.3	tbub_c	ok	7.9459660521e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	ethanol-toluene@x1=0.3	y1	ok	6.8443807321e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	ethanol-toluene@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethanol-toluene@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethanol-toluene@x1=0.5	tbub_c	ok	7.7905285127e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	ethanol-toluene@x1=0.5	y1	ok	7.2193709912e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	ethanol-toluene@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethanol-toluene@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethanol-toluene@x1=0.7	tbub_c	ok	7.7099428307e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	ethanol-toluene@x1=0.7	y1	ok	7.6510269684e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	ethanol-toluene@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethanol-toluene@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethanol-toluene@x1=0.9	tbub_c	ok	7.7159805855e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	ethanol-toluene@x1=0.9	y1	ok	8.7036286074e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	ethanol-toluene@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethanol-toluene@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.1	tbub_c	ok	7.4930460664e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.1	y1	ok	2.0823707172e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.3	tbub_c	ok	7.1999916673e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.3	y1	ok	4.0531117786e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.5	tbub_c	ok	7.1197880254e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.5	y1	ok	5.1850717622e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.7	tbub_c	ok	7.1580864657e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.7	y1	ok	6.3226522296e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.9	tbub_c	ok	7.3995689863e+01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-corr	ethyl-ethanoate-ethanol@x1=0.9	y1	ok	8.1980198710e-01	thermo UNIFAC + thermo Psat (WAGNER_MCGARRY/HEOS_FIT)
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	ethyl-ethanoate-ethanol@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-heptane@x1=0.1	tbub_c	ok	9.4144819966e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-heptane@x1=0.1	y1	ok	2.0712211255e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-heptane@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-heptane@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-heptane@x1=0.3	tbub_c	ok	8.6760355370e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-heptane@x1=0.3	y1	ok	5.0947027099e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-heptane@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-heptane@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-heptane@x1=0.5	tbub_c	ok	8.0571772027e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-heptane@x1=0.5	y1	ok	7.1353628180e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-heptane@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-heptane@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-heptane@x1=0.7	tbub_c	ok	7.5304619317e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-heptane@x1=0.7	y1	ok	8.5631145508e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-heptane@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-heptane@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	hexane-heptane@x1=0.9	tbub_c	ok	7.0761809183e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	hexane-heptane@x1=0.9	y1	ok	9.5922382500e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	hexane-heptane@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	hexane-heptane@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	pentane-hexane@x1=0.1	tbub_c	ok	6.3709010150e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	pentane-hexane@x1=0.1	y1	ok	2.3315409703e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	pentane-hexane@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	pentane-hexane@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	pentane-hexane@x1=0.3	tbub_c	ok	5.5297093465e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	pentane-hexane@x1=0.3	y1	ok	5.5040678909e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	pentane-hexane@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	pentane-hexane@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	pentane-hexane@x1=0.5	tbub_c	ok	4.8501408395e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	pentane-hexane@x1=0.5	y1	ok	7.4793717891e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	pentane-hexane@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	pentane-hexane@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	pentane-hexane@x1=0.7	tbub_c	ok	4.2885452773e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	pentane-hexane@x1=0.7	y1	ok	8.7751032463e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	pentane-hexane@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	pentane-hexane@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	pentane-hexane@x1=0.9	tbub_c	ok	3.8156501814e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	pentane-hexane@x1=0.9	y1	ok	9.6610535783e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	pentane-hexane@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	pentane-hexane@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	toluene-heptane@x1=0.1	tbub_c	ok	9.8502604830e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	toluene-heptane@x1=0.1	y1	ok	9.4416535056e-02	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	toluene-heptane@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	toluene-heptane@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	toluene-heptane@x1=0.3	tbub_c	ok	9.9256240922e+01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	toluene-heptane@x1=0.3	y1	ok	2.6013917053e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	toluene-heptane@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	toluene-heptane@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	toluene-heptane@x1=0.5	tbub_c	ok	1.0072926559e+02	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	toluene-heptane@x1=0.5	y1	ok	4.1505977940e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	toluene-heptane@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	toluene-heptane@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	toluene-heptane@x1=0.7	tbub_c	ok	1.0315249880e+02	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	toluene-heptane@x1=0.7	y1	ok	5.8620483654e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	toluene-heptane@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	toluene-heptane@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	toluene-heptane@x1=0.9	tbub_c	ok	1.0729630134e+02	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-corr	toluene-heptane@x1=0.9	y1	ok	8.2243065205e-01	thermo UNIFAC + thermo Psat (HEOS_FIT/HEOS_FIT)
+oracle-unifac-kero	toluene-heptane@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	toluene-heptane@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.1	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.1	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.3	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.3	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.5	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.5	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.7	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.7	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.9	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	carbon-dioxide-ethanol@x1=0.9	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	carbon-dioxide-ethanol@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	nitrogen-oxygen@x1=0.1	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	nitrogen-oxygen@x1=0.1	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	nitrogen-oxygen@x1=0.1	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	nitrogen-oxygen@x1=0.1	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	nitrogen-oxygen@x1=0.3	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	nitrogen-oxygen@x1=0.3	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	nitrogen-oxygen@x1=0.3	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	nitrogen-oxygen@x1=0.3	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	nitrogen-oxygen@x1=0.5	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	nitrogen-oxygen@x1=0.5	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	nitrogen-oxygen@x1=0.5	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	nitrogen-oxygen@x1=0.5	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	nitrogen-oxygen@x1=0.7	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	nitrogen-oxygen@x1=0.7	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	nitrogen-oxygen@x1=0.7	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	nitrogen-oxygen@x1=0.7	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-corr	nitrogen-oxygen@x1=0.9	tbub_c	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-corr	nitrogen-oxygen@x1=0.9	y1	unavailable		no UNIFAC group decomposition (supercritical/inorganic)
+oracle-unifac-kero	nitrogen-oxygen@x1=0.9	tbub_c	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-unifac-kero	nitrogen-oxygen@x1=0.9	y1	unavailable		kerotakis-thermo has no Antoine set for one component
+oracle-pr	water@300.0K,1000.0Pa	z_vapour	ok	9.9984991551e-01	thermo.eos.PR
+oracle-pr	water@300.0K,1000.0Pa	molar_volume_m3_mol	ok	2.4939644238e+00	thermo.eos.PR
+oracle-pr	water@300.0K,1000.0Pa	phi	ok	9.9984993679e-01	thermo.eos.PR
+oracle-pr	water@300.0K,101325.0Pa	z_vapour	ok	9.8458258726e-01	thermo.eos.PR
+oracle-pr	water@300.0K,101325.0Pa	molar_volume_m3_mol	ok	2.4237676140e-02	thermo.eos.PR
+oracle-pr	water@300.0K,101325.0Pa	phi	ok	9.8480630483e-01	thermo.eos.PR
+oracle-pr	water@300.0K,1013250.0Pa	z_vapour	ok	8.1774546187e-01	thermo.eos.PR
+oracle-pr	water@300.0K,1013250.0Pa	molar_volume_m3_mol	ok	2.0130611617e-03	thermo.eos.PR
+oracle-pr	water@300.0K,1013250.0Pa	phi	ok	8.4777963687e-01	thermo.eos.PR
+oracle-pr	water@300.0K,10132500.0Pa	z_vapour	ok	8.6233183710e-02	thermo.eos.PR
+oracle-pr	water@300.0K,10132500.0Pa	molar_volume_m3_mol	ok	2.1228203772e-05	thermo.eos.PR
+oracle-pr	water@300.0K,10132500.0Pa	phi	ok	3.2299753440e-04	thermo.eos.PR
+oracle-pr	water@500.0K,101325.0Pa	z_vapour	ok	9.9615208025e-01	thermo.eos.PR
+oracle-pr	water@500.0K,101325.0Pa	molar_volume_m3_mol	ok	4.0870807960e-02	thermo.eos.PR
+oracle-pr	water@500.0K,101325.0Pa	phi	ok	9.9616476776e-01	thermo.eos.PR
+oracle-pr	water@500.0K,5000000.0Pa	z_vapour	ok	7.7025975412e-01	thermo.eos.PR
+oracle-pr	water@500.0K,5000000.0Pa	molar_volume_m3_mol	ok	6.4042959318e-04	thermo.eos.PR
+oracle-pr	water@500.0K,5000000.0Pa	phi	ok	8.1357004514e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1000.0Pa	z_vapour	ok	9.9965486256e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1000.0Pa	molar_volume_m3_mol	ok	2.4934778957e+00	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1000.0Pa	phi	ok	9.9965497346e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,101325.0Pa	z_vapour	ok	9.6391028283e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,101325.0Pa	molar_volume_m3_mol	ok	2.3728781684e-02	thermo.eos.PR
+oracle-pr	ethanol@300.0K,101325.0Pa	phi	ok	9.6511100124e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1013250.0Pa	z_vapour	ok	2.5390903538e-02	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1013250.0Pa	molar_volume_m3_mol	ok	6.2505320002e-05	thermo.eos.PR
+oracle-pr	ethanol@300.0K,1013250.0Pa	phi	ok	9.1262760567e-03	thermo.eos.PR
+oracle-pr	ethanol@300.0K,10132500.0Pa	z_vapour	ok	2.5256367326e-01	thermo.eos.PR
+oracle-pr	ethanol@300.0K,10132500.0Pa	molar_volume_m3_mol	ok	6.2174129385e-05	thermo.eos.PR
+oracle-pr	ethanol@300.0K,10132500.0Pa	phi	ok	1.1462264639e-03	thermo.eos.PR
+oracle-pr	ethanol@500.0K,101325.0Pa	z_vapour	ok	9.9305716755e-01	thermo.eos.PR
+oracle-pr	ethanol@500.0K,101325.0Pa	molar_volume_m3_mol	ok	4.0743827768e-02	thermo.eos.PR
+oracle-pr	ethanol@500.0K,101325.0Pa	phi	ok	9.9309350165e-01	thermo.eos.PR
+oracle-pr	ethanol@500.0K,5000000.0Pa	z_vapour	ok	4.8322699579e-01	thermo.eos.PR
+oracle-pr	ethanol@500.0K,5000000.0Pa	molar_volume_m3_mol	ok	4.0177727925e-04	thermo.eos.PR
+oracle-pr	ethanol@500.0K,5000000.0Pa	phi	ok	6.7480802916e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1000.0Pa	z_vapour	ok	9.9999565462e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1000.0Pa	molar_volume_m3_mol	ok	2.4943279466e+00	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1000.0Pa	phi	ok	9.9999565444e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,101325.0Pa	z_vapour	ok	9.9956319292e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,101325.0Pa	molar_volume_m3_mol	ok	2.4606456852e-02	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,101325.0Pa	phi	ok	9.9956152690e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1013250.0Pa	z_vapour	ok	9.9594804216e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1013250.0Pa	molar_volume_m3_mol	ok	2.4517461927e-03	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,1013250.0Pa	phi	ok	9.9578149993e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,10132500.0Pa	z_vapour	ok	9.8892972392e-01	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,10132500.0Pa	molar_volume_m3_mol	ok	2.4344690515e-04	thermo.eos.PR
+oracle-pr	nitrogen@300.0K,10132500.0Pa	phi	ok	9.7328313882e-01	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,101325.0Pa	z_vapour	ok	1.0003016535e+00	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,101325.0Pa	molar_volume_m3_mol	ok	4.1041059486e-02	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,101325.0Pa	phi	ok	1.0003014064e+00	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,5000000.0Pa	z_vapour	ok	1.0161871793e+00	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,5000000.0Pa	molar_volume_m3_mol	ok	8.4490503149e-04	thermo.eos.PR
+oracle-pr	nitrogen@500.0K,5000000.0Pa	phi	ok	1.0156589302e+00	thermo.eos.PR

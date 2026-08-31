@@ -1,0 +1,3 @@
+# Third-party parameter tables, fetched by fetch-parameters.sh. Never
+# committed: clearing them is BRD-031's job (see the spike report).
+/parameters/

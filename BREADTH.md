@@ -868,8 +868,52 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-030 — Direct feos integration spike
 
-- [ ] **Status:** open/decision gate. **Size:** medium. **Depends on:** BRD-012
-  and completed CAP-1 routing.
+- [x] **Status:** closed `go` (scoped) on `brd030/feos-spike` (2026-08-30).
+  **Size:** medium. **Depends on:** BRD-012 and completed CAP-1 routing.
+- **Checkpoint 2026-08-30 — decision: `go`, scoped and conditional.** Full
+  report in `provenance/brd-030-feos-spike.md`; three-way fixtures and the
+  disposable prototype in `spikes/brd-030-feos/` (its own `[workspace]`, not a
+  member of this one). Nothing shipped: no workspace `Cargo.toml` change, no
+  third-party parameter file committed, no `sources.toml` record. Five
+  findings:
+  1. **feos replaces nothing.** It ships no activity-coefficient model of any
+     kind — no UNIFAC, NRTL, Wilson or UNIQUAC — so the Antoine + UNIFAC γ–φ
+     route in `vle.rs`/`unifac.rs`, and everything built on it, stays. Its
+     `feos_core::cubic` Peng-Robinson is a documented 234-line teaching
+     example, not a replacement for THERMO-007.
+  2. **What it adds is what `kerotakis-thermo` structurally cannot compute:**
+     liquid density, enthalpy of vaporisation and critical points (no model
+     exists for any fluid), the gases BRD-000/014 demand (CO₂, N₂, O₂, NH₃),
+     the sixteen corpus fluids with no curated Antoine set, and the binaries
+     outside the ten UNIFAC groups in `approved_table()` — including
+     acetone–chloroform, the maximum-boiling azeotrope the bench cannot teach
+     today.
+  3. **wasm re-verified at 0.10.1: yes.** 55 pure-Rust crates with
+     `default-features = false, features = ["pcsaft"]`; no pyo3, rayon,
+     rusqlite, cc or libc. Upstream CI already ships a Pyodide/emscripten
+     build of every model. One design constraint: `Parameters::from_json` and
+     friends call `std::fs` unconditionally, so they compile for wasm and then
+     fail at runtime — browser use must embed parameters with `include_str!`.
+  4. **Parameter provenance is the real risk, not the code.** The published
+     crate contains no `parameters/` directory, so BRD-031 must supply
+     everything; the repository's `parameters/` tree carries **no licence
+     statement at all**, so silence must not be read as clearance. DIPPR and
+     UNIFAC are genuinely absent upstream (feos refuses to ship DIPPR by
+     policy). Two files are excluded by name: `ideal_gas/poling2000.json`
+     (transcribed from a McGraw-Hill book) and `multiparameter/coolprop.json`
+     (CoolProp's MIT notice and per-fluid citations stripped — an upstream
+     compliance defect worth reporting). One literature table *is* compiled
+     into the crate: the Joback & Reid 1987 group coefficients in
+     `src/ideal_gas/joback.rs`, ungated.
+  5. **`FluidModel` must be fixed before BRD-032 routes anything.** The trait
+     passes the Raoult model's own Antoine constants and γ through a
+     model-agnostic seam, and its default `dew_point`/`tp_flash`/
+     `saturation_pressure_kpa` bodies would make a feos backend answer those
+     three questions with the ideal model *silently*. That is the
+     fall-through this document forbids. A day's work in a 2 775-line crate.
+  Conditions on the `go`, all owned by BRD-031: build for macOS and iOS (only
+  native and `wasm32-unknown-unknown` were tested here); clear every parameter
+  table independently; fix `FluidModel`; pin `=0.10.x` and embed parameters.
 - **Candidate/licence:** `feos`, MIT OR Apache-2.0. It supplies PC-SAFT,
   ePC-SAFT, group-contribution/multiparameter models, phase equilibrium and
   transport calculations. Audit parameter-file provenance independently.
@@ -885,12 +929,33 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-031 — Cleared fluid parameter pack
 
-- [ ] **Status:** blocked on BRD-030 go. **Size:** large/data-heavy.
-  **Depends on:** BRD-030.
+- [ ] **Status:** unblocked by the BRD-030 `go` (2026-08-30); open.
+  **Size:** large/data-heavy. **Depends on:** BRD-030.
 - **Scope:** curate parameters for the fluids and mixtures actually demanded by
   BRD-000/014: water, common alcohols/ketones/esters/hydrocarbons, CO2, air
   gases, ammonia, light fuels and selected refrigerants. Every parameter set
   records its original publication/data licence and model validity range.
+- **Carried in from BRD-030 (2026-08-30):** scope is limited to the properties
+  `kerotakis-thermo` cannot compute at all — density, enthalpy of
+  vaporisation, critical points, the air gases and CO2/NH3, and fluids or
+  UNIFAC groups outside the curated tables. Extending `vle.rs`'s Antoine set
+  and `unifac.rs`'s `approved_table()` by hand remains the cheaper answer for
+  the *binary* gap and should be preferred where it suffices. Excluded by
+  name: feos's `parameters/ideal_gas/poling2000.json` and
+  `parameters/multiparameter/coolprop.json`. feos's `parameters/` tree carries
+  no licence statement, so every table needs its own record reasoned from the
+  primary publication; the Joback & Reid 1987 table compiled into
+  `feos/src/ideal_gas/joback.rs` needs a NOTICE entry if the crate is adopted.
+  `FluidModel`'s trait shape and its silent default methods must be fixed here,
+  before BRD-032. macOS and iOS builds of feos are still unproven. Two latent
+  bugs in `kerotakis-thermo` fire on this task's first day and must be fixed
+  with it: `unifac.rs`'s `psi` closure turns a missing `a_mn` into ψ = 1, i.e.
+  exactly the silent ideality the integration rule below forbids (the current
+  six main groups happen to form a complete 30-entry matrix, so nothing has
+  hit it yet); and `bubble_point_with`/`dew_point_with`/`tp_flash_with` use
+  `pressure_kpa_unchecked` and never range-check the converged answer, so a
+  binary can return a temperature outside a component's fitted Antoine range
+  unlabelled while the pure-fluid path correctly refuses.
 - **Integration:** join by canonical species identity; model selection is
   explicit and inspectable. Missing binary parameters produce a named refusal
   or a labelled lower-fidelity route, never silent ideality.
@@ -1612,6 +1677,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Gate:** prefer it as a desktop/build-time differential oracle. Shipping is
   reconsidered only if it closes a named high-demand fluid gap on every target
   at acceptable size and no feos route exists.
+- **Note from BRD-030 (2026-08-30):** do **not** reach CoolProp data by way of
+  feos. `feos:parameters/multiparameter/coolprop.json` carries CoolProp's
+  reference-EOS coefficients with the MIT notice and the per-fluid citations
+  removed; if CoolProp data is ever wanted it must come from CoolProp itself,
+  with its notice, or from the primary publications. See
+  `provenance/brd-030-feos-spike.md` § 4.2.
 - **Acceptance:** dated comparison and explicit oracle/runtime decision.
 
 ### BRD-093 — Permissive thermochemical-engine target gate
