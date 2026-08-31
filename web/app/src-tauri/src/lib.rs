@@ -459,6 +459,23 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 Err(e) => json!({ "ok": false, "error": e.to_string() }).to_string(),
             })
         }
+        // GUI-095: the null-space balance of one skeleton, with the
+        // composition matrix it was balanced against so the shell can mark
+        // any coefficients a learner writes — not only the ones the solver
+        // happens to return.
+        "balance" => Ok(
+            match kerotakis_core::stoich::balance_report(field("equation")?) {
+                Ok(report) => {
+                    let mut value = serde_json::to_value(&report)
+                        .map_err(|e| format!("balance report: {e}"))?;
+                    if let Some(map) = value.as_object_mut() {
+                        map.insert("ok".into(), Value::Bool(true));
+                    }
+                    value.to_string()
+                }
+                Err(e) => json!({ "ok": false, "error": e.to_string() }).to_string(),
+            },
+        ),
         "reset" => {
             lab.bench = Bench::new();
             Ok("{}".to_string())
@@ -630,6 +647,49 @@ mod protocol_conformance {
             json!({"cmd": "calc", "name": "no-such", "args": []}),
         );
         assert_eq!(bad["ok"], false);
+    }
+
+    /// GUI-095: the native host is what every App Store build runs, so the
+    /// balancing exercise has to be markable there and not only in the
+    /// browser. The claim checked is the one the marking rests on — the
+    /// reported matrix annihilates the reported answer — plus the refusal.
+    #[test]
+    fn balance_reports_a_matrix_that_marks_its_own_answer() {
+        let mut lab = NativeLab::new();
+        let doc = ask(&mut lab, json!({"cmd": "balance", "equation": "Mg + O2 -> MgO"}));
+        assert_eq!(doc["ok"], true, "{doc}");
+        let species: Vec<&str> = doc["species"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_str().unwrap())
+            .collect();
+        assert_eq!(species, vec!["Mg", "O2", "MgO"]);
+        assert_eq!(doc["reactants"], 2);
+        let coefficients: Vec<f64> = doc["coefficients"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_f64().unwrap())
+            .collect();
+        assert_eq!(coefficients, vec![2.0, 1.0, 2.0]);
+        assert_eq!(doc["elements"].as_array().unwrap().last().unwrap(), "charge");
+        for row in doc["matrix"].as_array().unwrap() {
+            let sum: f64 = row
+                .as_array()
+                .unwrap()
+                .iter()
+                .zip(&coefficients)
+                .map(|(count, c)| count.as_f64().unwrap() * c)
+                .sum();
+            assert!(sum.abs() < 1e-9, "matrix row {row} does not cancel");
+        }
+        let refused = ask(
+            &mut lab,
+            json!({"cmd": "balance", "equation": "CH₃COOH / CH₃COO⁻ buffer"}),
+        );
+        assert_eq!(refused["ok"], false);
+        assert!(refused["error"].is_string());
     }
 
     #[test]

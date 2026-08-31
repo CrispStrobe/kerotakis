@@ -1683,8 +1683,23 @@ and presents them well.
   accepted command's typed events and before/after scenes without another
   engine call. The richer reactant, ionic-equation and concept/safety detail
   remains.
+  *Second slice 2026-08-30:* reactant chips, the concept and safety notes,
+  and the lv3 rule land, leaving only the ionic equation — which is GUI-092's
+  work and is deliberately not faked here. The chips are the left-hand side
+  of the engine's own balanced equation, split rather than looked up, so they
+  cannot disagree with the equation printed above them. The safety note is
+  the `hazard_warning` this same command raised (most severe wins); the
+  concept note is `inert.why` or `org_reacted.boundary` — the two events that
+  *explain* rather than report — and is absent when neither is there. The
+  equation itself now comes from anywhere in the accepted command rather than
+  from the one event that won the priority list, which is why a curated
+  precipitation showed none: `reaction_occurred` carries the equation and
+  `precipitated` wins the list. At lv3 the card is dropped entirely rather
+  than shrunk, because the machine view's feed already says exactly what the
+  card would say approximately. Still no second engine call. Five vitest
+  cases for the added fields.
 
-- [ ] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
+- [x] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
   Two labels the engine can already justify. A **class badge** — displacement,
   neutralisation, precipitation, combustion, decomposition — derived from the
   event stream, never authored per reaction, and absent rather than guessed
@@ -1697,6 +1712,22 @@ and presents them well.
   and electrolysis); unknown tags are not promoted to named reaction classes.
   A computed scene delta is shown when the target vessel's temperature really
   changed. Before/after temperature and confidence presentation remain.*
+  *Done 2026-08-30:* the card reads `25 °C → 90 °C` with a `+65 K` chip, from
+  `temperature_changed`'s own `from`/`to` where the engine reports the pair
+  and from the two scenes the command was computed between otherwise. Both
+  temperature carries GUI-023's encoding through `data-confidence`. The
+  class badge is drawn from a SECOND, smaller table than the operation
+  labels, which is where "absent rather than guessed" became enforced rather
+  than merely intended: most of what a bench does is not a reaction, so
+  stirring is honestly "mixing" and gets no class badge at all rather than
+  being promoted into a classification the engine never made. The first
+  attempt marked such tags `unknown`, and a test caught that the branch was
+  unreachable — every tag the priority list can return was already
+  classified, so the strictness existed only in the comment. A heat of
+  mixing is `modeled`, not `computed`, because
+  UNIFAC-derived hᴱ is a fitted model verified pair by pair (`hmix.rs`), and
+  a dashed border is the difference between the two claims. Nine vitest
+  cases, including one that fails if a confidence word ships without German.
 
 - [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
@@ -1723,13 +1754,30 @@ and presents them well.
   every experiment needs — water, heat, and the reagent last used — so the
   common path does not cross the whole screen.
 
-- [ ] **GUI-095 — Balancing as a generated exercise.** We balance by the null
+- [x] **GUI-095 — Balancing as a generated exercise.** We balance by the null
   space of the element-count matrix including charge, so we can *generate*
   practice rather than author it: take any equation the codex or a session
   produced, strip the coefficients, and mark the learner's answer against the
   solver — including telling them when their answer is a correct multiple but
   not the simplest whole-number ratio, which is the actual lesson. Unlimited,
   never wrong, and free of a hand-maintained question bank.
+  *Done 2026-08-30:* `balance` is a protocol command on both bindings
+  (PROTOCOL.md row; wasm `Lab::balance`, the native dispatch arm, both TS
+  hosts, and the conformance suite). It returns the solver's coefficients
+  **and the composition matrix they are the null space of**, which is the
+  design decision the whole item turns on: comparing a learner's numbers to
+  the solver's would mark `4 Mg + 2 O₂ → 4 MgO` wrong, and it is not wrong,
+  it is twice the answer. So the mark is arithmetic over the learner's own
+  vector — every entry a positive integer, `matrix · v = 0`, `gcd(v) = 1` —
+  which also names the element that is out and by how much, and which makes
+  the under-determined family fall out for free: `C + O₂ → CO + CO₂` has no
+  single right answer, and any primitive positive vector in its null space is
+  a correct balancing of a real reaction, marked correct and told it is one
+  of several. Coefficients on the input are stripped, so the codex's own
+  balanced equations set the question without leaking it, and the drill
+  prefers equations this session's bench actually produced. 19 vitest cases
+  on the marker and the question source, five Rust tests on the report, one
+  native-host test, eleven conformance assertions.
 
 - [x] **GUI-096 — The toolbox tools say what they are for.** *Done
   2026-08-29:* all seven relations carry `purpose`, `validity` and `source`

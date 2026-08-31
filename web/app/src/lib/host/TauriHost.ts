@@ -9,6 +9,7 @@
 
 import {
   EngineError,
+  type BalanceReply,
   type EngineHost,
   type ParticleCensus,
   type Scene,
@@ -59,6 +60,9 @@ export class TauriHost implements EngineHost {
   }
   async calc(name: string, args: string[]) {
     return JSON.parse(await this.req("calc", { name, args }));
+  }
+  async balance(equation: string): Promise<BalanceReply> {
+    return JSON.parse(await this.req("balance", { equation }));
   }
   async questStart(specJson: string): Promise<void> {
     await this.req("quest_start", { spec_json: specJson });

@@ -343,6 +343,17 @@ export class Session {
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
+  /**
+   * Every distinct balanced equation this session's own reactions produced,
+   * newest first (GUI-095).
+   *
+   * The balancing drill prefers these over the catalogue's: an equation the
+   * learner just made happen on the bench is a better question than one out
+   * of a book they have not opened. Bounded, because it is practice
+   * material rather than a record — the feed and the notebook are the
+   * record, and they keep everything.
+   */
+  benchEquations = $state<string[]>([]);
   /** Compact evidence digest for the latest accepted operation. */
   latestResult = $state<ResultSummary | null>(null);
   /**
@@ -719,7 +730,11 @@ export class Session {
           // The engine writes balanced equations with a real arrow; the
           // latest one is the reaction the bench is showing right now.
           const eq = rendered.match(/\S[^.:]*(?:→|⇌)[^.]*/);
-          if (eq) this.lastEquation = eq[0].trim();
+          if (eq) {
+            const equation = eq[0].trim();
+            this.lastEquation = equation;
+            this.rememberEquation(equation);
+          }
         }
         // Charts (the CAP-3 contract, kerotakis-core::chart): rendered
         // inline the moment a step object carries them.
@@ -1339,6 +1354,31 @@ export class Session {
   async calc(name: string, args: string[]) {
     try {
       return await this.host.calc(name, args);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  /**
+   * Keep one of the bench's own equations for the balancing drill.
+   *
+   * Newest first and capped: this is practice material, not a record. The
+   * feed and the notebook are the record and they keep everything, so
+   * dropping the twenty-first equation loses nothing a learner can go and
+   * look up.
+   */
+  private rememberEquation(equation: string) {
+    if (!/→|⇌/.test(equation)) return;
+    this.benchEquations = [
+      equation,
+      ...this.benchEquations.filter((existing) => existing !== equation),
+    ].slice(0, 20);
+  }
+
+  /** Balance one skeleton (GUI-095); the drill marks answers against it. */
+  async balance(equation: string) {
+    try {
+      return await this.host.balance(equation);
     } catch (e) {
       return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
     }

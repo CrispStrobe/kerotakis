@@ -644,6 +644,160 @@ pub fn balance(lhs: &[&str], rhs: &[&str]) -> Result<BalanceResult, BalanceError
     })
 }
 
+/// One balancing exercise, and everything a host needs to mark **any**
+/// answer to it (GUI-095).
+///
+/// The solver's own coefficients are not enough on their own. A learner who
+/// writes `4 Mg + 2 O2 → 4 MgO` has balanced the reaction — it is simply not
+/// the smallest whole-number ratio, and telling them *that* rather than
+/// "wrong" is the lesson. And where the skeleton is underdetermined there is
+/// no single right answer to compare against at all.
+///
+/// So the report carries the composition matrix as well: one row per element
+/// (charge last), one column per species, right-hand species negated —
+/// exactly the matrix `balance` takes the null space of. A coefficient
+/// vector balances precisely when every row's dot product with it is zero,
+/// which is a check a host can run on an answer the engine never saw, and
+/// which also says *which* element is out and by how much.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct BalanceReport {
+    /// The species as written, reactants first, coefficients stripped.
+    pub species: Vec<String>,
+    /// How many leading entries of `species` are on the left of the arrow.
+    pub reactants: usize,
+    /// Row labels for `matrix`: the element symbols present, then `charge`.
+    pub elements: Vec<String>,
+    /// `elements.len()` rows of `species.len()` signed counts.
+    pub matrix: Vec<Vec<f64>>,
+    /// The smallest positive integer coefficients — or, when the skeleton is
+    /// underdetermined, one all-positive particular solution.
+    pub coefficients: Vec<i64>,
+    /// Empty for a unique answer. Otherwise the remaining null-space basis,
+    /// which is what makes the family a family.
+    pub basis: Vec<Vec<i64>>,
+    /// True where the arrow was written reversible (⇌). Balancing is the
+    /// same either way; it is kept so a host can echo the equation back.
+    pub reversible: bool,
+}
+
+impl BalanceReport {
+    /// Whether the skeleton admits more than one independent reaction.
+    pub fn is_family(&self) -> bool {
+        !self.basis.is_empty()
+    }
+}
+
+/// Strip a leading stoichiometric coefficient from one written term.
+///
+/// The same rule `parse_side` uses: digits (and a decimal point) at the
+/// front, unless they are the whole term — `2 H2O` loses its 2, `2` alone
+/// does not become empty, and `H2O` is untouched.
+fn strip_coefficient(term: &str) -> String {
+    let term = term.trim();
+    let digits: String = term
+        .chars()
+        .take_while(|c| c.is_ascii_digit() || *c == '.')
+        .collect();
+    if digits.is_empty() || digits.len() == term.len() {
+        term.to_string()
+    } else {
+        term[digits.len()..].trim().to_string()
+    }
+}
+
+/// Split a skeleton into the species **as written**, reactants first.
+///
+/// `parse_equation` keeps counts and throws the text away, which is right
+/// for checking a claim and wrong for setting an exercise: a learner is
+/// shown the formulas the codex wrote, subscripts and all, not a
+/// reconstruction of them from element counts.
+pub fn split_skeleton(equation: &str) -> Result<(Vec<String>, Vec<String>, bool), ParseError> {
+    let Some(arrow) = ARROWS.iter().find(|a| equation.contains(**a)) else {
+        return Err(ParseError::NoArrow);
+    };
+    let reversible = matches!(*arrow, "⇌" | "⇄" | "<=>" | "↔");
+    let (left, right) = equation.split_once(arrow).expect("arrow present");
+    let side = |text: &str| -> Result<Vec<String>, ParseError> {
+        // A spaced plus, because a bare one is also the charge on `Ag+`.
+        let terms: Vec<String> = text
+            .split(" + ")
+            .map(strip_coefficient)
+            .filter(|term| !term.is_empty())
+            .collect();
+        if terms.is_empty() {
+            return Err(ParseError::EmptySide);
+        }
+        Ok(terms)
+    };
+    Ok((side(left)?, side(right)?, reversible))
+}
+
+/// The signed composition matrix: one row per element present, then charge.
+///
+/// Right-hand species enter negated, so a balanced coefficient vector is
+/// exactly a vector this matrix sends to zero.
+fn composition(species: &[Formula], reactants: usize) -> (Vec<String>, Vec<Vec<f64>>) {
+    let mut elements: Vec<String> = species
+        .iter()
+        .flat_map(|f| f.counts.keys().cloned())
+        .collect();
+    elements.sort();
+    elements.dedup();
+    let sign = |index: usize| if index < reactants { 1.0 } else { -1.0 };
+    let mut matrix: Vec<Vec<f64>> = elements
+        .iter()
+        .map(|element| {
+            species
+                .iter()
+                .enumerate()
+                .map(|(index, f)| sign(index) * f.counts.get(element).copied().unwrap_or(0.0))
+                .collect()
+        })
+        .collect();
+    matrix.push(
+        species
+            .iter()
+            .enumerate()
+            .map(|(index, f)| sign(index) * f.charge)
+            .collect(),
+    );
+    elements.push("charge".to_string());
+    (elements, matrix)
+}
+
+/// Balance one written skeleton and report everything needed to mark it.
+///
+/// The equation may arrive with coefficients already on it (the codex's are
+/// balanced) or without them (a learner's blank). They are stripped either
+/// way: the exercise is the coefficients, so they can never be part of the
+/// question.
+pub fn balance_report(equation: &str) -> Result<BalanceReport, BalanceError> {
+    let (lhs, rhs, reversible) = split_skeleton(equation).map_err(BalanceError::Parse)?;
+    let names: Vec<String> = lhs.iter().chain(rhs.iter()).cloned().collect();
+    let parsed: Vec<Formula> = names
+        .iter()
+        .map(|name| parse_formula(name))
+        .collect::<Result<_, _>>()
+        .map_err(BalanceError::Parse)?;
+    let lref: Vec<&str> = lhs.iter().map(String::as_str).collect();
+    let rref: Vec<&str> = rhs.iter().map(String::as_str).collect();
+    let solved = balance(&lref, &rref)?;
+    let (elements, matrix) = composition(&parsed, lhs.len());
+    let (coefficients, basis) = match solved {
+        BalanceResult::Unique(coefficients) => (coefficients, Vec::new()),
+        BalanceResult::Family { particular, basis } => (particular, basis),
+    };
+    Ok(BalanceReport {
+        species: names,
+        reactants: lhs.len(),
+        elements,
+        matrix,
+        coefficients,
+        basis,
+        reversible,
+    })
+}
+
 fn gcd(a: i64, b: i64) -> i64 {
     let (mut a, mut b) = (a.abs(), b.abs());
     while b != 0 {
@@ -851,6 +1005,90 @@ mod tests {
             unique(balance(&["Ca+2", "PO4-3"], &["Ca3(PO4)2"])),
             vec![3, 2, 1]
         );
+    }
+
+    /// The matrix a report carries must be the one the solver balanced
+    /// against, or a host marking answers with it would mark them against
+    /// something else. Checked by sending the solver's own answer through
+    /// the reported matrix and requiring zero on every row.
+    #[test]
+    fn the_reported_matrix_annihilates_the_reported_answer() {
+        for equation in [
+            "Mg + O2 → MgO",
+            "2 Mg + O2 → 2 MgO",
+            "CH4 + O2 → CO2 + H2O",
+            "Ag⁺ + Cl⁻ → AgCl(s)",
+            "MnO4- + H2O2 + H+ → Mn+2 + O2 + H2O",
+        ] {
+            let report = balance_report(equation).unwrap_or_else(|e| panic!("{equation}: {e}"));
+            assert_eq!(report.matrix.len(), report.elements.len(), "{equation}");
+            for (row, element) in report.matrix.iter().zip(&report.elements) {
+                assert_eq!(row.len(), report.species.len(), "{equation}");
+                let sum: f64 = row
+                    .iter()
+                    .zip(&report.coefficients)
+                    .map(|(count, c)| count * *c as f64)
+                    .sum();
+                assert!(sum.abs() < 1e-9, "{equation}: {element} does not cancel");
+            }
+        }
+    }
+
+    /// The question may never leak its answer: an exercise built from the
+    /// codex's already-balanced equation must present the same species as
+    /// one built from the bare skeleton, and the same coefficients.
+    #[test]
+    fn a_balanced_equation_and_its_skeleton_set_the_same_exercise() {
+        let bare = balance_report("Mg + O2 → MgO").unwrap();
+        let balanced = balance_report("2 Mg + O₂ → 2 MgO").unwrap();
+        assert_eq!(bare.species, vec!["Mg", "O2", "MgO"]);
+        assert_eq!(balanced.species, vec!["Mg", "O₂", "MgO"]);
+        assert_eq!(bare.coefficients, vec![2, 1, 2]);
+        assert_eq!(bare.coefficients, balanced.coefficients);
+        assert_eq!(bare.reactants, 2);
+        assert!(!bare.is_family());
+        assert!(!bare.reversible);
+    }
+
+    /// Charge is a row like any element, and the report has to say so —
+    /// a host that only saw the element rows would mark `Fe²⁺ → Fe³⁺` as
+    /// balanced.
+    #[test]
+    fn charge_is_the_last_row_of_the_reported_matrix() {
+        let report = balance_report("Ag⁺ + Cl⁻ → AgCl").unwrap();
+        assert_eq!(report.elements.last().map(String::as_str), Some("charge"));
+        assert_eq!(*report.matrix.last().unwrap(), vec![1.0, -1.0, 0.0]);
+    }
+
+    /// An underdetermined skeleton reports its family rather than
+    /// pretending one member of it is the answer.
+    #[test]
+    fn an_underdetermined_skeleton_reports_its_basis() {
+        let report = balance_report("C + O2 → CO + CO2").unwrap();
+        assert!(report.is_family(), "{report:?}");
+        assert!(report.coefficients.iter().all(|&c| c > 0));
+        for vector in &report.basis {
+            assert_eq!(vector.len(), report.species.len());
+            for row in &report.matrix {
+                let sum: f64 = row
+                    .iter()
+                    .zip(vector)
+                    .map(|(count, c)| count * *c as f64)
+                    .sum();
+                assert!(
+                    sum.abs() < 1e-9,
+                    "basis vector {vector:?} is not in the null space"
+                );
+            }
+        }
+    }
+
+    /// Prose in an equation field is refused rather than balanced — the
+    /// same three-valued honesty the codex lint depends on.
+    #[test]
+    fn a_report_refuses_what_is_not_an_equation() {
+        assert!(balance_report("CH₃COOH / CH₃COO⁻ buffer").is_err());
+        assert!(balance_report("H2O → NaCl").is_err());
     }
 
     #[test]

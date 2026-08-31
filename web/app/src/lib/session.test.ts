@@ -65,6 +65,10 @@ class FakeHost implements EngineHost {
   async calc() {
     return { ok: false as const, error: "not in the fake" };
   }
+  async balance(equation: string) {
+    this.calls.push(`balance:${equation}`);
+    return { ok: false as const, error: "not in the fake" };
+  }
   async parse(line: string) {
     this.calls.push(`parse:${line}`);
     return line.startsWith("boom")

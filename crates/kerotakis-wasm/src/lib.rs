@@ -448,6 +448,25 @@ impl Lab {
         }
     }
 
+    /// GUI-095: balance one skeleton by the null space of its element
+    /// (and charge) count matrix, and report the matrix alongside the
+    /// answer so a host can mark a learner's coefficients — including
+    /// the ones the solver never produced, like a correct multiple.
+    pub fn balance(&self, equation: &str) -> String {
+        match kerotakis_core::stoich::balance_report(equation) {
+            Ok(report) => match serde_json::to_value(&report) {
+                Ok(mut value) => {
+                    if let Some(map) = value.as_object_mut() {
+                        map.insert("ok".into(), serde_json::Value::Bool(true));
+                    }
+                    value.to_string()
+                }
+                Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+            },
+            Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+        }
+    }
+
     /// DATA-010: load a species pack (.pack bytes — magic, version,
     /// sha256-verified payload). New species join the shelf and every
     /// lookup; built-ins are never shadowed. Returns the honest count:

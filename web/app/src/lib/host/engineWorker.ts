@@ -29,6 +29,7 @@ type Lab = {
   restore(snapshot: string): void;
   relations(): string;
   calc(name: string, argsJson: string): string;
+  balance(equation: string): string;
   setRegister(level: string): void;
   setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
@@ -172,6 +173,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "relations":
         done(id, lab.relations());
+        break;
+      case "balance":
+        done(id, lab.balance(String(msg.equation)));
         break;
       case "quest_start":
         lab.questStart(String(msg.spec_json));
