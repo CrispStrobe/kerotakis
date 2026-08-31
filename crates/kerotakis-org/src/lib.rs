@@ -10,6 +10,7 @@
 //! - Functional group perception via SMARTS (ORG-004)
 //! - Atom-mapped transformation templates via SMIRKS (ORG-005)
 
+pub mod family_oracle;
 pub mod groups;
 pub mod inchi_validate;
 #[cfg(feature = "native-inchi")]
