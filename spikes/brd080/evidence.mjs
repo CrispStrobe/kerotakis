@@ -80,6 +80,32 @@ async function files(directory) {
   }
   return result;
 }
+export function validateEvidence(report) {
+  if (report?.schema !== "kerotakis.brd080-evidence.v1" || !/^v\d+\.\d+\.\d+$/.test(report.environment?.node ?? "")
+    || !/^[a-f0-9]{64}$/.test(report.lockSha256 ?? "") || report.fixtures?.length !== 5
+    || !Number.isSafeInteger(report.productionPackageCount) || report.productionPackageCount !== report.packages?.length) {
+    throw new Error("incomplete BRD-080 evidence envelope");
+  }
+  if (new Set(report.packages.map(({ path }) => path)).size !== report.packages.length
+    || report.packages.some((row) => !row.path || !row.version || !row.integrity || !licenceAllowed(row.license))) {
+    throw new Error("invalid BRD-080 package inventory");
+  }
+  if (report.candidates?.map(({ name }) => name).join() !== "3dmol,molstar") throw new Error("BRD-080 evidence requires both ordered candidates");
+  for (const candidate of report.candidates) {
+    if (!candidate.packages?.length || !candidate.artifacts?.length
+      || candidate.packages.some(({ path }) => !report.packages.some((row) => row.path === path))) {
+      throw new Error(`incomplete ${candidate.name} closure or artifacts`);
+    }
+    const totals = candidate.artifacts.reduce((sum, artifact) => {
+      if (!artifact.path || !Number.isSafeInteger(artifact.bytes) || artifact.bytes < 1
+        || !Number.isSafeInteger(artifact.gzipBytes) || artifact.gzipBytes < 1
+        || !/^[a-f0-9]{64}$/.test(artifact.sha256 ?? "")) throw new Error(`invalid ${candidate.name} artifact`);
+      return { bytes: sum.bytes + artifact.bytes, gzipBytes: sum.gzipBytes + artifact.gzipBytes };
+    }, { bytes: 0, gzipBytes: 0 });
+    if (totals.bytes !== candidate.totals?.bytes || totals.gzipBytes !== candidate.totals?.gzipBytes) throw new Error(`incorrect ${candidate.name} totals`);
+  }
+  return report;
+}
 export async function collect() {
   const fixtures = await validateFixtures();
   const { lock, rows: packages } = await inventory();
@@ -94,7 +120,7 @@ export async function collect() {
       const closure = new Set(candidateClosure(lock, name));
       candidates.push({ name, packages: packages.filter((row) => closure.has(row.path)), artifacts, totals: artifacts.reduce((a, x) => ({ bytes: a.bytes + x.bytes, gzipBytes: a.gzipBytes + x.gzipBytes }), { bytes: 0, gzipBytes: 0 }) });
     }
-    return {
+    return validateEvidence({
       schema: "kerotakis.brd080-evidence.v1",
       environment: { node: process.version, molstarRequiredNode: ">=22.0.0" },
       lockSha256: sha(lockBytes),
@@ -102,7 +128,7 @@ export async function collect() {
       productionPackageCount: packages.length,
       packages,
       candidates,
-    };
+    });
   } finally { await rm(temporary, { recursive: true, force: true }); }
 }
 if (import.meta.url === new URL(process.argv[1], "file:").href) console.log(JSON.stringify(await collect(), null, 2));
