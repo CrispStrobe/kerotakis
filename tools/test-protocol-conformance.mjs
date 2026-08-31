@@ -438,7 +438,10 @@ if (!resultsPath) {
 // passing quietly either way.
 {
     const lab = new Lab();
-    const hello = JSON.parse(lab.hello());
+    // `hello()` belongs to the EngineHost protocol, which merges this
+    // wasm engine's `meta()` into the host response. The raw bindgen Lab
+    // exposes the capability directly as `canSolve()`.
+    const canSolve = lab.canSolve();
     const doc = JSON.parse(lab.runScript(
         "new\nadd v1 water 100mL\nadd v1 NaCl 0.5g\nadd v1 AgNO3 1g\n",
     ));
@@ -449,7 +452,7 @@ if (!resultsPath) {
             fail("ionic", "ionic present but not an array");
         }
     }
-    if (!hello.can_solve) {
+    if (!canSolve) {
         console.log("ionic: SKIPPED (no aqueous solver in this build — nothing to derive from)");
     } else if (entries.length === 0) {
         fail("ionic", "the silver chloride precipitation carried no net ionic equation");

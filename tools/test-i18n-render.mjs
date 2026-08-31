@@ -72,6 +72,17 @@ try {
   // the dictionary via a de-slugged concept id, so a rename on either
   // side breaks them without breaking anything else.
   check("the utilities drawer opens", (await openUtilities()) === true);
+  // The command bar is ready before the independently fetched codex export.
+  // Until that fetch resolves the map button is intentionally absent, so
+  // clicking immediately is a race against the network/filesystem rather
+  // than a localization assertion.
+  const mapAvailable = await waitFor(
+    page,
+    `[...document.querySelectorAll('button')]
+       .some((el) => /^Karte$/.test((el.textContent || "").trim()))`,
+    { timeout: 30000 },
+  );
+  check("the map becomes available", mapAvailable === true);
   check("the map opens", (await clickByText("/^Karte$/")) === true);
 
   const nodes = await waitFor(page, `document.querySelectorAll('button.node').length > 0`,
