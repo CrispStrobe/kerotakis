@@ -43,6 +43,7 @@ pub mod i18n;
 pub mod indicator;
 pub mod instrument;
 pub mod intern;
+pub mod ionic;
 pub mod kinetics;
 pub mod ledger;
 pub mod material;
@@ -102,13 +103,15 @@ pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
     Reading, Thermometer,
 };
+pub use ionic::{net_ionic, net_ionic_for, IonTerm, IonicBasis, NetIonic};
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
 pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,
-    render_events_in, render_vessel, render_vessel_in, Register,
+    render_events_in, render_ionic, render_ionic_for, render_ionic_in, render_vessel,
+    render_vessel_in, Register,
 };
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneStockBottle, SceneVessel};
 pub use solve::{

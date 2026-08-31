@@ -16,6 +16,7 @@
 import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
+import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
@@ -354,6 +355,15 @@ export class Session {
    * record, and they keep everything.
    */
   benchEquations = $state<string[]>([]);
+  /** The same reaction as an ionic equation, derived by the engine from
+   * the solved speciation (GUI-092). Null is the common case and an
+   * honest one: no speciation, no ionic claim. */
+  lastIonic = $state<NetIonic | null>(null);
+  /** The ions the solver left out of the reaction, as one phrase — the
+   * half of the lesson the equation itself cannot show. */
+  get lastSpectators(): string | null {
+    return this.lastIonic ? spectatorPhrase(this.lastIonic) : null;
+  }
   /** Compact evidence digest for the latest accepted operation. */
   latestResult = $state<ResultSummary | null>(null);
   /**
@@ -725,6 +735,7 @@ export class Session {
           );
           this.missionOutcome = { ...this.missionOutcome, secured };
         }
+        let pinnedEquation = false;
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
           // The engine writes balanced equations with a real arrow; the
@@ -734,8 +745,16 @@ export class Session {
             const equation = eq[0].trim();
             this.lastEquation = equation;
             this.rememberEquation(equation);
+            pinnedEquation = true;
           }
         }
+        // The ionic form (GUI-092, kerotakis-core::ionic): structured, not
+        // parsed back out of prose. It is pinned WITH the molecular
+        // equation rather than independently — an ionic line left standing
+        // under a later reaction's molecular one would be a claim about
+        // chemistry that did not happen.
+        const stepIonic = latestNetIonic([step]);
+        if (pinnedEquation || stepIonic) this.lastIonic = stepIonic;
         // Charts (the CAP-3 contract, kerotakis-core::chart): rendered
         // inline the moment a step object carries them.
         const charts = (step as { charts?: ChartSpec[] }).charts;

@@ -195,12 +195,21 @@ export interface QuestOutput {
 export interface StepResult {
   events: unknown[];
   rendered: string[];
+  /** GUI-092: the net ionic equations the step earned, validated on
+   * arrival by `ionic.ts` rather than trusted here. */
+  ionic?: unknown[];
   quest?: QuestOutput[];
   scene?: Scene;
 }
 
 export interface ScriptResult {
-  steps: { operator: unknown; events: unknown[]; rendered: string[]; quest?: QuestOutput[] }[];
+  steps: {
+    operator: unknown;
+    events: unknown[];
+    rendered: string[];
+    ionic?: unknown[];
+    quest?: QuestOutput[];
+  }[];
   scene?: Scene;
 }
 

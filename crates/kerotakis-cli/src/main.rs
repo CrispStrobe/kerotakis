@@ -2653,6 +2653,17 @@ impl Session {
             for line in render_events(&events, self.register) {
                 println!("  {}", masker(self, &line));
             }
+            // GUI-092: the equation the beaker actually ran, derived from
+            // the solved speciation. Silent at lv1 and silent wherever no
+            // solver characterised the solution.
+            for line in kerotakis_core::render_ionic_for(
+                &events,
+                &self.bench.vessels,
+                self.register,
+                kerotakis_core::Locale::EN,
+            ) {
+                println!("  {}", self.mask(&line));
+            }
         }
         if !self.quest_states.is_empty() {
             let outputs = kerotakis_codex::quest::observe(

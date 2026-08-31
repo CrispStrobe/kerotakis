@@ -408,6 +408,15 @@ zinc = "Zink"
 # They go through the catalogue now, so German picks German words.
 "gas-tested.lv2" = "{vessel}: {test} — {outcome}"
 "foam-changed.lv1-overflow" = "Schaum quillt aus {vessel} und läuft über den Rand!"
+"neutralised.lv1" = "In {vessel} heben sich Säure und Lauge gegenseitig auf — was dabei entsteht, ist Wasser."
+"neutralised.lv2" = "{vessel}: {moles} mol neutralisiert"
+"neutralised.lv3" = "{vessel}: {moles} mol Säuregehalt neutralisiert (aus der Änderung der Nettoladung der gelösten Stoffe; PHREEQC rechnet mit Elementsummen und meldet diese Reaktion nie)"
+
+# GUI-092: die Nettoionengleichung. Nur die Beschriftung wird übersetzt —
+# die Gleichung selbst ist chemische Notation und in jeder Sprache gleich.
+[ionic]
+net = "Netto-Ionengleichung"
+spectators = "Zuschauerionen"
 
 [model]
 "coupling-active" = "aktiv"

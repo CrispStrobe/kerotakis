@@ -903,6 +903,104 @@ describe("Session", () => {
     expect(s.lastEquation).toBe("Ag+ + Cl- → AgCl");
   });
 
+  it("the ionic equation is taken from the step's structured field, not the prose", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [],
+          rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+          ionic: [
+            {
+              vessel: 0,
+              basis: "precipitation",
+              reactants: [
+                { species: "Ag+", label: "Ag⁺", coefficient: 1, charge: 1, phase: "aqueous" },
+                { species: "Cl-", label: "Cl⁻", coefficient: 1, charge: -1, phase: "aqueous" },
+              ],
+              products: [
+                { species: "AgCl", label: "AgCl", coefficient: 1, charge: 0, phase: "solid" },
+              ],
+              spectators: [
+                { species: "Na+", label: "Na⁺", coefficient: 1, charge: 1, phase: "aqueous" },
+                { species: "NO3-", label: "NO₃⁻", coefficient: 1, charge: -1, phase: "aqueous" },
+              ],
+              equation: "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+              provenance: "PHREEQC (IPhreeqc) · wateq4f.dat",
+            },
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.lastEquation).toBe("AgNO3 + NaCl → AgCl + NaNO3");
+    expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
+    expect(s.lastSpectators).toBe("Na⁺, NO₃⁻");
+  });
+
+  it("a step with no derivable ionic form leaves the strip molecular", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [],
+          rendered: ["2 Mg + O2 → 2 MgO"],
+          ionic: [],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("ignite v1");
+    expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
+    expect(s.lastIonic).toBeNull();
+    expect(s.lastSpectators).toBeNull();
+  });
+
+  it("a later reaction without an ionic form does not keep the previous one", async () => {
+    const host = new FakeHost();
+    let call = 0;
+    host.runScript = async () => {
+      call += 1;
+      return {
+        steps: [
+          call === 1
+            ? {
+                operator: {},
+                events: [],
+                rendered: ["AgNO3 + NaCl → AgCl + NaNO3"],
+                ionic: [
+                  {
+                    vessel: 0,
+                    basis: "precipitation",
+                    reactants: [],
+                    products: [],
+                    spectators: [],
+                    equation: "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+                  },
+                ],
+              }
+            : {
+                operator: {},
+                events: [],
+                rendered: ["2 Mg + O2 → 2 MgO"],
+              },
+        ],
+        scene: { scene: 1, vessels: [] } as Scene,
+      };
+    };
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.lastIonic?.equation).toBe("Ag⁺(aq) + Cl⁻(aq) → AgCl(s)");
+    await s.submit("ignite v2");
+    expect(s.lastEquation).toBe("2 Mg + O2 → 2 MgO");
+    expect(s.lastIonic).toBeNull();
+  });
+
   it("hazard events become cards; a veto reads as a refusal", async () => {
     const host = new FakeHost();
     host.runScript = async (script: string) => ({

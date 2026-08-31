@@ -1282,6 +1282,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
     };
     let (actual_kind, actual_species): (&str, Option<&str>) = match event {
         E::Precipitated { species, .. } => ("precipitated", Some(species.0.as_str())),
+        // No species key: the reaction is between the water axis and
+        // itself, so `neutralised` is the whole claim there is to make.
+        E::Neutralised { .. } => ("neutralised", None),
         E::Dissolved { species, .. } => ("dissolved", Some(species.0.as_str())),
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),
         E::GasAbsorbed { species, .. } => ("gas_absorbed", Some(species.0.as_str())),

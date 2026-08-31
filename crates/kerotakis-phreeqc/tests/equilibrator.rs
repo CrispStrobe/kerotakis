@@ -157,6 +157,60 @@ fn silver_nitrate_plus_salt_precipitates_silver_chloride() {
         Register::LV1,
     );
     assert!(text.contains("cloudy") && text.contains("white"), "{text}");
+
+    // GUI-092, the other half of the same beaker: the net ionic equation,
+    // derived from the speciation *this* solve produced.
+    //
+    // The derivation is unit-tested against `SolutionInfo` fixtures in the
+    // core; this asserts that those fixtures are the shape the solver
+    // really returns. It is worth its own assertions here rather than a
+    // separate solve because the first two attempts failed for reasons no
+    // fixture would have caught — a trace floor of our own hid the
+    // depleted silver, and the neutral AgCl(aq) complex outranked the free
+    // ion — so the whole species distribution is printed on failure. The
+    // next person to see this red should not have to guess.
+    let speciation = || -> String {
+        match bench.vessels[0].solution.as_ref() {
+            None => "no solver characterised this vessel".to_string(),
+            Some(s) if s.species.is_empty() => "solution present, species list EMPTY".to_string(),
+            Some(s) => s
+                .species
+                .iter()
+                .map(|d| format!("{}={:.3e}", d.name, d.molality))
+                .collect::<Vec<_>>()
+                .join(" "),
+        }
+    };
+    let derived = kerotakis_core::net_ionic_for(&events, &bench.vessels);
+    let net = derived
+        .first()
+        .unwrap_or_else(|| panic!("no net ionic equation from: {}", speciation()));
+    assert_eq!(
+        net.equation,
+        "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+        "speciation was: {}",
+        speciation()
+    );
+
+    // The spectators are the whole point: named as such, and absent from
+    // the equation.
+    let named: Vec<&str> = net
+        .reactants
+        .iter()
+        .chain(net.products.iter())
+        .map(|t| t.species.as_str())
+        .collect();
+    assert!(
+        !named.contains(&"Na+") && !named.contains(&"NO3-"),
+        "the spectators are in the equation: {}",
+        net.equation
+    );
+    let spectators: Vec<&str> = net.spectators.iter().map(|t| t.species.as_str()).collect();
+    assert!(
+        spectators.contains(&"Na+") && spectators.contains(&"NO3-"),
+        "sodium and nitrate must be named as spectators, got {spectators:?} from: {}",
+        speciation()
+    );
 }
 
 #[test]

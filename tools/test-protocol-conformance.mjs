@@ -430,6 +430,59 @@ if (!resultsPath) {
     }
 }
 
+// --- The ionic contract on the wire (GUI-092) ---------------------------
+// Silver nitrate met by table salt must carry a net ionic equation derived
+// from the solved speciation — and it must not name the spectators, which
+// is the entire point of the derivation. A bench with no aqueous solver
+// cannot say this at all, so the check states which case it is rather than
+// passing quietly either way.
+{
+    const lab = new Lab();
+    // `hello()` belongs to the EngineHost protocol, which merges this
+    // wasm engine's `meta()` into the host response. The raw bindgen Lab
+    // exposes the capability directly as `canSolve()`.
+    const canSolve = lab.canSolve();
+    const doc = JSON.parse(lab.runScript(
+        "new\nadd v1 water 100mL\nadd v1 NaCl 0.5g\nadd v1 AgNO3 1g\n",
+    ));
+    const entries = doc.steps.flatMap((s) => (Array.isArray(s.ionic) ? s.ionic : []));
+    checks++;
+    for (const step of doc.steps) {
+        if (step.ionic !== undefined && !Array.isArray(step.ionic)) {
+            fail("ionic", "ionic present but not an array");
+        }
+    }
+    if (!canSolve) {
+        console.log("ionic: SKIPPED (no aqueous solver in this build — nothing to derive from)");
+    } else if (entries.length === 0) {
+        fail("ionic", "the silver chloride precipitation carried no net ionic equation");
+    } else {
+        const net = entries.at(-1);
+        checks++;
+        if (typeof net.equation !== "string" || !net.equation.includes("→")
+            || !["precipitation", "neutralisation"].includes(net.basis)
+            || !Array.isArray(net.reactants) || !Array.isArray(net.products)
+            || !Array.isArray(net.spectators)) {
+            fail("ionic", `entry missing contract fields: ${JSON.stringify(net).slice(0, 200)}`);
+        }
+        checks++;
+        const named = [...net.reactants, ...net.products].map((t) => t.species);
+        if (named.includes("Na+") || named.includes("NO3-")) {
+            fail("ionic", `the spectators are in the equation: ${net.equation}`);
+        }
+        checks++;
+        for (const term of [...net.reactants, ...net.products, ...net.spectators]) {
+            if (typeof term.species !== "string" || typeof term.label !== "string"
+                || typeof term.coefficient !== "number" || typeof term.charge !== "number"
+                || typeof term.phase !== "string") {
+                fail("ionic", `term missing contract fields: ${JSON.stringify(term)}`);
+            }
+        }
+        console.log(`ionic: ${net.equation} `
+            + `(spectators: ${net.spectators.map((t) => t.label).join(", ") || "none"})`);
+    }
+}
+
 // --- The sandbox-completeness invariant (GUI-029) -----------------------
 // Every grammar verb must have an affordance-manifest entry; a verb the
 // parser gains without a GUI decision fails here. Planned rows are

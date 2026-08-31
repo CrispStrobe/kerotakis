@@ -66,8 +66,8 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
 | `hello` | done | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). `packs` carries the WEB-003 inventory (kerotakis_core::packs_manifest; empty content_hash = built in, not yet independently deliverable — the honest pre-pipeline state); `load_pack` itself remains the open half. Must be answerable before any pack loads. |
-| `step` | done | `{ operator_json }` → `{ events, rendered, charts, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `scene` the render model (one round trip repaints the bench). |
-| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts}], scene, bench }`. |
+| `step` | done | `{ operator_json }` → `{ events, rendered, charts, ionic, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `ionic` the GUI-092 `NetIonic[]` derived from the solved speciation (empty when none, which is the common case), `scene` the render model (one round trip repaints the bench). |
+| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts, ionic}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
 | `relations` | done (GUI-027) | `{}` → `[{ name, equation, args, purpose, validity, source, …_<locale> }]` — the CAP-5 named-relations catalogue. `args` is the CLI arg-spec string (`k=<hint>`, brackets for optional); clients build forms from it rather than hard-coding fields. Additive 2026-08-25 (GUI-087): `purpose` (what question it answers) and `validity` (where it stops being true). Additive 2026-08-29 (GUI-096): `source` — who published it and when, the leading clause of the same provenance line `calc` returns, so the catalogue and the computed result cannot cite different papers. Each prose field carries a `_<locale>` sibling per shipped language (`purpose_de`, `validity_de`, `source_de`); the unsuffixed field is English and is the per-string fallback, so a client selects `field_<locale> ?? field` and never a blank. Every one is non-empty for every row — a relation whose validity range is unstated teaches a learner to apply it outside that range. |
 | `calc` | done (GUI-027) | `{ name, args: ["k=v", …] }` → `{ ok, value, unit, provenance, lv1, lv2, lv3 }` or `{ ok: false, error }`. One evaluation of a named relation; the result explains itself at every register and names its source. Same argument grammar as `kero calc`. |
@@ -213,6 +213,45 @@ the web app (`web/app/src/lib/components/Chart.svelte`, consumer types in
 - Proposed additive extensions (not yet in the Rust contract; do not emit
   until they land there): a per-series `confidence` field rendered via
   GUI-023's stroke encoding, and x-axis `markers` (e.g. "equivalence").
+
+## The ionic contract (GUI-092; authoritative in `kerotakis-core/src/ionic.rs`)
+
+A step object may carry `ionic: [NetIonic]` — the net ionic equation the
+step's chemistry earned, derived from the solved speciation rather than
+stored per reaction. Empty is the common and honest case.
+
+```json
+{
+  "vessel": 0,
+  "basis": "precipitation",
+  "reactants": [
+    { "species": "Ag+", "label": "Ag⁺", "coefficient": 1, "charge":  1, "phase": "aqueous" },
+    { "species": "Cl-", "label": "Cl⁻", "coefficient": 1, "charge": -1, "phase": "aqueous" }
+  ],
+  "products": [
+    { "species": "AgCl", "label": "AgCl", "coefficient": 1, "charge": 0, "phase": "solid" }
+  ],
+  "spectators": [
+    { "species": "Na+",  "label": "Na⁺",  "coefficient": 1, "charge":  1, "phase": "aqueous" },
+    { "species": "NO3-", "label": "NO₃⁻", "coefficient": 1, "charge": -1, "phase": "aqueous" }
+  ],
+  "equation": "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+  "provenance": "PHREEQC (IPhreeqc) · wateq4f.dat · Debye–Hückel"
+}
+```
+
+- `basis` is `precipitation` or `neutralisation` — the two engine results
+  that carry their own participants. It is not a reaction-class guess: a
+  step whose participants are unknown produces no entry at all.
+- `species` is the engine's own name (PHREEQC notation); `label` is the
+  same thing typeset for a reader. Clients display `label` and match on
+  `species`. `equation` is the assembled line, so a client that only wants
+  to print one needs no term logic.
+- `spectators` are the charged species the solver left in solution taking
+  no part, most abundant first. Empty is a real answer.
+- `provenance` is absent where the vessel records no solver.
+- Register: hosts show this at lv2 and above. At lv1 an equation is not
+  the register's business.
 
 ## Conformance suite (GUI-001 acceptance)
 
