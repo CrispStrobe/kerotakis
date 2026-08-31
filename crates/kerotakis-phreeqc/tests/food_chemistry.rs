@@ -203,22 +203,15 @@ fn glucose_and_fructose_are_distinct_end_to_end() {
     );
     assert!(!glucose.inchikey.is_empty() && !fructose.inchikey.is_empty());
 
-    // Why that holds is worth pinning, because it is not the reason one
-    // would assume. These identities carry NO stereochemistry: this lab's
-    // SMILES-to-InChI path drops tetrahedral parity, so both keys are
-    // stereo-free skeletons and neither distinguishes D from L. The two
-    // sugars stay distinct anyway because they are structural isomers
-    // with different carbon skeletons — a fact about the chemistry, not
-    // about the toolchain. If stereo support ever lands these assertions
-    // should be revisited together with the curated SMILES.
-    for sugar in [glucose, fructose] {
-        assert!(
-            sugar.inchikey.contains("UHFFFAOYSA"),
-            "{} is expected to carry the stereo-free key the pipeline computes, got {}",
-            sugar.key,
-            sugar.inchikey
-        );
-    }
+    // Both identities carry the D configuration but deliberately leave the
+    // anomeric centre unspecified. Pin the official-library results so a
+    // future identity-path change cannot silently broaden them to D/L-neutral
+    // skeletons or narrow them to a particular alpha/beta anomer.
+    assert_eq!(glucose.inchikey, "WQZGKKKJIJFFOK-GASJEMHNSA-N");
+    assert_eq!(fructose.inchikey, "LKDRXBCSQODPBY-VRPWFDPXSA-N");
+
+    // Independently, glucose and fructose are structural isomers. Their
+    // connectivity prefixes must differ regardless of stereochemical layer.
     assert_ne!(
         glucose.inchikey.split('-').next(),
         fructose.inchikey.split('-').next(),
