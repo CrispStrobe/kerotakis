@@ -1,0 +1,44 @@
+[
+  {
+    "species_id": "citric_acid",
+    "components": [
+      "citric_acid"
+    ],
+    "fdc_ids": [
+      2003597
+    ]
+  },
+  {
+    "species_id": "fructose",
+    "components": [
+      "fructose"
+    ],
+    "fdc_ids": [
+      2003590,
+      2003597,
+      2346401
+    ]
+  },
+  {
+    "species_id": "glucose",
+    "components": [
+      "glucose"
+    ],
+    "fdc_ids": [
+      748967,
+      2003590,
+      2003597,
+      2346401
+    ]
+  },
+  {
+    "species_id": "malic_acid",
+    "components": [
+      "malic_acid"
+    ],
+    "fdc_ids": [
+      2003590,
+      2003597
+    ]
+  }
+]

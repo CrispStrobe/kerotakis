@@ -14,6 +14,7 @@ mod provenance;
 mod resolve;
 mod schema;
 mod units;
+pub mod usda;
 mod validate;
 
 pub use adapter::*;

@@ -1,0 +1,18 @@
+[
+  {
+    "adapter_id": "usda-fdc",
+    "external_record_id": "746782",
+    "fields": [
+      "component.unobtainium",
+      "description",
+      "description"
+    ]
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "external_record_id": "0",
+    "fields": [
+      "description"
+    ]
+  }
+]

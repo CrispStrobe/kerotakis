@@ -1,0 +1,2297 @@
+[
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2003590",
+    "external_record_id": "2003590",
+    "identity_key": "usda-ndb:9400",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.ascorbic_acid": {
+        "value": 0.0512,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1162].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.fructose": {
+        "value": 5.7,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1012].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.glucose": {
+        "value": 3.21,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1011].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.malic_acid": {
+        "value": 0.36,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1039].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.sucrose": {
+        "value": 1.39,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1010].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 88.1,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2003590].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Apple juice, with added vitamin C, from concentrate, shelf stable",
+        "source_field": "foods[fdcId=2003590].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Fruits and Fruit Juices",
+        "source_field": "foods[fdcId=2003590].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.0070999999999999995,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 3e-6,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00004,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.09590000000000001,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.004860000000000001,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.000027,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.00487,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.0059900000000000005,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 2e-6,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "9400",
+        "source_field": "foods[fdcId=2003590].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "10/28/2021",
+        "source_field": "foods[fdcId=2003590].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE",
+          "APPLE JUICE FROM CONCENTRATE WITH ADDED VITAMIN C, SHELF STABLE"
+        ],
+        "source_field": "foods[fdcId=2003590].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ascorbic_acid": {
+        "value": 0.03425,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1162].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.ash": {
+        "value": 0.095,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.235,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fructose": {
+        "value": 0.73,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1012].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.glucose": {
+        "value": 0.42500000000000004,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1011].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.malic_acid": {
+        "value": 0.051000000000000004,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1039].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.094,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.sucrose": {
+        "value": 0.33999999999999997,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1010].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.3500000000000014,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.124,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 0.286,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 0.6888000000000005,
+        "source_field": "foods[fdcId=2003590]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 0.086,
+        "source_field": "foods[fdcId=2003590].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2003597",
+    "external_record_id": "2003597",
+    "identity_key": "usda-ndb:9206",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.ascorbic_acid": {
+        "value": 0.0305,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1162].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.citric_acid": {
+        "value": 0.757,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1032].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.fructose": {
+        "value": 2.12,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1012].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.glucose": {
+        "value": 1.81,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1011].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.malic_acid": {
+        "value": 0.16,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1039].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.sucrose": {
+        "value": 4.14,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1010].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 88.5,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2003597].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Orange juice, no pulp, not fortified, not from concentrate, refrigerated",
+        "source_field": "foods[fdcId=2003597].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Fruits and Fruit Juices",
+        "source_field": "foods[fdcId=2003597].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.00929,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000035000000000000004,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00007099999999999999,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.183,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0103,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.000028,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.000075,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.019,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.000032,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "9206",
+        "source_field": "foods[fdcId=2003597].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "10/28/2021",
+        "source_field": "foods[fdcId=2003597].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED",
+          "ORANGE JUICE, REFRIGERATED, NO PULP, NOT FORTIFIED"
+        ],
+        "source_field": "foods[fdcId=2003597].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ascorbic_acid": {
+        "value": 0.006900000000000001,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1162].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.ash": {
+        "value": 0.04999999999999999,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.citric_acid": {
+        "value": 0.09,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1032].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.29,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fructose": {
+        "value": 0.21000000000000008,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1012].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.glucose": {
+        "value": 0.23499999999999988,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1011].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.malic_acid": {
+        "value": 0.0285,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1039].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.09350000000000003,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.sucrose": {
+        "value": 0.20999999999999996,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1010].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.75,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.339,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 0.356,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 0.9824999999999999,
+        "source_field": "foods[fdcId=2003597]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 0.812,
+        "source_field": "foods[fdcId=2003597].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2258586",
+    "external_record_id": "2258586",
+    "identity_key": "usda-ndb:11124",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.water": {
+        "value": 87.7,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2258586].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Carrots, mature, raw",
+        "source_field": "foods[fdcId=2258586].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Vegetables and Vegetable Products",
+        "source_field": "foods[fdcId=2258586].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.0305,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000061,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00015,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.28,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.012400000000000001,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.00013000000000000002,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.0866,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.039799999999999995,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.000236,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "11124",
+        "source_field": "foods[fdcId=2258586].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "4/28/2022",
+        "source_field": "foods[fdcId=2258586].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw",
+          "carrots, mature, raw"
+        ],
+        "source_field": "foods[fdcId=2258586].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.255,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.dietary_fibre": {
+        "value": 0.31499999999999995,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1079].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.895,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.281,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 1.8999999999999986,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.721,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.dietary_fibre": {
+        "value": 3.1,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1079].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 0.351,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 7.200000000000001,
+        "source_field": "foods[fdcId=2258586]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 0.941,
+        "source_field": "foods[fdcId=2258586].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2259793",
+    "external_record_id": "2259793",
+    "identity_key": "usda-ndb:1116",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.water": {
+        "value": 85.3,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2259793].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Yogurt, plain, whole milk",
+        "source_field": "foods[fdcId=2259793].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Dairy and Egg Products",
+        "source_field": "foods[fdcId=2259793].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.127,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 3e-6,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.I": {
+        "value": 0.0000323,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1100].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.164,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0114,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 2e-6,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.0418,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.101,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.000428,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "1116",
+        "source_field": "foods[fdcId=2259793].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "4/28/2022",
+        "source_field": "foods[fdcId=2259793].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain",
+          "Yogurt, whole milk, plain"
+        ],
+        "source_field": "foods[fdcId=2259793].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.2,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 1.0,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.galactose": {
+        "value": 0.13999999999999996,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1075].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.lactose": {
+        "value": 0.895,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1013].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.9550000000000001,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 2.8500000000000014,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.847,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 4.48,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.galactose": {
+        "value": 0.746,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1075].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.lactose": {
+        "value": 3.35,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1013].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 1.4740000000000002,
+        "source_field": "foods[fdcId=2259793]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 3.82,
+        "source_field": "foods[fdcId=2259793].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2346396",
+    "external_record_id": "2346396",
+    "identity_key": "usda-ndb:20038",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.starch": {
+        "value": 53.8,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1009].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 10.2,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2346396].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Oats, whole grain, rolled, old fashioned",
+        "source_field": "foods[fdcId=2346396].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Cereal Grains and Pasta",
+        "source_field": "foods[fdcId=2346396].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.0455,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000428,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00434,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.35000000000000003,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.126,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.0032300000000000002,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mo": {
+        "value": 0.00015999999999999999,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1102].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.0006680000000000001,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.387,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Se": {
+        "value": 0.000025399999999999997,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1103].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.0027400000000000002,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "20038",
+        "source_field": "foods[fdcId=2346396].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "10/28/2022",
+        "source_field": "foods[fdcId=2346396].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned",
+          "Oats, whole grain, rolled, old fashioned"
+        ],
+        "source_field": "foods[fdcId=2346396].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.22499999999999998,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.5699999999999998,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 1.3499999999999996,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.starch": {
+        "value": 2.25,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1009].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.8250000000000002,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 1.71,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 5.89,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 14.900000000000006,
+        "source_field": "foods[fdcId=2346396]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 13.5,
+        "source_field": "foods[fdcId=2346396].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2346401",
+    "external_record_id": "2346401",
+    "identity_key": "usda-ndb:100283",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.ascorbic_acid": {
+        "value": 0.0109,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1162].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.fructose": {
+        "value": 0.292,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1012].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.glucose": {
+        "value": 0.161,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1011].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.sucrose": {
+        "value": 0.072,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1010].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 78.6,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2346401].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Potatoes, russet, without skin, raw",
+        "source_field": "foods[fdcId=2346401].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Vegetables and Vegetable Products",
+        "source_field": "foods[fdcId=2346401].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.0078,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000091,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.000384,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.45,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0256,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.000152,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mo": {
+        "value": 4.87e-6,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1102].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.0027400000000000002,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.055200000000000006,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.000378,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "100283",
+        "source_field": "foods[fdcId=2346401].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "10/28/2022",
+        "source_field": "foods[fdcId=2346401].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw",
+          "Potatoes, russet, without skin, raw"
+        ],
+        "source_field": "foods[fdcId=2346401].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ascorbic_acid": {
+        "value": 0.00618,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1162].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.ash": {
+        "value": 0.15999999999999998,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.335,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fructose": {
+        "value": 0.255,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1012].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.glucose": {
+        "value": 0.28,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1011].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.31000000000000005,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.sucrose": {
+        "value": 0.145,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1010].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 4.799999999999997,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.985,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 0.36,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 17.2641,
+        "source_field": "foods[fdcId=2346401]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 2.27,
+        "source_field": "foods[fdcId=2346401].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2512381",
+    "external_record_id": "2512381",
+    "identity_key": "usda-ndb:20444",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.starch": {
+        "value": 74.4,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1009].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 11.2,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2512381].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Rice, white, long grain, unenriched, raw",
+        "source_field": "foods[fdcId=2512381].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Cereal Grains and Pasta",
+        "source_field": "foods[fdcId=2512381].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.00446,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000214,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00014000000000000001,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.0823,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0265,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.000981,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mo": {
+        "value": 0.0000642,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1102].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.000462,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.108,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Se": {
+        "value": 6.5999999999999995e-6,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1103].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.00135,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "20444",
+        "source_field": "foods[fdcId=2512381].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "4/20/2023",
+        "source_field": "foods[fdcId=2512381].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched",
+          "white rice, long grain, unenriched"
+        ],
+        "source_field": "foods[fdcId=2512381].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.205,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.dietary_fibre": {
+        "value": 0.595,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1079].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.365,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 1.2200000000000002,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.starch": {
+        "value": 5.549999999999997,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1009].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.9499999999999993,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.425,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.dietary_fibre": {
+        "value": 0.149,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1079].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 1.03,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 5.750999999999991,
+        "source_field": "foods[fdcId=2512381]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 7.04,
+        "source_field": "foods[fdcId=2512381].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:2644281",
+    "external_record_id": "2644281",
+    "identity_key": "usda-ndb:100310",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.starch": {
+        "value": 29.9,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1009].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 12.3,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=2644281].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Beans, cannellini, dry",
+        "source_field": "foods[fdcId=2644281].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Legumes and Legume Products",
+        "source_field": "foods[fdcId=2644281].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.14300000000000002,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.000742,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00667,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 1.42,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.154,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.0017800000000000001,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.41200000000000003,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.00272,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "100310",
+        "source_field": "foods[fdcId=2644281].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "10/26/2023",
+        "source_field": "foods[fdcId=2644281].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry",
+          "beans, cannellini, dry"
+        ],
+        "source_field": "foods[fdcId=2644281].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.2450000000000001,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.32499999999999996,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 2.1999999999999993,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.starch": {
+        "value": 2.0999999999999996,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1009].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 1.25,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 4.14,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 2.2,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 29.9,
+        "source_field": "foods[fdcId=2644281]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 21.6,
+        "source_field": "foods[fdcId=2644281].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:746782",
+    "external_record_id": "746782",
+    "identity_key": "usda-ndb:1077",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.water": {
+        "value": 88.1,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=746782].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Milk, whole, 3.25% milkfat, with added vitamin D",
+        "source_field": "foods[fdcId=746782].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Dairy and Egg Products",
+        "source_field": "foods[fdcId=746782].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.123,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 1e-6,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.I": {
+        "value": 0.0000379,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1100].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.15,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0119,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.038,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.101,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Se": {
+        "value": 1.8999999999999998e-6,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1103].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.00042,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "1077",
+        "source_field": "foods[fdcId=746782].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "12/16/2019",
+        "source_field": "foods[fdcId=746782].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)",
+          "MILK, WHOLE (WAVE 22E)"
+        ],
+        "source_field": "foods[fdcId=746782].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.325,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.41000000000000014,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.lactose": {
+        "value": 0.4750000000000001,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1013].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.2899999999999998,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.8999999999999986,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.8,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 3.2,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.lactose": {
+        "value": 4.81,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1013].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 3.27,
+        "source_field": "foods[fdcId=746782].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:746784",
+    "external_record_id": "746784",
+    "identity_key": "usda-ndb:19335",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.sucrose": {
+        "value": 99.8,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1010].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 0.02,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=746784].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Sugars, granulated",
+        "source_field": "foods[fdcId=746784].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Sweets",
+        "source_field": "foods[fdcId=746784].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.001,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 7e-6,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00005,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.002,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0003,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 4e-6,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.001,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.00001,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "19335",
+        "source_field": "foods[fdcId=746784].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "12/16/2019",
+        "source_field": "foods[fdcId=746784].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "Sugar, Granulated, White, Name brand (AL1, CA1, MI1) - CY040ZD",
+          "Sugar, Granulated, White, Name brand (CA2, NC1, OK1) - CY040ZA",
+          "Sugar, Granulated, White, Name brand (CO2, CT1, IN1) - CY040ZB",
+          "Sugar, Granulated, White, Name brand (FL1, MO1, NY1) - CY040ZC",
+          "Sugar, Granulated, White, store brand (AL1, CA1, MI1) - CY040ZH",
+          "Sugar, Granulated, White, store brand (CA2, NC1, OK1) - CY040ZE",
+          "Sugar, Granulated, White, store brand (CO2, CT1, IN1) - CY040ZF",
+          "Sugar, Granulated, White, store brand (FL1, MO1, NY1) - CY040ZG"
+        ],
+        "source_field": "foods[fdcId=746784].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.05,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.22000000000000003,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.galactose": {
+        "value": 0.105,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1075].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.0,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.sucrose": {
+        "value": 0.3999999999999986,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1010].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 0.024999999999999998,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.07,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 0.32,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.galactose": {
+        "value": 0.03,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1075].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 0.0,
+        "source_field": "foods[fdcId=746784].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:748967",
+    "external_record_id": "748967",
+    "identity_key": "usda-ndb:1123",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.glucose": {
+        "value": 0.2,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1011].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "component.water": {
+        "value": 75.8,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=748967].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Eggs, Grade A, Large, egg whole",
+        "source_field": "foods[fdcId=748967].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Dairy and Egg Products",
+        "source_field": "foods[fdcId=748967].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.048,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00167,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.I": {
+        "value": 0.0000491,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1100].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.132,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.0114,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.129,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.184,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Se": {
+        "value": 0.0000311,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1103].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.00124,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "1123",
+        "source_field": "foods[fdcId=748967].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "12/16/2019",
+        "source_field": "foods[fdcId=748967].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "EGG, GRADE A, LARGE, WHOLE, RAW, FRESH",
+          "Eggs, whole"
+        ],
+        "source_field": "foods[fdcId=748967].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.49,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.dietary_fibre": {
+        "value": 0.0,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1079].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 1.6949999999999994,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.glucose": {
+        "value": 0.155,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1011].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.7999999999999998,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 1.0,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.85,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.dietary_fibre": {
+        "value": 0.0,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1079].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 9.96,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 0.76,
+        "source_field": "foods[fdcId=748967]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 12.4,
+        "source_field": "foods[fdcId=748967].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  },
+  {
+    "adapter_id": "usda-fdc",
+    "source_record_id": "usda-fdc-foundation:789951",
+    "external_record_id": "789951",
+    "identity_key": "usda-ndb:20581",
+    "fields": {
+      "basis": {
+        "value": "100 g edible portion",
+        "source_field": "FoodData Central: Foundation Foods amounts are per 100 g edible portion",
+        "licence": "CC0-1.0"
+      },
+      "component.water": {
+        "value": 11.7,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1051].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "data_type": {
+        "value": "Foundation",
+        "source_field": "foods[fdcId=789951].dataType",
+        "licence": "CC0-1.0"
+      },
+      "description": {
+        "value": "Flour, wheat, all-purpose, enriched, unbleached",
+        "source_field": "foods[fdcId=789951].description",
+        "licence": "CC0-1.0"
+      },
+      "food_category": {
+        "value": "Cereal Grains and Pasta",
+        "source_field": "foods[fdcId=789951].foodCategory.description",
+        "licence": "CC0-1.0"
+      },
+      "mineral_element.Ca": {
+        "value": 0.021,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1087].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Cu": {
+        "value": 0.00017199999999999998,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1098].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Fe": {
+        "value": 0.00541,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1089].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.K": {
+        "value": 0.135,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1092].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mg": {
+        "value": 0.033299999999999996,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1090].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mn": {
+        "value": 0.000875,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1101].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Mo": {
+        "value": 0.0000277,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1102].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Na": {
+        "value": 0.004,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1093].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.P": {
+        "value": 0.115,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1091].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Se": {
+        "value": 0.000014199999999999998,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1103].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "mineral_element.Zn": {
+        "value": 0.0009000000000000001,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1095].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "ndb_number": {
+        "value": "20581",
+        "source_field": "foods[fdcId=789951].ndbNumber",
+        "licence": "CC0-1.0"
+      },
+      "publication_date": {
+        "value": "4/1/2020",
+        "source_field": "foods[fdcId=789951].publicationDate",
+        "licence": "CC0-1.0"
+      },
+      "sample_input_foods": {
+        "value": [
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)",
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)",
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)",
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)",
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)",
+          "FLOUR, ALL PURPOSE (ENRICHED) (UNBLEACHED)"
+        ],
+        "source_field": "foods[fdcId=789951].inputFoods[].foodDescription",
+        "licence": "CC0-1.0"
+      },
+      "spread.ash": {
+        "value": 0.08500000000000002,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1007].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.fat": {
+        "value": 0.15000000000000002,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1004].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.protein": {
+        "value": 0.75,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1003].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "spread.water": {
+        "value": 1.5499999999999998,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1051].(max-min)/2",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.ash": {
+        "value": 0.53,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1007].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.fat": {
+        "value": 1.48,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1004].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.other_carbohydrate": {
+        "value": 73.2,
+        "source_field": "foods[fdcId=789951]: carbohydrate less every individual sugar, starch, fibre and organic-acid determination",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      },
+      "unresolved.protein": {
+        "value": 13.1,
+        "source_field": "foods[fdcId=789951].foodNutrients[nutrient.id=1003].amount",
+        "licence": "CC0-1.0",
+        "unit": "g/100g"
+      }
+    }
+  }
+]
