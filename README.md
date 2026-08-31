@@ -256,7 +256,7 @@ browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
 from pre-warmed results — a state nobody pre-computed is reported as a stated
 miss rather than guessed at.
 
-The codex holds **103 reaction entries, 28 models and 157 concepts**, anchored
+The codex holds **105 reaction entries, 28 models and 157 concepts**, anchored
 to a 189-topic CC0 curriculum spine (48 covered; `kero codex gaps` prints the
 rest). Every numeric claim in it is replayed through the real solvers by
 `kero codex lint` in CI, so a curation error cannot merge and a solver change
