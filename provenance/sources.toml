@@ -275,6 +275,64 @@ any policy that aims them at a safety or reactivity target.
 path = "crates/kerotakis-data/tests/fixtures/quarantine/chebi-v1/raw/chebi-rel253.json"
 sha256 = "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
 
+[[source]]
+id = "pubchem-pug-rest-brd010"
+name = "PubChem PUG REST compound snapshot (BRD-010 quarantine fixture)"
+kind = "data"
+lane = "quarantine"
+decision = "review-required"
+licence = "LicenseRef-PubChem-Public-Domain"
+origin = "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
+terms = "https://pubchem.ncbi.nlm.nih.gov/docs/downloads#section=Data-Usage-Policies"
+copyright = "National Center for Biotechnology Information, U.S. National Library of Medicine, and the identified depositors"
+retrieved = "2026-08-29"
+attribution = "PubChem, National Center for Biotechnology Information, NLM/NIH. Depositor-supplied synonyms and annotations retain their depositors' own terms and are not covered by this record."
+paths = ["crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1"]
+allowed_outputs = ["quarantine-candidates", "build-time-review-report"]
+targets = []
+reviewer = "BRD-010 adapter review, pending per-field promotion review"
+notes = """
+The `quarantine` lane is non-distributed by construction, so this record makes \
+no claim that anything here may ship. The retrieval is pinned by the two \
+checksums below rather than by an upstream revision id: PUG REST has no \
+release identifier to cite, and the snapshot's own manifest carries the \
+SHA-256 the adapter verifies at build time.
+
+BRD-010 produces reviewable candidates only; nothing from \
+this snapshot is in registry-source-v1.json and `LicenseRef-PubChem-Public-Domain` \
+is deliberately absent from `default_runtime_data_licences()`. Moving any field \
+into a shipped pack needs a separate per-field licence review that clears that \
+LicenseRef for the runtime lane.
+
+Two layers with different terms live in the same responses. PubChem's own \
+computed/curated core (CID, both SMILES flavours, Standard InChI/InChIKey, \
+formula, formal charge, the masses, the LexiChem IUPAC name, the record title) \
+is NCBI/NLM's work and is what the promotion policy allowlists. The \
+depositor-supplied synonym list and every experimental annotation keep their \
+depositors' terms; the adapter carries each annotation tagged with its upstream \
+source name and that source's own licence note, and the promotion policy \
+allowlists none of them. In this snapshot every depositor that states a \
+runtime-lane licence supplies its boiling point as prose, and the only \
+depositor supplying a structured quantity licences it CC BY-NC 4.0, so no \
+experimental physical property is promotable at all.
+
+CAS Registry Numbers appearing in the depositor list are separated into their \
+own candidate field so that the refusal is visible by name. They are never \
+promoted.
+
+Regenerate with tools/fetch-pubchem-snapshot.py. The synonym arrays in the \
+snapshot are truncated to the seed's synonym_cap with the full upstream body's \
+SHA-256 recorded beside them; everything else is verbatim.
+"""
+
+[[source.checksum]]
+path = "crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1/raw/snapshot.json"
+sha256 = "0180c615bb0797791762f6694b6d884bb1ffa9d22989da21f66476d76eee5251"
+
+[[source.checksum]]
+path = "crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1/seed.json"
+sha256 = "ebbd76c52a7f73480f2d3b07bd6221dee6d2955660e1f7c49ef9470aa4bf2cb4"
+
 # ---------------------------------------------------------------------------
 # BRD-040 — Cantera mechanism and API audit (2026-08-29).
 #

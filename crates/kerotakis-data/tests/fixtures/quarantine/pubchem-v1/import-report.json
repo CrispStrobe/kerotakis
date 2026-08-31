@@ -1,0 +1,2849 @@
+{
+  "adapter_id": "pubchem-v1",
+  "finding_count": 125,
+  "findings": [
+    {
+      "cid": 753,
+      "finding": "annotation_entries_elided",
+      "heading": "Boiling Point",
+      "kept": 1,
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "total": 2
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_entries_elided",
+      "heading": "Boiling Point",
+      "kept": 1,
+      "source_name": "CAMEO Chemicals",
+      "total": 2
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "HMDB is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (HMDB) and the original publication (see the HMDB citing page). We ask that users who download significant portions of the database cite the HMDB paper in any resulting publications.",
+      "licence_url": "https://www.hmdb.ca/citing",
+      "source_name": "Human Metabolome Database (HMDB)",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 1140,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Permission from WHO is not required for the use of WHO materials issued under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Intergovernmental Organization (CC BY-NC-SA 3.0 IGO) licence.",
+      "licence_url": "https://www.who.int/about/policies/publishing/copyright",
+      "source_name": "Joint FAO/WHO Expert Committee on Food Additives (JECFA)",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 176,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "HMDB is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (HMDB) and the original publication (see the HMDB citing page). We ask that users who download significant portions of the database cite the HMDB paper in any resulting publications.",
+      "licence_url": "https://www.hmdb.ca/citing",
+      "source_name": "Human Metabolome Database (HMDB)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Permission from WHO is not required for the use of WHO materials issued under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Intergovernmental Organization (CC BY-NC-SA 3.0 IGO) licence.",
+      "licence_url": "https://www.who.int/about/policies/publishing/copyright",
+      "source_name": "Joint FAO/WHO Expert Committee on Food Additives (JECFA)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 180,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 222,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "HMDB is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (HMDB) and the original publication (see the HMDB citing page). We ask that users who download significant portions of the database cite the HMDB paper in any resulting publications.",
+      "licence_url": "https://www.hmdb.ca/citing",
+      "source_name": "Human Metabolome Database (HMDB)",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 241,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Permission from WHO is not required for the use of WHO materials issued under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Intergovernmental Organization (CC BY-NC-SA 3.0 IGO) licence.",
+      "licence_url": "https://www.who.int/about/policies/publishing/copyright",
+      "source_name": "Joint FAO/WHO Expert Committee on Food Additives (JECFA)",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 3776,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "HMDB is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (HMDB) and the original publication (see the HMDB citing page). We ask that users who download significant portions of the database cite the HMDB paper in any resulting publications.",
+      "licence_url": "https://www.hmdb.ca/citing",
+      "source_name": "Human Metabolome Database (HMDB)",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 6212,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Permission from WHO is not required for the use of WHO materials issued under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Intergovernmental Organization (CC BY-NC-SA 3.0 IGO) licence.",
+      "licence_url": "https://www.who.int/about/policies/publishing/copyright",
+      "source_name": "Joint FAO/WHO Expert Committee on Food Additives (JECFA)",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 702,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 753,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 784,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "HMDB is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (HMDB) and the original publication (see the HMDB citing page). We ask that users who download significant portions of the database cite the HMDB paper in any resulting publications.",
+      "licence_url": "https://www.hmdb.ca/citing",
+      "source_name": "Human Metabolome Database (HMDB)",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Commons CC BY 4.0",
+      "licence_url": "https://www.ilo.org/global/copyright/lang--en/index.htm",
+      "source_name": "ILO-WHO International Chemical Safety Cards (ICSCs)",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Materials created by the federal government are generally part of the public domain and may be used, reproduced and distributed without permission. Therefore, content on this website which is in the public domain may be used without the prior permission of the U.S. Department of Labor (DOL). Warning: Some content - including both images and text - may be the copyrighted property of others and used by the DOL under a license.",
+      "licence_url": "https://www.dol.gov/general/aboutdol/copyright",
+      "source_name": "Occupational Safety and Health Administration (OSHA)",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.energy.gov/web-policies",
+      "source_name": "PAC Chemical Database, U.S. Department of Energy",
+      "structured": false
+    },
+    {
+      "cid": 887,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "The information provided using CDC Web site is only intended to be general summary information to the public. It is not intended to take the place of either the written law or regulations.",
+      "licence_url": "https://www.cdc.gov/Other/disclaimer.html",
+      "source_name": "The National Institute for Occupational Safety and Health (NIOSH)",
+      "structured": false
+    },
+    {
+      "cid": 962,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "CAMEO Chemicals and all other CAMEO products are available at no charge to those organizations and individuals (recipients) responsible for the safe handling of chemicals. However, some of the chemical data itself is subject to the copyright restrictions of the companies or organizations that provided the data.",
+      "licence_url": "https://cameochemicals.noaa.gov/help/reference/terms_and_conditions.htm?d_f=false",
+      "source_name": "CAMEO Chemicals",
+      "structured": false
+    },
+    {
+      "cid": 962,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": "Creative Common's Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/legalcode)",
+      "licence_url": "https://www.drugbank.ca/legal/terms_of_use",
+      "source_name": "DrugBank",
+      "structured": true
+    },
+    {
+      "cid": 962,
+      "finding": "annotation_source_not_cleared",
+      "heading": "Boiling Point",
+      "licence_note": null,
+      "licence_url": "https://www.nlm.nih.gov/web_policies.html",
+      "source_name": "Hazardous Substances Data Bank (HSDB)",
+      "structured": false
+    },
+    {
+      "cid": 24523,
+      "finding": "missing_iupac_name",
+      "title": "Deuterium"
+    },
+    {
+      "cid": 24824,
+      "finding": "missing_iupac_name",
+      "title": "Tritium"
+    },
+    {
+      "cid": 57448781,
+      "finding": "missing_iupac_name",
+      "title": "Brass"
+    },
+    {
+      "cid": 24523,
+      "finding": "missing_property",
+      "property": "IUPACName"
+    },
+    {
+      "cid": 24824,
+      "finding": "missing_property",
+      "property": "IUPACName"
+    },
+    {
+      "cid": 57448781,
+      "finding": "missing_property",
+      "property": "IUPACName"
+    },
+    {
+      "cid": 57448781,
+      "components": 3,
+      "finding": "mixture_record",
+      "resolved_from": [
+        "brass"
+      ],
+      "smiles": "[Cu].[Zn].[Pb]",
+      "title": "Brass"
+    },
+    {
+      "cid": 90477010,
+      "components": 4,
+      "finding": "mixture_record",
+      "resolved_from": [
+        "aqua regia"
+      ],
+      "smiles": "[N+](=O)(O)[O-].Cl.Cl.Cl",
+      "title": "Aqua regia"
+    },
+    {
+      "cid": 176,
+      "finding": "shared_name_resolution",
+      "names": [
+        "acetic acid",
+        "vinegar"
+      ]
+    },
+    {
+      "cid": 10112,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 843
+    },
+    {
+      "cid": 1176,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 312
+    },
+    {
+      "cid": 174,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 244
+    },
+    {
+      "cid": 176,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 243
+    },
+    {
+      "cid": 2244,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 698
+    },
+    {
+      "cid": 23925,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 1074
+    },
+    {
+      "cid": 23954,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 1024
+    },
+    {
+      "cid": 23978,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 2189
+    },
+    {
+      "cid": 23994,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 682
+    },
+    {
+      "cid": 2519,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 413
+    },
+    {
+      "cid": 297,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 296
+    },
+    {
+      "cid": 311,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 239
+    },
+    {
+      "cid": 313,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 349
+    },
+    {
+      "cid": 3776,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 1390
+    },
+    {
+      "cid": 444305,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 208
+    },
+    {
+      "cid": 4873,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 385
+    },
+    {
+      "cid": 5234,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 459
+    },
+    {
+      "cid": 5235,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 1461
+    },
+    {
+      "cid": 5359268,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 1363
+    },
+    {
+      "cid": 5362487,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 345
+    },
+    {
+      "cid": 5462224,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 382
+    },
+    {
+      "cid": 54670067,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 395
+    },
+    {
+      "cid": 5988,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 234
+    },
+    {
+      "cid": 702,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 9522
+    },
+    {
+      "cid": 753,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 964
+    },
+    {
+      "cid": 784,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 362
+    },
+    {
+      "cid": 807,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 464
+    },
+    {
+      "cid": 887,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 212
+    },
+    {
+      "cid": 962,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 315
+    },
+    {
+      "cid": 996,
+      "finding": "synonym_list_truncated",
+      "kept": 192,
+      "total": 309
+    }
+  ],
+  "record_count": 100,
+  "records": [
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 174,
+      "depositor_synonyms_kept": 148,
+      "inchi": "InChI=1S/C2H6O2/c3-1-2-4/h3-4H,1-2H2",
+      "inchikey": "LYCAIKOWRPUZTN-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(CO)O",
+      "registry_identifiers": 43,
+      "resolved_from": [
+        "ethylene glycol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Ethylene Glycol"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 2,
+      "cid": 176,
+      "depositor_synonyms_kept": 152,
+      "inchi": "InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)",
+      "inchikey": "QTBSBXVTEAMEQO-UHFFFAOYSA-N",
+      "isomeric_smiles": "CC(=O)O",
+      "registry_identifiers": 38,
+      "resolved_from": [
+        "acetic acid",
+        "vinegar"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Acetic Acid"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 1,
+      "cid": 180,
+      "depositor_synonyms_kept": 128,
+      "inchi": "InChI=1S/C3H6O/c1-3(2)4/h1-2H3",
+      "inchikey": "CSCPPACGZOOCGX-UHFFFAOYSA-N",
+      "isomeric_smiles": "CC(=O)C",
+      "registry_identifiers": 33,
+      "resolved_from": [
+        "acetone"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Acetone"
+    },
+    {
+      "annotation_entries": 7,
+      "cas_registry_numbers": 3,
+      "cid": 222,
+      "depositor_synonyms_kept": 139,
+      "inchi": "InChI=1S/H3N/h1H3",
+      "inchikey": "QGZKDVFQNNGYKY-UHFFFAOYSA-N",
+      "isomeric_smiles": "N",
+      "registry_identifiers": 32,
+      "resolved_from": [
+        "ammonia"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Ammonia"
+    },
+    {
+      "annotation_entries": 7,
+      "cas_registry_numbers": 5,
+      "cid": 241,
+      "depositor_synonyms_kept": 122,
+      "inchi": "InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H",
+      "inchikey": "UHOVQNZJYSORNB-UHFFFAOYSA-N",
+      "isomeric_smiles": "C1=CC=CC=C1",
+      "registry_identifiers": 43,
+      "resolved_from": [
+        "benzene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Benzene"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 280,
+      "depositor_synonyms_kept": 94,
+      "inchi": "InChI=1S/CO2/c2-1-3",
+      "inchikey": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(=O)=O",
+      "registry_identifiers": 17,
+      "resolved_from": [
+        "carbon dioxide"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Carbon Dioxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 281,
+      "depositor_synonyms_kept": 52,
+      "inchi": "InChI=1S/CO/c1-2",
+      "inchikey": "UGFAIRIUMAVXCW-UHFFFAOYSA-N",
+      "isomeric_smiles": "[C-]#[O+]",
+      "registry_identifiers": 11,
+      "resolved_from": [
+        "carbon monoxide"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Carbon Monoxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 284,
+      "depositor_synonyms_kept": 144,
+      "inchi": "InChI=1S/CH2O2/c2-1-3/h1H,(H,2,3)",
+      "inchikey": "BDAGIHXWWSANSR-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(=O)O",
+      "registry_identifiers": 37,
+      "resolved_from": [
+        "formic acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Formic Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 297,
+      "depositor_synonyms_kept": 155,
+      "inchi": "InChI=1S/CH4/h1H4",
+      "inchikey": "VNWKTOKETHGBQD-UHFFFAOYSA-N",
+      "isomeric_smiles": "C",
+      "registry_identifiers": 33,
+      "resolved_from": [
+        "methane"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Methane"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 311,
+      "depositor_synonyms_kept": 153,
+      "inchi": "InChI=1S/C6H8O7/c7-3(8)1-6(13,5(11)12)2-4(9)10/h13H,1-2H2,(H,7,8)(H,9,10)(H,11,12)",
+      "inchikey": "KRKNYBCHXYNGOX-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(C(=O)O)C(CC(=O)O)(C(=O)O)O",
+      "registry_identifiers": 35,
+      "resolved_from": [
+        "citric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Citric Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 313,
+      "depositor_synonyms_kept": 169,
+      "inchi": "InChI=1S/ClH/h1H",
+      "inchikey": "VEXZGXHMUGYJMC-UHFFFAOYSA-N",
+      "isomeric_smiles": "Cl",
+      "registry_identifiers": 21,
+      "resolved_from": [
+        "hydrochloric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Hydrochloric Acid"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 1,
+      "cid": 702,
+      "depositor_synonyms_kept": 187,
+      "inchi": "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3",
+      "inchikey": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+      "isomeric_smiles": "CCO",
+      "registry_identifiers": 4,
+      "resolved_from": [
+        "ethanol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Ethanol"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 712,
+      "depositor_synonyms_kept": 141,
+      "inchi": "InChI=1S/CH2O/c1-2/h1H2",
+      "inchikey": "WSFSSNUMVMOOMR-UHFFFAOYSA-N",
+      "isomeric_smiles": "C=O",
+      "registry_identifiers": 34,
+      "resolved_from": [
+        "formaldehyde"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Formaldehyde"
+    },
+    {
+      "annotation_entries": 7,
+      "cas_registry_numbers": 1,
+      "cid": 753,
+      "depositor_synonyms_kept": 185,
+      "inchi": "InChI=1S/C3H8O3/c4-1-3(6)2-5/h3-6H,1-2H2",
+      "inchikey": "PEDCQBHIVMGVHV-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(C(CO)O)O",
+      "registry_identifiers": 6,
+      "resolved_from": [
+        "glycerol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Glycerol"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 783,
+      "depositor_synonyms_kept": 42,
+      "inchi": "InChI=1S/H2/h1H",
+      "inchikey": "UFHFLCQGNIYNRP-UHFFFAOYSA-N",
+      "isomeric_smiles": "[HH]",
+      "registry_identifiers": 15,
+      "resolved_from": [
+        "dihydrogen"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Hydrogen"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 1,
+      "cid": 784,
+      "depositor_synonyms_kept": 184,
+      "inchi": "InChI=1S/H2O2/c1-2/h1-2H",
+      "inchikey": "MHAJPDPJQMAIIY-UHFFFAOYSA-N",
+      "isomeric_smiles": "OO",
+      "registry_identifiers": 7,
+      "resolved_from": [
+        "hydrogen peroxide"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Hydrogen Peroxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 807,
+      "depositor_synonyms_kept": 184,
+      "inchi": "InChI=1S/I2/c1-2",
+      "inchikey": "PNDPGZBMCMUPRI-UHFFFAOYSA-N",
+      "isomeric_smiles": "II",
+      "registry_identifiers": 7,
+      "resolved_from": [
+        "iodine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Iodine"
+    },
+    {
+      "annotation_entries": 7,
+      "cas_registry_numbers": 2,
+      "cid": 887,
+      "depositor_synonyms_kept": 154,
+      "inchi": "InChI=1S/CH4O/c1-2/h2H,1H3",
+      "inchikey": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
+      "isomeric_smiles": "CO",
+      "registry_identifiers": 36,
+      "resolved_from": [
+        "methanol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Methanol"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 944,
+      "depositor_synonyms_kept": 140,
+      "inchi": "InChI=1S/HNO3/c2-1(3)4/h(H,2,3,4)",
+      "inchikey": "GRYLNZFGIOXLOG-UHFFFAOYSA-N",
+      "isomeric_smiles": "[N+](=O)(O)[O-]",
+      "registry_identifiers": 18,
+      "resolved_from": [
+        "nitric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Nitric Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 947,
+      "depositor_synonyms_kept": 69,
+      "inchi": "InChI=1S/N2/c1-2",
+      "inchikey": "IJGRMHOSHXDMSA-UHFFFAOYSA-N",
+      "isomeric_smiles": "N#N",
+      "registry_identifiers": 13,
+      "resolved_from": [
+        "dinitrogen"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Nitrogen"
+    },
+    {
+      "annotation_entries": 3,
+      "cas_registry_numbers": 1,
+      "cid": 962,
+      "depositor_synonyms_kept": 182,
+      "inchi": "InChI=1S/H2O/h1H2",
+      "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+      "isomeric_smiles": "O",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "water"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Water"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 977,
+      "depositor_synonyms_kept": 161,
+      "inchi": "InChI=1S/O2/c1-2",
+      "inchikey": "MYMOFIZGZYHOMD-UHFFFAOYSA-N",
+      "isomeric_smiles": "O=O",
+      "registry_identifiers": 16,
+      "resolved_from": [
+        "dioxygen"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Oxygen"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 996,
+      "depositor_synonyms_kept": 168,
+      "inchi": "InChI=1S/C6H6O/c7-6-4-2-1-3-5-6/h1-5,7H",
+      "inchikey": "ISWSIDIOOBJBQZ-UHFFFAOYSA-N",
+      "isomeric_smiles": "C1=CC=C(C=C1)O",
+      "registry_identifiers": 20,
+      "resolved_from": [
+        "phenol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Phenol"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 1004,
+      "depositor_synonyms_kept": 128,
+      "inchi": "InChI=1S/H3O4P/c1-5(2,3)4/h(H3,1,2,3,4)",
+      "inchikey": "NBIIXXVUZAFLBC-UHFFFAOYSA-N",
+      "isomeric_smiles": "OP(=O)(O)O",
+      "registry_identifiers": 27,
+      "resolved_from": [
+        "phosphoric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Phosphoric Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 1118,
+      "depositor_synonyms_kept": 144,
+      "inchi": "InChI=1S/H2O4S/c1-5(2,3)4/h(H2,1,2,3,4)",
+      "inchikey": "QAOWNCQODCNURD-UHFFFAOYSA-N",
+      "isomeric_smiles": "OS(=O)(=O)O",
+      "registry_identifiers": 29,
+      "resolved_from": [
+        "sulfuric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Sulfuric Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 1119,
+      "depositor_synonyms_kept": 69,
+      "inchi": "InChI=1S/O2S/c1-3-2",
+      "inchikey": "RAHZWNYVWXNFOC-UHFFFAOYSA-N",
+      "isomeric_smiles": "O=S=O",
+      "registry_identifiers": 16,
+      "resolved_from": [
+        "sulfur dioxide"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Sulfur Dioxide"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 3,
+      "cid": 1140,
+      "depositor_synonyms_kept": 128,
+      "inchi": "InChI=1S/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3",
+      "inchikey": "YXFVVABEGXRONW-UHFFFAOYSA-N",
+      "isomeric_smiles": "CC1=CC=CC=C1",
+      "registry_identifiers": 60,
+      "resolved_from": [
+        "toluene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Toluene"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 1176,
+      "depositor_synonyms_kept": 167,
+      "inchi": "InChI=1S/CH4N2O/c2-1(3)4/h(H4,2,3,4)",
+      "inchikey": "XSQUKJJJFZCRTK-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(=O)(N)N",
+      "registry_identifiers": 21,
+      "resolved_from": [
+        "urea"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Urea"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 2244,
+      "depositor_synonyms_kept": 185,
+      "inchi": "InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)",
+      "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
+      "isomeric_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+      "registry_identifiers": 6,
+      "resolved_from": [
+        "aspirin"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Aspirin"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 2519,
+      "depositor_synonyms_kept": 173,
+      "inchi": "InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3",
+      "inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+      "isomeric_smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+      "registry_identifiers": 18,
+      "resolved_from": [
+        "caffeine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Caffeine"
+    },
+    {
+      "annotation_entries": 8,
+      "cas_registry_numbers": 1,
+      "cid": 3776,
+      "depositor_synonyms_kept": 185,
+      "inchi": "InChI=1S/C3H8O/c1-3(2)4/h3-4H,1-2H3",
+      "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+      "isomeric_smiles": "CC(C)O",
+      "registry_identifiers": 6,
+      "resolved_from": [
+        "propan-2-ol"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Isopropanol"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 4873,
+      "depositor_synonyms_kept": 184,
+      "inchi": "InChI=1S/ClH.K/h1H;/q;+1/p-1",
+      "inchikey": "WCUXLLCKKVVCTQ-UHFFFAOYSA-M",
+      "isomeric_smiles": "[Cl-].[K+]",
+      "registry_identifiers": 7,
+      "resolved_from": [
+        "potassium chloride"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Potassium Chloride"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 4875,
+      "depositor_synonyms_kept": 127,
+      "inchi": "InChI=1S/HI.K/h1H;/q;+1/p-1",
+      "inchikey": "NLKNQRATVPKPDG-UHFFFAOYSA-M",
+      "isomeric_smiles": "[K+].[I-]",
+      "registry_identifiers": 24,
+      "resolved_from": [
+        "potassium iodide"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Potassium Iodide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 5234,
+      "depositor_synonyms_kept": 186,
+      "inchi": "InChI=1S/ClH.Na/h1H;/q;+1/p-1",
+      "inchikey": "FAPWRFPIFSIZLT-UHFFFAOYSA-M",
+      "isomeric_smiles": "[Na+].[Cl-]",
+      "registry_identifiers": 5,
+      "resolved_from": [
+        "sodium chloride"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sodium Chloride"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 5235,
+      "depositor_synonyms_kept": 187,
+      "inchi": "InChI=1S/FH.Na/h1H;/q;+1/p-1",
+      "inchikey": "PUZPDOWCWNUUKD-UHFFFAOYSA-M",
+      "isomeric_smiles": "[F-].[Na+]",
+      "registry_identifiers": 4,
+      "resolved_from": [
+        "sodium fluoride"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sodium Fluoride"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 5793,
+      "depositor_synonyms_kept": 133,
+      "inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6?/m1/s1",
+      "inchikey": "WQZGKKKJIJFFOK-GASJEMHNSA-N",
+      "isomeric_smiles": "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O",
+      "registry_identifiers": 27,
+      "resolved_from": [
+        "D-glucose"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "D-Glucose"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 7,
+      "cid": 5950,
+      "depositor_synonyms_kept": 150,
+      "inchi": "InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m0/s1",
+      "inchikey": "QNAYBMKLOCPYGJ-REOHCLBHSA-N",
+      "isomeric_smiles": "C[C@@H](C(=O)O)N",
+      "registry_identifiers": 26,
+      "resolved_from": [
+        "L-alanine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "L-Alanine"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 5988,
+      "depositor_synonyms_kept": 163,
+      "inchi": "InChI=1S/C12H22O11/c13-1-4-6(16)8(18)9(19)11(21-4)23-12(3-15)10(20)7(17)5(2-14)22-12/h4-11,13-20H,1-3H2/t4-,5-,6-,7-,8+,9-,10+,11-,12+/m1/s1",
+      "inchikey": "CZMRCDWAGMRECN-UGDNZRGBSA-N",
+      "isomeric_smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O[C@]2([C@H]([C@@H]([C@H](O2)CO)O)O)CO)O)O)O)O",
+      "registry_identifiers": 27,
+      "resolved_from": [
+        "sucrose"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Sucrose"
+    },
+    {
+      "annotation_entries": 7,
+      "cas_registry_numbers": 1,
+      "cid": 6212,
+      "depositor_synonyms_kept": 140,
+      "inchi": "InChI=1S/CHCl3/c2-1(3)4/h1H",
+      "inchikey": "HEDRZPFGACZZDS-UHFFFAOYSA-N",
+      "isomeric_smiles": "C(Cl)(Cl)Cl",
+      "registry_identifiers": 28,
+      "resolved_from": [
+        "chloroform"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Chloroform"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 6325,
+      "depositor_synonyms_kept": 60,
+      "inchi": "InChI=1S/C2H4/c1-2/h1-2H2",
+      "inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
+      "isomeric_smiles": "C=C",
+      "registry_identifiers": 22,
+      "resolved_from": [
+        "ethene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Ethylene"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 6326,
+      "depositor_synonyms_kept": 31,
+      "inchi": "InChI=1S/C2H2/c1-2/h1-2H",
+      "inchikey": "HSFWRNGVRCDJHI-UHFFFAOYSA-N",
+      "isomeric_smiles": "C#C",
+      "registry_identifiers": 15,
+      "resolved_from": [
+        "acetylene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Acetylene"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 6334,
+      "depositor_synonyms_kept": 48,
+      "inchi": "InChI=1S/C3H8/c1-3-2/h3H2,1-2H3",
+      "inchikey": "ATUOYWHBWRKTHZ-UHFFFAOYSA-N",
+      "isomeric_smiles": "CCC",
+      "registry_identifiers": 34,
+      "resolved_from": [
+        "propane"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Propane"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 7843,
+      "depositor_synonyms_kept": 54,
+      "inchi": "InChI=1S/C4H10/c1-3-4-2/h3-4H2,1-2H3",
+      "inchikey": "IJDNQMDRQITEOD-UHFFFAOYSA-N",
+      "isomeric_smiles": "CCCC",
+      "registry_identifiers": 47,
+      "resolved_from": [
+        "butane"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Butane"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 10112,
+      "depositor_synonyms_kept": 188,
+      "inchi": "InChI=1S/CH2O3.Ca/c2-1(3)4;/h(H2,2,3,4);/q;+2/p-2",
+      "inchikey": "VTYYLEPIZMXCLO-UHFFFAOYSA-L",
+      "isomeric_smiles": "C(=O)([O-])[O-].[Ca+2]",
+      "registry_identifiers": 3,
+      "resolved_from": [
+        "calcium carbonate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Calcium Carbonate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 10340,
+      "depositor_synonyms_kept": 105,
+      "inchi": "InChI=1S/CH2O3.2Na/c2-1(3)4;;/h(H2,2,3,4);;/q;2*+1/p-2",
+      "inchikey": "CDBYLPFSWZWCQE-UHFFFAOYSA-L",
+      "isomeric_smiles": "C(=O)([O-])[O-].[Na+].[Na+]",
+      "registry_identifiers": 20,
+      "resolved_from": [
+        "sodium carbonate"
+      ],
+      "structure": {
+        "components": 3,
+        "structure": "salt"
+      },
+      "title": "Sodium Carbonate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 14798,
+      "depositor_synonyms_kept": 140,
+      "inchi": "InChI=1S/Na.H2O/h;1H2/q+1;/p-1",
+      "inchikey": "HEMHJVSKTPXQMS-UHFFFAOYSA-M",
+      "isomeric_smiles": "[OH-].[Na+]",
+      "registry_identifiers": 21,
+      "resolved_from": [
+        "sodium hydroxide"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sodium Hydroxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 22985,
+      "depositor_synonyms_kept": 41,
+      "inchi": "InChI=1S/NO3.H3N/c2-1(3)4;/h;1H3/q-1;/p+1",
+      "inchikey": "DVARTQFDIMZBAA-UHFFFAOYSA-O",
+      "isomeric_smiles": "[NH4+].[N+](=O)([O-])[O-]",
+      "registry_identifiers": 20,
+      "resolved_from": [
+        "ammonium nitrate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Ammonium nitrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 23925,
+      "depositor_synonyms_kept": 176,
+      "inchi": "InChI=1S/Fe",
+      "inchikey": "XEEYBQQBJWHFJM-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Fe]",
+      "registry_identifiers": 13,
+      "resolved_from": [
+        "iron"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Iron"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 23954,
+      "depositor_synonyms_kept": 177,
+      "inchi": "InChI=1S/Ag",
+      "inchikey": "BQCADISMDOOEFD-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Ag]",
+      "registry_identifiers": 14,
+      "resolved_from": [
+        "silver"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Silver"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 23978,
+      "depositor_synonyms_kept": 179,
+      "inchi": "InChI=1S/Cu",
+      "inchikey": "RYGMFSIKBFXOCR-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Cu]",
+      "registry_identifiers": 12,
+      "resolved_from": [
+        "copper"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Copper"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 23994,
+      "depositor_synonyms_kept": 50,
+      "inchi": "InChI=1S/Zn",
+      "inchikey": "HCHKCACWOHOZIP-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Zn]",
+      "registry_identifiers": 140,
+      "resolved_from": [
+        "zinc"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Zinc"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 24083,
+      "depositor_synonyms_kept": 70,
+      "inchi": "InChI=1S/Mg.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2",
+      "inchikey": "CSNNHWWHGAXBCP-UHFFFAOYSA-L",
+      "isomeric_smiles": "[O-]S(=O)(=O)[O-].[Mg+2]",
+      "registry_identifiers": 21,
+      "resolved_from": [
+        "magnesium sulfate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sulfuric acid magnesium salt (1:1)"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24380,
+      "depositor_synonyms_kept": 65,
+      "inchi": "InChI=1S/3ClH.Fe/h3*1H;/q;;;+3/p-3",
+      "inchikey": "RBTARNINKXHZNM-UHFFFAOYSA-K",
+      "isomeric_smiles": "Cl[Fe](Cl)Cl",
+      "registry_identifiers": 22,
+      "resolved_from": [
+        "iron(III) chloride"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Iron chloride (FeCl3)"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24408,
+      "depositor_synonyms_kept": 51,
+      "inchi": "InChI=1S/Br2/c1-2",
+      "inchikey": "GDTBXPJZTBHREO-UHFFFAOYSA-N",
+      "isomeric_smiles": "BrBr",
+      "registry_identifiers": 16,
+      "resolved_from": [
+        "bromine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Bromine"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24424,
+      "depositor_synonyms_kept": 48,
+      "inchi": "InChI=1S/H2O4S.Zn/c1-5(2,3)4;/h(H2,1,2,3,4);/q;+2/p-2",
+      "inchikey": "NWONKYPBYAMBJT-UHFFFAOYSA-L",
+      "isomeric_smiles": "[O-]S(=O)(=O)[O-].[Zn+2]",
+      "registry_identifiers": 63,
+      "resolved_from": [
+        "zinc sulfate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Zinc Sulfate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24434,
+      "depositor_synonyms_kept": 91,
+      "inchi": "InChI=1S/K.NO3/c;2-1(3)4/q+1;-1",
+      "inchikey": "FGIUAXJPYTZDNR-UHFFFAOYSA-N",
+      "isomeric_smiles": "[N+](=O)([O-])[O-].[K+]",
+      "registry_identifiers": 22,
+      "resolved_from": [
+        "potassium nitrate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Potassium Nitrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 24436,
+      "depositor_synonyms_kept": 113,
+      "inchi": "InChI=1S/2Na.H2O4S/c;;1-5(2,3)4/h;;(H2,1,2,3,4)/q2*+1;/p-2",
+      "inchikey": "PMZURENOXWZQFD-UHFFFAOYSA-L",
+      "isomeric_smiles": "[O-]S(=O)(=O)[O-].[Na+].[Na+]",
+      "registry_identifiers": 24,
+      "resolved_from": [
+        "sodium sulfate"
+      ],
+      "structure": {
+        "components": 3,
+        "structure": "salt"
+      },
+      "title": "Sodium Sulfate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 24462,
+      "depositor_synonyms_kept": 112,
+      "inchi": "InChI=1S/Cu.H2O4S/c;1-5(2,3)4/h;(H2,1,2,3,4)/q+2;/p-2",
+      "inchikey": "ARUVKPQLZAKDPS-UHFFFAOYSA-L",
+      "isomeric_smiles": "[O-]S(=O)(=O)[O-].[Cu+2]",
+      "registry_identifiers": 15,
+      "resolved_from": [
+        "copper(II) sulfate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Copper Sulfate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24463,
+      "depositor_synonyms_kept": 81,
+      "inchi": "InChI=1S/Cu.H2O4S.5H2O/c;1-5(2,3)4;;;;;/h;(H2,1,2,3,4);5*1H2/q+2;;;;;;/p-2",
+      "inchikey": "JZCCFEFSEZPSOG-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.O.O.O.[O-]S(=O)(=O)[O-].[Cu+2]",
+      "registry_identifiers": 10,
+      "resolved_from": [
+        "copper(II) sulfate pentahydrate"
+      ],
+      "structure": {
+        "components": 7,
+        "structure": "hydrate",
+        "waters": 5
+      },
+      "title": "Copper sulfate pentahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24470,
+      "depositor_synonyms_kept": 133,
+      "inchi": "InChI=1S/Ag.NO3/c;2-1(3)4/q+1;-1",
+      "inchikey": "SQGYOTSLMSWVJD-UHFFFAOYSA-N",
+      "isomeric_smiles": "[N+](=O)([O-])[O-].[Ag+]",
+      "registry_identifiers": 16,
+      "resolved_from": [
+        "silver nitrate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Silver Nitrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 24523,
+      "depositor_synonyms_kept": 26,
+      "inchi": "InChI=1S/H2/h1H/i1+1D",
+      "inchikey": "UFHFLCQGNIYNRP-VVKOMZTBSA-N",
+      "isomeric_smiles": "[2H][2H]",
+      "registry_identifiers": 11,
+      "resolved_from": [
+        "deuterium"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Deuterium"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 24526,
+      "depositor_synonyms_kept": 77,
+      "inchi": "InChI=1S/Cl2/c1-2",
+      "inchikey": "KZBUYRJDOAKODT-UHFFFAOYSA-N",
+      "isomeric_smiles": "ClCl",
+      "registry_identifiers": 17,
+      "resolved_from": [
+        "chlorine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Chlorine"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 24602,
+      "depositor_synonyms_kept": 47,
+      "inchi": "InChI=1S/H2O/h1H2/i/hD2",
+      "inchikey": "XLYOFNOQVPJJNP-ZSJDYOACSA-N",
+      "isomeric_smiles": "[2H]O[2H]",
+      "registry_identifiers": 13,
+      "resolved_from": [
+        "deuterium oxide"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Deuterium Oxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24643,
+      "depositor_synonyms_kept": 27,
+      "inchi": "InChI=1S/2ClH.Co.6H2O/h2*1H;;6*1H2/q;;+2;;;;;;/p-2",
+      "inchikey": "GFHNAMRJFCEERV-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.O.O.O.O.[Cl-].[Cl-].[Co+2]",
+      "registry_identifiers": 6,
+      "resolved_from": [
+        "cobalt(II) chloride hexahydrate"
+      ],
+      "structure": {
+        "components": 9,
+        "structure": "hydrate",
+        "waters": 6
+      },
+      "title": "Cobaltous chloride hexahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24823,
+      "depositor_synonyms_kept": 27,
+      "inchi": "InChI=1S/O3/c1-3-2",
+      "inchikey": "CBENFWSGALASAD-UHFFFAOYSA-N",
+      "isomeric_smiles": "[O-][O+]=O",
+      "registry_identifiers": 12,
+      "resolved_from": [
+        "ozone"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Ozone"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 24824,
+      "depositor_synonyms_kept": 16,
+      "inchi": "InChI=1S/H2/h1H/i1+2T",
+      "inchikey": "UFHFLCQGNIYNRP-JMRXTUGHSA-N",
+      "isomeric_smiles": "[3H][3H]",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "tritium"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Tritium"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 24843,
+      "depositor_synonyms_kept": 83,
+      "inchi": "InChI=1S/Mg.H2O4S.7H2O/c;1-5(2,3)4;;;;;;;/h;(H2,1,2,3,4);7*1H2/q+2;;;;;;;;/p-2",
+      "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.O.O.O.O.O.[O-]S(=O)(=O)[O-].[Mg+2]",
+      "registry_identifiers": 11,
+      "resolved_from": [
+        "magnesium sulfate heptahydrate"
+      ],
+      "structure": {
+        "components": 9,
+        "structure": "hydrate",
+        "waters": 7
+      },
+      "title": "Magnesium Sulfate Heptahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 24928,
+      "depositor_synonyms_kept": 64,
+      "inchi": "InChI=1S/Ca.H2O4S.2H2O/c;1-5(2,3)4;;/h;(H2,1,2,3,4);2*1H2/q+2;;;/p-2",
+      "inchikey": "PASHVRUKOFIRIK-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.[O-]S(=O)(=O)[O-].[Ca+2]",
+      "registry_identifiers": 10,
+      "resolved_from": [
+        "calcium sulfate dihydrate"
+      ],
+      "structure": {
+        "components": 4,
+        "structure": "hydrate",
+        "waters": 2
+      },
+      "title": "Calcium Sulfate Dihydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 25517,
+      "depositor_synonyms_kept": 108,
+      "inchi": "InChI=1S/ClH.H3N/h1H;1H3",
+      "inchikey": "NLXLAEXVIDQMFP-UHFFFAOYSA-N",
+      "isomeric_smiles": "[NH4+].[Cl-]",
+      "registry_identifiers": 12,
+      "resolved_from": [
+        "ammonium chloride"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Ammonium Chloride"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 61475,
+      "depositor_synonyms_kept": 49,
+      "inchi": "InChI=1S/2Na.H2O3S2.5H2O/c;;1-5(2,3)4;;;;;/h;;(H2,1,2,3,4);5*1H2/q2*+1;;;;;;/p-2",
+      "inchikey": "PODWXQQNRWNDGD-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.O.O.O.[O-]S(=O)(=S)[O-].[Na+].[Na+]",
+      "registry_identifiers": 11,
+      "resolved_from": [
+        "sodium thiosulfate pentahydrate"
+      ],
+      "structure": {
+        "components": 8,
+        "structure": "hydrate",
+        "waters": 5
+      },
+      "title": "Sodium Thiosulfate Pentahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 61503,
+      "depositor_synonyms_kept": 83,
+      "inchi": "InChI=1S/C3H6O3/c1-2(4)3(5)6/h2,4H,1H3,(H,5,6)/t2-/m1/s1",
+      "inchikey": "JVTAAEKCZFNVCJ-UWTATZPHSA-N",
+      "isomeric_smiles": "C[C@H](C(=O)O)O",
+      "registry_identifiers": 19,
+      "resolved_from": [
+        "D-lactic acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "D-Lactic Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 62662,
+      "depositor_synonyms_kept": 83,
+      "inchi": "InChI=1S/Fe.H2O4S.7H2O/c;1-5(2,3)4;;;;;;;/h;(H2,1,2,3,4);7*1H2/q+2;;;;;;;;/p-2",
+      "inchikey": "SURQXAFEQWPFPV-UHFFFAOYSA-L",
+      "isomeric_smiles": "O.O.O.O.O.O.O.[O-]S(=O)(=O)[O-].[Fe+2]",
+      "registry_identifiers": 12,
+      "resolved_from": [
+        "iron(II) sulfate heptahydrate"
+      ],
+      "structure": {
+        "components": 9,
+        "structure": "hydrate",
+        "waters": 7
+      },
+      "title": "Ferrous sulfate heptahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 62695,
+      "depositor_synonyms_kept": 43,
+      "inchi": "InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3+",
+      "inchikey": "IAQRGUVFOMOMEM-ONEGZZNKSA-N",
+      "isomeric_smiles": "C/C=C/C",
+      "registry_identifiers": 23,
+      "resolved_from": [
+        "trans-2-butene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "trans-2-BUTENE"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 6,
+      "cid": 64689,
+      "depositor_synonyms_kept": 84,
+      "inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6-/m1/s1",
+      "inchikey": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+      "isomeric_smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@@H](O1)O)O)O)O)O",
+      "registry_identifiers": 22,
+      "resolved_from": [
+        "beta-D-glucopyranose"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Beta-D-Glucose"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 71080,
+      "depositor_synonyms_kept": 72,
+      "inchi": "InChI=1S/C3H7NO2/c1-2(4)3(5)6/h2H,4H2,1H3,(H,5,6)/t2-/m1/s1",
+      "inchikey": "QNAYBMKLOCPYGJ-UWTATZPHSA-N",
+      "isomeric_smiles": "C[C@H](C(=O)O)N",
+      "registry_identifiers": 23,
+      "resolved_from": [
+        "D-alanine"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "D-Alanine"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 71568,
+      "depositor_synonyms_kept": 55,
+      "inchi": "InChI=1S/CH4O/c1-2/h2H,1H3/i1D3,2D",
+      "inchikey": "OKKJLVBELUTLKV-MZCSYVLQSA-N",
+      "isomeric_smiles": "[2H]C([2H])([2H])O[2H]",
+      "registry_identifiers": 10,
+      "resolved_from": [
+        "methanol-d4"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Methanol-D4"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 71583,
+      "depositor_synonyms_kept": 57,
+      "inchi": "InChI=1S/CHCl3/c2-1(3)4/h1H/i1D",
+      "inchikey": "HEDRZPFGACZZDS-MICDWDOJSA-N",
+      "isomeric_smiles": "[2H]C(Cl)(Cl)Cl",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "chloroform-d"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Chloroform-D"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 71601,
+      "depositor_synonyms_kept": 55,
+      "inchi": "InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H/i1D,2D,3D,4D,5D,6D",
+      "inchikey": "UHOVQNZJYSORNB-MZWXYZOWSA-N",
+      "isomeric_smiles": "[2H]C1=C(C(=C(C(=C1[2H])[2H])[2H])[2H])[2H]",
+      "registry_identifiers": 10,
+      "resolved_from": [
+        "benzene-d6"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Benzene-D6"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 73981,
+      "depositor_synonyms_kept": 124,
+      "inchi": "InChI=1S/Mg.2H2O/h;2*1H2/q+2;;/p-2",
+      "inchikey": "VTHJTEIRLNZDEV-UHFFFAOYSA-L",
+      "isomeric_smiles": "[OH-].[OH-].[Mg+2]",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "milk of magnesia"
+      ],
+      "structure": {
+        "components": 3,
+        "structure": "salt"
+      },
+      "title": "Magnesium Hydroxide"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 79025,
+      "depositor_synonyms_kept": 107,
+      "inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1",
+      "inchikey": "WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+      "isomeric_smiles": "C([C@@H]1[C@H]([C@@H]([C@H]([C@H](O1)O)O)O)O)O",
+      "registry_identifiers": 23,
+      "resolved_from": [
+        "alpha-D-glucopyranose"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Alpha-D-Glucose"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 107689,
+      "depositor_synonyms_kept": 111,
+      "inchi": "InChI=1S/C3H6O3/c1-2(4)3(5)6/h2,4H,1H3,(H,5,6)/t2-/m0/s1",
+      "inchikey": "JVTAAEKCZFNVCJ-REOHCLBHSA-N",
+      "isomeric_smiles": "C[C@@H](C(=O)O)O",
+      "registry_identifiers": 15,
+      "resolved_from": [
+        "L-lactic acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "L-Lactic Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 151402,
+      "depositor_synonyms_kept": 35,
+      "inchi": "InChI=1S/CH2O3.2Na.10H2O/c2-1(3)4;;;;;;;;;;;;/h(H2,2,3,4);;;10*1H2/q;2*+1;;;;;;;;;;/p-2",
+      "inchikey": "XYQRXRFVKUPBQN-UHFFFAOYSA-L",
+      "isomeric_smiles": "C(=O)([O-])[O-].O.O.O.O.O.O.O.O.O.O.[Na+].[Na+]",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "sodium carbonate decahydrate"
+      ],
+      "structure": {
+        "components": 13,
+        "structure": "hydrate",
+        "waters": 10
+      },
+      "title": "Sodium Carbonate Decahydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 439250,
+      "depositor_synonyms_kept": 61,
+      "inchi": "InChI=1S/C10H16/c1-8(2)10-6-4-9(3)5-7-10/h4,10H,1,5-7H2,2-3H3/t10-/m1/s1",
+      "inchikey": "XMGQYMWWDOXHJM-SNVBAGLBSA-N",
+      "isomeric_smiles": "CC1=CC[C@H](CC1)C(=C)C",
+      "registry_identifiers": 18,
+      "resolved_from": [
+        "(S)-limonene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Limonene, (-)-"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 439655,
+      "depositor_synonyms_kept": 78,
+      "inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2-/m0/s1",
+      "inchikey": "FEWJPZIEWOKRBE-LWMBPPNESA-N",
+      "isomeric_smiles": "[C@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+      "registry_identifiers": 15,
+      "resolved_from": [
+        "D-tartaric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "D-Tartaric acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 440917,
+      "depositor_synonyms_kept": 107,
+      "inchi": "InChI=1S/C10H16/c1-8(2)10-6-4-9(3)5-7-10/h4,10H,1,5-7H2,2-3H3/t10-/m0/s1",
+      "inchikey": "XMGQYMWWDOXHJM-JTQLQIEISA-N",
+      "isomeric_smiles": "CC1=CC[C@@H](CC1)C(=C)C",
+      "registry_identifiers": 25,
+      "resolved_from": [
+        "(R)-limonene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "(+)-Limonene"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 4,
+      "cid": 444305,
+      "depositor_synonyms_kept": 162,
+      "inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2-/m1/s1",
+      "inchikey": "FEWJPZIEWOKRBE-JCYAYHJZSA-N",
+      "isomeric_smiles": "[C@@H]([C@H](C(=O)O)O)(C(=O)O)O",
+      "registry_identifiers": 26,
+      "resolved_from": [
+        "L-tartaric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "L-Tartaric acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 3,
+      "cid": 447315,
+      "depositor_synonyms_kept": 37,
+      "inchi": "InChI=1S/C4H6O6/c5-1(3(7)8)2(6)4(9)10/h1-2,5-6H,(H,7,8)(H,9,10)/t1-,2+",
+      "inchikey": "FEWJPZIEWOKRBE-XIXRPRMCSA-N",
+      "isomeric_smiles": "[C@@H]([C@@H](C(=O)O)O)(C(=O)O)O",
+      "registry_identifiers": 11,
+      "resolved_from": [
+        "meso-tartaric acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Meso-Tartaric acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 516875,
+      "depositor_synonyms_kept": 89,
+      "inchi": "InChI=1S/K.Mn.4O/q+1;;;;;-1",
+      "inchikey": "VZJVWSHVAAUDKD-UHFFFAOYSA-N",
+      "isomeric_smiles": "[O-][Mn](=O)(=O)=O.[K+]",
+      "registry_identifiers": 18,
+      "resolved_from": [
+        "potassium permanganate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Potassium Permanganate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 516892,
+      "depositor_synonyms_kept": 159,
+      "inchi": "InChI=1S/CH2O3.Na/c2-1(3)4;/h(H2,2,3,4);/q;+1/p-1",
+      "inchikey": "UIIMBOGNXHQVGW-UHFFFAOYSA-M",
+      "isomeric_smiles": "C(=O)(O)[O-].[Na+]",
+      "registry_identifiers": 20,
+      "resolved_from": [
+        "sodium bicarbonate"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sodium Bicarbonate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 2724488,
+      "depositor_synonyms_kept": 24,
+      "inchi": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6?/m0/s1",
+      "inchikey": "WQZGKKKJIJFFOK-ZZWDRFIYSA-N",
+      "isomeric_smiles": "C([C@H]1[C@@H]([C@H]([C@@H](C(O1)O)O)O)O)O",
+      "registry_identifiers": 12,
+      "resolved_from": [
+        "L-glucose"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "L-glucose"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 5284359,
+      "depositor_synonyms_kept": 62,
+      "inchi": "InChI=1S/Ca.2ClH/h;2*1H/q+2;;/p-2",
+      "inchikey": "UXVMQQNJUSDDNG-UHFFFAOYSA-L",
+      "isomeric_smiles": "[Cl-].[Cl-].[Ca+2]",
+      "registry_identifiers": 13,
+      "resolved_from": [
+        "calcium chloride"
+      ],
+      "structure": {
+        "components": 3,
+        "structure": "salt"
+      },
+      "title": "Calcium Chloride"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 5287573,
+      "depositor_synonyms_kept": 30,
+      "inchi": "InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3-",
+      "inchikey": "IAQRGUVFOMOMEM-ARJAWSKDSA-N",
+      "isomeric_smiles": "C/C=C\\C",
+      "registry_identifiers": 14,
+      "resolved_from": [
+        "cis-2-butene"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "cis-2-BUTENE"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 5359268,
+      "depositor_synonyms_kept": 181,
+      "inchi": "InChI=1S/Al",
+      "inchikey": "XAGFODPZIPBFFR-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Al]",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "aluminium"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Aluminum"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 5362487,
+      "depositor_synonyms_kept": 186,
+      "inchi": "InChI=1S/S",
+      "inchikey": "NINIDFKCEFEMDL-UHFFFAOYSA-N",
+      "isomeric_smiles": "[S]",
+      "registry_identifiers": 4,
+      "resolved_from": [
+        "sulfur"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Sulfur"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 5462224,
+      "depositor_synonyms_kept": 175,
+      "inchi": "InChI=1S/Mg",
+      "inchikey": "FYYHWMGAXLPEAU-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Mg]",
+      "registry_identifiers": 16,
+      "resolved_from": [
+        "magnesium"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "Magnesium"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 23665404,
+      "depositor_synonyms_kept": 47,
+      "inchi": "InChI=1S/C2H4O2.Na.3H2O/c1-2(3)4;;;;/h1H3,(H,3,4);;3*1H2/q;+1;;;/p-1",
+      "inchikey": "AYRVGWHSXIMRAB-UHFFFAOYSA-M",
+      "isomeric_smiles": "CC(=O)[O-].O.O.O.[Na+]",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "sodium acetate trihydrate"
+      ],
+      "structure": {
+        "components": 5,
+        "structure": "hydrate",
+        "waters": 3
+      },
+      "title": "Sodium Acetate Trihydrate"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 23665760,
+      "depositor_synonyms_kept": 95,
+      "inchi": "InChI=1S/ClO.Na/c1-2;/q-1;+1",
+      "inchikey": "SUKJFIGYRHOWBL-UHFFFAOYSA-N",
+      "isomeric_smiles": "[O-]Cl.[Na+]",
+      "registry_identifiers": 18,
+      "resolved_from": [
+        "sodium hypochlorite"
+      ],
+      "structure": {
+        "components": 2,
+        "structure": "salt"
+      },
+      "title": "Sodium Hypochlorite"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 54670067,
+      "depositor_synonyms_kept": 182,
+      "inchi": "InChI=1S/C6H8O6/c7-1-2(8)5-3(9)4(10)6(11)12-5/h2,5,7-10H,1H2/t2-,5+/m0/s1",
+      "inchikey": "CIWBSHSKHKDKBQ-JLAZNSOCSA-N",
+      "isomeric_smiles": "C([C@@H]([C@@H]1C(=C(C(=O)O1)O)O)O)O",
+      "registry_identifiers": 9,
+      "resolved_from": [
+        "L-ascorbic acid"
+      ],
+      "structure": {
+        "structure": "single"
+      },
+      "title": "L-Ascorbic Acid"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 2,
+      "cid": 57448781,
+      "depositor_synonyms_kept": 7,
+      "inchi": "InChI=1S/Cu.Pb.Zn",
+      "inchikey": "UXNBTDLSBQFMEH-UHFFFAOYSA-N",
+      "isomeric_smiles": "[Cu].[Zn].[Pb]",
+      "registry_identifiers": 5,
+      "resolved_from": [
+        "brass"
+      ],
+      "structure": {
+        "components": 3,
+        "structure": "mixture"
+      },
+      "title": "Brass"
+    },
+    {
+      "annotation_entries": 0,
+      "cas_registry_numbers": 1,
+      "cid": 90477010,
+      "depositor_synonyms_kept": 17,
+      "inchi": "InChI=1S/3ClH.HNO3/c;;;2-1(3)4/h3*1H;(H,2,3,4)",
+      "inchikey": "NICDRCVJGXLKSF-UHFFFAOYSA-N",
+      "isomeric_smiles": "[N+](=O)(O)[O-].Cl.Cl.Cl",
+      "registry_identifiers": 5,
+      "resolved_from": [
+        "aqua regia"
+      ],
+      "structure": {
+        "components": 4,
+        "structure": "mixture"
+      },
+      "title": "Aqua regia"
+    }
+  ],
+  "retrieved": "2026-08-29",
+  "source_revision": "pug-rest-retrieved-2026-08-29",
+  "synonym_conflict_count": 12,
+  "synonym_conflicts": [
+    {
+      "cids": [
+        5793,
+        64689,
+        79025
+      ],
+      "synonym": "(+)-glucose"
+    },
+    {
+      "cids": [
+        62695,
+        5287573
+      ],
+      "synonym": "2-butene"
+    },
+    {
+      "cids": [
+        439655,
+        444305
+      ],
+      "synonym": "c4h6o6"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "clearsweet 95"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "clintose l"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "cpc hydrate"
+    },
+    {
+      "cids": [
+        439655,
+        444305,
+        447315
+      ],
+      "synonym": "d(-)-tartaric acid"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "glucodin"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "meritose"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "roferose st"
+    },
+    {
+      "cids": [
+        10340,
+        516892
+      ],
+      "synonym": "soda (van)"
+    },
+    {
+      "cids": [
+        5793,
+        64689
+      ],
+      "synonym": "staleydex 95m"
+    }
+  ]
+}

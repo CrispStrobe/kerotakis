@@ -76,7 +76,11 @@ external data file must include:
 - [ ] **Source record** in `provenance/sources.toml` with id, licence, origin,
       retrieval date, and SHA-256 checksums for vendored files.
 - [ ] **Lane assignment**: `runtime` (ships in app), `build_oracle` (dev only),
-      or `external_oracle` (never fetched in CI).
+      `external_oracle` (never fetched in CI), or `quarantine` (a pinned
+      import snapshot cleared for nothing yet — a BRD-003 adapter's output
+      lives here until a per-field review moves it). The `quarantine` lane is
+      non-distributed by construction: putting a licence there is not a claim
+      that it may ship.
 - [ ] **Licence on the allowlist**: MIT, Apache-2.0, BSD-2/3-Clause, CC0, ISC,
       Zlib, or USGS User Rights Notice for runtime sources. LGPL and copyleft
       sources are build-only.

@@ -1,0 +1,1899 @@
+[
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID1004",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID10112",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID10340",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID107689",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID1118",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID1119",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID1140",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID1176",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID14798",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID151402",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID174",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID176",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID180",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID222",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID2244",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID22985",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23665404",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23665760",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23925",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23954",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23978",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID23994",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24083",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID241",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24380",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24408",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24424",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24434",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24436",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24462",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24463",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24470",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24523",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24526",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24602",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24643",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24823",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24824",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24843",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID24928",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID2519",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID25517",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID2724488",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID280",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID281",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID284",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID297",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID311",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID313",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID3776",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID439250",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID439655",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID440917",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID444305",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID447315",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID4873",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID4875",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID516875",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID516892",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5234",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5235",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5284359",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5287573",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5359268",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5362487",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5462224",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID54670067",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID57448781",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5793",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5950",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID5988",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID61475",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID61503",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID6212",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID62662",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID62695",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID6325",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID6326",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID6334",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID64689",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID702",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID71080",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID712",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID71568",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID71583",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID71601",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID73981",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID753",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID783",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID784",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID7843",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID79025",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID807",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID887",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID90477010",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID944",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID947",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID962",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID977",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  },
+  {
+    "adapter_id": "pubchem-v1",
+    "external_record_id": "CID996",
+    "fields": [
+      "cid",
+      "connectivity_smiles",
+      "depositor_neutral_names",
+      "formal_charge",
+      "isomeric_smiles",
+      "iupac_name",
+      "molar_mass",
+      "molecular_formula",
+      "monoisotopic_mass",
+      "pubchem_title",
+      "standard_inchi",
+      "standard_inchikey",
+      "structure_class"
+    ]
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "fields": {
+    "cid": {
+      "target_field": "identifiers.pubchem_cid",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "connectivity_smiles": {
+      "target_field": "smiles_connectivity",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "depositor_neutral_names": {
+      "target_field": "synonyms",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "formal_charge": {
+      "target_field": "formal_charge",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "isomeric_smiles": {
+      "target_field": "smiles_isomeric",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "iupac_name": {
+      "target_field": "iupac_name",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "molar_mass": {
+      "target_field": "molar_mass",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ],
+      "target_dimension": "molar_mass"
+    },
+    "molecular_formula": {
+      "target_field": "formula",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "monoisotopic_mass": {
+      "target_field": "monoisotopic_mass",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ],
+      "target_dimension": "molar_mass"
+    },
+    "pubchem_title": {
+      "target_field": "display_name",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "standard_inchi": {
+      "target_field": "inchi",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "standard_inchikey": {
+      "target_field": "canonical_key",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    },
+    "structure_class": {
+      "target_field": "structure_class",
+      "allowed_licences": [
+        "LicenseRef-PubChem-Public-Domain"
+      ]
+    }
+  }
+}

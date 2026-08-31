@@ -60,6 +60,13 @@ test = false
 doc = false
 bench = false
 
+[[bin]]
+name = "pubchem"
+path = "fuzz_targets/pubchem.rs"
+test = false
+doc = false
+bench = false
+
 # Deliberately its own workspace: the fuzz crate needs nightly and
 # libFuzzer, and must never make `cargo test --workspace` need either.
 [workspace]

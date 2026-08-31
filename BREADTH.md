@@ -277,7 +277,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-010 — PubChem identity and approved-property adapter
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-003.
+- [x] **Status:** done on `brd010/pubchem-adapter`. **Size:** medium.
+  **Depends on:** BRD-003.
 - **Source/licence:** PubChem PUG REST and bulk records; US-government core is
   public-domain-like, but depositor annotations retain source-specific terms.
   Continue the existing per-field source allowlist; do not interpret “found in
@@ -294,6 +295,73 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   stereochemistry, mixtures incorrectly returned for names, and conflicting
   synonyms; no CAS-only or non-allowlisted annotation crosses the promotion
   boundary.
+- **Adapter checkpoint (2026-08-29):** the adapter lands and the acceptance is
+  met. `tools/fetch-pubchem-snapshot.py` pins one PUG REST/PUG View retrieval —
+  101 seed names resolved to 100 distinct CIDs, 121 response bodies, SHA-256 in
+  a BRD-003 `SnapshotManifest` — and `kerotakis-data`'s `pubchem` module turns
+  those bytes into quarantine candidates and nothing else. The fixture is
+  100 records: 70 single molecules, 20 salts, 8 hydrates and 2 mixtures, with
+  6 isotopically labelled records, 6 stereochemistry pairs sharing an InChIKey
+  skeleton, and 12 synonyms claimed by more than one record — `(+)-glucose` by
+  three, `d(-)-tartaric acid` by the D-, L- *and* meso- records, `soda (van)`
+  by both sodium carbonate and sodium bicarbonate. `brass` and `aqua regia`
+  are reported as `MixtureRecord`, not taken as substances; `vinegar` and
+  `acetic acid` landing on one CID is reported as `SharedNameResolution`.
+  The promotion policy allowlists PubChem's own computed/curated core only.
+  Everything else is refused by name through BRD-003's own review: CAS
+  Registry Numbers (separated out of the depositor synonym list and validated
+  by check digit so the refusal is exact), the depositor synonym list itself,
+  other registry identifiers, `ExactMass` and the database descriptors, and
+  **every** depositor annotation — see the finding below.
+  The official IUPAC InChI library recomputes identity along **two independent
+  routes** in `kerotakis-org`'s `native-inchi` gate, because one number would
+  have conflated two different questions. Re-keying PubChem's own published
+  Standard InChI puts nothing of ours in the path, so a disagreement there
+  would be a statement about the source: it agrees on **100 of 100**, and the
+  test asserts that exact count. Re-deriving the key from the structure
+  exercises our own toolchain as well, and it now also agrees on **100 of
+  100**.
+  That second number is worth its history. On the molfile bridge this branch
+  was first written against, the structure route agreed on only 73: 23 of the
+  27 conflicts kept the record's connectivity block and returned the
+  `UHFFFAOYSA` "no stereo, no isotope" hash, and the other four were `[Al]`,
+  `[S]`, `[Mg]` and brass. Reported as one blended number that would have read
+  as 27 defective PubChem records; split across the two routes it read
+  correctly as a limitation of our own writer, on precisely the
+  stereochemistry pairs, isotopologues and bare metals this fixture was built
+  to contain. CAP-13 has since replaced the molfile detour with the library's
+  own 0D input, and every one of those 27 disagreements went away — which is
+  the confirmation that the split diagnosis was right. The per-record verdict is
+  pinned beside the fixture so the dependency-free crate reads it in every
+  build, and every disagreement surfaces as a BRD-003 `IdentityConflict` row
+  naming its route rather than being resolved. The full dry run — snapshot → quarantine →
+  allowlist → normalized candidates → `lint_promotion` — passes over 100
+  records and 1297 policy-covered fields, and refuses each planted violation.
+  Nothing was promoted: `registry-source-v1.json` is untouched, and
+  `LicenseRef-PubChem-Public-Domain` is deliberately still absent from
+  `default_runtime_data_licences()`, so shipping any of this remains a separate
+  licence review.
+- **Finding — PubChem supplies identity, not properties (2026-08-29).** This
+  is load-bearing for BRD-012 and for anyone planning to source a physical
+  property here, so it is recorded as a result rather than left implied.
+  **No experimental physical property from PubChem is promotable.** Across the
+  pinned snapshot's 84 depositor annotations from 9 upstream sources, every
+  source that states a licence in the runtime data lane — ILO-WHO ICSC, whose
+  licence note is exactly "Creative Commons CC BY 4.0" — supplies its boiling
+  point as **prose** (`"78.29 °C @760 [mm Hg]"`, `"173 °F"`), and the **only**
+  source that supplies a structured `Number` + `Unit` is DrugBank, which
+  licences it **CC BY-NC 4.0** and therefore cannot enter a shipped pack at
+  all. The two conditions never coincide on a single value. The adapter
+  carries prose verbatim and refuses to parse it into a number: turning
+  `"78.29 °C @760 [mm Hg]"` into a quantity is a guess about units, pressure
+  reference and significant figures, and BRD-003's whole contract is that an
+  importer never guesses. The consequence for BRD-012: the "available phases"
+  and add-by-mass parts of its behavior matrix must come from a source with
+  structured, runtime-licensed quantities, not from PubChem. PubChem's
+  contribution to the everyday shelf is **identity** — CID, both SMILES
+  flavours, Standard InChI/InChIKey, formula, formal charge, the masses,
+  the IUPAC name and the record title — and that is what the promotion policy
+  allowlists.
 
 ### BRD-011 — ChEBI identity and ontology adapter
 
