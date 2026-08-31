@@ -12,8 +12,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Number, Value};
 
 use crate::{
-    default_runtime_data_licences, review_candidates, CandidateField, Dimension, PromotionPolicy,
-    QuarantineReviewReport, QuarantinedCandidate, RuntimeFieldPolicy,
+    default_runtime_data_licences, review_candidates, AdapterError, CandidateField, Dimension,
+    PromotionPolicy, QuarantineReviewReport, QuarantinedCandidate, RuntimeFieldPolicy,
+    SnapshotManifest,
 };
 
 pub const ADAPTER_ID: &str = "brd031-fluid-parameters-v1";
@@ -27,6 +28,15 @@ pub const PILOT_IDENTITIES: [(&str, &str); 6] = [
     ("O2", "MYMOFIZGZYHOMD-UHFFFAOYSA-N"),
     ("NH3", "QGZKDVFQNNGYKY-UHFFFAOYSA-N"),
     ("ethanol", "LFQSCWFLJHTTHZ-UHFFFAOYSA-N"),
+];
+
+const PILOT_CANONICAL_NAMES: [(&str, &str); 6] = [
+    ("water", "water"),
+    ("CO2", "carbon dioxide"),
+    ("N2", "nitrogen"),
+    ("O2", "oxygen"),
+    ("NH3", "ammonia"),
+    ("ethanol", "ethanol"),
 ];
 
 #[derive(Debug, Deserialize)]
@@ -73,6 +83,14 @@ struct Quantity {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 #[serde(tag = "reason", rename_all = "snake_case")]
 pub enum FluidParameterImportError {
+    Snapshot {
+        detail: String,
+    },
+    ManifestMismatch {
+        field: String,
+        expected: String,
+        found: String,
+    },
     MalformedDocument {
         detail: String,
     },
@@ -93,6 +111,11 @@ pub enum FluidParameterImportError {
         expected_inchikey: String,
         found_inchikey: String,
     },
+    CanonicalNameMismatch {
+        id: String,
+        expected_name: String,
+        found_name: String,
+    },
     InvalidQuantity {
         id: String,
         field: String,
@@ -105,6 +128,17 @@ pub enum FluidParameterImportError {
 impl fmt::Display for FluidParameterImportError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Snapshot { detail } => {
+                write!(formatter, "snapshot verification failed: {detail}")
+            }
+            Self::ManifestMismatch {
+                field,
+                expected,
+                found,
+            } => write!(
+                formatter,
+                "snapshot manifest mismatch for {field}: expected {expected}, found {found}"
+            ),
             Self::MalformedDocument { detail } => write!(formatter, "malformed document: {detail}"),
             Self::MissingDocumentMetadata { field } => {
                 write!(formatter, "missing document metadata: {field}")
@@ -124,6 +158,14 @@ impl fmt::Display for FluidParameterImportError {
                 formatter,
                 "identity mismatch for {id}: expected {expected_inchikey}, found {found_inchikey}"
             ),
+            Self::CanonicalNameMismatch {
+                id,
+                expected_name,
+                found_name,
+            } => write!(
+                formatter,
+                "canonical name mismatch for {id}: expected {expected_name}, found {found_name}"
+            ),
             Self::InvalidQuantity { id, field } => {
                 write!(formatter, "invalid quantity for {id}.{field}")
             }
@@ -138,6 +180,86 @@ impl fmt::Display for FluidParameterImportError {
 }
 
 impl std::error::Error for FluidParameterImportError {}
+
+impl From<AdapterError> for FluidParameterImportError {
+    fn from(error: AdapterError) -> Self {
+        Self::Snapshot {
+            detail: error.to_string(),
+        }
+    }
+}
+
+/// Deterministic output of the offline snapshot lane. This artifact remains
+/// quarantined: it is evidence for review, not a runtime parameter pack.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct FluidParameterImport {
+    pub manifest: SnapshotManifest,
+    pub candidates: Vec<QuarantinedCandidate>,
+    pub report: QuarantineReviewReport,
+}
+
+impl FluidParameterImport {
+    /// A non-empty rejection/conflict set makes the native generator exit
+    /// unsuccessfully after printing the report, so automation fails closed.
+    pub fn refuses(&self) -> bool {
+        !self.report.identity_conflicts.is_empty()
+            || self
+                .report
+                .reviews
+                .iter()
+                .any(|review| !review.rejected.is_empty())
+    }
+}
+
+/// Verify and import a pinned, local snapshot without any filesystem or
+/// network access. Native callers own I/O; WASM callers can supply bytes.
+pub fn import_verified_snapshot(
+    manifest: &SnapshotManifest,
+    raw: &[u8],
+) -> Result<FluidParameterImport, FluidParameterImportError> {
+    manifest.verify(raw)?;
+    let document: SourceDocument = serde_json::from_slice(raw).map_err(|error| {
+        FluidParameterImportError::MalformedDocument {
+            detail: error.to_string(),
+        }
+    })?;
+    require_manifest_match("adapter_id", ADAPTER_ID, &manifest.adapter_id)?;
+    require_manifest_match("source_id", &manifest.source_id, &document.source_id)?;
+    require_manifest_match(
+        "source_revision",
+        &manifest.source_revision,
+        &document.source_revision,
+    )?;
+    require_manifest_match(
+        "record_count",
+        &manifest.record_count.to_string(),
+        &document.records.len().to_string(),
+    )?;
+
+    let candidates = parse_source_document(raw)?;
+    let report = promotion_report(candidates.clone());
+    Ok(FluidParameterImport {
+        manifest: manifest.clone(),
+        candidates,
+        report,
+    })
+}
+
+fn require_manifest_match(
+    field: &str,
+    expected: &str,
+    found: &str,
+) -> Result<(), FluidParameterImportError> {
+    if expected == found {
+        Ok(())
+    } else {
+        Err(FluidParameterImportError::ManifestMismatch {
+            field: field.to_owned(),
+            expected: expected.to_owned(),
+            found: found.to_owned(),
+        })
+    }
+}
 
 /// Parse and validate a complete six-identity pilot document.
 ///
@@ -164,6 +286,7 @@ pub fn parse_source_document(
     }
 
     let expected: BTreeMap<&str, &str> = PILOT_IDENTITIES.into_iter().collect();
+    let expected_names: BTreeMap<&str, &str> = PILOT_CANONICAL_NAMES.into_iter().collect();
     let mut records = BTreeMap::new();
     for record in document.records {
         if !expected.contains_key(record.id.as_str()) {
@@ -186,6 +309,14 @@ pub fn parse_source_document(
                     id: id.to_owned(),
                     expected_inchikey: expected_key.to_owned(),
                     found_inchikey: record.inchikey,
+                });
+            }
+            let expected_name = expected_names[id];
+            if record.canonical_name != expected_name {
+                return Err(FluidParameterImportError::CanonicalNameMismatch {
+                    id: id.to_owned(),
+                    expected_name: expected_name.to_owned(),
+                    found_name: record.canonical_name,
                 });
             }
             candidate(

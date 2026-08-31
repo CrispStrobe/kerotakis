@@ -23,3 +23,6 @@ name = "quarantine-review"
 
 [[bin]]
 name = "pubchem-import"
+
+[[bin]]
+name = "fluid-parameter-import"
