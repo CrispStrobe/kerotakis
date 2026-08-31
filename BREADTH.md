@@ -1156,6 +1156,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
      family. **DoD:** conservation/metamorphic checks, exact model/parameter
      provenance in every result, repository policy gates, replay determinism,
      and protected-main CI all pass. Only then may BRD-032 be unblocked.
+- **S01 source gate (2026-08-31):** the initial rights audit is a runtime
+  promotion `no-go`; see `provenance/brd-031-pilot-source-audit.md`. feos and
+  CoolProp have technically adequate six-fluid candidates under permissive
+  repository licences, but neither gives an explicit path-level assurance for
+  the third-party-derived numerical parameter tables. Work therefore proceeds
+  only on a quarantine importer with synthetic fixtures. No candidate value is
+  copied, no pack is embedded, and BRD-032 remains blocked.
 
 ### BRD-032 — feos-backed bench routing
 

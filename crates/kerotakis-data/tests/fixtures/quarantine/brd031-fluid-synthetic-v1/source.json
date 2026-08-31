@@ -1,0 +1,13 @@
+{
+  "source_id": "synthetic-do-not-use-for-science",
+  "source_revision": "fixture-v1",
+  "data_licence": "CC0-1.0",
+  "records": [
+    {"id":"ethanol","canonical_name":"ethanol","inchikey":"LFQSCWFLJHTTHZ-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":6.0,"unit":"g/mol"},"segment_count":{"value":6.0,"unit":"1"},"segment_diameter":{"value":6.0,"unit":"Ang"},"dispersion_energy_k":{"value":6.0,"unit":"K"},"association":{"kappa_ab":{"value":6.0,"unit":"1"},"epsilon_k_ab":{"value":6.0,"unit":"K"},"na":1,"nb":1,"nc":0}}},
+    {"id":"water","canonical_name":"water","inchikey":"XLYOFNOQVPJJNP-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":1.0,"unit":"g/mol"},"segment_count":{"value":1.0,"unit":"1"},"segment_diameter":{"value":1.0,"unit":"Ang"},"dispersion_energy_k":{"value":1.0,"unit":"K"},"association":{"kappa_ab":{"value":1.0,"unit":"1"},"epsilon_k_ab":{"value":1.0,"unit":"K"},"na":1,"nb":1,"nc":0}}},
+    {"id":"O2","canonical_name":"oxygen","inchikey":"MYMOFIZGZYHOMD-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":4.0,"unit":"g/mol"},"segment_count":{"value":4.0,"unit":"1"},"segment_diameter":{"value":4.0,"unit":"Ang"},"dispersion_energy_k":{"value":4.0,"unit":"K"}}},
+    {"id":"CO2","canonical_name":"carbon dioxide","inchikey":"CURLTUGMZLYLDI-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":2.0,"unit":"g/mol"},"segment_count":{"value":2.0,"unit":"1"},"segment_diameter":{"value":2.0,"unit":"Ang"},"dispersion_energy_k":{"value":2.0,"unit":"K"}}},
+    {"id":"NH3","canonical_name":"ammonia","inchikey":"QGZKDVFQNNGYKY-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":5.0,"unit":"g/mol"},"segment_count":{"value":5.0,"unit":"1"},"segment_diameter":{"value":5.0,"unit":"Ang"},"dispersion_energy_k":{"value":5.0,"unit":"K"},"association":{"kappa_ab":{"value":5.0,"unit":"1"},"epsilon_k_ab":{"value":5.0,"unit":"K"},"na":1,"nb":1,"nc":0}}},
+    {"id":"N2","canonical_name":"nitrogen","inchikey":"IJGRMHOSHXDMSA-UHFFFAOYSA-N","pc_saft":{"molar_mass":{"value":3.0,"unit":"g/mol"},"segment_count":{"value":3.0,"unit":"1"},"segment_diameter":{"value":3.0,"unit":"Ang"},"dispersion_energy_k":{"value":3.0,"unit":"K"}}}
+  ]
+}
