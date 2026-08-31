@@ -1,0 +1,19 @@
+[package]
+name = "wasm-probe-feos"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "AGPL-3.0-or-later"
+
+# The size probe. A cdylib whose only job is to reach a feos PC-SAFT bubble
+# point from an exported symbol, so that `wasm-probe-feos.wasm` minus
+# `wasm-probe-base.wasm` is the code size feos actually adds to a browser
+# bundle. Both probes share a profile and a target directory.
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+feos = { version = "0.10.1", default-features = false, features = ["pcsaft"] }
+feos-core = "0.10.1"
+quantity = "0.14"
+nalgebra = "0.35"
