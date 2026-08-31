@@ -33,6 +33,7 @@ pub mod electrochemistry;
 pub mod element_coverage;
 pub mod emulsion;
 pub mod exact_stoich;
+pub mod family;
 pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
