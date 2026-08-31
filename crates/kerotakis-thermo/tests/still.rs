@@ -80,6 +80,9 @@ fn the_energy_budget_is_a_real_meter() {
 }
 
 #[test]
-fn water_rich_ethanol_charge_refuses_antoine_extrapolation() {
-    assert!(ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 1, ATMOSPHERE_KPA).is_none());
+fn water_rich_ethanol_charge_uses_the_licensed_high_range_fit() {
+    let cut = ethanol_water_still(9.4, 0.6, StillTake::Fraction(0.05), 1, ATMOSPHERE_KPA)
+        .expect("the licensed ethanol segment covers the water-rich boiling point");
+    assert!(cut.t_start_c > 80.0 && cut.t_start_c < 100.0);
+    assert!(cut.ethanol_over > 0.0);
 }

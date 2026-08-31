@@ -28,10 +28,12 @@ from thermo.unifac import UNIFAC, UFIP, UFSG
 ETHANOL_GROUPS = {1: 1, 2: 1, 14: 1}  # CH3 CH2 OH
 WATER_GROUPS = {16: 1}  # H2O
 
-# Antoine, log10(P/kPa) = a - b/(T_C + c) — must match vle.rs (cited there:
-# Stull 1947 fits, mmHg-converted).
+# Antoine, log10(P/kPa) = a - b/(T_C + c) — must match vle.rs. Ethanol's
+# high segment is the CC-BY-4.0 experimental fit from
+# doi:10.1021/acsomega.6c04827, transformed exactly from kelvin to Celsius.
 ANTOINE = {
-    "ethanol": (7.32907, 1642.89, 230.300),
+    "ethanol_low": (7.32907, 1642.89, 230.300),
+    "ethanol_high": (6.99161, 1460.701, 214.673),
     "water": (7.19621, 1730.63, 233.426),
 }
 ATM = 101.325
@@ -49,6 +51,8 @@ def gammas(x, t_k):
 
 
 def psat(name, t_c):
+    if name == "ethanol":
+        name = "ethanol_low" if t_c <= 80.0 else "ethanol_high"
     a, b, c = ANTOINE[name]
     return 10.0 ** (a - b / (t_c + c))
 
