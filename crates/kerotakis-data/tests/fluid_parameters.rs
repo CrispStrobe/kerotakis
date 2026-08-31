@@ -2,8 +2,10 @@ use std::path::Path;
 
 use kerotakis_data::canonical_quarantine_bytes;
 use kerotakis_data::fluid_parameters::{
-    parse_source_document, promotion_report, FluidParameterImportError, PILOT_IDENTITIES,
+    import_verified_snapshot, parse_source_document, promotion_report, FluidParameterImportError,
+    PILOT_IDENTITIES,
 };
+use kerotakis_data::SnapshotManifest;
 use serde_json::{json, Value};
 
 fn fixture() -> Vec<u8> {
@@ -12,6 +14,72 @@ fn fixture() -> Vec<u8> {
             .join("tests/fixtures/quarantine/brd031-fluid-synthetic-v1/source.json"),
     )
     .expect("read synthetic fixture")
+}
+
+fn manifest() -> SnapshotManifest {
+    serde_json::from_slice(include_bytes!(
+        "fixtures/quarantine/brd031-fluid-synthetic-v1/manifest.json"
+    ))
+    .expect("parse synthetic manifest")
+}
+
+#[test]
+fn verified_snapshot_output_is_deterministic_and_complete() {
+    let raw = fixture();
+    let first = import_verified_snapshot(&manifest(), &raw).unwrap();
+    let second = import_verified_snapshot(&manifest(), &raw).unwrap();
+    assert_eq!(
+        serde_json::to_vec_pretty(&first).unwrap(),
+        serde_json::to_vec_pretty(&second).unwrap()
+    );
+    assert_eq!(first.candidates.len(), 6);
+    assert!(!first.refuses());
+}
+
+#[test]
+fn verified_snapshot_fails_closed_on_hash_schema_and_metadata() {
+    let raw = fixture();
+    let mut wrong_hash = manifest();
+    wrong_hash.sha256 = "00".repeat(32);
+    assert!(matches!(
+        import_verified_snapshot(&wrong_hash, &raw),
+        Err(FluidParameterImportError::Snapshot { .. })
+    ));
+
+    let mut wrong_schema = manifest();
+    wrong_schema.schema += 1;
+    assert!(matches!(
+        import_verified_snapshot(&wrong_schema, &raw),
+        Err(FluidParameterImportError::Snapshot { .. })
+    ));
+
+    let mut wrong_source = manifest();
+    wrong_source.source_id = "different-source".into();
+    assert_eq!(
+        import_verified_snapshot(&wrong_source, &raw).unwrap_err(),
+        FluidParameterImportError::ManifestMismatch {
+            field: "source_id".into(),
+            expected: "different-source".into(),
+            found: "synthetic-do-not-use-for-science".into(),
+        }
+    );
+}
+
+#[test]
+fn verified_snapshot_reports_an_unapproved_licence_as_refused() {
+    let raw = fixture();
+    let mut document: Value = serde_json::from_slice(&raw).unwrap();
+    document["data_licence"] = json!("GPL-3.0-only");
+    let changed = serde_json::to_vec(&document).unwrap();
+    let mut pinned = manifest();
+    pinned.sha256 = kerotakis_data::snapshot_sha256(&changed);
+    let import = import_verified_snapshot(&pinned, &changed).unwrap();
+    assert!(import.refuses());
+    assert!(import
+        .report
+        .reviews
+        .iter()
+        .all(|review| review.accepted.is_empty() && !review.rejected.is_empty()));
 }
 
 #[test]

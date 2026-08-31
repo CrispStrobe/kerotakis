@@ -12,8 +12,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Number, Value};
 
 use crate::{
-    default_runtime_data_licences, review_candidates, CandidateField, Dimension, PromotionPolicy,
-    QuarantineReviewReport, QuarantinedCandidate, RuntimeFieldPolicy,
+    default_runtime_data_licences, review_candidates, AdapterError, CandidateField, Dimension,
+    PromotionPolicy, QuarantineReviewReport, QuarantinedCandidate, RuntimeFieldPolicy,
+    SnapshotManifest,
 };
 
 pub const ADAPTER_ID: &str = "brd031-fluid-parameters-v1";
@@ -73,6 +74,14 @@ struct Quantity {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 #[serde(tag = "reason", rename_all = "snake_case")]
 pub enum FluidParameterImportError {
+    Snapshot {
+        detail: String,
+    },
+    ManifestMismatch {
+        field: String,
+        expected: String,
+        found: String,
+    },
     MalformedDocument {
         detail: String,
     },
@@ -105,6 +114,17 @@ pub enum FluidParameterImportError {
 impl fmt::Display for FluidParameterImportError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Snapshot { detail } => {
+                write!(formatter, "snapshot verification failed: {detail}")
+            }
+            Self::ManifestMismatch {
+                field,
+                expected,
+                found,
+            } => write!(
+                formatter,
+                "snapshot manifest mismatch for {field}: expected {expected}, found {found}"
+            ),
             Self::MalformedDocument { detail } => write!(formatter, "malformed document: {detail}"),
             Self::MissingDocumentMetadata { field } => {
                 write!(formatter, "missing document metadata: {field}")
@@ -138,6 +158,86 @@ impl fmt::Display for FluidParameterImportError {
 }
 
 impl std::error::Error for FluidParameterImportError {}
+
+impl From<AdapterError> for FluidParameterImportError {
+    fn from(error: AdapterError) -> Self {
+        Self::Snapshot {
+            detail: error.to_string(),
+        }
+    }
+}
+
+/// Deterministic output of the offline snapshot lane. This artifact remains
+/// quarantined: it is evidence for review, not a runtime parameter pack.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct FluidParameterImport {
+    pub manifest: SnapshotManifest,
+    pub candidates: Vec<QuarantinedCandidate>,
+    pub report: QuarantineReviewReport,
+}
+
+impl FluidParameterImport {
+    /// A non-empty rejection/conflict set makes the native generator exit
+    /// unsuccessfully after printing the report, so automation fails closed.
+    pub fn refuses(&self) -> bool {
+        !self.report.identity_conflicts.is_empty()
+            || self
+                .report
+                .reviews
+                .iter()
+                .any(|review| !review.rejected.is_empty())
+    }
+}
+
+/// Verify and import a pinned, local snapshot without any filesystem or
+/// network access. Native callers own I/O; WASM callers can supply bytes.
+pub fn import_verified_snapshot(
+    manifest: &SnapshotManifest,
+    raw: &[u8],
+) -> Result<FluidParameterImport, FluidParameterImportError> {
+    manifest.verify(raw)?;
+    let document: SourceDocument = serde_json::from_slice(raw).map_err(|error| {
+        FluidParameterImportError::MalformedDocument {
+            detail: error.to_string(),
+        }
+    })?;
+    require_manifest_match("adapter_id", ADAPTER_ID, &manifest.adapter_id)?;
+    require_manifest_match("source_id", &manifest.source_id, &document.source_id)?;
+    require_manifest_match(
+        "source_revision",
+        &manifest.source_revision,
+        &document.source_revision,
+    )?;
+    require_manifest_match(
+        "record_count",
+        &manifest.record_count.to_string(),
+        &document.records.len().to_string(),
+    )?;
+
+    let candidates = parse_source_document(raw)?;
+    let report = promotion_report(candidates.clone());
+    Ok(FluidParameterImport {
+        manifest: manifest.clone(),
+        candidates,
+        report,
+    })
+}
+
+fn require_manifest_match(
+    field: &str,
+    expected: &str,
+    found: &str,
+) -> Result<(), FluidParameterImportError> {
+    if expected == found {
+        Ok(())
+    } else {
+        Err(FluidParameterImportError::ManifestMismatch {
+            field: field.to_owned(),
+            expected: expected.to_owned(),
+            found: found.to_owned(),
+        })
+    }
+}
 
 /// Parse and validate a complete six-identity pilot document.
 ///

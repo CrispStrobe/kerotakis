@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "adapter_id": "brd031-fluid-parameters-v1",
+  "source_id": "synthetic-do-not-use-for-science",
+  "source_revision": "fixture-v1",
+  "retrieved": "2026-08-31T00:00:00Z",
+  "raw_artifact": "source.json",
+  "record_count": 6,
+  "sha256": "ad3cc35a8c6a6a41d4fa496ce0220c81ec8e0d22ee4a65405b9890d04699e121"
+}

@@ -67,6 +67,13 @@ test = false
 doc = false
 bench = false
 
+[[bin]]
+name = "fluid_parameters"
+path = "fuzz_targets/fluid_parameters.rs"
+test = false
+doc = false
+bench = false
+
 # Deliberately its own workspace: the fuzz crate needs nightly and
 # libFuzzer, and must never make `cargo test --workspace` need either.
 [workspace]
