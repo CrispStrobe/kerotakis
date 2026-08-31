@@ -144,25 +144,11 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ),
     // --- BRD-012.S03: the food-chemistry tranche ---
     //
-    // These two SMILES are the only ones in this table that carry
-    // tetrahedral stereo descriptors, and adding them found out something
-    // about the pipeline: it drops them. The route from a SMILES through
-    // chematic's molfile writer to the official InChI library does not
-    // preserve parity, so both sugars recompute to their *stereo-free*
-    // skeletons — WQZGKKKJIJFFOK for glucopyranose, LKDRXBCSQODPBY for
-    // fructopyranose. That is why maltose and ascorbic acid above already
-    // sit in the registry with stereo-free keys; nothing here had ever
-    // exercised the case before.
-    //
-    // The `@` marks are kept anyway, deliberately. They are the record of
-    // which stereoisomer these entries mean, which the key can no longer
-    // say, and they are a tripwire: if the writer ever learns parity this
-    // gate fails immediately and the registry keys get updated rather than
-    // quietly drifting away from the structures they claim to identify.
-    //
-    // What survives is what the tranche actually needs — glucose and
-    // fructose are structural isomers, so their skeletons differ and the
-    // two identities stay distinct with or without stereochemistry.
+    // These structures deliberately carry the D configuration while leaving
+    // the anomeric centre unspecified. The official InChI route preserves
+    // those configured tetrahedral centres, so the registry keys distinguish
+    // D from L without pretending to choose alpha or beta. Glucose and
+    // fructose also remain distinct structural isomers.
     ("glucose", "OC[C@H]1OC(O)[C@H](O)[C@@H](O)[C@@H]1O"),
     ("fructose", "OCC1(O)OC[C@@H](O)[C@@H](O)[C@@H]1O"),
     // Malic acid is deliberately flat: fruit malic acid is L-(-) and
