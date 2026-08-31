@@ -1190,24 +1190,6 @@
       "retrieved": "2026-08-29"
     },
     {
-      "id": "kerotakis/phase-transitions-v1",
-      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
-      "licence": "AGPL-3.0-or-later",
-      "lane": "runtime",
-      "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "v1",
-      "retrieved": "2026-08-29"
-    },
-    {
-      "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL",
-      "licence": "AGPL-3.0-or-later",
-      "lane": "runtime",
-      "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "2",
-      "retrieved": "2026-08-29"
-    },
-    {
       "id": "legacy/glucose",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; density 1.544 g/mL at 25 C and aqueous solubility 90.9 g/100 mL water at 25 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 236.6 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. The substance modelled is D-glucose in its pyranose ring form, and the physical properties above are D-glucose's. The curated SMILES and official-library InChIKey carry the D configuration while deliberately leaving the anomeric centre unspecified, so identity distinguishes D- from L-glucose without pretending to choose the alpha or beta anomer. The key is not asserted; it is what the official IUPAC library computes. Enthalpy of solution is not claimed",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -1260,6 +1242,24 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "kerotakis/phase-transitions-v1",
+      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "v1",
+      "retrieved": "2026-08-29"
+    },
+    {
+      "id": "kerotakis/material-recipes-v1",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "2",
+      "retrieved": "2026-08-29"
     }
   ],
   "identities": [
@@ -37819,7 +37819,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.155225E-7,
+            "value": 1.155225e-7,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -37869,7 +37869,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.965291052001796E-10,
+            "value": 6.965291052001796e-10,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -37919,7 +37919,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2.6927258955223627E-12,
+            "value": 2.6927258955223627e-12,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -37969,7 +37969,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.6746001746918315E-15,
+            "value": 6.6746001746918315e-15,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -47047,8 +47047,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 0.000001,
-            "upper": 0.000001
+            "lower": 1e-6,
+            "upper": 1e-6
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -47128,8 +47128,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 3E-7,
-            "upper": 3E-7
+            "lower": 3e-7,
+            "upper": 3e-7
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -48540,8 +48540,8 @@
             0.000855073675272,
             0.000124619078076,
             0.0000149066126883,
-            0.00000146348015158,
-            1.17925612747E-7
+            1.46348015158e-6,
+            1.17925612747e-7
           ],
           "scattering": [
             1.0,
