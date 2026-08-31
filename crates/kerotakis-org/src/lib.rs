@@ -12,6 +12,8 @@
 
 pub mod groups;
 pub mod inchi_validate;
+#[cfg(feature = "native-inchi")]
+pub mod native_inchi;
 pub mod templates;
 
 use serde::{Deserialize, Serialize};

@@ -63,8 +63,16 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("SO4-2", "[O-]S(=O)(=O)[O-]"),
     ("HCO3-", "OC([O-])=O"),
     ("H2PO4-", "OP(=O)(O)[O-]"),
-    // --- metals ---
+    // --- metals & non-metal elements ---
+    // CAP-13 spike (2026-08-30): the bare bracket atoms joined once the
+    // bridge stopped going through a V2000 molfile, which had no way to
+    // say "this atom has no hydrogens" and turned them into MgH2, PbH2,
+    // methane and hydrogen sulfide.
     ("Al", "[Al]"),
+    ("Mg", "[Mg]"),
+    ("Pb", "[Pb]"),
+    ("C", "[C]"),
+    ("S", "[S]"),
     ("Cu", "[Cu]"),
     ("Zn", "[Zn]"),
     ("Ag", "[Ag]"),
@@ -124,6 +132,13 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Ba(OH)2", "O[Ba]O"),
     ("Ba+2", "[Ba+2]"),
     ("BaSO4", "[Ba+2].[O-]S(=O)(=O)[O-]"),
+    // --- indicator dyes ---
+    // The registry's phenolphthalein is the closed lactone; the earlier
+    // deferral blamed kekulisation, but the SMILES was the open acid form.
+    (
+        "phenolphthalein",
+        "OC1=CC=C(C=C1)C1(OC(=O)C2=CC=CC=C12)C1=CC=C(O)C=C1",
+    ),
 ];
 
 /// Result of cross-validating one species' InChIKey.
@@ -150,14 +165,26 @@ pub enum MatchStatus {
     BothFailed,
 }
 
-/// Standard InChIKey from the official IUPAC library: SMILES parsed by
-/// chematic, written as a V2000 molfile, handed to the reference
-/// implementation. This is the identity authority; chematic's own key
-/// is a canonical key of a different algorithm and is expected to
-/// differ (adopting the official key everywhere is the rest of
-/// CAP-13).
+/// Standard InChIKey from the official IUPAC library. This is the
+/// identity authority; chematic's own key is a canonical key of a
+/// different algorithm and is expected to differ (adopting the official
+/// key everywhere is the rest of CAP-13).
+///
+/// The structure is handed to the library through its own 0D input
+/// rather than a molfile — see [`crate::native_inchi`] for why the
+/// molfile detour could not carry a bare metal atom, an isotope, or any
+/// stereocentre.
 #[cfg(feature = "native-inchi")]
 pub fn native_inchikey_from_smiles(smiles: &str) -> Result<String, crate::OrgError> {
+    crate::native_inchi::native_inchikey_from_smiles(smiles)
+}
+
+/// The bridge CAP-13 shipped first: chematic's V2000 molfile writer, then
+/// the official library's molfile reader. Kept because the gate's
+/// before/after table is the evidence that replacing it was necessary —
+/// see `tests/native_identity.rs`. Not the identity authority.
+#[cfg(feature = "native-inchi")]
+pub fn molfile_route_inchikey_from_smiles(smiles: &str) -> Result<String, crate::OrgError> {
     let mol = chematic::smiles::parse(smiles)
         .map_err(|e| crate::OrgError::InchiFailed(format!("SMILES parse: {e}")))?;
     let molfile = chematic::mol::write_mol(&mol, &chematic::mol::MolMetadata::default());
