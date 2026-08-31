@@ -201,11 +201,13 @@ impl Bench {
             SafetyVerdict::Allow => {}
             SafetyVerdict::Warn {
                 severity,
+                rule,
                 hazard,
                 real_world,
             } => events.push(Event::SpillHazard {
                 destination: destination.clone(),
                 severity,
+                rule,
                 hazard,
                 real_world,
                 contributors: contributors.clone(),
@@ -213,6 +215,7 @@ impl Bench {
             SafetyVerdict::Veto { reason } => events.push(Event::SpillHazard {
                 destination: destination.clone(),
                 severity: crate::solve::Severity::Danger,
+                rule: String::new(),
                 hazard: reason,
                 real_world: "Do not touch the spill; follow the declared cleanup procedure.".into(),
                 contributors,
@@ -272,10 +275,12 @@ impl Bench {
             SafetyVerdict::Allow => {}
             SafetyVerdict::Warn {
                 severity,
+                rule,
                 hazard,
                 real_world,
             } => events.push(Event::HazardWarning {
                 severity,
+                rule,
                 hazard,
                 real_world,
             }),

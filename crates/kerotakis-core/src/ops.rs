@@ -398,6 +398,10 @@ pub enum Event {
     SpillHazard {
         destination: SpillDestination,
         severity: crate::solve::Severity,
+        /// Stable rule id, exactly as on `HazardWarning` (additive; empty
+        /// when the warning has no curated matrix rule, e.g. a veto).
+        #[serde(default)]
+        rule: String,
         hazard: String,
         real_world: String,
         #[serde(default, skip_serializing_if = "Vec::is_empty")]
