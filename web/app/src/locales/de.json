@@ -337,6 +337,7 @@
   "conical flask": "Erlenmeyerkolben",
   "crucible": "Tiegel",
   "cuvette": "Küvette",
+  "cylinder": "Messzylinder",
   "evaporating basin": "Abdampfschale",
   "eyes": "Augen",
   "flask": "Kolben",
@@ -353,6 +354,7 @@
   "still": "Destille",
   "test tube": "Reagenzglas",
   "thermometer": "Thermometer",
+  "tube": "Reagenzglas",
   "volume meter": "Volumenmessung",
   "volumetric flask": "Messkolben",
   "watch glass": "Uhrglas"
