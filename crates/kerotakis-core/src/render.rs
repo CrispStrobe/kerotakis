@@ -2786,12 +2786,14 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
         Event::SpillHazard {
             destination,
             severity,
+            rule,
             hazard,
             real_world,
             contributors,
         } => Event::SpillHazard {
             destination: destination.clone(),
             severity: *severity,
+            rule: rule.clone(),
             hazard: localize_hazard(hazard, locale),
             real_world: locale
                 .lookup(&format!("real_world.{real_world}"))
