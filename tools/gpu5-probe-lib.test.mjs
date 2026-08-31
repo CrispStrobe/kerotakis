@@ -16,7 +16,14 @@ import {
   summarizeRun,
   summarizeStartup,
   validateProbeArtifact,
+  validateApplicationMetrics,
 } from "./gpu5-probe-lib.mjs";
+
+const applicationMetrics = {
+  schema: "kerotakis.webgpu-metrics.v1", activeSessions: 1,
+  successfulPresentations: 600, presentationFailures: 0, submittedFrames: 600,
+  sessions: [{ identity: 1, retainedFrameSamples: 120, submittedFrames: 600, successfulPresentations: 600, presentationFailures: 0, firstPresentationLatencyMs: 4 }],
+};
 
 test("nearest-rank percentile is deterministic and strict", () => {
   assert.equal(nearestRank([9, 1, 5, 3], 0.5), 3);
@@ -80,7 +87,7 @@ test("unavailable and complete reports have one stable schema", () => {
   assert.equal(run.warmupCpuEncodeSubmitMs.length, 60);
   assert.equal(run.measuredCpuEncodeSubmitMs.length, 600);
   assert.equal(run.measuredRafIntervalMs.length, 600);
-  const report = completeReport({ ...base, webgpu_available: true }, Array(GPU5_RUNS).fill(run));
+  const report = completeReport({ ...base, application_metrics: applicationMetrics, webgpu_available: true }, Array(GPU5_RUNS).fill(run));
   const emitted = JSON.parse(JSON.stringify(report));
   assert.equal(emitted.startup.coldStartupMs.length, 10);
   assert.equal(emitted.runs.length, 3);
@@ -92,7 +99,7 @@ test("unavailable and complete reports have one stable schema", () => {
   assert.equal(report.runs.length, 3);
   assert.equal(report.pass, true);
   assert.equal(report.outcome, "pass");
-  const incomplete = completeReport({ ...base, webgpu_available: true }, [
+  const incomplete = completeReport({ ...base, application_metrics: applicationMetrics, webgpu_available: true }, [
     { ...run, measuredRafIntervalMs: run.measuredRafIntervalMs.slice(1) }, run, run,
   ]);
   assert.equal(incomplete.evidence_complete, false);
@@ -136,6 +143,16 @@ test("lightweight artifacts cannot masquerade as GPU evidence", () => {
   };
   assert.match(validateProbeArtifact({ ...artifact, webgpu_available: true }, "lightweight").join("\n"), /must not claim WebGPU/);
   assert.match(validateProbeArtifact({ ...artifact, pass: false }, "lightweight").join("\n"), /recorded baseline/);
+});
+
+test("application metrics aggregates cannot disagree with bounded sessions", () => {
+  const report = structuredClone(applicationMetrics);
+  report.submittedFrames = 601;
+  assert.match(validateApplicationMetrics(report).join("\n"), /aggregate submittedFrames/);
+  report.sessions[0].retainedFrameSamples = 121;
+  assert.match(validateApplicationMetrics(report).join("\n"), /retained samples exceed/);
+  report.sessions[0].firstPresentationLatencyMs = null;
+  assert.match(validateApplicationMetrics(report).join("\n"), /first presentation latency/);
 });
 
 test("probe CLI rejects missing and malformed modes as usage errors", async (t) => {

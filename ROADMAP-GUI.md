@@ -1940,12 +1940,23 @@ and presents them well.
        and provenance tests. The dedicated CI job pins Node 22 and explicitly
        excludes physical measurement and matrix claims. Twenty-six offline
        tests pass through the exact command CI invokes.
-     - [ ] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
+     - [x] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
        paired baseline/candidate probes, asset reports and provenance hashes in
        one versioned manifest. **DoD:** executable fixtures prove schema and
        hash consistency, bounded runtime aggregation and five unique physical
        rows; payload/startup/frame thresholds remain explicit; full repository
        gates and protected-main delivery pass.
+       *Done 2026-08-31 (code; lab remains pending):* a synchronous request-only
+       browser handshake returns the bench registry's detached v1 snapshot and
+       is removed on teardown. Available-GPU artifacts must cross-check at
+       least one successful app-owned presentation, internally consistent
+       aggregate/session counts, at most 32 sessions and 120 retained samples
+       per session. The version-2 matrix requires five explicit physical rows,
+       reviewer/time metadata and SHA-256 descriptors for every paired probe,
+       asset report and the reviewed WGSL source; path escapes, tampering and
+       provenance failures block passage. Twenty-eight offline tests, seven
+       registry tests and the production build pass. This completes the
+       evidence pipeline, not the still-PENDING physical device matrix.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 

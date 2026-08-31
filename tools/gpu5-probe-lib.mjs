@@ -3,9 +3,55 @@ export const GPU5_WARMUP_FRAMES = 60;
 export const GPU5_MEASURED_FRAMES = 600;
 export const GPU5_RUNS = 3;
 export const GPU5_CPU_BUDGET_MS = 9;
+export const GPU5_APP_METRICS_SCHEMA = "kerotakis.webgpu-metrics.v1";
+export const GPU5_APP_METRICS_REQUEST_EVENT = "kerotakis:webgpu-metrics-request";
+export const GPU5_APP_METRICS_MAX_SESSIONS = 32;
+export const GPU5_APP_METRICS_MAX_FRAME_SAMPLES = 120;
 
 const finiteNonNegative = (value) => typeof value === "number" && Number.isFinite(value) && value >= 0;
 const exactSamples = (value, count) => Array.isArray(value) && value.length === count && value.every(finiteNonNegative);
+
+export function validateApplicationMetrics(report) {
+  const errors = [];
+  if (!report || typeof report !== "object" || Array.isArray(report)) return ["application metrics must be an object"];
+  if (report.schema !== GPU5_APP_METRICS_SCHEMA) errors.push(`application metrics schema must be ${GPU5_APP_METRICS_SCHEMA}`);
+  if (!Number.isSafeInteger(report.activeSessions) || report.activeSessions < 1 || report.activeSessions > GPU5_APP_METRICS_MAX_SESSIONS) {
+    errors.push(`application metrics activeSessions must be within 1..${GPU5_APP_METRICS_MAX_SESSIONS}`);
+  }
+  if (!Array.isArray(report.sessions) || report.sessions.length !== report.activeSessions) {
+    errors.push("application metrics sessions must match activeSessions");
+  }
+  for (const field of ["successfulPresentations", "presentationFailures", "submittedFrames"]) {
+    if (!Number.isSafeInteger(report[field]) || report[field] < 0) errors.push(`application metrics ${field} must be a non-negative integer`);
+  }
+  if (Number.isSafeInteger(report.successfulPresentations) && report.successfulPresentations < 1) errors.push("application metrics must prove a successful presentation");
+  if (Number.isSafeInteger(report.submittedFrames) && report.submittedFrames < 1) errors.push("application metrics must prove a submitted frame");
+  if (Array.isArray(report.sessions)) report.sessions.forEach((session, index) => {
+    if (!session || typeof session !== "object") return errors.push(`application metrics session ${index + 1} must be an object`);
+    if (!["string", "number"].includes(typeof session.identity)) errors.push(`application metrics session ${index + 1} identity is invalid`);
+    if (!Number.isSafeInteger(session.retainedFrameSamples) || session.retainedFrameSamples < 0 || session.retainedFrameSamples > GPU5_APP_METRICS_MAX_FRAME_SAMPLES) {
+      errors.push(`application metrics session ${index + 1} retained samples exceed the bound`);
+    }
+    if (!Number.isSafeInteger(session.submittedFrames) || session.submittedFrames < session.retainedFrameSamples) {
+      errors.push(`application metrics session ${index + 1} submitted frame count is invalid`);
+    }
+    for (const field of ["successfulPresentations", "presentationFailures"]) {
+      if (!Number.isSafeInteger(session[field]) || session[field] < 0) errors.push(`application metrics session ${index + 1} ${field} is invalid`);
+    }
+  });
+  if (Array.isArray(report.sessions)) {
+    for (const field of ["successfulPresentations", "presentationFailures", "submittedFrames"]) {
+      if (Number.isSafeInteger(report[field]) && report.sessions.every((session) => Number.isSafeInteger(session?.[field]))) {
+        const sum = report.sessions.reduce((total, session) => total + session[field], 0);
+        if (sum !== report[field]) errors.push(`application metrics aggregate ${field} does not match sessions`);
+      }
+    }
+    if (!report.sessions.some((session) => finiteNonNegative(session?.firstPresentationLatencyMs))) {
+      errors.push("application metrics must include first presentation latency");
+    }
+  }
+  return errors;
+}
 
 /** Validate the emitted artifact rather than trusting its summary/declaration fields. */
 export function validateProbeArtifact(report, expectedMode) {
@@ -39,6 +85,7 @@ export function validateProbeArtifact(report, expectedMode) {
       if (!exactSamples(run?.measuredRafIntervalMs, GPU5_MEASURED_FRAMES)) errors.push(`run ${index + 1} rAF samples are incomplete`);
     });
     if (report.fallback?.svg_present_before_gpu !== true) errors.push("available WebGPU probe must prove SVG fallback before GPU presentation");
+    errors.push(...validateApplicationMetrics(report.application_metrics));
     if (typeof report.pass !== "boolean" || !["pass", "fail"].includes(report.outcome)) errors.push("available WebGPU probe must declare a pass or fail outcome");
     else if ((report.outcome === "pass") !== report.pass) errors.push("available WebGPU probe pass and outcome disagree");
   } else {
@@ -169,7 +216,8 @@ export function completeReport(base, runs) {
   );
   const passed = evidenceComplete
     && runs.every((run) => run.summary?.pass)
-    && base.fallback.svg_present_before_gpu === true;
+    && base.fallback.svg_present_before_gpu === true
+    && validateApplicationMetrics(base.application_metrics).length === 0;
   return {
     ...base,
     webgpu_available: true,

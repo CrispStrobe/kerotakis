@@ -4,15 +4,22 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { PROBE_SCHEMA, RELEASE_HOSTS, evaluateReleaseMatrix, mapProbeArtifacts } from "./gpu5-release-evaluate.mjs";
 
 const values = (count, value) => Array(count).fill(value);
+const applicationMetrics = {
+  schema: "kerotakis.webgpu-metrics.v1", activeSessions: 1,
+  successfulPresentations: 600, presentationFailures: 0, submittedFrames: 600,
+  sessions: [{ identity: 1, retainedFrameSamples: 120, submittedFrames: 600, successfulPresentations: 600, presentationFailures: 0, firstPresentationLatencyMs: 4 }],
+};
 const probe = (mode, cpu = 9) => ({
   schema: PROBE_SCHEMA, mode,
   host: "test-host",
   evidence_complete: true,
   webgpu_available: mode === "webgpu", outcome: mode === "webgpu" ? "pass" : "lightweight-baseline-recorded",
   pass: true,
+  ...(mode === "webgpu" ? { application_metrics: applicationMetrics } : {}),
   fallback: { svg_present_before_gpu: true, svg_present_now: mode !== "webgpu", gpu_presented: mode === "webgpu" },
   startup: {
     coldStartupMs: values(10, mode === "webgpu" ? 1050 : 1000),
@@ -23,7 +30,7 @@ const probe = (mode, cpu = 9) => ({
   })) : [],
 });
 const asset = (gzipBytes) => ({ version: 1, totals: { all: { gzipBytes } } });
-const row = (host, cpu = 9) => mapProbeArtifacts(host, probe("lightweight"), probe("webgpu", cpu), asset(100000), asset(165536));
+const row = (host, cpu = 9) => ({ physical: true, ...mapProbeArtifacts(host, probe("lightweight"), probe("webgpu", cpu), asset(100000), asset(165536)) });
 
 test("maps raw paired probes and assets without trusting probe summaries", () => {
   const result = row("web");
@@ -47,7 +54,7 @@ test("matrix requires all five unique hosts and unavailable never passes", () =>
   assert.match(evaluateReleaseMatrix([row("web")]).errors.join("\n"), /missing required host row: android/);
   assert.match(evaluateReleaseMatrix([...RELEASE_HOSTS.map((host) => row(host)), row("web")]).errors.join("\n"), /duplicate host row: web/);
   const unavailableProbe = probe("webgpu"); unavailableProbe.webgpu_available = false; unavailableProbe.outcome = "webgpu-unavailable";
-  const unavailable = RELEASE_HOSTS.map((host) => host === "ios" ? mapProbeArtifacts(host, probe("lightweight"), unavailableProbe, asset(1), asset(1)) : row(host));
+  const unavailable = RELEASE_HOSTS.map((host) => host === "ios" ? { physical: true, ...mapProbeArtifacts(host, probe("lightweight"), unavailableProbe, asset(1), asset(1)) } : row(host));
   assert.equal(evaluateReleaseMatrix(unavailable).passed, false);
   assert.equal(evaluateReleaseMatrix(unavailable).complete, false);
 });
@@ -83,7 +90,12 @@ test("rejects incomplete run arrays and absent fallback proof even when summarie
 test("CLI consumes four evidence files and does not claim matrix release from one host", async () => {
   const directory = await mkdtemp(join(tmpdir(), "kero-gpu5-gate-"));
   const files = { baseline: probe("lightweight"), candidate: probe("webgpu"), baselineAssets: asset(100), candidateAssets: asset(100) };
-  for (const [name, value] of Object.entries(files)) await writeFile(join(directory, `${name}.json`), JSON.stringify(value));
+  const descriptors = {};
+  for (const [name, value] of Object.entries(files)) {
+    const text = JSON.stringify(value);
+    await writeFile(join(directory, `${name}.json`), text);
+    descriptors[name] = { path: `${name}.json`, sha256: createHash("sha256").update(text).digest("hex") };
+  }
   const result = spawnSync(process.execPath, [
     new URL("./gpu5-release-evaluate.mjs", import.meta.url).pathname, "--host", "web",
     "--baseline-probe", join(directory, "baseline.json"), "--candidate-probe", join(directory, "candidate.json"),
@@ -94,14 +106,18 @@ test("CLI consumes four evidence files and does not claim matrix release from on
   assert.equal(report.releasePassed, null);
   assert.equal(report.row.passed, true);
 
+  const shader = "Nguyen, Fedkiw & Jensen DOI 10.1145/566654.566643 independent; no source or equations were copied\nexport const IGNITION_FLAME_WGSL = `fn vertex_main() {}`;";
+  await writeFile(join(directory, "shader.ts"), shader);
+  descriptors.shader = { path: "shader.ts", sha256: createHash("sha256").update(shader).digest("hex") };
   const manifest = {
-    schemaVersion: 1,
+    schemaVersion: 2,
+    shaderSource: descriptors.shader,
     rows: RELEASE_HOSTS.map((host) => ({
-      host,
-      baselineProbe: "baseline.json",
-      candidateProbe: "candidate.json",
-      baselineAssets: "baselineAssets.json",
-      candidateAssets: "candidateAssets.json",
+      host, physical: true, reviewer: "Release Lab", measuredAt: "2026-08-31T00:00:00Z",
+      baselineProbe: descriptors.baseline,
+      candidateProbe: descriptors.candidate,
+      baselineAssets: descriptors.baselineAssets,
+      candidateAssets: descriptors.candidateAssets,
     })),
   };
   await writeFile(join(directory, "matrix.json"), JSON.stringify(manifest));
@@ -113,5 +129,29 @@ test("CLI consumes four evidence files and does not claim matrix release from on
   const matrixReport = JSON.parse(matrixResult.stdout);
   assert.equal(matrixReport.passed, true);
   assert.equal(matrixReport.complete, true);
+  assert.equal(matrixReport.provenance.passed, true);
   assert.deepEqual(matrixReport.rows.map((entry) => entry.host), RELEASE_HOSTS);
+});
+
+test("matrix CLI rejects nonphysical rows and tampered artifact hashes", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "kero-gpu5-tamper-"));
+  const path = join(directory, "artifact.json");
+  await writeFile(path, "{}");
+  const descriptor = { path: "artifact.json", sha256: "0".repeat(64) };
+  const rows = RELEASE_HOSTS.map((host) => ({
+    host, physical: true, reviewer: "Lab", measuredAt: "2026-08-31T00:00:00Z",
+    baselineProbe: descriptor, candidateProbe: descriptor,
+    baselineAssets: descriptor, candidateAssets: descriptor,
+  }));
+  rows[0].physical = false;
+  await writeFile(join(directory, "matrix.json"), JSON.stringify({ schemaVersion: 2, shaderSource: descriptor, rows }));
+  const result = spawnSync(process.execPath, [
+    new URL("./gpu5-release-evaluate.mjs", import.meta.url).pathname,
+    "--matrix", join(directory, "matrix.json"),
+  ], { encoding: "utf8" });
+  assert.equal(result.status, 1, result.stderr);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.passed, false);
+  assert.match(report.rows[0].errors.join("\n"), /physical/);
+  assert.match(report.rows[1].errors.join("\n"), /sha256 mismatch/);
 });

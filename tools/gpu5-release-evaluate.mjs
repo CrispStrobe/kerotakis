@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import { readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { createHash } from "node:crypto";
+import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { validateProbeArtifact } from "./gpu5-probe-lib.mjs";
+import { validateShaderProvenance } from "./gui098-release-audit.mjs";
 
 export const RELEASE_HOSTS = ["web", "android", "ios", "macos", "windows"];
 export const CPU_P95_LIMIT_MS = 9;
@@ -83,20 +85,36 @@ export function evaluateMeasuredRow(row) {
   } };
 }
 
-export function evaluateReleaseMatrix(rows) {
-  const errors = [];
-  if (!Array.isArray(rows)) return { schemaVersion: 1, passed: false, complete: false, rows: [], errors: ["rows must be an array"] };
+export function evaluateReleaseMatrix(rows, provenanceErrors = []) {
+  const errors = [...provenanceErrors];
+  if (!Array.isArray(rows)) return { schemaVersion: 2, passed: false, complete: false, rows: [], errors: ["rows must be an array"] };
   for (const host of RELEASE_HOSTS) {
     const count = rows.filter((row) => row?.host === host).length;
     if (count === 0) errors.push(`missing required host row: ${host}`);
     if (count > 1) errors.push(`duplicate host row: ${host}`);
   }
   for (const row of rows) if (!RELEASE_HOSTS.includes(row?.host)) errors.push(`unsupported host row: ${row?.host ?? "unknown"}`);
+  for (const row of rows) if (row?.physical !== true) errors.push(`host row is not verified physical evidence: ${row?.host ?? "unknown"}`);
   const complete = errors.length === 0 && rows.every((row) => row.status === "evaluated");
-  return { schemaVersion: 1, passed: complete && rows.every((row) => row.passed), complete, rows, errors };
+  return { schemaVersion: 2, passed: complete && rows.every((row) => row.passed), complete, rows, errors };
 }
 
 const json = async (path) => JSON.parse(await readFile(resolve(path), "utf8"));
+const artifactBytes = async (root, descriptor, label) => {
+  if (!descriptor || typeof descriptor !== "object" || typeof descriptor.path !== "string") throw new Error(`${label} must provide path and sha256`);
+  if (!/^[a-f0-9]{64}$/.test(descriptor.sha256 ?? "")) throw new Error(`${label} sha256 must be 64 lowercase hex characters`);
+  const path = resolve(root, descriptor.path);
+  const relativePath = relative(root, path);
+  if (isAbsolute(relativePath) || relativePath === ".." || relativePath.startsWith(`..${sep}`)) throw new Error(`${label} path escapes the matrix directory`);
+  const bytes = await readFile(path);
+  const digest = createHash("sha256").update(bytes).digest("hex");
+  if (digest !== descriptor.sha256) throw new Error(`${label} sha256 mismatch`);
+  return { bytes, digest };
+};
+const artifact = async (root, descriptor, label) => {
+  const { bytes } = await artifactBytes(root, descriptor, label);
+  return JSON.parse(bytes.toString("utf8"));
+};
 const option = (argv, name) => { const index = argv.indexOf(`--${name}`); return index < 0 ? undefined : argv[index + 1]; };
 const usage = "usage: node tools/gpu5-release-evaluate.mjs --host web --baseline-probe FILE --candidate-probe FILE --baseline-assets FILE --candidate-assets FILE\n   or: node tools/gpu5-release-evaluate.mjs --matrix FILE";
 
@@ -105,15 +123,41 @@ async function main(argv) {
   let report;
   if (matrixPath) {
     const manifest = await json(matrixPath);
-    if (manifest?.schemaVersion !== 1 || !Array.isArray(manifest.rows)) throw new Error("matrix manifest must have schemaVersion 1 and rows");
+    if (manifest?.schemaVersion !== 2 || !Array.isArray(manifest.rows)) throw new Error("matrix manifest must have schemaVersion 2 and rows");
     const root = dirname(resolve(matrixPath));
-    const readRelative = (path) => json(resolve(root, path));
-    const rows = await Promise.all(manifest.rows.map(async (entry) => mapProbeArtifacts(
-      entry.host,
-      await readRelative(entry.baselineProbe), await readRelative(entry.candidateProbe),
-      await readRelative(entry.baselineAssets), await readRelative(entry.candidateAssets),
-    )));
-    report = evaluateReleaseMatrix(rows);
+    const provenanceErrors = [];
+    let provenance = null;
+    try {
+      const source = await artifactBytes(root, manifest.shaderSource, "shaderSource");
+      provenanceErrors.push(...validateShaderProvenance(source.bytes.toString("utf8")));
+      provenance = { sha256: source.digest, passed: provenanceErrors.length === 0 };
+    } catch (error) {
+      provenanceErrors.push(error instanceof Error ? error.message : String(error));
+    }
+    const rows = await Promise.all(manifest.rows.map(async (entry) => {
+      if (entry?.physical !== true) return { status: "invalid", host: entry?.host, physical: false, errors: ["matrix row must explicitly identify a physical host"] };
+      if (typeof entry.reviewer !== "string" || !entry.reviewer.trim()
+        || typeof entry.measuredAt !== "string" || !/^\d{4}-\d{2}-\d{2}T/.test(entry.measuredAt)
+        || Number.isNaN(Date.parse(entry.measuredAt))) {
+        return { status: "invalid", host: entry?.host, physical: true, errors: ["matrix row requires reviewer and measuredAt"] };
+      }
+      try {
+        return {
+          ...mapProbeArtifacts(
+            entry.host,
+            await artifact(root, entry.baselineProbe, `${entry.host} baselineProbe`),
+            await artifact(root, entry.candidateProbe, `${entry.host} candidateProbe`),
+            await artifact(root, entry.baselineAssets, `${entry.host} baselineAssets`),
+            await artifact(root, entry.candidateAssets, `${entry.host} candidateAssets`),
+          ),
+          physical: true,
+          provenance: { reviewer: entry.reviewer, measuredAt: entry.measuredAt },
+        };
+      } catch (error) {
+        return { status: "invalid", host: entry?.host, physical: true, errors: [error instanceof Error ? error.message : String(error)] };
+      }
+    }));
+    report = { ...evaluateReleaseMatrix(rows, provenanceErrors), provenance };
     process.exitCode = report.passed ? 0 : 1;
   } else {
     const host = option(argv, "host"), baselineProbe = option(argv, "baseline-probe"), candidateProbe = option(argv, "candidate-probe");

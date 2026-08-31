@@ -1,6 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
 import { createWebGpuPresentationMetrics } from "./webGpuMetrics";
-import { createWebGpuMetricsRegistry, WEB_GPU_METRICS_MAX_SESSIONS } from "./webGpuMetricsRegistry";
+import {
+  attachWebGpuMetricsReporter,
+  browserWebGpuMetricsReporterTarget,
+  createWebGpuMetricsRegistry,
+  WEB_GPU_METRICS_MAX_SESSIONS,
+  WEB_GPU_METRICS_REPORT_SCHEMA,
+  WEB_GPU_METRICS_REQUEST_EVENT,
+} from "./webGpuMetricsRegistry";
 
 describe("WebGPU metrics registry", () => {
   it("aggregates active renderer sessions and removes disposed entries", () => {
@@ -14,6 +21,7 @@ describe("WebGPU metrics registry", () => {
     second.metrics.recordPresentationFailure();
 
     expect(registry.snapshot()).toMatchObject({
+      schema: WEB_GPU_METRICS_REPORT_SCHEMA,
       activeSessions: 2,
       successfulPresentations: 1,
       presentationFailures: 1,
@@ -21,6 +29,33 @@ describe("WebGPU metrics registry", () => {
     });
     first.dispose();
     expect(registry.snapshot().sessions.map(({ identity }) => identity)).toEqual(["vessel-2"]);
+  });
+
+  it("reports only on request and removes the request listener", () => {
+    let listener: ((event: unknown) => void) | undefined;
+    const target = {
+      addEventListener: vi.fn((_type: string, next: (event: unknown) => void) => { listener = next; }),
+      removeEventListener: vi.fn(),
+    };
+    const registry = createWebGpuMetricsRegistry();
+    registry.open("vessel");
+    const respond = vi.fn();
+    const detach = attachWebGpuMetricsReporter(target, registry);
+    expect(target.addEventListener).toHaveBeenCalledWith(WEB_GPU_METRICS_REQUEST_EVENT, expect.any(Function));
+    listener?.({ detail: { respond } });
+    expect(respond).toHaveBeenCalledWith(expect.objectContaining({ schema: WEB_GPU_METRICS_REPORT_SCHEMA, activeSessions: 1 }));
+    detach();
+    detach();
+    listener?.({ detail: { respond } });
+    expect(respond).toHaveBeenCalledTimes(1);
+    expect(target.removeEventListener).toHaveBeenCalledTimes(1);
+  });
+
+  it("is SSR safe and contains hostile reporter targets and responders", () => {
+    expect(browserWebGpuMetricsReporterTarget(undefined)).toBeNull();
+    expect(browserWebGpuMetricsReporterTarget({})).toBeNull();
+    const target = { addEventListener: () => { throw new Error("add"); }, removeEventListener: vi.fn() };
+    expect(() => attachWebGpuMetricsReporter(target, createWebGpuMetricsRegistry())()).not.toThrow();
   });
 
   it("bounds simultaneous tracked sessions while every handle remains usable", () => {
