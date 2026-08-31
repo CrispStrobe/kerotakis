@@ -93,8 +93,17 @@ fn ammonium_chloride_leaves_and_common_salt_stays() {
     add(&mut bench, &mut stack, "NH4Cl", 0.2);
     add(&mut bench, &mut stack, "NaCl", 0.1);
 
+    // Enough heat to pass ammonium chloride's 338 °C sublimation point and
+    // nowhere near sodium chloride's 800.7 °C melting point — the window
+    // the separation lives in. 0.2 mol NH4Cl + 0.1 mol NaCl is 21.9 J/K, so
+    // 9 kJ lands somewhere near 700 K.
     let before = mass(&bench);
-    let events = heat(&mut bench, &mut stack, 60_000.0);
+    let events = heat(&mut bench, &mut stack, 9_000.0);
+    let t = vessel_of(&bench).temperature.0;
+    assert!(
+        (611.15..1073.85).contains(&t),
+        "the separation window is between the two transitions; landed at {t} K"
+    );
 
     assert!(
         moles(&bench, "NH4Cl", Phase::Solid) < 1e-9,
@@ -130,6 +139,71 @@ fn ammonium_chloride_leaves_and_common_salt_stays() {
 fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
     // The cold-finger half. Sealed, nothing crosses the boundary at all, so
     // the balance never moves — and the solid comes back when it cools.
+    //
+    // The quantities are chosen so the flask survives: 0.02 mol of vapour in
+    // two litres is about 0.6 atm at these temperatures, well inside school
+    // glassware's rating. The first draft of this test sealed ten times as
+    // much into half the volume and the vessel burst, correctly — that case
+    // is now pinned below on purpose rather than by accident.
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "NH4Cl", 0.02);
+    bench
+        .step_with(
+            Operator::Seal {
+                vessel: VesselId(0),
+                headspace_volume: Liters(2.0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("seal");
+
+    // 1.6 kJ, not 0.8: the vessel carries heat capacity of its own beyond
+    // the 1.68 J/K of the sample, so the first attempt at this test stopped
+    // at 534 K — short of the 611 K it was aiming for. The assertion below
+    // is what caught it, which is why it asserts the temperature and not
+    // just the phase.
+    let sealed_mass = mass(&bench);
+    heat(&mut bench, &mut stack, 1_600.0);
+    let hot = vessel_of(&bench).temperature.0;
+    assert!(
+        hot >= 611.15,
+        "should be past the sublimation point; {hot} K"
+    );
+    assert!(
+        vessel_of(&bench).pressure.0 < kerotakis_core::senses::GLASS_BURST_PA,
+        "the flask must survive: {} Pa",
+        vessel_of(&bench).pressure.0
+    );
+    assert!(
+        (moles(&bench, "NH4Cl", Phase::Gas) - 0.02).abs() < 1e-9,
+        "a sealed vessel keeps its vapour; gas = {}",
+        moles(&bench, "NH4Cl", Phase::Gas)
+    );
+    assert!(
+        (mass(&bench) - sealed_mass).abs() < 1e-9,
+        "a sealed vessel conserves mass exactly through a phase change"
+    );
+
+    cool(&mut bench, &mut stack, 900.0);
+    let cold = vessel_of(&bench).temperature.0;
+    assert!(
+        cold < 611.15,
+        "should be back below the threshold; {cold} K"
+    );
+    assert!(
+        (moles(&bench, "NH4Cl", Phase::Solid) - 0.02).abs() < 1e-9,
+        "deposition should return every mole to the solid"
+    );
+    assert!((mass(&bench) - sealed_mass).abs() < 1e-9);
+}
+
+#[test]
+fn a_sealed_flask_of_subliming_solid_on_a_hot_plate_bursts() {
+    // Not a curiosity: sublimation makes gas out of a solid, and a sealed
+    // vessel has a limit. Ten times the sample in half the volume is a bomb,
+    // and the engine says so rather than quietly holding the vapour.
     let mut bench = Bench::new();
     let mut stack = stack();
     add(&mut bench, &mut stack, "NH4Cl", 0.2);
@@ -143,24 +217,18 @@ fn a_sealed_vessel_keeps_the_vapour_and_gives_it_back_on_cooling() {
             &PermissiveScreen,
         )
         .expect("seal");
-
-    let sealed_mass = mass(&bench);
-    heat(&mut bench, &mut stack, 60_000.0);
+    let events = heat(&mut bench, &mut stack, 60_000.0);
     assert!(
-        moles(&bench, "NH4Cl", Phase::Gas) > 0.19,
-        "a sealed vessel keeps its vapour"
+        events.iter().any(|e| matches!(e, Event::Burst { .. })),
+        "the flask should burst rather than hold this: {events:#?}"
     );
     assert!(
-        (mass(&bench) - sealed_mass).abs() < 1e-9,
-        "a sealed vessel conserves mass exactly through a phase change"
+        events.iter().any(|e| matches!(
+            e,
+            Event::HazardWarning { rule, .. } if rule == "sealed-vessel-burst"
+        )),
+        "and it should say why it was dangerous"
     );
-
-    cool(&mut bench, &mut stack, 200_000.0);
-    assert!(
-        (moles(&bench, "NH4Cl", Phase::Solid) - 0.2).abs() < 1e-9,
-        "deposition should return every mole to the solid"
-    );
-    assert!((mass(&bench) - sealed_mass).abs() < 1e-9);
 }
 
 #[test]

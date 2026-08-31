@@ -233,6 +233,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "O2"
         | "N2"
         | "CuSO4"
+        | "chalcanthite"
         | "Cu+2"
         | "FeSO4"
         | "Fe+2"
@@ -318,6 +319,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "CuO",
     "Cu(OH)2",
     "CuSO4",
+    "chalcanthite",
     "Fe",
     "Fe+2",
     "Fe+3",
