@@ -7,6 +7,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::species::{Phase, SpeciesId};
 use crate::vessel::Vessel;
 
 /// What an instrument does to the system when it measures.
@@ -384,6 +385,246 @@ pub struct QualitativeResult {
     pub observed_value: f64,
     pub detected: bool,
     pub consistent_with: Vec<String>,
+}
+
+// ── EXP-33: the melting-point apparatus ────────────────────────────
+
+/// Which transition the apparatus is set up to find.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TransitionRead {
+    /// A capillary of dry solid in the block: the melting point.
+    Melting,
+    /// A flask of liquid with a thermometer in the vapour: the boiling point.
+    Boiling,
+}
+
+impl TransitionRead {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Melting => "melting point",
+            Self::Boiling => "boiling point",
+        }
+    }
+    /// The phase the technique needs in the sample holder.
+    fn wanted_phase(&self) -> Phase {
+        match self {
+            Self::Melting => Phase::Solid,
+            Self::Boiling => Phase::Liquid,
+        }
+    }
+}
+
+/// Why the apparatus did or did not produce a sharp number.
+///
+/// The refusals are the pedagogy. "Mixture: no sharp point" is the single
+/// most useful thing a melting-point apparatus tells a chemist, and a bench
+/// that answered a mixture with the pure substance's constant would be
+/// teaching the opposite of the lesson.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PurityVerdict {
+    /// One substance, and the registry has its transition temperature.
+    Pure,
+    /// More than one substance in the sample holder.
+    Mixture,
+    /// One substance, but wet — or dissolved in something. The technique
+    /// needs an isolated sample, and packing a damp solid is the classic
+    /// way to get a low, broad, wrong answer.
+    NotIsolated,
+    /// One substance, isolated, but no transition temperature is curated.
+    NoData,
+    /// Nothing of the right phase is in the vessel at all.
+    NothingToTest,
+}
+
+/// The threshold above which a second substance stops being a trace and
+/// starts being a mixture, as a mole fraction of the sample.
+///
+/// A stated model choice, deliberately stricter than a real apparatus: a
+/// capillary broadens visibly somewhere near a mole per cent, so refusing
+/// at a tenth of one errs towards calling a sample impure. The engine would
+/// rather withhold a sharp number it is not entitled to than print one.
+pub const PURITY_TRACE_FRACTION: f64 = 1e-3;
+
+/// What the apparatus found. Everything the renderer needs, including the
+/// citation — a transition temperature is curated data, and a number shown
+/// without the book it came from is not evidence.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct TransitionReading {
+    pub kind: TransitionRead,
+    pub verdict: PurityVerdict,
+    /// The one substance in the holder, where there is one.
+    pub species: Option<SpeciesId>,
+    /// The temperature in °C, where the apparatus is entitled to one.
+    pub value_c: Option<f64>,
+    /// What the sample actually does there — it is not always melting.
+    pub outcome: Option<crate::species::TransitionOutcome>,
+    /// Per-record citation for `value_c`.
+    pub source: Option<String>,
+    /// Everything of the wanted phase, in registry order. For a mixture this
+    /// is the answer: these are the things that are in the way.
+    pub components: Vec<SpeciesId>,
+    /// The lowest pure melting point among the components — the bound the
+    /// mixture's own range begins below. Direction only; see `boundary`.
+    pub lowest_component_c: Option<f64>,
+    /// What the reading does NOT claim.
+    pub boundary: Option<String>,
+}
+
+/// What this apparatus is and is not, said once so every register can say it.
+pub const APPARATUS_BOUNDARY: &str =
+    "the block does not simulate the melt: it reports the curated literature constant for \
+     the substance the bench knows is in the capillary, to the precision a school apparatus \
+     resolves. A real determination is the evidence for an identity; here the identity is \
+     the evidence for the number, and only the refusals are computed from the sample";
+
+/// The mixture refusal's own boundary — the one number this bench will not
+/// invent.
+pub const MIXTURE_BOUNDARY: &str =
+    "the direction is a law and is claimed: a mixture melts below its lowest-melting pure \
+     component and over a range, not at a point. The SIZE of the depression is not claimed — \
+     that needs the cryoscopic constant and enthalpy of fusion of the major component, and \
+     this registry curates neither for solids other than water";
+
+/// Read a melting or boiling point off a vessel.
+///
+/// The whole method is: find out whether the sample is one substance, and
+/// only then look the constant up.
+pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReading {
+    let wanted = kind.wanted_phase();
+    let mut holder: Vec<(SpeciesId, f64)> = Vec::new();
+    let mut elsewhere = 0.0f64;
+    for p in &vessel.contents {
+        if p.moles.0 <= 0.0 {
+            continue;
+        }
+        if p.phase == wanted {
+            match holder.iter_mut().find(|(s, _)| *s == p.species) {
+                Some((_, n)) => *n += p.moles.0,
+                None => holder.push((p.species.clone(), p.moles.0)),
+            }
+        } else {
+            elsewhere += p.moles.0;
+        }
+    }
+    let total: f64 = holder.iter().map(|(_, n)| n).sum();
+    let mut reading = TransitionReading {
+        kind,
+        verdict: PurityVerdict::NothingToTest,
+        species: None,
+        value_c: None,
+        outcome: None,
+        source: None,
+        components: holder.iter().map(|(s, _)| s.clone()).collect(),
+        lowest_component_c: None,
+        boundary: None,
+    };
+    if total <= 0.0 {
+        return reading;
+    }
+
+    // The lowest pure point among whatever is in the holder — the mixture
+    // message's one grounded number, and harmless to compute either way.
+    reading.lowest_component_c = holder
+        .iter()
+        .filter_map(|(s, _)| {
+            let t = crate::species::lookup(s)?.transitions?;
+            let (k, _) = match kind {
+                TransitionRead::Melting => t.melting_reading()?,
+                TransitionRead::Boiling => t.boiling_reading()?,
+            };
+            Some(k - 273.15)
+        })
+        .fold(None, |acc: Option<f64>, c| {
+            Some(acc.map_or(c, |a| a.min(c)))
+        });
+
+    let significant: Vec<&(SpeciesId, f64)> = holder
+        .iter()
+        .filter(|(_, n)| n / total > PURITY_TRACE_FRACTION)
+        .collect();
+    if significant.len() > 1 {
+        reading.verdict = PurityVerdict::Mixture;
+        reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        return reading;
+    }
+    let (only, _) = significant
+        .first()
+        .copied()
+        .expect("a positive total has at least one significant component");
+    reading.species = Some(only.clone());
+
+    // Anything of another phase in the same vessel means the sample was not
+    // isolated: a damp solid, or a liquid with something dissolved in it.
+    // Both give a low, broad, wrong answer on a real bench, which is why the
+    // technique insists on a dry, isolated sample rather than tolerating one.
+    if elsewhere > 0.0 {
+        reading.verdict = PurityVerdict::NotIsolated;
+        reading.boundary = Some(MIXTURE_BOUNDARY.to_string());
+        return reading;
+    }
+
+    let Some(data) = crate::species::lookup(only) else {
+        reading.verdict = PurityVerdict::NoData;
+        return reading;
+    };
+    let found = data.transitions.and_then(|t| match kind {
+        TransitionRead::Melting => t.melting_reading().map(|r| (r, t)),
+        TransitionRead::Boiling => t.boiling_reading().map(|r| (r, t)),
+    });
+    match found {
+        Some(((k, outcome), t)) => {
+            reading.verdict = PurityVerdict::Pure;
+            reading.value_c = Some(k - 273.15);
+            reading.outcome = Some(outcome);
+            reading.source = Some(t.source.to_string());
+            reading.boundary = Some(match t.boundary {
+                Some(extra) => format!("{APPARATUS_BOUNDARY}. {extra}"),
+                None => APPARATUS_BOUNDARY.to_string(),
+            });
+        }
+        None => reading.verdict = PurityVerdict::NoData,
+    }
+    reading
+}
+
+/// The INST-001 face of the apparatus: a scalar reading where there is one.
+pub struct MeltingPointApparatus(pub TransitionRead);
+
+impl InstrumentContract for MeltingPointApparatus {
+    fn name(&self) -> &'static str {
+        match self.0 {
+            TransitionRead::Melting => "melting-point apparatus",
+            TransitionRead::Boiling => "boiling-point apparatus",
+        }
+    }
+
+    fn applies(&self, vessel: &Vessel) -> bool {
+        !matches!(
+            read_transition(vessel, self.0).verdict,
+            PurityVerdict::NothingToTest
+        )
+    }
+
+    fn mode(&self) -> InstrumentMode {
+        // The capillary is charged from the bulk and the bulk is untouched:
+        // the sample in the tube is an aliquot too small for the ledger.
+        InstrumentMode::Passive
+    }
+
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        let reading = read_transition(vessel, self.0);
+        Some(Reading {
+            observable: reading.kind.as_str().to_string(),
+            value: reading.value_c?,
+            unit: "°C".into(),
+            // A school block resolves half a degree; the curated constants
+            // are quoted no finer, so claiming more would be theatre.
+            precision: Some(0.5),
+            in_range: true,
+        })
+    }
 }
 
 #[cfg(test)]

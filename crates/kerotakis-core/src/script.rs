@@ -480,6 +480,10 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     "calorimeter" => Instrument::Calorimeter,
                     "chromatograph" | "column" => Instrument::Chromatograph,
                     "geiger" => Instrument::GeigerCounter,
+                    // EXP-33. Both spellings, because a learner types the
+                    // quantity and a technician types the apparatus.
+                    "melting_point" | "melting-point" | "mp" => Instrument::MeltingPointApparatus,
+                    "boiling_point" | "boiling-point" | "bp" => Instrument::BoilingPointApparatus,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }

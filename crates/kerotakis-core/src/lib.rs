@@ -56,6 +56,7 @@ pub mod packs;
 pub mod packs_manifest;
 pub mod parallel;
 pub mod particles;
+pub mod phase_route;
 pub mod photochem;
 pub mod pigment;
 pub mod polymer;
@@ -100,13 +101,15 @@ pub use element_coverage::{
 };
 pub use i18n::Locale;
 pub use instrument::{
-    Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
-    Reading, Thermometer,
+    read_transition, Balance, ConductivityMeter, InstrumentContract, InstrumentMode,
+    MeltingPointApparatus, PhMeter, PressureGauge, PurityVerdict, Reading, Thermometer,
+    TransitionRead, TransitionReading,
 };
 pub use ionic::{net_ionic, net_ionic_for, IonTerm, IonicBasis, NetIonic};
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
+pub use phase_route::PhaseRouteEquilibrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
 pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,

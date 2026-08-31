@@ -1181,6 +1181,24 @@
       "retrieved": null
     },
     {
+      "id": "us-federal/usgs-chalcanthite",
+      "citation": "USGS PHREEQC wateq4f.dat Chalcanthite phase supplies the CuSO4:5H2O dissolution stoichiometry and log K. Molar mass 249.684 g/mol is the anhydrous salt plus five waters from the same IUPAC/CIAAW 2021 atomic weights, additive by construction so the dehydration mass ledger closes exactly; heat capacity 281.0 J/(mol.K) is the anhydrous value plus a Kopp's-rule increment of 36.2 per water of crystallisation, an explicit editorial estimate; crystal density 2.286 g/mL and the deep-blue appearance are room-temperature teaching properties. No InChIKey crosswalk is claimed. Dissolution enthalpy remains unclaimed: it is hydrate-dependent and the anhydrous value would be wrong here. Retrieved 2026-08-29",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/iphreeqc/database/wateq4f.dat",
+      "revision": "USGS WATEQ4F Chalcanthite",
+      "retrieved": "2026-08-29"
+    },
+    {
+      "id": "kerotakis/phase-transitions-v1",
+      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "v1",
+      "retrieved": "2026-08-29"
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL",
       "licence": "AGPL-3.0-or-later",
@@ -3269,6 +3287,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "chalcanthite",
+      "canonical_key": "legacy:species/chalcanthite",
+      "name": "copper(II) sulfate pentahydrate (chalcanthite)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -16678,6 +16710,152 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/chalcanthite",
+      "species_id": "chalcanthite",
+      "formula": "CuSO4·5H2O",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 9.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-chalcanthite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -16772,6 +16950,80 @@
       }
     },
     {
+      "id": "melting-point/water",
+      "species_id": "water",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 273.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure substance's transitions at one atmosphere. A solution's are shifted by whatever is dissolved in it, and that shift is computed elsewhere (kerotakis_core::states) rather than recorded here"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/water",
+      "species_id": "water",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 373.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure substance's transitions at one atmosphere. A solution's are shifted by whatever is dissolved in it, and that shift is computed elsewhere (kerotakis_core::states) rather than recorded here"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/ethanol",
       "species_id": "ethanol",
       "phase": "liquid",
@@ -16862,6 +17114,80 @@
       }
     },
     {
+      "id": "melting-point/ethanol",
+      "species_id": "ethanol",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 159.01,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/ethanol",
+      "species_id": "ethanol",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 351.44,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/NaCl",
       "species_id": "NaCl",
       "phase": "solid",
@@ -16948,6 +17274,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/NaCl",
+      "species_id": "NaCl",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1073.85,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/NaCl",
+      "species_id": "NaCl",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1738.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -17072,6 +17472,43 @@
       }
     },
     {
+      "id": "melting-point/AgNO3",
+      "species_id": "AgNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 485.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "silver nitrate decomposes well below any boiling point; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/AgNO3",
       "species_id": "AgNO3",
       "phase": "solid",
@@ -17192,6 +17629,80 @@
       }
     },
     {
+      "id": "melting-point/AgCl",
+      "species_id": "AgCl",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 728.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/AgCl",
+      "species_id": "AgCl",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1820.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/AgCl",
       "species_id": "AgCl",
       "phase": "solid",
@@ -17308,6 +17819,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/H2O2",
+      "species_id": "H2O2",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 272.72,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the boiling point is the pure liquid's; concentrated hydrogen peroxide decomposes well before reaching it, and that decomposition is not modelled by this row"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/H2O2",
+      "species_id": "H2O2",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 423.35,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the boiling point is the pure liquid's; concentrated hydrogen peroxide decomposes well before reaching it, and that decomposition is not modelled by this row"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -17758,6 +18343,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/S",
+      "species_id": "S",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 388.36,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the melting point is the alpha-rhombic form's; sulfur has several solid polymorphs and this registry carries one"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/S",
+      "species_id": "S",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 717.76,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the melting point is the alpha-rhombic form's; sulfur has several solid polymorphs and this registry carries one"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -18782,6 +19441,80 @@
       }
     },
     {
+      "id": "melting-point/NaOH",
+      "species_id": "NaOH",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 596.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/NaOH",
+      "species_id": "NaOH",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1661.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/NaOH",
       "species_id": "NaOH",
       "phase": "solid",
@@ -19262,6 +19995,80 @@
       }
     },
     {
+      "id": "melting-point/CH3COOH",
+      "species_id": "CH3COOH",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 289.75,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "glacial acetic acid freezes just below room temperature, which is where the name comes from"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/CH3COOH",
+      "species_id": "CH3COOH",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 391.05,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "glacial acetic acid freezes just below room temperature, which is where the name comes from"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/NaOAc",
       "species_id": "NaOAc",
       "phase": "solid",
@@ -19678,6 +20485,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Na2CO3",
+      "species_id": "Na2CO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1124.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "sodium carbonate decomposes above its melting point rather than boiling; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -20132,6 +20976,43 @@
       }
     },
     {
+      "id": "melting-point/KCl",
+      "species_id": "KCl",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1044.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "potassium chloride sublimes appreciably before it boils; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/KCl",
       "species_id": "KCl",
       "phase": "solid",
@@ -20248,6 +21129,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/CaCl2",
+      "species_id": "CaCl2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1048.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/CaCl2",
+      "species_id": "CaCl2",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2208.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -20458,6 +21413,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/MgSO4",
+      "species_id": "MgSO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1397.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "magnesium sulfate melts with decomposition; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -21092,6 +22084,43 @@
       }
     },
     {
+      "id": "melting-point/CaO",
+      "species_id": "CaO",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 2886.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Mg",
       "species_id": "Mg",
       "phase": "solid",
@@ -21178,6 +22207,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Mg",
+      "species_id": "Mg",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 923.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Mg",
+      "species_id": "Mg",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1363.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -21272,6 +22375,80 @@
       }
     },
     {
+      "id": "melting-point/Cu",
+      "species_id": "Cu",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1357.77,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Cu",
+      "species_id": "Cu",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2835.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Zn",
       "species_id": "Zn",
       "phase": "solid",
@@ -21358,6 +22535,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Zn",
+      "species_id": "Zn",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 692.68,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Zn",
+      "species_id": "Zn",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1180.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -21452,6 +22703,80 @@
       }
     },
     {
+      "id": "melting-point/Ag",
+      "species_id": "Ag",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1234.93,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Ag",
+      "species_id": "Ag",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2435.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Fe",
       "species_id": "Fe",
       "phase": "solid",
@@ -21542,6 +22867,80 @@
       }
     },
     {
+      "id": "melting-point/Fe",
+      "species_id": "Fe",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1811.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Fe",
+      "species_id": "Fe",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 3134.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/MgO",
       "species_id": "MgO",
       "phase": "solid",
@@ -21628,6 +23027,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/MgO",
+      "species_id": "MgO",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 3098.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -21992,6 +23428,45 @@
       }
     },
     {
+      "id": "decomposition-point/CuSO4",
+      "species_id": "CuSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 833.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/CuSO4",
       "species_id": "CuSO4",
       "phase": "solid",
@@ -22202,6 +23677,45 @@
       }
     },
     {
+      "id": "decomposition-point/KMnO4",
+      "species_id": "KMnO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 513.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/KMnO4",
       "species_id": "KMnO4",
       "phase": "solid",
@@ -22318,6 +23832,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/FeSO4",
+      "species_id": "FeSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 953.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -23402,6 +24955,45 @@
       }
     },
     {
+      "id": "decomposition-point/ZnSO4",
+      "species_id": "ZnSO4",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 953.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/ZnSO4",
       "species_id": "ZnSO4",
       "phase": "solid",
@@ -23612,6 +25204,80 @@
       }
     },
     {
+      "id": "melting-point/Pb",
+      "species_id": "Pb",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 600.61,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Pb",
+      "species_id": "Pb",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2022.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Pb+2",
       "species_id": "Pb+2",
       "phase": "aqueous",
@@ -23792,6 +25458,45 @@
       }
     },
     {
+      "id": "decomposition-point/Pb(NO3)2",
+      "species_id": "Pb(NO3)2",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 743.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "dissolution-enthalpy/Pb(NO3)2",
       "species_id": "Pb(NO3)2",
       "phase": "solid",
@@ -23912,6 +25617,80 @@
       }
     },
     {
+      "id": "melting-point/methanol",
+      "species_id": "methanol",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 175.62,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/methanol",
+      "species_id": "methanol",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 337.75,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/hexane",
       "species_id": "hexane",
       "phase": "liquid",
@@ -23998,6 +25777,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/hexane",
+      "species_id": "hexane",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 177.8,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/hexane",
+      "species_id": "hexane",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 341.88,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -24092,6 +25945,80 @@
       }
     },
     {
+      "id": "melting-point/propanone",
+      "species_id": "propanone",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 178.45,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/propanone",
+      "species_id": "propanone",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 329.2,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/ethyl_acetate",
       "species_id": "ethyl_acetate",
       "phase": "liquid",
@@ -24182,6 +26109,80 @@
       }
     },
     {
+      "id": "melting-point/ethyl_acetate",
+      "species_id": "ethyl_acetate",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 189.55,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/ethyl_acetate",
+      "species_id": "ethyl_acetate",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 350.26,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/KOH",
       "species_id": "KOH",
       "phase": "solid",
@@ -24268,6 +26269,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 679.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1600.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -24482,6 +26557,43 @@
       }
     },
     {
+      "id": "melting-point/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 579.65,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "sodium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/KNO3",
       "species_id": "KNO3",
       "phase": "solid",
@@ -24568,6 +26680,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 607.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -24748,6 +26897,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/I2",
+      "species_id": "I2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 386.85,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/I2",
+      "species_id": "I2",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 457.55,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "iodine at one atmosphere melts before it boils, whatever the classroom sublimation demonstration suggests: that demonstration works below the triple point, which this bench does not model"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -25288,6 +27511,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/KI",
+      "species_id": "KI",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 954.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/KI",
+      "species_id": "KI",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1596.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -26552,6 +28849,80 @@
       }
     },
     {
+      "id": "melting-point/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 933.47,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 2792.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Fe(OH)3",
       "species_id": "Fe(OH)3",
       "phase": "solid",
@@ -27182,6 +29553,80 @@
       }
     },
     {
+      "id": "melting-point/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1020.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1663.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/bromoethane",
       "species_id": "bromoethane",
       "phase": "liquid",
@@ -27268,6 +29713,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 154.55,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 311.45,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -27542,6 +30061,80 @@
       }
     },
     {
+      "id": "melting-point/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 298.85,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the melting point is barely above room temperature, so this liquid is a solid on a cold morning"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 355.55,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the melting point is barely above room temperature, so this liquid is a solid on a cold morning"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/tert_butyl_bromide",
       "species_id": "tert_butyl_bromide",
       "phase": "liquid",
@@ -27722,6 +30315,80 @@
       }
     },
     {
+      "id": "melting-point/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 185.25,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 355.65,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/sucrose",
       "species_id": "sucrose",
       "phase": "solid",
@@ -27808,6 +30475,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "decomposition-point/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": {
+        "other": "decomposition_temperature"
+      },
+      "quantity": {
+        "value": 459.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "sucrose does not melt: what a capillary shows near this temperature is the beginning of thermal decomposition, which is why sucrose 'melting points' in the literature disagree with each other. decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -27992,6 +30698,45 @@
       }
     },
     {
+      "id": "dehydration-point/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": {
+        "other": "dehydration_temperature"
+      },
+      "quantity": {
+        "value": 473.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/SiO2",
       "species_id": "SiO2",
       "phase": "solid",
@@ -28168,6 +30913,45 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "sublimation-point/NH4Cl",
+      "species_id": "NH4Cl",
+      "phase": "solid",
+      "property": {
+        "other": "sublimation_temperature"
+      },
+      "quantity": {
+        "value": 611.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "ammonium chloride vapour is really ammonia and hydrogen chloride, recombining on the cold surface; the bench moves the intact formula unit, which is what the recovered crust weighs but is not what the vapour contains"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -28382,6 +31166,43 @@
       }
     },
     {
+      "id": "melting-point/FeCl3",
+      "species_id": "FeCl3",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 577.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "iron(III) chloride boils barely a dozen degrees above its melting point and is partly dimerised and partly dissociated in the vapour; no boiling point is claimed"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Na2SO4",
       "species_id": "Na2SO4",
       "phase": "solid",
@@ -28468,6 +31289,43 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/Na2SO4",
+      "species_id": "Na2SO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1157.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -28588,6 +31446,80 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/BaCl2",
+      "species_id": "BaCl2",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1234.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/BaCl2",
+      "species_id": "BaCl2",
+      "phase": "solid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 1833.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     },
@@ -28862,6 +31794,43 @@
       }
     },
     {
+      "id": "melting-point/BaSO4",
+      "species_id": "BaSO4",
+      "phase": "solid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 1853.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
       "id": "molar-mass/H2C2O4",
       "species_id": "H2C2O4",
       "phase": "solid",
@@ -28948,6 +31917,135 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 249.684,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 281.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.286,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dehydration-point/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "property": {
+        "other": "dehydration_temperature"
+      },
+      "quantity": {
+        "value": 523.15,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
     }
@@ -34761,6 +37859,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/H2C2O4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/chalcanthite",
+      "species_id": "chalcanthite",
+      "phase": "solid",
+      "appearance": "deep blue crystals",
+      "flame_colour": "blue-green",
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-chalcanthite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -40939,6 +44053,39 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/chalcanthite",
+      "subject": {
+        "kind": "species",
+        "id": "chalcanthite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     }

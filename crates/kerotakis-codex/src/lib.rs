@@ -29,6 +29,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "container_broken",
     "consumed",
     "curdling_changed",
+    "dehydrated",
     "did_not_ignite",
     "diluted",
     "dissolved",
@@ -48,6 +49,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "gas_produced",
     "hazard_warning",
     "headspace_equilibrated",
+    "hydrated",
     "ignited",
     "inert",
     "inert_in_solvent",
@@ -75,6 +77,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "surface_spread",
     "temperature_changed",
     "thermal_equilibrium",
+    "transition_point",
     "titrated",
     "transferred",
     "transported",
@@ -1356,6 +1359,22 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),
         E::Measured { .. } => ("measured", None),
+        // EXP-33: keyed by the substance the block named, so a quest can
+        // assert `transition_point:NaNO3` — "the apparatus read a sharp
+        // point and said which substance it belongs to" — rather than the
+        // weaker "something was measured". A refusal names no species and
+        // therefore satisfies only the bare `transition_point`.
+        E::TransitionPointRead { reading, .. } => (
+            "transition_point",
+            match reading.verdict {
+                kerotakis_core::PurityVerdict::Pure => {
+                    reading.species.as_ref().map(|s| s.0.as_str())
+                }
+                _ => None,
+            },
+        ),
+        E::Dehydrated { hydrate, .. } => ("dehydrated", Some(hydrate.0.as_str())),
+        E::Hydrated { hydrate, .. } => ("hydrated", Some(hydrate.0.as_str())),
         E::Observed { .. } => ("observed", None),
         E::VesselCreated { .. } => ("vessel_created", None),
         E::VesselRemoved { .. } => ("vessel_removed", None),
