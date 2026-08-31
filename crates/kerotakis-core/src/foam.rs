@@ -49,6 +49,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
                 | MaterialRole::OpaqueLiquidColloid { .. }
                 | MaterialRole::AcidCurdlingColloid { .. }
                 | MaterialRole::SurfaceColourant { .. }
+                | MaterialRole::ConservedUnresolvedSolid { .. }
                 | MaterialRole::FermentationCulture { .. } => None,
             })
         })

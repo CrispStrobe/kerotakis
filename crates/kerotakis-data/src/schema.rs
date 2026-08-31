@@ -198,6 +198,17 @@ pub enum MaterialRole {
     /// drop on an opaque colloid until detergent spreads it or mechanical
     /// mixing releases it into the bulk optical model.
     SurfaceColourant { srgb: [u8; 3] },
+    /// A named solid whose substance the registry does not resolve into any
+    /// installed species, and which is therefore conserved as named matter
+    /// rather than silently discarded or given a stand-in molecule.
+    ///
+    /// The role carries exactly what the bench can honestly say about such a
+    /// material: that a visible piece of it is in the vessel, and what colour
+    /// it is. It deliberately claims no reactivity in either direction —
+    /// neither that the material is inert nor that it takes part in anything,
+    /// and it adds no chemistry that could mask an operator's ordinary
+    /// `NotYetModelled` answer.
+    ConservedUnresolvedSolid { srgb: [u8; 3], colour_word: String },
     /// A conserved unresolved baker's-yeast fraction with a bounded sucrose
     /// fermentation response. Parameters describe a classroom gas-evolution
     /// timescale, not strain growth or a universal product specification.

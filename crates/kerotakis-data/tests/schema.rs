@@ -419,3 +419,65 @@ fn uncertainty_intervals_must_be_ordered_and_contain_the_value() {
         "{text}"
     );
 }
+
+/// A conserved unresolved solid is the honest representation of a named
+/// material whose substance the registry does not install. It is therefore
+/// only allowed to be exactly that: a solid, and one whose whole mass is
+/// unresolved. Either relaxation would let the role describe matter that
+/// something else in the recipe already describes.
+#[test]
+fn conserved_unresolved_solid_roles_stay_solid_and_fully_unresolved() {
+    let mut document = document();
+    // The fixture recipe is a liquid with a resolved water component, so it
+    // is wrong on both counts at once.
+    document.material_recipes[0]
+        .roles
+        .push(MaterialRole::ConservedUnresolvedSolid {
+            srgb: [240, 240, 240],
+            colour_word: "white".to_string(),
+        });
+    let text = document
+        .validate()
+        .expect_err("a liquid with resolved components is not a conserved solid")
+        .to_string();
+    assert!(text.contains("requires a solid physical form"), "{text}");
+    assert!(
+        text.contains("requires a fully unresolved recipe"),
+        "{text}"
+    );
+
+    // Made a solid and emptied of resolved components, the same role is fine.
+    let recipe = &mut document.material_recipes[0];
+    recipe.physical_form = MaterialPhysicalForm::BulkSolid;
+    recipe.components.clear();
+    recipe.unresolved_fraction = Some(FractionRange {
+        lower: 1.0,
+        upper: 1.0,
+    });
+    document
+        .validate()
+        .expect("a fully unresolved solid may carry the role");
+}
+
+/// The role has to say what colour the piece is, because that is the only
+/// thing the bench can report about it.
+#[test]
+fn conserved_unresolved_solid_roles_need_a_colour_word() {
+    let mut document = document();
+    let recipe = &mut document.material_recipes[0];
+    recipe.physical_form = MaterialPhysicalForm::BulkSolid;
+    recipe.components.clear();
+    recipe.unresolved_fraction = Some(FractionRange {
+        lower: 1.0,
+        upper: 1.0,
+    });
+    recipe.roles = vec![MaterialRole::ConservedUnresolvedSolid {
+        srgb: [240, 240, 240],
+        colour_word: "   ".to_string(),
+    }];
+    let text = document
+        .validate()
+        .expect_err("a blank colour word says nothing")
+        .to_string();
+    assert!(text.contains("colour_word"), "{text}");
+}

@@ -1173,12 +1173,12 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "1",
-      "retrieved": "2026-08-27"
+      "revision": "2",
+      "retrieved": "2026-08-29"
     }
   ],
   "identities": [
@@ -44345,6 +44345,507 @@
       ],
       "substitutions": [],
       "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/paraffin-candle-wax",
+      "version": 1,
+      "canonical_key": "candle_wax",
+      "name": "candle wax",
+      "aliases": {
+        "de": [
+          "Kerzenwachs",
+          "Paraffinwachs"
+        ],
+        "en": [
+          "paraffin wax"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "moulded block",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [
+        {
+          "kind": "conserved_unresolved_solid",
+          "srgb": [
+            242,
+            240,
+            232
+          ],
+          "colour_word": "off-white"
+        }
+      ],
+      "preparation": "solid paraffin candle wax, conserved whole because none of its long-chain alkanes is an installed species",
+      "lot_assumptions": [
+        "candle wax is a variable blend of long-chain alkanes, often with stearic acid, dyes and scent; no component of it is an installed species, so the whole mass stays conserved and unresolved rather than being given a stand-in molecule",
+        "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt",
+        "burning is not claimed either: a candle flame needs feed thermochemistry the engine has not installed, and a wick is an object the bench does not have",
+        "the bare words wax and Wachs remain unclaimed because beeswax, soy wax and paraffin wax are different materials, and bare paraffin remains unclaimed because it names a lamp fuel in British English"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/paper-sheet",
+      "version": 1,
+      "canonical_key": "paper_sheet",
+      "name": "paper",
+      "aliases": {
+        "de": [
+          "Papier",
+          "Druckerpapier"
+        ],
+        "en": [
+          "sheet of paper",
+          "office paper"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.8,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "thin sheet",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [
+        {
+          "kind": "conserved_unresolved_solid",
+          "srgb": [
+            246,
+            246,
+            242
+          ],
+          "colour_word": "white"
+        }
+      ],
+      "preparation": "a sheet of ordinary white paper, conserved whole because cellulose is not an installed species",
+      "lot_assumptions": [
+        "cellulose is not in the runtime registry, so the whole sheet is conserved unresolved rather than resolved into a fibre that is not there; the identity is stated instead of guessed",
+        "mineral filler, sizing, coatings and optical brighteners vary by grade and stay inside the same unresolved mass; a carbonate-filled office paper and an unfilled newsprint are not distinguished",
+        "burning is not claimed: feed thermochemistry for cellulose is not installed, so ignition must reach the engine's model boundary",
+        "wetting, tearing and pulping are not claimed, and this material is not the filter paper the filtration apparatus uses"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/wheat-flour-surrogate",
+      "version": 1,
+      "canonical_key": "wheat_flour",
+      "name": "wheat flour",
+      "aliases": {
+        "de": [
+          "Mehl",
+          "Weizenmehl",
+          "Weißmehl"
+        ],
+        "en": [
+          "flour",
+          "plain flour",
+          "all-purpose flour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.55,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.3,
+        "upper": 0.3
+      },
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "white wheat flour with a resolved 70% starch fraction and a conserved 30% protein, moisture, fibre, lipid and ash remainder",
+      "lot_assumptions": [
+        "the resolved fraction is starch, which is why a named iodine indicator finds it; the gluten proteins, sorbed moisture, fibre, lipids and ash stay in the conserved 30% remainder because none of them is an installed species",
+        "the flour's moisture is deliberately not resolved as liquid water: it is sorbed in the grain, and adding it to the vessel's free liquid would repeat the error the Epsom-salt recipe exists to avoid",
+        "mill type, ash grade, protein content, malted amylase and ascorbic-acid improvers vary widely; wholemeal, rye and spelt flours are different materials and are not implied",
+        "no gluten network, dough rheology, starch gelatinisation, enzymatic hydrolysis or baking behaviour is claimed"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/flour-and-water-dough",
+      "version": 1,
+      "canonical_key": "flour_water_dough",
+      "name": "flour-and-water dough",
+      "aliases": {
+        "de": [
+          "Teig",
+          "Mehlteig"
+        ],
+        "en": [
+          "dough",
+          "simple dough"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.42,
+            "upper": 0.42
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.58,
+        "upper": 0.58
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "kneaded soft solid mass"
+      },
+      "roles": [],
+      "preparation": "a plain kneaded dough of three parts wheat flour to two parts water, resolving the flour's 42% starch and conserving the rest",
+      "lot_assumptions": [
+        "the dough's water is held in the flour matrix and is conserved inside the unresolved remainder rather than poured into the vessel's free liquid; the bench has no water-activity or matrix model, so it must not report a pool of water that a real dough would not release",
+        "no bulk density is claimed, so dough is dispensed by mass; a kneaded mass has no reviewed packing figure and guessing one would be a visible number without provenance",
+        "gluten development, kneading, viscoelasticity, proving, gelatinisation and baking are not claimed; adding yeast to this material does not make bread",
+        "hydration ratio, salt, flour grade and resting time vary; this is the plain flour-and-water teaching mixture only"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/apple-juice-surrogate",
+      "version": 1,
+      "canonical_key": "apple_juice",
+      "name": "apple juice surrogate",
+      "aliases": {
+        "de": [
+          "Apfelsaft"
+        ],
+        "en": [
+          "apple juice"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.045,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.88,
+            "upper": 0.88
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.1,
+        "upper": 0.1
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "clear apple-juice teaching surrogate: 88% water, the 2% that really is sucrose, and a conserved 10% remainder",
+      "lot_assumptions": [
+        "most of apple juice's sugar is fructose and glucose, and neither is an installed species; that roughly 8.5% stays in the conserved unresolved fraction instead of being relabelled sucrose, so the resolved sugar here is only the sucrose that is genuinely sucrose",
+        "acidity is not modelled: apple juice owes its tartness mainly to malic acid, which is not in the registry, and substituting an acid the engine does happen to have would compute a pH from the wrong molecule. The surrogate therefore makes no pH claim and behaves as a neutral sugar solution",
+        "pectin, minerals, vitamin C, colour and aroma compounds share the same unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished",
+        "no juicing, browning, pasteurisation, fermentation or nutritional claim is made"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/soda-lime-glass",
+      "version": 1,
+      "canonical_key": "glass",
+      "name": "soda-lime glass",
+      "aliases": {
+        "de": [
+          "Glas",
+          "Fensterglas",
+          "Glasscherbe"
+        ],
+        "en": [
+          "window glass"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 2.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "SiO2",
+          "fraction": {
+            "lower": 0.73,
+            "upper": 0.73
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.27,
+        "upper": 0.27
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "flat pane fragment",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "an ordinary soda-lime glass object: 73% resolved silica with a conserved 27% network-modifier remainder",
+      "lot_assumptions": [
+        "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; in glass that silica is an amorphous network rather than the quartz grains of play sand, and no polymorph, devitrification or network claim follows from sharing one species key",
+        "the soda, lime, magnesia and alumina that make a melt workable are network modifiers, not free oxides in a beaker; resolving them as CaO or MgO would invent an alkaline dissolution that glass does not perform, so they stay in the conserved 27% remainder",
+        "glass is unreactive in the terms the aqueous engine models, which is not the same as inert: hydrofluoric-acid etching and hot-alkali attack are real chemistry the bench does not have and does not claim",
+        "softening, annealing, thermal shock, breaking and sharp edges are physics this recipe does not claim; borosilicate, lead crystal and fused quartz are different materials",
+        "this names the material. Laboratory glassware is created with the vessel commands, not dispensed from the shelf"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
       "expansion_policy": {
         "kind": "fixed"
       },

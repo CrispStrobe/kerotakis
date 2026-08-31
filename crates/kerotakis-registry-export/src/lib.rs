@@ -179,12 +179,12 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
-        revision: Some("1".to_string()),
-        retrieved: Some("2026-08-27".to_string()),
+        revision: Some("2".to_string()),
+        retrieved: Some("2026-08-29".to_string()),
     });
     let component = |species_id: &str, fraction: f64| MaterialComponent {
         species_id: species_id.to_string(),
@@ -1541,6 +1541,267 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             &["aluminum foil", "tin foil"],
             &["represented as elemental aluminium inventory; the native oxide layer and passivation kinetics are not yet modeled, so the engine must retain its explicit reaction boundary"],
         ),
+        MaterialRecipe {
+            id: "household/paraffin-candle-wax".to_string(),
+            version: 1,
+            canonical_key: "candle_wax".to_string(),
+            name: "candle wax".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Kerzenwachs".to_string(), "Paraffinwachs".to_string()],
+                ),
+                ("en".to_string(), vec!["paraffin wax".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.90)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("moulded block".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![MaterialRole::ConservedUnresolvedSolid {
+                srgb: [242, 240, 232],
+                colour_word: "off-white".to_string(),
+            }],
+            preparation: Some(
+                "solid paraffin candle wax, conserved whole because none of its long-chain alkanes is an installed species"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "candle wax is a variable blend of long-chain alkanes, often with stearic acid, dyes and scent; no component of it is an installed species, so the whole mass stays conserved and unresolved rather than being given a stand-in molecule".to_string(),
+                "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt".to_string(),
+                "burning is not claimed either: a candle flame needs feed thermochemistry the engine has not installed, and a wick is an object the bench does not have".to_string(),
+                "the bare words wax and Wachs remain unclaimed because beeswax, soy wax and paraffin wax are different materials, and bare paraffin remains unclaimed because it names a lamp fuel in British English".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/paper-sheet".to_string(),
+            version: 1,
+            canonical_key: "paper_sheet".to_string(),
+            name: "paper".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Papier".to_string(), "Druckerpapier".to_string()],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["sheet of paper".to_string(), "office paper".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.80)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("thin sheet".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![MaterialRole::ConservedUnresolvedSolid {
+                srgb: [246, 246, 242],
+                colour_word: "white".to_string(),
+            }],
+            preparation: Some(
+                "a sheet of ordinary white paper, conserved whole because cellulose is not an installed species"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "cellulose is not in the runtime registry, so the whole sheet is conserved unresolved rather than resolved into a fibre that is not there; the identity is stated instead of guessed".to_string(),
+                "mineral filler, sizing, coatings and optical brighteners vary by grade and stay inside the same unresolved mass; a carbonate-filled office paper and an unfilled newsprint are not distinguished".to_string(),
+                "burning is not claimed: feed thermochemistry for cellulose is not installed, so ignition must reach the engine's model boundary".to_string(),
+                "wetting, tearing and pulping are not claimed, and this material is not the filter paper the filtration apparatus uses".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/wheat-flour-surrogate".to_string(),
+            version: 1,
+            canonical_key: "wheat_flour".to_string(),
+            name: "wheat flour".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Mehl".to_string(),
+                        "Weizenmehl".to_string(),
+                        "Weißmehl".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec![
+                        "flour".to_string(),
+                        "plain flour".to_string(),
+                        "all-purpose flour".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.55)),
+            components: vec![component("starch", 0.70)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.30,
+                upper: 0.30,
+            }),
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some(
+                "white wheat flour with a resolved 70% starch fraction and a conserved 30% protein, moisture, fibre, lipid and ash remainder"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "the resolved fraction is starch, which is why a named iodine indicator finds it; the gluten proteins, sorbed moisture, fibre, lipids and ash stay in the conserved 30% remainder because none of them is an installed species".to_string(),
+                "the flour's moisture is deliberately not resolved as liquid water: it is sorbed in the grain, and adding it to the vessel's free liquid would repeat the error the Epsom-salt recipe exists to avoid".to_string(),
+                "mill type, ash grade, protein content, malted amylase and ascorbic-acid improvers vary widely; wholemeal, rye and spelt flours are different materials and are not implied".to_string(),
+                "no gluten network, dough rheology, starch gelatinisation, enzymatic hydrolysis or baking behaviour is claimed".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/flour-and-water-dough".to_string(),
+            version: 1,
+            canonical_key: "flour_water_dough".to_string(),
+            name: "flour-and-water dough".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Teig".to_string(), "Mehlteig".to_string()],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["dough".to_string(), "simple dough".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("starch", 0.42)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.58,
+                upper: 0.58,
+            }),
+            physical_form: MaterialPhysicalForm::Other {
+                description: "kneaded soft solid mass".to_string(),
+            },
+            roles: Vec::new(),
+            preparation: Some(
+                "a plain kneaded dough of three parts wheat flour to two parts water, resolving the flour's 42% starch and conserving the rest"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "the dough's water is held in the flour matrix and is conserved inside the unresolved remainder rather than poured into the vessel's free liquid; the bench has no water-activity or matrix model, so it must not report a pool of water that a real dough would not release".to_string(),
+                "no bulk density is claimed, so dough is dispensed by mass; a kneaded mass has no reviewed packing figure and guessing one would be a visible number without provenance".to_string(),
+                "gluten development, kneading, viscoelasticity, proving, gelatinisation and baking are not claimed; adding yeast to this material does not make bread".to_string(),
+                "hydration ratio, salt, flour grade and resting time vary; this is the plain flour-and-water teaching mixture only".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/apple-juice-surrogate".to_string(),
+            version: 1,
+            canonical_key: "apple_juice".to_string(),
+            name: "apple juice surrogate".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Apfelsaft".to_string()]),
+                ("en".to_string(), vec!["apple juice".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.045)),
+            components: vec![component("sucrose", 0.02), component("water", 0.88)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.10,
+                upper: 0.10,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "clear apple-juice teaching surrogate: 88% water, the 2% that really is sucrose, and a conserved 10% remainder"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "most of apple juice's sugar is fructose and glucose, and neither is an installed species; that roughly 8.5% stays in the conserved unresolved fraction instead of being relabelled sucrose, so the resolved sugar here is only the sucrose that is genuinely sucrose".to_string(),
+                "acidity is not modelled: apple juice owes its tartness mainly to malic acid, which is not in the registry, and substituting an acid the engine does happen to have would compute a pH from the wrong molecule. The surrogate therefore makes no pH claim and behaves as a neutral sugar solution".to_string(),
+                "pectin, minerals, vitamin C, colour and aroma compounds share the same unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished".to_string(),
+                "no juicing, browning, pasteurisation, fermentation or nutritional claim is made".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/soda-lime-glass".to_string(),
+            version: 1,
+            canonical_key: "glass".to_string(),
+            name: "soda-lime glass".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Glas".to_string(),
+                        "Fensterglas".to_string(),
+                        "Glasscherbe".to_string(),
+                    ],
+                ),
+                ("en".to_string(), vec!["window glass".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(2.5)),
+            components: vec![component("SiO2", 0.73)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.27,
+                upper: 0.27,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("flat pane fragment".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some(
+                "an ordinary soda-lime glass object: 73% resolved silica with a conserved 27% network-modifier remainder"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; in glass that silica is an amorphous network rather than the quartz grains of play sand, and no polymorph, devitrification or network claim follows from sharing one species key".to_string(),
+                "the soda, lime, magnesia and alumina that make a melt workable are network modifiers, not free oxides in a beaker; resolving them as CaO or MgO would invent an alkaline dissolution that glass does not perform, so they stay in the conserved 27% remainder".to_string(),
+                "glass is unreactive in the terms the aqueous engine models, which is not the same as inert: hydrofluoric-acid etching and hot-alkali attack are real chemistry the bench does not have and does not claim".to_string(),
+                "softening, annealing, thermal shock, breaking and sharp edges are physics this recipe does not claim; borosilicate, lead crystal and fused quartz are different materials".to_string(),
+                "this names the material. Laboratory glassware is created with the vessel commands, not dispensed from the shelf".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
     ]);
 }
 
