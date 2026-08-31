@@ -151,6 +151,52 @@ fn every_normalizable_dimension_has_exactly_one_canonical_spelling() {
 }
 
 #[test]
+fn molecular_length_normalizes_to_angstroms_without_becoming_wavelength() {
+    for (value, spelling, expected_angstrom) in
+        [(3.7, "Å", 3.7), (0.37, "nm", 3.7), (3.7e-10, "m", 3.7)]
+    {
+        let normalized =
+            normalize_quantity_for(value, spelling, &Dimension::MolecularLength).unwrap();
+        assert_eq!(normalized.unit.symbol, "Ang");
+        assert_eq!(normalized.unit.dimension, Dimension::MolecularLength);
+        assert!(close(normalized.value, expected_angstrom));
+    }
+
+    // Preserve the established default and the explicitly typed optical path.
+    assert_eq!(
+        normalize_quantity(500.0, "nm").unwrap().unit.dimension,
+        Dimension::Wavelength
+    );
+    assert_eq!(
+        normalize_quantity_for(500.0, "nm", &Dimension::Wavelength)
+            .unwrap()
+            .unit
+            .dimension,
+        Dimension::Wavelength
+    );
+}
+
+#[test]
+fn physical_length_and_optical_wavelength_are_not_interchangeable() {
+    assert!(matches!(
+        normalize_quantity_for(1.0, "m", &Dimension::Wavelength),
+        Err(UnitNormalizationError::DimensionMismatch {
+            expected: Dimension::Wavelength,
+            found: Dimension::MolecularLength,
+            ..
+        })
+    ));
+    assert!(matches!(
+        normalize_quantity_for(500.0, "pm", &Dimension::MolecularLength),
+        Err(UnitNormalizationError::DimensionMismatch {
+            expected: Dimension::MolecularLength,
+            found: Dimension::Wavelength,
+            ..
+        })
+    ));
+}
+
+#[test]
 fn a_non_finite_source_value_is_refused_rather_than_stored() {
     for value in [f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
         assert!(matches!(

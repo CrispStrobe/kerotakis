@@ -99,18 +99,19 @@ fn a_source_licence_cannot_widen_the_runtime_policy() {
 }
 
 #[test]
-fn synthetic_permissive_fixture_is_reviewable_without_promotion() {
+fn synthetic_permissive_fixture_has_no_schema_or_licence_rejections() {
     let candidates = parse_source_document(&fixture()).unwrap();
     let report = promotion_report(candidates);
     assert!(report.identity_conflicts.is_empty());
     assert!(report
         .reviews
         .iter()
-        .all(|review| review.rejected.len() == 1));
-    assert!(report
-        .reviews
-        .iter()
-        .all(|review| { review.rejected[0].field == "pc_saft.segment_diameter" }));
+        .all(|review| review.rejected.is_empty()));
+    assert!(report.reviews.iter().all(|review| {
+        review
+            .accepted
+            .contains_key("model.pc_saft.segment_diameter")
+    }));
 }
 
 #[test]
@@ -161,4 +162,21 @@ fn a_quantity_with_the_wrong_dimension_is_rejected_by_review() {
         .rejected
         .iter()
         .any(|rejection| rejection.field == "pc_saft.molar_mass"));
+}
+
+#[test]
+fn segment_diameter_cannot_be_promoted_as_an_optical_wavelength() {
+    let mut document: Value = serde_json::from_slice(&fixture()).unwrap();
+    document["records"][0]["pc_saft"]["segment_diameter"]["unit"] = json!("pm");
+    let report =
+        promotion_report(parse_source_document(&serde_json::to_vec(&document).unwrap()).unwrap());
+    let ethanol = report
+        .reviews
+        .iter()
+        .find(|review| review.external_record_id == "ethanol")
+        .unwrap();
+    assert!(ethanol
+        .rejected
+        .iter()
+        .any(|rejection| rejection.field == "pc_saft.segment_diameter"));
 }
