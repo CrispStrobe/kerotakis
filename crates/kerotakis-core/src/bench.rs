@@ -201,11 +201,13 @@ impl Bench {
             SafetyVerdict::Allow => {}
             SafetyVerdict::Warn {
                 severity,
+                rule,
                 hazard,
                 real_world,
             } => events.push(Event::SpillHazard {
                 destination: destination.clone(),
                 severity,
+                rule,
                 hazard,
                 real_world,
                 contributors: contributors.clone(),
@@ -213,6 +215,7 @@ impl Bench {
             SafetyVerdict::Veto { reason } => events.push(Event::SpillHazard {
                 destination: destination.clone(),
                 severity: crate::solve::Severity::Danger,
+                rule: String::new(),
                 hazard: reason,
                 real_world: "Do not touch the spill; follow the declared cleanup procedure.".into(),
                 contributors,
@@ -272,10 +275,12 @@ impl Bench {
             SafetyVerdict::Allow => {}
             SafetyVerdict::Warn {
                 severity,
+                rule,
                 hazard,
                 real_world,
             } => events.push(Event::HazardWarning {
                 severity,
+                rule,
                 hazard,
                 real_world,
             }),
@@ -448,6 +453,7 @@ impl Bench {
                 });
                 events.push(Event::HazardWarning {
                     severity: crate::solve::Severity::Danger,
+                    rule: "sealed-vessel-burst".to_string(),
                     hazard: "sealed vessel over-pressurised and burst".to_string(),
                     real_world: "flying glass and a pressure wave — sealed \
                                  systems on a heat source are how real labs \
@@ -659,10 +665,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -749,10 +757,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1232,10 +1242,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1386,10 +1398,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -1523,10 +1537,12 @@ impl Bench {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     } => events.push(Event::HazardWarning {
                         severity,
+                        rule,
                         hazard,
                         real_world,
                     }),
@@ -2064,7 +2080,8 @@ impl Bench {
                         Some(info) => events.push(Event::Measured {
                             vessel: *vessel,
                             instrument: *instrument,
-                            value: info.ionic_strength * 100_000.0,
+                            value: crate::conductivity::specific_conductance(info)
+                                .microsiemens_per_cm,
                             unit: "µS/cm".to_string(),
                         }),
                         None => events.push(Event::NotYetModeled {
@@ -2530,6 +2547,7 @@ impl Bench {
                     if o.hazardous {
                         events.push(Event::HazardWarning {
                             severity: crate::solve::Severity::Caution,
+                            rule: "hazardous-vapour".to_string(),
                             hazard: format!("{} vapour is hazardous to inhale", o.species),
                             real_world: "on a real bench this one is never \
                                          smelled directly — fume hood, waft \
@@ -2586,6 +2604,7 @@ impl Bench {
                     .unwrap_or(0.0);
                 events.push(Event::HazardWarning {
                     severity: crate::solve::Severity::Caution,
+                    rule: "ionising-radiation".to_string(),
                     hazard: "radioactive source: ionising radiation".to_string(),
                     real_world: "on a real bench this needs shielding, \
                                  dosimetry and a licence; safe only because \

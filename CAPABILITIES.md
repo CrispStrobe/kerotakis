@@ -1174,10 +1174,18 @@ green. **Size.** Medium-large. **Depends on:** nothing.
       a metamorphic invariant; chromatography vs a hand-worked
       plate-theory example plus limiting identities (void-time,
       √N-scaling); calorimeter vs the closed-form energy ledger.
-      Remaining: conductivity carries its written statement (a stub by
-      its own comment; the oracle would rightly fail it — CAP task
-      material, not tolerance material); nuclide/photochem oracles
-      wait until those subsystems are wired to anything.
+      Remaining: nuclide/photochem oracles wait until those
+      subsystems are wired to anything. Conductivity graduated from
+      this list on 2026-08-30: the ionic-strength stub (which the
+      oracle would rightly have failed) was replaced by a Kohlrausch
+      sum over the solved speciation (`kerotakis-core::conductivity`,
+      λ° from the CRC Handbook/Vanýsek), anchored to the literature
+      the same way the spectrophotometer is — the 0.01 mol/kg KCl
+      calibration standard (1413 µS/cm) is a unit-test invariant,
+      with the model's own overestimate direction and dilute-limit
+      boundary asserted rather than hidden. Above I ≈ 0.1 mol/kgw, or
+      when an ion has no tabulated λ°, the reading declares itself
+      out of calibration instead of pretending.
 
 **Why.** The differential-oracle discipline that makes the PHREEQC
 core trustworthy stops at that crate's border: instruments, apparatus,

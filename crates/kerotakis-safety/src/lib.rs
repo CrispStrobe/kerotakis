@@ -408,6 +408,11 @@ struct Incompatibility {
     a: ReactiveGroup,
     b: ReactiveGroup,
     severity: Severity,
+    /// Stable machine identity, carried through `ExposureFinding` and
+    /// `SafetyVerdict::Warn` into the `HazardWarning` event so contracts
+    /// and tests can recognise WHICH rule fired without matching
+    /// localized prose.
+    rule: &'static str,
     hazard: &'static str,
     real_world: &'static str,
 }
@@ -421,6 +426,10 @@ struct Incompatibility {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ExposureFinding {
     pub severity: Severity,
+    /// Stable machine identity of the rule (untranslated across locales;
+    /// additive, defaults empty on older serialized findings).
+    #[serde(default)]
+    pub rule: String,
     pub hazard: String,
     pub real_world: String,
     /// The two species participating in the rule. For a water-reactive rule,
@@ -480,6 +489,7 @@ pub fn assess_exposures<'a>(
                     &mut findings,
                     ExposureFinding {
                         severity: Severity::Caution,
+                        rule: "water-reactive-slaking".to_string(),
                         hazard: "this substance reacts violently with water, releasing a large amount of heat".to_string(),
                         real_world: "Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse.".to_string(),
                         species: [reactive.key.to_string(), water.key.to_string()],
@@ -500,6 +510,7 @@ pub fn assess_exposures<'a>(
                         &mut findings,
                         ExposureFinding {
                             severity: inc.severity,
+                            rule: inc.rule.to_string(),
                             hazard: inc.hazard.to_string(),
                             real_world: inc.real_world.to_string(),
                             species: [a.key.to_string(), b.key.to_string()],
@@ -533,6 +544,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerHypochlorite,
         b: ReactiveGroup::AmmoniaAmines,
         severity: Severity::Danger,
+        rule: "bleach-ammonia-chloramine",
         hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
         real_world: "People are hospitalised every year from mixing \
                      these two household cleaners.",
@@ -541,6 +553,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerHypochlorite,
         b: ReactiveGroup::AcidStrong,
         severity: Severity::Danger,
+        rule: "bleach-acid-chlorine",
         hazard: "mixing bleach with acid releases chlorine, a toxic gas",
         real_world: "Chlorine gas was used as a chemical weapon; even \
                      small amounts damage lungs.",
@@ -550,6 +563,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::FlammableLiquid,
         severity: Severity::Danger,
+        rule: "oxidizer-flammable-liquid",
         hazard: "a strong oxidizer mixed with a flammable liquid \
                  can ignite or explode",
         real_world: "Potassium permanganate and glycerol ignite on \
@@ -559,6 +573,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::FlammableGas,
         severity: Severity::Danger,
+        rule: "oxidizer-flammable-gas",
         hazard: "a strong oxidizer in the presence of a flammable gas \
                  creates an explosion risk",
         real_world: "Hydrogen and chlorine mixtures can detonate when \
@@ -568,6 +583,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::OxidizerStrong,
         b: ReactiveGroup::ReducingAgent,
         severity: Severity::Danger,
+        rule: "oxidizer-reducer",
         hazard: "mixing a strong oxidizer with a reducing agent can \
                  cause a violent, potentially explosive reaction",
         real_world: "Permanganate and sulfite solutions react vigorously; \
@@ -578,6 +594,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::AcidStrong,
         b: ReactiveGroup::ActiveMetal,
         severity: Severity::Caution,
+        rule: "acid-metal-hydrogen",
         hazard: "strong acid dissolves this metal, releasing hydrogen \
                  gas which is flammable",
         real_world: "Magnesium ribbon in hydrochloric acid produces \
@@ -590,6 +607,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::AcidStrong,
         b: ReactiveGroup::Carbonate,
         severity: Severity::Caution,
+        rule: "acid-carbonate-co2",
         hazard: "strong acid and carbonate fizz vigorously, releasing \
                  carbon dioxide — the mixture can spatter",
         real_world: "Adding acid to chalk or baking soda foams over \
@@ -601,6 +619,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         a: ReactiveGroup::WaterReactive,
         b: ReactiveGroup::BaseStrong,
         severity: Severity::Caution,
+        rule: "water-reactive-base",
         hazard: "this water-reactive substance already reacted with \
                  water; combining with a strong base adds further heat",
         real_world: "Quicklime (CaO) generates enough heat on contact \
@@ -621,6 +640,7 @@ impl SafetyScreen for ReactiveGroupScreen {
         if let Some(finding) = assess_exposures([("vessel", vessel)]).into_iter().next() {
             return SafetyVerdict::Warn {
                 severity: finding.severity,
+                rule: finding.rule,
                 hazard: finding.hazard,
                 real_world: finding.real_world,
             };
@@ -850,6 +870,30 @@ mod tests {
         let (labels, _) = hazard_assessment("Ba(OH)2");
         assert!(labels.contains(&"corrosive"), "{labels:?}");
         assert!(labels.contains(&"toxic"), "{labels:?}");
+    }
+
+    /// The GUI-080 safety-audit mission recognises hazards by these rule
+    /// ids (`outcomeMission.ts`), and they cross the locale boundary
+    /// untranslated. Renaming one silently breaks a shipped mission
+    /// contract — this test is the tripwire.
+    #[test]
+    fn rule_ids_are_stable_contract_surface() {
+        let cases: &[(&[&str], &str)] = &[
+            (&["NaOCl", "NH3"], "bleach-ammonia-chloramine"),
+            (&["NaOCl", "HCl"], "bleach-acid-chlorine"),
+            (&["KMnO4", "ethanol"], "oxidizer-flammable-liquid"),
+            (&["HCl", "Mg"], "acid-metal-hydrogen"),
+            (&["HCl", "CaCO3"], "acid-carbonate-co2"),
+            (&["CaO", "water"], "water-reactive-slaking"),
+        ];
+        for (keys, expected) in cases {
+            match ReactiveGroupScreen.assess(&vessel_with(keys)) {
+                SafetyVerdict::Warn { rule, .. } => {
+                    assert_eq!(rule, *expected, "for {keys:?}");
+                }
+                other => panic!("expected a warning for {keys:?}, got {other:?}"),
+            }
+        }
     }
 
     #[test]

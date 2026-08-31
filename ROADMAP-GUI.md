@@ -1315,6 +1315,19 @@ hide them completely.
   strictly between them; heating alone, isothermal mixing, endpoint results,
   and trace contributions cannot pass. One core separation lead and the
   optional safety audit remain procedural, so GUI-080 stays open.*
+  *Typed-leads slice shipped 2026-08-30: the last two procedural leads now
+  carry outcome contracts. "Separate the unknown mixture" is secured by the
+  engine's `chromatographed` peak table — at least three components at
+  chromatographic resolution ≥ 1, so co-eluting peaks honestly count as one
+  and a failed separation cannot pass on peak count. "Audit the abandoned
+  workbench" is secured by the safety layer's own warnings, recognised by a
+  new stable `rule` id carried on `HazardWarning` (additive protocol field,
+  untranslated across locales; prose matching is impossible by
+  construction) — four classic incompatibilities, each a separate criterion
+  that accumulates one experiment at a time. All four case leads are now
+  solver-assessed; what keeps GUI-080 open is the case-level transaction
+  (permanent instrument unlock + debrief) and the mission that accepts two
+  materially different valid solutions beyond silver-and-salt.*
 
 ### Phase G3 — Desktop
 

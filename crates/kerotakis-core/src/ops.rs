@@ -398,6 +398,10 @@ pub enum Event {
     SpillHazard {
         destination: SpillDestination,
         severity: crate::solve::Severity,
+        /// Stable rule id, exactly as on `HazardWarning` (additive; empty
+        /// when the warning has no curated matrix rule, e.g. a veto).
+        #[serde(default)]
+        rule: String,
         hazard: String,
         real_world: String,
         #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -659,6 +663,12 @@ pub enum Event {
     /// the pedagogy — but this event always precedes the chemistry.
     HazardWarning {
         severity: crate::solve::Severity,
+        /// Stable machine identity of the hazard rule (additive; empty on
+        /// events from older snapshots or producers without a curated
+        /// rule). `hazard`/`real_world` are localized prose — consumers
+        /// that must recognise WHICH hazard fired key on this.
+        #[serde(default)]
+        rule: String,
         hazard: String,
         real_world: String,
     },

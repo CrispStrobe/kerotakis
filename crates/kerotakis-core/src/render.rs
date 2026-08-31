@@ -1942,6 +1942,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             severity,
             hazard,
             real_world,
+            ..
         } => {
             let severity_en = format!("{severity:?}");
             let severity_text = locale
@@ -2448,10 +2449,15 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
     match event {
         Event::HazardWarning {
             severity,
+            rule,
             hazard,
             real_world,
         } => Event::HazardWarning {
             severity: *severity,
+            // The rule id is machine identity, not prose: it crosses the
+            // locale boundary untranslated so contracts recognise it in
+            // every language.
+            rule: rule.clone(),
             hazard: localize_hazard(hazard, locale),
             real_world: locale
                 .lookup(&format!("real_world.{real_world}"))

@@ -13,6 +13,7 @@ use kerotakis_core::{Event, Locale};
 fn warn(hazard: &str, real_world: &str) -> Event {
     Event::HazardWarning {
         severity: Severity::Caution,
+        rule: String::new(),
         hazard: hazard.to_string(),
         real_world: real_world.to_string(),
     }

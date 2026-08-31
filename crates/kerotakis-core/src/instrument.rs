@@ -160,8 +160,11 @@ impl InstrumentContract for PressureGauge {
     }
 }
 
-/// INST-004: Conductivity meter — reads solution conductivity.
-/// Currently reports the PHREEQC-computed specific conductance if available.
+/// INST-004: Conductivity meter — Kohlrausch sum over the solved
+/// speciation (see [`crate::conductivity`]), mean-mobility estimate when
+/// the solver reported no speciation. `in_range` is honest about both the
+/// instrument's span and the model's own validity: a concentrated
+/// solution or an uncovered ion reads as out-of-calibration.
 pub struct ConductivityMeter;
 
 impl InstrumentContract for ConductivityMeter {
@@ -176,15 +179,15 @@ impl InstrumentContract for ConductivityMeter {
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
         let sol = vessel.solution.as_ref()?;
-        // Estimate conductivity from ionic strength (simple approximation).
-        // Full Kohlrausch implementation is future work.
-        let conductivity_us_cm = sol.ionic_strength * 100_000.0; // rough
+        let est = crate::conductivity::specific_conductance(sol);
         Some(Reading {
             observable: "conductivity".into(),
-            value: conductivity_us_cm,
+            value: est.microsiemens_per_cm,
             unit: "µS/cm".into(),
             precision: Some(1.0),
-            in_range: conductivity_us_cm > 0.0 && conductivity_us_cm < 1e6,
+            in_range: est.trustworthy()
+                && est.microsiemens_per_cm > 0.0
+                && est.microsiemens_per_cm < 1e6,
         })
     }
 }
