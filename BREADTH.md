@@ -1583,8 +1583,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-080 — Molecular viewer selection spike
 
-- [ ] **Status:** claimed 2026-08-31 on `brd080/viewer-decision`; decision work
-  in progress. **Size:** small-medium. **Depends on:**
+- [ ] **Status:** in progress; 3Dmol.js 2.5.5 is the provisional smaller-
+  adequate selection, pending disposable Svelte and physical constrained-
+  mobile acceptance. Do not ship both candidates. **Size:** small-medium. **Depends on:**
   BRD-012.
 - **Candidates/licences:** 3Dmol.js (BSD) and Mol* (MIT). Primary projects:
   <https://github.com/3dmol/3Dmol.js> and
@@ -1637,6 +1638,16 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
      rule application and reproducible artifact hashes are committed; BRD-080
      closes and BRD-081 is either unblocked with a bounded first slice or
      marked not-applicable without overstating capability.
+     *Evidence checkpoint 2026-08-31:* two independent primary-source/package audits and the
+     executable comparison show both candidates reaching ready state with one
+     canvas and semantic rows for the bounded five-fixture matrix. The
+     committed decision provisionally selects 3Dmol 2.5.5 under the
+     smaller-adequate rule: 168,749 gzip bytes and six closure instances versus
+     Mol*'s 1,968,375 bytes and 216, with no accepted capability requiring the
+     larger viewer. Accessibility, UMD/eval, teardown, DPR and physical-mobile
+     limitations remain explicit acceptance gates. The go/no-go remains
+     provisional until disposable Svelte integration and physical constrained-
+     mobile RAM/GPU checks pass.
   4. [ ] **BRD-081a — Renderer-neutral accessible core (60–90 min,
      conditional on go).** Land `ScientificView` data/view-state contracts and
      the plain-language/table alternative before the selected renderer.
@@ -1647,7 +1658,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-081 — Molecular/crystal viewer integration
 
-- [ ] **Status:** blocked on BRD-080. **Size:** medium-large. **Depends on:**
+- [ ] **Status:** blocked on the remaining BRD-080 acceptance checks; BRD-060
+  also blocks the crystal slice. **Size:** medium-large. **Depends on:**
   BRD-080 and BRD-060 for the crystal slice.
 - **Scope:** create a renderer-neutral `ScientificView` contract for atoms,
   bonds, unit cells, surfaces/volumes, annotations and provenance, then adapt
