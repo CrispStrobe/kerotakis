@@ -1582,6 +1582,63 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 The original chemistry roadmap is complete; this phase supports the new product
 form without contaminating the core with game rules.
 
+**Claimed WORLD-001 → WORLD-002 progression (2026-09-01; 8–12 h, merge each
+checkpoint independently):** no open PR, issue assignee or remote world/save
+branch claimed this work when the progression was opened. BRD-081 is excluded
+because its physical BRD-080 acceptance gate is still open. Each checkpoint
+must rebase onto the preceding green `main`, preserve unknown/corrupt input for
+diagnosis, and reach a green post-merge `main` workflow before the next
+integration checkpoint lands.
+
+1. [ ] **WORLD-001a — Pure `AppSave` v1 contract and migrations (2–3 h).** Add
+   a bounded, renderer/host-independent envelope codec with explicit shared
+   profile/settings and opaque, independently versioned Story and Sandbox
+   world/session payloads. Canonical encoding must be deterministic. Decode
+   current mode-scoped session data and the pre-mode `kero.session.v1` record
+   into Sandbox without mutating or deleting the source record. **DoD:** exact
+   v1 and legacy fixtures, stable encode → decode → encode bytes, size/depth/
+   required-field bounds, and corrupt/truncated/unknown-future-version cases
+   all pass focused tests; invalid records fail closed with typed reasons; no
+   localized names, derived full-unlock inventory or browser global enters the
+   contract; frontend test/check/build and repository diff checks pass.
+2. [ ] **WORLD-001b — Atomic last-known-good repository (2–3 h).** Put the pure
+   codec behind an injectable `KeyValueStorage` repository using distinct
+   staging, current and last-known-good records. Validate the staged envelope
+   before promotion and retain forensic input on recovery. **DoD:** exhaustive
+   injected `getItem`/`setItem`/`removeItem` failures at every write cut point
+   restore either the previous valid envelope or the complete new envelope,
+   never a hybrid; corrupt current falls back to last-known-good without
+   destroying either mode; a failed Story write cannot alter Sandbox bytes or
+   shared settings; blocked/quota storage degrades to a typed unavailable
+   result without crashing; focused tests, frontend check/build and diff checks
+   pass.
+3. [ ] **WORLD-001c — Live session integration and one-way import (3–4 h).**
+   Integrate the repository at the host/session boundary while retaining the
+   engine-owned command log, snapshots, undo cursor and O(1) snapshot-token
+   restore. Migrate existing installed saves once and non-destructively. Keep
+   `.lab` open/export as an explicit import/export path, and add an explicit
+   Story → Sandbox “experiment with a copy” operation; never merge Sandbox
+   state or rewards back into Story. **DoD:** real Story and Sandbox sessions
+   round-trip independently across reload and close/reopen; migration failure
+   leaves the legacy source recoverable; copy produces an independent Sandbox
+   value; `.lab`, undo/redo/scrub, snapshot restore, profile/theme/register and
+   current layout behavior regress green; visible recovery/error copy has
+   English/German template parity; focused session/world tests, browser demo,
+   full frontend test/check/build and diff checks pass.
+4. [ ] **WORLD-002 — Mode-isolation conformance and browser gate (2–3 h).** Add
+   a product-level conformance matrix over divergent logs, undo, reset,
+   close/reopen, interrupted persistence, repeated mode switches and explicit
+   one-way clone. Prove identical initial World plus identical operator yields
+   byte-equivalent accepted chemistry scene/event output in both modes; only
+   orchestration policy may differ. **DoD:** real-browser storage covers normal,
+   corrupt, quota-blocked and recovery paths; no cross-mode mutation occurs in
+   any transition; shared settings remain deliberately shared; Sandbox
+   availability is derived from installed manifests rather than serialized
+   unlock flags; all web tests, `svelte-check`, production Vite build, protocol
+   conformance, formatting/diff checks and full preflight pass; WORLD-001 and
+   WORLD-002 are marked complete only with exact merged SHAs and green-main run
+   links.
+
 - [ ] **WORLD-001 — Versioned `AppSave` envelope.** Implement independent Story
   and Sandbox namespaces, shared settings, atomic last-known-good writes, and
   fixture migrations. Preserve current snapshot-token and `.lab` restore as
