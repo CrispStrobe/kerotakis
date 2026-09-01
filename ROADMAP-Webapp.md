@@ -1590,7 +1590,7 @@ must rebase onto the preceding green `main`, preserve unknown/corrupt input for
 diagnosis, and reach a green post-merge `main` workflow before the next
 integration checkpoint lands.
 
-1. [ ] **WORLD-001a — Pure `AppSave` v1 contract and migrations (2–3 h).** Add
+1. [x] **WORLD-001a — Pure `AppSave` v1 contract and migrations (2–3 h).** Add
    a bounded, renderer/host-independent envelope codec with explicit shared
    profile/settings and opaque, independently versioned Story and Sandbox
    world/session payloads. Canonical encoding must be deterministic. Decode
@@ -1601,7 +1601,7 @@ integration checkpoint lands.
    all pass focused tests; invalid records fail closed with typed reasons; no
    localized names, derived full-unlock inventory or browser global enters the
    contract; frontend test/check/build and repository diff checks pass.
-2. [ ] **WORLD-001b — Atomic last-known-good repository (2–3 h).** Put the pure
+2. [x] **WORLD-001b — Atomic last-known-good repository (2–3 h).** Put the pure
    codec behind an injectable `KeyValueStorage` repository using distinct
    staging, current and last-known-good records. Validate the staged envelope
    before promotion and retain forensic input on recovery. **DoD:** exhaustive
@@ -1612,7 +1612,7 @@ integration checkpoint lands.
    shared settings; blocked/quota storage degrades to a typed unavailable
    result without crashing; focused tests, frontend check/build and diff checks
    pass.
-3. [ ] **WORLD-001c — Live session integration and one-way import (3–4 h).**
+3. [x] **WORLD-001c — Live session integration and one-way import (3–4 h).**
    Integrate the repository at the host/session boundary while retaining the
    engine-owned command log, snapshots, undo cursor and O(1) snapshot-token
    restore. Migrate existing installed saves once and non-destructively. Keep
@@ -1625,7 +1625,7 @@ integration checkpoint lands.
    current layout behavior regress green; visible recovery/error copy has
    English/German template parity; focused session/world tests, browser demo,
    full frontend test/check/build and diff checks pass.
-4. [ ] **WORLD-002 — Mode-isolation conformance and browser gate (2–3 h).** Add
+4. [x] **WORLD-002 — Mode-isolation conformance and browser gate (2–3 h).** Add
    a product-level conformance matrix over divergent logs, undo, reset,
    close/reopen, interrupted persistence, repeated mode switches and explicit
    one-way clone. Prove identical initial World plus identical operator yields
@@ -1639,11 +1639,23 @@ integration checkpoint lands.
    WORLD-002 are marked complete only with exact merged SHAs and green-main run
    links.
 
-- [ ] **WORLD-001 — Versioned `AppSave` envelope.** Implement independent Story
+**Completion evidence (2026-09-01):** WORLD-001a merged as `710aeaad42b8f551b3f07d60d67888c921897abf`
+([green main](https://github.com/CrispStrobe/kerotakis/actions/runs/33479564633));
+WORLD-001b merged as `9a585d76c9bef859a04bc01f6b5109a0ab9890ec`
+([green main](https://github.com/CrispStrobe/kerotakis/actions/runs/33481140466));
+WORLD-001c merged as `24b9ddf99936db095fa6c2a0c54969fc28afd09c`
+([green main](https://github.com/CrispStrobe/kerotakis/actions/runs/33482173371));
+and WORLD-002 merged as `ecccf36ba5d76b8000f3f2b2e8e78f02c72c5a4e`
+([green main](https://github.com/CrispStrobe/kerotakis/actions/runs/33485348208)).
+The final exact-head and post-merge browser jobs both exercised normal reload,
+mode switching, shared settings, explicit one-way clone, corrupt input,
+last-known-good recovery and quota-blocked storage.
+
+- [x] **WORLD-001 — Versioned `AppSave` envelope.** Implement independent Story
   and Sandbox namespaces, shared settings, atomic last-known-good writes, and
   fixture migrations. Preserve current snapshot-token and `.lab` restore as
   imported legacy saves.
-- [ ] **WORLD-002 — Mode isolation conformance.** Prove Story and Sandbox can
+- [x] **WORLD-002 — Mode isolation conformance.** Prove Story and Sandbox can
   run divergent logs, undo, reset, close/reopen, and switch repeatedly without
   cross-mutation. Prove equal World + equal operator yields equal chemistry in
   both modes.
