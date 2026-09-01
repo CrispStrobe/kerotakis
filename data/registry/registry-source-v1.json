@@ -1245,7 +1245,7 @@
     },
     {
       "id": "kerotakis/phase-transitions-v1",
-      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
+      "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -18018,7 +18018,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 351.44,
+        "value": 351.39,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -18339,7 +18339,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 485.15,
+        "value": 483.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -19233,7 +19233,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "the melting point is the alpha-rhombic form's; sulfur has several solid polymorphs and this registry carries one"
+          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -19270,7 +19270,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "the melting point is the alpha-rhombic form's; sulfur has several solid polymorphs and this registry carries one"
+          "notes": "the melting point is the beta-monoclinic form's; alpha-rhombic sulfur transforms to monoclinic at 368.45 K (95.3 degC) before anything melts, and this registry carries the one form that actually reaches a melt"
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -21356,7 +21356,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 1124.15,
+        "value": 1129.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -22284,7 +22284,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 1397.15,
+        "value": 1410.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -24565,7 +24565,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. prints only 'dec' with no temperature; ~240 degC is the common textbook figure, not a CRC-97 citation."
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -24724,7 +24724,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+          "notes": "decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. tabulates no temperature for anhydrous FeSO4; ~680 degC follows general secondary references and stays flagged for a stronger source."
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -26648,7 +26648,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 177.8,
+        "value": 177.88,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -27570,7 +27570,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed"
+          "notes": "potassium nitrate decomposes above its melting point rather than boiling; no boiling point is claimed CRC 97th places the decomposition near 400 degC ('dec' in the boiling column): it melts first, then comes apart."
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -30928,7 +30928,7 @@
       "phase": "liquid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 298.85,
+        "value": 298.96,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -30965,7 +30965,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 355.55,
+        "value": 355.45,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31219,7 +31219,7 @@
       "phase": "liquid",
       "property": "boiling_temperature",
       "quantity": {
-        "value": 355.65,
+        "value": 355.36,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31367,7 +31367,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "sucrose does not melt: what a capillary shows near this temperature is the beginning of thermal decomposition, which is why sucrose 'melting points' in the literature disagree with each other. decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting"
+          "notes": "sucrose does not melt: what a capillary shows near this temperature is the beginning of thermal decomposition, which is why sucrose 'melting points' in the literature disagree with each other. decomposition products and their temperatures are not modelled by this row: it records only that the substance comes apart here instead of melting CRC 97th ed. tabulates mp 181(8) with no qualifier; the decomposition classification is a deliberate, stated divergence following the modern kinetic-melting literature."
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -31586,7 +31586,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent"
+          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent CRC 97th prints only the 150 degC onset; the one-step temperature here is the full loss per the TGA literature."
         },
         "uncertainty": {
           "kind": "not_reported"
@@ -32033,7 +32033,7 @@
       "phase": "solid",
       "property": "melting_temperature",
       "quantity": {
-        "value": 577.15,
+        "value": 580.75,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -32880,7 +32880,7 @@
         "other": "dehydration_temperature"
       },
       "quantity": {
-        "value": 523.15,
+        "value": 473.15,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -32899,7 +32899,7 @@
           "ionic_strength": null,
           "medium": null,
           "phase": "solid",
-          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent"
+          "notes": "the intermediate hydrates are real and are not modelled: this bench drives all the crystal water off in one step at the temperature of the last loss, so a partly dehydrated crystal is a state it cannot represent TGA literature has the pentahydrate's waters leave stepwise (~63/109/200 degC); the one-step temperature here is the final loss, and CRC 97th prints only the 110 degC onset."
         },
         "uncertainty": {
           "kind": "not_reported"
