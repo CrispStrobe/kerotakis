@@ -306,6 +306,7 @@
   "very pale pink": "",
   "white crystalline powder": "",
   "white crystalline solid": "",
+  "white fibrous solid": "",
   "white granular solid": "",
   "white opaque plastic": "",
   "white powder": "",
@@ -361,7 +362,13 @@
   "tube": "",
   "volume meter": "",
   "volumetric flask": "",
-  "watch glass": ""
+  "watch glass": "",
+  "D-glucose (dextrose)": "",
+  "D-fructose (fruit sugar)": "",
+  "malic acid": "",
+  "citric acid": "",
+  "citrate ion": "",
+  "cellulose (anhydroglucose unit)": ""
  },
  "messages": {
   "A cloudy water sample arrived without a trustworthy label. Build an evidence trail before the campus reopens its supply line.": "",

@@ -1418,10 +1418,21 @@ impl Equilibrator for PhreeqcEquilibrator {
         // ended and a solve is an extrapolated crash waiting to happen
         // (superheated water, curiosity th-022). The honesty pass names
         // the boundary when this gate declines.
-        vessel.temperature.0 <= kerotakis_core::solve::AQUEOUS_MODEL_CEILING_K
+        let inside_validity = vessel.temperature.0
+            <= kerotakis_core::solve::AQUEOUS_MODEL_CEILING_K
             && kerotakis_core::nonaqueous::water_fraction_among_solvents(vessel)
-                .is_none_or(|x| x >= kerotakis_core::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR)
-            && partition(vessel).is_some()
+                .is_none_or(|x| x >= kerotakis_core::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR);
+
+        // "Has this solver anything to say about this vessel?" — and having
+        // to say *no* is an answer, not a reason to stand down.
+        //
+        // `partition` declines a beaker of malic acid and water, because
+        // nothing in it speciates: the acid dissolves on the neutral-solute
+        // rung and the databases have no malate. Standing down there meant
+        // the stack skipped this solver entirely, so the one place that
+        // knows the acidity is missing never got to say so. The refusal is
+        // the whole point of carrying the substance at all.
+        inside_validity && (partition(vessel).is_some() || holds_unspeciated_acid(vessel))
     }
 
     /// Solve, and keep solving until the temperature stops moving.
@@ -1546,9 +1557,10 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
 
         let Some((solved, mut events, t_final)) = settled else {
-            return Ok(Vec::new());
+            return Ok(unspeciated_acid_notes(&start));
         };
         *vessel = solved;
+        events.extend(unspeciated_acid_notes(vessel));
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && (t_final - t0).abs() > 0.01 {
             // From where the vessel actually started, not from the last
             // trial temperature the iteration happened to stop on.
@@ -3221,6 +3233,7 @@ impl PhreeqcEquilibrator {
                 ),
             });
         }
+
         redox.sort_by(|a, b| {
             a.element
                 .cmp(&b.element)
@@ -3341,6 +3354,70 @@ impl PhreeqcEquilibrator {
             });
         }
     }
+}
+
+/// An acid in the glass that is not in the pH.
+///
+/// A sugar dissolving unspeciated is harmless: glucose really does just go
+/// into solution, and nothing about the answer is changed by our not
+/// having a species for it. An *acid* doing the same thing is not
+/// harmless, because whatever pH is published then looks exactly like a pH
+/// that accounted for it. A beaker of malic acid reading 7.00 is not a
+/// missing feature; it is a wrong answer delivered with a straight face,
+/// and the reader most likely to be misled is the one who does not know
+/// to go and check which database was routed to.
+///
+/// This runs outside the solve rather than inside it, because the case
+/// that matters most is the one where no solve happens at all: malic acid
+/// and water alone give `partition` no speciating solute, so it declines,
+/// and a caveat living in the solution-reporting path would never be
+/// reached — silence exactly where the claim is most misleading.
+///
+/// The note fires wherever the acid is present in whatever phase: solid on
+/// the bottom of the beaker is still an acid that is going to dissolve.
+/// Is there an acid in this vessel that no shipped database can speciate,
+/// in water for it to be an acid in? Malic acid in a dry jar has nothing
+/// to be wrong about.
+fn holds_unspeciated_acid(vessel: &Vessel) -> bool {
+    let has_water = vessel.contents.iter().any(|portion| {
+        portion.species.0 == "water" && portion.phase == Phase::Liquid && portion.moles.0 > TRACE
+    });
+    has_water
+        && derived::UNSPECIATED_ACIDS.iter().any(|(key, _)| {
+            vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
+        })
+}
+
+fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
+    if !holds_unspeciated_acid(vessel) {
+        return Vec::new();
+    }
+    let mut notes: Vec<&str> = derived::UNSPECIATED_ACIDS
+        .iter()
+        .filter(|(key, _)| {
+            vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
+        })
+        .map(|(_, why)| *why)
+        .collect();
+    notes.sort_unstable();
+    notes.dedup();
+    notes
+        .into_iter()
+        .map(|why| Event::NotYetModeled {
+            vessel: vessel.id,
+            what: format!(
+                "this solution holds an acid whose acidity is not modelled: {why}. \
+                 Whatever pH is shown is the pH of everything else in the glass, and \
+                 the real solution is more acidic than it says"
+            ),
+        })
+        .collect()
 }
 
 fn missing(column: &str) -> SolveError {

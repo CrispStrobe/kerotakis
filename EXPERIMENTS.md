@@ -274,8 +274,12 @@ dissolution and temperature-coupled solubility are solved and tested;
 - Gravimetric AgCl analysis (filter + balance are verbs).
 
 **NEAR — data or one small instrument away:**
-- Glucose/sucrose problems: two data-species (glucose already queued
-  for Part 1's photosynthesis).
+- Glucose/sucrose problems: both data-species now exist. BRD-012.S03
+  landed glucose (and fructose) on sucrose's finite neutral-solute rung
+  with a CRC room-temperature capacity, so a glucose problem has a
+  species that dissolves to a limit and leaves the excess solid. The
+  photosynthesis *reaction* EXP-9 wants is still absent: the identity is
+  here, the curated photo-route is not.
 - Density-identification problems: a volume-displacement reading
   (graduated-cylinder instrument; solid volumes are already known
   internally from molar mass and density).
@@ -319,8 +323,9 @@ can honestly grow into.
 - Quest engine (Fable, CAP-24 slice 1) grows both enablers: value
   claims + sealed species. These unlock ~18 problems' worth of quest
   classes at once.
-- NEAR data tranche (agents, after current queues): glucose, sucrose,
-  As-series rows, mixture-density correlations, graduated cylinder.
+- NEAR data tranche (agents, after current queues): As-series rows,
+  mixture-density correlations, graduated cylinder. Glucose and sucrose
+  are done (BRD-012.S03 and earlier).
 - HARDER models (Fable): association-K solver, custom-acid route,
   speciation-colour coupling.
 

@@ -278,6 +278,29 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Na2SO4"
         // The insoluble sulfate: barium that cannot be absorbed.
         | "BaSO4"
+        // BRD-012.S03's food chemistry. The two sugars and the polymer are
+        // inert by the same reading that already covers sucrose, maltose
+        // and starch.
+        //
+        // Malic and citric acid get no reactive group either, and that is
+        // a deliberate reading of the matrix rather than an oversight.
+        // They are weak carboxylic acids: they do not dissociate
+        // completely, so `AcidStrong` — whose incompatibility rules are
+        // written for acids that do — would overstate them badly, and
+        // this lab already files acetic and ascorbic acid the same way.
+        // `AcidicSalt` is wrong too: it describes a salt acidic by
+        // hydrolysis, and these are acids outright. The honest position
+        // is the one BRD-012.S02 took for ammonium salts: the matrix has
+        // no weak-organic-acid row, so none is claimed here rather than
+        // approximated by a row that means something else. What the
+        // engine DOES say about their acidity lives in the aqueous
+        // solver, where citrate is computed and malate is refused aloud.
+        | "malic_acid"
+        | "citric_acid"
+        | "C6H5O7-3"
+        | "glucose"
+        | "fructose"
+        | "cellulose"
         | "NaBr" => &[],
 
         _ => &[],
@@ -301,6 +324,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "BaSO4",
     "Br-",
     "C",
+    "C6H5O7-3",
     "CO2",
     "Ca(OH)2",
     "Ca+2",
@@ -399,17 +423,22 @@ pub const COVERED_KEYS: &[&str] = &[
     "bromoethane",
     "bromothymol_blue",
     "catalase",
+    "cellulose",
+    "citric_acid",
     "dehydroascorbic_acid",
     "ethanol",
     "ethene",
     "ethyl_acetate",
     "epsomite",
+    "fructose",
+    "glucose",
     "gypsum",
     "hexane",
     "indigo_carmine",
     "indigo_carmine_ox",
     "isobutylene",
     "isopropanol",
+    "malic_acid",
     "maltose",
     "methanol",
     "methyl_orange",

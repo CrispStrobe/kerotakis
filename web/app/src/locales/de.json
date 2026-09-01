@@ -306,6 +306,7 @@
   "very pale pink": "sehr blassrosa",
   "white crystalline powder": "weißes kristallines Pulver",
   "white crystalline solid": "weißer kristalliner Feststoff",
+  "white fibrous solid": "weißer faseriger Feststoff",
   "white granular solid": "weißer körniger Feststoff",
   "white opaque plastic": "weißer undurchsichtiger Kunststoff",
   "white powder": "weißes Pulver",
@@ -361,7 +362,13 @@
   "tube": "Reagenzglas",
   "volume meter": "Volumenmessung",
   "volumetric flask": "Messkolben",
-  "watch glass": "Uhrglas"
+  "watch glass": "Uhrglas",
+  "D-glucose (dextrose)": "D-Glucose (Traubenzucker)",
+  "D-fructose (fruit sugar)": "D-Fructose (Fruchtzucker)",
+  "malic acid": "Apfelsäure",
+  "citric acid": "Citronensäure",
+  "citrate ion": "Citrat-Ion",
+  "cellulose (anhydroglucose unit)": "Cellulose (Anhydroglucose-Einheit)"
  },
  "messages": {
   "English": "Englisch",

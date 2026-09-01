@@ -65,6 +65,15 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         // element coupled to pe — an open beaker's air would then oxidise
         // a school salt to nitrate before anything was added to it.
         ("NH4", "N(-3)"),
+        // Citrate before acetate, because "longest/most specific first" is
+        // load-bearing here rather than cosmetic: citric acid's C6H8O7
+        // admits two whole acetate units by pure arithmetic, and taking
+        // them would book the tribasic acid as something it is not.
+        // minteq.v4 is the only shipped database that defines Citrate, and
+        // it carries all three protonation constants (log K 6.396, 11.157,
+        // 14.285 — pKa 3.13, 4.76, 6.40), so this row is what lets a
+        // citric-acid solution compute its own pH instead of refusing.
+        ("C6H5O7", "Citrate"),
         ("C2H3O2", "Acetate"), // CH3COO
         ("HCO3", "C"),
         ("CO3", "C"),
@@ -101,6 +110,30 @@ const CATION_RESIDUE: &[&str] = &[
 /// solution, so a metal halide's stoichiometry fixes the metal's state.
 const HALIDE_RESIDUE: &[&str] = &["Cl", "Br", "F"];
 
+/// Acids this lab can name but no shipped database can speciate.
+///
+/// A carboxylic acid that dissolves and leaves the solution at pH 7.00 is
+/// the exact failure this table exists to prevent. Where a database
+/// carries the anion, nothing is needed here — citrate is in minteq.v4
+/// and computes its own pH through `oxyanion_groups`. Where no database
+/// carries it, the acid still dissolves (it genuinely does dissolve) but
+/// its protons are not in the speciation, and the solver must say so
+/// instead of returning a neutral answer that looks like a result.
+///
+/// Malate is in none of the roughly forty PHREEQC databases vendored with
+/// iphreeqc, let alone the four this lab ships — checked by name against
+/// every `.dat` in `vendor/iphreeqc/database` on 2026-08-29. minteq.v4
+/// carries tartrate and citrate and a dozen other organic ligands, and
+/// simply does not carry this one.
+///
+/// Each row is (registry key, what is missing). The message the solver
+/// builds from it names the substance, so a reader is told which bottle
+/// on the bench the caveat is about.
+pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[(
+    "malic_acid",
+    "no shipped database defines a malate species, so its two carboxylic protons are not in this pH",
+)];
+
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
 /// protonation-state choice.
@@ -108,6 +141,12 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     ("C", "HCO3-"),
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
+    // minteq.v4's citrate master species is `Citrate-3`, which is not a
+    // registry key; the registry books the fully deprotonated ion under
+    // its formula, exactly as acetate books as CH3COO-. Without this the
+    // rebuild would find no booking ion for the Citrate element and
+    // panic rather than return the citrate mass to the vessel.
+    ("Citrate", "C6H5O7-3"),
     ("Mn(7)", "MnO4-"),
     // Bare manganese books as the reduced ion, which is what the databases
     // treat as the master species and what dissolved manganese actually is
@@ -556,6 +595,30 @@ fn contribution_from_counts(
     }
     counts.retain(|_, n| *n > 0.0);
 
+    // A free acid carries exactly one of its anion skeleton.
+    //
+    // Group extraction is pure arithmetic, and on a molecule made only of
+    // carbon, hydrogen and oxygen the arithmetic will happily find units
+    // that are not there. Glucose is C6H12O6, which is three times
+    // C2H3O2 plus three protons — so without this guard the sugar entered
+    // solution as three acetates and acidified it, and malic acid entered
+    // as two. Both are formula arithmetic dressed as speciation, and both
+    // were silent.
+    //
+    // The chemistry that rules them out: a compound with no cation to
+    // balance the charge is the *free acid* of its anion, and a free acid
+    // contains one anion skeleton, not several. Where a cation residue
+    // does exist the count is real and stays unrestricted — a diacetate
+    // salt is two acetates because the metal says so. Only the
+    // no-cation case is constrained, and only per group, so a mixed salt
+    // like NH4NO3 (one ammonium, one nitrate) is untouched.
+    let no_cation_residue = !counts
+        .keys()
+        .any(|el| el != "H" && el != "O" && RESIDUE_OK.contains(&el.as_str()));
+    if no_cation_residue && contrib.iter().any(|(_, fit)| *fit > 1.0) {
+        return None;
+    }
+
     // Hydroxide pairs and acid protons drop out: they live in the water /
     // charge-balance domain, and PHREEQC's `pH charge` recovers them.
     let h = counts.remove("H").unwrap_or(0.0);
@@ -868,5 +931,70 @@ mod tests {
         // exception, so three answers are partly about three different
         // shelves of admissible solids.
         assert!(c.shared * 10 < c.total);
+    }
+
+    #[test]
+    fn citric_acid_is_one_citrate_and_not_two_acetates() {
+        // C6H8O7 admits two whole C2H3O2 units by arithmetic, which is
+        // why the citrate row has to come first in the group table. What
+        // the databases actually define is Citrate, and minteq.v4 alone
+        // defines it.
+        assert_eq!(dissolves("citric_acid"), vec![("Citrate".into(), 1.0)]);
+        assert!(
+            index_for("minteq.v4").has_element("Citrate"),
+            "minteq.v4 is the only shipped database with citrate chemistry"
+        );
+        for tag in ["wateq4f", "pitzer"] {
+            assert!(
+                !index_for(tag).has_element("Citrate"),
+                "{tag} is not expected to define Citrate"
+            );
+        }
+        // The citrate the solve books back has to be a registry species,
+        // or the rebuild panics instead of returning the mass.
+        assert_eq!(booking_ion("Citrate"), Some("C6H5O7-3"));
+    }
+
+    #[test]
+    fn sugars_and_malic_acid_are_not_decomposed_into_acetate() {
+        // The free-acid guard. Each of these is a whole number of acetate
+        // units plus protons, and before the guard each of them entered
+        // solution as acetate and acidified it:
+        //   glucose/fructose C6H12O6 = 3 x C2H3O2 + 3 H
+        //   malic acid       C4H6O5  = 2 x C2H3O2 + O
+        // None of them has a cation to balance those units, so none of
+        // them is that salt.
+        for key in ["glucose", "fructose", "malic_acid"] {
+            assert!(
+                role(key).is_none(),
+                "{key} must have no derived aqueous role, got {:?}",
+                role(key)
+            );
+        }
+        // Cellulose has none either, but for the ordinary reason: its
+        // residue simply is not derivable.
+        assert!(role("cellulose").is_none());
+        // The guard must not have cost the salts anything: a real acetate
+        // and a real acetate salt still decompose.
+        assert_eq!(dissolves("CH3COOH"), vec![("Acetate".into(), 1.0)]);
+        assert_eq!(
+            dissolves("NaOAc"),
+            vec![("Acetate".into(), 1.0), ("Na".into(), 1.0)]
+        );
+    }
+
+    #[test]
+    fn malate_is_in_none_of_the_shipped_databases() {
+        // The premise of the spoken refusal. If a database ever gains a
+        // malate species this test fails, and the refusal should be
+        // replaced by a computed pH rather than left standing.
+        for tag in DB_TAGS {
+            assert!(
+                !index_for(tag).has_element("Malate"),
+                "{tag} now defines Malate — malic acid can be speciated, so \
+                 UNSPECIATED_ACIDS should lose its row"
+            );
+        }
+        assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "malic_acid"));
     }
 }
