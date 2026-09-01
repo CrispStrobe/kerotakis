@@ -79,6 +79,7 @@
     MODE_ROOM_KEY,
     bootstrapAppSave,
     cloneStoryBenchToSandbox,
+    createAppSaveRepository,
     readSharedProfile,
     readSharedSetting,
     saveSharedProfile,
@@ -266,6 +267,103 @@
       : null;
   const selftest = selftestMode !== null;
   let selftestReported = false;
+  const WORLD_SELFTEST_PHASE = "kero.selftest.world002.phase";
+  async function worldIsolationSelftest(): Promise<Record<string, boolean> | null> {
+    if (!appStorage || !appSaveRepository) return { world_storage_ready: false };
+    const phase = appStorage.getItem(WORLD_SELFTEST_PHASE);
+    const story = new AppSaveModeStorage(appSaveRepository, "story");
+    const sandbox = new AppSaveModeStorage(appSaveRepository, "sandbox");
+    const storySession = JSON.stringify({ log: ["add v1 water 100mL"], position: 1, register: "lv1" });
+    if (phase === null) {
+      story.setItem("kero.session.v1", storySession);
+      story.setItem(MODE_LAYOUT_KEY, "story-layout");
+      sandbox.setItem("kero.session.v1", JSON.stringify({ log: ["add v1 NaCl 1g"], position: 1, register: "lv1" }));
+      sandbox.setItem(MODE_APPARATUS_KEY, "stale-apparatus");
+      saveSharedSetting(appSaveRepository, "theme", "contrast");
+      saveSharedSetting(appSaveRepository, "locale", "de");
+      cloneStoryBenchToSandbox(appSaveRepository);
+      appStorage.setItem(WORLD_SELFTEST_PHASE, "story");
+      writeLabMode(appStorage, "story");
+      location.reload();
+      return null;
+    }
+    if (phase === "story") {
+      const storyReloaded = labMode === "story" && session.commandLog.join("\n") === "add v1 water 100mL";
+      appStorage.setItem("kero.selftest.world002.story-reloaded", storyReloaded ? "yes" : "no");
+      sandbox.setItem("kero.session.v1", JSON.stringify({ log: ["add v1 AgNO3 1g"], position: 1, register: "lv1" }));
+      appStorage.setItem(WORLD_SELFTEST_PHASE, "sandbox");
+      writeLabMode(appStorage, "sandbox");
+      location.reload();
+      return null;
+    }
+
+    const sandboxReloaded = labMode === "sandbox" && session.commandLog.join("\n") === "add v1 AgNO3 1g";
+    const storyUnchanged = story.getItem("kero.session.v1") === storySession;
+    const sharedSettings = readSharedSetting(appSaveRepository, "theme") === "contrast"
+      && readSharedSetting(appSaveRepository, "locale") === "de";
+    const cloneDeletedAbsent = sandbox.getItem(MODE_APPARATUS_KEY) === null;
+    const storyReloaded = appStorage.getItem("kero.selftest.world002.story-reloaded") === "yes";
+
+    const slots = ["current", "last-known-good", "staging"] as const;
+    const originals = Object.fromEntries(
+      slots.map((slot) => [slot, appStorage.getItem(appSaveRepository.key(slot))]),
+    ) as Record<(typeof slots)[number], string | null>;
+    const restoreEvidence = () => {
+      for (const slot of slots) {
+        const raw = originals[slot];
+        if (raw === null) appStorage.removeItem(appSaveRepository.key(slot));
+        else appStorage.setItem(appSaveRepository.key(slot), raw);
+      }
+    };
+    const current = originals.current;
+    let recoveryReadOnly = false;
+    let corruptPreserved = false;
+    let quotaTyped = false;
+    if (current !== null) {
+      appStorage.setItem(appSaveRepository.key("last-known-good"), current);
+      appStorage.setItem(appSaveRepository.key("current"), "{recovery evidence");
+      const recovered = bootstrapAppSave(appStorage);
+      if (recovered.status === "ready") {
+        try {
+          new AppSaveModeStorage(recovered.repository, "story").setItem("kero.session.v1", "must-not-write");
+        } catch {
+          recoveryReadOnly = recovered.source === "recovered"
+            && appStorage.getItem(appSaveRepository.key("current")) === "{recovery evidence";
+        }
+      }
+      restoreEvidence();
+      appStorage.setItem(appSaveRepository.key("current"), "{corrupt evidence");
+      appStorage.removeItem(appSaveRepository.key("last-known-good"));
+      appStorage.removeItem(appSaveRepository.key("staging"));
+      const corrupt = bootstrapAppSave(appStorage);
+      corruptPreserved = corrupt.status === "corrupt"
+        && appStorage.getItem(appSaveRepository.key("current")) === "{corrupt evidence";
+      restoreEvidence();
+      const quotaRepository = createAppSaveRepository({
+        getItem: (key) => appStorage.getItem(key),
+        setItem: () => { throw new DOMException("quota", "QuotaExceededError"); },
+        removeItem: () => { throw new DOMException("quota", "QuotaExceededError"); },
+      });
+      const loaded = quotaRepository.load();
+      if (loaded.status === "loaded") {
+        const quotaResult = quotaRepository.save(loaded.value);
+        quotaTyped = quotaResult.status === "unavailable" && quotaResult.operation === "write-staging";
+      }
+    }
+    appStorage.removeItem(WORLD_SELFTEST_PHASE);
+    appStorage.removeItem("kero.selftest.world002.story-reloaded");
+    return {
+      world_storage_ready: true,
+      world_story_reloaded: storyReloaded,
+      world_sandbox_reloaded: sandboxReloaded,
+      world_story_unchanged: storyUnchanged,
+      world_shared_settings: sharedSettings,
+      world_clone_deleted_absent: cloneDeletedAbsent,
+      world_recovery_read_only: recoveryReadOnly,
+      world_corrupt_preserved: corruptPreserved,
+      world_quota_typed: quotaTyped,
+    };
+  }
   async function reportSelftest(ready: boolean, failed?: { text: string }) {
     let foamVessels = 0;
     let overflowVessels = 0;
@@ -274,6 +372,12 @@
     let doseOrdered = false;
     let unsupportedKiWarning = false;
     let scenarioError: string | null = null;
+    let worldReport: Record<string, boolean> = {};
+    if (ready && selftestMode === "world-isolation") {
+      const result = await worldIsolationSelftest();
+      if (result === null) return;
+      worldReport = result;
+    }
     if (ready && selftestMode === "foam") {
       try {
         await session.runExperiment([
@@ -323,6 +427,7 @@
         dose_ordered: doseOrdered,
         unsupported_ki_warning: unsupportedKiWarning,
         scenario_error: scenarioError,
+        ...worldReport,
       }),
     });
   }

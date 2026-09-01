@@ -155,6 +155,25 @@ try { appProc.kill("SIGKILL"); } catch { /* already gone */ }
 await new Promise((r) => setTimeout(r, 1500));
 try { rmSync(`${profile}-app`, { recursive: true, force: true }); } catch { /* still dying */ }
 
+// WORLD-002 uses the same real browser and app worker, but keeps its own
+// persistent profile across two deliberate reloads (Story, then Sandbox).
+// Re-arm the server-side report resolver after the foam report has completed.
+const worldSelftestReport = new Promise((r) => (reportSelftest = r));
+const worldProfile = `${profile}-world`;
+const worldProc = spawn(chrome, [
+    "--headless=new", "--disable-gpu", "--no-sandbox",
+    "--no-first-run", "--no-default-browser-check",
+    `--user-data-dir=${worldProfile}`,
+    `http://127.0.0.1:${PORT}/app/index.html?selftest=world-isolation`,
+]);
+const worldReport = await Promise.race([
+    worldSelftestReport,
+    new Promise((r) => setTimeout(() => r({ world_storage_ready: false, error: "no WORLD-002 report within 180s" }), 180000)),
+]);
+try { worldProc.kill("SIGKILL"); } catch { /* already gone */ }
+await new Promise((r) => setTimeout(r, 1500));
+try { rmSync(worldProfile, { recursive: true, force: true }); } catch { /* still dying */ }
+
 // Second render: the server is gone, the cache is all there is.
 server.close();
 const offlineDom = await render(chrome);
@@ -192,6 +211,15 @@ check(
     appReport.unsupported_ki_warning === false,
 );
 check("the foam browser scenario completed", appReport.scenario_error == null);
+check("world save storage bootstrapped in a browser", worldReport.world_storage_ready === true);
+check("Story survived a real page reload", worldReport.world_story_reloaded === true);
+check("Sandbox survived a mode switch and real page reload", worldReport.world_sandbox_reloaded === true);
+check("Sandbox mutation after clone did not change Story", worldReport.world_story_unchanged === true);
+check("theme and locale remained shared across both modes", worldReport.world_shared_settings === true);
+check("clone deleted an absent Story bench field from Sandbox", worldReport.world_clone_deleted_absent === true);
+check("recovered LKG evidence stayed read-only", worldReport.world_recovery_read_only === true);
+check("corrupt current evidence was preserved", worldReport.world_corrupt_preserved === true);
+check("browser quota failure returned the typed write cut", worldReport.world_quota_typed === true);
 check(
     "no engine-loading failure surfaced in the app",
     appReport.error == null,
