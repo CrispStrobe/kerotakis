@@ -1,5 +1,11 @@
 # BRD-080 physical-device evidence protocol
 
+For the concrete MacBook + physical iPad procedure, including wireless Safari
+inspection, Instruments memory attribution, artifact layout and exact DoDs, see
+[`brd080-macbook-ipad-handover.md`](brd080-macbook-ipad-handover.md). That
+handover produces only the required iOS row; this protocol still requires one
+physical Android row as well.
+
 Vercel and Playwright establish that the exact deployed HTTPS route loads, stays
 on-origin, and supports the scripted interactions. A desktop Playwright worker
 with a mobile viewport is not physical-mobile RAM or GPU evidence. The validator
