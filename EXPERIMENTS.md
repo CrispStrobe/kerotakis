@@ -584,12 +584,25 @@ What follows is only what is genuinely NEW.
   (2026-08-29): the **sealed-unknown salt quests** — seven quest specs
   (six single unknowns plus a two-unknown capstone), authoring only,
   no engine change; see the gap log below for what the authoring could
-  NOT reach. STILL OPEN: NH3/SO2 gas test observables (EXP-31
+  NOT reach. FOURTH SLICE (2026-09-01): **MIX-path parity closed**. The
+  builder had already stopped filtering candidates to natively-spelled
+  names, so polymorph translation and foreign injection reach a beaker
+  combined by fraction; what remained was that the MIX solve never
+  actually completed — `Bench` treats a failed MIX as advisory and
+  re-solves the target through the direct path, so the right chemistry
+  arrived by the wrong route and nothing in the suite could see it.
+  Three gaps, all now closed and guarded by an engine-call assertion
+  (`mix.rs::mix_solves_in_one_engine_call_without_falling_back`): the
+  in-solve oxidation-state pin was never emitted on this path; the
+  candidate list was a union of the two sources' lists rather than a
+  derivation over the merged element set, so a solid whose elements
+  only meet on mixing was never posed; and the `SELECTED_OUTPUT` block
+  was written after the input's first two simulations, which therefore
+  punched their rows under whatever the previous solve on that engine
+  instance had defined — heading and answer came from different
+  definitions. STILL OPEN: NH3/SO2 gas test observables (EXP-31
   overlap), a dedicated flame-test verb, excess-alkali amphoterism,
-  MIX-path parity (the MIX input builder still filters phases to
-  native names, so polymorph translation and foreign injection do not
-  apply when two solutions are combined by fraction), and the
-  sealed-unknown display layer outside the CLI. The INST-008
+  and the sealed-unknown display layer outside the CLI. The INST-008
   `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
   the classic scheme as computed chemistry — cation tests (NaOH/NH3
   precipitation with excess behaviour), anion tests (AgNO3 halide

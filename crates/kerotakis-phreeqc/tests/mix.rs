@@ -107,7 +107,7 @@ fn precipitated(events: &[Event], species: &str) -> f64 {
 /// precipitate arrived either way and these two assertions passed even
 /// before the fix. They pin the parity that must hold at the bench, no more
 /// than that. Whether the MIX solve reaches it *itself* is a separate
-/// question, and still an open one — see the ignored
+/// question, answered by
 /// `mix_solves_in_one_engine_call_without_falling_back` below.
 ///
 /// Ferric iron as the chloride, at the dilution `school_salts` pins: 0.1
@@ -139,40 +139,48 @@ fn mix_translates_a_polymorph_the_way_the_direct_path_does() {
     );
 }
 
-/// The rest of A4, recorded as a failing guard rather than a claim.
+/// The rest of A4: the MIX solve must reach the answer *itself*.
 ///
-/// Posing the phase was necessary and is done; it is not sufficient, and this
-/// test is the standing proof of what is still missing. It fails today. Do not
-/// un-ignore it until the MIX builder closes the two gaps below — at which
-/// point it becomes the regression guard the phase fix alone cannot be.
+/// A parity assertion on the precipitate cannot see this. `Bench` treats a
+/// failed MIX as advisory — "MIX failed; fall through to normal
+/// equilibrate" — drops the error and re-solves the target through the
+/// direct path, which reaches the right chemistry. Right answer, wrong
+/// route, no event to show for it. The route is only observable in what it
+/// costs: `mix` runs the engine once (`run_raw`, the only such call on that
+/// path), so a second call means the solve died and the fallback rescued
+/// it. That is the assertion below, and until the three gaps named here
+/// were closed it had never once held — the MIX path has been dead code
+/// wearing a passing test suite since it was written.
 ///
-/// A parity assertion on the precipitate cannot see any of this. `Bench`
-/// treats a failed MIX as advisory — "MIX failed; fall through to normal
-/// equilibrate" — drops the error and re-solves the target through the direct
-/// path, which reaches the right chemistry. Right answer, wrong route, no
-/// event to show for it. The route is only observable in what it costs: `mix`
-/// runs the engine once (`run_raw`, the only such call on that path), so a
-/// second call means the solve died and the fallback rescued it.
-///
-/// Compared against the direct input for the same merged solution, the MIX
-/// input still lacks two things (dump either with `KERO_DUMP_INPUT=all`):
+/// Compared against the direct input for the same merged solution (dump
+/// either with `KERO_DUMP_INPUT=all`), the MIX input used to lack:
 ///
 /// * **the FAST_REDOX pin.** `build_input_at` emits `Fe+2 = Fe+3 + 1 e-`
 ///   at `log_k 50` *because* a phase is posed — PHREEQC redistributes an
 ///   uncoupled element across its states against pe on any reaction step.
-///   `build_mix_input` emits no such block and does not carry the second
-///   state (`Fe(2)`) in `-totals`, so the iron that moves there vanishes
-///   from the readback's mass balance. Note this gap is *newly reached* by
-///   the phase fix: before it, the MIX path posed no phase at all, so the
+///   `build_mix_input` emitted no such block and did not carry the second
+///   state (`Fe(2)`) in `-totals`, so the iron that moved there vanished
+///   from the readback's mass balance. This gap was *newly reached* by the
+///   phase fix: before it, the MIX path posed no phase at all, so the
 ///   redistribution never fired.
-/// * **phases whose elements only meet in the mixture.** `merged_phases` is
-///   the union of the two solutions' own candidate lists, and neither an
-///   iron chloride nor a lye solution proposes `Halite` on its own — only
-///   the merged element set does, which is why the direct input poses it
-///   and the MIX input does not.
+/// * **phases whose elements only meet in the mixture.** The candidate
+///   list was the union of the two solutions' own, and neither an iron
+///   chloride nor a lye solution proposes `Halite` on its own — only the
+///   merged element set does, which is why the direct input posed it and
+///   the MIX input did not. `append_candidate_phases` now derives over the
+///   merged set through the same rule `partition` uses.
+/// * **one heading for the whole run.** A `SELECTED_OUTPUT` definition
+///   outlives the input that made it — `DELETE -all` clears numbered
+///   reactants, not output definitions — and this input is three
+///   simulations in one run. With the block written last, the first two
+///   punched their rows under whatever the *previous* solve on that engine
+///   instance had defined, so `rows.first()` (the heading) and
+///   `rows.last()` (the answer) came from different definitions. The
+///   readback then asked for a column by the wrong name — "selected output
+///   lacks column 'Na'" — and abandoned the solve. This one predates the
+///   phase fix and is why the MIX solve had never completed at all; the
+///   block is now stated before the first simulation.
 #[test]
-#[ignore = "A4 remainder: MIX still lacks the FAST_REDOX pin and merged-element \
-            candidates, so the solve dies and Bench silently falls back"]
 fn mix_solves_in_one_engine_call_without_falling_back() {
     let mut eq = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
@@ -247,6 +255,71 @@ fn mix_injects_the_reviewed_foreign_phase_the_way_the_direct_path_does() {
     assert!(
         (mix_moles - direct_moles).abs() <= 0.05 * direct_moles,
         "MIX must reach the direct path's answer: {mix_moles} vs {direct_moles}"
+    );
+}
+
+/// The one-call guard again, on a mixture with no redox element in it.
+///
+/// The heading gap the redox case exposed is not about redox: a
+/// `SELECTED_OUTPUT` definition outlives its input, so *any* MIX whose
+/// merged column set differs from the last solve on the same engine
+/// instance read its answer under the wrong heading. Here the two sources
+/// are solved as `Na Cl` and `K Cl`, and the mixture asks for all three —
+/// potassium has no column in either predecessor. This case also takes the
+/// unpinned engine instance (no `SOLUTION_SPECIES` block, because nothing
+/// here is fast-redox), so it covers the half of the engine pool the iron
+/// case cannot reach.
+///
+/// Both beakers are poured whole, as in the iron case, so that the MIX
+/// solve is the only solve the step needs: a fractional pour leaves
+/// something behind in each source, and `Bench` re-equilibrates those too
+/// — real work, but not this test's subject.
+#[test]
+fn mix_without_redox_also_solves_in_one_engine_call() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
+
+    for (vessel, key, moles) in [
+        (VesselId(0), "water", 27.75),
+        (VesselId(0), "NaCl", 0.1),
+        (VesselId(1), "water", 27.75),
+        (VesselId(1), "KCl", 0.1),
+    ] {
+        bench
+            .step_with(
+                Operator::Add {
+                    vessel,
+                    species: SpeciesId::new(key),
+                    moles: Moles(moles),
+                    at: None,
+                },
+                &mut eq,
+                &PermissiveScreen,
+            )
+            .expect("add");
+    }
+
+    let before = eq.engine_calls();
+    bench
+        .step_with(
+            Operator::Mix {
+                a: VesselId(0),
+                b: VesselId(1),
+                into: VesselId(2),
+                fraction_a: 1.0,
+                fraction_b: 1.0,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("mix");
+    let spent = eq.engine_calls() - before;
+    assert_eq!(
+        spent, 1,
+        "MIX must solve in one engine call; {spent} means the MIX solve failed \
+         and Bench silently re-solved the vessel through the direct path"
     );
 }
 

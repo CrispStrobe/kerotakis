@@ -958,6 +958,120 @@ fn condense_supersaturated(problem: &Problem) -> Option<Problem> {
     Some(out)
 }
 
+/// Every derived candidate phase whose elements can reach solution, for a
+/// beaker holding `elements`.
+///
+/// Split out of `partition` because the element set a candidate list is
+/// derived over is not always one vessel's. Two solutions combined by
+/// fraction make a beaker whose elements only meet on mixing, and the
+/// solid that pair can grow — Halite, from an iron *chloride* poured into
+/// a *sodium* hydroxide — is proposed by neither source list. The MIX
+/// path derives over the merged set through the same rule rather than
+/// unioning two answers to a different question.
+fn append_candidate_phases(
+    vessel: &Vessel,
+    elements: &[String],
+    phases: &mut Vec<(String, f64, f64)>,
+) {
+    // Every derived candidate phase whose elements can reach solution can
+    // precipitate, amount 0 if no solid exists yet.
+    //
+    // Whether a redox conversion is available: two or more FAST_REDOX
+    // elements means the coupled pe solve owns electron transfers between
+    // them (mirrors `redox_coupling`); a lone one keeps the state it was
+    // added in.
+    let redox_partnered = {
+        let mut bases: Vec<&str> = elements
+            .iter()
+            .map(|e| e.split('(').next().unwrap_or(e))
+            .filter(|b| FAST_REDOX.contains(b))
+            .collect();
+        bases.sort_unstable();
+        bases.dedup();
+        bases.len() >= 2
+    };
+    for cand in derived::candidate_phases() {
+        // A mixed crystal and a pure phase cannot both own the same mineral
+        // formula in this first slice. PHREEQC's documented example poses
+        // CaCO3 through the aragonite end member; allowing the normal
+        // calcite candidate beside it would silently move calcium carbonate
+        // out of the typed solid-solution ledger.
+        let owned_by_solid_solution = vessel.solid_solutions.iter().any(|solid_solution| {
+            solid_solution
+                .components
+                .iter()
+                .any(|component| component.component.species().0 == cand.species)
+        });
+        if owned_by_solid_solution {
+            continue;
+        }
+        // The typed HFO surface model books zinc as dissolved or bound —
+        // its transport ledger and the PHREEQC oracle it is verified
+        // against model sorption only. Zinc hydroxide (a candidate since
+        // EXP-30) precipitating mid-column put 6.1e-6 mol of zinc in a
+        // third pool that ledger does not carry. A reviewed scope
+        // statement, not chemistry: the surface lessons run where the
+        // hydroxide barely matters, and a surface-plus-precipitation
+        // model would need its own review.
+        if !vessel.surfaces.is_empty() && cand.species == "Zn(OH)2" {
+            continue;
+        }
+        // Compare *base* elements. Once a dissolved species carries its
+        // oxidation state — copper(II) is "Cu(2)", not "Cu" — a phase whose
+        // elements are written plainly stops matching, and copper hydroxide
+        // silently left the candidate list: 0.01 mol of Cu(2+) sat at
+        // pH 9.9 in a solution that cannot exist.
+        let all_present = cand.elements.iter().all(|(el, _)| {
+            let want = el.split('(').next().unwrap_or(el);
+            elements
+                .iter()
+                .any(|e| e.split('(').next().unwrap_or(e) == want)
+        });
+        // An element added in one oxidation state does not reach a phase
+        // that holds it in another unless a redox partner is present — an
+        // uncoupled element keeps its state (see FAST_REDOX), and posing a
+        // ferric solid against ferrous totals invites PHREEQC's reaction
+        // step to run the very conversion that curation stood down: iron(II)
+        // plus lye precipitated iron(III) hydroxide with no oxidant in the
+        // beaker.
+        let state_reachable = cand.elements.iter().all(|(el, _)| {
+            let base = el.split('(').next().unwrap_or(el);
+            let Some(cand_state) = tagged_state(el) else {
+                return true;
+            };
+            if redox_partnered && FAST_REDOX.contains(&base) {
+                return true;
+            }
+            elements
+                .iter()
+                .filter(|e| e.split('(').next().unwrap_or(e) == base)
+                .any(|e| match tagged_state(e) {
+                    Some(s) => s == cand_state,
+                    // A bare key books at a curated charge ("when we say
+                    // iron, we mean iron(II)"); undeterminable states stay
+                    // permissive rather than silently veto a phase.
+                    None => derived::booking_ion(base)
+                        .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
+                        .map(|f| f.charge as i32 == cand_state)
+                        .unwrap_or(true),
+                })
+        });
+        let listed = phases.iter().any(|(name, ..)| name == &cand.name);
+        // A phase with a kinetic barrier is withheld below its threshold.
+        // Equilibrium alone would hand back the *stable* copper solid,
+        // tenorite, and a beaker of copper sulfate and lye visibly gives
+        // the metastable blue hydroxide instead. Which phase is reachable
+        // is a statement about rates, so it lives in the registry as data
+        // rather than as a branch in this solver.
+        let reachable = species::lookup_key(cand.species)
+            .and_then(|d| d.forms_only_above_k)
+            .is_none_or(|floor| vessel.temperature.0 >= floor);
+        if all_present && state_reachable && !listed && reachable {
+            phases.push((cand.name.clone(), 0.0, 0.0));
+        }
+    }
+}
+
 fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
@@ -1144,103 +1258,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
-    // Every derived candidate phase whose elements can reach solution can
-    // precipitate, amount 0 if no solid exists yet.
-    //
-    // Whether a redox conversion is available: two or more FAST_REDOX
-    // elements means the coupled pe solve owns electron transfers between
-    // them (mirrors `redox_coupling`); a lone one keeps the state it was
-    // added in.
-    let redox_partnered = {
-        let mut bases: Vec<&str> = elements
-            .iter()
-            .map(|e| e.split('(').next().unwrap_or(e))
-            .filter(|b| FAST_REDOX.contains(b))
-            .collect();
-        bases.sort_unstable();
-        bases.dedup();
-        bases.len() >= 2
-    };
-    for cand in derived::candidate_phases() {
-        // A mixed crystal and a pure phase cannot both own the same mineral
-        // formula in this first slice. PHREEQC's documented example poses
-        // CaCO3 through the aragonite end member; allowing the normal
-        // calcite candidate beside it would silently move calcium carbonate
-        // out of the typed solid-solution ledger.
-        let owned_by_solid_solution = vessel.solid_solutions.iter().any(|solid_solution| {
-            solid_solution
-                .components
-                .iter()
-                .any(|component| component.component.species().0 == cand.species)
-        });
-        if owned_by_solid_solution {
-            continue;
-        }
-        // The typed HFO surface model books zinc as dissolved or bound —
-        // its transport ledger and the PHREEQC oracle it is verified
-        // against model sorption only. Zinc hydroxide (a candidate since
-        // EXP-30) precipitating mid-column put 6.1e-6 mol of zinc in a
-        // third pool that ledger does not carry. A reviewed scope
-        // statement, not chemistry: the surface lessons run where the
-        // hydroxide barely matters, and a surface-plus-precipitation
-        // model would need its own review.
-        if !vessel.surfaces.is_empty() && cand.species == "Zn(OH)2" {
-            continue;
-        }
-        // Compare *base* elements. Once a dissolved species carries its
-        // oxidation state — copper(II) is "Cu(2)", not "Cu" — a phase whose
-        // elements are written plainly stops matching, and copper hydroxide
-        // silently left the candidate list: 0.01 mol of Cu(2+) sat at
-        // pH 9.9 in a solution that cannot exist.
-        let all_present = cand.elements.iter().all(|(el, _)| {
-            let want = el.split('(').next().unwrap_or(el);
-            elements
-                .iter()
-                .any(|e| e.split('(').next().unwrap_or(e) == want)
-        });
-        // An element added in one oxidation state does not reach a phase
-        // that holds it in another unless a redox partner is present — an
-        // uncoupled element keeps its state (see FAST_REDOX), and posing a
-        // ferric solid against ferrous totals invites PHREEQC's reaction
-        // step to run the very conversion that curation stood down: iron(II)
-        // plus lye precipitated iron(III) hydroxide with no oxidant in the
-        // beaker.
-        let state_reachable = cand.elements.iter().all(|(el, _)| {
-            let base = el.split('(').next().unwrap_or(el);
-            let Some(cand_state) = tagged_state(el) else {
-                return true;
-            };
-            if redox_partnered && FAST_REDOX.contains(&base) {
-                return true;
-            }
-            elements
-                .iter()
-                .filter(|e| e.split('(').next().unwrap_or(e) == base)
-                .any(|e| match tagged_state(e) {
-                    Some(s) => s == cand_state,
-                    // A bare key books at a curated charge ("when we say
-                    // iron, we mean iron(II)"); undeterminable states stay
-                    // permissive rather than silently veto a phase.
-                    None => derived::booking_ion(base)
-                        .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
-                        .map(|f| f.charge as i32 == cand_state)
-                        .unwrap_or(true),
-                })
-        });
-        let listed = phases.iter().any(|(name, ..)| name == &cand.name);
-        // A phase with a kinetic barrier is withheld below its threshold.
-        // Equilibrium alone would hand back the *stable* copper solid,
-        // tenorite, and a beaker of copper sulfate and lye visibly gives
-        // the metastable blue hydroxide instead. Which phase is reachable
-        // is a statement about rates, so it lives in the registry as data
-        // rather than as a branch in this solver.
-        let reachable = species::lookup_key(cand.species)
-            .and_then(|d| d.forms_only_above_k)
-            .is_none_or(|floor| vessel.temperature.0 >= floor);
-        if all_present && state_reachable && !listed && reachable {
-            phases.push((cand.name.clone(), 0.0, 0.0));
-        }
-    }
+    append_candidate_phases(vessel, &elements, &mut phases);
     if vessel.owns_headspace_gas() {
         // A finite headspace must admit gases that can form from the
         // solution even when none was initially present.
@@ -1637,9 +1655,25 @@ impl Equilibrator for PhreeqcEquilibrator {
         // not grow a precipitate the same beaker reached directly grew.
         // The posed name is carried into `merged_problem` below, because it
         // is also the selected-output column the readback asks for.
+        //
+        // The union of the two lists is not the mixture's list, either.
+        // `partition` derives candidates from one vessel's element set, so a
+        // solid whose elements only meet on mixing — Halite, from an iron
+        // *chloride* poured into a *sodium* hydroxide — is proposed by
+        // neither source and could not form on the MIX solve, while the
+        // direct path poses it. The merged set goes through the same
+        // derivation rather than through a union of two answers to a
+        // different question.
         let merged_phases: Vec<(String, f64, f64)> = {
-            let mut phases: Vec<(String, f64, f64)> = Vec::new();
+            let mut candidates: Vec<(String, f64, f64)> = Vec::new();
             for (name, _, si) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
+                if !candidates.iter().any(|(listed, ..)| listed == name) {
+                    candidates.push((name.clone(), 0.0, *si));
+                }
+            }
+            append_candidate_phases(vessel, &merged_elements, &mut candidates);
+            let mut phases: Vec<(String, f64, f64)> = Vec::new();
+            for (name, _, si) in &candidates {
                 let Some(posed) = posed_phase(name, db_tag) else {
                     continue;
                 };
@@ -1650,35 +1684,12 @@ impl Equilibrator for PhreeqcEquilibrator {
             phases
         };
 
-        let input = build_mix_input(
-            soln_a,
-            &problem_a,
-            soln_b,
-            &problem_b,
-            frac_a,
-            frac_b,
-            db_tag,
-            &merged_elements,
-            &merged_phases,
-        );
-
-        if env_dump_input_all() {
-            eprintln!("--- PHREEQC MIX input ---\n{input}---");
-        }
-
-        let out = match self.run_raw(db_tag, &input) {
-            Ok(out) => out,
-            Err(e) => {
-                if env_dump_input() {
-                    eprintln!("--- PHREEQC MIX input that failed ---\n{input}---");
-                }
-                return Some(Err(e));
-            }
-        };
-
-        // Build the merged Problem for readback — the target vessel
-        // already holds the physically mixed contents, so we need a
-        // Problem that describes the expected element set and phases.
+        // The merged Problem describes the beaker the MIX makes: the element
+        // set and candidate phases the input poses, and the totals the
+        // readback reconciles against. It is built before the input because
+        // the input is built *from* it — the pin block and the
+        // per-oxidation-state `-totals` split are both statements about the
+        // mixture, not about either source solution.
         let merged_problem = Problem {
             kgw: problem_a.kgw * frac_a + problem_b.kgw * frac_b,
             totals: {
@@ -1708,6 +1719,36 @@ impl Equilibrator for PhreeqcEquilibrator {
             elements: merged_elements,
         };
 
+        let input = build_mix_input(
+            soln_a,
+            &problem_a,
+            soln_b,
+            &problem_b,
+            frac_a,
+            frac_b,
+            db_tag,
+            &merged_problem,
+        );
+
+        if env_dump_input_all() {
+            eprintln!("--- PHREEQC MIX input ---\n{input}---");
+        }
+
+        // `Bench` treats a failed MIX as advisory and silently re-solves the
+        // target through the direct path, so an abandoned MIX is invisible
+        // except in the engine calls it costs. Say why, when asked.
+        let abandoned = |e: SolveError| -> Option<Result<Vec<Event>, SolveError>> {
+            if env_dump_input() {
+                eprintln!("--- PHREEQC MIX abandoned: {e} ---\n{input}---");
+            }
+            Some(Err(e))
+        };
+
+        let out = match self.run_raw(db_tag, &input) {
+            Ok(out) => out,
+            Err(e) => return abandoned(e),
+        };
+
         let cached = Rc::new(CachedSolve {
             pe_determined: !out.pe_undetermined,
             rows: out.selected,
@@ -1731,7 +1772,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             _,
         ) = match readback {
             Ok(v) => v,
-            Err(e) => return Some(Err(e)),
+            Err(e) => return abandoned(e),
         };
 
         let balance = Self::apply_balance_corrections(
@@ -1745,7 +1786,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         );
         let (new_phases, new_gases, ph, mu) = match balance {
             Ok(v) => v,
-            Err(e) => return Some(Err(e)),
+            Err(e) => return abandoned(e),
         };
 
         let (mut events, contents) = Self::rebuild_contents_and_events(
@@ -3729,10 +3770,11 @@ fn foreign_phase_definitions(phases: &[(String, f64, f64)], db_tag: &str) -> Str
 /// a MIX block combines them by the given fractions into solution 3, which
 /// is saved and read back through SELECTED_OUTPUT.
 ///
-/// `merged_phases` has already been reconciled with the routed database by
-/// `posed_phase`, exactly as `setup_problem` reconciles the direct path's
-/// candidates: the names here are the names PHREEQC is asked about and the
-/// names the readback reads back.
+/// `merged` is the mixture's own `Problem`: its phases have already been
+/// reconciled with the routed database by `posed_phase`, exactly as
+/// `setup_problem` reconciles the direct path's candidates, and the names
+/// there are the names PHREEQC is asked about and the names the readback
+/// reads back.
 #[allow(clippy::too_many_arguments)]
 fn build_mix_input(
     vessel_a: &Vessel,
@@ -3742,14 +3784,48 @@ fn build_mix_input(
     frac_a: f64,
     frac_b: f64,
     db_tag: &str,
-    merged_elements: &[String],
-    merged_phases: &[(String, f64, f64)],
+    merged: &Problem,
 ) -> String {
     use std::fmt::Write;
     let mut input = String::new();
     // A reviewed foreign phase is defined before anything references it —
     // the same injection the direct path makes.
-    input.push_str(&foreign_phase_definitions(merged_phases, db_tag));
+    input.push_str(&foreign_phase_definitions(&merged.phases, db_tag));
+    // And the same pin, over the merged totals. Posing a phase is what
+    // makes it necessary — PHREEQC's reaction step redistributes an
+    // uncoupled element across its states against pe on any step that has
+    // one — so this path acquired the gap the moment it started posing
+    // phases at all: iron poured in as iron(III) came back part iron(II),
+    // and that part was outside the mass balance the readback closes.
+    // Where the merged problem would be *coupled* the direct path pins
+    // nothing and bisects pe instead; MIX has no coupled solve, so it
+    // leaves that case exactly as it was rather than pinning an answer the
+    // direct path would have solved for.
+    if redox_coupling(merged, db_tag).is_none() {
+        input.push_str(&fast_redox_pin_block(&merged.totals, db_tag));
+    }
+
+    // SELECTED_OUTPUT is stated *before* the first simulation, and that
+    // placement is load-bearing rather than cosmetic.
+    //
+    // A `SELECTED_OUTPUT` definition outlives the input that made it: it
+    // survives `DELETE -all` (which clears numbered reactants, not output
+    // definitions) and therefore the whole reset the engine pool does
+    // between runs. This input is three simulations in one run, and with
+    // the block written last the first two punched their rows under
+    // *whatever the previous solve on this engine instance had defined* —
+    // so the accumulated selected output opened with a stale heading row
+    // and only later carried this input's own. `rows.first()` is the
+    // heading and `rows.last()` is the answer, and they came from
+    // different definitions: the readback then asked for a column by the
+    // wrong name ("selected output lacks column 'Na'") or, worse, read a
+    // real number from the wrong column. Stated up front, one definition
+    // covers every punch in the run and heading and answer agree.
+    //
+    // This is why the MIX solve had never once completed: `Bench` treats a
+    // failed MIX as advisory and re-solves the target through the direct
+    // path, so the only symptom was a second engine call.
+    input.push_str(&mix_selected_output(merged, db_tag));
 
     // SOLUTION 1 — vessel A.
     let temp_a_c = vessel_a.temperature.to_celsius();
@@ -3800,36 +3876,138 @@ fn build_mix_input(
     writeln!(input, "SAVE solution 3").unwrap();
 
     // Candidate equilibrium phases for the mixed solution.
-    if !merged_phases.is_empty() {
+    if !merged.phases.is_empty() {
         writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
-        for (phase, ..) in merged_phases {
+        for (phase, ..) in &merged.phases {
             writeln!(input, "    {phase} 0 0").unwrap();
         }
     }
 
-    // SELECTED_OUTPUT on the mixed result.
-    writeln!(input, "SELECTED_OUTPUT").unwrap();
-    writeln!(input, "    -reset    false").unwrap();
-    writeln!(input, "    -high_precision true").unwrap();
-    writeln!(input, "    -ph       true").unwrap();
-    writeln!(input, "    -pe       true").unwrap();
-    writeln!(input, "    -ionic_strength true").unwrap();
-    writeln!(input, "    -water    true").unwrap();
+    writeln!(input, "END").unwrap();
+    input
+}
+
+/// The `SELECTED_OUTPUT` block the MIX readback reads: the mixture's own
+/// columns, asked for by the names `merged` carries.
+fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
+    use std::fmt::Write;
+    let mut block = String::new();
+    writeln!(block, "SELECTED_OUTPUT").unwrap();
+    writeln!(block, "    -reset    false").unwrap();
+    writeln!(block, "    -high_precision true").unwrap();
+    writeln!(block, "    -ph       true").unwrap();
+    writeln!(block, "    -pe       true").unwrap();
+    writeln!(block, "    -ionic_strength true").unwrap();
+    writeln!(block, "    -water    true").unwrap();
+    // Element totals, plus the per-oxidation-state split for any redox
+    // element present — the same columns the direct path asks for. Without
+    // the split, an element that moves between states inside the solve is
+    // read back short by exactly the mass that moved.
     let mut totals: Vec<String> = Vec::new();
-    for e in merged_elements.iter().map(|e| e.to_string()) {
+    for e in merged
+        .elements
+        .iter()
+        .cloned()
+        .chain(valence_totals(merged, db_tag))
+    {
         if !totals.contains(&e) {
             totals.push(e);
         }
     }
     if !totals.is_empty() {
-        writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+        writeln!(block, "    -totals   {}", totals.join(" ")).unwrap();
     }
-    if !merged_phases.is_empty() {
-        let names: Vec<&str> = merged_phases.iter().map(|(p, ..)| p.as_str()).collect();
-        writeln!(input, "    -equilibrium_phases {}", names.join(" ")).unwrap();
+    if !merged.phases.is_empty() {
+        let names: Vec<&str> = merged.phases.iter().map(|(p, ..)| p.as_str()).collect();
+        writeln!(block, "    -equilibrium_phases {}", names.join(" ")).unwrap();
     }
-    writeln!(input, "END").unwrap();
-    input
+    block
+}
+
+/// The `SOLUTION_SPECIES` block that keeps an uncoupled fast-redox element
+/// in the state it was added in, or the empty string when nothing needs
+/// pinning.
+///
+/// An uncoupled element keeps the oxidation state it was added in (see
+/// FAST_REDOX) — but PHREEQC's reaction step redistributes a trace
+/// across states against pe whenever any equilibrium phase is posed,
+/// and the trace is not free: iron(III) formed this way hydrolyses,
+/// and the water it consumed leaked from the ledger on every solve —
+/// 7.6e-5 mol per pass, caught by the displacement metamorphic test as
+/// an answer that depended on the order reagents were added in. The
+/// state is pinned *inside* the solve instead: the couple's own log K
+/// is redefined in the input stream to ±50, far enough that the other
+/// state cannot carry mass. Only simple cation↔cation couples are
+/// synthesized; an oxyanion state (permanganate) keeps its database
+/// reaction, because writing its equation needs O/H bookkeeping this
+/// synthesis does not do — and its natural log K already keeps phantom
+/// formation negligible.
+///
+/// Taken over the *problem's* totals rather than a vessel's, because the
+/// MIX path needs the same pin over the merged totals of two solutions and
+/// emitted none: it began posing phases before it carried this, and a
+/// posed phase is exactly what makes the redistribution fire.
+fn fast_redox_pin_block(totals: &[(String, f64)], db_tag: &str) -> String {
+    use std::fmt::Write;
+    let idx = derived::index_for(db_tag);
+    let mut pinned: Vec<&str> = Vec::new();
+    let mut block = String::new();
+    for (el, _) in totals {
+        let base = el.split('(').next().unwrap_or(el);
+        if !FAST_REDOX.contains(&base)
+            || !idx.redox_elements.contains(base)
+            || pinned.contains(&base)
+        {
+            continue;
+        }
+        pinned.push(base);
+        // The states this element was added in, over every totals key
+        // of the base. More than one distinct state without a redox
+        // partner is left to the database's own equilibrium.
+        let mut added: Vec<i32> = totals
+            .iter()
+            .filter(|(k, _)| k.split('(').next().unwrap_or(k) == base)
+            .filter_map(|(k, _)| match tagged_state(k) {
+                Some(s) => Some(s),
+                None => derived::booking_ion(base)
+                    .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
+                    .map(|f| f.charge as i32),
+            })
+            .collect();
+        added.sort_unstable();
+        added.dedup();
+        let [s_add] = added[..] else { continue };
+        // The primary master carries the element's mole balance; the
+        // tagged states are defined against it by electron count.
+        let Some(primary) = idx.masters.get(base) else {
+            continue;
+        };
+        let Some(q_prim) = simple_cation_charge(base, &primary.species) else {
+            continue;
+        };
+        for (key, master) in &idx.masters {
+            let Some((b, _)) = key.split_once('(') else {
+                continue;
+            };
+            if b != base {
+                continue;
+            }
+            let Some(s) = tagged_state(key) else { continue };
+            if s == q_prim {
+                continue;
+            }
+            let Some(equation) = pin_equation(base, q_prim, &primary.species, s, &master.species)
+            else {
+                continue;
+            };
+            let log_k = if s == s_add { 50.0 } else { -50.0 };
+            writeln!(block, "    {equation}\n        log_k {log_k}").unwrap();
+        }
+    }
+    if block.is_empty() {
+        return String::new();
+    }
+    format!("SOLUTION_SPECIES\n{block}")
 }
 
 /// The input, optionally with the fast-redox elements coupled at a trial pe.
@@ -3848,82 +4026,11 @@ fn build_input_at(
     let mut input = String::new();
     // A reviewed foreign phase is defined before anything references it.
     input.push_str(&foreign_phase_definitions(&problem.phases, db_tag));
-    // An uncoupled element keeps the oxidation state it was added in (see
-    // FAST_REDOX) — but PHREEQC's reaction step redistributes a trace
-    // across states against pe whenever any equilibrium phase is posed,
-    // and the trace is not free: iron(III) formed this way hydrolyses,
-    // and the water it consumed leaked from the ledger on every solve —
-    // 7.6e-5 mol per pass, caught by the displacement metamorphic test as
-    // an answer that depended on the order reagents were added in. The
-    // state is pinned *inside* the solve instead: the couple's own log K
-    // is redefined in the input stream to ±50, far enough that the other
-    // state cannot carry mass. Only simple cation↔cation couples are
-    // synthesized; an oxyanion state (permanganate) keeps its database
-    // reaction, because writing its equation needs O/H bookkeeping this
-    // synthesis does not do — and its natural log K already keeps phantom
-    // formation negligible.
+    // An uncoupled element keeps the oxidation state it was added in; a
+    // coupled solve is bisecting pe and must not have its own answer pinned
+    // out from under it. See `fast_redox_pin_block`.
     if couple.is_none() {
-        let idx = derived::index_for(db_tag);
-        let mut pinned: Vec<&str> = Vec::new();
-        let mut block = String::new();
-        for (el, _) in &problem.totals {
-            let base = el.split('(').next().unwrap_or(el);
-            if !FAST_REDOX.contains(&base)
-                || !idx.redox_elements.contains(base)
-                || pinned.contains(&base)
-            {
-                continue;
-            }
-            pinned.push(base);
-            // The states this element was added in, over every totals key
-            // of the base. More than one distinct state without a redox
-            // partner is left to the database's own equilibrium.
-            let mut added: Vec<i32> = problem
-                .totals
-                .iter()
-                .filter(|(k, _)| k.split('(').next().unwrap_or(k) == base)
-                .filter_map(|(k, _)| match tagged_state(k) {
-                    Some(s) => Some(s),
-                    None => derived::booking_ion(base)
-                        .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
-                        .map(|f| f.charge as i32),
-                })
-                .collect();
-            added.sort_unstable();
-            added.dedup();
-            let [s_add] = added[..] else { continue };
-            // The primary master carries the element's mole balance; the
-            // tagged states are defined against it by electron count.
-            let Some(primary) = idx.masters.get(base) else {
-                continue;
-            };
-            let Some(q_prim) = simple_cation_charge(base, &primary.species) else {
-                continue;
-            };
-            for (key, master) in &idx.masters {
-                let Some((b, _)) = key.split_once('(') else {
-                    continue;
-                };
-                if b != base {
-                    continue;
-                }
-                let Some(s) = tagged_state(key) else { continue };
-                if s == q_prim {
-                    continue;
-                }
-                let Some(equation) =
-                    pin_equation(base, q_prim, &primary.species, s, &master.species)
-                else {
-                    continue;
-                };
-                let log_k = if s == s_add { 50.0 } else { -50.0 };
-                writeln!(block, "    {equation}\n        log_k {log_k}").unwrap();
-            }
-        }
-        if !block.is_empty() {
-            input.push_str("SOLUTION_SPECIES\n");
-            input.push_str(&block);
-        }
+        input.push_str(&fast_redox_pin_block(&problem.totals, db_tag));
     }
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
