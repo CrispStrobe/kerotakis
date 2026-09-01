@@ -12,6 +12,10 @@
     onenter,
     onmissions,
     onresearch,
+    persistenceNotice = null,
+    canclone = false,
+    sandboxHasBench = false,
+    onclone,
     onrename,
     onclose,
   }: {
@@ -23,11 +27,16 @@
     onenter: (mode: LabMode) => void;
     onmissions: () => void;
     onresearch: () => void;
+    persistenceNotice?: string | null;
+    canclone?: boolean;
+    sandboxHasBench?: boolean;
+    onclone?: () => void;
     onrename: (name: string) => void;
     onclose: () => void;
   } = $props();
 
   let editing = $state(false);
+  let confirmingClone = $state(false);
   let draft = $state(untrack(() => profile.name));
 
   function saveName() {
@@ -67,6 +76,7 @@
         <span class="eyebrow">{t("Kerotakis Research Campus")}</span>
         <h2>{t("Where do you want to work today?")}</h2>
         <p>{t("Explore guided investigations in Story, or enter a fully unlocked laboratory in Sandbox.")}</p>
+        {#if persistenceNotice}<p class="save-notice" role="status">{t(persistenceNotice)}</p>{/if}
       </div>
 
       <div class="campus-map">
@@ -108,6 +118,20 @@
             {mode === "sandbox" ? t("enter Sandbox") : t("switch to Sandbox")}
             <span aria-hidden="true">→</span>
           </button>
+          {#if mode === "story" && canclone && onclone}
+            <div class="clone-bench">
+              <p>{t("Copy only the current Story bench, layout, and installed apparatus. Story progress and supplies stay separate.")}</p>
+              {#if confirmingClone}
+                <strong>{t("This replaces the existing Sandbox bench. Continue?")}</strong>
+                <div>
+                  <button onclick={() => { onclone?.(); confirmingClone = false; }}>{t("Replace Sandbox bench")}</button>
+                  <button class="cancel" onclick={() => (confirmingClone = false)}>{t("cancel")}</button>
+                </div>
+              {:else}
+                <button class="clone" onclick={() => sandboxHasBench ? (confirmingClone = true) : onclone?.()}>{t("Copy Story bench to Sandbox")}</button>
+              {/if}
+            </div>
+          {/if}
         </article>
       </div>
     </main>
@@ -140,6 +164,7 @@
   .eyebrow { color: var(--discovery); }
   .intro h2 { margin: .3rem 0 .55rem; font-size: clamp(1.6rem, 3.4vw, 2.7rem); line-height: 1; letter-spacing: -.04em; }
   .intro p { margin: 0; color: var(--dim); }
+  .intro .save-notice { margin: .75rem auto 0; padding: .55rem .75rem; border: 1px solid var(--edge); border-radius: 10px; color: var(--ink); background: var(--surface-raised); font-size: .75rem; }
   .campus-map { position: relative; min-height: 29rem; display: grid; grid-template-columns: minmax(15rem, 1fr) minmax(10rem, .65fr) minmax(15rem, 1fr); grid-template-rows: 1fr 1fr; gap: 1rem; align-items: center; }
   .routes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .routes path { fill: none; stroke: color-mix(in srgb, var(--primary) 30%, var(--edge)); stroke-width: 3; stroke-dasharray: 9 7; }
@@ -161,6 +186,12 @@
   .destination-meta span { padding: .25rem .45rem; border-radius: 999px; color: var(--dim); background: var(--surface-raised); font-size: .62rem; font-weight: 700; }
   .destination > button { min-height: 44px; display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding: 0 .8rem; border: 0; border-radius: 12px; color: var(--on-accent); background: var(--discovery); cursor: pointer; font-weight: 800; }
   .sandbox-destination > button { background: var(--instrument); }
+  .clone-bench { margin-top: .7rem; padding-top: .65rem; border-top: 1px solid var(--edge); }
+  .clone-bench p, .clone-bench strong { display: block; margin: 0 0 .45rem; color: var(--dim); font-size: .68rem; line-height: 1.35; }
+  .clone-bench > button, .clone-bench div button { min-height: 36px; padding: .35rem .6rem; border: 1px solid var(--instrument); border-radius: 9px; color: var(--instrument); background: transparent; cursor: pointer; font-weight: 750; }
+  .clone-bench div { display: flex; gap: .4rem; }
+  .clone-bench div button:first-child { color: var(--on-accent); background: var(--instrument); }
+  .clone-bench div .cancel { border-color: var(--edge); color: var(--ink); }
   .map-node { position: relative; z-index: 3; min-height: 8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .7rem; border: 1px solid var(--edge); border-radius: 18px; color: var(--ink); background: var(--surface); box-shadow: 0 10px 24px var(--shadow); cursor: pointer; text-align: center; }
   .map-node > span { width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: .35rem; border-radius: 12px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: 1.2rem; }
   .map-node small { color: var(--dim); font-size: .65rem; }

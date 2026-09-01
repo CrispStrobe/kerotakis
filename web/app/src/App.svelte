@@ -39,7 +39,7 @@
   import UtilityStation from "./lib/components/UtilityStation.svelte";
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
-  import { t } from "./lib/i18n.svelte";
+  import { i18n, t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle } from "./lib/storyProgress";
@@ -51,7 +51,6 @@
   import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
   import { loadApparatusInstallation, saveApparatusInstallation } from "./lib/apparatusInstallation";
   import {
-    BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
     benchLayoutFromLab,
     labWithBenchLayout,
@@ -62,16 +61,29 @@
   import {
     HOME_SEEN_KEY,
     CONTAMINATED_SAMPLE_BRIEFED_KEY,
-    ModeStorage,
     PENDING_MISSION_KEY,
     loadLabProfile,
     readLabMode,
-    saveLabProfile,
     writeLabMode,
     type KeyValueStorage,
     type LabMode,
     type LabProfile,
   } from "./lib/worldState";
+  import {
+    AppSaveModeStorage,
+    MODE_APPARATUS_KEY,
+    MODE_CABINET_PANEL_KEY,
+    MODE_GUIDES_KEY,
+    MODE_JOURNAL_PANEL_KEY,
+    MODE_LAYOUT_KEY,
+    MODE_ROOM_KEY,
+    bootstrapAppSave,
+    cloneStoryBenchToSandbox,
+    readSharedProfile,
+    readSharedSetting,
+    saveSharedProfile,
+    saveSharedSetting,
+  } from "./lib/appSaveRepository";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
@@ -83,13 +95,29 @@
     }
   }
   const appStorage = availableStorage();
-  function storedYes(key: string): boolean {
-    try {
-      return appStorage?.getItem(key) === "yes";
-    } catch {
-      return false;
-    }
+  const appSaveBootstrap = appStorage ? bootstrapAppSave(appStorage) : null;
+  const appSaveRepository = appSaveBootstrap?.status === "ready" ? appSaveBootstrap.repository : null;
+  const initialPersistenceNotice = appStorage === null
+    ? "Save storage is unavailable. This visit will continue without persistence."
+    : appSaveBootstrap?.status === "corrupt"
+      ? "Save data is corrupt. This visit will not overwrite the stored evidence."
+    : appSaveBootstrap?.status === "unavailable"
+      ? "Save storage is unavailable. This visit will continue without persistence."
+      : appSaveBootstrap?.status === "ready" && appSaveBootstrap.source === "recovered"
+        ? "A recovery copy was loaded read-only. Stored evidence will not be overwritten."
+        : null;
+  let persistenceNotice = $state<string | null>(initialPersistenceNotice);
+  const savedLocale = appSaveRepository ? readSharedSetting(appSaveRepository, "locale") : undefined;
+  if ((savedLocale === "en" || savedLocale === "de") && savedLocale !== i18n.locale) {
+    i18n.setLocale(savedLocale);
   }
+  onMount(() => appSaveRepository
+    ? i18n.onChange((locale) => {
+        if (saveSharedSetting(appSaveRepository, "locale", locale).status !== "saved") {
+          persistenceNotice = "Changes could not be saved. Existing save evidence was not overwritten.";
+        }
+      })
+    : undefined);
   function hasSeenHome(): boolean {
     try {
       return appStorage?.getItem(HOME_SEEN_KEY) === "yes";
@@ -98,39 +126,54 @@
     }
   }
   const labMode = readLabMode(appStorage);
-  const cabinetPanelKey = `kerotakis.panel.cabinet-collapsed.v1.${labMode}`;
-  const journalPanelKey = `kerotakis.panel.journal-collapsed.v1.${labMode}`;
-  let cabinetCollapsed = $state(storedYes(cabinetPanelKey));
-  let journalCollapsed = $state(storedYes(journalPanelKey));
-  const modeStorage = appStorage ? new ModeStorage(appStorage, labMode) : null;
+  const modeStorage = appSaveRepository
+    ? new AppSaveModeStorage(appSaveRepository, labMode, () => {
+        persistenceNotice = "Changes could not be saved. Existing save evidence was not overwritten.";
+      })
+    : null;
+  const sandboxStorage = appSaveRepository ? new AppSaveModeStorage(appSaveRepository, "sandbox") : null;
+  const sandboxHasBench = sandboxStorage?.getItem("kero.session.v1") !== null
+    || sandboxStorage?.getItem(MODE_LAYOUT_KEY) !== null
+    || sandboxStorage?.getItem(MODE_APPARATUS_KEY) !== null;
+  let cabinetCollapsed = $state(modeStorage?.getItem(MODE_CABINET_PANEL_KEY) === "yes");
+  let journalCollapsed = $state(modeStorage?.getItem(MODE_JOURNAL_PANEL_KEY) === "yes");
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
     modeStorage,
     labMode,
   );
   type Theme = "light" | "dark" | "contrast";
-  let theme = $state<Theme>("light");
+  const savedTheme = appSaveRepository ? readSharedSetting(appSaveRepository, "theme") : undefined;
+  let theme = $state<Theme>(savedTheme === "dark" || savedTheme === "contrast" ? savedTheme : "light");
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
-  const guideStorageKey = `kero.bench-guides.v1.${labMode}`;
-  const roomStorageKey = `kero.room.v1.${labMode}`;
   let workGuides = $state(
-    appStorage?.getItem(guideStorageKey) === "shown" ||
-      (appStorage?.getItem(guideStorageKey) === null && labMode === "story"),
+    modeStorage?.getItem(MODE_GUIDES_KEY) === "shown" ||
+      (modeStorage?.getItem(MODE_GUIDES_KEY) === null && labMode === "story"),
   );
-  let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
+  function appSaveProfile(): LabProfile {
+    const profile = appSaveRepository ? readSharedProfile(appSaveRepository) : null;
+    if (profile?.version === 1 && typeof profile.name === "string" && typeof profile.createdAt === "string") {
+      return { version: 1, name: profile.name, createdAt: profile.createdAt };
+    }
+    const created = loadLabProfile(null);
+    if (appSaveRepository && saveSharedProfile(appSaveRepository, { ...created }).status !== "saved") {
+      persistenceNotice = "Changes could not be saved. Existing save evidence was not overwritten.";
+    }
+    return created;
+  }
+  let labProfile = $state<LabProfile>(appSaveProfile());
   let homeOpen = $state(!hasSeenHome());
   let missionJournalOpen = $state(false);
   let roomOpen = $state(false);
   let roomStyle = $state<RoomStyle>((() => {
-    const saved = appStorage?.getItem(roomStorageKey);
+    const saved = modeStorage?.getItem(MODE_ROOM_KEY);
     return saved === "research" || saved === "orbital" ? saved : "discovery";
   })());
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
-  const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
   function saveBenchLayout(next: BenchLayout) {
     benchLayout = next;
     try {
-      localStorage.setItem(modeLayoutKey, JSON.stringify(next));
+      modeStorage?.setItem(MODE_LAYOUT_KEY, JSON.stringify(next));
     } catch {
       // Placement still works for this visit when storage is unavailable.
     }
@@ -156,17 +199,15 @@
 
   function setTheme(next: Theme) {
     theme = next;
-    try {
-      localStorage.setItem("kerotakis.theme", next);
-    } catch {
-      // The selected theme still works when persistence is unavailable.
+    if (appSaveRepository && saveSharedSetting(appSaveRepository, "theme", next).status !== "saved") {
+      persistenceNotice = "Changes could not be saved. Existing save evidence was not overwritten.";
     }
   }
 
   function setRoom(next: RoomStyle) {
     roomStyle = next;
     try {
-      appStorage?.setItem(roomStorageKey, next);
+      modeStorage?.setItem(MODE_ROOM_KEY, next);
     } catch {
       // The room still changes for this visit when storage is unavailable.
     }
@@ -176,7 +217,7 @@
     if (panel === "cabinet") cabinetCollapsed = collapsed;
     else journalCollapsed = collapsed;
     try {
-      appStorage?.setItem(panel === "cabinet" ? cabinetPanelKey : journalPanelKey, collapsed ? "yes" : "no");
+      modeStorage?.setItem(panel === "cabinet" ? MODE_CABINET_PANEL_KEY : MODE_JOURNAL_PANEL_KEY, collapsed ? "yes" : "no");
     } catch {
       // The focus choice still works for this visit.
     }
@@ -296,15 +337,7 @@
 
   onMount(() => {
     try {
-      const savedTheme = localStorage.getItem("kerotakis.theme");
-      if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "contrast") {
-        theme = savedTheme;
-      }
-      let savedLayout = localStorage.getItem(modeLayoutKey);
-      if (labMode === "sandbox" && !savedLayout) {
-        savedLayout = localStorage.getItem(BENCH_LAYOUT_KEY);
-        if (savedLayout) localStorage.setItem(modeLayoutKey, savedLayout);
-      }
+      const savedLayout = modeStorage?.getItem(MODE_LAYOUT_KEY) ?? null;
       benchLayout = parseBenchLayout(savedLayout);
     } catch {
       // Bright mode is the intentional first-run default.
@@ -393,7 +426,24 @@
 
   function renameLab(name: string) {
     labProfile = { ...labProfile, name };
-    saveLabProfile(appStorage, labProfile);
+    if (appSaveRepository && saveSharedProfile(appSaveRepository, { ...labProfile }).status !== "saved") {
+      persistenceNotice = "Changes could not be saved. Existing save evidence was not overwritten.";
+    }
+  }
+
+  function copyStoryBenchToSandbox() {
+    if (!appSaveRepository) {
+      persistenceNotice = "The Story bench could not be copied because save storage is unavailable.";
+      return;
+    }
+    const result = cloneStoryBenchToSandbox(appSaveRepository);
+    persistenceNotice = result.status === "saved"
+      ? "Story bench copied to Sandbox. Story progress and supplies were not copied."
+      : result.status === "recovery-read-only"
+        ? "The recovery copy is read-only, so the Sandbox bench was not changed."
+        : result.status === "invalid-session"
+          ? "The Story bench payload is not recognized, so nothing was copied."
+          : "The Story bench could not be copied. Existing saves were not changed.";
   }
 
   let helpOpen = $state(false);
@@ -434,8 +484,7 @@
   let buretteOut = $state(false);
   let buretteTarget = $state<number | null>(null);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
-  const apparatusInstallationKey = `kero.apparatus-installation.v1.${labMode}`;
-  const restoredApparatus = loadApparatusInstallation(appStorage, apparatusInstallationKey);
+  const restoredApparatus = loadApparatusInstallation(modeStorage, MODE_APPARATUS_KEY);
   let apparatusOut = $state<string | null>(restoredApparatus?.tool ?? null);
   /** Physical installation target. Selection may change without teleporting it. */
   let apparatusTarget = $state<number | null>(restoredApparatus?.target ?? null);
@@ -482,8 +531,8 @@
   }
   $effect(() => {
     saveApparatusInstallation(
-      appStorage,
-      apparatusInstallationKey,
+      modeStorage,
+      MODE_APPARATUS_KEY,
       apparatusOut !== null && apparatusTarget !== null
         ? { tool: apparatusOut, target: apparatusTarget, values: apparatusPreview }
         : null,
@@ -983,7 +1032,7 @@
       ontogglezones={() => {
         workGuides = !workGuides;
         try {
-          localStorage.setItem(guideStorageKey, workGuides ? "shown" : "hidden");
+          modeStorage?.setItem(MODE_GUIDES_KEY, workGuides ? "shown" : "hidden");
         } catch {
           // The visible choice still works when persistence is unavailable.
         }
@@ -1131,6 +1180,10 @@
     missions={lessons.length}
     experiments={codexEntries.length}
     canclose={hasSeenHome()}
+    {persistenceNotice}
+    canclone={labMode === "story" && appSaveRepository !== null}
+    {sandboxHasBench}
+    onclone={copyStoryBenchToSandbox}
     onenter={enterLab}
     onmissions={() => {
       homeOpen = false;
