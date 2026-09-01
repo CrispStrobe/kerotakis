@@ -22,12 +22,12 @@
 //!
 //! ## What this module does not model
 //!
-//! * **Intermediate hydrates.** Copper sulfate pentahydrate really loses four
-//!   waters near 110 °C and the fifth near 250 °C, through a trihydrate and a
-//!   monohydrate. Neither intermediate is in the registry, so this bench does
-//!   the transition in ONE step at the higher temperature and says so. A
-//!   partially dehydrated hydrate is a real substance and this bench does not
-//!   have it.
+//! * **Intermediate hydrates.** Copper sulfate pentahydrate really loses its
+//!   waters stepwise (TGA: two near 63 °C, two near 109 °C, the last near
+//!   200 °C) through a trihydrate and a monohydrate. Neither intermediate is
+//!   in the registry, so this bench does the transition in ONE step at the
+//!   final-water temperature and says so. A partially dehydrated hydrate is a
+//!   real substance and this bench does not have it.
 //! * **Dissociative sublimation.** Ammonium chloride vapour is really ammonia
 //!   and hydrogen chloride, which recombine on the cold surface. The bench
 //!   moves the intact formula unit, which is what the recovered crust weighs
