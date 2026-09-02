@@ -1780,10 +1780,13 @@ last-known-good recovery and quota-blocked storage.
   rides WORLD-002's conformance matrix. The fixtures carry translation KEYS
   rather than English sentences, so the slice adds nothing to WORLD-007's
   untranslated-prose debt and is shippable in two languages the day it lands.
-  FINDING for a later slice: `quest::answer`'s wrong-guess diagnosis is
-  English prose returned through the host boundary — the one place in this
-  lane where a user-facing string is not a stable id, and WORLD-007's rule
-  says it should be.*
+  The `quest::answer` finding below is now FIXED: the refusal is a stable id
+  with parameters (`wrong_guess{alias,guess}`, `unknown_alias{alias}`), and
+  `answer` is `answer_typed` plus a rendering, so the prose cannot drift from
+  the id and hosts that have not moved print exactly what they printed
+  before. Switching the three hosts to send the id is a small mechanical
+  follow-up, deliberately left until `crates/kerotakis-cli/src/main.rs` is
+  quiet.*
 
 ## What not to optimize for
 

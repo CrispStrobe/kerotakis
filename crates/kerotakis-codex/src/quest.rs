@@ -742,6 +742,46 @@ pub fn observe(
     out
 }
 
+/// WORLD-007: why an answer was not accepted.
+///
+/// The last user-facing string in this lane that was English prose crossing
+/// the host boundary. It is the same class as a balancing drill shipping its
+/// coefficients: something went over the wire that should have been an id.
+/// A stable tag with parameters lets a German client say it in German, and
+/// lets a contract recognise it without matching on a sentence.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "refused", rename_all = "snake_case")]
+pub enum AnswerRefusal {
+    /// Named, but not what the alias hides. The measurements already taken
+    /// settle it, which is what the rendering says and the id implies.
+    WrongGuess { alias: String, guess: String },
+    /// Nothing active seals or asks about this alias.
+    UnknownAlias { alias: String },
+}
+
+impl AnswerRefusal {
+    /// The English rendering, kept so hosts that have not yet moved to the
+    /// id keep printing exactly what they printed before. Every locale's
+    /// version of this belongs in that locale's catalogue, keyed by the tag.
+    pub fn said(&self) -> String {
+        match self {
+            AnswerRefusal::WrongGuess { alias, guess } => format!(
+                "{alias} is not {guess} — the measurements you have already \
+                 made rule this in or out; look at what they say"
+            ),
+            AnswerRefusal::UnknownAlias { alias } => {
+                format!("no active quest seals an unknown called '{alias}'")
+            }
+        }
+    }
+}
+
+impl std::fmt::Display for AnswerRefusal {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.said())
+    }
+}
+
 /// The learner names a sealed unknown. A correct answer satisfies the
 /// matching Identify claim; a wrong one is answered with the goal
 /// register's diagnosis style — spoken, never punished, never blocking.
@@ -751,6 +791,18 @@ pub fn answer(
     alias: &str,
     guess: &str,
 ) -> Result<Vec<QuestOutput>, String> {
+    answer_typed(specs, states, alias, guess).map_err(|refusal| refusal.said())
+}
+
+/// The same decision, with the refusal as a stable id rather than a
+/// sentence. `answer` is this function plus a rendering, so there is one
+/// place a wrong answer is judged and the prose cannot drift from the id.
+pub fn answer_typed(
+    specs: &[QuestSpec],
+    states: &mut BTreeMap<String, QuestState>,
+    alias: &str,
+    guess: &str,
+) -> Result<Vec<QuestOutput>, AnswerRefusal> {
     let mut out = Vec::new();
     let mut seen_alias = false;
     for spec in specs {
@@ -819,16 +871,18 @@ pub fn answer(
                 });
             }
         } else {
-            return Err(format!(
-                "{alias} is not {guess} — the measurements you have already \
-                 made rule this in or out; look at what they say"
-            ));
+            return Err(AnswerRefusal::WrongGuess {
+                alias: alias.to_string(),
+                guess: guess.to_string(),
+            });
         }
     }
     if seen_alias {
         Ok(out)
     } else {
-        Err(format!("no active quest seals an unknown called '{alias}'"))
+        Err(AnswerRefusal::UnknownAlias {
+            alias: alias.to_string(),
+        })
     }
 }
 
