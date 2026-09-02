@@ -19,6 +19,7 @@ pub mod appearance;
 pub mod authority;
 pub mod bench;
 pub mod butler_volmer;
+pub mod cabinet;
 pub mod cache_key;
 pub mod catalog;
 pub mod centrifuge;

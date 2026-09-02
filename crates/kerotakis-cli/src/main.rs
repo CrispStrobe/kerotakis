@@ -987,6 +987,144 @@ fn balance_exercise_text(args: &[String]) -> Result<String, String> {
 
 /// Everything `explain` says, as a string — the REPL prints it, the MCP
 /// server returns it, and building it in one place keeps them identical.
+/// BRD-002: what `find` prints.
+///
+/// Species and materials in one list, because `add` takes them the same
+/// way and a search that separated them would teach a distinction the
+/// grammar does not make. The shelf level rides along where a bottle has
+/// been stocked — the question "can I still use this?" is the same
+/// question as "what is it called?", asked half a step later.
+fn print_cabinet_search(query: &str, bench: &Bench) {
+    use kerotakis_core::cabinet::{self, CabinetKind, CabinetMatch};
+    let hits = cabinet::search(query, 30);
+    if hits.is_empty() {
+        println!("  nothing on the shelf matches '{query}'");
+        return;
+    }
+    for hit in &hits {
+        let kind = match hit.kind {
+            CabinetKind::Species => "species",
+            CabinetKind::Material => "material",
+        };
+        let level = match bench.stock.remaining(&hit.key) {
+            Some(amount) => format!("  — {:.4} {} left", amount.amount, amount.unit),
+            // An unstocked key is an unlimited supply, which is the
+            // sandbox every script written before BRD-002 assumed. Say so
+            // rather than printing a blank and letting it read as empty.
+            None => "  — unstocked (unlimited)".to_string(),
+        };
+        let via = match (&hit.via, hit.matched) {
+            (Some(alias), _) => format!("  [{alias}]"),
+            (None, CabinetMatch::Substring) => String::new(),
+            (None, _) => String::new(),
+        };
+        println!(
+            "  {:<14} {:<8} {:<26} {} in {}{via}{level}",
+            hit.key, kind, hit.name, hit.detail, hit.unit
+        );
+    }
+    println!("  — add one with `add v1 <key> <amount><mol|g|mL>`");
+}
+
+/// The recipes this vessel was built from, as provenance.
+///
+/// Read off the bench log rather than the vessel, because the vessel keeps
+/// only what a recipe could *not* resolve. A recipe that expanded cleanly
+/// leaves no trace in the contents — its acetic acid is indistinguishable
+/// from acetic acid poured from a bottle — and that is exactly the case
+/// worth reporting: the number in front of you rests on a reviewed
+/// estimate of a composition, and nothing else on screen says so.
+fn material_provenance(bench: &Bench, target: VesselId) -> String {
+    use std::fmt::Write as _;
+    let mut out = String::new();
+    let mut seen: Vec<(String, u32)> = Vec::new();
+    for entry in &bench.log {
+        let kerotakis_core::ops::Operator::AddMaterial {
+            vessel,
+            material,
+            recipe_id,
+            recipe_version,
+            total_amount,
+            ..
+        } = &entry.operator
+        else {
+            continue;
+        };
+        if *vessel != target {
+            continue;
+        }
+        // One report per recipe version, however many times it was poured:
+        // the provenance of a substance does not change with the dose.
+        if seen.contains(&(recipe_id.clone(), *recipe_version)) {
+            continue;
+        }
+        seen.push((recipe_id.clone(), *recipe_version));
+        let Some(recipe) = kerotakis_core::material::lookup_versioned(recipe_id, *recipe_version)
+        else {
+            writeln!(
+                out,
+                "  {target}: {material} came from recipe {recipe_id} v{recipe_version}, which this build no longer carries"
+            )
+            .unwrap();
+            continue;
+        };
+        let unit = kerotakis_core::stock::stock_unit(&recipe.canonical_key)
+            .map(|u| u.label())
+            .unwrap_or("");
+        writeln!(
+            out,
+            "  {target}: {} came from the recipe {}@v{} ({}), dispensed {:.4}{unit}",
+            material, recipe.canonical_key, recipe.version, recipe.name, total_amount
+        )
+        .unwrap();
+        // A confidence is a claim about how far to trust the composition,
+        // so it is spelled out. `{:?}` would print "Surrogate", which is
+        // an enum variant rather than a sentence and tells a learner
+        // nothing about what it means for the number in front of them.
+        let confidence = match recipe.confidence {
+            kerotakis_core::material::MaterialConfidence::Measured => {
+                "measured — the composition was determined, not assumed"
+            }
+            kerotakis_core::material::MaterialConfidence::Curated => {
+                "curated — read off a specification or label and reviewed"
+            }
+            kerotakis_core::material::MaterialConfidence::Estimated => {
+                "estimated — a reviewed estimate, within the stated ranges"
+            }
+            kerotakis_core::material::MaterialConfidence::Surrogate => {
+                "surrogate — a stand-in composition that behaves like the real thing for the chemistry modelled here, and is not a claim about any particular product"
+            }
+        };
+        writeln!(out, "    confidence: {confidence}").unwrap();
+        for component in &recipe.components {
+            let range = if component.fraction.lower == component.fraction.upper {
+                format!("{:.4}", component.fraction.lower)
+            } else {
+                format!(
+                    "{:.4}–{:.4}",
+                    component.fraction.lower, component.fraction.upper
+                )
+            };
+            writeln!(out, "      · {} {range}", component.species_id).unwrap();
+        }
+        // The honest remainder. A recipe that resolves 97% of itself is
+        // making a claim about 97% of itself, and the other 3% is not
+        // nothing — it is the part the review could not name.
+        if let Some(unresolved) = &recipe.unresolved_fraction {
+            writeln!(
+                out,
+                "      · unresolved {:.4}–{:.4} — real matter this recipe does not name",
+                unresolved.lower, unresolved.upper
+            )
+            .unwrap();
+        }
+        for assumption in &recipe.lot_assumptions {
+            writeln!(out, "    assumes: {assumption}").unwrap();
+        }
+    }
+    out
+}
+
 fn explain_text(
     bench: &Bench,
     paths: &mut Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
@@ -1019,6 +1157,17 @@ fn explain_text(
         )
         .unwrap(),
     }
+    // BRD-002: where the *contents* came from, when some of them came
+    // from a recipe rather than a bottle.
+    //
+    // A named material is a reviewed estimate of a composition — "vinegar"
+    // is 5% acetic acid within a stated range, with lot assumptions and an
+    // evidence record behind it. `explain` reported the solver's
+    // provenance and said nothing about that, so a vessel whose answer
+    // rests half on a recipe looked exactly like one that did not. The
+    // dispense is in the log, pinned to a recipe id and version precisely
+    // so a replay cannot drift, which is also what makes it reportable.
+    out.push_str(&material_provenance(bench, target));
     // What every other dataset says about the same vessel.
     let vessel = vessel.clone();
     match paths.as_mut() {
@@ -2294,7 +2443,7 @@ fn repl() {
                  titrate <v> <species> <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
                  measure <v> <thermometer|balance|ph|…> · look <v> · cell <v> <v>\n\
                  electrolyse <v> <A> <t> · grind <v> <species> <um>\n\
-                 new · inspect [v] · register <lv1|lv2|lv3> · species · quit"
+                 new · inspect [v] · register <lv1|lv2|lv3> · species · find <word> · quit"
             );
             continue;
         }
@@ -2302,6 +2451,21 @@ fn repl() {
             for s in species::REGISTRY {
                 println!("  {:<10} {} ({})", s.key, s.name, s.formula);
             }
+            println!(
+                "  — {} species. `find <word>` searches these and the named materials.",
+                species::REGISTRY.len()
+            );
+            continue;
+        }
+        // BRD-002: the cabinet is searchable. `species` lists several
+        // hundred rows and no materials at all, which is a catalogue a
+        // learner can scroll past rather than one they can use.
+        if let Some(query) = line.strip_prefix("find ") {
+            print_cabinet_search(query, &session.bench);
+            continue;
+        }
+        if line == "find" {
+            println!("  usage: find <word> — searches species keys, names, formulas and material aliases");
             continue;
         }
         if let Err(e) = session.exec_line(line) {
