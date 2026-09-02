@@ -1342,6 +1342,8 @@
 {#if session.missionDebrief}
   <MissionDebrief
     debrief={session.missionDebrief}
+    unsaved={session.progressUnsaved}
+    onretry={() => session.retryPendingWrite()}
     onclose={() => session.closeMissionDebrief()}
     onplace={(verb) => {
       session.closeMissionDebrief();

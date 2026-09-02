@@ -1712,9 +1712,23 @@ last-known-good recovery and quota-blocked storage.
   peaks honestly count as one) or a funnel whose partition spread reaches 0.15,
   both tested against the engine's own measured numbers. Thresholds are
   inclusive at the boundary, also tested.*
-- [ ] **WORLD-006 — Transactional mission outcomes.** Commit mission state,
+- [x] **WORLD-006 — Transactional mission outcomes.** Commit mission state,
   rewards, inventory, and world changes together only after engine evaluation;
   retry safely after interruption and reject double claims.
+  *Landed 2026-09-02, completing what GUI-080 started. The completion and the
+  replenished stockroom already went as ONE envelope promotion; what was
+  missing was surviving the write that fails. Change sets are now ABSOLUTE
+  rather than deltas — each value is the complete next state of its key — so
+  replaying a commit is indistinguishable from making it once and a retry
+  needs no reasoning about what already landed. A failed write is REMEMBERED
+  rather than swallowed: the change set is held and merged into the next
+  commit, so a learner who finishes two missions through a full quota and
+  then frees space keeps both instead of silently losing the first. Newer
+  values win the merge, being the later truth about the same key. Double
+  claims were already impossible by construction (rewards are derived from
+  completed leads, never a ledger) and the mission commit is now pinned to
+  fire once. The debrief says "not saved yet" with a retry rather than
+  letting a learner believe a discovery is kept.*
 - [x] **WORLD-007 — Localized content contract.** Lint every mission, catalog
   item, outcome, error, and ARIA template for English and German coverage and
   interpolation parity. Protocol conformance rejects user-facing raw strings in
