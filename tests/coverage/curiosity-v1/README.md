@@ -65,10 +65,47 @@ split, and names the rows in the only column that is a backlog:
 | population | count | what it means |
 |---|---|---|
 | engine gained | 64 | the corpus said `missing`; the engine now answers. The expectation is stale because the engine IMPROVED. Nothing is wrong. |
-| capability absent | 19 | the corpus claimed an answer; the engine stands aside (`not-yet-modeled`). **This is the tail worth working.** |
+| engine stood aside | 19 | the corpus claimed an answer; the engine declined (`not-yet-modeled`). **The tail worth working** — but named for what was OBSERVED, because the cause is not established. See below. |
 | route differs | 68 | both answer, by different roads. The author predicted one and the engine took another. |
 
-The 19 absent rows span ten owning tasks — EXP-25 (4), EXP-18 (3),
+**The 19 need the same suspicion applied to them that they applied to the
+64.** Naming this column "capability absent" would assert a cause it has
+not established, and early reading says these are not one thing either.
+At least four sub-kinds are now known, three of them measured rather than
+read:
+
+- **The script never reaches the capability.** `aq-035`, `aq-037` and
+  `aq-038` are classic gas tests written as two lines — `add v1 <gas>`
+  then `test v1 <reagent>` — with no `seal`. A fresh vessel is open, so
+  the gas has left before the test runs, and `gas_tests.rs` implements all
+  four with sourced thresholds. Add `seal v1 500mL` and all three go
+  positive immediately. The engine is right and the script is incomplete:
+  it omits the step a real bench requires, which is collecting the gas
+  before testing it. (Found and measured by kerotakis-e9.)
+- **The engine answers, confidently, and is wrong.** `aq-036` looks like
+  one of the three above and is not. Sealed, it reports "damp red litmus —
+  negative", because `NH3` in this registry is AMMONIA SOLUTION (its
+  registry name is literally "ammonia solution") and there is no gaseous
+  ammonia species at all — so the headspace fraction is always 0.00% and
+  the test reports an absence the bench never modelled. It also teaches the
+  opposite of the chemistry: damp red litmus DOES identify ammonia, and
+  holding it over the bottle is the school demonstration. A silent stand
+  aside is bad; a confident negative on a question the bench cannot see is
+  worse, because nothing about it looks like a gap. (kerotakis-e9.)
+- **A genuine absence.** `mat-096`/`mat-099` want rusting over `wait 1h`,
+  `mat-003` wants surface area from `grind` to change a rate, `mat-034`
+  wants a polymer to dissolve, `mat-011` wants the conductivity of a solid
+  metal from a meter that is Kohlrausch and wants a solution.
+- **A negative the engine is right to give and wrong to explain.**
+  `aq-089` asks whether a magnet removes copper powder — it does not,
+  copper is not ferromagnetic, and `MagnetSeparated` carries
+  `attracted`/`remained` and could say so. `aq-087` asks whether dissolved
+  salt appears in a neutral-solute chromatogram — it does not, and
+  `Chromatographed.outside_method` exists precisely to name what the method
+  cannot see. In both the refusal is correct and `not-yet-modeled` is the
+  wrong reason for it.
+
+The 19 rows span ten owning tasks — EXP-25 (4), EXP-18 (3),
 CAP-16 (3), EXP-15 (2), BRD-023 (2), and one each for CAP-11, CAP-23,
 CAP-25, EXP-13, BRD-014 — so they are a distributed backlog rather than one
 defect, and each belongs to the task that claimed the capability.
