@@ -413,7 +413,7 @@ or a rate in them.
 | K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent, and cooling a supersaturated acetate solution does nothing (KID-7) |
 | K52 | A borax snowflake | unreachable | no borate in the registry |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
-| K54 | Three gases, three tests | computed | limewater goes milky; `test v1 splint` reports "glowing splint — negative" on hydrogen. `EXP-31` works — and `test` appears in no help text |
+| K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
 | K56 | Bubble mixture that lasts | partial | no foam without the peroxide path (KID-11) |
 | K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled |
