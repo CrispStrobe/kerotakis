@@ -102,8 +102,12 @@ fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<Va
                 "kind": "constraint_violated", "quest": quest,
                 "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
             }),
-            Q::ClaimSatisfied { quest, title } => json!({
-                "kind": "claim_satisfied", "quest": quest,
+            Q::ClaimSatisfied {
+                claim,
+                quest,
+                title,
+            } => json!({
+                "kind": "claim_satisfied", "quest": quest, "claim": claim,
                 "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
             }),
             Q::Completed { quest, title } => json!({
@@ -418,13 +422,17 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let Some(spec) = lab.quest.clone() else {
                 return Err("no quest is running".into());
             };
-            let outputs = kerotakis_codex::quest::answer(
+            // Same shape as the wasm host: a wrong guess is a refusal id in
+            // the result, not an English sentence in an error.
+            match kerotakis_codex::quest::answer_typed(
                 &[spec],
                 &mut lab.quest_states,
                 field("alias")?,
                 field("guess")?,
-            )?;
-            Ok(Value::Array(quest_outputs_json(&outputs)).to_string())
+            ) {
+                Ok(outputs) => Ok(json!({ "outputs": quest_outputs_json(&outputs) }).to_string()),
+                Err(refusal) => Ok(json!({ "outputs": [], "refusal": refusal }).to_string()),
+            }
         }
         "catalog" => {
             // WORLD-003. Same join as the wasm host, from the same core rules

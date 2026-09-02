@@ -48,8 +48,8 @@ class FakeHost implements EngineHost {
   async questStop(): Promise<void> {
     this.calls.push("quest_stop");
   }
-  async questAnswer(): Promise<import("./host/EngineHost").QuestOutput[]> {
-    return [];
+  async questAnswer(): Promise<import("./host/EngineHost").QuestAnswerResult> {
+    return { outputs: [] };
   }
   async loadPack() {
     return { added: 0, skipped: 0, loaded_total: 0 };
@@ -1493,5 +1493,66 @@ describe("the catalog is asked, not computed (WORLD-003 client migration)", () =
     const s = new Session(host, new FakeStorage(), "story");
     await s.connect();
     expect(s.catalogAccess("nothing-like-this")).toBeNull();
+  });
+});
+
+describe("a wrong answer is spoken, not thrown (WORLD-007 host switch)", () => {
+  class AnsweringHost extends FakeHost {
+    refusal: import("./host/EngineHost").AnswerRefusal | undefined;
+    async questAnswer() {
+      return { outputs: [], refusal: this.refusal };
+    }
+  }
+
+  it("renders the engine's refusal id rather than showing an error", async () => {
+    const host = new AnsweringHost();
+    host.refusal = { refused: "wrong_guess", alias: "unknown-a", guess: "KCl" };
+    const s = new Session(host, new FakeStorage());
+
+    await s.answerUnknown("unknown-a", "KCl");
+
+    const entry = s.feed.at(-1)!;
+    // A note, not an error: the engine's contract for a wrong guess is that
+    // it is spoken guidance and never a block. Styling it as a failure said
+    // the opposite of what the engine meant.
+    expect(entry.kind).toBe("note");
+    expect(entry.text).toContain("unknown-a");
+    expect(entry.text).toContain("KCl");
+  });
+
+  it("renders an unknown alias from its own id", async () => {
+    const host = new AnsweringHost();
+    host.refusal = { refused: "unknown_alias", alias: "nothing-seals-this" };
+    const s = new Session(host, new FakeStorage());
+
+    await s.answerUnknown("nothing-seals-this", "NaCl");
+
+    const entry = s.feed.at(-1)!;
+    expect(entry.kind).toBe("note");
+    expect(entry.text).toContain("nothing-seals-this");
+  });
+
+  it("still says something useful for a refusal id it does not know", async () => {
+    const host = new AnsweringHost();
+    // An engine newer than this client: a tag the client has no rendering
+    // for must not produce an empty line.
+    host.refusal = { refused: "not-a-shape-this-client-knows" } as never;
+    const s = new Session(host, new FakeStorage());
+
+    await s.answerUnknown("unknown-a", "CaCO3");
+
+    expect(s.feed.at(-1)!.text).toContain("CaCO3");
+    expect(s.feed.at(-1)!.text.length).toBeGreaterThan(0);
+  });
+
+  it("leaves a correct answer's outputs untouched", async () => {
+    const host = new AnsweringHost();
+    host.refusal = undefined;
+    const s = new Session(host, new FakeStorage());
+
+    await s.answerUnknown("unknown-a", "NaCl");
+
+    // No refusal, no outputs: the existing "not it yet" nudge still stands.
+    expect(s.feed.at(-1)!.kind).toBe("note");
   });
 });

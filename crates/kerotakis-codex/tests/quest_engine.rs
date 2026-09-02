@@ -1029,3 +1029,58 @@ fn a_right_answer_is_unaffected_by_either_entry_point() {
     assert_eq!(typed[&spec.id].satisfied, rendered[&spec.id].satisfied);
     assert_eq!(typed[&spec.id].complete, rendered[&spec.id].complete);
 }
+
+#[test]
+fn a_satisfied_claim_names_itself_by_id() {
+    // A client that already knows its claims by id should not have to
+    // recognise one by comparing a sentence — and two claims sharing a
+    // title would have made that comparison satisfy the wrong one.
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+    let mut states = states_for(&spec);
+    let mut bench = Bench::new();
+    add(&mut bench, "water", 5.0);
+    // A measurement, which is what the demo quest's `took-a-reading` claim
+    // watches for — adding a solid satisfies nothing on its own.
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::Thermometer,
+        })
+        .expect("measure");
+
+    let out = quest::observe(&specs, &mut states, &events, &bench);
+    let ids: Vec<&str> = out
+        .iter()
+        .filter_map(|o| match o {
+            QuestOutput::ClaimSatisfied { claim, .. } => Some(claim.as_str()),
+            _ => None,
+        })
+        .collect();
+    assert!(!ids.is_empty(), "expected a claim to be satisfied");
+    // Every id it names is one the quest actually declares.
+    for id in &ids {
+        assert!(
+            spec.claims.iter().any(|c| c.id == *id),
+            "output named a claim the quest does not have: {id}"
+        );
+    }
+    // And it matches what the state banked, so the two cannot disagree.
+    for id in &ids {
+        assert!(states[&spec.id].satisfied.contains(*id));
+    }
+}
+
+#[test]
+fn an_answered_unknown_also_names_its_claim() {
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+    let mut states = states_for(&spec);
+    let out = quest::answer(&specs, &mut states, "unknown-a", "NaCl").expect("accepted");
+    let named = out.iter().find_map(|o| match o {
+        QuestOutput::ClaimSatisfied { claim, .. } => Some(claim.clone()),
+        _ => None,
+    });
+    let named = named.expect("naming the unknown satisfies a claim");
+    assert!(spec.claims.iter().any(|c| c.id == named));
+}

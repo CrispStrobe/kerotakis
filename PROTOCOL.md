@@ -87,6 +87,13 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 Promoting the `Lab`-only methods to `WorkerCommand` variants is part of
 GUI-004 (the UI talks only to the host, never to `Lab` directly).
 
+Quest outputs (`quest_start`/`step`) serialize as `{ kind, quest, … }`.
+`claim_satisfied` additionally carries `claim` — the claim's stable id
+(additive 2026-09-02). Clients must key on it: recognising a claim by
+comparing its rendered title is prose matching, and two claims sharing a
+title satisfy the wrong one. `constraint_violated` (WORLD-004) is spoken,
+never blocking.
+
 ## Events
 
 `Event` serializes as `{ "event": "<snake_case_tag>", …fields }` with typed

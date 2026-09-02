@@ -71,7 +71,7 @@ class DeterministicHost {
       async balance() { return { ok: false, error: "unused" }; },
       async questStart() {},
       async questStop() {},
-      async questAnswer() { return []; },
+      async questAnswer() { return { outputs: [] }; },
       async loadPack() { return { added: 0, skipped: 0, loaded_total: 0 }; },
       dispose() {},
     } as unknown as EngineHost;
