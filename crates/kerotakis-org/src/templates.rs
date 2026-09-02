@@ -21,6 +21,99 @@ pub struct ReactionTemplate {
     pub validated: bool,
 }
 
+// ── BRD-020 phase 2: the conservation ledger ──────────────────────
+//
+// A transformation rule that invents or destroys atoms is not a
+// transformation, and the moment its products enter the vessel ledger the
+// error stops being local. So every application is weighed: same atoms,
+// same charge, in and out. The rule must name why it declined, and
+// "carbon: 4 in, 3 out" is a reason a chemist can act on.
+
+/// What a set of molecules is made of.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct Ledger {
+    /// Element symbol → count, INCLUDING implicit hydrogens. A ledger that
+    /// counted only heavy atoms would balance while hydrogens vanished.
+    pub atoms: std::collections::BTreeMap<String, u32>,
+    /// Summed formal charge.
+    pub charge: i32,
+}
+
+/// What a template application failed to conserve. Only the differences.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Imbalance {
+    /// element → (in, out), for elements whose counts differ.
+    pub atoms: std::collections::BTreeMap<String, (u32, u32)>,
+    /// (in, out) when charge is not conserved.
+    pub charge: Option<(i32, i32)>,
+}
+
+impl std::fmt::Display for Imbalance {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut parts: Vec<String> = self
+            .atoms
+            .iter()
+            .map(|(element, (before, after))| format!("{element}: {before} in, {after} out"))
+            .collect();
+        if let Some((before, after)) = self.charge {
+            parts.push(format!("charge: {before} in, {after} out"));
+        }
+        write!(f, "{}", parts.join("; "))
+    }
+}
+
+/// Weigh one molecule.
+pub fn molecule_ledger(mol: &chematic::core::Molecule) -> Ledger {
+    let mut ledger = Ledger::default();
+    for (idx, atom) in mol.atoms() {
+        *ledger
+            .atoms
+            .entry(atom.element.symbol().to_string())
+            .or_insert(0) += 1;
+        let implicit = mol.implicit_hydrogen_count(idx);
+        if implicit > 0 {
+            *ledger.atoms.entry("H".to_string()).or_insert(0) += implicit as u32;
+        }
+        ledger.charge += atom.charge as i32;
+    }
+    ledger
+}
+
+/// Weigh a set of molecules.
+pub fn ledger_of(molecules: &[&chematic::core::Molecule]) -> Ledger {
+    let mut total = Ledger::default();
+    for mol in molecules {
+        let one = molecule_ledger(mol);
+        for (element, count) in one.atoms {
+            *total.atoms.entry(element).or_insert(0) += count;
+        }
+        total.charge += one.charge;
+    }
+    total
+}
+
+/// Do these two ledgers balance?
+pub fn conservation(before: &Ledger, after: &Ledger) -> Result<(), Imbalance> {
+    let mut atoms = std::collections::BTreeMap::new();
+    let elements: std::collections::BTreeSet<&String> =
+        before.atoms.keys().chain(after.atoms.keys()).collect();
+    for element in elements {
+        let (a, b) = (
+            before.atoms.get(element).copied().unwrap_or(0),
+            after.atoms.get(element).copied().unwrap_or(0),
+        );
+        if a != b {
+            atoms.insert(element.clone(), (a, b));
+        }
+    }
+    let charge = (before.charge != after.charge).then_some((before.charge, after.charge));
+    if atoms.is_empty() && charge.is_none() {
+        Ok(())
+    } else {
+        Err(Imbalance { atoms, charge })
+    }
+}
+
 /// Apply a SMIRKS template to reactant SMILES and return product SMILES.
 pub fn apply_template(
     template: &ReactionTemplate,
@@ -36,10 +129,80 @@ pub fn apply_template(
     let products = chematic::rxn::run_reactants(&template.smirks, &reactant_refs)
         .map_err(|e| format!("template application failed: {e}"))?;
 
+    // BRD-020 phase 2. Weigh every product set against the reactants before
+    // any of it reaches a caller. A set that does not balance is refused by
+    // name — a rule that drops the by-product is not conserving, and one
+    // that invents an atom is not a transformation.
+    let before = ledger_of(&reactant_refs);
+    for (index, set) in products.iter().enumerate() {
+        let refs: Vec<&chematic::core::Molecule> = set.iter().collect();
+        if let Err(imbalance) = conservation(&before, &ledger_of(&refs)) {
+            return Err(format!(
+                "template '{}' does not conserve matter (product set {}): {imbalance}",
+                template.name,
+                index + 1
+            ));
+        }
+    }
+
     Ok(products
         .iter()
         .flat_map(|p| p.iter().map(chematic::smiles::write))
         .collect())
+}
+
+/// Apply a template without caring which order the reactants arrived in.
+///
+/// SMIRKS matching is POSITIONAL: `acid.alcohol>>ester.water` matches an
+/// acid in slot one and an alcohol in slot two, and the same two molecules
+/// handed over the other way round simply do not match. A bench does not
+/// know which vessel the learner poured first, so a family matcher that
+/// depends on that is a rule that fires or declines by accident.
+///
+/// Order is resolved DETERMINISTICALLY: permutations are tried in a fixed
+/// order and the first conserving match wins, so the same inputs always
+/// give the same products. Only up to three reactants are permuted — beyond
+/// that the count stops being a small constant, and a template needing four
+/// mapped reactants should say which is which.
+pub fn apply_template_any_order(
+    template: &ReactionTemplate,
+    reactant_smiles: &[&str],
+) -> Result<Vec<String>, String> {
+    if reactant_smiles.len() > 3 {
+        return apply_template(template, reactant_smiles);
+    }
+    let mut last_error = None;
+    for order in permutations(reactant_smiles) {
+        match apply_template(template, &order) {
+            Ok(products) if !products.is_empty() => return Ok(products),
+            Ok(_) => {}
+            Err(error) => last_error = Some(error),
+        }
+    }
+    Err(last_error.unwrap_or_else(|| {
+        format!(
+            "template '{}' matches these reactants in no order",
+            template.name
+        )
+    }))
+}
+
+/// Every ordering of up to three items, in a fixed sequence.
+fn permutations<'a>(items: &[&'a str]) -> Vec<Vec<&'a str>> {
+    match items {
+        [] => vec![vec![]],
+        [a] => vec![vec![a]],
+        [a, b] => vec![vec![a, b], vec![b, a]],
+        [a, b, c] => vec![
+            vec![a, b, c],
+            vec![a, c, b],
+            vec![b, a, c],
+            vec![b, c, a],
+            vec![c, a, b],
+            vec![c, b, a],
+        ],
+        _ => vec![items.to_vec()],
+    }
 }
 
 // ── ORG-008: Conditions and incompatibility filters ────────────────
