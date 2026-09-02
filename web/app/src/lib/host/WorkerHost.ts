@@ -9,6 +9,8 @@
 import {
   RequestChannel,
   type BalanceReply,
+  type CatalogRequest,
+  type CatalogResponse,
   type EngineHost,
   type MessagePortLike,
   type Scene,
@@ -96,6 +98,10 @@ export class WorkerHost implements EngineHost {
 
   async grammar(): Promise<{ verb: string; example: string; options?: string[] }[]> {
     return JSON.parse(await this.channel.request("grammar"));
+  }
+
+  async catalog(request: CatalogRequest): Promise<CatalogResponse> {
+    return JSON.parse(await this.channel.request("catalog", { request }));
   }
 
   async relations(): Promise<{ name: string; equation: string; args: string }[]> {

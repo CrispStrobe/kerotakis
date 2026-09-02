@@ -1,0 +1,53 @@
+{
+ "@@note": "WORLD-003 — the catalog's progression rules, shared by every host. kerotakis-core/src/catalog.rs is the implementation; this file is the PIN both languages check themselves against, so the engine's rules and any client-side copy cannot drift apart unnoticed. Edit the Rust and regenerate; never hand-edit one side only.",
+ "version": 1,
+ "last_tier": 4,
+ "starter_stock": [
+  "water",
+  "NaCl",
+  "CH3COOH",
+  "NaHCO3",
+  "CaCO3",
+  "MgSO4",
+  "CaCl2"
+ ],
+ "apparatus": {
+  "burette": 0,
+  "stir": 0,
+  "heat": 0,
+  "centrifuge": 0,
+  "dilute": 0,
+  "grind": 0,
+  "filter": 0,
+  "decant": 0,
+  "mix": 0,
+  "bunsen": 1,
+  "evaporate": 1,
+  "drain": 1,
+  "magnet": 1,
+  "react": 1,
+  "regulate": 2,
+  "irradiate": 2,
+  "electrolyse": 3,
+  "cell": 3,
+  "distil": 4,
+  "transport": 4,
+  "sweep": 4
+ },
+ "instruments": {
+  "measure:eyes": 0,
+  "measure:thermometer": 0,
+  "measure:ph": 0,
+  "measure:balance": 0,
+  "measure:smell": 1,
+  "measure:volume": 1,
+  "measure:conductivity": 1,
+  "measure:pressure": 2,
+  "measure:calorimeter": 2,
+  "measure:uvvis": 3,
+  "measure:chromatograph": 3,
+  "measure:geiger": 4,
+  "measure:melting_point": 4,
+  "measure:boiling_point": 4
+ }
+}

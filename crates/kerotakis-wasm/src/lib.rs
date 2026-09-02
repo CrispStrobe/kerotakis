@@ -454,6 +454,44 @@ impl Lab {
         }
     }
 
+    /// WORLD-003: what this learner can reach, and why.
+    ///
+    /// The request carries what the engine cannot know — the mode, the
+    /// learner's progress, permanent awards, and the active mission's kit —
+    /// and the engine answers with stable ids and tagged reasons. Sandbox
+    /// availability is DERIVED as full from the installed inventory rather
+    /// than read from anything a save could hold stale.
+    pub fn catalog(&self, request_json: &str) -> String {
+        let request: kerotakis_core::catalog::CatalogRequest =
+            serde_json::from_str(request_json).unwrap_or_default();
+        let species = kerotakis_core::species::all_species();
+        let assessed: Vec<(&str, Vec<&str>, bool)> = species
+            .iter()
+            .map(|s| {
+                let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
+                (s.key, hazards, assessed)
+            })
+            .collect();
+        let reagents: Vec<kerotakis_core::catalog::ReagentFacts<'_>> = assessed
+            .iter()
+            .map(
+                |(key, hazards, assessed)| kerotakis_core::catalog::ReagentFacts {
+                    key,
+                    hazards,
+                    assessed: *assessed,
+                },
+            )
+            .collect();
+        let packs: Vec<String> = kerotakis_core::packs_manifest::core_packs()
+            .into_iter()
+            .map(|pack| pack.pack_id)
+            .collect();
+        serde_json::to_string(&kerotakis_core::catalog::catalog(
+            &request, &reagents, &packs,
+        ))
+        .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}"))
+    }
+
     /// GUI-095: balance one skeleton by the null space of its element
     /// (and charge) count matrix, and report the matrix alongside the
     /// answer so a host can mark a learner's coefficients — including

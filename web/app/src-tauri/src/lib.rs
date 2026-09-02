@@ -68,12 +68,8 @@ impl NativeLab {
         let Some(spec) = self.quest.clone() else {
             return Vec::new();
         };
-        let outputs = kerotakis_codex::quest::observe(
-            &[spec],
-            &mut self.quest_states,
-            events,
-            &self.bench,
-        );
+        let outputs =
+            kerotakis_codex::quest::observe(&[spec], &mut self.quest_states, events, &self.bench);
         quest_outputs_json(&outputs)
     }
 
@@ -426,6 +422,40 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             )?;
             Ok(Value::Array(quest_outputs_json(&outputs)).to_string())
         }
+        "catalog" => {
+            // WORLD-003. Same join as the wasm host, from the same core rules
+            // — the point of moving them out of the browser was that every
+            // shell answers this identically.
+            let request: kerotakis_core::catalog::CatalogRequest =
+                serde_json::from_value(req.get("request").cloned().unwrap_or(Value::Null))
+                    .unwrap_or_default();
+            let species = kerotakis_core::species::all_species();
+            let assessed: Vec<(&str, Vec<&str>, bool)> = species
+                .iter()
+                .map(|s| {
+                    let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
+                    (s.key, hazards, assessed)
+                })
+                .collect();
+            let reagents: Vec<kerotakis_core::catalog::ReagentFacts<'_>> = assessed
+                .iter()
+                .map(
+                    |(key, hazards, assessed)| kerotakis_core::catalog::ReagentFacts {
+                        key,
+                        hazards,
+                        assessed: *assessed,
+                    },
+                )
+                .collect();
+            let packs: Vec<String> = kerotakis_core::packs_manifest::core_packs()
+                .into_iter()
+                .map(|pack| pack.pack_id)
+                .collect();
+            Ok(serde_json::to_string(&kerotakis_core::catalog::catalog(
+                &request, &reagents, &packs,
+            ))
+            .map_err(|e| e.to_string())?)
+        }
         "relations" => {
             let list: Vec<Value> = kerotakis_core::relations::RELATIONS
                 .iter()
@@ -606,6 +636,74 @@ mod protocol_conformance {
     }
 
     #[test]
+    fn the_catalog_answers_the_same_shape_here_as_in_the_browser() {
+        // WORLD-003. The shell is what every App Store build runs; a command
+        // that exists only in the wasm host is a desktop build that silently
+        // cannot show its cabinet.
+        let mut lab = NativeLab::new();
+
+        let story = ask(
+            &mut lab,
+            json!({"cmd": "catalog", "request": {"mode": "story", "completed": 1}}),
+        );
+        assert_eq!(story["mode"], "story");
+        assert_eq!(story["completed"], 1);
+        let items = story["items"].as_array().expect("items");
+        assert!(
+            !items.is_empty(),
+            "the catalog must list the installed inventory"
+        );
+        assert!(story["packs"].as_array().is_some_and(|p| !p.is_empty()));
+
+        let find = |list: &serde_json::Value, id: &str| -> serde_json::Value {
+            list["items"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|item| item["id"] == id)
+                .cloned()
+                .unwrap_or_else(|| panic!("catalog is missing {id}"))
+        };
+
+        // One completed mission does not reach the still.
+        let distil = find(&story, "distil");
+        assert_eq!(distil["available"], false);
+        assert_eq!(distil["reason"]["reason"], "locked");
+        assert_eq!(distil["reason"]["minimum_completed"], 4);
+
+        // Sandbox derives everything as full, whatever the progress says.
+        let sandbox = ask(
+            &mut lab,
+            json!({"cmd": "catalog", "request": {"mode": "sandbox", "completed": 0}}),
+        );
+        assert!(sandbox["items"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|item| item["available"] == true));
+        assert_eq!(find(&sandbox, "distil")["reason"]["reason"], "sandbox");
+
+        // An award reaches past the milestone; a loan is reported as a loan.
+        let granted = ask(
+            &mut lab,
+            json!({"cmd": "catalog", "request": {
+                "mode": "story", "completed": 0,
+                "awarded": ["measure:uvvis"], "mission_kit": ["distil"]
+            }}),
+        );
+        assert_eq!(
+            find(&granted, "measure:uvvis")["reason"]["reason"],
+            "awarded"
+        );
+        assert_eq!(find(&granted, "distil")["reason"]["reason"], "loaned");
+
+        // A missing request is a Story request at zero progress, not a panic.
+        let bare = ask(&mut lab, json!({"cmd": "catalog"}));
+        assert_eq!(bare["mode"], "story");
+        assert_eq!(bare["completed"], 0);
+    }
+
+    #[test]
     fn relations_catalogue_and_calc_agree_with_the_engine() {
         let mut lab = NativeLab::new();
         let list = ask(&mut lab, json!({"cmd": "relations"}));
@@ -658,7 +756,10 @@ mod protocol_conformance {
     #[test]
     fn balance_reports_a_matrix_that_marks_its_own_answer() {
         let mut lab = NativeLab::new();
-        let doc = ask(&mut lab, json!({"cmd": "balance", "equation": "Mg + O2 -> MgO"}));
+        let doc = ask(
+            &mut lab,
+            json!({"cmd": "balance", "equation": "Mg + O2 -> MgO"}),
+        );
         assert_eq!(doc["ok"], true, "{doc}");
         let species: Vec<&str> = doc["species"]
             .as_array()
@@ -675,7 +776,10 @@ mod protocol_conformance {
             .map(|v| v.as_f64().unwrap())
             .collect();
         assert_eq!(coefficients, vec![2.0, 1.0, 2.0]);
-        assert_eq!(doc["elements"].as_array().unwrap().last().unwrap(), "charge");
+        assert_eq!(
+            doc["elements"].as_array().unwrap().last().unwrap(),
+            "charge"
+        );
         for row in doc["matrix"].as_array().unwrap() {
             let sum: f64 = row
                 .as_array()
@@ -779,13 +883,16 @@ mod protocol_conformance {
     /// which is the moment it would be forgotten.
     #[test]
     fn every_command_the_shell_sends_is_answered() {
-        let host = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../src/lib/host/TauriHost.ts");
-        let src = std::fs::read_to_string(&host)
-            .unwrap_or_else(|e| panic!("{}: {e}", host.display()));
+        let host =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../src/lib/host/TauriHost.ts");
+        let src =
+            std::fs::read_to_string(&host).unwrap_or_else(|e| panic!("{}: {e}", host.display()));
 
         let mut sent: Vec<String> = Vec::new();
-        for (_, rest) in src.match_indices("this.req(\"").map(|(i, m)| (i, &src[i + m.len()..])) {
+        for (_, rest) in src
+            .match_indices("this.req(\"")
+            .map(|(i, m)| (i, &src[i + m.len()..]))
+        {
             if let Some(end) = rest.find('"') {
                 let name = rest[..end].to_string();
                 if !sent.contains(&name) {

@@ -229,6 +229,43 @@ export class EngineError extends Error {
  * everything is asynchronous so worker and native transports are
  * indistinguishable from here.
  */
+/** WORLD-003 — one joined answer to "what can this learner reach, and why".
+ *
+ * Reasons are stable tags with parameters, never prose: the client writes the
+ * sentence in its own language from `reason` and `minimum_completed`.
+ */
+export type CatalogReason =
+  | { reason: "sandbox" }
+  | { reason: "earned"; minimum_completed: number }
+  | { reason: "awarded" }
+  | { reason: "loaned" }
+  | { reason: "locked"; minimum_completed: number };
+
+export type CatalogItem = {
+  /** A verb (`filter`), an instrument (`measure:ph`), or a species key. */
+  id: string;
+  kind: "reagent" | "apparatus" | "instrument";
+  minimum_completed: number;
+  available: boolean;
+  reason: CatalogReason;
+};
+
+export type CatalogRequest = {
+  mode?: "story" | "sandbox";
+  completed?: number;
+  /** Ids permanently granted by closed cases. */
+  awarded?: string[];
+  /** Ids the active mission supplies for its own duration. */
+  mission_kit?: string[];
+};
+
+export type CatalogResponse = {
+  mode: "story" | "sandbox";
+  completed: number;
+  items: CatalogItem[];
+  packs: string[];
+};
+
 export interface EngineHost {
   /** Protocol + engine identity; answerable before any pack loads. */
   hello(): Promise<{
@@ -256,6 +293,9 @@ export interface EngineHost {
   parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }>;
   /** The verb inventory with canonical examples (GUI-029). */
   grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
+  /** WORLD-003: the runtime catalog — availability and its stable reason. */
+  catalog(request: CatalogRequest): Promise<CatalogResponse>;
+
   /** The named-relations catalogue (CAP-5). */
   relations(): Promise<
     {

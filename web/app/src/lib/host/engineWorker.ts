@@ -30,6 +30,7 @@ type Lab = {
   relations(): string;
   calc(name: string, argsJson: string): string;
   balance(equation: string): string;
+  catalog(requestJson: string): string;
   setRegister(level: string): void;
   setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
@@ -170,6 +171,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "grammar":
         done(id, lab.grammar());
+        break;
+      case "catalog":
+        done(id, lab.catalog(JSON.stringify(msg.request ?? {})));
         break;
       case "relations":
         done(id, lab.relations());
