@@ -447,3 +447,419 @@ fn the_lint_refuses_a_quest_that_is_all_discovery_and_a_bad_reward() {
         .iter()
         .any(|p| p.contains("not in the registry")));
 }
+
+// ── WORLD-005: the objective evaluator ──────────────────────────────────
+
+use kerotakis_codex::quest::{ClaimKind, Unmet};
+
+fn claim(id: &str, kind: ClaimKind) -> kerotakis_codex::quest::Claim {
+    kerotakis_codex::quest::Claim {
+        id: id.into(),
+        title: kerotakis_codex::quest::Registers {
+            lv1: id.into(),
+            lv2: id.into(),
+            lv3: id.into(),
+        },
+        kind,
+    }
+}
+
+/// A quest wrapping one claim, so the evaluator can be asked about it alone.
+fn spec_of(c: kerotakis_codex::quest::Claim) -> QuestSpec {
+    let mut spec = v2_spec();
+    spec.routes.clear();
+    spec.discoveries.clear();
+    spec.constraints.clear();
+    spec.claims = vec![c];
+    spec
+}
+
+fn ask(spec: &QuestSpec, events: &[Event], bench: &Bench) -> kerotakis_codex::quest::ClaimStatus {
+    let state = QuestState::default();
+    quest::evaluate_claim(spec, &spec.claims[0], &state, events, bench)
+}
+
+fn peak(species: &str, retention_time_s: f64, width_s: f64) -> kerotakis_core::ops::ElutedPeak {
+    kerotakis_core::ops::ElutedPeak {
+        species: SpeciesId::new(species),
+        retention_time_s,
+        width_s,
+        relative_area: 1.0,
+        partition_k: 1.0,
+    }
+}
+
+#[test]
+fn produce_reads_what_the_step_made_and_says_how_short_it_fell() {
+    let spec = spec_of(claim(
+        "made-it",
+        ClaimKind::Produce {
+            produce: "AgCl".into(),
+            minimum_moles: 1e-6,
+        },
+    ));
+    let bench = Bench::new();
+    let made = |moles: f64| {
+        vec![Event::Precipitated {
+            vessel: VesselId(0),
+            species: SpeciesId::new("AgCl"),
+            moles: Moles(moles),
+        }]
+    };
+
+    // Nothing at all.
+    assert_eq!(ask(&spec, &[], &bench).unmet, Some(Unmet::NothingYet));
+
+    // Below the threshold: the reason carries both numbers, so a client can
+    // say how short without inventing the arithmetic.
+    let short = ask(&spec, &made(5e-7), &bench);
+    assert!(!short.satisfied);
+    assert_eq!(
+        short.unmet,
+        Some(Unmet::BelowThreshold {
+            got: 5e-7,
+            wanted: 1e-6
+        })
+    );
+
+    // Exactly at the threshold is enough — the boundary is inclusive, and a
+    // learner who hits it exactly has done the thing.
+    assert!(ask(&spec, &made(1e-6), &bench).satisfied);
+    assert!(ask(&spec, &made(1e-3), &bench).satisfied);
+
+    // The wrong precipitate is not this one.
+    let wrong = vec![Event::Precipitated {
+        vessel: VesselId(0),
+        species: SpeciesId::new("CaCO3"),
+        moles: Moles(1.0),
+    }];
+    assert_eq!(ask(&spec, &wrong, &bench).unmet, Some(Unmet::NothingYet));
+}
+
+#[test]
+fn separate_accepts_two_materially_different_solutions() {
+    let spec = spec_of(claim("split-it", ClaimKind::Separate { separate: 3 }));
+    let bench = Bench::new();
+
+    // Route one: the column baseline-resolves three components.
+    let column = vec![Event::Chromatographed {
+        vessel: VesselId(0),
+        plates: 10_000,
+        void_time_s: 30.0,
+        peaks: vec![
+            peak("methanol", 63.0, 2.5),
+            peak("ethanol", 68.0, 2.7),
+            peak("propanone", 115.0, 4.6),
+        ],
+        outside_method: vec![],
+    }];
+    assert!(ask(&spec, &column, &bench).satisfied);
+
+    // Route two: the funnel, with no chromatogram anywhere. These are the
+    // engine's own numbers for 100 mL of extracting solvent (spread 0.190).
+    let funnel = vec![
+        Event::Partitioned {
+            vessel: VesselId(0),
+            species: SpeciesId::new("methanol"),
+            fraction_lower: 0.9884828398233436,
+        },
+        Event::Partitioned {
+            vessel: VesselId(0),
+            species: SpeciesId::new("ethanol"),
+            fraction_lower: 0.9632931020927237,
+        },
+        Event::Partitioned {
+            vessel: VesselId(0),
+            species: SpeciesId::new("propanone"),
+            fraction_lower: 0.7980447115886924,
+        },
+        Event::Drained {
+            from: VesselId(0),
+            to: VesselId(1),
+            solvent: SpeciesId::new("water"),
+            moles: Moles(5.4),
+        },
+    ];
+    assert!(ask(&spec, &funnel, &bench).satisfied);
+}
+
+#[test]
+fn separate_refuses_a_failed_separation_by_either_route() {
+    let spec = spec_of(claim("split-it", ClaimKind::Separate { separate: 3 }));
+    let bench = Bench::new();
+
+    // Three peaks on paper, but the first two co-elute: the trace shows two.
+    let smeared = vec![Event::Chromatographed {
+        vessel: VesselId(0),
+        plates: 100,
+        void_time_s: 30.0,
+        peaks: vec![
+            peak("methanol", 63.0, 6.0),
+            peak("ethanol", 66.0, 6.0),
+            peak("propanone", 115.0, 4.6),
+        ],
+        outside_method: vec![],
+    }];
+    assert_eq!(
+        ask(&spec, &smeared, &bench).unmet,
+        Some(Unmet::TooFewComponents { got: 2, wanted: 3 })
+    );
+
+    // A solvent that carried the whole sample across separated nothing.
+    // (50 mL of extracting solvent: spread 0.107, under the 0.15 bar.)
+    let carried = vec![
+        Event::Partitioned {
+            vessel: VesselId(0),
+            species: SpeciesId::new("methanol"),
+            fraction_lower: 0.9942080665993177,
+        },
+        Event::Partitioned {
+            vessel: VesselId(0),
+            species: SpeciesId::new("propanone"),
+            fraction_lower: 0.8876806082130925,
+        },
+        Event::Drained {
+            from: VesselId(0),
+            to: VesselId(1),
+            solvent: SpeciesId::new("water"),
+            moles: Moles(5.4),
+        },
+    ];
+    assert_eq!(ask(&spec, &carried, &bench).unmet, Some(Unmet::NothingYet));
+}
+
+#[test]
+fn compare_needs_a_difference_that_means_something() {
+    let mut bench = Bench::new();
+    bench
+        .step(Operator::NewVessel { kind: None })
+        .expect("second vessel");
+    add(&mut bench, "water", 1.0);
+    bench
+        .step(Operator::Add {
+            vessel: VesselId(1),
+            species: SpeciesId::new("water"),
+            moles: Moles(3.0),
+            at: None,
+        })
+        .expect("fill the second");
+
+    let spec_of_diff = |differ_by: f64| {
+        spec_of(claim(
+            "tell-them-apart",
+            ClaimKind::Compare {
+                compare: "mass_g".into(),
+                between: vec!["v1".into(), "v2".into()],
+                differ_by,
+            },
+        ))
+    };
+
+    // Two moles of water apart: about 36 g.
+    assert!(ask(&spec_of_diff(10.0), &[], &bench).satisfied);
+
+    let too_close = ask(&spec_of_diff(1000.0), &[], &bench);
+    assert!(!too_close.satisfied);
+    match too_close.unmet {
+        Some(Unmet::NoDifference { got, wanted }) => {
+            assert!((got - 36.0).abs() < 1.0, "got {got}");
+            assert_eq!(wanted, 1000.0);
+        }
+        other => panic!("expected NoDifference, got {other:?}"),
+    }
+
+    // A vessel that does not exist is not a comparison.
+    let missing = spec_of(claim(
+        "tell-them-apart",
+        ClaimKind::Compare {
+            compare: "mass_g".into(),
+            between: vec!["v1".into(), "v9".into()],
+            differ_by: 1.0,
+        },
+    ));
+    assert!(matches!(
+        ask(&missing, &[], &bench).unmet,
+        Some(Unmet::NotMeasured { .. })
+    ));
+}
+
+#[test]
+fn design_counts_the_stages_actually_connected() {
+    let spec = spec_of(claim("build-it", ClaimKind::Design { design: 3 }));
+    let bench = Bench::new();
+    let train = |stages: usize| {
+        vec![Event::Transported {
+            chain: (0..stages).map(VesselId).collect(),
+            receiver: VesselId(stages),
+            steps: 3,
+            courant: 0.5,
+            effluent_moles: vec![],
+        }]
+    };
+    assert_eq!(ask(&spec, &[], &bench).unmet, Some(Unmet::NothingYet));
+    assert_eq!(
+        ask(&spec, &train(2), &bench).unmet,
+        Some(Unmet::TooFewStages { got: 2, wanted: 3 })
+    );
+    assert!(ask(&spec, &train(3), &bench).satisfied);
+    assert!(ask(&spec, &train(5), &bench).satisfied);
+}
+
+#[test]
+fn a_value_claim_says_how_far_off_it_is() {
+    let mut bench = Bench::new();
+    add(&mut bench, "water", 1.0);
+    let spec = spec_of(claim(
+        "boiling",
+        ClaimKind::Value {
+            vessel: "v1".into(),
+            quantity: "temperature_c".into(),
+            target: 100.0,
+            tolerance: 1.0,
+        },
+    ));
+    match ask(&spec, &[], &bench).unmet {
+        Some(Unmet::OutOfTolerance {
+            target, tolerance, ..
+        }) => {
+            assert_eq!(target, 100.0);
+            assert_eq!(tolerance, 1.0);
+        }
+        other => panic!("expected OutOfTolerance, got {other:?}"),
+    }
+}
+
+#[test]
+fn identify_and_explain_wait_to_be_told() {
+    let sealed = spec_of(claim(
+        "name-it",
+        ClaimKind::Identify {
+            alias: "unknown-metal".into(),
+        },
+    ));
+    assert_eq!(
+        ask(&sealed, &[], &Bench::new()).unmet,
+        Some(Unmet::NotNamed {
+            alias: "unknown-metal".into()
+        })
+    );
+
+    let mut asked = spec_of(claim(
+        "say-why",
+        ClaimKind::Explain {
+            explain: "why-it-fizzed".into(),
+        },
+    ));
+    asked
+        .explanations
+        .insert("why-it-fizzed".into(), "carbon dioxide".into());
+    assert_eq!(
+        ask(&asked, &[], &Bench::new()).unmet,
+        Some(Unmet::NotExplained {
+            topic: "why-it-fizzed".into()
+        })
+    );
+
+    // Answered through the same channel a sealed unknown is named, and the
+    // learner's capitalisation is not the lesson.
+    let mut states = BTreeMap::new();
+    states.insert(asked.id.clone(), QuestState::default());
+    let out = quest::answer(
+        std::slice::from_ref(&asked),
+        &mut states,
+        "why-it-fizzed",
+        "  Carbon Dioxide ",
+    )
+    .expect("answered");
+    assert!(out
+        .iter()
+        .any(|o| matches!(o, QuestOutput::ClaimSatisfied { .. })));
+    assert!(states[&asked.id].complete);
+}
+
+#[test]
+fn an_unmet_reason_is_a_tagged_id_with_parameters_never_prose() {
+    // The same rule the catalog follows: a client says it in the learner's
+    // language, and two clients say the same thing.
+    let json = serde_json::to_string(&Unmet::BelowThreshold {
+        got: 0.5,
+        wanted: 1.0,
+    })
+    .unwrap();
+    assert_eq!(
+        json,
+        r#"{"unmet":"below_threshold","got":0.5,"wanted":1.0}"#
+    );
+    let json = serde_json::to_string(&Unmet::TooFewComponents { got: 2, wanted: 3 }).unwrap();
+    assert_eq!(json, r#"{"unmet":"too_few_components","got":2,"wanted":3}"#);
+}
+
+#[test]
+fn status_reports_the_whole_board_and_never_disagrees_with_observe() {
+    let mut spec = v2_spec();
+    spec.routes.clear();
+    spec.discoveries.clear();
+    spec.constraints.clear();
+    let bench = Bench::new();
+    let mut states = BTreeMap::new();
+    states.insert(spec.id.clone(), QuestState::default());
+
+    let events = vec![Event::Drained {
+        from: VesselId(0),
+        to: VesselId(1),
+        solvent: SpeciesId::new("water"),
+        moles: Moles(1.0),
+    }];
+    let before = quest::status(&spec, &states[&spec.id], &events, &bench);
+    let banked: Vec<bool> = before.iter().map(|s| s.satisfied).collect();
+
+    quest::observe(std::slice::from_ref(&spec), &mut states, &events, &bench);
+    // What `status` said was satisfiable is exactly what `observe` banked.
+    for (status, was) in before.iter().zip(banked) {
+        assert_eq!(states[&spec.id].satisfied.contains(&status.id), was);
+    }
+}
+
+#[test]
+fn the_lint_refuses_objectives_that_could_never_be_met() {
+    let ghost = spec_of(claim(
+        "make-nothing",
+        ClaimKind::Produce {
+            produce: "not-a-species".into(),
+            minimum_moles: 1.0,
+        },
+    ));
+    assert!(quest::lint(std::slice::from_ref(&ghost))
+        .iter()
+        .any(|p| p.contains("not in the registry")));
+
+    let single = spec_of(claim("split-one", ClaimKind::Separate { separate: 1 }));
+    assert!(quest::lint(std::slice::from_ref(&single))
+        .iter()
+        .any(|p| p.contains("is not one")));
+
+    let lonely = spec_of(claim(
+        "compare-one",
+        ClaimKind::Compare {
+            compare: "mass_g".into(),
+            between: vec!["v1".into()],
+            differ_by: 1.0,
+        },
+    ));
+    assert!(quest::lint(std::slice::from_ref(&lonely))
+        .iter()
+        .any(|p| p.contains("not two")));
+
+    let unanswerable = spec_of(claim(
+        "say-why",
+        ClaimKind::Explain {
+            explain: "nothing-answers-this".into(),
+        },
+    ));
+    assert!(quest::lint(std::slice::from_ref(&unanswerable))
+        .iter()
+        .any(
+            |p| p.contains("no \n                             entry in [explanations]")
+                || p.contains("entry in [explanations]")
+        ));
+}
