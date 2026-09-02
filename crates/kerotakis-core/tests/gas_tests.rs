@@ -340,3 +340,128 @@ fn unknown_test_errors() {
     let err = script::parse_op("test v1 bogus").unwrap_err();
     assert!(err.contains("pop"), "error lists valid options, got: {err}");
 }
+
+// ── A dissolved gas the bench cannot let out ──────────────────────
+//
+// `NH3` in this registry is *ammonia solution* — standard phase Liquid,
+// formula NH3(aq) — and there is no gaseous ammonia species at all. The
+// tests above reach a positive litmus only through `retain_gas`, which puts
+// NH₃ in the headspace directly; no operator a learner can type does that.
+// So the path a learner actually walks — pour ammonia into a sealed vessel,
+// hold litmus over it — read "litmus stays red", a confident negative about
+// a gas the bench had never let out of the liquid, and one that teaches the
+// opposite of the chemistry it is demonstrating.
+
+#[test]
+fn dissolved_ammonia_is_not_reported_as_absent() {
+    let mut bench = Bench::new();
+    seal(&mut bench, 500.0);
+    add(&mut bench, "NH3", 0.01);
+
+    let events = test_gas(&mut bench, GasTest::DampLitmus);
+    // Not `!gas_tested_positive(..)` — that helper unwraps the verdict and
+    // so asserts one exists. The claim here is that NO verdict is given: a
+    // negative would be as wrong as a positive.
+    assert!(
+        !events.iter().any(|e| matches!(e, Event::GasTested { .. })),
+        "no verdict either way, because the bench cannot see: {events:?}"
+    );
+    assert!(
+        has_not_yet_modeled(&events, "no path from"),
+        "it says why it cannot answer: {events:?}"
+    );
+}
+
+/// The refusal is narrow: a vessel with no ammonia at all still reads
+/// negative, because that is a true statement about the world rather than a
+/// gap in the model.
+#[test]
+fn an_empty_vessel_still_reads_a_true_negative() {
+    let mut bench = Bench::new();
+    add(&mut bench, "water", 1.0);
+    seal(&mut bench, 500.0);
+
+    let events = test_gas(&mut bench, GasTest::DampLitmus);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::GasTested {
+                positive: false,
+                ..
+            }
+        )),
+        "no ammonia anywhere is an honest negative: {events:?}"
+    );
+}
+
+/// And a gas that IS in the headspace is still read, whatever the registry
+/// calls its standard phase — so a gaseous ammonia added later opens the
+/// positive path by existing, without this guard needing an edit.
+#[test]
+fn ammonia_in_the_headspace_is_still_detected() {
+    let mut bench = Bench::new();
+    add(&mut bench, "water", 1.0);
+    seal(&mut bench, 500.0);
+    bench.vessels[0].retain_gas(SpeciesId::new("NH3"), Moles(0.01));
+
+    let events = test_gas(&mut bench, GasTest::DampLitmus);
+    assert!(
+        gas_tested_positive(&events),
+        "gas in the headspace is gas the test can read: {events:?}"
+    );
+}
+
+/// The three gases the bench does carry are untouched by the guard — they
+/// are `Phase::Gas` in the registry, so it never fires for them.
+#[test]
+fn the_carried_gases_are_unaffected() {
+    for (key, test) in [
+        ("H2", GasTest::Pop),
+        ("O2", GasTest::GlowingSplint),
+        ("CO2", GasTest::Limewater),
+    ] {
+        let mut bench = Bench::new();
+        seal(&mut bench, 500.0);
+        add(&mut bench, key, 0.05);
+        let events = test_gas(&mut bench, test);
+        assert!(
+            gas_tested_positive(&events),
+            "{key} is carried as a gas and {test} should read it: {events:?}"
+        );
+    }
+}
+
+/// The divergence the refusal names, pinned so a fix closes both sides.
+///
+/// `senses::waft` walks `vessel.contents` directly and treats a dissolved
+/// odorous species as reaching the nose, so `smell` reports ammonia off the
+/// solution. The gas tests read the headspace inventory, and nothing moves
+/// dissolved NH₃ into it. One vessel, one physical fact, two answers.
+///
+/// This asserts the CURRENT state, not the desired one. When a path from
+/// solution to headspace exists — a gaseous ammonia species, or NH₃ joining
+/// the approved gas/liquid exchange — this test should fail, and the right
+/// response is to delete it and let `litmus_positive_with_nh3` cover the
+/// case through the route a learner can actually walk.
+#[test]
+fn smell_and_gas_test_disagree_about_dissolved_ammonia() {
+    let mut bench = Bench::new();
+    seal(&mut bench, 500.0);
+    add(&mut bench, "NH3", 0.01);
+
+    let smelled = bench
+        .step(Operator::Smell {
+            vessel: VesselId(0),
+        })
+        .expect("smell");
+    assert!(
+        format!("{smelled:?}").to_lowercase().contains("ammonia"),
+        "the nose finds it in the liquid: {smelled:?}"
+    );
+
+    let tested = test_gas(&mut bench, GasTest::DampLitmus);
+    assert!(
+        has_not_yet_modeled(&tested, "no path from"),
+        "the headspace cannot: {tested:?}"
+    );
+}
