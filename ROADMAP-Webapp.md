@@ -1691,10 +1691,27 @@ last-known-good recovery and quota-blocked storage.
   `[[claims]]` table or they silently become part of that claim — serde
   cannot refuse it, because `Claim` flattens `ClaimKind` and `flatten` and
   `deny_unknown_fields` do not combine.*
-- [ ] **WORLD-005 — Objective evaluator.** Evaluate observe/measure/identify/
+- [x] **WORLD-005 — Objective evaluator.** Evaluate observe/measure/identify/
   produce/separate/compare/design/avoid/explain claims from typed evidence and
   World state. Return stable unmet-reason ids and parameters; unit-test threshold
   boundaries and alternative valid solutions.
+  *Landed 2026-09-02: `evaluate_claim` is the single place a claim is decided,
+  and `observe` now calls it — so what the status board reports and what the
+  quest banks can never disagree, which a test pins. All nine kinds are
+  covered: OBSERVE and MEASURE are event claims, AVOID is a WORLD-004
+  constraint (recorded, never blocking), IDENTIFY and EXPLAIN are answered
+  through the same channel because from the learner's side both are "say what
+  you worked out", and PRODUCE / SEPARATE / COMPARE / DESIGN read typed
+  evidence. Unmet reasons are stable tags with parameters —
+  `below_threshold{got,wanted}`, `too_few_components{got,wanted}`,
+  `out_of_tolerance{got,target,tolerance}`, `no_difference`, `too_few_stages`,
+  `not_named`, `not_explained`, `not_measured`, `nothing_yet` — never prose, so
+  a client says how short a learner fell in its own language without inventing
+  the arithmetic. SEPARATE is where alternative valid solutions live in the
+  engine: a column that baseline-resolves the components (R ≥ 1, so co-eluting
+  peaks honestly count as one) or a funnel whose partition spread reaches 0.15,
+  both tested against the engine's own measured numbers. Thresholds are
+  inclusive at the boundary, also tested.*
 - [ ] **WORLD-006 — Transactional mission outcomes.** Commit mission state,
   rewards, inventory, and world changes together only after engine evaluation;
   retry safely after interruption and reject double claims.

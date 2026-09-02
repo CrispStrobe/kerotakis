@@ -71,6 +71,162 @@ pub enum ClaimKind {
     /// The learner correctly named a sealed unknown
     /// (`quest answer <alias> <species>`).
     Identify { alias: String },
+    /// WORLD-005 — PRODUCE: this species actually appeared, in a quantity
+    /// worth seeing. Reads the step's own typed events (a precipitate, an
+    /// evolved gas, a dissolution) rather than the bench, because producing
+    /// a thing and having been handed it are different acts.
+    Produce {
+        produce: String,
+        #[serde(default)]
+        minimum_moles: f64,
+    },
+    /// WORLD-005 — SEPARATE: the sample came apart into this many
+    /// components the instruments can tell apart.
+    ///
+    /// Two materially different solutions both count, which is the point:
+    /// a column that baseline-resolves them, or a funnel that leaves them
+    /// in different layers. Neither is the author's intended one.
+    Separate { separate: u32 },
+    /// WORLD-005 — COMPARE: two vessels differ, by enough to mean it.
+    Compare {
+        /// Same quantity vocabulary as a value claim.
+        compare: String,
+        /// Exactly two vessel words, `["v1", "v2"]`.
+        between: Vec<String>,
+        #[serde(default)]
+        differ_by: f64,
+    },
+    /// WORLD-005 — DESIGN: the learner BUILT something, evidenced by a
+    /// transport train of at least this many connected stages.
+    Design { design: u32 },
+    /// WORLD-005 — EXPLAIN: the learner stated the answer to a named
+    /// question (`quest answer <topic> <answer>`), checked against the
+    /// quest's own `explanations` table.
+    Explain { explain: String },
+}
+
+/// WORLD-005: why a claim is not satisfied yet.
+///
+/// A stable tag with parameters, never prose — the same rule the catalog
+/// follows, and for the same reason: the client says it in the learner's
+/// language, and two clients say the same thing.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "unmet", rename_all = "snake_case")]
+pub enum Unmet {
+    /// No qualifying evidence at all yet.
+    NothingYet,
+    /// Seen, but not enough of it.
+    BelowThreshold { got: f64, wanted: f64 },
+    /// The quantity was never measured on that vessel.
+    NotMeasured { quantity: String },
+    /// Measured, but not at the target.
+    OutOfTolerance {
+        got: f64,
+        target: f64,
+        tolerance: f64,
+    },
+    /// Separated, but not into enough distinguishable components.
+    TooFewComponents { got: u32, wanted: u32 },
+    /// Compared, but the two are closer than the claim asks.
+    NoDifference { got: f64, wanted: f64 },
+    /// A sealed unknown that has not been named.
+    NotNamed { alias: String },
+    /// A question that has not been answered.
+    NotExplained { topic: String },
+    /// Built, but not enough stages.
+    TooFewStages { got: u32, wanted: u32 },
+}
+
+/// What one claim looks like right now.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ClaimStatus {
+    pub id: String,
+    pub satisfied: bool,
+    /// Absent once satisfied.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unmet: Option<Unmet>,
+}
+
+/// The chromatographic resolution below which two peaks are one component
+/// on the trace. R = 2·Δt_R/(w₁+w₂).
+const BASELINE_RESOLUTION: f64 = 1.0;
+
+/// The share-of-the-lower-layer spread a funnel must achieve before it has
+/// told two solutes apart rather than carrying both across. Measured
+/// against the shipped separation sample: 0.024 at 10 mL of extracting
+/// solvent, 0.107 at 50, 0.190 at 100 — so the bar sits between a token
+/// splash and a real, sample-sized extraction.
+const PARTITION_SPREAD: f64 = 0.15;
+
+/// How many components a peak table actually shows. Peaks closer than
+/// baseline resolution co-elute into one, exactly as they would on the
+/// recorder trace, so a failed separation cannot pass on raw peak count.
+pub fn resolved_components(peaks: &[kerotakis_core::ops::ElutedPeak]) -> u32 {
+    let mut ordered: Vec<&kerotakis_core::ops::ElutedPeak> = peaks.iter().collect();
+    ordered.sort_by(|a, b| {
+        a.retention_time_s
+            .partial_cmp(&b.retention_time_s)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    let mut components = 0u32;
+    let mut previous: Option<&kerotakis_core::ops::ElutedPeak> = None;
+    for peak in ordered {
+        match previous {
+            None => components = 1,
+            Some(prev) => {
+                let spread = prev.width_s + peak.width_s;
+                let resolution = if spread > 0.0 {
+                    2.0 * (peak.retention_time_s - prev.retention_time_s) / spread
+                } else {
+                    0.0
+                };
+                if resolution >= BASELINE_RESOLUTION {
+                    components += 1;
+                }
+            }
+        }
+        previous = Some(peak);
+    }
+    components
+}
+
+/// Components a funnel told apart: solutes whose shares of the lower layer
+/// span at least [`PARTITION_SPREAD`]. A solvent that carried the whole
+/// sample across separated nothing, however many solutes it moved.
+fn partitioned_components(events: &[Event]) -> u32 {
+    let mut fractions: Vec<f64> = Vec::new();
+    for event in events {
+        if let Event::Partitioned { fraction_lower, .. } = event {
+            fractions.push(*fraction_lower);
+        }
+    }
+    if fractions.len() < 2 {
+        return 0;
+    }
+    let max = fractions.iter().cloned().fold(f64::MIN, f64::max);
+    let min = fractions.iter().cloned().fold(f64::MAX, f64::min);
+    if max - min >= PARTITION_SPREAD {
+        fractions.len() as u32
+    } else {
+        0
+    }
+}
+
+/// Moles of `key` this step actually PRODUCED, by the engine's own account.
+fn produced_moles(events: &[Event], key: &str) -> Option<f64> {
+    let mut total: Option<f64> = None;
+    for event in events {
+        let contribution = match event {
+            Event::Precipitated { species, moles, .. }
+            | Event::GasEvolved { species, moles, .. }
+            | Event::Dissolved { species, moles, .. } => (species.0 == key).then_some(moles.0),
+            _ => None,
+        };
+        if let Some(amount) = contribution {
+            total = Some(total.unwrap_or(0.0) + amount);
+        }
+    }
+    total
 }
 
 #[derive(Debug, Clone)]
@@ -232,6 +388,11 @@ pub struct QuestSpec {
     /// What finishing is worth.
     #[serde(default)]
     pub rewards: Vec<Reward>,
+    /// WORLD-005: topic → the answer an EXPLAIN claim accepts. Answered
+    /// through the same channel a sealed unknown is named, because from
+    /// the learner's side both are "say what you worked out".
+    #[serde(default)]
+    pub explanations: BTreeMap<String, String>,
 }
 
 impl QuestSpec {
@@ -344,6 +505,174 @@ fn value_now(bench: &Bench, vessel_word: &str, q: &Quantity) -> Option<f64> {
     }
 }
 
+/// WORLD-005: evaluate one claim against this step's evidence.
+///
+/// Returns the reason it is not satisfied as a stable tag with parameters,
+/// so a client can say "you have 0.3 mL, you need 1" in its own language
+/// rather than being handed a sentence in English or a bare false.
+///
+/// Three of the nine objective kinds are not variants here, deliberately:
+/// OBSERVE and MEASURE are event claims (`matches = "observed"`,
+/// `matches = "measured"`), and AVOID is a WORLD-004 constraint, which is
+/// recorded rather than required because it must never block.
+pub fn evaluate_claim(
+    spec: &QuestSpec,
+    claim: &Claim,
+    state: &QuestState,
+    events: &[Event],
+    bench: &Bench,
+) -> ClaimStatus {
+    // Already banked: evidence does not un-happen.
+    if state.satisfied.contains(&claim.id) {
+        return ClaimStatus {
+            id: claim.id.clone(),
+            satisfied: true,
+            unmet: None,
+        };
+    }
+    let unmet = match &claim.kind {
+        ClaimKind::Event { matches } => {
+            if events.iter().any(|e| crate::event_matches(e, matches)) {
+                None
+            } else {
+                Some(Unmet::NothingYet)
+            }
+        }
+        ClaimKind::Value {
+            vessel,
+            quantity,
+            target,
+            tolerance,
+        } => match parse_quantity(quantity)
+            .ok()
+            .and_then(|q| value_now(bench, vessel, &q))
+        {
+            None => Some(Unmet::NotMeasured {
+                quantity: quantity.clone(),
+            }),
+            Some(now) if (now - target).abs() <= *tolerance => None,
+            Some(now) => Some(Unmet::OutOfTolerance {
+                got: now,
+                target: *target,
+                tolerance: *tolerance,
+            }),
+        },
+        // Identify and Explain are satisfied through `answer`, never by
+        // watching the bench: naming the thing IS the act.
+        ClaimKind::Identify { alias } => Some(Unmet::NotNamed {
+            alias: alias.clone(),
+        }),
+        ClaimKind::Explain { explain } => Some(Unmet::NotExplained {
+            topic: explain.clone(),
+        }),
+        ClaimKind::Produce {
+            produce,
+            minimum_moles,
+        } => match produced_moles(events, produce) {
+            None => Some(Unmet::NothingYet),
+            Some(got) if got >= *minimum_moles => None,
+            Some(got) => Some(Unmet::BelowThreshold {
+                got,
+                wanted: *minimum_moles,
+            }),
+        },
+        ClaimKind::Separate { separate } => {
+            // Either route counts, and the better reading is the one
+            // reported: a learner who ran both should be told the truth.
+            let by_column = events
+                .iter()
+                .filter_map(|e| match e {
+                    Event::Chromatographed { peaks, .. } => Some(resolved_components(peaks)),
+                    _ => None,
+                })
+                .max()
+                .unwrap_or(0);
+            let by_funnel = if events.iter().any(|e| matches!(e, Event::Drained { .. })) {
+                partitioned_components(events)
+            } else {
+                0
+            };
+            let got = by_column.max(by_funnel);
+            if got >= *separate {
+                None
+            } else if got == 0 {
+                Some(Unmet::NothingYet)
+            } else {
+                Some(Unmet::TooFewComponents {
+                    got,
+                    wanted: *separate,
+                })
+            }
+        }
+        ClaimKind::Compare {
+            compare,
+            between,
+            differ_by,
+        } => {
+            let quantity = parse_quantity(compare).ok();
+            let read = |word: &String| quantity.as_ref().and_then(|q| value_now(bench, word, q));
+            match (
+                between.first().and_then(read),
+                between.get(1).and_then(read),
+            ) {
+                (Some(a), Some(b)) => {
+                    let difference = (a - b).abs();
+                    if difference >= *differ_by {
+                        None
+                    } else {
+                        Some(Unmet::NoDifference {
+                            got: difference,
+                            wanted: *differ_by,
+                        })
+                    }
+                }
+                _ => Some(Unmet::NotMeasured {
+                    quantity: compare.clone(),
+                }),
+            }
+        }
+        ClaimKind::Design { design } => {
+            let stages = events
+                .iter()
+                .filter_map(|e| match e {
+                    Event::Transported { chain, .. } => Some(chain.len() as u32),
+                    _ => None,
+                })
+                .max()
+                .unwrap_or(0);
+            if stages >= *design {
+                None
+            } else if stages == 0 {
+                Some(Unmet::NothingYet)
+            } else {
+                Some(Unmet::TooFewStages {
+                    got: stages,
+                    wanted: *design,
+                })
+            }
+        }
+    };
+    let _ = spec;
+    ClaimStatus {
+        id: claim.id.clone(),
+        satisfied: unmet.is_none(),
+        unmet,
+    }
+}
+
+/// Every claim's status, for a client that wants to show the whole board.
+pub fn status(
+    spec: &QuestSpec,
+    state: &QuestState,
+    events: &[Event],
+    bench: &Bench,
+) -> Vec<ClaimStatus> {
+    spec.claims
+        .iter()
+        .map(|claim| evaluate_claim(spec, claim, state, events, bench))
+        .collect()
+}
+
 /// Feed one step's events plus the settled bench through every active
 /// quest. Answers to sealed unknowns arrive separately via [`answer`].
 pub fn observe(
@@ -391,21 +720,9 @@ pub fn observe(
             if state.satisfied.contains(&claim.id) {
                 continue;
             }
-            let hit = match &claim.kind {
-                ClaimKind::Event { matches } => {
-                    events.iter().any(|e| crate::event_matches(e, matches))
-                }
-                ClaimKind::Value {
-                    vessel,
-                    quantity,
-                    target,
-                    tolerance,
-                } => parse_quantity(quantity)
-                    .ok()
-                    .and_then(|q| value_now(bench, vessel, &q))
-                    .is_some_and(|now| (now - target).abs() <= *tolerance),
-                ClaimKind::Identify { .. } => false,
-            };
+            // One evaluator, so what `status` reports and what `observe`
+            // banks can never disagree.
+            let hit = evaluate_claim(spec, claim, state, events, bench).satisfied;
             if hit {
                 state.satisfied.insert(claim.id.clone());
                 out.push(QuestOutput::ClaimSatisfied {
@@ -437,6 +754,38 @@ pub fn answer(
     let mut out = Vec::new();
     let mut seen_alias = false;
     for spec in specs {
+        // WORLD-005: an EXPLAIN topic answers through this same channel.
+        // Checked first so a quest may name a topic and a sealed sample the
+        // same way without the sample's species matcher swallowing it.
+        if let Some(expected) = spec.explanations.get(alias) {
+            seen_alias = true;
+            let Some(state) = states.get_mut(&spec.id) else {
+                continue;
+            };
+            let claim = spec
+                .claims
+                .iter()
+                .find(|c| matches!(&c.kind, ClaimKind::Explain { explain } if explain == alias));
+            let Some(claim) = claim else { continue };
+            if state.satisfied.contains(&claim.id) {
+                continue;
+            }
+            if guess.trim().eq_ignore_ascii_case(expected.trim()) {
+                state.satisfied.insert(claim.id.clone());
+                out.push(QuestOutput::ClaimSatisfied {
+                    quest: spec.id.clone(),
+                    title: claim.title.clone(),
+                });
+                if spec.is_complete(state) {
+                    state.complete = true;
+                    out.push(QuestOutput::Completed {
+                        quest: spec.id.clone(),
+                        title: spec.title.clone(),
+                    });
+                }
+            }
+            continue;
+        }
         let Some(real) = spec.unknowns.get(alias) else {
             continue;
         };
@@ -576,6 +925,64 @@ pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
                         ));
                     }
                 }
+                // ── WORLD-005: the new objective kinds ──────────────────
+                ClaimKind::Produce { produce, .. } => {
+                    if species::lookup(&SpeciesId::new(produce)).is_none() {
+                        problems.push(format!(
+                            "{q}: claim '{}' asks for '{produce}', not in the registry",
+                            claim.id
+                        ));
+                    }
+                }
+                ClaimKind::Separate { separate } => {
+                    if *separate < 2 {
+                        problems.push(format!(
+                            "{q}: claim '{}' separates into {separate} — a \
+                             separation of fewer than two components is not one",
+                            claim.id
+                        ));
+                    }
+                }
+                ClaimKind::Compare {
+                    compare, between, ..
+                } => {
+                    if between.len() != 2 {
+                        problems.push(format!(
+                            "{q}: claim '{}' compares {} vessels, not two",
+                            claim.id,
+                            between.len()
+                        ));
+                    }
+                    for word in between {
+                        if kerotakis_core::script::parse_vessel(word).is_err() {
+                            problems.push(format!(
+                                "{q}: claim '{}' names bad vessel '{word}'",
+                                claim.id
+                            ));
+                        }
+                    }
+                    if let Err(e) = parse_quantity(compare) {
+                        problems.push(format!("{q}: claim '{}': {e}", claim.id));
+                    }
+                }
+                ClaimKind::Design { design } => {
+                    if *design < 2 {
+                        problems.push(format!(
+                            "{q}: claim '{}' designs {design} stages — a train \
+                             of fewer than two is not connected apparatus",
+                            claim.id
+                        ));
+                    }
+                }
+                ClaimKind::Explain { explain } => {
+                    if !spec.explanations.contains_key(explain) {
+                        problems.push(format!(
+                            "{q}: claim '{}' explains '{explain}', which has no \
+                             entry in [explanations] — nothing could ever answer it",
+                            claim.id
+                        ));
+                    }
+                }
             }
         }
         for nudge in &spec.nudges {
@@ -587,6 +994,18 @@ pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
                 ));
             }
         }
+        for topic in spec.explanations.keys() {
+            if !spec
+                .claims
+                .iter()
+                .any(|c| matches!(&c.kind, ClaimKind::Explain { explain } if explain == topic))
+            {
+                problems.push(format!(
+                    "{q}: [explanations] answers '{topic}', which no claim asks"
+                ));
+            }
+        }
+
         // ── WORLD-004: schema v2. A route or discovery naming a claim
         // that does not exist is a mission that can never be finished, and
         // it must fail here rather than in front of a learner. ──────────
