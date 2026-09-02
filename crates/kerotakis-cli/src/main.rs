@@ -635,12 +635,9 @@ fn json_step(
     })
 }
 
-/// KNOWN LIMIT, on the record: the JSON stream carries true species keys
-/// even while a sealed unknown is on the bench — hosts key rendering,
-/// colours and spectra off those ids, so masking them here would be a
-/// breaking protocol change. Sealed-unknown masking in `--json` needs an
-/// additive protocol field and host cooperation; until that lands, the
-/// mask is a text-REPL guarantee only.
+/// The vessels as they stand, unmasked. Every `--json` line goes through
+/// [`Repl::mask_json`] before it is printed, which is where a sealed
+/// unknown stops being nameable — see the doc there.
 fn json_inspect(step: usize, vessels: &[&Vessel]) -> serde_json::Value {
     serde_json::json!({
         "step": step,
@@ -2341,7 +2338,10 @@ impl Session {
                     .unwrap_or(VesselId(0));
                 let text = explain_text(&self.bench, &mut self.paths, target)?;
                 if self.json {
-                    println!("{}", json_explain(self.bench.log.len(), target, &text));
+                    println!(
+                        "{}",
+                        self.mask_json(json_explain(self.bench.log.len(), target, &text))
+                    );
                 } else {
                     // Provenance prose names species too; sealed unknowns
                     // keep their mask on in `explain` like everywhere else.
@@ -2362,7 +2362,10 @@ impl Session {
                     .collect();
                 for v in vessels {
                     if self.json {
-                        println!("{}", json_particles(self.bench.log.len(), v));
+                        println!(
+                            "{}",
+                            self.mask_json(json_particles(self.bench.log.len(), v))
+                        );
                     } else {
                         println!("  {} — what the particles are doing:", v.id);
                         // The census names ions the vessel line never
@@ -2391,7 +2394,10 @@ impl Session {
                 if self.json {
                     // The --json stream is the API contract: every line is a
                     // JSON object, inspect included.
-                    println!("{}", json_inspect(self.bench.log.len(), &vessels));
+                    println!(
+                        "{}",
+                        self.mask_json(json_inspect(self.bench.log.len(), &vessels))
+                    );
                 } else {
                     for v in vessels {
                         self.print_vessel(v);
@@ -2457,6 +2463,96 @@ impl Session {
         } else {
             self.mask(line)
         }
+    }
+
+    /// The `--json` stream with sealed unknowns masked, and a declaration
+    /// of what the placeholders mean.
+    ///
+    /// This was a KNOWN LIMIT rather than an oversight, and the reasoning
+    /// against fixing it was sound as far as it went: hosts key rendering,
+    /// colours and spectra off species ids, so rewriting those ids is a
+    /// change hosts have to be told about. The conclusion — leave the true
+    /// keys in — did not follow. The mask is the whole point of a sealed
+    /// unknown, and a guarantee that holds in the REPL and not on the wire
+    /// is not a guarantee; it is a guarantee plus a way around it, and
+    /// `--json` is the easier of the two to read.
+    ///
+    /// So the ids *are* rewritten, and the change is additive in the way
+    /// that matters: a `sealed` object on every line declares which
+    /// vessels the unknown has touched and which ids in this line are
+    /// placeholders rather than species. A host that ignores it sees ids
+    /// it cannot look up and renders them as the unknowns they are, which
+    /// is the correct behaviour; a host that reads it can say so
+    /// deliberately. Neither is shown the answer.
+    ///
+    /// The rule is the text layer's rule, applied to a tree instead of a
+    /// line: the unknown's own alias masks everywhere, because that
+    /// species *is* the sealed sample wherever it turns up; the `covers`
+    /// (its dissociation ions, which have no alias to type) join in only
+    /// once some vessel is sealed, because chloride from a bottle of acid
+    /// the learner poured themselves is not the sample's and must not be
+    /// dressed as it. Object keys are masked as well as values — a
+    /// speciation map keyed by species id would otherwise carry the answer
+    /// in its keys.
+    fn mask_json(&self, value: serde_json::Value) -> serde_json::Value {
+        if self.masks.is_empty() {
+            return value;
+        }
+        const NONE: &[(String, String)] = &[];
+        let covers: &[(String, String)] = if self.sealed_vessels.is_empty() {
+            NONE
+        } else {
+            &self.cover_masks
+        };
+        let mut masked = Self::mask_json_value(&self.masks, covers, value);
+        if let Some(map) = masked.as_object_mut() {
+            map.insert("sealed".into(), self.sealed_declaration());
+        }
+        masked
+    }
+
+    fn mask_json_value(
+        masks: &[(String, String)],
+        covers: &[(String, String)],
+        value: serde_json::Value,
+    ) -> serde_json::Value {
+        let mask = |text: &str| Self::apply_masks(covers, &Self::apply_masks(masks, text));
+        match value {
+            serde_json::Value::String(text) => serde_json::Value::String(mask(&text)),
+            serde_json::Value::Array(items) => serde_json::Value::Array(
+                items
+                    .into_iter()
+                    .map(|item| Self::mask_json_value(masks, covers, item))
+                    .collect(),
+            ),
+            serde_json::Value::Object(map) => serde_json::Value::Object(
+                map.into_iter()
+                    .map(|(key, item)| (mask(&key), Self::mask_json_value(masks, covers, item)))
+                    .collect(),
+            ),
+            other => other,
+        }
+    }
+
+    /// What the placeholders in this line mean — the additive field.
+    ///
+    /// Deliberately not the mapping. Telling a host that `sample A` is
+    /// really sodium chloride would be the leak with an extra step; what
+    /// it is told is which ids are placeholders and which vessels the
+    /// unknown has reached, which is everything it needs to render
+    /// honestly and nothing it needs to give the game away.
+    fn sealed_declaration(&self) -> serde_json::Value {
+        let mut vessels: Vec<usize> = self.sealed_vessels.iter().map(|v| v.0).collect();
+        vessels.sort_unstable();
+        let mut placeholders: Vec<&str> = self
+            .masks
+            .iter()
+            .chain(self.cover_masks.iter())
+            .map(|(_, alias)| alias.as_str())
+            .collect();
+        placeholders.sort_unstable();
+        placeholders.dedup();
+        serde_json::json!({ "vessels": vessels, "placeholders": placeholders })
     }
 
     fn apply_masks(masks: &[(String, String)], line: &str) -> String {
@@ -2642,7 +2738,12 @@ impl Session {
         if self.json {
             println!(
                 "{}",
-                json_step(self.bench.log.len() - 1, &op, &events, &self.bench.vessels)
+                self.mask_json(json_step(
+                    self.bench.log.len() - 1,
+                    &op,
+                    &events,
+                    &self.bench.vessels
+                ))
             );
         } else {
             // The ledger records everything; a person is shown what they
