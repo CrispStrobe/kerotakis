@@ -947,3 +947,85 @@ fn a_claim_status_is_renderable_by_a_client_that_speaks_no_english() {
     // translating, because nothing here is a sentence.
     assert_no_prose(&json, "claim_status");
 }
+
+// ── WORLD-007 follow-up: the refusal is an id, not a sentence ───────────
+
+use kerotakis_codex::quest::AnswerRefusal;
+
+#[test]
+fn a_wrong_answer_refuses_with_a_stable_id_and_its_parameters() {
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+    let mut states = states_for(&spec);
+
+    let refusal = quest::answer_typed(&specs, &mut states, "unknown-a", "KCl")
+        .expect_err("a wrong guess is refused");
+    assert_eq!(
+        refusal,
+        AnswerRefusal::WrongGuess {
+            alias: "unknown-a".into(),
+            guess: "KCl".into()
+        }
+    );
+
+    // The wire form is a tag with parameters — no prose anywhere in it, so a
+    // German client renders German from the same bytes an English one does.
+    let json = serde_json::to_value(&refusal).expect("serialises");
+    assert_no_prose(&json, "refusal");
+    assert_eq!(json["refused"], "wrong_guess");
+    assert_eq!(json["alias"], "unknown-a");
+}
+
+#[test]
+fn an_unknown_alias_refuses_with_its_own_id() {
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+    let mut states = states_for(&spec);
+    let refusal = quest::answer_typed(&specs, &mut states, "nothing-seals-this", "NaCl")
+        .expect_err("an alias no quest seals is refused");
+    assert_eq!(
+        refusal,
+        AnswerRefusal::UnknownAlias {
+            alias: "nothing-seals-this".into()
+        }
+    );
+    assert_no_prose(&serde_json::to_value(&refusal).unwrap(), "refusal");
+}
+
+#[test]
+fn the_english_rendering_is_unchanged_for_hosts_that_still_print_it() {
+    // `answer` is `answer_typed` plus a rendering, so the prose cannot drift
+    // from the id — and a host that has not moved yet prints exactly what it
+    // printed before this change.
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+    let mut states = states_for(&spec);
+    let said = quest::answer(&specs, &mut states, "unknown-a", "KCl").unwrap_err();
+    assert!(said.starts_with("unknown-a is not KCl"), "{said}");
+    assert!(said.contains("measurements you have already"), "{said}");
+
+    let mut other = states_for(&spec);
+    let missing = quest::answer(&specs, &mut other, "nothing-seals-this", "NaCl").unwrap_err();
+    assert_eq!(
+        missing,
+        "no active quest seals an unknown called 'nothing-seals-this'"
+    );
+}
+
+#[test]
+fn a_right_answer_is_unaffected_by_either_entry_point() {
+    let spec = demo_spec();
+    let specs = vec![spec.clone()];
+
+    let mut typed = states_for(&spec);
+    quest::answer_typed(&specs, &mut typed, "unknown-a", "NaCl").expect("accepted");
+
+    let mut rendered = states_for(&spec);
+    quest::answer(&specs, &mut rendered, "unknown-a", "NaCl").expect("accepted");
+
+    // QuestState is not comparable wholesale, and the parts that matter are
+    // the ones a learner would notice: what got satisfied, and whether the
+    // quest closed.
+    assert_eq!(typed[&spec.id].satisfied, rendered[&spec.id].satisfied);
+    assert_eq!(typed[&spec.id].complete, rendered[&spec.id].complete);
+}
