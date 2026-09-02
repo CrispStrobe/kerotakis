@@ -74,7 +74,7 @@ silent miss teaches the silence.
 | K20 | Rock candy | crystals on cooling | **wrong** | sucrose saturation is modelled (0.5843 mol per 100 mL) but is **temperature-independent** — identical at 20, 60 and 90 °C — so the one mechanism the experiment exists to show cannot happen |
 | K21 | Slime | the slime | unreachable | no poly(vinyl alcohol), no borate |
 | K22 | Oobleck | liquid that goes hard | honest miss | "this part of the lab isn't awake yet"; no suspension rheology |
-| K23 | Plastic from milk | curds you can mould | **wrong** | curdling **never fires with the aqueous solver on** (see KID-2); `filter v1 v2` also refuses because `v2` must be created first |
+| K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` still refuses because `v2` must be created first (KID-15) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
 | K26 | Felt-tip chromatography | the colours separating | honest miss | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent"; no paper/Rf mode, no dye partition data |
@@ -85,7 +85,9 @@ silent miss teaches the silence.
 
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
-**Tally: computed 13 · partial 7 · honest miss 2 · silent miss 2 · wrong 3 · unreachable 3.**
+**Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
+miss 2 · wrong 3 · unreachable 3.** After KID-1 and KID-2: **computed 14 ·
+wrong 2**, and the thirty unrepaired scripts run 27/30 instead of 17/30.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -250,6 +252,20 @@ and `main` moves only by PR.
   test drives it through the same path the CLI uses, not `Bench::step`
   alone; the model reads total acid *inventory* (undissociated plus
   conjugate base) rather than one species key.
+  **Landed 2026-09-02.** A Brønsted acid and its conjugate base differ only
+  in hydrogen count and charge, so the dose now sums the species sharing the
+  declared acid's non-hydrogen composition — which reproduces the number the
+  recipe was calibrated against (10 mL of 5% vinegar is 0.008376 mol of
+  acetate-equivalent whether the solver has deprotonated it or not), leaving
+  the core's pinned figures untouched. `milk-curds.lab` now separates the
+  ten-times vessel and leaves its control a colloid, exactly as its own
+  prose promised, and `lessons_replay.rs` asserts both halves on the binary
+  a reader runs. Curiosity corpus unmoved: 151 mismatches, 0 drift.
+  **Stated boundary, and the follow-up it earns:** this counts acid
+  *inventory*, not acidity. Sodium acetate in milk would read as a dose and
+  real milk would not curdle — casein aggregates at its isoelectric point.
+  Making the response pH-driven wants a reviewed pI datum on the recipe;
+  that is registry work and belongs with **KID-14**, not smuggled in here.
 
 - **KID-3 — A hazard screen that does not cry wolf.** 1 mL of 1 % Lugol
   into 100 mL of water raises "mixing a strong oxidizer with a reducing
