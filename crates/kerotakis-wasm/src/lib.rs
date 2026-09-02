@@ -512,13 +512,20 @@ impl Lab {
         .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}"))
     }
 
-    /// GUI-095: balance one skeleton by the null space of its element
-    /// (and charge) count matrix, and report the matrix alongside the
-    /// answer so a host can mark a learner's coefficients — including
-    /// the ones the solver never produced, like a correct multiple.
-    pub fn balance(&self, equation: &str) -> String {
-        match kerotakis_core::stoich::balance_report(equation) {
-            Ok(report) => match serde_json::to_value(&report) {
+    /// GUI-095: the balancing exercise — the question, and nothing that
+    /// answers it.
+    ///
+    /// This used to be `balance`, and it returned the whole
+    /// `BalanceReport`: the solver's coefficients *and* the composition
+    /// matrix. Both are answers. The coefficients are the answer written
+    /// down; the matrix is the answer one null space away, and a browser
+    /// is a place where anyone can open the network pane. The client
+    /// renders the exercise; `balanceMark` marks it and `balanceReveal`
+    /// gives it up when the learner asks for it.
+    #[wasm_bindgen(js_name = balanceExercise)]
+    pub fn balance_exercise(&self, equation: &str) -> String {
+        match kerotakis_core::stoich::balance_exercise(equation) {
+            Ok(exercise) => match serde_json::to_value(&exercise) {
                 Ok(mut value) => {
                     if let Some(map) = value.as_object_mut() {
                         map.insert("ok".into(), serde_json::Value::Bool(true));
@@ -527,6 +534,48 @@ impl Lab {
                 }
                 Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
             },
+            Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+        }
+    }
+
+    /// GUI-095: mark one answer, engine-side.
+    ///
+    /// `answer` is a JSON array of integers, one per species in the order
+    /// `balanceExercise` listed them. The verdict distinguishes a wrong
+    /// answer from a *correct multiple* and names the element that does
+    /// not cancel, so a host that was told nothing can still say
+    /// precisely what is wrong.
+    #[wasm_bindgen(js_name = balanceMark)]
+    pub fn balance_mark(&self, equation: &str, answer: &str) -> String {
+        let parsed: Vec<i64> = match serde_json::from_str(answer) {
+            Ok(v) => v,
+            Err(e) => {
+                return serde_json::json!({ "ok": false, "error": e.to_string() }).to_string()
+            }
+        };
+        match kerotakis_core::stoich::mark_answer(equation, &parsed) {
+            Ok(mark) => match serde_json::to_value(&mark) {
+                Ok(mut value) => {
+                    if let Some(map) = value.as_object_mut() {
+                        map.insert("ok".into(), serde_json::Value::Bool(true));
+                    }
+                    value.to_string()
+                }
+                Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+            },
+            Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+        }
+    }
+
+    /// GUI-095: the answer, on request — the one call that gives it up.
+    ///
+    /// Written out as a sentence rather than handed over as a coefficient
+    /// vector, so a "show me" for this question cannot be quietly reused
+    /// as the marking key for the next one.
+    #[wasm_bindgen(js_name = balanceReveal)]
+    pub fn balance_reveal(&self, equation: &str) -> String {
+        match kerotakis_core::stoich::reveal_answer(equation) {
+            Ok(answer) => serde_json::json!({ "ok": true, "equation": answer }).to_string(),
             Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
         }
     }

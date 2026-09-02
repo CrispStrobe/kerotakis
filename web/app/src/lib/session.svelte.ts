@@ -1602,10 +1602,29 @@ export class Session {
     ].slice(0, 20);
   }
 
-  /** Balance one skeleton (GUI-095); the drill marks answers against it. */
-  async balance(equation: string) {
+  /** The balancing exercise for one skeleton (GUI-095) — the question,
+   * with no route back to the answer. */
+  async balanceExercise(equation: string) {
     try {
-      return await this.host.balance(equation);
+      return await this.host.balanceExercise(equation);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  /** Mark one answer engine-side (GUI-095). */
+  async balanceMark(equation: string, answer: number[]) {
+    try {
+      return await this.host.balanceMark(equation, answer);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  /** The answer, written out, when the learner asks for it (GUI-095). */
+  async balanceReveal(equation: string) {
+    try {
+      return await this.host.balanceReveal(equation);
     } catch (e) {
       return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
     }

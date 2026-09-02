@@ -3,24 +3,28 @@
    * GUI-095 — balancing practice, generated rather than authored.
    *
    * The question is any equation the codex or this session produced with
-   * its coefficients taken off; the marking is `balancing.ts` over the
-   * composition matrix the engine returns from `balance`. There is no
-   * question bank here and no answer key: the engine solves the skeleton,
-   * and the learner's own numbers are checked against the matrix, which is
-   * what lets a *correct multiple* be told apart from a mistake.
+   * its coefficients taken off. There is no question bank here and no
+   * answer key — and, now, no answer either: `balanceExercise` hands over
+   * the species, the arrow and two facts *about* the answer that give
+   * nothing away, `balanceMark` marks what the learner writes, and
+   * `balanceReveal` is the single call that gives the answer up, made only
+   * when the learner presses "show the answer".
+   *
+   * This component used to hold the whole `BalanceReport` — coefficients
+   * and composition matrix — and mark locally against it. The marking was
+   * honest and never read the coefficients, but the report was in the
+   * page: the answer written down, and the matrix it is the null space of.
+   * A drill whose questions arrive with the means to solve them is not a
+   * drill.
    */
   import { onMount } from "svelte";
   import type { Session } from "../session.svelte";
-  import type { BalanceReport } from "../host/EngineHost";
+  import type { BalanceExercise, BalanceMark } from "../host/EngineHost";
   import { t, tSlug } from "../i18n.svelte";
   import {
     balancingSources,
-    blankEquation,
-    markBalance,
     markMessage,
     nextSource,
-    writeEquation,
-    type BalanceMark,
     type BalancingSource,
   } from "../balancing";
 
@@ -38,30 +42,38 @@
 
   let asked = $state<string[]>([]);
   let source = $state<BalancingSource | null>(null);
-  let report = $state<BalanceReport | null>(null);
+  let exercise = $state<BalanceExercise | null>(null);
   let refusal = $state<string | null>(null);
   let answers = $state<string[]>([]);
   let mark = $state<BalanceMark | null>(null);
-  let revealed = $state(false);
+  /** The engine's answer, once the learner has asked for it. */
+  let revealed = $state<string | null>(null);
+  /** Why the answer could not be fetched — kept apart from `revealed` so a
+   * failure does not latch in the answer's place. */
+  let revealError = $state<string | null>(null);
   let loading = $state(false);
+  let checking = $state(false);
   /** Rounds marked correct, and how many were asked — an honest tally. */
   let right = $state(0);
   let done = $state(0);
 
   async function draw() {
     mark = null;
-    revealed = false;
+    revealed = null;
+    revealError = null;
     refusal = null;
-    report = null;
+    exercise = null;
     loading = true;
     // An equation whose answer is all ones asks nothing — every blank is
     // already 1. It is still a legitimate question, so it is kept as a
     // fallback rather than dropped, but a candidate with real coefficients
-    // is preferred while there is one within the budget.
-    let trivial: { candidate: BalancingSource; reply: BalanceReport } | null = null;
-    const take = (candidate: BalancingSource, reply: BalanceReport) => {
+    // is preferred while there is one within the budget. `trivial` is a
+    // flag on the exercise precisely so this choice can be made without
+    // being shown the coefficients it is a fact about.
+    let dull: { candidate: BalancingSource; reply: BalanceExercise } | null = null;
+    const take = (candidate: BalancingSource, reply: BalanceExercise) => {
       source = candidate;
-      report = reply;
+      exercise = reply;
       answers = reply.species.map(() => "");
     };
     try {
@@ -73,16 +85,16 @@
         const candidate = nextSource(sources, asked);
         if (!candidate) break;
         asked = [...asked, candidate.id];
-        const reply = await session.balance(candidate.equation);
+        const reply = await session.balanceExercise(candidate.equation);
         if (!reply.ok) continue;
-        if (reply.coefficients.some((coefficient) => coefficient !== 1)) {
+        if (!reply.trivial) {
           take(candidate, reply);
           return;
         }
-        trivial ??= { candidate, reply };
+        dull ??= { candidate, reply };
       }
-      if (trivial) {
-        take(trivial.candidate, trivial.reply);
+      if (dull) {
+        take(dull.candidate, dull.reply);
         return;
       }
       refusal = t("no equation on the bench or in the catalogue can be balanced yet");
@@ -91,18 +103,43 @@
     }
   }
 
-  function check() {
-    if (!report) return;
+  async function check() {
+    if (!exercise || !source || checking) return;
+    // A blank or a fraction is not a number the engine should be asked
+    // about; 0 is one it will refuse as `incomplete`, which is the same
+    // answer without the round trip. Everything else goes to the engine —
+    // deciding here what balances is what this component stopped doing.
     const numbers = answers.map((value) => {
       const text = value.trim();
-      return /^\d+$/.test(text) ? Number(text) : Number.NaN;
+      return /^\d+$/.test(text) ? Number(text) : 0;
     });
-    const result = markBalance(report, numbers);
-    if (mark === null && result.verdict !== "incomplete") {
-      done += 1;
-      if (result.verdict === "correct") right += 1;
+    checking = true;
+    try {
+      const result = await session.balanceMark(source.equation, numbers);
+      if (!result.ok) {
+        // Unreachable by chemistry — the skeleton balanced a moment ago to
+        // become a question. Reachable if the engine itself has gone, and
+        // then the drill genuinely cannot continue, so it says so instead
+        // of leaving a dead "check" button.
+        refusal = result.error;
+        return;
+      }
+      if (mark === null && result.verdict !== "incomplete") {
+        done += 1;
+        if (result.verdict === "correct") right += 1;
+      }
+      mark = result;
+    } finally {
+      checking = false;
     }
-    mark = result;
+  }
+
+  /** The one call that gives the answer up, made when the learner asks. */
+  async function reveal() {
+    if (!source || revealed !== null) return;
+    const answer = await session.balanceReveal(source.equation);
+    if (answer.ok) revealed = answer.equation;
+    else revealError = answer.error;
   }
 
   const message = $derived(mark ? markMessage(mark) : null);
@@ -145,25 +182,25 @@
     <div class="body">
       {#if refusal}
         <p class="empty">{refusal}</p>
-      {:else if report === null}
+      {:else if exercise === null}
         <p class="empty">{t("drawing a question…")}</p>
       {:else}
         <p class="origin">
           {source?.origin === "bench" ? t("from this session's own bench") : t("from the experiment catalogue")}
           {#if source && source.origin === "codex"}<span class="slug">{tSlug(source.id)}</span>{/if}
         </p>
-        <p class="skeleton">{blankEquation(report)}</p>
+        <p class="skeleton">{exercise.skeleton}</p>
 
         <form
           class="answer"
           onsubmit={(e) => {
             e.preventDefault();
-            check();
+            void check();
           }}
         >
-          {#each report.species as species, index (species + index)}
-            {#if index === report.reactants}
-              <span class="arrow" aria-hidden="true">{report.reversible ? "⇌" : "→"}</span>
+          {#each exercise.species as species, index (species + index)}
+            {#if index === exercise.reactants}
+              <span class="arrow" aria-hidden="true">{exercise.reversible ? "⇌" : "→"}</span>
             {:else if index > 0}
               <span class="plus" aria-hidden="true">+</span>
             {/if}
@@ -180,7 +217,7 @@
               <b>{species}</b>
             </label>
           {/each}
-          <button class="go" type="submit">{t("check")}</button>
+          <button class="go" type="submit" disabled={checking}>{t("check")}</button>
         </form>
 
         {#if mark && message}
@@ -202,22 +239,24 @@
           {/if}
         {/if}
 
-        {#if revealed}
+        {#if revealed !== null}
           <p class="reveal">
             <span class="note-label">{t("the engine's answer")}</span>
-            {writeEquation(report, report.coefficients)}
+            {revealed}
           </p>
+        {:else if revealError !== null}
+          <p class="reveal" role="status">{revealError}</p>
         {/if}
       {/if}
     </div>
 
     <footer>
       <span class="tally">{t("{right} of {done} right", { right, done })}</span>
-      {#if report}
+      {#if exercise}
         <button
           class="secondary"
-          onclick={() => (revealed = true)}
-          disabled={revealed}
+          onclick={() => void reveal()}
+          disabled={revealed !== null}
         >{t("show the answer")}</button>
       {/if}
       <button class="secondary" onclick={() => void draw()} disabled={loading}>

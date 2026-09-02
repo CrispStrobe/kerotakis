@@ -65,8 +65,16 @@ class FakeHost implements EngineHost {
   async calc() {
     return { ok: false as const, error: "not in the fake" };
   }
-  async balance(equation: string) {
-    this.calls.push(`balance:${equation}`);
+  async balanceExercise(equation: string) {
+    this.calls.push(`balance_exercise:${equation}`);
+    return { ok: false as const, error: "not in the fake" };
+  }
+  async balanceMark(equation: string, answer: number[]) {
+    this.calls.push(`balance_mark:${equation}:${answer.join(",")}`);
+    return { ok: false as const, error: "not in the fake" };
+  }
+  async balanceReveal(equation: string) {
+    this.calls.push(`balance_reveal:${equation}`);
     return { ok: false as const, error: "not in the fake" };
   }
   async parse(line: string) {

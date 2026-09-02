@@ -29,7 +29,9 @@ type Lab = {
   restore(snapshot: string): void;
   relations(): string;
   calc(name: string, argsJson: string): string;
-  balance(equation: string): string;
+  balanceExercise(equation: string): string;
+  balanceMark(equation: string, answerJson: string): string;
+  balanceReveal(equation: string): string;
   catalog(requestJson: string): string;
   setRegister(level: string): void;
   setLocale(code: string): void;
@@ -178,8 +180,14 @@ onmessage = async (ev: MessageEvent) => {
       case "relations":
         done(id, lab.relations());
         break;
-      case "balance":
-        done(id, lab.balance(String(msg.equation)));
+      case "balance_exercise":
+        done(id, lab.balanceExercise(String(msg.equation)));
+        break;
+      case "balance_mark":
+        done(id, lab.balanceMark(String(msg.equation), String(msg.answer)));
+        break;
+      case "balance_reveal":
+        done(id, lab.balanceReveal(String(msg.equation)));
         break;
       case "quest_start":
         lab.questStart(String(msg.spec_json));

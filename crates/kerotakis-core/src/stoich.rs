@@ -685,6 +685,210 @@ impl BalanceReport {
     pub fn is_family(&self) -> bool {
         !self.basis.is_empty()
     }
+
+    /// Whether every coefficient is 1, so the blanks are already filled.
+    ///
+    /// Such an equation is a legitimate question and a poor one: there is
+    /// nothing to work out. A drill can prefer another *without being told
+    /// the answer*, which is the whole reason this is a flag on the
+    /// exercise rather than a client-side test on the coefficients.
+    pub fn is_trivial(&self) -> bool {
+        self.coefficients.iter().all(|n| *n == 1)
+    }
+
+    /// The question, with no route back to the answer.
+    pub fn exercise(&self) -> BalanceExercise {
+        BalanceExercise {
+            species: self.species.clone(),
+            reactants: self.reactants,
+            reversible: self.reversible,
+            trivial: self.is_trivial(),
+            family: self.is_family(),
+            skeleton: blank_equation(self),
+        }
+    }
+}
+
+/// The balancing exercise as a *learner's host* may hold it: the question,
+/// and nothing that answers it.
+///
+/// `BalanceReport` carries the solver's coefficients and the composition
+/// matrix, because marking needs them. A browser does not: shipping the
+/// matrix hands over the null space, and shipping `coefficients` hands over
+/// the answer outright — anyone who opens the network pane has the exercise
+/// solved without doing it. The client renders the exercise; the engine
+/// marks it (`mark`) and, when the learner asks, reveals it
+/// (`revealed_equation`).
+///
+/// What survives here is only what drawing the question needs: which
+/// species and in what order, where the arrow goes, and two facts *about*
+/// the answer that give nothing away — whether it is all ones (a question
+/// worth skipping) and whether the skeleton is a family (several answers
+/// are right, which the learner is entitled to know up front).
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct BalanceExercise {
+    /// The species as written, reactants first, coefficients stripped.
+    pub species: Vec<String>,
+    /// How many leading entries of `species` are on the left of the arrow.
+    pub reactants: usize,
+    /// True where the arrow was written reversible (⇌).
+    pub reversible: bool,
+    /// True when every coefficient is 1 — nothing to work out.
+    pub trivial: bool,
+    /// True when the skeleton admits more than one independent reaction.
+    pub family: bool,
+    /// The question as one line, every coefficient stripped.
+    pub skeleton: String,
+}
+
+/// What a marked answer turned out to be.
+///
+/// Spelled to match `BalanceVerdict` in the app's `balancing.ts` and the
+/// CLI's drill: three surfaces, one vocabulary.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Verdict {
+    /// Balances, in the smallest whole-number ratio.
+    Correct,
+    /// Balances, but every coefficient shares a factor. The actual lesson.
+    Multiple,
+    /// Does not conserve some element, or the charge.
+    Unbalanced,
+    /// Not yet an answer: a blank, a zero, a fraction, a negative.
+    Incomplete,
+}
+
+impl Verdict {
+    pub fn tag(self) -> &'static str {
+        match self {
+            Verdict::Correct => "correct",
+            Verdict::Multiple => "multiple",
+            Verdict::Unbalanced => "unbalanced",
+            Verdict::Incomplete => "incomplete",
+        }
+    }
+}
+
+/// One row of the composition matrix that does not cancel. `amount` is the
+/// surplus on the LEFT, because the report negates right-hand species.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct Miss {
+    pub element: String,
+    pub amount: f64,
+}
+
+/// The verdict on one answer, with the detail that makes it teachable.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct Mark {
+    pub verdict: Verdict,
+    /// What does not cancel, worst first. Empty unless `unbalanced`.
+    pub misses: Vec<Miss>,
+    /// The shared factor, when the answer is a correct multiple.
+    pub factor: i64,
+    /// True when the skeleton admits more than one independent reaction.
+    pub family: bool,
+}
+
+/// Rounding slack on a dot product of integers and small decimals.
+const MARK_TOLERANCE: f64 = 1e-6;
+
+/// Mark an answer against the composition matrix the solver built.
+///
+/// Nothing here consults `report.coefficients`: an answer the solver never
+/// produced is marked by the same arithmetic as one it did, which is what
+/// makes the *correct multiple* and underdetermined cases honest rather
+/// than special-cased. It is also what lets the answer stay behind the
+/// engine — a host that cannot see the coefficients can still be told
+/// precisely why its learner is wrong.
+pub fn mark(report: &BalanceReport, answer: &[i64]) -> Mark {
+    let family = report.is_family();
+    if answer.len() != report.species.len() || answer.iter().any(|v| *v <= 0) {
+        return Mark {
+            verdict: Verdict::Incomplete,
+            misses: Vec::new(),
+            factor: 0,
+            family,
+        };
+    }
+    let mut misses: Vec<Miss> = Vec::new();
+    for (index, row) in report.matrix.iter().enumerate() {
+        let surplus: f64 = row
+            .iter()
+            .zip(answer)
+            .map(|(count, n)| count * *n as f64)
+            .sum();
+        if surplus.abs() > MARK_TOLERANCE {
+            misses.push(Miss {
+                element: report
+                    .elements
+                    .get(index)
+                    .cloned()
+                    .unwrap_or_else(|| format!("row {index}")),
+                amount: surplus,
+            });
+        }
+    }
+    if !misses.is_empty() {
+        misses.sort_by(|a, b| {
+            b.amount
+                .abs()
+                .partial_cmp(&a.amount.abs())
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        return Mark {
+            verdict: Verdict::Unbalanced,
+            misses,
+            factor: 0,
+            family,
+        };
+    }
+    let factor = answer.iter().fold(0i64, |a, b| gcd(a, *b));
+    Mark {
+        verdict: if factor > 1 {
+            Verdict::Multiple
+        } else {
+            Verdict::Correct
+        },
+        misses: Vec::new(),
+        factor,
+        family,
+    }
+}
+
+/// The equation written out with these coefficients, a bare 1 left implicit
+/// the way it is written by hand.
+pub fn write_equation(report: &BalanceReport, coefficients: &[i64]) -> String {
+    let term = |i: usize| -> String {
+        let name = &report.species[i];
+        match coefficients.get(i) {
+            Some(1) | None => name.clone(),
+            Some(n) => format!("{n} {name}"),
+        }
+    };
+    let left: Vec<String> = (0..report.reactants).map(term).collect();
+    let right: Vec<String> = (report.reactants..report.species.len()).map(term).collect();
+    format!(
+        "{} {} {}",
+        left.join(" + "),
+        if report.reversible { "⇌" } else { "→" },
+        right.join(" + ")
+    )
+}
+
+/// The skeleton as a question: no coefficients at all.
+pub fn blank_equation(report: &BalanceReport) -> String {
+    write_equation(report, &vec![1; report.species.len()])
+}
+
+/// The solver's own answer, written out — what "show me" is allowed to say.
+///
+/// Deliberately a *sentence* rather than the coefficient vector. A host that
+/// has been given the answer to display has been given the answer; handing
+/// it as prose keeps it out of the shape a client could quietly mark
+/// against, and keeps one reveal from silently becoming an answer key for
+/// the next question.
+pub fn revealed_equation(report: &BalanceReport) -> String {
+    write_equation(report, &report.coefficients)
 }
 
 /// Strip a leading stoichiometric coefficient from one written term.
@@ -798,6 +1002,32 @@ pub fn balance_report(equation: &str) -> Result<BalanceReport, BalanceError> {
     })
 }
 
+/// The question alone, for a host that must not be handed the answer.
+///
+/// The solve is identical — the exercise is a *projection* of the report,
+/// not a second implementation — so a client cannot be shown one question
+/// and marked against another.
+pub fn balance_exercise(equation: &str) -> Result<BalanceExercise, BalanceError> {
+    Ok(balance_report(equation)?.exercise())
+}
+
+/// Mark one answer to a skeleton, from the skeleton and the answer alone.
+///
+/// The route for a host that holds no matrix: it sends back the equation it
+/// was asked and the numbers its learner wrote, and the engine re-derives
+/// what it needs. Re-solving is cheap next to a round trip, and it keeps
+/// the marking state-free — nothing has to be remembered between drawing a
+/// question and marking it, so nothing can go stale or be replayed.
+pub fn mark_answer(equation: &str, answer: &[i64]) -> Result<Mark, BalanceError> {
+    Ok(mark(&balance_report(equation)?, answer))
+}
+
+/// The solver's answer to one skeleton, written out. See
+/// [`revealed_equation`].
+pub fn reveal_answer(equation: &str) -> Result<String, BalanceError> {
+    Ok(revealed_equation(&balance_report(equation)?))
+}
+
 fn gcd(a: i64, b: i64) -> i64 {
     let (mut a, mut b) = (a.abs(), b.abs());
     while b != 0 {
@@ -824,6 +1054,133 @@ pub enum BalanceError {
     TooFewSpecies,
     #[error("no set of positive coefficients balances this")]
     Impossible,
+}
+
+#[cfg(test)]
+mod exercise_tests {
+    use super::*;
+
+    fn report(equation: &str) -> BalanceReport {
+        balance_report(equation).expect("balances")
+    }
+
+    /// The whole point of the split, stated as a property rather than a
+    /// promise: nothing a host receives may be an answer, or one step of
+    /// arithmetic from one.
+    ///
+    /// Checked on the *serialised* form, because that is what crosses the
+    /// wire — a field added to `BalanceExercise` later would pass a check
+    /// written against the struct's named fields and still leak.
+    #[test]
+    fn the_exercise_carries_no_route_to_the_answer() {
+        for equation in [
+            "H₂ + O₂ → H₂O",
+            "Ag⁺ + Cl⁻ → AgCl",
+            "C + O2 -> CO + CO2",
+            "Fe + Cl2 -> FeCl3",
+        ] {
+            let json = serde_json::to_value(balance_exercise(equation).expect("balances"))
+                .expect("serialises");
+            let map = json.as_object().expect("an object");
+            for forbidden in ["coefficients", "matrix", "basis", "elements"] {
+                assert!(
+                    !map.contains_key(forbidden),
+                    "{equation}: the exercise carries `{forbidden}`, which answers it"
+                );
+            }
+            // Belt and braces: no coefficient may appear in the question
+            // text either. `skeleton` is written with every coefficient
+            // stripped, so the only digits in it belong to formulas.
+            let exercise = balance_exercise(equation).expect("balances");
+            let answer = report(equation).coefficients;
+            if answer.iter().any(|n| *n > 1) {
+                for (species, n) in exercise.species.iter().zip(&answer) {
+                    assert!(
+                        !exercise.skeleton.contains(&format!("{n} {species}")),
+                        "{equation}: the skeleton spells the answer for {species}"
+                    );
+                }
+            }
+        }
+    }
+
+    /// A balanced equation must set the same question as its bare
+    /// skeleton, or the catalogue's own coefficients are the answer key.
+    ///
+    /// "The same question" is not "the same string": species are carried
+    /// AS WRITTEN, so `O2` and `O₂` are two spellings of one question and
+    /// stay that way. What must match is everything a learner is asked to
+    /// supply — how many blanks, on which side of the arrow — and what
+    /// must be gone from both is any coefficient at all.
+    #[test]
+    fn an_already_balanced_equation_asks_the_same_question() {
+        let skeleton = balance_exercise("Mg + O2 -> MgO").expect("balances");
+        let balanced = balance_exercise("2 Mg + O₂ → 2 MgO").expect("balances");
+        assert_eq!(skeleton.species.len(), balanced.species.len());
+        assert_eq!(skeleton.reactants, balanced.reactants);
+        assert_eq!(skeleton.trivial, balanced.trivial);
+        assert_eq!(skeleton.skeleton, "Mg + O2 → MgO");
+        assert_eq!(balanced.skeleton, "Mg + O₂ → MgO");
+    }
+
+    /// `trivial` is the fact the drill needs in order to prefer a question
+    /// worth asking, and it is a fact *about* the answer rather than the
+    /// answer — which is exactly why it can be sent.
+    #[test]
+    fn trivial_marks_the_questions_with_nothing_to_work_out() {
+        assert!(
+            balance_exercise("H⁺ + OH⁻ → H₂O")
+                .expect("balances")
+                .trivial
+        );
+        assert!(!balance_exercise("H₂ + O₂ → H₂O").expect("balances").trivial);
+    }
+
+    /// A family is announced up front: a learner who finds one member is
+    /// entitled to know the family exists rather than believe they found
+    /// the answer.
+    #[test]
+    fn a_family_says_so_without_saying_which_member() {
+        let family = balance_exercise("C + O2 -> CO + CO2").expect("balances");
+        assert!(family.family);
+        assert!(!balance_exercise("H₂ + O₂ → H₂O").expect("balances").family);
+    }
+
+    /// Marking from the equation and the answer alone reaches the same
+    /// verdict as marking against a report held in hand — the property the
+    /// stateless protocol rests on.
+    #[test]
+    fn stateless_marking_agrees_with_marking_in_hand() {
+        let equation = "H₂ + O₂ → H₂O";
+        let r = report(equation);
+        for answer in [vec![2, 1, 2], vec![4, 2, 4], vec![1, 1, 1], vec![2, 1]] {
+            assert_eq!(
+                mark_answer(equation, &answer).expect("balances"),
+                mark(&r, &answer),
+                "{answer:?} marked differently by the two routes"
+            );
+        }
+    }
+
+    /// The reveal is a sentence, not a vector: one "show me" cannot be
+    /// reused as a marking key.
+    #[test]
+    fn the_reveal_writes_the_answer_out() {
+        assert_eq!(
+            reveal_answer("H₂ + O₂ → H₂O").expect("balances"),
+            "2 H₂ + O₂ → 2 H₂O"
+        );
+    }
+
+    /// Prose is refused rather than balanced, on every entry point — a
+    /// refusal on one and an answer on another would be a way in.
+    #[test]
+    fn prose_is_refused_by_every_entry_point() {
+        let prose = "CH₃COOH / CH₃COO⁻ buffer";
+        assert!(balance_exercise(prose).is_err());
+        assert!(mark_answer(prose, &[1]).is_err());
+        assert!(reveal_answer(prose).is_err());
+    }
 }
 
 #[cfg(test)]

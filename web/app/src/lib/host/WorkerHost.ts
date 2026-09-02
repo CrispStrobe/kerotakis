@@ -8,7 +8,9 @@
 
 import {
   RequestChannel,
-  type BalanceReply,
+  type BalanceAnswerReply,
+  type BalanceExerciseReply,
+  type BalanceMarkReply,
   type CatalogRequest,
   type CatalogResponse,
   type EngineHost,
@@ -112,8 +114,18 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("calc", { name, args }));
   }
 
-  async balance(equation: string): Promise<BalanceReply> {
-    return JSON.parse(await this.channel.request("balance", { equation }));
+  async balanceExercise(equation: string): Promise<BalanceExerciseReply> {
+    return JSON.parse(await this.channel.request("balance_exercise", { equation }));
+  }
+
+  async balanceMark(equation: string, answer: number[]): Promise<BalanceMarkReply> {
+    return JSON.parse(
+      await this.channel.request("balance_mark", { equation, answer: JSON.stringify(answer) }),
+    );
+  }
+
+  async balanceReveal(equation: string): Promise<BalanceAnswerReply> {
+    return JSON.parse(await this.channel.request("balance_reveal", { equation }));
   }
 
   async questStart(specJson: string): Promise<void> {

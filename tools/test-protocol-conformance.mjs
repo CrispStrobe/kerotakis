@@ -323,76 +323,132 @@ for (const file of lessons) {
 }
 
 // --- balance (GUI-095) ---------------------------------------------------
-// The balancing exercise is generated, not authored, so the command has to
-// carry enough for a client to mark answers the solver never returned. Two
-// claims are pinned: the reported matrix is the one the reported answer is
-// the null space of (otherwise a client marks against a different reaction
-// than the engine solved), and a balanced equation sets the same question
-// as its bare skeleton (otherwise the codex's own coefficients leak the
-// answer into the question).
+// The balancing exercise is generated, not authored, so what the wire may
+// and may not carry is the whole design. Three claims are pinned here.
+//
+// FIRST, and the reason the command was split: the exercise must carry no
+// route to the answer. `coefficients` is the answer written down and
+// `matrix` is the answer one null space away, and this reply is read by a
+// browser, where anyone can open the network pane. A drill whose questions
+// arrive with the means to solve them is not a drill.
+//
+// SECOND: a balanced equation must set the same question as its bare
+// skeleton, or the codex's own coefficients leak the answer into the
+// question.
+//
+// THIRD: marking still distinguishes a correct multiple from a mistake,
+// which is the lesson GUI-095 exists for — moving the marking behind the
+// engine must not cost the thing the marking was careful about.
 {
     const lab = new Lab();
-    const report = JSON.parse(lab.balance("Mg + O2 -> MgO"));
+    const exercise = JSON.parse(lab.balanceExercise("Mg + O2 -> MgO"));
     checks++;
-    if (report.ok !== true) fail("balance", `refused a balanceable skeleton: ${JSON.stringify(report)}`);
-    for (const [field, kind] of [["species", "array"], ["elements", "array"],
-        ["matrix", "array"], ["coefficients", "array"], ["basis", "array"],
-        ["reactants", "number"], ["reversible", "boolean"]]) {
+    if (exercise.ok !== true) fail("balance", `refused a balanceable skeleton: ${JSON.stringify(exercise)}`);
+    for (const [field, kind] of [["species", "array"], ["reactants", "number"],
+        ["reversible", "boolean"], ["trivial", "boolean"], ["family", "boolean"],
+        ["skeleton", "string"]]) {
         checks++;
-        const ok = kind === "array" ? Array.isArray(report[field]) : typeof report[field] === kind;
-        if (!ok) fail("balance", `${field} missing or not ${kind}: ${JSON.stringify(report)}`);
+        const ok = kind === "array" ? Array.isArray(exercise[field]) : typeof exercise[field] === kind;
+        if (!ok) fail("balance", `${field} missing or not ${kind}: ${JSON.stringify(exercise)}`);
+    }
+    // The leak guard. Written against the keys actually on the wire, so a
+    // field put back later fails here rather than passing quietly.
+    for (const forbidden of ["coefficients", "matrix", "basis", "elements"]) {
+        checks++;
+        if (forbidden in exercise) {
+            fail("balance", `the exercise carries '${forbidden}', which answers it: ${JSON.stringify(exercise)}`);
+        }
     }
     checks++;
-    if (report.species.join(" ") !== "Mg O2 MgO" || report.reactants !== 2) {
-        fail("balance", `species/reactants wrong: ${JSON.stringify(report)}`);
+    if (exercise.species.join(" ") !== "Mg O2 MgO" || exercise.reactants !== 2) {
+        fail("balance", `species/reactants wrong: ${JSON.stringify(exercise)}`);
     }
     checks++;
-    if (report.coefficients.join(",") !== "2,1,2") {
-        fail("balance", `2 Mg + O2 -> 2 MgO expected; got ${report.coefficients.join(",")}`);
+    if (exercise.skeleton !== "Mg + O2 → MgO") {
+        fail("balance", `the question must be the bare skeleton; got '${exercise.skeleton}'`);
     }
     checks++;
-    if (report.elements.at(-1) !== "charge") {
-        fail("balance", `charge must be the last matrix row: ${JSON.stringify(report.elements)}`);
+    if (exercise.trivial !== false) {
+        fail("balance", "2 Mg + O2 -> 2 MgO is not a trivial question");
     }
-    // The invariant the marking rests on: matrix · coefficients = 0.
-    const annihilates = (matrix, vector) => matrix.every(
-        (row) => Math.abs(row.reduce((sum, count, i) => sum + count * vector[i], 0)) < 1e-9,
-    );
+    // Species are carried AS WRITTEN, so `O2` and `O₂` are two spellings
+    // of one question; what must match is the number of blanks and which
+    // side of the arrow they fall on, and what must be gone from both is
+    // any coefficient.
     checks++;
-    if (!annihilates(report.matrix, report.coefficients)) {
-        fail("balance", "the reported matrix does not annihilate the reported answer");
-    }
-    // A correct multiple must still balance — that is the whole lesson.
-    checks++;
-    if (!annihilates(report.matrix, report.coefficients.map((c) => c * 3))) {
-        fail("balance", "a multiple of the answer must still balance");
-    }
-    checks++;
-    const alreadyBalanced = JSON.parse(lab.balance("2 Mg + O₂ → 2 MgO"));
+    const alreadyBalanced = JSON.parse(lab.balanceExercise("2 Mg + O₂ → 2 MgO"));
     if (alreadyBalanced.ok !== true
-        || alreadyBalanced.coefficients.join(",") !== report.coefficients.join(",")
-        || alreadyBalanced.species.length !== report.species.length) {
+        || alreadyBalanced.species.length !== exercise.species.length
+        || alreadyBalanced.reactants !== exercise.reactants
+        || alreadyBalanced.trivial !== exercise.trivial
+        || /\d\s/.test(alreadyBalanced.skeleton)) {
         fail("balance", `a balanced equation must set the same question as its skeleton: `
             + `${JSON.stringify(alreadyBalanced)}`);
     }
-    // Underdetermined: C + O2 -> CO + CO2 admits two independent reactions.
-    const family = JSON.parse(lab.balance("C + O2 -> CO + CO2"));
+    // Marking, engine-side: the four verdicts, and the multiple that is the
+    // whole lesson.
+    const marked = (equation, answer) => JSON.parse(lab.balanceMark(equation, JSON.stringify(answer)));
     checks++;
-    if (family.ok !== true || family.basis.length === 0) {
-        fail("balance", `an underdetermined skeleton must report its basis: ${JSON.stringify(family)}`);
+    if (marked("Mg + O2 -> MgO", [2, 1, 2]).verdict !== "correct") {
+        fail("balance", "the solver's own answer must mark correct");
     }
     checks++;
-    if (family.ok === true && !family.basis.every((v) => annihilates(family.matrix, v))) {
-        fail("balance", "every basis vector must lie in the reported null space");
+    const multiple = marked("Mg + O2 -> MgO", [4, 2, 4]);
+    if (multiple.verdict !== "multiple" || multiple.factor !== 2) {
+        fail("balance", `a correct multiple must be named as one: ${JSON.stringify(multiple)}`);
     }
-    // Prose in an equation field is refused rather than balanced.
-    const refused = JSON.parse(lab.balance("CH₃COOH / CH₃COO⁻ buffer"));
     checks++;
-    if (refused.ok !== false || typeof refused.error !== "string") {
-        fail("balance", `prose must refuse with an error: ${JSON.stringify(refused)}`);
+    const wrong = marked("Mg + O2 -> MgO", [1, 1, 1]);
+    if (wrong.verdict !== "unbalanced" || wrong.misses[0]?.element !== "O") {
+        fail("balance", `an unbalanced answer must name what is out: ${JSON.stringify(wrong)}`);
     }
-    console.log(`balance: ${report.species.length}-species skeleton solved, `
-        + `matrix annihilates it, family reported, prose refused`);
+    checks++;
+    if (marked("Mg + O2 -> MgO", [2, 0, 2]).verdict !== "incomplete") {
+        fail("balance", "a zero coefficient is not yet an answer");
+    }
+    // Charge is marked as well as the atoms.
+    checks++;
+    const charge = marked("Ag+ + Cl- -> AgCl", [2, 1, 1]);
+    if (charge.verdict !== "unbalanced" || !charge.misses.some((m) => m.element === "charge")) {
+        fail("balance", `a charge error must be caught: ${JSON.stringify(charge)}`);
+    }
+    // Underdetermined: C + O2 -> CO + CO2 admits two independent reactions,
+    // announced up front without saying which member is meant.
+    const family = JSON.parse(lab.balanceExercise("C + O2 -> CO + CO2"));
+    checks++;
+    if (family.ok !== true || family.family !== true) {
+        fail("balance", `an underdetermined skeleton must announce its family: ${JSON.stringify(family)}`);
+    }
+    checks++;
+    const inFamily = marked("C + O2 -> CO + CO2", [3, 2, 2, 1]);
+    if (inFamily.verdict !== "correct" || inFamily.family !== true) {
+        fail("balance", `a primitive member of the family is correct: ${JSON.stringify(inFamily)}`);
+    }
+    // The reveal is the one reply that gives the answer up, and it gives it
+    // as a sentence rather than as a vector a client could mark against.
+    checks++;
+    const answer = JSON.parse(lab.balanceReveal("Mg + O2 -> MgO"));
+    if (answer.ok !== true || answer.equation !== "2 Mg + O2 → 2 MgO") {
+        fail("balance", `the reveal must write the answer out: ${JSON.stringify(answer)}`);
+    }
+    checks++;
+    if ("coefficients" in answer) {
+        fail("balance", "the reveal must not hand back a coefficient vector");
+    }
+    // Prose is refused rather than balanced — on every entry point, since a
+    // refusal on one and an answer on another would be a way in.
+    checks++;
+    for (const [name, reply] of [
+        ["balance_exercise", JSON.parse(lab.balanceExercise("CH₃COOH / CH₃COO⁻ buffer"))],
+        ["balance_mark", marked("CH₃COOH / CH₃COO⁻ buffer", [1])],
+        ["balance_reveal", JSON.parse(lab.balanceReveal("CH₃COOH / CH₃COO⁻ buffer"))],
+    ]) {
+        if (reply.ok !== false || typeof reply.error !== "string") {
+            fail("balance", `${name} must refuse prose with an error: ${JSON.stringify(reply)}`);
+        }
+    }
+    console.log(`balance: ${exercise.species.length}-species question carries no answer, `
+        + `multiple/unbalanced/incomplete marked engine-side, family announced, prose refused`);
 }
 
 // --- The chart contract on the wire (GUI-021/CAP-12) ---------------------
