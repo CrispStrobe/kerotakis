@@ -1,0 +1,80 @@
+# WORLD-008 — lead three, and the one that carries TWO valid treatment
+# traces: the column, or the separating funnel. Neither is the intended
+# one, which is the whole point of routes.
+version = 2
+id = "separate-the-mixture"
+discoveries = ["looked-first"]
+
+[title]
+lv1 = "separate-the-mixture.title.lv1"
+lv2 = "separate-the-mixture.title.lv2"
+lv3 = "separate-the-mixture.title.lv3"
+
+[goal]
+lv1 = "separate-the-mixture.goal.lv1"
+lv2 = "separate-the-mixture.goal.lv2"
+lv3 = "separate-the-mixture.goal.lv3"
+
+[placement]
+district = "discovery-hall"
+chapter = "the-contaminated-sample"
+order = 3
+
+[[claims]]
+id = "told-apart"
+separate = 3
+[claims.title]
+lv1 = "separate-the-mixture.claim.told-apart.lv1"
+lv2 = "separate-the-mixture.claim.told-apart.lv2"
+lv3 = "separate-the-mixture.claim.told-apart.lv3"
+
+[[claims]]
+id = "looked-first"
+matches = "observed"
+[claims.title]
+lv1 = "separate-the-mixture.claim.looked.lv1"
+lv2 = "separate-the-mixture.claim.looked.lv2"
+lv3 = "separate-the-mixture.claim.looked.lv3"
+
+[[claims]]
+id = "ran-the-column"
+matches = "chromatographed"
+[claims.title]
+lv1 = "separate-the-mixture.claim.column.lv1"
+lv2 = "separate-the-mixture.claim.column.lv2"
+lv3 = "separate-the-mixture.claim.column.lv3"
+
+[[claims]]
+id = "drew-off-the-layer"
+matches = "drained"
+[claims.title]
+lv1 = "separate-the-mixture.claim.drained.lv1"
+lv2 = "separate-the-mixture.claim.drained.lv2"
+lv3 = "separate-the-mixture.claim.drained.lv3"
+
+# Two materially different traces. Both need the OUTCOME — components the
+# instruments can tell apart — and each needs its own physical evidence, so
+# neither route can be satisfied by the other's work.
+[[routes]]
+id = "on-the-column"
+claims = ["told-apart", "ran-the-column"]
+[routes.label]
+lv1 = "separate-the-mixture.route.column.lv1"
+lv2 = "separate-the-mixture.route.column.lv2"
+lv3 = "separate-the-mixture.route.column.lv3"
+
+[[routes]]
+id = "in-the-funnel"
+claims = ["told-apart", "drew-off-the-layer"]
+[routes.label]
+lv1 = "separate-the-mixture.route.funnel.lv1"
+lv2 = "separate-the-mixture.route.funnel.lv2"
+lv3 = "separate-the-mixture.route.funnel.lv3"
+
+[[constraints]]
+id = "did-not-boil-it-dry"
+forbid = "evaporated"
+[constraints.say]
+lv1 = "separate-the-mixture.constraint.boiled-dry.lv1"
+lv2 = "separate-the-mixture.constraint.boiled-dry.lv2"
+lv3 = "separate-the-mixture.constraint.boiled-dry.lv3"
