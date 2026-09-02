@@ -1444,3 +1444,30 @@ installed visualization does not make an experiment complete. Each EXP still
 needs its own observable success/failure claims, controls, model boundary,
 lesson/codex content and replay tests. Conversely, `BRD-100` cannot close while
 an uncovered curiosity prompt points at an unowned EXP-level behavior.
+
+---
+
+# Part 12: the children's corpus (2026-09-02)
+
+A thirty-experiment audit run from the other end — a kitchen table rather
+than a curriculum — lives in [`KIDS.md`](KIDS.md), with its own stable task
+prefix (`KID-1` …). It found the engine in better shape than the corpus's
+first pass suggested and the *reach* into it far worse: thirteen of the
+thirty scripts died on a name that was in the registry the whole time.
+
+Three of its findings are bugs against work already recorded here, and are
+owned by the KID numbers rather than re-bound to EXP ones:
+
+- **KID-2** — acid curdling never fires with the aqueous solver linked
+  (`curdling::observe` reads `CH3COOH`; the solver has speciated it to
+  `CH3COO-`), so `lessons/milk-curds.lab` does not demonstrate its own
+  headline claim. The unit test passes because it runs the engine-free path.
+- **KID-3** — the L0 screen is dose-blind and screens a `MaterialRecipe`'s
+  own components against each other, so 1 mL of 1% Lugol raises a
+  Danger-level "can detonate" banner in the starch and vitamin-C activities
+  (`EXP-13`, `EXP-14`).
+- **KID-4** — `ignite` on an unresolved material emits nothing at all.
+
+`KID-5` pulls `EXP-34` (rusting) forward and `KID-9` pulls `EXP-8`'s Rf mode
+forward, because both are top-ten children's experiments rather than tail
+coverage.

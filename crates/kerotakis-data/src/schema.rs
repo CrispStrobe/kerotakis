@@ -339,9 +339,19 @@ impl RegistryDocument {
     }
 }
 
+/// One spelling for every way a name can be written down.
+///
+/// KID-1: the `.lab` grammar splits on whitespace, so an alias that
+/// contains a space — `household vinegar`, `whole milk`, `table sugar` —
+/// could never be typed at all, and thirty of the fifty shipped recipes
+/// had only that shape. Underscore, hyphen and space are the same
+/// separator here, so the writable form of any alias reaches its recipe.
+/// Checked to introduce no collision across the shipped recipes, their
+/// aliases, or the species keys (`no_alias_collides_after_normalization`).
 fn normalize_material_name(value: &str) -> String {
     value
-        .split_whitespace()
+        .split(|c: char| c.is_whitespace() || c == '_' || c == '-')
+        .filter(|part| !part.is_empty())
         .collect::<Vec<_>>()
         .join(" ")
         .to_lowercase()

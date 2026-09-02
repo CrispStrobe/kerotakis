@@ -246,6 +246,55 @@ lessons, and a hand-copied `dist` loads but cannot start its engine.
 The app speaks German as well as English; `I18N.md` describes the four
 surfaces and how to add a third language.
 
+## What is on the shelf
+
+Two halves, asked for the same way. `kero species` lists the pure
+substances the solvers speciate — the formula keys most of this README uses.
+`kero materials` lists the fifty named household and school bottles, which
+is what most experiments actually start from:
+
+```console
+$ kero materials
+white_vinegar_5_percent        liquid     g   5% white vinegar
+      → CH3COOH 5.0%, water 95%
+      also: Essig[de], Haushaltsessig_5%[de], household_vinegar[en]
+whole_milk                     liquid     g   whole milk surrogate
+      → water 87%, 13% conserved but unresolved
+      also: Milch[de], Vollmilch[de], whole_milk[en], cow's_milk[en]
+```
+
+A bottle says what it resolves to *and* what it does not: the 13% of milk
+that is fat, protein and lactose stays a conserved unresolved amount rather
+than becoming a fictional molecule, and the listing says so.
+
+`kero find <word>` searches both halves at once, which is the command to
+reach for when you know what you want and not what it is called:
+
+```console
+$ kero find vinegar
+  white_vinegar_5_percent material 5% white vinegar   homogeneous liquid in g
+```
+
+So the first five minutes look like this — no formulas required:
+
+```console
+$ kero
+kero> register lv1
+kero> add v1 white_vinegar_5_percent 50mL
+  The liquid in v1 is an acid.
+kero> add v1 baking_soda 5g
+  Bubbles! A gas rises out of v1.
+  The acid and the alkali cancel each other out in v1 — what they make is water.
+  v1 gets warmer!
+kero> measure v1 ph
+  The pH meter on v1 reads 10 pH.
+```
+
+Every name printed by `materials` can be typed, in either language, in the
+REPL or in a `.lab` file. `KIDS.md` is the audit that drove this: thirty
+experiments a child would recognise, run through the bench, with the verdict
+on each and the tasks the gaps became.
+
 ## Status
 
 The feasibility gate is passed: PHREEQC cross-compiles and runs identically

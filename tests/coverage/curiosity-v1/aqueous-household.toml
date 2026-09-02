@@ -1453,10 +1453,9 @@ question = "Can the model show an oil droplet emulsion breaking after soap is ad
 age_band = "age13_to15"
 action = "mix_and_dissolve"
 material_class = "soap-oil-emulsion"
-expected = "missing"
-parse_boundary = "unknown_species"
+expected = "computed"
 owning_task = "BRD-014"
-tags = ["emulsion-model-gap"]
+tags = ["emulsion-model"]
 script = ["add v1 water 100mL", "add v1 cooking_oil 10mL", "add v1 dish_soap 2mL", "stir v1"]
 smoke = false
 

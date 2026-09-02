@@ -63,6 +63,77 @@ const TITRATE_USAGE: &str = "usage: titrate <vessel> <titrant> [<c>M] <step><mL|
 /// refuses to write it, so a titration with an infinite target would run and
 /// then make the bench unable to save itself. The grammar fuzz target found
 /// this on the endpoint arm; the pH arm had the same hole since CAP-12.
+/// KID-1: what to say when a name resolves to nothing.
+///
+/// The old text was `unknown species or material 'vinegar' (see 'species')`
+/// — and `species` lists species only, so a newcomer looking for a household
+/// bottle was sent to the one command that could not show it. The shelf has
+/// two halves; the message now names both, and offers the closest thing it
+/// actually holds.
+pub fn unknown_ingredient(name: &str) -> String {
+    match nearest_ingredient(name) {
+        Some(hit) => format!(
+            "unknown species or material '{name}' — did you mean '{hit}'? \
+             ('species' lists the pure substances, 'materials' the household \
+             and school bottles, 'find {name}' searches both)"
+        ),
+        None => format!(
+            "unknown species or material '{name}' \
+             ('species' lists the pure substances, 'materials' the household \
+             and school bottles, 'find <word>' searches both)"
+        ),
+    }
+}
+
+/// The closest name the shelf actually carries, or nothing rather than a
+/// guess: a suggestion further than a third of the query's length away is
+/// noise, and noise in an error message is worse than silence.
+///
+/// `BRD-002`'s cabinet search answers this question already, and it answers
+/// it better than a distance ever could — `vinegar` is not a typo for
+/// `white_vinegar_5_percent`, it is a *substring* of it, and every learner
+/// who reaches for the shorter word means the longer one. So the search
+/// runs first, and edit distance is only the fallback for a genuine
+/// misspelling like `watr`.
+fn nearest_ingredient(name: &str) -> Option<String> {
+    if let Some(hit) = crate::cabinet::search(name, 1).into_iter().next() {
+        return Some(hit.key);
+    }
+    let query = name.to_lowercase();
+    let budget = (query.chars().count() / 3).clamp(1, 5);
+    let mut best: Option<(usize, String)> = None;
+    let mut consider = |candidate: &str| {
+        let distance = edit_distance(&query, &candidate.to_lowercase());
+        if distance <= budget && best.as_ref().is_none_or(|(d, _)| distance < *d) {
+            best = Some((distance, candidate.to_string()));
+        }
+    };
+    for data in species::REGISTRY {
+        consider(data.key);
+    }
+    for recipe in material::all() {
+        consider(&recipe.canonical_key);
+    }
+    best.map(|(_, hit)| hit)
+}
+
+/// Levenshtein distance over chars, two rows at a time. Small inputs only —
+/// this runs once, on the error path.
+fn edit_distance(a: &str, b: &str) -> usize {
+    let b: Vec<char> = b.chars().collect();
+    let mut previous: Vec<usize> = (0..=b.len()).collect();
+    let mut current = vec![0usize; b.len() + 1];
+    for (i, ca) in a.chars().enumerate() {
+        current[0] = i + 1;
+        for (j, cb) in b.iter().enumerate() {
+            let substitution = previous[j] + usize::from(ca != *cb);
+            current[j + 1] = substitution.min(previous[j + 1] + 1).min(current[j] + 1);
+        }
+        std::mem::swap(&mut previous, &mut current);
+    }
+    previous[b.len()]
+}
+
 fn finite(value: f64, what: &str) -> Result<(), String> {
     if value.is_finite() {
         Ok(())
@@ -260,10 +331,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     at: parse_at(&words[4..])?,
                 }
             } else {
-                return Err(format!(
-                    "unknown species or material '{}' (see 'species')",
-                    words[2]
-                ));
+                return Err(unknown_ingredient(words[2]));
             }
         }
         // BRD-002: `stock NaCl 0.5mol` / `stock vinegar 250mL` — fill one
@@ -279,10 +347,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             } else if let Some(recipe) = material::lookup(words[1], None) {
                 parse_material_amount(words[2], &recipe)?
             } else {
-                return Err(format!(
-                    "unknown species or material '{}' (see 'species')",
-                    words[1]
-                ));
+                return Err(unknown_ingredient(words[1]));
             };
             let key = species::lookup_key(words[1])
                 .map(|data| data.key.to_string())

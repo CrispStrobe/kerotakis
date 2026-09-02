@@ -546,3 +546,65 @@ fn a_material_this_tranche_did_not_claim_still_refuses_clearly() {
     let error = parse_op_typed("add v1 Wachs 10g").expect_err("bare wax is unclaimed");
     assert_eq!(error.kind, ParseErrorKind::UnknownSpecies);
 }
+
+/// KID-1: a bottle nobody can type is a bottle that is not on the shelf.
+///
+/// The `.lab` grammar splits on whitespace, so `household vinegar` — which
+/// was the *only* English alias the vinegar recipe carried — could never be
+/// written down. Thirty of the fifty shipped recipes had that shape, and
+/// twelve of the thirty children's activities in `KIDS.md` died on it. Every
+/// recipe must now be reachable by at least one whitespace-free spelling of
+/// every name it advertises.
+#[test]
+fn every_recipe_name_has_a_writable_spelling_that_resolves() {
+    for recipe in kerotakis_core::material::all() {
+        let mut names = vec![recipe.canonical_key.clone(), recipe.name.clone()];
+        names.extend(recipe.aliases.values().flatten().cloned());
+        for name in names {
+            let writable = name.replace(char::is_whitespace, "_");
+            let resolved = kerotakis_core::material::lookup(&writable, None)
+                .unwrap_or_else(|| panic!("'{writable}' (from '{name}') resolves to no recipe"));
+            assert_eq!(
+                resolved.canonical_key, recipe.canonical_key,
+                "'{writable}' resolved to the wrong recipe"
+            );
+            // The amount must be written in the recipe's own basis, or the
+            // grammar refuses on the unit rather than on the name — which
+            // is a different (and correct) refusal.
+            let unit = match recipe.basis {
+                MaterialBasis::MassFraction => "g",
+                MaterialBasis::MoleFraction => "mol",
+                MaterialBasis::VolumeFraction => "mL",
+            };
+            assert!(
+                parse_op(&format!("add v1 {writable} 1{unit}")).is_ok(),
+                "'{writable}' is not accepted by the add grammar"
+            );
+        }
+    }
+}
+
+/// The same normalization must not make two different bottles answer to one
+/// name, and must not shadow a species key.
+#[test]
+fn no_recipe_name_collides_after_normalization() {
+    let mut seen: std::collections::HashMap<String, String> = std::collections::HashMap::new();
+    for recipe in kerotakis_core::material::all() {
+        let mut names = vec![recipe.canonical_key.clone(), recipe.name.clone()];
+        names.extend(recipe.aliases.values().flatten().cloned());
+        for name in names {
+            let writable = name.replace(char::is_whitespace, "_");
+            assert!(
+                kerotakis_core::species::lookup_key(&writable).is_none(),
+                "material name '{writable}' shadows a species key"
+            );
+            if let Some(other) = seen.insert(writable.to_lowercase(), recipe.canonical_key.clone())
+            {
+                assert_eq!(
+                    other, recipe.canonical_key,
+                    "two recipes answer to the same writable name"
+                );
+            }
+        }
+    }
+}

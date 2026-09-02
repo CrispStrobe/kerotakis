@@ -719,8 +719,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "aq-120"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-121"
