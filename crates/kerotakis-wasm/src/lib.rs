@@ -52,6 +52,10 @@ fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<se
                 "kind": "nudge", "quest": quest,
                 "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
             }),
+            Q::ConstraintViolated { quest, say } => serde_json::json!({
+                "kind": "constraint_violated", "quest": quest,
+                "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
+            }),
             Q::ClaimSatisfied { quest, title } => serde_json::json!({
                 "kind": "claim_satisfied", "quest": quest,
                 "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },

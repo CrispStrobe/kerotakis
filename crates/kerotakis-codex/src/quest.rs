@@ -110,6 +110,78 @@ pub struct Claim {
     pub kind: ClaimKind,
 }
 
+/// WORLD-004: where a mission sits in the world.
+///
+/// Placement is content, not code: the campus map reads it instead of a
+/// hard-coded district table, so adding a mission to a district is a TOML
+/// edit rather than a release.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Placement {
+    /// Stable district id (`discovery-hall`, `matter-gardens`, …).
+    pub district: String,
+    /// Optional chapter within the district's story.
+    #[serde(default)]
+    pub chapter: Option<String>,
+    /// Sort key inside the district; ties fall back to the quest id.
+    #[serde(default)]
+    pub order: Option<u32>,
+}
+
+/// WORLD-004: one materially different way to finish a mission.
+///
+/// A route is an AND of the claims it names; a mission with routes is an OR
+/// of its routes. Deliberately the same combinator the web client's outcome
+/// contracts use (GUI-080), because a learner separating a mixture on a
+/// column and one separating it in a funnel have both separated the mixture,
+/// and neither the engine nor the client may prefer the author's first idea.
+///
+/// A mission with NO routes is the v1 shape: every required claim, in any
+/// order. That is what makes every shipped quest a valid v2 quest already.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Route {
+    pub id: String,
+    /// Names the approach, per register — shown only when a mission offers
+    /// more than one, so a single-route mission never mentions a choice
+    /// that does not exist.
+    pub label: Registers,
+    /// Claim ids that together satisfy this route.
+    pub claims: Vec<String>,
+}
+
+/// WORLD-004: something the run must NOT do.
+///
+/// Constraints are how a mission says "not like that" without prescribing
+/// what to do instead: a violation is recorded and spoken, never blocked,
+/// because a lab that refuses the mistake never teaches it.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Constraint {
+    pub id: String,
+    /// Codex claim syntax, same matcher as a nudge or an event claim.
+    pub forbid: String,
+    pub say: Registers,
+}
+
+/// WORLD-004: what completing a mission is worth.
+///
+/// Rewards are DECLARED here and granted by derivation from completion —
+/// they are not a ledger the save mutates, because a granted-rewards list is
+/// a second copy of the truth that a failed write drops and a retried one
+/// grants twice.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Reward {
+    /// `equipment` (a catalog verb or `measure:<token>`) or `reagent`
+    /// (a registry species key).
+    pub kind: String,
+    /// The catalog id this reward grants — the same id space WORLD-003's
+    /// catalog answers with.
+    pub id: String,
+}
+
+/// Schema version. Absent means 1: every quest written before v2 existed.
+fn schema_v1() -> u8 {
+    1
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct QuestSpec {
     pub id: String,
@@ -132,6 +204,67 @@ pub struct QuestSpec {
     /// reading (`H+`, `OH-` — water's own) do not belong in this list.
     #[serde(default)]
     pub covers: BTreeMap<String, Vec<String>>,
+
+    // ── WORLD-004: schema v2. Every field below defaults, so a v1 quest
+    // parses unchanged and behaves exactly as it did. ──────────────────
+    /// 1 for quests written before v2. Never asserted against — it is here
+    /// so a future breaking change can be detected rather than guessed.
+    #[serde(default = "schema_v1")]
+    pub version: u8,
+    /// Where this mission sits in the world.
+    #[serde(default)]
+    pub placement: Option<Placement>,
+    /// Alternative valid solutions. Empty = every required claim (v1).
+    #[serde(default)]
+    pub routes: Vec<Route>,
+    /// Claim ids that are optional discoveries rather than requirements.
+    ///
+    /// TOML trap worth knowing: this is a ROOT key, so it must be written
+    /// above the first `[[claims]]` table. Written below one it silently
+    /// becomes a field of that claim and is ignored — serde has no way to
+    /// refuse it, because `Claim` flattens `ClaimKind` and `flatten` and
+    /// `deny_unknown_fields` cannot be combined. Same for `version`.
+    #[serde(default)]
+    pub discoveries: BTreeSet<String>,
+    /// What the run must not do.
+    #[serde(default)]
+    pub constraints: Vec<Constraint>,
+    /// What finishing is worth.
+    #[serde(default)]
+    pub rewards: Vec<Reward>,
+}
+
+impl QuestSpec {
+    /// Claims that must be satisfied, as opposed to discoveries a learner
+    /// may find and is never required to.
+    pub fn required_claims(&self) -> impl Iterator<Item = &Claim> {
+        self.claims
+            .iter()
+            .filter(|claim| !self.discoveries.contains(&claim.id))
+    }
+
+    /// Is this quest finished?
+    ///
+    /// With no routes, the v1 rule: every required claim. With routes, any
+    /// one route in full — which is what lets two materially different
+    /// solutions both be right.
+    pub fn is_complete(&self, state: &QuestState) -> bool {
+        if self.routes.is_empty() {
+            return self
+                .required_claims()
+                .all(|claim| state.satisfied.contains(&claim.id));
+        }
+        self.routes
+            .iter()
+            .any(|route| route.claims.iter().all(|id| state.satisfied.contains(id)))
+    }
+
+    /// The route the learner actually completed, if any.
+    pub fn completed_route(&self, state: &QuestState) -> Option<&Route> {
+        self.routes
+            .iter()
+            .find(|route| route.claims.iter().all(|id| state.satisfied.contains(id)))
+    }
 }
 
 /// Live progress of one started quest.
@@ -139,15 +272,34 @@ pub struct QuestSpec {
 pub struct QuestState {
     pub satisfied: BTreeSet<String>,
     pub fired: BTreeSet<String>,
+    /// WORLD-004 constraint ids this run has tripped. Recorded, never
+    /// blocking: the mistake is the lesson, and a mission that refuses to
+    /// let it happen cannot teach it.
+    #[serde(default)]
+    pub violated: BTreeSet<String>,
     pub complete: bool,
 }
 
 /// What one observation pass produced, in the order it should be told.
 #[derive(Debug, Clone)]
 pub enum QuestOutput {
-    Nudge { quest: String, say: Registers },
-    ClaimSatisfied { quest: String, title: Registers },
-    Completed { quest: String, title: Registers },
+    Nudge {
+        quest: String,
+        say: Registers,
+    },
+    /// A constraint was tripped: said once, never blocking.
+    ConstraintViolated {
+        quest: String,
+        say: Registers,
+    },
+    ClaimSatisfied {
+        quest: String,
+        title: Registers,
+    },
+    Completed {
+        quest: String,
+        title: Registers,
+    },
 }
 
 /// The computed liquid volume of a vessel in litres — Σ n·M/ρ over
@@ -220,6 +372,21 @@ pub fn observe(
                 });
             }
         }
+        for constraint in &spec.constraints {
+            if state.violated.contains(&constraint.id) {
+                continue;
+            }
+            if events
+                .iter()
+                .any(|e| crate::event_matches(e, &constraint.forbid))
+            {
+                state.violated.insert(constraint.id.clone());
+                out.push(QuestOutput::ConstraintViolated {
+                    quest: spec.id.clone(),
+                    say: constraint.say.clone(),
+                });
+            }
+        }
         for claim in &spec.claims {
             if state.satisfied.contains(&claim.id) {
                 continue;
@@ -247,7 +414,7 @@ pub fn observe(
                 });
             }
         }
-        if !state.complete && spec.claims.iter().all(|c| state.satisfied.contains(&c.id)) {
+        if !state.complete && spec.is_complete(state) {
             state.complete = true;
             out.push(QuestOutput::Completed {
                 quest: spec.id.clone(),
@@ -295,7 +462,7 @@ pub fn answer(
                 quest: spec.id.clone(),
                 title: claim.title.clone(),
             });
-            if spec.claims.iter().all(|c| state.satisfied.contains(&c.id)) {
+            if spec.is_complete(state) {
                 state.complete = true;
                 out.push(QuestOutput::Completed {
                     quest: spec.id.clone(),
@@ -417,6 +584,83 @@ pub fn lint(specs: &[QuestSpec]) -> Vec<String> {
                 problems.push(format!(
                     "{q}: nudge '{}' fires on unknown event kind '{kind}'",
                     nudge.id
+                ));
+            }
+        }
+        // ── WORLD-004: schema v2. A route or discovery naming a claim
+        // that does not exist is a mission that can never be finished, and
+        // it must fail here rather than in front of a learner. ──────────
+        let mut route_ids = BTreeSet::new();
+        for route in &spec.routes {
+            if !route_ids.insert(route.id.clone()) {
+                problems.push(format!("{q}: duplicate route id '{}'", route.id));
+            }
+            if route.claims.is_empty() {
+                problems.push(format!(
+                    "{q}: route '{}' names no claims — an empty route is \
+                     satisfied by doing nothing",
+                    route.id
+                ));
+            }
+            for id in &route.claims {
+                if !claim_ids.contains(id) {
+                    problems.push(format!(
+                        "{q}: route '{}' names claim '{id}', which does not exist",
+                        route.id
+                    ));
+                }
+            }
+        }
+        // Every claim should be reachable through some route, or the quest
+        // asks for work that can never count.
+        if !spec.routes.is_empty() {
+            let routed: BTreeSet<&String> =
+                spec.routes.iter().flat_map(|r| r.claims.iter()).collect();
+            for claim in &spec.claims {
+                if !routed.contains(&claim.id) && !spec.discoveries.contains(&claim.id) {
+                    problems.push(format!(
+                        "{q}: claim '{}' belongs to no route and is not a \
+                         discovery — it can never count toward completion",
+                        claim.id
+                    ));
+                }
+            }
+        }
+        for id in &spec.discoveries {
+            if !claim_ids.contains(id) {
+                problems.push(format!("{q}: discovery '{id}' names no such claim"));
+            }
+        }
+        if spec.discoveries.len() == spec.claims.len() && !spec.claims.is_empty() {
+            problems.push(format!(
+                "{q}: every claim is a discovery — nothing is required, so the \
+                 quest completes before it starts"
+            ));
+        }
+        let mut constraint_ids = BTreeSet::new();
+        for constraint in &spec.constraints {
+            if !constraint_ids.insert(constraint.id.clone()) {
+                problems.push(format!("{q}: duplicate constraint id '{}'", constraint.id));
+            }
+            let kind = constraint.forbid.split(':').next().unwrap_or("");
+            if !crate::KNOWN_EVENT_KINDS.contains(&kind) {
+                problems.push(format!(
+                    "{q}: constraint '{}' forbids unknown event kind '{kind}'",
+                    constraint.id
+                ));
+            }
+        }
+        for reward in &spec.rewards {
+            if !matches!(reward.kind.as_str(), "equipment" | "reagent") {
+                problems.push(format!(
+                    "{q}: reward '{}' has unknown kind '{}' (equipment, reagent)",
+                    reward.id, reward.kind
+                ));
+            }
+            if reward.kind == "reagent" && species::lookup(&SpeciesId::new(&reward.id)).is_none() {
+                problems.push(format!(
+                    "{q}: reward reagent '{}' is not in the registry",
+                    reward.id
                 ));
             }
         }

@@ -2604,6 +2604,10 @@ impl Session {
                 Q::Nudge { say, .. } => {
                     println!("  ❯ {}", self.mask(say.at(self.register.level())))
                 }
+                // Said, not enforced: the mistake is the lesson.
+                Q::ConstraintViolated { say, .. } => {
+                    println!("  ⚠ {}", self.mask(say.at(self.register.level())))
+                }
                 Q::ClaimSatisfied { title, .. } => {
                     println!("  ✓ {}", self.mask(title.at(self.register.level())))
                 }
