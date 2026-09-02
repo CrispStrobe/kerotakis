@@ -991,8 +991,29 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-020 — Reaction-family intermediate representation
 
-- [ ] **Status:** open. **Size:** large. **Depends on:** BRD-012 and the landed
-  kinetics/curated-reaction infrastructure.
+- [ ] **Status:** open; phase 1 (IR + chematic oracle, #272) and phase 2
+  (conservation ledger + order independence, 2026-09-02) landed. **Size:**
+  large. **Depends on:** BRD-012 and the landed kinetics/curated-reaction
+  infrastructure.
+  *Phase 2, 2026-09-02: the IR shipped contract-first — templates that could
+  be applied, with nothing checking that applying one conserves matter. That
+  check now exists and REFUSES: every application is weighed, atoms including
+  implicit hydrogens and formal charge, in against out, and a set that does
+  not balance is declined by name ("template 'x' does not conserve matter:
+  C: 4 in, 5 out") rather than returned. A ledger counting only heavy atoms
+  would have balanced while every hydrogen vanished, which is the error it
+  exists to catch. Also landed: `apply_template_any_order`, because SMIRKS
+  matching is positional and a bench does not know which vessel the learner
+  poured first — permutations are tried in a fixed order so the same inputs
+  always give the same products. Acceptance covered: atom/charge conservation
+  on all four curated families, a deliberately inventing template refused by
+  name, out-of-domain substrates declining rather than overgeneralising, and
+  order independence. STILL OPEN and deliberately not attempted here: the
+  router/equilibrator integration itself — where family matching sits in the
+  route order, after safety and identity resolution and before the honesty
+  fallback, is an owner-level decision about precedence, and this phase
+  builds the guard that has to exist before products may enter the vessel
+  ledger at all.*
 - **Outcome:** one audited rule can apply a known transformation to structurally
   matching substrates without becoming an arbitrary predictor.
 - **Scope:** versioned family records contain mapped reactant/product query,
