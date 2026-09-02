@@ -30,6 +30,7 @@
     completed,
     scope = "all",
     missionVerbs = [],
+    awardedVerbs = [],
     onburette,
     onapparatus,
     ontransfer,
@@ -48,6 +49,8 @@
     completed: number;
     scope?: CatalogScope;
     missionVerbs?: string[];
+    /** Instruments earned permanently by closing a case. */
+    awardedVerbs?: string[];
     onburette: () => void;
     onapparatus: (verb: string) => void;
     ontransfer: (verb: TwoVesselAction) => void;
@@ -61,10 +64,11 @@
     ...TRANSFER_TOOLS.map((item) => item.verb), ...INSTRUMENTS.map((item) => instrumentVerb(item.token)),
     "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
-  const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb)).length);
+  const awarded = $derived(new Set(awardedVerbs));
+  const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb, awarded)).length);
   const visible = (verb: string) => mode === "sandbox" || scope === "all"
-    || (scope === "mission" ? missionVerbs.includes(verb) : equipmentAvailable(mode, completed, verb));
-  const access = (verb: string) => equipmentAccess(mode, completed, verb, missionVerbs.includes(verb));
+    || (scope === "mission" ? missionVerbs.includes(verb) : equipmentAvailable(mode, completed, verb, awarded));
+  const access = (verb: string) => equipmentAccess(mode, completed, verb, missionVerbs.includes(verb), awarded);
   let filter = $state("");
   const matches = (verb: string, title: string, blurb: string) => equipmentMatches(
     { verb, title, blurb },

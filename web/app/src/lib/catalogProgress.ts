@@ -4,6 +4,8 @@ import type { LabMode } from "./worldState";
 export type CatalogAccess = {
   available: boolean;
   loaned: boolean;
+  /** Permanently earned by closing a case, rather than reached by count. */
+  granted?: boolean;
   minimumCompleted: number;
 };
 
@@ -60,8 +62,16 @@ export function equipmentRequirement(verb: string): number {
   return EQUIPMENT_MILESTONES[verb] ?? 4;
 }
 
-export function equipmentAvailable(mode: LabMode, completed: number, verb: string): boolean {
-  return mode === "sandbox" || completed >= equipmentRequirement(verb);
+/** Instruments a closed case granted permanently, regardless of mission count. */
+const NO_AWARDS: ReadonlySet<string> = new Set();
+
+export function equipmentAvailable(
+  mode: LabMode,
+  completed: number,
+  verb: string,
+  awarded: ReadonlySet<string> = NO_AWARDS,
+): boolean {
+  return mode === "sandbox" || completed >= equipmentRequirement(verb) || awarded.has(verb);
 }
 
 export function equipmentAccess(
@@ -69,13 +79,19 @@ export function equipmentAccess(
   completed: number,
   verb: string,
   inMissionKit: boolean,
+  awarded: ReadonlySet<string> = NO_AWARDS,
 ): CatalogAccess {
   const minimumCompleted = equipmentRequirement(verb);
   const loaned = mode === "story" && inMissionKit;
+  // An award is permanent and unconditional: it outranks the milestone that
+  // would otherwise still be years of missions away, and unlike a loan it
+  // does not expire with the mission that granted it.
+  const granted = awarded.has(verb);
   return {
     minimumCompleted,
     loaned,
-    available: mode === "sandbox" || completed >= minimumCompleted || loaned,
+    granted,
+    available: mode === "sandbox" || completed >= minimumCompleted || loaned || granted,
   };
 }
 

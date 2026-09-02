@@ -441,9 +441,6 @@
   "Model": "",
   "My Chemistry Lab": "",
   "Observable silver chloride formed": "",
-  "Resolve the colourless sample into at least three separately measured components.": "",
-  "Any separation that produces distinct measured components counts. The solver reads the actual peak table, not your procedure.": "",
-  "The chromatography column separates dissolved neutral solutes by their partition coefficients — a mixture that looks like one liquid arrives as one peak per component, if the column resolves them.": "",
   "Three components resolved from one sample": "",
   "Document four distinct dangerous combinations before anyone handles the abandoned bench.": "",
   "Reproduce each hazard in the virtual lab and let the safety layer name it. The solver accepts only its own typed warnings — one per hazard class.": "",
@@ -1804,6 +1801,21 @@
   "{amount} too much {element} on the left as written": "",
   "{amount} too much {element} on the right as written": "",
   "this does not balance": "",
-  "every species needs a whole number greater than zero": ""
+  "every species needs a whole number greater than zero": "",
+  "Separate the colourless sample into components the instruments can tell apart.": "",
+  "Two different separations both count here: resolve the sample on the column, or split it between two liquid layers. The solver reads the instrument output, not your procedure.": "",
+  "on the column": "",
+  "in the separating funnel": "",
+  "by precipitation": "",
+  "by mixing": "",
+  "by reproducing each hazard": "",
+  "The lower layer drawn off into its own vessel": "",
+  "Solutes left in materially different layers": "",
+  "or, {route}": "",
+  "Your route: {route}.": "",
+  "case closed · permanent instrument": "",
+  "UV/Vis spectrophotometer": "",
+  "Identify dissolved substances by the light they absorb. Yours permanently for closing the case.": "",
+  "The column separates dissolved solutes by how long each is held back. A separating funnel does it another way: add a solvent that does not mix with water — at least as much of it as you have sample — and each solute divides between the layers by its own partition coefficient.": ""
  }
 }

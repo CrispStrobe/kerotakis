@@ -1279,7 +1279,7 @@ hide them completely.
   their entire reagent kit independently of permanent stock, and each first
   discovery replenishes the permanent cabinet with an explicit debrief notice.
   Sandbox remains unlimited. This closes GUI-079.*
-- [ ] **GUI-080 — First vertical slice: the contaminated sample.** Ship one
+- [x] **GUI-080 — First vertical slice: the contaminated sample.** Ship one
   compact district/lab with onboarding, free bench time, three concurrent
   missions, one optional discovery, a material cabinet, a permanent instrument
   unlock, and a debrief. At least one mission must accept two materially
@@ -1328,6 +1328,29 @@ hide them completely.
   solver-assessed; what keeps GUI-080 open is the case-level transaction
   (permanent instrument unlock + debrief) and the mission that accepts two
   materially different valid solutions beyond silver-and-salt.*
+  *CLOSED 2026-09-02 by the case transaction and the second valid solution.
+  (1) The separation lead now has TWO routes and neither is the intended one:
+  the column, or a separating funnel. A route is an AND of its criteria and a
+  mission is an OR of its routes — the smallest combinator that can express
+  "two valid solutions", and the one WORLD-005's objective evaluator inherits.
+  The funnel route is secured by the engine's own `partitioned` events: the
+  spread between the most- and least-aqueous solute must reach 0.15, which is
+  measured rather than chosen (against the lesson's own sample the engine
+  gives 0.024 at 10 mL of extracting solvent, 0.107 at 50, 0.190 at 100,
+  0.504 at 500), so a solvent that carried the whole sample across — which
+  separates nothing — cannot pass. Mission progress counts against the route
+  the learner is CLOSEST to finishing, so an alternative they did not take
+  never reads as work outstanding.
+  (2) The case-level transaction: a completed mission now records its
+  completion and replenishes its stockroom in ONE AppSave envelope promotion
+  (`AppSaveModeStorage.setItems`), so an interrupted write can no longer leave
+  a learner with a spent stockroom and no completion. The permanent
+  instrument — the UV/Vis spectrophotometer, earned by closing the case — is
+  DERIVED from the completed leads rather than stored as an entitlement, which
+  is what makes a double claim impossible by construction: a retried commit
+  and a replayed mission both compute the same single award. The debrief names
+  the route the learner took and the award the case earned, on the one run
+  that earned it.*
 
 ### Phase G3 — Desktop
 

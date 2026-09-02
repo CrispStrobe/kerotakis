@@ -1180,3 +1180,92 @@ describe("Session", () => {
     expect(host.calls).toContain("inspect:0");
   });
 });
+
+describe("one outcome, one write (GUI-080 case transaction)", () => {
+  /** Storage that can promote a batch, and counts how many saves it made. */
+  class BatchStorage implements StorageLike {
+    map = new Map<string, string>();
+    saves = 0;
+    getItem(k: string) { return this.map.get(k) ?? null; }
+    setItem(k: string, v: string) { this.saves += 1; this.map.set(k, v); }
+    removeItem(k: string) { this.saves += 1; this.map.delete(k); }
+    setItems(changes: Readonly<Record<string, string>>) {
+      this.saves += 1;
+      for (const [k, v] of Object.entries(changes)) this.map.set(k, v);
+    }
+  }
+
+  it("records the completion and replenishes the stockroom in a single save", () => {
+    const storage = new BatchStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+    storage.saves = 0;
+
+    session.markMissionDone("first-warmth");
+
+    // The point of the transaction: not two writes with a window between
+    // them where the stockroom is spent and the mission is not recorded.
+    expect(storage.saves).toBe(1);
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+    expect(JSON.parse(storage.map.get("kero.story-stock.v1")!)).toEqual({});
+  });
+
+  it("still records both facts on storage that cannot batch", () => {
+    const storage = new FakeStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+
+    session.markMissionDone("first-warmth");
+
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+    expect(JSON.parse(storage.map.get("kero.story-stock.v1")!)).toEqual({});
+  });
+
+  it("keeps the session usable when the commit throws", () => {
+    const storage = new BatchStorage();
+    storage.setItems = () => { throw new Error("quota"); };
+    const session = new Session(new FakeHost(), storage, "story");
+
+    expect(() => session.markMissionDone("first-warmth")).not.toThrow();
+    // In memory the mission is done for this visit; only the record is lost.
+    expect(session.completedMissions.has("first-warmth")).toBe(true);
+  });
+
+  it("does not touch the Story stockroom from Sandbox", () => {
+    const storage = new BatchStorage();
+    const session = new Session(new FakeHost(), storage, "sandbox");
+    storage.saves = 0;
+
+    session.markMissionDone("first-warmth");
+
+    expect(storage.map.has("kero.story-stock.v1")).toBe(false);
+    expect(storage.saves).toBe(1);
+  });
+
+  it("hands the closing mission its case award, and every replay none", () => {
+    const storage = new BatchStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+    session.markMissionDone("first-warmth");
+    session.markMissionDone("one-thing-at-a-time");
+
+    // A narration-only lesson finishes the moment it starts, which is enough
+    // to exercise the completion path without driving the engine.
+    session.startLesson("silver-and-salt", "# the last lead closes the case\n");
+    expect(session.missionDebrief?.caseAward).toBe("measure:uvvis");
+    expect(session.missionDebrief?.firstCompletion).toBe(true);
+
+    session.closeMissionDebrief();
+    session.startLesson("silver-and-salt", "# walked again for the notebook\n");
+    // The award was earned once. A replay is a replay.
+    expect(session.missionDebrief?.caseAward).toBeNull();
+    expect(session.missionDebrief?.firstCompletion).toBe(false);
+  });
+
+  it("gives no award while a core lead is still open", () => {
+    const storage = new BatchStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+    session.markMissionDone("first-warmth");
+    session.markMissionDone("never-mix");
+
+    session.startLesson("silver-and-salt", "# two core leads secured, not three\n");
+    expect(session.missionDebrief?.caseAward).toBeNull();
+  });
+});

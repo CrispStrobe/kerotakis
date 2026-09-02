@@ -32,3 +32,31 @@ describe("progression-aware catalog", () => {
     expect(equipmentAccess("story", 4, "distil", false)).toMatchObject({ available: true, loaned: false });
   });
 });
+
+describe("a closed case grants its instrument permanently (GUI-080)", () => {
+  // The spectrometer's own milestone is three completed missions; the award
+  // is what makes it reachable the moment the case closes instead.
+  const award: ReadonlySet<string> = new Set(["measure:uvvis"]);
+
+  it("puts the awarded instrument on the wall below its milestone", () => {
+    expect(equipmentAvailable("story", 0, "measure:uvvis")).toBe(false);
+    expect(equipmentAvailable("story", 0, "measure:uvvis", award)).toBe(true);
+  });
+
+  it("grants only what was awarded, and says the grant is why", () => {
+    expect(equipmentAvailable("story", 0, "distil", award)).toBe(false);
+    const access = equipmentAccess("story", 0, "measure:uvvis", false, award);
+    expect(access.available).toBe(true);
+    expect(access.granted).toBe(true);
+    // A grant is not a loan: it outlives the mission, and must not be
+    // reported as one.
+    expect(access.loaned).toBe(false);
+    expect(access.minimumCompleted).toBe(3);
+  });
+
+  it("leaves every existing caller unchanged when nothing is awarded", () => {
+    expect(equipmentAvailable("story", 3, "measure:uvvis")).toBe(true);
+    expect(equipmentAccess("story", 0, "measure:uvvis", false).granted).toBe(false);
+    expect(equipmentAccess("sandbox", 0, "distil", false).available).toBe(true);
+  });
+});
