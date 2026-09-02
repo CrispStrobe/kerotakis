@@ -572,8 +572,13 @@ pub fn assess_exposures<'a>(
 }
 
 fn push_unique(findings: &mut Vec<ExposureFinding>, finding: ExposureFinding) {
+    // By RULE, not by the sentence the rule says. Two rules that happened to
+    // word their hazard identically would have deduplicated to one here, and
+    // the one silently dropped would be a safety warning a learner never saw.
+    // No two rules share wording today, so this changes nothing now — which
+    // is the moment to change it, rather than after the first collision.
     let duplicate = findings.iter().any(|existing| {
-        existing.hazard == finding.hazard
+        existing.rule == finding.rule
             && ((existing.species == finding.species && existing.locations == finding.locations)
                 || (existing.species == [finding.species[1].clone(), finding.species[0].clone()]
                     && existing.locations
@@ -698,6 +703,80 @@ impl SafetyScreen for ReactiveGroupScreen {
 
 #[cfg(test)]
 mod tests {
+    fn finding(rule: &str, hazard: &str) -> ExposureFinding {
+        ExposureFinding {
+            severity: Severity::Danger,
+            rule: rule.to_string(),
+            hazard: hazard.to_string(),
+            real_world: "somewhere real".to_string(),
+            species: ["A".to_string(), "B".to_string()],
+            locations: ["v1".to_string(), "v1".to_string()],
+        }
+    }
+
+    #[test]
+    fn two_rules_wording_a_hazard_the_same_way_both_survive() {
+        // The case that used to lose one silently. Deduplicating on the
+        // SENTENCE meant a rule whose wording matched another's was dropped,
+        // and the thing dropped was a safety warning nobody saw go.
+        let mut findings = Vec::new();
+        push_unique(
+            &mut findings,
+            finding("acid-metal-hydrogen", "this gives off a flammable gas"),
+        );
+        push_unique(
+            &mut findings,
+            finding("acid-carbonate-co2", "this gives off a flammable gas"),
+        );
+        assert_eq!(
+            findings.len(),
+            2,
+            "one rule's warning was suppressed by another's wording"
+        );
+    }
+
+    #[test]
+    fn the_same_rule_twice_is_still_one_finding_however_it_is_worded() {
+        let mut findings = Vec::new();
+        push_unique(
+            &mut findings,
+            finding("bleach-ammonia-chloramine", "chloramine gas"),
+        );
+        push_unique(
+            &mut findings,
+            finding("bleach-ammonia-chloramine", "reworded, same rule"),
+        );
+        assert_eq!(findings.len(), 1);
+    }
+
+    #[test]
+    fn every_incompatibility_rule_id_is_unique_so_it_can_be_the_key() {
+        // Deduplicating by id is only sound while ids identify rules. This
+        // is the invariant that makes the line above correct, so it is
+        // checked rather than assumed.
+        let mut seen = std::collections::BTreeSet::new();
+        for rule in INCOMPATIBLE.iter().map(|inc| inc.rule) {
+            assert!(
+                seen.insert(rule),
+                "duplicate incompatibility rule id: {rule}"
+            );
+        }
+        assert!(seen.len() >= 4, "the matrix looks empty: {}", seen.len());
+    }
+
+    #[test]
+    fn no_two_rules_share_hazard_wording_today() {
+        // Not required for correctness any more — it is required for the
+        // claim that switching the key changed no behaviour. If this ever
+        // fails, the switch is what stopped a warning being lost.
+        let mut byword = std::collections::BTreeMap::<&str, Vec<&str>>::new();
+        for inc in INCOMPATIBLE {
+            byword.entry(inc.hazard).or_default().push(inc.rule);
+        }
+        let shared: Vec<_> = byword.iter().filter(|(_, rules)| rules.len() > 1).collect();
+        assert!(shared.is_empty(), "rules sharing wording: {shared:?}");
+    }
+
     use super::*;
     use kerotakis_core::*;
 
