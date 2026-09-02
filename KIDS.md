@@ -348,6 +348,17 @@ and `main` moves only by PR.
   five minutes" written entirely in household words; `kero lessons` lists
   what ships; the REPL `help` covers every verb; the unknown-name error is
   a signpost rather than a dead end.
+  **Landed 2026-09-02.** `help` is regrouped by what a learner wants to do
+  and now names all 31 verbs in `script::VERBS` — `magnet`, `smell`, `test`,
+  `chromatograph`, `react`, `remove`, `centrifuge`, `stock`, `particles` and
+  `regulate` were landed, working and unmentioned, and the corpus lost
+  experiments to each of them. A test fails the day a verb is added without
+  a help line. `kero lessons` lists the thirty-seven shipped lessons by
+  their own first-line titles and says how to run one. The signpost half of
+  the error message landed with KID-1.
+  **Still open under KID-17:** the GUI's own help dialog and the affordance
+  manifest were not audited here, and `EXPERIMENTS.md`'s quoted error text
+  is now stale.
 
 ### Sequencing
 

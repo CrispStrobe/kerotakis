@@ -291,9 +291,22 @@ kero> measure v1 ph
 ```
 
 Every name printed by `materials` can be typed, in either language, in the
-REPL or in a `.lab` file. `KIDS.md` is the audit that drove this: thirty
-experiments a child would recognise, run through the bench, with the verdict
-on each and the tasks the gaps became.
+REPL or in a `.lab` file. `help` inside the bench lists every verb the
+grammar takes — a test holds it to that — and `kero lessons` lists the
+thirty-seven worked lessons that ship:
+
+```console
+$ kero lessons
+fizz                               The fizz: vinegar meets baking soda
+limewater                          Carbon dioxide enters as well as leaves an open vessel.
+silver-and-salt                    Case file: identify chloride with silver nitrate
+…
+$ kero run lessons/fizz.lab
+```
+
+`KIDS.md` is the audit that drove this: sixty experiments a child would
+recognise plus a spot check of the 12–16 band, run through the bench, with
+the verdict on each and the tasks the gaps became.
 
 ## Status
 
