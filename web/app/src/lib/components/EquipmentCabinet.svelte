@@ -3,7 +3,7 @@
   import type { TwoVesselAction } from "../directActions";
   import { t } from "../i18n.svelte";
   import ToolIcon from "./ToolIcon.svelte";
-  import { equipmentAccess, equipmentAvailable, equipmentRequirement } from "../catalogProgress";
+  import { access, available, requirement, type CatalogMap } from "../catalogProgress";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { equipmentMatches } from "../catalogSearch";
@@ -30,7 +30,7 @@
     completed,
     scope = "all",
     missionVerbs = [],
-    awardedVerbs = [],
+    catalog,
     onburette,
     onapparatus,
     ontransfer,
@@ -49,8 +49,9 @@
     completed: number;
     scope?: CatalogScope;
     missionVerbs?: string[];
-    /** Instruments earned permanently by closing a case. */
-    awardedVerbs?: string[];
+    /** WORLD-003: what the ENGINE says is reachable, indexed by id. The
+     * cabinet no longer computes this — it asks, and shows the answer. */
+    catalog: CatalogMap;
     onburette: () => void;
     onapparatus: (verb: string) => void;
     ontransfer: (verb: TwoVesselAction) => void;
@@ -64,11 +65,10 @@
     ...TRANSFER_TOOLS.map((item) => item.verb), ...INSTRUMENTS.map((item) => instrumentVerb(item.token)),
     "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
-  const awarded = $derived(new Set(awardedVerbs));
-  const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb, awarded)).length);
+  const availableCount = $derived(allVerbs.filter((verb) => available(catalog, verb)).length);
   const visible = (verb: string) => mode === "sandbox" || scope === "all"
-    || (scope === "mission" ? missionVerbs.includes(verb) : equipmentAvailable(mode, completed, verb, awarded));
-  const access = (verb: string) => equipmentAccess(mode, completed, verb, missionVerbs.includes(verb), awarded);
+    || (scope === "mission" ? missionVerbs.includes(verb) : available(catalog, verb));
+  const accessOf = (verb: string) => access(catalog, verb) ?? { available: false, loaned: false, granted: false, minimumCompleted: 0 };
   let filter = $state("");
   const matches = (verb: string, title: string, blurb: string) => equipmentMatches(
     { verb, title, blurb },
@@ -88,7 +88,9 @@
   const showReact = $derived(reactAvailable && visible("react") && matches("react", "curated reaction", "choose a verified reaction family"));
   const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + visibleInstruments.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
   const requirementLabel = (verb: string) => {
-    const count = equipmentRequirement(verb);
+    const count = requirement(catalog, verb);
+    // Silent rather than guessing while the engine has not answered.
+    if (count === null) return "";
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
   };
 </script>
@@ -119,7 +121,7 @@
         {#if buretteOut}<span class="deployed-label">{t("on bench")}</span>{/if}
       </button>{/if}
       {#each visibleApparatus as item (item.verb)}
-        {@const itemAccess = access(item.verb)}
+        {@const itemAccess = accessOf(item.verb)}
         <button class="equipment-card" class:locked={!itemAccess.available} class:deployed={apparatusOut === item.verb} aria-pressed={apparatusOut === item.verb} disabled={!itemAccess.available} onclick={() => onapparatus(item.verb)}>
           <span class="equipment-icon"><ToolIcon name={item.verb} /></span>
           <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
@@ -136,7 +138,7 @@
     <div class="equipment-grid">
       {#each visibleInstruments as item (item.token)}
         {@const verb = instrumentVerb(item.token)}
-        {@const itemAccess = access(verb)}
+        {@const itemAccess = accessOf(verb)}
         <button class="equipment-card instrument-card" class:locked={!itemAccess.available} disabled={busy || !itemAccess.available} onclick={() => onmeasure(instrumentCommand(target, item.token))}>
           <span class="equipment-icon instrument-glyph" aria-hidden="true">{item.glyph}</span>
           <span class="equipment-copy"><strong>{t(item.label)}</strong><small>{t(item.purpose)}</small></span>
@@ -151,7 +153,7 @@
     <h2><span>{t("transfer and separation")}</span><small>{visibleTransfers.length + Number(showMix) + Number(showTransport)}</small></h2>
     <div class="equipment-grid">
       {#each visibleTransfers as item (item.verb)}
-        {@const itemAccess = access(item.verb)}
+        {@const itemAccess = accessOf(item.verb)}
         <button class="equipment-card" class:locked={!itemAccess.available} class:deployed={transferVerb === item.verb} aria-pressed={transferVerb === item.verb} disabled={!itemAccess.available} onclick={() => ontransfer(item.verb)}>
           <span class="equipment-icon"><ToolIcon name={item.verb} /></span>
           <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
@@ -165,7 +167,7 @@
         <span class="equipment-copy"><strong>{t("mixer")}</strong><small>{t("combine two sources into a receiver")}</small></span>
         {#if mixActive}<span class="deployed-label">{t("select sources")}</span>{/if}
       </button>{/if}
-      {#if showTransport}{@const transportAccess = access("transport")}<button class="equipment-card" class:locked={!transportAccess.available} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportAccess.available} onclick={() => onapparatus("transport")}>
+      {#if showTransport}{@const transportAccess = accessOf("transport")}<button class="equipment-card" class:locked={!transportAccess.available} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportAccess.available} onclick={() => onapparatus("transport")}>
         <span class="equipment-icon"><ToolIcon name="transport" /></span>
         <span class="equipment-copy"><strong>{t("column train")}</strong><small>{t("move solution through connected cells")}</small></span>
         {#if apparatusOut === "transport"}<span class="deployed-label">{t("on bench")}</span>{/if}
@@ -176,7 +178,7 @@
   </div>{/if}
 
   {#if showReact}
-    {@const reactAccess = access("react")}
+    {@const reactAccess = accessOf("react")}
     <div class="equipment-group">
       <h2><span>{t("reaction studio")}</span><small>1</small></h2>
       <button class="equipment-card wide" class:locked={!reactAccess.available} class:deployed={apparatusOut === "react"} aria-pressed={apparatusOut === "react"} disabled={!reactAccess.available} onclick={() => onapparatus("react")}>

@@ -25,7 +25,7 @@ import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
-import { reagentAccess } from "./catalogProgress";
+import { access as catalogAccess, catalogMap, type CatalogMap } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
@@ -161,6 +161,16 @@ export class Session {
   /** WORLD-006: the last commit that could not be written, held absolute so
    * retrying it is indistinguishable from having written it the first time. */
   private pendingWrite = $state<Record<string, string> | null>(null);
+
+  /**
+   * WORLD-003: what this learner can reach, as the ENGINE answers it.
+   *
+   * Fetched rather than computed, and refreshed whenever an input to the
+   * answer changes — the mode, the completed count, a closed case's award,
+   * or the active mission's kit. Empty until the engine replies, which
+   * callers must treat as "not yet known" rather than as a refusal.
+   */
+  catalog = $state<CatalogMap>(new Map());
 
   /** GUI-066: the running quest, engine-evaluated. Claims progress for
    * the panel; nudges arrive as feed cards. */
@@ -471,6 +481,10 @@ export class Session {
         });
       }
       this.restoreProgress();
+      // Progress is restored, so the catalog request can be asked truthfully.
+      // Awaited: the cabinet must not render a moment of "nothing available"
+      // before the engine has said what is.
+      await this.refreshCatalog();
       await this.restore();
       // One patient retry: a slow engine download must degrade to a wait,
       // never to a bench that stays "warming up" forever.
@@ -667,8 +681,20 @@ export class Session {
       const stockItem = supplied ? this.shelf.find((item) => item.key === supplied) : undefined;
       const missionSupply = Boolean(supplied && this.lesson?.kit.includes(supplied));
       if (this.mode === "story" && stockItem) {
-        const access = reagentAccess("story", this.completedMissions.size, stockItem, missionSupply);
-        if (!access.available) {
+        // The engine decides what progress has earned; the client asks and
+        // obeys. Two deliberate exceptions to obeying:
+        //
+        // A catalog that has not arrived says NOTHING, and saying nothing
+        // must not read as a refusal — a dropped round trip should not lock
+        // a learner out of their own shelf.
+        //
+        // And a mission's own kit is loaned by the client that assembled it,
+        // so it is honoured without waiting for the engine to agree. The
+        // engine says `loaned` for the same materials when asked; making the
+        // gate wait for that round trip would refuse the first tap of a
+        // mission the learner has only just accepted.
+        const access = this.catalogAccess(stockItem.key);
+        if (access !== null && !access.available && !missionSupply) {
           this.feed.push({ kind: "refusal", text: t("That material is not yet available. Accept an investigation that supplies it or complete more missions.") });
           return false;
         }
@@ -1191,6 +1217,9 @@ export class Session {
     this.lessonBaseline = this.position;
     this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(missionTitle(name)) }) });
     this.lessonFeedStart = this.feed.length;
+    // The mission's kit is part of what the engine is asked, so entering a
+    // mission changes the answer: its loaned apparatus appears on the wall.
+    void this.refreshCatalog();
     this.advanceLessonNotes();
   }
 
@@ -1312,6 +1341,8 @@ export class Session {
   }
 
   exitLesson(): void {
+    // Leaving gives the loan back; the wall must say so.
+    queueMicrotask(() => void this.refreshCatalog());
     if (!this.lesson) return;
     this.feed.push({ kind: "note", text: t("lesson left: {name}", { name: t(missionTitle(this.lesson.lesson.name)) }) });
     this.lesson = null;
@@ -1398,6 +1429,7 @@ export class Session {
     this.commit(changes);
     this.completedMissions = next;
     if (replenish) this.storyStockUsed = {};
+    void this.refreshCatalog();
   }
 
   /**
@@ -1453,6 +1485,39 @@ export class Session {
    * The UI can say so rather than letting a learner believe it is saved. */
   get progressUnsaved(): boolean {
     return this.pendingWrite !== null;
+  }
+
+  /**
+   * Ask the engine what this learner can reach.
+   *
+   * Everything the answer depends on is in the request — mode, completed
+   * count, the awards a closed case derived, and the active mission's kit —
+   * so the response is complete and the client never has to reason about
+   * "yes but a mission is lending it". Called whenever one of those changes.
+   *
+   * A failure leaves the previous answer standing rather than emptying the
+   * cabinet: a dropped round trip is not the same as losing your equipment.
+   */
+  async refreshCatalog(): Promise<void> {
+    try {
+      const response = await this.host.catalog({
+        mode: this.mode,
+        completed: this.completedMissions.size,
+        awarded: caseAwardedTools(this.completedMissions),
+        mission_kit: [
+          ...(this.lesson?.kit ?? []),
+          ...(this.missionOutcome?.contract.extraTools ?? []),
+        ],
+      });
+      this.catalog = catalogMap(response.items);
+    } catch {
+      // Keep whatever the engine last told us.
+    }
+  }
+
+  /** What the engine said about one catalog id, or null before it answers. */
+  catalogAccess(id: string) {
+    return catalogAccess(this.catalog, id);
   }
 
   /** Load learner progress; called from connect, harmless without storage. */

@@ -1,56 +1,74 @@
-import type { ShelfItem } from "./session.svelte";
-import type { LabMode } from "./worldState";
+/**
+ * WORLD-003, client half: availability is READ, not recomputed.
+ *
+ * This file used to hold the progression rules — a milestone per verb, a
+ * hazard ladder per material — and compute availability from them. The
+ * engine holds them now (`kerotakis_core::catalog`), and every host answers
+ * from that one table, so what remains here is lookup and presentation.
+ *
+ * The tables did not move because duplication is untidy. They moved because
+ * a rule with two copies eventually disagrees with itself, and the copy the
+ * learner sees was the one that could not be tested against the engine that
+ * would actually refuse them. While both existed a fixture pinned them to
+ * each other; with one gone, so is the fixture.
+ */
+import type { CatalogItem } from "./host/EngineHost";
 
 export type CatalogAccess = {
   available: boolean;
   loaned: boolean;
   /** Permanently earned by closing a case, rather than reached by count. */
-  granted?: boolean;
+  granted: boolean;
   minimumCompleted: number;
 };
 
-const EQUIPMENT_MILESTONES: Record<string, number> = {
-  bunsen: 1,
-  burette: 0,
-  stir: 0,
-  heat: 0,
-  centrifuge: 0,
-  dilute: 0,
-  grind: 0,
-  filter: 0,
-  decant: 0,
-  mix: 0,
-  evaporate: 1,
-  drain: 1,
-  magnet: 1,
-  react: 1,
-  regulate: 2,
-  irradiate: 2,
-  electrolyse: 3,
-  cell: 3,
-  distil: 4,
-  transport: 4,
-  sweep: 4,
-  "measure:eyes": 0,
-  "measure:thermometer": 0,
-  "measure:ph": 0,
-  "measure:balance": 0,
-  "measure:smell": 1,
-  "measure:volume": 1,
-  "measure:conductivity": 1,
-  "measure:pressure": 2,
-  "measure:calorimeter": 2,
-  "measure:uvvis": 3,
-  "measure:chromatograph": 3,
-  "measure:geiger": 4,
-};
+/** The engine's answer, indexed by stable id. */
+export type CatalogMap = ReadonlyMap<string, CatalogItem>;
 
-const STARTER_STOCK = new Set([
-  "water", "NaCl", "CH3COOH", "NaHCO3", "CaCO3", "MgSO4", "CaCl2",
-]);
+export function catalogMap(items: readonly CatalogItem[]): CatalogMap {
+  return new Map(items.map((item) => [item.id, item]));
+}
+
+/**
+ * What the engine said about one id.
+ *
+ * Returns null when the catalog has not arrived yet — a caller must decide
+ * what to show while the engine is still loading, rather than being handed a
+ * confident `false` that looks like a refusal.
+ */
+export function access(catalog: CatalogMap, id: string): CatalogAccess | null {
+  const item = catalog.get(id);
+  if (item === undefined) return null;
+  return {
+    available: item.available,
+    loaned: item.reason.reason === "loaned",
+    granted: item.reason.reason === "awarded",
+    minimumCompleted: item.minimum_completed,
+  };
+}
+
+/** Availability alone, with an unloaded catalog reading as not-yet-available. */
+export function available(catalog: CatalogMap, id: string): boolean {
+  return catalog.get(id)?.available ?? false;
+}
+
+/** The progress that would earn this id, for the "after N missions" label.
+ * Null while the catalog is unloaded, so the label can stay silent rather
+ * than promise a number it does not have. */
+export function requirement(catalog: CatalogMap, id: string): number | null {
+  return catalog.get(id)?.minimum_completed ?? null;
+}
+
+/** Instruments are addressed `measure:<token>` in the catalog's id space. */
+export function instrumentId(token: string): string {
+  return `measure:${token}`;
+}
 
 export type EquipmentReward = { verb: string; title: string; description: string };
 
+/** Milestone rewards are PRESENTATION: what the debrief celebrates when a
+ * count is reached. The catalog decides what is reachable; this decides what
+ * is worth a card. */
 const REWARDS: Record<number, EquipmentReward> = {
   1: { verb: "evaporate", title: "evaporating dish", description: "Concentrate solutions and recover dissolved solids." },
   2: { verb: "regulate", title: "piston lid", description: "Control pressure and headspace above a vessel." },
@@ -58,69 +76,6 @@ const REWARDS: Record<number, EquipmentReward> = {
   4: { verb: "distil", title: "still", description: "Separate liquids through a connected distillation rig." },
 };
 
-export function equipmentRequirement(verb: string): number {
-  return EQUIPMENT_MILESTONES[verb] ?? 4;
-}
-
-/** Instruments a closed case granted permanently, regardless of mission count. */
-const NO_AWARDS: ReadonlySet<string> = new Set();
-
-export function equipmentAvailable(
-  mode: LabMode,
-  completed: number,
-  verb: string,
-  awarded: ReadonlySet<string> = NO_AWARDS,
-): boolean {
-  return mode === "sandbox" || completed >= equipmentRequirement(verb) || awarded.has(verb);
-}
-
-export function equipmentAccess(
-  mode: LabMode,
-  completed: number,
-  verb: string,
-  inMissionKit: boolean,
-  awarded: ReadonlySet<string> = NO_AWARDS,
-): CatalogAccess {
-  const minimumCompleted = equipmentRequirement(verb);
-  const loaned = mode === "story" && inMissionKit;
-  // An award is permanent and unconditional: it outranks the milestone that
-  // would otherwise still be years of missions away, and unlike a loan it
-  // does not expire with the mission that granted it.
-  const granted = awarded.has(verb);
-  return {
-    minimumCompleted,
-    loaned,
-    granted,
-    available: mode === "sandbox" || completed >= minimumCompleted || loaned || granted,
-  };
-}
-
 export function equipmentRewardAt(completed: number): EquipmentReward | null {
   return REWARDS[completed] ?? null;
-}
-
-export function reagentRequirement(item: Pick<ShelfItem, "key" | "hazards" | "hazard_assessed">): number {
-  if (STARTER_STOCK.has(item.key)) return 0;
-  if (item.hazard_assessed === false) return 4;
-  const hazards = new Set(item.hazards ?? []);
-  if (hazards.has("toxic") || hazards.has("corrosive")) return 3;
-  if (hazards.has("flammable") || hazards.has("oxidizer")) return 2;
-  return 1;
-}
-
-export function reagentAccess(
-  mode: LabMode,
-  completed: number,
-  item: Pick<ShelfItem, "key" | "hazards" | "hazard_assessed">,
-  inMissionKit: boolean,
-): CatalogAccess {
-  const minimumCompleted = reagentRequirement(item);
-  // An accepted mission supplies its whole kit, including common materials;
-  // learners never have to spend permanent stock to follow an investigation.
-  const loaned = mode === "story" && inMissionKit;
-  return {
-    minimumCompleted,
-    loaned,
-    available: mode === "sandbox" || completed >= minimumCompleted || loaned,
-  };
 }

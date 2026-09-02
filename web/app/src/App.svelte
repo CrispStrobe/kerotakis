@@ -1003,6 +1003,7 @@
     {/if}
     {#if cabinetTab === "reagents"}
       <Shelf
+    catalog={session.catalog}
         items={session.shelf}
         register={session.register}
         target={session.selected}
@@ -1032,7 +1033,7 @@
         completed={session.completedMissions.size}
         scope={catalogScope}
         missionVerbs={missionEquipmentVerbs}
-        awardedVerbs={caseAwardedTools(session.completedMissions)}
+        catalog={session.catalog}
         onburette={toggleBurette}
         onapparatus={toggleApparatus}
         ontransfer={(verb) => {

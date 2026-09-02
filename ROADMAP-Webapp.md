@@ -1673,6 +1673,18 @@ last-known-good recovery and quota-blocked storage.
   that nothing had tiered — and `tests/contract/catalog-milestones-v1.json`
   pins the tiers across both languages until the client reads them off the
   protocol, which is the next slice.*
+  *Client migration landed 2026-09-02: `catalogProgress.ts` no longer holds
+  the rules, and no longer computes availability — the session fetches the
+  catalog from the engine and the cabinet and shelf READ it. The
+  cross-language fixture is deleted with the duplication it guarded. Two
+  behaviours are deliberate and tested: an unanswered catalog says NOTHING
+  rather than refusing, because a dropped round trip should not lock a
+  learner out of their own shelf; and a mission's own kit is honoured by the
+  client that assembled it, without waiting for the engine to agree, because
+  making the gate wait would refuse the first tap of a mission just accepted.
+  The catalog is awaited during connect, so no learner sees a moment of empty
+  cabinet that reads as everything locked, and it is re-asked whenever an
+  input to the answer changes — mode, completion, award, mission kit.*
 - [x] **WORLD-004 — Mission schema v2 and migration.** Extend the landed quest
   TOML with world placement, objective combinators, constraints, discoveries,
   outcomes, and rewards while accepting every v1 quest unchanged.

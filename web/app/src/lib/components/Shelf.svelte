@@ -5,7 +5,7 @@
   import SpeciesChip from "./SpeciesChip.svelte";
   import { i18n, t } from "../i18n.svelte";
   import { stepAmount } from "../stepAmount";
-  import { reagentAccess, reagentRequirement } from "../catalogProgress";
+  import { access, available, type CatalogMap } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
   import { isExhausted, stockBadge, type StockLevels } from "../shelfStock";
   import type { LabMode } from "../worldState";
@@ -19,6 +19,7 @@
     targetCapacityMl = 400,
     onadd,
     kit = null,
+    catalog,
     scope = "all",
     mode = "sandbox",
     completed = 0,
@@ -33,6 +34,8 @@
     onadd: (line: string) => void;
     /** During a lesson: the reagents its own commands use. */
     kit?: string[] | null;
+    /** WORLD-003: the engine's answer about what is reachable, by id. */
+    catalog: CatalogMap;
     scope?: CatalogScope;
     mode?: LabMode;
     completed?: number;
@@ -43,11 +46,15 @@
     focusRequest?: { key: string; nonce: number } | null;
   } = $props();
 
+  // Named apart from the markup's own `access` const, which shadows it.
+  const access_ = (key: string) =>
+    access(catalog, key) ?? { available: false, loaned: false, granted: false, minimumCompleted: 0 };
+
   let query = $state("");
   const visible = $derived(items.filter((item) => {
     if (mode === "sandbox" || scope === "all") return true;
     if (scope === "mission") return kit?.includes(item.key) ?? false;
-    return completed >= reagentRequirement(item);
+    return available(catalog, item.key);
   }));
   let open = $state<string | null>(null);
   let amountValue = $state(1);
@@ -172,7 +179,7 @@
   {/if}
   <ul>
     {#each filtered as item (item.key)}
-      {@const access = reagentAccess(mode, completed, item, kit?.includes(item.key) ?? false)}
+      {@const access = access_(item.key)}
       {@const remaining = mode === "story" ? stockRemaining(item, stockUsed) : Number.POSITIVE_INFINITY}
       {@const bottle = bottles[item.key]}
       {@const emptyBottle = isExhausted(bottle)}

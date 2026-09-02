@@ -10,7 +10,9 @@
 //! **The rules live here, once.** Availability used to be computed in the
 //! browser from a table the browser owned, which meant the desktop shell and
 //! the CLI either duplicated it or did without. A rule with two copies is a
-//! rule that will eventually disagree with itself.
+//! rule that will eventually disagree with itself. The browser's copy is
+//! gone as of the client migration, and so is the fixture that pinned the
+//! two to each other while both existed.
 //!
 //! **Sandbox is derived, never stored.** A Sandbox save does not serialize
 //! thousands of `unlocked = true` flags that go stale the moment a pack
@@ -457,46 +459,6 @@ mod tests {
             stale.is_empty(),
             "NOT_CABINET names verbs the parser dropped: {stale:?}"
         );
-    }
-
-    #[test]
-    fn the_progression_rules_match_the_shared_contract_fixture() {
-        // The rules live here, but a client that has not yet migrated to the
-        // protocol still carries a copy. `tests/contract/catalog-milestones-v1.json`
-        // is what both sides check themselves against, so the day the two
-        // disagree is the day a test fails rather than the day a learner is
-        // shown an instrument the engine will refuse.
-        let raw = include_str!("../../../tests/contract/catalog-milestones-v1.json");
-        let pin: serde_json::Value = serde_json::from_str(raw).expect("contract fixture parses");
-
-        assert_eq!(pin["last_tier"].as_u64().unwrap() as u32, LAST_TIER);
-
-        let starter: Vec<&str> = pin["starter_stock"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|v| v.as_str().unwrap())
-            .collect();
-        assert_eq!(starter, STARTER_STOCK, "starter stock drifted from the pin");
-
-        for (section, table) in [
-            ("apparatus", APPARATUS_MILESTONES),
-            ("instruments", INSTRUMENT_MILESTONES),
-        ] {
-            let pinned = pin[section].as_object().unwrap();
-            assert_eq!(
-                pinned.len(),
-                table.len(),
-                "{section}: the pin and the table list different numbers of rows"
-            );
-            for (id, tier) in table {
-                assert_eq!(
-                    pinned.get(*id).and_then(serde_json::Value::as_u64),
-                    Some(u64::from(*tier)),
-                    "{section}: {id} disagrees with the pin"
-                );
-            }
-        }
     }
 
     #[test]
