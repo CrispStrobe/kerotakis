@@ -122,13 +122,46 @@ class FakeHost implements EngineHost {
     this.calls.push(`particles:${vessel}`);
     return { rendered: ["oOo"] };
   }
-  async catalog(request: { mode?: string; completed?: number }) {
-    return {
-      mode: (request.mode ?? "story") as "story" | "sandbox",
-      completed: request.completed ?? 0,
-      items: [],
-      packs: [],
-    };
+  /**
+   * Stands in for `kerotakis_core::catalog`. It has to actually answer:
+   * since WORLD-003 the ENGINE owns availability, so a fake that returns
+   * nothing is a fake engine with no rules, and the client obeying it is
+   * correct behaviour rather than a bypass. The rules themselves are tested
+   * in Rust; what is tested here is that the client obeys them.
+   */
+  async catalog(request: {
+    mode?: string;
+    completed?: number;
+    awarded?: string[];
+    mission_kit?: string[];
+  }) {
+    const mode = (request.mode ?? "story") as "story" | "sandbox";
+    const completed = request.completed ?? 0;
+    const kit = request.mission_kit ?? [];
+    const awarded = request.awarded ?? [];
+    const tiers: Record<string, number> = { water: 0, NaCl: 0, HCl: 3, filter: 0, distil: 4, drain: 1 };
+    const items = Object.entries(tiers).map(([id, minimum_completed]) => {
+      const earned = completed >= minimum_completed;
+      const isAwarded = awarded.includes(id);
+      const loaned = mode === "story" && kit.includes(id);
+      const reason = mode === "sandbox"
+        ? { reason: "sandbox" as const }
+        : earned
+          ? { reason: "earned" as const, minimum_completed }
+          : isAwarded
+            ? { reason: "awarded" as const }
+            : loaned
+              ? { reason: "loaned" as const }
+              : { reason: "locked" as const, minimum_completed };
+      return {
+        id,
+        kind: "reagent" as const,
+        minimum_completed,
+        available: mode === "sandbox" || earned || isAwarded || loaned,
+        reason,
+      };
+    });
+    return { mode, completed, items, packs: [] };
   }
   async reset() {
     this.calls.push("reset");
@@ -1388,5 +1421,77 @@ describe("transactional mission outcomes (WORLD-006)", () => {
     storage.failing = false;
     session.retryPendingWrite();
     expect(session.progressUnsaved).toBe(false);
+  });
+});
+
+describe("the catalog is asked, not computed (WORLD-003 client migration)", () => {
+  class CountingHost extends FakeHost {
+    catalogCalls = 0;
+    failCatalog = false;
+    async catalog(request: {
+      mode?: string;
+      completed?: number;
+      awarded?: string[];
+      mission_kit?: string[];
+    }) {
+      this.catalogCalls += 1;
+      if (this.failCatalog) throw new Error("engine busy");
+      return super.catalog(request);
+    }
+  }
+
+  it("has the engine's answer before the bench is usable", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    // Awaited during connect, so a learner never sees a moment of empty
+    // cabinet that looks like everything being locked.
+    expect(host.catalogCalls).toBeGreaterThan(0);
+    expect(s.catalog.size).toBeGreaterThan(0);
+    expect(s.catalogAccess("water")?.available).toBe(true);
+    expect(s.catalogAccess("HCl")?.available).toBe(false);
+  });
+
+  it("asks again when a mission's kit changes what is loaned", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    const afterConnect = host.catalogCalls;
+
+    s.startLesson("acid-kit", "add v1 HCl 10mL\n");
+    await Promise.resolve();
+    expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+  });
+
+  it("asks again when a completion changes what is earned", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    const afterConnect = host.catalogCalls;
+
+    s.markMissionDone("first-warmth");
+    expect(host.catalogCalls).toBeGreaterThan(afterConnect);
+  });
+
+  it("keeps the last answer when the engine cannot be reached", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    const known = s.catalog.size;
+    expect(known).toBeGreaterThan(0);
+
+    host.failCatalog = true;
+    await s.refreshCatalog();
+
+    // A dropped round trip is not the same as losing your equipment.
+    expect(s.catalog.size).toBe(known);
+    expect(s.catalogAccess("water")?.available).toBe(true);
+  });
+
+  it("returns null for an id the engine has not spoken about", async () => {
+    const host = new CountingHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(s.catalogAccess("nothing-like-this")).toBeNull();
   });
 });

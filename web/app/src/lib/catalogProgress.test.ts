@@ -1,100 +1,105 @@
+/**
+ * WORLD-003, client half: availability is READ, not recomputed.
+ *
+ * These used to be tests of a milestone table this file owned, pinned
+ * against the engine's copy by a shared fixture. Both the table and the pin
+ * are gone: the engine answers, and the client shows the answer. What is
+ * left to test is that the client reads the answer faithfully — including
+ * the case that has no answer yet.
+ */
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { equipmentAccess, equipmentAvailable, equipmentRequirement, equipmentRewardAt, reagentAccess, reagentRequirement } from "./catalogProgress";
+import { access, available, catalogMap, equipmentRewardAt, instrumentId, requirement } from "./catalogProgress";
+import type { CatalogItem } from "./host/EngineHost";
 
-describe("progression-aware catalog", () => {
-  it("keeps Sandbox fully unlocked and gives Story understandable milestones", () => {
-    expect(equipmentAvailable("sandbox", 0, "distil")).toBe(true);
-    expect(equipmentAvailable("story", 0, "evaporate")).toBe(false);
-    expect(equipmentAvailable("story", 1, "evaporate")).toBe(true);
-    expect(equipmentAvailable("story", 3, "electrolyse")).toBe(true);
-    expect(equipmentAvailable("story", 3, "distil")).toBe(false);
+const item = (
+  id: string,
+  overrides: Partial<CatalogItem> = {},
+): CatalogItem => ({
+  id,
+  kind: "apparatus",
+  minimum_completed: 0,
+  available: true,
+  reason: { reason: "earned", minimum_completed: 0 },
+  ...overrides,
+});
+
+const CATALOG = catalogMap([
+  item("filter"),
+  item("distil", {
+    minimum_completed: 4,
+    available: false,
+    reason: { reason: "locked", minimum_completed: 4 },
+  }),
+  item("measure:uvvis", {
+    kind: "instrument",
+    minimum_completed: 3,
+    available: true,
+    reason: { reason: "awarded" },
+  }),
+  item("drain", {
+    minimum_completed: 1,
+    available: true,
+    reason: { reason: "loaned" },
+  }),
+  item("HCl", {
+    kind: "reagent",
+    minimum_completed: 3,
+    available: false,
+    reason: { reason: "locked", minimum_completed: 3 },
+  }),
+]);
+
+describe("the client reads the engine's catalog", () => {
+  it("reports availability as the engine gave it", () => {
+    expect(available(CATALOG, "filter")).toBe(true);
+    expect(available(CATALOG, "distil")).toBe(false);
+    expect(available(CATALOG, "HCl")).toBe(false);
   });
 
-  it("loans mission reagents without permanently unlocking the stockroom", () => {
-    const hazardous = { key: "HCl", hazards: ["corrosive"], hazard_assessed: true };
-    expect(reagentRequirement(hazardous)).toBe(3);
-    expect(reagentAccess("story", 0, hazardous, false)).toMatchObject({ available: false, loaned: false });
-    expect(reagentAccess("story", 0, hazardous, true)).toMatchObject({ available: true, loaned: true });
-    expect(reagentAccess("story", 0, { key: "NaCl", hazards: [], hazard_assessed: true }, true)).toMatchObject({ available: true, loaned: true });
-    expect(reagentAccess("story", 3, hazardous, false)).toMatchObject({ available: true, loaned: false });
-    expect(reagentAccess("sandbox", 0, hazardous, false).available).toBe(true);
+  it("distinguishes a permanent award from a mission's loan", () => {
+    // Both are available; only one survives leaving the mission, and the
+    // cabinet says which — so a learner is told they earned a thing rather
+    // than that something lent it to them.
+    const awarded = access(CATALOG, "measure:uvvis")!;
+    expect(awarded.available).toBe(true);
+    expect(awarded.granted).toBe(true);
+    expect(awarded.loaned).toBe(false);
+
+    const loaned = access(CATALOG, "drain")!;
+    expect(loaned.available).toBe(true);
+    expect(loaned.loaned).toBe(true);
+    expect(loaned.granted).toBe(false);
   });
 
-  it("offers one permanent instrument reward at each early milestone", () => {
+  it("carries the milestone through for the 'after N missions' label", () => {
+    expect(requirement(CATALOG, "distil")).toBe(4);
+    expect(access(CATALOG, "HCl")!.minimumCompleted).toBe(3);
+  });
+
+  it("says nothing rather than guessing about an id the engine did not mention", () => {
+    // The important case: before the engine answers, the catalog is empty.
+    // `access` returns null so a caller can render "not yet known", and
+    // `requirement` returns null so a label cannot promise a number it does
+    // not have. Only `available` collapses to false, and it is named for it.
+    const empty = catalogMap([]);
+    expect(access(empty, "filter")).toBeNull();
+    expect(requirement(empty, "filter")).toBeNull();
+    expect(available(empty, "filter")).toBe(false);
+    expect(access(CATALOG, "no-such-thing")).toBeNull();
+  });
+
+  it("addresses instruments the way the catalog does", () => {
+    expect(instrumentId("uvvis")).toBe("measure:uvvis");
+    expect(available(CATALOG, instrumentId("uvvis"))).toBe(true);
+  });
+});
+
+describe("milestone rewards remain presentation", () => {
+  it("still names what a completion count is worth celebrating", () => {
+    // The catalog decides what is REACHABLE; this decides what earns a card
+    // in the debrief. They are different questions, so this one stayed.
     expect(equipmentRewardAt(1)?.verb).toBe("evaporate");
-    expect(equipmentRewardAt(3)?.verb).toBe("electrolyse");
-    expect(equipmentRewardAt(5)).toBeNull();
-  });
-
-  it("loans mission equipment without turning it into a permanent unlock", () => {
-    expect(equipmentAccess("story", 0, "distil", false)).toMatchObject({ available: false, loaned: false });
-    expect(equipmentAccess("story", 0, "distil", true)).toMatchObject({ available: true, loaned: true });
-    expect(equipmentAccess("story", 4, "distil", false)).toMatchObject({ available: true, loaned: false });
-  });
-});
-
-describe("a closed case grants its instrument permanently (GUI-080)", () => {
-  // The spectrometer's own milestone is three completed missions; the award
-  // is what makes it reachable the moment the case closes instead.
-  const award: ReadonlySet<string> = new Set(["measure:uvvis"]);
-
-  it("puts the awarded instrument on the wall below its milestone", () => {
-    expect(equipmentAvailable("story", 0, "measure:uvvis")).toBe(false);
-    expect(equipmentAvailable("story", 0, "measure:uvvis", award)).toBe(true);
-  });
-
-  it("grants only what was awarded, and says the grant is why", () => {
-    expect(equipmentAvailable("story", 0, "distil", award)).toBe(false);
-    const access = equipmentAccess("story", 0, "measure:uvvis", false, award);
-    expect(access.available).toBe(true);
-    expect(access.granted).toBe(true);
-    // A grant is not a loan: it outlives the mission, and must not be
-    // reported as one.
-    expect(access.loaned).toBe(false);
-    expect(access.minimumCompleted).toBe(3);
-  });
-
-  it("leaves every existing caller unchanged when nothing is awarded", () => {
-    expect(equipmentAvailable("story", 3, "measure:uvvis")).toBe(true);
-    expect(equipmentAccess("story", 0, "measure:uvvis", false).granted).toBe(false);
-    expect(equipmentAccess("sandbox", 0, "distil", false).available).toBe(true);
-  });
-});
-
-describe("the progression rules match the shared contract fixture (WORLD-003)", () => {
-  // The engine now owns these rules (kerotakis-core::catalog). Until the
-  // client reads them off the protocol, this table is a copy — and a copy
-  // that drifts shows a learner an instrument the engine will refuse. Both
-  // languages check themselves against the same pin, so drift fails here.
-  const pin = JSON.parse(
-    readFileSync(join(import.meta.dirname, "../../../../tests/contract/catalog-milestones-v1.json"), "utf8"),
-  ) as {
-    last_tier: number;
-    starter_stock: string[];
-    apparatus: Record<string, number>;
-    instruments: Record<string, number>;
-  };
-
-  it("agrees with the engine on every apparatus and instrument tier", () => {
-    const disagreements: string[] = [];
-    for (const [id, tier] of Object.entries({ ...pin.apparatus, ...pin.instruments })) {
-      const mine = equipmentRequirement(id);
-      if (mine !== tier) disagreements.push(`${id}: client ${mine}, engine ${tier}`);
-    }
-    expect(disagreements).toEqual([]);
-  });
-
-  it("agrees on the starter stock, which is what costs nothing to reach", () => {
-    for (const key of pin.starter_stock) {
-      expect(reagentRequirement({ key, hazards: ["toxic"], hazard_assessed: true })).toBe(0);
-    }
-    // And something outside it is not free.
-    expect(reagentRequirement({ key: "AgNO3", hazards: [], hazard_assessed: true })).toBeGreaterThan(0);
-  });
-
-  it("agrees that an unassessed species sits at the last tier, not the first", () => {
-    expect(reagentRequirement({ key: "mystery", hazards: [], hazard_assessed: false })).toBe(pin.last_tier);
+    expect(equipmentRewardAt(4)?.verb).toBe("distil");
+    expect(equipmentRewardAt(7)).toBeNull();
   });
 });
