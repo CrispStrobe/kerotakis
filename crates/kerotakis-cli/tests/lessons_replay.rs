@@ -112,3 +112,33 @@ fn the_prewarmed_cache_covers_the_lessons() {
     );
     std::fs::remove_file(&out).ok();
 }
+
+/// KID-2: a lesson must demonstrate the claim it makes in its own prose.
+///
+/// `milk-curds.lab` promises that ten times the vinegar takes the milk past
+/// its curdling onset while the tiny dose leaves it a dispersed colloid.
+/// With the aqueous solver linked it did neither: `curdling::observe`
+/// summed vessel contents whose species id was `CH3COOH`, and the solver
+/// had already speciated that into `CH3COO-`, so the dose read zero and the
+/// event never fired. The core's own curdling test passed the whole time,
+/// because it drives `Bench::step` with no solver behind it — which is why
+/// this test lives here, on the binary a reader actually runs.
+#[test]
+fn the_milk_lesson_curdles_through_the_full_solver_stack() {
+    let lesson = lessons_dir().join("milk-curds.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let curds = out.matches("curds").count();
+    assert_eq!(
+        curds, 1,
+        "exactly the high-dose vessel separates — the control must stay a \
+         colloid, or the lesson's fair test is not a fair test:\n{out}"
+    );
+    // The dose that curdles is the second vessel's, so the event has to come
+    // after the control's report rather than before it.
+    let control = out.find("v1 (beaker)").expect("the control reports");
+    assert!(
+        out.find("curds").expect("the curd line") > control,
+        "the control vessel curdled, which is the bug in reverse:\n{out}"
+    );
+}
