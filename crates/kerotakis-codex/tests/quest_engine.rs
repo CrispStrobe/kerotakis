@@ -163,7 +163,7 @@ fn the_lint_rejects_corridors_and_lies() {
     let mut bad = demo_spec();
     bad.id = "bad-kind".into();
     bad.nudges[0].when = "made_up_event".into();
-    let problems = quest::lint(&[bad]);
+    let problems = quest::lint(std::slice::from_ref(&bad));
     assert!(problems.iter().any(|p| p.contains("unknown event kind")));
 }
 
@@ -183,4 +183,267 @@ fn nudges_fire_exactly_once() {
     assert!(!second
         .iter()
         .any(|o| matches!(o, QuestOutput::Nudge { .. })));
+}
+
+// ── WORLD-004: mission schema v2 ────────────────────────────────────────
+
+/// A v2 quest exercising every new field, written the way an author would.
+const V2: &str = r#"
+version = 2
+id = "two-ways-out"
+discoveries = ["noticed"]
+
+[title]
+lv1 = "Two ways out"
+lv2 = "Two ways out"
+lv3 = "Two ways out"
+
+[goal]
+lv1 = "Separate it."
+lv2 = "Separate it."
+lv3 = "Separate it."
+
+[placement]
+district = "systems-dock"
+chapter = "separations"
+order = 2
+
+[[claims]]
+id = "column"
+matches = "chromatographed"
+[claims.title]
+lv1 = "Run the column"
+lv2 = "Run the column"
+lv3 = "Run the column"
+
+[[claims]]
+id = "drained"
+matches = "drained"
+[claims.title]
+lv1 = "Draw off the layer"
+lv2 = "Draw off the layer"
+lv3 = "Draw off the layer"
+
+[[claims]]
+id = "noticed"
+matches = "observed"
+[claims.title]
+lv1 = "Look at it"
+lv2 = "Look at it"
+lv3 = "Look at it"
+
+[[routes]]
+id = "on-the-column"
+claims = ["column"]
+[routes.label]
+lv1 = "on the column"
+lv2 = "on the column"
+lv3 = "on the column"
+
+[[routes]]
+id = "in-the-funnel"
+claims = ["drained"]
+[routes.label]
+lv1 = "in the separating funnel"
+lv2 = "in the separating funnel"
+lv3 = "in the separating funnel"
+
+[[constraints]]
+id = "no-boiling-dry"
+forbid = "evaporated"
+[constraints.say]
+lv1 = "You boiled it dry."
+lv2 = "You boiled it dry."
+lv3 = "You boiled it dry."
+
+[[rewards]]
+kind = "equipment"
+id = "measure:chromatograph"
+"#;
+
+fn v2_spec() -> QuestSpec {
+    toml::from_str(V2).expect("v2 parses")
+}
+
+#[test]
+fn every_shipped_quest_is_already_a_valid_v2_quest() {
+    // The migration promise: v2 adds only defaulted fields, so every quest
+    // written before v2 existed parses and reports version 1 without being
+    // touched. If this fails, the schema stopped being backwards compatible.
+    let specs = quest::load_dir(std::path::Path::new("../../quests")).expect("quests load");
+    assert!(
+        specs.len() >= 20,
+        "expected the shipped corpus, got {}",
+        specs.len()
+    );
+    for spec in &specs {
+        assert_eq!(spec.version, 1, "{} should default to v1", spec.id);
+        assert!(spec.routes.is_empty(), "{} should have no routes", spec.id);
+        assert!(
+            spec.placement.is_none(),
+            "{} should have no placement",
+            spec.id
+        );
+        assert!(
+            spec.rewards.is_empty(),
+            "{} should have no rewards",
+            spec.id
+        );
+        // And the v1 completion rule is unchanged: every claim required.
+        assert_eq!(spec.required_claims().count(), spec.claims.len());
+    }
+    assert!(quest::lint(&specs).is_empty(), "{:?}", quest::lint(&specs));
+}
+
+#[test]
+fn a_v1_quest_completes_exactly_as_it_did() {
+    let spec = demo_spec();
+    let mut state = QuestState::default();
+    assert!(!spec.is_complete(&state));
+    for claim in &spec.claims {
+        state.satisfied.insert(claim.id.clone());
+    }
+    assert!(spec.is_complete(&state));
+}
+
+#[test]
+fn either_route_finishes_a_v2_quest_and_names_itself() {
+    let spec = v2_spec();
+    assert_eq!(spec.version, 2);
+
+    let mut column = QuestState::default();
+    column.satisfied.insert("column".into());
+    assert!(spec.is_complete(&column));
+    assert_eq!(
+        spec.completed_route(&column).map(|r| r.id.as_str()),
+        Some("on-the-column")
+    );
+
+    let mut funnel = QuestState::default();
+    funnel.satisfied.insert("drained".into());
+    assert!(spec.is_complete(&funnel));
+    assert_eq!(
+        spec.completed_route(&funnel).map(|r| r.id.as_str()),
+        Some("in-the-funnel")
+    );
+
+    // Neither route: the discovery alone is not a solution.
+    let mut only_discovery = QuestState::default();
+    only_discovery.satisfied.insert("noticed".into());
+    assert!(!spec.is_complete(&only_discovery));
+    assert!(spec.completed_route(&only_discovery).is_none());
+}
+
+#[test]
+fn a_discovery_is_never_required() {
+    let spec = v2_spec();
+    let required: Vec<&str> = spec.required_claims().map(|c| c.id.as_str()).collect();
+    assert_eq!(required, vec!["column", "drained"]);
+    assert!(!required.contains(&"noticed"));
+}
+
+#[test]
+fn placement_and_rewards_survive_the_round_trip() {
+    let spec = v2_spec();
+    let placement = spec.placement.as_ref().expect("placement");
+    assert_eq!(placement.district, "systems-dock");
+    assert_eq!(placement.chapter.as_deref(), Some("separations"));
+    assert_eq!(placement.order, Some(2));
+    assert_eq!(spec.rewards.len(), 1);
+    assert_eq!(spec.rewards[0].kind, "equipment");
+    // The reward names a catalog id, the same id space WORLD-003 answers in.
+    assert_eq!(spec.rewards[0].id, "measure:chromatograph");
+}
+
+#[test]
+fn a_constraint_is_recorded_and_spoken_but_never_blocks() {
+    let spec = v2_spec();
+    let mut states = BTreeMap::new();
+    states.insert(spec.id.clone(), QuestState::default());
+    let bench = Bench::new();
+
+    // Boil it dry: the forbidden event.
+    let events = vec![Event::Evaporated {
+        vessel: VesselId(0),
+        moles: Moles(1.0),
+    }];
+    let out = quest::observe(std::slice::from_ref(&spec), &mut states, &events, &bench);
+    assert!(out
+        .iter()
+        .any(|o| matches!(o, QuestOutput::ConstraintViolated { .. })));
+    assert!(states[&spec.id].violated.contains("no-boiling-dry"));
+
+    // Said once, not twice.
+    let again = quest::observe(std::slice::from_ref(&spec), &mut states, &events, &bench);
+    assert!(!again
+        .iter()
+        .any(|o| matches!(o, QuestOutput::ConstraintViolated { .. })));
+
+    // And it never blocks: the quest can still be completed afterwards.
+    let finish = vec![Event::Drained {
+        from: VesselId(0),
+        to: VesselId(1),
+        solvent: SpeciesId::new("water"),
+        moles: Moles(1.0),
+    }];
+    let _ = bench;
+    let out = quest::observe(
+        std::slice::from_ref(&spec),
+        &mut states,
+        &finish,
+        &Bench::new(),
+    );
+    assert!(out
+        .iter()
+        .any(|o| matches!(o, QuestOutput::Completed { .. })));
+    assert!(states[&spec.id].complete);
+}
+
+#[test]
+fn the_lint_refuses_a_route_that_can_never_be_satisfied() {
+    let mut spec = v2_spec();
+    spec.routes[0].claims = vec!["no-such-claim".into()];
+    let problems = quest::lint(std::slice::from_ref(&spec));
+    assert!(
+        problems.iter().any(|p| p.contains("does not exist")),
+        "{problems:?}"
+    );
+}
+
+#[test]
+fn the_lint_refuses_an_empty_route_and_an_orphan_claim() {
+    let mut empty = v2_spec();
+    empty.routes[0].claims.clear();
+    assert!(quest::lint(std::slice::from_ref(&empty))
+        .iter()
+        .any(|p| p.contains("names no claims")));
+
+    // A claim in no route and not a discovery is work that cannot count.
+    let mut orphan = v2_spec();
+    orphan.discoveries.clear();
+    assert!(quest::lint(std::slice::from_ref(&orphan))
+        .iter()
+        .any(|p| p.contains("belongs to no route")));
+}
+
+#[test]
+fn the_lint_refuses_a_quest_that_is_all_discovery_and_a_bad_reward() {
+    let mut all = v2_spec();
+    all.discoveries = all.claims.iter().map(|c| c.id.clone()).collect();
+    assert!(quest::lint(std::slice::from_ref(&all))
+        .iter()
+        .any(|p| p.contains("every claim is a discovery")));
+
+    let mut bad = v2_spec();
+    bad.rewards[0].kind = "trophy".into();
+    assert!(quest::lint(std::slice::from_ref(&bad))
+        .iter()
+        .any(|p| p.contains("unknown kind")));
+
+    let mut ghost = v2_spec();
+    ghost.rewards[0].kind = "reagent".into();
+    ghost.rewards[0].id = "not-a-species".into();
+    assert!(quest::lint(std::slice::from_ref(&ghost))
+        .iter()
+        .any(|p| p.contains("not in the registry")));
 }

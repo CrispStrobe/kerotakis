@@ -1673,9 +1673,24 @@ last-known-good recovery and quota-blocked storage.
   that nothing had tiered — and `tests/contract/catalog-milestones-v1.json`
   pins the tiers across both languages until the client reads them off the
   protocol, which is the next slice.*
-- [ ] **WORLD-004 — Mission schema v2 and migration.** Extend the landed quest
+- [x] **WORLD-004 — Mission schema v2 and migration.** Extend the landed quest
   TOML with world placement, objective combinators, constraints, discoveries,
   outcomes, and rewards while accepting every v1 quest unchanged.
+  *Landed 2026-09-02: every v2 field defaults, so all 35 shipped quests parse
+  untouched, report version 1, and complete by the identical rule — proven by
+  a test that walks the corpus rather than asserted. `routes` are the same
+  combinator GUI-080 gave the client (a route is an AND of its claims, a
+  mission an OR of its routes); `discoveries` are claims that are never
+  required; `constraints` are recorded and spoken but NEVER block, because a
+  lab that refuses the mistake cannot teach it; `rewards` name catalog ids in
+  WORLD-003's id space and are granted by derivation, never as a ledger. The
+  lint grew with the schema: a route naming a claim that does not exist, an
+  empty route, a claim in no route, an all-discovery quest, and a reward
+  naming no registry species all fail authoring rather than a learner. One
+  TOML trap is documented at the field: root keys must precede the first
+  `[[claims]]` table or they silently become part of that claim — serde
+  cannot refuse it, because `Claim` flattens `ClaimKind` and `flatten` and
+  `deny_unknown_fields` do not combine.*
 - [ ] **WORLD-005 — Objective evaluator.** Evaluate observe/measure/identify/
   produce/separate/compare/design/avoid/explain claims from typed evidence and
   World state. Return stable unmet-reason ids and parameters; unit-test threshold

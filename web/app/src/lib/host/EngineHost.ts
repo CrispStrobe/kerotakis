@@ -185,7 +185,10 @@ export interface BalanceReport {
 export type BalanceReply = BalanceReport | { ok: false; error: string };
 
 export interface QuestOutput {
-  kind: "nudge" | "claim_satisfied" | "completed";
+  /** `constraint_violated` (WORLD-004) is said, never blocking: a mission
+   * says "not like that" without refusing to let it happen, because a lab
+   * that prevents the mistake cannot teach it. */
+  kind: "nudge" | "claim_satisfied" | "completed" | "constraint_violated";
   quest: string;
   say?: { lv1: string; lv2: string; lv3: string };
   title?: { lv1: string; lv2: string; lv3: string };

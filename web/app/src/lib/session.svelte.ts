@@ -224,6 +224,10 @@ export class Session {
           );
           if (c) c.satisfied = true;
         }
+      } else if (o.kind === "constraint_violated") {
+        // Spoken, never blocking (WORLD-004). It reads as a nudge because
+        // that is what it is: the mission noticing, not the bench refusing.
+        this.feed.push({ kind: "nudge", text });
       } else if (o.kind === "completed") {
         this.feed.push({ kind: "claim", text: t("quest complete: {title}", { title: text }) });
         if (this.quest) this.quest.complete = true;
