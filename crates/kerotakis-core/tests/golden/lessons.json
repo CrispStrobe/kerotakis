@@ -1046,6 +1046,88 @@
       }
     ]
   },
+  "ink-chromatography": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +1.6603 mol water",
+      "v1: +2.000 g black_ink (4 known ingredients)",
+      "v1: The liquid is black and clear.",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)",
+      "v2: new vessel",
+      "v2: +1.6603 mol water",
+      "v2: +1.000 g food_colour_blue (2 known ingredients)",
+      "v2: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area)",
+      "v3: new vessel",
+      "v3: +1.6603 mol water",
+      "v3: +1.000 g food_colour_yellow (2 known ingredients)",
+      "v3: chromatogram — curcumin (turmeric yellow) at 231 s, Rf 0.85 (100% area)",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)"
+    ],
+    "lesson": "ink-chromatography.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 4.36e-6,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 4.89e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 7.72e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.76019983,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.14e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.71e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [
@@ -1422,8 +1504,8 @@
       "v1: +0.0500 mol methanol",
       "v1: +0.1000 mol ethanol",
       "v1: +0.0500 mol propanone",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)"
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)",
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)"
     ],
     "lesson": "one-thing-at-a-time.lab",
     "vessels": [

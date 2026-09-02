@@ -51215,6 +51215,142 @@
       }
     },
     {
+      "id": "school/felt-tip-ink-black",
+      "version": 1,
+      "canonical_key": "black_ink",
+      "name": "black felt-tip ink",
+      "aliases": {
+        "de": [
+          "schwarze Tinte",
+          "Filzstifttinte",
+          "Tinte_schwarz"
+        ],
+        "en": [
+          "black felt tip",
+          "felt_tip_ink",
+          "black marker ink"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "indigo_carmine",
+          "fraction": {
+            "lower": 0.0018,
+            "upper": 0.0018
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "betanin",
+          "fraction": {
+            "lower": 0.0012,
+            "upper": 0.0012
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "curcumin",
+          "fraction": {
+            "lower": 0.0009,
+            "upper": 0.0009
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9,
+            "upper": 0.9
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0961,
+        "upper": 0.0961
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "surface_colourant",
+          "srgb": [
+            32,
+            30,
+            36
+          ]
+        }
+      ],
+      "preparation": "unbranded water-based black felt-tip ink: three shipped dyes at the ratio that reads as a dark neutral, in a glycol-and-water carrier",
+      "lot_assumptions": [
+        "the three named dyes and their proportions define this surrogate; no retail pen's formulation is claimed, and a real black ink may use quite different colourants",
+        "the humectant and surfactant carrier stays together as a conserved unresolved remainder rather than fictional molecules",
+        "that a black ink is a mixture at all is the claim worth making here; which three dyes it is made of is a teaching choice"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/red-cabbage-juice-surrogate",
       "version": 1,
       "canonical_key": "red_cabbage_juice",

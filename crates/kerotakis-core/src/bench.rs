@@ -2242,6 +2242,7 @@ impl Bench {
                         } else {
                             let column =
                                 crate::instrument::ChromatographyColumn::school();
+                            let plate = crate::instrument::PaperPlate::school();
                             let t_k = v.temperature.0;
                             let mut injectable: std::collections::BTreeMap<
                                 SpeciesId,
@@ -2255,7 +2256,18 @@ impl Bench {
                                 if !dissolved || p.moles.0 <= 0.0 {
                                     continue;
                                 }
-                                if partition_groups(&p.species).is_some() {
+                                // KID-9: a group decomposition where one is
+                                // honest, a reviewed coefficient where it
+                                // would not be. A food dye is a large
+                                // glycoside; splitting it into UNIFAC groups
+                                // would be a fiction dressed as a
+                                // calculation, and leaving it out meant the
+                                // ink experiment every child does had
+                                // nothing to separate.
+                                if partition_groups(&p.species).is_some()
+                                    || crate::instrument::curated_partition_k(&p.species.0)
+                                        .is_some()
+                                {
                                     *injectable.entry(p.species.clone()).or_insert(0.0) +=
                                         p.moles.0;
                                 } else {
@@ -2275,18 +2287,24 @@ impl Bench {
                                 let mut peaks: Vec<ElutedPeak> = injectable
                                     .into_iter()
                                     .map(|(species, moles)| {
-                                        let solute = partition_groups(&species)
-                                            .expect("filtered on Some above");
-                                        let k =
-                                            kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                &solute,
-                                                &water_groups(),
-                                                t_k,
-                                            ) / kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                &solute,
-                                                &hexane_groups(),
-                                                t_k,
-                                            );
+                                        let k = match partition_groups(&species) {
+                                            Some(solute) => {
+                                                kerotakis_thermo::lle::infinite_dilution_gamma(
+                                                    &solute,
+                                                    &water_groups(),
+                                                    t_k,
+                                                ) / kerotakis_thermo::lle::infinite_dilution_gamma(
+                                                    &solute,
+                                                    &hexane_groups(),
+                                                    t_k,
+                                                )
+                                            }
+                                            None => crate::instrument::curated_partition_k(
+                                                &species.0,
+                                            )
+                                            .expect("filtered on Some above")
+                                            .0,
+                                        };
                                         let tr = column.retention_time(k);
                                         ElutedPeak {
                                             species,
@@ -2294,6 +2312,7 @@ impl Bench {
                                             width_s: column.peak_width(tr),
                                             relative_area: moles,
                                             partition_k: k,
+                                            rf: plate.rf(k),
                                         }
                                     })
                                     .collect();

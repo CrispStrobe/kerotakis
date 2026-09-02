@@ -77,7 +77,7 @@ silent miss teaches the silence.
 | K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` still refuses because `v2` must be created first (KID-15) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
-| K26 | Felt-tip chromatography | the colours separating | honest miss | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent"; no paper/Rf mode, no dye partition data |
+| K26 | Felt-tip chromatography | the colours separating | ~~honest miss~~ → computed | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent" (KID-9, landed 2026-09-02: a black ink now separates into three spots at Rf 0.15, 0.35 and 0.85) |
 | K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" (KID-3, fixed 2026-09-02: now clean) |
 | K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; one of its two banners survives KID-3 slice 1 and is owned by KID-3b |
 | K29 | Yeast balloon | the balloon filling | computed | fermentation, ethanol, CO₂ — and then an honest **BANG** when the sealed vessel bursts. Correct, and a better lesson than the one asked for |
@@ -86,9 +86,10 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5, KID-6 and
-KID-8: **computed 16 · partial 8 · wrong 1 · silent miss 1 · unreachable 2**,
-and the thirty unrepaired scripts run 28/30 instead of 17/30.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5, KID-6, KID-8
+and KID-9: **computed 17 · partial 8 · wrong 1 · silent miss 1 ·
+unreachable 2 · honest miss 1**, and the thirty unrepaired scripts run 28/30
+instead of 17/30. The second thirty gains K48 with the same fix.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -161,7 +162,7 @@ the project's own coverage report.
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
 | Suspension rheology; buoyancy on attached bubbles; miscible stratification | K22, K11, K10 |
-| Paper/TLC mode with dye partition data (`EXP-8`) | K26 |
+| ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
 | ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 |
 | Calcium (and lithium) in the flame-colour table | K30 |
@@ -437,6 +438,34 @@ and `main` moves only by PR.
   acidic and buffered, and this surrogate is not.
 - **KID-9 — Paper chromatography.** `EXP-8`'s Rf mode plus partition data
   for the three shipped dyes and a black-ink surrogate.
+  **Landed 2026-09-02.** Rf is not a second model. A column reports *when* a
+  solute leaves and a paper strip reports *how far* it went, and both are one
+  partition coefficient read two ways: `Rf = Kβ/(1 + Kβ)` is the fraction of
+  its time a solute spends in the moving phase. So `ElutedPeak` gained an
+  `rf` beside its retention time, both computed from the same `K`, and a test
+  holds that the two rank the dyes identically — the bench cannot say one
+  thing on a column and another on paper.
+  The blocking gap was the partition data. `K` comes from a UNIFAC group
+  decomposition, which exists for exactly three species here; a food dye is a
+  large glycoside or a sulfonated aromatic, and splitting one into UNIFAC
+  groups would be a fiction dressed as a calculation. So four dyes carry a
+  **curated** `K` instead, and the lv3 provenance line now names which
+  coefficients were computed and which were reviewed — it used to claim every
+  one came from UNIFAC, which was true until it wasn't.
+  `black_ink` joins the shelf as three dyes in the ratio that reads as a dark
+  neutral, and `lessons/ink-chromatography.lab` takes it apart: indigo
+  carmine at Rf 0.15, betanin at 0.35, curcumin at 0.85, with each pure dye
+  running to the same height on its own — which is what lets a strip identify
+  an unknown ink.
+  Corpus: `bio-104`, "can paper chromatography separate two food dyes?", was
+  pinned `missing` and filed against `EXP-36` (organic synthesis); it now
+  reads `computed` and is filed against `EXP-8`, which owns chromatography.
+  The only change to an existing lesson's output is the added `Rf` field —
+  every retention time is unchanged to the digit.
+  **Stated boundary:** the four curated coefficients are *ordered*, not
+  measured. They reproduce which dye runs furthest and roughly how far apart
+  the spots land; a real strip's Rf depends on the solvent, the paper and the
+  temperature, and none of that is claimed.
 - **KID-10 — Completions.** Calcium and lithium flame colours; acetic acid
   and ethanol odours; the missing cold-pack salt (NH₄NO₃) through the
   registry pipeline.
@@ -486,7 +515,7 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 8 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 8, 9 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
@@ -527,7 +556,7 @@ or a rate in them.
 | K45 | Stop an apple going brown | honest miss | no enzymatic browning; the vitamin C sits as a solid and says so |
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
 | K47 | A fire extinguisher in a jar | **silent miss** | the CO₂ generator works; the fire it is supposed to put out does not exist (KID-4/KID-12) |
-| K48 | Colours climbing a chalk stick | honest miss | same refusal as K26 |
+| K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
 | K50 | A pH map of the kitchen | **wrong** | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice reads nothing at all**, because the recipe resolves to water and sucrose with no acid in it. A juice with no acid is a juice a pH map lies about |
 | K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent, and cooling a supersaturated acetate solution does nothing (KID-7) |
