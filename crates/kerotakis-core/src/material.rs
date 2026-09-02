@@ -7,8 +7,8 @@
 use std::sync::{OnceLock, RwLock};
 
 pub use kerotakis_data::{
-    ExpandedMaterialComponent, MaterialBasis, MaterialExpansion, MaterialGeometry,
-    MaterialPhysicalForm, MaterialRecipe, MaterialRole,
+    ExpandedMaterialComponent, MaterialBasis, MaterialConfidence, MaterialExpansion,
+    MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole,
 };
 
 include!(concat!(env!("OUT_DIR"), "/materials_generated.rs"));
