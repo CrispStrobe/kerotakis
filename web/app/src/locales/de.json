@@ -4,6 +4,8 @@
  "@@note": "The shell's German. One file per language: adding French means adding fr.json beside this one and translating the values — no code change, and no other translation touched. Keys are the English source text, which is what t() is called with. `terms` are the engine's vocabulary (species, colours, hazards) and are substituted inside longer sentences; `messages` are the interface's own strings, plus the concept and experiment names the codex refers to by slug.",
  "terms": {
   "water": "Wasser",
+  "rusting": "Rosten",
+  "boiling curve": "Siedekurve",
   "ethanol": "Ethanol",
   "sodium chloride": "Natriumchlorid",
   "silver nitrate": "Silbernitrat",
