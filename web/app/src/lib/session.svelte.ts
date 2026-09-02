@@ -158,6 +158,9 @@ export class Session {
   completedMissions = $state<ReadonlySet<string>>(new Set());
   /** Result card held after the lesson overlay closes. Chemistry keeps running. */
   missionDebrief = $state<MissionDebrief | null>(null);
+  /** WORLD-006: the last commit that could not be written, held absolute so
+   * retrying it is indistinguishable from having written it the first time. */
+  private pendingWrite = $state<Record<string, string> | null>(null);
 
   /** GUI-066: the running quest, engine-evaluated. Claims progress for
    * the panel; nudges arrive as feed cards. */
@@ -1397,21 +1400,59 @@ export class Session {
     if (replenish) this.storyStockUsed = {};
   }
 
-  /** Write several keys as one save where the storage can, sequentially
-   * where it cannot. Progress persistence is a convenience: a blocked or
-   * failing storage costs the visit its record, never its session. */
+  /**
+   * Write several keys as one save, and keep what could not be written.
+   *
+   * WORLD-006. Two properties make an interrupted commit survivable.
+   *
+   * Changes are ABSOLUTE, never deltas: each value is the complete next
+   * state of its key. So replaying a commit is indistinguishable from
+   * making it once, and a retry needs no reasoning about what already
+   * landed — which is what "retry safely after interruption" has to mean
+   * when the interruption is a write that threw halfway.
+   *
+   * A failed write is REMEMBERED, not swallowed. The change set is held and
+   * merged into the next commit, so a learner who finishes two missions
+   * through a full quota and then frees space keeps both, rather than
+   * silently losing the first. Newer values win the merge, because they are
+   * the later truth about the same key.
+   *
+   * Persistence remains a convenience: a blocked storage costs the visit
+   * its record, never its session.
+   */
   private commit(changes: Readonly<Record<string, string>>): void {
     const storage = this.storage;
     if (!storage) return;
+    const merged = { ...(this.pendingWrite ?? {}), ...changes };
     try {
       if (typeof storage.setItems === "function") {
-        storage.setItems(changes);
-        return;
+        storage.setItems(merged);
+      } else {
+        for (const [key, value] of Object.entries(merged)) storage.setItem(key, value);
       }
-      for (const [key, value] of Object.entries(changes)) storage.setItem(key, value);
+      this.pendingWrite = null;
     } catch {
-      // Story progress remains valid for this visit without persistence.
+      this.pendingWrite = merged;
     }
+  }
+
+  /**
+   * Try again to write what a previous commit could not.
+   *
+   * Safe to call at any time and any number of times: the held change set
+   * is absolute, so a redundant retry writes the same bytes. Returns true
+   * when nothing is outstanding.
+   */
+  retryPendingWrite(): boolean {
+    if (this.pendingWrite === null) return true;
+    this.commit({});
+    return this.pendingWrite === null;
+  }
+
+  /** True while a completed mission's record has not reached storage.
+   * The UI can say so rather than letting a learner believe it is saved. */
+  get progressUnsaved(): boolean {
+    return this.pendingWrite !== null;
   }
 
   /** Load learner progress; called from connect, harmless without storage. */

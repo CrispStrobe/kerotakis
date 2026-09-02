@@ -1277,3 +1277,116 @@ describe("one outcome, one write (GUI-080 case transaction)", () => {
     expect(session.missionDebrief?.caseAward).toBeNull();
   });
 });
+
+describe("transactional mission outcomes (WORLD-006)", () => {
+  /** Storage that can be made to fail, and counts what it accepted. */
+  class FlakyStorage implements StorageLike {
+    map = new Map<string, string>();
+    saves = 0;
+    failing = false;
+    getItem(k: string) { return this.map.get(k) ?? null; }
+    setItem(k: string, v: string) {
+      if (this.failing) throw new Error("quota");
+      this.saves += 1;
+      this.map.set(k, v);
+    }
+    removeItem(k: string) { this.map.delete(k); }
+    setItems(changes: Readonly<Record<string, string>>) {
+      if (this.failing) throw new Error("quota");
+      this.saves += 1;
+      for (const [k, v] of Object.entries(changes)) this.map.set(k, v);
+    }
+  }
+
+  it("holds a failed commit and lands it with the next one", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+
+    storage.failing = true;
+    session.markMissionDone("first-warmth");
+    // In memory the mission is done; on disk nothing is.
+    expect(session.completedMissions.has("first-warmth")).toBe(true);
+    expect(storage.map.has("kero.missions.done.v1")).toBe(false);
+    expect(session.progressUnsaved).toBe(true);
+
+    // Space frees up, and the next completion carries the lost one with it.
+    storage.failing = false;
+    session.markMissionDone("one-thing-at-a-time");
+    expect(session.progressUnsaved).toBe(false);
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual([
+      "first-warmth",
+      "one-thing-at-a-time",
+    ]);
+  });
+
+  it("retries on demand, and a redundant retry is harmless", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+
+    storage.failing = true;
+    session.markMissionDone("first-warmth");
+    expect(session.retryPendingWrite()).toBe(false);
+
+    storage.failing = false;
+    expect(session.retryPendingWrite()).toBe(true);
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+
+    // Absolute values, so writing again writes the same bytes. This is what
+    // makes a retry safe without reasoning about what already landed.
+    const after = storage.saves;
+    expect(session.retryPendingWrite()).toBe(true);
+    expect(storage.saves).toBe(after);
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+  });
+
+  it("keeps the stockroom and the completion together across the failure", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+
+    storage.failing = true;
+    session.markMissionDone("first-warmth");
+    storage.failing = false;
+    session.retryPendingWrite();
+
+    // The two halves of one outcome arrive together or not at all — never a
+    // spent stockroom beside a mission that was never recorded.
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+    expect(JSON.parse(storage.map.get("kero.story-stock.v1")!)).toEqual({});
+  });
+
+  it("rejects a double claim: the same mission commits once", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+    session.markMissionDone("first-warmth");
+    const after = storage.saves;
+
+    session.markMissionDone("first-warmth");
+    session.markMissionDone("first-warmth");
+
+    expect(storage.saves).toBe(after);
+    expect(JSON.parse(storage.map.get("kero.missions.done.v1")!)).toEqual(["first-warmth"]);
+  });
+
+  it("commits only after the engine's evaluation, never on entering the mission", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+
+    // A mission with an outcome contract and real work to do: starting it
+    // must record nothing, because nothing has been evaluated.
+    session.startLesson("silver-and-salt", "chromatograph v1\n");
+    expect(storage.map.has("kero.missions.done.v1")).toBe(false);
+    expect(session.completedMissions.size).toBe(0);
+  });
+
+  it("says progress is unsaved only while it actually is", () => {
+    const storage = new FlakyStorage();
+    const session = new Session(new FakeHost(), storage, "story");
+    expect(session.progressUnsaved).toBe(false);
+    storage.failing = true;
+    session.markMissionDone("first-warmth");
+    expect(session.progressUnsaved).toBe(true);
+    storage.failing = false;
+    session.retryPendingWrite();
+    expect(session.progressUnsaved).toBe(false);
+  });
+});

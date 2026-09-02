@@ -6,7 +6,16 @@
   import { caseAwardDetail } from "../storyChapter";
   import ToolIcon from "./ToolIcon.svelte";
 
-  let { debrief, onmap, onplace, onclose }: { debrief: Debrief; onmap: () => void; onplace: (verb: string) => void; onclose: () => void } = $props();
+  let { debrief, unsaved = false, onretry, onmap, onplace, onclose }: {
+    debrief: Debrief;
+    /** WORLD-006: the record did not reach storage. Say so rather than
+     * letting a learner believe their discovery is kept. */
+    unsaved?: boolean;
+    onretry?: () => void;
+    onmap: () => void;
+    onplace: (verb: string) => void;
+    onclose: () => void;
+  } = $props();
   const reward = $derived(debrief.firstCompletion ? equipmentRewardAt(debrief.completedTotal) : null);
   const award = $derived(debrief.caseAward ? caseAwardDetail(debrief.caseAward) : null);
 
@@ -59,6 +68,17 @@
       </div>
     {/if}
 
+    {#if unsaved}
+      <div class="unsaved" role="alert">
+        <span aria-hidden="true">!</span>
+        <span>
+          <strong>{t("not saved yet")}</strong>
+          <p>{t("This discovery is recorded for now but has not reached storage. It is kept and retried; freeing space on this device lets it through.")}</p>
+        </span>
+        {#if onretry}<button onclick={onretry}>{t("try again")}</button>{/if}
+      </div>
+    {/if}
+
     {#if debrief.firstCompletion}
       <div class="resupply"><span aria-hidden="true">↻</span><p><strong>{t("stockroom replenished")}</strong>{t("Permanent supplies are ready for the next investigation.")}</p></div>
     {/if}
@@ -99,6 +119,11 @@
   .reward strong { font-size: .85rem; }
   .reward p { font-size: .67rem; }
   .reward button { min-height: 36px; padding: 0 .7rem; border: 0; border-radius: 10px; color: var(--on-accent); background: var(--instrument); cursor: pointer; font-weight: 800; }
+  .unsaved { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: .6rem; padding: .6rem .7rem; border: 1px solid color-mix(in srgb, var(--warning) 50%, var(--edge)); border-radius: 14px; background: color-mix(in srgb, var(--warning) 9%, var(--surface)); }
+  .unsaved > span:first-child { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 9px; color: var(--on-accent); background: var(--warning); font-weight: 900; }
+  .unsaved strong { display: block; color: var(--warning); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
+  .unsaved p { margin: .1rem 0 0; color: var(--dim); font-size: .67rem; line-height: 1.35; }
+  .unsaved button { min-height: 32px; padding: 0 .6rem; border: 0; border-radius: 10px; color: var(--on-accent); background: var(--warning); cursor: pointer; font-weight: 800; }
   .case-award { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: .7rem; padding: .7rem; border: 1px solid color-mix(in srgb, var(--discovery) 45%, var(--edge)); border-radius: 15px; background: color-mix(in srgb, var(--discovery) 9%, var(--surface)); }
   .case-award small { color: var(--discovery); font-size: .58rem; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
   .case-award strong { display: block; font-size: .9rem; }
