@@ -422,13 +422,17 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let Some(spec) = lab.quest.clone() else {
                 return Err("no quest is running".into());
             };
-            let outputs = kerotakis_codex::quest::answer(
+            // Same shape as the wasm host: a wrong guess is a refusal id in
+            // the result, not an English sentence in an error.
+            match kerotakis_codex::quest::answer_typed(
                 &[spec],
                 &mut lab.quest_states,
                 field("alias")?,
                 field("guess")?,
-            )?;
-            Ok(Value::Array(quest_outputs_json(&outputs)).to_string())
+            ) {
+                Ok(outputs) => Ok(json!({ "outputs": quest_outputs_json(&outputs) }).to_string()),
+                Err(refusal) => Ok(json!({ "outputs": [], "refusal": refusal }).to_string()),
+            }
         }
         "catalog" => {
             // WORLD-003. Same join as the wasm host, from the same core rules

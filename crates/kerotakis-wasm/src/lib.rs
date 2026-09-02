@@ -122,9 +122,21 @@ impl Lab {
         let Some(spec) = self.quest.clone() else {
             return Err(JsError::new("no quest is running"));
         };
-        let outputs = kerotakis_codex::quest::answer(&[spec], &mut self.quest_states, alias, guess)
-            .map_err(|e| JsError::new(&e))?;
-        Ok(serde_json::Value::Array(quest_outputs_json(&outputs)).to_string())
+        // A wrong guess is spoken guidance, never a block — so it comes back
+        // as a RESULT carrying a stable refusal id, not as an exception
+        // carrying an English sentence. "No quest is running" above stays an
+        // error, because that one really is one.
+        match kerotakis_codex::quest::answer_typed(&[spec], &mut self.quest_states, alias, guess) {
+            Ok(outputs) => Ok(serde_json::json!({
+                "outputs": quest_outputs_json(&outputs),
+            })
+            .to_string()),
+            Err(refusal) => Ok(serde_json::json!({
+                "outputs": [],
+                "refusal": refusal,
+            })
+            .to_string()),
+        }
     }
 
     /// Run the quest evaluator over freshly produced events.

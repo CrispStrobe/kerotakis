@@ -20,7 +20,7 @@ import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
-import type { QuestOutput } from "./host/EngineHost";
+import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
@@ -214,14 +214,36 @@ export class Session {
   /** Name a sealed unknown; the engine answers, never blocks. */
   async answerUnknown(alias: string, guess: string): Promise<void> {
     try {
-      const outputs = await this.host.questAnswer(alias, guess);
+      const { outputs, refusal } = await this.host.questAnswer(alias, guess);
       this.applyQuestOutputs(outputs);
-      if (outputs.length === 0) {
+      if (refusal !== undefined) {
+        // Rendered HERE from the engine's stable id, so a German session
+        // reads German. It arrives as a note, not an error: the engine's
+        // whole contract for a wrong guess is that it is spoken, never a
+        // block, and styling it as a failure said the opposite.
+        this.feed.push({ kind: "note", text: this.refusalText(refusal, guess) });
+      } else if (outputs.length === 0) {
         this.feed.push({ kind: "note", text: t('"{guess}" — not it yet; look again.', { guess }) });
       }
     } catch (e) {
       this.feed.push({ kind: "error", text: e instanceof Error ? e.message : String(e) });
     }
+  }
+
+  /** One place the engine's refusal ids become sentences, in the learner's
+   * own language. An id the client does not know yet still says something
+   * useful rather than nothing. */
+  private refusalText(refusal: AnswerRefusal, guess: string): string {
+    if (refusal.refused === "wrong_guess") {
+      return t('"{guess}" is not what {alias} hides — the measurements you have already made settle it; look at what they say', {
+        guess,
+        alias: refusal.alias,
+      });
+    }
+    if (refusal.refused === "unknown_alias") {
+      return t('nothing in this investigation seals an unknown called "{alias}"', { alias: refusal.alias });
+    }
+    return t('"{guess}" — not it yet; look again.', { guess });
   }
 
   private applyQuestOutputs(outputs: QuestOutput[]): void {

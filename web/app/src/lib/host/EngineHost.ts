@@ -184,6 +184,19 @@ export interface BalanceReport {
 /** A balance that could not be computed says why rather than guessing. */
 export type BalanceReply = BalanceReport | { ok: false; error: string };
 
+/** WORLD-007: why an answer was not accepted — a stable tag with its
+ * parameters, so a German client says it in German. A wrong guess is
+ * spoken guidance, never a block, so it arrives as a RESULT rather than
+ * as an error carrying an English sentence. */
+export type AnswerRefusal =
+  | { refused: "wrong_guess"; alias: string; guess: string }
+  | { refused: "unknown_alias"; alias: string };
+
+export interface QuestAnswerResult {
+  outputs: QuestOutput[];
+  refusal?: AnswerRefusal;
+}
+
 export interface QuestOutput {
   /** `constraint_violated` (WORLD-004) is said, never blocking: a mission
    * says "not like that" without refusing to let it happen, because a lab
@@ -336,7 +349,7 @@ export interface EngineHost {
    * step results as `quest: QuestOutput[]`. */
   questStart(specJson: string): Promise<void>;
   questStop(): Promise<void>;
-  questAnswer(alias: string, guess: string): Promise<QuestOutput[]>;
+  questAnswer(alias: string, guess: string): Promise<QuestAnswerResult>;
   /** DATA-010: load a species pack. Honest counts back; built-ins are
    * never shadowed. */
   loadPack(bytes: Uint8Array): Promise<{ added: number; skipped: number; loaded_total: number }>;
