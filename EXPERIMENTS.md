@@ -923,7 +923,10 @@ only the genuinely new remainder.
   three gaps rather than one — chloroform is not a species at all,
   UNIFAC main group 11 and its twelve a_mn values are absent, and
   `total_excess_j()` is water-anchored so a non-aqueous binary would
-  return 0.0 even with the parameters. Written up under Part 10.**
+  return 0.0 even with the parameters. Written up under Part 10. The
+  third is SETTLED (2026-09-02): the allowlist asks about unordered
+  binaries rather than about organics-with-water, so the remaining
+  blocker is the two data gaps.**
   Original scope
   follows. — the
   acetone–chloroform-class negative deviation: h^E from the
@@ -1351,21 +1354,36 @@ independent gaps, not one:
    THERMO-004 restricts parameters to the 1975 Fredenslund/Jones/
    Prausnitz publication and the 1982 Gmehling revision, so these must
    be read off those papers, not inferred.
-3. **The hᴱ model is water-anchored.** `groups_of()` in
-   `crates/kerotakis-core/src/hmix.rs` decomposes only `water` and
-   `propanone`, and `total_excess_j()` returns 0.0 unless the vessel
-   holds water plus exactly one allowlisted organic — two organics
-   fall through the `Some(_) => return 0.0` arm. Acetone–chloroform is
-   a **non-aqueous** binary, so even a complete parameter table would
-   yield no heat until that structure is generalised.
+3. ~~**The hᴱ model is water-anchored.**~~ **SETTLED 2026-09-02.**
+   `total_excess_j()` used to return 0.0 unless the vessel held water
+   plus exactly one allowlisted organic — two organics fell through a
+   `Some(_) => return 0.0` arm — so acetone–chloroform, a **non-aqueous**
+   binary, would have yielded no heat even with a complete parameter
+   table. The answer to the design question is that the anchor was an
+   accident of the first verified pair rather than a claim about
+   chemistry: hᴱ is a property of a binary, `excess_enthalpy_j_per_mol`
+   in the thermo crate was already pair-agnostic, and nothing in the
+   Gibbs–Helmholtz route privileges water. `VERIFIED_PAIRS_WITH_WATER`
+   is now `VERIFIED_PAIRS`, a list of unordered *binaries*;
+   `total_excess_j()` pools the vessel's liquids, requires exactly two,
+   and asks the allowlist about the pair. The list is still one pair
+   long — widening it is a question about literature and parameters, not
+   about code — but a non-aqueous pair is now *reachable*, and the
+   answer to "why no heat?" is *this pair is not verified* rather than
+   *neither of these is water*. Guarded in
+   `crates/kerotakis-core/tests/heat_of_mixing.rs`. Note what stayed
+   refused, deliberately: a third liquid (hᴱ over a ternary is not the
+   sum of its binaries and this model makes no ternary claim) and a
+   separated pair (two layers are not a mixture).
 
 The machinery around it is healthy, which is why the gap is narrow and
 worth stating precisely: the allowlisted acetone–water pair still runs
 (`add v1 water 5mol` + `add v1 propanone 5mol` → 25.0 °C → 27.12 °C,
-"heat of mixing released 2140.6 J"). Item 3 is the design question —
-whether the state-function bookkeeping generalises to a solvent-free
-binary — and it should be settled before anyone spends a session
-transcribing parameters for item 2.
+"heat of mixing released 2140.6 J"). With item 3 settled, **items 1 and
+2 are the whole remaining blocker** — chloroform as a species, and main
+group 11 with its twelve a_mn values read off the 1975/1982 papers
+THERMO-004 restricts sources to. That is now a data task with nothing
+structural in front of it.
 
 ## T2 value-claim upgrades — [x] **done 2026-08-29**
 All seven candidates now carry value claims, every target read off the
