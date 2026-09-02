@@ -1833,6 +1833,60 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        // KID-9: the black felt-tip. A black ink is a mixture, which is the
+        // entire point of the experiment: the strip proves it by taking it
+        // apart. Three of the shipped dyes, in the proportions that make a
+        // dark neutral.
+        MaterialRecipe {
+            id: "school/felt-tip-ink-black".to_string(),
+            version: 1,
+            canonical_key: "black_ink".to_string(),
+            name: "black felt-tip ink".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "schwarze Tinte".to_string(),
+                        "Filzstifttinte".to_string(),
+                        "Tinte_schwarz".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec![
+                        "black felt tip".to_string(),
+                        "felt_tip_ink".to_string(),
+                        "black marker ink".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.0)),
+            components: vec![
+                component("indigo_carmine", 0.0018),
+                component("betanin", 0.0012),
+                component("curcumin", 0.0009),
+                component("water", 0.9),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.0961,
+                upper: 0.0961,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::SurfaceColourant { srgb: [32, 30, 36] }],
+            preparation: Some(
+                "unbranded water-based black felt-tip ink: three shipped dyes at the ratio that reads as a dark neutral, in a glycol-and-water carrier".to_string(),
+            ),
+            lot_assumptions: vec![
+                "the three named dyes and their proportions define this surrogate; no retail pen's formulation is claimed, and a real black ink may use quite different colourants".to_string(),
+                "the humectant and surfactant carrier stays together as a conserved unresolved remainder rather than fictional molecules".to_string(),
+                "that a black ink is a mixture at all is the claim worth making here; which three dyes it is made of is a teaching choice".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         // KID-8: the jar of cabbage water. The pigment's pH-dependent colour
         // lives in `kerotakis_core::indicator::PIGMENT_LADDERS` with its own
         // provenance; this record is only the bottle it arrives in.

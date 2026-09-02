@@ -1,0 +1,40 @@
+# Splitting a black felt-tip: the spot that is really three
+#
+# A black ink looks like one colour. Put a dot of it near the bottom of a
+# strip of paper, stand the paper in water, and the water climbing past the
+# dot carries each dye a different distance — because each one divides
+# differently between the water that moves and the water the paper holds.
+# The number that says how far is Rf, and it is the same partition
+# coefficient that decides how long each dye takes on a column.
+register lv1
+
+add v1 water 30mL
+add v1 black_ink 2mL
+look v1
+chromatograph v1
+
+# The dyes on their own, for comparison. Each runs to its own height, and
+# the heights are the same ones the mixture just produced — which is how a
+# strip identifies what is in an unknown ink.
+new beaker
+add v2 water 30mL
+add v2 food_colour_blue 1mL
+chromatograph v2
+
+new beaker
+add v3 water 30mL
+add v3 food_colour_yellow 1mL
+chromatograph v3
+
+# The same numbers, read as a column instead of a strip. One separation,
+# two instruments, one partition coefficient: the dye the column holds
+# longest is the one nearest the pencil line.
+register lv3
+chromatograph v1
+
+# What this does not model: the Rf values are reviewed teaching numbers
+# rather than measurements, chosen to reproduce which dye runs furthest and
+# roughly how far apart the spots land — a real strip's Rf depends on the
+# solvent, the paper and the temperature, and none of those are claimed
+# here. Dissolved ions travel with the water and are named as outside the
+# method rather than quietly dropped.

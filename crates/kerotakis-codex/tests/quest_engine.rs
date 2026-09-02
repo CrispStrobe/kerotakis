@@ -486,6 +486,8 @@ fn peak(species: &str, retention_time_s: f64, width_s: f64) -> kerotakis_core::o
         width_s,
         relative_area: 1.0,
         partition_k: 1.0,
+        // KID-9: the same K read as a paper strip reads it.
+        rf: 0.5,
     }
 }
 

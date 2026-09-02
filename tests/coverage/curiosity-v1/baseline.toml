@@ -1372,9 +1372,9 @@ reason_code = "unknown-species"
 
 [[observation]]
 id = "bio-104"
-owning_task = "EXP-36"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+owning_task = "EXP-8"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-105"
