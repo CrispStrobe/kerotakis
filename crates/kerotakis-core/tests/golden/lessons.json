@@ -1,4 +1,85 @@
 {
+  "boiling-curve": {
+    "event_count": 25,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: 25.0 °C → 97.0 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ delivered — time model not yet coupled",
+      "v1 thermometer: 96.99 °C",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: 25.0 °C → 169.0 °C",
+      "v2: 60.00 kJ requested; 60.00 kJ delivered — time model not yet coupled",
+      "v2 thermometer: 168.98 °C",
+      "v2 balance: 99.70 g",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: 25.0 °C → 600.9 °C",
+      "v3: 240.00 kJ requested; 240.00 kJ delivered — time model not yet coupled",
+      "v3: not yet modelled — the aqueous model's temperature ceiling at 300 °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
+      "v3 thermometer: 600.91 °C",
+      "v3 balance: 99.70 g",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.3422 mol sodium chloride"
+    ],
+    "lesson": "boiling-curve.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 370.1389
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 442.1277
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 874.061
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.34221378,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 436.3948
+      }
+    ]
+  },
   "buffer": {
     "event_count": 12,
     "events_sample": [

@@ -64,7 +64,7 @@ silent miss teaches the silence.
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
 | K11 | Dancing raisins | raisins rising and falling | unreachable | no raisin, and no model for a bubble attaching to an object and lifting it |
 | K12 | Red-cabbage rainbow | pink → purple → green | unreachable | no anthocyanin, in the materials *or* the indicator table (which holds only phenolphthalein, methyl orange, bromothymol blue) |
-| K13 | Invisible ink | brown writing appearing | **wrong** | no pyrolysis and no browning; worse, 5 kJ into juice-on-paper drives the vessel to **670 °C with liquid water still in the ledger**. At lv3 two `NOT MODELLED` lines name both faults honestly; at lv1 the child is told "the water is boiling — look at the steam!" and the mass does not move |
+| K13 | Invisible ink | brown writing appearing | **wrong** → partial | no pyrolysis and no browning. The other half — 5 kJ into juice-on-paper reaching **670 °C with liquid water still in the ledger** — was KID-6 and is fixed: the water now leaves at its boiling point and the vessel ends dry |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
@@ -86,9 +86,9 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2 and KID-5:
-**computed 15 · wrong 2 · silent miss 1**, and the thirty unrepaired scripts
-run 27/30 instead of 17/30.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5 and KID-6:
+**computed 15 · partial 8 · wrong 1 · silent miss 1**, and the thirty
+unrepaired scripts run 27/30 instead of 17/30.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -156,7 +156,7 @@ the project's own coverage report.
 |---|---|
 | ~~Corrosion of iron in aerated brine~~ | K17 — **landed as KID-5**, 2026-09-02 |
 | Combustion of organic solids; a flame that can be starved | K04, K13; `ignite` is currently *silent* on an unresolved material |
-| Latent-heat plateau at a boiling point | K13; named at lv3, invisible at lv1 |
+| ~~Latent-heat plateau at a boiling point~~ | K13 — **landed as KID-6**, 2026-09-02 |
 | Temperature-dependent solubility of molecular solutes, and nucleation | K20; rock candy, supersaturation, seeding |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
@@ -367,6 +367,37 @@ and `main` moves only by PR.
 - **KID-6 — The boiling plateau.** Hold temperature at the (solute-shifted)
   boiling point while water leaves as steam; make the lv1 register say what
   lv3 already says when the aqueous model's 300 °C ceiling is passed.
+  **Landed 2026-09-02.** Freezing and melting had paid latent heat since
+  they were written; boiling announced the transition, left the water
+  liquid, and let the temperature run wherever the energy put it. The same
+  arithmetic as the melting branch, in the other direction, now buys vapour
+  with the energy above the boiling point and holds the thermometer there
+  until it has bought all of it.
+  The second half was a hand-off. `kerotakis_cea::ThermalEquilibrator`
+  declined a vessel holding liquid water only *below* 100 °C, so pure water
+  heated past boiling went to the Gibbs minimiser instead — and that route
+  emptied a 100 mL beaker on 120 kJ when boiling it dry costs 256. It now
+  declines whenever liquid water is present, so the plateau is paid first
+  and the minimiser only ever sees what is left. Measured, 100 mL of water:
+  30 kJ → 96.99 °C and nothing gone; 60 kJ → 100.00 °C, 87.0 g; 240 kJ →
+  100.00 °C, 7.2 g; 300 kJ → dry at 205 °C. Salt water holds at 103.52 °C
+  and says why — the same colligative relation that salts a road, read at
+  the other end of the curve.
+  **The blast radius was measured, not assumed:** the frozen-behaviour
+  golden moved by zero lines for the solver change, and only by the new
+  `lessons/boiling-curve.lab` block. The curiosity corpus moved by two rows,
+  and the first of them is the question this task exists to answer —
+  `aq-102`, "does water stay at its boiling point while it changes into
+  steam?", pinned `missing` and tagged `latent-heat-gap`, now `computed`.
+  The second, `aq-103` (hot water poured into cold), keeps its answer of
+  50.00 °C exactly and only changes which route claims it, because CEA no
+  longer contests a vessel with liquid water in it.
+  **Stated boundary**, in the code where it bites: the leftover sensible
+  heat once the last water has gone is spread over the heat capacity the
+  vessel had *before* it boiled dry, so the final temperature of a vessel
+  taken past dryness is under-reported. The melting branch makes the same
+  approximation in the same place; neither touches the plateau itself,
+  which is the observation the curve exists for.
 - **KID-7 — Solubility with temperature, and crystallisation.** `s(T)` for
   molecular solutes starting with sucrose; supersaturation as a state the
   bench can report; seeded growth on `wait`.
@@ -424,7 +455,7 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
@@ -457,7 +488,7 @@ or a rate in them.
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
-| K40 | Grow blue crystals | **wrong** | ends at **109 °C with liquid water in the ledger** and "the water is boiling — look at the steam!" — the KID-6 latent-heat gap again. Also: chalcanthite is drawn *white*, and it is the blue vitriol of the experiment's title |
+| K40 | Grow blue crystals | **wrong** → partial | ended at **109 °C with liquid water in the ledger** — the KID-6 latent-heat gap, fixed 2026-09-02. Cooling a hot saturated solution still grows no crystals (KID-7), and chalcanthite is still drawn *white* when it is the blue vitriol of the experiment's title (KID-20) |
 | K41 | Powder fizzes faster than a lump | unreachable | `grind v1 CaCO3` refuses — "vessel v1 contains no solid CaCO3 to grind", because the chalk dissolved on contact. There is no lump-versus-powder rate contrast to find |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |

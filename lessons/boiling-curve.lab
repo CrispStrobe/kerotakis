@@ -1,0 +1,45 @@
+# The heating curve: why a boiling pan stays at 100 °C
+#
+# Heat is not temperature. A vessel on a burner climbs steadily until the
+# water starts to boil, and then it stops climbing — every further joule buys
+# steam instead of degrees. That flat stretch is the latent heat, and it is
+# the reason a pan of boiling water cannot be made hotter by turning the ring
+# up, only emptier.
+register lv2
+
+# Below the plateau: 30 kJ into 100 mL is pure sensible heat.
+add v1 water 100mL
+heat v1 30kJ
+measure v1 thermometer
+
+# Past it. The next 30 kJ do not move the thermometer; they take water away.
+new beaker
+add v2 water 100mL
+heat v2 60kJ
+measure v2 thermometer
+measure v2 balance
+
+# And more of the same energy, same temperature, less water still.
+new beaker
+add v3 water 100mL
+heat v3 240kJ
+measure v3 thermometer
+measure v3 balance
+
+# Salt raises the plateau: the same colligative effect that lowers the
+# freezing point of a salted road raises the boiling point of a salted pan.
+new beaker
+add v4 water 100mL
+add v4 NaCl 20g
+heat v4 60kJ
+measure v4 thermometer
+
+inspect v1
+inspect v2
+inspect v3
+inspect v4
+
+# What this does not model: the plateau's leftover heat is spread over the
+# heat capacity the vessel had *before* it boiled dry, so the final
+# temperature of a vessel taken past dryness is under-reported; and the
+# steam leaves an open vessel rather than being followed.
