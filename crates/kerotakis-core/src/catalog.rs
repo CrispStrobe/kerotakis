@@ -513,6 +513,26 @@ mod tests {
         let json = serde_json::to_string(&response).unwrap();
         // Reasons are tags with parameters. If a sentence ever appears here,
         // German clients render English, and this is where it is caught.
+        // WORLD-007: no string value anywhere in the response is a
+        // sentence. Ids in this protocol never contain a space; prose
+        // always does, which makes the rule exact and cheap.
+        let value: serde_json::Value = serde_json::from_str(&json).unwrap();
+        fn no_prose(value: &serde_json::Value, context: &str) {
+            match value {
+                serde_json::Value::String(s) => assert!(
+                    !s.contains(' '),
+                    "{context}: response field carries prose, not an id: {s:?}"
+                ),
+                serde_json::Value::Array(items) => {
+                    items.iter().for_each(|item| no_prose(item, context))
+                }
+                serde_json::Value::Object(fields) => fields
+                    .iter()
+                    .for_each(|(key, item)| no_prose(item, &format!("{context}.{key}"))),
+                _ => {}
+            }
+        }
+        no_prose(&value, "catalog");
         assert!(json.contains(r#""reason":"locked""#));
         assert!(json.contains(r#""minimum_completed""#));
         assert!(!json.to_lowercase().contains("complete "));

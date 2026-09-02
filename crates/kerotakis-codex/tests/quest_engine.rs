@@ -863,3 +863,87 @@ fn the_lint_refuses_objectives_that_could_never_be_met() {
                 || p.contains("entry in [explanations]")
         ));
 }
+
+// ── WORLD-007: no user-facing prose in protocol response fields ─────────
+
+/// Every string value a response carries must be an ID, not a sentence.
+///
+/// The rule is checkable because ids in this protocol never contain a space:
+/// `below_threshold`, `measure:ph`, `unknown-metal`. A sentence always does.
+/// So "no string value contains a space" is a cheap, exact test for the
+/// property that actually matters — that a German client is never handed
+/// English to display.
+fn assert_no_prose(value: &serde_json::Value, context: &str) {
+    match value {
+        serde_json::Value::String(s) => assert!(
+            !s.contains(' '),
+            "{context}: response field carries prose, not an id: {s:?}"
+        ),
+        serde_json::Value::Array(items) => {
+            for item in items {
+                assert_no_prose(item, context);
+            }
+        }
+        serde_json::Value::Object(fields) => {
+            for (key, item) in fields {
+                assert_no_prose(item, &format!("{context}.{key}"));
+            }
+        }
+        _ => {}
+    }
+}
+
+#[test]
+fn every_unmet_reason_carries_ids_and_parameters_never_prose() {
+    // Constructed exhaustively on purpose: a new variant that carries a
+    // sentence has to be added here, and fails when it is.
+    let all = vec![
+        Unmet::NothingYet,
+        Unmet::BelowThreshold {
+            got: 0.5,
+            wanted: 1.0,
+        },
+        Unmet::NotMeasured {
+            quantity: "mass_g".into(),
+        },
+        Unmet::OutOfTolerance {
+            got: 20.0,
+            target: 100.0,
+            tolerance: 1.0,
+        },
+        Unmet::TooFewComponents { got: 2, wanted: 3 },
+        Unmet::NoDifference {
+            got: 1.0,
+            wanted: 10.0,
+        },
+        Unmet::NotNamed {
+            alias: "unknown-metal".into(),
+        },
+        Unmet::NotExplained {
+            topic: "why-it-fizzed".into(),
+        },
+        Unmet::TooFewStages { got: 2, wanted: 3 },
+    ];
+    for unmet in &all {
+        let json = serde_json::to_value(unmet).expect("serialises");
+        assert_no_prose(&json, "unmet");
+        // And every one is tagged, so a client can switch on it.
+        assert!(json.get("unmet").is_some(), "untagged reason: {json}");
+    }
+}
+
+#[test]
+fn a_claim_status_is_renderable_by_a_client_that_speaks_no_english() {
+    let spec = spec_of(claim(
+        "made-it",
+        ClaimKind::Produce {
+            produce: "AgCl".into(),
+            minimum_moles: 1e-6,
+        },
+    ));
+    let status = ask(&spec, &[], &Bench::new());
+    let json = serde_json::to_value(&status).expect("serialises");
+    // The claim id is an id; the reason is a tag. Nothing here needs
+    // translating, because nothing here is a sentence.
+    assert_no_prose(&json, "claim_status");
+}
