@@ -78,8 +78,8 @@ silent miss teaches the silence.
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
 | K26 | Felt-tip chromatography | the colours separating | honest miss | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent"; no paper/Rf mode, no dye partition data |
-| K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" |
-| K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; same false banner |
+| K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" (KID-3, fixed 2026-09-02: now clean) |
+| K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; one of its two banners survives KID-3 slice 1 and is owned by KID-3b |
 | K29 | Yeast balloon | the balloon filling | computed | fermentation, ethanol, CO₂ — and then an honest **BANG** when the sealed vessel bursts. Correct, and a better lesson than the one asked for |
 | K30 | Flame colours | one colour per metal | partial | Na yellow, K lilac, Sr crimson, Ba apple-green, Cu blue-green all computed. **Calcium — the one a child actually owns — reads "nothing happens."** Lithium is absent entirely |
 
@@ -278,6 +278,22 @@ and `main` moves only by PR.
   concentration floor below which the severity drops or the rule is silent;
   the starch and vitamin-C activities run clean; the genuinely dangerous
   pairs (bleach + acid, bleach + ammonia) still fire at household strength.
+  **Slice 1 landed 2026-09-02** — the self-screening half. `SafetyScreen`
+  gained `assess_pour(before, after)` (defaulted to today's `assess`, so no
+  other screen changes), and `ReactiveGroupScreen` drops a finding whose two
+  species arrived together in one reviewed bottle and were in the vessel
+  beforehand in neither case. The recipes are the authority: a pairing that
+  a `MaterialRecipe` ships was reviewed when the recipe was. K27 goes from
+  two Danger banners to none; bleach + ammonia, permanganate + sulfite, and
+  iodine + iodide *poured separately* all still fire. Corpus unmoved.
+  **KID-3b is the dose half, still open.** K28 keeps one banner — iodine
+  meeting ascorbic acid is a real oxidiser/reducer pair, but 0.0005 mol of
+  it in 100 mL is not "at scale, such mixtures can detonate". Two things are
+  wrong there and only one is the dose: the `real_world` sentence describes
+  *permanganate and sulfite* while the beaker holds iodine and vitamin C, so
+  the example reads as a claim about this vessel. Fixing the wording needs
+  no new number; a severity floor does, and that number has to be sourced
+  rather than chosen.
 
 - **KID-4 — `ignite` is never silent.** Holding a flame to an unresolved
   material currently emits nothing at all. The project's own rule is that

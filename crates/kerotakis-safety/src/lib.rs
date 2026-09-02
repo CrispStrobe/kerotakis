@@ -699,6 +699,60 @@ impl SafetyScreen for ReactiveGroupScreen {
         }
         SafetyVerdict::Allow
     }
+
+    fn assess_pour(&self, before: &Vessel, after: &Vessel) -> SafetyVerdict {
+        let present_before = |key: &str| {
+            before
+                .contents
+                .iter()
+                .any(|portion| portion.species.0.as_str() == key && portion.moles.0 > 1e-12)
+        };
+        for finding in assess_exposures([("vessel", after)]) {
+            let [a, b] = &finding.species;
+            let arrived_together = !present_before(a) && !present_before(b);
+            if arrived_together && co_shipped_in_one_bottle(a, b) {
+                continue;
+            }
+            return SafetyVerdict::Warn {
+                severity: finding.severity,
+                rule: finding.rule,
+                hazard: finding.hazard,
+                real_world: finding.real_world,
+            };
+        }
+        SafetyVerdict::Allow
+    }
+}
+
+/// KID-3: do these two species come out of a single reviewed bottle?
+///
+/// The reactivity matrix asks whether two *reactive groups* are compatible,
+/// which is the right question about a mixture someone made and the wrong
+/// question about a manufactured reagent. Lugol's solution is iodine plus
+/// potassium iodide — an oxidiser and a reducing agent by the matrix, a
+/// stable pharmacy reagent in fact — so one millilitre of it into a beaker
+/// of water raised a Danger-level "at scale, such mixtures can detonate"
+/// on a starch test aimed at eight-year-olds. A banner that fires on a
+/// starch test is a banner nobody reads on the day it matters.
+///
+/// The recipes are the authority: if a reviewed `MaterialRecipe` lists both
+/// species as components of one bottle, that pairing was reviewed when the
+/// recipe was, and it is not something the pour created. Every other pair
+/// still warns, and two species poured from two bottles always warn even
+/// when some third bottle happens to contain both.
+fn co_shipped_in_one_bottle(a: &str, b: &str) -> bool {
+    if a == b {
+        return false;
+    }
+    kerotakis_core::material::all().iter().any(|recipe| {
+        let has = |key: &str| {
+            recipe
+                .components
+                .iter()
+                .any(|component| component.species_id == key)
+        };
+        has(a) && has(b)
+    })
 }
 
 #[cfg(test)]

@@ -132,3 +132,50 @@ fn explain_is_silent_about_recipes_when_none_were_used() {
         "no recipe, no recipe section: {out}"
     );
 }
+
+/// KID-3: a banner that fires on a starch test is a banner nobody reads on
+/// the day it matters.
+///
+/// One millilitre of 1% Lugol into a beaker of water used to raise a
+/// Danger-level "at scale, such mixtures can detonate". Lugol's solution is
+/// iodine plus potassium iodide — an oxidiser and a reducing agent by the
+/// reactivity matrix, and a stable pharmacy reagent in fact. The screen
+/// warns about *mixing*, and nobody mixed anything: the bottle is sold that
+/// way.
+#[test]
+fn one_reviewed_bottle_is_not_a_mixture_someone_made() {
+    let out = run_repl("add v1 water 100mL\nadd v1 lugol_solution_1_percent 1mL\nquit\n");
+    assert!(
+        !out.contains("HAZARD"),
+        "the starch test must not raise a hazard banner:\n{out}"
+    );
+    assert!(
+        out.contains("iodine"),
+        "and the reagent still arrives and speciates:\n{out}"
+    );
+}
+
+/// The other half of the same rule: pouring the two together is mixing, and
+/// mixing still warns — even though some third bottle happens to contain
+/// both. Nothing here weakens the screen; it narrows what counts as a pour.
+#[test]
+fn pouring_the_same_two_species_separately_still_warns() {
+    let out = run_repl("add v1 water 100mL\nadd v1 KI 1g\nadd v1 I2 1g\nquit\n");
+    assert!(
+        out.contains("HAZARD"),
+        "an oxidiser and a reducing agent brought together by hand must warn:\n{out}"
+    );
+}
+
+/// And the pairs the screen exists for are untouched at household strength.
+#[test]
+fn household_bleach_and_ammonia_still_warn() {
+    let out = run_repl(
+        "add v1 water 200mL\nadd v1 chlorine_bleach_5_percent 20mL\n\
+         add v1 ammonia_cleaner_5_percent 20mL\nquit\n",
+    );
+    assert!(
+        out.contains("HAZARD"),
+        "the one warning every household chemistry set needs:\n{out}"
+    );
+}

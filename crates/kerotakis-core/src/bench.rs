@@ -805,11 +805,18 @@ impl Bench {
                 // Assess the fully expanded prospective mixture once. This
                 // avoids allowing a hazardous combination merely because its
                 // ingredients happened to be deposited one at a time.
-                let mut probe = self.vessel(*vessel)?.clone();
+                //
+                // KID-3: the screen is told what the vessel held *before*
+                // the pour, so it can tell a mixture the learner made from
+                // the contents of one reviewed bottle. Lugol's iodine ships
+                // iodine and iodide together; screening them against each
+                // other raised a "can detonate" banner on a starch test.
+                let before = self.vessel(*vessel)?.clone();
+                let mut probe = before.clone();
                 for (sid, phase, _, moles) in &components {
                     probe.deposit(sid.clone(), *moles, *phase);
                 }
-                match screen.assess(&probe) {
+                match screen.assess_pour(&before, &probe) {
                     SafetyVerdict::Allow => {}
                     SafetyVerdict::Warn {
                         severity,
