@@ -3,19 +3,18 @@
 //! The engine half already exists: `stoich::balance_report` strips an
 //! equation's coefficients and returns the answer *together with the
 //! composition matrix*, which is what lets a host mark an answer the
-//! solver never produced. The browser drill marks with that matrix in
-//! TypeScript (`web/app/src/lib/balancing.ts`). This is the same marking
-//! rule for hosts that have no browser — the CLI today, the MCP server
-//! next — so the drill can be exercised, scripted and regression-tested
-//! without one.
+//! solver never produced. This is that marking for hosts with no
+//! browser — the CLI today, the MCP server next — so the drill can be
+//! exercised, scripted and regression-tested without one.
 //!
-//! **One definition of "balanced", two implementations.** The check here
-//! is deliberately not a second opinion: it is the same dot product
-//! against the same `report.matrix` the engine emitted, with the same
-//! four verdicts and the same names as `markBalance`. Nothing in this
-//! file decides what balances — the matrix does, and the matrix comes
-//! from the solver. If that rule ever changes it changes in one place,
-//! and both surfaces follow.
+//! **One definition of "balanced", one implementation.** The marking
+//! used to live here as a transliteration of the app's `markBalance`,
+//! deliberately kept close to it. It now lives in
+//! `kerotakis_core::stoich` and is re-exported below, because the app no
+//! longer marks at all: shipping the composition matrix to a browser is
+//! shipping the null space, so the browser asks the engine instead. Two
+//! transliterations that agreed by discipline became one function that
+//! agrees by construction, and the CLI keeps the name it had.
 //!
 //! The pool is the other gap. The app builds its list of drillable
 //! reactions in the client, out of the codex export it has already
@@ -25,146 +24,7 @@
 //! compiles in behind it.
 
 use kerotakis_core::stoich::{self, BalanceReport};
-
-/// The verdicts, spelled exactly as `BalanceVerdict` in the app's
-/// `balancing.ts`. Two surfaces, one vocabulary.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Verdict {
-    /// Balances, in the smallest whole-number ratio.
-    Correct,
-    /// Balances, but every coefficient shares a factor. The actual lesson.
-    Multiple,
-    /// Does not conserve some element, or the charge.
-    Unbalanced,
-    /// Not yet an answer: a blank, a zero, a fraction, a negative.
-    Incomplete,
-}
-
-impl Verdict {
-    pub fn tag(self) -> &'static str {
-        match self {
-            Verdict::Correct => "correct",
-            Verdict::Multiple => "multiple",
-            Verdict::Unbalanced => "unbalanced",
-            Verdict::Incomplete => "incomplete",
-        }
-    }
-}
-
-/// One row of the composition matrix that does not cancel. `amount` is
-/// the surplus on the LEFT, because the report negates right-hand species.
-#[derive(Debug, Clone, PartialEq)]
-pub struct Miss {
-    pub element: String,
-    pub amount: f64,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-pub struct Mark {
-    pub verdict: Verdict,
-    pub misses: Vec<Miss>,
-    /// The shared factor, when the answer is a correct multiple.
-    pub factor: i64,
-    /// True when the skeleton admits more than one independent reaction.
-    pub family: bool,
-}
-
-const TOLERANCE: f64 = 1e-6;
-
-fn gcd(a: i64, b: i64) -> i64 {
-    let (mut a, mut b) = (a.abs(), b.abs());
-    while b != 0 {
-        let t = b;
-        b = a % b;
-        a = t;
-    }
-    a
-}
-
-/// Mark an answer against the matrix the engine reported.
-///
-/// A transliteration of `markBalance` in the app, kept deliberately close
-/// to it: same order of tests, same tolerance, same verdicts. A coefficient
-/// vector balances precisely when every row's dot product with it is zero.
-pub fn mark(report: &BalanceReport, answer: &[i64]) -> Mark {
-    let family = !report.basis.is_empty();
-    if answer.len() != report.species.len() || answer.iter().any(|v| *v <= 0) {
-        return Mark {
-            verdict: Verdict::Incomplete,
-            misses: Vec::new(),
-            factor: 0,
-            family,
-        };
-    }
-    let mut misses: Vec<Miss> = Vec::new();
-    for (index, row) in report.matrix.iter().enumerate() {
-        let surplus: f64 = row
-            .iter()
-            .zip(answer)
-            .map(|(count, n)| count * *n as f64)
-            .sum();
-        if surplus.abs() > TOLERANCE {
-            misses.push(Miss {
-                element: report
-                    .elements
-                    .get(index)
-                    .cloned()
-                    .unwrap_or_else(|| format!("row {index}")),
-                amount: surplus,
-            });
-        }
-    }
-    if !misses.is_empty() {
-        misses.sort_by(|a, b| {
-            b.amount
-                .abs()
-                .partial_cmp(&a.amount.abs())
-                .unwrap_or(std::cmp::Ordering::Equal)
-        });
-        return Mark {
-            verdict: Verdict::Unbalanced,
-            misses,
-            factor: 0,
-            family,
-        };
-    }
-    let factor = answer.iter().fold(0i64, |a, b| gcd(a, *b));
-    Mark {
-        verdict: if factor > 1 {
-            Verdict::Multiple
-        } else {
-            Verdict::Correct
-        },
-        misses: Vec::new(),
-        factor,
-        family,
-    }
-}
-
-/// The equation written out with these coefficients, a bare 1 left
-/// implicit the way it is written by hand.
-pub fn write_equation(report: &BalanceReport, coefficients: &[i64]) -> String {
-    let term = |i: usize| -> String {
-        let name = &report.species[i];
-        match coefficients.get(i) {
-            Some(1) | None => name.clone(),
-            Some(n) => format!("{n} {name}"),
-        }
-    };
-    let left: Vec<String> = (0..report.reactants).map(term).collect();
-    let right: Vec<String> = (report.reactants..report.species.len()).map(term).collect();
-    format!(
-        "{} {} {}",
-        left.join(" + "),
-        if report.reversible { "⇌" } else { "→" },
-        right.join(" + ")
-    )
-}
-
-/// The skeleton as a question: no coefficients at all.
-pub fn blank_equation(report: &BalanceReport) -> String {
-    write_equation(report, &vec![1; report.species.len()])
-}
+pub use kerotakis_core::stoich::{blank_equation, mark, write_equation, Verdict};
 
 /// One drillable reaction and where it came from.
 pub struct Exercise {

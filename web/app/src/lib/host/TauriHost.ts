@@ -9,7 +9,9 @@
 
 import {
   EngineError,
-  type BalanceReply,
+  type BalanceAnswerReply,
+  type BalanceExerciseReply,
+  type BalanceMarkReply,
   type CatalogRequest,
   type CatalogResponse,
   type EngineHost,
@@ -67,8 +69,14 @@ export class TauriHost implements EngineHost {
   async calc(name: string, args: string[]) {
     return JSON.parse(await this.req("calc", { name, args }));
   }
-  async balance(equation: string): Promise<BalanceReply> {
-    return JSON.parse(await this.req("balance", { equation }));
+  async balanceExercise(equation: string): Promise<BalanceExerciseReply> {
+    return JSON.parse(await this.req("balance_exercise", { equation }));
+  }
+  async balanceMark(equation: string, answer: number[]): Promise<BalanceMarkReply> {
+    return JSON.parse(await this.req("balance_mark", { equation, answer: JSON.stringify(answer) }));
+  }
+  async balanceReveal(equation: string): Promise<BalanceAnswerReply> {
+    return JSON.parse(await this.req("balance_reveal", { equation }));
   }
   async questStart(specJson: string): Promise<void> {
     await this.req("quest_start", { spec_json: specJson });

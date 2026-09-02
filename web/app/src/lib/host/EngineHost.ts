@@ -158,31 +158,63 @@ export interface ParticleCensus {
 /** One engine-evaluated quest output: a nudge spoken, a claim
  * satisfied, or the quest completed — register texts spelled out. */
 /**
- * GUI-095: the engine's null-space balance of one skeleton
- * (`kerotakis-core::stoich::balance_report`).
+ * GUI-095: the balancing exercise — the question, and nothing that answers
+ * it (`kerotakis-core::stoich::balance_exercise`).
  *
- * `coefficients` is the smallest positive integer answer, or — when `basis`
- * is non-empty — one all-positive member of an underdetermined family.
- * `matrix` has one row per entry of `elements` (element symbols, then
- * `charge`) and one column per species, with products negated: a
- * coefficient vector balances exactly when every row's dot product with it
- * is zero. That is what lets the shell mark an answer the solver never
- * returned — a correct multiple, or a wrong one, with the element that is
- * out named.
+ * This interface used to be `BalanceReport`, and it carried the solver's
+ * `coefficients` and the composition `matrix`. Both are answers: the
+ * coefficients are the answer written down, and the matrix is the answer
+ * one null space away. A browser is a place where anyone can open the
+ * network pane, so neither crosses the wire any more. What is left is what
+ * drawing the question needs, plus two facts *about* the answer that give
+ * nothing away — `trivial` (every coefficient is 1, so there is nothing to
+ * work out and the drill should prefer another) and `family` (several
+ * answers are right, which the learner is entitled to know up front).
+ *
+ * Marking is `balanceMark`; the answer is `balanceReveal`, and asking for
+ * it is the learner's decision to make.
  */
-export interface BalanceReport {
+export interface BalanceExercise {
   ok: true;
   species: string[];
   reactants: number;
-  elements: string[];
-  matrix: number[][];
-  coefficients: number[];
-  basis: number[][];
   reversible: boolean;
+  trivial: boolean;
+  family: boolean;
+  /** The question as one line, every coefficient stripped. */
+  skeleton: string;
 }
 
-/** A balance that could not be computed says why rather than guessing. */
-export type BalanceReply = BalanceReport | { ok: false; error: string };
+/** A skeleton that could not be balanced says why rather than guessing. */
+export type BalanceExerciseReply = BalanceExercise | { ok: false; error: string };
+
+/** What a marked answer turned out to be — the engine's verdict, not the
+ * client's. Spelled as `kerotakis_core::stoich::Verdict`. */
+export type BalanceVerdict = "correct" | "multiple" | "unbalanced" | "incomplete";
+
+/** One row of the composition matrix that does not cancel; `amount` is the
+ * signed surplus on the left. */
+export interface BalanceMiss {
+  element: string;
+  amount: number;
+}
+
+/** The verdict on one answer, with the detail that makes it teachable. */
+export interface BalanceMark {
+  ok: true;
+  verdict: BalanceVerdict;
+  /** What does not cancel, worst first. Empty unless `unbalanced`. */
+  misses: BalanceMiss[];
+  /** The shared factor, when the answer is a correct multiple. */
+  factor: number;
+  /** True when the skeleton admits more than one independent reaction. */
+  family: boolean;
+}
+
+export type BalanceMarkReply = BalanceMark | { ok: false; error: string };
+
+/** The answer, written out — the one reply that gives it up. */
+export type BalanceAnswerReply = { ok: true; equation: string } | { ok: false; error: string };
 
 /** WORLD-007: why an answer was not accepted — a stable tag with its
  * parameters, so a German client says it in German. A wrong guess is
@@ -341,10 +373,14 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
-  /** GUI-095: balance one skeleton by the null space of its composition
-   * matrix, and hand back that matrix so an answer the solver never
-   * produced can still be marked. */
-  balance(equation: string): Promise<BalanceReply>;
+  /** GUI-095: the balancing exercise for one skeleton — the question,
+   * with no route back to the answer. */
+  balanceExercise(equation: string): Promise<BalanceExerciseReply>;
+  /** GUI-095: mark one answer engine-side. `answer` is one positive
+   * integer per species, in the order `balanceExercise` listed them. */
+  balanceMark(equation: string, answer: number[]): Promise<BalanceMarkReply>;
+  /** GUI-095: the answer, written out, when the learner asks for it. */
+  balanceReveal(equation: string): Promise<BalanceAnswerReply>;
   /** Start/stop the engine-evaluated quest (GUI-066); outputs arrive on
    * step results as `quest: QuestOutput[]`. */
   questStart(specJson: string): Promise<void>;
