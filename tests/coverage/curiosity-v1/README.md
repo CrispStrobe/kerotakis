@@ -253,3 +253,53 @@ headspace exists, so the pin cannot outlive the gap it records.
 `expected` is a prediction *of* the engine or a requirement *on* it is the
 open design question #327 names, and settling it by editing one row would
 be the threshold-move that question exists to prevent.
+
+
+## Refresh 2026-09-02, third: aq-087, an empty chromatogram is a result
+
+`aq-087` ("Will dissolved salt appear in this neutral-solute chromatography
+method?"): `missing`/`not-yet-modeled` -> `computed`/`computed-route`.
+
+The column already computed `outside` — exactly the species it cannot
+separate — and then discarded it in favour of "nothing dissolved here has a
+curated UNIFAC decomposition, so the column's method is silent". That
+reports the ENGINE's silence rather than the COLUMN's result. The question
+has a real answer: no, and here is what rode past unseparated. An empty
+chromatogram is a chromatogram — the run happened and the detector saw
+nothing.
+
+**One row moved that should not have, and catching it is why this refresh is
+one row rather than two.** The first version of the change also moved
+`bio-104` ("Can paper chromatography separate two food dyes?"), which began
+reporting that betanin and curcumin "pass with the water and are not
+separated". Paper chromatography DOES separate those two dyes — it is the
+classic demonstration — so that would have dressed a missing parameter set
+as a confident negative, the same defect this file records for `aq-036`.
+
+The line the fix now draws: `outside` was doing two jobs.
+
+- **Outside the METHOD.** A partition column separates by how a *neutral*
+  solute divides between two phases, so an ion does not partition however
+  good the parameters get — it wants ion exchange, which this column is
+  not. That is a permanent property of the method, and a result.
+- **Outside the MODEL.** A neutral solute with no curated group
+  decomposition is one a real column would separate. That is a gap, and it
+  stays `not-yet-modeled`.
+
+Split on charge (`is_ionic`).
+
+**Correction, and it is a live example of why a claim needs a date.** When
+this was written `bio-104` was the worked case for the second row: betanin
+and curcumin had no curated decomposition, so the change left them
+`missing` with a refusal naming them. #337 (KID-9) then gave those four
+dyes curated partition coefficients, and on main `bio-104` is now
+`computed`/`typed-engine-event`. So the sentence "bio-104 is unchanged and
+still missing" was true when written and is false now, with nothing in this
+change having moved.
+
+The code is unaffected — the dyes are injectable, so the unparameterised
+branch does not fire for them — and the distinction it draws is unchanged.
+What is gone is its live corpus example, which for a guard is the right
+state rather than a problem: the unit tests still cover both sides, and the
+next neutral solute without groups will meet a refusal that tells the truth
+instead of a confident negative.

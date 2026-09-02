@@ -689,3 +689,8 @@ white = "weiß"
 "lilac" = "lila"
 "orange-red" = "orangerot"
 "violet" = "violett"
+
+# An empty chromatogram is a result: the run happened and the detector saw
+# nothing, so what went past unseparated is the answer (aq-087).
+"chromatographed.lv1-nothing-separated" = "Alles, was in {vessel} gelöst ist, läuft mit dem Wasser direkt durch die Säule — diese Methode trennt nichts davon ({outside_method})."
+"chromatographed.lv2-no-peaks" = "{vessel}: Chromatogramm — keine Peaks{unseen}"
