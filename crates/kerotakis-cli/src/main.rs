@@ -361,6 +361,10 @@ fn main() {
         // the whole time, so both the listing and the search now exist as
         // subcommands too.
         Some("materials") => print_materials(),
+        // KID-17: thirty-eight lessons ship and no command named one, so
+        // `kero run lessons/fizz.lab` was reachable only by reading the
+        // repository.
+        Some("lessons") => print_lessons(),
         Some("find") => match args.get(1) {
             Some(query) => print_cabinet_search(query, &Bench::new()),
             None => {
@@ -1030,6 +1034,51 @@ fn balance_exercise_text(args: &[String]) -> Result<String, String> {
 /// What a recipe cannot resolve is printed rather than dropped: milk is
 /// 87% water and 13% conserved-but-unresolved milk solids, and a listing
 /// that showed only the water would be claiming the rest is not there.
+/// KID-17: the lessons, listed.
+///
+/// Thirty-eight `.lab` files ship with the bench and no command named one,
+/// so `kero run lessons/fizz.lab` was reachable only by reading the
+/// repository. The first line of a lesson is its title by convention; that
+/// convention is now load-bearing enough to be checked by a test.
+fn print_lessons() {
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../lessons");
+    let dir = if dir.is_dir() {
+        dir
+    } else {
+        std::path::PathBuf::from("lessons")
+    };
+    let Ok(entries) = std::fs::read_dir(&dir) else {
+        eprintln!(
+            "kero lessons: no lessons directory here (looked in {}) — run from a checkout, \
+             or pass a path to `kero run`",
+            dir.display()
+        );
+        std::process::exit(2);
+    };
+    let mut lessons: Vec<(String, String)> = entries
+        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
+        .filter(|path| path.extension().is_some_and(|ext| ext == "lab"))
+        .filter_map(|path| {
+            let name = path.file_stem()?.to_str()?.to_string();
+            let text = std::fs::read_to_string(&path).ok()?;
+            let title = text
+                .lines()
+                .find_map(|line| line.strip_prefix('#').map(|rest| rest.trim().to_string()))
+                .unwrap_or_default();
+            Some((name, title))
+        })
+        .collect();
+    lessons.sort();
+    for (name, title) in &lessons {
+        println!("{name:<34} {title}");
+    }
+    println!(
+        "— {} lessons. Run one with `kero run lessons/<name>.lab`; \
+         add `--json` for one JSON object per step.",
+        lessons.len()
+    );
+}
+
 fn print_materials() {
     let recipes = kerotakis_core::material::all();
     for recipe in &recipes {
@@ -1858,6 +1907,7 @@ fn usage() -> ! {
          \x20 kero species               list known species\n\
          \x20 kero materials             list the named household and school bottles\n\
          \x20 kero find <word>           search both halves of the shelf\n\
+         \x20 kero lessons               list the shipped .lab lessons\n\
          \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
@@ -2558,17 +2608,30 @@ fn repl() {
         if line == "quit" || line == "exit" {
             break;
         }
+        // KID-17: a help text that names two thirds of the grammar teaches
+        // that the other third does not exist. `magnet`, `smell`, `test`,
+        // `chromatograph` and `react` were all landed, all working, and all
+        // absent from every surface a reader has — the children's corpus in
+        // KIDS.md lost four experiments to verbs that were already there.
+        // The invariant is held by a test: every verb in `script::VERBS`
+        // appears here.
         if line == "help" {
             println!(
-                "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · wait <t><s|min|h> · seal/open <v> · ignite <v>\n\
-                 decant/filter <from> <to> · evaporate <v> <frac> · dilute <v> <vol><mL|L>\n\
-                 distil <from> <to> <frac|energy> · drain <from> <to>\n\
-                 titrate <v> <species> <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
-                 measure <v> <thermometer|balance|ph|…> · look <v> · cell <v> <v>\n\
-                 electrolyse <v> <A> <t> · grind <v> <species> <um>\n\
-                 new · inspect [v] · register <lv1|lv2|lv3>\n\
-                 species · materials · find <word> · quit"
+                "put things in    add <v> <name> <amount><mol|g|mL> [@ <T>C] · stock <name> <amount>\n\
+                 energy           heat/cool <v> <E><J|kJ> · ignite <v> · irradiate <v> <nm> <W/m2>\n\
+                 time and mixing  wait <t><s|min|h> · stir <v> [<rpm> <s>] · grind <v> <name> <um>\n\
+                 gas boundary     seal <v> <vol> · regulate <v> <bar> <vol> · sweep <v> <bar> · open <v>\n\
+                 move things      decant/filter/drain <from> <to> · dilute <v> <vol> · evaporate <v> <frac>\n\
+                 \x20                distil <from> <to> <frac|energy> [stages <n>] · magnet <from> <to>\n\
+                 \x20                centrifuge <v> <g> <s> · transport <v..> from <in> to <out> steps <n>\n\
+                 look and measure look <v> · smell <v> · measure <v> <thermometer|balance|ph|…>\n\
+                 \x20                test <v> <splint|limewater|…> · chromatograph <v> · particles [v]\n\
+                 electrochemistry cell <v> <v> · electrolyse <v> <A> <t>   (each half-cell wants its metal)\n\
+                 analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
+                 named reactions  react <v> <esterification|saponification>\n\
+                 the bench        new [beaker|flask|tube|cylinder|crucible] · remove <v> · inspect [v]\n\
+                 \x20                register <lv1|lv2|lv3> · explain [v] · quest · quit\n\
+                 what is here     species (pure substances) · materials (household bottles) · find <word>"
             );
             continue;
         }

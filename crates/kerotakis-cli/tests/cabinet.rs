@@ -179,3 +179,45 @@ fn household_bleach_and_ammonia_still_warn() {
         "the one warning every household chemistry set needs:\n{out}"
     );
 }
+
+/// KID-17: a help text that names two thirds of the grammar teaches that the
+/// other third does not exist.
+///
+/// `magnet`, `smell`, `test`, `chromatograph` and `react` were all landed,
+/// all working, and absent from every surface a reader has. The children's
+/// corpus in `KIDS.md` lost experiments to verbs that were already there —
+/// a fire-extinguisher demo, a gas test, an ester — so this is the
+/// invariant rather than a courtesy.
+#[test]
+fn help_names_every_verb_the_grammar_accepts() {
+    let help = run_repl("help\nquit\n");
+    let missing: Vec<&str> = kerotakis_core::script::VERBS
+        .iter()
+        .map(|(verb, _)| *verb)
+        .filter(|verb| !help.contains(*verb))
+        .collect();
+    assert!(
+        missing.is_empty(),
+        "help omits {missing:?} — a learner cannot use a verb nobody told \
+         them about:\n{help}"
+    );
+}
+
+/// The thirty-eight shipped lessons were reachable only by reading the
+/// repository: no command named one.
+#[test]
+fn lessons_are_listed_with_their_own_titles() {
+    let root = concat!(env!("CARGO_MANIFEST_DIR"), "/../..");
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kero"))
+        .current_dir(root)
+        .arg("lessons")
+        .output()
+        .expect("kero lessons runs");
+    let text = String::from_utf8_lossy(&out.stdout);
+    assert!(out.status.success(), "kero lessons exits clean");
+    assert!(text.contains("fizz"), "a lesson every reader meets: {text}");
+    assert!(
+        text.contains("kero run lessons/"),
+        "and the listing says how to run one: {text}"
+    );
+}
