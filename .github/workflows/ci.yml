@@ -113,6 +113,14 @@ jobs:
         run: cargo test --workspace
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
+      # The curiosity baseline records the route every prompt actually takes.
+      # It existed as a manual tool and drifted on four rows unnoticed,
+      # because nothing ran it — so it runs here. 500 prompts through the
+      # real solver stack costs about 30 seconds, which is cheaper than the
+      # step above it, and a drift is a scientific claim someone has to
+      # explain rather than a number someone regenerates.
+      - name: Curiosity coverage — the recorded route is still the route
+        run: cargo run -p kerotakis-cli -- coverage curiosity --check
 
   my-basic-preview:
     name: MY-BASIC preview (${{ matrix.os }})

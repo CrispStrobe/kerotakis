@@ -1644,7 +1644,7 @@ reason_code = "computed-route"
 id = "mat-024"
 owning_task = "BRD-023"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-025"
@@ -1691,8 +1691,8 @@ reason_code = "timescale-outside-simulation"
 [[observation]]
 id = "mat-032"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-033"
@@ -2442,7 +2442,7 @@ reason_code = "computed-route"
 id = "th-032"
 owning_task = "BRD-041"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-033"
@@ -2616,7 +2616,7 @@ reason_code = "unknown-species"
 id = "th-061"
 owning_task = "BRD-023"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-062"

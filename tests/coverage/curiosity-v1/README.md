@@ -30,6 +30,30 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-02 (four rows), and wired into CI in the same change.
+
+The gate had never run anywhere — not in `ci.yml`, not in `preflight.sh` —
+so its baseline drifted on four rows without anyone seeing it, which makes a
+regression detector into a file. It now runs in the native test job; 500
+prompts through the real solver stack cost about 30 seconds.
+
+All four rows moved in the honest direction, which is why the refresh is a
+record rather than a concession:
+
+- `mat-024`, `th-032`, `th-061`: `typed-engine-event` -> `computed-route`.
+  The disposition did not change; the REASON got better. A real computed
+  solver route now succeeds where the classifier previously fell back to
+  "there were typed events, so call it computed" — the fallback is the
+  weakest evidence the classifier accepts, and these three no longer need it.
+- `mat-032`: `missing`/`not-yet-modeled` -> `qualitative`/`typed-observation`.
+  A row that used to stand aside now yields a typed observation.
+
+The species behind them became real in already-merged work — `dough` in
+BRD-014 (#237), `methanol` last moved by EXP-33 (#288), `PE` in EXP-12 — so
+the engine had genuinely improved and only the record was stale. Note the
+smoke set would NOT have caught this: none of the four are in it, which is
+why the full check is what runs.
+
 The baseline contains no solver failures. The last two left on
 2026-08-31 when the aqueous engine gained its validity boundaries —
 and both rows got *better* than a refusal, because the crash had been
