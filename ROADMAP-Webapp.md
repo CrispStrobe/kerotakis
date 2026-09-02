@@ -1659,9 +1659,20 @@ last-known-good recovery and quota-blocked storage.
   run divergent logs, undo, reset, close/reopen, and switch repeatedly without
   cross-mutation. Prove equal World + equal operator yields equal chemistry in
   both modes.
-- [ ] **WORLD-003 — Runtime catalog contract.** Join apparatus/item metadata,
+- [x] **WORLD-003 — Runtime catalog contract.** Join apparatus/item metadata,
   registry contents, installed packs, Story inventory/access, and compatibility
   into one protocol response. Sandbox availability is always derived as full.
+  *Landed 2026-09-02: `kerotakis_core::catalog` owns the progression rules and
+  every host answers from them — the wasm host, the native shell (shell
+  conformance pins the shape), `WorkerHost`, and `TauriHost`. Reasons cross the
+  wire as stable tags with parameters (`sandbox`, `earned`, `awarded`,
+  `loaned`, `locked{minimum_completed}`), never prose, so English and German
+  clients render the same state; Sandbox is derived as full rather than
+  serialized. A drift test pins the catalog's verb tiers against the parser's
+  own verb table in both directions — it caught two verbs (`remove`, `stock`)
+  that nothing had tiered — and `tests/contract/catalog-milestones-v1.json`
+  pins the tiers across both languages until the client reads them off the
+  protocol, which is the next slice.*
 - [ ] **WORLD-004 — Mission schema v2 and migration.** Extend the landed quest
   TOML with world placement, objective combinators, constraints, discoveries,
   outcomes, and rewards while accepting every v1 quest unchanged.

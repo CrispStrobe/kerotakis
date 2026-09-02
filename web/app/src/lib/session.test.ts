@@ -122,6 +122,14 @@ class FakeHost implements EngineHost {
     this.calls.push(`particles:${vessel}`);
     return { rendered: ["oOo"] };
   }
+  async catalog(request: { mode?: string; completed?: number }) {
+    return {
+      mode: (request.mode ?? "story") as "story" | "sandbox",
+      completed: request.completed ?? 0,
+      items: [],
+      packs: [],
+    };
+  }
   async reset() {
     this.calls.push("reset");
   }

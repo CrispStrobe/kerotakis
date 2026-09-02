@@ -10,6 +10,8 @@
 import {
   EngineError,
   type BalanceReply,
+  type CatalogRequest,
+  type CatalogResponse,
   type EngineHost,
   type ParticleCensus,
   type Scene,
@@ -55,6 +57,10 @@ export class TauriHost implements EngineHost {
   async grammar(): Promise<{ verb: string; example: string; options?: string[] }[]> {
     return JSON.parse(await this.req("grammar"));
   }
+  async catalog(request: CatalogRequest): Promise<CatalogResponse> {
+    return JSON.parse(await this.req("catalog", { request }));
+  }
+
   async relations(): Promise<{ name: string; equation: string; args: string }[]> {
     return JSON.parse(await this.req("relations"));
   }

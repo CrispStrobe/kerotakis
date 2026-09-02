@@ -20,6 +20,7 @@ pub mod authority;
 pub mod bench;
 pub mod butler_volmer;
 pub mod cache_key;
+pub mod catalog;
 pub mod centrifuge;
 pub mod chart;
 pub mod compartment;

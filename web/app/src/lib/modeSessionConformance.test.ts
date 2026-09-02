@@ -54,7 +54,15 @@ class DeterministicHost {
         if (self.rejectRestore) throw new Error("stale snapshot");
         self.commands = JSON.parse(token) as string[];
       },
-      async reset() { self.calls.push("reset"); self.commands = []; },
+      async catalog(request: { mode?: string; completed?: number }) {
+        return {
+          mode: (request.mode ?? "story") as "story" | "sandbox",
+          completed: request.completed ?? 0,
+          items: [],
+          packs: [],
+        };
+      },
+  async reset() { self.calls.push("reset"); self.commands = []; },
       async state() { return {}; },
       async inspect() { return { rendered: [] }; },
       async particles() { return { rendered: [] }; },

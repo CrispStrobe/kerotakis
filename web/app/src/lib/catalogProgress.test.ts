@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { equipmentAccess, equipmentAvailable, equipmentRewardAt, reagentAccess, reagentRequirement } from "./catalogProgress";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { equipmentAccess, equipmentAvailable, equipmentRequirement, equipmentRewardAt, reagentAccess, reagentRequirement } from "./catalogProgress";
 
 describe("progression-aware catalog", () => {
   it("keeps Sandbox fully unlocked and gives Story understandable milestones", () => {
@@ -58,5 +60,41 @@ describe("a closed case grants its instrument permanently (GUI-080)", () => {
     expect(equipmentAvailable("story", 3, "measure:uvvis")).toBe(true);
     expect(equipmentAccess("story", 0, "measure:uvvis", false).granted).toBe(false);
     expect(equipmentAccess("sandbox", 0, "distil", false).available).toBe(true);
+  });
+});
+
+describe("the progression rules match the shared contract fixture (WORLD-003)", () => {
+  // The engine now owns these rules (kerotakis-core::catalog). Until the
+  // client reads them off the protocol, this table is a copy — and a copy
+  // that drifts shows a learner an instrument the engine will refuse. Both
+  // languages check themselves against the same pin, so drift fails here.
+  const pin = JSON.parse(
+    readFileSync(join(import.meta.dirname, "../../../../tests/contract/catalog-milestones-v1.json"), "utf8"),
+  ) as {
+    last_tier: number;
+    starter_stock: string[];
+    apparatus: Record<string, number>;
+    instruments: Record<string, number>;
+  };
+
+  it("agrees with the engine on every apparatus and instrument tier", () => {
+    const disagreements: string[] = [];
+    for (const [id, tier] of Object.entries({ ...pin.apparatus, ...pin.instruments })) {
+      const mine = equipmentRequirement(id);
+      if (mine !== tier) disagreements.push(`${id}: client ${mine}, engine ${tier}`);
+    }
+    expect(disagreements).toEqual([]);
+  });
+
+  it("agrees on the starter stock, which is what costs nothing to reach", () => {
+    for (const key of pin.starter_stock) {
+      expect(reagentRequirement({ key, hazards: ["toxic"], hazard_assessed: true })).toBe(0);
+    }
+    // And something outside it is not free.
+    expect(reagentRequirement({ key: "AgNO3", hazards: [], hazard_assessed: true })).toBeGreaterThan(0);
+  });
+
+  it("agrees that an unassessed species sits at the last tier, not the first", () => {
+    expect(reagentRequirement({ key: "mystery", hazards: [], hazard_assessed: false })).toBe(pin.last_tier);
   });
 });
