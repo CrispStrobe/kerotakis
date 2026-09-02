@@ -1,0 +1,35 @@
+# WORLD-008 — lead two: two samples at different temperatures, mixed to a
+# computed middle. Runs concurrently with the other two leads.
+version = 2
+id = "establish-the-baseline"
+
+[title]
+lv1 = "establish-the-baseline.title.lv1"
+lv2 = "establish-the-baseline.title.lv2"
+lv3 = "establish-the-baseline.title.lv3"
+
+[goal]
+lv1 = "establish-the-baseline.goal.lv1"
+lv2 = "establish-the-baseline.goal.lv2"
+lv3 = "establish-the-baseline.goal.lv3"
+
+[placement]
+district = "discovery-hall"
+chapter = "the-contaminated-sample"
+order = 2
+
+[[claims]]
+id = "two-streams-met"
+matches = "mixed"
+[claims.title]
+lv1 = "establish-the-baseline.claim.mixed.lv1"
+lv2 = "establish-the-baseline.claim.mixed.lv2"
+lv3 = "establish-the-baseline.claim.mixed.lv3"
+
+[[claims]]
+id = "warmed-it"
+matches = "temperature_changed"
+[claims.title]
+lv1 = "establish-the-baseline.claim.warmed.lv1"
+lv2 = "establish-the-baseline.claim.warmed.lv2"
+lv3 = "establish-the-baseline.claim.warmed.lv3"

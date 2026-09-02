@@ -1,0 +1,47 @@
+# WORLD-008 — lead one of "The contaminated sample": a selective reaction
+# makes a dissolved ion visible. The sample is sealed: the learner is told
+# it is a mineral contaminant, not which one.
+version = 2
+id = "trace-the-contamination"
+
+[title]
+lv1 = "trace-the-contamination.title.lv1"
+lv2 = "trace-the-contamination.title.lv2"
+lv3 = "trace-the-contamination.title.lv3"
+
+[goal]
+lv1 = "trace-the-contamination.goal.lv1"
+lv2 = "trace-the-contamination.goal.lv2"
+lv3 = "trace-the-contamination.goal.lv3"
+
+[placement]
+district = "discovery-hall"
+chapter = "the-contaminated-sample"
+order = 1
+
+[unknowns]
+field-sample = "NaCl"
+
+[covers]
+field-sample = ["Na+", "Cl-"]
+
+[[claims]]
+id = "visible-precipitate"
+produce = "AgCl"
+minimum_moles = 1e-6
+[claims.title]
+lv1 = "trace-the-contamination.claim.precipitate.lv1"
+lv2 = "trace-the-contamination.claim.precipitate.lv2"
+lv3 = "trace-the-contamination.claim.precipitate.lv3"
+
+[[claims]]
+id = "named-the-contaminant"
+alias = "field-sample"
+[claims.title]
+lv1 = "trace-the-contamination.claim.named.lv1"
+lv2 = "trace-the-contamination.claim.named.lv2"
+lv3 = "trace-the-contamination.claim.named.lv3"
+
+[[rewards]]
+kind = "equipment"
+id = "measure:uvvis"

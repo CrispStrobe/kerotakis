@@ -1750,10 +1750,28 @@ last-known-good recovery and quota-blocked storage.
   baselined as a ratchet that may only go down, so the gap stops growing today
   and a new quest shipping English prose fails; the baseline is itself pinned
   within 20 of the truth so it cannot drift into being no gate at all.*
-- [ ] **WORLD-008 — Vertical-slice fixtures.** Encode The contaminated sample
+- [x] **WORLD-008 — Vertical-slice fixtures.** Encode The contaminated sample
   from `EXPERIMENTS.md`, including three concurrent missions, a sealed unknown,
   two valid treatment traces, one permanent unlock, Story/Sandbox isolation,
   and deterministic save migration goldens.
+  *Landed 2026-09-02. The case is encoded as three v2 quests and run through
+  the real engine: the three leads progress concurrently from one bench and a
+  sibling's evidence never advances another; the sealed unknown closes its
+  lead only when NAMED, and a wrong guess is a spoken refusal that locks
+  nothing; the separation lead carries two traces whose evidence is disjoint,
+  so a column run cannot close the funnel route or the reverse; the
+  constraint is recorded without closing the door, and the lead still
+  finishes after it. The permanent unlock names a catalog id in WORLD-003's
+  space and is derived, never accumulated. Client half: migration is pinned
+  BYTE-for-byte rather than by deep equality — a migration that reorders keys
+  produces a different file for the same input — and Story/Sandbox isolation
+  rides WORLD-002's conformance matrix. The fixtures carry translation KEYS
+  rather than English sentences, so the slice adds nothing to WORLD-007's
+  untranslated-prose debt and is shippable in two languages the day it lands.
+  FINDING for a later slice: `quest::answer`'s wrong-guess diagnosis is
+  English prose returned through the host boundary — the one place in this
+  lane where a user-facing string is not a stable id, and WORLD-007's rule
+  says it should be.*
 
 ## What not to optimize for
 
