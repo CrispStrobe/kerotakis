@@ -54,6 +54,39 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+## What "expectation mismatch" actually counts (2026-09-02)
+
+The summary used to print one number — 151 — and one number here cannot be
+acted on, because it conflates three populations with different owners and
+opposite meanings. A prompt's `expected` is a PREDICTION of what the engine
+will do, and predictions age in both directions. The tool now prints the
+split, and names the rows in the only column that is a backlog:
+
+| population | count | what it means |
+|---|---|---|
+| engine gained | 64 | the corpus said `missing`; the engine now answers. The expectation is stale because the engine IMPROVED. Nothing is wrong. |
+| capability absent | 19 | the corpus claimed an answer; the engine stands aside (`not-yet-modeled`). **This is the tail worth working.** |
+| route differs | 68 | both answer, by different roads. The author predicted one and the engine took another. |
+
+The 19 absent rows span ten owning tasks — EXP-25 (4), EXP-18 (3),
+CAP-16 (3), EXP-15 (2), BRD-023 (2), and one each for CAP-11, CAP-23,
+CAP-25, EXP-13, BRD-014 — so they are a distributed backlog rather than one
+defect, and each belongs to the task that claimed the capability.
+
+**This answers the queued th-030/th-059 item, and the answer is that there
+is nothing to fix in the classifier.** Both rows are in the *engine gained*
+column: they expect `missing` and observe `computed`, and both are owned by
+BRD-014, which is exactly the tranche that gave those materials real
+registry identities after the expectations were written. The reverted
+classifier change of 2026-08-31 was trying to make the engine's OBSERVATION
+match a stale EXPECTATION — which is backwards, and is why it downgraded 49
+honest rows on the way. The expectations are what aged, not the classifier.
+
+Whether a stale `expected` should be rewritten in bulk is a content ruling
+and is deliberately not taken here: it turns on whether `expected` is a
+prediction of the engine or a requirement on it, and those two readings
+want opposite fixes.
+
 The baseline contains no solver failures. The last two left on
 2026-08-31 when the aqueous engine gained its validity boundaries —
 and both rows got *better* than a refusal, because the crash had been
