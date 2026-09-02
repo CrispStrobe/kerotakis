@@ -32,8 +32,46 @@ pub(crate) struct CuriosityReport {
     by_age_band: BTreeMap<AgeBand, BTreeMap<Disposition, usize>>,
     by_owning_task: BTreeMap<String, BTreeMap<Disposition, usize>>,
     expectation_mismatches: usize,
+    /// WORLD/coverage: the mismatch count split into the three populations
+    /// it conflates. One number cannot be acted on; these three have
+    /// different owners and opposite meanings.
+    expectation_split: ExpectationSplit,
     failures: Vec<PromptFailure>,
     baseline_drift: Vec<BaselineDrift>,
+}
+
+/// "Expectation mismatch" is three different things wearing one label.
+///
+/// A prompt's `expected` is a PREDICTION of what the engine will do, and
+/// predictions age in both directions. Reporting 151 of them as one number
+/// hides that most are the engine having got BETTER, while a small tail is
+/// the engine not doing something the corpus says it does — and only the
+/// second is a backlog.
+#[derive(Debug, Default, Serialize)]
+struct ExpectationSplit {
+    /// Corpus said `missing`; the engine now answers. The expectation is
+    /// stale because the engine improved — nothing is wrong with the engine.
+    engine_gained: usize,
+    /// Corpus claimed an answer; the engine stands aside. This is the tail
+    /// worth working: a capability the corpus asserts and does not have.
+    capability_absent: usize,
+    /// Both answer, by different routes. Neither is missing; the author
+    /// predicted one road and the engine took another.
+    route_differs: usize,
+}
+
+impl ExpectationSplit {
+    /// Record one mismatch. Which population it belongs to is decided by
+    /// where `Missing` sits, and nothing else: the engine gained if the
+    /// corpus expected nothing, a capability is absent if the corpus
+    /// expected something and got nothing, and otherwise both answered.
+    fn record(&mut self, expected: Disposition, observed: Disposition) {
+        match (expected, observed) {
+            (Disposition::Missing, _) => self.engine_gained += 1,
+            (_, Disposition::Missing) => self.capability_absent += 1,
+            _ => self.route_differs += 1,
+        }
+    }
 }
 
 #[derive(Debug, Serialize)]
@@ -174,6 +212,35 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
             "  expectation mismatches: {}",
             report.expectation_mismatches
         );
+        // Split, because one number here cannot be acted on: most of it is
+        // the engine having outgrown the corpus, and only one column is a
+        // backlog.
+        println!(
+            "    engine gained (corpus said missing):   {}",
+            report.expectation_split.engine_gained
+        );
+        println!(
+            "    capability absent (corpus claimed it): {}",
+            report.expectation_split.capability_absent
+        );
+        println!(
+            "    route differs (both answer):           {}",
+            report.expectation_split.route_differs
+        );
+        // The absent column is the only one with work in it, so it is the
+        // only one worth naming row by row.
+        for result in report
+            .prompts
+            .iter()
+            .filter(|r| r.observed == Disposition::Missing && r.expected != Disposition::Missing)
+        {
+            println!(
+                "      {} [{}] expected {}",
+                result.id,
+                result.owning_task,
+                disposition_name(result.expected)
+            );
+        }
         println!("  solver/runtime failures: {}", report.failures.len());
         for failure in &report.failures {
             println!(
@@ -208,6 +275,7 @@ pub(crate) fn run(
         .map(|disposition| (disposition, 0))
         .collect::<BTreeMap<_, _>>();
     let mut expectation_mismatches = 0;
+    let mut expectation_split = ExpectationSplit::default();
     let mut failures = Vec::new();
     let mut by_action = BTreeMap::new();
     let mut by_material_class = BTreeMap::new();
@@ -233,7 +301,10 @@ pub(crate) fn run(
                     prompt.owning_task.clone(),
                     result.observed,
                 );
-                expectation_mismatches += usize::from(result.expected != result.observed);
+                if result.expected != result.observed {
+                    expectation_mismatches += 1;
+                    expectation_split.record(result.expected, result.observed);
+                }
                 results.push(result);
             }
             Err(error) => failures.push(error),
@@ -251,6 +322,7 @@ pub(crate) fn run(
         by_age_band,
         by_owning_task,
         expectation_mismatches,
+        expectation_split,
         failures,
         baseline_drift: Vec::new(),
     })
@@ -602,6 +674,45 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn a_mismatch_is_sorted_by_where_missing_sits() {
+        use Disposition::*;
+        let mut split = ExpectationSplit::default();
+
+        // The corpus expected nothing and got something: the engine grew.
+        // Nothing is wrong here, and it is the majority of the count.
+        split.record(Missing, Computed);
+        split.record(Missing, Qualitative);
+        split.record(Missing, Curated);
+
+        // The corpus claimed an answer and the engine stands aside. This is
+        // the only column with work in it.
+        split.record(Computed, Missing);
+        split.record(Curated, Missing);
+
+        // Both answered, by different roads.
+        split.record(Computed, Qualitative);
+
+        assert_eq!(split.engine_gained, 3);
+        assert_eq!(split.capability_absent, 2);
+        assert_eq!(split.route_differs, 1);
+    }
+
+    #[test]
+    fn the_three_populations_have_opposite_meanings_and_must_not_be_summed_blind() {
+        use Disposition::*;
+        // The reason the split exists: these two are mirror images, and a
+        // single "2 mismatches" would report an engine that improved and an
+        // engine that lost a capability as the same event.
+        let mut gained = ExpectationSplit::default();
+        gained.record(Missing, Computed);
+        let mut lost = ExpectationSplit::default();
+        lost.record(Computed, Missing);
+
+        assert_eq!((gained.engine_gained, gained.capability_absent), (1, 0));
+        assert_eq!((lost.engine_gained, lost.capability_absent), (0, 1));
+    }
+
     use super::*;
 
     fn observation(id: &str, outcome: BaselineOutcome) -> BaselineObservation {
@@ -645,6 +756,7 @@ mod tests {
             by_age_band: BTreeMap::new(),
             by_owning_task: BTreeMap::new(),
             expectation_mismatches: 0,
+            expectation_split: ExpectationSplit::default(),
             failures: Vec::new(),
             baseline_drift: Vec::new(),
         }
