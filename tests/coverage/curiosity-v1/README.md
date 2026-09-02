@@ -124,6 +124,53 @@ and is deliberately not taken here: it turns on whether `expected` is a
 prediction of the engine or a requirement on it, and those two readings
 want opposite fixes.
 
+## Handover item 8, and why it is not implementable yet (2026-09-02)
+
+9f's formulation after their first attempt was reverted: *an apology counts
+as missing only when it stands UNANSWERED at the end of the script.* That is
+the right direction — the engine emits `NotYetModeled` both as a stand-aside
+AND as a DISCLOSURE offered beside a real answer, and reading the second as
+the first is what recorded a vessel that burst, with a danger hazard, as an
+unanswered question.
+
+**A rule was written, measured, and deliberately NOT shipped.** "The apology
+stands alone when everything else in the final step is bookkeeping" moves
+`missing` from 157 to 138 and the stood-aside column from 19 to 10. It also
+looks entirely correct until the moved rows are read one at a time:
+
+| row | final step says | verdict |
+|---|---|---|
+| `aq-062` | `BURST at 10872 kPa` + a danger hazard, beside a supersaturation disclosure | **true disclosure** — the question is answered |
+| `aq-089` | `no magnetic species present` — copper is not ferromagnetic, which IS the answer | **true disclosure** |
+| `mat-006` | `0.0100 mol hydrogen ↑` — the gas the question asks about | **true disclosure** |
+| `aq-085` | `the lower layer drained` — but the question is whether IODINE partitions, and iodine's dissolution is exactly what is unmodelled | **not answered** |
+| `mat-003` | hydrogen forms — but the question is whether CRUSHING changes the rate, and rate is exactly what is unmodelled | **not answered** |
+| `aq-016` | `100% of the suspended particles settle` — adjacent to "will sulfur dissolve", not identical to it | **not answered** |
+
+Roughly half. The rule cannot tell an answer to THE QUESTION from an answer
+to something else that happened in the same step, so shipping it would have
+made the corpus assert the engine answered questions it did not — the same
+damage as the reverted change, in the opposite direction and harder to see,
+because the diff shrinks the missing column and looks like progress.
+
+**What blocks it, concretely.** `NotYetModeled { vessel, what: String }`
+carries its subject as PROSE. A classifier cannot ask "is this apology about
+the same thing as that answer" without matching sentences, which is the
+defect class this programme has spent the day removing. Two things would
+unblock it, in order:
+
+1. `NotYetModeled` carries a machine-readable subject (a `SpeciesId`, or a
+   stable reason id) alongside its prose — the same prose-to-id move as the
+   catalog reasons, the unmet reasons and the safety rule ids.
+2. The prompt states what it is ASKING ABOUT, so "answered" can be checked
+   against the question rather than against whatever else the step emitted.
+   Without this, `mat-003` and `mat-006` are indistinguishable to the
+   classifier: identical events, and only the question differs.
+
+Until then the honest position is the current one — the column counts an
+observation, the sub-kinds are documented, and `aq-062`/`aq-089`/`mat-006`
+are known-contaminated rows rather than silently reclassified ones.
+
 The baseline contains no solver failures. The last two left on
 2026-08-31 when the aqueous engine gained its validity boundaries —
 and both rows got *better* than a refusal, because the crash had been
