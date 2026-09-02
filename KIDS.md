@@ -68,7 +68,7 @@ silent miss teaches the silence.
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
-| K17 | Rusting race | orange rust | **silent miss** | steel wool + brine + oxygen + 24 h leaves iron untouched; the only word is "this part of the lab isn't awake yet" |
+| K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
 | K18 | Hot pack / cold pack | the thermometer | partial | CaCl₂ gives +36 K, computed from dissolution enthalpy — exemplary. The canonical cold pack, NH₄NO₃, is not in the registry at all; Epsom salt reads 0 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
 | K20 | Rock candy | crystals on cooling | **wrong** | sucrose saturation is modelled (0.5843 mol per 100 mL) but is **temperature-independent** — identical at 20, 60 and 90 °C — so the one mechanism the experiment exists to show cannot happen |
@@ -86,8 +86,9 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1 and KID-2: **computed 14 ·
-wrong 2**, and the thirty unrepaired scripts run 27/30 instead of 17/30.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2 and KID-5:
+**computed 15 · wrong 2 · silent miss 1**, and the thirty unrepaired scripts
+run 27/30 instead of 17/30.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -153,7 +154,7 @@ the project's own coverage report.
 
 | Missing mechanism | Costs us |
 |---|---|
-| Corrosion of iron in aerated brine | K17; a top-five children's experiment (`EXP-34` already on the registry) |
+| ~~Corrosion of iron in aerated brine~~ | K17 — **landed as KID-5**, 2026-09-02 |
 | Combustion of organic solids; a flame that can be starved | K04, K13; `ignite` is currently *silent* on an unresolved material |
 | Latent-heat plateau at a boiling point | K13; named at lv3, invisible at lv1 |
 | Temperature-dependent solubility of molecular solutes, and nucleation | K20; rock candy, supersaturation, seeding |
@@ -306,6 +307,63 @@ and `main` moves only by PR.
 - **KID-5 — Rusting.** Pull `EXP-34` forward: iron surface area, oxygen
   transport, chloride acceleration, Fe(OH)₂/Fe(OH)₃/Fe₂O₃ product routing,
   a rate slow enough to need `wait` and fast enough to see.
+  **Landed 2026-09-02** as a curated kinetic reaction, `iron-corrosion`,
+  because rusting is three rate questions and no stoichiometric ones: it is
+  slow enough that `wait` is the instrument, it *stops* when the trapped
+  oxygen runs out, and salt makes it faster without being consumed.
+  `lessons/rusting.lab` runs the four-arm comparison `EXP-34` asked for —
+  dry, oxygen swept out, plain water, salt water — and every arm holds in a
+  test on the shipped binary. Measured over one sealed day on a gram of iron
+  under 500 mL of room air: dry 0, deoxygenated 0, plain water 0.0016 mol of
+  oxide, salt water 0.0028 mol. The salt arm runs its oxygen down to
+  0.0001 mol and the headspace falls to 0.808 bar — the water rising in the
+  stoppered tube, computed rather than drawn.
+  Three things had to be true before the lesson could land, and only the
+  first was the rate law:
+  - **The product had to be a solid the solver would leave alone.** Written
+    as the school equation with Fe(OH)₃ on the right, the aqueous engine
+    dissolved every mole of rust straight back into Fe(III) hydroxo
+    complexes — and then said, correctly, that a real beaker would not stay
+    like that. The rust vanished on the way to being seen. Written as the
+    net oxidation to Fe₂O₃, with the water requirement carried by the
+    reaction's locality instead of its stoichiometry, it stays.
+  - **The description had to name more than one thing at the bottom.** It
+    reported the single largest settled solid, so a rusting nail was "grey
+    iron" and nothing else — the ledger held the rust, the words did not.
+    It now names every settled solid down to a tenth of the largest.
+  - **The bench had to stop calling iron unreactive while rusting it.**
+    `Event::Inert`'s lv1 wording — "nothing happens … it is too unreactive
+    for this" — dropped the scope its lv2 and lv3 forms carry, and became
+    flatly false the moment iron started to rust. It now says what it
+    actually means: nothing dissolved here swaps places with the metal.
+  Two smaller things came with it. `kero study` gained an
+  `amount:<species>@vN` probe, because `EXP-34`'s acceptance is that the
+  study sweeps the conditions and the only answer worth sweeping for is how
+  much rust — and no existing probe can see a solid. And `--vary` now says
+  that it sweeps **moles** whatever unit the script line used: varying a
+  line reading `add v1 Fe 1g` silently dosed one mole, 55.8 g, and produced
+  a curve that looked like a rate law that had stopped responding.
+  Two data errors surfaced on the way and were fixed with it, because both
+  are things a learner looks straight at: iron(III) oxide was called
+  **pink** (a saturation rule written for *transmitted* colour — the
+  dilute-versus-concentrated permanganate case — applied to a scattering
+  solid), and zinc was called **blue-green** (rgb(186, 196, 200) clears the
+  absolute chroma cut-off by two while being grey by any measure of
+  saturation). Rust is not pink and zinc is not blue-green, and a child
+  looking at a rusted nail is the reader who notices first.
+  The corpus moved by two rows: `th-067` "can iron rust without being
+  heated?" and `th-068` "does salt water make iron rust faster than fresh
+  water?" were both pinned `missing` and are now `computed`, so
+  `expectation_mismatches` fell 151 → 149 with no baseline drift. `aq-125`
+  and `th-069` stay `missing` and correctly so: neither adds oxygen, and
+  galvanic protection by zinc is a coupling this reaction does not model.
+  **Stated boundaries**, all in the entry's own provenance: iron *amount*
+  stands in for iron *area*, so a nail and filings of the same mass rust at
+  the same speed and K41's powder-versus-lump contrast is still out of
+  reach; the product is the registry's anhydrous oxide rather than the
+  hydrated mixture real rust is; and an open vessel still does not draw
+  oxygen from the room, which is why every arm of the lesson is sealed over
+  a measured amount of it.
 - **KID-6 — The boiling plateau.** Hold temperature at the (solute-shifted)
   boiling point while water leaves as steam; make the lv1 register say what
   lv3 already says when the aqueous model's 300 °C ceiling is passed.
@@ -366,7 +424,7 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
@@ -457,6 +515,15 @@ thirty separate problems, it is finding the same eight.
   the half-cells are half-cells: three refusals that are each correct and
   none of which say what to do instead.
   *Acceptance:* a refusal that has an obvious remedy states it.
+- **KID-22b — `kero study --vary` sweeps moles whatever the line said.**
+  Found while calibrating KID-5: `--vary add:v1:Fe=1..2` on a line reading
+  `add v1 Fe 1g` replaces the parsed amount with one *mole* of iron, 55.8 g,
+  and the resulting curve looks like a rate law that has stopped responding.
+  KID-5 made the unit explicit in the provenance and added a stderr warning
+  when the swept line is written in grams or millilitres. The remaining
+  question — whether the sweep should instead follow the line's own unit —
+  is left open, because converting needs the molar mass and changing the
+  meaning of an existing flag is not a calibration decision.
 - **KID-22 — `react` and `test` exist and are invisible.** `react v1
   esterification` runs; `test v1 splint` runs. Neither is in `kero --help`
   or the REPL's `help`, which between them name 24 and 18 of the grammar's

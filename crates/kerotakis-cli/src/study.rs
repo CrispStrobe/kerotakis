@@ -50,6 +50,16 @@ enum Probe {
     Mass(VesselId),
     /// Total titrant volume delivered by the last titration in the run.
     TitrantVolume(VesselId),
+    /// KID-5: how much of one species the vessel holds, in moles.
+    ///
+    /// `EXP-34`'s acceptance is that `kero study` sweeps the rusting
+    /// conditions, and the only answer worth sweeping for is *how much
+    /// rust*. Every existing probe reads an instrument, and none of them
+    /// sees a solid: a sealed vessel's mass does not move when its oxygen
+    /// becomes iron oxide inside it, and pH barely does. `kero fit` already
+    /// takes `amount:SPECIES@vN` for exactly this reason; this is the same
+    /// selector on the study side.
+    Amount(VesselId, String),
 }
 
 impl Probe {
@@ -64,12 +74,20 @@ impl Probe {
             "temp" | "temperature" => Probe::Temperature(vessel),
             "mass" | "balance" => Probe::Mass(vessel),
             "titrant_volume" => Probe::TitrantVolume(vessel),
-            other => {
-                return Err(format!(
-                    "unknown probe '{other}' (ph, temp, mass, titrant_volume; \
-                     append @vN for a vessel other than v1)"
-                ))
-            }
+            other => match other.strip_prefix("amount:") {
+                Some(species) if !species.is_empty() => {
+                    if kerotakis_core::species::lookup_key(species).is_none() {
+                        return Err(kerotakis_core::script::unknown_ingredient(species));
+                    }
+                    Probe::Amount(vessel, species.to_string())
+                }
+                _ => {
+                    return Err(format!(
+                        "unknown probe '{other}' (ph, temp, mass, titrant_volume, \
+                         amount:<species>; append @vN for a vessel other than v1)"
+                    ))
+                }
+            },
         };
         Ok((word.to_string(), probe))
     }
@@ -80,6 +98,7 @@ impl Probe {
             Probe::Temperature(_) => "°C",
             Probe::Mass(_) => "g",
             Probe::TitrantVolume(_) => "L",
+            Probe::Amount(..) => "mol",
         }
     }
 
@@ -107,6 +126,14 @@ impl Probe {
                     ..
                 } if vessel == v => Some(total_volume.0),
                 _ => None,
+            }),
+            // Zero is a real reading here, not a missing one: a vessel that
+            // made no rust holds no rust, and that is the control arm's
+            // whole answer. A vessel that does not exist still reads None.
+            Probe::Amount(v, species) => bench.vessel(*v).ok().map(|vessel| {
+                vessel
+                    .moles_of(&kerotakis_core::species::SpeciesId::new(species))
+                    .0
             }),
         }
     }
@@ -356,8 +383,34 @@ pub fn study_command(args: &[String]) {
         ),
         _ => unreachable!("validated above"),
     };
+    // KID-5: the sweep is always in moles, whatever the line said.
+    //
+    // `*moles = Moles(value)` replaces the parsed amount, so
+    // `--vary add:v1:Fe=1..2` on a line reading `add v1 Fe 1g` quietly
+    // dosed one *mole* of iron — 55.8 g — and the resulting curve looked
+    // like a rate law that had stopped responding. It cost this author an
+    // hour of blaming the rate law. The unit is now in the provenance every
+    // run carries, and a line written in grams or millilitres says so on
+    // stderr before the first replay.
+    let swept_line = ops
+        .get(target)
+        .and_then(|(number, _)| text.lines().nth(number.saturating_sub(1)))
+        .unwrap_or_default()
+        .trim()
+        .to_string();
+    if let Some(unit) = swept_line
+        .split_whitespace()
+        .last()
+        .and_then(|amount| ["mL", "L", "g"].into_iter().find(|u| amount.ends_with(u)))
+    {
+        eprintln!(
+            "kero study: '{swept_line}' is written in {unit}, but --vary always \
+             sweeps moles — the range {} is read as moles, not {unit}",
+            vary.range_spoken
+        );
+    }
     let provenance = format!(
-        "computed replay of {lab}; varied {sweep_said}; \
+        "computed replay of {lab}; varied {sweep_said} (in moles); \
          solver: kerotakis PHREEQC stack; probes read from solved state and events"
     );
 

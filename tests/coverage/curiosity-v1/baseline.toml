@@ -2650,13 +2650,13 @@ reason_code = "computed-route"
 
 [[observation]]
 id = "th-067"
-owning_task = "BRD-014"
+owning_task = "EXP-34"
 outcome = "computed"
 reason_code = "computed-route"
 
 [[observation]]
 id = "th-068"
-owning_task = "BRD-014"
+owning_task = "EXP-34"
 outcome = "computed"
 reason_code = "computed-route"
 

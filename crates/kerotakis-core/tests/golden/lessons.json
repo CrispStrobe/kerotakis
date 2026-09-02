@@ -280,11 +280,11 @@
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
-      "v1: The liquid is white and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is grey zinc at the bottom.",
       "v1: 100% of the suspended particles settle in 60 s",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and clear, there is blue-green zinc at the bottom.",
+      "v1: The liquid is colourless and clear, there is grey zinc and white copper sulfate at the bottom.",
       "v1 balance: 204.40 g"
     ],
     "lesson": "electrode.lab",
@@ -1388,6 +1388,162 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 317.3068
+      }
+    ]
+  },
+  "rusting": {
+    "event_count": 40,
+    "events_sample": [
+      "v1: +0.0179 mol iron",
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: There is grey iron in the beaker.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0179 mol iron",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: swept by nitrogen at 1.000 bar; volatile products are purged",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: sealed over 0.500 L of headspace, trapping 0.0202 mol of room air",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.0179 mol iron",
+      "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.0513 mol sodium chloride"
+    ],
+    "lesson": "rusting.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01790671,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01790671,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.02016977,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01471918,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.00159376,
+            "phase": "Solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00189091,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01471918,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.00159376,
+            "phase": "Solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.05133207,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.00189091,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
       }
     ]
   },

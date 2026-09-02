@@ -142,3 +142,74 @@ fn the_milk_lesson_curdles_through_the_full_solver_stack() {
         "the control vessel curdled, which is the bug in reverse:\n{out}"
     );
 }
+
+/// KID-5 / EXP-34: rust forms only where air and water are both present, and
+/// salt makes the same reaction faster.
+///
+/// The audit in `KIDS.md` put steel wool in brine under oxygen, waited a day,
+/// and got back unchanged iron and the words "this part of the lab isn't
+/// awake yet" — a silent miss on one of the first chemical changes a child
+/// ever watches. This drives the four-arm lesson through the full solver
+/// stack and holds every arm, because three of the four are controls and a
+/// control that quietly rusts is worse than no control.
+#[test]
+fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
+    let lesson = lessons_dir().join("rusting.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Each `inspect` block starts with its vessel header; split on those so
+    // an arm's ledger cannot be read off another arm's.
+    let arm = |vessel: &str| -> String {
+        let mut lines = out.lines().skip_while(|line| {
+            !line
+                .trim_start()
+                .starts_with(&format!("{vessel} (beaker) —"))
+        });
+        let header = lines
+            .next()
+            .unwrap_or_else(|| panic!("{vessel} reports:\n{out}"));
+        // The ledger runs to the next vessel header, which is the next line
+        // that is not indented under this one.
+        let body: Vec<&str> = lines
+            .take_while(|line| !line.contains(" (beaker) —"))
+            .collect();
+        format!("{header}\n{}", body.join("\n"))
+    };
+    let rust_in = |vessel: &str| -> f64 {
+        arm(vessel)
+            .lines()
+            .find(|line| line.contains("iron(III) oxide"))
+            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .unwrap_or(0.0)
+    };
+
+    // The dry arm has air and no water; the swept arm has water and no air.
+    assert_eq!(rust_in("v1"), 0.0, "dry iron rusted:\n{}", arm("v1"));
+    assert_eq!(
+        rust_in("v2"),
+        0.0,
+        "iron rusted with the oxygen swept out:\n{}",
+        arm("v2")
+    );
+
+    let plain = rust_in("v3");
+    let salty = rust_in("v4");
+    assert!(
+        plain > 0.0,
+        "nothing rusted in water and air:\n{}",
+        arm("v3")
+    );
+    assert!(
+        salty > plain * 1.5,
+        "salt water must rust visibly faster than plain: {salty} vs {plain}"
+    );
+
+    // The oxygen is consumed, which is why a sealed tin does not rust from
+    // the inside — and it is what makes the water rise in the real tube.
+    assert!(
+        arm("v4").contains("0.0001 mol  oxygen"),
+        "the salt arm should run its trapped oxygen down:\n{}",
+        arm("v4")
+    );
+}

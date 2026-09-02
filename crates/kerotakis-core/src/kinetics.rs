@@ -824,6 +824,127 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         source_ids: &["kerotakis:kinetics:iodate-bisulfite-clock"],
         provenance: "The Landolt reaction (iodate + bisulfite). Orders (1,1) in [IO₃⁻] and [HSO₃⁻] are the simplified school treatment. Ea ≈ 48 kJ/mol (Landolt 1886; physical chemistry texts, commonly 45–55 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable clock time rather than measured; the full Landolt mechanism has additional steps that are not modelled",
     },
+    // ── KID-5 / EXP-34: rusting ─────────────────────────────────────────
+    //
+    // Iron in a glass of water is one of the first chemical changes a child
+    // watches, and until now the bench answered it with silence: steel wool
+    // in brine with oxygen over it, waited a day, came back unchanged and
+    // said only "this part of the lab isn't awake yet" (KIDS.md, K17).
+    //
+    // Three things make this a kinetic reaction rather than a curated one.
+    // It is slow enough that `wait` is the instrument. It stops when either
+    // reagent runs out, which is the whole nail-in-a-stoppered-tube lesson —
+    // the oxygen is used up and the reaction halts with iron left over. And
+    // salt makes it faster without being consumed, which is a rate question
+    // and not a stoichiometric one.
+    KineticReaction {
+        id: "iron-corrosion",
+        // The equation string is parsed and balance-checked by
+        // `the_declared_equation_balances_too`, so it carries the reaction
+        // and nothing else — an earlier "(in water)" annotation here read
+        // as a formula and failed that test, which is the test working.
+        // The water requirement lives in the locality, the lesson's prose
+        // and the provenance below.
+        equation: "4 Fe + 3 O₂ → 2 Fe₂O₃↓",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "Fe",
+                coefficient: -4.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "O2",
+                coefficient: -3.0,
+                phase: Phase::Gas,
+            },
+            StoichiometricTerm {
+                species: "Fe2O3",
+                coefficient: 2.0,
+                phase: Phase::Solid,
+            },
+        ],
+        // Water is the medium, not a term. The school equation is usually
+        // written with water on the left and iron(III) hydroxide on the
+        // right, and that was the first attempt here — but `Fe(OH)3` has no
+        // matching phase in any shipped database, so the aqueous solver
+        // dissolved every mole of it straight back into Fe(III) hydroxo
+        // complexes and then said, correctly, that a real beaker would not
+        // stay like that. The rust vanished on the way to being seen.
+        //
+        // Writing the net change as the oxide keeps the product a solid the
+        // learner can look at, keeps the water requirement where it belongs
+        // — in the locality, which returns a zero rate without a liquid —
+        // and is the same bookkeeping the textbooks use when they say iron
+        // needs air *and* water: the water is not consumed by the net
+        // equation, it is what makes the electrochemistry possible.
+        // `Bulk(Aqueous)` is the water gate, and it is load-bearing rather
+        // than decorative: `reaction_volume_litres` returns the vessel's
+        // liquid volume, and `expression_rate` returns zero the moment that
+        // is zero. Dry iron in dry air therefore cannot rust here for a
+        // reason the model states, not because nobody wrote the branch.
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                // Phase `None` counts the vessel's oxygen wherever it sits.
+                // A sealed vessel traps room air — about 4.3 mmol of O₂ per
+                // 500 mL — and that is the oxygen the classic stoppered-tube
+                // experiment consumes. Resolving the dissolved fraction and
+                // its transport into the water film would be a better model
+                // and is not this one; see the boundary note below.
+                OrderTerm {
+                    species: "O2",
+                    phase: None,
+                    order: 1.0,
+                },
+                // First order in the iron *inventory*, which stands in for
+                // the iron *area*. Stated plainly because it is wrong in a
+                // way a learner can notice: a nail and the same mass of
+                // filings corrode at the same rate here, and in a real
+                // beaker the filings win. Area-resolved solids are the
+                // honest fix and are tracked separately.
+                OrderTerm {
+                    species: "Fe",
+                    phase: Some(Phase::Solid),
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // Calibrated so that a gram of iron under a sealed 500 mL of
+                // room air, in 100 mL of plain water, shows a little rust
+                // overnight and clearly nothing in the first hour — the two
+                // observations the experiment is run to make. Salt water
+                // then does visibly more in the same day.
+                pre_exponential: 2.0e2,
+                temperature_exponent: 0.0,
+                activation_energy: 40_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        catalysts: &[Catalyst {
+            species: "Cl-",
+            activation_energy: 36_000.0,
+            activity: CatalystActivity::Homogeneous {
+                order: 0.5,
+                reference_molar: 0.5,
+            },
+            provenance: "Chloride accelerates the aqueous corrosion of iron by breaking down the protective oxide film rather than by entering the net equation, so it is carried here as a catalyst — not consumed, and absent from the stoichiometry, which is what the chemistry says. Editorial judgement (Kerotakis): the 4 kJ/mol barrier reduction and the half-order dependence are a bounded teaching correlation chosen to reproduce the one observation the experiment makes — salt water rusts a nail several times faster than tap water, about fivefold at the 0.5 mol/L reference, which is roughly seawater. They are not a measured pitting model, and no claim is made about pitting potential, film breakdown thresholds, or crevice geometry",
+        }],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for iron under aerated water; oxygen must be present in the vessel, because an open vessel does not yet draw oxygen from the room",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rates are indicative. Iron amount stands in for iron area, so particle size and shape do not change the rate; the product is the registry's anhydrous iron(III) oxide, while real rust is a hydrated mixture whose water of hydration is not tracked; and the two half-reactions, their separation on the metal, and the differential-aeration cell that drives real corrosion are not resolved",
+        },
+        source_ids: &["kerotakis:kinetics:iron-corrosion"],
+        provenance: "Rusting as the net oxidation 4 Fe + 3 O₂ → 2 Fe₂O₃, gated on liquid water by its locality so that air and water are needed together. Ea = 40 kJ/mol sits inside the 20–50 kJ/mol range corrosion texts report for oxygen-reduction-controlled aqueous corrosion of steel near room temperature. Editorial judgement (Kerotakis): the pre-exponential is chosen so the observation is watchable on a lesson clock — nothing in an hour, a little overnight — rather than measured, exactly as the peroxide entry above does. Real rust is a hydrated iron(III) oxide mixture whose composition depends on how it formed; the registry's reddish-brown iron(III) oxide is the reviewed stand-in, and a hydrated rust species with its own reviewed data is registry work rather than a rate question",
+    },
 ];
 
 thread_local! {

@@ -1808,9 +1808,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
+                // KID-5: say which question this answers.
+                //
+                // Every `Inert` comes from the activity series asking one
+                // thing — can anything dissolved here take this metal's
+                // electrons? The lv2 and lv3 forms carry that scope in
+                // `why`; the lv1 form dropped it, and read as a claim about
+                // the metal in general. That became false the day iron
+                // started rusting: the bench would report the nail going
+                // orange and, in the same breath, that nothing happens to
+                // the iron because it is too unreactive.
                 1 => locale.fill(
                     "event.inert.lv1",
-                    "Nothing happens to the {name} in {vessel} — and that is the real answer, not a gap: it is too unreactive for this.",
+                    "The {name} in {vessel} does not swap places with anything dissolved here — that is the real answer, not a gap.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => locale.fill(
