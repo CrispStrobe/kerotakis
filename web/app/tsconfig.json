@@ -9,7 +9,7 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "types": ["svelte", "vite/client", "node"]
+    "types": ["svelte", "vite/client", "node", "@webgpu/types"]
   },
   "include": ["src"]
 }
