@@ -1715,10 +1715,27 @@ last-known-good recovery and quota-blocked storage.
 - [ ] **WORLD-006 — Transactional mission outcomes.** Commit mission state,
   rewards, inventory, and world changes together only after engine evaluation;
   retry safely after interruption and reject double claims.
-- [ ] **WORLD-007 — Localized content contract.** Lint every mission, catalog
+- [x] **WORLD-007 — Localized content contract.** Lint every mission, catalog
   item, outcome, error, and ARIA template for English and German coverage and
   interpolation parity. Protocol conformance rejects user-facing raw strings in
   new response fields.
+  *Landed 2026-09-02. The existing gate scans source for literal `t("…")` call
+  sites, which catches interface copy and CANNOT catch content: a mission
+  objective, a criterion label, a case lead, an award name all reach `t()` as
+  variables, so a new mission could ship English-only with every gate green.
+  The new contract walks the content tables themselves. Interpolation parity
+  is checked too — a German string that drops `{count}` renders a sentence
+  with a hole in it, which no coverage count would notice — over 146
+  interpolated messages, with a floor so the gate cannot silently stop finding
+  anything. Protocol conformance now asserts recursively that no string value
+  in a catalog response or an unmet reason contains a space: ids in this
+  protocol never do and sentences always do, which makes "carries no prose" an
+  exact and cheap test. FINDING: quest prose is entirely untranslated — 861
+  `lv1`/`lv2`/`lv3` strings, zero German — which is a content job needing a
+  chemistry-literate translator, not an afternoon of engineering. It is
+  baselined as a ratchet that may only go down, so the gap stops growing today
+  and a new quest shipping English prose fails; the baseline is itself pinned
+  within 20 of the truth so it cannot drift into being no gate at all.*
 - [ ] **WORLD-008 — Vertical-slice fixtures.** Encode The contaminated sample
   from `EXPERIMENTS.md`, including three concurrent missions, a sealed unknown,
   two valid treatment traces, one permanent unlock, Story/Sandbox isolation,
