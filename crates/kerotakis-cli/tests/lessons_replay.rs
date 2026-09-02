@@ -275,3 +275,121 @@ fn the_boiling_plateau_holds_while_the_water_leaves() {
         reading("v4")
     );
 }
+
+/// KID-8: five colours out of one pigment, and one of them is in no table.
+///
+/// The audit's K12 died on `red_cabbage_indicator`, which did not exist —
+/// there was no anthocyanin in the registry and the indicator table held
+/// only two-form weak acids, which cannot produce five colours. This drives
+/// the ladder through the full stack and checks the sequence, including the
+/// green that appears where a blue form and a yellow form overlap.
+#[test]
+fn the_cabbage_rainbow_computes_five_colours_from_one_pigment() {
+    let lesson = lessons_dir().join("cabbage-rainbow.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let colour = |vessel: &str| -> String {
+        out.lines()
+            .find(|line| line.contains(&format!("You look closely at {vessel}.")))
+            .and_then(|line| line.split("The liquid is ").nth(1))
+            .and_then(|rest| rest.split(" and ").next())
+            .unwrap_or_else(|| panic!("{vessel} is looked at:\n{out}"))
+            .to_string()
+    };
+    assert_eq!(colour("v1"), "red", "vinegar holds the flavylium form");
+    assert_eq!(
+        colour("v2"),
+        "deep purple",
+        "mildly acidic is the middle form"
+    );
+    assert_eq!(colour("v3"), "blue", "baking soda takes the next proton");
+    assert_eq!(
+        colour("v5"),
+        "yellow",
+        "strong alkali is the top of the ladder"
+    );
+    // The one nobody tabulated: a blue form and a yellow form present
+    // together absorb at both ends and leave a window in the middle.
+    assert!(
+        colour("v4").contains("green"),
+        "washing soda must land in the green between blue and yellow, not on \
+         either of them: {}",
+        colour("v4")
+    );
+    // Five jars, five different answers — the point of computing the colour.
+    let all: Vec<String> = ["v1", "v2", "v3", "v4", "v5"]
+        .iter()
+        .map(|v| colour(v))
+        .collect();
+    let mut unique = all.clone();
+    unique.sort();
+    unique.dedup();
+    assert_eq!(
+        unique.len(),
+        5,
+        "five jars must not share a colour: {all:?}"
+    );
+}
+
+/// KID-9 / EXP-8: a black ink is a mixture, and the strip proves it.
+///
+/// The audit's K26 and K48 both got "nothing dissolved here has a curated
+/// UNIFAC decomposition, so the column's method is silent". The refusal was
+/// honest and the gap was real: a food dye is a large glycoside, and a
+/// UNIFAC decomposition of one would be a fiction dressed as a calculation.
+/// This holds the separation and — the part that matters — that the paper
+/// strip and the column agree about the order, because both read one
+/// partition coefficient.
+#[test]
+fn the_ink_strip_and_the_column_cannot_disagree() {
+    let lesson = lessons_dir().join("ink-chromatography.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // The mixture separates into three named dyes.
+    let mixture = out
+        .lines()
+        .find(|line| line.contains("The mixture from v1 separates"))
+        .unwrap_or_else(|| panic!("v1 is separated:\n{out}"));
+    for dye in ["indigo carmine", "betanin", "curcumin"] {
+        assert!(
+            mixture.contains(dye),
+            "the strip must show {dye}: {mixture}"
+        );
+    }
+
+    // Column order and strip order are the same separation read two ways:
+    // the dye the column holds longest is the one furthest up the paper.
+    let lv3 = out
+        .lines()
+        .find(|line| line.contains("Rf=") && line.contains("tR="))
+        .unwrap_or_else(|| panic!("the lv3 table reports Rf:\n{out}"));
+    let rows: Vec<(f64, f64)> = lv3
+        .split(';')
+        .filter_map(|part| {
+            let tr = part.split("tR=").nth(1)?.split('s').next()?.parse().ok()?;
+            let rf = part
+                .split("Rf=")
+                .nth(1)?
+                .split_whitespace()
+                .next()?
+                .parse()
+                .ok()?;
+            Some((tr, rf))
+        })
+        .collect();
+    assert_eq!(rows.len(), 3, "three peaks in the lv3 table: {lv3}");
+    for pair in rows.windows(2) {
+        assert!(
+            pair[0].0 < pair[1].0 && pair[0].1 < pair[1].1,
+            "retention time and Rf must rank the same way: {rows:?}"
+        );
+    }
+
+    // A single dye run on its own lands where it landed in the mixture,
+    // which is what makes a strip able to identify an unknown.
+    assert!(
+        out.contains("curcumin (turmeric yellow) 85 mm up"),
+        "the pure yellow must run to the same height as it did in the ink:\n{out}"
+    );
+}

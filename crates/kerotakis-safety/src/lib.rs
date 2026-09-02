@@ -255,6 +255,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "PS"
         | "betanin"
         | "betanin_ox"
+        // KID-8: a food pigment. Red cabbage is eaten; its anthocyanins
+        // carry no reactive group this screen knows, and saying so
+        // explicitly is what makes the row *assessed* rather than merely
+        // unlabelled.
+        | "anthocyanin"
         | "curcumin"
         | "curcumin_ox"
         | "indigo_carmine"
@@ -315,6 +320,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag+",
     "AgCl",
     "Al",
+    "anthocyanin",
     "betanin",
     "betanin_ox",
     "AgNO3",

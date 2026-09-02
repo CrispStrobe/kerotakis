@@ -144,6 +144,144 @@
       }
     ]
   },
+  "cabbage-rainbow": {
+    "event_count": 31,
+    "events_sample": [
+      "v1: +100.600 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +100.000 g sparkling_water (2 known ingredients)",
+      "v2: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +2.000 g baking_soda (1 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: The liquid is white and so cloudy you cannot see through it.",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +4.000 g washing_soda (1 known ingredients)"
+    ],
+    "lesson": "cabbage-rainbow.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.08376074,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 5.84901471,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01363357,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.06161532,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02380754,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.03774012,
+            "phase": "Solid",
+            "species": "Na2CO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "calorimetry": {
     "event_count": 11,
     "events_sample": [
@@ -908,6 +1046,88 @@
       }
     ]
   },
+  "ink-chromatography": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +1.6603 mol water",
+      "v1: +2.000 g black_ink (4 known ingredients)",
+      "v1: The liquid is black and clear.",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)",
+      "v2: new vessel",
+      "v2: +1.6603 mol water",
+      "v2: +1.000 g food_colour_blue (2 known ingredients)",
+      "v2: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area)",
+      "v3: new vessel",
+      "v3: +1.6603 mol water",
+      "v3: +1.000 g food_colour_yellow (2 known ingredients)",
+      "v3: chromatogram — curcumin (turmeric yellow) at 231 s, Rf 0.85 (100% area)",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)"
+    ],
+    "lesson": "ink-chromatography.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 4.36e-6,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 4.89e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 7.72e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.76019983,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.14e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.71e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [
@@ -1284,8 +1504,8 @@
       "v1: +0.0500 mol methanol",
       "v1: +0.1000 mol ethanol",
       "v1: +0.0500 mol propanone",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)"
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)",
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)"
     ],
     "lesson": "one-thing-at-a-time.lab",
     "vessels": [
