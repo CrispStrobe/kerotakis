@@ -283,7 +283,7 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         .contents
         .iter()
         .any(|p| p.species.0 == "water" && p.phase == Phase::Liquid);
-    if has_liquid_water && vessel.temperature.0 < 373.15 {
+    if has_liquid_water {
         return None;
     }
 

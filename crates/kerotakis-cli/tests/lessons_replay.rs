@@ -213,3 +213,65 @@ fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
         arm("v4")
     );
 }
+
+/// KID-6: heat is not temperature, and the bench has to be able to say so.
+///
+/// Boiling announced the transition, left the water liquid, and let the
+/// temperature run wherever the energy put it — heating juice on paper
+/// reached 670 °C with liquid water still in the ledger. Freezing and
+/// melting had paid latent heat since they were written; this holds the
+/// third plateau to the same standard, on the binary a reader runs.
+#[test]
+fn the_boiling_plateau_holds_while_the_water_leaves() {
+    let lesson = lessons_dir().join("boiling-curve.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    let reading = |vessel: &str| -> f64 {
+        out.lines()
+            .find(|line| line.contains(&format!("{vessel} thermometer:")))
+            .and_then(|line| {
+                line.split("thermometer:")
+                    .nth(1)?
+                    .split_whitespace()
+                    .next()?
+                    .parse::<f64>()
+                    .ok()
+            })
+            .unwrap_or_else(|| panic!("{vessel} reports a temperature:\n{out}"))
+    };
+    let water_in = |vessel: &str| -> f64 {
+        let header = out
+            .find(&format!("{vessel} (beaker) —"))
+            .unwrap_or_else(|| panic!("{vessel} reports:\n{out}"));
+        out[header..]
+            .lines()
+            .take_while(|line| !line.contains("mol  chloride"))
+            .find(|line| line.contains("mol  water"))
+            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .unwrap_or_else(|| panic!("{vessel} reports its water:\n{out}"))
+    };
+
+    // Below the plateau the thermometer moves; on it, it does not.
+    assert!(reading("v1") < 99.0, "30 kJ must not reach boiling");
+    assert!(
+        (reading("v2") - 100.0).abs() < 0.01 && (reading("v3") - 100.0).abs() < 0.01,
+        "60 kJ and 240 kJ must read the same 100 °C: {} and {}",
+        reading("v2"),
+        reading("v3")
+    );
+    // Four times the energy past the plateau buys no degrees and much less
+    // water. That contrast is the whole lesson.
+    assert!(
+        water_in("v3") < water_in("v2") / 4.0,
+        "240 kJ must leave far less water than 60 kJ: {} vs {}",
+        water_in("v3"),
+        water_in("v2")
+    );
+    // And a dissolved solute raises the plateau by the colligative amount.
+    assert!(
+        reading("v4") > 103.0 && reading("v4") < 104.0,
+        "salt water must boil above 100 °C: {}",
+        reading("v4")
+    );
+}

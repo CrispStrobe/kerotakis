@@ -1233,9 +1233,9 @@ question = "Does water stay at its boiling point while it changes into steam?"
 age_band = "age13_to15"
 action = "heat_and_cool"
 material_class = "boiling-water"
-expected = "missing"
+expected = "computed"
 owning_task = "BRD-032"
-tags = ["latent-heat-gap"]
+tags = ["latent-heat"]
 script = ["add v1 water 100mL", "heat v1 40kJ", "wait 1min"]
 smoke = false
 
