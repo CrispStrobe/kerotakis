@@ -119,6 +119,19 @@ export class AppSaveModeStorage {
     this.update((values) => ({ ...values, [key]: value }));
   }
 
+  /**
+   * Commit several keys as ONE envelope promotion.
+   *
+   * Two `setItem` calls are two saves. A mission that records its completion
+   * in one and resets its stockroom in the other can be interrupted between
+   * them, leaving a learner who finished a mission with a spent stockroom and
+   * no completion — or a completion whose reward was never granted. An
+   * outcome is one fact about the world, so it gets one write.
+   */
+  setItems(changes: Readonly<Record<string, string>>): void {
+    this.update((values) => ({ ...values, ...changes }));
+  }
+
   removeItem(key: string): void {
     this.update((values) => {
       const next = { ...values };

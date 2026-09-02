@@ -17,6 +17,7 @@
   import TransportBuilder from "./lib/components/TransportBuilder.svelte";
   import ApparatusForm from "./lib/components/ApparatusForm.svelte";
   import { APPARATUS } from "./lib/apparatus";
+  import { caseAwardedTools } from "./lib/storyChapter";
   import { defaultAmount } from "./lib/amounts";
   import { KINDS } from "./lib/glassware";
   import { notebookMarkdown } from "./lib/notebook";
@@ -713,9 +714,12 @@
    * second source of truth to keep in step. */
   const shelfBottles = $derived(stockLevels(session.scene?.stock));
   let scopedMission = $state<string | null>(null);
-  const missionEquipmentVerbs = $derived(missionEquipment(
-    session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? [],
-  ));
+  // A route the script never walks still needs its apparatus on the wall:
+  // the contract's extra tools join the verbs the script itself uses.
+  const missionEquipmentVerbs = $derived([...new Set([
+    ...missionEquipment(session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? []),
+    ...(session.missionOutcome?.contract.extraTools ?? []),
+  ])]);
   $effect(() => {
     const mission = session.lesson?.lesson.name ?? null;
     if (mission !== scopedMission) {
@@ -957,8 +961,8 @@
     kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
     register={session.register}
     target={session.selected}
-    cursor={session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
-    total={session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson)}
+    cursor={session.missionProgress?.done ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
+    total={session.missionProgress?.total ?? commandCount(session.lesson.lesson)}
     evidence={session.lessonEvidence}
     bind:journalOpen={missionJournalOpen}
     onnext={() => void session.lessonNext()}
@@ -1028,6 +1032,7 @@
         completed={session.completedMissions.size}
         scope={catalogScope}
         missionVerbs={missionEquipmentVerbs}
+        awardedVerbs={caseAwardedTools(session.completedMissions)}
         onburette={toggleBurette}
         onapparatus={toggleApparatus}
         ontransfer={(verb) => {
@@ -1122,10 +1127,10 @@
       onopenutilities={() => (utilityStationOpen = true)}
       missionName={session.lesson ? t(missionTitle(session.lesson.lesson.name)) : null}
       missionDone={session.lesson
-        ? (session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor))
+        ? (session.missionProgress?.done ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor))
         : 0}
       missionTotal={session.lesson
-        ? (session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson))
+        ? (session.missionProgress?.total ?? commandCount(session.lesson.lesson))
         : 0}
       missionEvidence={Boolean(session.missionOutcome)}
       onopenmission={session.lesson ? () => (missionJournalOpen = true) : undefined}

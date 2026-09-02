@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { contaminatedSampleLeads, contaminatedSampleProgress } from "./storyChapter";
+import {
+  CONTAMINATED_SAMPLE_AWARD,
+  caseAwardDetail,
+  caseAwardedTools,
+  contaminatedSampleComplete,
+  contaminatedSampleLeads,
+  contaminatedSampleProgress,
+} from "./storyChapter";
 
 const missions = [
   { file: "silver-and-salt.lab", name: "silver and salt" },
@@ -29,5 +36,34 @@ describe("contaminated sample chapter", () => {
     const completed = new Set(["silver-and-salt", "first-warmth", "one-thing-at-a-time"]);
     const progress = contaminatedSampleProgress(contaminatedSampleLeads(missions, completed));
     expect(progress).toEqual({ done: 3, total: 3, complete: true });
+  });
+});
+
+describe("the case-level award (GUI-080)", () => {
+  const core = ["silver-and-salt", "first-warmth", "one-thing-at-a-time"];
+
+  it("grants the instrument exactly when all three core leads are secured", () => {
+    expect(caseAwardedTools(new Set())).toEqual([]);
+    expect(caseAwardedTools(new Set(core.slice(0, 2)))).toEqual([]);
+    expect(caseAwardedTools(new Set(core))).toEqual([CONTAMINATED_SAMPLE_AWARD]);
+  });
+
+  it("does not require the optional safety audit, and is not granted by it alone", () => {
+    expect(contaminatedSampleComplete(new Set(core))).toBe(true);
+    expect(contaminatedSampleComplete(new Set([...core.slice(0, 2), "never-mix"]))).toBe(false);
+  });
+
+  it("is derived, so asking twice cannot grant twice", () => {
+    // The property that makes a rewards ledger unnecessary: the answer is a
+    // function of the leads, so a retried commit and a replayed mission
+    // return the same single award rather than accumulating one each.
+    const completed = new Set(core);
+    expect(caseAwardedTools(completed)).toEqual(caseAwardedTools(completed));
+    expect(caseAwardedTools(new Set([...core, "never-mix", "fizz"]))).toEqual([CONTAMINATED_SAMPLE_AWARD]);
+  });
+
+  it("names the award for the debrief and the instrument wall", () => {
+    expect(caseAwardDetail(CONTAMINATED_SAMPLE_AWARD)?.title).toBe("UV/Vis spectrophotometer");
+    expect(caseAwardDetail("nothing-earned-this")).toBeNull();
   });
 });

@@ -68,8 +68,15 @@
         <div class="ledger-title"><span><small>{t("evidence ledger")}</small><strong>{t("Results gathered during this mission")}</strong></span><b>{evidence.length}</b></div>
         {#if outcome}
           <ul class="outcome-checks" aria-label={t("outcome evidence checks")}>
-            {#each outcome.contract.criteria as criterion (criterion.id)}
-              <li class:secured={secured.has(criterion.id)}><span aria-hidden="true">{secured.has(criterion.id) ? "✓" : "○"}</span>{t(criterion.label)}</li>
+            {#each outcome.contract.routes as route, index (route.id)}
+              {#if outcome.contract.routes.length > 1}
+                <li class="route-head" class:alternative={index > 0}>
+                  <span aria-hidden="true">{index > 0 ? "⋮" : "◆"}</span>{index > 0 ? t("or, {route}", { route: t(route.label) }) : t(route.label)}
+                </li>
+              {/if}
+              {#each route.criteria as criterion (criterion.id)}
+                <li class:secured={secured.has(criterion.id)}><span aria-hidden="true">{secured.has(criterion.id) ? "✓" : "○"}</span>{t(criterion.label)}</li>
+              {/each}
             {/each}
           </ul>
         {/if}
@@ -85,6 +92,8 @@
 </div>
 
 <style>
+  .outcome-checks .route-head { color: var(--dim); font-size: .58rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .outcome-checks .route-head.alternative { margin-top: .35rem; }
   .lesson {
     display: grid;
     grid-template-columns: auto minmax(8rem, 0.6fr) minmax(18rem, 1fr);

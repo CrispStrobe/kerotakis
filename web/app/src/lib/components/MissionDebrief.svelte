@@ -3,10 +3,12 @@
   import type { MissionDebrief as Debrief } from "../session.svelte";
   import { missionTitle } from "../storyProgress";
   import { equipmentRewardAt } from "../catalogProgress";
+  import { caseAwardDetail } from "../storyChapter";
   import ToolIcon from "./ToolIcon.svelte";
 
   let { debrief, onmap, onplace, onclose }: { debrief: Debrief; onmap: () => void; onplace: (verb: string) => void; onclose: () => void } = $props();
   const reward = $derived(debrief.firstCompletion ? equipmentRewardAt(debrief.completedTotal) : null);
+  const award = $derived(debrief.caseAward ? caseAwardDetail(debrief.caseAward) : null);
 
   const outcome = $derived(
     !debrief.firstCompletion
@@ -28,6 +30,7 @@
       <span>{t(debrief.firstCompletion ? "discovery recorded" : "mission replay complete")}</span>
       <h2>{t(missionTitle(debrief.id))}</h2>
       <p>{t(outcome)}</p>
+      {#if debrief.route}<p class="route">{t("Your route: {route}.", { route: t(debrief.route) })}</p>{/if}
     </div>
     <button class="close" aria-label={t("close mission debrief")} onclick={onclose}>×</button>
 
@@ -41,6 +44,18 @@
         <span class="reward-icon" aria-hidden="true"><ToolIcon name={reward.verb} /></span>
         <span><small>{t("new permanent equipment")}</small><strong>{t(reward.title)}</strong><p>{t(reward.description)}</p></span>
         <button onclick={() => onplace(reward.verb)}>{t("place on bench")} <span aria-hidden="true">→</span></button>
+      </div>
+    {/if}
+
+    {#if award}
+      <div class="case-award">
+        <span class="reward-icon" aria-hidden="true"><ToolIcon name={award.verb} /></span>
+        <span>
+          <small>{t("case closed · permanent instrument")}</small>
+          <strong>{t(award.title)}</strong>
+          <p>{t(award.description)}</p>
+        </span>
+        <button onclick={() => onplace(award.verb)}>{t("place on bench")} <span aria-hidden="true">→</span></button>
       </div>
     {/if}
 
@@ -84,6 +99,11 @@
   .reward strong { font-size: .85rem; }
   .reward p { font-size: .67rem; }
   .reward button { min-height: 36px; padding: 0 .7rem; border: 0; border-radius: 10px; color: var(--on-accent); background: var(--instrument); cursor: pointer; font-weight: 800; }
+  .case-award { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: .7rem; padding: .7rem; border: 1px solid color-mix(in srgb, var(--discovery) 45%, var(--edge)); border-radius: 15px; background: color-mix(in srgb, var(--discovery) 9%, var(--surface)); }
+  .case-award small { color: var(--discovery); font-size: .58rem; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .case-award strong { display: block; font-size: .9rem; }
+  .case-award p { margin: .15rem 0 0; color: var(--dim); font-size: .68rem; line-height: 1.35; }
+  .case-award button { min-height: 36px; padding: 0 .65rem; border: 0; border-radius: 11px; color: var(--on-accent); background: var(--discovery); cursor: pointer; font-weight: 800; }
   .resupply { grid-column: 1 / -1; display: flex; align-items: center; gap: .6rem; padding: .55rem .7rem; border-radius: 12px; color: var(--ink); background: color-mix(in srgb, var(--success) 8%, var(--surface-raised)); }
   .resupply > span { width: 28px; height: 28px; display: grid; place-items: center; flex: none; border-radius: 50%; color: var(--on-accent); background: var(--success); font-weight: 900; }
   .resupply p { display: grid; font-size: .68rem; }

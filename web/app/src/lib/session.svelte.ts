@@ -24,13 +24,16 @@ import type { QuestOutput } from "./host/EngineHost";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
+import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
 import { reagentAccess } from "./catalogProgress";
-import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
+import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies, STORY_STOCK_KEY } from "./storyStock";
 import type { LabMode } from "./worldState";
 import { parseElementCoverage, type ElementCoverageReport } from "./elements";
 import {
+  completedRoute,
   outcomeComplete,
   outcomeMissionContract,
+  routeProgress,
   secureOutcomeEvidence,
   type OutcomeMissionContract,
 } from "./outcomeMission";
@@ -94,6 +97,14 @@ export type MissionDebrief = {
   evidence: string[];
   firstCompletion: boolean;
   completedTotal: number;
+  /** Which of several valid solutions this learner actually took. Null where
+   * the mission offers only one, so the debrief stays quiet about a choice
+   * that was never offered. */
+  route: string | null;
+  /** The instrument a closed case just earned, on the one run that closed
+   * it. Null otherwise — including on every later replay, because the award
+   * is derived from the leads and was already earned. */
+  caseAward: string | null;
 };
 
 export const REGISTERS = [
@@ -108,6 +119,11 @@ export interface StorageLike {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
   removeItem(key: string): void;
+  /** Optional batched write: several keys promoted as ONE save, so a
+   * multi-part outcome cannot be half-recorded. Storage that cannot do it
+   * (a plain Web Storage, a test double) simply omits it and the session
+   * falls back to sequential writes. */
+  setItems?(changes: Readonly<Record<string, string>>): void;
 }
 
 const SAVE_KEY = "kero.session.v1";
@@ -1171,6 +1187,17 @@ export class Session {
     this.advanceLessonNotes();
   }
 
+  /**
+   * How far through the mission the learner is, counted against the route
+   * they are closest to finishing rather than every route at once — an
+   * alternative solution they did not take must not read as work outstanding.
+   */
+  get missionProgress(): { done: number; total: number } | null {
+    if (!this.missionOutcome) return null;
+    const { done, total } = routeProgress(this.missionOutcome.contract, this.missionOutcome.secured);
+    return { done, total };
+  }
+
   /** Mission-only results, excluding narration and the commands themselves. */
   get lessonEvidence(): string[] {
     if (!this.lesson) return [];
@@ -1201,17 +1228,34 @@ export class Session {
     const name = this.lesson.lesson.name;
     this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(missionTitle(name)) }) });
     const firstCompletion = !this.completedMissions.has(name);
+    // Read the route BEFORE the outcome is cleared: which valid solution the
+    // learner found is the most interesting thing the debrief can say.
+    // Was the case still open before this mission landed? Asked BEFORE the
+    // completion is recorded, because afterwards every replay looks like the
+    // run that closed it.
+    const caseWasOpen = !contaminatedSampleComplete(this.completedMissions);
+    const outcome = this.missionOutcome;
+    const route =
+      outcome && outcome.contract.routes.length > 1
+        ? (completedRoute(outcome.contract, outcome.secured)?.label ?? null)
+        : null;
     const evidence = this.feed
       .slice(this.lessonFeedStart)
       .filter((entry) => entry.kind === "line" || entry.kind === "hazard" || entry.kind === "chart")
       .map((entry) => entry.text)
       .slice(-6);
     this.markMissionDone(name);
+    const caseAward =
+      caseWasOpen && contaminatedSampleComplete(this.completedMissions)
+        ? (caseAwardedTools(this.completedMissions)[0] ?? null)
+        : null;
     this.missionDebrief = {
       id: name,
       evidence,
       firstCompletion,
       completedTotal: this.completedMissions.size,
+      route,
+      caseAward,
     };
     this.lesson = null;
     this.missionOutcome = null;
@@ -1324,17 +1368,43 @@ export class Session {
     }
   }
 
+  /**
+   * Record a completed mission, and everything that completion changes,
+   * as one transaction.
+   *
+   * The completion, the replenished stockroom, and any case the mission
+   * closes are one fact about the world. Written key by key they are three,
+   * and an interrupted write leaves a learner who finished a mission with a
+   * spent stockroom and no completion — or a closed case whose instrument
+   * never arrived. Storage that can promote a batch does so in one save.
+   *
+   * Nothing here grants a reward: what a closed case is worth is DERIVED
+   * from the completed leads, so replaying a mission cannot claim it twice.
+   */
   markMissionDone(id: string): void {
     if (this.completedMissions.has(id)) return;
     const next = new Set(this.completedMissions);
     next.add(id);
+    const changes: Record<string, string> = { [MISSION_DONE_KEY]: JSON.stringify([...next]) };
+    const replenish = this.mode === "story";
+    if (replenish) changes[STORY_STOCK_KEY] = JSON.stringify({});
+    this.commit(changes);
     this.completedMissions = next;
-    if (this.mode === "story") {
-      this.storyStockUsed = {};
-      persistStockUsed(this.storage, this.storyStockUsed);
-    }
+    if (replenish) this.storyStockUsed = {};
+  }
+
+  /** Write several keys as one save where the storage can, sequentially
+   * where it cannot. Progress persistence is a convenience: a blocked or
+   * failing storage costs the visit its record, never its session. */
+  private commit(changes: Readonly<Record<string, string>>): void {
+    const storage = this.storage;
+    if (!storage) return;
     try {
-      this.storage?.setItem(MISSION_DONE_KEY, JSON.stringify([...next]));
+      if (typeof storage.setItems === "function") {
+        storage.setItems(changes);
+        return;
+      }
+      for (const [key, value] of Object.entries(changes)) storage.setItem(key, value);
     } catch {
       // Story progress remains valid for this visit without persistence.
     }
