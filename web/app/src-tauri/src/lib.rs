@@ -102,8 +102,12 @@ fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<Va
                 "kind": "constraint_violated", "quest": quest,
                 "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
             }),
-            Q::ClaimSatisfied { quest, title } => json!({
-                "kind": "claim_satisfied", "quest": quest,
+            Q::ClaimSatisfied {
+                claim,
+                quest,
+                title,
+            } => json!({
+                "kind": "claim_satisfied", "quest": quest, "claim": claim,
                 "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
             }),
             Q::Completed { quest, title } => json!({

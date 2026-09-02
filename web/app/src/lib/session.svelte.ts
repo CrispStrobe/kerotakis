@@ -232,8 +232,14 @@ export class Session {
       } else if (o.kind === "claim_satisfied") {
         this.feed.push({ kind: "claim", text });
         if (this.quest) {
-          const c = this.quest.claims.find(
-            (cl) => cl.title.lv1 === o.title?.lv1 || cl.title.lv2 === o.title?.lv2,
+          // By id. Comparing titles was recognising a claim by its sentence
+          // while its id sat unused in both directions — and two claims
+          // sharing a title would have satisfied the wrong one. Prose stays
+          // only as the fallback for an engine older than the `claim` field.
+          const c = this.quest.claims.find((cl) =>
+            o.claim !== undefined
+              ? cl.id === o.claim
+              : cl.title.lv1 === o.title?.lv1 || cl.title.lv2 === o.title?.lv2,
           );
           if (c) c.satisfied = true;
         }

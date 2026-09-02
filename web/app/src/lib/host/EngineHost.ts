@@ -190,6 +190,9 @@ export interface QuestOutput {
    * that prevents the mistake cannot teach it. */
   kind: "nudge" | "claim_satisfied" | "completed" | "constraint_violated";
   quest: string;
+  /** The claim's stable id, on `claim_satisfied`. Optional because an
+   * engine built before this field existed does not send it. */
+  claim?: string;
   say?: { lv1: string; lv2: string; lv3: string };
   title?: { lv1: string; lv2: string; lv3: string };
 }

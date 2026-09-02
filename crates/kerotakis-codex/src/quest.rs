@@ -453,7 +453,12 @@ pub enum QuestOutput {
         quest: String,
         say: Registers,
     },
+    /// A claim was satisfied. Carries the claim's stable id as well as its
+    /// prose: a client that already knows its claims by id should not have
+    /// to recognise one by comparing a sentence, which two claims sharing a
+    /// title would defeat.
     ClaimSatisfied {
+        claim: String,
         quest: String,
         title: Registers,
     },
@@ -726,6 +731,7 @@ pub fn observe(
             if hit {
                 state.satisfied.insert(claim.id.clone());
                 out.push(QuestOutput::ClaimSatisfied {
+                    claim: claim.id.clone(),
                     quest: spec.id.clone(),
                     title: claim.title.clone(),
                 });
@@ -825,6 +831,7 @@ pub fn answer_typed(
             if guess.trim().eq_ignore_ascii_case(expected.trim()) {
                 state.satisfied.insert(claim.id.clone());
                 out.push(QuestOutput::ClaimSatisfied {
+                    claim: claim.id.clone(),
                     quest: spec.id.clone(),
                     title: claim.title.clone(),
                 });
@@ -860,6 +867,7 @@ pub fn answer_typed(
         {
             state.satisfied.insert(claim.id.clone());
             out.push(QuestOutput::ClaimSatisfied {
+                claim: claim.id.clone(),
                 quest: spec.id.clone(),
                 title: claim.title.clone(),
             });
