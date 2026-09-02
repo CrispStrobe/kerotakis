@@ -9,6 +9,8 @@
 //!   kero run FILE.lab         replay a command script
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
+//!   kero materials            list the named household and school bottles
+//!   kero find <word>          search species and materials together
 
 mod balance_exercise;
 mod chart_svg;
@@ -345,7 +347,30 @@ fn main() {
                 "
 ✓ = identity verified: curated structure recomputed by the                  official IUPAC InChI library (1.07.5) matches the registry key"
             );
+            println!(
+                "{} named household and school bottles share this shelf — `kero materials` lists them, `kero find <word>` searches both halves.",
+                kerotakis_core::material::all().len()
+            );
         }
+        // KID-1: the other half of the shelf, outside the REPL.
+        //
+        // `BRD-002` landed `find` as a REPL line, which is the right search
+        // but the wrong reach: a script, a pipe, or anyone reading
+        // `kero --help` never meets it. The audit in KIDS.md lost twelve of
+        // thirty children's activities to names that were in the registry
+        // the whole time, so both the listing and the search now exist as
+        // subcommands too.
+        Some("materials") => print_materials(),
+        Some("find") => match args.get(1) {
+            Some(query) => print_cabinet_search(query, &Bench::new()),
+            None => {
+                eprintln!(
+                    "usage: kero find <word> — searches species keys, names, \
+                     formulas and material aliases"
+                );
+                std::process::exit(2);
+            }
+        },
         Some("mechanism") => mechanism_command(&args[1..]),
         Some("sweep") => {
             // Drive a matrix of states through the whole stack and check
@@ -994,6 +1019,103 @@ fn balance_exercise_text(args: &[String]) -> Result<String, String> {
 /// grammar does not make. The shelf level rides along where a bottle has
 /// been stocked — the question "can I still use this?" is the same
 /// question as "what is it called?", asked half a step later.
+/// KID-1: the fifty named bottles, in the spelling `add` takes.
+///
+/// `species` answers "what pure substances does the registry know"; this
+/// answers "what is on the shelf a child would recognise" — vinegar, milk,
+/// dish soap, yeast, cornstarch, steel wool. Each row leads with the key
+/// you type, because the audit's most common failure was a learner knowing
+/// exactly what they wanted and not knowing what to call it.
+///
+/// What a recipe cannot resolve is printed rather than dropped: milk is
+/// 87% water and 13% conserved-but-unresolved milk solids, and a listing
+/// that showed only the water would be claiming the rest is not there.
+fn print_materials() {
+    let recipes = kerotakis_core::material::all();
+    for recipe in &recipes {
+        let form = match &recipe.physical_form {
+            kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid => "liquid",
+            kerotakis_data::MaterialPhysicalForm::Suspension => "suspension",
+            kerotakis_data::MaterialPhysicalForm::Powder => "powder",
+            kerotakis_data::MaterialPhysicalForm::Granules => "granules",
+            kerotakis_data::MaterialPhysicalForm::BulkSolid => "solid",
+            kerotakis_data::MaterialPhysicalForm::GasMixture => "gas",
+            kerotakis_data::MaterialPhysicalForm::CompositeObject { .. } => "object",
+            kerotakis_data::MaterialPhysicalForm::Other { .. } => "other",
+        };
+        let unit = match recipe.basis {
+            kerotakis_core::material::MaterialBasis::MassFraction => "g",
+            kerotakis_core::material::MaterialBasis::MoleFraction => "mol",
+            kerotakis_core::material::MaterialBasis::VolumeFraction => "mL",
+        };
+        println!(
+            "{:<30} {:<10} {:<3} {}",
+            recipe.canonical_key, form, unit, recipe.name
+        );
+        // A trace component rounds to "0%" at whole percent, and a shelf
+        // row that says a substance is 0% of the bottle is worse than one
+        // that omits it. Small fractions keep the digits that make them
+        // true.
+        let percent = |value: f64| -> String {
+            let pc = 100.0 * value;
+            if pc >= 10.0 {
+                format!("{pc:.0}%")
+            } else if pc >= 1.0 {
+                format!("{pc:.1}%")
+            } else if pc >= 0.001 {
+                format!("{pc:.3}%")
+            } else {
+                // A catalase surrogate is parts per million of the bottle.
+                // "0.000%" would read as absent, which is the one thing it
+                // is not.
+                format!("{pc:.1e}%")
+            }
+        };
+        let mut resolves: Vec<String> = recipe
+            .components
+            .iter()
+            .map(|component| {
+                format!(
+                    "{} {}",
+                    component.species_id,
+                    percent(0.5 * (component.fraction.lower + component.fraction.upper))
+                )
+            })
+            .collect();
+        if let Some(unresolved) = &recipe.unresolved_fraction {
+            let mean = 0.5 * (unresolved.lower + unresolved.upper);
+            if mean > 0.0 {
+                resolves.push(format!("{} conserved but unresolved", percent(mean)));
+            }
+        }
+        if !resolves.is_empty() {
+            println!("      → {}", resolves.join(", "));
+        }
+        let mut also: Vec<String> = Vec::new();
+        for (tag, aliases) in &recipe.aliases {
+            for alias in aliases {
+                // Print the spelling that can actually be typed: the
+                // grammar splits on whitespace, and KID-1 made the
+                // underscore form of every alias resolve. Several recipes
+                // carry both the spaced and the underscored spelling of one
+                // name, which is now the same name — print it once.
+                let writable = format!("{}[{tag}]", alias.replace(char::is_whitespace, "_"));
+                if !also.contains(&writable) {
+                    also.push(writable);
+                }
+            }
+        }
+        if !also.is_empty() {
+            println!("      also: {}", also.join(", "));
+        }
+    }
+    println!(
+        "— {} named bottles. Add one with `add v1 <key> <amount><mol|g|mL>`; \
+         `kero find <word>` searches these and the pure species together.",
+        recipes.len()
+    );
+}
+
 fn print_cabinet_search(query: &str, bench: &Bench) {
     use kerotakis_core::cabinet::{self, CabinetKind, CabinetMatch};
     let hits = cabinet::search(query, 30);
@@ -1734,6 +1856,8 @@ fn usage() -> ! {
          \x20        --bounds LO..HI --loss sse    fit one curated rate constant\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero materials             list the named household and school bottles\n\
+         \x20 kero find <word>           search both halves of the shelf\n\
          \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
@@ -2443,7 +2567,8 @@ fn repl() {
                  titrate <v> <species> <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
                  measure <v> <thermometer|balance|ph|…> · look <v> · cell <v> <v>\n\
                  electrolyse <v> <A> <t> · grind <v> <species> <um>\n\
-                 new · inspect [v] · register <lv1|lv2|lv3> · species · find <word> · quit"
+                 new · inspect [v] · register <lv1|lv2|lv3>\n\
+                 species · materials · find <word> · quit"
             );
             continue;
         }
@@ -2466,6 +2591,10 @@ fn repl() {
         }
         if line == "find" {
             println!("  usage: find <word> — searches species keys, names, formulas and material aliases");
+            continue;
+        }
+        if line == "materials" {
+            print_materials();
             continue;
         }
         if let Err(e) = session.exec_line(line) {
