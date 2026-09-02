@@ -144,6 +144,144 @@
       }
     ]
   },
+  "cabbage-rainbow": {
+    "event_count": 31,
+    "events_sample": [
+      "v1: +100.600 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +100.000 g sparkling_water (2 known ingredients)",
+      "v2: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +2.000 g baking_soda (1 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: The liquid is white and so cloudy you cannot see through it.",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +4.000 g washing_soda (1 known ingredients)"
+    ],
+    "lesson": "cabbage-rainbow.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.08376074,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 5.84901471,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01363357,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.06161532,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02380754,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.03774012,
+            "phase": "Solid",
+            "species": "Na2CO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "calorimetry": {
     "event_count": 11,
     "events_sample": [

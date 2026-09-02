@@ -64,6 +64,7 @@ gas = "gasförmig"
 # translated; anything absent reads in English inside a German line, which
 # is better than a formula nobody asked for.
 [species]
+"anthocyanin (red-cabbage pigment)" = "Anthocyan (Rotkohl-Farbstoff)"
 water = "Wasser"
 ethanol = "Ethanol"
 "sodium chloride" = "Natriumchlorid"
@@ -624,6 +625,7 @@ Danger = "Gefahr"
 # every site. `every_appearance_word_has_german` walks the registry.
 [appearance]
 black = "schwarz"
+purple = "violett"
 blue = "blau"
 "deep blue crystals" = "tiefblaue Kristalle"
 "bluish-silver" = "bläulich silbern"

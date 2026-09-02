@@ -63,7 +63,7 @@ silent miss teaches the silence.
 | K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
 | K11 | Dancing raisins | raisins rising and falling | unreachable | no raisin, and no model for a bubble attaching to an object and lifting it |
-| K12 | Red-cabbage rainbow | pink → purple → green | unreachable | no anthocyanin, in the materials *or* the indicator table (which holds only phenolphthalein, methyl orange, bromothymol blue) |
+| K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
 | K13 | Invisible ink | brown writing appearing | **wrong** → partial | no pyrolysis and no browning. The other half — 5 kJ into juice-on-paper reaching **670 °C with liquid water still in the ledger** — was KID-6 and is fixed: the water now leaves at its boiling point and the vessel ends dry |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
@@ -86,9 +86,9 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5 and KID-6:
-**computed 15 · partial 8 · wrong 1 · silent miss 1**, and the thirty
-unrepaired scripts run 27/30 instead of 17/30.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5, KID-6 and
+KID-8: **computed 16 · partial 8 · wrong 1 · silent miss 1 · unreachable 2**,
+and the thirty unrepaired scripts run 28/30 instead of 17/30.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -162,7 +162,7 @@ the project's own coverage report.
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
 | Suspension rheology; buoyancy on attached bubbles; miscible stratification | K22, K11, K10 |
 | Paper/TLC mode with dye partition data (`EXP-8`) | K26 |
-| Anthocyanin as a computed pH-dependent chromophore | K12 |
+| ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 |
 | Calcium (and lithium) in the flame-colour table | K30 |
 | Acetic acid in the odour table | `smell` on vinegar returns "no odour a careful waft detects" |
@@ -404,6 +404,37 @@ and `main` moves only by PR.
 - **KID-8 — Anthocyanin.** A red-cabbage material and an anthocyanin
   chromophore with pH-dependent spectra through the existing Beer–Lambert
   path, so the rainbow is *computed colour*, not a tinted lookup.
+  **Landed 2026-09-02.** The obstacle was structural rather than missing
+  data. An `Indicator` in this engine is one weak acid with *two* coloured
+  forms, which is the whole story for phenolphthalein and cannot be the
+  story for red cabbage: five colours do not come out of two forms.
+  `PigmentLadder` generalises the same Henderson–Hasselbalch idea the way a
+  polyprotic acid already is elsewhere here — `n` successive pKa values give
+  `n + 1` forms, the fraction in each is the standard stepwise distribution,
+  and the spectrum is every form's ε(λ) mixed in those fractions. A test
+  holds that a two-form ladder reproduces Henderson–Hasselbalch exactly, so
+  the generalisation is provably one.
+  Anthocyanin joins the registry as a four-form ladder at pKa 4.0 / 7.0 /
+  11.0, and `red_cabbage_juice` joins the shelf with the aliases a learner
+  reaches for. `lessons/cabbage-rainbow.lab` reads **red at pH 2, deep
+  purple at 6, blue at 10, blue-green at 12, yellow at 13**.
+  **The green is the argument.** No form of the pigment is green. It appears
+  where the blue form and the yellow form are both present, absorbing at each
+  end of the visible range and leaving a window between them — a colour in no
+  table in this engine, computed from two that are. A lookup table of "cabbage
+  colour versus pH" would have had to be *told* about green; this one was not.
+  Corpus: `aq-046`, "can red cabbage juice estimate the pH of household
+  liquids?", was pinned `missing` / `unknown-species` / `indicator-gap` — and
+  the name it used was already `red_cabbage_juice`, which is the canonical key
+  this task chose independently. It now reads `computed`.
+  **Stated boundaries**, in the ladder's own provenance and the recipe's lot
+  assumptions: red cabbage is a mixture of acylated cyanidin glycosides
+  rather than one compound, so no InChIKey is asserted — the position starch
+  and cellulose already take here. Only the flavylium ε is a literature
+  figure; the other three are explicitly editorial, chosen so each colour
+  becomes visible at the concentration a jar of cabbage water actually is.
+  And the juice *reports* pH without moving it: a real extract is mildly
+  acidic and buffered, and this surrogate is not.
 - **KID-9 — Paper chromatography.** `EXP-8`'s Rf mode plus partition data
   for the three shipped dyes and a black-ink surrogate.
 - **KID-10 — Completions.** Calcium and lithium flame colours; acetic acid
@@ -455,7 +486,7 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 8 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```

@@ -275,3 +275,58 @@ fn the_boiling_plateau_holds_while_the_water_leaves() {
         reading("v4")
     );
 }
+
+/// KID-8: five colours out of one pigment, and one of them is in no table.
+///
+/// The audit's K12 died on `red_cabbage_indicator`, which did not exist —
+/// there was no anthocyanin in the registry and the indicator table held
+/// only two-form weak acids, which cannot produce five colours. This drives
+/// the ladder through the full stack and checks the sequence, including the
+/// green that appears where a blue form and a yellow form overlap.
+#[test]
+fn the_cabbage_rainbow_computes_five_colours_from_one_pigment() {
+    let lesson = lessons_dir().join("cabbage-rainbow.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let colour = |vessel: &str| -> String {
+        out.lines()
+            .find(|line| line.contains(&format!("You look closely at {vessel}.")))
+            .and_then(|line| line.split("The liquid is ").nth(1))
+            .and_then(|rest| rest.split(" and ").next())
+            .unwrap_or_else(|| panic!("{vessel} is looked at:\n{out}"))
+            .to_string()
+    };
+    assert_eq!(colour("v1"), "red", "vinegar holds the flavylium form");
+    assert_eq!(
+        colour("v2"),
+        "deep purple",
+        "mildly acidic is the middle form"
+    );
+    assert_eq!(colour("v3"), "blue", "baking soda takes the next proton");
+    assert_eq!(
+        colour("v5"),
+        "yellow",
+        "strong alkali is the top of the ladder"
+    );
+    // The one nobody tabulated: a blue form and a yellow form present
+    // together absorb at both ends and leave a window in the middle.
+    assert!(
+        colour("v4").contains("green"),
+        "washing soda must land in the green between blue and yellow, not on \
+         either of them: {}",
+        colour("v4")
+    );
+    // Five jars, five different answers — the point of computing the colour.
+    let all: Vec<String> = ["v1", "v2", "v3", "v4", "v5"]
+        .iter()
+        .map(|v| colour(v))
+        .collect();
+    let mut unique = all.clone();
+    unique.sort();
+    unique.dedup();
+    assert_eq!(
+        unique.len(),
+        5,
+        "five jars must not share a colour: {all:?}"
+    );
+}

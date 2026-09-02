@@ -549,10 +549,9 @@ question = "Can red cabbage juice estimate the pH of household liquids?"
 age_band = "age9_to12"
 action = "acids_bases_and_gases"
 material_class = "natural-indicator"
-expected = "missing"
-parse_boundary = "unknown_species"
-owning_task = "BRD-014"
-tags = ["indicator-gap"]
+expected = "computed"
+owning_task = "EXP-8"
+tags = ["natural-indicator"]
 script = ["add v1 water 100mL", "add v1 red_cabbage_juice 10mL", "add v1 CH3COOH 0.001mol", "look v1"]
 smoke = false
 

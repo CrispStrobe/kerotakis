@@ -3212,5 +3212,46 @@
     "provenance": "CRC Handbook of Chemistry and Physics, 97th ed.; monomer-unit molar mass (anhydroglucose unit), M from IUPAC/CIAAW 2021 atomic weights. Cellulose is (C6H10O5)n and is NOT a molecule, so it enters exactly as starch already does in this registry: one anhydroglucose repeat unit as the formula unit, and NO InChIKey asserted — a monomer's InChIKey would be a claim about the polymer that is not true of it. Density 1.5 g/mL is the same room-temperature teaching approximation starch carries. Solid molar heat capacity 208.0 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K). No aqueous solubility is recorded because cellulose does not dissolve in water. Degree of polymerisation, crystallinity, fibre morphology and the beta-1,4 linkage that distinguishes it from starch are not modelled",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "purple",
+    "colour": {
+      "b": 160,
+      "g": 63,
+      "r": 107,
+      "strength": 0.0
+    },
+    "density": 1.5,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C21H20O11",
+    "heat_capacity": 700.0,
+    "inchikey": "",
+    "key": "anthocyanin",
+    "magnetic": false,
+    "molar_mass": 448.38,
+    "name": "anthocyanin (red-cabbage pigment)",
+    "provenance": "Red-cabbage anthocyanin as a teaching pigment: composition taken as the cyanidin-3-glucoside anhydrobase C21H20O11; stepwise pKa and per-form spectra are curated in kerotakis_core::indicator::PIGMENT_LADDERS with their own provenance",
+    "spectrum_bands": [
+      1255.645602,
+      2436.035098,
+      4299.157594,
+      6901.866458,
+      10079.363352,
+      13390.075118,
+      16181.407244,
+      17788.237751,
+      17788.237751,
+      16181.407244,
+      13390.075118,
+      10079.363352,
+      6901.866458,
+      4299.157594,
+      2436.035098,
+      1255.645602
+    ],
+    "standard_phase": "aqueous"
   }
 ]

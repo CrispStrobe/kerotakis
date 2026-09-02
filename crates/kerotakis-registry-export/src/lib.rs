@@ -1833,6 +1833,57 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        // KID-8: the jar of cabbage water. The pigment's pH-dependent colour
+        // lives in `kerotakis_core::indicator::PIGMENT_LADDERS` with its own
+        // provenance; this record is only the bottle it arrives in.
+        MaterialRecipe {
+            id: "household/red-cabbage-juice-surrogate".to_string(),
+            version: 1,
+            canonical_key: "red_cabbage_juice".to_string(),
+            name: "red-cabbage indicator juice".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Rotkohlsaft".to_string(),
+                        "Blaukrautsaft".to_string(),
+                        "Rotkohlindikator".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec![
+                        "red cabbage juice".to_string(),
+                        "cabbage indicator".to_string(),
+                        "red_cabbage_indicator".to_string(),
+                        "purple cabbage juice".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.0)),
+            components: vec![component("anthocyanin", 0.0003), component("water", 0.98)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.0197,
+                upper: 0.0197,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::SurfaceColourant {
+                srgb: [107, 63, 160],
+            }],
+            preparation: Some(
+                "chopped red cabbage steeped in hot water and strained: a well-steeped jar, about 0.03% w/w anthocyanin".to_string(),
+            ),
+            lot_assumptions: vec![
+                "the 0.03% w/w anthocyanin fraction is an explicit teaching concentration at the strong end of what a well-steeped jar reaches; it is not a measurement of any cultivar or extraction".to_string(),
+                "sugars, other pigments and cell-wall material stay together as conserved unresolved cabbage solids rather than fictional molecules".to_string(),
+                "the juice's own pH is not asserted: a real extract is mildly acidic and carries buffering that this surrogate does not model, so the colour a vessel shows is the pH of what it was added to".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
     ]);
 }
 

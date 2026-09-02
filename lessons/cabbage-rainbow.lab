@@ -1,0 +1,59 @@
+# The red-cabbage rainbow: one pigment, five colours
+#
+# Cabbage water is not five dyes. It is one pigment that loses protons in
+# steps, and each step absorbs light differently — so its colour is a reading
+# of the pH. The bench computes it the way it computes every other colour:
+# ε(λ) through Beer–Lambert over the CIE observer, not a table of "turns blue
+# in alkali".
+register lv1
+
+# Vinegar: the flavylium form, red.
+add v1 white_vinegar_5_percent 100mL
+add v1 red_cabbage_juice 10mL
+measure v1 ph
+look v1
+
+# Fizzy water, mildly acidic: the middle form, purple. This is the colour
+# the jar of juice is before anything is done to it.
+new beaker
+add v2 sparkling_water 100mL
+add v2 red_cabbage_juice 10mL
+measure v2 ph
+look v2
+
+# Baking soda: the first alkaline step.
+new beaker
+add v3 water 100mL
+add v3 baking_soda 2g
+add v3 red_cabbage_juice 10mL
+measure v3 ph
+look v3
+
+# Washing soda, stronger — and here is the one worth stopping on.
+new beaker
+add v4 water 100mL
+add v4 washing_soda 4g
+add v4 red_cabbage_juice 10mL
+measure v4 ph
+look v4
+
+# Strong alkali, at the top of the ladder.
+new beaker
+add v5 water 100mL
+add v5 NaOH 0.1mol
+add v5 red_cabbage_juice 10mL
+measure v5 ph
+look v5
+
+# No form of this pigment is green. The green appears where a blue form and a
+# yellow form are both present: together they absorb at each end of the
+# visible range and leave a window between them. It is a colour that is in no
+# table in this engine, computed from two that are — which is the whole
+# argument for computing colour instead of storing it.
+inspect v4
+
+# What this does not model: real cabbage juice is mildly acidic and carries
+# its own buffering, so a few drops in unbuffered water would move the pH as
+# well as report it; here the juice only reports. The pigment is a mixture of
+# acylated cyanidin glycosides rather than one compound, and no cultivar,
+# extraction or copigmentation shift is claimed.

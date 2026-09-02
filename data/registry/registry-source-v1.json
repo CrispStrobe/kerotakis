@@ -1244,6 +1244,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/anthocyanin",
+      "citation": "Red-cabbage anthocyanin as a teaching pigment: composition taken as the cyanidin-3-glucoside anhydrobase C21H20O11; stepwise pKa and per-form spectra are curated in kerotakis_core::indicator::PIGMENT_LADDERS with their own provenance",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3449,6 +3458,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/cellulose",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "anthocyanin",
+      "canonical_key": "legacy:species/anthocyanin",
+      "name": "anthocyanin (red-cabbage pigment)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/anthocyanin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -17713,6 +17736,125 @@
       },
       "evidence": {
         "source_id": "legacy/cellulose",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/anthocyanin",
+      "species_id": "anthocyanin",
+      "formula": "C21H20O11",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/anthocyanin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -33450,6 +33592,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/anthocyanin",
+      "species_id": "anthocyanin",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 448.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/anthocyanin",
+      "species_id": "anthocyanin",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 700.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/anthocyanin",
+      "species_id": "anthocyanin",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -39357,6 +39589,823 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/cellulose",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/anthocyanin",
+      "species_id": "anthocyanin",
+      "phase": "aqueous",
+      "appearance": "purple",
+      "flame_colour": null,
+      "reflective_srgb": "#6B3FA0",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1255.645602,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2436.035098,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 4299.157594,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6901.866458,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 10079.363352,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 13390.075118,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 16181.407244,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 17788.237751,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 17788.237751,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 16181.407244,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 13390.075118,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 10079.363352,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6901.866458,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 4299.157594,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2436.035098,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1255.645602,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/anthocyanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "legacy/anthocyanin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -45867,6 +46916,72 @@
           "detail": "parsed from the verbatim legacy declaration"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/anthocyanin",
+      "subject": {
+        "kind": "species",
+        "id": "anthocyanin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/anthocyanin",
+      "subject": {
+        "kind": "species",
+        "id": "anthocyanin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/anthocyanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -50085,6 +51200,115 @@
         "glass is unreactive in the terms the aqueous engine models, which is not the same as inert: hydrofluoric-acid etching and hot-alkali attack are real chemistry the bench does not have and does not claim",
         "softening, annealing, thermal shock, breaking and sharp edges are physics this recipe does not claim; borosilicate, lead crystal and fused quartz are different materials",
         "this names the material. Laboratory glassware is created with the vessel commands, not dispensed from the shelf"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/red-cabbage-juice-surrogate",
+      "version": 1,
+      "canonical_key": "red_cabbage_juice",
+      "name": "red-cabbage indicator juice",
+      "aliases": {
+        "de": [
+          "Rotkohlsaft",
+          "Blaukrautsaft",
+          "Rotkohlindikator"
+        ],
+        "en": [
+          "red cabbage juice",
+          "cabbage indicator",
+          "red_cabbage_indicator",
+          "purple cabbage juice"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "anthocyanin",
+          "fraction": {
+            "lower": 0.0003,
+            "upper": 0.0003
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.98,
+            "upper": 0.98
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0197,
+        "upper": 0.0197
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "surface_colourant",
+          "srgb": [
+            107,
+            63,
+            160
+          ]
+        }
+      ],
+      "preparation": "chopped red cabbage steeped in hot water and strained: a well-steeped jar, about 0.03% w/w anthocyanin",
+      "lot_assumptions": [
+        "the 0.03% w/w anthocyanin fraction is an explicit teaching concentration at the strong end of what a well-steeped jar reaches; it is not a measurement of any cultivar or extraction",
+        "sugars, other pigments and cell-wall material stay together as conserved unresolved cabbage solids rather than fictional molecules",
+        "the juice's own pH is not asserted: a real extract is mildly acidic and carries buffering that this surrogate does not model, so the colour a vessel shows is the pH of what it was added to"
       ],
       "substitutions": [],
       "confidence": "surrogate",

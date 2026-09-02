@@ -274,9 +274,9 @@ reason_code = "computed-route"
 
 [[observation]]
 id = "aq-046"
-owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+owning_task = "EXP-8"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-047"

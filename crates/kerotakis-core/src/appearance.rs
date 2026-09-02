@@ -62,15 +62,22 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         // is asked for one only once the solution has been characterised.
         // Without a pH there is no answer to give, and guessing at one
         // would make the bench assert a colour it has not computed.
-        let eps = match crate::indicator::lookup(&p.species.0) {
-            Some(ind) => match vessel.solution.as_ref() {
-                Some(sol) => ind.spectrum_at(sol.ph),
+        let eps = if crate::indicator::is_ph_dependent(&p.species.0) {
+            // KID-8: a two-form indicator and a four-form pigment ladder ask
+            // the same question of the solution, so they are asked it the
+            // same way.
+            match vessel.solution.as_ref() {
+                Some(sol) => match crate::indicator::spectrum_at_ph(&p.species.0, sol.ph) {
+                    Some(spectrum) => spectrum,
+                    None => continue,
+                },
                 None => continue,
-            },
-            None => match species::lookup(&p.species).and_then(|d| d.spectrum) {
+            }
+        } else {
+            match species::lookup(&p.species).and_then(|d| d.spectrum) {
                 Some(spectrum) => *spectrum,
                 None => continue,
-            },
+            }
         };
         let visible_moles =
             (p.moles.0 - crate::surface_colour::sequestered_moles(vessel, &p.species)).max(0.0);
