@@ -52,9 +52,16 @@ struct ExpectationSplit {
     /// Corpus said `missing`; the engine now answers. The expectation is
     /// stale because the engine improved — nothing is wrong with the engine.
     engine_gained: usize,
-    /// Corpus claimed an answer; the engine stands aside. This is the tail
-    /// worth working: a capability the corpus asserts and does not have.
-    capability_absent: usize,
+    /// Corpus claimed an answer; the engine stood aside. Named for what was
+    /// OBSERVED, not for a cause: the reason is not established here, and
+    /// early evidence says these are not one thing either. A script may
+    /// never reach the capability it names (four gas-test prompts test an
+    /// open vessel, so the gas has left before the test runs), the
+    /// capability may genuinely be absent, or the honest answer may be a
+    /// negative that the engine is right to give and wrong to call
+    /// `not-yet-modeled`. This is the tail worth WORKING, not a count of
+    /// missing features.
+    engine_stood_aside: usize,
     /// Both answer, by different routes. Neither is missing; the author
     /// predicted one road and the engine took another.
     route_differs: usize,
@@ -68,7 +75,7 @@ impl ExpectationSplit {
     fn record(&mut self, expected: Disposition, observed: Disposition) {
         match (expected, observed) {
             (Disposition::Missing, _) => self.engine_gained += 1,
-            (_, Disposition::Missing) => self.capability_absent += 1,
+            (_, Disposition::Missing) => self.engine_stood_aside += 1,
             _ => self.route_differs += 1,
         }
     }
@@ -220,15 +227,15 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
             report.expectation_split.engine_gained
         );
         println!(
-            "    capability absent (corpus claimed it): {}",
-            report.expectation_split.capability_absent
+            "    engine stood aside (corpus claimed it): {}",
+            report.expectation_split.engine_stood_aside
         );
         println!(
             "    route differs (both answer):           {}",
             report.expectation_split.route_differs
         );
-        // The absent column is the only one with work in it, so it is the
-        // only one worth naming row by row.
+        // The stood-aside column is the only one with work in it, so it is
+        // the only one worth naming row by row.
         for result in report
             .prompts
             .iter()
@@ -694,7 +701,7 @@ mod tests {
         split.record(Computed, Qualitative);
 
         assert_eq!(split.engine_gained, 3);
-        assert_eq!(split.capability_absent, 2);
+        assert_eq!(split.engine_stood_aside, 2);
         assert_eq!(split.route_differs, 1);
     }
 
@@ -709,8 +716,8 @@ mod tests {
         let mut lost = ExpectationSplit::default();
         lost.record(Computed, Missing);
 
-        assert_eq!((gained.engine_gained, gained.capability_absent), (1, 0));
-        assert_eq!((lost.engine_gained, lost.capability_absent), (0, 1));
+        assert_eq!((gained.engine_gained, gained.engine_stood_aside), (1, 0));
+        assert_eq!((lost.engine_gained, lost.engine_stood_aside), (0, 1));
     }
 
     use super::*;
