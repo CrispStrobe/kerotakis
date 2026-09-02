@@ -78,8 +78,8 @@ silent miss teaches the silence.
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
 | K26 | Felt-tip chromatography | the colours separating | honest miss | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent"; no paper/Rf mode, no dye partition data |
-| K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" |
-| K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; same false banner |
+| K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" (KID-3, fixed 2026-09-02: now clean) |
+| K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; one of its two banners survives KID-3 slice 1 and is owned by KID-3b |
 | K29 | Yeast balloon | the balloon filling | computed | fermentation, ethanol, CO₂ — and then an honest **BANG** when the sealed vessel bursts. Correct, and a better lesson than the one asked for |
 | K30 | Flame colours | one colour per metal | partial | Na yellow, K lilac, Sr crimson, Ba apple-green, Cu blue-green all computed. **Calcium — the one a child actually owns — reads "nothing happens."** Lithium is absent entirely |
 
@@ -278,6 +278,22 @@ and `main` moves only by PR.
   concentration floor below which the severity drops or the rule is silent;
   the starch and vitamin-C activities run clean; the genuinely dangerous
   pairs (bleach + acid, bleach + ammonia) still fire at household strength.
+  **Slice 1 landed 2026-09-02** — the self-screening half. `SafetyScreen`
+  gained `assess_pour(before, after)` (defaulted to today's `assess`, so no
+  other screen changes), and `ReactiveGroupScreen` drops a finding whose two
+  species arrived together in one reviewed bottle and were in the vessel
+  beforehand in neither case. The recipes are the authority: a pairing that
+  a `MaterialRecipe` ships was reviewed when the recipe was. K27 goes from
+  two Danger banners to none; bleach + ammonia, permanganate + sulfite, and
+  iodine + iodide *poured separately* all still fire. Corpus unmoved.
+  **KID-3b is the dose half, still open.** K28 keeps one banner — iodine
+  meeting ascorbic acid is a real oxidiser/reducer pair, but 0.0005 mol of
+  it in 100 mL is not "at scale, such mixtures can detonate". Two things are
+  wrong there and only one is the dose: the `real_world` sentence describes
+  *permanganate and sulfite* while the beaker holds iodine and vitamin C, so
+  the example reads as a claim about this vessel. Fixing the wording needs
+  no new number; a severity floor does, and that number has to be sourced
+  rather than chosen.
 
 - **KID-4 — `ignite` is never silent.** Holding a flame to an unresolved
   material currently emits nothing at all. The project's own rule is that
@@ -332,34 +348,188 @@ and `main` moves only by PR.
   five minutes" written entirely in household words; `kero lessons` lists
   what ships; the REPL `help` covers every verb; the unknown-name error is
   a signpost rather than a dead end.
+  **Landed 2026-09-02.** `help` is regrouped by what a learner wants to do
+  and now names all 31 verbs in `script::VERBS` — `magnet`, `smell`, `test`,
+  `chromatograph`, `react`, `remove`, `centrifuge`, `stock`, `particles` and
+  `regulate` were landed, working and unmentioned, and the corpus lost
+  experiments to each of them. A test fails the day a verb is added without
+  a help line. `kero lessons` lists the thirty-seven shipped lessons by
+  their own first-line titles and says how to run one. The signpost half of
+  the error message landed with KID-1.
+  **Still open under KID-17:** the GUI's own help dialog and the affordance
+  manifest were not audited here, and `EXPERIMENTS.md`'s quoted error text
+  is now stale.
 
 ### Sequencing
 
 ```
-KID-1 ──┬── KID-17 (docs quote the new commands)
+KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
-KID-2, KID-3, KID-4   independent bug fixes; do them next
-KID-5 … KID-12        independent of each other; KID-8 before KID-9's ink
+KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink
 KID-13 … KID-15       after their mechanisms land
+KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
+
+The three shipped claims that do not reproduce — KID-2's curds, KID-18's
+Faraday's law, and T09's ester — share one shape: a model that is present
+and a path to it that is closed. That is what a corpus run by a stranger
+finds and a corpus written by the author cannot.
 
 Wave 1 is the whole difference between "a chemist's engine" and "a bench a
 child can walk up to". Everything after it adds chemistry; only Wave 1 adds
 *reachability*, and reachability is what the audit found missing.
 
-## Part 2: the next thirty
+---
 
-Deferred until Wave 1 lands, and recorded here so the corpus does not
-restart from zero: the second children's thirty (magnet sorting, plastic
-float/sink, water filter, lemon battery, water electrolysis, copper plating
-a nail, ice-cream in a bag, baking powder versus baking soda, hard water and
-soap scum, a sugar-cube tower, growing copper sulfate crystals, chalk versus
-vinegar rates, colour-changing lemonade, milk of magnesia, glow sticks and
-temperature, a raw-egg-in-cola tooth analogue, apple browning and lemon
-juice, corrosion of different metals, a homemade fire extinguisher, sun-print
-paper, chalk chromatography, soap-powered boat, the leaf-and-light oxygen
-test, a pH map of the kitchen, hand-warmer crystallisation, borax snowflakes,
-salt versus sugar melting ice, invisible-ink variants, gas-test set, and a
-mass-conservation weigh-in) — then the 12–16 slice, which is where the
-titration, the rate law, the equilibrium shift and the electrochemistry the
-engine already computes finally meet an audience that can use them.
+# Part 2: the second thirty (audit 2026-09-02)
+
+Run the same way, on the same binary, after KID-1/2/3 landed. These are the
+thirty a child meets *next* — the ones with a battery, a magnet, a crystal
+or a rate in them.
+
+| # | Experiment | Verdict | What the bench did |
+|---|---|---|---|
+| K31 | Pull the iron out of the sand | computed | `magnet v1 v2` moves 3 g of iron and names the quartz left behind. `EXP-1` exactly as promised |
+| K32 | Which plastics float? | **silent miss** | all four polymers carry densities in the registry (`EXP-12`) and all four sit as undifferentiated solids; `look` says only "white and cloudy", and each addition reports "this part of the lab isn't awake yet" |
+| K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
+| K34 | A battery from a lemon | unreachable | "Nothing happens to the zinc … too unreactive for this", then "the voltmeter reads nothing — one of them isn't a proper half-cell yet". A half-cell needs the metal *and* its own ion; nothing tells a learner that, and the citric-acid lemon has no zinc ion in it |
+| K35 | Split water with electricity | **silent miss** | `electrolyse v1 0.5A 10min` on sodium-sulfate solution emitted nothing and moved no pressure. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
+| K36 | Turn an iron nail copper | computed | Fe + CuSO₄ → Cu + FeSO₄, +17 K, orange copper at the bottom. Textbook |
+| K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
+| K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
+| K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
+| K40 | Grow blue crystals | **wrong** | ends at **109 °C with liquid water in the ledger** and "the water is boiling — look at the steam!" — the KID-6 latent-heat gap again. Also: chalcanthite is drawn *white*, and it is the blue vitriol of the experiment's title |
+| K41 | Powder fizzes faster than a lump | unreachable | `grind v1 CaCO3` refuses — "vessel v1 contains no solid CaCO3 to grind", because the chalk dissolved on contact. There is no lump-versus-powder rate contrast to find |
+| K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
+| K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
+| K44 | An eggshell in cola | computed | cola surrogate reads pH 2, and only the acid it actually carries dissolves shell — an honest partial, and a better lesson than the myth |
+| K45 | Stop an apple going brown | honest miss | no enzymatic browning; the vitamin C sits as a solid and says so |
+| K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
+| K47 | A fire extinguisher in a jar | **silent miss** | the CO₂ generator works; the fire it is supposed to put out does not exist (KID-4/KID-12) |
+| K48 | Colours climbing a chalk stick | honest miss | same refusal as K26 |
+| K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
+| K50 | A pH map of the kitchen | **wrong** | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice reads nothing at all**, because the recipe resolves to water and sucrose with no acid in it. A juice with no acid is a juice a pH map lies about |
+| K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent, and cooling a supersaturated acetate solution does nothing (KID-7) |
+| K52 | A borax snowflake | unreachable | no borate in the registry |
+| K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
+| K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
+| K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
+| K56 | Bubble mixture that lasts | partial | no foam without the peroxide path (KID-11) |
+| K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled |
+| K58 | Instant snow from a powder | unreachable | no superabsorbent polymer |
+| K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |
+| K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |
+
+**Tally: computed 12 · partial 5 · honest miss 2 · silent miss 3 · wrong 3 ·
+unreachable 5.** Almost identical to the first thirty, and the failures land
+in the same places — which is the useful result: the corpus is not finding
+thirty separate problems, it is finding the same eight.
+
+## What the second thirty added to the register
+
+- **KID-18 — a half-cell is not discoverable.** `cell` and `electrolyse`
+  both need a metal standing in a solution of its own ion, and both refuse
+  with a message that is correct at lv3 and mute at lv1. The lemon battery
+  and the electrolysis of water — two of the best-known experiments there
+  are — are unreachable, and there is no inert-electrode concept for the
+  second. `lessons/electrolysis.lab` ships under the title "Electrolysis of
+  copper sulfate: Faraday's law" and produces the refusal rather than the
+  law: the balance reads 204.40 g before and after. That is a second lesson
+  whose headline claim does not reproduce, exactly like KID-2's.
+  *Acceptance:* the shipped lesson demonstrates Faraday's law; an inert
+  electrode is something a learner can add; the refusals name what is
+  missing at every register.
+- **KID-19 — density is data, not an observable.** Four polymers with
+  reviewed densities float and sink nowhere. `EXP-12`'s data landed and its
+  quest is authored, but nothing in the vessel picture separates them.
+  *Acceptance:* a solid whose density is known settles or floats against the
+  liquid it is in, and `look` says which.
+- **KID-20 — the household recipes have gaps that read as lies.** Apple
+  juice resolves to water and sucrose, so it is not acidic; a kitchen pH map
+  reports nothing for it. Chalcanthite is drawn white. These are registry
+  data errors rather than model gaps, and they are cheap.
+  *Acceptance:* every recipe whose real-world identity is defined by an acid,
+  a colour or a hazard carries it, with a source; a lint refuses a food or
+  drink recipe with no flavour-acid component.
+- **KID-21 — the grammar's order traps.** `grind` after the solid has
+  dissolved, `filter` into a vessel that does not exist yet, `cell` before
+  the half-cells are half-cells: three refusals that are each correct and
+  none of which say what to do instead.
+  *Acceptance:* a refusal that has an obvious remedy states it.
+- **KID-22 — `react` and `test` exist and are invisible.** `react v1
+  esterification` runs; `test v1 splint` runs. Neither is in `kero --help`
+  or the REPL's `help`, which between them name 24 and 18 of the grammar's
+  31 verbs. Folded into KID-17.
+
+---
+
+# Part 3: the 12–16 slice (spot audit 2026-09-02)
+
+Twelve experiments from the older band, run to test the prediction that the
+engine's shape inverts there. It does.
+
+| # | Experiment | Verdict | What the bench did |
+|---|---|---|---|
+| T01 | Titrate a weak acid to a colour endpoint | computed | the burette walks, the curve is real, and when the endpoint is out of reach it says which of the two reasons it is |
+| T02 | A buffer against an acid | computed | acetate buffer holds pH 4.55 while plain water crashes to 2.04 under the same dose |
+| T03 | The Daniell cell | computed | 1.102 V open-circuit against E° 1.104, with the direction of electron flow and the caveat that no current is drawn |
+| T04 | The common-ion effect | computed | adding calcium chloride to limewater precipitates Ca(OH)₂ out of a solution that was clear |
+| T05 | Thiosulfate clock | computed | 0.0476 mol reacted in 60 s, sulfur as a solid, the rate law integrated |
+| T06 | Gravimetric sulfate | computed | 2.33 g of barium sulfate, filtered and weighed, exact |
+| T07 | Beer–Lambert by dilution | computed | 0.48 absorbance at 525 nm, then 0.24 after a twofold dilution |
+| T08 | Gas pressure with temperature | computed | sealed headspace, 127.33 kPa, with the dissolved fraction accounted |
+| T09 | Make an ester | **silent miss** | ethanol + acetic acid + sulfuric acid, heated to 108 °C for an hour, produces nothing and says nothing. `react v1 esterification` *does* run it — but the verb is in no help text, so heating the flask, which is what a student does, silently fails |
+| T10 | Half-life | (not exercised — the nuclide bench rides `add`, see `EXP-49`) | |
+| T11 | Solubility product, three ways | computed | AgCl to cerargyrite, and `explain` answers the same question of every dataset — including "pitzer.dat cannot express this problem (no Ag, N(5))" |
+| T12 | Electroplating | computed | with the copper electrode present, 0.0833 mol of copper and a mass that moves |
+
+**Ten of twelve computed, and the two that are not are a missing verb in a
+help text and a nuclide bench I did not drive.** The engine was built for
+this age band; the children's corpus was the stress test, and it is where
+the work is.
+
+So the sequencing recommendation stands and sharpens: **Wave 1 and Wave 2 of
+the KID register buy far more than any new chemistry would.** The 12–16 band
+needs KID-17's help text and the organic tail (`EXP-44` and friends); the
+7–12 band needs eight mechanisms and a vocabulary it can reach.
+
+## Part 4: the thirty after that
+
+Recorded so the corpus does not restart from zero, and deliberately not
+audited until Wave 2 lands — a corpus run against a bench you already know
+will refuse teaches nothing.
+
+Ages 7–12, third thirty: sun-print paper; a lemon-powered clock; the
+mentos-and-cola nucleation demo; making butter by shaking cream; red-cabbage
+paper strips; a solar still; growing an alum crystal; the "burning" of a
+sugar cube with ash; oxygen and a candle under a jar; copper patina; blowing
+up a balloon with yeast at three temperatures; a pH-driven colour clock;
+milk fireworks with different fat contents; cleaning silver with foil and
+salt; the density of diet versus regular cola; rusting in three atmospheres;
+freezing point of sea water; how much salt a litre will hold; the smell of
+esters in fruit; hard-boiled versus raw egg spin; making chalk from
+limewater; a CO₂ fire snake; an onion-skin dye bath; separating salt and
+sand; the electrolysis of brine; a soda-can crush; growing a stalactite from
+Epsom salt; testing antacid tablets against each other; a starch-and-iodine
+secret message; and a two-week limescale kettle.
+
+Ages 12–16, first thirty: standardising permanganate; back-titration of an
+antacid; a rate law by initial rates; activation energy from two
+temperatures; Le Chatelier on three stresses; a solubility curve measured;
+the iodine clock's order in iodide; a nickel–iron cell built from the series;
+the pH of salts explained by hydrolysis; a diprotic titration to two
+endpoints; conductimetric titration; an equilibrium constant measured; the
+common-ion effect made quantitative; buffer capacity by titration; enthalpy
+of neutralisation by calorimetry; Hess's law in three steps; a gravimetric
+chloride determination; an ester synthesis with a yield; a saponification
+and its soap; distillation of an azeotrope; fractional crystallisation;
+paper chromatography with an Rf table; a redox titration of iron; catalysis
+compared homogeneous against heterogeneous; a Beer–Lambert calibration line
+and an unknown read off it; the effect of ionic strength on an equilibrium;
+a Nernst plot over four dilutions; corrosion under differential aeration; an
+electrolysis with a measured Faraday constant; and a full unknown-salt
+identification.
+
+The audit's own prediction, recorded now so it can be checked later: the
+first list will run about half, and the second about four fifths.

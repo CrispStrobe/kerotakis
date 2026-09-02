@@ -302,6 +302,25 @@ pub enum SafetyVerdict {
 /// L0. Runs before any chemistry, on the prospective state.
 pub trait SafetyScreen {
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict;
+
+    /// KID-3: assess a *pour* rather than a state.
+    ///
+    /// The reactivity screen warns about mixing, and mixing is something a
+    /// learner does. A reviewed material recipe that ships an oxidiser and
+    /// a reducing agent in one bottle — Lugol's iodine is iodine and
+    /// potassium iodide, and has been sold that way for two centuries — is
+    /// not a mixture anyone made at the bench, and warning about it teaches
+    /// the learner to ignore the banner that matters. Screening the fully
+    /// expanded prospective mixture is still right for everything the pour
+    /// meets *in the vessel*; what a screen implementation may drop here is
+    /// a pair that arrived together in one bottle and was in neither the
+    /// vessel nor another bottle beforehand.
+    ///
+    /// The default keeps the old behaviour exactly, so a screen that does
+    /// not care is unaffected.
+    fn assess_pour(&self, _before: &Vessel, after: &Vessel) -> SafetyVerdict {
+        self.assess(after)
+    }
 }
 
 /// v0 screen: permissive. The real screen lives in `kerotakis-safety`; this

@@ -132,3 +132,92 @@ fn explain_is_silent_about_recipes_when_none_were_used() {
         "no recipe, no recipe section: {out}"
     );
 }
+
+/// KID-3: a banner that fires on a starch test is a banner nobody reads on
+/// the day it matters.
+///
+/// One millilitre of 1% Lugol into a beaker of water used to raise a
+/// Danger-level "at scale, such mixtures can detonate". Lugol's solution is
+/// iodine plus potassium iodide — an oxidiser and a reducing agent by the
+/// reactivity matrix, and a stable pharmacy reagent in fact. The screen
+/// warns about *mixing*, and nobody mixed anything: the bottle is sold that
+/// way.
+#[test]
+fn one_reviewed_bottle_is_not_a_mixture_someone_made() {
+    let out = run_repl("add v1 water 100mL\nadd v1 lugol_solution_1_percent 1mL\nquit\n");
+    assert!(
+        !out.contains("HAZARD"),
+        "the starch test must not raise a hazard banner:\n{out}"
+    );
+    assert!(
+        out.contains("iodine"),
+        "and the reagent still arrives and speciates:\n{out}"
+    );
+}
+
+/// The other half of the same rule: pouring the two together is mixing, and
+/// mixing still warns — even though some third bottle happens to contain
+/// both. Nothing here weakens the screen; it narrows what counts as a pour.
+#[test]
+fn pouring_the_same_two_species_separately_still_warns() {
+    let out = run_repl("add v1 water 100mL\nadd v1 KI 1g\nadd v1 I2 1g\nquit\n");
+    assert!(
+        out.contains("HAZARD"),
+        "an oxidiser and a reducing agent brought together by hand must warn:\n{out}"
+    );
+}
+
+/// And the pairs the screen exists for are untouched at household strength.
+#[test]
+fn household_bleach_and_ammonia_still_warn() {
+    let out = run_repl(
+        "add v1 water 200mL\nadd v1 chlorine_bleach_5_percent 20mL\n\
+         add v1 ammonia_cleaner_5_percent 20mL\nquit\n",
+    );
+    assert!(
+        out.contains("HAZARD"),
+        "the one warning every household chemistry set needs:\n{out}"
+    );
+}
+
+/// KID-17: a help text that names two thirds of the grammar teaches that the
+/// other third does not exist.
+///
+/// `magnet`, `smell`, `test`, `chromatograph` and `react` were all landed,
+/// all working, and absent from every surface a reader has. The children's
+/// corpus in `KIDS.md` lost experiments to verbs that were already there —
+/// a fire-extinguisher demo, a gas test, an ester — so this is the
+/// invariant rather than a courtesy.
+#[test]
+fn help_names_every_verb_the_grammar_accepts() {
+    let help = run_repl("help\nquit\n");
+    let missing: Vec<&str> = kerotakis_core::script::VERBS
+        .iter()
+        .map(|(verb, _)| *verb)
+        .filter(|verb| !help.contains(*verb))
+        .collect();
+    assert!(
+        missing.is_empty(),
+        "help omits {missing:?} — a learner cannot use a verb nobody told \
+         them about:\n{help}"
+    );
+}
+
+/// The thirty-eight shipped lessons were reachable only by reading the
+/// repository: no command named one.
+#[test]
+fn lessons_are_listed_with_their_own_titles() {
+    let root = concat!(env!("CARGO_MANIFEST_DIR"), "/../..");
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kero"))
+        .current_dir(root)
+        .arg("lessons")
+        .output()
+        .expect("kero lessons runs");
+    let text = String::from_utf8_lossy(&out.stdout);
+    assert!(out.status.success(), "kero lessons exits clean");
+    assert!(text.contains("fizz"), "a lesson every reader meets: {text}");
+    assert!(
+        text.contains("kero run lessons/"),
+        "and the listing says how to run one: {text}"
+    );
+}
