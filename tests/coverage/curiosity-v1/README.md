@@ -587,3 +587,43 @@ question names. A prompt whose script cannot reach its own question is a
 gap in the corpus that no engine work can close, and it is worth looking
 for others: the question is the prescription, and the script is only an
 attempt at it.
+
+## Refresh 2026-09-03 (third): the other end of the same renaming
+
+`aq-061` (will a sealed vinegar-and-baking-soda bottle build pressure?) and
+`bio-004` (why does baking soda bubble in acidic cake batter?) move
+`computed`/`computed-route` → `curated`/**`curated-route`**. Mismatches
+86 → 87, for the third time today, and for the third time the number got
+worse because the bench got better.
+
+Look at what both scripts have in common:
+
+    add v1 water 100mL ; add v1 NaHCO3 … ; add v1 CH3COOH …
+
+Water first, then the soda. So the bicarbonate dissolves and goes through a
+solve before the acid arrives, the readback books its carbon as `HCO3-`, and
+the reactant named `NaHCO3` is no longer in the vessel. The reviewed
+equation was unreachable — from the opposite end to the one the acetate
+split fixed. **Renaming is symmetric, and the first fix only did the acid
+half.**
+
+The remedy is the one already used twice for permanganate: a second entry
+written in the names the beaker actually holds. `HCO₃⁻ + CH₃COOH → CH₃COO⁻ +
+H₂O + CO₂↑`, on the ion rather than the salt, with the sodium absent from
+both sides because it is a spectator. Any bicarbonate reaches it, not only
+bicarbonate that arrived as baking soda — which is correct: acid poured into
+a bicarbonate solution fizzes however the bicarbonate got there.
+
+`expected` is untouched on both, for the reason given twice above.
+
+### What this pair of rows was hiding
+
+`aq-061` seals the bottle and measures the pressure. It was reaching an
+answer, from carbonate equilibria, and the answer was plausible. Nothing in
+the corpus, the baseline or any test said the reviewed equation had not
+fired — the reason code said so, but only to a reader who knows the
+classifier checks the curated route first.
+
+So a row can be *right* and still be evidence of nothing. Both of these
+computed a number the whole time. What changed today is which model produced
+it, and that was never visible in the file.

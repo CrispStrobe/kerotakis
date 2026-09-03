@@ -588,46 +588,24 @@ fn the_volcano_cools_whichever_order_you_build_it_in() {
         (bench.vessel(v).unwrap().temperature.to_celsius(), events)
     };
     for soda_first in [true, false] {
-        let (t, _) = brew(soda_first);
+        let (t, events) = brew(soda_first);
         assert!(
             t < 25.0,
             "the volcano is endothermic and the beaker gets colder \
              (soda_first={soda_first}), got {t:.1} °C"
         );
+        // And it reaches a reviewed equation either way round. Renaming is
+        // symmetric, so this needs a row written on the SALT and one on the
+        // ION; whichever reagent went through a solve first, one of the two
+        // still names what is in the vessel.
+        assert!(
+            events.iter().any(|e| matches!(
+                e,
+                Event::ReactionOccurred { equation, .. }
+                    if equation.contains("NaHCO") || equation.contains("HCO₃⁻")
+            )),
+            "a curated equation is reachable in either order \
+             (soda_first={soda_first}): {events:?}"
+        );
     }
-}
-
-/// The remaining half of that: the soda-first order still cannot reach the
-/// curated equation, and this test says so rather than letting it pass.
-///
-/// Renaming is symmetric. Dissolve the bicarbonate and the readback books
-/// its carbon as `HCO3-` (the documented teaching-pH protonation choice),
-/// so the reactant named `NaHCO3` is no longer in the vessel and the
-/// reviewed equation is unreachable from that end — the mirror image of
-/// what the acetate split fixed at the acid end.
-///
-/// The fix is a sibling written on `HCO3-`, exactly as the two `MnO₄⁻` rows
-/// are written for `KMnO4`. That is a new curated reaction, so a reactivity
-/// claim wanting provenance.
-///
-/// This test fails the day somebody adds it, which is the point. Delete it
-/// then and assert the equation in the test above.
-#[test]
-fn the_soda_first_order_still_cannot_reach_the_curated_equation() {
-    let mut bench = Bench::new();
-    let mut stack = stack();
-    let v = VesselId(0);
-    add(&mut bench, &mut stack, v, "water", 2.7);
-    add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
-    let events = add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
-
-    assert!(
-        !events.iter().any(|e| matches!(
-            e,
-            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
-        )),
-        "KNOWN GAP: if this now fires, the HCO3- sibling has landed — delete \
-         this test and assert the equation in \
-         the_volcano_cools_whichever_order_you_build_it_in: {events:?}"
-    );
 }
