@@ -758,14 +758,25 @@ dissolution enthalpies alone and lands on the correct sign partly by luck.
 A route that declines to claim beats a route that claims the wrong sign,
 and neither of them has the number.
 
-**Status.** The order dependence is fixed by the peer's PR #351, which
-keeps both members of a Brønsted pair in the ledger so the curated route is
-reachable after a solve; with it, both orders fire the equation and both
-cool, and it ships with a regression test asserting that the two orders
-agree to within 0.5 K — an assertion that needs no knowledge of the right
-answer, which is why it would have caught this. **The underlying defect is
-untouched and unowned:** any acid-consuming reaction with no curated
-equation still books proton-neutralisation heat as its whole enthalpy.
+**Status: the order dependence is gone, verified on main.** #351 landed on
+2026-09-03 and keeps both members of a Brønsted pair in the ledger, so the
+curated route survives a solve. Both orders now fire the equation and both
+cool to the same 23.6 °C:
+
+```
+add v1 NaHCO3 5g ; add v1 white_vinegar_5_percent 50mL   → 25.0 → 23.55 °C
+add v1 white_vinegar_5_percent 50mL ; add v1 NaHCO3 5g   → 25.0 → 23.59 °C
+```
+
+It ships with a regression test asserting the two orders agree to within
+0.5 K — an assertion that needs no knowledge of the right answer, which is
+exactly why it would have caught the original bug.
+
+**The underlying defect is untouched and unowned:** any acid-consuming
+reaction with no curated equation still books proton-neutralisation heat as
+its whole enthalpy. The volcano is safe because it has a reviewed equation
+now reachable in both orders, not because the aqueous tail learned to tell
+a neutralisation from a carbonate breakdown.
 
 This is the fifth instance this week of one defect class, and the audit is
 not exempt from it. `acidity cancelled → heat` is invariant over *what*
