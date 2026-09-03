@@ -258,6 +258,40 @@ pub struct SpeciesData {
     pub provenance: &'static str,
 }
 
+/// KID-2 / KID-10: are these two species the same Brønsted acid, one of
+/// them having lost a proton?
+///
+/// A Brønsted acid and its conjugate base differ only in hydrogen count and
+/// charge, so the family is the set of species sharing a non-hydrogen
+/// composition. This exists because the aqueous solver rewrites the ledger:
+/// pour vinegar into water and what remains is `CH3COO-`, not `CH3COOH`.
+/// Any model that looks up an acid *by key* therefore stops working the
+/// moment the solver runs, and it does so silently.
+///
+/// That has now been the cause of three separate defects — milk that would
+/// not curdle (KID-2), vinegar that had no smell (KID-10), and it is worth
+/// keeping in one place so the fourth is a lookup rather than a rediscovery.
+pub fn same_bronsted_family(a: &str, b: &str) -> bool {
+    if a == b {
+        return true;
+    }
+    let skeleton = |key: &str| -> Option<Vec<(String, f64)>> {
+        let formula = crate::stoich::parse_formula(lookup_key(key).map(|d| d.formula)?).ok()?;
+        Some(
+            formula
+                .counts
+                .iter()
+                .filter(|(element, _)| element.as_str() != "H")
+                .map(|(element, count)| (element.clone(), *count))
+                .collect(),
+        )
+    };
+    match (skeleton(a), skeleton(b)) {
+        (Some(left), Some(right)) => left == right,
+        _ => false,
+    }
+}
+
 impl SpeciesData {
     /// KID-7: how much of this solute 100 mL of water holds at `t_k`.
     ///
