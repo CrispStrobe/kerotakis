@@ -65,6 +65,20 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         // element coupled to pe — an open beaker's air would then oxidise
         // a school salt to nitrate before anything was added to it.
         ("NH4", "N(-3)"),
+        // Ammonia is the same valence-carrying unit one proton lighter,
+        // and both shipped databases that carry nitrogen speciate it:
+        // `NH4+ = NH3 + H+`, with N(-3) mastered by NH4+. Without this row
+        // the nitrogen fell through to the residue rules, where bare N is
+        // not allowed, and a bottle of household ammonia could not compute
+        // its own pH — the one thing a solution of a weak base is for.
+        //
+        // It must be tried AFTER NH4, and that ordering is chemistry
+        // rather than tidiness: ammonium chloride is N,H4,Cl, and NH3 taken
+        // first would extract the base and leave a stray proton, booking a
+        // school salt as ammonia plus hydrochloric acid. Checked by
+        // simulating both tables over all 141 registry compositions on
+        // 2026-09-03: exactly one formula changes, and it is this one.
+        ("NH3", "N(-3)"),
         // Citrate before acetate, because "longest/most specific first" is
         // load-bearing here rather than cosmetic: citric acid's C6H8O7
         // admits two whole acetate units by pure arithmetic, and taking
@@ -266,6 +280,55 @@ pub fn foreign_phase_definition(name: &str, db_tag: &str) -> Option<String> {
     Some(format!(
         "PHASES\n    {name}\n        {base}(OH){state} + {state} H+ = {master} + {state} H2O\n        log_k {log_k}\n"
     ))
+}
+
+/// Element states whose registry name is a question about protonation
+/// rather than about oxidation.
+///
+/// The readback books an element total as one ion. That is the right shape
+/// for a state whose identity is settled — dissolved chloride is Cl⁻ at
+/// every pH this bench reaches — and the wrong shape for reduced nitrogen,
+/// which is ammonia above pKa 9.25 and ammonium below it. Both are registry
+/// species, both are what the beaker actually holds, and which one it is
+/// decides whether the solution smells: `senses::waft` walks the vessel
+/// looking for NH3 by key. Booking a bottle of household ammonia as
+/// ammonium would have stopped it smelling of ammonia the moment its pH
+/// was measured — the model would have been right about the number and
+/// wrong about the thing.
+///
+/// Each row is (element state, &[(database species, registry key)]). The
+/// species are asked for by name in `SELECTED_OUTPUT` and the state's total
+/// is divided between the registry keys in proportion to the molalities
+/// that come back, so the split is the solve's own and not a curated guess
+/// about teaching pH. A state listed here still needs its booking ion:
+/// that stays the answer whenever the columns are absent — pitzer carries
+/// no nitrogen at all.
+/// Note the asymmetry in each row: the database's spelling on the left,
+/// the registry's on the right, and they are not the same word. minteq.v4
+/// writes undissociated acetic acid `H(Acetate)`; this lab writes
+/// `CH3COOH`. Asking PHREEQC for the registry key, or booking the database
+/// name, would each fail silently in its own direction.
+pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
+    ("N(-3)", &[("NH3", "NH3"), ("NH4+", "NH4+")]),
+    // Acetate belongs here next and is deliberately not here yet. It
+    // revives two curated reactions that cannot currently fire in water
+    // (see tests/curated_reactants_survive_a_solve.rs), and it also breaks
+    // `displacement::oxidant_available`, which infers unspent acidity from
+    // `-solute_charge`. That proxy is only ever right because the readback
+    // strips every weak acid of its proton before the ledger sees it: put
+    // 0.1 mol of acetic acid back as acid and the charge falls to the free
+    // ion's 1e-3, and magnesium stops dissolving in vinegar. Correcting it
+    // means deciding which dissolved species count as titratable, which is
+    // a reviewable chemistry claim and not a solver fix. It gets its own
+    // change.
+];
+
+/// The protonation split for an element state, if it has one.
+pub fn protonation_split(element: &str) -> Option<&'static [(&'static str, &'static str)]> {
+    PROTONATION_SPLITS
+        .iter()
+        .find(|(el, _)| *el == element)
+        .map(|(_, species)| *species)
 }
 
 /// Registry key an element total is booked as. `None` means the element has
@@ -831,10 +894,31 @@ mod tests {
         );
         assert_eq!(dissolves("Ba(OH)2"), vec![("Ba".into(), 1.0)]);
 
-        // Honestly unmappable: hypochlorite (O without H), ammonia (bare N),
-        // organics (residual C), gases.
+        // Ammonia is reduced nitrogen, exactly as ammonium is. This used
+        // to assert `is_none()` — the gap was documented as though it were
+        // a limit, and it was a missing table row: both shipped databases
+        // that carry nitrogen speciate `NH4+ = NH3 + H+`.
+        assert_eq!(dissolves("NH3"), vec![("N(-3)".into(), 1.0)]);
+        // And the ordering that makes that safe. Group extraction is
+        // greedy, so NH3 taken before NH4 would strip the base out of
+        // ammonium chloride and leave a proton behind — booking a school
+        // salt as ammonia plus hydrochloric acid. One ammonium, one
+        // chloride, no stray hydrogen.
+        assert_eq!(
+            dissolves("NH4Cl"),
+            vec![("N(-3)".into(), 1.0), ("Cl".into(), 1.0)]
+        );
+
+        // Honestly unmappable: hypochlorite, organics (residual C), gases.
+        //
+        // Hypochlorite is refused by the `o > h` guard — its oxygen is
+        // bound to chlorine and is not available to leave as water — and
+        // that refusal is not merely conservative. Every `.dat` vendored
+        // with iphreeqc was searched by name on 2026-09-03 for HClO, ClO-,
+        // Cl(1) and the word hypochlorite: not one of them defines the
+        // species. Even if the formula decomposed, nothing downstream
+        // could speciate it. Unlike ammonia, this one is a real limit.
         assert!(role("NaOCl").is_none());
-        assert!(role("NH3").is_none());
         assert!(role("ethanol").is_none());
         assert!(role("Cl2").is_none());
         assert!(role("CO2").is_none());

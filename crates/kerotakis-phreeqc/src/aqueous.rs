@@ -23,6 +23,7 @@ use kerotakis_core::{
 #[cfg(feature = "engine")]
 const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
 
+use std::collections::BTreeMap;
 use std::rc::Rc;
 use std::sync::OnceLock;
 
@@ -1770,6 +1771,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             new_solid_solutions,
             mut new_ions,
             _,
+            protonation,
         ) = match readback {
             Ok(v) => v,
             Err(e) => return abandoned(e),
@@ -1798,6 +1800,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             &new_phases,
             &new_gases,
             &new_solid_solutions,
+            &protonation,
         );
 
         vessel.contents = contents;
@@ -1881,6 +1884,7 @@ impl PhreeqcEquilibrator {
             new_solid_solutions,
             mut new_ions,
             unnameable,
+            protonation,
         ) = self.readback_raw_values(&problem, db_tag, &cached.rows, &value)?;
 
         let (new_phases, new_gases, ph, mu) = Self::apply_balance_corrections(
@@ -1902,6 +1906,7 @@ impl PhreeqcEquilibrator {
             &new_phases,
             &new_gases,
             &new_solid_solutions,
+            &protonation,
         );
 
         // Neutralisation: the heat of the reaction the engine cannot see.
@@ -2391,6 +2396,7 @@ impl PhreeqcEquilibrator {
             Vec<SolidSolution>,
             Vec<(String, f64)>,
             Vec<(String, f64)>,
+            BTreeMap<String, Vec<(&'static str, f64)>>,
         ),
         SolveError,
     > {
@@ -2641,6 +2647,38 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        // How each protonation-split state divides between the registry
+        // species that carry it, from the molalities the solve returned.
+        // Empty is the honest default and the safe one: a state with no
+        // columns (pitzer knows no nitrogen) falls through to its single
+        // booking ion exactly as before.
+        let mut protonation: BTreeMap<String, Vec<(&'static str, f64)>> = BTreeMap::new();
+        for (el, _) in &new_ions {
+            let Some(split) = derived::protonation_split(el) else {
+                continue;
+            };
+            let weights: Vec<(&'static str, f64)> = split
+                .iter()
+                .filter_map(|(species, key)| {
+                    value(&format!("m_{species}")).map(|m| (*key, m.max(0.0)))
+                })
+                .collect();
+            // All or nothing. A partial split would divide the total by a
+            // denominator missing one of its terms, which is not a
+            // rounding error — it is the whole of the missing species
+            // silently reassigned to the one that was found.
+            if weights.len() != split.len() {
+                continue;
+            }
+            let sum: f64 = weights.iter().map(|(_, m)| m).sum();
+            if sum <= 0.0 {
+                continue;
+            }
+            protonation.insert(
+                el.clone(),
+                weights.into_iter().map(|(k, m)| (k, m / sum)).collect(),
+            );
+        }
         Ok((
             solvent_kgw_out,
             new_surfaces,
@@ -2648,6 +2686,7 @@ impl PhreeqcEquilibrator {
             new_solid_solutions,
             new_ions,
             unnameable,
+            protonation,
         ))
     }
 
@@ -2918,6 +2957,7 @@ impl PhreeqcEquilibrator {
         new_phases: &[(String, f64)],
         new_gases: &[(String, String, f64)],
         new_solid_solutions: &[SolidSolution],
+        protonation: &BTreeMap<String, Vec<(&'static str, f64)>>,
     ) -> (Vec<Event>, Vec<Portion>) {
         // Rebuild the vessel inventory: water stays; solutes are replaced by
         // the computed state.
@@ -2986,24 +3026,47 @@ impl PhreeqcEquilibrator {
                 Some(_) => {}
             }
         }
+        // Moles of an *element* are not moles of the ion that carries it
+        // unless the ion holds exactly one atom of it. Nitrogen booked as
+        // N2 counted twice, so a beaker of silver nitrate gained a quarter
+        // of a percent of nitrogen every time it was touched — the element
+        // total went in as a molecule count and came back out as an atom
+        // count.
+        let atoms_per_ion = |ion: &str, base: &str| -> f64 {
+            species::lookup_key(ion)
+                .and_then(|d| kerotakis_core::stoich::parse_formula(d.formula).ok())
+                .and_then(|f| f.counts.get(base).copied())
+                .filter(|n| *n > 0.0)
+                .unwrap_or(1.0)
+        };
         for (el, moles) in new_ions {
             if *moles > TRACE {
-                let ion = derived::booking_ion(el).expect("booking ion covered by tests");
-                // Moles of an *element* are not moles of the ion that
-                // carries it unless the ion holds exactly one atom of it.
-                // Nitrogen booked as N2 counted twice, so a beaker of
-                // silver nitrate gained a quarter of a percent of nitrogen
-                // every time it was touched — the element total went in as
-                // a molecule count and came back out as an atom count.
                 let base = el.split('(').next().unwrap_or(el);
-                let per_ion = species::lookup_key(ion)
-                    .and_then(|d| kerotakis_core::stoich::parse_formula(d.formula).ok())
-                    .and_then(|f| f.counts.get(base).copied())
-                    .filter(|n| *n > 0.0)
-                    .unwrap_or(1.0);
+                // A state whose registry name is a protonation question is
+                // booked as the species the solve found, in the proportions
+                // it found them. Reduced nitrogen is the case: one number
+                // came back, and ammonia-or-ammonium is not something that
+                // number knows. The element total stays authoritative — the
+                // fractions only decide how to name it — so this cannot
+                // create or destroy nitrogen however the split falls.
+                if let Some(split) = protonation.get(el) {
+                    for (ion, fraction) in split {
+                        let share = *moles * fraction;
+                        if share <= TRACE {
+                            continue;
+                        }
+                        contents.push(Portion {
+                            species: SpeciesId::new(ion),
+                            moles: Moles(share / atoms_per_ion(ion, base)),
+                            phase: Phase::Aqueous,
+                        });
+                    }
+                    continue;
+                }
+                let ion = derived::booking_ion(el).expect("booking ion covered by tests");
                 contents.push(Portion {
                     species: SpeciesId::new(ion),
-                    moles: Moles(*moles / per_ion),
+                    moles: Moles(*moles / atoms_per_ion(ion, base)),
                     phase: Phase::Aqueous,
                 });
             }
@@ -3917,6 +3980,21 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
     if !totals.is_empty() {
         writeln!(block, "    -totals   {}", totals.join(" ")).unwrap();
     }
+    // The protonation split, on the same terms as the direct path: a
+    // mixture that carries reduced nitrogen has to come back knowing
+    // whether it is ammonia or ammonium, or decanting one beaker into
+    // another would rename what is in it.
+    let mut molalities: Vec<&str> = Vec::new();
+    for total in &totals {
+        for (species, _) in derived::protonation_split(total).unwrap_or(&[]) {
+            if !molalities.contains(species) {
+                molalities.push(species);
+            }
+        }
+    }
+    if !molalities.is_empty() {
+        writeln!(block, "    -molalities {}", molalities.join(" ")).unwrap();
+    }
     if !merged.phases.is_empty() {
         let names: Vec<&str> = merged.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(block, "    -equilibrium_phases {}", names.join(" ")).unwrap();
@@ -4233,16 +4311,36 @@ fn build_input_at(
             .collect();
         writeln!(input, "    -gases    {}", gases.join(" ")).unwrap();
     }
+    // One `-molalities` line, not one per reason to want species columns.
+    // Three separate needs had grown three separate lines in the same
+    // block, and whether PHREEQC accumulates or replaces a repeated
+    // identifier is not something this input should be resting on: a
+    // vessel with both a surface and an exchanger would have been staking
+    // its readback on the answer. Columns are read by name, so a single
+    // combined list is right under either reading.
+    let mut molalities: Vec<&str> = Vec::new();
     if !problem.surfaces.is_empty() {
-        let molalities = if db_tag == "minteq.v4" {
-            "Hfo_sOZn+ Hfo_wOZn+ Hfo_sSO4- Hfo_sOHSO4-2 Hfo_wSO4- Hfo_wOHSO4-2"
-        } else {
-            "Hfo_sOZn+ Hfo_wOZn+ Hfo_wSO4- Hfo_wOHSO4-2"
-        };
-        writeln!(input, "    -molalities {molalities}").unwrap();
+        molalities.extend(["Hfo_sOZn+", "Hfo_wOZn+", "Hfo_wSO4-", "Hfo_wOHSO4-2"]);
+        if db_tag == "minteq.v4" {
+            molalities.extend(["Hfo_sSO4-", "Hfo_sOHSO4-2"]);
+        }
     }
     if !problem.exchanges.is_empty() {
-        writeln!(input, "    -molalities HX NaX CaX2 MgX2").unwrap();
+        molalities.extend(["HX", "NaX", "CaX2", "MgX2"]);
+    }
+    // The protonation split needs the individual species, not the state
+    // total: N(-3) is one number and ammonia-or-ammonium is the question
+    // it cannot answer. Asked for only when that state is actually in the
+    // problem, so no other input grows a column.
+    for total in &totals {
+        for (species, _) in derived::protonation_split(total).unwrap_or(&[]) {
+            if !molalities.contains(species) {
+                molalities.push(species);
+            }
+        }
+    }
+    if !molalities.is_empty() {
+        writeln!(input, "    -molalities {}", molalities.join(" ")).unwrap();
     }
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();

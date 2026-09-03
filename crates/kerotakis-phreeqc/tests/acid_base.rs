@@ -312,3 +312,108 @@ fn the_titrate_verb_finds_the_equivalence_point() {
         curve.len()
     );
 }
+
+/// A bottle of household ammonia computes its own pH.
+///
+/// It could not, until the derivation learned that ammonia is the same
+/// valence-carrying unit as ammonium one proton lighter. Before that the
+/// nitrogen fell through to the residue rules — where bare N is not
+/// allowed — and the beaker refused: "no aqueous solution has been
+/// characterised in this vessel". Both shipped databases that carry
+/// nitrogen have known how to do this all along (`NH4+ = NH3 + H+`, with
+/// N(-3) mastered by NH4+); nothing was ever asking them.
+#[test]
+fn household_ammonia_computes_its_own_ph() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "NH3", 0.01);
+
+    let ph = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .expect("an ammonia solution is a solution")
+        .ph;
+    // 0.1 mol/L of a base with Kb 1.8e-5: [OH-] = sqrt(Kb·c) = 1.34e-3,
+    // pOH 2.87, pH 11.13. The textbook answer, not a curated one.
+    assert!(
+        (ph - 11.13).abs() < 0.1,
+        "0.1 M ammonia is pH 11.1, got {ph:.2}"
+    );
+}
+
+/// And it is still ammonia afterwards.
+///
+/// This is the half that had to come with it. The readback books an
+/// element total as one ion, and reduced nitrogen's booking ion is NH4+ —
+/// so giving ammonia a role without the protonation split would have made
+/// the beaker's own contents disagree with its pH: a solution reading 11.1
+/// whose ledger said ammonium. `senses::waft` walks that ledger, so the
+/// bench would have stopped smelling of ammonia at the exact moment you
+/// measured it.
+#[test]
+fn an_ammonia_solution_is_still_made_of_ammonia() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "NH3", 0.01);
+
+    let vessel = bench.vessel(v).unwrap();
+    let ammonia = vessel.moles_of(&SpeciesId::new("NH3")).0;
+    let ammonium = vessel.moles_of(&SpeciesId::new("NH4+")).0;
+
+    // At pH 11.1, five orders above pKa 9.25 by two, the free base is
+    // almost all of it — but not all, and the rest is not thrown away.
+    assert!(
+        ammonia > 0.9 * 0.01,
+        "above pKa the free base dominates, got {ammonia:.6} mol NH3"
+    );
+    assert!(
+        ammonium > 0.0,
+        "the conjugate acid is present, not rounded out of existence"
+    );
+    // The element total stays authoritative: the split decides how to
+    // name the nitrogen, never how much of it there is.
+    assert!(
+        (ammonia + ammonium - 0.01).abs() < 1e-6,
+        "nitrogen is conserved across the split: {ammonia:.9} + {ammonium:.9}"
+    );
+    assert!(
+        !kerotakis_core::senses::waft(vessel).is_empty(),
+        "and the beaker still smells of what is in it"
+    );
+}
+
+/// The other side of the same table row: ammonium chloride is unmoved.
+///
+/// Group extraction is greedy and ordered, and NH4 must be tried before
+/// NH3 or this salt decomposes as ammonia plus a stray proton — booking a
+/// school reagent as a solution of a weak base and hydrochloric acid. The
+/// pH is the assertion that catches it: 5.2 is a weak acid, 11.1 would be
+/// the base, and a mis-ordered table gives neither.
+#[test]
+fn ammonium_chloride_is_still_an_ammonium_salt() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "NH4Cl", 0.01);
+
+    let vessel = bench.vessel(v).unwrap();
+    let ph = vessel.solution.clone().expect("characterised").ph;
+    assert!(
+        (4.8..5.6).contains(&ph),
+        "0.1 M ammonium chloride is a weak acid near pH 5.2, got {ph:.2}"
+    );
+    let ammonium = vessel.moles_of(&SpeciesId::new("NH4+")).0;
+    let ammonia = vessel.moles_of(&SpeciesId::new("NH3")).0;
+    assert!(
+        ammonium > 0.99 * (ammonium + ammonia),
+        "four pH units below pKa the salt is ammonium, got {ammonium:.6} \
+         mol NH4+ against {ammonia:.9} mol NH3"
+    );
+}

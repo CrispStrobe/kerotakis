@@ -430,3 +430,74 @@ The REPL and the MCP server keep their existing path: `json_particles` is
 part of the MCP contract and is untouched. Both routes call the same
 `particles::census`, so there is one implementation of the picture and two
 ways to ask for it.
+
+## Refresh 2026-09-03: household ammonia computes its own pH
+
+One row, `aq-031` ("What is the pH of a household ammonia solution?"),
+`missing`/`not-yet-modeled` → `computed`/**`computed-route`**. Note which
+reason code: the strongest one. The pH came off the aqueous route, from the
+databases' own equilibrium constants, not from a curated table.
+
+The row had been sitting in the stood-aside backlog under a diagnosis that
+was true and useless: "NH3 gets no aqueous role from `derived`". It got no
+role because the oxyanion-group table had a row for ammonium and none for
+ammonia, so the nitrogen fell through to the residue rules, where a bare N
+is not allowed. Meanwhile both shipped databases that carry nitrogen have
+always known how to speciate it — `NH4+ = NH3 + H+`, N(-3) mastered by
+NH4+. Nothing was asking them. It was a one-row gap in a curated table
+dressed as a modelling limit.
+
+The answer is 11.12, against the textbook 11.13 for 0.1 M of a base with
+Kb 1.8e-5. Nobody typed 11.13 anywhere.
+
+**The row's neighbour did not move, and that is the point of the ordering.**
+Group extraction is greedy and ordered, and `NH4` must be tried before
+`NH3` or ammonium chloride decomposes as ammonia plus a stray proton —
+booking a school reagent as a weak base plus hydrochloric acid. `aq-032`
+and every other N-bearing row is untouched; the table was simulated over
+all 141 registry compositions before the change and exactly one formula
+moves.
+
+**`aq-053` (bleach) is deliberately NOT refreshed.** It shares a symptom
+with `aq-031` and nothing else. Every `.dat` vendored with iphreeqc was
+searched by name for a hypochlorite species — `HClO`, `ClO-`, `Cl(1)`, the
+word itself — on 2026-09-03. There is none, in any of them; the `ClO-` hits
+are all perchlorate. `contribution_from_counts` already names hypochlorite
+in the comment on the guard that rejects it, and the guard is right. That
+row is a correctly refused one whose refusal is merely mute, which is a
+different piece of work.
+
+### What is NOT in this refresh, and is measured and ready
+
+An `Acetate` protonation split, the exact analogue of the nitrogen one,
+revives two curated reactions that cannot currently fire in a beaker with
+water in it:
+
+    NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+    CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑
+
+Vinegar and baking soda. Vinegar on an eggshell. Both curated, both
+reviewed, both carrying provenance, and both dead in water since they were
+written — the readback books the whole Acetate total as `CH3COO-`, so the
+acid named in the reactant list is gone by the time the second reagent
+arrives. They could only ever have fired in a dry vessel.
+
+**This corpus recorded that and nobody read it.** The classifier checks
+`succeeded(Curated)` first, so `computed-route` on `aq-059` and `bio-114` —
+two rows whose entire subject is a curated reaction — was the baseline
+asserting in writing that the reviewed equation produced no events. A reason
+code that encodes an absence only if you already know the precedence order
+is not written down in any useful sense.
+
+With the split in, both fire and conserve exactly (0.0497 + 0.0003, and
+0.0498 + 0.0002 mol CO₂). It is held back because the same row breaks
+`displacement::oxidant_available`, which reads unspent acidity off
+`-solute_charge` — a proxy that is only ever right while the readback keeps
+stripping weak acids of their protons. Put the acid back and magnesium stops
+dissolving in vinegar. Fixing that means deciding which dissolved species
+count as titratable, which is a reviewable chemistry claim rather than a
+solver fix, so it travels with its own change and its own baseline refresh.
+
+`tests/curated_reactants_survive_a_solve.rs` now fails if anyone adds a
+curated reaction on a reactant the solver renames, so this class cannot be
+introduced silently again.
