@@ -1117,6 +1117,24 @@ pub enum Event {
     DidNotIgnite {
         vessel: VesselId,
     },
+    /// KID-12: the flame went out because of the air, not the fuel.
+    ///
+    /// A candle under a jar stops burning while roughly four fifths of
+    /// the jar's oxygen is still in it: a flame needs an oxygen
+    /// *fraction*, not merely some oxygen. `oxygen_fraction` is what the
+    /// surrounding gas had fallen to when the flame quit, so the
+    /// learner can be shown the number that contradicts "it used up all
+    /// the oxygen".
+    FlameStarved {
+        vessel: VesselId,
+        /// The fuel that was still there and could not go on burning.
+        fuel: SpeciesId,
+        /// How much of it burned before the air gave out. Zero means the
+        /// flame never caught at all — air already too thin to light in,
+        /// which is what a carbon-dioxide extinguisher makes.
+        burned: Moles,
+        oxygen_fraction: f64,
+    },
     /// It would not burn, but it coloured the flame — the flame test.
     FlameTest {
         vessel: VesselId,

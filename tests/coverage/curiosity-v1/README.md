@@ -361,3 +361,41 @@ smaller number is what exposed the formatting split; and the residue
 reconciles exactly to the six rows #337 moved from `missing` to `computed`
 (aq-046, aq-102, aq-120, bio-104, th-067, th-068), which is a better check
 than either number alone.
+
+## Baseline refresh 2026-09-03: four rows, because solid fuels now burn (KID-12)
+
+`kerotakis_core::combustion` adds a curated complement to the CEA thermal
+solver for the three solid fuels NASA's `thermo.inp` has no records for:
+paraffin (candle wax), cellulose (paper) and sucrose. Four baseline rows
+move, all of them from `reason_code = "typed-engine-event"` to
+`"computed-route"`, and **no row changes its outcome** — every one of them
+was already `computed`:
+
+| row | question | before | after |
+|---|---|---|---|
+| bio-008 | Why does sugar become caramel when heated? | typed-engine-event | computed-route |
+| bio-009 | Does caramelisation happen without proteins? | typed-engine-event | computed-route |
+| th-030 | Will candle wax melt before it catches fire? | typed-engine-event | computed-route |
+| th-058 | Can sugar burn, or does it only caramelise? | typed-engine-event | computed-route |
+
+The scientific content of the change: each of those scripts drives its
+vessel above the fuel's autoignition temperature (paraffin 473 K, cellulose
+506 K, sucrose 683 K) with room air available, so a combustion reaction now
+occurs where previously the vessel reached the model boundary and the
+disposition came from a typed observation instead of a reaction. `bio-008`
+and `bio-009` deliver 20 kJ into 10 g of sucrose, which in this bench's
+lumped heat model is a ~1600 K rise: at that temperature sugar in air does
+not caramelise, it burns, and the prompts' own question ("does it only
+caramelise?") is answered — with the standing caveat, stated in the fuel's
+provenance, that the browning chemistry *between* melting and burning is
+not modelled at all.
+
+`th-051` ("Will a candle keep burning in a sealed jar?") stays `computed`
+and required a fix to keep it there. The new `FlameStarved` event was first
+added to the classifier's typed-observation list wholesale, which demoted
+th-051 to `qualitative` — the candle burns, runs the jar down to 16%
+oxygen and stops, and that is a computed result, not an observation. The
+classifier now keys on the event's `burned` field: a flame that never
+caught (a carbon-dioxide-smothered one) is a typed observation; one that
+burned first is computed. The demotion is the kind of thing baseline drift
+exists to catch, and it caught it.

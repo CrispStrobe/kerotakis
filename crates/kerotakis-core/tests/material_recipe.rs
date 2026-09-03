@@ -285,26 +285,37 @@ fn cola_keeps_unknown_ingredients_explicit() {
 
 // --- BRD-014 checkpoints 34-37: wax, paper, flour, dough, juice, glass.
 
-/// Candle wax is a blend of long-chain alkanes, none of which the registry
-/// installs. The recipe therefore conserves the whole dose rather than
-/// inventing a molecule to stand in for it.
+/// Candle wax was conserved whole because "no component of it is an
+/// installed species" — and KID-12 installed one. The recipe now resolves
+/// 92% of the dose as paraffin, one representative chain length standing
+/// for a C20-C40 blend, and conserves the stearic acid, dye and scent
+/// that still have no molecule here.
+///
+/// The rewrite is KID-20's rule applied to the lot assumptions: a reason
+/// that has expired must not be left on the shelf reading as current.
 #[test]
-fn candle_wax_is_conserved_whole_with_no_invented_component() {
+fn candle_wax_resolves_its_paraffin_and_conserves_the_blend() {
     let recipe =
         kerotakis_core::material::lookup("Kerzenwachs", Some("de")).expect("localized candle wax");
     assert_eq!(recipe.canonical_key, "candle_wax");
     let expansion = recipe.expand(25.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "paraffin");
+    assert!((expansion.components[0].amount - 23.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 2.0).abs() < 1e-12);
     assert!(
-        expansion.components.is_empty(),
-        "no alkane of candle wax is an installed species"
+        recipe.lot_assumptions.iter().any(|assumption| {
+            assumption.contains("C20") && assumption.contains("teaching stand-in")
+        }),
+        "one chain length standing for a blend must be stated, not implied"
     );
-    assert!((expansion.unresolved_amount - 25.0).abs() < 1e-12);
 }
 
-/// The bare words a candle is usually called by are deliberately not claimed:
-/// beeswax and paraffin wax are different materials, British English calls a
-/// lamp fuel "paraffin", and a candle is a wick-and-flame object the bench
-/// does not have.
+/// The bare words a candle is usually called by are deliberately not claimed
+/// as MATERIAL names: beeswax and paraffin wax are different materials, and
+/// a candle is a wick-and-flame object the bench does not have. `paraffin`
+/// is now a species, which is a different namespace and a different claim —
+/// asking for it gets the pure alkane, not this blend.
 #[test]
 fn bare_wax_paraffin_and_candle_remain_unclaimed() {
     let wax = kerotakis_core::material::lookup("Kerzenwachs", Some("de")).expect("candle wax");
@@ -320,63 +331,62 @@ fn bare_wax_paraffin_and_candle_remain_unclaimed() {
     }
 }
 
-/// A conserved unresolved solid is still in the beaker, and the bench says
-/// so. Silence would repeat the defect the whole unresolved-fraction contract
-/// exists to prevent: matter the engine holds, reported as absent.
+/// The contract that matters is not the ROLE, it is the rule the role
+/// exists to enforce: matter the engine holds must never be reported as
+/// absent. KID-12 resolved the last two recipes that carried
+/// `ConservedUnresolvedSolid` — wax became paraffin, paper became
+/// cellulose — so the check moves to where the matter went. It is still
+/// in the vessel, still named, and now named better.
+///
+/// The role itself remains supported and validated (a recipe declaring it
+/// must be fully unresolved, which is why these two had to give it up);
+/// the next material with nothing installed will use it again.
 #[test]
-fn conserved_unresolved_solids_are_visible_without_entering_the_chemistry() {
+fn resolved_matter_is_still_visible_and_no_recipe_claims_the_role_twice() {
     let mut bench = Bench::new();
-    for command in ["add v1 water 100mL", "add v1 Kerzenwachs 20g"] {
-        let op = parse_op(command)
-            .unwrap_or_else(|error| panic!("parse {command}: {error}"))
-            .expect("operator");
-        bench
-            .step(op)
-            .unwrap_or_else(|error| panic!("{command}: {error}"));
-    }
+    let op = parse_op("add v1 Kerzenwachs 20g")
+        .expect("valid material command")
+        .expect("operator");
+    bench.step(op).expect("add wax");
     let vessel = &bench.vessels[0];
-    assert_eq!(vessel.unresolved_materials.len(), 1);
-    assert!((vessel.unresolved_materials[0].amount - 20.0).abs() < 1e-12);
 
-    let solids = kerotakis_core::material::conserved_unresolved_solids(vessel);
-    assert_eq!(solids.len(), 1);
-    assert_eq!(solids[0].material, "candle wax");
-    assert_eq!(solids[0].colour_word, "off-white");
+    // The 8% with no molecule is still conserved and still pinned to its
+    // recipe: resolving most of a material must not quietly drop the rest.
+    assert_eq!(vessel.unresolved_materials.len(), 1);
+    assert!((vessel.unresolved_materials[0].amount - 1.6).abs() < 1e-12);
+    // And the 92% is in the ledger as a species, which is the whole point.
+    assert!((vessel.moles_of(&SpeciesId::new("paraffin")).0 - 18.4 / 352.691).abs() < 1e-9);
 
     let observed = kerotakis_core::appearance::observe(vessel);
     assert!(
-        observed.words.contains("off-white candle wax"),
-        "{}",
+        observed.words.contains("paraffin"),
+        "the wax must still be visible: {}",
         observed.words
     );
-    // The water it sits in is untouched: wax contributes no solute, no
-    // colour and no cloudiness.
-    assert!(observed.words.contains("colourless"), "{}", observed.words);
-    assert!(observed.cloudiness < 0.01);
-    assert!(vessel
-        .contents
-        .iter()
-        .all(|portion| portion.species == SpeciesId::new("water")));
 }
 
-/// Paper is cellulose, and cellulose is not in the registry. The honest
-/// answer is to name the sheet and conserve it, not to resolve it into a
-/// fibre the engine does not have.
+/// Paper is cellulose, and cellulose IS in the registry — the recipe's
+/// old lot assumption said otherwise long after that stopped being true.
+/// KID-12 resolves 85% of the sheet as cellulose so that a sheet of paper
+/// can burn, and conserves the filler, sizing and coating that vary by
+/// grade and have no molecule here.
 #[test]
-fn paper_is_conserved_unresolved_with_its_identity_stated() {
+fn paper_resolves_its_cellulose_and_conserves_the_filler() {
     let recipe = kerotakis_core::material::lookup("Papier", Some("de")).expect("localized paper");
     assert_eq!(recipe.canonical_key, "paper_sheet");
     assert_eq!(recipe.name, "paper");
     assert!(recipe.matches("sheet of paper", Some("en")));
     let expansion = recipe.expand(4.0, 0).expect("fixed expansion");
-    assert!(expansion.components.is_empty());
-    assert!((expansion.unresolved_amount - 4.0).abs() < 1e-12);
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "cellulose");
+    assert!((expansion.components[0].amount - 3.4).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 0.6).abs() < 1e-12);
     assert!(
         recipe
             .lot_assumptions
             .iter()
             .any(|assumption| assumption.contains("cellulose")),
-        "the unresolved substance must be named, not merely omitted"
+        "the substance must be named, not merely omitted"
     );
 
     let op = parse_op("add v1 Papier 4g")
@@ -388,11 +398,11 @@ fn paper_is_conserved_unresolved_with_its_identity_stated() {
         event,
         Event::MaterialAdded { recipe_id, components, unresolved_amount, .. }
             if recipe_id == "household/paper-sheet"
-                && components.is_empty()
-                && (*unresolved_amount - 4.0).abs() < 1e-12
+                && components.len() == 1
+                && (*unresolved_amount - 0.6).abs() < 1e-12
     )));
     let observed = kerotakis_core::appearance::observe(&bench.vessels[0]);
-    assert!(observed.words.contains("white paper"), "{}", observed.words);
+    assert!(observed.words.contains("cellulose"), "{}", observed.words);
 }
 
 /// White wheat flour resolves the starch a school iodine test actually finds,

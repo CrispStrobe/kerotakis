@@ -40,6 +40,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "electrolysed",
     "evaporated",
     "filtered",
+    "flame_starved",
     "flame_test",
     "foam_changed",
     "gas_absorbed",
@@ -1321,6 +1322,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::FlameTest { species, .. } => ("flame_test", Some(species.0.as_str())),
         E::Ignited { .. } => ("ignited", None),
         E::DidNotIgnite { .. } => ("did_not_ignite", None),
+        // KID-12: a quest can claim that the jar put the flame out.
+        E::FlameStarved { fuel, .. } => ("flame_starved", Some(fuel.0.as_str())),
         E::HazardWarning { .. } => ("hazard_warning", None),
         E::SpillCreated { .. } => ("spill_created", None),
         E::ContainerBroken { .. } => ("container_broken", None),

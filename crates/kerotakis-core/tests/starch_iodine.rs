@@ -110,21 +110,38 @@ fn named_lugol_solution_finds_the_starch_in_a_plain_dough() {
     assert!(observed.words.contains("blue-black"), "{}", observed.words);
 }
 
-/// And the control that keeps the positive meaningful: candle wax has no
-/// resolved starch, so the indicator stays brown next to it.
+/// And the control that keeps the positive meaningful: wax has no starch
+/// in it, so the indicator stays brown next to it.
+///
+/// This test used to be named for the conserved-unresolved-solid role,
+/// because candle wax was one — KID-12 resolved it into paraffin so that
+/// a candle could burn, and the role has no user in the shipped registry
+/// until a material with nothing installed arrives. The control is the
+/// same control: a solid that is not starch must not read as starch, and
+/// it must still be in the vessel afterwards.
+///
+/// It also pins a boundary KID-12 exposed rather than created. An
+/// insoluble solid in water reads as a suspension however large the
+/// lump — the appearance model has no particle size, which is the same
+/// limitation `grind` exists because of — so five grams of wax now
+/// clouds the water it is sitting in. A floating candle is not modelled.
 #[test]
-fn lugol_beside_a_conserved_unresolved_solid_stays_brown() {
+fn lugol_beside_a_solid_with_no_starch_in_it_stays_brown() {
     ensure_lugol_recipe();
     let mut bench = Bench::new();
     run(&mut bench, "add v1 water 100mL");
     run(&mut bench, "add v1 Kerzenwachs 5g");
     run(&mut bench, "add v1 Lugol-Lösung_1% 2mL");
 
-    let observed = appearance::observe(bench.vessel(VesselId(0)).expect("vessel"));
+    let vessel = bench.vessel(VesselId(0)).expect("vessel");
+    let observed = appearance::observe(vessel);
     assert!(observed.words.contains("brown"), "{}", observed.words);
     assert!(!observed.words.contains("blue"), "{}", observed.words);
     assert!(
-        observed.words.contains("candle wax"),
+        vessel
+            .moles_of(&kerotakis_core::species::SpeciesId::new("paraffin"))
+            .0
+            > 0.0,
         "the wax is still there: {}",
         observed.words
     );

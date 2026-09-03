@@ -551,3 +551,55 @@ fn oobleck_answers_differently_depending_how_hard_it_is_pushed() {
         "the starch is still starch:\n{out}"
     );
 }
+
+/// KID-12: the candle, the jar and the extinguisher, on the shipped
+/// binary and through the standard stack.
+///
+/// K04 was the last silent miss in the children's first thirty: wax was
+/// unresolved matter, so `ignite` had nothing to say about it. What the
+/// lesson has to show is not that it burns — it is the number that
+/// contradicts what every child is told about the jar.
+#[test]
+fn a_candle_under_a_jar_goes_out_with_oxygen_to_spare() {
+    let lesson = lessons_dir().join("candle-jar.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // 1. In the open it burns away, and the heat is a candle's heat.
+    assert!(
+        out.contains("C25H52 + 38 O2 -> 25 CO2 + 26 H2O"),
+        "the wax burns as paraffin:\n{out}"
+    );
+    assert!(
+        out.contains("ignited · 211.60 kJ released"),
+        "5 g of wax is about 210 kJ:\n{out}"
+    );
+
+    // 2. Under a jar it stops, and it stops with oxygen still in there.
+    let starved = out
+        .lines()
+        .find(|line| line.contains("stopped burning with"))
+        .unwrap_or_else(|| panic!("the jar must end the flame:\n{out}"));
+    assert!(
+        starved.contains("16% oxygen"),
+        "a flame quits at a fraction, not at zero: {starved}"
+    );
+
+    // 3. Carbon dioxide first, and it never catches at all — while the
+    //    wax and the oxygen are both still sitting there untouched.
+    assert!(
+        out.contains("never caught"),
+        "the extinguisher must smother it:\n{out}"
+    );
+    // The bench must not follow that with "not everything burns".
+    assert!(
+        !out.contains("Not everything burns"),
+        "the reason was already given; a contradiction must not follow it:\n{out}"
+    );
+
+    // 4. Paper is the same chemistry with a different fuel.
+    assert!(
+        out.contains("C6H10O5 + 6 O2 -> 6 CO2 + 5 H2O"),
+        "paper burns as cellulose:\n{out}"
+    );
+}

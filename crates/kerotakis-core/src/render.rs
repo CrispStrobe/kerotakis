@@ -2127,6 +2127,47 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string())],
             ),
         },
+        Event::FlameStarved {
+            vessel,
+            fuel,
+            burned,
+            oxygen_fraction,
+        } => {
+            let name = species::lookup(fuel).map(|d| d.name).unwrap_or(fuel.0.as_str());
+            let percent = locale.number(format!("{:.0}", oxygen_fraction * 100.0));
+            // Nothing burned at all is a different story from a flame
+            // that ran itself out, and the learner is doing a different
+            // experiment in each case: one smothered the flame before it
+            // started, the other watched it use the jar up.
+            let never_caught = burned.0 <= crate::OBSERVABLE_MOLES;
+            match (register.level(), never_caught) {
+                (1, true) => locale.fill(
+                    "event.flame-starved.lv1-never-caught",
+                    "The flame will not take hold in {vessel} at all. There IS oxygen in there — but not enough of it, because something else has taken up the room.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                (1, false) => locale.fill(
+                    "event.flame-starved.lv1",
+                    "The flame in {vessel} shrinks and goes out — and there is still air in there, and still something left to burn. A flame needs air that is RICH in oxygen; a little is not enough.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                (2, true) => locale.fill(
+                    "event.flame-starved.lv2-never-caught",
+                    "{vessel}: the {name} never caught — only {percent}% of the gas is oxygen, and a flame needs about 16%",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("percent", &percent)],
+                ),
+                (2, false) => locale.fill(
+                    "event.flame-starved.lv2",
+                    "{vessel}: the {name} stopped burning with {percent}% oxygen still in the gas — a flame goes out long before the last of it is used up",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("percent", &percent)],
+                ),
+                _ => locale.fill(
+                    "event.flame-starved.lv3",
+                    "{vessel}: flame starved — {burned} mol {name} burned, oxygen mole fraction {fraction}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("burned", &locale.number(format!("{:.6}", burned.0))), ("fraction", &locale.number(format!("{oxygen_fraction:.3}")))],
+                ),
+            }
+        }
         Event::ThermalEquilibrium {
             vessel,
             temperature,

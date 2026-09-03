@@ -1271,6 +1271,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/paraffin",
+      "citation": "Paraffin wax as a single representative long-chain alkane, C25H52. Real candle wax is a blend spanning roughly C20 to C40, often with stearic acid, dye and scent; one chain length is a teaching stand-in for that blend and not a claim about any candle. Molar mass from IUPAC/CIAAW 2021 atomic weights; density 0.90 g/mL and the Kopp's-rule heat capacity are explicit room-temperature teaching approximations",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3518,6 +3527,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Na2B4O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "paraffin",
+      "canonical_key": "legacy:species/paraffin",
+      "name": "paraffin",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/paraffin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -18139,6 +18162,98 @@
       },
       "evidence": {
         "source_id": "legacy/Na2B4O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/paraffin",
+      "species_id": "paraffin",
+      "formula": "C25H52",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 25.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/paraffin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 52.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/paraffin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/paraffin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -34146,6 +34261,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/paraffin",
+      "species_id": "paraffin",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 352.691,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/paraffin",
+      "species_id": "paraffin",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 665.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/paraffin",
+      "species_id": "paraffin",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -40902,6 +41107,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Na2B4O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/paraffin",
+      "species_id": "paraffin",
+      "phase": "solid",
+      "appearance": "off-white",
+      "flame_colour": null,
+      "reflective_srgb": "#F0EDE4",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/paraffin",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -47676,6 +47897,72 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/paraffin",
+      "subject": {
+        "kind": "species",
+        "id": "paraffin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/paraffin",
+      "subject": {
+        "kind": "species",
+        "id": "paraffin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -51446,10 +51733,25 @@
           "detail": "room-temperature teaching-surrogate density"
         }
       },
-      "components": [],
+      "components": [
+        {
+          "species_id": "paraffin",
+          "fraction": {
+            "lower": 0.92,
+            "upper": 0.92
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
       "unresolved_fraction": {
-        "lower": 1.0,
-        "upper": 1.0
+        "lower": 0.08,
+        "upper": 0.08
       },
       "physical_form": {
         "kind": "composite_object",
@@ -51459,23 +51761,13 @@
           "characteristic_length_m": null
         }
       },
-      "roles": [
-        {
-          "kind": "conserved_unresolved_solid",
-          "srgb": [
-            242,
-            240,
-            232
-          ],
-          "colour_word": "off-white"
-        }
-      ],
-      "preparation": "solid paraffin candle wax, conserved whole because none of its long-chain alkanes is an installed species",
+      "roles": [],
+      "preparation": "solid paraffin candle wax, resolved as paraffin with the stearic acid, dye and scent left in the conserved remainder",
       "lot_assumptions": [
-        "candle wax is a variable blend of long-chain alkanes, often with stearic acid, dyes and scent; no component of it is an installed species, so the whole mass stays conserved and unresolved rather than being given a stand-in molecule",
+        "candle wax is a variable blend of long-chain alkanes spanning roughly C20 to C40, often with stearic acid, dye and scent. KID-12 resolves 92% of it as paraffin, one representative chain length standing for the blend; the stearic acid, dye and scent stay in the conserved remainder. This is a teaching stand-in and not a claim about any candle",
         "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt",
-        "burning is not claimed either: a candle flame needs feed thermochemistry the engine has not installed, and a wick is an object the bench does not have",
-        "the bare words wax and Wachs remain unclaimed because beeswax, soy wax and paraffin wax are different materials, and bare paraffin remains unclaimed because it names a lamp fuel in British English"
+        "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion, the oxygen the vessel actually holds, and carbon dioxide and water out. A wick, a melt pool, a luminous flame and soot are none of them modelled, so this is what a wax releases rather than what a candle looks like",
+        "the bare words wax and Wachs remain unclaimed as material names because beeswax, soy wax and paraffin wax are different materials. The species paraffin is installed and can be added directly; asking for it by name gets the pure alkane and not this blend"
       ],
       "substitutions": [],
       "confidence": "surrogate",
@@ -51530,10 +51822,25 @@
           "detail": "room-temperature teaching-surrogate density"
         }
       },
-      "components": [],
+      "components": [
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.85,
+            "upper": 0.85
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
       "unresolved_fraction": {
-        "lower": 1.0,
-        "upper": 1.0
+        "lower": 0.15,
+        "upper": 0.15
       },
       "physical_form": {
         "kind": "composite_object",
@@ -51543,22 +51850,12 @@
           "characteristic_length_m": null
         }
       },
-      "roles": [
-        {
-          "kind": "conserved_unresolved_solid",
-          "srgb": [
-            246,
-            246,
-            242
-          ],
-          "colour_word": "white"
-        }
-      ],
-      "preparation": "a sheet of ordinary white paper, conserved whole because cellulose is not an installed species",
+      "roles": [],
+      "preparation": "a sheet of ordinary white paper, resolved as cellulose with filler and sizing left in the conserved remainder",
       "lot_assumptions": [
-        "cellulose is not in the runtime registry, so the whole sheet is conserved unresolved rather than resolved into a fibre that is not there; the identity is stated instead of guessed",
+        "KID-20's rule caught this one: the sheet was conserved unresolved because \"cellulose is not in the runtime registry\", and cellulose has been in it since. 85% of the sheet is now resolved as cellulose, which is what paper is, and the reason that had expired is gone rather than left reading as current",
         "mineral filler, sizing, coatings and optical brighteners vary by grade and stay inside the same unresolved mass; a carbonate-filled office paper and an unfilled newsprint are not distinguished",
-        "burning is not claimed: feed thermochemistry for cellulose is not installed, so ignition must reach the engine's model boundary",
+        "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion per anhydroglucose unit, the oxygen the vessel actually holds, and carbon dioxide and water out. Char, smoke, flame spread and the ash that a real sheet leaves are not modelled",
         "wetting, tearing and pulping are not claimed, and this material is not the filter paper the filtration apparatus uses"
       ],
       "substitutions": [],
