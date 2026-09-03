@@ -554,32 +554,66 @@ fn the_volcano_cools_when_the_acid_goes_in_first() {
     );
 }
 
-/// The other order is still wrong, and this test says so rather than
-/// letting it pass unremarked.
+/// Whichever order you build it in, the beaker gets colder.
 ///
-/// Renaming is symmetric and this change only fixed one side of it. Put the
-/// soda in first with water already present and it dissolves; the readback
-/// books its carbon as `HCO3-` (the documented teaching-pH protonation
-/// choice); and when the vinegar arrives the reactant named `NaHCO3` is no
-/// longer in the vessel. The curated route is unreachable again — from the
-/// other end — and the aqueous route answers, booking 0.018 mol of
-/// "neutralised" acidity as heat and warming the beaker to 25.8 °C.
+/// It did not. Put the soda in first with water present and it dissolves,
+/// and the acid then meets a bicarbonate rather than the solid — so the
+/// curated route was unreachable and the aqueous tail answered. The aqueous
+/// tail computes how much acid was cancelled from the solutes' net charge,
+/// which cannot tell `HCO₃⁻ + H⁺ → H₂O + CO₂↑` from `H⁺ + OH⁻ → H₂O`
+/// because in both a negative solute and an acid disappear together. It
+/// charged the first at the second's enthalpy and warmed the beaker to
+/// 25.8 °C.
 ///
-/// So the volcano is endothermic one way round and exothermic the other,
-/// and the difference is which reagent you happened to dissolve first.
-///
-/// The fix is known and is not in this change: a sibling reaction written
-/// on `HCO3-`, exactly as the two `MnO₄⁻` rows are written for `KMnO4`.
-/// That is a new curated reaction — a reactivity claim wanting provenance
-/// and review — and it does not belong in a commit whose subject is the
-/// readback. It also does not fix the enthalpy, which is the deeper defect:
-/// the aqueous tail books proton neutralisation as the whole heat of
-/// whatever consumed the acid.
-///
-/// This test fails the day somebody fixes it, which is the point. Delete it
-/// then, and fold the case back into the test above.
+/// So the volcano was endothermic one way round and exothermic the other,
+/// and the difference was which reagent you happened to dissolve first.
+/// Now both cool. They do not agree on how much — 21.0 °C against 24.4 °C —
+/// and that difference is honest: the acid taken by the carbonate has a
+/// heat this lab does not hold, and the run says so in a `NotYetModeled`
+/// rather than borrowing the nearest number in the file.
 #[test]
-fn the_volcano_is_still_backwards_if_the_soda_dissolves_first() {
+fn the_volcano_cools_whichever_order_you_build_it_in() {
+    let brew = |soda_first: bool| {
+        let mut bench = Bench::new();
+        let mut stack = stack();
+        let v = VesselId(0);
+        add(&mut bench, &mut stack, v, "water", 2.7);
+        let events = if soda_first {
+            add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
+            add(&mut bench, &mut stack, v, "CH3COOH", 0.042)
+        } else {
+            add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
+            add(&mut bench, &mut stack, v, "NaHCO3", 0.05)
+        };
+        (bench.vessel(v).unwrap().temperature.to_celsius(), events)
+    };
+    for soda_first in [true, false] {
+        let (t, _) = brew(soda_first);
+        assert!(
+            t < 25.0,
+            "the volcano is endothermic and the beaker gets colder \
+             (soda_first={soda_first}), got {t:.1} °C"
+        );
+    }
+}
+
+/// The remaining half of that: the soda-first order still cannot reach the
+/// curated equation, and this test says so rather than letting it pass.
+///
+/// Renaming is symmetric. Dissolve the bicarbonate and the readback books
+/// its carbon as `HCO3-` (the documented teaching-pH protonation choice),
+/// so the reactant named `NaHCO3` is no longer in the vessel and the
+/// reviewed equation is unreachable from that end — the mirror image of
+/// what the acetate split fixed at the acid end.
+///
+/// The fix is a sibling written on `HCO3-`, exactly as the two `MnO₄⁻` rows
+/// are written for `KMnO4`. That is a new curated reaction, so a reactivity
+/// claim wanting provenance.
+///
+/// This test fails the day somebody adds it, which is the point. Delete it
+/// then and assert the equation in the test above.
+#[test]
+fn the_soda_first_order_still_cannot_reach_the_curated_equation() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
@@ -592,14 +626,8 @@ fn the_volcano_is_still_backwards_if_the_soda_dissolves_first() {
             e,
             Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
         )),
-        "KNOWN GAP: if this now fires, the HCO3- sibling has landed — \
-         delete this test and restore the both-orders assertion: {events:?}"
-    );
-    let t = bench.vessel(v).unwrap().temperature.to_celsius();
-    assert!(
-        t > 25.0,
-        "KNOWN GAP: the aqueous route books neutralisation heat and warms a \
-         reaction that should cool. If this is now below 25 °C the enthalpy \
-         has been fixed and this test should go, got {t:.1} °C"
+        "KNOWN GAP: if this now fires, the HCO3- sibling has landed — delete \
+         this test and assert the equation in \
+         the_volcano_cools_whichever_order_you_build_it_in: {events:?}"
     );
 }
