@@ -42,7 +42,24 @@ pub struct CuriosityPrompt {
     pub age_band: AgeBand,
     pub action: ActionFamily,
     pub material_class: String,
-    pub expected: Disposition,
+    /// What this prompt must EVENTUALLY be able to answer, and by which
+    /// route — a requirement on the engine, not a prediction of it.
+    ///
+    /// Absent means no requirement has been stated, which is a real and
+    /// common position: most prompts are questions we would like answered
+    /// one day without anyone having committed to a route.
+    ///
+    /// The distinction is not academic. This field used to carry both
+    /// jobs, and `expected = "missing"` was the collision: as a prediction
+    /// it read "we do not expect an answer yet", which was often true, and
+    /// as a requirement it read "the engine must stay silent", which is
+    /// incoherent — nobody requires a bench to refuse. 202 of 500 prompts
+    /// carried it, and 64 of those counted as mismatches for a reason that
+    /// was never real. `lint` now REFUSES `missing` here, so the two jobs
+    /// cannot be confused again; what the engine actually did is recorded
+    /// in the baseline, which is the descriptive record and is drift-gated.
+    #[serde(default)]
+    pub expected: Option<Disposition>,
     /// CAP/EXP/BRD identifier that owns the current expected route or gap.
     pub owning_task: String,
     #[serde(default)]
@@ -137,6 +154,9 @@ pub struct CuriosityInventory {
     pub smoke_prompts: usize,
     pub complete: bool,
     pub by_expected: BTreeMap<Disposition, usize>,
+    /// Prompts stating no requirement. `by_expected` counts only those that
+    /// do, so this is what makes the arithmetic close.
+    pub without_requirement: usize,
     pub by_action: BTreeMap<ActionFamily, usize>,
     pub by_age_band: BTreeMap<AgeBand, usize>,
     pub by_owning_task: BTreeMap<String, usize>,
@@ -151,8 +171,12 @@ impl CuriosityCorpus {
         let mut by_action = BTreeMap::new();
         let mut by_age_band = BTreeMap::new();
         let mut by_owning_task = BTreeMap::new();
+        let mut without_requirement = 0;
         for prompt in &self.prompts {
-            *by_expected.entry(prompt.expected).or_default() += 1;
+            match prompt.expected {
+                Some(kind) => *by_expected.entry(kind).or_default() += 1,
+                None => without_requirement += 1,
+            }
             *by_action.entry(prompt.action).or_default() += 1;
             *by_age_band.entry(prompt.age_band).or_default() += 1;
             *by_owning_task
@@ -166,6 +190,7 @@ impl CuriosityCorpus {
             smoke_prompts: self.manifest.smoke_prompts.len(),
             complete: self.prompts.len() >= self.manifest.target_prompts,
             by_expected,
+            without_requirement,
             by_action,
             by_age_band,
             by_owning_task,
@@ -247,8 +272,15 @@ impl CuriosityCorpus {
                 problems.push(format!("{at}: tags must be sorted and unique"));
             }
 
+            if prompt.expected == Some(Disposition::Missing) {
+                problems.push(format!(
+                    "{at}: `expected` is a requirement, and `missing` cannot be one — \
+                     nothing requires the engine to stay silent. Drop the field if no \
+                     route is required; the baseline records what the engine does."
+                ));
+            }
             match prompt.expected {
-                Disposition::Boundary => {
+                Some(Disposition::Boundary) => {
                     if !prompt.script.is_empty() {
                         problems.push(format!("{at}: boundary prompt must not carry a script"));
                     }
@@ -268,11 +300,17 @@ impl CuriosityCorpus {
                     if prompt.boundary.is_some() {
                         problems.push(format!("{at}: non-boundary prompt carries boundary code"));
                     }
-                    if !matches!(prompt.expected, Disposition::Missing)
-                        && prompt.parse_boundary.is_some()
-                    {
+                    // A prompt whose input does not parse cannot be
+                    // required to answer by any route — there is nothing to
+                    // run. This used to be spelled `expected == missing`,
+                    // which was the field doing a THIRD job: predicting the
+                    // outcome, requiring a route, and gating parse-boundary
+                    // handling. Only the middle one survives, so the test is
+                    // now the field that actually means it.
+                    if prompt.expected.is_some() && prompt.parse_boundary.is_some() {
                         problems.push(format!(
-                            "{at}: only a missing prompt may expect a parser boundary"
+                            "{at}: a prompt expecting a parser boundary cannot also \
+                             require a route — its script never runs"
                         ));
                     }
                 }
@@ -297,7 +335,11 @@ impl CuriosityCorpus {
                         "{at}: script line {} is a session command, not an operator",
                         index + 1
                     )),
-                    Err(error) if matches!(prompt.expected, Disposition::Missing) => {
+                    // The prompt declares an intentionally unsupported
+                    // input, so a parser failure here is the point rather
+                    // than a defect. Keyed on `parse_boundary` itself, not
+                    // on `expected`, which no longer carries that meaning.
+                    Err(error) if prompt.parse_boundary.is_some() => {
                         observed_parse_boundary = Some(error.kind);
                     }
                     Err(error) => problems.push(format!(
@@ -450,7 +492,7 @@ mod tests {
             age_band: AgeBand::Age9To12,
             action: ActionFamily::MixAndDissolve,
             material_class: "household-salt".to_string(),
-            expected: Disposition::Computed,
+            expected: Some(Disposition::Computed),
             owning_task: "CAP-10".to_string(),
             tags: vec!["aqueous".to_string(), "salt".to_string()],
             script: vec!["add v1 water 100mL".to_string()],
@@ -472,6 +514,57 @@ mod tests {
             },
             prompts,
         }
+    }
+
+    /// `expected` is a REQUIREMENT, and nothing requires a bench to refuse.
+    ///
+    /// The field used to double as a prediction, and `missing` was where the
+    /// two readings collided: as a prediction it said "we do not expect an
+    /// answer yet", which was often true; as a requirement it says the
+    /// engine must stay silent, which nothing does. 202 of 500 prompts
+    /// carried it, and 64 counted as mismatches against a requirement nobody
+    /// had made.
+    ///
+    /// Enforced here rather than written down, because a rule that lives
+    /// only in a doc comment is how the field acquired two meanings in the
+    /// first place.
+    #[test]
+    fn a_requirement_to_stay_silent_is_refused() {
+        let mut asks_for_silence = prompt("aq-001");
+        asks_for_silence.expected = Some(Disposition::Missing);
+        let problems = corpus(vec![asks_for_silence]).lint();
+        assert!(
+            problems.iter().any(|p| p.contains("cannot be one")),
+            "requiring silence must be refused: {problems:?}"
+        );
+
+        // Stating no requirement at all is legitimate, and after this change
+        // it is the common case: most prompts are questions worth asking
+        // without anyone having committed to a route.
+        let mut no_requirement = prompt("aq-002");
+        no_requirement.expected = None;
+        assert!(
+            corpus(vec![no_requirement])
+                .lint()
+                .iter()
+                .all(|p| !p.contains("cannot be one")),
+            "no requirement is not a broken requirement"
+        );
+    }
+
+    /// The inventory arithmetic has to close, or a row silently belongs to
+    /// no column.
+    #[test]
+    fn every_prompt_is_counted_once_with_or_without_a_requirement() {
+        let mut required = prompt("aq-003");
+        required.expected = Some(Disposition::Curated);
+        let mut unstated = prompt("aq-004");
+        unstated.expected = None;
+        let inventory = corpus(vec![required, unstated]).inventory();
+        let with: usize = inventory.by_expected.values().sum();
+        assert_eq!(with, 1);
+        assert_eq!(inventory.without_requirement, 1);
+        assert_eq!(with + inventory.without_requirement, inventory.prompts);
     }
 
     #[test]
@@ -499,7 +592,7 @@ mod tests {
     #[test]
     fn boundaries_are_data_not_fake_scripts() {
         let mut boundary = prompt("sound-wave");
-        boundary.expected = Disposition::Boundary;
+        boundary.expected = Some(Disposition::Boundary);
         boundary.script.clear();
         boundary.boundary = Some("off-mission-acoustics".to_string());
         assert!(corpus(vec![boundary.clone()]).lint().is_empty());

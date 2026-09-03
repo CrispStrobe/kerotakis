@@ -42,16 +42,19 @@ pub(crate) struct CuriosityReport {
 
 /// "Expectation mismatch" is three different things wearing one label.
 ///
-/// A prompt's `expected` is a PREDICTION of what the engine will do, and
-/// predictions age in both directions. Reporting 151 of them as one number
-/// hides that most are the engine having got BETTER, while a small tail is
-/// the engine not doing something the corpus says it does — and only the
-/// second is a backlog.
+/// A prompt's `expected` is a REQUIREMENT on the engine: what it must
+/// eventually answer, and by which route. Two populations can fail one, and
+/// they are not the same event, so they are never summed.
+///
+/// There used to be a third — `engine_gained`, for a corpus that said
+/// `missing` where the engine now answers. It is gone because its cause is
+/// gone: `expected` was doing double duty as a prediction, and `missing`
+/// only ever made sense in that reading. As a requirement it says the
+/// engine must stay silent, which nothing does. `lint` rejects it at load
+/// now, so this bucket cannot be reached; what the engine actually does is
+/// the baseline's job, and the baseline is drift-gated.
 #[derive(Debug, Default, Serialize)]
 struct ExpectationSplit {
-    /// Corpus said `missing`; the engine now answers. The expectation is
-    /// stale because the engine improved — nothing is wrong with the engine.
-    engine_gained: usize,
     /// Corpus claimed an answer; the engine stood aside. Named for what was
     /// OBSERVED, not for a cause: the reason is not established here, and
     /// early evidence says these are not one thing either. A script may
@@ -68,13 +71,17 @@ struct ExpectationSplit {
 }
 
 impl ExpectationSplit {
-    /// Record one mismatch. Which population it belongs to is decided by
-    /// where `Missing` sits, and nothing else: the engine gained if the
-    /// corpus expected nothing, a capability is absent if the corpus
-    /// expected something and got nothing, and otherwise both answered.
-    fn record(&mut self, expected: Disposition, observed: Disposition) {
-        match (expected, observed) {
-            (Disposition::Missing, _) => self.engine_gained += 1,
+    /// Record one unmet requirement. Which population it belongs to is
+    /// decided by where `Missing` sits: the engine stood aside if the
+    /// requirement got nothing, and otherwise both answered by different
+    /// roads.
+    fn record(&mut self, required: Disposition, observed: Disposition) {
+        debug_assert_ne!(
+            required,
+            Disposition::Missing,
+            "`expected` is a requirement and cannot require silence; lint rejects it at load"
+        );
+        match (required, observed) {
             (_, Disposition::Missing) => self.engine_stood_aside += 1,
             _ => self.route_differs += 1,
         }
@@ -85,7 +92,7 @@ impl ExpectationSplit {
 struct PromptResult {
     id: String,
     owning_task: String,
-    expected: Disposition,
+    expected: Option<Disposition>,
     observed: Disposition,
     reason_code: String,
     routes: Vec<SolverRoute>,
@@ -219,13 +226,9 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
             "  expectation mismatches: {}",
             report.expectation_mismatches
         );
-        // Split, because one number here cannot be acted on: most of it is
-        // the engine having outgrown the corpus, and only one column is a
-        // backlog.
-        println!(
-            "    engine gained (corpus said missing):   {}",
-            report.expectation_split.engine_gained
-        );
+        // Split, because the two are not the same event: one is a
+        // capability the corpus asserts and the engine does not have, the
+        // other is both answering by different roads.
         println!(
             "    engine stood aside (corpus claimed it): {}",
             report.expectation_split.engine_stood_aside
@@ -239,13 +242,13 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
         for result in report
             .prompts
             .iter()
-            .filter(|r| r.observed == Disposition::Missing && r.expected != Disposition::Missing)
+            .filter(|r| r.observed == Disposition::Missing && r.expected.is_some())
         {
             println!(
                 "      {} [{}] expected {}",
                 result.id,
                 result.owning_task,
-                disposition_name(result.expected)
+                result.expected.map(disposition_name).unwrap_or("nothing")
             );
         }
         println!("  solver/runtime failures: {}", report.failures.len());
@@ -308,9 +311,15 @@ pub(crate) fn run(
                     prompt.owning_task.clone(),
                     result.observed,
                 );
-                if result.expected != result.observed {
-                    expectation_mismatches += 1;
-                    expectation_split.record(result.expected, result.observed);
+                // A prompt that states no requirement cannot fail to meet
+                // one. Before `expected` became prescriptive, 202 prompts
+                // carried `missing` here and 64 of them counted as
+                // mismatches against a requirement nobody had made.
+                if let Some(required) = result.expected {
+                    if required != result.observed {
+                        expectation_mismatches += 1;
+                        expectation_split.record(required, result.observed);
+                    }
                 }
                 results.push(result);
             }
@@ -480,7 +489,7 @@ fn execute_prompt(
     prompt: &CuriosityPrompt,
     stack: &mut SolverStack,
 ) -> Result<PromptResult, PromptFailure> {
-    if prompt.expected == Disposition::Boundary {
+    if prompt.expected == Some(Disposition::Boundary) {
         return Ok(result(
             prompt,
             Disposition::Boundary,
@@ -682,42 +691,20 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn a_mismatch_is_sorted_by_where_missing_sits() {
+    fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
         let mut split = ExpectationSplit::default();
 
-        // The corpus expected nothing and got something: the engine grew.
-        // Nothing is wrong here, and it is the majority of the count.
-        split.record(Missing, Computed);
-        split.record(Missing, Qualitative);
-        split.record(Missing, Curated);
-
-        // The corpus claimed an answer and the engine stands aside. This is
-        // the only column with work in it.
+        // The corpus required an answer and the engine stands aside. This
+        // is the tail worth working.
         split.record(Computed, Missing);
         split.record(Curated, Missing);
 
         // Both answered, by different roads.
         split.record(Computed, Qualitative);
 
-        assert_eq!(split.engine_gained, 3);
         assert_eq!(split.engine_stood_aside, 2);
         assert_eq!(split.route_differs, 1);
-    }
-
-    #[test]
-    fn the_three_populations_have_opposite_meanings_and_must_not_be_summed_blind() {
-        use Disposition::*;
-        // The reason the split exists: these two are mirror images, and a
-        // single "2 mismatches" would report an engine that improved and an
-        // engine that lost a capability as the same event.
-        let mut gained = ExpectationSplit::default();
-        gained.record(Missing, Computed);
-        let mut lost = ExpectationSplit::default();
-        lost.record(Computed, Missing);
-
-        assert_eq!((gained.engine_gained, gained.engine_stood_aside), (1, 0));
-        assert_eq!((lost.engine_gained, lost.engine_stood_aside), (0, 1));
     }
 
     use super::*;
@@ -737,7 +724,10 @@ mod tests {
             .map(|observation| PromptResult {
                 id: observation.id.clone(),
                 owning_task: observation.owning_task.clone(),
-                expected: Disposition::Missing,
+                // These fixtures exercise baseline drift, which does not
+                // consult `expected` at all — the two records are
+                // independent, which is the whole point of the split.
+                expected: None,
                 observed: match observation.outcome {
                     BaselineOutcome::Computed => Disposition::Computed,
                     BaselineOutcome::Curated => Disposition::Curated,

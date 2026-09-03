@@ -303,3 +303,61 @@ What is gone is its live corpus example, which for a guard is the right
 state rather than a problem: the unit tests still cover both sides, and the
 next neutral solute without groups will meet a refusal that tells the truth
 instead of a confident negative.
+
+
+## `expected` is a requirement, not a prediction (2026-09-03, owner ruling)
+
+The field was doing two jobs with opposite fixes, and the previous section
+said so and deliberately left the choice open. The owner has now ruled:
+**`expected` is a REQUIREMENT** — what a prompt must eventually answer, and
+by which route. What the engine actually does is the baseline's job, and the
+baseline is the record that is drift-gated.
+
+The immediate consequence is that `expected = "missing"` is incoherent.
+Nothing requires a bench to stay silent. As a *prediction* it read "we do
+not expect an answer yet", which was often true; as a requirement it says
+the engine must refuse, which nobody wants. 196 of 500 prompts carried it,
+and 64 of those were counted as mismatches against a requirement no one had
+made.
+
+So `expected` becomes optional — absent means no requirement stated, which
+is the common and honest position for a question worth asking that nobody
+has committed to a route for — and `lint` **refuses** `missing` at load.
+Enforced in the schema rather than written down here, because a rule that
+lives only in a doc comment is how the field acquired two meanings in the
+first place.
+
+No row's behaviour changes and **baseline drift is 0**, which is the useful
+confirmation: `expected` never fed the baseline, so the two records really
+were independent. What changes is the printed count — mismatches 148 -> 86,
+now entirely the two populations that are real:
+
+| population | count | what it means |
+|---|---|---|
+| engine stood aside | 15 | a required answer the engine does not give. The tail worth working. |
+| route differs | 71 | both answer, by different roads. Whether the ROUTE is required is the open half. |
+
+The `engine_gained` bucket is gone with its cause.
+
+### Three findings from doing it, recorded because each cost a cycle
+
+**`expected` was doing a third job nobody had documented.** Two places in
+`lint` used `expected == missing` to mean "this prompt declares an
+intentionally unsupported input" — gating `parse_boundary` handling. That
+is what the `parse_boundary` field is for, and the checks now key on it.
+A prompt whose script cannot parse also cannot be required to answer by any
+route, and that is now its own stated rule.
+
+**The shards are not consistently formatted.** `materials-handling.toml`
+writes `expected="missing"` with no spaces; the other three write
+`expected = "missing"`. A first pass matching the spaced form silently
+missed 44 rows in that one shard. Any script written against these files by
+literal match will skip it. Not reformatted here — a whitespace change
+across 125 rows would bury 196 real deletions — but worth a separate pass.
+
+**Two counts disagreed and the disagreement was the finding.** A grep said
+152 and an earlier regex said 202. Chasing it rather than trusting the
+smaller number is what exposed the formatting split; and the residue
+reconciles exactly to the six rows #337 moved from `missing` to `computed`
+(aq-046, aq-102, aq-120, bio-104, th-067, th-068), which is a better check
+than either number alone.
