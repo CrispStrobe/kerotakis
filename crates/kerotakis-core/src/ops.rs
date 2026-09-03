@@ -589,6 +589,23 @@ pub enum Event {
         acid_species: SpeciesId,
         acid_moles: Moles,
     },
+    /// KID-13: a suspension dense enough to argue back.
+    ///
+    /// Nothing reacts and no mole moves: this reports how the mixture
+    /// *responds* to being pushed. Above a packing fraction the particles
+    /// cannot slide past one another fast enough, so the harder it is
+    /// stirred the more it resists — and it flows again the moment the
+    /// stirring stops.
+    Thickened {
+        vessel: VesselId,
+        solid: SpeciesId,
+        /// 0 at the onset mixture, 1 at the full one.
+        strength: f64,
+        solid_mass_fraction: f64,
+        tip_speed_m_s: f64,
+        /// Sheared hard enough to thicken, rather than merely stirred.
+        sheared_hard: bool,
+    },
     /// KID-14: the glue stopped being a liquid.
     ///
     /// Nothing is consumed and no matter is created: borate bridges between

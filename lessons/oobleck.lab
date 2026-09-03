@@ -1,0 +1,37 @@
+# Oobleck: a liquid you can run across
+#
+# Cornstarch and water is the one experiment on this shelf that is not
+# chemistry. Nothing reacts. What changes is how the mixture answers being
+# pushed: stir it slowly and it pours, stir it fast and the particles cannot
+# get out of each other's way in time, so it resists like a solid. Stop, and
+# it is a liquid again.
+register lv1
+
+# The classic mixture: about two parts cornstarch to one part water.
+add v1 water 50mL
+add v1 cornstarch 100g
+
+# Gently. It flows.
+stir v1 60rpm 5s
+
+# Now fast. The same mixture, the same instant, a different answer.
+stir v1 600rpm 5s
+
+# A thin mixture does neither, however hard it is stirred — the effect needs
+# the particles packed close enough to jam.
+new beaker
+add v2 water 200mL
+add v2 cornstarch 20g
+stir v2 600rpm 5s
+inspect v2
+
+# Read the ledger in v1: the starch and the water are exactly what went in.
+# Nothing was made and nothing was used up; only the answer to the question
+# "how hard are you pushing?" changed.
+inspect v1
+
+# What this does not model: there is no viscosity here, no yield stress and
+# no critical shear rate — only the bounded statement that this mixture is
+# one of the ones that does this, and that this stir was fast enough to
+# notice. Particle size, starch source and how long it has stood all matter
+# in a real bowl and none of them are represented.

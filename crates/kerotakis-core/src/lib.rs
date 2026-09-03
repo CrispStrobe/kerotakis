@@ -66,6 +66,7 @@ pub mod polymer;
 pub mod properties;
 pub mod relations;
 pub mod render;
+pub mod rheology;
 pub mod scene;
 pub mod script;
 pub mod selectivity;
