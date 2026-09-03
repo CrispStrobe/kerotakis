@@ -36,6 +36,23 @@ use kerotakis_phreeqc::derived::{self, DerivedRole};
 /// `None` means the solve does not touch it: no derived role at all
 /// (honestly unmappable, and left alone), or a mineral, which books back
 /// as the solid it already was.
+///
+/// **A known blind spot, and it is not small.** A mineral books back as
+/// itself only while it is saturated. A soluble one — `NaHCO3` — dissolves
+/// completely, and the readback then books its carbon as `HCO3-` and its
+/// sodium as `Na+`, so the vessel holds no `NaHCO3` at all. The curated
+/// `NaHCO₃ + CH₃COOH` reaction is unreachable in exactly that state, which
+/// is why the volcano still comes out backwards if the soda is dissolved
+/// before the vinegar arrives (see `acid_base.rs ::
+/// the_volcano_is_still_backwards_if_the_soda_dissolves_first`).
+///
+/// This check cannot see it, because whether a mineral survives is a
+/// question about saturation in a particular vessel and this walk is
+/// static. Catching it wants the reachability question asked at runtime —
+/// run each curated reaction's reagents through a solve and see whether the
+/// reaction can still fire — which is a different and better test than this
+/// one, and worth writing. Recorded here so that a green run of this file
+/// is not read as more than it is.
 fn keys_after_a_solve(key: &str) -> Option<Vec<String>> {
     match derived::role(key)? {
         DerivedRole::Solvent | DerivedRole::Mineral { .. } => None,
