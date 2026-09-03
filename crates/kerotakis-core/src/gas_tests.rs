@@ -2,7 +2,7 @@
 //! damp litmus — as observation verbs over a vessel's headspace.
 
 use crate::ops::Event;
-use crate::species::{Phase, SpeciesId};
+use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
 use crate::vessel::{Headspace, Vessel, VesselId};
 
@@ -14,6 +14,18 @@ pub enum GasTest {
     GlowingSplint,
     Limewater,
     DampLitmus,
+}
+
+impl GasTest {
+    /// The registry key this test looks for in the headspace.
+    pub fn target_species(self) -> &'static str {
+        match self {
+            GasTest::Pop => "H2",
+            GasTest::GlowingSplint => "O2",
+            GasTest::Limewater => "CO2",
+            GasTest::DampLitmus => "NH3",
+        }
+    }
 }
 
 impl std::fmt::Display for GasTest {
@@ -98,6 +110,65 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
             ),
         });
         return events;
+    }
+
+    // A dissolved gas the headspace has no path from must not be reported
+    // as absent.
+    //
+    // Damp litmus is the live case. `NH3` in this registry is *ammonia
+    // solution* — household ammonia, standard phase Liquid — and there is
+    // no gaseous ammonia species at all. So `add v1 NH3` puts 0.01 mol in
+    // the liquid, the headspace fraction stays 0.00%, and the test used to
+    // answer "litmus stays red — NH₃ mole fraction 0.00% is below the
+    // detection floor". That is a confident negative about a gas this
+    // bench never had a way to put in the headspace, and it teaches the
+    // opposite of the chemistry: damp red litmus *does* identify ammonia,
+    // and holding it over the bottle is the school demonstration.
+    //
+    // Be precise about the cause, because the obvious phrasing is wrong.
+    // It is NOT that volatility is unmodelled: `senses::waft` walks
+    // `vessel.contents` directly and treats a dissolved odorous species as
+    // reaching the nose, so `smell v1` on this same vessel reports "sharp,
+    // pungent ammonia" — the bench asserting it does leave the liquid.
+    // What is missing is narrower and more specific: the gas tests read the
+    // vessel's *headspace inventory*, and nothing transfers dissolved NH₃
+    // into that inventory (only CO₂ has an approved gas/liquid exchange).
+    // Two paths, one physical fact, opposite answers — and only one of them
+    // can see it. `smell_and_gas_test_disagree_about_dissolved_ammonia`
+    // pins that divergence so a fix closes both sides rather than one.
+    //
+    // Narrow on purpose, so it refuses only where the headspace is blind.
+    // All three must hold: the registry does not carry the target as a gas,
+    // none is in the headspace, and some IS present dissolved. A vessel
+    // with no ammonia at all still reads negative, because that is a true
+    // statement about the world rather than a gap in the model.
+    //
+    // Keyed on the registry's own `standard_phase` rather than a list kept
+    // here, so a gaseous ammonia added later opens this path by existing
+    // rather than by someone remembering to edit two places.
+    let target = test.target_species();
+    let carried_as_gas = species::lookup_key(target)
+        .map(|data| data.standard_phase == Phase::Gas)
+        .unwrap_or(false);
+    if !carried_as_gas && gas_moles_of(vessel, target) <= 0.0 {
+        let dissolved: f64 = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == SpeciesId::new(target) && p.phase != Phase::Gas)
+            .map(|p| p.moles.0)
+            .sum();
+        if dissolved > 0.0 {
+            events.push(Event::NotYetModeled {
+                vessel: vessel_id,
+                what: format!(
+                    "the {test} reads the headspace, and this bench has no path from \
+                     dissolved {target} into it — {dissolved:.4} mol is present in the \
+                     liquid, and `smell` reports it from there, but the headspace the \
+                     test reads stays empty"
+                ),
+            });
+            return events;
+        }
     }
 
     match test {

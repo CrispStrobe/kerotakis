@@ -209,8 +209,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-035"
 owning_task = "EXP-25"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-036"
@@ -221,14 +221,14 @@ reason_code = "not-yet-modeled"
 [[observation]]
 id = "aq-037"
 owning_task = "EXP-25"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-038"
 owning_task = "EXP-25"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-039"

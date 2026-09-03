@@ -420,7 +420,7 @@ material_class = "limewater"
 expected = "curated"
 owning_task = "EXP-25"
 tags = ["gas-test"]
-script = ["add v1 CO2 0.01mol", "test v1 limewater"]
+script = ["seal v1 500mL", "add v1 CO2 0.01mol", "test v1 limewater"]
 smoke = true
 
 [[prompt]]
@@ -432,7 +432,7 @@ material_class = "ammonia-gas"
 expected = "curated"
 owning_task = "EXP-25"
 tags = ["gas-test"]
-script = ["add v1 NH3 0.01mol", "test v1 litmus"]
+script = ["seal v1 500mL", "add v1 NH3 0.01mol", "test v1 litmus"]
 smoke = false
 
 [[prompt]]
@@ -444,7 +444,7 @@ material_class = "hydrogen-gas"
 expected = "curated"
 owning_task = "EXP-25"
 tags = ["gas-test"]
-script = ["add v1 H2 0.01mol", "test v1 pop"]
+script = ["seal v1 500mL", "add v1 H2 0.01mol", "test v1 pop"]
 smoke = false
 
 [[prompt]]
@@ -456,7 +456,7 @@ material_class = "oxygen-gas"
 expected = "curated"
 owning_task = "EXP-25"
 tags = ["gas-test"]
-script = ["add v1 O2 0.01mol", "test v1 splint"]
+script = ["seal v1 500mL", "add v1 O2 0.01mol", "test v1 splint"]
 smoke = false
 
 [[prompt]]

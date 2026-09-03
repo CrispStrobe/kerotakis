@@ -30,6 +30,8 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-02 again (three rows, EXP-25's gas tests) — see below.
+
 Refreshed 2026-09-02 (four rows), and wired into CI in the same change.
 
 The gate had never run anywhere — not in `ci.yml`, not in `preflight.sh` —
@@ -201,3 +203,53 @@ changed is that the solver now answers consistently instead of dying.
 
 Each owner may remove its failure from the baseline only after the full prompt
 executes without `SolverFailed` on both native CI platforms.
+
+
+## Refresh 2026-09-02, second: EXP-25's gas tests were never collected
+
+`aq-035`, `aq-037`, `aq-038`: `missing`/`not-yet-modeled` ->
+`qualitative`/`typed-observation`. **No engine capability was added.** The
+four classic gas tests — limewater, damp litmus, squeaky pop, glowing
+splint — have been implemented in `kerotakis-core::gas_tests` since EXP-31,
+with sourced thresholds (H2 LEL 4% NFPA, O2 relight 25% CLEAPSS). The
+scripts never reached them:
+
+```toml
+script = ["add v1 CO2 0.01mol", "test v1 limewater"]
+```
+
+A fresh vessel is open, so the gas left as it formed and the test refused,
+correctly, with "collect over a sealed vessel first". The corpus was asking
+the engine to test gas it had already let escape. Adding `seal v1 500mL` —
+the step a real bench requires, and one other prompts in this file already
+use — makes all three answer positive.
+
+So this refresh records a **corpus fix, not an engine change**, and it is
+the reason these three sat in the "capability absent" column while the
+capability was complete. That column has been renamed `engine_stood_aside`
+(#327) precisely because it named a cause it had not established; these
+three are the worked example.
+
+`aq-036` (damp litmus / ammonia) is NOT refreshed and stays
+`missing`/`not-yet-modeled`. Its script gained the same `seal`, but the
+reason it stands aside changed from "the vessel is open" to the true one:
+`NH3` in this registry is *ammonia solution* (standard phase Liquid, formula
+NH3(aq)) and there is no gaseous ammonia species, so the headspace the test
+reads is always empty. It previously answered "litmus stays red — NH3 mole
+fraction 0.00% is below the detection floor", a confident negative about a
+gas the bench never had a way to put in the headspace, and one that teaches
+the opposite of the chemistry.
+
+Note what that refusal must NOT say, because the obvious phrasing is false:
+it is not that volatility is unmodelled. `senses::waft` walks the vessel
+contents directly, so `smell v1` on the same vessel reports "sharp, pungent
+ammonia". Two paths, one physical fact, opposite answers — the gas tests
+read the headspace inventory and nothing transfers dissolved NH3 into it.
+`gas_tests.rs::smell_and_gas_test_disagree_about_dissolved_ammonia` pins
+that divergence, and is written to FAIL once a path from solution to
+headspace exists, so the pin cannot outlive the gap it records.
+
+`aq-036`'s `expected = "curated"` is deliberately left alone. Whether
+`expected` is a prediction *of* the engine or a requirement *on* it is the
+open design question #327 names, and settling it by editing one row would
+be the threshold-move that question exists to prevent.
