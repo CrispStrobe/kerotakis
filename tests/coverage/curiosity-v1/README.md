@@ -479,12 +479,27 @@ Both rows name a curated reaction:
     NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
     CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑
 
-Reviewed, carrying provenance, and until now unable to fire in a beaker with
-water in it. The aqueous readback booked the whole Acetate element total as
-`CH3COO-`, so pouring vinegar into water handed back acetate ion, and the
-acid named in the reactant list was no longer in the vessel by the time the
-second reagent arrived. They could only ever have fired in a dry vessel,
-which is not how anybody has ever done either experiment.
+Reviewed, carrying provenance, and until now reachable only if you built the
+experiment backwards. The aqueous readback booked the whole Acetate element
+total as `CH3COO-`, so once vinegar had been through a solve the acid named
+in the reactant list was no longer in the vessel.
+
+**It was order dependence, not absence, and that is worse.** `curated` runs
+before the aqueous tail, so on the step where the vinegar is ADDED the
+ledger still holds CH3COOH and the match succeeds — put the soda in first
+and it works. Put the vinegar in first, which is the order most people and
+most lesson scripts use, and the carbonate equilibria answer instead. A bug
+that only bites in the common order, and whose workaround ("add the solid
+first") someone would eventually find by accident and never understand.
+
+And the two routes did not agree about the SIGN of the temperature change.
+Vinegar and baking soda is one of the few kitchen reactions a child can
+feel, and what it does is get cold. The aqueous route had it warming by six
+and a half degrees, because it books the heat of H⁺ + OH⁻ → H₂O for whatever
+consumed the acid and nothing for the endothermic half — the bicarbonate
+breaking up and the gas leaving. With the split in, both orders reach the
+curated route and both cool: 25.0 °C → 23.6 °C either way. (Found by
+kerotakis-5f while checking the KIDS audit against this change.)
 
 **This file said so, and nobody could read it.** The classifier checks
 `succeeded(Curated)` first, so `computed-route` on a row whose entire
