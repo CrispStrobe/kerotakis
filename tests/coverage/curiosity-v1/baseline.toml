@@ -185,8 +185,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-031"
 owning_task = "CAP-23"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-032"
