@@ -1496,6 +1496,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
+            // An empty chromatogram is a result, not a blank line: the run
+            // happened and the detector saw nothing. Saying which species went
+            // past unseparated is the whole of the method's scope, and without
+            // this the sentence would read "comes out one thing at a time: ".
+            1 if peaks.is_empty() => locale.fill(
+                "event.chromatographed.lv1-nothing-separated",
+                "Everything dissolved in {vessel} runs straight through the column with the water — this method separates none of it ({outside_method}).",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("outside_method", &outside_method.iter().map(|s| species::lookup(s).map(|d| d.name).unwrap_or(s.0.as_str())).collect::<Vec<_>>().join(", ").to_string()),
+                ],
+            ),
             1 => {
                 // KID-9: the same separation as a child sees it — spots at
                 // different heights up a strip of paper. The distances are
@@ -1550,11 +1562,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("outside_method", &outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ").to_string())],
                     )
                 };
-                locale.fill(
-                    "event.chromatographed.lv1-chromatogram",
-                    "{vessel}: chromatogram — {table}{unseen}",
-                    &[("vessel", &vessel.to_string()), ("table", &table.to_string()), ("unseen", &unseen.to_string())],
-                )
+                if peaks.is_empty() {
+                    locale.fill(
+                        "event.chromatographed.lv2-no-peaks",
+                        "{vessel}: chromatogram — no peaks{unseen}",
+                        &[("vessel", &vessel.to_string()), ("unseen", &unseen.to_string())],
+                    )
+                } else {
+                    locale.fill(
+                        "event.chromatographed.lv1-chromatogram",
+                        "{vessel}: chromatogram — {table}{unseen}",
+                        &[("vessel", &vessel.to_string()), ("table", &table.to_string()), ("unseen", &unseen.to_string())],
+                    )
+                }
             }
             _ => {
                 let table = peaks

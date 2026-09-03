@@ -521,8 +521,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "aq-087"
 owning_task = "EXP-18"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-088"

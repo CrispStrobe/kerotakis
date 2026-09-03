@@ -2261,6 +2261,12 @@ impl Bench {
                             > = std::collections::BTreeMap::new();
                             let mut outside: std::collections::BTreeSet<SpeciesId> =
                                 std::collections::BTreeSet::new();
+                            // Kept apart from `outside`, because "this method
+                            // cannot separate ions" and "this model has no groups
+                            // for that dye" are different sentences and only one
+                            // of them is a result.
+                            let mut unparameterised: std::collections::BTreeSet<SpeciesId> =
+                                std::collections::BTreeSet::new();
                             for p in v.contents.iter() {
                                 let dissolved = p.phase == Phase::Aqueous
                                     || (p.phase == Phase::Liquid && p.species != water);
@@ -2281,18 +2287,75 @@ impl Bench {
                                 {
                                     *injectable.entry(p.species.clone()).or_insert(0.0) +=
                                         p.moles.0;
-                                } else {
+                                } else if is_ionic(&p.species) {
+                                    // Genuinely outside the METHOD: a partition
+                                    // column separates by how a neutral solute
+                                    // divides between two phases, and an ion does
+                                    // not do that — it wants ion exchange, which
+                                    // this column is not.
                                     outside.insert(p.species.clone());
+                                } else {
+                                    // Outside this MODEL, not outside the method:
+                                    // a neutral solute with no curated UNIFAC
+                                    // decomposition is one the column would
+                                    // separate on a real bench. Saying "not
+                                    // separated" would be a confident negative
+                                    // about a gap — the two food dyes in bio-104
+                                    // are the case, and paper chromatography
+                                    // separating them is the classic demonstration.
+                                    unparameterised.insert(p.species.clone());
                                 }
                             }
-                            if injectable.is_empty() {
+                            if injectable.is_empty() && !unparameterised.is_empty() {
+                                // A solute this model cannot decompose is a GAP,
+                                // and must stay one. The column would separate it
+                                // on a real bench; reporting "not separated" would
+                                // dress a missing parameter set as a result.
+                                let names: Vec<&str> = unparameterised
+                                    .iter()
+                                    .map(|s| s.0.as_str())
+                                    .collect();
                                 events.push(Event::NotYetModeled {
                                     vessel: *vessel,
-                                    what: "nothing dissolved here has a curated UNIFAC \
-                                           decomposition, so the column's method is \
-                                           silent — ions want ion exchange, which is \
-                                           not modeled"
+                                    what: format!(
+                                        "the column has no curated group decomposition for \
+                                         {} — a real column would separate these, so this \
+                                         is a gap in the model rather than a result",
+                                        names.join(", ")
+                                    ),
+                                });
+                            } else if injectable.is_empty() && outside.is_empty() {
+                                // Nothing dissolved at all: there is no sample,
+                                // which is a different thing from a sample the
+                                // method cannot see.
+                                events.push(Event::NotYetModeled {
+                                    vessel: *vessel,
+                                    what: "chromatography needs something dissolved to \
+                                           inject — this vessel holds only its mobile \
+                                           phase"
                                         .to_string(),
+                                });
+                            } else if injectable.is_empty() {
+                                // A sample the method cannot see is an ANSWER, not a
+                                // gap, and the answer was already computed: `outside`
+                                // holds exactly the species this column cannot
+                                // separate. It used to be discarded and replaced with
+                                // "the column's method is silent", which reports the
+                                // engine's silence rather than the column's result —
+                                // and the question a learner asked ("will dissolved
+                                // salt appear in this neutral-solute method?") has a
+                                // real answer: no, and here is what passed through
+                                // unseparated.
+                                //
+                                // An empty chromatogram is a chromatogram. The run
+                                // happened, the detector saw nothing, and naming what
+                                // went past it is the whole of the method's scope.
+                                events.push(Event::Chromatographed {
+                                    vessel: *vessel,
+                                    plates: column.plates,
+                                    void_time_s: column.void_time_s,
+                                    peaks: Vec::new(),
+                                    outside_method: outside.into_iter().collect(),
                                 });
                             } else {
                                 let mut peaks: Vec<ElutedPeak> = injectable
@@ -3529,6 +3592,20 @@ fn trap_boundary_gas(
 /// curated layer solvents. A solute earns partitioning by entering this
 /// table; everything else travels entirely with the water it is
 /// dissolved in, which is exactly right for ions.
+/// Whether a dissolved species carries a charge.
+///
+/// The line between "outside the method" and "outside the model" for a
+/// partition column: a column separates by how a NEUTRAL solute divides
+/// between two phases, so an ion is genuinely outside the method however
+/// good the parameters get — it wants ion exchange. A neutral solute with
+/// no curated decomposition is merely unparameterised, and a real column
+/// would separate it.
+fn is_ionic(species: &SpeciesId) -> bool {
+    crate::stoich::parse_formula(&species.0)
+        .map(|f| f.charge != 0.0)
+        .unwrap_or(false)
+}
+
 fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     match species.0.as_str() {
