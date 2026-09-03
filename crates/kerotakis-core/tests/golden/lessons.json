@@ -588,6 +588,79 @@
       }
     ]
   },
+  "dancing-raisins": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: +5.000 g raisin (0 known ingredients)",
+      "v1: +11.0686 mol water",
+      "v1: The liquid is colourless and clear, a piece of dark brown raisin (dried grape) is in the beaker.",
+      "v2: new vessel",
+      "v2: +5.000 g raisin (0 known ingredients)",
+      "v2: +200.000 g sparkling_water (2 known ingredients)",
+      "v2: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is in the beaker.",
+      "v3: new vessel",
+      "v3: +5.000 g raisin (0 known ingredients)",
+      "v3: +6.6411 mol water",
+      "v3: +0.5843 mol sucrose",
+      "v3: 0.5843 mol sucrose dissolved",
+      "v3: +100.000 g sparkling_water (2 known ingredients)",
+      "v3: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is in the beaker."
+    ],
+    "lesson": "dancing-raisins.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02726715,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 11.0352484,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01363357,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.58428877,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 12.15875659,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "electrode": {
     "event_count": 14,
     "events_sample": [

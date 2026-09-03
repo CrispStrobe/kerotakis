@@ -18,6 +18,7 @@ pub mod apparatus;
 pub mod appearance;
 pub mod authority;
 pub mod bench;
+pub mod buoyancy;
 pub mod butler_volmer;
 pub mod cabinet;
 pub mod cache_key;

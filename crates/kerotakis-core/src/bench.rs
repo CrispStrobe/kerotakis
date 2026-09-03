@@ -576,6 +576,30 @@ impl Bench {
             }
         }
 
+        // KID-13: gas leaving the liquid is what the dancing raisin rides.
+        // The trigger is the gas, not the clock — this bench degasses a
+        // glass in one step, so the moment to say it is the moment the
+        // bubbles appear, which is when the fizzy water meets the raisin.
+        for id in touched.iter().copied() {
+            let evolving = events.iter().any(|event| {
+                matches!(event, Event::GasEvolved { vessel, moles, .. }
+                    if *vessel == id && moles.0 >= crate::OBSERVABLE_MOLES)
+            });
+            if !evolving {
+                continue;
+            }
+            let Some(ride) = self.vessel(id).ok().and_then(crate::buoyancy::observe) else {
+                continue;
+            };
+            events.push(Event::BubbleRide {
+                vessel: id,
+                object: ride.material,
+                object_density_g_per_ml: ride.object_density_g_per_ml,
+                liquid_density_g_per_ml: ride.liquid_density_g_per_ml,
+                lift_gas_fraction: ride.lift_gas_fraction,
+            });
+        }
+
         for id in touched.iter().copied() {
             let before = gel_before
                 .iter()

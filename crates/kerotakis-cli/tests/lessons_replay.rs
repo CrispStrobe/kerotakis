@@ -603,3 +603,60 @@ fn a_candle_under_a_jar_goes_out_with_oxygen_to_spare() {
         "paper burns as cellulose:\n{out}"
     );
 }
+
+/// KID-13: the dancing raisin, and the number the experiment is about.
+///
+/// K11 was the last unreachable row in the children's first thirty —
+/// there was no raisin and no model for a bubble that lifts something.
+/// Nothing reacts here: what the bench computes is how much attached gas
+/// it would take to lift this object out of this liquid, and that the
+/// answer depends on the liquid.
+#[test]
+fn a_raisin_needs_a_third_of_its_own_volume_in_bubbles() {
+    let lesson = lessons_dir().join("dancing-raisins.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // The control says nothing about riding, because no gas is leaving.
+    let control_end = out
+        .find("v2:")
+        .unwrap_or_else(|| panic!("the lesson has three vessels:\n{out}"));
+    assert!(
+        !out[..control_end].contains("would lift it"),
+        "still water offers nothing to ride:\n{out}"
+    );
+
+    // Plain fizzy water: a raisin at 1.35 in a liquid at 1.00.
+    assert!(
+        out.contains("sinks at 1.35 g/mL in a liquid at 1.00 g/mL"),
+        "the densities are the whole mechanism:\n{out}"
+    );
+    assert!(
+        out.contains("bubbles worth 35% of its own volume"),
+        "a raisin needs about a third of itself in gas:\n{out}"
+    );
+
+    // Sugar syrup is heavier, so the same raisin needs far less lift —
+    // the contrast is what makes the number mean something.
+    let syrup = out
+        .lines()
+        .filter(|line| line.starts_with("  v3:") && line.contains("would lift it"))
+        .collect::<Vec<_>>();
+    assert_eq!(syrup.len(), 1, "one reading for the syrup:\n{out}");
+    let percent: u32 = syrup[0]
+        .split("worth ")
+        .nth(1)
+        .and_then(|rest| rest.split('%').next())
+        .and_then(|number| number.parse().ok())
+        .unwrap_or_else(|| panic!("a percentage: {}", syrup[0]));
+    assert!(
+        (5..20).contains(&percent),
+        "a syrup should need far less than a third: {percent}%"
+    );
+
+    // And the raisin is still a raisin: nothing dissolved it.
+    assert!(
+        out.contains("dark brown raisin"),
+        "the object must survive the experiment:\n{out}"
+    );
+}

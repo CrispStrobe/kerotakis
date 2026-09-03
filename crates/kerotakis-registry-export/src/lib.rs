@@ -215,7 +215,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -1614,6 +1614,65 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt".to_string(),
                 "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion, the oxygen the vessel actually holds, and carbon dioxide and water out. A wick, a melt pool, a luminous flame and soot are none of them modelled, so this is what a wax releases rather than what a candle looks like".to_string(),
                 "the bare words wax and Wachs remain unclaimed as material names because beeswax, soy wax and paraffin wax are different materials. The species paraffin is installed and can be added directly; asking for it by name gets the pure alkane and not this blend".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // KID-13: the object the dancing-raisin experiment is about. It is
+        // deliberately NOT resolved into its sugars, and the reason is not
+        // that they are missing — sucrose, glucose and fructose are all
+        // installed. A raisin is an OBJECT: its sugar is inside it and does
+        // not join the water on the timescale of the demonstration, and a
+        // recipe that dissolved it would delete the very thing the learner
+        // is watching. If slow leaching is ever modelled, this is the
+        // recipe to revisit, and this comment is where to start.
+        MaterialRecipe {
+            id: "household/raisin".to_string(),
+            version: 1,
+            canonical_key: "raisin".to_string(),
+            // The key and the display name may not normalise to the same
+            // string — the validator holds both in one namespace — so a
+            // one-word material is named the way the registry names its
+            // other disambiguated entries.
+            name: "raisin (dried grape)".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Rosine".to_string(), "Rosinen".to_string()],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["raisins".to_string(), "dried grape".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.35)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("wrinkled dried grape".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![MaterialRole::ConservedUnresolvedSolid {
+                srgb: [90, 58, 46],
+                colour_word: "dark brown".to_string(),
+            }],
+            preparation: Some(
+                "a seedless dried grape, conserved whole as the object it is"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "the sugars a raisin is mostly made of are installed species and are deliberately not resolved: a raisin is an object whose sugar stays inside it over a demonstration, and dissolving it into the water would delete the thing being watched".to_string(),
+                "1.35 g/mL is a bulk density for the whole fruit, which is what decides whether it sinks; it is not a claim about the skin, the flesh or the air the wrinkles trap, and a raisin that has soaked for an hour is lighter than one straight from the box".to_string(),
+                "the wrinkled surface is what real bubbles nucleate on, and no surface texture, nucleation-site count or bubble size is represented anywhere in this recipe".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

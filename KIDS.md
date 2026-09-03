@@ -62,7 +62,7 @@ silent miss teaches the silence.
 | K08 | Oil and water | two layers | computed | layer forms; the dye stays in the aqueous phase |
 | K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
-| K11 | Dancing raisins | raisins rising and falling | unreachable | no raisin, and no model for a bubble attaching to an object and lifting it |
+| K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
 | K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
@@ -87,14 +87,16 @@ silent miss teaches the silence.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
 miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 10, 14,
-15, 20, 21 and 12: **computed 23 · partial 6 · unreachable 1**. There is no
-silent miss left in the first thirty.
+15, 20, 21, 12 and 13: **computed 24 · partial 6**. Neither a silent miss
+nor an unreachable row is left in the first thirty.
 
 **The thirty scripts, exactly as a newcomer first wrote them, now run
 30/30** — against 17/30 when the audit was taken. Not one row is still
 marked *wrong*, and the last script that could not run at all was K21's
-slime. What remains is one unreachable (K11's raisins, which need buoyancy)
-and six partials; K04's candle, the last silent miss, burns as of KID-12. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
+slime. What remains is six partials and nothing else: K04's candle, the
+last silent miss, burns as of KID-12, and K11's raisins, the last row that
+could not be reached at all, ride their bubbles as of KID-13. The second
+thirty gains K48 with KID-9's fix, K50 with KID-20's,
 and K23's receiver with KID-15's.
 
 The engine is in far better shape than the corpus's first pass suggested.
@@ -167,7 +169,7 @@ the project's own coverage report.
 | ~~Temperature-dependent solubility of molecular solutes, and nucleation~~ | K20 — **landed as KID-7**, 2026-09-03; electrolyte supersaturation (K51) stays open as KID-7b |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
-| ~~Suspension rheology~~; buoyancy on attached bubbles; miscible stratification | K22 — **landed as KID-13**, 2026-09-03; K11 and K10 still open |
+| ~~Suspension rheology~~; ~~buoyancy on attached bubbles~~; miscible stratification | K22 and K11 — **landed as KID-13**, 2026-09-03; K10/K57's slow-pour stratification is the half still open |
 | ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
 | ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 — still the only missing half of the invisible-ink row: KID-12 made the paper burn, and the brown stage before it is the part with no model |
@@ -597,8 +599,53 @@ and `main` moves only by PR.
   The claim is only that this mixture is one of the ones that does this and
   that this stir was fast enough to notice; particle size, starch source and
   standing time all matter in a real bowl and none are represented.
-  **Still open in KID-13:** buoyancy on attached bubbles (K11's raisins) and
-  miscible stratification (K10, K57).
+  **The raisins landed 2026-09-03 too**, and with them the last
+  *unreachable* row in the children's first thirty. K11 needed two things
+  that did not exist: a raisin, and a model for a bubble that attaches to
+  an object and lifts it.
+
+  Nothing reacts in this experiment — the raisin is the same raisin
+  afterwards — so what the bench computes is the one number the
+  demonstration is about. A raisin sinks because it is denser than water,
+  1.35 g/mL against 1.00, and the bubbles clinging to it lift it only when
+  they add enough volume to bring the pair below the liquid's density:
+  `V_gas/V > (ρ_object − ρ_liquid)/ρ_liquid`. That is **35%** in water — a
+  third of the raisin's own size in gas before anything happens, which is
+  why you can watch the bubbles gather for a while first — and **11%** in
+  sugar syrup, where the liquid does most of the lifting. `lessons/dancing-raisins.lab`
+  runs both, plus the still-water control that says nothing, because there
+  is nothing to ride.
+
+  The trigger is the gas, not a clock: this bench lets a glass of fizzy
+  water go flat in one step, so the moment to say it is the moment the
+  bubbles appear — which is when the fizzy water meets the raisin, and is
+  also the order you would do it in a kitchen.
+
+  **A bug the work found.** `Vessel::liquid_volume` excludes solute volume
+  by design: a solution's volume is carried by its solvent. Reading a
+  density straight off that gave 200 g of sugar in 100 mL of water a
+  density of **2.33 g/mL** — denser than anything that has ever been
+  poured, because all of the sugar's mass and none of its volume was
+  counted. The solute's own density puts the volume back, and the syrup
+  reads 1.27, which is what a hydrometer would say. The registry has a
+  density for all 141 species, so nothing is guessed.
+
+  The raisin also brings back a contract KID-12 had left with no user:
+  it is the only recipe in the registry now carrying
+  `ConservedUnresolvedSolid`, and its sugars are deliberately NOT resolved
+  even though sucrose, glucose and fructose are all installed — a raisin
+  is an object whose sugar stays inside it over a demonstration, and a
+  recipe that dissolved it would delete the thing being watched.
+
+  **Stated boundaries:** no period, no bubble count, no bubble size, no
+  nucleation-site density, no rise velocity, no number of trips. Membership
+  in the rider table is curated rather than derived from density, because a
+  stone is also denser than water and gas does not lift it — the effect
+  needs a surface bubbles stick to, and no recipe here describes surface
+  texture.
+
+  **Still open in KID-13:** miscible stratification (K10, K57) — a slow
+  pour that would not mix.
 - **KID-14 — The children's materials pack.** PVA and borate, egg, raisin,
   lemon juice, gelatin, effervescent tablet, glycerol, tarnished copper.
   **Slime landed 2026-09-03**, and with it the last of the thirty scripts
@@ -703,7 +750,7 @@ or a rate in them.
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
 | K56 | Bubble mixture that lasts | partial | no foam without the peroxide path (KID-11) |
-| K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled |
+| K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 did give the bench the density of a sugar solution — solute volume included, which it was not before — so the *number* a tower would be built on is now right even though the layering is not modelled |
 | K58 | Instant snow from a powder | unreachable | no superabsorbent polymer |
 | K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |
 | K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |

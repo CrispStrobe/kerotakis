@@ -1,0 +1,41 @@
+# Dancing raisins: how much gas does it take to lift one?
+#
+# A raisin is heavier than water, so it sinks. Bubbles stick to its
+# wrinkled skin, and when enough of them have gathered the raisin and its
+# bubbles TOGETHER are lighter than the water — up it goes. At the top the
+# bubbles pop and it comes back down. Nothing reacts in this experiment:
+# the raisin is the same raisin all the way through. What changes is only
+# where it is.
+register lv2
+
+# 1. The control. A raisin in plain water, with no gas anywhere. It sinks,
+#    and it stays there, and the bench says nothing about dancing because
+#    there is nothing to dance on.
+add v1 raisin 5g
+add v1 water 200mL
+look v1
+
+# 2. The experiment. Put the raisin in first and pour the fizzy water over
+#    it — which is also how you do it in a kitchen. Read the number: the
+#    bubbles have to be worth about a third of the raisin's own size.
+new beaker
+add v2 raisin 5g
+add v2 sparkling_water 200mL
+look v2
+
+# 3. Now make the liquid heavier. Sugar syrup is denser than water, so the
+#    raisin is much closer to floating already — and the gas has far less
+#    work to do. Same raisin, same bubbles, a third of the lift needed.
+new beaker
+add v3 raisin 5g
+add v3 water 120mL
+add v3 sucrose 200g
+add v3 sparkling_water 100mL
+look v3
+
+# What this does not model: how long the dancing lasts, how many trips the
+# raisin makes, how big the bubbles are or how many stick. This bench lets
+# a glass of fizzy water go flat in a single step, so there is no clock to
+# put a period on. What it computes is the density of the object, the
+# density of the liquid it is in, and how much attached gas would lift it —
+# and that last number is what the experiment is actually about.

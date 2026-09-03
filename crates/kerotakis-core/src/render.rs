@@ -2194,6 +2194,46 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::BubbleRide {
+            vessel,
+            object,
+            object_density_g_per_ml,
+            liquid_density_g_per_ml,
+            lift_gas_fraction,
+        } => {
+            let percent = locale.number(format!("{:.0}", lift_gas_fraction * 100.0));
+            // A rider that needs no gas is not dancing, it is floating,
+            // and saying "it rises when the bubbles gather" about
+            // something already at the top would be a false observation.
+            let floats = *lift_gas_fraction <= 0.0;
+            match (register.level(), floats) {
+                (1, true) => locale.fill(
+                    "event.bubble-ride.lv1-floats",
+                    "The {object} in {vessel} does not sink at all — this liquid is heavier than it is, so it simply floats, bubbles or no bubbles.",
+                    &[("vessel", &vessel.to_string()), ("object", object)],
+                ),
+                (1, false) => locale.fill(
+                    "event.bubble-ride.lv1",
+                    "Bubbles gather on the {object} in {vessel}. It is heavier than the liquid, so it sits at the bottom — until the bubbles clinging to it are worth about {percent} of its own size, and up it goes. At the top they pop, and down it comes again.",
+                    &[("vessel", &vessel.to_string()), ("object", object), ("percent", &format!("{percent}%"))],
+                ),
+                (2, true) => locale.fill(
+                    "event.bubble-ride.lv2-floats",
+                    "{vessel}: the {object} floats unaided — {density} g/mL against a liquid at {liquid} g/mL",
+                    &[("vessel", &vessel.to_string()), ("object", object), ("density", &locale.number(format!("{object_density_g_per_ml:.2}"))), ("liquid", &locale.number(format!("{liquid_density_g_per_ml:.2}")))],
+                ),
+                (2, false) => locale.fill(
+                    "event.bubble-ride.lv2",
+                    "{vessel}: the {object} sinks at {density} g/mL in a liquid at {liquid} g/mL, and attached bubbles worth {percent}% of its own volume would lift it",
+                    &[("vessel", &vessel.to_string()), ("object", object), ("density", &locale.number(format!("{object_density_g_per_ml:.2}"))), ("liquid", &locale.number(format!("{liquid_density_g_per_ml:.2}"))), ("percent", &percent)],
+                ),
+                _ => locale.fill(
+                    "event.bubble-ride.lv3",
+                    "{vessel}: bubble-riding — object {density} g/mL, liquid {liquid} g/mL, lift at attached gas fraction {fraction}; no period, bubble size or nucleation-site count is modelled",
+                    &[("vessel", &vessel.to_string()), ("density", &locale.number(format!("{object_density_g_per_ml:.3}"))), ("liquid", &locale.number(format!("{liquid_density_g_per_ml:.3}"))), ("fraction", &locale.number(format!("{lift_gas_fraction:.3}")))],
+                ),
+            }
+        }
         Event::ThermalEquilibrium {
             vessel,
             temperature,
