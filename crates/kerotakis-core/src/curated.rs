@@ -33,6 +33,19 @@ pub struct CuratedReaction {
     /// When set, this species must be present for the reaction to fire,
     /// but is NOT consumed (enzyme/catalyst).
     pub catalyst: Option<&'static str>,
+    /// Protons drawn from the vessel's unspent acidity per unit extent.
+    ///
+    /// A reaction whose acid does not survive a solve cannot name it in
+    /// `reactants`: a strong acid is booked as its anion plus a charge
+    /// imbalance, and there is no `HCl` portion left to match on. Writing
+    /// the sibling on the anion alone would be worse than the gap — bleach
+    /// and TABLE SALT would evolve chlorine — so the acidity is named
+    /// separately, and it both gates the reaction and limits it.
+    ///
+    /// The protons are not written into `products`; they leave through the
+    /// charge balance, because the products carry `n` more positive charge
+    /// than the reactants and that difference IS the acid consumed.
+    pub acid_protons: Option<f64>,
 }
 
 /// Hand-verified seed set. Grows into the codex (P4).
@@ -54,6 +67,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
@@ -71,6 +85,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // The same fizz, written in the names the beaker holds once the soda
     // has dissolved — the `MnO₄⁻`-for-`KMnO4` pattern, one row down.
@@ -108,6 +123,42 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
+    },
+    // The same hazard, written in the names the beaker holds once the acid
+    // has been through a solve.
+    //
+    // `NaOCl + 2 HCl` above fires only if the acid is the thing being added
+    // — hydrochloric acid is booked as `Cl⁻` plus a charge imbalance the
+    // moment it is solved, and there is no `HCl` portion left to match on.
+    // So pouring bleach into acid did nothing while pouring acid into
+    // bleach released chlorine, and the difference was invisible. That is
+    // the worst place in this file for an order dependence: it is the
+    // demonstration of why the two are never mixed, and a bench that stays
+    // silent in one of the two orders teaches that the hazard depends on
+    // which bottle you pick up first.
+    //
+    // Written on the chloride and the vessel's own acidity rather than on
+    // an acid species. The acidity is NOT optional decoration: `NaOCl` plus
+    // `Cl⁻` alone is bleach and table salt, which does nothing, and a row
+    // matching on those two would evolve chlorine from a beaker of salt
+    // water. It is the proton that makes this reaction go.
+    //
+    // The two protons are absent from the products because they leave
+    // through the charge balance: sodium ion in, chloride out, which is two
+    // units of positive charge appearing and exactly the acid spent.
+    CuratedReaction {
+        equation: "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+        reactants: &[("NaOCl", 1.0), ("Cl-", 1.0)],
+        products: &[
+            ("Cl2", 1.0, Phase::Gas),
+            ("Na+", 1.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: Some(2.0),
     },
     CuratedReaction {
         equation: "NH3 + NaOCl → NH2Cl↑ + NaOH",
@@ -116,6 +167,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
@@ -128,6 +180,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
@@ -141,6 +194,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
@@ -154,6 +208,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // ── EXP-39: the permanganate–oxalate standardisation ──────────
     //
@@ -200,6 +255,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // The same reaction reached from the solid in the burette: the
     // titrant is dosed as KMnO4 and the curated stage runs before the
@@ -219,6 +275,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
@@ -230,6 +287,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: Some("ethanol"),
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
@@ -238,6 +296,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: Some("ethanol"),
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // ── iodine decolorisation (EXP-13: Vitamin C) ─────────────
     // Ascorbic acid reduces molecular iodine to iodide; this is
@@ -252,6 +311,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
@@ -267,6 +327,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: Some(353.0),
         catalyst: None,
+        acid_protons: None,
     },
     // ── enzymatic hydrolysis (EXP-14: Das süße Brot) ────────────
     // Amylase catalyses starch hydrolysis to maltose. The enzyme
@@ -278,6 +339,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: Some("amylase"),
+        acid_protons: None,
     },
     // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
     CuratedReaction {
@@ -290,6 +352,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "curcumin + NaOCl → curcumin(ox) + NaCl",
@@ -301,6 +364,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
     CuratedReaction {
         equation: "indigo carmine + NaOCl → isatin sulfonate + NaCl",
@@ -312,6 +376,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: None,
         min_temp_k: None,
         catalyst: None,
+        acid_protons: None,
     },
 ];
 
@@ -365,12 +430,31 @@ pub const ORG_REACTIONS: &[OrgReaction] = &[
 
 const TRACE: f64 = 1e-12;
 
+/// Σ z·n over the dissolved portions, the same quantity `displacement`
+/// keeps. A curated reaction that moves ions has to leave this current, or
+/// the aqueous tail that runs after it reads the change as a fresh
+/// neutralisation and charges strong-acid-strong-base heat for it.
+///
+/// Nothing needed this until a reaction drew on the vessel's acidity: every
+/// earlier row is charge-neutral across its own equation, so the stale
+/// value happened to be right. It was never right on purpose.
+fn refresh_solute_charge(vessel: &mut Vessel) {
+    vessel.solute_charge = crate::displacement::solute_charge(vessel);
+}
+
 fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
-    reaction
+    let by_reactant = reaction
         .reactants
         .iter()
         .map(|(key, coeff)| vessel.moles_of(&SpeciesId::new(key)).0 / coeff)
-        .fold(f64::INFINITY, f64::min)
+        .fold(f64::INFINITY, f64::min);
+    // Acidity is a reagent like any other when a reaction draws on it, and
+    // limits the extent like any other. Gating without limiting would let
+    // a trace of acid turn every hypochlorite in the beaker into chlorine.
+    match reaction.acid_protons {
+        Some(n) if n > 0.0 => by_reactant.min(crate::displacement::unspent_acidity(vessel) / n),
+        _ => by_reactant,
+    }
 }
 
 /// Moles of a species available in solution for a solvent-gated
@@ -554,6 +638,7 @@ impl Equilibrator for CuratedEquilibrator {
             if !progressed {
                 break;
             }
+            refresh_solute_charge(vessel);
         }
         Ok(events)
     }

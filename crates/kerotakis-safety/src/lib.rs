@@ -534,6 +534,29 @@ pub fn assess_exposures<'a>(
                 groups: groups(portion.species.0.as_str()),
             });
         }
+        // Acidity is a property of the vessel, not of a species in it.
+        //
+        // `groups()` recognises an acid by key — `HCl`, `H2SO4` — and the
+        // aqueous readback replaces those keys the moment the vessel is
+        // solved: hydrochloric acid is booked as `Cl⁻` plus a charge
+        // imbalance, and chloride is not an acid. So the bleach-and-acid
+        // warning, the one that names chlorine as a chemical weapon, went
+        // silent whenever the acid had been in the beaker long enough to be
+        // solved. Pour bleach into acid and nothing was said; pour acid
+        // into bleach and it warned. A hazard that depends on which bottle
+        // you pick up first is not a hazard anyone can learn.
+        //
+        // The dissociated part only. That is what a STRONG acid leaves
+        // behind, which is what this group means — a weak acid holds its
+        // protons and is not covered here, exactly as `CH3COOH` is absent
+        // from the key list above.
+        if vessel.solute_charge < -1e-9 {
+            present.push(PresentSpecies {
+                key: "H+",
+                location,
+                groups: &[ReactiveGroup::AcidStrong],
+            });
+        }
     }
 
     let mut findings = Vec::new();

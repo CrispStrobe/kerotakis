@@ -319,6 +319,22 @@ fn kgw(vessel: &Vessel) -> f64 {
     moles_in(vessel, "water", Phase::Liquid) * WATER_MOLAR_MASS / 1000.0
 }
 
+/// How much acid this vessel is still holding, in moles of proton.
+///
+/// The dissociated part is the solutes' charge imbalance; the rest is
+/// sitting on undissociated weak acids, which are neutral and so invisible
+/// to a charge sum. Both are titratable and a metal — or a hypochlorite —
+/// gets at both, because the acid keeps dissociating as what is free is
+/// consumed.
+///
+/// Public because it is the one definition of "is there acid in this
+/// beaker", and `curated` needs the same answer this module does. Two
+/// definitions of that would drift, and the second one would be wrong in
+/// the same way the first was before `LEDGER_ACIDS` existed.
+pub fn unspent_acidity(vessel: &Vessel) -> f64 {
+    (-vessel.solute_charge).max(0.0) + bound_protons(vessel)
+}
+
 /// Protons the ledger holds on undissociated weak acids — the ones
 /// `solute_charge` cannot see, because an undissociated acid is neutral.
 ///
@@ -338,7 +354,7 @@ fn bound_protons(vessel: &Vessel) -> f64 {
 /// Σ z·n over the dissolved portions. Historically the whole of the
 /// vessel's unspent acidity; now the dissociated part of it, with
 /// `bound_protons` carrying the rest.
-fn solute_charge(vessel: &Vessel) -> f64 {
+pub fn solute_charge(vessel: &Vessel) -> f64 {
     vessel
         .contents
         .iter()
@@ -354,7 +370,7 @@ fn solute_charge(vessel: &Vessel) -> f64 {
 /// How much of an oxidant is there to be reduced, in moles of it.
 fn oxidant_available(vessel: &Vessel, c: &Couple) -> f64 {
     if c.oxidised == HYDROGEN_ION {
-        (-vessel.solute_charge).max(0.0) + bound_protons(vessel)
+        unspent_acidity(vessel)
     } else {
         moles_in(vessel, c.oxidised, Phase::Aqueous)
     }

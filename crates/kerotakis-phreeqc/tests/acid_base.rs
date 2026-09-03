@@ -609,3 +609,115 @@ fn the_volcano_cools_whichever_order_you_build_it_in() {
         );
     }
 }
+
+/// Bleach and acid release chlorine whichever way round you pour them, and
+/// warn before they do.
+///
+/// This is the demonstration of why the two are never mixed, and it was
+/// silent in one of the two orders. `NaOCl + 2 HCl` names the acid as a
+/// reactant, and the aqueous readback books hydrochloric acid as `Cl⁻` plus
+/// a charge imbalance the moment the vessel is solved — so pouring bleach
+/// into acid found no `HCl` to match on and did nothing at all. No gas, and
+/// no warning either, because the safety screen recognises an acid by the
+/// same key.
+///
+/// A hazard that depends on which bottle you pick up first is not a hazard
+/// anybody can learn.
+#[test]
+fn bleach_and_acid_release_chlorine_in_either_order() {
+    for acid_first in [true, false] {
+        let mut bench = Bench::new();
+        let mut stack = stack();
+        let v = VesselId(0);
+        add(&mut bench, &mut stack, v, "water", 5.5343);
+        let events = if acid_first {
+            add(&mut bench, &mut stack, v, "HCl", 0.02);
+            add(&mut bench, &mut stack, v, "NaOCl", 0.01)
+        } else {
+            add(&mut bench, &mut stack, v, "NaOCl", 0.01);
+            add(&mut bench, &mut stack, v, "HCl", 0.02)
+        };
+
+        let warn = events
+            .iter()
+            .position(
+                |e| matches!(e, Event::HazardWarning { hazard, .. } if hazard.contains("chlorine")),
+            )
+            .unwrap_or_else(|| {
+                panic!("acid_first={acid_first}: no chlorine warning in {events:?}")
+            });
+        let gas = events
+            .iter()
+            .position(|e| matches!(e, Event::GasEvolved { species, .. } if species.0 == "Cl2"))
+            .unwrap_or_else(|| panic!("acid_first={acid_first}: no chlorine in {events:?}"));
+        assert!(
+            warn < gas,
+            "acid_first={acid_first}: the warning comes before the chemistry"
+        );
+    }
+}
+
+/// And bleach with table salt does nothing at all, which is the whole
+/// reason the acidity is named rather than the chloride.
+///
+/// Once the acid has been solved away, what is left of it in the ledger is
+/// `Cl⁻` — and chloride is also what table salt leaves. A sibling reaction
+/// matching on `NaOCl` and `Cl⁻` alone would evolve chlorine gas from a
+/// beaker of salt water, which is a worse failure than the silence it was
+/// meant to fix: a student who sees chlorine come off brine learns
+/// something untrue about when to be afraid.
+///
+/// It is the proton that makes this reaction go, so the proton is what the
+/// row asks for.
+#[test]
+fn bleach_and_table_salt_do_nothing() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "NaCl", 0.02);
+    let events = add(&mut bench, &mut stack, v, "NaOCl", 0.01);
+
+    assert!(
+        !events
+            .iter()
+            .any(|e| matches!(e, Event::GasEvolved { species, .. } if species.0 == "Cl2")),
+        "brine and bleach are not a hazard: {events:?}"
+    );
+    assert!(
+        !events.iter().any(
+            |e| matches!(e, Event::HazardWarning { hazard, .. } if hazard.contains("chlorine"))
+        ),
+        "and nothing should warn about one: {events:?}"
+    );
+}
+
+/// The acidity limits the reaction as well as permitting it.
+///
+/// Gating without limiting would let a trace of acid turn every last
+/// hypochlorite in the beaker into chlorine — the reaction would be correct
+/// about whether and wrong about how much, which in a hazard demonstration
+/// is the wrong half to be right about.
+#[test]
+fn a_trace_of_acid_makes_only_a_trace_of_chlorine() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "HCl", 0.002);
+    let events = add(&mut bench, &mut stack, v, "NaOCl", 0.05);
+
+    let cl2: f64 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "Cl2" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    // Two protons per molecule of chlorine: 0.002 mol of acid can reach
+    // 0.001 mol of gas and no more, though there is 0.05 mol of bleach.
+    assert!(
+        (cl2 - 0.001).abs() < 1e-4,
+        "0.002 mol of acid is worth 0.001 mol of chlorine, got {cl2:.5}"
+    );
+}

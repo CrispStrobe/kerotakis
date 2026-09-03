@@ -112,14 +112,17 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
     ),
     (
         "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
-        "NOT covered, and not fixable the same way. HCl is a strong acid and \
-         booking it as Cl⁻ is correct chemistry — there is no undissociated \
-         HCl in water to find — so a sibling keyed on (NaOCl, Cl⁻) would fire \
-         on table salt stirred into bleach and evolve chlorine from a beaker \
-         that is doing nothing. That is a worse failure than this one. It \
-         needs an acidity precondition on CuratedReaction, which does not \
-         exist. Recorded rather than papered over: this is the demonstration \
-         of why bleach and acid are never mixed, and it is currently silent.",
+        "covered, and I was wrong about this one twice over. I recorded it \
+         here as unreachable AND unfixable, on the strength of running it in \
+         a single order. It fires perfectly well if the acid goes in last — \
+         `curated` runs before the aqueous tail, so on the step where the \
+         acid is ADDED the ledger still holds `HCl`. It was order dependence, \
+         not absence, exactly as the vinegar rows were. The sibling written \
+         on `NaOCl` + `Cl⁻` + the vessel's own acidity now covers the other \
+         order, so the demonstration works whichever bottle is picked up \
+         first. The reason a sibling on the chloride ALONE would have been \
+         worse than the gap stands, and is why the row asks for the proton: \
+         bleach and table salt would have evolved chlorine.",
     ),
 ];
 
