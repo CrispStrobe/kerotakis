@@ -467,37 +467,76 @@ in the comment on the guard that rejects it, and the guard is right. That
 row is a correctly refused one whose refusal is merely mute, which is a
 different piece of work.
 
-### What is NOT in this refresh, and is measured and ready
+## Refresh 2026-09-03 (second): vinegar and baking soda fizz at last
 
-An `Acetate` protonation split, the exact analogue of the nitrogen one,
-revives two curated reactions that cannot currently fire in a beaker with
-water in it:
+`aq-059` (vinegar into a baking-soda solution) and `bio-114` (vinegar on an
+eggshell) move `computed`/`computed-route` → `curated`/**`curated-route`**,
+and the headline mismatch count rises from 84 to 86. **The number got worse
+because the bench got better.**
+
+Both rows name a curated reaction:
 
     NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
     CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑
 
-Vinegar and baking soda. Vinegar on an eggshell. Both curated, both
-reviewed, both carrying provenance, and both dead in water since they were
-written — the readback books the whole Acetate total as `CH3COO-`, so the
-acid named in the reactant list is gone by the time the second reagent
-arrives. They could only ever have fired in a dry vessel.
+Reviewed, carrying provenance, and until now unable to fire in a beaker with
+water in it. The aqueous readback booked the whole Acetate element total as
+`CH3COO-`, so pouring vinegar into water handed back acetate ion, and the
+acid named in the reactant list was no longer in the vessel by the time the
+second reagent arrived. They could only ever have fired in a dry vessel,
+which is not how anybody has ever done either experiment.
 
-**This corpus recorded that and nobody read it.** The classifier checks
-`succeeded(Curated)` first, so `computed-route` on `aq-059` and `bio-114` —
-two rows whose entire subject is a curated reaction — was the baseline
-asserting in writing that the reviewed equation produced no events. A reason
-code that encodes an absence only if you already know the precedence order
-is not written down in any useful sense.
+**This file said so, and nobody could read it.** The classifier checks
+`succeeded(Curated)` first, so `computed-route` on a row whose entire
+subject is a curated reaction was the baseline asserting, in writing, that
+the reviewed equation produced no events. A reason code that encodes an
+absence only if you already know the precedence order is not written down in
+any useful sense. If you take one thing from this section, take that.
 
-With the split in, both fire and conserve exactly (0.0497 + 0.0003, and
-0.0498 + 0.0002 mol CO₂). It is held back because the same row breaks
-`displacement::oxidant_available`, which reads unspent acidity off
-`-solute_charge` — a proxy that is only ever right while the readback keeps
-stripping weak acids of their protons. Put the acid back and magnesium stops
-dissolving in vinegar. Fixing that means deciding which dissolved species
-count as titratable, which is a reviewable chemistry claim rather than a
-solver fix, so it travels with its own change and its own baseline refresh.
+The arithmetic is exact, and the split is what makes it so:
 
-`tests/curated_reactants_survive_a_solve.rs` now fails if anyone adds a
-curated reaction on a reactant the solver renames, so this class cannot be
-introduced silently again.
+    0.05 mol CH₃COOH into 100 mL  →  0.0497 CH₃COOH + 0.0003 CH₃COO⁻
+    then 0.05 mol NaHCO₃          →  0.0497 mol CO₂ (curated route)
+                                   +  0.0003 mol CO₂ (aqueous route)
+
+`bio-114` balances the same way (0.0498 + 0.0002) and the shell dissolves to
+its saturation residue, 0.08%, which is where a real shell in a real glass
+of vinegar stops.
+
+**`expected` is deliberately NOT changed on either row.** It is prescriptive
+— it says what the bench ought to do, not what it does — and moving a
+prescription in the same commit that changes the engine is how a corpus
+stops being able to disagree with its own bench. Whether these two are
+better answered by a reviewed equation or computed from carbonate equilibria
+is a real question, and it belongs to EXP-2 and CAP-1.
+
+#### The half of this that was not chemistry
+
+Putting the acid back in the ledger broke magnesium in vinegar, and it is
+worth recording why, because the shape recurs. `displacement` reads a
+vessel's unspent acidity off `−solute_charge`. That was the whole of its
+acidity for exactly as long as the readback stripped every weak acid of its
+proton: 0.1 mol of acetic acid arrived as 0.1 mol of acetate ion, net charge
+−0.1, and the proxy read the right number **by coincidence**. With the acid
+present the same beaker reads about −1e-3 — all that is dissociated at any
+instant — and the metal stopped dissolving.
+
+A weak acid's titratable protons are not its charge. `LEDGER_ACIDS` and
+`bound_protons` now count them, and spending one converts the acid to its
+conjugate base so it cannot be spent twice. Ammonium is deliberately left
+out: it is a titratable acid, but its pKa is 9.25 and this bench computes
+thermodynamics with an overpotential gate rather than a rate, so claiming
+magnesium dissolves promptly in ammonium chloride would be a statement about
+speed that nothing in that module is entitled to make.
+
+## What the first refresh held back, and why (superseded)
+
+This section described an `Acetate` protonation split as measured, correct
+and deliberately held back. It has since landed — see "Refresh 2026-09-03
+(second)" above, which supersedes it.
+
+Kept as a pointer rather than deleted, because the reason it was held is
+the part worth remembering: it was not the chemistry that blocked it but
+`displacement::oxidant_available`, which read a vessel's unspent acidity
+off its net charge and only ever agreed with reality because a different
+defect upstream was stripping weak acids of their protons first.

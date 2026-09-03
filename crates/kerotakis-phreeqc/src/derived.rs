@@ -310,17 +310,19 @@ pub fn foreign_phase_definition(name: &str, db_tag: &str) -> Option<String> {
 /// name, would each fail silently in its own direction.
 pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     ("N(-3)", &[("NH3", "NH3"), ("NH4+", "NH4+")]),
-    // Acetate belongs here next and is deliberately not here yet. It
-    // revives two curated reactions that cannot currently fire in water
-    // (see tests/curated_reactants_survive_a_solve.rs), and it also breaks
-    // `displacement::oxidant_available`, which infers unspent acidity from
-    // `-solute_charge`. That proxy is only ever right because the readback
-    // strips every weak acid of its proton before the ledger sees it: put
-    // 0.1 mol of acetic acid back as acid and the charge falls to the free
-    // ion's 1e-3, and magnesium stops dissolving in vinegar. Correcting it
-    // means deciding which dissolved species count as titratable, which is
-    // a reviewable chemistry claim and not a solver fix. It gets its own
-    // change.
+    // Acetate. The consequence is larger than the row: booking the whole
+    // element total as `CH3COO-` left undissociated acetic acid out of the
+    // ledger entirely, and two curated reactions name it as a reactant —
+    // `NaHCO₃ + CH₃COOH` and `CaCO₃ + 2 CH₃COOH`, vinegar and baking soda
+    // and vinegar on an eggshell. Both were unable to fire in a beaker with
+    // water in it, because by the time the second reagent arrived the acid
+    // in their reactant list was no longer there. See
+    // `tests/curated_reactants_survive_a_solve.rs`, which now enforces that
+    // a curated reaction can find its own reactants after a solve.
+    (
+        "Acetate",
+        &[("H(Acetate)", "CH3COOH"), ("Acetate-", "CH3COO-")],
+    ),
 ];
 
 /// The protonation split for an element state, if it has one.

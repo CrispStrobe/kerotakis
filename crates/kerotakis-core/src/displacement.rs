@@ -67,8 +67,44 @@ pub const FARADAY: f64 = 96_485.332_12;
 /// Below this, an amount is bookkeeping noise rather than a reagent.
 const TRACE: f64 = 1e-12;
 /// The acid pseudo-species. Free acid has no portion of its own in the
-/// inventory: it is the vessel's unspent acidity, `−solute_charge`.
+/// inventory: it is the vessel's unspent acidity, `−solute_charge` plus
+/// whatever `LEDGER_ACIDS` still holds.
 const HYDROGEN_ION: &str = "H+";
+
+/// Dissolved species that carry a titratable proton the charge sum cannot
+/// see, with the conjugate base they become on giving it up.
+///
+/// `−solute_charge` counts the protons the charge balance implies, and for
+/// years that was every proton in the vessel — not by design, but because
+/// the aqueous readback booked each element total to a single ion and so
+/// stripped every weak acid of its proton before the ledger saw it. A
+/// beaker of vinegar arrived as 0.1 mol of acetate ion, net charge −0.1,
+/// and the proxy read 0.1 by coincidence.
+///
+/// Now that the readback keeps both members of a protonation pair, the
+/// coincidence is gone and the proxy is wrong in the other direction: the
+/// same beaker reads a net charge of about −1e-3, because that is all that
+/// is dissociated at any instant. It still dissolves 0.05 mol of magnesium,
+/// because the acid keeps dissociating as the metal consumes what is free.
+/// The titratable proton is the one that matters, and it is not the free
+/// one.
+///
+/// **Ammonium is deliberately absent.** `NH4+` is the acid of a pair the
+/// ledger now carries, and 0.1 mol of ammonium chloride genuinely holds
+/// 0.1 mol of titratable protons — you can put them on a burette. But its
+/// pKa is 9.25, magnesium in ammonium chloride is a slow reaction, and this
+/// module computes thermodynamics with an overpotential gate rather than a
+/// rate. Adding it here would dissolve the metal completely and promptly,
+/// which is a claim about speed that nothing in this file is entitled to
+/// make. It wants the rate model, not a table row.
+const LEDGER_ACIDS: &[(&str, &str)] = &[("CH3COOH", "CH3COO-")];
+
+/// The ledger acids, for the cross-crate check that they are species the
+/// aqueous readback actually puts in the inventory. An acid counted here
+/// that no protonation split carries would be counted and never present.
+pub fn ledger_acids() -> &'static [(&'static str, &'static str)] {
+    LEDGER_ACIDS
+}
 const HYDROGEN_GAS: &str = "H2";
 
 /// One redox couple `ν Ox + n e⁻ → Red`, with the data that makes it
@@ -283,8 +319,25 @@ fn kgw(vessel: &Vessel) -> f64 {
     moles_in(vessel, "water", Phase::Liquid) * WATER_MOLAR_MASS / 1000.0
 }
 
-/// Σ z·n over the dissolved portions — the same quantity the aqueous
-/// solver carries as the vessel's unspent acidity.
+/// Protons the ledger holds on undissociated weak acids — the ones
+/// `solute_charge` cannot see, because an undissociated acid is neutral.
+///
+/// See `LEDGER_ACIDS` for why this is not simply every acid in the
+/// registry. Counted per mole of acid: each row here gives up one proton,
+/// and a polyprotic acid would need a row per step rather than a count.
+fn bound_protons(vessel: &Vessel) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous)
+        .filter(|p| LEDGER_ACIDS.iter().any(|(acid, _)| *acid == p.species.0))
+        .map(|p| p.moles.0)
+        .sum()
+}
+
+/// Σ z·n over the dissolved portions. Historically the whole of the
+/// vessel's unspent acidity; now the dissociated part of it, with
+/// `bound_protons` carrying the rest.
 fn solute_charge(vessel: &Vessel) -> f64 {
     vessel
         .contents
@@ -301,7 +354,7 @@ fn solute_charge(vessel: &Vessel) -> f64 {
 /// How much of an oxidant is there to be reduced, in moles of it.
 fn oxidant_available(vessel: &Vessel, c: &Couple) -> f64 {
     if c.oxidised == HYDROGEN_ION {
-        (-vessel.solute_charge).max(0.0)
+        (-vessel.solute_charge).max(0.0) + bound_protons(vessel)
     } else {
         moles_in(vessel, c.oxidised, Phase::Aqueous)
     }
@@ -614,8 +667,29 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         // Oxidant: ion out, metal (or gas) in.
         let reduced_made = xi / ox.electrons;
         if ox.oxidised == HYDROGEN_ION {
-            // Free acid has no portion; it is spent through the charge
-            // balance, which is recomputed below.
+            // Dissociated acid has no portion; it is spent through the
+            // charge balance, which is recomputed below. A proton sitting
+            // on an undissociated acid does have one, and it has to be
+            // moved: leaving CH3COOH in place while the metal drinks its
+            // proton would make the acid an inexhaustible source, and a
+            // beaker of vinegar would dissolve any amount of magnesium.
+            //
+            // Free protons go first and the acid makes up the difference,
+            // which is the order the equilibrium would reach anyway — the
+            // next solve re-equilibrates what is left.
+            let free = (-vessel.solute_charge).max(0.0);
+            let mut from_acid = (reduced_made * ox.oxidised_per_reduced - free).max(0.0);
+            for (acid, base) in LEDGER_ACIDS {
+                if from_acid <= TRACE {
+                    break;
+                }
+                let spent = from_acid.min(vessel.moles_of(&SpeciesId::new(acid)).0);
+                if spent > TRACE {
+                    vessel.withdraw(&SpeciesId::new(acid), Moles(spent));
+                    vessel.deposit(SpeciesId::new(base), Moles(spent), Phase::Aqueous);
+                    from_acid -= spent;
+                }
+            }
             let species = SpeciesId::new(ox.reduced);
             let moles = Moles(reduced_made);
             if vessel.retain_gas(species.clone(), moles) {

@@ -795,3 +795,42 @@ fn lead_in_acid_is_the_accumulator_not_fizzing() {
     );
     assert!((moles_of(&bench, "Zn", Phase::Solid) - 0.01).abs() < 1e-9);
 }
+
+/// A weak acid's titratable protons are not its charge.
+///
+/// `oxidant_available` reads unspent acidity off `−solute_charge`. That was
+/// the whole of the vessel's acidity for exactly as long as the aqueous
+/// readback stripped every weak acid of its proton before the ledger saw
+/// it: 0.1 mol of acetic acid arrived as 0.1 mol of acetate ion, net charge
+/// −0.1, and the proxy read the right number by coincidence.
+///
+/// Once the ledger carries CH3COOH as CH3COOH, the same beaker reads a net
+/// charge of about −1e-3, because that is all that is dissociated at any
+/// instant. It still dissolves magnesium down to 0.1 mol of protons,
+/// because the acid keeps dissociating as the metal consumes what is free.
+///
+/// The amount is the assertion. A test that only checked "some magnesium
+/// dissolves" would pass on the free 1e-3 and miss the whole defect.
+#[test]
+fn vinegar_spends_its_bound_protons_and_then_runs_out() {
+    // 0.1 mol of acid is 0.1 mol of protons: enough for 0.05 mol of a
+    // divalent metal, and no more.
+    let (bench, _) = run(&[("CH3COOH", 0.1), ("Mg", 0.04)]);
+    assert!(
+        moles_of(&bench, "Mg", Phase::Solid) < 1e-9,
+        "0.1 mol of acid has protons enough for 0.04 mol of magnesium"
+    );
+
+    // Ten times less acid, and the metal is what is left over rather than
+    // what is consumed — the acid is the limiting reagent and the ledger
+    // has to know it has been spent. Without the conversion of CH3COOH to
+    // CH3COO- as its proton leaves, the acid would be an inexhaustible
+    // source and this beaker would dissolve all 0.04 mol.
+    let (bench, _) = run(&[("CH3COOH", 0.01), ("Mg", 0.04)]);
+    let left = moles_of(&bench, "Mg", Phase::Solid);
+    assert!(
+        left > 0.03,
+        "0.01 mol of acid can only reach 0.005 mol of magnesium, so most of \
+         the 0.04 mol must remain — {left:.5} mol left"
+    );
+}
