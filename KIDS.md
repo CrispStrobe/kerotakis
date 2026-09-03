@@ -73,7 +73,7 @@ silent miss teaches the silence.
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
 | K20 | Rock candy | crystals on cooling | ~~**wrong**~~ → computed | sucrose saturation was modelled but **temperature-independent** — identical at 20, 60 and 90 °C (KID-7, landed 2026-09-03: hot water now holds 487 g per 100 mL against cold water's 200, a cooled syrup reports itself supersaturated, and a seed brings it down to exactly the limit) |
 | K21 | Slime | the slime | ~~unreachable~~ → computed | no poly(vinyl alcohol) and no borate existed (KID-14, landed 2026-09-03: a dose response with the crosslinker still in the ledger afterwards, because a crosslinker is not a reagent) |
-| K22 | Oobleck | liquid that goes hard | honest miss | "this part of the lab isn't awake yet"; no suspension rheology |
+| K22 | Oobleck | liquid that goes hard | ~~honest miss~~ → computed | "this part of the lab isn't awake yet" (KID-13, landed 2026-09-03: the same vessel answers differently at 60 rpm and at 600, and a thin mixture answers neither way) |
 | K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` refused because `v2` had to be created first (KID-15, fixed 2026-09-03: a pour now brings its own jar) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
@@ -87,16 +87,14 @@ silent miss teaches the silence.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
 miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 10, 14,
-15, 20 and 21: **computed 20 · partial 7 · silent miss 1 · unreachable 1 ·
-honest miss 1**.
+15, 20 and 21: **computed 21 · partial 7 · silent miss 1 · unreachable 1**.
 
 **The thirty scripts, exactly as a newcomer first wrote them, now run
 30/30** — against 17/30 when the audit was taken. Not one row is still
 marked *wrong*, and the last script that could not run at all was K21's
 slime. What remains is one silent miss (K04's candle, which needs
-combustion), one unreachable (K11's raisins, which need buoyancy), one
-honest miss (K22's oobleck, which needs suspension rheology) and seven
-partials. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
+combustion) and one unreachable (K11's raisins, which need buoyancy), plus
+seven partials. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
 and K23's receiver with KID-15's.
 
 The engine is in far better shape than the corpus's first pass suggested.
@@ -169,7 +167,7 @@ the project's own coverage report.
 | ~~Temperature-dependent solubility of molecular solutes, and nucleation~~ | K20 — **landed as KID-7**, 2026-09-03; electrolyte supersaturation (K51) stays open as KID-7b |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
-| Suspension rheology; buoyancy on attached bubbles; miscible stratification | K22, K11, K10 |
+| ~~Suspension rheology~~; buoyancy on attached bubbles; miscible stratification | K22 — **landed as KID-13**, 2026-09-03; K11 and K10 still open |
 | ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
 | ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 |
@@ -522,6 +520,20 @@ and `main` moves only by PR.
   on attached bubbles (raisins), miscible stratification with a slow pour
   (density tower). Each may land as an honest bounded observable rather
   than a CFD claim, following the `magic-milk` precedent.
+  **Oobleck landed 2026-09-03.** It is the only experiment on the children's
+  list that is not chemistry: nothing reacts, and what changes is how the
+  mixture *answers being pushed*. So the answer depends on the push. The same
+  vessel, in the same state, reports "it flows like a thick liquid" at 60 rpm
+  and "it goes stiff under the stirrer" at 600 — and a thin suspension
+  reports neither at any speed, because the effect needs the particles packed
+  close enough to jam. `lessons/oobleck.lab` holds all three cases and the
+  ledger, which is exactly what went in.
+  **Stated boundary:** no viscosity, no yield stress, no critical shear rate.
+  The claim is only that this mixture is one of the ones that does this and
+  that this stir was fast enough to notice; particle size, starch source and
+  standing time all matter in a real bowl and none are represented.
+  **Still open in KID-13:** buoyancy on attached bubbles (K11's raisins) and
+  miscible stratification (K10, K57).
 - **KID-14 — The children's materials pack.** PVA and borate, egg, raisin,
   lemon juice, gelatin, effervescent tablet, glycerol, tarnished copper.
   **Slime landed 2026-09-03**, and with it the last of the thirty scripts
