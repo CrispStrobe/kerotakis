@@ -171,14 +171,23 @@ const INSTRUMENT_MILESTONES: &[(&str, u32)] = &[
 /// Verbs that are real operations but not cabinet apparatus, so they carry no
 /// milestone. Three groups: vessel handling a learner always has (`new`,
 /// `remove`, `add`, `stock`), observation that costs nothing to own
-/// (`measure`, `smell`, `test`, `chromatograph`), and bench controls that are
-/// not equipment (`open`, `seal`, `wait`, `cool`, `ignite`, `titrate`).
+/// (`measure`, `smell`, `test`, `chromatograph`, `particles`), and bench
+/// controls that are not equipment (`open`, `seal`, `wait`, `cool`,
+/// `ignite`, `titrate`).
 ///
 /// `measure` and `chromatograph` are here because the catalog tiers the
 /// INSTRUMENT (`measure:ph`, `measure:chromatograph`), not the verb that
 /// reads it; `titrate` because the burette is the tiered thing. Only verbs
 /// the parser actually knows may be listed — a stale entry would hide a verb
 /// that has since become apparatus, so the test checks this list both ways.
+///
+/// `particles` is the one entry here that is not obviously either. It draws
+/// the vessel's own census — Johnstone's submicroscopic level — and no
+/// cabinet in any school contains an instrument that shows you ions. It is a
+/// way of looking at a result the bench has already computed rather than a
+/// way of obtaining one, so tiering it would gate the representation instead
+/// of the measurement. The instruments that produce the numbers underneath
+/// it are tiered where they belong.
 pub const NOT_CABINET: &[&str] = &[
     "new",
     "remove",
@@ -194,6 +203,7 @@ pub const NOT_CABINET: &[&str] = &[
     "test",
     "titrate",
     "chromatograph",
+    "particles",
 ];
 
 /// The last tier. Anything unclassified sits here rather than at zero.
