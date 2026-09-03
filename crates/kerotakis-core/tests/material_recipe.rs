@@ -687,3 +687,58 @@ fn the_blue_salt_is_drawn_blue() {
         "blue vitriol must be bluest in blue: {colour:?}"
     );
 }
+
+/// KID-10: vinegar smells of vinegar.
+///
+/// The odour table has held `CH3COOH` since it was written, and `smell` on a
+/// beaker of vinegar answered "no odour a careful waft detects" — because
+/// the aqueous solver had already turned the acetic acid into `CH3COO-`, and
+/// the table is keyed on the acid. This is the third model caught looking a
+/// species up by a key the solver replaces (curdling was the first), so the
+/// family test now lives in `species::same_bronsted_family`.
+#[test]
+fn a_beaker_of_vinegar_smells_of_vinegar() {
+    let op = parse_op("add v1 white_vinegar_5_percent 30mL")
+        .expect("valid material command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    bench.step(op).expect("add vinegar");
+    let vessel = &bench.vessels[0];
+    let wafted = kerotakis_core::senses::waft(vessel);
+    assert!(
+        wafted.iter().any(|odour| odour.species == "CH3COOH"),
+        "a waft over vinegar must find acetic acid: {:?}",
+        wafted.iter().map(|o| o.species).collect::<Vec<_>>()
+    );
+}
+
+/// The family rule must not over-reach: two species that merely share some
+/// elements are not one acid and its conjugate base.
+#[test]
+fn the_bronsted_family_is_a_family_and_not_a_neighbourhood() {
+    use kerotakis_core::species::same_bronsted_family;
+    assert!(same_bronsted_family("CH3COOH", "CH3COO-"));
+    assert!(same_bronsted_family("H3PO4", "H2PO4-"));
+    assert!(same_bronsted_family("NH3", "NH4+"));
+    // Same elements, different skeletons.
+    assert!(!same_bronsted_family("CH3COOH", "H2C2O4"));
+    assert!(!same_bronsted_family("water", "H2O2"));
+    assert!(!same_bronsted_family("CO2", "HCO3-"));
+}
+
+/// KID-10: the calcium a child actually owns colours a flame.
+///
+/// `Ca+2` and `Ca(OH)2` carried a flame colour and `CaCl2` did not, so the
+/// de-icing salt in the cupboard — the one a flame-test activity reaches for
+/// — answered "nothing happens". Calcium is the one metal in that experiment
+/// a household has.
+#[test]
+fn every_calcium_salt_on_the_shelf_colours_the_flame() {
+    for key in ["CaCl2", "CaCO3", "CaO", "gypsum"] {
+        let data = kerotakis_core::species::lookup_key(key).unwrap_or_else(|| panic!("{key}"));
+        assert!(
+            data.flame_colour.is_some(),
+            "{key} carries calcium and must colour a flame"
+        );
+    }
+}

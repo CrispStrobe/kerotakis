@@ -34171,7 +34171,7 @@
       "species_id": "CaCl2",
       "phase": "solid",
       "appearance": "white",
-      "flame_colour": null,
+      "flame_colour": "brick red",
       "reflective_srgb": null,
       "spectrum": [],
       "evidence": {
@@ -34187,7 +34187,7 @@
       "species_id": "CaCO3",
       "phase": "solid",
       "appearance": "white",
-      "flame_colour": null,
+      "flame_colour": "brick red",
       "reflective_srgb": "#FAFAF8",
       "spectrum": [],
       "evidence": {
@@ -34219,7 +34219,7 @@
       "species_id": "gypsum",
       "phase": "solid",
       "appearance": "white",
-      "flame_colour": null,
+      "flame_colour": "brick red",
       "reflective_srgb": null,
       "spectrum": [],
       "evidence": {
@@ -34283,7 +34283,7 @@
       "species_id": "CaO",
       "phase": "solid",
       "appearance": "white",
-      "flame_colour": null,
+      "flame_colour": "brick red",
       "reflective_srgb": "#FCFAF5",
       "spectrum": [],
       "evidence": {

@@ -69,19 +69,19 @@ silent miss teaches the silence.
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
 | K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
-| K18 | Hot pack / cold pack | the thermometer | partial | CaCl₂ gives +36 K, computed from dissolution enthalpy — exemplary. The canonical cold pack, NH₄NO₃, is not in the registry at all; Epsom salt reads 0 K |
+| K18 | Hot pack / cold pack | the thermometer | ~~partial~~ → computed | CaCl₂ gives +36 K, computed from dissolution enthalpy. **This row was my own mistake, corrected 2026-09-03:** I reached for Epsom salt, whose dissolution is very nearly athermal, and concluded the cold pack was unreachable because NH₄NO₃ is absent. Ammonium *chloride* is on the shelf, is what school kits actually contain, and gives −13 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
 | K20 | Rock candy | crystals on cooling | ~~**wrong**~~ → computed | sucrose saturation was modelled but **temperature-independent** — identical at 20, 60 and 90 °C (KID-7, landed 2026-09-03: hot water now holds 487 g per 100 mL against cold water's 200, a cooled syrup reports itself supersaturated, and a seed brings it down to exactly the limit) |
 | K21 | Slime | the slime | unreachable | no poly(vinyl alcohol), no borate |
 | K22 | Oobleck | liquid that goes hard | honest miss | "this part of the lab isn't awake yet"; no suspension rheology |
-| K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` still refuses because `v2` must be created first (KID-15) |
+| K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` refused because `v2` had to be created first (KID-15, fixed 2026-09-03: a pour now brings its own jar) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
 | K26 | Felt-tip chromatography | the colours separating | ~~honest miss~~ → computed | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent" (KID-9, landed 2026-09-02: a black ink now separates into three spots at Rf 0.15, 0.35 and 0.85) |
 | K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" (KID-3, fixed 2026-09-02: now clean) |
 | K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; one of its two banners survives KID-3 slice 1 and is owned by KID-3b |
 | K29 | Yeast balloon | the balloon filling | computed | fermentation, ethanol, CO₂ — and then an honest **BANG** when the sealed vessel bursts. Correct, and a better lesson than the one asked for |
-| K30 | Flame colours | one colour per metal | partial | Na yellow, K lilac, Sr crimson, Ba apple-green, Cu blue-green all computed. **Calcium — the one a child actually owns — reads "nothing happens."** Lithium is absent entirely |
+| K30 | Flame colours | one colour per metal | ~~partial~~ → computed | Na yellow, K lilac, Sr crimson, Ba apple-green, Cu blue-green all computed, and calcium — the one a child actually owns — read "nothing happens" (KID-10, fixed 2026-09-03: brick red). Lithium is still absent, and adding it is a species rather than a datum |
 
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
@@ -166,8 +166,8 @@ the project's own coverage report.
 | ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
 | ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 |
-| Calcium (and lithium) in the flame-colour table | K30 |
-| Acetic acid in the odour table | `smell` on vinegar returns "no odour a careful waft detects" |
+| ~~Calcium~~ (lithium still absent) in the flame-colour table | K30 — **calcium landed as KID-10**, 2026-09-03 |
+| ~~Acetic acid in the odour table~~ | it was *in* the table — `smell` on vinegar still said "no odour a careful waft detects", because the solver had turned the acid into acetate and the table is keyed on the acid. **Landed as KID-10**, 2026-09-03; the third instance of one defect |
 | Dose awareness in the L0 hazard screen | K27, K28 |
 
 ### C. Apparatus

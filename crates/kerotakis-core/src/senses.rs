@@ -114,7 +114,20 @@ pub fn waft(vessel: &Vessel) -> Vec<&'static Odor> {
         if !volatile_enough || p.moles.0 <= 0.0 {
             continue;
         }
-        if let Some(o) = odor_of(&p.species) {
+        // KID-10: match the odour row by Brønsted family, not by key.
+        //
+        // Vinegar smells of vinegar, and the bench said "no odour a careful
+        // waft detects" — because pouring acetic acid into water leaves
+        // `CH3COO-` in the ledger and the odour table is keyed on
+        // `CH3COOH`. The same rewrite had already broken milk curdling
+        // (KID-2); this is the second model to look an acid up by a key the
+        // solver had replaced, so the family test now lives in one place.
+        let matched = odor_of(&p.species).or_else(|| {
+            ODORS
+                .iter()
+                .find(|o| crate::species::same_bronsted_family(o.species, &p.species.0))
+        });
+        if let Some(o) = matched {
             if seen.insert(o.species) {
                 out.push(o);
             }

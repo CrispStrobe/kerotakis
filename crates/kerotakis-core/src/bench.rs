@@ -166,6 +166,29 @@ impl Bench {
             .ok_or(BenchError::NoSuchVessel(id))
     }
 
+    /// KID-15: a receiver a pour is aimed at, created if it is not there.
+    ///
+    /// `filter v1 v2` refused with "no vessel v2" until a learner worked out
+    /// that `new` comes first. On a real bench you do not declare the jar
+    /// before you pour into it — you put one under the funnel, which is what
+    /// pouring *means*. So the three transfer verbs now bring their receiver
+    /// into being at the moment they need it, and say so with the same
+    /// `VesselCreated` event `new` emits, so nothing downstream can tell the
+    /// difference between a jar the learner asked for and one the pour did.
+    ///
+    /// Only the *destination* is created. A pour out of a vessel that does
+    /// not exist is still a refusal, because there is nothing to pour.
+    fn ensure_destination(&mut self, id: VesselId, events: &mut Vec<Event>) {
+        if self.vessels.iter().any(|v| v.id == id) {
+            return;
+        }
+        if self.broken_vessels.contains(&id) {
+            return;
+        }
+        self.vessels.push(Vessel::new(id, "beaker"));
+        events.push(Event::VesselCreated { vessel: id });
+    }
+
     fn move_to_spill(
         &mut self,
         from: VesselId,
@@ -1283,6 +1306,7 @@ impl Bench {
                 }
             }
             Operator::Decant { from, to, fraction } => {
+                self.ensure_destination(*to, &mut events);
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
                 }
@@ -1601,6 +1625,7 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
+                self.ensure_destination(*to, &mut events);
                 // Everything liquid + dissolved would move; probe the target.
                 let (would_move, t_from) = {
                     let src = self.vessel(*from)?;
@@ -1980,6 +2005,7 @@ impl Bench {
                 }
             }
             Operator::Drain { from, to } => {
+                self.ensure_destination(*to, &mut events);
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }

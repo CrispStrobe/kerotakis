@@ -46,34 +46,10 @@ pub struct CurdlingObservation {
 /// `KIDS.md`; what this function fixes is the model reading a ledger the
 /// solver had already rewritten.
 fn acid_inventory(vessel: &Vessel, acid_species: &str) -> f64 {
-    let Some(acid) = crate::stoich::parse_formula(
-        crate::species::lookup(&crate::species::SpeciesId::new(acid_species))
-            .map(|data| data.formula)
-            .unwrap_or(acid_species),
-    )
-    .ok() else {
-        return 0.0;
-    };
-    let skeleton = |formula: &crate::stoich::Formula| -> Vec<(String, f64)> {
-        formula
-            .counts
-            .iter()
-            .filter(|(element, _)| element.as_str() != "H")
-            .map(|(element, count)| (element.clone(), *count))
-            .collect()
-    };
-    let wanted = skeleton(&acid);
     vessel
         .contents
         .iter()
-        .filter(|item| {
-            if item.species.0.as_str() == acid_species {
-                return true;
-            }
-            crate::species::lookup(&item.species)
-                .and_then(|data| crate::stoich::parse_formula(data.formula).ok())
-                .is_some_and(|formula| skeleton(&formula) == wanted)
-        })
+        .filter(|item| crate::species::same_bronsted_family(acid_species, &item.species.0))
         .map(|item| item.moles.0)
         .sum()
 }

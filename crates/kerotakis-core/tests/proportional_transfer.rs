@@ -144,3 +144,39 @@ fn a_full_pour_takes_all_the_solution_and_none_of_the_solid() {
     assert!((held(&bench, VesselId(0), "NaCl") - solid_before).abs() < 1e-12);
     assert!((total(&bench, "Na+") - sodium_before).abs() < 1e-9);
 }
+
+/// KID-15: a pour brings its own jar.
+///
+/// `filter v1 v2` refused with "no vessel v2" until the learner worked out
+/// that `new` comes first — a rule about this bench rather than about
+/// chemistry. On a real bench you put a jar under the funnel, which is what
+/// pouring means. Only the destination is created; pouring *out of* a vessel
+/// that does not exist is still a refusal, because there is nothing to pour.
+#[test]
+fn a_transfer_creates_the_vessel_it_is_aimed_at() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::script::parse_op;
+    use kerotakis_core::Bench;
+
+    for command in ["filter v1 v2", "decant v1 v2 0.5", "drain v1 v2"] {
+        let mut bench = Bench::new();
+        for setup in ["add v1 water 100mL", "add v1 CaCO3 5g"] {
+            let op = parse_op(setup).expect("valid").expect("operator");
+            bench.step(op).expect("setup");
+        }
+        let op = parse_op(command).expect("valid").expect("operator");
+        let events = bench.step(op).unwrap_or_else(|e| panic!("{command}: {e}"));
+        assert!(
+            events
+                .iter()
+                .any(|event| matches!(event, Event::VesselCreated { .. })),
+            "{command} must say it made the vessel"
+        );
+        assert_eq!(bench.vessels.len(), 2, "{command}");
+    }
+
+    // Pouring out of nothing is still nothing.
+    let mut bench = Bench::new();
+    let op = parse_op("filter v3 v4").expect("valid").expect("operator");
+    assert!(bench.step(op).is_err(), "a source must already exist");
+}
