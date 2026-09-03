@@ -508,3 +508,98 @@ fn vinegar_dissolves_the_calcium_carbonate_in_an_eggshell() {
          of it, {shell:.6} mol left of 0.05"
     );
 }
+
+/// Acid first, the volcano now works and it gets cold.
+///
+/// The reaction was never simply dead: `curated` runs before the aqueous
+/// tail, so on the step where a reagent is ADDED the ledger still holds it
+/// as written and the match succeeds. What killed it was a reagent that had
+/// already been through a solve — and the readback renames what it books.
+/// So this was order dependence rather than absence, which is worse: "add
+/// them in the other order" is a workaround somebody finds by accident and
+/// never understands.
+///
+/// The two routes also disagreed about the SIGN of the temperature change.
+/// Vinegar and baking soda is one of the few kitchen reactions a child can
+/// feel, and what it does is get COLD. The aqueous route had it warming,
+/// because it books the heat of H⁺ + OH⁻ → H₂O for whatever consumed the
+/// acid and nothing for the endothermic half — the bicarbonate breaking up
+/// and the gas leaving. That is a quantity claimed to be the reaction's
+/// enthalpy which is invariant over what the reaction was.
+///
+/// (The curated route is not claiming a better enthalpy. It claims none —
+/// see the entry in `curated.rs` — so the cooling here is the dissolution
+/// terms alone. A route that declines to claim beats one that claims the
+/// wrong sign; neither has the number.)
+#[test]
+fn the_volcano_cools_when_the_acid_goes_in_first() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 2.7);
+    add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
+    let events = add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
+
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
+        )),
+        "the acid survived its solve, so the curated route is reachable: {events:?}"
+    );
+    let t = bench.vessel(v).unwrap().temperature.to_celsius();
+    assert!(
+        t < 25.0,
+        "the volcano is endothermic and the beaker gets colder, got {t:.1} °C"
+    );
+}
+
+/// The other order is still wrong, and this test says so rather than
+/// letting it pass unremarked.
+///
+/// Renaming is symmetric and this change only fixed one side of it. Put the
+/// soda in first with water already present and it dissolves; the readback
+/// books its carbon as `HCO3-` (the documented teaching-pH protonation
+/// choice); and when the vinegar arrives the reactant named `NaHCO3` is no
+/// longer in the vessel. The curated route is unreachable again — from the
+/// other end — and the aqueous route answers, booking 0.018 mol of
+/// "neutralised" acidity as heat and warming the beaker to 25.8 °C.
+///
+/// So the volcano is endothermic one way round and exothermic the other,
+/// and the difference is which reagent you happened to dissolve first.
+///
+/// The fix is known and is not in this change: a sibling reaction written
+/// on `HCO3-`, exactly as the two `MnO₄⁻` rows are written for `KMnO4`.
+/// That is a new curated reaction — a reactivity claim wanting provenance
+/// and review — and it does not belong in a commit whose subject is the
+/// readback. It also does not fix the enthalpy, which is the deeper defect:
+/// the aqueous tail books proton neutralisation as the whole heat of
+/// whatever consumed the acid.
+///
+/// This test fails the day somebody fixes it, which is the point. Delete it
+/// then, and fold the case back into the test above.
+#[test]
+fn the_volcano_is_still_backwards_if_the_soda_dissolves_first() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 2.7);
+    add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
+    let events = add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
+
+    assert!(
+        !events.iter().any(|e| matches!(
+            e,
+            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
+        )),
+        "KNOWN GAP: if this now fires, the HCO3- sibling has landed — \
+         delete this test and restore the both-orders assertion: {events:?}"
+    );
+    let t = bench.vessel(v).unwrap().temperature.to_celsius();
+    assert!(
+        t > 25.0,
+        "KNOWN GAP: the aqueous route books neutralisation heat and warms a \
+         reaction that should cool. If this is now below 25 °C the enthalpy \
+         has been fixed and this test should go, got {t:.1} °C"
+    );
+}
