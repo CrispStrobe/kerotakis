@@ -1134,6 +1134,24 @@ impl Bench {
                     resuspended_fraction,
                     rate_coupled,
                 });
+                // KID-13: a suspension dense enough to argue back. Reported
+                // here because it is a property of the mixture under *this*
+                // stir — the same mixture at rest is a liquid, which is the
+                // whole of what oobleck has to teach.
+                if let Some(thick) = self
+                    .vessel(*vessel)
+                    .ok()
+                    .and_then(|v| crate::rheology::observe(v, tip_speed_m_s))
+                {
+                    events.push(Event::Thickened {
+                        vessel: vessel_id,
+                        solid: SpeciesId::new(thick.solid),
+                        strength: thick.strength,
+                        solid_mass_fraction: thick.solid_mass_fraction,
+                        tip_speed_m_s: thick.tip_speed_m_s,
+                        sheared_hard: thick.sheared_hard,
+                    });
+                }
                 if mixed_surface_colours > 0 {
                     events.push(Event::SurfaceColourMixed {
                         vessel: vessel_id,

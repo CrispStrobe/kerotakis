@@ -1538,6 +1538,63 @@
       }
     ]
   },
+  "oobleck": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +100.000 g corn_starch (1 known ingredients)",
+      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: magnetic stirrer 60 rpm for 5 s — bar tip 0.079 m/s; 73% resuspension",
+      "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.08 m/s",
+      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
+      "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.79 m/s",
+      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +20.000 g corn_starch (1 known ingredients)",
+      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
+      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "oobleck.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.61675096,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.12335019,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "pepper-and-soap": {
     "event_count": 8,
     "events_sample": [

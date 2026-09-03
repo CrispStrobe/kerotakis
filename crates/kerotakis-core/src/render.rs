@@ -892,6 +892,43 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 half_life_seconds,
             ),
         },
+        Event::Thickened {
+            vessel,
+            solid,
+            strength,
+            solid_mass_fraction,
+            tip_speed_m_s,
+            sheared_hard,
+        } => {
+            let name = species::lookup(solid).map(|d| d.name).unwrap_or(solid.0.as_str());
+            match register.level() {
+                1 => {
+                    if *sheared_hard {
+                        locale.fill(
+                            "event.thickened.lv1-hard",
+                            "Stir {vessel} fast and it fights back — it goes stiff under the stirrer, like a solid. Slow down and it runs like a liquid again.",
+                            &[("vessel", &vessel.to_string())],
+                        )
+                    } else {
+                        locale.fill(
+                            "event.thickened.lv1-slow",
+                            "Stirred gently, {vessel} flows like a thick liquid. Push it faster and it will not let you.",
+                            &[("vessel", &vessel.to_string())],
+                        )
+                    }
+                }
+                2 => locale.fill(
+                    "event.thickened.lv2",
+                    "{vessel}: {percent}% {name} by mass — a shear-thickening suspension at {strength} of full strength, sheared at {speed} m/s",
+                    &[("vessel", &vessel.to_string()), ("percent", &locale.number(format!("{:.0}", solid_mass_fraction * 100.0))), ("name", name), ("strength", &locale.number(format!("{strength:.2}"))), ("speed", &locale.number(format!("{tip_speed_m_s:.2}")))],
+                ),
+                _ => locale.fill(
+                    "event.thickened.lv3",
+                    "{vessel}: shear-thickening response {strength} at solid mass fraction {fraction}, bar tip speed {speed} m/s; a bounded statement that this mixture is one of the ones that does this and that this stir was fast enough to notice — no viscosity, yield stress or critical shear rate is computed, and the ledger does not move",
+                    &[("vessel", &vessel.to_string()), ("strength", &locale.number(format!("{strength:.4}"))), ("fraction", &locale.number(format!("{solid_mass_fraction:.4}"))), ("speed", &locale.number(format!("{tip_speed_m_s:.4}")))],
+                ),
+            }
+        }
         Event::GelFormed {
             vessel,
             polymer,

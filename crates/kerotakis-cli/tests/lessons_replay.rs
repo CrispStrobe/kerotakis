@@ -512,3 +512,42 @@ fn slime_is_a_dose_response_and_the_borax_survives_it() {
         assert!(moles > 0.0, "the crosslinker is not consumed: {line}");
     }
 }
+
+/// KID-13: the one experiment on the children's list that is not chemistry.
+///
+/// K22 was an honest miss — cornstarch in water reported "this part of the
+/// lab isn't awake yet", because nothing reacts and there was nothing else
+/// to say. What changes is how the mixture answers being pushed, so the
+/// answer has to depend on the push: the same vessel, in the same state,
+/// two shear rates and two results.
+#[test]
+fn oobleck_answers_differently_depending_how_hard_it_is_pushed() {
+    let lesson = lessons_dir().join("oobleck.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    let gentle = out
+        .lines()
+        .position(|line| line.contains("flows like a thick liquid"))
+        .unwrap_or_else(|| panic!("a gentle stir must flow:\n{out}"));
+    let hard = out
+        .lines()
+        .position(|line| line.contains("it goes stiff under the stirrer"))
+        .unwrap_or_else(|| panic!("a fast stir must resist:\n{out}"));
+    assert!(gentle < hard, "the lesson stirs gently first");
+
+    // A thin suspension does neither, however hard it is stirred — the
+    // effect needs the particles packed close enough to jam, and claiming
+    // it for a watery mixture would make the threshold meaningless.
+    assert_eq!(
+        out.matches("it goes stiff under the stirrer").count(),
+        1,
+        "only the thick mixture thickens:\n{out}"
+    );
+
+    // And nothing was made or used up. The ledger is what went in.
+    assert!(
+        out.contains("mol  starch"),
+        "the starch is still starch:\n{out}"
+    );
+}
