@@ -63,12 +63,12 @@ silent miss teaches the silence.
 | K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
 | K11 | Dancing raisins | raisins rising and falling | unreachable | no raisin, and no model for a bubble attaching to an object and lifting it |
-| K12 | Red-cabbage rainbow | pink → purple → green | unreachable | no anthocyanin, in the materials *or* the indicator table (which holds only phenolphthalein, methyl orange, bromothymol blue) |
-| K13 | Invisible ink | brown writing appearing | **wrong** | no pyrolysis and no browning; worse, 5 kJ into juice-on-paper drives the vessel to **670 °C with liquid water still in the ledger**. At lv3 two `NOT MODELLED` lines name both faults honestly; at lv1 the child is told "the water is boiling — look at the steam!" and the mass does not move |
+| K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
+| K13 | Invisible ink | brown writing appearing | **wrong** → partial | no pyrolysis and no browning. The other half — 5 kJ into juice-on-paper reaching **670 °C with liquid water still in the ledger** — was KID-6 and is fixed: the water now leaves at its boiling point and the vessel ends dry |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
-| K17 | Rusting race | orange rust | **silent miss** | steel wool + brine + oxygen + 24 h leaves iron untouched; the only word is "this part of the lab isn't awake yet" |
+| K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
 | K18 | Hot pack / cold pack | the thermometer | partial | CaCl₂ gives +36 K, computed from dissolution enthalpy — exemplary. The canonical cold pack, NH₄NO₃, is not in the registry at all; Epsom salt reads 0 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
 | K20 | Rock candy | crystals on cooling | **wrong** | sucrose saturation is modelled (0.5843 mol per 100 mL) but is **temperature-independent** — identical at 20, 60 and 90 °C — so the one mechanism the experiment exists to show cannot happen |
@@ -77,7 +77,7 @@ silent miss teaches the silence.
 | K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` still refuses because `v2` must be created first (KID-15) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
 | K25 | Bath bomb | waiting for water | computed | the dry/wet contrast is the whole lesson and it lands |
-| K26 | Felt-tip chromatography | the colours separating | honest miss | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent"; no paper/Rf mode, no dye partition data |
+| K26 | Felt-tip chromatography | the colours separating | ~~honest miss~~ → computed | "nothing dissolved here has a curated UNIFAC decomposition, so the column's method is silent" (KID-9, landed 2026-09-02: a black ink now separates into three spots at Rf 0.15, 0.35 and 0.85) |
 | K27 | Starch hunt (iodine) | blue-black vs brown | computed¹ | both vessels right — and both preceded by a Danger-level banner saying the mixture "can detonate" (KID-3, fixed 2026-09-02: now clean) |
 | K28 | Vitamin-C detective | blue-black going clear | computed¹ | decolourisation computed, dehydroascorbic acid in the ledger; one of its two banners survives KID-3 slice 1 and is owned by KID-3b |
 | K29 | Yeast balloon | the balloon filling | computed | fermentation, ethanol, CO₂ — and then an honest **BANG** when the sealed vessel bursts. Correct, and a better lesson than the one asked for |
@@ -86,8 +86,10 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1 and KID-2: **computed 14 ·
-wrong 2**, and the thirty unrepaired scripts run 27/30 instead of 17/30.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5, KID-6, KID-8
+and KID-9: **computed 17 · partial 8 · wrong 1 · silent miss 1 ·
+unreachable 2 · honest miss 1**, and the thirty unrepaired scripts run 28/30
+instead of 17/30. The second thirty gains K48 with the same fix.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -153,15 +155,15 @@ the project's own coverage report.
 
 | Missing mechanism | Costs us |
 |---|---|
-| Corrosion of iron in aerated brine | K17; a top-five children's experiment (`EXP-34` already on the registry) |
+| ~~Corrosion of iron in aerated brine~~ | K17 — **landed as KID-5**, 2026-09-02 |
 | Combustion of organic solids; a flame that can be starved | K04, K13; `ignite` is currently *silent* on an unresolved material |
-| Latent-heat plateau at a boiling point | K13; named at lv3, invisible at lv1 |
+| ~~Latent-heat plateau at a boiling point~~ | K13 — **landed as KID-6**, 2026-09-02 |
 | Temperature-dependent solubility of molecular solutes, and nucleation | K20; rock candy, supersaturation, seeding |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
 | Suspension rheology; buoyancy on attached bubbles; miscible stratification | K22, K11, K10 |
-| Paper/TLC mode with dye partition data (`EXP-8`) | K26 |
-| Anthocyanin as a computed pH-dependent chromophore | K12 |
+| ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
+| ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
 | Pyrolysis and Maillard browning | K13 |
 | Calcium (and lithium) in the flame-colour table | K30 |
 | Acetic acid in the odour table | `smell` on vinegar returns "no odour a careful waft detects" |
@@ -306,17 +308,164 @@ and `main` moves only by PR.
 - **KID-5 — Rusting.** Pull `EXP-34` forward: iron surface area, oxygen
   transport, chloride acceleration, Fe(OH)₂/Fe(OH)₃/Fe₂O₃ product routing,
   a rate slow enough to need `wait` and fast enough to see.
+  **Landed 2026-09-02** as a curated kinetic reaction, `iron-corrosion`,
+  because rusting is three rate questions and no stoichiometric ones: it is
+  slow enough that `wait` is the instrument, it *stops* when the trapped
+  oxygen runs out, and salt makes it faster without being consumed.
+  `lessons/rusting.lab` runs the four-arm comparison `EXP-34` asked for —
+  dry, oxygen swept out, plain water, salt water — and every arm holds in a
+  test on the shipped binary. Measured over one sealed day on a gram of iron
+  under 500 mL of room air: dry 0, deoxygenated 0, plain water 0.0016 mol of
+  oxide, salt water 0.0028 mol. The salt arm runs its oxygen down to
+  0.0001 mol and the headspace falls to 0.808 bar — the water rising in the
+  stoppered tube, computed rather than drawn.
+  Three things had to be true before the lesson could land, and only the
+  first was the rate law:
+  - **The product had to be a solid the solver would leave alone.** Written
+    as the school equation with Fe(OH)₃ on the right, the aqueous engine
+    dissolved every mole of rust straight back into Fe(III) hydroxo
+    complexes — and then said, correctly, that a real beaker would not stay
+    like that. The rust vanished on the way to being seen. Written as the
+    net oxidation to Fe₂O₃, with the water requirement carried by the
+    reaction's locality instead of its stoichiometry, it stays.
+  - **The description had to name more than one thing at the bottom.** It
+    reported the single largest settled solid, so a rusting nail was "grey
+    iron" and nothing else — the ledger held the rust, the words did not.
+    It now names every settled solid down to a tenth of the largest.
+  - **The bench had to stop calling iron unreactive while rusting it.**
+    `Event::Inert`'s lv1 wording — "nothing happens … it is too unreactive
+    for this" — dropped the scope its lv2 and lv3 forms carry, and became
+    flatly false the moment iron started to rust. It now says what it
+    actually means: nothing dissolved here swaps places with the metal.
+  Two smaller things came with it. `kero study` gained an
+  `amount:<species>@vN` probe, because `EXP-34`'s acceptance is that the
+  study sweeps the conditions and the only answer worth sweeping for is how
+  much rust — and no existing probe can see a solid. And `--vary` now says
+  that it sweeps **moles** whatever unit the script line used: varying a
+  line reading `add v1 Fe 1g` silently dosed one mole, 55.8 g, and produced
+  a curve that looked like a rate law that had stopped responding.
+  Two data errors surfaced on the way and were fixed with it, because both
+  are things a learner looks straight at: iron(III) oxide was called
+  **pink** (a saturation rule written for *transmitted* colour — the
+  dilute-versus-concentrated permanganate case — applied to a scattering
+  solid), and zinc was called **blue-green** (rgb(186, 196, 200) clears the
+  absolute chroma cut-off by two while being grey by any measure of
+  saturation). Rust is not pink and zinc is not blue-green, and a child
+  looking at a rusted nail is the reader who notices first.
+  The corpus moved by two rows: `th-067` "can iron rust without being
+  heated?" and `th-068` "does salt water make iron rust faster than fresh
+  water?" were both pinned `missing` and are now `computed`, so
+  `expectation_mismatches` fell 151 → 149 with no baseline drift. `aq-125`
+  and `th-069` stay `missing` and correctly so: neither adds oxygen, and
+  galvanic protection by zinc is a coupling this reaction does not model.
+  **Stated boundaries**, all in the entry's own provenance: iron *amount*
+  stands in for iron *area*, so a nail and filings of the same mass rust at
+  the same speed and K41's powder-versus-lump contrast is still out of
+  reach; the product is the registry's anhydrous oxide rather than the
+  hydrated mixture real rust is; and an open vessel still does not draw
+  oxygen from the room, which is why every arm of the lesson is sealed over
+  a measured amount of it.
 - **KID-6 — The boiling plateau.** Hold temperature at the (solute-shifted)
   boiling point while water leaves as steam; make the lv1 register say what
   lv3 already says when the aqueous model's 300 °C ceiling is passed.
+  **Landed 2026-09-02.** Freezing and melting had paid latent heat since
+  they were written; boiling announced the transition, left the water
+  liquid, and let the temperature run wherever the energy put it. The same
+  arithmetic as the melting branch, in the other direction, now buys vapour
+  with the energy above the boiling point and holds the thermometer there
+  until it has bought all of it.
+  The second half was a hand-off. `kerotakis_cea::ThermalEquilibrator`
+  declined a vessel holding liquid water only *below* 100 °C, so pure water
+  heated past boiling went to the Gibbs minimiser instead — and that route
+  emptied a 100 mL beaker on 120 kJ when boiling it dry costs 256. It now
+  declines whenever liquid water is present, so the plateau is paid first
+  and the minimiser only ever sees what is left. Measured, 100 mL of water:
+  30 kJ → 96.99 °C and nothing gone; 60 kJ → 100.00 °C, 87.0 g; 240 kJ →
+  100.00 °C, 7.2 g; 300 kJ → dry at 205 °C. Salt water holds at 103.52 °C
+  and says why — the same colligative relation that salts a road, read at
+  the other end of the curve.
+  **The blast radius was measured, not assumed:** the frozen-behaviour
+  golden moved by zero lines for the solver change, and only by the new
+  `lessons/boiling-curve.lab` block. The curiosity corpus moved by two rows,
+  and the first of them is the question this task exists to answer —
+  `aq-102`, "does water stay at its boiling point while it changes into
+  steam?", pinned `missing` and tagged `latent-heat-gap`, now `computed`.
+  The second, `aq-103` (hot water poured into cold), keeps its answer of
+  50.00 °C exactly and only changes which route claims it, because CEA no
+  longer contests a vessel with liquid water in it.
+  **Stated boundary**, in the code where it bites: the leftover sensible
+  heat once the last water has gone is spread over the heat capacity the
+  vessel had *before* it boiled dry, so the final temperature of a vessel
+  taken past dryness is under-reported. The melting branch makes the same
+  approximation in the same place; neither touches the plateau itself,
+  which is the observation the curve exists for.
 - **KID-7 — Solubility with temperature, and crystallisation.** `s(T)` for
   molecular solutes starting with sucrose; supersaturation as a state the
   bench can report; seeded growth on `wait`.
 - **KID-8 — Anthocyanin.** A red-cabbage material and an anthocyanin
   chromophore with pH-dependent spectra through the existing Beer–Lambert
   path, so the rainbow is *computed colour*, not a tinted lookup.
+  **Landed 2026-09-02.** The obstacle was structural rather than missing
+  data. An `Indicator` in this engine is one weak acid with *two* coloured
+  forms, which is the whole story for phenolphthalein and cannot be the
+  story for red cabbage: five colours do not come out of two forms.
+  `PigmentLadder` generalises the same Henderson–Hasselbalch idea the way a
+  polyprotic acid already is elsewhere here — `n` successive pKa values give
+  `n + 1` forms, the fraction in each is the standard stepwise distribution,
+  and the spectrum is every form's ε(λ) mixed in those fractions. A test
+  holds that a two-form ladder reproduces Henderson–Hasselbalch exactly, so
+  the generalisation is provably one.
+  Anthocyanin joins the registry as a four-form ladder at pKa 4.0 / 7.0 /
+  11.0, and `red_cabbage_juice` joins the shelf with the aliases a learner
+  reaches for. `lessons/cabbage-rainbow.lab` reads **red at pH 2, deep
+  purple at 6, blue at 10, blue-green at 12, yellow at 13**.
+  **The green is the argument.** No form of the pigment is green. It appears
+  where the blue form and the yellow form are both present, absorbing at each
+  end of the visible range and leaving a window between them — a colour in no
+  table in this engine, computed from two that are. A lookup table of "cabbage
+  colour versus pH" would have had to be *told* about green; this one was not.
+  Corpus: `aq-046`, "can red cabbage juice estimate the pH of household
+  liquids?", was pinned `missing` / `unknown-species` / `indicator-gap` — and
+  the name it used was already `red_cabbage_juice`, which is the canonical key
+  this task chose independently. It now reads `computed`.
+  **Stated boundaries**, in the ladder's own provenance and the recipe's lot
+  assumptions: red cabbage is a mixture of acylated cyanidin glycosides
+  rather than one compound, so no InChIKey is asserted — the position starch
+  and cellulose already take here. Only the flavylium ε is a literature
+  figure; the other three are explicitly editorial, chosen so each colour
+  becomes visible at the concentration a jar of cabbage water actually is.
+  And the juice *reports* pH without moving it: a real extract is mildly
+  acidic and buffered, and this surrogate is not.
 - **KID-9 — Paper chromatography.** `EXP-8`'s Rf mode plus partition data
   for the three shipped dyes and a black-ink surrogate.
+  **Landed 2026-09-02.** Rf is not a second model. A column reports *when* a
+  solute leaves and a paper strip reports *how far* it went, and both are one
+  partition coefficient read two ways: `Rf = Kβ/(1 + Kβ)` is the fraction of
+  its time a solute spends in the moving phase. So `ElutedPeak` gained an
+  `rf` beside its retention time, both computed from the same `K`, and a test
+  holds that the two rank the dyes identically — the bench cannot say one
+  thing on a column and another on paper.
+  The blocking gap was the partition data. `K` comes from a UNIFAC group
+  decomposition, which exists for exactly three species here; a food dye is a
+  large glycoside or a sulfonated aromatic, and splitting one into UNIFAC
+  groups would be a fiction dressed as a calculation. So four dyes carry a
+  **curated** `K` instead, and the lv3 provenance line now names which
+  coefficients were computed and which were reviewed — it used to claim every
+  one came from UNIFAC, which was true until it wasn't.
+  `black_ink` joins the shelf as three dyes in the ratio that reads as a dark
+  neutral, and `lessons/ink-chromatography.lab` takes it apart: indigo
+  carmine at Rf 0.15, betanin at 0.35, curcumin at 0.85, with each pure dye
+  running to the same height on its own — which is what lets a strip identify
+  an unknown ink.
+  Corpus: `bio-104`, "can paper chromatography separate two food dyes?", was
+  pinned `missing` and filed against `EXP-36` (organic synthesis); it now
+  reads `computed` and is filed against `EXP-8`, which owns chromatography.
+  The only change to an existing lesson's output is the added `Rf` field —
+  every retention time is unchanged to the digit.
+  **Stated boundary:** the four curated coefficients are *ordered*, not
+  measured. They reproduce which dye runs furthest and roughly how far apart
+  the spots land; a real strip's Rf depends on the solvent, the paper and the
+  temperature, and none of that is claimed.
 - **KID-10 — Completions.** Calcium and lithium flame colours; acetic acid
   and ethanol odours; the missing cold-pack salt (NH₄NO₃) through the
   registry pipeline.
@@ -366,7 +515,7 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 8, 9 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
@@ -399,7 +548,7 @@ or a rate in them.
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
-| K40 | Grow blue crystals | **wrong** | ends at **109 °C with liquid water in the ledger** and "the water is boiling — look at the steam!" — the KID-6 latent-heat gap again. Also: chalcanthite is drawn *white*, and it is the blue vitriol of the experiment's title |
+| K40 | Grow blue crystals | **wrong** → partial | ended at **109 °C with liquid water in the ledger** — the KID-6 latent-heat gap, fixed 2026-09-02. Cooling a hot saturated solution still grows no crystals (KID-7), and chalcanthite is still drawn *white* when it is the blue vitriol of the experiment's title (KID-20) |
 | K41 | Powder fizzes faster than a lump | unreachable | `grind v1 CaCO3` refuses — "vessel v1 contains no solid CaCO3 to grind", because the chalk dissolved on contact. There is no lump-versus-powder rate contrast to find |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
@@ -407,7 +556,7 @@ or a rate in them.
 | K45 | Stop an apple going brown | honest miss | no enzymatic browning; the vitamin C sits as a solid and says so |
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
 | K47 | A fire extinguisher in a jar | **silent miss** | the CO₂ generator works; the fire it is supposed to put out does not exist (KID-4/KID-12) |
-| K48 | Colours climbing a chalk stick | honest miss | same refusal as K26 |
+| K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
 | K50 | A pH map of the kitchen | **wrong** | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice reads nothing at all**, because the recipe resolves to water and sucrose with no acid in it. A juice with no acid is a juice a pH map lies about |
 | K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent, and cooling a supersaturated acetate solution does nothing (KID-7) |
@@ -457,6 +606,15 @@ thirty separate problems, it is finding the same eight.
   the half-cells are half-cells: three refusals that are each correct and
   none of which say what to do instead.
   *Acceptance:* a refusal that has an obvious remedy states it.
+- **KID-22b — `kero study --vary` sweeps moles whatever the line said.**
+  Found while calibrating KID-5: `--vary add:v1:Fe=1..2` on a line reading
+  `add v1 Fe 1g` replaces the parsed amount with one *mole* of iron, 55.8 g,
+  and the resulting curve looks like a rate law that has stopped responding.
+  KID-5 made the unit explicit in the provenance and added a stderr warning
+  when the swept line is written in grams or millilitres. The remaining
+  question — whether the sweep should instead follow the line's own unit —
+  is left open, because converting needs the molar mass and changing the
+  meaning of an existing flag is not a calibration decision.
 - **KID-22 — `react` and `test` exist and are invisible.** `react v1
   esterification` runs; `test v1 splint` runs. Neither is in `kero --help`
   or the REPL's `help`, which between them name 24 and 18 of the grammar's

@@ -142,3 +142,254 @@ fn the_milk_lesson_curdles_through_the_full_solver_stack() {
         "the control vessel curdled, which is the bug in reverse:\n{out}"
     );
 }
+
+/// KID-5 / EXP-34: rust forms only where air and water are both present, and
+/// salt makes the same reaction faster.
+///
+/// The audit in `KIDS.md` put steel wool in brine under oxygen, waited a day,
+/// and got back unchanged iron and the words "this part of the lab isn't
+/// awake yet" — a silent miss on one of the first chemical changes a child
+/// ever watches. This drives the four-arm lesson through the full solver
+/// stack and holds every arm, because three of the four are controls and a
+/// control that quietly rusts is worse than no control.
+#[test]
+fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
+    let lesson = lessons_dir().join("rusting.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Each `inspect` block starts with its vessel header; split on those so
+    // an arm's ledger cannot be read off another arm's.
+    let arm = |vessel: &str| -> String {
+        let mut lines = out.lines().skip_while(|line| {
+            !line
+                .trim_start()
+                .starts_with(&format!("{vessel} (beaker) —"))
+        });
+        let header = lines
+            .next()
+            .unwrap_or_else(|| panic!("{vessel} reports:\n{out}"));
+        // The ledger runs to the next vessel header, which is the next line
+        // that is not indented under this one.
+        let body: Vec<&str> = lines
+            .take_while(|line| !line.contains(" (beaker) —"))
+            .collect();
+        format!("{header}\n{}", body.join("\n"))
+    };
+    let rust_in = |vessel: &str| -> f64 {
+        arm(vessel)
+            .lines()
+            .find(|line| line.contains("iron(III) oxide"))
+            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .unwrap_or(0.0)
+    };
+
+    // The dry arm has air and no water; the swept arm has water and no air.
+    assert_eq!(rust_in("v1"), 0.0, "dry iron rusted:\n{}", arm("v1"));
+    assert_eq!(
+        rust_in("v2"),
+        0.0,
+        "iron rusted with the oxygen swept out:\n{}",
+        arm("v2")
+    );
+
+    let plain = rust_in("v3");
+    let salty = rust_in("v4");
+    assert!(
+        plain > 0.0,
+        "nothing rusted in water and air:\n{}",
+        arm("v3")
+    );
+    assert!(
+        salty > plain * 1.5,
+        "salt water must rust visibly faster than plain: {salty} vs {plain}"
+    );
+
+    // The oxygen is consumed, which is why a sealed tin does not rust from
+    // the inside — and it is what makes the water rise in the real tube.
+    assert!(
+        arm("v4").contains("0.0001 mol  oxygen"),
+        "the salt arm should run its trapped oxygen down:\n{}",
+        arm("v4")
+    );
+}
+
+/// KID-6: heat is not temperature, and the bench has to be able to say so.
+///
+/// Boiling announced the transition, left the water liquid, and let the
+/// temperature run wherever the energy put it — heating juice on paper
+/// reached 670 °C with liquid water still in the ledger. Freezing and
+/// melting had paid latent heat since they were written; this holds the
+/// third plateau to the same standard, on the binary a reader runs.
+#[test]
+fn the_boiling_plateau_holds_while_the_water_leaves() {
+    let lesson = lessons_dir().join("boiling-curve.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    let reading = |vessel: &str| -> f64 {
+        out.lines()
+            .find(|line| line.contains(&format!("{vessel} thermometer:")))
+            .and_then(|line| {
+                line.split("thermometer:")
+                    .nth(1)?
+                    .split_whitespace()
+                    .next()?
+                    .parse::<f64>()
+                    .ok()
+            })
+            .unwrap_or_else(|| panic!("{vessel} reports a temperature:\n{out}"))
+    };
+    let water_in = |vessel: &str| -> f64 {
+        let header = out
+            .find(&format!("{vessel} (beaker) —"))
+            .unwrap_or_else(|| panic!("{vessel} reports:\n{out}"));
+        out[header..]
+            .lines()
+            .take_while(|line| !line.contains("mol  chloride"))
+            .find(|line| line.contains("mol  water"))
+            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .unwrap_or_else(|| panic!("{vessel} reports its water:\n{out}"))
+    };
+
+    // Below the plateau the thermometer moves; on it, it does not.
+    assert!(reading("v1") < 99.0, "30 kJ must not reach boiling");
+    assert!(
+        (reading("v2") - 100.0).abs() < 0.01 && (reading("v3") - 100.0).abs() < 0.01,
+        "60 kJ and 240 kJ must read the same 100 °C: {} and {}",
+        reading("v2"),
+        reading("v3")
+    );
+    // Four times the energy past the plateau buys no degrees and much less
+    // water. That contrast is the whole lesson.
+    assert!(
+        water_in("v3") < water_in("v2") / 4.0,
+        "240 kJ must leave far less water than 60 kJ: {} vs {}",
+        water_in("v3"),
+        water_in("v2")
+    );
+    // And a dissolved solute raises the plateau by the colligative amount.
+    assert!(
+        reading("v4") > 103.0 && reading("v4") < 104.0,
+        "salt water must boil above 100 °C: {}",
+        reading("v4")
+    );
+}
+
+/// KID-8: five colours out of one pigment, and one of them is in no table.
+///
+/// The audit's K12 died on `red_cabbage_indicator`, which did not exist —
+/// there was no anthocyanin in the registry and the indicator table held
+/// only two-form weak acids, which cannot produce five colours. This drives
+/// the ladder through the full stack and checks the sequence, including the
+/// green that appears where a blue form and a yellow form overlap.
+#[test]
+fn the_cabbage_rainbow_computes_five_colours_from_one_pigment() {
+    let lesson = lessons_dir().join("cabbage-rainbow.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let colour = |vessel: &str| -> String {
+        out.lines()
+            .find(|line| line.contains(&format!("You look closely at {vessel}.")))
+            .and_then(|line| line.split("The liquid is ").nth(1))
+            .and_then(|rest| rest.split(" and ").next())
+            .unwrap_or_else(|| panic!("{vessel} is looked at:\n{out}"))
+            .to_string()
+    };
+    assert_eq!(colour("v1"), "red", "vinegar holds the flavylium form");
+    assert_eq!(
+        colour("v2"),
+        "deep purple",
+        "mildly acidic is the middle form"
+    );
+    assert_eq!(colour("v3"), "blue", "baking soda takes the next proton");
+    assert_eq!(
+        colour("v5"),
+        "yellow",
+        "strong alkali is the top of the ladder"
+    );
+    // The one nobody tabulated: a blue form and a yellow form present
+    // together absorb at both ends and leave a window in the middle.
+    assert!(
+        colour("v4").contains("green"),
+        "washing soda must land in the green between blue and yellow, not on \
+         either of them: {}",
+        colour("v4")
+    );
+    // Five jars, five different answers — the point of computing the colour.
+    let all: Vec<String> = ["v1", "v2", "v3", "v4", "v5"]
+        .iter()
+        .map(|v| colour(v))
+        .collect();
+    let mut unique = all.clone();
+    unique.sort();
+    unique.dedup();
+    assert_eq!(
+        unique.len(),
+        5,
+        "five jars must not share a colour: {all:?}"
+    );
+}
+
+/// KID-9 / EXP-8: a black ink is a mixture, and the strip proves it.
+///
+/// The audit's K26 and K48 both got "nothing dissolved here has a curated
+/// UNIFAC decomposition, so the column's method is silent". The refusal was
+/// honest and the gap was real: a food dye is a large glycoside, and a
+/// UNIFAC decomposition of one would be a fiction dressed as a calculation.
+/// This holds the separation and — the part that matters — that the paper
+/// strip and the column agree about the order, because both read one
+/// partition coefficient.
+#[test]
+fn the_ink_strip_and_the_column_cannot_disagree() {
+    let lesson = lessons_dir().join("ink-chromatography.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // The mixture separates into three named dyes.
+    let mixture = out
+        .lines()
+        .find(|line| line.contains("The mixture from v1 separates"))
+        .unwrap_or_else(|| panic!("v1 is separated:\n{out}"));
+    for dye in ["indigo carmine", "betanin", "curcumin"] {
+        assert!(
+            mixture.contains(dye),
+            "the strip must show {dye}: {mixture}"
+        );
+    }
+
+    // Column order and strip order are the same separation read two ways:
+    // the dye the column holds longest is the one furthest up the paper.
+    let lv3 = out
+        .lines()
+        .find(|line| line.contains("Rf=") && line.contains("tR="))
+        .unwrap_or_else(|| panic!("the lv3 table reports Rf:\n{out}"));
+    let rows: Vec<(f64, f64)> = lv3
+        .split(';')
+        .filter_map(|part| {
+            let tr = part.split("tR=").nth(1)?.split('s').next()?.parse().ok()?;
+            let rf = part
+                .split("Rf=")
+                .nth(1)?
+                .split_whitespace()
+                .next()?
+                .parse()
+                .ok()?;
+            Some((tr, rf))
+        })
+        .collect();
+    assert_eq!(rows.len(), 3, "three peaks in the lv3 table: {lv3}");
+    for pair in rows.windows(2) {
+        assert!(
+            pair[0].0 < pair[1].0 && pair[0].1 < pair[1].1,
+            "retention time and Rf must rank the same way: {rows:?}"
+        );
+    }
+
+    // A single dye run on its own lands where it landed in the mixture,
+    // which is what makes a strip able to identify an unknown.
+    assert!(
+        out.contains("curcumin (turmeric yellow) 85 mm up"),
+        "the pure yellow must run to the same height as it did in the ink:\n{out}"
+    );
+}

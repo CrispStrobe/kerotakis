@@ -1497,15 +1497,34 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         },
         Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
             1 => {
+                // KID-9: the same separation as a child sees it — spots at
+                // different heights up a strip of paper. The distances are
+                // the Rf values, which are the same partition coefficients
+                // the column's times come from.
                 let order = peaks
                     .iter()
                     .map(|p| species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()))
                     .collect::<Vec<_>>()
                     .join(", then ");
+                let strip = peaks
+                    .iter()
+                    .rev()
+                    .map(|p| {
+                        locale.fill(
+                            "event.chromatographed.lv1-spot",
+                            "{name} {mm} mm up",
+                            &[
+                                ("name", species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str())),
+                                ("mm", &locale.number(format!("{:.0}", p.rf * 100.0))),
+                            ],
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join(", ");
                 locale.fill(
                     "event.chromatographed.lv1-mixture-from-runs",
-                    "The mixture from {vessel} runs through the column and comes out one thing at a time: {order}.",
-                    &[("vessel", &vessel.to_string()), ("order", &order.to_string())],
+                    "The mixture from {vessel} separates: on the column it comes out one thing at a time — {order} — and on a paper strip the same colours stop at different heights: {strip}.",
+                    &[("vessel", &vessel.to_string()), ("order", &order.to_string()), ("strip", &strip.to_string())],
                 )
             }
             2 => {
@@ -1513,9 +1532,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .iter()
                     .map(|p| {
                         format!(
-                            "{} at {:.0} s ({:.0}% area)",
+                            "{} at {:.0} s, Rf {:.2} ({:.0}% area)",
                             species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()),
                             p.retention_time_s,
+                            p.rf,
                             p.relative_area * 100.0,
                         )
                     })
@@ -1541,8 +1561,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .iter()
                     .map(|p| {
                         format!(
-                            "{} K={:.3} tR={:.1}s w={:.1}s A={:.3}",
-                            p.species.0, p.partition_k, p.retention_time_s, p.width_s, p.relative_area,
+                            "{} K={:.3} tR={:.1}s w={:.1}s Rf={:.3} A={:.3}",
+                            p.species.0, p.partition_k, p.retention_time_s, p.width_s, p.rf, p.relative_area,
                         )
                     })
                     .collect::<Vec<_>>()
@@ -1556,10 +1576,35 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("outside_method", &outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ").to_string())],
                     )
                 };
+                // KID-9: which K's were computed and which were reviewed.
+                // The header used to claim every one came from UNIFAC. That
+                // was true while only three species had group
+                // decompositions, and became false the moment a curated
+                // coefficient let the dyes onto the column — a provenance
+                // line that names the wrong method is worse than none.
+                let curated = peaks
+                    .iter()
+                    .filter(|p| crate::instrument::curated_partition_k(&p.species.0).is_some())
+                    .map(|p| p.species.0.as_str())
+                    .collect::<Vec<_>>();
+                let method = if curated.is_empty() {
+                    locale
+                        .lookup("event.chromatographed.lv3-method-unifac")
+                        .unwrap_or(
+                            "K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on",
+                        )
+                        .to_string()
+                } else {
+                    locale.fill(
+                        "event.chromatographed.lv3-method-mixed",
+                        "K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on, except for {curated}, whose K is a reviewed teaching value: a dye is a glycoside or a sulfonated aromatic and a UNIFAC decomposition of one would be a fiction dressed as a calculation",
+                        &[("curated", &curated.join(", "))],
+                    )
+                };
                 locale.fill(
                     "event.chromatographed.lv3",
-                    "{vessel}: N={plates}, t0={void_time_s}s, β=0.5; K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on; tR = t0·(1+K·β), w = 4·tR/√N — {table}{unseen}",
-                    &[("vessel", &vessel.to_string()), ("plates", &plates.to_string()), ("void_time_s", &locale.number(format!("{void_time_s:.0}"))), ("table", &table.to_string()), ("unseen", &unseen.to_string())],
+                    "{vessel}: N={plates}, t0={void_time_s}s, β=0.5; {method}; tR = t0·(1+K·β), w = 4·tR/√N, Rf = Kβ_paper/(1+Kβ_paper) on a 100 mm strip — {table}{unseen}",
+                    &[("vessel", &vessel.to_string()), ("plates", &plates.to_string()), ("void_time_s", &locale.number(format!("{void_time_s:.0}"))), ("method", &method.to_string()), ("table", &table.to_string()), ("unseen", &unseen.to_string())],
                 )
             }
         },
@@ -1808,9 +1853,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
+                // KID-5: say which question this answers.
+                //
+                // Every `Inert` comes from the activity series asking one
+                // thing — can anything dissolved here take this metal's
+                // electrons? The lv2 and lv3 forms carry that scope in
+                // `why`; the lv1 form dropped it, and read as a claim about
+                // the metal in general. That became false the day iron
+                // started rusting: the bench would report the nail going
+                // orange and, in the same breath, that nothing happens to
+                // the iron because it is too unreactive.
                 1 => locale.fill(
                     "event.inert.lv1",
-                    "Nothing happens to the {name} in {vessel} — and that is the real answer, not a gap: it is too unreactive for this.",
+                    "The {name} in {vessel} does not swap places with anything dissolved here — that is the real answer, not a gap.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => locale.fill(

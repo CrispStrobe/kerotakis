@@ -1,0 +1,55 @@
+# Rusting: iron needs air AND water, and salt makes it faster
+#
+# Four nails, four conditions, one clock. Everything here is safe, but the
+# vessels are sealed on purpose: the oxygen a nail can reach is the oxygen
+# trapped over it, and running out of it is half the lesson.
+register lv1
+
+# 1. Dry. Iron and air, no water at all. Predict before you wait.
+add v1 Fe 1g
+seal v1 500mL
+look v1
+
+# 2. Water with the air swept out. A nitrogen purge is the bench's version
+#    of the boiled water the classroom experiment uses.
+new beaker
+add v2 water 100mL
+add v2 Fe 1g
+sweep v2 1bar
+seal v2 500mL
+
+# 3. Plain water, sealed over ordinary room air.
+new beaker
+add v3 water 100mL
+add v3 Fe 1g
+seal v3 500mL
+
+# 4. The same, in salt water. Chloride is not used up by the reaction and
+#    does not appear in its equation — it makes the same reaction faster.
+new beaker
+add v4 water 100mL
+add v4 NaCl 3g
+add v4 Fe 1g
+seal v4 500mL
+
+# One day passes for all four.
+wait 24h
+look v1
+look v2
+look v3
+look v4
+
+# Vessels 1 and 2 are the controls, and each is missing one thing. Read the
+# oxygen line in vessels 3 and 4: the salt one has used almost all of it, and
+# when the oxygen is gone the rusting stops with iron still in the vessel.
+# That is why a sealed tin can does not rust from the inside.
+inspect v1
+inspect v2
+inspect v3
+inspect v4
+
+# What this does not model: iron amount stands in for iron area, so filings
+# and a nail of the same mass rust at the same speed here; the product is the
+# registry's anhydrous iron(III) oxide rather than the hydrated rust of a real
+# nail; and an open vessel does not draw oxygen from the room, which is why
+# every vessel above is sealed over a measured amount of it.

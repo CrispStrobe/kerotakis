@@ -663,7 +663,9 @@ impl Lab {
                     "reactive_groups": kerotakis_safety::groups(s.key),
                     "elements": composition.as_ref().map(|f| &f.counts),
                     "charge": composition.as_ref().map(|f| f.charge),
-                    "indicator": kerotakis_core::indicator::lookup(s.key).is_some(),
+                    // KID-8: a pH-dependent pigment is an indicator to the
+                    // shelf's role derivation, however many forms it has.
+                    "indicator": kerotakis_core::indicator::is_ph_dependent(s.key),
                     // Water is the solvent the aqueous engine is written
                     // around, which is why it is not in the organic list.
                     "solvent": kerotakis_core::nonaqueous::KNOWN_SOLVENTS.contains(&s.key)

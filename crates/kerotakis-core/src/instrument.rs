@@ -366,6 +366,99 @@ impl ChromatographyColumn {
     }
 }
 
+/// KID-9 / EXP-8: the same separation, run on paper.
+///
+/// A column reports *when* a solute leaves; a paper strip reports *how far*
+/// it went. Both are the one partition coefficient read two ways, so the
+/// plate below deliberately takes the same `K` the column does — a solute
+/// the column retains longest is the one nearest the pencil line, and the
+/// bench cannot say otherwise in one experiment than in the other.
+///
+/// Rf = distance travelled ÷ distance the solvent front travelled, which for
+/// a partition separation is `Kβ / (1 + Kβ)`: the fraction of its time a
+/// solute spends in the moving phase.
+pub struct PaperPlate {
+    /// Volume of mobile phase per volume of stationary phase on the strip.
+    pub phase_ratio: f64,
+    /// How far the solvent front runs before the strip is taken out, mm.
+    pub front_mm: f64,
+}
+
+impl PaperPlate {
+    /// The bench's standard strip: a 10 cm run, and a phase ratio chosen so
+    /// the shipped dyes land across the readable part of the plate rather
+    /// than bunched at either end.
+    pub fn school() -> Self {
+        PaperPlate {
+            phase_ratio: 1.0,
+            front_mm: 100.0,
+        }
+    }
+
+    /// Retardation factor for a solute with partition coefficient `K`.
+    ///
+    /// Bounded to (0, 1) by construction: a spot cannot outrun the solvent
+    /// that carries it, and one that never leaves the origin has Rf 0.
+    pub fn rf(&self, partition_k: f64) -> f64 {
+        if !partition_k.is_finite() || partition_k <= 0.0 {
+            return 0.0;
+        }
+        let k = partition_k * self.phase_ratio;
+        (k / (1.0 + k)).clamp(0.0, 1.0)
+    }
+
+    /// Where the spot ends up, mm from the pencil line.
+    pub fn distance_mm(&self, partition_k: f64) -> f64 {
+        self.rf(partition_k) * self.front_mm
+    }
+}
+
+/// KID-9: partition coefficients for solutes UNIFAC cannot decompose.
+///
+/// The column's `K` is `γ∞(water)/γ∞(alkane)` from a group decomposition,
+/// which is the right way to get one and is available for exactly three
+/// species here. A food dye is a large glycoside or a sulfonated aromatic;
+/// splitting one into UNIFAC groups would be a fiction dressed as a
+/// calculation. So these are curated instead, and say so — the same
+/// position the codex takes wherever a number is reviewed rather than
+/// derived.
+///
+/// They are ordered, not measured: what they reproduce is which dye runs
+/// furthest on a school strip, and roughly how far apart the spots land.
+/// No claim is made about a particular solvent system, paper, or the Rf a
+/// laboratory would record.
+pub const CURATED_PARTITION_K: &[(&str, f64, &str)] = &[
+    (
+        "indigo_carmine",
+        0.18,
+        "doubly sulfonated and the most water-loving of the shipped dyes: it barely leaves the pencil line",
+    ),
+    (
+        "betanin",
+        0.54,
+        "a glycoside with a charged betalain core; it runs, but stays in the lower half",
+    ),
+    (
+        "anthocyanin",
+        0.82,
+        "the cabbage pigment, a glycoside like betanin and a little less polar",
+    ),
+    (
+        "curcumin",
+        5.7,
+        "a diarylheptanoid with no sugar and no charge: the one that runs with the front",
+    ),
+];
+
+/// The curated partition coefficient for a species, with the sentence that
+/// justifies it.
+pub fn curated_partition_k(species_key: &str) -> Option<(f64, &'static str)> {
+    CURATED_PARTITION_K
+        .iter()
+        .find(|(key, _, _)| *key == species_key)
+        .map(|(_, k, why)| (*k, *why))
+}
+
 /// INST-008: Qualitative analysis — computed identification from tests.
 ///
 /// Instead of a scripted answer key, the system runs actual computed tests

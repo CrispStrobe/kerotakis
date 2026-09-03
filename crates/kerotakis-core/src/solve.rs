@@ -841,6 +841,66 @@ impl Equilibrator for StateEquilibrator {
             // the old brine until the phase-coupled solver re-runs chemistry.
             vessel.solution = None;
         } else if liquid_water && now >= t.boiling_k {
+            // KID-6: the plateau at the top of the heating curve.
+            //
+            // Freezing and melting above have paid latent heat since they
+            // were written; boiling announced the transition, left the water
+            // liquid, and let the temperature run wherever the energy put
+            // it. Heating juice on paper reached **670 °C with liquid water
+            // still in the ledger** — a state the lv3 register named
+            // honestly and the lv1 register reported as "the water is
+            // boiling — look at the steam!" beside a mass that had not
+            // moved. Pure water escaped this because it routes to the CEA
+            // minimiser above 250 °C and gets vaporised there; anything with
+            // a solute in it stayed on the aqueous path and simply cooked.
+            //
+            // Same arithmetic as the melting branch, in the other direction:
+            // the energy above the boiling point buys vapour, and the
+            // temperature holds at the boiling point until it has bought all
+            // of it.
+            let available_j = cp * (now - t.boiling_k);
+            let boiling = (available_j / crate::states::WATER_H_VAP).min(liquid_moles);
+            let latent_total = liquid_moles * crate::states::WATER_H_VAP;
+
+            if boiling <= crate::OBSERVABLE_MOLES {
+                return Ok(events);
+            }
+            for p in vessel.contents.iter_mut() {
+                if p.species == solvent && p.phase == Phase::Liquid {
+                    p.moles = Moles((p.moles.0 - boiling).max(0.0));
+                }
+            }
+            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Sealed, the steam is headspace and the pressure says so; open,
+            // it leaves the room and the balance notices. Either way the
+            // matter is accounted for rather than left behind as a liquid
+            // that is somehow above its boiling point.
+            if vessel.retain_gas(solvent.clone(), Moles(boiling)) {
+                events.push(Event::GasContained {
+                    vessel: vessel.id,
+                    species: solvent.clone(),
+                    moles: Moles(boiling),
+                });
+            } else {
+                events.push(Event::GasEvolved {
+                    vessel: vessel.id,
+                    species: solvent.clone(),
+                    moles: Moles(boiling),
+                });
+            }
+
+            // Cp is read before any water leaves, so the sensible heat left
+            // over once the last of it has gone is spread over a heat
+            // capacity that no longer exists. The melting branch above makes
+            // the same approximation in the same place; it under-reports the
+            // final temperature of a vessel boiled dry, and never the
+            // plateau itself, which is the observation the curve is for.
+            vessel.temperature = if available_j < latent_total {
+                Kelvin(t.boiling_k)
+            } else {
+                Kelvin(t.boiling_k + (available_j - latent_total) / cp)
+            };
+
             events.push(Event::StateChanged {
                 vessel: vessel.id,
                 species: solvent.clone(),
@@ -849,11 +909,9 @@ impl Equilibrator for StateEquilibrator {
                 at: Kelvin(t.boiling_k),
                 shifted_by: t.boiling_elevation(),
             });
+            // The solvent mass changed, so every molality and activity the
+            // aqueous engine solved for describes water that has left.
             vessel.solution = None;
-            events.push(Event::NotYetModeled {
-                vessel: vessel.id,
-                what: "a boiling vessel: the temperature should hold at the boiling point while water leaves as steam, and that latent-heat plateau is not modelled yet".to_string(),
-            });
         }
 
         Ok(events)

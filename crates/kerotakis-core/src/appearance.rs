@@ -62,15 +62,22 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         // is asked for one only once the solution has been characterised.
         // Without a pH there is no answer to give, and guessing at one
         // would make the bench assert a colour it has not computed.
-        let eps = match crate::indicator::lookup(&p.species.0) {
-            Some(ind) => match vessel.solution.as_ref() {
-                Some(sol) => ind.spectrum_at(sol.ph),
+        let eps = if crate::indicator::is_ph_dependent(&p.species.0) {
+            // KID-8: a two-form indicator and a four-form pigment ladder ask
+            // the same question of the solution, so they are asked it the
+            // same way.
+            match vessel.solution.as_ref() {
+                Some(sol) => match crate::indicator::spectrum_at_ph(&p.species.0, sol.ph) {
+                    Some(spectrum) => spectrum,
+                    None => continue,
+                },
                 None => continue,
-            },
-            None => match species::lookup(&p.species).and_then(|d| d.spectrum) {
+            }
+        } else {
+            match species::lookup(&p.species).and_then(|d| d.spectrum) {
                 Some(spectrum) => *spectrum,
                 None => continue,
-            },
+            }
         };
         let visible_moles =
             (p.moles.0 - crate::surface_colour::sequestered_moles(vessel, &p.species)).max(0.0);
@@ -138,6 +145,15 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     // --- Cloudiness and deposit from suspended solid.
     let mut solid_moles = 0.0;
     let mut biggest: Option<(&str, f64, Colour)> = None;
+    // KID-5: every settled solid, not only the largest.
+    //
+    // A nail rusting in salt water ends with grey iron and reddish-brown
+    // iron(III) oxide side by side at the bottom, and the description named
+    // the iron and stopped — so the one thing the experiment exists to show
+    // was in the ledger, drawn nowhere, and spoken of by nobody. That is the
+    // same defect the particle view already refuses to commit: a picture
+    // that silently omits a species teaches that the species is not there.
+    let mut settled: Vec<(&str, f64, Colour)> = Vec::new();
     for p in &vessel.contents {
         if p.phase != Phase::Solid {
             continue;
@@ -175,8 +191,11 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
-        if settled_moles > 1e-12 && biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
-            biggest = Some((name, settled_moles, colour));
+        if settled_moles > 1e-12 {
+            settled.push((name, settled_moles, colour));
+            if biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
+                biggest = Some((name, settled_moles, colour));
+            }
         }
     }
     let particle_cloudiness = if pigment_colour.is_some() {
@@ -194,6 +213,19 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         .max(emulsion_cloudiness)
         .max(colloid_cloudiness);
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
+    // Ordered by how much of it there is, and cut where a solid stops being
+    // worth mentioning: a tenth of the largest heap is still a heap, a
+    // thousandth is a contaminant nobody would point at. `deposit` keeps its
+    // single-value shape so the scene contract is unchanged; the extra names
+    // reach the reader through the words.
+    settled.sort_by(|a, b| b.1.total_cmp(&a.1));
+    let visible_floor = settled.first().map(|(_, m, _)| m * 0.1).unwrap_or(0.0);
+    let deposits: Vec<(String, Colour)> = settled
+        .iter()
+        .filter(|(_, moles, _)| *moles >= visible_floor)
+        .take(3)
+        .map(|(name, _, colour)| ((*name).to_string(), *colour))
+        .collect();
 
     // Gas in a vessel that also holds liquid is gas coming *out* of the
     // liquid, which is the single most visible thing in a school kinetics
@@ -205,7 +237,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .iter()
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
-    let words = describe(&liquid, cloudiness, &deposit, has_liquid, bubbling, vessel);
+    let words = describe(&liquid, cloudiness, &deposits, has_liquid, bubbling, vessel);
     Appearance {
         liquid,
         cloudiness,
@@ -225,7 +257,18 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     let max = r.max(g).max(b);
     let min = r.min(g).min(b);
     let chroma = max - min;
-    if chroma < 12.0 {
+    // KID-5: a solid with a hue nobody can see is not that hue.
+    //
+    // Zinc is rgb(186, 196, 200) — a chroma of 14, which clears the
+    // absolute cut-off below by two, and a *saturation* of 0.07, which is
+    // grey by any measure. The hue arithmetic duly reported "blue-green
+    // zinc". Chroma alone cannot separate a pale metal from a pale colour
+    // because it does not know how bright the sample is; saturation does,
+    // and it is the same quantity the pink/purple rule below already
+    // relies on. Applied to solids only: a dilute coloured *solution* is
+    // genuinely pale-coloured, and Beer–Lambert has already said so.
+    let achromatic_solid = solid && chroma / max.max(1.0) < 0.12;
+    if chroma < 12.0 || achromatic_solid {
         return match (max, solid) {
             (m, true) if m > 200.0 => "white",
             (m, false) if m > 200.0 => "colourless",
@@ -252,7 +295,21 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     let saturation = chroma / max.max(1.0);
     match hue {
         h if !(15.0..330.0).contains(&h) => {
-            if saturation < 0.7 {
+            // KID-5: the pink/red split is a *transmission* rule. It exists
+            // because dilute and concentrated permanganate are one spectrum
+            // at two path-lengths, and a chemist calls the first pink and
+            // the second purple — washing-out, not hue. A solid's colour is
+            // scattering, and there the same rule is the wrong physics:
+            // iron(III) oxide is rgb(145, 66, 54), a saturation of 0.63,
+            // and it came out "pink". Rust is not pink, and a child looking
+            // at a rusted nail is the reader who would notice first.
+            if solid {
+                if saturation < 0.75 {
+                    "reddish brown"
+                } else {
+                    "red"
+                }
+            } else if saturation < 0.7 {
                 "pink"
             } else {
                 "red"
@@ -284,7 +341,7 @@ pub(crate) fn liquid_colour_word(c: &Colour, cloudiness: f64) -> &'static str {
 fn describe(
     liquid: &Option<Colour>,
     cloudiness: f64,
-    deposit: &Option<(String, Colour)>,
+    deposits: &[(String, Colour)],
     has_liquid: bool,
     bubbling: bool,
     vessel: &Vessel,
@@ -322,12 +379,20 @@ fn describe(
     if bubbling {
         parts.push("bubbles of gas are rising through it".to_string());
     }
-    if let Some((name, colour)) = deposit {
-        let word = colour_word(colour, true);
+    if !deposits.is_empty() {
+        let named: Vec<String> = deposits
+            .iter()
+            .map(|(name, colour)| format!("{} {name}", colour_word(colour, true)))
+            .collect();
+        let list = match named.split_last() {
+            Some((last, [])) => last.clone(),
+            Some((last, rest)) => format!("{} and {last}", rest.join(", ")),
+            None => String::new(),
+        };
         parts.push(if has_liquid {
-            format!("there is {word} {name} at the bottom")
+            format!("there is {list} at the bottom")
         } else {
-            format!("there is {word} {name} in the beaker")
+            format!("there is {list} in the beaker")
         });
     }
     // A named solid the registry does not resolve into species is still

@@ -450,6 +450,12 @@ pub struct ElutedPeak {
     pub relative_area: f64,
     /// The computed partition coefficient that put the peak there.
     pub partition_k: f64,
+    /// KID-9: the same K read as a paper strip reads it — the fraction of
+    /// the solvent front's distance this solute travels. A column and a
+    /// paper plate are one separation reported two ways, so both numbers
+    /// come from one coefficient and cannot disagree.
+    #[serde(default)]
+    pub rf: f64,
 }
 
 /// One solid population's computed travel during a centrifuge run.

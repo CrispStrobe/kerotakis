@@ -115,6 +115,226 @@ pub const INDICATORS: &[Indicator] = &[
     },
 ];
 
+/// KID-8: a pigment whose colour passes through more than two forms.
+///
+/// An `Indicator` above is one weak acid with two coloured forms, and that
+/// is the whole story for phenolphthalein. Red cabbage is not that story.
+/// Its anthocyanins lose protons in steps, and each step has its own
+/// colour, which is why the classroom rainbow runs red → purple → blue →
+/// green → yellow across the range rather than switching once. Two forms
+/// cannot produce five colours, and tabulating five would throw away the
+/// reason the bench computes colour at all.
+///
+/// So the ladder is the same Henderson–Hasselbalch idea generalised the way
+/// a polyprotic acid already is elsewhere in this engine: `n` successive
+/// pKa values give `n + 1` forms, the fraction in each is the standard
+/// stepwise distribution, and the spectrum is every form's ε(λ) mixed in
+/// those fractions. The green nobody put in the table falls out of it — a
+/// blue form and a yellow form present together absorb at both ends of the
+/// visible range and leave a window in the middle.
+/// One rung: a form's ε(λ) and the word a chemist uses for it.
+pub struct PigmentForm {
+    pub spectrum: fn() -> Spectrum,
+    pub colour: &'static str,
+}
+
+pub struct PigmentLadder {
+    /// Registry key of the species this describes.
+    pub key: &'static str,
+    /// Successive pKa values, low to high. `n` of them mean `n + 1` forms.
+    pub pkas: &'static [f64],
+    /// One entry per form, most protonated first.
+    pub forms: &'static [PigmentForm],
+    pub provenance: &'static str,
+}
+
+impl PigmentLadder {
+    /// The fraction in each form at this pH.
+    ///
+    /// For stepwise dissociations the un-normalised weight of the form that
+    /// has lost `k` protons is `10^(k·pH − Σ pKa₁..pKa_k)`. Those exponents
+    /// reach ±40 over the pH range the bench allows, so the maximum is
+    /// subtracted before exponentiating — otherwise a pH of 14 overflows a
+    /// double and every fraction comes back NaN.
+    pub fn fractions(&self, ph: f64) -> Vec<f64> {
+        let mut exponents = Vec::with_capacity(self.forms.len());
+        let mut cumulative = 0.0;
+        for k in 0..self.forms.len() {
+            if k > 0 {
+                cumulative += self.pkas[k - 1];
+            }
+            exponents.push(k as f64 * ph - cumulative);
+        }
+        let peak = exponents.iter().copied().fold(f64::MIN, f64::max);
+        let weights: Vec<f64> = exponents
+            .iter()
+            .map(|e| 10f64.powf((e - peak).max(-300.0)))
+            .collect();
+        let total: f64 = weights.iter().sum();
+        if total <= 0.0 || !total.is_finite() {
+            // No answer is better than a fabricated one: hand back the most
+            // protonated form rather than a vector of NaN.
+            let mut out = vec![0.0; self.forms.len()];
+            out[0] = 1.0;
+            return out;
+        }
+        weights.into_iter().map(|w| w / total).collect()
+    }
+
+    /// Every form's spectrum, mixed in the fractions the pH sets.
+    pub fn spectrum_at(&self, ph: f64) -> Spectrum {
+        let fractions = self.fractions(ph);
+        let mut out = [0.0; crate::spectrum::BANDS];
+        for (fraction, form) in fractions.iter().zip(self.forms) {
+            let eps = (form.spectrum)();
+            for (band, e) in out.iter_mut().zip(eps.iter()) {
+                *band += fraction * e;
+            }
+        }
+        out
+    }
+
+    /// The word for whichever form dominates here — for prose, never for
+    /// the colour itself, which stays the computed spectrum.
+    pub fn dominant_form(&self, ph: f64) -> &'static str {
+        let fractions = self.fractions(ph);
+        fractions
+            .iter()
+            .enumerate()
+            .max_by(|a, b| a.1.total_cmp(b.1))
+            .map(|(index, _)| self.forms[index].colour)
+            .unwrap_or("")
+    }
+}
+
+pub const PIGMENT_LADDERS: &[PigmentLadder] = &[PigmentLadder {
+    key: "anthocyanin",
+    // Cyanidin glycosides lose protons in three steps over the range a
+    // kitchen can reach. The values are the middle of the ranges the
+    // anthocyanin literature reports for cyanidin-3-glucoside; red cabbage
+    // is a mixture of acylated cyanidin glycosides whose exact pKa values
+    // differ from any single one of them, and that is stated rather than
+    // hidden behind a decimal place.
+    pkas: &[4.0, 7.0, 11.0],
+    forms: &[
+        // Flavylium cation: the red of vinegar-side cabbage water.
+        PigmentForm { spectrum: || bands(&[(520.0, 26_000.0, 55.0)]), colour: "red" },
+        // Quinoidal base: purple, and the reason untreated cabbage water is
+        // the colour it is.
+        PigmentForm { spectrum: || bands(&[(555.0, 18_000.0, 65.0)]), colour: "purple" },
+        // Anionic quinoidal base: blue.
+        PigmentForm { spectrum: || bands(&[(600.0, 16_000.0, 70.0)]), colour: "blue" },
+        // Chalcone and its relatives: yellow. Where this form overlaps the
+        // blue one the mixture absorbs at both ends and looks green, which
+        // is the colour no table in this file contains.
+        PigmentForm { spectrum: || bands(&[(395.0, 9_000.0, 40.0)]), colour: "yellow" },
+    ],
+    provenance: "Red-cabbage anthocyanin as a four-form ladder. Stepwise pKa 4.0 / 7.0 / 11.0 sit inside the ranges the anthocyanin literature reports for cyanidin-3-glucoside (flavylium/quinoidal near 4, the anionic quinoidal near 7, chalcone formation above 10). Peak ε ≈ 2.6e4 L/mol/cm for the flavylium form is the standard cyanidin-3-glucoside figure and is good to about a significant figure; the ε values of the other three forms are explicitly editorial (Kerotakis), chosen so each colour becomes visible at the concentration a jar of cabbage water actually is. Gaussian band shapes are ours, as they are for every indicator here. Red cabbage is a mixture of acylated cyanidin glycosides rather than one compound, so no InChIKey is asserted and no claim is made about a particular cultivar, extraction or the copigmentation that shifts these bands in real juice"
+}];
+
 pub fn lookup(key: &str) -> Option<&'static Indicator> {
     INDICATORS.iter().find(|i| i.key == key)
+}
+
+pub fn lookup_ladder(key: &str) -> Option<&'static PigmentLadder> {
+    PIGMENT_LADDERS.iter().find(|p| p.key == key)
+}
+
+/// Does this species' colour depend on the pH of the solution it is in?
+pub fn is_ph_dependent(key: &str) -> bool {
+    lookup(key).is_some() || lookup_ladder(key).is_some()
+}
+
+/// The ε(λ) of a pH-dependent colourant at this pH, whichever table it
+/// lives in. `None` means this species' colour does not depend on pH.
+pub fn spectrum_at_ph(key: &str, ph: f64) -> Option<Spectrum> {
+    if let Some(indicator) = lookup(key) {
+        return Some(indicator.spectrum_at(ph));
+    }
+    lookup_ladder(key).map(|ladder| ladder.spectrum_at(ph))
+}
+
+#[cfg(test)]
+mod ladder_tests {
+    use super::*;
+
+    /// KID-8: the fractions are a probability distribution at every pH the
+    /// bench allows, including the ends where the exponents overflow a
+    /// double if they are not normalised first.
+    #[test]
+    fn the_ladder_fractions_sum_to_one_across_the_whole_range() {
+        for ladder in PIGMENT_LADDERS {
+            assert_eq!(
+                ladder.forms.len(),
+                ladder.pkas.len() + 1,
+                "{}: n pKa values describe n+1 forms",
+                ladder.key
+            );
+            for step in -20..=340 {
+                let ph = f64::from(step) / 20.0;
+                let fractions = ladder.fractions(ph);
+                let total: f64 = fractions.iter().sum();
+                assert!(
+                    (total - 1.0).abs() < 1e-9,
+                    "{} at pH {ph}: fractions sum to {total}",
+                    ladder.key
+                );
+                assert!(
+                    fractions.iter().all(|f| f.is_finite() && *f >= 0.0),
+                    "{} at pH {ph}: {fractions:?}",
+                    ladder.key
+                );
+            }
+        }
+    }
+
+    /// Each form must actually be the majority somewhere, or it is a
+    /// spectrum the bench carries and can never show.
+    #[test]
+    fn every_form_on_a_ladder_dominates_somewhere() {
+        for ladder in PIGMENT_LADDERS {
+            for (index, form) in ladder.forms.iter().enumerate() {
+                let name = form.colour;
+                let reached = (-20..=340).any(|step| {
+                    let fractions = ladder.fractions(f64::from(step) / 20.0);
+                    fractions
+                        .iter()
+                        .enumerate()
+                        .max_by(|a, b| a.1.total_cmp(b.1))
+                        .is_some_and(|(top, _)| top == index)
+                });
+                assert!(reached, "{}: the {name} form is never dominant", ladder.key);
+            }
+        }
+    }
+
+    /// A two-form ladder must reduce to Henderson–Hasselbalch, because that
+    /// is what the generalisation claims to generalise.
+    #[test]
+    fn a_two_form_ladder_agrees_with_henderson_hasselbalch() {
+        let ladder = PigmentLadder {
+            key: "test",
+            pkas: &[7.1],
+            forms: &[
+                PigmentForm {
+                    spectrum: || bands(&[(430.0, 14_000.0, 50.0)]),
+                    colour: "yellow",
+                },
+                PigmentForm {
+                    spectrum: || bands(&[(615.0, 35_000.0, 55.0)]),
+                    colour: "blue",
+                },
+            ],
+            provenance: "test",
+        };
+        for step in 0..=140 {
+            let ph = f64::from(step) / 10.0;
+            let expected = crate::relations::henderson_hasselbalch_fraction(7.1, ph);
+            assert!(
+                (ladder.fractions(ph)[1] - expected).abs() < 1e-12,
+                "pH {ph}: {} vs {expected}",
+                ladder.fractions(ph)[1]
+            );
+        }
+    }
 }

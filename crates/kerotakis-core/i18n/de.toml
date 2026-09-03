@@ -64,6 +64,7 @@ gas = "gasförmig"
 # translated; anything absent reads in English inside a German line, which
 # is better than a formula nobody asked for.
 [species]
+"anthocyanin (red-cabbage pigment)" = "Anthocyan (Rotkohl-Farbstoff)"
 water = "Wasser"
 ethanol = "Ethanol"
 "sodium chloride" = "Natriumchlorid"
@@ -357,7 +358,7 @@ sucrose = "Saccharose"
 "heat-of-mixing.lv3" = "{vessel}: q_mix = {joules} J aus ΔHᴱ (UNIFAC Gibbs–Helmholtz, Allowlist verifizierter Paare; Zustandsfunktions-Buchführung, sodass der Eingießweg das Ergebnis nicht ändern kann). Grenze des Modells: VLE-gefittete Parameter machen hᴱ nur größenordnungsgenau, und unverifizierte Paare werden zurückgehalten, nicht geschätzt"
 "ignited.lv1" = "In {vessel} fängt es Feuer!"
 "ignited.lv3" = "{vessel}: Zündquelle angelegt; Reaktionsenergie nicht verfügbar"
-"inert.lv1" = "Mit {name} in {vessel} passiert nichts — und das ist die eigentliche Antwort, keine Lücke: Es ist dafür zu reaktionsträge."
+"inert.lv1" = "Das {name} in {vessel} tauscht mit nichts Gelöstem hier den Platz — das ist die eigentliche Antwort, keine Lücke."
 "magnet-separated.lv3" = "{from}: keine magnetischen Spezies vorhanden"
 "not-yet-modeled.lv3" = "{vessel}: NICHT MODELLIERT: {what}"
 "org-reacted.lv1" = "In {vessel} entsteht etwas Neues — die {name}-Reaktion verwandelt das Gemisch in andere Stoffe."
@@ -624,6 +625,7 @@ Danger = "Gefahr"
 # every site. `every_appearance_word_has_german` walks the registry.
 [appearance]
 black = "schwarz"
+purple = "violett"
 blue = "blau"
 "deep blue crystals" = "tiefblaue Kristalle"
 "bluish-silver" = "bläulich silbern"

@@ -1,4 +1,85 @@
 {
+  "boiling-curve": {
+    "event_count": 25,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: 25.0 °C → 97.0 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ delivered — time model not yet coupled",
+      "v1 thermometer: 96.99 °C",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: 25.0 °C → 169.0 °C",
+      "v2: 60.00 kJ requested; 60.00 kJ delivered — time model not yet coupled",
+      "v2 thermometer: 168.98 °C",
+      "v2 balance: 99.70 g",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: 25.0 °C → 600.9 °C",
+      "v3: 240.00 kJ requested; 240.00 kJ delivered — time model not yet coupled",
+      "v3: not yet modelled — the aqueous model's temperature ceiling at 300 °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
+      "v3 thermometer: 600.91 °C",
+      "v3 balance: 99.70 g",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.3422 mol sodium chloride"
+    ],
+    "lesson": "boiling-curve.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 370.1389
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 442.1277
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 874.061
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.34221378,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 436.3948
+      }
+    ]
+  },
   "buffer": {
     "event_count": 12,
     "events_sample": [
@@ -53,6 +134,144 @@
           },
           {
             "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "cabbage-rainbow": {
+    "event_count": 31,
+    "events_sample": [
+      "v1: +100.600 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +100.000 g sparkling_water (2 known ingredients)",
+      "v2: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +2.000 g baking_soda (1 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +10.000 g red_cabbage_juice (2 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: The liquid is white and so cloudy you cannot see through it.",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +4.000 g washing_soda (1 known ingredients)"
+    ],
+    "lesson": "cabbage-rainbow.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.08376074,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 5.84901471,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01363357,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.06161532,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02380754,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.03774012,
+            "phase": "Solid",
+            "species": "Na2CO3"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 6.69e-6,
+            "phase": "Aqueous",
+            "species": "anthocyanin"
+          },
+          {
+            "moles": 6.07826811,
             "phase": "Liquid",
             "species": "water"
           }
@@ -280,11 +499,11 @@
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
-      "v1: The liquid is white and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is grey zinc at the bottom.",
       "v1: 100% of the suspended particles settle in 60 s",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and clear, there is blue-green zinc at the bottom.",
+      "v1: The liquid is colourless and clear, there is grey zinc and white copper sulfate at the bottom.",
       "v1 balance: 204.40 g"
     ],
     "lesson": "electrode.lab",
@@ -827,6 +1046,88 @@
       }
     ]
   },
+  "ink-chromatography": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +1.6603 mol water",
+      "v1: +2.000 g black_ink (4 known ingredients)",
+      "v1: The liquid is black and clear.",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)",
+      "v2: new vessel",
+      "v2: +1.6603 mol water",
+      "v2: +1.000 g food_colour_blue (2 known ingredients)",
+      "v2: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area)",
+      "v3: new vessel",
+      "v3: +1.6603 mol water",
+      "v3: +1.000 g food_colour_yellow (2 known ingredients)",
+      "v3: chromatogram — curcumin (turmeric yellow) at 231 s, Rf 0.85 (100% area)",
+      "v1: chromatogram — indigo carmine (E132) at 65 s, Rf 0.15 (100% area); betanin (beetroot red) at 76 s, Rf 0.35 (56% area); curcumin (turmeric yellow) at 231 s, Rf 0.85 (63% area)"
+    ],
+    "lesson": "ink-chromatography.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 4.36e-6,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 4.89e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 7.72e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.76019983,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.14e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.71e-6,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [
@@ -1203,8 +1504,8 @@
       "v1: +0.0500 mol methanol",
       "v1: +0.1000 mol ethanol",
       "v1: +0.0500 mol propanone",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)",
-      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)"
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)",
+      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)"
     ],
     "lesson": "one-thing-at-a-time.lab",
     "vessels": [
@@ -1388,6 +1689,162 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 317.3068
+      }
+    ]
+  },
+  "rusting": {
+    "event_count": 40,
+    "events_sample": [
+      "v1: +0.0179 mol iron",
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: There is grey iron in the beaker.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0179 mol iron",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: swept by nitrogen at 1.000 bar; volatile products are purged",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: sealed over 0.500 L of headspace, trapping 0.0202 mol of room air",
+      "v2: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.0179 mol iron",
+      "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v3: not yet modelled — iron in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.0513 mol sodium chloride"
+    ],
+    "lesson": "rusting.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01790671,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01790671,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.02016977,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01471918,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.00159376,
+            "phase": "Solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00189091,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01471918,
+            "phase": "Solid",
+            "species": "Fe"
+          },
+          {
+            "moles": 0.00159376,
+            "phase": "Solid",
+            "species": "Fe2O3"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.05133207,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 0.00189091,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
       }
     ]
   },
