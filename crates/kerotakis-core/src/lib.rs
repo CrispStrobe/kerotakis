@@ -40,6 +40,7 @@ pub mod family;
 pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
+pub mod gel;
 pub mod hmix;
 pub mod i18n;
 pub mod indicator;

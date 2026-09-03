@@ -2060,6 +2060,100 @@
       }
     ]
   },
+  "slime": {
+    "event_count": 31,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +52.500 g pva_glue (2 known ingredients)",
+      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: +0.050 g borax (1 known ingredients)",
+      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +52.500 g pva_glue (2 known ingredients)",
+      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: +0.250 g borax (1 known ingredients)",
+      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: 15% of the poly(vinyl alcohol) is bound into a gel by 0.00065 mol sodium tetraborate (borax) across 11.55 g of polymer",
+      "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+    ],
+    "lesson": "slime.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00013095,
+            "phase": "Solid",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 0.26218419,
+            "phase": "Solid",
+            "species": "PVA"
+          },
+          {
+            "moles": 7.63252845,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00065476,
+            "phase": "Solid",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 0.26218419,
+            "phase": "Solid",
+            "species": "PVA"
+          },
+          {
+            "moles": 7.63252845,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00523807,
+            "phase": "Solid",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 0.26218419,
+            "phase": "Solid",
+            "species": "PVA"
+          },
+          {
+            "moles": 7.63252845,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "spannungsreihe": {
     "event_count": 47,
     "events_sample": [

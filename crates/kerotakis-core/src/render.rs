@@ -892,6 +892,35 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 half_life_seconds,
             ),
         },
+        Event::GelFormed {
+            vessel,
+            polymer,
+            crosslinker,
+            to_gelled_fraction,
+            polymer_grams,
+            crosslinker_moles,
+            ..
+        } => {
+            let poly = species::lookup(polymer).map(|d| d.name).unwrap_or(polymer.0.as_str());
+            let link = species::lookup(crosslinker).map(|d| d.name).unwrap_or(crosslinker.0.as_str());
+            match register.level() {
+                1 => locale.fill(
+                    "event.gel-formed.lv1",
+                    "The glue in {vessel} stops running and starts stretching — it has turned into slime!",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                2 => locale.fill(
+                    "event.gel-formed.lv2",
+                    "{vessel}: {percent}% of the {poly} is bound into a gel by {moles} mol {link} across {grams} g of polymer",
+                    &[("vessel", &vessel.to_string()), ("percent", &locale.number(format!("{:.0}", to_gelled_fraction * 100.0))), ("poly", poly), ("moles", &locale.number(format!("{:.5}", crosslinker_moles.0))), ("link", link), ("grams", &locale.number(format!("{polymer_grams:.2}")))],
+                ),
+                _ => locale.fill(
+                    "event.gel-formed.lv3",
+                    "{vessel}: gelled fraction {fraction} at {dose} mol {link} per gram {poly}; borate diesters bridge hydroxyls on neighbouring chains and exchange continuously, so nothing is consumed — a bounded teaching response, not measured rheology, and no modulus or relaxation time is claimed",
+                    &[("vessel", &vessel.to_string()), ("fraction", &locale.number(format!("{to_gelled_fraction:.4}"))), ("dose", &locale.number(format!("{:.3e}", crosslinker_moles.0 / polymer_grams.max(1e-12)))), ("link", link), ("poly", poly)],
+                ),
+            }
+        }
         Event::CurdlingChanged {
             vessel,
             material,

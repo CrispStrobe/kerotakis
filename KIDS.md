@@ -72,7 +72,7 @@ silent miss teaches the silence.
 | K18 | Hot pack / cold pack | the thermometer | ~~partial~~ → computed | CaCl₂ gives +36 K, computed from dissolution enthalpy. **This row was my own mistake, corrected 2026-09-03:** I reached for Epsom salt, whose dissolution is very nearly athermal, and concluded the cold pack was unreachable because NH₄NO₃ is absent. Ammonium *chloride* is on the shelf, is what school kits actually contain, and gives −13 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
 | K20 | Rock candy | crystals on cooling | ~~**wrong**~~ → computed | sucrose saturation was modelled but **temperature-independent** — identical at 20, 60 and 90 °C (KID-7, landed 2026-09-03: hot water now holds 487 g per 100 mL against cold water's 200, a cooled syrup reports itself supersaturated, and a seed brings it down to exactly the limit) |
-| K21 | Slime | the slime | unreachable | no poly(vinyl alcohol), no borate |
+| K21 | Slime | the slime | ~~unreachable~~ → computed | no poly(vinyl alcohol) and no borate existed (KID-14, landed 2026-09-03: a dose response with the crosslinker still in the ledger afterwards, because a crosslinker is not a reagent) |
 | K22 | Oobleck | liquid that goes hard | honest miss | "this part of the lab isn't awake yet"; no suspension rheology |
 | K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` refused because `v2` had to be created first (KID-15, fixed 2026-09-03: a pour now brings its own jar) |
 | K24 | Sherbet | fizz on the tongue | computed | the dry mixture correctly does nothing; water starts it; pH 3.83 |
@@ -86,11 +86,18 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 20 and
-21: **computed 18 · partial 8 · silent miss 1 · unreachable 2 · honest
-miss 1**, and the thirty unrepaired scripts run 28/30 instead of 17/30. Not
-one row of the first thirty is still marked **wrong**. The second thirty
-gains K48 with KID-9's fix and K50 with KID-20's.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 10, 14,
+15, 20 and 21: **computed 20 · partial 7 · silent miss 1 · unreachable 1 ·
+honest miss 1**.
+
+**The thirty scripts, exactly as a newcomer first wrote them, now run
+30/30** — against 17/30 when the audit was taken. Not one row is still
+marked *wrong*, and the last script that could not run at all was K21's
+slime. What remains is one silent miss (K04's candle, which needs
+combustion), one unreachable (K11's raisins, which need buoyancy), one
+honest miss (K22's oobleck, which needs suspension rheology) and seven
+partials. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
+and K23's receiver with KID-15's.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -517,6 +524,26 @@ and `main` moves only by PR.
   than a CFD claim, following the `magic-milk` precedent.
 - **KID-14 — The children's materials pack.** PVA and borate, egg, raisin,
   lemon juice, gelatin, effervescent tablet, glycerol, tarnished copper.
+  **Slime landed 2026-09-03**, and with it the last of the thirty scripts
+  that could not run at all. `PVA` and `Na2B4O7` join the registry as the
+  polymer repeat unit and the anhydrous salt — a polymer is not a molecule,
+  so no InChIKey is asserted, exactly as starch and cellulose already do —
+  and `pva_glue` and `borax` join the shelf. Household borax is the
+  decahydrate, so a little over half of what the box weighs is the salt
+  doing the work, and the ten waters ride in the conserved remainder rather
+  than being released as free water.
+  The observable is a dose response, not a reaction, and that distinction is
+  the lesson. Borate bridges between polymer chains keep breaking and
+  re-forming, so nothing is consumed: 0.05 g of borax makes no slime, 0.25 g
+  makes it, 2 g makes no more of it — and in all three vessels every gram of
+  borax is still in the ledger afterwards. A test holds that last part,
+  because it is what a reaction would get wrong.
+  **Stated boundaries:** the response is calibrated to the familiar 50 mL-glue
+  classroom ratio rather than measured, and no modulus, relaxation time or
+  stringiness is claimed. Whether a real glue gels at all depends on its
+  degree of hydrolysis, and poly(vinyl acetate) glues do not gel this way.
+  The rest of the pack — egg, raisin, gelatin, effervescent tablet,
+  glycerol, tarnished copper — is still open.
 - **KID-15 — The children's apparatus cards.** Balloon and plastic bag over
   `regulate`; candle as an object; a filter funnel that creates its
   receiver; paper strip and chamber; spotting tile; magnet card.

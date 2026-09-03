@@ -1858,6 +1858,94 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        // KID-14: the two bottles a slime activity needs. School glue is a
+        // poly(vinyl alcohol) dispersion; borax is sold as the decahydrate
+        // and the ten waters ride in the conserved remainder rather than
+        // being relabelled as the anhydrous salt.
+        MaterialRecipe {
+            id: "school/pva-craft-glue".to_string(),
+            version: 1,
+            canonical_key: "pva_glue".to_string(),
+            name: "PVA craft glue".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Bastelkleber".to_string(),
+                        "Weißleim".to_string(),
+                        "PVA-Kleber".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec![
+                        "white glue".to_string(),
+                        "school glue".to_string(),
+                        "craft glue".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.05)),
+            components: vec![component("PVA", 0.22), component("water", 0.72)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.06,
+                upper: 0.06,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "unbranded white craft glue: a 22% w/w poly(vinyl alcohol) dispersion in water"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "22% w/w PVA is an explicit teaching concentration for an unbranded school glue; retail glues vary and many are poly(vinyl acetate) rather than the alcohol, which does not gel with borate the same way".to_string(),
+                "plasticiser, filler, preservative and defoamer share the conserved unresolved remainder rather than being invented as molecules".to_string(),
+                "degree of hydrolysis and chain length are what make one glue slime well and another not, and neither is modelled".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/borax-decahydrate".to_string(),
+            version: 1,
+            canonical_key: "borax".to_string(),
+            name: "borax powder".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Boraxpulver".to_string(), "Natriumborat".to_string()],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["sodium borate".to_string(), "washing borax".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("Na2B4O7", 0.527)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.473,
+                upper: 0.473,
+            }),
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some(
+                "household borax as sold: the decahydrate, so a little over half its mass is the anhydrous salt and the rest is water of crystallisation"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "borax is sold as the decahydrate Na2B4O7·10H2O; 52.7% of that mass is the anhydrous salt, and the ten waters stay in the conserved remainder rather than being released as free water, because dehydrating a hydrate is a phase change this recipe does not perform".to_string(),
+                "borate speciation is not modelled: no shipped database is asked for it, so this contributes no pH and no ionic strength, and the bench says so".to_string(),
+                "borax is a mild irritant and not for eating; the L0 screen classes it by what it does to other substances, which is nothing it knows".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         // KID-9: the black felt-tip. A black ink is a mixture, which is the
         // entire point of the experiment: the strip proves it by taking it
         // apart. Three of the shipped dyes, in the proportions that make a

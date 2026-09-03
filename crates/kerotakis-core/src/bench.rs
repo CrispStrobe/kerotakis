@@ -464,6 +464,19 @@ impl Bench {
                 })
             })
             .collect::<Vec<_>>();
+        let gel_before = op_touches(&op)
+            .into_iter()
+            .filter_map(|id| {
+                self.vessel(id).ok().map(|vessel| {
+                    (
+                        id,
+                        crate::gel::observe(vessel)
+                            .map(|gel| gel.gelled_fraction)
+                            .unwrap_or(0.0),
+                    )
+                })
+            })
+            .collect::<Vec<_>>();
         let mut events = self.apply(&op, screen)?;
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
@@ -559,6 +572,28 @@ impl Bench {
                     curd_solids_mass_g: after.curd_solids_mass_g,
                     acid_species: SpeciesId::new(&after.acid_species),
                     acid_moles: Moles(after.acid_moles),
+                });
+            }
+        }
+
+        for id in touched.iter().copied() {
+            let before = gel_before
+                .iter()
+                .find(|(candidate, _)| *candidate == id)
+                .map(|(_, fraction)| *fraction)
+                .unwrap_or(0.0);
+            let Some(after) = self.vessel(id).ok().and_then(crate::gel::observe) else {
+                continue;
+            };
+            if after.gelled_fraction > before + 1e-9 {
+                events.push(Event::GelFormed {
+                    vessel: id,
+                    polymer: SpeciesId::new(after.polymer),
+                    crosslinker: SpeciesId::new(after.crosslinker),
+                    from_gelled_fraction: before,
+                    to_gelled_fraction: after.gelled_fraction,
+                    polymer_grams: after.polymer_grams,
+                    crosslinker_moles: Moles(after.crosslinker_moles),
                 });
             }
         }
