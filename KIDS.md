@@ -52,7 +52,7 @@ silent miss teaches the silence.
 
 | # | Experiment | What the child is watching for | Verdict | What the bench did |
 |---|---|---|---|---|
-| K01 | Volcano (soda + vinegar) | the eruption | partial | CO₂, pH 9.70, mass and the cooling-then-warming are all computed; there is no foam and no overflow, because foam exists only on the peroxide path |
+| K01 | Volcano (soda + vinegar) | the eruption | partial | CO₂, pH 9.70 and mass are computed; there is no foam and no overflow, because foam exists only on the peroxide path. **This verdict was half true and the wrong half was the temperature** — see the finding below: in the order most people pour, the bench says the volcano gets *warmer*, and it gets colder |
 | K02 | Balloon on a bottle | the balloon filling | computed | sealed 500 mL headspace reaches 1.875 bar; `regulate` gives a real expanding boundary (766 mL) — but nothing in the docs calls that a balloon |
 | K03 | Limewater breath test | milky, then clear | computed | Ca(OH)₂ → calcite → redissolution, exactly as the shipped lesson promises |
 | K04 | Snuff a candle with CO₂ | the flame going out | ~~silent miss~~ → computed | the last silent miss, closed by KID-12 (2026-09-03). Wax is paraffin now, it burns, and a jar over it puts it out **with 77% of the oxygen still in the jar** — the number that contradicts the sentence every child is taught. Carbon dioxide poured in first stops it lighting at all, without taking anything away |
@@ -709,6 +709,77 @@ The three shipped claims that do not reproduce — KID-2's curds, KID-18's
 Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
+
+### The volcano's temperature depends on which bottle you pour first (2026-09-03)
+
+Found while checking a peer session's report that two curated reactions
+could not fire. Their diagnosis was right and its scope was wrong, and
+correcting the scope exposed something worse.
+
+**The reactions are not dead. They are order-dependent.** `CuratedEquilibrator`
+sits before the aqueous tail in the stack, so on the step where vinegar is
+*added* the ledger still holds `CH3COOH` and the reviewed equation matches:
+
+```
+add v1 NaHCO3 5g ; add v1 white_vinegar_5_percent 50mL
+  v1: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑          ← fires
+
+add v1 white_vinegar_5_percent 50mL ; add v1 NaHCO3 5g
+  (no equation; carbonate equilibria answer instead)      ← dead
+```
+
+Put the vinegar in first — the order most people use, and the order most
+lesson scripts use — and the readback has renamed the acid to acetate
+before the carbonate arrives. An intermittent bug whose workaround is "add
+the solid first" is worse than a dead one: someone finds the workaround by
+accident and never learns why.
+
+**And the two routes disagree on the sign of the temperature change:**
+
+| order | route | result |
+|---|---|---|
+| soda first | curated | 25.0 °C → **23.6 °C**, cools 1.4 K |
+| vinegar first | aqueous | 25.0 °C → **31.6 °C**, warms 6.6 K |
+
+Same reagents, same amounts, same net reaction. Vinegar and baking soda is
+one of the very few kitchen reactions a child can *feel*, and what it does
+is get cold.
+
+The aqueous route books ≈57 kJ/mol of neutralisation heat off the acidity
+it saw cancelled — 0.042 mol × 57 kJ in 100 g of water is +5.7 K, which is
+the number — and books nothing for the endothermic half, the bicarbonate
+breaking down and the CO₂ leaving. It is modelling H⁺ + OH⁻ → H₂O and
+calling that the thermochemistry of whatever consumed the acid.
+
+**The curated route is not right, it merely declines to be wrong.**
+`curated.rs` claims no reaction enthalpy at all ("no heat effect is claimed
+until a reviewed reaction enthalpy is installed"), so its −1.4 K is
+dissolution enthalpies alone and lands on the correct sign partly by luck.
+A route that declines to claim beats a route that claims the wrong sign,
+and neither of them has the number.
+
+**Status.** The order dependence is fixed by the peer's PR #351, which
+keeps both members of a Brønsted pair in the ledger so the curated route is
+reachable after a solve; with it, both orders fire the equation and both
+cool, and it ships with a regression test asserting that the two orders
+agree to within 0.5 K — an assertion that needs no knowledge of the right
+answer, which is why it would have caught this. **The underlying defect is
+untouched and unowned:** any acid-consuming reaction with no curated
+equation still books proton-neutralisation heat as its whole enthalpy.
+
+This is the fifth instance this week of one defect class, and the audit is
+not exempt from it. `acidity cancelled → heat` is invariant over *what*
+cancelled the acidity, and it read plausibly for as long as everything that
+cancelled acid happened to be a neutralisation — exactly as K01's own
+verdict above read plausibly for as long as nobody poured the bottles in
+the other order. The family: a curated reaction that cannot find its own
+reactant after a solve; an odour matched by Brønsted family in both
+directions, so sodium acetate smells of vinegar; `−solute_charge` standing
+in for titratable protons; a corpus prompt whose script weighs three
+five-gram pieces and asks which is denser. The shape is always the same —
+**a quantity that claims to be X, is invariant over X, and is believed
+because nothing has yet asked it the question that would separate the
+two.**
 
 Wave 1 is the whole difference between "a chemist's engine" and "a bench a
 child can walk up to". Everything after it adds chemistry; only Wave 1 adds
