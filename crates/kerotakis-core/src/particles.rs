@@ -128,7 +128,42 @@ fn kind_of(name: &str, phase: Phase) -> Kind {
     match crate::stoich::parse_formula(name) {
         Ok(f) if f.charge > 0.0 => Kind::Cation,
         Ok(f) if f.charge < 0.0 => Kind::Anion,
-        _ => Kind::NeutralSolute,
+        Ok(_) => Kind::NeutralSolute,
+        // A name the formula parser cannot read is not thereby uncharged.
+        // The census draws whatever the solve returned, and a solve returns
+        // the DATABASE's spelling — `Acetate-`, `Mg(Acetate)+`, `Citrate-3`
+        // — whose pseudo-elements are not elements, so the parse fails and
+        // the old catch-all called every one of them neutral. Acetate ion
+        // was drawn as an uncharged molecule in a picture whose entire
+        // subject is which particles carry charge.
+        //
+        // The sign is still right there at the end of the name, which is
+        // what the comment above already claims the rule is. Read it.
+        Err(_) => match trailing_charge(name) {
+            Some(q) if q > 0 => Kind::Cation,
+            Some(q) if q < 0 => Kind::Anion,
+            _ => Kind::NeutralSolute,
+        },
+    }
+}
+
+/// The charge written at the end of a species name: `-`, `+`, `-2`, `+3`.
+///
+/// `None` means no sign is written, which for these names means neutral —
+/// PHREEQC and the registry both put the sign last or not at all, so an
+/// absent sign is a statement rather than a gap.
+fn trailing_charge(name: &str) -> Option<i32> {
+    let magnitude = name.trim_end_matches(|c: char| c.is_ascii_digit());
+    let digits = &name[magnitude.len()..];
+    let n: i32 = if digits.is_empty() {
+        1
+    } else {
+        digits.parse().ok()?
+    };
+    match magnitude.chars().last()? {
+        '+' => Some(n),
+        '-' => Some(-n),
+        _ => None,
     }
 }
 
@@ -441,5 +476,55 @@ mod tests {
         let c = census(&v, 30);
         assert!(c.populations.is_empty());
         assert!(c.render(Register::LV1).is_empty());
+    }
+}
+
+#[cfg(test)]
+mod charge_label_tests {
+    use super::*;
+
+    /// The census draws whatever the solve returned, and a solve returns the
+    /// database's spelling. Those names carry pseudo-elements the formula
+    /// parser cannot read, so the parse fails — and failing to read a name
+    /// is not evidence that the thing is uncharged.
+    ///
+    /// Found by looking at a real census of vinegar, which drew `Acetate-`
+    /// as "uncharged, dissolved" in a picture whose whole subject is which
+    /// particles carry charge. Nobody would ever have filed it: the number
+    /// of particles was right and only the label was false.
+    #[test]
+    fn database_spellings_are_classified_by_their_written_sign() {
+        for (name, expected) in [
+            // The ones that broke: PHREEQC pseudo-elements.
+            ("Acetate-", Kind::Anion),
+            ("Citrate-3", Kind::Anion),
+            ("Mg(Acetate)+", Kind::Cation),
+            ("H(Acetate)", Kind::NeutralSolute),
+            // And the ones that already worked must keep working — this
+            // path is a fallback, not a replacement.
+            ("Na+", Kind::Cation),
+            ("SO4-2", Kind::Anion),
+            ("CH3COO-", Kind::Anion),
+            ("NH4+", Kind::Cation),
+            ("NH3", Kind::NeutralSolute),
+            ("O2", Kind::NeutralSolute),
+        ] {
+            assert_eq!(
+                kind_of(name, Phase::Aqueous),
+                expected,
+                "{name} classified wrongly"
+            );
+        }
+    }
+
+    /// A trailing digit is not a charge unless a sign precedes it, or every
+    /// diatomic gas in the registry would acquire one.
+    #[test]
+    fn a_trailing_digit_alone_is_not_a_charge() {
+        assert_eq!(trailing_charge("O2"), None);
+        assert_eq!(trailing_charge("H(Acetate)"), None);
+        assert_eq!(trailing_charge("Acetate-"), Some(-1));
+        assert_eq!(trailing_charge("Citrate-3"), Some(-3));
+        assert_eq!(trailing_charge("Fe+2"), Some(2));
     }
 }
