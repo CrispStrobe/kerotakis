@@ -978,7 +978,7 @@ action="handle_and_inspect"
 material_class="rocks_minerals"
 owning_task="BRD-061"
 tags=["BRD-061", "BRD-081"]
-script=["add v1 NaCl 1g", "measure v1 balance"]
+script=["add v1 NaCl 1g", "look v1"]
 smoke=true
 
 [[prompt]]
@@ -1052,7 +1052,7 @@ material_class="rocks_minerals"
 expected="qualitative"
 owning_task="BRD-060"
 tags=["BRD-060"]
-script=["add v1 CuSO4 2g", "measure v1 balance"]
+script=["add v1 water 100mL", "add v1 CuSO4 2g", "look v1"]
 smoke=false
 
 [[prompt]]
