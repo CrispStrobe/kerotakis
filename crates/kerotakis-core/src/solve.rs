@@ -474,16 +474,40 @@ impl Equilibrator for MixingEquilibrator {
         // Neutral molecular solids with an explicit reviewed room-temperature
         // limit dissolve only up to that finite capacity. This changes phase
         // bookkeeping but makes no pH, ionic-strength, or activity claim.
-        for (solute, moles) in finite_aqueous_dissolutions(vessel) {
-            vessel.withdraw(&solute, moles);
-            vessel.deposit(solute.clone(), moles, Phase::Aqueous);
-            rephase_lots(vessel, &solute, moles);
-            events.push(Event::Dissolved {
-                vessel: vessel.id,
-                species: solute,
-                moles,
-            });
-            vessel.resolved.invalidate();
+        for move_ in saturation_moves(vessel) {
+            match move_ {
+                SaturationMove::Dissolve(solute, moles) => {
+                    vessel.withdraw(&solute, moles);
+                    vessel.deposit(solute.clone(), moles, Phase::Aqueous);
+                    rephase_lots(vessel, &solute, moles);
+                    events.push(Event::Dissolved {
+                        vessel: vessel.id,
+                        species: solute,
+                        moles,
+                    });
+                    vessel.resolved.invalidate();
+                }
+                SaturationMove::Crystallise(solute, moles) => {
+                    vessel.withdraw_phase(&solute, moles, Phase::Aqueous);
+                    vessel.deposit(solute.clone(), moles, Phase::Solid);
+                    events.push(Event::Precipitated {
+                        vessel: vessel.id,
+                        species: solute,
+                        moles,
+                    });
+                    vessel.resolved.invalidate();
+                }
+                SaturationMove::Supersaturated {
+                    species,
+                    dissolved,
+                    capacity,
+                } => events.push(Event::Supersaturated {
+                    vessel: vessel.id,
+                    species,
+                    dissolved,
+                    capacity,
+                }),
+            }
         }
 
         Ok(events)
@@ -537,22 +561,74 @@ impl Equilibrator for MixingEquilibrator {
                 moles: iodine,
             });
         }
-        for (solute, moles) in finite_aqueous_dissolutions(vessel) {
-            delta = delta
-                .with_moles(solute.clone(), Phase::Solid, -moles.0)
-                .with_moles(solute.clone(), Phase::Aqueous, moles.0);
-            events.push(Event::Dissolved {
-                vessel: vessel.id,
-                species: solute,
-                moles,
-            });
+        for move_ in saturation_moves(vessel) {
+            match move_ {
+                SaturationMove::Dissolve(solute, moles) => {
+                    delta = delta
+                        .with_moles(solute.clone(), Phase::Solid, -moles.0)
+                        .with_moles(solute.clone(), Phase::Aqueous, moles.0);
+                    events.push(Event::Dissolved {
+                        vessel: vessel.id,
+                        species: solute,
+                        moles,
+                    });
+                }
+                SaturationMove::Crystallise(solute, moles) => {
+                    delta = delta
+                        .with_moles(solute.clone(), Phase::Aqueous, -moles.0)
+                        .with_moles(solute.clone(), Phase::Solid, moles.0);
+                    events.push(Event::Precipitated {
+                        vessel: vessel.id,
+                        species: solute,
+                        moles,
+                    });
+                }
+                SaturationMove::Supersaturated {
+                    species,
+                    dissolved,
+                    capacity,
+                } => events.push(Event::Supersaturated {
+                    vessel: vessel.id,
+                    species,
+                    dissolved,
+                    capacity,
+                }),
+            }
         }
 
         Ok((delta, events))
     }
 }
 
-fn finite_aqueous_dissolutions(vessel: &Vessel) -> Vec<(SpeciesId, Moles)> {
+/// KID-7: which way a saturated solute is moving, and whether it is stuck.
+#[derive(Debug, Clone, PartialEq)]
+pub enum SaturationMove {
+    /// Solid going into solution: there is room for it.
+    Dissolve(SpeciesId, Moles),
+    /// Solution coming back out onto a seed: the water can no longer hold it
+    /// and there is already a crystal of the same solute for it to grow on.
+    Crystallise(SpeciesId, Moles),
+    /// More in solution than the water can hold, and nothing to build on.
+    ///
+    /// This is not an error and not a rounding artefact: it is the state a
+    /// cooled sugar syrup is actually in, and the reason rock candy needs a
+    /// string. Reported rather than silently precipitated, because
+    /// precipitating it would erase the experiment.
+    Supersaturated {
+        species: SpeciesId,
+        dissolved: Moles,
+        capacity: Moles,
+    },
+}
+
+/// What the saturation limit says about every solute with a reviewed one.
+///
+/// Before KID-7 this answered one question — how much more will dissolve —
+/// against a single room-temperature number. That made hot water hold no
+/// more sugar than cold water, so the one thing every crystal experiment is
+/// run to show could not happen. It now reads the limit at the vessel's own
+/// temperature and answers in both directions.
+pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let water_moles = vessel
         .contents
         .iter()
@@ -567,36 +643,54 @@ fn finite_aqueous_dissolutions(vessel: &Vessel) -> Vec<(SpeciesId, Moles)> {
         .unwrap_or(0.0);
     let mut seen = std::collections::HashSet::new();
     let mut out = Vec::new();
-    for portion in vessel
-        .contents
-        .iter()
-        .filter(|portion| portion.phase == Phase::Solid)
-    {
+    for portion in &vessel.contents {
+        if !matches!(portion.phase, Phase::Solid | Phase::Aqueous) {
+            continue;
+        }
         if !seen.insert(portion.species.clone()) {
             continue;
         }
         let Some(data) = species::lookup(&portion.species) else {
             continue;
         };
-        let Some(limit_g_per_100_ml) = data.aqueous_solubility_g_per_100_ml else {
+        let Some(limit) = data.aqueous_solubility_at(vessel.temperature.0) else {
             continue;
         };
-        let solid = vessel
-            .contents
-            .iter()
-            .filter(|p| p.species == portion.species && p.phase == Phase::Solid)
-            .map(|p| p.moles.0)
-            .sum::<f64>();
-        let aqueous = vessel
-            .contents
-            .iter()
-            .filter(|p| p.species == portion.species && p.phase == Phase::Aqueous)
-            .map(|p| p.moles.0)
-            .sum::<f64>();
-        let capacity_moles = limit_g_per_100_ml * water_ml / 100.0 / data.molar_mass;
-        let dissolves = solid.min((capacity_moles - aqueous).max(0.0));
+        let amount = |phase: Phase| {
+            vessel
+                .contents
+                .iter()
+                .filter(|p| p.species == portion.species && p.phase == phase)
+                .map(|p| p.moles.0)
+                .sum::<f64>()
+        };
+        let solid = amount(Phase::Solid);
+        let aqueous = amount(Phase::Aqueous);
+        let capacity = limit * water_ml / 100.0 / data.molar_mass;
+        if aqueous > capacity + 1e-12 {
+            // A seed is a crystal of the same solute already in the vessel.
+            // Without one the solution stays where it is and says so; with
+            // one it grows, which is the whole of rock candy.
+            if solid > 1e-12 {
+                out.push(SaturationMove::Crystallise(
+                    portion.species.clone(),
+                    Moles(aqueous - capacity),
+                ));
+            } else {
+                out.push(SaturationMove::Supersaturated {
+                    species: portion.species.clone(),
+                    dissolved: Moles(aqueous),
+                    capacity: Moles(capacity),
+                });
+            }
+            continue;
+        }
+        let dissolves = solid.min((capacity - aqueous).max(0.0));
         if dissolves > 1e-15 {
-            out.push((portion.species.clone(), Moles(dissolves)));
+            out.push(SaturationMove::Dissolve(
+                portion.species.clone(),
+                Moles(dissolves),
+            ));
         }
     }
     out

@@ -223,6 +223,16 @@ pub struct SpeciesData {
     /// model is installed; this is deliberately separate from speciation.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub aqueous_solubility_g_per_100_ml: Option<f64>,
+    /// KID-7: the same limit at 100 °C, where a reviewed second point
+    /// exists. Two points make a line, and a line is the whole of the
+    /// temperature dependence this bench claims — enough for the one
+    /// observation the crystal experiments are run to make, which is that
+    /// hot water holds far more sugar than cold water does.
+    ///
+    /// `None` means the solute is modelled as temperature-independent, and
+    /// the bench says so rather than extrapolating from one point.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub aqueous_solubility_g_per_100_ml_at_100c: Option<f64>,
     /// Some solids are the *stable* phase and still do not appear on a
     /// bench, because the metastable one nucleates first and then sits
     /// there — Ostwald's rule of stages. Copper(II) hydroxide is the
@@ -249,6 +259,24 @@ pub struct SpeciesData {
 }
 
 impl SpeciesData {
+    /// KID-7: how much of this solute 100 mL of water holds at `t_k`.
+    ///
+    /// Linear between the reviewed 20 °C and 100 °C points and held flat
+    /// outside them: sucrose's real curve bends upward, so the midpoint is
+    /// about 5% low, which is inside what a school experiment can see and
+    /// far inside the difference this exists to show. A solute with only one
+    /// reviewed point is returned unchanged at every temperature.
+    pub fn aqueous_solubility_at(&self, t_k: f64) -> Option<f64> {
+        let cold = self.aqueous_solubility_g_per_100_ml?;
+        let Some(hot) = self.aqueous_solubility_g_per_100_ml_at_100c else {
+            return Some(cold);
+        };
+        const COLD_K: f64 = 293.15;
+        const HOT_K: f64 = 373.15;
+        let f = ((t_k - COLD_K) / (HOT_K - COLD_K)).clamp(0.0, 1.0);
+        Some(cold + f * (hot - cold))
+    }
+
     pub fn moles_from_grams(&self, g: Grams) -> Moles {
         Moles(g.0 / self.molar_mass)
     }

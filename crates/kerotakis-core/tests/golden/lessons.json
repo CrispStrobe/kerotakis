@@ -1692,6 +1692,76 @@
       }
     ]
   },
+  "rock-candy": {
+    "event_count": 18,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +300.000 g table_sugar (1 known ingredients)",
+      "v1: 0.6367 mol sucrose dissolved",
+      "v1: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v2: 25.0 °C → 95.0 °C",
+      "v2: +5.5343 mol water",
+      "v2: 95.0 °C → 59.7 °C",
+      "v2: +300.000 g table_sugar (1 known ingredients)",
+      "v2: 0.8764 mol sucrose dissolved",
+      "v2: 59.7 °C → 24.0 °C",
+      "v2: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
+      "v2: supersaturated — 0.8764 mol sucrose dissolved against a limit of 0.6264 mol at this temperature (1.40× saturation); it stays in solution until something seeds it",
+      "v2: The liquid is colourless and clear.",
+      "v2: +1.000 g table_sugar (1 known ingredients)",
+      "v2: 0.2501 mol sucrose precipitated ↓",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "rock-candy.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.63669217,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.23974098,
+            "phase": "Solid",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.62637962,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.25297498,
+            "phase": "Solid",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 297.166
+      }
+    ]
+  },
   "rusting": {
     "event_count": 40,
     "events_sample": [

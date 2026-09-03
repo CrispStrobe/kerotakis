@@ -244,6 +244,10 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
                 .unwrap_or(0.0)
                 != 0.0,
             aqueous_solubility_g_per_100_ml: param_for(key, "aqueous-solubility-g-per-100-ml"),
+            aqueous_solubility_g_per_100_ml_at_100c: param_for(
+                key,
+                "aqueous-solubility-g-per-100-ml-at-100c",
+            ),
             forms_only_above_k: param_for(key, "forms-only-above"),
             magnetic: param_for(key, "magnetic").unwrap_or(0.0) != 0.0,
             transitions,

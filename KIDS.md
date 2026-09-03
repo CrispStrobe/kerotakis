@@ -71,7 +71,7 @@ silent miss teaches the silence.
 | K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
 | K18 | Hot pack / cold pack | the thermometer | partial | CaCl₂ gives +36 K, computed from dissolution enthalpy — exemplary. The canonical cold pack, NH₄NO₃, is not in the registry at all; Epsom salt reads 0 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
-| K20 | Rock candy | crystals on cooling | **wrong** | sucrose saturation is modelled (0.5843 mol per 100 mL) but is **temperature-independent** — identical at 20, 60 and 90 °C — so the one mechanism the experiment exists to show cannot happen |
+| K20 | Rock candy | crystals on cooling | ~~**wrong**~~ → computed | sucrose saturation was modelled but **temperature-independent** — identical at 20, 60 and 90 °C (KID-7, landed 2026-09-03: hot water now holds 487 g per 100 mL against cold water's 200, a cooled syrup reports itself supersaturated, and a seed brings it down to exactly the limit) |
 | K21 | Slime | the slime | unreachable | no poly(vinyl alcohol), no borate |
 | K22 | Oobleck | liquid that goes hard | honest miss | "this part of the lab isn't awake yet"; no suspension rheology |
 | K23 | Plastic from milk | curds you can mould | ~~**wrong**~~ → computed | curdling **never fired with the aqueous solver on** (KID-2, fixed 2026-09-02); `filter v1 v2` still refuses because `v2` must be created first (KID-15) |
@@ -86,10 +86,11 @@ silent miss teaches the silence.
 ¹ computed, but preceded by a false hazard banner. See KID-3.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
-miss 2 · wrong 3 · unreachable 3.** After KID-1, KID-2, KID-5, KID-6, KID-8
-and KID-9: **computed 17 · partial 8 · wrong 1 · silent miss 1 ·
-unreachable 2 · honest miss 1**, and the thirty unrepaired scripts run 28/30
-instead of 17/30. The second thirty gains K48 with the same fix.
+miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 20 and
+21: **computed 18 · partial 8 · silent miss 1 · unreachable 2 · honest
+miss 1**, and the thirty unrepaired scripts run 28/30 instead of 17/30. Not
+one row of the first thirty is still marked **wrong**. The second thirty
+gains K48 with KID-9's fix and K50 with KID-20's.
 
 The engine is in far better shape than the corpus's first pass suggested.
 What stands between a child and it is, in order: names they cannot find,
@@ -158,7 +159,7 @@ the project's own coverage report.
 | ~~Corrosion of iron in aerated brine~~ | K17 — **landed as KID-5**, 2026-09-02 |
 | Combustion of organic solids; a flame that can be starved | K04, K13; `ignite` is currently *silent* on an unresolved material |
 | ~~Latent-heat plateau at a boiling point~~ | K13 — **landed as KID-6**, 2026-09-02 |
-| Temperature-dependent solubility of molecular solutes, and nucleation | K20; rock candy, supersaturation, seeding |
+| ~~Temperature-dependent solubility of molecular solutes, and nucleation~~ | K20 — **landed as KID-7**, 2026-09-03; electrolyte supersaturation (K51) stays open as KID-7b |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
 | Foam on any gas-evolving vessel with a declared surfactant | K01; the volcano's whole point |
 | Suspension rheology; buoyancy on attached bubbles; miscible stratification | K22, K11, K10 |
@@ -402,6 +403,38 @@ and `main` moves only by PR.
 - **KID-7 — Solubility with temperature, and crystallisation.** `s(T)` for
   molecular solutes starting with sucrose; supersaturation as a state the
   bench can report; seeded growth on `wait`.
+  **Landed 2026-09-03.** The saturation limit was one reviewed number per
+  solute, read at every temperature, so hot water held no more sugar than
+  cold water and the mechanism rock candy exists to show could not happen.
+  `SpeciesData` gained a second reviewed point at 100 °C and the limit is
+  now read at the vessel's own temperature — two points make a line, and a
+  line is the whole of the temperature dependence this bench claims. Sucrose
+  is the first solute with one: 200 g per 100 mL at 20 °C, 487 at 100 °C. A
+  solute with only one reviewed point stays temperature-independent, and the
+  model says so rather than extrapolating from a single number.
+  The limit also answers in **both** directions now, and the third answer is
+  the interesting one:
+  - room to spare → dissolve, as before;
+  - over the limit with a crystal of the same solute already present →
+    crystallise onto it;
+  - over the limit with nothing to grow on → **`Event::Supersaturated`**.
+    Not an error and not a rounding artefact: it is the state a cooled sugar
+    syrup is genuinely in, and precipitating it automatically would erase
+    the experiment. Measured: 300 g of sugar dissolves completely in 100 mL
+    at 95 °C, cooling reports 1.40× saturation and moves nothing, and one
+    gram of sugar as a seed drops 0.253 mol out and leaves the solution at
+    exactly its limit. That last number is the yield of the experiment, and
+    nobody had to be told it — it is the difference between two
+    solubilities.
+  `lessons/rock-candy.lab` is those three states in two beakers.
+  **Stated boundaries:** the line between 20 and 100 °C runs a few percent
+  below sucrose's real curve in the middle of the range; crystals appear
+  instantly with no size, habit or purity; and nothing nucleates
+  spontaneously, so the unpredictability that makes one real jar set
+  overnight and the next not is outside the model. **KID-7b** is the
+  electrolyte half — K51's sodium-acetate hand warmer needs a
+  sodium-acetate-trihydrate phase the shipped databases do not carry, so it
+  belongs to the aqueous engine rather than to this table.
 - **KID-8 — Anthocyanin.** A red-cabbage material and an anthocyanin
   chromophore with pH-dependent spectra through the existing Beer–Lambert
   path, so the rainbow is *computed colour*, not a tinted lookup.
@@ -515,7 +548,8 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 8, 9 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 7, 8, 9 done]
+KID-18 … KID-21       from Part 2                            [20, 21 done]
 KID-13 … KID-15       after their mechanisms land
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
@@ -558,8 +592,8 @@ or a rate in them.
 | K47 | A fire extinguisher in a jar | **silent miss** | the CO₂ generator works; the fire it is supposed to put out does not exist (KID-4/KID-12) |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
-| K50 | A pH map of the kitchen | **wrong** | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice reads nothing at all**, because the recipe resolves to water and sucrose with no acid in it. A juice with no acid is a juice a pH map lies about |
-| K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent, and cooling a supersaturated acetate solution does nothing (KID-7) |
+| K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
+| K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent. KID-7 built that mechanism for molecular solutes, but sodium acetate is an electrolyte the aqueous engine owns, and no shipped database carries a sodium-acetate-trihydrate phase for it to precipitate as — so this row waits on **KID-7b** |
 | K52 | A borax snowflake | unreachable | no borate in the registry |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
@@ -601,11 +635,47 @@ thirty separate problems, it is finding the same eight.
   *Acceptance:* every recipe whose real-world identity is defined by an acid,
   a colour or a hazard carries it, with a source; a lint refuses a food or
   drink recipe with no flavour-acid component.
+  **Landed 2026-09-03**, and the apple-juice half turned out to be a sharper
+  finding than "a missing component". The recipe *explained* itself: it
+  carried "most of apple juice's sugar is fructose and glucose, and neither
+  is an installed species" and "malic acid ... is not in the registry". Both
+  sentences were true when they were written. Fructose, glucose and malic
+  acid are all shipped species now, each with its own reviewed solubility
+  limit — so the recipe was resting on two reasons that had quietly expired,
+  which is worse than resting on none, because an expired reason reads as a
+  current one. The juice now resolves each sugar as itself in the cited
+  proportions and carries malic acid as the acid its tartness is actually
+  made of.
+  It still reports no pH — but for a stated reason instead of by omission:
+  *"no shipped database defines a malate species, so its two carboxylic
+  protons are not in this pH ... the real solution is more acidic than it
+  says."* That is the right answer. What the original recipe refused to do
+  — borrow an acid the engine happens to have and compute a pH from the
+  wrong molecule — is still refused, and a test holds that refusal.
+  Chalcanthite carried the appearance string "deep blue crystals" and no
+  sRGB, so the appearance layer fell back to its default pale grey and
+  described the product of "grow blue crystals" as **white**. It is blue.
+  The lint the acceptance asks for is in `material_recipe.rs`: every drink
+  recipe must carry an acid component, against an explicit reviewed list of
+  what counts — because deciding what a drink's acidity is made of is a
+  curation act, and this is where that decision is recorded.
 - **KID-21 — the grammar's order traps.** `grind` after the solid has
   dissolved, `filter` into a vessel that does not exist yet, `cell` before
   the half-cells are half-cells: three refusals that are each correct and
   none of which say what to do instead.
   *Acceptance:* a refusal that has an obvious remedy states it.
+  **Landed 2026-09-03.** All three now carry the remedy:
+  - `no vessel v2` → *"make it first with `new`, which creates the next free
+    vessel"*;
+  - `contains no solid CaCO3 to grind` → *"grinding changes a solid's
+    particle size, so it has to happen before the solid dissolves, not
+    after"* — which is the sentence a learner who has just watched chalk
+    dissolve actually needs;
+  - `one of them isn't a proper half-cell yet` → *"each side needs a metal
+    standing in a solution of its own ion: zinc in zinc sulfate, copper in
+    copper sulfate"*, since what the learner is missing is the definition.
+  Being correct and being useful are different properties, and a refusal
+  that has an obvious remedy and does not state it is only the first.
 - **KID-22b — `kero study --vary` sweeps moles whatever the line said.**
   Found while calibrating KID-5: `--vary add:v1:Fe=1..2` on a line reading
   `add v1 Fe 1g` replaces the parsed amount with one *mole* of iron, 55.8 g,

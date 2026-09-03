@@ -131,6 +131,12 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .iter()
                 .filter(|species| species.aqueous_solubility_g_per_100_ml.is_some())
                 .count()
+            // KID-7: a solute with a reviewed 100 °C point exports a second
+            // solubility record beside its 20 °C one.
+            + REGISTRY
+                .iter()
+                .filter(|species| species.aqueous_solubility_g_per_100_ml_at_100c.is_some())
+                .count()
             + REGISTRY.iter().filter(|species| species.magnetic).count()
     );
     assert!(document.transport.is_empty());

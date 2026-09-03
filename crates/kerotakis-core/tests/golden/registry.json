@@ -2758,6 +2758,7 @@
   {
     "appearance": "white",
     "aqueous_solubility_g_per_100_ml": 200.0,
+    "aqueous_solubility_g_per_100_ml_at_100c": 487.0,
     "colour": null,
     "density": 1.59,
     "dissolution_enthalpy_kj": null,
@@ -3074,7 +3075,12 @@
   },
   {
     "appearance": "deep blue crystals",
-    "colour": null,
+    "colour": {
+      "b": 190,
+      "g": 110,
+      "r": 30,
+      "strength": 0.0
+    },
     "density": 2.286,
     "dissolution_enthalpy_kj": null,
     "dissolves_without_speciation": false,

@@ -42,9 +42,17 @@ fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
         .unwrap_or("colourless")
 }
 
+/// KID-21: a refusal that has an obvious remedy states it.
+///
+/// Every message below was already correct and none of them said what to do
+/// instead, which is a different kind of unhelpful from being wrong. The
+/// children's corpus lost an experiment to each: `filter v1 v2` refused
+/// because `v2` did not exist yet and never mentioned `new`, and a learner
+/// who has just watched chalk dissolve is told there is no solid to grind
+/// without being told that is *because* it dissolved.
 #[derive(Debug, thiserror::Error)]
 pub enum BenchError {
-    #[error("no vessel {0}")]
+    #[error("no vessel {0} — make it first with `new`, which creates the next free vessel")]
     NoSuchVessel(VesselId),
     #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
@@ -75,7 +83,10 @@ pub enum BenchError {
     BrokenVessel(VesselId),
     #[error("no spill exists at the requested destination")]
     NoSuchSpill,
-    #[error("vessel {vessel} contains no solid {species} to grind")]
+    #[error(
+        "vessel {vessel} contains no solid {species} to grind — grinding changes a \
+         solid's particle size, so it has to happen before the solid dissolves, not after"
+    )]
     SolidNotPresent {
         vessel: VesselId,
         species: SpeciesId,

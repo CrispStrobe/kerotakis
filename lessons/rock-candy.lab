@@ -1,0 +1,42 @@
+# Rock candy: why the sugar comes back, and why it waits to be asked
+#
+# Hot water holds far more sugar than cold water does. Dissolve as much as
+# hot water will take, let it cool, and the water is now holding more than it
+# can — but it does not let go until something gives the first crystal
+# somewhere to start. That is why the experiment needs a string, and why the
+# jar can sit clear on a shelf for a day and then turn solid in a minute.
+register lv1
+
+# 1. Cold water first, so the difference has something to be measured against.
+add v1 water 100mL
+add v1 table_sugar 300g
+inspect v1
+
+# 2. The same sugar into hot water. Far more of it goes in.
+new beaker
+add v2 water 100mL @ 95C
+add v2 table_sugar 300g
+inspect v2
+
+# 3. Cool the hot one. Nothing comes out — and the bench says why rather
+#    than quietly crystallising it, because a syrup that crystallises on its
+#    own is not the experiment.
+cool v2 30kJ
+look v2
+inspect v2
+
+# 4. Now give it a seed: one crystal of the same sugar is all it takes.
+add v2 table_sugar 1g
+look v2
+inspect v2
+
+# The solution ends at exactly the limit for its temperature, and everything
+# above that is now crystal. That is the yield of the experiment, and nobody
+# had to be told it — it is the difference between two solubilities.
+
+# What this does not model: the limit is a straight line between reviewed
+# values at 20 °C and 100 °C, so the middle of the range is a few percent
+# low; crystals grow instantly rather than over days, with no size, habit or
+# purity; and nothing here nucleates spontaneously, so a real syrup's
+# unpredictability — the reason one jar sets overnight and the next does not —
+# is outside this model.

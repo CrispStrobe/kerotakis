@@ -1819,6 +1819,38 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
             }
         }
+        Event::Supersaturated {
+            vessel,
+            species: sid,
+            dissolved,
+            capacity,
+        } => {
+            let data = species::lookup(sid);
+            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let excess = (dissolved.0 - capacity.0).max(0.0);
+            let times = if capacity.0 > 0.0 {
+                dissolved.0 / capacity.0
+            } else {
+                f64::INFINITY
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.supersaturated.lv1",
+                    "There is more {name} in the water in {vessel} than it can really hold — and it is staying there. It needs something to start growing on.",
+                    &[("name", name), ("vessel", &vessel.to_string())],
+                ),
+                2 => locale.fill(
+                    "event.supersaturated.lv2",
+                    "{vessel}: supersaturated — {dissolved} mol {name} dissolved against a limit of {capacity} mol at this temperature ({times}× saturation); it stays in solution until something seeds it",
+                    &[("vessel", &vessel.to_string()), ("dissolved", &locale.number(format!("{:.4}", dissolved.0))), ("name", name), ("capacity", &locale.number(format!("{:.4}", capacity.0))), ("times", &locale.number(format!("{times:.2}")))],
+                ),
+                _ => locale.fill(
+                    "event.supersaturated.lv3",
+                    "{vessel}: {name} supersaturated by {excess} mol ({dissolved} dissolved against {capacity} held at this vessel's temperature, from the two-point limit); metastable — this bench crystallises it only onto a seed of the same solid, and models neither spontaneous nucleation nor the induction time before it",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("excess", &locale.number(format!("{excess:.6}"))), ("dissolved", &locale.number(format!("{:.6}", dissolved.0))), ("capacity", &locale.number(format!("{:.6}", capacity.0)))],
+                ),
+            }
+        }
         Event::Plated {
             vessel,
             species: sid,
@@ -2369,9 +2401,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::NoCell { a, b, why } => match register.level() {
+            // KID-21: say what a half-cell is, since that is the thing the
+            // learner is missing. A beaker of acid with a metal in it is not
+            // one; a metal standing in a solution of its *own* ion is.
             1 => locale.fill(
                 "event.no-cell.lv1",
-                "The voltmeter between {a} and {b} reads nothing — one of them isn't a proper half-cell yet.",
+                "The voltmeter between {a} and {b} reads nothing — one of them isn't a proper half-cell yet. Each side needs a metal standing in a solution of its own ion: zinc in zinc sulfate, copper in copper sulfate.",
                 &[("a", &a.to_string()), ("b", &b.to_string())],
             ),
             2 => locale.fill(
