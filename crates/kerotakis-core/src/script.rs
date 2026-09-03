@@ -49,6 +49,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
     ("test", "test v1 pop"),
+    ("particles", "particles v1"),
     ("smell", "smell v1"),
 ];
 
@@ -232,8 +233,13 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
     }
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
-        "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
-        | "structure" | "identify" | "coverage" => return Ok(None),
+        // Session commands: they ask the SHELL something, not the bench,
+        // so they are not operators and never enter the log. `particles`
+        // used to be among them and is now an operator — it asks the
+        // VESSEL what is in it, which is a bench question, and keeping it
+        // here meant no script could pose it.
+        "register" | "inspect" | "explain" | "species" | "help" | "structure" | "identify"
+        | "coverage" => return Ok(None),
         // `react v1 esterification` — apply a named curated organic
         // transformation. The name is checked here so a typo fails at
         // parse time, with the shelf listed.
@@ -558,6 +564,12 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
         },
         // `test v1 pop` — apply a classical gas test to the headspace.
+        // BRD-001: `particles` is an operator so a SCRIPT can ask what a
+        // learner can ask in the REPL. `zoom` is the long-standing alias.
+        "particles" | "zoom" => {
+            let vessel = parse_vessel(words.get(1).copied().unwrap_or("v1"))?;
+            Operator::Particles { vessel }
+        }
         "test" => {
             let vessel = parse_vessel(words.get(1).copied().unwrap_or("v1"))?;
             let test_name = words

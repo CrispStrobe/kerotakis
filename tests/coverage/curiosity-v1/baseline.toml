@@ -293,8 +293,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-049"
 owning_task = "CAP-23"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-050"

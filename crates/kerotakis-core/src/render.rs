@@ -1383,6 +1383,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 extent.0
             ),
         },
+        // The census renders itself, and has since EXP-?? — the CLI was
+        // calling `Census::render` directly because there was no event to
+        // carry it. Now that there is, the picture reaches every host
+        // through the ordinary event stream, and the sealed-unknown mask
+        // applies to it like any other rendered line.
+        Event::ParticlesCounted { vessel, census } => {
+            let drawing = census.render(register);
+            locale.fill(
+                "event.particles-counted",
+                "{vessel} — what the particles are doing:\n{drawing}",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("drawing", &drawing.to_string()),
+                ],
+            )
+        }
         Event::Smelled { vessel, notes } => {
             if notes.is_empty() {
                 match register.level() {

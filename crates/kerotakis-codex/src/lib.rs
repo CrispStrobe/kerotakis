@@ -1299,6 +1299,11 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),
         E::GasAbsorbed { species, .. } => ("gas_absorbed", Some(species.0.as_str())),
         E::GasContained { species, .. } => ("gas_contained", Some(species.0.as_str())),
+        // BRD-001: the census names its populations, but a quest claiming
+        // "sodium ion is present" wants the SPECIES claim, which
+        // `dissolved`/`added` already carry. This is the picture being
+        // drawn, so the claim is that it was drawn — no species.
+        E::ParticlesCounted { .. } => ("particles_counted", None),
         E::VesselSealed { .. } => ("vessel_sealed", None),
         E::VesselPressureControlled { .. } => ("vessel_pressure_controlled", None),
         E::VesselSwept { .. } => ("vessel_swept", None),

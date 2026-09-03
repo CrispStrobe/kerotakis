@@ -580,7 +580,7 @@ material_class = "salt-water"
 expected = "computed"
 owning_task = "CAP-23"
 tags = ["speciation"]
-script = ["add v1 water 100mL", "add v1 NaCl 0.01mol", "look v1"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.01mol", "particles v1"]
 smoke = false
 
 [[prompt]]

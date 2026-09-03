@@ -713,3 +713,7 @@ white = "weiß"
 # nothing, so what went past unseparated is the answer (aq-087).
 "chromatographed.lv1-nothing-separated" = "Alles, was in {vessel} gelöst ist, läuft mit dem Wasser direkt durch die Säule — diese Methode trennt nichts davon ({outside_method})."
 "chromatographed.lv2-no-peaks" = "{vessel}: Chromatogramm — keine Peaks{unseen}"
+
+# The particle census reaches hosts as an event now, so its heading is a
+# translated string like any other (BRD-001: particles became an operator).
+"particles-counted" = "{vessel} — was die Teilchen tun:\n{drawing}"

@@ -299,6 +299,17 @@ pub enum Operator {
     /// and volatile species; hazardous vapours come with the warning a
     /// real bench would enforce.
     Smell { vessel: VesselId },
+    /// Draw the vessel's particle census — Johnstone's submicroscopic
+    /// vertex, at whatever scale the contents earn.
+    ///
+    /// An operator rather than a session command, which is the whole point
+    /// of the change that added it: `particles` answered "what dissolved
+    /// ions are present?" perfectly in the REPL and no SCRIPT could ask,
+    /// because the corpus lint refuses a session command ("script line 3 is
+    /// a session command, not an operator"). The engine could answer and the
+    /// script surface could not. It reads state and changes none, like
+    /// `Smell`.
+    Particles { vessel: VesselId },
     /// Spike a vessel with a tracer amount of a curated radionuclide
     /// (EXP-49). Separate from `Add` because nuclides live in the
     /// nuclide ledger, not the chemical registry.
@@ -948,6 +959,18 @@ pub enum Event {
     Smelled {
         vessel: VesselId,
         notes: Vec<(SpeciesId, String)>,
+    },
+    /// The particle census of one vessel, as drawn.
+    ///
+    /// Carries the whole `Census` rather than a rendered string: the
+    /// picture is the same claim at every register, and a host that wants
+    /// to draw it rather than print it needs the populations. `Source`
+    /// travels with it because a picture from solved speciation is a
+    /// different claim from one off the inventory, and the viewer is
+    /// entitled to know which they are looking at.
+    ParticlesCounted {
+        vessel: VesselId,
+        census: crate::particles::Census,
     },
     /// A classical gas test was applied to the vessel's headspace.
     GasTested {

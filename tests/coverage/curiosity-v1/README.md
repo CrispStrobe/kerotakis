@@ -399,3 +399,34 @@ classifier now keys on the event's `burned` field: a flame that never
 caught (a carbon-dioxide-smothered one) is a typed observation; one that
 burned first is computed. The demotion is the kind of thing baseline drift
 exists to catch, and it caught it.
+
+## Refresh 2026-09-03: aq-049 can finally ask its own question
+
+`aq-049` ("What dissolved ions are present in a sodium chloride
+solution?"): `qualitative`/`typed-observation` -> `computed`/`computed-route`.
+
+The bench has always answered this exactly — `particles v1` draws the
+census and names Na+ and Cl- by their own labels. No corpus script could
+pose it, because `particles` was a SESSION command and the lint refuses
+those:
+
+    prompt aq-049: script line 3 is a session command, not an operator
+
+So the prompt ran `look v1` instead, which reports colour and clarity: an
+answer to a different question, and the row sat in the backlog as though
+the capability were missing. It was not missing. It was unaskable.
+
+`particles` is now an operator (`Operator::Particles`, `Event::
+ParticlesCounted`), which is what it should always have been — it asks the
+VESSEL what is in it, which is a bench question, not a shell one. Reading
+state changes none of it, exactly like `smell`.
+
+The reason code is worth noting: `computed-route`, the strongest one, not
+the `typed-engine-event` fallback. The census is drawn from SOLVED
+SPECIATION, so the aqueous route that produced it is the route being
+reported — and the corpus's `expected = computed` was right all along.
+
+The REPL and the MCP server keep their existing path: `json_particles` is
+part of the MCP contract and is untouched. Both routes call the same
+`particles::census`, so there is one implementation of the picture and two
+ways to ask for it.
