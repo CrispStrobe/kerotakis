@@ -1936,9 +1936,53 @@ impl PhreeqcEquilibrator {
                 Some(f.charge * p.moles.0)
             })
             .sum();
-        let neutralised =
+        let mut neutralised =
             0.5 * (a_before.abs() + (a_after - a_before).abs() - a_after.abs()).max(0.0);
         vessel.solute_charge = a_after;
+
+        // But charge cancelling is not the same event as water forming, and
+        // the enthalpy above belongs to the second one.
+        //
+        // A carbonate takes a proton too: `HCO₃⁻ + H⁺ → H₂O + CO₂↑`. The
+        // charge arithmetic cannot tell that from `H⁺ + OH⁻ → H₂O`, because
+        // in both a negative solute and an acid disappear together — so the
+        // strong-acid-strong-base enthalpy was being claimed for it, at the
+        // wrong magnitude and, once the gas leaving is counted, the wrong
+        // SIGN. Vinegar poured onto dissolved baking soda came out WARMER,
+        // and vinegar and baking soda is one of the few reactions a child
+        // can put a hand on the beaker and feel: it gets cold.
+        //
+        // Every mole of CO₂ that left in this same step is a mole of acid
+        // that went to a carbonate rather than to hydroxide. Discount it.
+        // What remains is water-forming neutralisation and is charged at
+        // the neutralisation enthalpy. What was discounted has an enthalpy
+        // this lab does not hold, and goes uncharged rather than borrowing
+        // the nearest number that happens to be in the file.
+        //
+        // Nothing is announced here, deliberately. The first version raised
+        // a `NotYetModeled` naming the missing heat, and it fired on four
+        // corpus rows that have no acid in them at all — opening a
+        // carbonated bottle, sweeping CO₂ out of water. Carbonic acid
+        // leaving as gas cancels charge exactly as a carbonate taking a
+        // proton does, so this discount cannot tell a reaction from a
+        // degassing, and a note that says "acid was taken by a carbonate"
+        // would have been false on every one of them. Declining to charge
+        // heat we do not have is right in both cases; describing why is
+        // only right in one, and this site cannot tell which it is in.
+        let carbonate_route: f64 = events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasEvolved { species, moles, .. }
+                | Event::GasContained { species, moles, .. }
+                    if species.0 == "CO2" =>
+                {
+                    Some(moles.0)
+                }
+                _ => None,
+            })
+            .sum();
+        let to_carbonate = neutralised.min(carbonate_route);
+        neutralised -= to_carbonate;
         // The extent has been computed here for a while to get the heat
         // right, and then discarded. It is a reaction that happened, so it
         // belongs in the ledger — and it is what the net ionic equation
@@ -1950,7 +1994,6 @@ impl PhreeqcEquilibrator {
                 moles: Moles(neutralised),
             });
         }
-
         vessel.contents = contents;
         vessel.surfaces = new_surfaces;
         vessel.exchanges = new_exchanges;
