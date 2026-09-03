@@ -112,6 +112,11 @@ pub fn instrument_name(instrument: Instrument) -> &'static str {
         Instrument::PressureGauge => "pressure gauge",
         Instrument::VolumeMeter => "volume meter",
         Instrument::ConductivityMeter => "conductivity meter",
+        // Not "hydrometer": that is the instrument for a liquid, and
+        // this one also answers for a dry solid, where the real apparatus
+        // is a balance and a measuring cylinder. `measure v1 hydrometer`
+        // still reaches it, because that is what a learner will type.
+        Instrument::Densitometer => "density meter",
         Instrument::Spectrophotometer => "spectrophotometer",
         Instrument::Calorimeter => "calorimeter",
         // The column never emits a scalar Measured — it reports a peak
@@ -2503,11 +2508,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let device = locale
                 .lookup(&format!("instrument.{device}"))
                 .unwrap_or(device);
+            // KID-19a: a reading rounded past its own resolution is not a
+            // simplification, it is a wrong number. Aluminium at 2.7 g/mL
+            // and copper at 8.96 are the entire content of the density
+            // row, and "3" and "9" are not — while 25 °C gains nothing
+            // from a decimal. So the reading keeps one below ten and none
+            // above, which is roughly how a person reads a real dial.
+            let plain = if value.abs() < 10.0 {
+                format!("{value:.1}")
+            } else {
+                format!("{value:.0}")
+            };
             match register.level() {
                 1 => locale.fill(
                     "event.measured.lv1",
                     "The {device} on {vessel} reads {value} {unit}.",
-                    &[("device", device), ("vessel", &vessel.to_string()), ("value", &locale.number(format!("{value:.0}"))), ("unit", unit)],
+                    &[("device", device), ("vessel", &vessel.to_string()), ("value", &locale.number(plain)), ("unit", unit)],
                 ),
                 2 => locale.fill(
                     "event.measured.lv2",

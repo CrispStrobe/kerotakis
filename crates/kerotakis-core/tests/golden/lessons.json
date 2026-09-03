@@ -661,6 +661,133 @@
       }
     ]
   },
+  "density": {
+    "event_count": 28,
+    "events_sample": [
+      "v1: +0.0787 mol copper",
+      "v1 balance: 5.00 g",
+      "v1 density meter: 8.96 g/mL",
+      "v2: new vessel",
+      "v2: +0.0765 mol zinc",
+      "v2 balance: 5.00 g",
+      "v2 density meter: 7.14 g/mL",
+      "v3: new vessel",
+      "v3: +0.1853 mol aluminium",
+      "v3 balance: 5.00 g",
+      "v3 density meter: 2.70 g/mL",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4 density meter: 1.00 g/mL",
+      "v5: new vessel",
+      "v5: +5.5343 mol water",
+      "v5: +0.1461 mol sucrose",
+      "v5: 0.1461 mol sucrose dissolved",
+      "v5 density meter: 1.14 g/mL",
+      "v6: new vessel"
+    ],
+    "lesson": "density.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.07868316,
+            "phase": "Solid",
+            "species": "Cu"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.07647599,
+            "phase": "Solid",
+            "species": "Zn"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.18530872,
+            "phase": "Solid",
+            "species": "Al"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.14607219,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.43821658,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.07868316,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.07647599,
+            "phase": "Solid",
+            "species": "Zn"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "electrode": {
     "event_count": 14,
     "events_sample": [

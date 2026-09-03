@@ -1,0 +1,66 @@
+# Density: the measurement that tells things apart when weighing cannot
+#
+# Put five grams of copper, five grams of zinc and five grams of aluminium
+# on a balance and you learn nothing: they all weigh five grams. What
+# separates them is how much ROOM those five grams take up, and that is
+# density — mass divided by volume, a property of the substance itself
+# rather than of the piece you happen to be holding.
+register lv2
+
+# 1. Three metals, the same mass, three different answers.
+add v1 Cu 5g
+measure v1 balance
+measure v1 density
+
+new beaker
+add v2 Zn 5g
+measure v2 balance
+measure v2 density
+
+new beaker
+add v3 Al 5g
+measure v3 balance
+measure v3 density
+
+# The balance says 5 g three times. The density meter says 8.96, 7.14 and
+# 2.70 g/mL — and the aluminium piece is more than three times the size of
+# the copper one. That is why a dealer weighs scrap metal AND checks how
+# big it is.
+
+# 2. Liquids have densities too, and dissolving something changes them.
+#    This is what a density tower is built on: each layer has to be
+#    heavier than the one above it or the tower will not stack.
+new beaker
+add v4 water 100mL
+measure v4 density
+
+new beaker
+add v5 water 100mL
+add v5 sucrose 50g
+measure v5 density
+
+new beaker
+add v6 water 100mL
+add v6 sucrose 150g
+measure v6 density
+
+# Three liquids, three densities, and they climb with the sugar. Poured
+# very gently, heaviest first, they would sit in layers — but this bench
+# has no slow pour: pour them together here and they mix, which is what
+# would really happen if you poured them quickly. The numbers are the part
+# the tower depends on, and they are right.
+
+# 3. A density belongs to ONE substance. Two powders in a heap have a mass
+#    and a volume, and no density anyone should be told.
+new beaker
+add v7 Cu 5g
+add v7 Zn 5g
+measure v7 density
+
+# What this does not model: the volume of a piece is computed from the
+# substance's reviewed density, not measured by displacing water, so this
+# is the density of the material and not of the object — a hollow or
+# bubbled piece would read the same here and float in a real bucket. The
+# solute volumes in the sugar solutions use the additive-volume
+# approximation the rest of the bench uses; a real syrup contracts very
+# slightly on mixing.

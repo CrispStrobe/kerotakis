@@ -660,3 +660,44 @@ fn a_raisin_needs_a_third_of_its_own_volume_in_bubbles() {
         "the object must survive the experiment:\n{out}"
     );
 }
+
+/// KID-19a: the measurement a balance cannot make, on the shipped binary.
+///
+/// mat-012 in the curiosity corpus asks how density distinguishes copper,
+/// zinc and aluminium, and its script weighed five grams of each — the one
+/// measurement that cannot answer it. Three identical balance readings and
+/// three different density readings, side by side, is the whole lesson.
+#[test]
+fn density_tells_apart_what_the_balance_cannot() {
+    let lesson = lessons_dir().join("density.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    assert_eq!(
+        out.matches("balance: 5.00 g").count(),
+        3,
+        "all three weigh the same:\n{out}"
+    );
+    for reading in [
+        "v1 density meter: 8.96 g/mL",
+        "v2 density meter: 7.14 g/mL",
+        "v3 density meter: 2.70 g/mL",
+    ] {
+        assert!(out.contains(reading), "missing {reading}:\n{out}");
+    }
+
+    // Liquids climb with what is dissolved in them — the numbers a
+    // density tower is built on.
+    assert!(
+        out.contains("v4 density meter: 1.00 g/mL")
+            && out.contains("v5 density meter: 1.14 g/mL")
+            && out.contains("v6 density meter: 1.28 g/mL"),
+        "the sugar ladder must climb:\n{out}"
+    );
+
+    // And a heap of two metals refuses, naming both.
+    assert!(
+        out.contains("a density belongs to one substance"),
+        "a mixture has no density to report:\n{out}"
+    );
+}

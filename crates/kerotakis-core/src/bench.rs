@@ -2299,6 +2299,107 @@ impl Bench {
                             what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
                         }),
                     },
+                    // KID-19a: density is a measurement, and it is the one
+                    // that answers a question a balance cannot. Five grams
+                    // of copper, five grams of zinc and five grams of
+                    // aluminium all weigh five grams; what tells them apart
+                    // is that the aluminium is a much bigger piece.
+                    Instrument::Densitometer => {
+                        // A hydrometer floats in the liquid, so a liquid
+                        // answers even when solids are sitting in it.
+                        if let Some(density) = crate::buoyancy::liquid_density_g_per_ml(v) {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: density,
+                                unit: "g/mL".to_string(),
+                            });
+                        } else {
+                            // Dry: then the instrument is a balance and a
+                            // measuring cylinder, and the reading is the
+                            // substance's own density. That is a property
+                            // of ONE substance — a heap of two powders has
+                            // a mass and a volume but no density anyone
+                            // should be told — so more than one refuses,
+                            // and says which ones it found.
+                            let solids: Vec<&crate::vessel::Portion> = v
+                                .contents
+                                .iter()
+                                .filter(|portion| {
+                                    portion.phase == Phase::Solid
+                                        && portion.moles.0 > crate::OBSERVABLE_MOLES
+                                })
+                                .collect();
+                            let objects: Vec<&crate::vessel::UnresolvedMaterialPortion> =
+                                v.unresolved_materials.iter().collect();
+                            match (solids.as_slice(), objects.as_slice()) {
+                                ([portion], []) => {
+                                    match species::lookup(&portion.species)
+                                        .map(|data| data.density)
+                                        .filter(|density| *density > 0.0)
+                                    {
+                                        Some(density) => events.push(Event::Measured {
+                                            vessel: *vessel,
+                                            instrument: *instrument,
+                                            value: density,
+                                            unit: "g/mL".to_string(),
+                                        }),
+                                        None => events.push(Event::NotYetModeled {
+                                            vessel: *vessel,
+                                            what: format!(
+                                                "the density of {} — the registry carries no reviewed density for it, so the piece has a mass here and no size",
+                                                portion.species.0
+                                            ),
+                                        }),
+                                    }
+                                }
+                                ([], [portion]) => {
+                                    match crate::material::lookup(&portion.material, None)
+                                        .and_then(|recipe| {
+                                            recipe.bulk_density.map(|density| density.value)
+                                        }) {
+                                        Some(density) => events.push(Event::Measured {
+                                            vessel: *vessel,
+                                            instrument: *instrument,
+                                            value: density,
+                                            unit: "g/mL".to_string(),
+                                        }),
+                                        None => events.push(Event::NotYetModeled {
+                                            vessel: *vessel,
+                                            what: format!(
+                                                "the density of {} — the recipe carries no reviewed bulk density",
+                                                portion.material
+                                            ),
+                                        }),
+                                    }
+                                }
+                                ([], []) => events.push(Event::NotYetModeled {
+                                    vessel: *vessel,
+                                    what: "a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh".to_string(),
+                                }),
+                                _ => {
+                                    let mut named: Vec<String> = solids
+                                        .iter()
+                                        .map(|portion| {
+                                            species::lookup(&portion.species)
+                                                .map(|data| data.name.to_string())
+                                                .unwrap_or_else(|| portion.species.0.clone())
+                                        })
+                                        .collect();
+                                    named.extend(
+                                        objects.iter().map(|portion| portion.material.clone()),
+                                    );
+                                    events.push(Event::NotYetModeled {
+                                        vessel: *vessel,
+                                        what: format!(
+                                            "a single density for this vessel: it holds {}, and a density belongs to one substance rather than to a mixture of them. Weigh them separately",
+                                            named.join(" and ")
+                                        ),
+                                    });
+                                }
+                            }
+                        }
+                    }
                     Instrument::Spectrophotometer => {
                         let spec = crate::instrument::Spectrophotometer::default();
                         if let Some(reading) = spec.measure(v) {
