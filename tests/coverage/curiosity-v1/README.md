@@ -540,3 +540,35 @@ the part worth remembering: it was not the chemistry that blocked it but
 `displacement::oxidant_available`, which read a vessel's unspent acidity
 off its net charge and only ever agreed with reality because a different
 defect upstream was stripping weak acids of their protons first.
+`tests/curated_reactants_survive_a_solve.rs` now fails if anyone adds a
+curated reaction on a reactant the solver renames, so this class cannot be
+introduced silently again.
+## mat-012's script now asks mat-012's question (2026-09-03, KID-19a)
+
+`mat-012` asks "How can density distinguish copper, zinc, and aluminium
+pieces?" and its script weighed five grams of each on a balance. Five grams
+of copper, five grams of zinc and five grams of aluminium all weigh five
+grams: the script exercised the one measurement that cannot answer the
+question it was written for. There was no density instrument to use
+instead, so this was not an oversight when it was written.
+
+KID-19a adds one (`measure v1 density`, also spelled `hydrometer`), and the
+script now takes both readings. The three vessels answer 8.96, 7.14 and
+2.70 g/mL against three identical balance readings.
+
+**The disposition does not move, and that is deliberate.** The classifier
+returns `qualitative` for any `handle_and_inspect` prompt that produces an
+`Observed` or `Measured` event, so a reading with a value and a unit is
+classified the same as looking at the vessel. `mat-012`'s own
+`expected = "qualitative"` says the corpus author read it that way too.
+Whether an instrument reading with a unit ought to count as quantitative is
+a real question about what `Disposition::Qualitative` means — the enum
+carries no definition — and it belongs to whoever owns the classifier, not
+to a commit that adds an instrument. Nothing here changes `expected`, the
+classifier, or any other row: baseline drift for this change is zero.
+
+What changed is only that the script now performs the measurement its
+question names. A prompt whose script cannot reach its own question is a
+gap in the corpus that no engine work can close, and it is worth looking
+for others: the question is the prescription, and the script is only an
+attempt at it.

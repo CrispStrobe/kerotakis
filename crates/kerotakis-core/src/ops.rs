@@ -414,6 +414,13 @@ pub enum Instrument {
     /// EXP-33: the same instrument set up for a liquid: a distillation head
     /// with the bulb in the vapour.
     BoilingPointApparatus,
+    /// KID-19a: a density reader. A hydrometer floats in a liquid and
+    /// reads its density; for a single pure solid the same instrument is a
+    /// balance and a measuring cylinder, and the answer is the substance's
+    /// own density. Density is the property that tells copper from zinc
+    /// from aluminium when a balance cannot: five grams of each weighs
+    /// five grams.
+    Densitometer,
     /// INST-007: Chromatography column — separates dissolved neutral
     /// solutes by their computed partition coefficients and reports the
     /// peak table. Non-destructive here: an analytical injection is an

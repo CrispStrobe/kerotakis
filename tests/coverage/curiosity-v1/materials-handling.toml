@@ -140,7 +140,7 @@ material_class="metals"
 expected="qualitative"
 owning_task="EXP-16"
 tags=["EXP-16"]
-script=["add v1 Cu 5g", "measure v1 balance", "new", "add v2 Zn 5g", "measure v2 balance", "new", "add v3 Al 5g", "measure v3 balance"]
+script=["add v1 Cu 5g", "measure v1 balance", "measure v1 density", "new", "add v2 Zn 5g", "measure v2 balance", "measure v2 density", "new", "add v3 Al 5g", "measure v3 balance", "measure v3 density"]
 smoke=false
 
 [[prompt]]

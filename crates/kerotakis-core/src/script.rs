@@ -547,6 +547,7 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     "pressure" | "gauge" => Instrument::PressureGauge,
                     "volume" => Instrument::VolumeMeter,
                     "conductivity" => Instrument::ConductivityMeter,
+                    "density" | "hydrometer" | "densitometer" => Instrument::Densitometer,
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     "calorimeter" => Instrument::Calorimeter,
                     "chromatograph" | "column" => Instrument::Chromatograph,

@@ -61,7 +61,7 @@ silent miss teaches the silence.
 | K07 | Pepper runs from soap | the darting | computed | fires on the soap-second order and stays silent on the soap-first control |
 | K08 | Oil and water | two layers | computed | layer forms; the dye stays in the aqueous phase |
 | K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
-| K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
+| K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band. KID-19a made the half that is data answerable — `measure v1 density` reads 1.00, 1.14 and 1.28 g/mL up a sugar ladder, which is the number a tower is built on; the slow pour that would keep them apart is still not modelled |
 | K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
 | K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
@@ -750,7 +750,7 @@ or a rate in them.
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
 | K56 | Bubble mixture that lasts | partial | no foam without the peroxide path (KID-11) |
-| K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 did give the bench the density of a sugar solution — solute volume included, which it was not before — so the *number* a tower would be built on is now right even though the layering is not modelled |
+| K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 gave the bench the density of a sugar solution — solute volume included, which it was not before — and KID-19a gave the learner a way to read it, so the *number* a tower would be built on is both right and askable; the layering is the part that is still missing |
 | K58 | Instant snow from a powder | unreachable | no superabsorbent polymer |
 | K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |
 | K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |
@@ -779,6 +779,41 @@ thirty separate problems, it is finding the same eight.
   quest is authored, but nothing in the vessel picture separates them.
   *Acceptance:* a solid whose density is known settles or floats against the
   liquid it is in, and `look` says which.
+  **KID-19a landed 2026-09-03: the measurement half.** The registry knew
+  every density in it and there was no way to ask. `measure v1 density`
+  (also spelled `hydrometer`) now reads a liquid through the solution's own
+  density — solute volume included, which is the arithmetic KID-13 had to
+  fix — and a single dry solid through the substance's reviewed value.
+
+  It came from the curiosity corpus rather than from the thirty. `mat-012`
+  asks *"How can density distinguish copper, zinc, and aluminium pieces?"*
+  and its script weighed five grams of each on a balance: five grams of
+  copper, five grams of zinc and five grams of aluminium all weigh five
+  grams, so the script exercised the one measurement that cannot answer its
+  own question. There was no other instrument to reach for when it was
+  written. Now there is, and the three vessels read 8.96, 7.14 and 2.70
+  g/mL against three identical balance readings.
+
+  A density belongs to ONE substance, so a heap of two powders refuses and
+  names both — it has a mass and a volume and no density anyone should be
+  told. An empty vessel refuses for its own reason. A hydrometer floats in
+  the liquid, so a liquid answers even with solids sitting in it.
+
+  **A rounding bug this exposed.** Every lv1 instrument reading went
+  through `{value:.0}`, so the density meter announced aluminium as
+  "3 g/mL" — and 2.7 against 8.96 is the entire content of the row, while
+  "3" against "9" is a different and worse claim. Readings below ten now
+  keep one decimal, which is roughly how a person reads a real dial, and
+  25 °C is unaffected.
+
+  **Stated boundaries:** the volume of a piece is computed from the
+  substance's reviewed density rather than measured by displacement, so
+  this is the density of the *material* and not of the *object* — a hollow
+  or bubbled piece reads the same here and floats in a real bucket. Solute
+  volumes use the additive-volume approximation the rest of the bench uses.
+  *Still open in KID-19:* the observable half — a solid that floats or
+  sinks in the vessel picture, which is what the acceptance line above asks
+  for.
 - **KID-20 — the household recipes have gaps that read as lies.** Apple
   juice resolves to water and sucrose, so it is not acidic; a kitchen pH map
   reports nothing for it. Chalcanthite is drawn white. These are registry

@@ -18,7 +18,7 @@
   "decant": "Transfer tool with fraction chips (25/50/75/100%)",
   "drain": "Transfer tool: tap source, tap target",
   "distil": "Two-vessel tool: still (tap source, tap receiver; fraction chips)",
-  "measure": "Instrument tray in the Inspector (10 instruments incl. UV-Vis and eyes)",
+  "measure": "Instrument tray in the Inspector (every instrument the parser accepts, incl. UV-Vis, the density meter and eyes)",
   "chromatograph": "Instrument tray in the Inspector",
   "electrolyse": "Apparatus form: electrodes and supply",
   "cell": "Two-vessel tool: voltmeter (tap two half-cells)",
