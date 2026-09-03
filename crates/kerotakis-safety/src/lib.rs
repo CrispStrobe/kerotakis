@@ -260,6 +260,12 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // explicitly is what makes the row *assessed* rather than merely
         // unlabelled.
         | "anthocyanin"
+        // KID-14: poly(vinyl alcohol) is school glue. Borax is a mild
+        // irritant a child should not eat, but it carries no reactive group
+        // this screen knows, and the L0 screen is about what a mixture does
+        // to another substance rather than about ingestion.
+        | "PVA"
+        | "Na2B4O7"
         | "curcumin"
         | "curcumin_ox"
         | "indigo_carmine"
@@ -320,6 +326,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag+",
     "AgCl",
     "Al",
+    "Na2B4O7",
+    "PVA",
     "anthocyanin",
     "betanin",
     "betanin_ox",

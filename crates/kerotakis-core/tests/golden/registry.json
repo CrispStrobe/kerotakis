@@ -3259,5 +3259,53 @@
       1255.645602
     ],
     "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 238,
+      "g": 242,
+      "r": 242,
+      "strength": 0.0
+    },
+    "density": 1.19,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C2H4O",
+    "heat_capacity": 100.0,
+    "inchikey": "",
+    "key": "PVA",
+    "magnetic": false,
+    "molar_mass": 44.053,
+    "name": "poly(vinyl alcohol)",
+    "provenance": "Poly(vinyl alcohol) as one vinyl-alcohol repeat unit, the same way starch, cellulose and the shipped polymers enter this registry: a polymer is not a molecule, so no InChIKey is asserted and the formula unit is the repeat. Molar mass from IUPAC/CIAAW 2021 atomic weights; density 1.19 g/mL and the Kopp's-rule heat capacity are explicit room-temperature teaching approximations. Degree of polymerisation, degree of hydrolysis and tacticity are not modelled, and they are what distinguish one school glue from another",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 240,
+      "g": 244,
+      "r": 244,
+      "strength": 0.0
+    },
+    "density": 2.37,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Na2B4O7",
+    "heat_capacity": 186.0,
+    "inchikey": "",
+    "key": "Na2B4O7",
+    "magnetic": false,
+    "molar_mass": 201.219,
+    "name": "sodium tetraborate (borax)",
+    "provenance": "Anhydrous sodium tetraborate as the formula unit. Household borax is the decahydrate; the ten waters are not carried here, so a dose given in grams of this species is grams of the anhydrous salt rather than of the box. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and the Kopp's-rule heat capacity are explicit teaching approximations. Borate speciation is not modelled: no shipped database is asked for it, so this dissolves without contributing to pH or ionic strength and the bench says so",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

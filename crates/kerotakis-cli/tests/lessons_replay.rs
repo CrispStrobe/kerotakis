@@ -451,3 +451,64 @@ fn rock_candy_needs_the_heat_and_then_the_seed() {
         "the seed must grow into a real yield: {after_solid}"
     );
 }
+
+/// KID-14: slime, and the thing about it that is not like other reactions.
+///
+/// K21 was the last of the thirty children's scripts that could not run at
+/// all: neither poly(vinyl alcohol) nor a borate was on the shelf. Both are
+/// now, and the observable is a dose response rather than a reaction —
+/// which matters, because the crosslinker is not consumed and the ledger
+/// has to show that.
+#[test]
+fn slime_is_a_dose_response_and_the_borax_survives_it() {
+    let lesson = lessons_dir().join("slime.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Too little borax makes no slime; the classroom dose and the excess
+    // both do. Three vessels, one threshold crossed between the first two.
+    let gelled: Vec<usize> = ["v1", "v2", "v3"]
+        .iter()
+        .enumerate()
+        .filter(|(_, vessel)| {
+            out.lines().any(|line| {
+                line.contains("turned into slime")
+                    && out
+                        .lines()
+                        .position(|l| l == line)
+                        .zip(
+                            out.lines()
+                                .position(|l| l.contains(&format!("{vessel} (beaker)"))),
+                        )
+                        .is_some_and(|(gel, header)| gel < header)
+            })
+        })
+        .map(|(index, _)| index)
+        .collect();
+    assert_eq!(
+        out.matches("turned into slime").count(),
+        2,
+        "the under-dosed vessel must not gel and the other two must:\n{out}"
+    );
+    assert!(!gelled.is_empty());
+
+    // The point a reaction would miss: every gram of borax is still there.
+    // A crosslinker links; it is not a reagent.
+    let borax_lines: Vec<&str> = out
+        .lines()
+        .filter(|line| line.contains("mol  sodium tetraborate"))
+        .collect();
+    assert_eq!(
+        borax_lines.len(),
+        3,
+        "each vessel reports its borax:\n{out}"
+    );
+    for line in borax_lines {
+        let moles: f64 = line
+            .split_whitespace()
+            .next()
+            .and_then(|n| n.parse().ok())
+            .unwrap_or(0.0);
+        assert!(moles > 0.0, "the crosslinker is not consumed: {line}");
+    }
+}

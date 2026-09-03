@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "elements": 118,
-  "identity_only": 95,
-  "property_backed": 23,
+  "identity_only": 94,
+  "property_backed": 24,
   "selected_example_counts": {
-    "H": 105,
-    "O": 123,
-    "Na": 27,
+    "H": 107,
+    "O": 127,
+    "Na": 29,
     "Mn": 6,
     "Fe": 11,
     "Cu": 8,

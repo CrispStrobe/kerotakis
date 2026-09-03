@@ -589,6 +589,21 @@ pub enum Event {
         acid_species: SpeciesId,
         acid_moles: Moles,
     },
+    /// KID-14: the glue stopped being a liquid.
+    ///
+    /// Nothing is consumed and no matter is created: borate bridges between
+    /// polymer chains keep breaking and re-forming, which is why slime
+    /// flows slowly and tears quickly. The fraction is how much of the
+    /// polymer is bound into the network.
+    GelFormed {
+        vessel: VesselId,
+        polymer: SpeciesId,
+        crosslinker: SpeciesId,
+        from_gelled_fraction: f64,
+        to_gelled_fraction: f64,
+        polymer_grams: f64,
+        crosslinker_moles: Moles,
+    },
     /// A mortar changed the mean diameter of a solid powder. Surface area
     /// assumes equal spherical particles: A = 6V/d, using registry density.
     Ground {
