@@ -1086,6 +1086,21 @@ pub enum Event {
         species: SpeciesId,
         moles: Moles,
     },
+    /// KID-13: gas is coming out of the liquid, and there is something in
+    /// there dense enough to sink and rough enough for bubbles to cling
+    /// to. This is the dancing raisin, and the number is the point: the
+    /// attached gas has to be worth `lift_gas_fraction` of the object's
+    /// own volume before it goes up.
+    BubbleRide {
+        vessel: VesselId,
+        /// Display name of the material riding the bubbles.
+        object: String,
+        object_density_g_per_ml: f64,
+        liquid_density_g_per_ml: f64,
+        /// Attached gas volume as a fraction of the object's own volume,
+        /// needed to lift it. Zero means it floats unaided.
+        lift_gas_fraction: f64,
+    },
     /// A gas formed but remained in a material-closed headspace.
     GasContained {
         vessel: VesselId,

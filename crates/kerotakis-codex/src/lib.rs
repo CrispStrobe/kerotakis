@@ -45,6 +45,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "foam_changed",
     "gas_absorbed",
     "gas_tested",
+    "bubble_ride",
     "gas_contained",
     "gas_evolved",
     "gas_produced",
@@ -1304,6 +1305,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // `dissolved`/`added` already carry. This is the picture being
         // drawn, so the claim is that it was drawn — no species.
         E::ParticlesCounted { .. } => ("particles_counted", None),
+        // KID-13: a quest can claim that the raisin rode the bubbles.
+        E::BubbleRide { .. } => ("bubble_ride", None),
         E::VesselSealed { .. } => ("vessel_sealed", None),
         E::VesselPressureControlled { .. } => ("vessel_pressure_controlled", None),
         E::VesselSwept { .. } => ("vessel_swept", None),
