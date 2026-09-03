@@ -417,3 +417,94 @@ fn ammonium_chloride_is_still_an_ammonium_salt() {
          mol NH4+ against {ammonia:.9} mol NH3"
     );
 }
+
+/// Vinegar and baking soda fizz — in water, which is the only way anybody
+/// has ever done it.
+///
+/// This reaction has been curated, reviewed and present in `curated.rs`
+/// since the beginning, and until the acetate protonation split it could
+/// not fire in a beaker. The readback booked the whole Acetate total as
+/// `CH3COO-`, so pouring vinegar into water handed back acetate ion, and by
+/// the time the bicarbonate arrived the acid named in the reactant list was
+/// no longer in the vessel. It would only ever have fired in a dry one.
+///
+/// The corpus said so and nobody read it: `aq-059` sat at reason code
+/// `computed-route`, and the classifier checks the curated route FIRST — so
+/// that code meant, in writing, that the curated route produced no events.
+#[test]
+fn vinegar_and_baking_soda_fizz_in_water() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "CH3COOH", 0.05);
+
+    // The acid is in the ledger as an acid. That is the precondition, and
+    // it is the whole of what was missing.
+    let free_acid = bench
+        .vessel(v)
+        .unwrap()
+        .moles_of(&SpeciesId::new("CH3COOH"))
+        .0;
+    assert!(
+        free_acid > 0.04,
+        "a pH 2.5 solution is mostly undissociated acid, got {free_acid:.5} mol"
+    );
+
+    let events = add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
+        )),
+        "the curated reaction fires, got {events:?}"
+    );
+    // The carbon is conserved across the two routes that share it: the
+    // curated equation takes the free acid, the aqueous route takes the
+    // small remainder, and neither invents any.
+    let co2: f64 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!(
+        (co2 - 0.05).abs() < 1e-3,
+        "0.05 mol of bicarbonate gives 0.05 mol of gas, got {co2:.5}"
+    );
+}
+
+/// And vinegar dissolves an eggshell, for the same reason and by the same
+/// arithmetic.
+#[test]
+fn vinegar_dissolves_the_calcium_carbonate_in_an_eggshell() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "CH3COOH", 0.1);
+    let events = add(&mut bench, &mut stack, v, "CaCO3", 0.05);
+
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::ReactionOccurred { equation, .. } if equation.contains("CaCO")
+        )),
+        "the curated reaction fires, got {events:?}"
+    );
+    let shell = bench
+        .vessel(v)
+        .unwrap()
+        .moles_of(&SpeciesId::new("CaCO3"))
+        .0;
+    // Not to zero, and it should not be: what is left is the saturation
+    // residue, 0.08% of the shell sitting in equilibrium with a solution
+    // that has taken all the calcium it will hold. A real shell in a real
+    // glass of vinegar stops in the same place for the same reason.
+    assert!(
+        shell < 0.001,
+        "two moles of acid per mole of carbonate dissolves essentially all \
+         of it, {shell:.6} mol left of 0.05"
+    );
+}

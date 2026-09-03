@@ -94,24 +94,6 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
          0.02 mol of CO₂.",
     ),
     (
-        "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑",
-        "vinegar and baking soda, and it does not fizz in a beaker. The fix \
-         is known and measured — an Acetate row in PROTONATION_SPLITS puts \
-         0.0497 mol of free acid back in the ledger and the reaction fires, \
-         evolving exactly the 0.05 mol of CO₂ the bicarbonate is worth — and \
-         it is held back because the same row breaks \
-         `displacement::oxidant_available`, which reads unspent acidity off \
-         `-solute_charge` and is only right while the readback keeps \
-         stripping weak acids. Landing one without the other stops magnesium \
-         dissolving in vinegar.",
-    ),
-    (
-        "CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑",
-        "vinegar on an eggshell; same cause, same held-back fix. Measured at \
-         0.0498 + 0.0002 mol CO₂ with the Acetate split in, and the shell \
-         dissolves.",
-    ),
-    (
         "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
         "NOT covered, and not fixable the same way. HCl is a strong acid and \
          booking it as Cl⁻ is correct chemistry — there is no undissociated \
@@ -203,5 +185,44 @@ fn every_protonation_split_names_registry_species() {
                  which is not a registry key"
             );
         }
+    }
+}
+
+/// The two tables that decide whether an acid survives a solve must agree.
+///
+/// `PROTONATION_SPLITS` (here) decides which species the ledger CARRIES;
+/// `displacement::LEDGER_ACIDS` decides whose proton the ledger COUNTS. If
+/// a split adds a neutral acid and nothing tells `oxidant_available` about
+/// it, that acid's protons vanish from the metal's point of view — a beaker
+/// of vinegar reads its dissociated 1e-3 and magnesium stops dissolving in
+/// it. That is precisely the failure this pair of changes exists to avoid,
+/// so the two lists are checked against each other rather than trusted to
+/// stay in step.
+///
+/// The check is one-directional on purpose. Every ledger acid must come
+/// from a split, because an acid the readback still strips can never appear
+/// in the inventory to be counted. The reverse does NOT hold: `N(-3)` is
+/// split and `NH4+` is deliberately not a ledger acid, for the reason given
+/// where that list is defined.
+#[test]
+fn every_counted_acid_is_one_the_ledger_can_actually_hold() {
+    let carried: Vec<&str> = derived::PROTONATION_SPLITS
+        .iter()
+        .flat_map(|(_, split)| split.iter().map(|(_, key)| *key))
+        .collect();
+    for (acid, base) in kerotakis_core::displacement::ledger_acids() {
+        assert!(
+            carried.contains(acid),
+            "`{acid}` is counted as a titratable acid but no protonation \
+             split puts it in the ledger, so the readback will book its \
+             element total to one ion and the species will never be there \
+             to count"
+        );
+        assert!(
+            carried.contains(base),
+            "`{acid}` books its conjugate base as `{base}`, which no \
+             protonation split carries — spending the proton would deposit \
+             a species the solve then has no name for"
+        );
     }
 }
