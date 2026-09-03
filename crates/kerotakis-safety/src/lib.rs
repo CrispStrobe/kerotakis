@@ -43,6 +43,19 @@ pub enum ReactiveGroup {
     /// `AcidStrong`'s rules. The group states what the substance is; the
     /// mixture rules stay with the chemistry that is modelled.
     AcidicSalt,
+    /// A vessel holding acid that is mostly UNDISSOCIATED — vinegar, citric
+    /// acid, a soft drink. Never carried by a species key: it is a property
+    /// of the beaker, computed from how much of its acidity is free.
+    ///
+    /// `AcidStrong` means "essentially all of it is dissociated", which is
+    /// what makes its rules right; vinegar is about 6% dissociated and
+    /// putting it in that group would attach a "strong acid" warning to
+    /// every school experiment that uses it. But bleach does not care how
+    /// strong the acid is. Household bleach and household vinegar is one of
+    /// the commonest domestic poisonings there is, and this bench was silent
+    /// on it, so the hypochlorite rule takes this group as well and nothing
+    /// else does.
+    AcidTitratable,
     /// A soluble salt whose *dissolved cation* is an acute systemic
     /// toxicant. NOAA's methodology screens mixtures, not intrinsic
     /// toxicity, so this row is the same kind of extension
@@ -89,6 +102,12 @@ pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
             ReactiveGroup::AmmoniaAmines => "toxic",
             ReactiveGroup::Carbonate => "irritant",
             ReactiveGroup::AcidicSalt => "irritant",
+            // No species key carries this one — it is a property of a
+            // vessel, not of a bottle on the shelf, so this arm exists to
+            // keep the match total rather than to label anything. If a
+            // species ever does carry it, "irritant" is what a weak acid
+            // is.
+            ReactiveGroup::AcidTitratable => "irritant",
             ReactiveGroup::ToxicSoluble => "toxic",
         })
         .collect();
@@ -550,11 +569,21 @@ pub fn assess_exposures<'a>(
         // behind, which is what this group means — a weak acid holds its
         // protons and is not covered here, exactly as `CH3COOH` is absent
         // from the key list above.
-        if vessel.solute_charge < -1e-9 {
+        let titratable = kerotakis_core::displacement::unspent_acidity(vessel);
+        let dissociated = (-vessel.solute_charge).max(0.0);
+        if titratable > 1e-9 {
+            // Which group it is, decided by the chemistry rather than by a
+            // list: a strong acid is one that has essentially all come
+            // apart. Hydrochloric acid reads 1.0 here and vinegar reads
+            // about 0.06, so the two are nowhere near the line.
             present.push(PresentSpecies {
                 key: "H+",
                 location,
-                groups: &[ReactiveGroup::AcidStrong],
+                groups: if dissociated > 0.5 * titratable {
+                    &[ReactiveGroup::AcidStrong]
+                } else {
+                    &[ReactiveGroup::AcidTitratable]
+                },
             });
         }
     }
@@ -642,6 +671,20 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
         real_world: "People are hospitalised every year from mixing \
                      these two household cleaners.",
+    },
+    // Bleach does not care how strong the acid is, and the commonest
+    // version of this accident at home uses vinegar. Same hazard, same
+    // words; only the trigger is wider.
+    Incompatibility {
+        a: ReactiveGroup::OxidizerHypochlorite,
+        b: ReactiveGroup::AcidTitratable,
+        severity: Severity::Danger,
+        rule: "bleach-weak-acid-chlorine",
+        hazard: "mixing bleach with vinegar or another weak acid releases \
+                 chlorine, a toxic gas",
+        real_world: "Bleach and vinegar is one of the commonest household \
+                     poisonings there is — both are ordinary kitchen \
+                     bottles, which is exactly why people mix them.",
     },
     Incompatibility {
         a: ReactiveGroup::OxidizerHypochlorite,
