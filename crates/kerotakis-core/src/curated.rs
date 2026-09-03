@@ -72,6 +72,43 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: None,
     },
+    // The same fizz, written in the names the beaker holds once the soda
+    // has dissolved — the `MnO₄⁻`-for-`KMnO4` pattern, one row down.
+    //
+    // Renaming is symmetric, and the acetate protonation split only fixed
+    // the acid end of it. Put water in the vessel first and the bicarbonate
+    // dissolves; the readback then books its carbon as `HCO3-` (the
+    // documented teaching-pH protonation choice) and its sodium as `Na+`,
+    // so the reactant named `NaHCO3` above is no longer in the vessel and
+    // its reaction is unreachable from that end. Add the acid first and it
+    // fires; add the soda first and it did not. Order dependence is worse
+    // than absence: "put the solid in first" is a workaround somebody finds
+    // by accident and never understands.
+    //
+    // Written on the ion rather than the salt because that is what is
+    // actually there, and the sodium is a spectator — which is why it does
+    // not appear on either side. Any bicarbonate reaches this row, not only
+    // bicarbonate that arrived as baking soda, and that is correct: acid
+    // poured into a bicarbonate solution fizzes however the bicarbonate got
+    // there.
+    //
+    // No heat effect claimed, on the same terms as the row above. The
+    // enthalpy of the acid-carbonate reaction is not held anywhere in this
+    // lab; the aqueous tail used to supply one by mistake, charging it at
+    // the strong-acid-strong-base figure, and that has been withdrawn
+    // rather than replaced.
+    CuratedReaction {
+        equation: "HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑",
+        reactants: &[("HCO3-", 1.0), ("CH3COOH", 1.0)],
+        products: &[
+            ("CH3COO-", 1.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+            ("CO2", 1.0, Phase::Gas),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
     CuratedReaction {
         equation: "NH3 + NaOCl → NH2Cl↑ + NaOH",
         reactants: &[("NH3", 1.0), ("NaOCl", 1.0)],

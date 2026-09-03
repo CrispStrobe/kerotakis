@@ -365,8 +365,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-061"
 owning_task = "CAP-25"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "aq-062"
@@ -773,8 +773,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-004"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "bio-005"
