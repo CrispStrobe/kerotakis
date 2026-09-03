@@ -39505,7 +39505,7 @@
       "phase": "solid",
       "appearance": "deep blue crystals",
       "flame_colour": "blue-green",
-      "reflective_srgb": null,
+      "reflective_srgb": "#1E6EBE",
       "spectrum": [],
       "evidence": {
         "source_id": "us-federal/usgs-chalcanthite",
@@ -45928,6 +45928,39 @@
       }
     },
     {
+      "id": "aqueous-solubility-100c/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 487.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/Fe2O3",
       "subject": {
         "kind": "species",
@@ -46617,6 +46650,39 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/chalcanthite",
+      "subject": {
+        "kind": "species",
+        "id": "chalcanthite"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-chalcanthite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -51068,10 +51134,10 @@
       },
       "components": [
         {
-          "species_id": "sucrose",
+          "species_id": "water",
           "fraction": {
-            "lower": 0.02,
-            "upper": 0.02
+            "lower": 0.8824,
+            "upper": 0.8824
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -51082,10 +51148,52 @@
           }
         },
         {
-          "species_id": "water",
+          "species_id": "fructose",
           "fraction": {
-            "lower": 0.88,
-            "upper": 0.88
+            "lower": 0.059,
+            "upper": 0.059
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.024,
+            "upper": 0.024
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.013,
+            "upper": 0.013
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "malic_acid",
+          "fraction": {
+            "lower": 0.005,
+            "upper": 0.005
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -51097,18 +51205,18 @@
         }
       ],
       "unresolved_fraction": {
-        "lower": 0.1,
-        "upper": 0.1
+        "lower": 0.0166,
+        "upper": 0.0166
       },
       "physical_form": {
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "clear apple-juice teaching surrogate: 88% water, the 2% that really is sucrose, and a conserved 10% remainder",
+      "preparation": "clear unsweetened apple-juice teaching surrogate: 88% water, the sugars in the proportions the cited composition gives them, and the malic acid the tartness is actually made of",
       "lot_assumptions": [
-        "most of apple juice's sugar is fructose and glucose, and neither is an installed species; that roughly 8.5% stays in the conserved unresolved fraction instead of being relabelled sucrose, so the resolved sugar here is only the sucrose that is genuinely sucrose",
-        "acidity is not modelled: apple juice owes its tartness mainly to malic acid, which is not in the registry, and substituting an acid the engine does happen to have would compute a pH from the wrong molecule. The surrogate therefore makes no pH claim and behaves as a neutral sugar solution",
-        "pectin, minerals, vitamin C, colour and aroma compounds share the same unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished",
+        "the sugars are resolved in the cited proportions — fructose first, then glucose, then sucrose — rather than relabelled as one sugar; each is an installed species with its own solubility limit",
+        "malic acid is the acid apple juice's tartness is made of and is resolved as itself, so the pH this juice reports is computed from the right molecule rather than borrowed from a convenient one. The amount is a composition figure, not a titration of any particular juice",
+        "pectin, minerals, vitamin C, colour and aroma compounds share the conserved unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished",
         "no juicing, browning, pasteurisation, fermentation or nutritional claim is made"
       ],
       "substitutions": [],

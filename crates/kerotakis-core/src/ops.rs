@@ -704,6 +704,22 @@ pub enum Event {
         species: SpeciesId,
         moles: Moles,
     },
+    /// KID-7: more is dissolved than the water can hold, and nothing has
+    /// come out.
+    ///
+    /// Not a failure and not a rounding artefact — it is the state a cooled
+    /// sugar syrup is genuinely in, and the reason rock candy needs a
+    /// string to grow on. Precipitating it automatically would erase the
+    /// experiment; saying nothing would report a solution the water cannot
+    /// actually hold as though it were ordinary. So it is a result.
+    Supersaturated {
+        vessel: VesselId,
+        species: SpeciesId,
+        /// What is in solution now.
+        dissolved: Moles,
+        /// What this much water holds at this temperature.
+        capacity: Moles,
+    },
     /// Acid met base: this much of the solutes' unspent acidity cancelled.
     ///
     /// `H⁺ + OH⁻ → H₂O` is never a reaction PHREEQC reports, because it is

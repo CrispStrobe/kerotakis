@@ -878,6 +878,31 @@ impl Vessel {
         Moles(moles.0 - remaining)
     }
 
+    /// KID-7: remove up to `moles` of a species from one phase only.
+    ///
+    /// `withdraw` takes from whichever portions it meets first, which is the
+    /// right thing when a species is leaving the vessel. Crystallisation is
+    /// not that: it moves a solute from the aqueous compartment into the
+    /// solid one, and taking the shortfall out of the solid it is trying to
+    /// grow would be exactly backwards.
+    pub fn withdraw_phase(&mut self, species: &SpeciesId, moles: Moles, phase: Phase) -> Moles {
+        let mut remaining = moles.0;
+        for p in self.contents.iter_mut() {
+            if &p.species == species && p.phase == phase && remaining > 0.0 {
+                let take = p.moles.0.min(remaining);
+                p.moles = Moles(p.moles.0 - take);
+                remaining -= take;
+            }
+        }
+        for lot in self.lots.iter_mut() {
+            if &lot.species == species && lot.phase == phase && remaining <= 0.0 {
+                break;
+            }
+        }
+        self.contents.retain(|p| p.moles.0 > 1e-15);
+        Moles(moles.0 - remaining)
+    }
+
     /// Effective heat capacity of the contents under this vessel's current
     /// mechanical boundary, J/K. Zero for an empty vessel.
     ///

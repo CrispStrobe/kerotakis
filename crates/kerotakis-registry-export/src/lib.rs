@@ -61,6 +61,7 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: false,
     aqueous_solubility_g_per_100_ml: None,
+    aqueous_solubility_g_per_100_ml_at_100c: None,
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
@@ -83,6 +84,7 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: true,
     aqueous_solubility_g_per_100_ml: Some(200.0),
+    aqueous_solubility_g_per_100_ml_at_100c: Some(487.0),
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
@@ -110,6 +112,7 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: false,
     aqueous_solubility_g_per_100_ml: None,
+    aqueous_solubility_g_per_100_ml_at_100c: None,
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
@@ -132,6 +135,7 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: false,
     aqueous_solubility_g_per_100_ml: None,
+    aqueous_solubility_g_per_100_ml_at_100c: None,
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
@@ -154,6 +158,7 @@ const SILICA_SEED: SpeciesData = SpeciesData {
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: false,
     aqueous_solubility_g_per_100_ml: None,
+    aqueous_solubility_g_per_100_ml_at_100c: None,
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
@@ -1764,21 +1769,41 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: Some(density(1.045)),
-            components: vec![component("sucrose", 0.02), component("water", 0.88)],
+            // KID-20: two of this recipe's reasons had expired.
+            //
+            // It carried "most of apple juice's sugar is fructose and
+            // glucose, and neither is an installed species" and "malic acid
+            // ... is not in the registry". Both were true when they were
+            // written and neither is now — fructose, glucose and malic acid
+            // are all shipped species with reviewed solubility limits. A
+            // recipe that explains an omission by a fact that has since
+            // changed is worse than one that never explained it: the
+            // sentence reads as current.
+            //
+            // The cost was visible: a pH map of the kitchen reported nothing
+            // at all for apple juice, because a juice with no acid in it has
+            // no acidity for the engine to characterise (KIDS.md, K50).
+            components: vec![
+                component("water", 0.8824),
+                component("fructose", 0.059),
+                component("glucose", 0.024),
+                component("sucrose", 0.013),
+                component("malic_acid", 0.005),
+            ],
             unresolved_fraction: Some(FractionRange {
-                lower: 0.10,
-                upper: 0.10,
+                lower: 0.0166,
+                upper: 0.0166,
             }),
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
             roles: Vec::new(),
             preparation: Some(
-                "clear apple-juice teaching surrogate: 88% water, the 2% that really is sucrose, and a conserved 10% remainder"
+                "clear unsweetened apple-juice teaching surrogate: 88% water, the sugars in the proportions the cited composition gives them, and the malic acid the tartness is actually made of"
                     .to_string(),
             ),
             lot_assumptions: vec![
-                "most of apple juice's sugar is fructose and glucose, and neither is an installed species; that roughly 8.5% stays in the conserved unresolved fraction instead of being relabelled sucrose, so the resolved sugar here is only the sucrose that is genuinely sucrose".to_string(),
-                "acidity is not modelled: apple juice owes its tartness mainly to malic acid, which is not in the registry, and substituting an acid the engine does happen to have would compute a pH from the wrong molecule. The surrogate therefore makes no pH claim and behaves as a neutral sugar solution".to_string(),
-                "pectin, minerals, vitamin C, colour and aroma compounds share the same unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished".to_string(),
+                "the sugars are resolved in the cited proportions — fructose first, then glucose, then sucrose — rather than relabelled as one sugar; each is an installed species with its own solubility limit".to_string(),
+                "malic acid is the acid apple juice's tartness is made of and is resolved as itself, so the pH this juice reports is computed from the right molecule rather than borrowed from a convenient one. The amount is a composition figure, not a titration of any particular juice".to_string(),
+                "pectin, minerals, vitamin C, colour and aroma compounds share the conserved unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished".to_string(),
                 "no juicing, browning, pasteurisation, fermentation or nutritional claim is made".to_string(),
             ],
             substitutions: Vec::new(),
@@ -2240,6 +2265,21 @@ fn export_model_parameters(
             parameter: "aqueous-solubility-g-per-100-ml".to_string(),
             quantity: imported_number(
                 solubility,
+                "g/100mL",
+                Dimension::MassConcentration,
+                phase(species.standard_phase),
+                source_id,
+            ),
+        });
+    }
+    if let Some(hot) = species.aqueous_solubility_g_per_100_ml_at_100c {
+        document.model_parameters.push(ModelParameterRecord {
+            id: format!("aqueous-solubility-100c/{}", species.key),
+            subject: ModelSubject::Species(species.key.to_string()),
+            model: "two-point-temperature-dependent-dissolution".to_string(),
+            parameter: "aqueous-solubility-g-per-100-ml-at-100c".to_string(),
+            quantity: imported_number(
+                hot,
                 "g/100mL",
                 Dimension::MassConcentration,
                 phase(species.standard_phase),

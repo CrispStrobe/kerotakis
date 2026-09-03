@@ -1289,6 +1289,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // itself, so `neutralised` is the whole claim there is to make.
         E::Neutralised { .. } => ("neutralised", None),
         E::Dissolved { species, .. } => ("dissolved", Some(species.0.as_str())),
+        // KID-7: a quest can claim the state a rock-candy syrup sits in.
+        E::Supersaturated { species, .. } => ("supersaturated", Some(species.0.as_str())),
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),
         E::GasAbsorbed { species, .. } => ("gas_absorbed", Some(species.0.as_str())),
         E::GasContained { species, .. } => ("gas_contained", Some(species.0.as_str())),

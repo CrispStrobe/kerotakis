@@ -450,18 +450,33 @@ fn dough_keeps_its_water_out_of_the_vessel_s_free_liquid() {
 /// tart — conserved and explicitly unmodelled.
 #[test]
 fn apple_juice_resolves_only_the_sugar_it_can_honestly_name() {
+    // KID-20: this test used to hold that apple juice resolved *one* sugar
+    // and no acid, because fructose, glucose and malic acid were not in the
+    // registry when it was written. All three are now, so what it holds has
+    // moved: the juice resolves each sugar as itself in the cited
+    // proportions and carries the acid its tartness is actually made of.
+    // What has not moved is the rule underneath — the juice must never
+    // borrow an acid the engine merely happens to have.
     let recipe =
         kerotakis_core::material::lookup("Apfelsaft", Some("de")).expect("localized apple juice");
     let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
     let resolved: f64 = expansion.components.iter().map(|part| part.amount).sum();
     assert!((resolved + expansion.unresolved_amount - 100.0).abs() < 1e-12);
-    let sucrose = expansion
-        .components
-        .iter()
-        .find(|part| part.species_id == "sucrose")
-        .expect("the fraction that really is sucrose");
-    assert!((sucrose.amount - 2.0).abs() < 1e-12);
-    assert!((expansion.unresolved_amount - 10.0).abs() < 1e-12);
+    let amount = |species: &str| -> f64 {
+        expansion
+            .components
+            .iter()
+            .find(|part| part.species_id == species)
+            .map_or(0.0, |part| part.amount)
+    };
+    // Fructose first, then glucose, then sucrose: the order the cited
+    // composition puts them in, which is the point of resolving them apart.
+    assert!(amount("fructose") > amount("glucose"));
+    assert!(amount("glucose") > amount("sucrose"));
+    assert!(
+        amount("malic_acid") > 0.0,
+        "the tartness is a real component"
+    );
 
     let op = parse_op("add v1 Apfelsaft 100mL")
         .expect("valid material command")
@@ -470,8 +485,9 @@ fn apple_juice_resolves_only_the_sugar_it_can_honestly_name() {
     bench.step(op).expect("add apple juice");
     let vessel = &bench.vessels[0];
     assert!(vessel.moles_of(&SpeciesId::new("water")).0 > 5.0);
-    assert!(vessel.moles_of(&SpeciesId::new("sucrose")).0 > 0.0);
-    // No acid is asserted from a molecule the registry does not hold.
+    assert!(vessel.moles_of(&SpeciesId::new("malic_acid")).0 > 0.0);
+    // Still no borrowed acid: computing a pH from the wrong molecule would
+    // be worse than the honest refusal the aqueous engine gives for malate.
     for acid in ["CH3COOH", "H3PO4", "HCl", "H2SO4"] {
         assert!(
             vessel.moles_of(&SpeciesId::new(acid)).0 < 1e-12,
@@ -607,4 +623,67 @@ fn no_recipe_name_collides_after_normalization() {
             }
         }
     }
+}
+
+/// KID-20: a drink that reports no acidity is a drink the bench lies about.
+///
+/// `apple_juice` resolved to water and sucrose and nothing else, so a pH map
+/// of the kitchen reported *nothing at all* for it (KIDS.md, K50). The
+/// recipe explained the omission — "malic acid ... is not in the registry"
+/// — and that sentence had since stopped being true, which is the worse
+/// failure of the two: a reason that has expired reads as current.
+///
+/// The list is explicit because a recipe is a curation act: adding a drink
+/// means deciding what its acidity is made of, and this is where that
+/// decision is recorded.
+#[test]
+fn every_drink_recipe_carries_the_acid_its_taste_is_made_of() {
+    // Species the registry ships that are acids in the sense a tongue means.
+    const ACIDS: &[&str] = &[
+        "CO2",
+        "H3PO4",
+        "CH3COOH",
+        "citric_acid",
+        "malic_acid",
+        "ascorbic_acid",
+        "H2C2O4",
+        "HCl",
+        "H2SO4",
+    ];
+    for key in [
+        "apple_juice",
+        "cola_drink",
+        "sparkling_water",
+        "white_vinegar_5_percent",
+    ] {
+        let recipe = kerotakis_core::material::lookup(key, None)
+            .unwrap_or_else(|| panic!("{key} is on the shelf"));
+        assert!(
+            recipe
+                .components
+                .iter()
+                .any(|component| ACIDS.contains(&component.species_id.as_str())),
+            "{key} has no acid component, so it can report no acidity: {:?}",
+            recipe
+                .components
+                .iter()
+                .map(|c| c.species_id.as_str())
+                .collect::<Vec<_>>()
+        );
+    }
+}
+
+/// KID-20: blue vitriol is blue.
+///
+/// Copper(II) sulfate pentahydrate carried the appearance string "deep blue
+/// crystals" and no sRGB, so the appearance layer fell back to its default
+/// pale grey and described the product of "grow blue crystals" as white.
+#[test]
+fn the_blue_salt_is_drawn_blue() {
+    let data = kerotakis_core::species::lookup_key("chalcanthite").expect("chalcanthite ships");
+    let colour = data.colour.expect("chalcanthite has a reviewed swatch");
+    assert!(
+        colour.b > colour.r && colour.b > colour.g,
+        "blue vitriol must be bluest in blue: {colour:?}"
+    );
 }

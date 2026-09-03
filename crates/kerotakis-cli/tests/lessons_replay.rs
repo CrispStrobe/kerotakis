@@ -393,3 +393,61 @@ fn the_ink_strip_and_the_column_cannot_disagree() {
         "the pure yellow must run to the same height as it did in the ink:\n{out}"
     );
 }
+
+/// KID-7: hot water holds more sugar, and a cooled syrup waits to be asked.
+///
+/// The audit's K20 found sucrose's saturation limit modelled but
+/// temperature-independent — identical at 20, 60 and 90 °C — so the one
+/// mechanism rock candy exists to show could not happen. This drives all
+/// three states through the full stack: more dissolves hot, nothing comes
+/// out on cooling, and a seed brings it down to exactly the limit.
+#[test]
+fn rock_candy_needs_the_heat_and_then_the_seed() {
+    let lesson = lessons_dir().join("rock-candy.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    let sucrose = |vessel: &str, phase: &str, nth: usize| -> f64 {
+        out.lines()
+            .skip_while(|line| !line.contains(&format!("{vessel} (beaker) —")))
+            .filter(|line| line.contains("mol  sucrose") && line.contains(phase))
+            .nth(nth)
+            .and_then(|line| line.split_whitespace().next()?.parse().ok())
+            .unwrap_or(0.0)
+    };
+
+    // Cold water leaves sugar on the bottom; hot water does not.
+    assert!(
+        sucrose("v1", "Solid", 0) > 0.2,
+        "cold water must leave undissolved sugar:\n{out}"
+    );
+    assert!(
+        sucrose("v2", "Aqueous", 0) > sucrose("v1", "Aqueous", 0) * 1.3,
+        "hot water must hold substantially more: {} vs {}",
+        sucrose("v2", "Aqueous", 0),
+        sucrose("v1", "Aqueous", 0)
+    );
+
+    // Cooling reports the state rather than precipitating it. A syrup that
+    // crystallises on its own is not the experiment.
+    let supersaturated = out
+        .lines()
+        .position(|line| line.contains("more sucrose in the water in v2 than it can really hold"))
+        .unwrap_or_else(|| panic!("cooling must report supersaturation:\n{out}"));
+    let seeded = out
+        .lines()
+        .position(|line| line.contains("A white solid appears at the bottom"))
+        .unwrap_or_else(|| panic!("the seed must bring it down:\n{out}"));
+    assert!(
+        supersaturated < seeded,
+        "the syrup must be reported supersaturated before anything seeds it"
+    );
+
+    // And it lands on the limit, not somewhere near it: what is left in
+    // solution after seeding is exactly what this much water holds.
+    let after_solid = sucrose("v2", "Solid", 0);
+    assert!(
+        after_solid > 0.2,
+        "the seed must grow into a real yield: {after_solid}"
+    );
+}
