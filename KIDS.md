@@ -55,7 +55,7 @@ silent miss teaches the silence.
 | K01 | Volcano (soda + vinegar) | the eruption | partial | CO₂, pH 9.70, mass and the cooling-then-warming are all computed; there is no foam and no overflow, because foam exists only on the peroxide path |
 | K02 | Balloon on a bottle | the balloon filling | computed | sealed 500 mL headspace reaches 1.875 bar; `regulate` gives a real expanding boundary (766 mL) — but nothing in the docs calls that a balloon |
 | K03 | Limewater breath test | milky, then clear | computed | Ca(OH)₂ → calcite → redissolution, exactly as the shipped lesson promises |
-| K04 | Snuff a candle with CO₂ | the flame going out | **silent miss** | `add v1 candle_wax` reports "this part of the lab isn't awake yet"; `ignite v1` then emits **no line at all**; CO₂ blanketing a flame is unmodelled |
+| K04 | Snuff a candle with CO₂ | the flame going out | ~~silent miss~~ → computed | the last silent miss, closed by KID-12 (2026-09-03). Wax is paraffin now, it burns, and a jar over it puts it out **with 77% of the oxygen still in the jar** — the number that contradicts the sentence every child is taught. Carbon dioxide poured in first stops it lighting at all, without taking anything away |
 | K05 | Elephant toothpaste | the foam column | computed | rate law, catalase gate, oxygen yield, reaction heat, foam climbing out of the vessel. Best-in-class |
 | K06 | Magic milk | colours racing | computed | `SurfaceColourSpread` fires; the stirred control correctly does not |
 | K07 | Pepper runs from soap | the darting | computed | fires on the soap-second order and stays silent on the soap-first control |
@@ -64,7 +64,7 @@ silent miss teaches the silence.
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band |
 | K11 | Dancing raisins | raisins rising and falling | unreachable | no raisin, and no model for a bubble attaching to an object and lifting it |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
-| K13 | Invisible ink | brown writing appearing | **wrong** → partial | no pyrolysis and no browning. The other half — 5 kJ into juice-on-paper reaching **670 °C with liquid water still in the ledger** — was KID-6 and is fixed: the water now leaves at its boiling point and the vessel ends dry |
+| K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
@@ -87,14 +87,14 @@ silent miss teaches the silence.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
 miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 10, 14,
-15, 20 and 21: **computed 21 · partial 7 · silent miss 1 · unreachable 1**.
+15, 20, 21 and 12: **computed 23 · partial 6 · unreachable 1**. There is no
+silent miss left in the first thirty.
 
 **The thirty scripts, exactly as a newcomer first wrote them, now run
 30/30** — against 17/30 when the audit was taken. Not one row is still
 marked *wrong*, and the last script that could not run at all was K21's
-slime. What remains is one silent miss (K04's candle, which needs
-combustion) and one unreachable (K11's raisins, which need buoyancy), plus
-seven partials. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
+slime. What remains is one unreachable (K11's raisins, which need buoyancy)
+and six partials; K04's candle, the last silent miss, burns as of KID-12. The second thirty gains K48 with KID-9's fix, K50 with KID-20's,
 and K23's receiver with KID-15's.
 
 The engine is in far better shape than the corpus's first pass suggested.
@@ -162,7 +162,7 @@ the project's own coverage report.
 | Missing mechanism | Costs us |
 |---|---|
 | ~~Corrosion of iron in aerated brine~~ | K17 — **landed as KID-5**, 2026-09-02 |
-| Combustion of organic solids; a flame that can be starved | K04, K13; `ignite` is currently *silent* on an unresolved material |
+| ~~Combustion of organic solids; a flame that can be starved~~ | K04, K47 — **landed as KID-12**, 2026-09-03. Paraffin, cellulose and sucrose burn against a curated table, and a flame quits at a limiting oxygen fraction rather than at zero |
 | ~~Latent-heat plateau at a boiling point~~ | K13 — **landed as KID-6**, 2026-09-02 |
 | ~~Temperature-dependent solubility of molecular solutes, and nucleation~~ | K20 — **landed as KID-7**, 2026-09-03; electrolyte supersaturation (K51) stays open as KID-7b |
 | Acid curdling wired to the solved ledger | K23; see KID-2 — this one is a bug, not a gap |
@@ -170,7 +170,7 @@ the project's own coverage report.
 | ~~Suspension rheology~~; buoyancy on attached bubbles; miscible stratification | K22 — **landed as KID-13**, 2026-09-03; K11 and K10 still open |
 | ~~Paper/TLC mode with dye partition data (`EXP-8`)~~ | K26, K48 — **landed as KID-9**, 2026-09-02 |
 | ~~Anthocyanin as a computed pH-dependent chromophore~~ | K12 — **landed as KID-8**, 2026-09-02 |
-| Pyrolysis and Maillard browning | K13 |
+| Pyrolysis and Maillard browning | K13 — still the only missing half of the invisible-ink row: KID-12 made the paper burn, and the brown stage before it is the part with no model |
 | ~~Calcium~~ (lithium still absent) in the flame-colour table | K30 — **calcium landed as KID-10**, 2026-09-03 |
 | ~~Acetic acid in the odour table~~ | it was *in* the table — `smell` on vinegar still said "no odour a careful waft detects", because the solver had turned the acid into acetate and the table is keyed on the acid. **Landed as KID-10**, 2026-09-03; the third instance of one defect |
 | Dose awareness in the L0 hazard screen | K27, K28 |
@@ -513,6 +513,71 @@ and `main` moves only by PR.
 - **KID-12 — Combustion of organic solids.** Paraffin, paper and sugar with
   real combustion data; a flame that a gas blanket can starve; browning as
   a separate, honestly-bounded observable.
+  **Landed 2026-09-03**, and it closed the last silent miss in the first
+  thirty (K04) along with K47 and half of K13.
+
+  The engine could already burn hydrogen, methane, ethanol and magnesium,
+  because NASA CEA's `thermo.inp` has records for them. It could burn none
+  of the three things a child actually sets fire to: `grep -nE "^C1[0-9]H"`
+  over that dataset stops at naphthalene, and `charge()` declines the WHOLE
+  vessel the moment one species is outside it. So a candle, a sheet of
+  paper and a spoonful of sugar all reached `NotYetModeled` — honest, and
+  very thin for the three commonest fires in a house.
+
+  `kerotakis_core::combustion` is the curated complement: three fuels, each
+  with a balanced complete-combustion equation, a measured heat of
+  combustion and an autoignition temperature (paraffin 473 K, cellulose
+  506 K — which is 451 °F, and the novel's title is a real measurement —
+  sucrose 683 K). It sits **after** the CEA solver in the stack on purpose:
+  where NASA's data can name every species in the vessel it should answer,
+  and this table speaks only for what it cannot.
+
+  The part that earns the module its place is not that things burn, it is
+  **the limiting oxygen fraction**. A flame needs air that is rich in
+  oxygen — about one part in six — not merely some oxygen. So:
+
+  - a candle under a jar goes out with **77% of the oxygen still there**,
+    which is the opposite of what "it used up the oxygen" says;
+  - carbon dioxide poured in first stops the flame from starting at all,
+    taking nothing away from either the wax or the oxygen — a fire
+    extinguisher, as one line of arithmetic rather than a special case;
+  - a nitrogen-swept vessel will not light.
+
+  Two recipes had to be resolved first, and both had **expired reasons** of
+  exactly the kind KID-20 was written to catch. `candle_wax` said "no
+  component of it is an installed species", which was true until this task
+  installed `paraffin` (C25H52, one representative chain length standing
+  for a C20–C40 blend). `paper_sheet` said "cellulose is not in the runtime
+  registry" — and cellulose had been in it for some time. Both now resolve
+  (92% and 85%) and conserve the rest; both lot assumptions were rewritten
+  rather than left reading as current.
+
+  **Stated boundaries**, all of them in the fuels' own provenance: no wick,
+  no melt pool, no luminous flame, no soot, no smoke, no char, no carbon
+  monoxide — burning here is always complete. No burn *rate*: one `ignite`
+  burns what the air allows, all at once. The 16% limit is one teaching
+  number standing in for something that really depends on fuel, wick and
+  jar geometry, and it does not distinguish carbon dioxide from nitrogen
+  even though carbon dioxide is the better smotherer. And the sugar entry
+  offers only the two ends: unchanged below 683 K, burned above it. The
+  caramel in between is still missing, which is what keeps K13 a partial.
+
+  **Two things the work found on the way.** An open burn must not heat its
+  own beaker: booking the reaction energy into whatever was left in the
+  vessel produced a 6089 °C beaker in the curiosity corpus (`th-058`),
+  because the products — which carry the heat — had already left the
+  ledger. An open flame now reports its energy and warms nothing; only a
+  closed boundary, which keeps its own hot gas, can be warmed by it. And
+  the new `FlameStarved` event, added to the corpus classifier's
+  typed-observation list wholesale, demoted `th-051` from computed to
+  qualitative; the classifier now keys on the event's `burned` field, so a
+  flame that never caught is an observation and one that burned first is a
+  result. Baseline drift caught both.
+
+  **A boundary this exposed rather than created:** an insoluble solid in
+  water reads as a suspension however large the lump, so 20 g of wax in a
+  beaker now makes the water look like milk. A floating candle is not
+  modelled, and particle size is not a thing the appearance model knows.
 
 ### Wave 3 — physical behaviours and the cabinet
 
@@ -587,9 +652,9 @@ and `main` moves only by PR.
 KID-1 ──┬── KID-17 (docs quote the new commands)      [KID-1 done]
         └── KID-16 (lessons need typeable names)
 KID-2, KID-3, KID-4   independent bug fixes           [2 done, 3 slice 1 done]
-KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 7, 8, 9 done]
+KID-5 … KID-12        independent; KID-8 before KID-9's ink   [5, 6, 7, 8, 9, 10, 12 done]
 KID-18 … KID-21       from Part 2                            [20, 21 done]
-KID-13 … KID-15       after their mechanisms land
+KID-13 … KID-15       after their mechanisms land           [13 part, 14 part done]
 KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 ```
 
@@ -628,7 +693,7 @@ or a rate in them.
 | K44 | An eggshell in cola | computed | cola surrogate reads pH 2, and only the acid it actually carries dissolves shell — an honest partial, and a better lesson than the myth |
 | K45 | Stop an apple going brown | honest miss | no enzymatic browning; the vitamin C sits as a solid and says so |
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
-| K47 | A fire extinguisher in a jar | **silent miss** | the CO₂ generator works; the fire it is supposed to put out does not exist (KID-4/KID-12) |
+| K47 | A fire extinguisher in a jar | ~~silent miss~~ → computed | KID-12: the fire exists now, and the extinguisher works the way a real one does — by dilution. The wax is untouched, the oxygen is untouched, and the flame will not start, because 14% of the gas being oxygen is not enough |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
 | K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |

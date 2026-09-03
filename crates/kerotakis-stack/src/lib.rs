@@ -36,6 +36,14 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
         Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
         Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
         Box::new(kerotakis_cea::ThermalEquilibrator),
+        // KID-12: the curated fuels CEA has no data for. It sits AFTER
+        // the thermochemical engine on purpose — where NASA's dataset
+        // can name every species in the vessel it should answer, and
+        // this table only speaks for the paraffin, cellulose and sucrose
+        // it cannot. Placing it earlier would let a curated heat of
+        // combustion pre-empt a Gibbs minimisation that was ready to do
+        // better.
+        Box::new(kerotakis_core::combustion::CombustionEquilibrator),
     ];
     solvers.extend(aqueous_tail);
     solvers.push(Box::new(HonestyEquilibrator));

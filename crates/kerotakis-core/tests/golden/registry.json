@@ -3307,5 +3307,29 @@
     "provenance": "Anhydrous sodium tetraborate as the formula unit. Household borax is the decahydrate; the ten waters are not carried here, so a dose given in grams of this species is grams of the anhydrous salt rather than of the box. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and the Kopp's-rule heat capacity are explicit teaching approximations. Borate speciation is not modelled: no shipped database is asked for it, so this dissolves without contributing to pH or ionic strength and the bench says so",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "off-white",
+    "colour": {
+      "b": 228,
+      "g": 237,
+      "r": 240,
+      "strength": 0.0
+    },
+    "density": 0.9,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C25H52",
+    "heat_capacity": 665.0,
+    "inchikey": "",
+    "key": "paraffin",
+    "magnetic": false,
+    "molar_mass": 352.691,
+    "name": "paraffin",
+    "provenance": "Paraffin wax as a single representative long-chain alkane, C25H52. Real candle wax is a blend spanning roughly C20 to C40, often with stearic acid, dye and scent; one chain length is a teaching stand-in for that blend and not a claim about any candle. Molar mass from IUPAC/CIAAW 2021 atomic weights; density 0.90 g/mL and the Kopp's-rule heat capacity are explicit room-temperature teaching approximations",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

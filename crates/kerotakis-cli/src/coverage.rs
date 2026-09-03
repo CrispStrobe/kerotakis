@@ -566,6 +566,9 @@ fn execute_prompt(
                     | Event::GasTested { .. }
                     | Event::FlameTest { .. }
                     | Event::DidNotIgnite { .. }
+                    // KID-12: a smothered flame is an answer with a
+                    // number in it, not a gap in the model.
+                    | Event::FlameStarved { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )
@@ -588,7 +591,15 @@ fn execute_prompt(
                 | Event::Inert { .. }
                 | Event::InertInSolvent { .. }
         )
-    }) {
+    })
+        // KID-12: a flame that never caught is a typed observation. One
+        // that burned first and then ran out of air is a computed
+        // result, and must not be demoted past the computed branch
+        // below — this check is on `burned`, not on the event.
+        || all_events.iter().any(|event| {
+            matches!(event, Event::FlameStarved { burned, .. } if burned.0 <= 0.0)
+        })
+    {
         return Ok(result(
             prompt,
             Disposition::Qualitative,

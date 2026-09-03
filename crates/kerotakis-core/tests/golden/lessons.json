@@ -329,6 +329,106 @@
       }
     ]
   },
+  "candle-jar": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: +5.000 g candle_wax (1 known ingredients)",
+      "v1: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
+      "v2: new vessel",
+      "v2: +5.000 g candle_wax (1 known ingredients)",
+      "v2: pressure controlled at 1.013 bar; initial headspace 1.000 L",
+      "v2: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
+      "v3: new vessel",
+      "v3: +5.000 g candle_wax (1 known ingredients)",
+      "v3: pressure controlled at 1.013 bar; initial headspace 1.000 L",
+      "v3: +0.0200 mol carbon dioxide — 0.0200 mol now in vessel",
+      "v3: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way",
+      "v4: new vessel",
+      "v4: +5.000 g paper_sheet (1 known ingredients)",
+      "v4: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way"
+    ],
+    "lesson": "candle-jar.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01304258,
+            "phase": "Solid",
+            "species": "paraffin"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001635,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.03229458,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00856311,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.01304258,
+            "phase": "Solid",
+            "species": "paraffin"
+          }
+        ],
+        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(4.024819721616637) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02001635,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.03229458,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.00856311,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.01304258,
+            "phase": "Solid",
+            "species": "paraffin"
+          }
+        ],
+        "headspace": "PressureControlled { pressure: Pascal(101325.0), volume: Liters(5.994196507523371) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02621175,
+            "phase": "Solid",
+            "species": "cellulose"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "chalk-vinegar": {
     "event_count": 7,
     "events_sample": [

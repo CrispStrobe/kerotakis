@@ -1591,10 +1591,11 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: Some(density(0.90)),
-            components: Vec::new(),
+            // KID-12: the wax is paraffin, and paraffin is a species now.
+            components: vec![component("paraffin", 0.92)],
             unresolved_fraction: Some(FractionRange {
-                lower: 1.0,
-                upper: 1.0,
+                lower: 0.08,
+                upper: 0.08,
             }),
             physical_form: MaterialPhysicalForm::CompositeObject {
                 geometry: Some(MaterialGeometry {
@@ -1603,19 +1604,16 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: vec![MaterialRole::ConservedUnresolvedSolid {
-                srgb: [242, 240, 232],
-                colour_word: "off-white".to_string(),
-            }],
+            roles: Vec::new(),
             preparation: Some(
-                "solid paraffin candle wax, conserved whole because none of its long-chain alkanes is an installed species"
+                "solid paraffin candle wax, resolved as paraffin with the stearic acid, dye and scent left in the conserved remainder"
                     .to_string(),
             ),
             lot_assumptions: vec![
-                "candle wax is a variable blend of long-chain alkanes, often with stearic acid, dyes and scent; no component of it is an installed species, so the whole mass stays conserved and unresolved rather than being given a stand-in molecule".to_string(),
+                "candle wax is a variable blend of long-chain alkanes spanning roughly C20 to C40, often with stearic acid, dye and scent. KID-12 resolves 92% of it as paraffin, one representative chain length standing for the blend; the stearic acid, dye and scent stay in the conserved remainder. This is a teaching stand-in and not a claim about any candle".to_string(),
                 "melting is not claimed: the installed state model derives its transitions from water's enthalpies of fusion and vaporisation and covers no other substance, so heating named wax must reach the engine's ordinary model boundary instead of a curated melt".to_string(),
-                "burning is not claimed either: a candle flame needs feed thermochemistry the engine has not installed, and a wick is an object the bench does not have".to_string(),
-                "the bare words wax and Wachs remain unclaimed because beeswax, soy wax and paraffin wax are different materials, and bare paraffin remains unclaimed because it names a lamp fuel in British English".to_string(),
+                "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion, the oxygen the vessel actually holds, and carbon dioxide and water out. A wick, a melt pool, a luminous flame and soot are none of them modelled, so this is what a wax releases rather than what a candle looks like".to_string(),
+                "the bare words wax and Wachs remain unclaimed as material names because beeswax, soy wax and paraffin wax are different materials. The species paraffin is installed and can be added directly; asking for it by name gets the pure alkane and not this blend".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
@@ -1639,10 +1637,11 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: Some(density(0.80)),
-            components: Vec::new(),
+            // KID-20/12: paper is cellulose, and cellulose is a species.
+            components: vec![component("cellulose", 0.85)],
             unresolved_fraction: Some(FractionRange {
-                lower: 1.0,
-                upper: 1.0,
+                lower: 0.15,
+                upper: 0.15,
             }),
             physical_form: MaterialPhysicalForm::CompositeObject {
                 geometry: Some(MaterialGeometry {
@@ -1651,18 +1650,15 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: vec![MaterialRole::ConservedUnresolvedSolid {
-                srgb: [246, 246, 242],
-                colour_word: "white".to_string(),
-            }],
+            roles: Vec::new(),
             preparation: Some(
-                "a sheet of ordinary white paper, conserved whole because cellulose is not an installed species"
+                "a sheet of ordinary white paper, resolved as cellulose with filler and sizing left in the conserved remainder"
                     .to_string(),
             ),
             lot_assumptions: vec![
-                "cellulose is not in the runtime registry, so the whole sheet is conserved unresolved rather than resolved into a fibre that is not there; the identity is stated instead of guessed".to_string(),
+                "KID-20's rule caught this one: the sheet was conserved unresolved because \"cellulose is not in the runtime registry\", and cellulose has been in it since. 85% of the sheet is now resolved as cellulose, which is what paper is, and the reason that had expired is gone rather than left reading as current".to_string(),
                 "mineral filler, sizing, coatings and optical brighteners vary by grade and stay inside the same unresolved mass; a carbonate-filled office paper and an unfilled newsprint are not distinguished".to_string(),
-                "burning is not claimed: feed thermochemistry for cellulose is not installed, so ignition must reach the engine's model boundary".to_string(),
+                "burning is claimed as of KID-12, and only as far as the heat: a curated heat of combustion per anhydroglucose unit, the oxygen the vessel actually holds, and carbon dioxide and water out. Char, smoke, flame spread and the ash that a real sheet leaves are not modelled".to_string(),
                 "wetting, tearing and pulping are not claimed, and this material is not the filter paper the filtration apparatus uses".to_string(),
             ],
             substitutions: Vec::new(),

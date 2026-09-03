@@ -266,6 +266,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // to another substance rather than about ingestion.
         | "PVA"
         | "Na2B4O7"
+        // KID-12: a wax burns, which is a hazard of temperature rather than
+        // of mixing. The L0 screen classes substances by what they do to
+        // each other, and paraffin does nothing to anything here.
+        | "paraffin"
         | "curcumin"
         | "curcumin_ox"
         | "indigo_carmine"
@@ -328,6 +332,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Al",
     "Na2B4O7",
     "PVA",
+    "paraffin",
     "anthocyanin",
     "betanin",
     "betanin_ox",

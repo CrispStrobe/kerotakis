@@ -24,6 +24,7 @@ pub mod cache_key;
 pub mod catalog;
 pub mod centrifuge;
 pub mod chart;
+pub mod combustion;
 pub mod compartment;
 pub mod conductivity;
 pub mod constants;

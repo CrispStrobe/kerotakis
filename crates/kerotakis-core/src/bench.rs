@@ -702,6 +702,14 @@ impl Bench {
                         vessel: *vessel,
                         what: "whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way".to_string(),
                     }),
+                    // KID-12: "nothing happens, not everything burns" is
+                    // the wrong sentence when the bench has just said
+                    // WHY nothing happened. A smothered candle is not an
+                    // unburnable one, and telling a learner otherwise
+                    // teaches the opposite of the demonstration.
+                    None if events
+                        .iter()
+                        .any(|event| matches!(event, Event::FlameStarved { .. })) => {}
                     None => events.push(Event::DidNotIgnite { vessel: *vessel }),
                 }
             }

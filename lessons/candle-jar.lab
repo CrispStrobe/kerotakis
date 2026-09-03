@@ -1,0 +1,58 @@
+# The candle and the jar: a flame does not use up ALL the oxygen
+#
+# Everyone is taught that a candle under a jar "uses up the oxygen" and
+# goes out. Watch the numbers here: it goes out with roughly three quarters
+# of the oxygen still in the jar. A flame does not need SOME oxygen — it
+# needs air that is RICH in it, about one part in six, and below that it
+# quits with plenty left over.
+register lv2
+
+# 1. A candle in the open air. Nothing limits it, so it burns away
+#    completely — 5 g of wax is about 210 kJ, which is a lot of energy
+#    for something you can hold in one hand.
+add v1 candle_wax 5g
+ignite v1
+inspect v1
+
+# 2. The same candle under a jar. `regulate` is the honest boundary for a
+#    jar sitting on a bench: the gas cannot leave, but it can push, so
+#    nothing bursts. Watch the oxygen line before and after.
+new beaker
+add v2 candle_wax 5g
+regulate v2 1atm 1L
+inspect v2
+ignite v2
+inspect v2
+
+# Read what just happened. Barely any wax burned, the flame went out, and
+# there is still oxygen in the jar — it fell from 21% of the gas to 16%,
+# and that was enough to stop it. Carbon dioxide and water took the place
+# of the oxygen that went.
+
+# 3. A fire extinguisher, which is a bottle of carbon dioxide. Nothing is
+#    taken away from the candle: the wax is all still there, and so is the
+#    oxygen. The carbon dioxide only takes up room, and now the flame
+#    cannot start at all.
+new beaker
+add v3 candle_wax 5g
+regulate v3 1atm 1L
+add v3 CO2 0.02mol
+ignite v3
+inspect v3
+
+# 4. Paper burns too, and it is the same chemistry with a different fuel:
+#    cellulose instead of wax. Paper catches at 506 K — which is 451
+#    degrees Fahrenheit, and the novel's title is a real measurement.
+#    Note how much less heat the same mass gives than wax does.
+new beaker
+add v4 paper 5g
+ignite v4
+inspect v4
+
+# What this does not model: the wick, the melt pool, the light. A real
+# candle burns wax VAPOUR drawn up a wick, slowly; this bench burns what
+# the air allows all at once and does not model the clock. There is no
+# soot, no smoke, no char and no carbon monoxide — burning here is always
+# complete, straight to carbon dioxide and water. And the 16% limit is one
+# teaching number standing in for something that really depends on the
+# fuel, the wick and the shape of the jar.
