@@ -1383,6 +1383,32 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 extent.0
             ),
         },
+        // The census renders itself, and has since EXP-?? — the CLI was
+        // calling `Census::render` directly because there was no event to
+        // carry it. Now that there is, the picture reaches every host
+        // through the ordinary event stream, and the sealed-unknown mask
+        // applies to it like any other rendered line.
+        Event::ParticlesCounted { vessel, census } => {
+            // The drawing itself already answers to the register; only the
+            // sentence introducing it changes. lv2 keeps the CLI's existing
+            // wording verbatim, because that is the line the REPL prints
+            // and `quest.rs` splits its output on.
+            let drawing = census.render(register).to_string();
+            let id = vessel.to_string();
+            let args = [("vessel", id.as_str()), ("drawing", drawing.as_str())];
+            match register.level() {
+                1 => locale.fill(
+                    "event.particles-counted.lv1",
+                    "What the particles in {vessel} are doing:\n{drawing}",
+                    &args,
+                ),
+                _ => locale.fill(
+                    "event.particles-counted.lv2",
+                    "{vessel} — what the particles are doing:\n{drawing}",
+                    &args,
+                ),
+            }
+        }
         Event::Smelled { vessel, notes } => {
             if notes.is_empty() {
                 match register.level() {

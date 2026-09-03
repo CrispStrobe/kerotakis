@@ -253,6 +253,12 @@ sucrose = "Saccharose"
 "magnet-separated.lv1" = "Du hältst einen Magneten über {from} — nichts springt daran."
 "inert-in-solvent.lv1" = "Das {name} liegt einfach in {solv} — nichts geschieht damit."
 "inert-in-solvent.lv2" = "{vessel}: {name} reagiert nicht mit {solv} — berechnete Nichtreaktion, keine Lücke"
+# The particle census reaches hosts as an event now, so its heading is a
+# translated string like any other. The drawing itself already answers to
+# the register; only this sentence changes.
+"particles-counted.lv1" = "Was die Teilchen in {vessel} gerade tun:\n{drawing}"
+"particles-counted.lv2" = "{vessel} — was die Teilchen tun:\n{drawing}"
+
 "smelled.lv1" = "Du fächelst dir die Luft aus {vessel} zur Nase — nichts, was du herausriechen kannst."
 "smelled.lv2" = "{vessel}: kein Geruch bei sorgfältigem Prüfen feststellbar"
 "smelled.lv3-species" = "{name}: {d}"

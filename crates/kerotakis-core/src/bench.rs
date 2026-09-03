@@ -2829,6 +2829,13 @@ impl Bench {
                     photolysis_coupled: false,
                 });
             }
+            Operator::Particles { vessel } => {
+                let v = self.vessel(*vessel)?;
+                events.push(Event::ParticlesCounted {
+                    vessel: *vessel,
+                    census: crate::particles::census(v, 30),
+                });
+            }
             Operator::Smell { vessel } => {
                 let v = self.vessel(*vessel)?;
                 let noticed = crate::senses::waft(v);
@@ -3609,6 +3616,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::React { vessel, .. }
         | Operator::SpikeNuclide { vessel, .. }
         | Operator::Smell { vessel }
+        | Operator::Particles { vessel }
         | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
