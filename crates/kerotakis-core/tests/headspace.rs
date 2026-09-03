@@ -344,3 +344,65 @@ fn a_curated_gas_product_stays_under_the_lid() {
             && (portion.moles.0 - 0.01).abs() < 1e-12
     }));
 }
+
+/// The volume meter reads the sealed headspace. On an open vessel it used to
+/// report `0.00 mL`, which is a confident wrong number rather than a gap.
+///
+/// A beaker holding 500 mL of water measured 0.00 mL while `inspect` on the
+/// same vessel printed "500.0 mL liquid". Nothing about a zero reads as a
+/// refusal — a learner sees a volume. The conductivity meter three lines
+/// below it in `bench.rs` is the pattern: when it has nothing it can report,
+/// it says so.
+#[test]
+fn an_open_vessel_gets_no_volume_reading_rather_than_zero() {
+    let mut bench = Bench::new();
+    bench
+        .step(Operator::Add {
+            vessel: VesselId(0),
+            species: SpeciesId::new("water"),
+            moles: Moles(27.67),
+            at: None,
+        })
+        .expect("add");
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::VolumeMeter,
+        })
+        .expect("measure");
+
+    assert!(
+        !events.iter().any(|e| matches!(e, Event::Measured { .. })),
+        "an open vessel has no headspace to measure, so there is no reading: {events:?}"
+    );
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("open")
+        )),
+        "and it says why, naming what the meter actually reads: {events:?}"
+    );
+}
+
+/// Sealing gives the meter something real to read, and that path is unchanged.
+#[test]
+fn a_sealed_vessel_still_reports_its_headspace() {
+    let mut bench = Bench::new();
+    bench
+        .step(Operator::Seal {
+            vessel: VesselId(0),
+            headspace_volume: Liters(0.25),
+        })
+        .expect("seal");
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::VolumeMeter,
+        })
+        .expect("measure");
+    let reading = events.iter().find_map(|e| match e {
+        Event::Measured { value, unit, .. } => Some((*value, unit.clone())),
+        _ => None,
+    });
+    assert_eq!(reading, Some((250.0, "mL".to_string())));
+}

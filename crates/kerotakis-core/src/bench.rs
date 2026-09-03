@@ -2146,19 +2146,35 @@ impl Bench {
                         value: v.pressure.0 / 1000.0,
                         unit: "kPa".to_string(),
                     }),
-                    Instrument::VolumeMeter => {
-                        let vol_ml = match v.headspace {
-                            crate::vessel::Headspace::Sealed { volume } |
-                            crate::vessel::Headspace::PressureControlled { volume, .. } => volume.0 * 1000.0,
-                            _ => 0.0,
-                        };
-                        events.push(Event::Measured {
+                    // This meter reads the SEALED HEADSPACE, not the liquid.
+                    // On an open vessel it used to report `0.00 mL`, which is
+                    // a confident wrong number: a beaker holding 500 mL of
+                    // water measured 0.00 mL while `inspect` on the same
+                    // vessel printed "500.0 mL liquid". Nothing about that
+                    // reads as a gap — it reads as an answer.
+                    //
+                    // The conductivity meter immediately below is the pattern:
+                    // when it has nothing it can report, it says so. An
+                    // instrument that cannot make its measurement must refuse,
+                    // not return a zero that a learner will read as a volume.
+                    Instrument::VolumeMeter => match v.headspace {
+                        crate::vessel::Headspace::Sealed { volume }
+                        | crate::vessel::Headspace::PressureControlled { volume, .. } => {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: volume.0 * 1000.0,
+                                unit: "mL".to_string(),
+                            })
+                        }
+                        _ => events.push(Event::NotYetModeled {
                             vessel: *vessel,
-                            instrument: *instrument,
-                            value: vol_ml,
-                            unit: "mL".to_string(),
-                        })
-                    }
+                            what: "the volume meter reads a sealed vessel's headspace, and \
+                                   this one is open — seal it to give the gas a measured \
+                                   volume. The liquid's own volume is on the vessel line."
+                                .to_string(),
+                        }),
+                    },
                     Instrument::ConductivityMeter => match &v.solution {
                         Some(info) => events.push(Event::Measured {
                             vessel: *vessel,
