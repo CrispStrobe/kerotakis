@@ -1,0 +1,32 @@
+# Vitamin-C detective: the reaction ledger behind a disappearing colour
+#
+# Iodine held in dilute Lugol solution makes starch blue-black. Ascorbic acid
+# reduces iodine and is oxidised to dehydroascorbic acid, so the colour clears.
+# Protect clothes and the table, wear eye protection, and never taste a mixture
+# that has been used as a laboratory sample.
+register lv2
+
+# The positive colour control: starch plus the same Lugol dose.
+add v1 water 100mL
+add v1 cornstarch 1g
+add v1 lugol_solution_1_percent 2mL
+look v1
+
+# Change one thing: add a known amount of vitamin C before the iodine. The
+# iodine is consumed while vitamin C remains, so the blue-black positive does
+# not appear. At this dose the current broad oxidizer/reducer safety screen may
+# print a warning written for concentrated reagents; it is deliberately
+# conservative and is not a quantitative risk assessment of this dilute cup.
+new beaker
+add v2 water 100mL
+add v2 cornstarch 1g
+add v2 ascorbic_acid 0.01mol
+add v2 lugol_solution_1_percent 2mL
+inspect v2
+
+# The ledger names dehydroascorbic acid even though the current appearance
+# renderer answers the colourless cup with a generic "nothing visible" line.
+# That is a presentation boundary, not permission to invent a colour event.
+# This is also not a calibrated food assay: a real juice has an uncertain
+# vitamin concentration and other reducing compounds, so colour alone does not
+# justify a nutrition-label result.

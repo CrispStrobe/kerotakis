@@ -1,0 +1,33 @@
+# Baking powder or baking soda: water, acid and heat are different triggers
+#
+# The two white powders are not interchangeable. This simulation compares
+# equal portions while changing one condition at a time. Real baking powder
+# contains a mixture of acids whose staged action varies by brand; the named
+# material here is a reviewed teaching surrogate, not a recipe for food.
+register lv1
+
+# Baking soda in cold water dissolves. The aqueous equilibrium can release a
+# small amount of CO2 even without a bottle of acid; that is not the same route
+# as heat-driven decomposition.
+add v1 water 50mL
+add v1 baking_soda 5g
+inspect v1
+
+# The named baking-powder surrogate carries bicarbonate and starch. Warming it
+# drives another modeled release of CO2. It does not reproduce the staged acid
+# systems used by particular commercial double-acting powders.
+new beaker
+add v2 water 50mL
+add v2 baking_powder 5g
+measure v2 thermometer
+heat v2 10kJ
+measure v2 thermometer
+inspect v2
+
+# Acid is a different route to the same visible gas. This control uses ordinary
+# 5% vinegar. The bench does not model cake crumb, dough elasticity, oven
+# moisture or whether a baked food has risen.
+new beaker
+add v3 white_vinegar_5_percent 50mL
+add v3 baking_soda 5g
+inspect v3

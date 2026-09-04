@@ -961,3 +961,47 @@ fn the_kitchen_ph_map_says_which_bottle_it_cannot_price() {
         "and must not also produce a number that looks like the others:\n{out}"
     );
 }
+
+/// KIDS household tranche: the guided activities must preserve the contrasts
+/// their narration asks the learner to observe. The generic replay test proves
+/// grammar coverage; this test protects the scientific point of each script.
+#[test]
+fn household_food_lessons_keep_their_observable_contrasts() {
+    let cases: &[(&str, &[&str])] = &[
+        (
+            "kitchen-starch-hunt.lab",
+            &["The liquid is brown and clear", "The liquid is blue-black"],
+        ),
+        (
+            "kitchen-hot-and-cold-packs.lab",
+            &["v1 gets warmer", "v2 gets colder"],
+        ),
+        (
+            "dry-then-wet-fizz.lab",
+            &[
+                "white baking soda (sodium bicarbonate) and white citric acid",
+                "Bubbles! A gas rises out of v2",
+            ],
+        ),
+        (
+            "vitamin-c-detective.lab",
+            &["The liquid is blue-black", "dehydroascorbic acid"],
+        ),
+        (
+            "baking-powder-or-soda.lab",
+            &[
+                "v2 receives 10.00 kJ of heat",
+                "Bubbles! A gas rises out of v3",
+            ],
+        ),
+    ];
+
+    for (name, evidence) in cases {
+        let lesson = lessons_dir().join(name);
+        let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+        assert!(ok, "{name} replays: {err}");
+        for expected in *evidence {
+            assert!(out.contains(expected), "{name} lost {expected:?}:\n{out}");
+        }
+    }
+}

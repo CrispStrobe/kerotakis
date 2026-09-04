@@ -1,0 +1,24 @@
+# Dry, then wet: why sherbet and bath-bomb powders wait for water
+#
+# Citric acid and baking soda can sit beside each other while dry. Water lets
+# ions move and starts the acid-carbonate reaction. This is a chemistry
+# comparison, not a recipe: do not taste laboratory mixtures.
+register lv1
+
+# Dry control: both ingredients are present, but no liquid connects them.
+add v1 citric_acid 2g
+add v1 baking_soda 2g
+look v1
+
+# Wet comparison: same ingredients, with water supplied first.
+new beaker
+add v2 water 100mL
+add v2 citric_acid 2g
+measure v2 ph
+add v2 baking_soda 2g
+measure v2 ph
+look v2
+
+# A real sherbet involves taste and a bath bomb involves binders, fragrance,
+# tablet shape and dissolution rate. None of those are inferred here. Foam is
+# not claimed either: gas makes foam only when a modeled surfactant is present.
