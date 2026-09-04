@@ -909,6 +909,139 @@ pub fn electrode(vessel: &Vessel) -> Option<Electrode> {
     })
 }
 
+/// What a current does to the SOLUTION when there is no metal half-cell.
+///
+/// The existing electrolyser models one thing: a metal standing in a
+/// solution of its own ion. That is a real cell and it is not the school
+/// one. Salt water needs no metal at all — carbon rods, hydrogen at one
+/// and chlorine at the other — and the bench refused it with a sentence
+/// that was accurate about the model and wrong about the chemistry:
+/// "neither a metal of the series nor a dissolved metal ion, so there is
+/// nothing to be an electrode".
+///
+/// Two questions, answered separately because they are separate:
+///
+/// * HOW MUCH is arithmetic, not chemistry. `n = I·t/F` — the same Faraday
+///   constant already here for the activity series.
+/// * WHAT is the activity series. Each electrode reduces or oxidises
+///   whatever is easiest, and "easiest" is what `e0_volts` already says.
+pub struct SolventElectrolysis {
+    pub coulombs: f64,
+    pub electrons: f64,
+    /// What comes out at the cathode, and whether it plates or bubbles.
+    pub cathode: SpeciesId,
+    pub cathode_moles: f64,
+    pub cathode_plates: bool,
+    /// The ion consumed to make it, if a metal plated.
+    pub cathode_ion: Option<(SpeciesId, f64)>,
+    /// What comes off at the anode — chlorine where there is chloride to
+    /// oxidise, oxygen otherwise.
+    pub anode: SpeciesId,
+    pub anode_moles: f64,
+    /// Chloride spent at the anode.
+    pub chloride_spent: f64,
+    /// Hydroxide left at the cathode when water was reduced there. This is
+    /// the chloralkali process: brine in, hydrogen and chlorine off, and
+    /// caustic soda left in the cell.
+    pub hydroxide_made: f64,
+}
+
+/// The current does something to the solution even with no metal cell.
+///
+/// `None` when there is no water to electrolyse or nothing dissolved to
+/// carry the current — pure water is an insulator, and a bench that
+/// electrolysed it would be teaching that it is not.
+pub fn electrolyse_solvent(
+    vessel: &Vessel,
+    amps: f64,
+    seconds: f64,
+) -> Option<SolventElectrolysis> {
+    let water = moles_in(vessel, "water", Phase::Liquid);
+    if water <= crate::OBSERVABLE_MOLES {
+        return None;
+    }
+    let carries_current = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous && p.moles.0 > crate::OBSERVABLE_MOLES)
+        .any(|p| {
+            crate::stoich::parse_formula(
+                species::lookup(&p.species).map(|d| d.formula).unwrap_or(""),
+            )
+            .map(|f| f.charge != 0.0)
+            .unwrap_or(false)
+        });
+    if !carries_current {
+        return None;
+    }
+
+    let coulombs = amps * seconds;
+    let electrons = coulombs / FARADAY;
+
+    // CATHODE. A metal ion plates only if it is easier to reduce than
+    // water is. Copper (E° +0.34) plates out of copper sulfate on carbon
+    // rods; sodium (E° −2.71) does not plate out of brine, and anyone who
+    // has run the experiment has seen hydrogen instead. The series already
+    // holds the number that decides it.
+    let platable = SERIES
+        .iter()
+        .filter(|c| c.reduced_phase == Phase::Solid)
+        .filter(|c| c.e0_volts > 0.0)
+        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
+        .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
+    let (cathode, cathode_moles, cathode_plates, cathode_ion, hydroxide_made) = match platable {
+        Some(c) => {
+            let want = electrons / c.electrons;
+            let have = moles_in(vessel, c.oxidised, Phase::Aqueous) / c.oxidised_per_reduced;
+            let moles = want.min(have).max(0.0);
+            (
+                SpeciesId::new(c.reduced),
+                moles,
+                true,
+                Some((SpeciesId::new(c.oxidised), moles * c.oxidised_per_reduced)),
+                0.0,
+            )
+        }
+        // 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻. The hydroxide is not a detail: it is
+        // why the chloralkali cell makes caustic soda, and why the water
+        // around the cathode turns phenolphthalein pink in the school
+        // demonstration.
+        None => (
+            SpeciesId::new(HYDROGEN_GAS),
+            electrons / 2.0,
+            false,
+            None,
+            electrons,
+        ),
+    };
+
+    // ANODE. Chloride goes before water where there is chloride to go —
+    // which is why brine gives chlorine and sodium sulfate gives oxygen,
+    // the same cell and a different anion.
+    //
+    // 2 Cl⁻ → Cl₂ + 2 e⁻, one electron per chloride; or
+    // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, four per molecule of oxygen.
+    let chloride = moles_in(vessel, "Cl-", Phase::Aqueous);
+    let (anode, anode_moles, chloride_spent) = if chloride >= electrons {
+        (SpeciesId::new("Cl2"), electrons / 2.0, electrons)
+    } else {
+        (SpeciesId::new("O2"), electrons / 4.0, 0.0)
+    };
+
+    Some(SolventElectrolysis {
+        coulombs,
+        electrons,
+        cathode,
+        cathode_moles,
+        cathode_plates,
+        cathode_ion,
+        anode,
+        anode_moles,
+        chloride_spent,
+        hydroxide_made,
+    })
+}
+
 /// What a current moves through a vessel, and what it cannot.
 pub struct Electrolysis {
     pub species: SpeciesId,

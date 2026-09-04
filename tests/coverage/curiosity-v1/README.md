@@ -705,3 +705,55 @@ folding it in properly means teaching that runner to track answers per
 vessel. It exits non-zero today, so it can be added to CI as it stands
 whenever someone wants it; it is checked in now so the rule is written down
 where the next person writing a prompt will meet it.
+
+## Refresh 2026-09-04 (second): the cell that needs no metal
+
+`mat-063` (what forms at the electrodes in salt-water electrolysis) →
+`computed`/`computed-route`. `mat-064` (why copper plates onto one
+electrode) and `mat-110` (electrolysis to remove rust) →
+`qualitative`/`typed-observation`. All three were `missing`.
+
+**Stood aside 14 → 12, and this time by capability rather than by
+reclassification.** The engine does more than it did; the measurement
+followed. That is the distinction worth holding onto after #362, which
+moved the number by changing what counted as an answer and was closed
+unmerged for it.
+
+The electrolyser modelled one cell: a metal standing in a solution of its
+own ion. Brine needs no metal at all — two carbon rods — and the refusal
+was accurate about the model and wrong about the chemistry. Now:
+
+    add v1 water 100mL ; add v1 NaCl 0.01mol ; electrolyse v1 0.5A 30min
+    -> 0.0047 mol hydrogen ↑,  0.0047 mol chlorine ↑,  pH 6.98 -> 12.86
+
+The alkali is not a detail. That is the chloralkali process, and the caustic
+soda is what the cell is for.
+
+    add v1 water 100mL ; add v1 CuSO4 0.01mol ; electrolyse v1 0.5A 30min
+    -> 0.0047 mol copper plated (0.296 g),  0.0023 mol oxygen ↑,  pH 1.44
+
+Two questions, answered separately because they are separate: **how much**
+is `n = I·t/F`, arithmetic with a constant already present for the activity
+series; **what** is the activity series itself. A metal ion plates only when
+it is easier to reduce than water — copper at E° +0.342 does, sodium at
+−2.71 does not — and chloride is oxidised before water where there is
+chloride to oxidise, which is the whole difference between the two runs
+above.
+
+Pure water still refuses, and that refusal is the answer: pure water does
+not conduct, and a bench that electrolysed it would be teaching that it
+does.
+
+### `mat-110` moved and does not answer its question
+
+Flagged here rather than quietly accepted. It asks whether electrolysis can
+remove rust without dissolving the iron, and its script contains iron,
+bicarbonate and water — **no rust**. What it now does is correct water
+electrolysis in a bicarbonate electrolyte (0.0047 mol H₂, 0.0023 mol O₂),
+which is real and is not what was asked.
+
+That is a script that cannot reach its own question, so it belongs to the
+answer-invariance sweep rather than to this refresh. It is recorded here
+because a row moving out of `missing` for a good reason and a row moving out
+for the wrong one look identical in the drift, and the only way to tell is
+to read each one.

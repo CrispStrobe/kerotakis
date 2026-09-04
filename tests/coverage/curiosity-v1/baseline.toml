@@ -1877,14 +1877,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-063"
 owning_task = "EXP-15"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-064"
 owning_task = "EXP-15"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-065"
@@ -2159,8 +2159,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-110"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-111"

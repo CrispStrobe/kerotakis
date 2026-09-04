@@ -2728,14 +2728,98 @@ impl Bench {
                             });
                         }
                     }
-                    None => {
-                        let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::NothingToActOn,
-                            vessel: *vessel,
-                            what: format!("nothing here can be electrolysed: {why}"),
-                        });
-                    }
+                    // No metal half-cell is not the same as nothing to
+                    // electrolyse. Brine needs no metal at all — carbon
+                    // rods, hydrogen at one and chlorine at the other — and
+                    // the refusal below was accurate about the model and
+                    // wrong about the chemistry.
+                    None => match crate::displacement::electrolyse_solvent(
+                        self.vessel(*vessel)?,
+                        *amps,
+                        *seconds,
+                    ) {
+                        Some(run) => {
+                            let v = self.vessel_mut(*vessel)?;
+                            // Cathode.
+                            if run.cathode_moles > crate::OBSERVABLE_MOLES {
+                                if run.cathode_plates {
+                                    v.deposit(
+                                        run.cathode.clone(),
+                                        Moles(run.cathode_moles),
+                                        Phase::Solid,
+                                    );
+                                    if let Some((ion, taken)) = &run.cathode_ion {
+                                        v.withdraw(ion, Moles(*taken));
+                                    }
+                                    events.push(Event::Electrolysed {
+                                        vessel: *vessel,
+                                        species: run.cathode.clone(),
+                                        amps: *amps,
+                                        seconds: *seconds,
+                                        coulombs: run.coulombs,
+                                        electrons: Moles(run.electrons),
+                                        moles: Moles(run.cathode_moles),
+                                        grams: crate::species::lookup(&run.cathode)
+                                            .map(|d| run.cathode_moles * d.molar_mass)
+                                            .unwrap_or(0.0),
+                                        per_ion: run.electrons
+                                            / run.cathode_moles.max(f64::MIN_POSITIVE),
+                                    });
+                                } else {
+                                    let m = Moles(run.cathode_moles);
+                                    if v.retain_gas(run.cathode.clone(), m) {
+                                        events.push(Event::GasContained {
+                                            vessel: *vessel,
+                                            species: run.cathode.clone(),
+                                            moles: m,
+                                        });
+                                    } else {
+                                        events.push(Event::GasEvolved {
+                                            vessel: *vessel,
+                                            species: run.cathode.clone(),
+                                            moles: m,
+                                        });
+                                    }
+                                }
+                            }
+                            // The caustic soda the chloralkali cell is FOR.
+                            if run.hydroxide_made > crate::OBSERVABLE_MOLES {
+                                v.deposit(
+                                    SpeciesId::new("OH-"),
+                                    Moles(run.hydroxide_made),
+                                    Phase::Aqueous,
+                                );
+                            }
+                            // Anode.
+                            if run.chloride_spent > crate::OBSERVABLE_MOLES {
+                                v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
+                            }
+                            if run.anode_moles > crate::OBSERVABLE_MOLES {
+                                let m = Moles(run.anode_moles);
+                                if v.retain_gas(run.anode.clone(), m) {
+                                    events.push(Event::GasContained {
+                                        vessel: *vessel,
+                                        species: run.anode.clone(),
+                                        moles: m,
+                                    });
+                                } else {
+                                    events.push(Event::GasEvolved {
+                                        vessel: *vessel,
+                                        species: run.anode.clone(),
+                                        moles: m,
+                                    });
+                                }
+                            }
+                        }
+                        None => {
+                            let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::NothingToActOn,
+                                vessel: *vessel,
+                                what: format!("nothing here can be electrolysed: {why}"),
+                            });
+                        }
+                    },
                 }
             }
             Operator::Cell { a, b } => {
