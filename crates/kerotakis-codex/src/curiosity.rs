@@ -81,13 +81,113 @@ pub struct CuriosityPrompt {
     pub smoke: bool,
 }
 
+/// **Which route answered**, and nothing else.
+///
+/// Five bare variants with no definition anywhere is how this enum stood
+/// for its whole life, and the cost was not theoretical: questions like
+/// "is an instrument reading qualitative?" had nothing to appeal to, so
+/// they were settled by whoever was editing, differently each time. What
+/// follows is the meaning the classifier actually implements, read out of
+/// `coverage.rs` rather than invented, together with the places where the
+/// meaning is uncomfortable — because a definition that hides its own
+/// awkward cases is how the next disagreement gets settled by intuition
+/// again.
+///
+/// # It is about the ROUTE, not about the ANSWER
+///
+/// This is the load-bearing sentence and the one most often forgotten.
+/// A disposition says which part of the bench spoke. It says nothing
+/// whatever about whether the PROMPT's question was answered.
+///
+/// `mat-003` ("does crushing make magnesium react faster?") and `mat-006`
+/// ("what gas forms when magnesium meets acid?") emit **byte-identical**
+/// event streams and therefore take the same disposition. One of them is
+/// answered and the other is not, and no amount of looking at events can
+/// tell them apart: the difference is in the question, which lives in the
+/// prompt. PR #362 tried to bridge that gap by reading event kinds and was
+/// closed unmerged; the record of why is in `NotModelledCause`'s doc.
+///
+/// Whether a script can reach its own question is a different check with a
+/// different tool — `tools/curiosity-answer-invariance.py`.
+///
+/// # Precedence, which is not the declaration order
+///
+/// The classifier returns at the first branch that matches, and the early
+/// branches preempt the route ones:
+///
+/// 1. a declared `Boundary`, before anything is executed at all;
+/// 2. a parse failure, or a solver failure → `Missing`;
+/// 3. a safety veto → `Boundary`;
+/// 4. `NotYetModeled` with no answering event → `Missing`;
+/// 5. a typed observation → `Qualitative`;
+/// 6. only then the routes: curated, then computed, then qualitative.
+///
+/// So a curated reaction beats a computed one when both happen, and a
+/// typed observation beats both — which is why adding an honest aside to a
+/// working experiment can move it from `Computed` to `Qualitative` without
+/// the chemistry changing.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "snake_case")]
 pub enum Disposition {
+    /// A computed solver route produced chemistry — reason code
+    /// `computed-route`.
+    ///
+    /// Also the fallback when the engine emitted typed events that no
+    /// earlier branch claimed (`typed-engine-event`). That second meaning
+    /// is weaker than the first and the reason code is the only way to
+    /// tell them apart, which is worth knowing before counting.
     Computed,
+    /// A curated reaction fired: a reviewed equation with provenance, not
+    /// a solve.
+    ///
+    /// Checked BEFORE `Computed`, so a prompt whose beaker does both is
+    /// recorded as curated. That is a statement about which route carries
+    /// the claim, not about which is better.
     Curated,
+    /// A typed observation answered: a smell, a gas test, a flame test, an
+    /// inert verdict — or, for a handle-and-inspect prompt, an `Observed`
+    /// or `Measured` event.
+    ///
+    /// **It does not mean "an answer without a number", and this is the
+    /// enum's least comfortable corner.** A density meter reporting
+    /// 8.96 g/mL on a handle-and-inspect prompt is `Qualitative`, because
+    /// the route that answered was an instrument reading rather than a
+    /// solve. Anybody who reads the column as "answers that carry no
+    /// quantity" will be wrong, and the corpus authors' own `expected`
+    /// values were written before several of those instruments existed.
+    ///
+    /// Whether that ought to change is a real question. It should be
+    /// settled by deciding what the category IS and letting the
+    /// classification follow — not by adjusting the classifier until the
+    /// counts look better, which is the failure this doc exists to make
+    /// harder.
     Qualitative,
+    /// The bench deliberately did not go there.
+    ///
+    /// Two quite different things wear this name. A **safety veto** is
+    /// observed: the screen stopped the run. A **declared boundary** is
+    /// asserted — when a prompt carries `expected = boundary`, the
+    /// classifier returns it *without executing the script at all*.
+    ///
+    /// So a declared boundary always matches its own expectation, and can
+    /// silently stop being true. `bio-075` declared `unknown_species` and
+    /// its real blocker had become an unsupported `wait 7d`; the row would
+    /// have kept asserting the original reason forever. The declaration is
+    /// accurate when written and nothing re-checks it, which is worth
+    /// remembering before reading this column as evidence of anything.
     Boundary,
+    /// No route answered: a parse failure, a solver failure, or a
+    /// `NotYetModeled` with nothing else claiming the step.
+    ///
+    /// Legitimate as an OBSERVATION and refused as an EXPECTATION — `lint`
+    /// rejects `expected = missing`, because as a requirement it reads
+    /// "the engine must stay silent", and nobody requires a bench to
+    /// refuse. See the note on `expected`.
+    ///
+    /// A row here is not necessarily a gap in the lab. It may be a script
+    /// that put nothing in the vessel; `NotModelledCause::NothingToActOn`
+    /// exists to tell those apart, and is for reading rather than for
+    /// scoring.
     Missing,
 }
 
