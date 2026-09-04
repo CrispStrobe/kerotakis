@@ -1073,14 +1073,14 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-054"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-055"
 owning_task = "BRD-050"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-056"
@@ -1097,8 +1097,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-058"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-059"
