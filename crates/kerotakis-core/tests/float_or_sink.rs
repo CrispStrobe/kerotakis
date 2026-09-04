@@ -71,6 +71,25 @@ fn the_same_solid_floats_in_a_liquid_dense_enough() {
     assert_eq!(floats_in(&SpeciesId::new("not-a-species"), 1.0), None);
 }
 
+/// Whole-object bulk density, rather than the density of whichever chemical
+/// ingredients happen to be resolved, decides ordinary material buoyancy.
+#[test]
+fn named_objects_use_their_reviewed_bulk_density() {
+    for floater in ["apple", "pumice"] {
+        let observed = words(&["add v1 water 500mL", &format!("add v1 {floater} 5g")]);
+        assert!(
+            observed.contains(floater) && observed.contains("floats on top"),
+            "{floater} is less dense than water: {observed}"
+        );
+    }
+
+    let potato = words(&["add v1 water 500mL", "add v1 potato 5g"]);
+    assert!(
+        potato.contains("potato") && potato.contains("is at the bottom"),
+        "a potato is denser than water: {potato}"
+    );
+}
+
 /// KID-19b's own finding: a salt solution reads exactly the density of the
 /// water it was made from, because every ion carries water's density as a
 /// structural default. The number is not corrected — it cannot be, without

@@ -397,7 +397,11 @@ pub fn register_loaded(list: Vec<SpeciesData>) -> (usize, usize) {
 /// loaded from packs — the shelf's honest inventory.
 pub fn all_species() -> Vec<&'static SpeciesData> {
     let map = loaded_index().read().expect("loaded-species lock");
-    registry().iter().chain(map.values().copied()).collect()
+    registry()
+        .iter()
+        .chain(crate::enzyme::ADDITIONAL_ENZYME_SPECIES.iter())
+        .chain(map.values().copied())
+        .collect()
 }
 
 /// How many pack-loaded species are active.
@@ -411,6 +415,9 @@ pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
     if let Some(s) = lookup_index().get(key).copied() {
+        return Some(s);
+    }
+    if let Some(s) = crate::enzyme::species_data(key) {
         return Some(s);
     }
     loaded_index()

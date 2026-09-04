@@ -61,6 +61,18 @@ impl std::fmt::Display for Register {
     }
 }
 
+/// Keep ordinary classroom quantities easy to scan while never displaying a
+/// real non-zero amount as zero. Scientific notation is reserved for values
+/// below half a unit in the requested final decimal place.
+fn quantity(value: f64, decimals: usize) -> String {
+    let rounds_to_zero = value != 0.0 && value.abs() < 0.5 * 10_f64.powi(-(decimals as i32));
+    if rounds_to_zero {
+        format!("{value:.3e}")
+    } else {
+        format!("{value:.decimals$}")
+    }
+}
+
 // ── The tables a coverage gate can walk ──────────────────────────────
 //
 // Four vocabularies below were written inline as `match` arms, which is
@@ -1891,8 +1903,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "The {name} disappears into the water in {vessel}!",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
-                2 => format!("{vessel}: {:.4} mol {name} dissolved", moles.0),
-                _ => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
+                2 => format!("{vessel}: {} mol {name} dissolved", quantity(moles.0, 4)),
+                _ => format!("{vessel}: {} mol {name} dissolved", quantity(moles.0, 6)),
             }
         }
         Event::Neutralised { vessel, moles } => match register.level() {
@@ -1904,12 +1916,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             2 => locale.fill(
                 "event.neutralised.lv2",
                 "{vessel}: {moles} mol neutralised",
-                &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0)))],
+                &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 4)))],
             ),
             _ => locale.fill(
                 "event.neutralised.lv3",
                 "{vessel}: {moles} mol of acidity cancelled (from the change in the solutes' net charge; PHREEQC reports element totals and never this reaction)",
-                &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.6}", moles.0)))],
+                &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 6)))],
             ),
         },
         Event::Precipitated {
@@ -1929,10 +1941,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     )
                 }
                 2 => {
-                    format!("{vessel}: {:.4} mol {name} precipitated ↓", moles.0)
+                    format!("{vessel}: {} mol {name} precipitated ↓", quantity(moles.0, 4))
                 }
                 _ => {
-                    format!("{vessel}: {:.6} mol {name} precipitated", moles.0)
+                    format!("{vessel}: {} mol {name} precipitated", quantity(moles.0, 6))
                 }
             }
         }
@@ -1989,12 +2001,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 2 => locale.fill(
                     "event.plated.lv2",
                     "{vessel}: {moles} mol {name} plated out onto {host}",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0))), ("name", name), ("host", host)],
+                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 4))), ("name", name), ("host", host)],
                 ),
                 _ => locale.fill(
                     "event.plated.lv3",
                     "{vessel}: {moles} mol {name} plated out onto {host}",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.6}", moles.0))), ("name", name), ("host", host)],
+                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 6))), ("name", name), ("host", host)],
                 ),
             }
         }
@@ -2057,8 +2069,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("name", name), ("vessel", &vessel.to_string())],
                     ),
                 },
-                2 => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
-                _ => format!("{vessel}: −{:.6} mol {name}", moles.0),
+                2 => format!("{vessel}: {} mol {name} consumed", quantity(moles.0, 4)),
+                _ => format!("{vessel}: −{} mol {name}", quantity(moles.0, 6)),
             }
         }
         Event::Ignited {
@@ -3414,6 +3426,28 @@ mod consumed_tests {
             render_event(&e, Register::LV1),
             "The magnesium in v1 is being used up."
         );
+    }
+}
+
+#[cfg(test)]
+mod quantity_tests {
+    use super::*;
+    use crate::units::Moles;
+    use crate::vessel::VesselId;
+
+    #[test]
+    fn a_real_trace_amount_never_renders_as_zero() {
+        let event = Event::Dissolved {
+            vessel: VesselId(0),
+            species: SpeciesId::new("CaCO3"),
+            moles: Moles(4.2e-7),
+        };
+        assert_eq!(
+            render_event(&event, Register::LV2),
+            "v1: 4.200e-7 mol chalk (calcium carbonate) dissolved"
+        );
+        assert_eq!(quantity(0.0, 4), "0.0000");
+        assert_eq!(quantity(0.01234, 4), "0.0123");
     }
 }
 

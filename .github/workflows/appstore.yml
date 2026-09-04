@@ -54,7 +54,7 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.gate.outputs.run == 'true'
         with:
           submodules: recursive
@@ -67,7 +67,7 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         with:
           workspaces: web/app/src-tauri
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         if: steps.gate.outputs.run == 'true'
         with:
           node-version: "22"
@@ -148,7 +148,7 @@ jobs:
           ls -lh out
           echo "path=$(ls out/* | head -1)" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: steps.gate.outputs.run == 'true'
         with:
           name: kerotakis-${{ matrix.platform }}-appstore
@@ -167,7 +167,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # Processing is 15-60 minutes and a build is not assignable to any
       # group until it reports VALID, so this does not chase it. Run
       # tools/asc/testflight.py when it is ready; it is idempotent.
