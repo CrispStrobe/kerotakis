@@ -51,6 +51,8 @@ export const REAGENT_ROLES = [
   "organic",
   "solvent",
   "indicator",
+  "protein",
+  "enzyme",
   "oxidiser",
   "reducer",
   "ion",
@@ -69,6 +71,8 @@ export const ROLE_LABELS: Record<ReagentRole, string> = {
   organic: "organics",
   solvent: "solvents",
   indicator: "indicators",
+  protein: "proteins",
+  enzyme: "enzymes",
   oxidiser: "oxidisers",
   reducer: "reducers",
   ion: "ions",
@@ -107,6 +111,8 @@ export type RoleInput = Pick<
   | "indicator"
   | "solvent"
   | "components"
+  | "enzyme_family"
+  | "protein"
 >;
 
 const ROLE_ORDER = new Map(REAGENT_ROLES.map((role, index) => [role, index]));
@@ -215,6 +221,8 @@ function rolesFromComposition(item: RoleInput, roles: Set<ReagentRole>): void {
  */
 export function rolesForSpecies(item: RoleInput): ReagentRole[] {
   const roles = new Set<ReagentRole>();
+  if (item.enzyme_family) roles.add("enzyme");
+  if (item.protein) roles.add("protein");
   rolesFromGroups(item, roles);
   if (item.indicator) roles.add("indicator");
   if (item.solvent) roles.add("solvent");
@@ -244,6 +252,7 @@ export function deriveShelfRoles(
   for (const item of items) {
     if (!item.components) continue;
     const roles = new Set<ReagentRole>();
+    if (item.protein) roles.add("protein");
     for (const component of item.components) {
       for (const role of speciesRoles.get(component) ?? []) {
         if (role !== "unsorted" && role !== "solvent") roles.add(role);

@@ -289,9 +289,7 @@ pub fn bulk_solid_objects(vessel: &crate::Vessel) -> Vec<BulkSolidObservation> {
         if portion.amount <= 0.0
             || !matches!(
                 recipe.physical_form,
-                MaterialPhysicalForm::BulkSolid
-                    | MaterialPhysicalForm::Granules
-                    | MaterialPhysicalForm::CompositeObject { .. }
+                MaterialPhysicalForm::BulkSolid | MaterialPhysicalForm::CompositeObject { .. }
             )
             || recipe
                 .roles

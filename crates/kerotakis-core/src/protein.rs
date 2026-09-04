@@ -59,6 +59,12 @@ const PROFILES: &[ProteinProfile] = &[
     },
 ];
 
+pub fn is_protein_recipe(recipe_id: &str) -> bool {
+    PROFILES
+        .iter()
+        .any(|profile| profile.recipe_id == recipe_id)
+}
+
 pub fn observe(vessel: &Vessel) -> Vec<ProteinObservation> {
     let celsius = vessel.temperature.to_celsius();
     vessel

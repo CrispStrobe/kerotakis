@@ -180,9 +180,10 @@ describe("the honest gap", () => {
     // Chloramine: no reactive-group row, no metal, no carbon skeleton.
     const chloramine = item("NH2Cl", "NH2Cl", { elements: { N: 1, H: 2, Cl: 1 } });
     expect(rolesForSpecies(chloramine)).toEqual(["unsorted"]);
-    // An enzyme whose registry formula is the stand-in "C".
-    expect(rolesForSpecies(item("catalase", "C", { elements: { C: 1 } })))
-      .toEqual(["unsorted"]);
+    // Enzyme identity comes from the engine, not its stand-in formula.
+    expect(rolesForSpecies(item("catalase", "C", {
+      elements: { C: 1 }, enzyme_family: "catalase",
+    }))).toEqual(["enzyme"]);
     // A species with no composition at all is unsorted, not mis-sorted.
     expect(rolesForSpecies({ key: "mystery", formula: "???" })).toEqual(["unsorted"]);
   });
@@ -191,6 +192,12 @@ describe("the honest gap", () => {
     const roles = rolesForSpecies(item("NaCl", "NaCl", { elements: { Na: 1, Cl: 1 } }));
     expect(roles).toEqual(["salt"]);
     expect(roles).not.toContain("unsorted");
+  });
+
+  it("exposes engine-declared protein materials", () => {
+    expect(rolesForSpecies(item("egg_white", "H2O", {
+      elements: { H: 2, O: 1 }, protein: true,
+    }))).toEqual(["protein"]);
   });
 
   it("labels and orders every role it can return", () => {

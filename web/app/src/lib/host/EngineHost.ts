@@ -50,6 +50,8 @@ export interface SceneVessel {
   /** Liquid layers, bottom first; absent/single for a mixed solution. */
   layers?: SceneLayer[];
   solids: SceneSolid[];
+  /** Coherent named objects positioned using whole-object bulk density. */
+  bulk_objects?: SceneBulkObject[];
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
@@ -133,6 +135,16 @@ export interface SceneSolid {
   colour_word: string;
   metallic: boolean;
   settled_fraction: number;
+  represented_by_bulk_object?: boolean;
+}
+
+export interface SceneBulkObject {
+  material: string;
+  recipe_id: string;
+  amount_g: number;
+  bulk_density_g_per_ml: number;
+  position: "floating" | "sunk" | "dry";
+  srgb: [number, number, number];
 }
 
 export interface SceneBadge {

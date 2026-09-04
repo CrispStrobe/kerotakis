@@ -71,6 +71,10 @@ pub struct SceneVessel {
     pub layers: Vec<SceneLayer>,
     /// Solids present, aggregated per species, largest first.
     pub solids: Vec<SceneSolid>,
+    /// Coherent named material objects, positioned by whole-object bulk
+    /// density rather than by the density of their resolved ingredients.
+    #[serde(default)]
+    pub bulk_objects: Vec<SceneBulkObject>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -220,6 +224,21 @@ pub struct SceneSolid {
     /// visible at the bottom until an operation establishes suspension state.
     #[serde(default = "fully_settled")]
     pub settled_fraction: f64,
+    /// This resolved ingredient is already painted as part of a coherent
+    /// named bulk object and must not also appear as a loose deposit.
+    #[serde(default)]
+    pub represented_by_bulk_object: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneBulkObject {
+    pub material: String,
+    pub recipe_id: String,
+    pub amount_g: f64,
+    pub bulk_density_g_per_ml: f64,
+    /// "floating", "sunk", or "dry" when there is no liquid to compare.
+    pub position: String,
+    pub srgb: [u8; 3],
 }
 
 fn fully_settled() -> f64 {
@@ -373,6 +392,16 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         layers.retain(|layer| layer.volume_l > 1e-9);
     }
 
+    let bulk_observations = crate::material::bulk_solid_objects(v);
+    let bulk_component_keys: std::collections::BTreeSet<String> = bulk_observations
+        .iter()
+        .flat_map(|object| {
+            crate::material::lookup_versioned(&object.recipe_id, 1)
+                .into_iter()
+                .flat_map(|recipe| recipe.components.into_iter().map(|part| part.species_id))
+        })
+        .collect();
+
     // Aggregate solids per species, keeping first-seen order, then sort by
     // amount so the biggest deposit paints first.
     let mut solids: Vec<SceneSolid> = Vec::new();
@@ -407,9 +436,45 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 .suspended_fraction_of(&p.species)
                 .map(|fraction| 1.0 - fraction)
                 .unwrap_or(1.0),
+            represented_by_bulk_object: bulk_component_keys.contains(&p.species.0),
         });
     }
     solids.sort_by(|a, b| b.moles.total_cmp(&a.moles));
+
+    let liquid_density = crate::buoyancy::liquid_density_g_per_ml(v);
+    let conserved = crate::material::conserved_unresolved_solids(v);
+    let bulk_objects = bulk_observations
+        .into_iter()
+        .map(|object| {
+            let srgb = conserved
+                .iter()
+                .find(|solid| solid.recipe_id == object.recipe_id)
+                .map(|solid| solid.srgb)
+                .or_else(|| {
+                    crate::material::lookup_versioned(&object.recipe_id, 1).and_then(|recipe| {
+                        recipe.components.iter().find_map(|component| {
+                            species::lookup(&crate::SpeciesId(component.species_id.clone()))
+                                .and_then(|data| data.colour)
+                                .map(|colour| [colour.r, colour.g, colour.b])
+                        })
+                    })
+                })
+                .unwrap_or([176, 160, 128]);
+            let position = match liquid_density {
+                Some(liquid) if object.bulk_density_g_per_ml < liquid => "floating",
+                Some(_) => "sunk",
+                None => "dry",
+            };
+            SceneBulkObject {
+                material: object.material,
+                recipe_id: object.recipe_id,
+                amount_g: object.amount,
+                bulk_density_g_per_ml: object.bulk_density_g_per_ml,
+                position: position.to_string(),
+                srgb,
+            }
+        })
+        .collect();
 
     let mut badges = Vec::new();
     if let Some(sol) = &v.solution {
@@ -510,6 +575,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         liquid,
         layers,
         solids,
+        bulk_objects,
         bubbling: seen.bubbling,
         foam,
         surface_particles: v
@@ -726,6 +792,7 @@ mod tests {
             "label",
             "liquid",
             "solids",
+            "bulk_objects",
             "bubbling",
             "boundary",
             "temperature_k",
@@ -756,6 +823,7 @@ mod tests {
             "colour_word",
             "metallic",
             "settled_fraction",
+            "represented_by_bulk_object",
         ] {
             assert!(solid.get(key).is_some(), "missing solid key {key}");
         }

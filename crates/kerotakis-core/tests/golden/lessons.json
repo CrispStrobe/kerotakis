@@ -1638,6 +1638,89 @@
       }
     ]
   },
+  "heating-proteins": {
+    "event_count": 17,
+    "events_sample": [
+      "v1: 25.0 °C → 20.0 °C",
+      "v1: +20.000 g egg_white (2 known ingredients)",
+      "v1: 0.0004 mol D-glucose (dextrose) dissolved",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: 25.0 °C → 70.0 °C",
+      "v2: +20.000 g egg_white (2 known ingredients)",
+      "v2: 0.0004 mol D-glucose (dextrose) dissolved",
+      "v2: The liquid is white and so cloudy you cannot see through it, the protein in egg white (raw) has denatured and coagulated into an opaque white solid.",
+      "v3: new vessel",
+      "v3: 25.0 °C → 20.0 °C",
+      "v3: +5.000 g albumin (1 known ingredients)",
+      "v3: The liquid is colourless and clear.",
+      "v4: new vessel",
+      "v4: 25.0 °C → 75.0 °C",
+      "v4: +5.000 g albumin (1 known ingredients)",
+      "v4: The liquid is white and so cloudy you cannot see through it, the protein in albumin (dried protein) has denatured and coagulated into an opaque white solid."
+    ],
+    "lesson": "heating-proteins.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00044406,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.97696364,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00044406,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.97696364,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 343.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01665279,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 293.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01665279,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 348.15
+      }
+    ]
+  },
   "ink-chromatography": {
     "event_count": 13,
     "events_sample": [
@@ -3641,6 +3724,120 @@
           },
           {
             "moles": 2.8812101,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "whole-object-buoyancy": {
+    "event_count": 21,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +40.000 g apple (6 known ingredients)",
+      "v1: 0.0138 mol D-fructose (fruit sugar) dissolved",
+      "v1: 0.0053 mol D-glucose (dextrose) dissolved",
+      "v1: 0.0025 mol sucrose dissolved",
+      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and cloudy, a piece of apple (fresh fruit) floats on top.",
+      "v2: new vessel",
+      "v2: +13.8357 mol water",
+      "v2: +20.000 g pumice (1 known ingredients)",
+      "v2: 4.993e-5 mol silicon dioxide (quartz) dissolved",
+      "v2: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: The liquid is white and so cloudy you cannot see through it, a piece of pumice (volcanic froth) floats on top.",
+      "v3: new vessel",
+      "v3: +13.8357 mol water",
+      "v3: +40.000 g potato (4 known ingredients)",
+      "v3: 0.0013 mol D-glucose (dextrose) dissolved",
+      "v3: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v3: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "whole-object-buoyancy.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00592077,
+            "phase": "Solid",
+            "species": "cellulose"
+          },
+          {
+            "moles": 0.001041,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.01376585,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00532872,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00245401,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 15.72522898,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00004993,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 0.23295719,
+            "phase": "Solid",
+            "species": "SiO2"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00518068,
+            "phase": "Solid",
+            "species": "cellulose"
+          },
+          {
+            "moles": 0.00133218,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.04070556,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 15.59422703,
             "phase": "Liquid",
             "species": "water"
           }
