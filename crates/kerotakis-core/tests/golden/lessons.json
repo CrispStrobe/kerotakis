@@ -1703,6 +1703,149 @@
       }
     ]
   },
+  "kitchen-ph": {
+    "event_count": 25,
+    "events_sample": [
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0595 mol baking soda (sodium bicarbonate)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.0472 mol washing soda (sodium carbonate)",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v4: new vessel",
+      "v4: +51.500 g lemon_juice (5 known ingredients)",
+      "v4: 0.0029 mol D-fructose (fruit sugar) dissolved",
+      "v4: 0.0029 mol D-glucose (dextrose) dissolved",
+      "v4: 0.0008 mol sucrose dissolved",
+      "v4: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v5: new vessel",
+      "v5: +52.250 g apple_juice (5 known ingredients)"
+    ],
+    "lesson": "kitchen-ph.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04717515,
+            "phase": "Solid",
+            "species": "Na2CO3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0125987,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00075227,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.59286706,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01711156,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00696063,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00194836,
+            "phase": "Aqueous",
+            "species": "malic_acid"
+          },
+          {
+            "moles": 0.00198439,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.55927838,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [

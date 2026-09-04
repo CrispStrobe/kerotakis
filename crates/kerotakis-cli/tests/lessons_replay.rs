@@ -891,3 +891,35 @@ fn a_cooling_copper_sulfate_solution_grows_blue_crystals() {
         "and lightens as the copper leaves it:\n{out}"
     );
 }
+
+/// K50: a kitchen pH map, and the one bottle the meter cannot price.
+///
+/// Four of the five answer. Apple juice does not, and the reason is not
+/// the recipe, the fruit or the engine: malic acid is resolved and in the
+/// glass, and no shipped database defines a malate, so its protons are in
+/// nobody's speciation. Lemon juice, two beakers along, is the control
+/// that makes that visible — same kind of juice, same kind of acid, and
+/// minteq.v4 happens to define a citrate.
+#[test]
+fn the_kitchen_ph_map_says_which_bottle_it_cannot_price() {
+    let lesson = lessons_dir().join("kitchen-ph.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    for reading in [
+        "v1 pH meter: 2.41",
+        "v2 pH meter: 10.02",
+        "v4 pH meter: 1.86",
+    ] {
+        assert!(out.contains(reading), "missing {reading}:\n{out}");
+    }
+    // The fifth is a sentence, not a number, and names its own cause.
+    assert!(
+        out.contains("no shipped database defines a malate species"),
+        "the refusal must say why:\n{out}"
+    );
+    assert!(
+        !out.contains("v5 pH meter:"),
+        "and must not also produce a number that looks like the others:\n{out}"
+    );
+}

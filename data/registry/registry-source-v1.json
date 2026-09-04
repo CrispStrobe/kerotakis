@@ -1299,7 +1299,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -52633,6 +52633,147 @@
         "malic acid is the acid apple juice's tartness is made of and is resolved as itself, so the pH this juice reports is computed from the right molecule rather than borrowed from a convenient one. The amount is a composition figure, not a titration of any particular juice",
         "pectin, minerals, vitamin C, colour and aroma compounds share the conserved unresolved remainder; cloudy, concentrate-reconstituted and fresh-pressed juices differ and are not distinguished",
         "no juicing, browning, pasteurisation, fermentation or nutritional claim is made"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/lemon-juice-surrogate",
+      "version": 1,
+      "canonical_key": "lemon_juice",
+      "name": "lemon juice surrogate",
+      "aliases": {
+        "de": [
+          "Zitronensaft",
+          "Zitronensaft frisch"
+        ],
+        "en": [
+          "lemon juice"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.907,
+            "upper": 0.907
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "citric_acid",
+          "fraction": {
+            "lower": 0.047,
+            "upper": 0.047
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "fructose",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.005,
+            "upper": 0.005
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.021,
+        "upper": 0.021
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "fresh-squeezed lemon-juice teaching surrogate: about 91% water, the citric acid the sourness is made of, and a little sugar",
+      "lot_assumptions": [
+        "citric acid is resolved as itself and is the acid a lemon's sourness is made of; minteq.v4 defines a citrate species, so unlike this shelf's apple juice the pH here is computed from the acid rather than reported as uncharacterisable",
+        "4.7% citric acid is a composition figure for fresh juice, not a titration of any particular lemon: variety, ripeness and how hard it was squeezed all move it, and bottled juice is usually weaker and preserved",
+        "the pH this reports, about 1.9, is the pH of that much free citric acid and is lower than the 2.2-2.4 a real lemon measures. A lemon carries citrate salts as well as the acid, and those buffer it upwards; this recipe resolves the acid and not its salts, so the number is right for what is in the glass and low for the fruit. Correcting it by weakening the acid would move the composition to fix the pH, which is the wrong end to pull",
+        "vitamin C is the one component a lemon is famous for and it is NOT resolved, which is a deliberate choice against the obvious one. Ascorbic acid is an installed species, but no shipped database defines an ascorbate, so the bench cannot dissolve it: resolving 0.05% of the juice would put an undissolved grain in the glass and describe it as vitamin C. It made the juice read 'very slightly hazy', which a real lemon juice also is — for pulp, which this recipe does not have. A believable observable produced by the wrong mechanism is worse than an absent one, so the vitamin C stays in the conserved remainder until it can dissolve",
+        "pectin, limonene and the other oils, flavonoids, minerals and colour share the conserved unresolved remainder; pith, pulp and zest are not represented at all",
+        "no juicing, browning, preservation or nutritional claim is made, and writing with it is a use rather than a property — the ink turning brown under heat is chemistry this bench does not have"
       ],
       "substitutions": [],
       "confidence": "surrogate",

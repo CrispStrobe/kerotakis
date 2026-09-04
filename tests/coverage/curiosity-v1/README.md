@@ -757,3 +757,32 @@ answer-invariance sweep rather than to this refresh. It is recorded here
 because a row moving out of `missing` for a good reason and a row moving out
 for the wrong one look identical in the drift, and the only way to tell is
 to read each one.
+## aq-067 was waiting for a bottle (2026-09-04)
+
+`aq-067` — *"Does lemon juice neutralise a sodium bicarbonate solution?"* —
+was declared `parse_boundary = "unknown_species"`, tagged
+`material-recipe-gap`, and owned by BRD-014. It was not a failing row or a
+gap in the engine: it was a **note that the shelf had no lemon juice**,
+written into the corpus by whoever wanted the question asked.
+
+K13's invisible-ink row needed the same bottle, so `lemon_juice` is now on
+the shelf — 91% water, 4.7% citric acid, a little sugar. That fulfils the
+note, so the declaration had to go, and the lint said so before I had
+noticed:
+
+```
+prompt aq-067: declared parse_boundary Some(UnknownSpecies), observed None
+```
+
+That is the corpus working exactly as intended. A prompt that declares
+*why* it cannot run is a to-do with an owner, and the lint refuses to let
+the declaration outlive the reason. Compare the four stale rows in
+`KIDS.md` this week, which had no such check and sat wrong for days.
+
+**`missing`/`unknown-species` → `computed`/`computed-route`**, one row of
+drift. The script now measures the pH it was always about: lemon juice at
+1.86, then 0.0471 mol of carbon dioxide off, ending at 9.75 — so the answer
+to the question is yes, and rather more than neutralise. `measure v1 ph`
+was added to the script, because a prompt that asks whether something
+neutralises and never reads a pH is the class the answer-invariance sweep
+was written for.

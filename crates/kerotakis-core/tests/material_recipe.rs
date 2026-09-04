@@ -752,3 +752,42 @@ fn every_calcium_salt_on_the_shelf_colours_the_flame() {
         );
     }
 }
+
+/// K13/K50: lemon juice, and the acid that can be measured.
+///
+/// The shelf had no lemon juice at all, so the invisible-ink row could not
+/// be run. It now resolves the citric acid its sourness is made of — and
+/// unlike this shelf's apple juice, that acid computes its own pH, because
+/// minteq.v4 defines a citrate species and nothing defines a malate. Same
+/// shelf, same kind of juice, same kind of acid, and one of them can be
+/// measured.
+#[test]
+fn lemon_juice_resolves_the_acid_that_can_be_speciated() {
+    let recipe = kerotakis_core::material::lookup("Zitronensaft", Some("de"))
+        .expect("localized lemon juice");
+    assert_eq!(recipe.canonical_key, "lemon_juice");
+    let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
+    let citric = expansion
+        .components
+        .iter()
+        .find(|part| part.species_id == "citric_acid")
+        .expect("the sourness is citric acid");
+    assert!((citric.amount - 4.7).abs() < 1e-9, "{}", citric.amount);
+
+    // Vitamin C is deliberately NOT resolved, and the reason is written
+    // down: no database defines an ascorbate, so resolving it would put an
+    // undissolved grain in the glass and call it vitamin C.
+    assert!(
+        !expansion
+            .components
+            .iter()
+            .any(|part| part.species_id == "ascorbic_acid"),
+        "vitamin C stays in the remainder until it can dissolve"
+    );
+    assert!(
+        recipe.lot_assumptions.iter().any(|assumption| {
+            assumption.contains("vitamin C") && assumption.contains("wrong mechanism")
+        }),
+        "and the choice against the obvious one has to say why"
+    );
+}

@@ -793,10 +793,9 @@ question = "Does lemon juice neutralise a sodium bicarbonate solution?"
 age_band = "age9_to12"
 action = "acids_bases_and_gases"
 material_class = "citrus-juice"
-parse_boundary = "unknown_species"
 owning_task = "BRD-014"
 tags = ["material-recipe-gap"]
-script = ["add v1 lemon_juice 50mL", "add v1 NaHCO3 5g"]
+script = ["add v1 lemon_juice 50mL", "add v1 NaHCO3 5g", "measure v1 ph"]
 smoke = false
 
 [[prompt]]

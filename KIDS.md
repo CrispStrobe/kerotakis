@@ -64,7 +64,7 @@ silent miss teaches the silence.
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band. KID-19a made the half that is data answerable — `measure v1 density` reads 1.00, 1.14 and 1.28 g/mL up a sugar ladder, which is the number a tower is built on; the slow pour that would keep them apart is still not modelled |
 | K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
-| K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
+| K13 | Invisible ink | brown writing appearing | **wrong** → partial | three of four halves fixed. KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger**; KID-12 made the paper burn as cellulose at 506 K; and 2026-09-04 put **lemon juice on the shelf**, so the experiment can be written at all — it used to fail at `add v1 Zitronensaft`. What is left is the browning itself: the caramelisation between drying and burning, which is chemistry this bench does not have |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | ~~partial~~ → computed | closed 2026-09-04. The acid dissolves the oxide to a blue solution, and with chloride the bench now precipitates **green atacamite** — the mineral that grows on wet copper. There is still no coin: no tarnish layer, no shine returning, and no difference between a second's dip and a night's soak. What the bench has is what the liquid does |
@@ -710,6 +710,52 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### The corpus had a to-do the audit did not (2026-09-04)
+
+K13's invisible ink could not be written down: `add v1 Zitronensaft` failed
+at the shelf. Adding a lemon-juice recipe is the small half of that row —
+91% water, the 4.7% citric acid its sourness is made of, a little sugar —
+and it produced two findings worth more than the recipe.
+
+**A corpus prompt was waiting for the bottle.** `aq-067`, *"Does lemon
+juice neutralise a sodium bicarbonate solution?"*, carried
+`parse_boundary = "unknown_species"` and the tag `material-recipe-gap`.
+That is not a failing row: it is a **note that the shelf was short**,
+written by whoever wanted the question asked. The moment the bottle
+existed the declaration became false, and the corpus lint said so before I
+had noticed:
+
+```
+prompt aq-067: declared parse_boundary Some(UnknownSpecies), observed None
+```
+
+Which is the mechanism this file has spent the week wishing it had. Four
+rows here went stale and sat wrong for days because nothing re-asks a
+verdict. The corpus refuses to let a declaration outlive its reason, and it
+caught this one in the same minute it became untrue. `aq-067` now answers —
+1.86, then 0.0471 mol of carbon dioxide, ending at 9.75 — so yes, and
+rather more than neutralise.
+
+**And a wrong-mechanism observable I nearly shipped.** Vitamin C is the one
+thing a lemon is famous for, ascorbic acid is an installed species, so the
+first draft resolved it. The juice then read *"colourless and very slightly
+hazy"* — which real lemon juice is.
+
+It was right for the wrong reason. No shipped database defines an
+ascorbate, so the bench cannot dissolve ascorbic acid, and the haze was an
+undissolved grain of vitamin C sitting in the glass. Real haze is pulp,
+which this recipe does not have. That is the brine-at-1.00-g/mL shape
+again: a believable number from a mechanism that is not there, and harder
+to catch than an obviously wrong one because nothing looks wrong. The
+vitamin C is in the conserved remainder with the reason recorded.
+
+The same discipline applied to the pH: 4.7% citric acid gives **1.86**, and
+a real lemon measures 2.2–2.4 because it carries citrate salts that buffer
+it. Weakening the acid would have moved the composition to fix the number,
+which is pulling the wrong end. The composition is right, the number is
+right for the composition, and the gap between it and a real lemon is
+written into the lot assumptions.
+
 ### A fourth stale row, and two that were never work (2026-09-04)
 
 **K40 was closed by nobody.** Its verdict listed three complaints — a boil
@@ -1117,7 +1163,7 @@ or a rate in them.
 | K47 | A fire extinguisher in a jar | ~~silent miss~~ → computed | KID-12: the fire exists now, and the extinguisher works the way a real one does — by dilution. The wax is untouched, the oxygen is untouched, and the flame will not start, because 14% of the gas being oxygen is not enough |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | **declined** | the surface-tension event fires and is computed; nothing moves, and nothing will. A boat crossing a bowl is bulk motion under a surface-tension gradient — the same authority boundary as K09, and the same correction: refused rather than owed |
-| K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
+| K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.41, soda 10.02, washing soda 11.57, **lemon juice 1.86** — and apple juice still a sentence rather than a number. KID-20 gave it the malic acid its tartness is made of, and the engine says precisely why it cannot price that acidity. `lessons/kitchen-ph.lab` now makes the pair the lesson: same shelf, same kind of juice, same kind of fruit acid, and the only difference is that minteq.v4 defines a citrate and nothing anywhere defines a malate |
 | K51 | A hand warmer that crystallises | **wrong** → **stated boundary** | closed 2026-09-04, and closed as a refusal rather than a feature. The bench cooled a supersaturated pouch from 65 °C to 8 °C and said *nothing at all*; it now says how far past saturation the solution is (0.488 mol against 0.283) and why the solid cannot appear. A peer session searched the `PHASES` section of **every** `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl — and there is not one acetate solid phase anywhere. Not a shipping choice; nobody's PHREEQC database has one |
 | K52 | A borax snowflake | ~~unreachable~~ → computed | the row was stale before it was fixed: borax landed with KID-14 and only wanted a solubility curve. With 2.5 g/100 mL at 20 °C and 27.4 at 100 °C, 25 g into cold water leaves most of it sitting there, heating dissolves it, and cooling returns **0.0957 mol** as solid — while the same cooling makes a sugar syrup *supersaturate* instead |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
