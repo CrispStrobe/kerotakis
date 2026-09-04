@@ -1,0 +1,26 @@
+# Heating proteins: clear egg white becomes opaque
+#
+# Compare equal portions at room temperature and at the upper edge of the
+# model's reviewed egg-white denaturation interval. The material remains
+# conserved; heating changes the protein structure and visible aggregation.
+register lv1
+
+add v1 egg_white 20g @ 20C
+look v1
+
+new beaker
+add v2 egg_white 20g @ 70C
+look v2
+
+# Albumin is the isolated-protein comparison. It follows its own bounded
+# denaturation interval instead of borrowing the whole egg-white recipe.
+new beaker
+add v3 albumin 5g @ 20C
+look v3
+
+new beaker
+add v4 albumin 5g @ 75C
+look v4
+
+# Gelatine is already denatured collagen before it reaches the shelf; cooling
+# gelation is a different structural transition and is not claimed here.

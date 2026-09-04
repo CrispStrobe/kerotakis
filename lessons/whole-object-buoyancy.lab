@@ -1,0 +1,26 @@
+# Whole objects: why an apple floats and a potato sinks
+#
+# Density belongs to the whole object. Pumice contains dense silica but its
+# air-filled pores lower the stone's bulk density; an apple also carries air
+# spaces. A potato is slightly denser than water. The picture and the words
+# below both use those reviewed whole-object densities.
+register lv1
+
+add v1 water 250mL
+add v1 apple 40g
+look v1
+
+new beaker
+add v2 water 250mL
+add v2 pumice 20g
+look v2
+
+new beaker
+add v3 water 250mL
+add v3 potato 40g
+look v3
+
+# Prediction to discuss: changing only an ingredient density would be the
+# wrong calculation. Shape, pores and trapped air are part of a bulk object.
+# This bounded model does not yet simulate water entering pumice pores, so the
+# pumice does not slowly waterlog and sink.

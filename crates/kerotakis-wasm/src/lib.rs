@@ -670,6 +670,17 @@ impl Lab {
                     // around, which is why it is not in the organic list.
                     "solvent": kerotakis_core::nonaqueous::KNOWN_SOLVENTS.contains(&s.key)
                         || s.key == "water",
+                    "enzyme_family": kerotakis_core::enzyme::profile(s.key).map(|profile| match profile.family {
+                        kerotakis_core::enzyme::EnzymeFamily::Lactase => "lactase",
+                        kerotakis_core::enzyme::EnzymeFamily::Protease => "protease",
+                        kerotakis_core::enzyme::EnzymeFamily::Lipase => "lipase",
+                        kerotakis_core::enzyme::EnzymeFamily::Catalase => "catalase",
+                    }),
+                    // Only catalase currently owns a kinetic reaction. The
+                    // other family entries are identity/dose scaffolds.
+                    "capability": kerotakis_core::enzyme::profile(s.key).map(|_| {
+                        if s.key == "catalase" { "modeled_reaction" } else { "identity_only" }
+                    }),
                 })
             })
             .collect();
@@ -730,6 +741,12 @@ impl Lab {
                     .iter()
                     .map(|species| species.key)
                     .collect::<Vec<_>>(),
+                "protein": kerotakis_core::protein::is_protein_recipe(&recipe.id),
+                "capability": if kerotakis_core::protein::is_protein_recipe(&recipe.id) {
+                    Some("modeled_observation")
+                } else {
+                    None
+                },
             })
         }));
         serde_json::Value::Array(list).to_string()

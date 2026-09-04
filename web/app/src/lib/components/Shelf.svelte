@@ -105,6 +105,13 @@
   );
 
   const stockLabel = (count: number) => count === 1 ? t("one use left") : t("{count} uses left", { count });
+  const capabilityLabel = (capability: ShelfItem["capability"]) => capability === "modeled_reaction"
+    ? t("modeled reaction")
+    : capability === "modeled_observation"
+      ? t("modeled observation")
+      : capability === "identity_only"
+        ? t("identity and dose only")
+        : null;
 
   function toggle(item: ShelfItem) {
     if (open === item.key) {
@@ -207,6 +214,9 @@
           <SpeciesChip {item} />
           <span class="name">{t(item.name)}</span>
           <span class="formula">{item.formula}</span>
+          {#if capabilityLabel(item.capability)}
+            <span class="capability" data-capability={item.capability}>{capabilityLabel(item.capability)}</span>
+          {/if}
           {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
           {#if mode === "story" && access.available && !access.loaned}<span class="stock">{stockLabel(remaining)}</span>{/if}
           {#if bottle}<span class="bottle" class:out={emptyBottle}>{stockBadge(bottle, t)}</span>{/if}
@@ -432,6 +442,8 @@
   .formula {
     color: var(--dim);
   }
+  .capability { padding: .12rem .28rem; border-radius: 6px; color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); font-size: .48rem; font-weight: 800; white-space: nowrap; }
+  .capability[data-capability="identity_only"] { color: var(--warning); background: color-mix(in srgb, var(--warning) 11%, var(--surface)); }
   .amounts {
     display: grid;
     /* Two rows, not one. Widening the amount column for the steppers

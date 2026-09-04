@@ -196,7 +196,7 @@
   });
   // Only the top few deposits are drawn; the layer arithmetic counts the
   // same ones, or the stack stops short of the floor.
-  const shownSolids = $derived(vessel.solids.slice(0, 3));
+  const shownSolids = $derived(vessel.solids.filter((solid) => !solid.represented_by_bulk_object).slice(0, 3));
   const solidVolume = (solid: (typeof vessel.solids)[number]) =>
     (solid.volume_l ?? solid.moles * 0.01) * (solid.settled_fraction ?? 1);
   // Solids draw as a settled layer. The scene owns pure-solid volume from
@@ -478,6 +478,26 @@
         {/each}
       </g>
     {/if}
+
+    {#each (vessel.bulk_objects ?? []).slice(0, 3) as object, i (object.recipe_id)}
+      {@const objectWidth = Math.min(INNER_W * 0.52, 13 + Math.sqrt(Math.max(0, object.amount_g)) * 2.2)}
+      {@const objectX = INNER_X + 4 + i * Math.min(12, (INNER_W - objectWidth - 8) / 2)}
+      {@const objectY = object.position === "floating" && liquidH > 0
+        ? BOTTOM_Y - liquidH - 3
+        : BOTTOM_Y - 7 - i * 2}
+      <rect
+        class="bulk-object"
+        class:floating={object.position === "floating"}
+        x={objectX}
+        y={objectY}
+        width={objectWidth}
+        height="7"
+        rx="3.5"
+        fill={rgb(object.srgb)}
+      >
+        <title>{t(object.material)} · {object.bulk_density_g_per_ml.toPrecision(3)} g/mL · {t(object.position)}</title>
+      </rect>
+    {/each}
 
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
@@ -1269,6 +1289,19 @@
   .solid-rim {
     stroke: rgb(255 255 255 / 30%);
     stroke-width: 1;
+  }
+  .bulk-object {
+    stroke: color-mix(in srgb, var(--ink) 58%, transparent);
+    stroke-width: 0.75;
+    filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .bulk-object.floating {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: object-bob 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes object-bob {
+    to { transform: translateY(-1.2px) rotate(1.5deg); }
   }
   .vent {
     fill: none;
