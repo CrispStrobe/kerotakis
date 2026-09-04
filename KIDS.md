@@ -710,6 +710,46 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### Fifty-five questions ask a comparison; six build something to compare (2026-09-04)
+
+The audit found `mat-012` in the curiosity corpus by accident: a prompt
+asking *"How can density distinguish copper, zinc, and aluminium pieces?"*
+whose script weighed five grams of each on a balance. Five grams of copper,
+five grams of zinc and five grams of aluminium all weigh five grams. The
+row matched its own `expected`, appeared in no mismatch list, and had read
+as evidence of coverage for as long as the corpus had existed.
+
+That is the one class of defect here that never surfaces as a failure — a
+**passing** row whose script cannot reach its own question — so it was
+worth a sweep rather than a fix. `tools/curiosity-answer-invariance.py`
+applies one rule that needs no vocabulary: **a prompt that distinguishes N
+things must produce N different answers.** It is validated against
+`mat-012` (its pre-fix script scores 3 vessels → 1 answer and exits 1) and
+the current corpus is clean.
+
+Getting it right took two corrections, both worth keeping:
+
+* A first version compared whole per-vessel output and found nothing,
+  because the *setup echo* differs — `+0.0787 mol copper` against
+  `+0.0765 mol zinc`. What the script reads back to you about what you
+  typed is not an answer. Only what the bench says back counts.
+* `mat-011` (copper wires versus iron) has two subjects and one answer, and
+  it is not this defect: both vessels honestly refuse, because metal
+  conductivity is not modelled. A repeated refusal is an engine gap, not a
+  script that misses its question, and no edit would change it.
+
+**The thin result is the finding.** Zero violations, on eight comparison
+prompts — because of 55 comparative questions in the corpus, only **six**
+build two vessels to compare. "Does warm dough rise faster than cold
+dough", "does crushing magnesium make it react faster", "does hot water
+dissolve more sugar than cold" each name two conditions and script one.
+
+Those are not lies today, because most are `missing`: the engine cannot
+answer them either way and nothing false is claimed. They become lies the
+day their mechanism lands — the row starts passing, on a script that never
+built the second condition. That is exactly `mat-012`'s history, which is
+why the sweep is checked in rather than run once.
+
 ### The volcano's temperature depends on which bottle you pour first (2026-09-03)
 
 Found while checking a peer session's report that two curated reactions

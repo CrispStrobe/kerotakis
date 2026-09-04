@@ -627,3 +627,81 @@ classifier checks the curated route first.
 So a row can be *right* and still be evidence of nothing. Both of these
 computed a number the whole time. What changed today is which model produced
 it, and that was never visible in the file.
+
+## The answer-invariance sweep (2026-09-04)
+
+`tools/curiosity-answer-invariance.py`. Written after `mat-012` — a prompt
+asking how density distinguishes copper, zinc and aluminium, whose script
+weighed five grams of each on a balance — turned out to have matched its
+own `expected`, appeared in no mismatch list, and read as evidence of
+coverage for as long as the corpus had existed.
+
+**The rule needs no vocabulary: a prompt that distinguishes N things must
+produce N different answers.** If a script fills two or more vessels with
+different things and the bench says the same thing about all of them, the
+script cannot answer any question that separates them — whatever events it
+emits and whatever disposition it earns.
+
+Two refinements make it precise, and both were found by getting it wrong
+first:
+
+* **Setup echoes are not answers.** A first attempt compared whole
+  per-vessel output and found nothing, because `v1: +0.0787 mol copper`
+  differs from `v2: +0.0765 mol zinc`. That difference is the script
+  reading back what was typed into it. Only what the bench says *back*
+  counts, and with the echoes dropped `mat-012` scores 3 vessels → 1
+  answer.
+* **A refusal repeated is not this defect.** `mat-011` ("why are wires
+  copper rather than iron?") measures conductivity on two dry metals and
+  both vessels answer *"the conductivity meter reads nothing — no aqueous
+  solution has been characterised"*. Two subjects, one answer — but that is
+  an engine gap, already counted as `missing`, and no edit to the script
+  would change it. Prompts where every vessel refuses are excluded.
+
+The tool is validated against the instance it was written for: restoring
+`mat-012`'s pre-fix script makes it exit 1 and print `3 vessels, 1 distinct
+answers`; the current corpus exits 0.
+
+### What it found, and the more interesting thing it did not
+
+**Zero violations today**, on 8 comparison prompts. That is a thin result,
+and the reason is the finding:
+
+| | count |
+|---|---|
+| prompts | 500 |
+| comparative question ("than", "which", "faster", "difference between"…) | 55 |
+| …whose script builds two or more filled vessels | **6** |
+| …whose script builds one | 49 |
+| …of those single-vessel comparisons, passing today | 22 |
+| any prompt with two or more filled vessels | 14 |
+
+**Fifty-five questions ask a comparison and six of them build something to
+compare.** Some of the 49 are legitimate — "does a larger spoonful leave
+crystals in the same water" is one vessel by construction, and several
+compare a vessel against a value rather than against another vessel. Many
+are not: "does warm dough rise faster than cold dough", "does crushing
+magnesium make it react faster with acid", "does hot water dissolve more
+sugar than cold water" each name two conditions and script one.
+
+Those 49 are not currently a lie, because most of them are `missing` — the
+engine cannot answer them either way, so nothing false is being claimed.
+They become one the moment their mechanism lands: the row will start
+passing, on a script that never built the second condition. **That is
+mat-012's exact history**, and it is why the sweep is checked in rather
+than run once.
+
+The 22 that pass today are the half worth reading. Sorting findings by
+whether the row currently passes is the discipline this sweep is built on:
+a failing row is already on somebody's list, and a passing row whose script
+cannot reach its question is a false statement about coverage that nothing
+else in the harness will ever contradict.
+
+### Wiring it into the gate
+
+Not yet. It runs each comparison prompt through the shipped binary, which
+belongs beside `coverage curiosity --check` rather than in a unit test, and
+folding it in properly means teaching that runner to track answers per
+vessel. It exits non-zero today, so it can be added to CI as it stands
+whenever someone wants it; it is checked in now so the rule is written down
+where the next person writing a prompt will meet it.
