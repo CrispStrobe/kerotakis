@@ -3429,5 +3429,77 @@
     "provenance": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 240,
+      "g": 242,
+      "r": 242,
+      "strength": 0.0
+    },
+    "density": 1.72,
+    "dissolution_enthalpy_kj": 25.7,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "NH4NO3",
+    "heat_capacity": 234.0,
+    "inchikey": "",
+    "key": "NH4NO3",
+    "magnetic": false,
+    "molar_mass": 80.043,
+    "name": "ammonium nitrate",
+    "provenance": "ammonium nitrate: the cold-pack salt: dissolving it is strongly endothermic, which is the whole of an instant cold pack. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and appearance are standard reference values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. The enthalpy of dissolution, +25.7 kJ/mol, is the number the cold pack is for: one of the most strongly endothermic dissolutions a kitchen can produce, and the reason the pack goes cold rather than merely failing to warm.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "grey-black",
+    "colour": {
+      "b": 60,
+      "g": 58,
+      "r": 58,
+      "strength": 0.0
+    },
+    "density": 2.26,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C",
+    "heat_capacity": 26.0,
+    "inchikey": "",
+    "key": "graphite",
+    "magnetic": false,
+    "molar_mass": 12.011,
+    "name": "graphite",
+    "provenance": "graphite: the layered allotrope of carbon — soft, opaque, and the one in a pencil. Separate from the registry's charcoal carbon and from diamond because the point of comparing them is that one element gives three different solids. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and appearance are standard reference values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "colourless",
+    "colour": {
+      "b": 245,
+      "g": 243,
+      "r": 237,
+      "strength": 0.0
+    },
+    "density": 3.51,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C",
+    "heat_capacity": 26.0,
+    "inchikey": "",
+    "key": "diamond",
+    "magnetic": false,
+    "molar_mass": 12.011,
+    "name": "diamond",
+    "provenance": "diamond: the tetrahedral allotrope: the same carbon atoms as graphite, 55% denser, and transparent instead of black. Molar mass from IUPAC/CIAAW 2021 atomic weights; density and appearance are standard reference values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. The bench has no transparency for a solid, so diamond is described as white rather than clear — the one property a person would name first is the one this appearance model cannot express. That is stated here because a reader who sees 'white diamond' should know it is a limit of the description and not a claim about the stone.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

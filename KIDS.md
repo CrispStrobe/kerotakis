@@ -710,6 +710,64 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### The tail is long and flat, and one row nearly became a lie (2026-09-04)
+
+With the naming fixed, I measured what the *remaining* unanswered rows are
+blocked on — not by counting substance mentions, which is misleading (43
+rows mention `water`), but by finding the first substance in each script
+that does not resolve.
+
+**106 rows, blocked on 88 distinct substances.** The largest single blocker
+accounts for **three** rows. That is roughly 1.2 rows per recipe, and every
+recipe needs a real sourced composition. The earlier framing of "31 food
+recipes" implied a much better ratio than exists.
+
+So the recommendation changed: **stop adding substances by blocker
+frequency.** Pick the rows whose *questions* become genuinely answerable,
+and leave the rest honestly missing. A row converted from `missing` to
+passing without becoming answerable is worse than one left alone.
+
+**Two rows were about to demonstrate exactly that.** `mat-080` asks *"why
+are diamond and graphite so different if both are carbon?"* and its script
+is `add v1 graphite 1g; measure v1 balance`. `mat-041` asks *"why can glass
+be transparent although sand is opaque?"* and weighs 2 g of silica glass.
+Adding the named substance would have moved both out of `missing` while
+answering neither.
+
+That is the prediction from the answer-invariance sweep arriving on
+schedule: *"they become lies the day their mechanism lands: the row starts
+passing, on a script that never built the second condition."*
+
+So `mat-080` got **both** allotropes rather than the one it names — graphite
+at 2.26 g/mL and diamond at 3.51 — and a script that builds and compares
+them. Same element, same 1.00 g on the balance, different density and
+different colour, which is as far as this bench can take the question.
+`mat-041` was left alone: transparency is not something the appearance
+model can express for a solid, so a species would let the script run and
+not let it answer. Recorded in `diamond`'s own provenance, where a reader
+meeting "white diamond" will find out why.
+
+**Also landed here:** ammonium nitrate with its +25.7 kJ/mol dissolution
+enthalpy, which is K18's cold pack — 20 g takes 100 mL of water from
+25.0 °C to **9.6 °C** — and a `cold pack salt` bottle so the everyday name
+resolves, since species synonyms do not survive the registry export.
+
+### A written refusal that only luck protected (2026-09-04)
+
+`table_salt`'s lot assumption says *"the bare words salt and Salz remain
+unclaimed because they name a chemical class"*. The systematic alias pass
+above had `salt` in its list.
+
+It did not get added, and not because anything stopped it: that recipe is
+built by a different helper and the edit pattern did not match. I was
+relying on **remembering** the refusals, and I remembered `candle_wax` and
+forgot `table_salt`.
+
+`no_recipe_claims_a_word_it_has_declined_in_writing` now checks it. Proved
+by temporarily claiming `salt` and watching it fail with the recipe's own
+sentence quoted back. A refusal that lives only in prose is a refusal that
+depends on whoever edits next having read it.
+
 ### Thirty rows were blocked on a word, and German already knew it (2026-09-04)
 
 Asked where the remaining 147 unanswered questions would get their data
@@ -1461,3 +1519,82 @@ identification.
 
 The audit's own prediction, recorded now so it can be checked later: the
 first list will run about half, and the second about four fifths.
+
+## Twenty-six materials, and the four kinds of gap they exposed
+*2026-09-04*
+
+The corpus had 145 rows the engine could not reach, and 95 of them stopped at
+the same place: the parser did not know the word. Not a chemistry gap — a
+vocabulary gap. Eighty-eight distinct tokens, most wanted by exactly one row.
+
+Twenty-six of them are now on the shelf: twelve inert materials (fused silica,
+borosilicate, coloured glass, quartz, porcelain, glazed ceramic, pumice, clay,
+stainless steel, galvanised steel, painted iron, expanded polystyrene) and
+fourteen foods and fibres (apple, potato, onion, cabbage, bread, pasta, rice,
+honey, butter, cream, egg white, gelatine, albumin, cotton). Sixty-three
+corpus rows moved out of `missing`, against two regressions, with the
+expectation-mismatch count flat at 85 throughout.
+
+Writing them was mostly not chemistry. It was deciding, twenty-six times,
+what the bench is allowed to claim. Four patterns came up often enough to
+name.
+
+**The property the material is bought for is the one in the remainder.**
+Borosilicate glass is 81% silica and 19% conserved, and the conserved part is
+the boria — which is the entire reason borosilicate has its own name and its
+own price. Stainless steel is worse: the chromium that makes it stainless is
+not installed, so the bench holds an object whose iron can be attacked and no
+representation of the film that stops the attack. Any corrosion result there
+is a result about plain iron wearing a stainless label. Both recipes say so.
+
+**A bulk density that nothing reads.** Six recipes were written carrying
+careful bulk densities — pumice 0.64, expanded polystyrene 0.03, cotton 0.08,
+apple 0.85, potato 1.08, rice 0.85 — and six notes explaining what the bench
+would therefore do: float the apple, sink the potato, float the pumice for
+half the right reason. Every one of those sentences was false, and I wrote all
+six before running one of them.
+
+Then I ran `add v1 pumice 50g` to a beaker of water. Pumice sank, and the
+water went opaque, because 70% of it resolves to silica and silica is 2.65.
+`bulk_density` is read by exactly one caller — the raisin bubble-ride in
+`buoyancy.rs` — and the general float-and-sink test reads the density of each
+*species* a material resolves into. There is no material-level buoyancy at
+all. The numbers are right, they are in the file, and nothing consumes them.
+
+This is the session's own recurring defect committed by the person cataloguing
+it: **a claim about a mechanism, believed because it was plausible and because
+nothing asked the question that separates it from its absence.** It cost one
+command to find. All six notes now say what actually happens — that the
+density is recorded and does not float or sink anything — and the gap is worth
+its own task: bulk density is the natural key for buoyancy and the wiring does
+not exist.
+
+**A coating reported as a fraction is not a coating.** Galvanised steel is
+zinc on iron, and the recipe says 3% zinc by mass, which the bench mixes
+through the object. The point of galvanising is that the zinc is on the
+*outside* and corrodes first; that is a geometry argument about which metal
+the liquid reaches, and these recipes have no geometry to make it with. So
+the bench consumes zinc and iron together in whatever ratio the chemistry
+prefers. Painted iron has the identical problem and the identical note.
+
+**Two entries for one substance, split on what earns its resolution.** The
+shelf now has both a cabbage and a red-cabbage indicator juice. The juice has
+its anthocyanin resolved and changes colour with pH; the head has the same
+pigment in its conserved remainder and will not. That looks like an
+inconsistency and is a deliberate one: the juice is an extract made for the
+purpose, and the head has the pigment locked in cells this bench cannot break
+open. Adding a cabbage to acid turning nothing pink is the honest outcome.
+
+The recurring shape underneath all four: a number that is right, sitting where
+the thing that produces it is absent. Same defect class as the brine that read
+exactly 1.00 g/mL and the balance that was invariant over what it weighed —
+and the reason each of these recipes carries its own paragraph saying which
+half is missing.
+
+Five foods cannot do the thing they exist to demonstrate. Egg white does not
+set at 65 °C, gelatine does not gel, cream does not whip, albumin does not
+denature by heat or acid or alcohol or salt, and onion does not sting the
+eyes. All five are protein or enzyme behaviour, no protein species is
+installed, and the mass sits conserved. That is one gap wearing five names,
+and it is the largest single thing standing between this shelf and the
+kitchen-chemistry half of the corpus.

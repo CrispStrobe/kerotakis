@@ -533,14 +533,16 @@
     ]
   },
   "chalk-vinegar": {
-    "event_count": 7,
+    "event_count": 9,
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +2.000 g chalk_stick (1 known ingredients)",
-      "v1: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
       "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
       "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "chalk-vinegar.lab",
@@ -548,7 +550,12 @@
       {
         "contents": [
           {
-            "moles": 0.01998262,
+            "moles": 6.49e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997612,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -570,7 +577,12 @@
             "species": "CH3COOH"
           },
           {
-            "moles": 0.01998262,
+            "moles": 6.23e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997639,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -1323,24 +1335,24 @@
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1188 mol polypropylene",
-      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1 density meter: 1.00 g/mL",
       "v1: The liquid is colourless and clear, white polypropylene floats on top.",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +0.0480 mol polystyrene",
-      "v2: not yet modelled — polystyrene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: 97% of the suspended particles settle in 120 s",
-      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2: not yet modelled — polystyrene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: The liquid is colourless and very slightly hazy, there is white polystyrene at the bottom.",
       "v3: new vessel",
       "v3: +11.0686 mol water",
       "v3: +0.0260 mol polyethylene terephthalate",
-      "v3: not yet modelled — polyethylene terephthalate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: polyethylene terephthalate does not react — polyethylene terephthalate does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: 97% of the suspended particles settle in 120 s",
       "v3: 100% of the suspended particles settle in 120 s",
-      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction"
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "float-or-sink.lab",
     "vessels": [
@@ -1499,7 +1511,7 @@
     ]
   },
   "hard-water": {
-    "event_count": 31,
+    "event_count": 32,
     "events_sample": [
       "v1: +27.6714 mol water",
       "v1: +0.0202 mol baking soda (sodium bicarbonate)",
@@ -1510,17 +1522,17 @@
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +0.0100 mol chalk (calcium carbonate)",
-      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: +0.0300 mol hydrochloric acid",
-      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2 balance: 201.49 g",
       "v3: new vessel",
       "v3: +27.6714 mol water",
       "v3: +0.0050 mol calcium chloride",
       "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +0.0030 mol magnesium sulfate",
-      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "hard-water.lab",
     "vessels": [
@@ -1549,7 +1561,12 @@
       {
         "contents": [
           {
-            "moles": 0.00999131,
+            "moles": 0.00002598,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.00996533,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -2049,7 +2066,7 @@
     ]
   },
   "never-mix": {
-    "event_count": 18,
+    "event_count": 19,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1000 mol bleach (sodium hypochlorite)",
@@ -2068,7 +2085,8 @@
       "v4: +5.5343 mol water",
       "v4: +0.1000 mol hydrochloric acid",
       "v4: +0.0500 mol chalk (calcium carbonate)",
-      "v4: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+      "v4: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v4: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "never-mix.lab",
     "vessels": [
@@ -2136,7 +2154,12 @@
       {
         "contents": [
           {
-            "moles": 0.05,
+            "moles": 0.00001299,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.04998701,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -2261,19 +2284,19 @@
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +100.000 g corn_starch (1 known ingredients)",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 60 rpm for 5 s — bar tip 0.079 m/s; 73% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.08 m/s",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.79 m/s",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +20.000 g corn_starch (1 known ingredients)",
-      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
-      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction"
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "oobleck.lab",
     "vessels": [

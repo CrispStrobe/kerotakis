@@ -1449,6 +1449,35 @@ impl Equilibrator for HonestyEquilibrator {
                 // nothing speciates it, or nothing models it at all — and
                 // which one it is decides whether a database could ever fix
                 // it, so the cause is computed beside the sentence.
+                // A reviewed solubility of essentially zero is not a gap,
+                // it is the answer. "Does sand dissolve overnight?" was
+                // reaching `not yet modelled` — the bench declining to say
+                // what the registry already knew — and a learner cannot
+                // tell that from "nobody has modelled this yet". Where a
+                // solubility has been reviewed and is below what a beaker
+                // could show, the bench says so and stops refusing.
+                // ...but only where nothing else in the bench is about to
+                // consume it. Starch is insoluble in cold water AND is what
+                // amylase digests, and the first draft of this branch had
+                // the bench print "starch does not react" in the same run
+                // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
+                // sentence about dissolution, said where it reads as a
+                // claim about reactivity, is a false one.
+                if !crate::curated::consumes(vessel, &p.species) {
+                if let Some(limit) = species::lookup(&p.species)
+                    .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                    .filter(|limit| *limit < 0.01)
+                {
+                    events.push(Event::Inert {
+                        vessel: vessel.id,
+                        species: p.species.clone(),
+                        why: format!(
+                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
+                        ),
+                    });
+                    continue;
+                }
+                }
                 let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
@@ -1524,6 +1553,35 @@ impl Equilibrator for HonestyEquilibrator {
                 // nothing speciates it, or nothing models it at all — and
                 // which one it is decides whether a database could ever fix
                 // it, so the cause is computed beside the sentence.
+                // A reviewed solubility of essentially zero is not a gap,
+                // it is the answer. "Does sand dissolve overnight?" was
+                // reaching `not yet modelled` — the bench declining to say
+                // what the registry already knew — and a learner cannot
+                // tell that from "nobody has modelled this yet". Where a
+                // solubility has been reviewed and is below what a beaker
+                // could show, the bench says so and stops refusing.
+                // ...but only where nothing else in the bench is about to
+                // consume it. Starch is insoluble in cold water AND is what
+                // amylase digests, and the first draft of this branch had
+                // the bench print "starch does not react" in the same run
+                // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
+                // sentence about dissolution, said where it reads as a
+                // claim about reactivity, is a false one.
+                if !crate::curated::consumes(vessel, &p.species) {
+                if let Some(limit) = species::lookup(&p.species)
+                    .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                    .filter(|limit| *limit < 0.01)
+                {
+                    events.push(Event::Inert {
+                        vessel: vessel.id,
+                        species: p.species.clone(),
+                        why: format!(
+                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
+                        ),
+                    });
+                    continue;
+                }
+                }
                 let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {

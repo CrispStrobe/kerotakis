@@ -791,3 +791,56 @@ fn lemon_juice_resolves_the_acid_that_can_be_speciated() {
         "and the choice against the obvious one has to say why"
     );
 }
+
+/// A recipe may not claim a word its own lot assumptions decline.
+///
+/// `table_salt` says in writing that *"the bare words salt and Salz remain
+/// unclaimed because they name a chemical class"*, and `candle_wax` says
+/// the same of *wax*. Those are deliberate refusals with reasons.
+///
+/// A systematic pass adding bare everyday aliases — the one that gave
+/// English the words German already had — nearly added `salt` anyway. It
+/// missed because `table_salt` is built by a different helper and the
+/// pattern did not match, which is luck rather than judgement: nothing
+/// checked the refusals, and the author (me) was relying on remembering
+/// them. This is that check.
+#[test]
+fn no_recipe_claims_a_word_it_has_declined_in_writing() {
+    let mut violations = Vec::new();
+    for recipe in kerotakis_core::material::all() {
+        // The sentences that decline a word all say so with "unclaimed".
+        let refusals: Vec<&String> = recipe
+            .lot_assumptions
+            .iter()
+            .filter(|assumption| assumption.contains("unclaimed"))
+            .collect();
+        if refusals.is_empty() {
+            continue;
+        }
+        for aliases in recipe.aliases.values() {
+            for alias in aliases {
+                let word = alias.to_lowercase();
+                // Only single bare words are ever declined this way; a
+                // compound alias like "table salt" is not the claim being
+                // refused.
+                if word.contains(' ') || word.contains('_') {
+                    continue;
+                }
+                for refusal in &refusals {
+                    let text = refusal.to_lowercase();
+                    if text.contains(&format!("words {word} "))
+                        || text.contains(&format!("word {word} "))
+                        || text.contains(&format!("and {word} remain"))
+                        || text.contains(&format!("bare {word} remains"))
+                    {
+                        violations.push(format!(
+                            "{} claims '{alias}' and its own lot assumption declines it: {refusal}",
+                            recipe.canonical_key
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    assert!(violations.is_empty(), "{}", violations.join("\n"));
+}

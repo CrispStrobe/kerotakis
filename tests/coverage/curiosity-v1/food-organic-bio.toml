@@ -75,7 +75,6 @@ material_class = "bread"
 owning_task = "BRD-023"
 tags = ["browning", "maillard_reaction"]
 script = ["add v1 bread 20g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -110,7 +109,6 @@ material_class = "egg"
 owning_task = "BRD-052"
 tags = ["denaturation", "egg"]
 script = ["add v1 egg_white 50g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -122,7 +120,6 @@ material_class = "egg"
 owning_task = "BRD-052"
 tags = ["denaturation", "irreversibility"]
 script = ["add v1 egg_white 50g", "heat v1 20kJ", "cool v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -167,7 +164,6 @@ material_class = "dairy"
 owning_task = "BRD-073"
 tags = ["butter", "emulsion"]
 script = ["add v1 cream 100mL", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -227,7 +223,6 @@ material_class = "starch_food"
 owning_task = "BRD-052"
 tags = ["gelatinisation", "pasta"]
 script = ["add v1 water 500mL", "add v1 pasta 50g", "heat v1 200kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -239,7 +234,6 @@ material_class = "starch_food"
 owning_task = "BRD-052"
 tags = ["gelatinisation", "rice"]
 script = ["add v1 water 200mL", "add v1 rice 50g", "heat v1 100kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -263,7 +257,6 @@ material_class = "vegetable"
 owning_task = "BRD-052"
 tags = ["cooking", "potato"]
 script = ["add v1 water 200mL", "add v1 potato 50g", "heat v1 100kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -275,7 +268,6 @@ material_class = "vegetable"
 owning_task = "BRD-023"
 tags = ["cooking", "onion"]
 script = ["add v1 onion 50g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -448,7 +440,6 @@ material_class = "food_mixture"
 owning_task = "BRD-014"
 tags = ["honey", "water_activity"]
 script = ["add v1 honey 50g", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -508,7 +499,6 @@ material_class = "cellulose_material"
 owning_task = "BRD-023"
 tags = ["cellulose", "pyrolysis"]
 script = ["add v1 cotton 2g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -531,7 +521,6 @@ material_class = "protein"
 owning_task = "BRD-050"
 tags = ["denaturation", "protein"]
 script = ["add v1 albumin 1g", "add v1 water 100mL", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -543,7 +532,6 @@ material_class = "protein"
 owning_task = "BRD-050"
 tags = ["acid", "denaturation"]
 script = ["add v1 albumin 1g", "add v1 water 100mL", "add v1 HCl 0.01mol", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -555,7 +543,6 @@ material_class = "protein"
 owning_task = "BRD-050"
 tags = ["protein", "salting_out"]
 script = ["add v1 albumin 1g", "add v1 water 100mL", "add v1 NaCl 20g", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -686,7 +673,6 @@ material_class = "lipid"
 owning_task = "BRD-023"
 tags = ["oxidation", "rancidity"]
 script = ["add v1 butter 20g", "add v1 O2 0.1mol", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -838,7 +824,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["lactic_acid", "sauerkraut"]
 script = ["add v1 cabbage 100g", "add v1 NaCl 2g", "wait 24h", "measure v1 ph"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -862,7 +847,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["fermentation", "salt"]
 script = ["add v1 cabbage 100g", "add v1 NaCl 10g", "wait 24h", "measure v1 ph"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1116,7 +1100,6 @@ material_class = "fruit"
 owning_task = "BRD-052"
 tags = ["apple", "ph_effect"]
 script = ["add v1 apple 20g", "add v1 lemon_juice 5mL", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

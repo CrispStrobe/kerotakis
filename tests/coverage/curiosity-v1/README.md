@@ -841,3 +841,97 @@ down for it. The classifier ordering is the cause and it is not being
 touched here: a commit that adds species has no business redefining how
 rows are scored, which is the lesson of #362. Raised for whoever owns the
 ordering, with these three rows as the worked example.
+
+## The vocabulary batch, and what a stale `parse_boundary` costs
+
+Ninety-five of the 145 `missing` rows carried reason code `unknown-species`:
+the run never started, because the parser did not know a word. Counting the
+distinct tokens gave 88, and the shape of that distribution is the useful
+part — a handful wanted by three rows each (`silica_glass`, `gelatin`,
+`apple`, `albumin`, `pondweed`), a long flat tail wanted by one. There is no
+small set of additions that unblocks most of it; volume here is bought a
+material at a time.
+
+Twenty-six were added, closing 63 rows. Two things worth recording for whoever
+does the next batch.
+
+**Ask the engine, not the registry file.** The first pass diffed the corpus
+tokens against `registry-source-v1.json` and reported `vinegar`, `milk`,
+`soap`, `yeast`, `lemon_juice`, `flour` and `vegetable_oil` as unknown. All
+seven already resolved. Material aliases do not live where that walk was
+looking, so the list was wrong in the direction that wastes the most work —
+it invited re-adding things that were already there. Probing the binary with
+`add v1 <token> 1g` is a two-line loop and is ground truth.
+
+**Every added material makes some `parse_boundary` declaration false, and the
+lint will stop the corpus dead until they are removed.** Thirty-five rows
+across two batches. This is the lint behaving exactly as designed — a
+declaration is a to-do with an owner, and one that has become false is a
+claim the corpus is still blocked when it is not — but it means the real unit
+of work is *add the material, then sweep the declarations*, and a batch that
+skips the sweep does not run at all. `kero coverage curiosity --json` names
+every stale row.
+
+**The validator's naming rules, in the order they bite.** A material's `name`
+may not equal its `canonical_key`; an alias may not equal the key or another
+alias case-insensitively (`Kaolin` in `de` against `kaolin` in `en` collides;
+so does `Butter` against key `butter`); and a material may not shadow a
+species name. Six of the twenty-six tripped one of these, all on the first
+export, none of them interesting — but they are silent until export and the
+error names an index into `material_recipes`, not a key, so keep a count of
+where the new block starts.
+
+## An insolubility remark that read as a claim about reactivity
+
+Eleven species gained reviewed near-zero aqueous solubilities, and `solve.rs`
+turned that into a positive `Event::Inert` — "it does not dissolve, and it is
+still all there" — in place of a `NotYetModeled` apology. Seven rows improved
+and seven regressed, and the regressions were not a scoring artefact. The
+bench printed
+
+    v1: starch does not react — starch does not dissolve in water: ...
+    v1: 2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁
+
+in one run. Both sentences are true and the pair is false.
+
+The fix has two halves, and the split is the point. The engine holds back the
+remark only when a curated reaction *that can fire in this vessel* consumes
+the species — `curated::consumes`, built on a `fires` predicate extracted from
+`CuratedSolver::applies` so the two cannot drift apart. Being a *product* does
+not count, or chalk would lose its answer to reactions it is not in.
+
+That fixes the sentence and not the row, because the remark is emitted when
+starch is added and the amylase arrives on a later line: it is true when
+spoken, and stale by the end of the transcript the row is graded on. So the
+classifier gained the second half — an `Inert` beside a **succeeded curated
+route** is an aside, not the result. Narrow for the same reason the
+`Plated`/`CellVoltage` guard next to it is narrow: a computed route is not
+enough. `bio-042` (starch + HCl + heat) and `mat-029` (PET + NaOH + heat) have
+no curated hydrolysis, so their computed route is the acid or the base
+speciating rather than the polymer doing anything, and there "the polymer is
+unchanged" *is* the answer. Those two stay qualitative, which is what they
+are, and they are the two accepted regressions in this branch.
+
+Net: 63 rows out of `missing`, 2 regressed, expectation mismatches flat at 85
+across every step — which is the number that would have caught a guard written
+wider than its evidence.
+
+### A rough edge left in deliberately: `0.0000 mol chalk dissolved`
+
+Giving calcium carbonate its reviewed 0.0013 g/100 mL let the aqueous path
+dissolve a real trace of it — 6.49e-6 mol — where before the run said "not yet
+modelled". That is the improvement. It renders as
+
+    v1: 0.0000 mol chalk (calcium carbonate) dissolved
+    v1: chalk (calcium carbonate) does not react — chalk does not dissolve in
+        water: its reviewed solubility is 0.0013 g per 100 mL, ...
+
+and the first line is a number that says nothing, which is the defect this
+branch spent its time hunting. It is left in. The event is *true* — there is
+aqueous CaCO₃ in that beaker — so suppressing it would hide real inventory to
+tidy a display; and the honest fix, not printing a non-zero quantity as
+`0.0000`, means changing `{:.4}` in `render.rs`, which every golden in the repo
+is written against. That is a formatting change with a repo-wide blast radius
+and it does not belong at the end of a branch about materials. The two lines
+do explain each other. Recorded here so the next person finds a known edge
+rather than a fresh bug.

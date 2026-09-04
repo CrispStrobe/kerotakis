@@ -426,6 +426,17 @@ fn describe(
             format!("there is {list} in the beaker")
         });
     }
+    // A powder that sits ON the water is at the top of it too, and it is
+    // named by its recipe rather than by a species: the grains are
+    // conserved unresolved matter, which is exactly why nothing was
+    // saying they were there.
+    for float in crate::material::surface_floaters(vessel) {
+        parts.push(if float.coverage >= 0.999 {
+            format!("a skin of {} covers the surface", float.material)
+        } else {
+            format!("grains of {} float on the surface", float.material)
+        });
+    }
     // KID-19b: and what is lighter than the liquid is at the top of it.
     if !floats.is_empty() && has_liquid {
         let named: Vec<String> = floats
