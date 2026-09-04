@@ -107,6 +107,8 @@
   const stockLabel = (count: number) => count === 1 ? t("one use left") : t("{count} uses left", { count });
   const capabilityLabel = (capability: ShelfItem["capability"]) => capability === "modeled_reaction"
     ? t("modeled reaction")
+    : capability === "modeled_activity"
+      ? t("modeled activity")
     : capability === "modeled_observation"
       ? t("modeled observation")
       : capability === "identity_only"
@@ -443,6 +445,7 @@
     color: var(--dim);
   }
   .capability { padding: .12rem .28rem; border-radius: 6px; color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); font-size: .48rem; font-weight: 800; white-space: nowrap; }
+  .capability[data-capability="modeled_activity"] { color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); }
   .capability[data-capability="identity_only"] { color: var(--warning); background: color-mix(in srgb, var(--warning) 11%, var(--surface)); }
   .amounts {
     display: grid;

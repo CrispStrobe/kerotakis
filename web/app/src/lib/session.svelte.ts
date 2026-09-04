@@ -93,7 +93,7 @@ export type ShelfItem = {
   /** Biochemical discovery metadata supplied by the engine. */
   enzyme_family?: "lactase" | "protease" | "lipase" | "catalase";
   protein?: boolean;
-  capability?: "modeled_reaction" | "modeled_observation" | "identity_only";
+  capability?: "modeled_reaction" | "modeled_activity" | "modeled_observation" | "identity_only";
 };
 
 export type MissionDebrief = {

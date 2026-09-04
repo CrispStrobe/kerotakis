@@ -1,0 +1,25 @@
+# Protease and gelatine: a protein-cutting enzyme
+#
+# Equal hydrated gelatine samples compare protease, no enzyme, and lactase.
+register lv1
+
+add v1 water 50mL
+add v1 gelatin 10g
+add v1 protease 0.1g
+
+new beaker
+add v2 water 50mL
+add v2 gelatin 10g
+
+new beaker
+add v3 water 50mL
+add v3 gelatin 10g
+add v3 lactase 0.1g
+
+wait 1h
+look v1
+look v2
+look v3
+
+# This computes bounded protein hydrolysis. Gel texture and named peptide or
+# amino-acid products remain outside the model, so it does not fake a jelly.
