@@ -710,6 +710,72 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### Thirty rows were blocked on a word, and German already knew it (2026-09-04)
+
+Asked where the remaining 147 unanswered questions would get their data
+from, I counted rather than guessed. Of the 120 blocked on an unknown
+substance, **thirty were blocked on a name** — the shelf had the thing,
+filed under the word a chemist uses, and the prompt used the word a child
+uses.
+
+Whether a bare everyday word may be claimed is a real question in this
+project, and it is answered against claiming elsewhere: `candle_wax`'s lot
+assumption refuses bare *wax* in writing, because beeswax and paraffin are
+different materials. So I measured instead of ruling:
+
+**Thirty-five of fifty-six recipes were reachable by a bare everyday word
+in German and only by a compound one in English.** `Essig`, `Hefe`,
+`Milch`, `Sand`, `Natron`, `Kreide`, `Alufolie`, `Glas` — all resolve.
+`vinegar`, `yeast`, `milk`, `chalk` did not. The project had already
+decided a bare word is claimable. It had only done it in one language, and
+the English-speaking child was worse served by the same registry.
+
+Thirteen aliases close that gap: vinegar, milk, yeast, soap, sugar, oil,
+pepper, glue, ink, bicarb, filings. Not `wax`, which is declined in
+writing; not `apple` or `cabbage`, because a fruit is not its juice and a
+vegetable is not its indicator — those want food recipes, which is
+different work. `cola` and `sand` were refused by the registry validator as
+already claimed, which is the guard doing its job.
+
+**Fourteen rows opened. Missing 147 → 133; computed 229 → 236.** Every one
+had declared `parse_boundary = unknown_species`, and every declaration
+became false the moment the word resolved — the mechanism that caught
+`aq-067` a section above, working at scale.
+
+One of them then failed for a second reason the first had been hiding:
+`bio-075` says `wait 7d` and the parser has no day unit. A declared
+boundary masks everything behind it, which is worth knowing about the other
+fifty-nine boundary rows.
+
+### Three rows got worse by getting better (2026-09-04)
+
+`aq-123`, `mat-057` and `th-082` went **computed → qualitative**, and not
+one of them touches a new alias. K40's basic copper sulfates did it.
+
+Precipitating antlerite releases protons, so the solution is now slightly
+more acid — enough for the displacement model to add a true aside: *"iron
+should dissolve in this acid by the series (driving force +0.25 V), but
+hydrogen has to form on iron"*. That aside is an `Inert` event; `Inert` is
+in the corpus classifier's typed-observation list; and that list is checked
+**before** the branch that would have said `computed`.
+
+The copper is still plated — `0.009967 mol copper plated out onto iron`,
+unchanged. More phases modelled, a more accurate pH, one more true
+sentence, and a worse score.
+
+Every earlier instance of this pattern in this file was a row that
+*happened* to answer and qualify. This one is a change that made the bench
+explain more and was marked down for exactly that: the only way to have
+protected the metric would have been not to model the phases. It is the
+clearest evidence yet that the ordering taxes honesty rather than merely
+mis-sorting it.
+
+**The ordering is not touched here.** A commit that adds species has no
+business redefining how rows are scored — the lesson of the peer session's
+withdrawn #362, which applies to me exactly as it applied to them. Recorded
+in the corpus README with the three rows named, and handed to whoever owns
+the classifier.
+
 ### The corpus had a to-do the audit did not (2026-09-04)
 
 K13's invisible ink could not be written down: `add v1 Zitronensaft` failed
@@ -1153,7 +1219,7 @@ or a rate in them.
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
-| K40 | Grow blue crystals | **wrong** → computed | **the fourth stale row, and the only one closed by nobody.** Its three complaints were answered by three separate tasks and the row was never re-read: KID-6 fixed the 109 °C boil with liquid water in the ledger, KID-7 gave cooling solutions their crystals, KID-20 stopped chalcanthite being drawn white. Verified 2026-09-04 — 0.0884 mol precipitates on cooling with the net ionic equation, and the liquid goes from *black* (too concentrated to see through) to *blue* as the copper leaves it |
+| K40 | Grow blue crystals | **wrong** → computed | **the fourth stale row, and the only one closed by nobody.** Its three complaints were answered by three separate tasks and the row was never re-read: KID-6 fixed the 109 °C boil with liquid water in the ledger, KID-7 gave cooling solutions their crystals, KID-20 stopped chalcanthite being drawn white. Verified 2026-09-04 — 0.0884 mol precipitates on cooling with the net ionic equation, and the liquid goes from *black* (too concentrated to see through) to *blue* as the copper leaves it Its three greens — Langite, Antlerite, Brochantite — were added to the registry on the same day and now precipitate rather than being refused |
 | K41 | Powder fizzes faster than a lump | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** `grind` works when the chalk goes in before the water: "ground to 50.0 µm — about 0.221 m² surface area", and the curated equation then fires. What is still missing is the *contrast*: the acid-carbonate route carries no rate, so powder and lump fizz identically |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |

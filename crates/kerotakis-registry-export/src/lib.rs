@@ -583,7 +583,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["fizzy cola".to_string()],
+                    vec![
+                        "fizzy cola".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -733,7 +734,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             canonical_key: "white_vinegar_5_percent".to_string(),
             name: "5% white vinegar".to_string(),
             aliases: BTreeMap::from([
-                ("en".to_string(), vec!["household vinegar".to_string()]),
+                ("en".to_string(), vec!["vinegar".to_string(), "household vinegar".to_string()]),
                 (
                     "de".to_string(),
                     vec![
@@ -764,7 +765,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             canonical_key: "dish_soap".to_string(),
             name: "dish soap".to_string(),
             aliases: BTreeMap::from([
-                ("en".to_string(), vec!["washing-up_liquid".to_string()]),
+                ("en".to_string(), vec!["soap".to_string(), "washing-up_liquid".to_string()]),
                 (
                     "de".to_string(),
                     vec!["Spülmittel".to_string()],
@@ -818,7 +819,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     "de".to_string(),
                     vec!["Pfeffer".to_string(), "schwarzer Pfeffer".to_string()],
                 ),
-                ("en".to_string(), vec!["ground pepper".to_string()]),
+                ("en".to_string(), vec!["pepper".to_string(), "ground pepper".to_string()]),
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: None,
@@ -851,7 +852,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["whole milk".to_string(), "cow's milk".to_string()],
+                    vec![
+                        "milk".to_string(),"whole milk".to_string(), "cow's milk".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -900,7 +902,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             canonical_key: "dry_yeast".to_string(),
             name: "dry yeast".to_string(),
             aliases: BTreeMap::from([
-                ("en".to_string(), vec!["baker's_yeast".to_string()]),
+                ("en".to_string(), vec!["yeast".to_string(), "baker's_yeast".to_string()]),
                 (
                     "de".to_string(),
                     vec!["Hefe".to_string(), "Trockenhefe".to_string()],
@@ -986,7 +988,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["table sugar".to_string(), "granulated sugar".to_string()],
+                    vec![
+                        "sugar".to_string(),"table sugar".to_string(), "granulated sugar".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -1019,7 +1022,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["cooking oil".to_string(), "plant oil".to_string()],
+                    vec![
+                        "oil".to_string(),"cooking oil".to_string(), "plant oil".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -1059,7 +1063,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["bicarbonate of soda".to_string(), "sodium bicarbonate".to_string()],
+                    vec![
+                        "bicarb".to_string(),"bicarbonate of soda".to_string(), "sodium bicarbonate".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -1422,7 +1427,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     "de".to_string(),
                     vec!["Eisenfeilspäne".to_string(), "Eisenspäne".to_string()],
                 ),
-                ("en".to_string(), vec!["iron powder".to_string()]),
+                ("en".to_string(), vec!["filings".to_string(), "iron powder".to_string()]),
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: None,
@@ -1452,7 +1457,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 ),
                 (
                     "en".to_string(),
-                    vec!["play sand".to_string(), "quartz sand".to_string()],
+                    vec![
+                        "play sand".to_string(), "quartz sand".to_string()],
                 ),
             ]),
             basis: MaterialBasis::MassFraction,
@@ -1984,6 +1990,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 (
                     "en".to_string(),
                     vec![
+                        "glue".to_string(),
                         "white glue".to_string(),
                         "school glue".to_string(),
                         "craft glue".to_string(),
@@ -2072,6 +2079,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 (
                     "en".to_string(),
                     vec![
+                        "ink".to_string(),
                         "black felt tip".to_string(),
                         "felt_tip_ink".to_string(),
                         "black marker ink".to_string(),

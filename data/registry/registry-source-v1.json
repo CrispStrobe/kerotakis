@@ -1289,6 +1289,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/brochantite",
+      "citation": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/antlerite",
+      "citation": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/langite",
+      "citation": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3564,6 +3591,48 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "brochantite",
+      "canonical_key": "legacy:species/brochantite",
+      "name": "brochantite (green copper patina)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "antlerite",
+      "canonical_key": "legacy:species/antlerite",
+      "name": "antlerite (green copper sulfate)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "langite",
+      "canonical_key": "legacy:species/langite",
+      "name": "langite (blue-green copper sulfate)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/langite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -18423,6 +18492,444 @@
       },
       "evidence": {
         "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/brochantite",
+      "species_id": "brochantite",
+      "formula": "Cu4SO4(OH)6",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/brochantite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/brochantite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/brochantite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/brochantite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/antlerite",
+      "species_id": "antlerite",
+      "formula": "Cu3SO4(OH)4",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/antlerite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/antlerite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/antlerite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/antlerite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/langite",
+      "species_id": "langite",
+      "formula": "Cu4SO4(OH)6·H2O",
+      "elements": [
+        {
+          "element": "Cu",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/langite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/langite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/langite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/langite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/langite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -34610,6 +35117,276 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/brochantite",
+      "species_id": "brochantite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 452.282,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/brochantite",
+      "species_id": "brochantite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 546.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/brochantite",
+      "species_id": "brochantite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.97,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/antlerite",
+      "species_id": "antlerite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 354.722,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/antlerite",
+      "species_id": "antlerite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 416.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/antlerite",
+      "species_id": "antlerite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/langite",
+      "species_id": "langite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 470.297,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/langite",
+      "species_id": "langite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 624.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/langite",
+      "species_id": "langite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -41398,6 +42175,54 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/brochantite",
+      "species_id": "brochantite",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": "blue-green",
+      "reflective_srgb": "#3F7A55",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/antlerite",
+      "species_id": "antlerite",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": "blue-green",
+      "reflective_srgb": "#4B8259",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/langite",
+      "species_id": "langite",
+      "phase": "solid",
+      "appearance": "blue-green",
+      "flame_colour": "blue-green",
+      "reflective_srgb": "#3E8C86",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/langite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -48370,6 +49195,204 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/brochantite",
+      "subject": {
+        "kind": "species",
+        "id": "brochantite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/brochantite",
+      "subject": {
+        "kind": "species",
+        "id": "brochantite"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/brochantite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/antlerite",
+      "subject": {
+        "kind": "species",
+        "id": "antlerite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/antlerite",
+      "subject": {
+        "kind": "species",
+        "id": "antlerite"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/antlerite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/langite",
+      "subject": {
+        "kind": "species",
+        "id": "langite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/langite",
+      "subject": {
+        "kind": "species",
+        "id": "langite"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/langite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -49197,6 +50220,7 @@
           "Haushaltsessig_5%"
         ],
         "en": [
+          "vinegar",
           "household vinegar"
         ]
       },
@@ -49287,6 +50311,7 @@
           "Spülmittel"
         ],
         "en": [
+          "soap",
           "washing-up_liquid"
         ]
       },
@@ -49387,6 +50412,7 @@
           "schwarzer Pfeffer"
         ],
         "en": [
+          "pepper",
           "ground pepper"
         ]
       },
@@ -49434,6 +50460,7 @@
           "Vollmilch"
         ],
         "en": [
+          "milk",
           "whole milk",
           "cow's milk"
         ]
@@ -49541,6 +50568,7 @@
           "Trockenhefe"
         ],
         "en": [
+          "yeast",
           "baker's_yeast"
         ]
       },
@@ -49690,6 +50718,7 @@
           "Kristallzucker"
         ],
         "en": [
+          "sugar",
           "table sugar",
           "granulated sugar"
         ]
@@ -49746,6 +50775,7 @@
           "Speiseöl"
         ],
         "en": [
+          "oil",
           "cooking oil",
           "plant oil"
         ]
@@ -49825,6 +50855,7 @@
           "Backnatron"
         ],
         "en": [
+          "bicarb",
           "bicarbonate of soda",
           "sodium bicarbonate"
         ]
@@ -51581,6 +52612,7 @@
           "Eisenspäne"
         ],
         "en": [
+          "filings",
           "iron powder"
         ]
       },
@@ -52890,6 +53922,7 @@
           "PVA-Kleber"
         ],
         "en": [
+          "glue",
           "white glue",
           "school glue",
           "craft glue"
@@ -53049,6 +54082,7 @@
           "Tinte_schwarz"
         ],
         "en": [
+          "ink",
           "black felt tip",
           "felt_tip_ink",
           "black marker ink"

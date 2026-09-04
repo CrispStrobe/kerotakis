@@ -786,3 +786,58 @@ to the question is yes, and rather more than neutralise. `measure v1 ph`
 was added to the script, because a prompt that asks whether something
 neutralises and never reads a pH is the class the answer-invariance sweep
 was written for.
+
+## Bare English words, and three rows that got worse by getting better (2026-09-04)
+
+**Thirty of the 147 `missing` rows were blocked on a name.** Not on data,
+not on a mechanism — on the shelf being filed under the word a chemist
+uses while the prompt used the word a child uses.
+
+The evidence that this was an oversight rather than a decision is that
+**German already had the bare words and English did not**. `Essig`, `Hefe`,
+`Milch`, `Sand`, `Natron`, `Kreide` all resolve; `vinegar`, `yeast`,
+`milk` did not. Thirty-five of fifty-six recipes were reachable by an
+everyday word in German and only by a compound one in English. The project
+had already decided a bare word is claimable; it had only done it once.
+
+Thirteen bare English aliases now match the German: vinegar, milk, yeast,
+soap, sugar, oil, pepper, glue, ink, bicarb, filings — and not `wax`,
+because `candle_wax`'s own lot assumption declines it in writing, nor
+`apple` or `cabbage`, because a fruit is not its juice and a vegetable is
+not its indicator. `cola` and `sand` were rejected by the registry
+validator as already claimed, which is the guard working.
+
+**Fourteen rows opened**: `missing` 147 → 133, computed 229 → 236,
+qualitative 45 → 52. Each had declared `parse_boundary = unknown_species`
+and each declaration became false the moment the word resolved — the same
+mechanism that caught `aq-067`. One of them, `bio-075`, then failed on
+`wait 7d`: the parser has no day unit, and the parse boundary had been
+masking a second problem behind the first. It is `168h` now, the same week
+in a unit that exists.
+
+### The three that regressed, and why they are not a mistake
+
+`aq-123`, `mat-057` and `th-082` went **computed → qualitative**. All three
+are copper-sulfate displacement or cell rows, and none of them uses a new
+alias. The cause is K40's basic copper sulfates.
+
+Precipitating antlerite releases protons — `Cu3(OH)4SO4 + 4 H+ = 3 Cu+2 +
+4 H2O + SO4-2`, run backwards — so the solution is now slightly more acid
+than it was. That is enough for the displacement model to add its honest
+aside: *"iron should dissolve in this acid by the series (driving force
++0.25 V), but hydrogen has to form on iron"*. That aside is an `Inert`
+event, `Inert` is in the classifier's typed-observation list, and that list
+is checked **before** the route-based branch that would have said
+`computed`.
+
+So the chemistry is strictly better — more phases modelled, a more accurate
+pH, an extra true statement — and the score is worse. The copper is still
+plated: `0.009967 mol copper plated out onto iron`, unchanged.
+
+**This is the answers-and-qualifies problem arriving from the engine's end
+rather than the corpus's.** The other instances were rows that happened to
+qualify; this is a change that made the bench explain *more* and be marked
+down for it. The classifier ordering is the cause and it is not being
+touched here: a commit that adds species has no business redefining how
+rows are scored, which is the lesson of #362. Raised for whoever owns the
+ordering, with these three rows as the worked example.
