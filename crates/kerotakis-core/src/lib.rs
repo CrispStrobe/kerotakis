@@ -37,6 +37,7 @@ pub mod displacement;
 pub mod electrochemistry;
 pub mod element_coverage;
 pub mod emulsion;
+pub mod enzyme;
 pub mod exact_stoich;
 pub mod family;
 pub mod fermentation;
