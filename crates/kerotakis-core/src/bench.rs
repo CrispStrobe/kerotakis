@@ -2325,6 +2325,10 @@ impl Bench {
                             if crate::buoyancy::ionic_volume_unaccounted(v) {
                                 events.push(Event::NotYetModeled {
                                     vessel: *vessel,
+                                    // The ions have a density field; it is a
+                                    // structural default rather than a measured
+                                    // value, which is a datum nobody reviewed.
+                                    cause: crate::ops::NotModelledCause::NoReviewedDatum,
                                     what: "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing".to_string(),
                                 });
                             }

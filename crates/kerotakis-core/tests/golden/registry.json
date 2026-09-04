@@ -3333,5 +3333,101 @@
     "provenance": "Paraffin wax as a single representative long-chain alkane, C25H52. Real candle wax is a blend spanning roughly C20 to C40, often with stearic acid, dye and scent; one chain length is a teaching stand-in for that blend and not a claim about any candle. Molar mass from IUPAC/CIAAW 2021 atomic weights; density 0.90 g/mL and the Kopp's-rule heat capacity are explicit room-temperature teaching approximations",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "green",
+    "colour": {
+      "b": 91,
+      "g": 154,
+      "r": 78,
+      "strength": 0.0
+    },
+    "density": 3.76,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "Cu2ClH3O3",
+    "heat_capacity": 210.0,
+    "inchikey": "",
+    "key": "atacamite",
+    "magnetic": false,
+    "molar_mass": 213.566,
+    "name": "atacamite (green copper corrosion)",
+    "provenance": "Atacamite Cu2Cl(OH)3, the green corrosion product of copper in the presence of chloride, added so the aqueous engine has something to precipitate where minteq.v4 already computes the solution to be supersaturated against it. Molar mass 213.566 g/mol from IUPAC/CIAAW 2021 atomic weights; density 3.76 g/mL and the green appearance are standard mineralogical values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No thermodynamic constant is asserted here: the phase is defined by the shipped database and matched to this species by composition",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "green",
+    "colour": {
+      "b": 85,
+      "g": 122,
+      "r": 63,
+      "strength": 0.0
+    },
+    "density": 3.97,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "blue-green",
+    "forms_only_above_k": null,
+    "formula": "Cu4SO4(OH)6",
+    "heat_capacity": 546.0,
+    "inchikey": "",
+    "key": "brochantite",
+    "magnetic": false,
+    "molar_mass": 452.282,
+    "name": "brochantite (green copper patina)",
+    "provenance": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "green",
+    "colour": {
+      "b": 89,
+      "g": 130,
+      "r": 75,
+      "strength": 0.0
+    },
+    "density": 3.9,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "blue-green",
+    "forms_only_above_k": null,
+    "formula": "Cu3SO4(OH)4",
+    "heat_capacity": 416.0,
+    "inchikey": "",
+    "key": "antlerite",
+    "magnetic": false,
+    "molar_mass": 354.722,
+    "name": "antlerite (green copper sulfate)",
+    "provenance": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "blue-green",
+    "colour": {
+      "b": 134,
+      "g": 140,
+      "r": 62,
+      "strength": 0.0
+    },
+    "density": 3.5,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "blue-green",
+    "forms_only_above_k": null,
+    "formula": "Cu4SO4(OH)6·H2O",
+    "heat_capacity": 624.0,
+    "inchikey": "",
+    "key": "langite",
+    "magnetic": false,
+    "molar_mass": 470.297,
+    "name": "langite (blue-green copper sulfate)",
+    "provenance": "Brochantite, antlerite and langite — the basic copper sulfates that wateq4f and minteq.v4 report a cooling copper sulfate solution as supersaturated against. Added so the aqueous engine has something to precipitate rather than only a sentence to say, exactly as atacamite was. Formulae and molar masses from IUPAC/CIAAW 2021 atomic weights; densities and colours are standard mineralogical values; molar heat capacities are Kopp's-rule estimates and explicit teaching approximations. No thermodynamic constant is asserted here: each phase is defined by the shipped database and matched to its species by composition — which is why langite is written here as the MONOhydrate Cu4SO4(OH)6.H2O. Mineralogical langite is the dihydrate; wateq4f defines the phase with one water, and the match is on exact composition INCLUDING waters of crystallisation, so a dihydrate entry would never have met the phase it was added for. The registry follows the database it has to match and records the discrepancy rather than hiding it",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

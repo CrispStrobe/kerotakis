@@ -514,6 +514,9 @@ impl Equilibrator for MixingEquilibrator {
         for gap in unavailable_crystallisations(vessel) {
             events.push(Event::NotYetModeled {
                 vessel: vessel.id,
+                // Not a gap in our gift: no PHREEQC database vendored with
+                // this project defines an acetate solid phase at all.
+                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
                 what: format!(
                     "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
                     gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
@@ -613,6 +616,9 @@ impl Equilibrator for MixingEquilibrator {
         for gap in unavailable_crystallisations(vessel) {
             events.push(Event::NotYetModeled {
                 vessel: vessel.id,
+                // Not a gap in our gift: no PHREEQC database vendored with
+                // this project defines an acetate solid phase at all.
+                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
                 what: format!(
                     "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
                     gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
