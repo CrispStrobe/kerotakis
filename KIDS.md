@@ -710,6 +710,52 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### The audit had drifted from the bench (re-audit, 2026-09-04)
+
+Before closing the remaining rows I re-ran every one of them against
+today's binary rather than trusting what this file said about them. Three
+were describing a bench that no longer exists, and I only looked because
+the corpus sweep above had just made the point that a statement nobody
+re-checks is a statement nobody can trust.
+
+| row | this file said | the bench says today |
+|---|---|---|
+| K41 | unreachable — "`grind v1 CaCO3` refuses" | it grinds: *"chalk ground to 50.0 µm — about 0.221 m² surface area"*, the curated equation fires and 0.0209 mol of CO₂ comes off. Add the chalk **before** the water and the row runs |
+| K52 | unreachable — "no borate in the registry" | borax landed with KID-14. It dissolves; what is missing is a solubility curve, not a species |
+| K35 | **silent miss** — "emitted nothing" | it refuses in words: *"neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode"*. Silent miss → honest miss |
+
+An audit that has drifted is the same defect as everything else in this
+file: a statement that was true when written, believed afterwards because
+nothing re-asked it. The lesson is not "re-read the file" but that the
+verdict matrix needs re-running whenever it is used to plan work, which is
+what `tools/curiosity-answer-invariance.py` does for the corpus and what
+this section does by hand for the thirty.
+
+**The re-run also sharpened the classification of what is left.** The
+remaining rows are not one problem:
+
+* **Shelf gaps** — the experiment needs a material the shelf has not got.
+  K10 (honey), K13 (lemon juice), K58 (a superabsorbent polymer), K59
+  (luminol). Each is a recipe or a species with reviewed data, not a model.
+* **Database routing** — K16 and K40 now answer with a boundary that names
+  its own cause: *"the solution is supersaturated against Atacamite (SI
+  +2.8) … those phases are in minteq.v4.dat but not in this database"*.
+  The chemistry exists in a database this project already ships; what is
+  missing is the routing that would reach it. That is a different and much
+  cheaper question than modelling copper corrosion.
+* **One datum** — K52's borax needs a solubility at two temperatures, and
+  KID-7's rock-candy machinery does the rest.
+* **A bounded observable** — K32's float-or-sink needs no new data at all:
+  KID-13 computes the liquid's density and KID-19a the solid's, and
+  nothing says which way the object goes.
+* **A mechanism each** — K35 (water electrolysis), K51 (crystallisation on
+  demand for an electrolyte), K45 and K13 (browning).
+* **Stated non-goals** — K09's lava-lamp blobs and K49's soap-driven boat
+  are bulk fluid motion, which `BREADTH.md` places outside the engine's
+  authority. They are listed as *partial* here, which reads as work
+  pending. They are not pending; they are declined, and the matrix should
+  say so.
+
 ### Fifty-five questions ask a comparison; six build something to compare (2026-09-04)
 
 The audit found `mat-012` in the curiosity corpus by accident: a prompt
@@ -850,13 +896,13 @@ or a rate in them.
 | K32 | Which plastics float? | **silent miss** | all four polymers carry densities in the registry (`EXP-12`) and all four sit as undifferentiated solids; `look` says only "white and cloudy", and each addition reports "this part of the lab isn't awake yet" |
 | K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
 | K34 | A battery from a lemon | unreachable | "Nothing happens to the zinc … too unreactive for this", then "the voltmeter reads nothing — one of them isn't a proper half-cell yet". A half-cell needs the metal *and* its own ion; nothing tells a learner that, and the citric-acid lemon has no zinc ion in it |
-| K35 | Split water with electricity | **silent miss** | `electrolyse v1 0.5A 10min` on sodium-sulfate solution emitted nothing and moved no pressure. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
+| K35 | Split water with electricity | ~~silent miss~~ → honest miss | **stale verdict, corrected 2026-09-04.** It now says why: "neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode". The gap is real — the verb models metal deposition and not 2 H₂O → 2 H₂ + O₂ — but it is no longer silent. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
 | K36 | Turn an iron nail copper | computed | Fe + CuSO₄ → Cu + FeSO₄, +17 K, orange copper at the bottom. Textbook |
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
 | K40 | Grow blue crystals | **wrong** → partial | ended at **109 °C with liquid water in the ledger** — the KID-6 latent-heat gap, fixed 2026-09-02. Cooling a hot saturated solution still grows no crystals (KID-7), and chalcanthite is still drawn *white* when it is the blue vitriol of the experiment's title (KID-20) |
-| K41 | Powder fizzes faster than a lump | unreachable | `grind v1 CaCO3` refuses — "vessel v1 contains no solid CaCO3 to grind", because the chalk dissolved on contact. There is no lump-versus-powder rate contrast to find |
+| K41 | Powder fizzes faster than a lump | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** `grind` works when the chalk goes in before the water: "ground to 50.0 µm — about 0.221 m² surface area", and the curated equation then fires. What is still missing is the *contrast*: the acid-carbonate route carries no rate, so powder and lump fizz identically |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
 | K44 | An eggshell in cola | computed | cola surrogate reads pH 2, and only the acid it actually carries dissolves shell — an honest partial, and a better lesson than the myth |
@@ -867,7 +913,7 @@ or a rate in them.
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
 | K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
 | K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent. KID-7 built that mechanism for molecular solutes, but sodium acetate is an electrolyte the aqueous engine owns, and no shipped database carries a sodium-acetate-trihydrate phase for it to precipitate as — so this row waits on **KID-7b** |
-| K52 | A borax snowflake | unreachable | no borate in the registry |
+| K52 | A borax snowflake | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** Borax landed with KID-14 and dissolves. It has no solubility curve, so it never saturates and never comes back out on cooling — one datum at two temperatures away from KID-7's rock-candy machinery |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
