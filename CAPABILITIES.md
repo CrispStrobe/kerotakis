@@ -615,14 +615,20 @@ Medium. **Depends on:** coordinate with OPT-6/7.
 ## CAP-11 — Safety matrix: from stub to methodology
 
 - [x] Status: **done 2026-08-23.** Expanded from 4 species / 4 groups /
-      2 rules to 77 species / 11 reactive groups / 7 incompatibility
-      rules plus water-reactive special case. All 77 registry species
-      have explicit group assignments (totality test
+      2 rules to (as of 2026-09-04, counted from the source rather than
+      remembered) **142 species / 14 reactive groups / 10 incompatibility
+      rules** plus the water-reactive special case. Every registry species
+      has an explicit group assignment (totality test
       `totality_of_covered_keys` enforced in CI). Groups: AcidStrong,
-      BaseStrong, OxidizerStrong, OxidizerHypochlorite, ReducingAgent,
-      ActiveMetal, FlammableLiquid, FlammableGas, WaterReactive,
-      AmmoniaAmines, Carbonate. Rules: hypochlorite+ammonia (Danger),
-      hypochlorite+acid (Danger), oxidizer+flammable liquid (Danger),
+      AcidTitratable, BaseStrong, OxidizerStrong, OxidizerHypochlorite,
+      ReducingAgent, ActiveMetal, FlammableLiquid, FlammableGas,
+      WaterReactive, AmmoniaAmines, Carbonate, AcidicSalt, ToxicSoluble.
+      Rules: hypochlorite+ammonia (Danger),
+      hypochlorite+acid (Danger), hypochlorite+WEAK acid (Danger — bleach
+      and vinegar is the commonest household poisoning there is, and the
+      strong-acid group correctly excludes vinegar, so the hypochlorite
+      rule takes a second group and nothing else does),
+      oxidizer+flammable liquid (Danger),
       oxidizer+flammable gas (Danger), oxidizer+reducing agent (Danger),
       acid+metal (Caution), acid+carbonate (Caution), water-reactive+water
       (Caution). `never-mix.lab` exercises 4 rules (1 existing + 3 new:
