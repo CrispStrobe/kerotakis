@@ -821,7 +821,7 @@ impl Equilibrator for StateEquilibrator {
                 && t.freezing_k <= crate::states::BRINE_MODEL_MIN_K
                 && now <= crate::states::BRINE_MODEL_MIN_K
             {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate the dilute colligative relation",
@@ -851,7 +851,7 @@ impl Equilibrator for StateEquilibrator {
 
             if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
-                    events.push(Event::NotYetModeled {
+                    events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                         vessel: vessel.id,
                         what: format!(
                             "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
@@ -892,7 +892,7 @@ impl Equilibrator for StateEquilibrator {
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
             if reached_boundary {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "the partial-freezing model boundary at {:.1} °C: pure ice was removed and the residual brine retained, but further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
@@ -1240,7 +1240,7 @@ impl Equilibrator for HonestyEquilibrator {
                 .iter()
                 .any(|p| p.species == SpeciesId::new(SOLVENT) && p.phase != Phase::Solid)
         {
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                 vessel: vessel.id,
                 what: format!(
                     "the aqueous model's temperature ceiling at {:.0} °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
@@ -1275,7 +1275,7 @@ impl Equilibrator for HonestyEquilibrator {
                 && !curated_answered
                 && x < crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR
             {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "a mixed solvent that is mostly organic (water is {:.0}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
@@ -1328,20 +1328,31 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                let what = if species::lookup(&p.species)
+                // Two different gaps wearing one event. It dissolves and
+                // nothing speciates it, or nothing models it at all — and
+                // which one it is decides whether a database could ever fix
+                // it, so the cause is computed beside the sentence.
+                let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
-                    format!(
-                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    (
+                        format!(
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        ),
+                        crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
-                    format!(
-                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    (
+                        format!(
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        ),
+                        crate::ops::NotModelledCause::NoSolver,
                     )
                 };
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
                     what,
+                    cause,
                 });
             }
         }
@@ -1392,20 +1403,31 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                let what = if species::lookup(&p.species)
+                // Two different gaps wearing one event. It dissolves and
+                // nothing speciates it, or nothing models it at all — and
+                // which one it is decides whether a database could ever fix
+                // it, so the cause is computed beside the sentence.
+                let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
-                    format!(
-                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    (
+                        format!(
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        ),
+                        crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
-                    format!(
-                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    (
+                        format!(
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        ),
+                        crate::ops::NotModelledCause::NoSolver,
                     )
                 };
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
                     what,
+                    cause,
                 });
             }
         }

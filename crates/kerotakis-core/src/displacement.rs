@@ -621,7 +621,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 continue;
             }
             if driving - eta < MARGINAL_VOLTS {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
                     vessel: vessel.id,
                     what: format!(
                         "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {:.2} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
@@ -849,7 +849,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         } else if !acid && c.e0_volts < 0.0 {
             // Nothing below it to displace, no acid to dissolve in: the
             // remaining question is water itself.
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
                 vessel: vessel.id,
                 what: format!(
                     "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"

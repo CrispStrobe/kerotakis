@@ -271,6 +271,7 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
         Some(s) => s,
         None => {
             return vec![Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NothingToActOn,
                 vessel: vessel.id,
                 what: "no haloalkane substrate in the vessel — the selectivity \
                        table covers bromoethane (primary) and tert-butyl \
@@ -284,6 +285,7 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
         Some(n) => n,
         None => {
             return vec![Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NothingToActOn,
                 vessel: vessel.id,
                 what: "no recognised nucleophile in the vessel — the selectivity \
                        table covers NaOH (strong) and water (weak)"
@@ -298,6 +300,7 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
         Some(r) => r,
         None => {
             return vec![Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NotParameterised,
                 vessel: vessel.id,
                 what: format!(
                     "no selectivity rule for {} substrate + {} nucleophile \
@@ -314,6 +317,7 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
         Some(e) => e,
         None => {
             return vec![Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NotParameterised,
                 vessel: vessel.id,
                 what: format!(
                     "selectivity predicts {} for {} + {} but no product table \
@@ -333,6 +337,7 @@ pub fn dispatch(vessel: &mut Vessel) -> Vec<Event> {
     if !(extent.is_finite() && extent > 1e-12) {
         let needs: Vec<&str> = entry.reactants.iter().map(|(k, _)| *k).collect();
         return vec![Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
             vessel: vessel.id,
             what: format!(
                 "nothing for {} to work on — it needs {} together in the vessel",

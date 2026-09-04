@@ -3013,7 +3013,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
-        Event::NotYetModeled { vessel, what } => {
+        Event::NotYetModeled { vessel, what, .. } => {
             // `what` is English composed in bench.rs and carried in the
             // event, so a German frame was wrapping an English reason:
             // "v1: noch nicht modelliert — nothing to evaporate". Looked
@@ -3278,9 +3278,16 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 .unwrap_or_else(|| real_world.clone()),
             contributors: contributors.clone(),
         },
-        Event::NotYetModeled { vessel, what } => Event::NotYetModeled {
+        // Translating the sentence must not lose the cause: the German
+        // reader is entitled to the same grouping the English one has.
+        Event::NotYetModeled {
+            vessel,
+            what,
+            cause,
+        } => Event::NotYetModeled {
             vessel: *vessel,
             what: localize_refusal(what, locale),
+            cause: *cause,
         },
         other => other.clone(),
     }
@@ -3340,10 +3347,12 @@ mod dedupe_tests {
     fn notes() -> Vec<Event> {
         vec![
             Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "one thing".to_string(),
             },
             Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NoSolver,
                 vessel: VesselId(0),
                 what: "another thing".to_string(),
             },
