@@ -250,8 +250,8 @@ surfaces and how to add a third language.
 
 Two halves, asked for the same way. `kero species` lists the pure
 substances the solvers speciate — the formula keys most of this README uses.
-`kero materials` lists the fifty named household and school bottles, which
-is what most experiments actually start from:
+`kero materials` lists the eighty-nine named household, school and workshop
+bottles, which is what most experiments actually start from:
 
 ```console
 $ kero materials
@@ -323,6 +323,17 @@ to a 189-topic CC0 curriculum spine (48 covered; `kero codex gaps` prints the
 rest). Every numeric claim in it is replayed through the real solvers by
 `kero codex lint` in CI, so a curation error cannot merge and a solver change
 that breaks a lesson is caught the same day.
+
+A 500-prompt **curiosity corpus** measures what the bench can actually answer
+for the questions a curious child asks. It stands at **269 computed, 20
+curated, 70 qualitative, 59 explicit boundary, 82 missing**, and every prompt
+ends in exactly one auditable disposition — silent fall-through is a test
+failure, and a checked-in baseline means a change cannot quietly turn a
+computation into a refusal. What the remaining 82 need is mechanisms rather
+than more substances: no protein species is installed, so egg white does not
+set, gelatine does not gel and cream does not whip. See
+[BREADTH.md](BREADTH.md) for the breakdown and
+[KIDS.md](KIDS.md) for what it means for thirty real kitchen experiments.
 
 | Crate | Role |
 |---|---|

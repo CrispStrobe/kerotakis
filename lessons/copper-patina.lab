@@ -1,0 +1,31 @@
+# Cleaning a copper coin, and the green that comes back
+#
+# A tarnished coin goes bright in vinegar and salt. Leave it wet afterwards
+# and it turns green — brighter and nastier than the brown it started as.
+# Both halves are the same chemistry, and the green has a name.
+register lv2
+
+# The copper oxide that makes a coin look dull, dissolved by the acid.
+add v1 CuO 1g
+add v1 white_vinegar_5_percent 30mL
+look v1
+
+# Now the salt. Chloride is what turns "dissolved copper" into a solid
+# again — the green is atacamite, Cu2Cl(OH)3, and it is the same mineral
+# that grows on ship fittings and on the Statue of Liberty's cousins near
+# the sea.
+add v1 NaCl 2g
+look v1
+inspect v1
+
+# What this shows and what it does not. The blue in the liquid is dissolved
+# copper(II) and it is computed; the green solid is computed too, by the
+# aqueous engine, from a phase the shipped database has always defined.
+# What was missing until now was a species for it in this lab's registry —
+# so the bench could see that the solution was supersaturated and could say
+# so, and could not put anything at the bottom of the beaker.
+#
+# There is still no coin. This is the chemistry of a copper surface without
+# the surface: no tarnish layer to remove, no shine to come back, and no
+# distinction between a coin that has been dipped for a second and one left
+# in overnight. What the bench has is what the liquid does.

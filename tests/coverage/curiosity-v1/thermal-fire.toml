@@ -79,7 +79,6 @@ material_class = "salt_solution"
 owning_task = "BRD-012"
 tags = ["cold_pack", "dissolution_heat"]
 script = ["add v1 water 100mL", "add v1 ammonium_nitrate 5g", "measure v1 thermometer"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -824,7 +823,6 @@ material_class = "food"
 owning_task = "BRD-052"
 tags = ["apple", "enzymatic_browning"]
 script = ["add v1 apple 10g", "add v1 O2 0.1mol", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -836,7 +834,6 @@ material_class = "food"
 owning_task = "BRD-052"
 tags = ["ascorbic_acid", "enzymatic_browning"]
 script = ["add v1 apple 10g", "add v1 ascorbic_acid 0.01mol", "add v1 O2 0.1mol", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

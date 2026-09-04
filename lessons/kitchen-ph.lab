@@ -1,0 +1,39 @@
+# A pH map of the kitchen — and what a pH meter cannot always say
+#
+# Five things from a kitchen, one meter. Four of them answer. The fifth is
+# the interesting one, and it is not the bench being lazy.
+register lv2
+
+add v1 Haushaltsessig_5% 50mL
+measure v1 ph
+
+new beaker
+add v2 water 100mL
+add v2 NaHCO3 5g
+measure v2 ph
+
+new beaker
+add v3 water 100mL
+add v3 Na2CO3 5g
+measure v3 ph
+
+# Lemon juice. Sour, and the sourness is citric acid — which the loaded
+# database defines a citrate for, so the meter can price it.
+new beaker
+add v4 Zitronensaft 50mL
+measure v4 ph
+
+# Apple juice. Also sour, also a fruit acid, also resolved as itself — and
+# the meter cannot price it. Malic acid is in the registry and in the
+# glass; a malate is in no shipped database, so its two protons are not in
+# anybody's speciation. The bench says exactly that instead of returning a
+# number that would look like the others.
+new beaker
+add v5 apple_juice 50mL
+measure v5 ph
+
+# That is the whole lesson. The difference between v4 and v5 is not the
+# chemistry, the fruit, or how carefully the recipe was written. It is
+# whether somebody, somewhere, has published a thermodynamic model for that
+# particular anion — and when they have not, the honest answer is a
+# sentence rather than a number.

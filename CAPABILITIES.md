@@ -74,8 +74,11 @@ below attack:
   invariants), not a user-facing parameter study.
 - **No uncertainty propagation**; uncertainty lives only in provenance
   prose.
-- **~~Safety is a 4-species, 2-rule stub~~ (CAP-11 done)** — 77 species,
-  11 groups, 7+1 rules; totality enforced in CI.
+- **~~Safety is a 4-species, 2-rule stub~~ (CAP-11 done)** — 129 species
+  (77 at CAP-11; the rest arrived with the registry batches since),
+  11 groups, 7+1 rules; totality enforced in CI. The totality test is what
+  keeps that number honest: a species added to the registry without a
+  safety row fails the build rather than screening as harmless.
 - PHREEQC vocabulary not yet wired: `EXCHANGE`, `MIX`,
   `KINETICS`/`RATES`, `SOLID_SOLUTIONS`, `TRANSPORT`,
   `INVERSE_MODELING`.

@@ -1090,8 +1090,8 @@
               "option": 0,
               "reveals": "'Salt' carries the pH information in this picture: the category answers the question, so every salt reads 7 the way sodium chloride does.",
               "reveals_de": "'Salz' trägt in diesem Bild die pH-Information in sich: Die Kategorie beantwortet die Frage, also zeigt jedes Salz 7 an, so wie Natriumchlorid.",
-              "next": "Run the mirror pair: this beaker reads 11 and `copper-sulfate-is-blue-and-acidic` reads 4.5. Two salts, two opposite directions — so the word 'salt' cannot be what decides. The parent ions do, one at a time.",
-              "next_de": "Führe das Spiegelpaar durch: Dieses Becherglas zeigt 11 und `copper-sulfate-is-blue-and-acidic` zeigt 4,5. Zwei Salze, zwei entgegengesetzte Richtungen — das Wort 'Salz' kann also nicht das Entscheidende sein. Die Stammionen entscheiden, jeweils für sich.",
+              "next": "Run the mirror pair: this beaker reads 11 and `copper-sulfate-is-blue-and-acidic` reads 3.9. Two salts, two opposite directions — so the word 'salt' cannot be what decides. The parent ions do, one at a time.",
+              "next_de": "Führe das Spiegelpaar durch: Dieses Becherglas zeigt 11 und `copper-sulfate-is-blue-and-acidic` zeigt 3,9. Zwei Salze, zwei entgegengesetzte Richtungen — das Wort 'Salz' kann also nicht das Entscheidende sein. Die Stammionen entscheiden, jeweils für sich.",
               "source": null
             },
             {
@@ -1348,12 +1348,12 @@
           "question_de": "Kupfersulfat löst sich zu einem wunderschönen Blau. Was zeigt das pH-Meter an?",
           "options": [
             "7 — it is a salt of a strong acid and a metal, so neutral",
-            "About 4.5 — the solution is distinctly acidic",
+            "About 3.9 — the solution is distinctly acidic",
             "About 9 — metal ions are basic"
           ],
           "options_de": [
             "7 — es ist das Salz einer starken Säure und eines Metalls, also neutral",
-            "Etwa 4,5 — die Lösung ist deutlich sauer",
+            "Etwa 3,9 — die Lösung ist deutlich sauer",
             "Etwa 9 — Metall-Ionen sind basisch"
           ],
           "answer": 1,
@@ -1364,8 +1364,8 @@
               "option": 0,
               "reveals": "Two category rules stacked: salts are neutral, and this one comes from a strong acid and a metal, so doubly neutral — the ions themselves were never consulted.",
               "reveals_de": "Zwei Kategorieregeln übereinandergestapelt: Salze sind neutral, und dieses stammt von einer starken Säure und einem Metall, also doppelt neutral — die Ionen selbst wurden nie befragt.",
-              "next": "Run the mirror: `washing-soda-is-alkaline` is also 'a salt of a metal and an acid residue' and reads 11 where this reads 4.5. Categories that give opposite answers to the same rule are not the thing doing the deciding.",
-              "next_de": "Führe den Spiegel durch: `washing-soda-is-alkaline` ist ebenfalls 'ein Salz aus einem Metall und einem Säurerest' und zeigt 11, wo dieses hier 4,5 zeigt. Kategorien, die derselben Regel entgegengesetzte Antworten geben, sind nicht das, was tatsächlich entscheidet.",
+              "next": "Run the mirror: `washing-soda-is-alkaline` is also 'a salt of a metal and an acid residue' and reads 11 where this reads 3.9. Categories that give opposite answers to the same rule are not the thing doing the deciding.",
+              "next_de": "Führe den Spiegel durch: `washing-soda-is-alkaline` ist ebenfalls 'ein Salz aus einem Metall und einem Säurerest' und zeigt 11, wo dieses hier 3,9 zeigt. Kategorien, die derselben Regel entgegengesetzte Antworten geben, sind nicht das, was tatsächlich entscheidet.",
               "source": null
             },
             {
@@ -1379,8 +1379,8 @@
           ]
         },
         "ph": {
-          "min": 4.3,
-          "max": 4.7
+          "min": 3.7,
+          "max": 4.1
         },
         "temperature_c": {
           "min": 25.5,
@@ -1390,10 +1390,10 @@
       "registers": {
         "lv1": "White-ish crystals go in and the water turns a deep blue you cannot look away from. The jar also gets slightly warm. And — surprisingly — the water has turned sour.",
         "lv1_de": "Weißliche Kristalle kommen hinein, und das Wasser wird tiefblau — ein Blau, von dem man kaum wegschauen kann. Das Glas wird dabei auch leicht warm. Und — überraschend — das Wasser ist sauer geworden.",
-        "lv2": "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. The hydrated Cu²⁺ ion is a weak acid, so the pH falls to about 4.5.",
-        "lv2_de": "0,05 mol CuSO₄ in 500 mL ergeben eine 0,1-mol/L blaue Lösung. Das Lösen ist exotherm (−73,1 kJ/mol) und erwärmt das Becherglas um etwa 1,8 °C. Das hydratisierte Cu²⁺-Ion ist eine schwache Säure, sodass der pH-Wert auf etwa 4,5 fällt.",
-        "lv3": "Computed pH 4.52. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed, from CuOH⁺ at 7.8 × 10⁻⁶ and the dimer Cu₂(OH)₂²⁺ at 4.4 × 10⁻⁵ mol/kgw. Note also that half the copper is present as the neutral CuSO₄ ion pair, so \"0.1 M Cu²⁺\" is not what is in the beaker.",
-        "lv3_de": "Berechneter pH-Wert 4,52. Die Farbe ist kuratiert — d-d-Übergänge sind nichts, was eine thermodynamische Datenbank ehrlich liefern kann —, aber die Acidität ist berechnet, aus CuOH⁺ bei 7,8 × 10⁻⁶ und dem Dimer Cu₂(OH)₂²⁺ bei 4,4 × 10⁻⁵ mol/kgw. Beachte auch, dass die Hälfte des Kupfers als neutrales Ionenpaar CuSO₄ vorliegt, sodass \"0,1 M Cu²⁺\" nicht das ist, was tatsächlich im Becherglas ist."
+        "lv2": "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. Copper hydrolysis and a trace of basic copper sulfate precipitation leave the solution at about pH 3.9.",
+        "lv2_de": "0,05 mol CuSO₄ in 500 mL ergeben eine 0,1-mol/L blaue Lösung. Das Lösen ist exotherm (−73,1 kJ/mol) und erwärmt das Becherglas um etwa 1,8 °C. Kupferhydrolyse und eine Spur basischen Kupfersulfat-Niederschlags lassen die Lösung bei etwa pH 3,9 zurück.",
+        "lv3": "Computed pH 3.86. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed. The expanded solid-phase registry now admits the trace basic copper sulfate that equilibrium favours, and its formation releases additional protons; this is why the value is lower than the earlier aqueous-only result.",
+        "lv3_de": "Berechneter pH-Wert 3,86. Die Farbe ist kuratiert — d-d-Übergänge sind nichts, was eine thermodynamische Datenbank ehrlich liefern kann —, aber die Acidität ist berechnet. Das erweiterte Festphasenregister lässt nun die Spur basischen Kupfersulfats zu, die das Gleichgewicht begünstigt; bei ihrer Bildung werden zusätzliche Protonen frei. Deshalb liegt der Wert niedriger als im früheren, nur wässrigen Ergebnis."
       },
       "provenance": {
         "source": "Standard curriculum transition-metal salt chemistry; colour curated (sRGB and absorptivity in the species registry), speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
@@ -9873,8 +9873,8 @@
           ]
         },
         "ph": {
-          "min": 4.4,
-          "max": 4.7
+          "min": 3.7,
+          "max": 4.1
         },
         "temperature_c": null
       },
@@ -10281,8 +10281,8 @@
           ]
         },
         "ph": {
-          "min": 4.75,
-          "max": 5.0
+          "min": 4.3,
+          "max": 4.7
         },
         "temperature_c": null
       },

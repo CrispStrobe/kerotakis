@@ -457,6 +457,44 @@ fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     }
 }
 
+/// Whether this one reaction can actually run in this vessel: hot
+/// enough, catalyst present, right solvent, and reactants left to
+/// consume. Extracted from `CuratedSolver::applies` so that callers
+/// outside the solver can ask the same question of a single reaction
+/// instead of re-deriving a subtly different version of it.
+pub fn fires(vessel: &Vessel, reaction: &CuratedReaction) -> bool {
+    if let Some(min_t) = reaction.min_temp_k {
+        if vessel.temperature.0 < min_t {
+            return false;
+        }
+    }
+    if let Some(cat) = reaction.catalyst {
+        if vessel.moles_of(&SpeciesId::new(cat)).0 <= TRACE {
+            return false;
+        }
+    }
+    match reaction.solvent {
+        Some(req) => {
+            crate::nonaqueous::single_organic_solvent(vessel) == Some(req)
+                && extent_in_solvent(vessel, reaction, req) > TRACE
+        }
+        None => extent(vessel, reaction) > TRACE,
+    }
+}
+
+/// Whether some curated reaction that can fire here consumes `species`
+/// as a reactant. Callers use this to hold back a remark that would
+/// otherwise contradict chemistry the bench is about to run: starch is
+/// genuinely insoluble in cold water, but saying so in the same breath
+/// as amylase digesting it reads as "starch does not react", which is
+/// false. Being a *product* does not count — chalk is a product of
+/// several reactions and still does not dissolve.
+pub fn consumes(vessel: &Vessel, species: &SpeciesId) -> bool {
+    REACTIONS.iter().any(|reaction| {
+        reaction.reactants.iter().any(|(key, _)| *key == species.0) && fires(vessel, reaction)
+    })
+}
+
 /// Moles of a species available in solution for a solvent-gated
 /// reaction: the liquid (already-dissolved) fraction plus whatever
 /// solid could still dissolve up to the handbook solubility limit.
@@ -546,24 +584,7 @@ impl Equilibrator for CuratedEquilibrator {
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
-        let solvent = crate::nonaqueous::single_organic_solvent(vessel);
-        REACTIONS.iter().any(|r| {
-            if let Some(min_t) = r.min_temp_k {
-                if vessel.temperature.0 < min_t {
-                    return false;
-                }
-            }
-            if let Some(cat) = r.catalyst {
-                if vessel.moles_of(&SpeciesId::new(cat)).0 <= TRACE {
-                    return false;
-                }
-            }
-            if let Some(req) = r.solvent {
-                solvent == Some(req) && extent_in_solvent(vessel, r, req) > TRACE
-            } else {
-                extent(vessel, r) > TRACE
-            }
-        })
+        REACTIONS.iter().any(|r| fires(vessel, r))
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {

@@ -1,0 +1,41 @@
+# Growing blue crystals from copper sulfate
+#
+# Blue vitriol is the crystal every school grows: dissolve as much copper
+# sulfate as hot water will take, let it cool, and the water hands most of
+# it back as big blue crystals. The blue is not the copper alone — it is
+# the five waters locked into the crystal with it, which is why the solid
+# has its own name.
+register lv2
+
+# Thirty grams into a hundred millilitres is more than cold water can hold,
+# so some of it comes straight back out as chalcanthite. Look at the liquid
+# it leaves: so concentrated that the bench calls it BLACK rather than
+# blue, which is what a strong copper sulfate solution really looks like in
+# a beaker — the colour saturates and you cannot see through it.
+add v1 water 100mL
+add v1 CuSO4 30g
+look v1
+
+# Heat it and the water takes the lot.
+heat v1 20kJ
+inspect v1
+
+# Then cool it right down. This is the crystal-growing step, and the bench
+# writes the equation for it: the copper, the sulfate and five waters going
+# into one solid. And now the liquid reads BLUE rather than black — not
+# because anything changed colour, but because so much of the copper has
+# left it that you can see through what remains.
+cool v1 30kJ
+look v1
+inspect v1
+
+# What this does not model: the crystal. No shape, no faces, no single
+# large specimen grown on a thread over a week — the bench says how much
+# solid comes back and what colour it is, and a crystal-growing competition
+# is judged on everything else.
+#
+# You will also see the bench decline three other copper solids that the
+# database says the liquid is supersaturated against — Langite, Antlerite,
+# Brochantite, the greens of weathered copper. They are named and refused
+# rather than silently skipped, because a solution that would really throw
+# them is not a solution this beaker is describing honestly.

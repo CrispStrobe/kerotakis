@@ -1,0 +1,38 @@
+# The hand warmer that will not click
+#
+# A reusable hand warmer is a pouch of sodium acetate solution holding far
+# more salt than it should be able to. You bend a little metal disc inside
+# it, crystals race out from the click, and the pouch gets hot — that heat
+# is the solid forming, given back.
+#
+# This lesson is here because the bench CANNOT do the click, and the reason
+# is worth more than a demonstration would be.
+register lv2
+
+# Make the solution the way the pouch is made: a lot of salt into hot water.
+add v1 water 50mL
+add v1 NaOAc 40g
+measure v1 thermometer
+inspect v1
+
+# Now cool it right down, past where it should have crystallised. In a real
+# pouch this is the state you carry around in your coat all winter: liquid,
+# cold, and loaded.
+cool v1 12kJ
+measure v1 thermometer
+
+# And here is the honest part. The bench knows the solution is past its
+# limit — it says how far past — and it tells you it cannot make the solid
+# appear. Not "nothing happened": *why* nothing happened.
+#
+# The reason is not a missing number and not the wrong database. The solid
+# a hand warmer makes is sodium acetate trihydrate, and no PHREEQC database
+# shipped with this project defines any acetate solid at all — not
+# wateq4f, not minteq.v4, not pitzer, not llnl. There is nothing for the
+# aqueous engine to precipitate.
+#
+# Compare that with borax, one lesson over: same idea, a solution past its
+# limit on cooling, and there the solid exists and comes straight out. The
+# difference between the two rows is not the chemistry a child sees. It is
+# whether anybody has written the phase down.
+inspect v1

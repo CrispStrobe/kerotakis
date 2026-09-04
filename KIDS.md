@@ -60,14 +60,14 @@ silent miss teaches the silence.
 | K06 | Magic milk | colours racing | computed | `SurfaceColourSpread` fires; the stirred control correctly does not |
 | K07 | Pepper runs from soap | the darting | computed | fires on the soap-second order and stays silent on the soap-first control |
 | K08 | Oil and water | two layers | computed | layer forms; the dye stays in the aqueous phase |
-| K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
+| K09 | Lava lamp | rising blobs | **declined** | layers and fizz are computed; the rising blobs are bulk fluid motion, which `BREADTH.md` places outside this engine's authority. Listed as *partial* this read as work pending. It is not pending — it is refused, and the matrix should not imply otherwise |
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band. KID-19a made the half that is data answerable — `measure v1 density` reads 1.00, 1.14 and 1.28 g/mL up a sugar ladder, which is the number a tower is built on; the slow pour that would keep them apart is still not modelled |
 | K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
-| K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
+| K13 | Invisible ink | brown writing appearing | **wrong** → partial | three of four halves fixed. KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger**; KID-12 made the paper burn as cellulose at 506 K; and 2026-09-04 put **lemon juice on the shelf**, so the experiment can be written at all — it used to fail at `add v1 Zitronensaft`. What is left is the browning itself: the caramelisation between drying and burning, which is chemistry this bench does not have |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
-| K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
+| K16 | Clean a copper coin | the shine returning | ~~partial~~ → computed | closed 2026-09-04. The acid dissolves the oxide to a blue solution, and with chloride the bench now precipitates **green atacamite** — the mineral that grows on wet copper. There is still no coin: no tarnish layer, no shine returning, and no difference between a second's dip and a night's soak. What the bench has is what the liquid does |
 | K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
 | K18 | Hot pack / cold pack | the thermometer | ~~partial~~ → computed | CaCl₂ gives +36 K, computed from dissolution enthalpy. **This row was my own mistake, corrected 2026-09-03:** I reached for Epsom salt, whose dissolution is very nearly athermal, and concluded the cold pack was unreachable because NH₄NO₃ is absent. Ammonium *chloride* is on the shelf, is what school kits actually contain, and gives −13 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
@@ -710,6 +710,378 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### The tail is long and flat, and one row nearly became a lie (2026-09-04)
+
+With the naming fixed, I measured what the *remaining* unanswered rows are
+blocked on — not by counting substance mentions, which is misleading (43
+rows mention `water`), but by finding the first substance in each script
+that does not resolve.
+
+**106 rows, blocked on 88 distinct substances.** The largest single blocker
+accounts for **three** rows. That is roughly 1.2 rows per recipe, and every
+recipe needs a real sourced composition. The earlier framing of "31 food
+recipes" implied a much better ratio than exists.
+
+So the recommendation changed: **stop adding substances by blocker
+frequency.** Pick the rows whose *questions* become genuinely answerable,
+and leave the rest honestly missing. A row converted from `missing` to
+passing without becoming answerable is worse than one left alone.
+
+**Two rows were about to demonstrate exactly that.** `mat-080` asks *"why
+are diamond and graphite so different if both are carbon?"* and its script
+is `add v1 graphite 1g; measure v1 balance`. `mat-041` asks *"why can glass
+be transparent although sand is opaque?"* and weighs 2 g of silica glass.
+Adding the named substance would have moved both out of `missing` while
+answering neither.
+
+That is the prediction from the answer-invariance sweep arriving on
+schedule: *"they become lies the day their mechanism lands: the row starts
+passing, on a script that never built the second condition."*
+
+So `mat-080` got **both** allotropes rather than the one it names — graphite
+at 2.26 g/mL and diamond at 3.51 — and a script that builds and compares
+them. Same element, same 1.00 g on the balance, different density and
+different colour, which is as far as this bench can take the question.
+`mat-041` was left alone: transparency is not something the appearance
+model can express for a solid, so a species would let the script run and
+not let it answer. Recorded in `diamond`'s own provenance, where a reader
+meeting "white diamond" will find out why.
+
+**Also landed here:** ammonium nitrate with its +25.7 kJ/mol dissolution
+enthalpy, which is K18's cold pack — 20 g takes 100 mL of water from
+25.0 °C to **9.6 °C** — and a `cold pack salt` bottle so the everyday name
+resolves, since species synonyms do not survive the registry export.
+
+### A written refusal that only luck protected (2026-09-04)
+
+`table_salt`'s lot assumption says *"the bare words salt and Salz remain
+unclaimed because they name a chemical class"*. The systematic alias pass
+above had `salt` in its list.
+
+It did not get added, and not because anything stopped it: that recipe is
+built by a different helper and the edit pattern did not match. I was
+relying on **remembering** the refusals, and I remembered `candle_wax` and
+forgot `table_salt`.
+
+`no_recipe_claims_a_word_it_has_declined_in_writing` now checks it. Proved
+by temporarily claiming `salt` and watching it fail with the recipe's own
+sentence quoted back. A refusal that lives only in prose is a refusal that
+depends on whoever edits next having read it.
+
+### Thirty rows were blocked on a word, and German already knew it (2026-09-04)
+
+Asked where the remaining 147 unanswered questions would get their data
+from, I counted rather than guessed. Of the 120 blocked on an unknown
+substance, **thirty were blocked on a name** — the shelf had the thing,
+filed under the word a chemist uses, and the prompt used the word a child
+uses.
+
+Whether a bare everyday word may be claimed is a real question in this
+project, and it is answered against claiming elsewhere: `candle_wax`'s lot
+assumption refuses bare *wax* in writing, because beeswax and paraffin are
+different materials. So I measured instead of ruling:
+
+**Thirty-five of fifty-six recipes were reachable by a bare everyday word
+in German and only by a compound one in English.** `Essig`, `Hefe`,
+`Milch`, `Sand`, `Natron`, `Kreide`, `Alufolie`, `Glas` — all resolve.
+`vinegar`, `yeast`, `milk`, `chalk` did not. The project had already
+decided a bare word is claimable. It had only done it in one language, and
+the English-speaking child was worse served by the same registry.
+
+Thirteen aliases close that gap: vinegar, milk, yeast, soap, sugar, oil,
+pepper, glue, ink, bicarb, filings. Not `wax`, which is declined in
+writing; not `apple` or `cabbage`, because a fruit is not its juice and a
+vegetable is not its indicator — those want food recipes, which is
+different work. `cola` and `sand` were refused by the registry validator as
+already claimed, which is the guard doing its job.
+
+**Fourteen rows opened. Missing 147 → 133; computed 229 → 236.** Every one
+had declared `parse_boundary = unknown_species`, and every declaration
+became false the moment the word resolved — the mechanism that caught
+`aq-067` a section above, working at scale.
+
+One of them then failed for a second reason the first had been hiding:
+`bio-075` says `wait 7d` and the parser has no day unit. A declared
+boundary masks everything behind it, which is worth knowing about the other
+fifty-nine boundary rows.
+
+### Three rows got worse by getting better (2026-09-04)
+
+`aq-123`, `mat-057` and `th-082` went **computed → qualitative**, and not
+one of them touches a new alias. K40's basic copper sulfates did it.
+
+Precipitating antlerite releases protons, so the solution is now slightly
+more acid — enough for the displacement model to add a true aside: *"iron
+should dissolve in this acid by the series (driving force +0.25 V), but
+hydrogen has to form on iron"*. That aside is an `Inert` event; `Inert` is
+in the corpus classifier's typed-observation list; and that list is checked
+**before** the branch that would have said `computed`.
+
+The copper is still plated — `0.009967 mol copper plated out onto iron`,
+unchanged. More phases modelled, a more accurate pH, one more true
+sentence, and a worse score.
+
+Every earlier instance of this pattern in this file was a row that
+*happened* to answer and qualify. This one is a change that made the bench
+explain more and was marked down for exactly that: the only way to have
+protected the metric would have been not to model the phases. It is the
+clearest evidence yet that the ordering taxes honesty rather than merely
+mis-sorting it.
+
+**The ordering is not touched here.** A commit that adds species has no
+business redefining how rows are scored — the lesson of the peer session's
+withdrawn #362, which applies to me exactly as it applied to them. Recorded
+in the corpus README with the three rows named, and handed to whoever owns
+the classifier.
+
+### The corpus had a to-do the audit did not (2026-09-04)
+
+K13's invisible ink could not be written down: `add v1 Zitronensaft` failed
+at the shelf. Adding a lemon-juice recipe is the small half of that row —
+91% water, the 4.7% citric acid its sourness is made of, a little sugar —
+and it produced two findings worth more than the recipe.
+
+**A corpus prompt was waiting for the bottle.** `aq-067`, *"Does lemon
+juice neutralise a sodium bicarbonate solution?"*, carried
+`parse_boundary = "unknown_species"` and the tag `material-recipe-gap`.
+That is not a failing row: it is a **note that the shelf was short**,
+written by whoever wanted the question asked. The moment the bottle
+existed the declaration became false, and the corpus lint said so before I
+had noticed:
+
+```
+prompt aq-067: declared parse_boundary Some(UnknownSpecies), observed None
+```
+
+Which is the mechanism this file has spent the week wishing it had. Four
+rows here went stale and sat wrong for days because nothing re-asks a
+verdict. The corpus refuses to let a declaration outlive its reason, and it
+caught this one in the same minute it became untrue. `aq-067` now answers —
+1.86, then 0.0471 mol of carbon dioxide, ending at 9.75 — so yes, and
+rather more than neutralise.
+
+**And a wrong-mechanism observable I nearly shipped.** Vitamin C is the one
+thing a lemon is famous for, ascorbic acid is an installed species, so the
+first draft resolved it. The juice then read *"colourless and very slightly
+hazy"* — which real lemon juice is.
+
+It was right for the wrong reason. No shipped database defines an
+ascorbate, so the bench cannot dissolve ascorbic acid, and the haze was an
+undissolved grain of vitamin C sitting in the glass. Real haze is pulp,
+which this recipe does not have. That is the brine-at-1.00-g/mL shape
+again: a believable number from a mechanism that is not there, and harder
+to catch than an obviously wrong one because nothing looks wrong. The
+vitamin C is in the conserved remainder with the reason recorded.
+
+The same discipline applied to the pH: 4.7% citric acid gives **1.86**, and
+a real lemon measures 2.2–2.4 because it carries citrate salts that buffer
+it. Weakening the acid would have moved the composition to fix the number,
+which is pulling the wrong end. The composition is right, the number is
+right for the composition, and the gap between it and a real lemon is
+written into the lot assumptions.
+
+### A fourth stale row, and two that were never work (2026-09-04)
+
+**K40 was closed by nobody.** Its verdict listed three complaints — a boil
+at 109 °C with liquid water still in the ledger, no crystals from a cooling
+saturated solution, and chalcanthite drawn white — and three separate tasks
+answered them one at a time. KID-6 fixed the latent heat, KID-7 gave
+cooling solutions their crystals, KID-20 gave chalcanthite its blue. Nobody
+re-read the row, so it has been sitting at *partial* describing a bench
+that answered it days ago.
+
+Verified rather than assumed: 0.0884 mol of chalcanthite precipitates on
+cooling with `Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)` printed,
+and the description is blue. `lessons/blue-crystals.lab` and its replay
+test now pin it, so it cannot go stale in the other direction either.
+
+One detail worth keeping, because it is the model being right rather than
+convenient: the liquid reads **black** while the copper is dissolved and
+**blue** after the crystals have come out. Nothing changed colour. A strong
+copper sulfate solution saturates the light path in a 4 cm beaker and you
+genuinely cannot see through it; taking most of the copper out is what
+makes it blue again.
+
+**K09 and K49 are not work and should never have been listed as if they
+were.** The lava lamp's rising blobs and the soap-driven boat are both bulk
+fluid motion, which `BREADTH.md` places outside this engine's authority.
+Their chemistry is computed — the fizz, the layers, the surface-tension
+event all fire. What is missing is motion, and it is missing on purpose.
+
+Listed as *partial* they read as a promise, and a promise nobody intends to
+keep is worse than a refusal: it inflates the outstanding list, and the
+next person to plan work off this file will cost themselves an afternoon
+discovering the decision was made years ago. They are now **declined**.
+
+That is a different correction from the four stale rows. A stale row said
+something that had stopped being true. These two said something that was
+never true — not about the bench, but about the intention.
+
+### K16: the phase was in the database and the species was not (2026-09-04)
+
+The copper-coin row was the one I most expected to be expensive, and it was
+the cheapest of the five. The bench had been saying:
+
+```
+not yet modelled — a real beaker would not stay like this: the solution is
+supersaturated against Atacamite (SI +2.8). Those phases are in
+minteq.v4.dat but not in this lab's registry, so nothing can precipitate
+out of it here
+```
+
+Every word of which is load-bearing. The database defines the phase. The
+solver computes the saturation index. `derived::build` matches database
+phases to registry solids **by composition**, so the only thing standing
+between that message and a green solid was a species entry with the
+formula `Cu2ClH3O3`.
+
+One species — atacamite, Cu₂Cl(OH)₃, 213.566 g/mol, 3.76 g/mL, green — and:
+
+```
+v1: 0.0027 mol atacamite (green copper corrosion) precipitated ↓
+v1: The liquid is blue and so cloudy you cannot see through it, there is
+    green atacamite (green copper corrosion) at the bottom.
+```
+
+That is the chemistry of the experiment: acid takes the dull oxide off,
+chloride puts the green back, and the green has a name and a formula. It is
+also, incidentally, why a coin left wet in salty water goes worse than it
+started.
+
+**I got this wrong in the re-audit two sections down and have corrected it
+there.** I read the message as saying the phase was in a *database* we were
+not using, and called it a routing question. It says *registry*. The
+distinction is exactly the one a peer session's new cause taxonomy draws —
+`PhaseNotInRegistry` is in our gift, `NotInAnyDatabase` is in nobody's —
+and I had the two confused while writing the section that was supposed to
+stop exactly that.
+
+**K40 is the same shape and is not closed by this.** Cooling copper sulfate
+reports Langite, Antlerite and Brochantite, three copper hydroxy-sulfates,
+and each needs its own registry entry with its own reviewed data. The route
+is now proven; the work is four more species rather than a mechanism.
+
+### KID-10b: an odour is a question of how much (2026-09-04)
+
+KID-10 taught `waft` to match odour rows by Brønsted family, because
+vinegar poured into water leaves `CH3COO-` in the ledger while the odour
+table is keyed on `CH3COOH`, and the bench had been saying "no odour a
+careful waft detects" over a beaker of vinegar. That fixed a real bug.
+
+**It also asserted the converse, which is false.** The relation has no
+direction, so the same rule made **sodium acetate smell of vinegar** and
+**ammonium chloride smell of ammonia** — salts of the odorous thing
+reported with exactly the confidence of the odorous thing. A peer session
+found it by running the two, and it is this file's own defect class again:
+a test that is symmetric standing in for a claim that is not.
+
+The fallback is now gone rather than patched, and it has no job left. A
+peer's `PROTONATION_SPLITS` keeps both members of a Brønsted pair in the
+ledger, so the odorous molecule is present under its own key whenever it
+is genuinely present — household vinegar carries 0.88 mol/L of
+undissociated acid, a pH 8.75 acetate solution carries 7.65e-6, and both
+are real entries rather than reconstructions.
+
+What replaces it is the question the old rule never asked: **how much?**
+
+* A gas in the headspace is not gated at all. It has already reached the
+  nose.
+* Anything dissolved must reach a floor that belongs to the substance, not
+  to the function. Ammonia's is 1e-5 mol/L and hydrogen peroxide's is
+  1e-1 — four orders apart, because you smell ammonia far below the
+  concentration at which you smell peroxide, and 3% peroxide barely smells
+  at all even neat.
+
+Those floors are curated teaching values and the module says so. They are
+not measured detection thresholds and no claim is made about any
+individual nose. What they are is *per substance*, which is the part that
+carries information: a single global threshold would have been a fudge
+factor, and thirteen different ones are a small table of facts.
+
+Verified on the four cases that matter: vinegar smells and sodium acetate
+does not; ammonia solution smells and ammonium chloride does not; the ester
+still smells, which was the regression risk, since `bio-102` asks whether
+an ester can smell fruity when its reactants do not. Corpus drift 0 and no
+lesson golden moved.
+
+### K51 closes as a refusal, and that is the right shape (2026-09-04)
+
+The reusable hand warmer is a sodium acetate solution held far past
+saturation: click the disc, the trihydrate crystallises on the scratch, and
+the heat of crystallisation is the product. This bench cooled one from
+65 °C to 8 °C and **nothing happened and nothing was said**, which is the
+worst of the three possible answers — worse than refusing, because a
+learner cannot tell a boundary from a bug.
+
+It cannot be fixed by a datum, and it cannot be fixed by choosing another
+database. A peer session searched the `PHASES` section of every `.dat`
+vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl —
+and **there is not one acetate solid phase in any of them.** That is not a
+shipping choice this project made; nobody's PHREEQC database carries one.
+`saturation_moves` cannot help either: it works on undissociated molecular
+solutes, and the aqueous engine has already split this salt into sodium and
+acetate ions, so there is no `NaOAc` portion for KID-7's machinery to find.
+
+So the refusal is the deliverable. The salt is reconstructed from its ions
+— only as present as its scarcer one, so a beaker of table salt with a
+little acetate in it is not a concentrated acetate solution — compared
+against a curated solubility, and the bench says what it cannot do:
+
+```
+not yet modelled — the crystallisation of sodium acetate: 0.488 mol is
+dissolved against a limit of 0.283 mol at this temperature, and the solid
+it would crystallise as is sodium acetate trihydrate, and no PHREEQC
+database vendored with this project defines any acetate solid phase at all
+```
+
+`lessons/hand-warmer.lab` exists to be read beside `borax-snowflake.lab`,
+because the pair makes the point neither makes alone: two solutions past
+their limit on cooling, one of which crystallises and one of which cannot,
+and **the difference is not the chemistry a child sees — it is whether
+anybody has written the phase down.**
+
+One implementation note worth keeping: the refusal is emitted from both
+`equilibrate` and `equilibrate_delta`. ARCH-012 requires the delta path to
+say everything the direct path says, and a line like this one — which
+exists purely to break a silence — is exactly what would go missing in a
+host that computes deltas.
+
+### K52: the contrast the bench draws better than the numbers do (2026-09-04)
+
+Borax needed a solubility at two temperatures and nothing else — KID-7's
+rock-candy machinery had been waiting for it since the day before. The
+values carry one modelling choice, stated rather than applied quietly:
+handbook solubilities are for the decahydrate Na₂B₄O₇·10H₂O, which is also
+what really crystallises out of a cooling solution, and this registry has
+only the anhydrous salt. So the anhydrous species stands in for the
+decahydrate at the decahydrate's solubility, scaled by 201.22/381.37 — 4.7
+and 52 g/100 mL become **2.5 and 27.4**. The amounts are right; the solid
+carrying them is a stand-in, and the source record says so.
+
+What makes the row worth more than a datum is what happened when the same
+cooling was applied to sugar for contrast:
+
+```
+borax    25 g into cold water  → 0.0202 mol dissolved, the rest sits there
+         heat to 81.8 °C       → 0.0879 mol more dissolves
+         cool to 13.6 °C       → 0.0957 mol precipitated ↓
+sucrose  cool from 57.5 °C     → supersaturated at 1.25× saturation,
+                                  and it stays dissolved
+```
+
+One mechanism, two substances, two different answers — and they are the two
+answers a kitchen gets. A borax snowflake grows overnight on its own; rock
+candy sits there refusing to start until you give it a string. The lesson's
+prose originally explained the contrast by quoting the two solubility
+ratios, which is the smaller of the two things the bench had to say.
+
+**A change to an existing lesson, checked rather than assumed:** the
+solubility limit changed `slime.lab`, because borax now reports what
+dissolved instead of only its unspeciated caveat. The gel still forms —
+*"the glue in v2 stops running and starts stretching"* — and the doses
+there are far below the new limit, so nothing was lost. The golden was
+diffed lesson by lesson rather than in bulk, which is how that was
+established rather than hoped.
 ### The audit had drifted from the bench (re-audit, 2026-09-04)
 
 Before closing the remaining rows I re-ran every one of them against
@@ -737,12 +1109,16 @@ remaining rows are not one problem:
 * **Shelf gaps** — the experiment needs a material the shelf has not got.
   K10 (honey), K13 (lemon juice), K58 (a superabsorbent polymer), K59
   (luminol). Each is a recipe or a species with reviewed data, not a model.
-* **Database routing** — K16 and K40 now answer with a boundary that names
-  its own cause: *"the solution is supersaturated against Atacamite (SI
-  +2.8) … those phases are in minteq.v4.dat but not in this database"*.
-  The chemistry exists in a database this project already ships; what is
-  missing is the routing that would reach it. That is a different and much
-  cheaper question than modelling copper corrosion.
+* **A species the registry has not got** — K16 and K40 answer with a
+  boundary that names its own cause. **I misquoted it in this section when
+  I first wrote it**, as "those phases are in minteq.v4.dat but not in this
+  database", and called it a routing question. The message says *"not in
+  this lab's **registry**"*, which is a different thing and a cheaper one:
+  the loaded database defines the phase, and `derived::build` matches
+  database phases to registry solids **by composition**, so the phase
+  becomes available the moment a species with that formula exists. Not
+  routing — one registry entry. Corrected here rather than quietly, because
+  a re-audit that introduces its own inaccuracy has earned no authority.
 * **One datum** — K52's borax needs a solubility at two temperatures, and
   KID-7's rock-candy machinery does the rest.
 * **A bounded observable** — K32's float-or-sink needs no new data at all:
@@ -893,7 +1269,7 @@ or a rate in them.
 | # | Experiment | Verdict | What the bench did |
 |---|---|---|---|
 | K31 | Pull the iron out of the sand | computed | `magnet v1 v2` moves 3 g of iron and names the quartz left behind. `EXP-1` exactly as promised |
-| K32 | Which plastics float? | **silent miss** | all four polymers carry densities in the registry (`EXP-12`) and all four sit as undifferentiated solids; `look` says only "white and cloudy", and each addition reports "this part of the lab isn't awake yet" |
+| K32 | Which plastics float? | ~~silent miss~~ → computed | closed by KID-19b (2026-09-04). Nothing was missing but the comparison: polypropylene at 0.90 g/mL **floats on top**, polystyrene at 1.05 and PET at 1.38 settle and are named where they went, and a floating solid stops counting as turbidity. The registry had all three densities the whole time |
 | K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
 | K34 | A battery from a lemon | unreachable | "Nothing happens to the zinc … too unreactive for this", then "the voltmeter reads nothing — one of them isn't a proper half-cell yet". A half-cell needs the metal *and* its own ion; nothing tells a learner that, and the citric-acid lemon has no zinc ion in it |
 | K35 | Split water with electricity | ~~silent miss~~ → honest miss | **stale verdict, corrected 2026-09-04.** It now says why: "neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode". The gap is real — the verb models metal deposition and not 2 H₂O → 2 H₂ + O₂ — but it is no longer silent. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
@@ -901,7 +1277,7 @@ or a rate in them.
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
-| K40 | Grow blue crystals | **wrong** → partial | ended at **109 °C with liquid water in the ledger** — the KID-6 latent-heat gap, fixed 2026-09-02. Cooling a hot saturated solution still grows no crystals (KID-7), and chalcanthite is still drawn *white* when it is the blue vitriol of the experiment's title (KID-20) |
+| K40 | Grow blue crystals | **wrong** → computed | **the fourth stale row, and the only one closed by nobody.** Its three complaints were answered by three separate tasks and the row was never re-read: KID-6 fixed the 109 °C boil with liquid water in the ledger, KID-7 gave cooling solutions their crystals, KID-20 stopped chalcanthite being drawn white. Verified 2026-09-04 — 0.0884 mol precipitates on cooling with the net ionic equation, and the liquid goes from *black* (too concentrated to see through) to *blue* as the copper leaves it Its three greens — Langite, Antlerite, Brochantite — were added to the registry on the same day and now precipitate rather than being refused |
 | K41 | Powder fizzes faster than a lump | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** `grind` works when the chalk goes in before the water: "ground to 50.0 µm — about 0.221 m² surface area", and the curated equation then fires. What is still missing is the *contrast*: the acid-carbonate route carries no rate, so powder and lump fizz identically |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
@@ -910,10 +1286,10 @@ or a rate in them.
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
 | K47 | A fire extinguisher in a jar | ~~silent miss~~ → computed | KID-12: the fire exists now, and the extinguisher works the way a real one does — by dilution. The wax is untouched, the oxygen is untouched, and the flame will not start, because 14% of the gas being oxygen is not enough |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
-| K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
-| K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
-| K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent. KID-7 built that mechanism for molecular solutes, but sodium acetate is an electrolyte the aqueous engine owns, and no shipped database carries a sodium-acetate-trihydrate phase for it to precipitate as — so this row waits on **KID-7b** |
-| K52 | A borax snowflake | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** Borax landed with KID-14 and dissolves. It has no solubility curve, so it never saturates and never comes back out on cooling — one datum at two temperatures away from KID-7's rock-candy machinery |
+| K49 | A boat pushed by soap | **declined** | the surface-tension event fires and is computed; nothing moves, and nothing will. A boat crossing a bowl is bulk motion under a surface-tension gradient — the same authority boundary as K09, and the same correction: refused rather than owed |
+| K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.41, soda 10.02, washing soda 11.57, **lemon juice 1.86** — and apple juice still a sentence rather than a number. KID-20 gave it the malic acid its tartness is made of, and the engine says precisely why it cannot price that acidity. `lessons/kitchen-ph.lab` now makes the pair the lesson: same shelf, same kind of juice, same kind of fruit acid, and the only difference is that minteq.v4 defines a citrate and nothing anywhere defines a malate |
+| K51 | A hand warmer that crystallises | **wrong** → **stated boundary** | closed 2026-09-04, and closed as a refusal rather than a feature. The bench cooled a supersaturated pouch from 65 °C to 8 °C and said *nothing at all*; it now says how far past saturation the solution is (0.488 mol against 0.283) and why the solid cannot appear. A peer session searched the `PHASES` section of **every** `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl — and there is not one acetate solid phase anywhere. Not a shipping choice; nobody's PHREEQC database has one |
+| K52 | A borax snowflake | ~~unreachable~~ → computed | the row was stale before it was fixed: borax landed with KID-14 and only wanted a solubility curve. With 2.5 g/100 mL at 20 °C and 27.4 at 100 °C, 25 g into cold water leaves most of it sitting there, heating dissolves it, and cooling returns **0.0957 mol** as solid — while the same cooling makes a sugar syrup *supersaturate* instead |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
@@ -942,6 +1318,34 @@ thirty separate problems, it is finding the same eight.
   *Acceptance:* the shipped lesson demonstrates Faraday's law; an inert
   electrode is something a learner can add; the refusals name what is
   missing at every register.
+  **KID-19b landed 2026-09-04: the observable half**, and the acceptance
+  line above is met — a solid whose density is known now floats or settles
+  against the liquid it is in, and `look` says which. Polypropylene floats,
+  polystyrene and PET sink, and `lessons/float-or-sink.lab` is the
+  float-sink tank a recycling plant uses, in a glass.
+
+  A floating solid also stops counting towards turbidity. Five grams of
+  polypropylene made the water "so cloudy you cannot see through it",
+  which is the same defect the plated-metal branch beside it was written to
+  prevent: something sitting on the surface is not a suspension.
+
+  **And it found a defect in KID-19a, one day old.** The second half of the
+  experiment raises the water's density with salt so that polystyrene
+  floats too. The brine reads **exactly 1.00 g/mL** — because all twelve
+  ion species in the registry carry a density of exactly 1.0, a structural
+  default that no provenance line even mentions. Dissolved salt adds its
+  mass and an equal volume of "water", so the density never moves; real
+  brine is about 1.2.
+
+  KID-19a's own tests missed this because they used sucrose, which has a
+  real measured density of 1.59 and therefore works. **A placeholder that
+  produces a believable number is the hardest kind to see**, and it took a
+  different experiment asking a different question to surface it. Partial
+  molar volumes are not something this registry can invent, so the meter
+  now answers *and says what it leaves out*: the solvent's figure is right
+  and the solutes' is missing. The lesson ends on that refusal rather than
+  letting the next reader try the salt trick and believe it.
+
 - **KID-19 — density is data, not an observable.** Four polymers with
   reviewed densities float and sink nowhere. `EXP-12`'s data landed and its
   quest is authored, but nothing in the vessel picture separates them.
@@ -1115,3 +1519,180 @@ identification.
 
 The audit's own prediction, recorded now so it can be checked later: the
 first list will run about half, and the second about four fifths.
+
+## Twenty-six materials, and the four kinds of gap they exposed
+*2026-09-04*
+
+The corpus had 145 rows the engine could not reach, and 95 of them stopped at
+the same place: the parser did not know the word. Not a chemistry gap — a
+vocabulary gap. Eighty-eight distinct tokens, most wanted by exactly one row.
+
+Twenty-six of them are now on the shelf: twelve inert materials (fused silica,
+borosilicate, coloured glass, quartz, porcelain, glazed ceramic, pumice, clay,
+stainless steel, galvanised steel, painted iron, expanded polystyrene) and
+fourteen foods and fibres (apple, potato, onion, cabbage, bread, pasta, rice,
+honey, butter, cream, egg white, gelatine, albumin, cotton). Sixty-three
+corpus rows moved out of `missing`, against two regressions, with the
+expectation-mismatch count flat at 85 throughout.
+
+Writing them was mostly not chemistry. It was deciding, twenty-six times,
+what the bench is allowed to claim. Four patterns came up often enough to
+name.
+
+**The property the material is bought for is the one in the remainder.**
+Borosilicate glass is 81% silica and 19% conserved, and the conserved part is
+the boria — which is the entire reason borosilicate has its own name and its
+own price. Stainless steel is worse: the chromium that makes it stainless is
+not installed, so the bench holds an object whose iron can be attacked and no
+representation of the film that stops the attack. Any corrosion result there
+is a result about plain iron wearing a stainless label. Both recipes say so.
+
+**A bulk density that nothing reads.** Six recipes were written carrying
+careful bulk densities — pumice 0.64, expanded polystyrene 0.03, cotton 0.08,
+apple 0.85, potato 1.08, rice 0.85 — and six notes explaining what the bench
+would therefore do: float the apple, sink the potato, float the pumice for
+half the right reason. Every one of those sentences was false, and I wrote all
+six before running one of them.
+
+Then I ran `add v1 pumice 50g` to a beaker of water. Pumice sank, and the
+water went opaque, because 70% of it resolves to silica and silica is 2.65.
+`bulk_density` is read by exactly one caller — the raisin bubble-ride in
+`buoyancy.rs` — and the general float-and-sink test reads the density of each
+*species* a material resolves into. There is no material-level buoyancy at
+all. The numbers are right, they are in the file, and nothing consumes them.
+
+This is the session's own recurring defect committed by the person cataloguing
+it: **a claim about a mechanism, believed because it was plausible and because
+nothing asked the question that separates it from its absence.** It cost one
+command to find. All six notes now say what actually happens — that the
+density is recorded and does not float or sink anything — and the gap is worth
+its own task: bulk density is the natural key for buoyancy and the wiring does
+not exist.
+
+**A coating reported as a fraction is not a coating.** Galvanised steel is
+zinc on iron, and the recipe says 3% zinc by mass, which the bench mixes
+through the object. The point of galvanising is that the zinc is on the
+*outside* and corrodes first; that is a geometry argument about which metal
+the liquid reaches, and these recipes have no geometry to make it with. So
+the bench consumes zinc and iron together in whatever ratio the chemistry
+prefers. Painted iron has the identical problem and the identical note.
+
+**Two entries for one substance, split on what earns its resolution.** The
+shelf now has both a cabbage and a red-cabbage indicator juice. The juice has
+its anthocyanin resolved and changes colour with pH; the head has the same
+pigment in its conserved remainder and will not. That looks like an
+inconsistency and is a deliberate one: the juice is an extract made for the
+purpose, and the head has the pigment locked in cells this bench cannot break
+open. Adding a cabbage to acid turning nothing pink is the honest outcome.
+
+The recurring shape underneath all four: a number that is right, sitting where
+the thing that produces it is absent. Same defect class as the brine that read
+exactly 1.00 g/mL and the balance that was invariant over what it weighed —
+and the reason each of these recipes carries its own paragraph saying which
+half is missing.
+
+Five foods cannot do the thing they exist to demonstrate. Egg white does not
+set at 65 °C, gelatine does not gel, cream does not whip, albumin does not
+denature by heat or acid or alcohol or salt, and onion does not sting the
+eyes. All five are protein or enzyme behaviour, no protein species is
+installed, and the mass sits conserved. That is one gap wearing five names,
+and it is the largest single thing standing between this shelf and the
+kitchen-chemistry half of the corpus.
+
+## Four test failures, and what each one turned out to be
+*2026-09-04, later*
+
+Running the whole workspace rather than one crate found four failing targets.
+Not one of them was what it first looked like, and the sequence is worth
+recording because three of the four were *caused by a previous improvement*.
+
+**`cargo test` is fail-fast by test binary, and that hid two of them.** The
+three failures sort alphabetically — `element_coverage`, `frozen_behavior`,
+`registry_snapshot` — and each run stopped at the first, so each fix revealed
+the next and cost another full suite. A partially-green run means "nothing
+failed *before* the first failure", not "everything else passed".
+`--no-fail-fast --workspace` is the default worth having.
+
+**The safety screen refuses a species it has never been shown.** Seven had no
+row: the four copper hydroxy-sulfates K40 added, graphite and diamond, and the
+ammonium nitrate behind the cold pack. The first six join the
+no-reactive-group arm with their reasons written down — the copper phases are
+the same metal in the same oxidation state as the chalcanthite already there,
+and the two carbons are allotropes of the `C` already listed. Ammonium nitrate
+does not: it is a strong oxidiser and gets `OxidizerStrong`. The shelf's other
+nitrates being ungrouped is not a reason to repeat that, because sodium and
+potassium nitrate need a fuel and a match, and ammonium nitrate carries its
+fuel in the cation.
+
+**A more accurate chemistry broke three displacement tests, and the mechanism
+is a chain.** K40 put the copper hydroxy-sulfates in the registry. A 0.1 mol/L
+copper sulfate solution at pH 3.9 is supersaturated in antlerite by about 0.8
+log units, so the bench now precipitates 1.11e-5 mol of it — and the net ionic
+is `3 Cu²⁺ + SO₄²⁻ + 4 H₂O → antlerite + 4 H⁺`. Three consequences followed,
+in order:
+
+1. Three copper per formula unit is 3.33e-5 mol of copper parked in a solid
+   before any magnesium arrives — *exactly* the shortfall in what plated out.
+   Mass is conserved; the copper is not missing, it is elsewhere.
+2. Those four protons dropped the pH past the threshold that makes `acid`
+   true in the displacement bystander pass.
+3. That flipped a branch. Silver in copper sulfate is above copper **and**
+   above hydrogen; both sentences are true; the code preferred the hydrogen
+   one. So the bench stopped saying the thing the beaker was set up to
+   demonstrate and started saying a true aside instead.
+
+The third is the same defect as "an aside outranking the answer" that the
+classifier work was about, in a different file, arrived at from the opposite
+direction. The metal-versus-metal comparison now wins wherever there is
+another metal's ion to make it against; the acid sentence is for a metal in
+acid with no such partner, which is the case it was written for. The
+tolerances were widened to 4e-5 with the arithmetic written beside them, so
+the trace stays visible rather than being tuned away.
+
+A real beaker of copper sulfate stays clear blue — because nucleating a basic
+sulfate is slow, not because it is disfavoured, which is why stock solutions
+are acidified. The bench computes equilibrium and has no nucleation, so it
+takes the thermodynamic answer. That is a limitation to state, not to hide.
+
+**A prompt was being graded on its neighbour's evidence.** `aq-091` returned
+`curated` from a smoke run and `computed` from a full one — same script, same
+binary, deterministic in each. `last_routes` is cleared by
+`SolverStack::equilibrate`, so a step that never equilibrates (`new`) leaves
+the previous step's routes standing, and at the top of a script that is the
+previous *prompt's*. The classifier then read a `curated` route that belonged
+to a different experiment. One line to fix.
+
+What makes it worth a paragraph is how it stayed hidden. The full corpus is
+unaffected — zero rows move — because there every neighbour happened to agree.
+Only the smoke subset disagreed, and only because a material added in this
+branch made `aq-091` run at all. **The bug was latent for exactly as long as
+the row was `missing`; closing the row is what exposed it.** Which is an
+argument for closing rows that has nothing to do with the score.
+
+## Where this leaves the kids' experiments
+*2026-09-04*
+
+First thirty: **computed 25 · partial 4 · declined 1**, unchanged by this
+branch — the materials work moved corpus rows rather than verdict rows.
+
+What the second thirty and the 12–16 list now need is a short list, and it is
+mechanisms rather than substances:
+
+- **Protein.** No protein species is installed. Egg white, gelatine, cream,
+  albumin and onion are all on the shelf now and none can do the thing it is
+  used to teach. Five demonstrations, one gap.
+- **Enzymes beyond amylase.** `pepsin`, `lactase`, `protease`, `lipase`,
+  `catalase` are named by corpus rows and only amylase has a reaction.
+- **Photosynthesis.** `pondweed`, `leaf`, `chlorophyll`, `germinating_seed` —
+  five rows, and a mechanism the bench has no shape for at all.
+- **Browning.** Apple, potato and bread are all present and none browns; it
+  needs polyphenol oxidase and a quinone, or the Maillard reaction.
+- **Hydrocarbon fuels.** `methane`, `propane`, `butane`, `petrol`, `diesel`
+  want species with CEA thermochemistry. The combustion machinery from KID-12
+  already exists and has nothing to burn.
+- **Nucleation.** Honey is supersaturated and reads grainy from the first
+  moment; copper sulfate deposits antlerite a real beaker would not. Both are
+  the same missing clock.
+
+The prediction recorded earlier — first list about half, second about four
+fifths — still stands and is still unchecked.

@@ -140,6 +140,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Ba(OH)2" => &[BaseStrong, ToxicSoluble],
 
         // ── strong oxidizers ──────────────────────────────────────
+        // K51/cold packs: ammonium nitrate is sold as an instant cold pack
+        // and dissolves endothermically, which is the only thing this bench
+        // does with it. It is still a strong oxidiser, and the shelf's other
+        // nitrates being ungrouped is not a reason to repeat that here:
+        // NaNO3 and KNO3 need a fuel and a match, and ammonium nitrate
+        // carries its own fuel in the cation. The group states what the
+        // substance IS.
+        "NH4NO3" => &[OxidizerStrong],
         "H2O2" => &[OxidizerStrong],
         "KMnO4" | "KIO3" => &[OxidizerStrong],
         "Cl2" | "I2" => &[OxidizerStrong],
@@ -253,6 +261,15 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "N2"
         | "CuSO4"
         | "chalcanthite"
+        // K40: the copper hydroxy-sulfates and -chloride that patina is made
+        // of. Chalcanthite above is the same metal in the same oxidation
+        // state with the same counter-ion, and these are less soluble than
+        // it: whatever this screen says about copper(II) sulfate is true of
+        // them with less of it in solution.
+        | "antlerite"
+        | "brochantite"
+        | "langite"
+        | "atacamite"
         | "Cu+2"
         | "FeSO4"
         | "Fe+2"
@@ -301,6 +318,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "amylase"
         | "maltose"
         | "SiO2"
+        // Two allotropes of the carbon already listed above as "C". Neither
+        // dissolves, neither reacts at bench temperature, and the difference
+        // between them is structure rather than anything this screen reads.
+        | "graphite"
+        | "diamond"
         // Ammonium chloride and sodium sulfate are the school shelf's
         // neutral-to-mildly-acidic salts: no NOAA reactive group of their
         // own. Ammonium salts DO liberate ammonia with a strong base and
@@ -365,6 +387,13 @@ pub const COVERED_KEYS: &[&str] = &[
     "C6H5O7-3",
     "CO2",
     "Ca(OH)2",
+    "amylase",
+    "antlerite",
+    "ascorbic_acid",
+    "atacamite",
+    "brochantite",
+    "bromoethane",
+    "bromothymol_blue",
     "Ca+2",
     "CaCO3",
     "CaCl2",
@@ -457,29 +486,36 @@ pub const COVERED_KEYS: &[&str] = &[
     "Zn+2",
     "ZnSO4",
     "amylase",
+    "antlerite",
     "ascorbic_acid",
+    "atacamite",
+    "brochantite",
     "bromoethane",
     "bromothymol_blue",
     "catalase",
     "cellulose",
     "citric_acid",
     "dehydroascorbic_acid",
+    "diamond",
     "ethanol",
     "ethene",
     "ethyl_acetate",
     "epsomite",
     "fructose",
     "glucose",
+    "graphite",
     "gypsum",
     "hexane",
     "indigo_carmine",
     "indigo_carmine_ox",
     "isobutylene",
     "isopropanol",
+    "langite",
     "malic_acid",
     "maltose",
     "methanol",
     "methyl_orange",
+    "NH4NO3",
     "phenolphthalein",
     "propanone",
     "starch",

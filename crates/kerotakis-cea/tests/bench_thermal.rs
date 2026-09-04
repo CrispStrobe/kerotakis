@@ -453,11 +453,28 @@ fn a_solution_is_left_to_the_aqueous_engine() {
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 5.0);
     let events = add(&mut bench, &mut stack, v, "CaCO3", 0.01);
+    // What this test is for is that the bench does not FABRICATE: with no
+    // aqueous engine in the stack, nothing may come out that only a
+    // speciation could have known. That is still checked, and it is the
+    // half worth keeping.
+    assert!(
+        !events
+            .iter()
+            .any(|e| matches!(e, Event::SolutionCharacterized { .. })),
+        "no aqueous engine in this stack, so no solution may be characterised: {events:?}"
+    );
+    // The other half has moved on. It used to demand `NotYetModeled`, and
+    // chalk now answers instead: its reviewed solubility is 0.0013 g per
+    // 100 mL, which is a handbook number and not an aqueous computation, so
+    // saying it needs no engine. A stated position is what was being
+    // guarded; which KIND of stated position is a fact about how much the
+    // bench has been taught, and pinning it to the apology would have made
+    // teaching it a test failure.
     assert!(
         events
             .iter()
-            .any(|e| matches!(e, Event::NotYetModeled { .. })),
-        "no aqueous engine in this stack, so the gap is stated: {events:?}"
+            .any(|e| matches!(e, Event::NotYetModeled { .. } | Event::Inert { .. })),
+        "the bench must take a position rather than fall silent: {events:?}"
     );
 }
 
