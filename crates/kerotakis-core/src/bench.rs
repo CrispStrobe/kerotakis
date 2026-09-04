@@ -2321,6 +2321,13 @@ impl Bench {
                                 value: density,
                                 unit: "g/mL".to_string(),
                             });
+                            // KID-19b: and say what the number leaves out.
+                            if crate::buoyancy::ionic_volume_unaccounted(v) {
+                                events.push(Event::NotYetModeled {
+                                    vessel: *vessel,
+                                    what: "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing".to_string(),
+                                });
+                            }
                         } else {
                             // Dry: then the instrument is a balance and a
                             // measuring cylinder, and the reading is the

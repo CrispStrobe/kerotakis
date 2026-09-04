@@ -701,3 +701,112 @@ fn density_tells_apart_what_the_balance_cannot() {
         "a mixture has no density to report:\n{out}"
     );
 }
+
+/// KID-19b: the sorting a recycling plant does, in a glass of water.
+///
+/// K32 was a silent miss — four polymers with reviewed densities, all four
+/// sitting as undifferentiated solids, and `look` saying only that the
+/// water was cloudy. Nothing was missing but the comparison.
+#[test]
+fn plastics_sort_themselves_by_density_in_water() {
+    let lesson = lessons_dir().join("float-or-sink.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    assert!(
+        out.contains("polypropylene floats on top"),
+        "0.90 g/mL is lighter than water:\n{out}"
+    );
+    for (sinker, density) in [
+        ("polystyrene", "1.05"),
+        ("polyethylene terephthalate", "1.38"),
+    ] {
+        assert!(
+            out.contains(&format!("{sinker} at the bottom")),
+            "{density} g/mL sinks, and must be named where it went:\n{out}"
+        );
+    }
+    assert_eq!(
+        out.matches("floats on top").count(),
+        1,
+        "exactly one of the three floats:\n{out}"
+    );
+
+    // The lesson ends by trying the salt trick and the bench declining to
+    // pretend. Whoever reads it meets the limit before they rely on it.
+    assert!(
+        out.contains("dissolved ions' share of this density"),
+        "the brine caveat is the point of the last vessel:\n{out}"
+    );
+}
+
+/// K52: the borax snowflake, and the two different things a cooling
+/// solution can do.
+///
+/// The row said "no borate in the registry" long after KID-14 put one
+/// there; what was actually missing was a solubility at two temperatures.
+/// With it, KID-7's machinery does the rest — and does something more
+/// interesting than the numbers alone suggest.
+#[test]
+fn borax_crystallises_on_cooling_where_sugar_supersaturates() {
+    let lesson = lessons_dir().join("borax-snowflake.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Cold water holds almost none of it; hot water swallows it.
+    assert!(
+        out.contains("0.0202 mol sodium tetraborate (borax) dissolved"),
+        "25 g into cold water is mostly undissolved:\n{out}"
+    );
+    assert!(
+        out.contains("0.0879 mol sodium tetraborate (borax) dissolved"),
+        "heating dissolves the rest:\n{out}"
+    );
+    // And cooling gives it back, which is the experiment.
+    assert!(
+        out.contains("sodium tetraborate (borax) precipitated"),
+        "cooling must return the solid:\n{out}"
+    );
+
+    // The contrast: the same cooling makes sugar supersaturate instead.
+    // One mechanism, two substances, two different answers.
+    assert!(
+        out.contains("supersaturated") && out.contains("sucrose"),
+        "sugar stays dissolved where borax comes out:\n{out}"
+    );
+}
+
+/// K51: the refusal IS the deliverable.
+///
+/// A reusable hand warmer is a supersaturated sodium acetate solution, and
+/// the bench cooled one from 65 °C to 8 °C while saying nothing at all.
+/// It cannot be fixed by a datum or by another database — every `.dat`
+/// vendored with iphreeqc was searched and not one defines an acetate
+/// solid phase — so what the row wanted was for the silence to become a
+/// sentence.
+#[test]
+fn the_hand_warmer_says_why_it_cannot_click() {
+    let lesson = lessons_dir().join("hand-warmer.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // It knows the solution is past its limit, and by how much.
+    assert!(
+        out.contains("the crystallisation of sodium acetate"),
+        "the refusal must name what it cannot do:\n{out}"
+    );
+    assert!(
+        out.contains("0.488 mol is dissolved against a limit of 0.283 mol"),
+        "and say how far past saturation it is:\n{out}"
+    );
+    // And why: the phase, not the number, is what is missing.
+    assert!(
+        out.contains("trihydrate") && out.contains("acetate solid phase"),
+        "the cause is an absent phase, not an absent datum:\n{out}"
+    );
+    // The solution really is still liquid and still all there.
+    assert!(
+        out.contains("0.4876 mol  acetate ion"),
+        "nothing crystallised, and the ledger says so:\n{out}"
+    );
+}

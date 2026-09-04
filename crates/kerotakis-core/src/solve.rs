@@ -509,6 +509,17 @@ impl Equilibrator for MixingEquilibrator {
                 }),
             }
         }
+        // K51: and the salts that are past saturation and cannot be made
+        // to come out. Silence here is the answer a learner cannot use.
+        for gap in unavailable_crystallisations(vessel) {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
+                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
+                ),
+            });
+        }
 
         Ok(events)
     }
@@ -595,6 +606,19 @@ impl Equilibrator for MixingEquilibrator {
                 }),
             }
         }
+        // ARCH-012: the delta path must say everything the direct path
+        // says, or a host that computes deltas gets a quieter bench than
+        // one that does not. K51's refusal is exactly the kind of line
+        // that would go missing.
+        for gap in unavailable_crystallisations(vessel) {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
+                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
+                ),
+            });
+        }
 
         Ok((delta, events))
     }
@@ -628,6 +652,93 @@ pub enum SaturationMove {
 /// more sugar than cold water, so the one thing every crystal experiment is
 /// run to show could not happen. It now reads the limit at the vessel's own
 /// temperature and answers in both directions.
+/// K51: a salt that is over its solubility and cannot be made to come out,
+/// because no shipped database carries the solid it would come out as.
+///
+/// The reusable hand warmer is a sodium acetate solution held far past
+/// saturation; you click the disc, the trihydrate crystallises on the
+/// scratch, and the heat of crystallisation is the whole product. This
+/// bench cools such a solution from 65 °C to 8 °C and **nothing happens
+/// and nothing is said**, which is the worst of the three possible
+/// answers.
+///
+/// It cannot be fixed by a datum or by choosing another database. Every
+/// `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer,
+/// sit, llnl — was searched for an acetate solid in its `PHASES` section
+/// and there is not one, anywhere. That is not a shipping choice this
+/// project made; nobody's PHREEQC database carries one. `saturation_moves`
+/// cannot help either: it works on undissociated molecular solutes, and
+/// the aqueous engine has already split this salt into sodium and acetate
+/// ions, so there is no `NaOAc` portion for it to find.
+///
+/// So the refusal is the deliverable. The salt is reconstructed from its
+/// ions, compared against a curated solubility, and the bench says what it
+/// cannot do and why — which is what the learner needed from the moment
+/// the beaker refused to freeze.
+#[derive(Debug, Clone, PartialEq)]
+pub struct UnavailableCrystallisation {
+    pub salt: &'static str,
+    pub dissolved: Moles,
+    pub capacity: Moles,
+    pub reason: &'static str,
+}
+
+/// (cation key, anion key, salt name, g per 100 mL at 20 °C, g/mol, why).
+///
+/// Deliberately a short curated list rather than anything derived: a row
+/// here is a claim that the solid phase is absent from every shipped
+/// database, and that claim is only worth making where somebody has looked.
+const UNAVAILABLE_SOLID_PHASES: &[(&str, &str, &str, f64, f64, &str)] = &[(
+    "Na+",
+    "CH3COO-",
+    "sodium acetate",
+    46.5,
+    82.034,
+    "the solid it would crystallise as is sodium acetate trihydrate, and no PHREEQC database vendored with this project defines any acetate solid phase at all — so the aqueous engine has nothing to precipitate and the crystallisation a hand warmer is built on cannot be computed here",
+)];
+
+/// Salts held past saturation whose solid the bench cannot form.
+pub fn unavailable_crystallisations(vessel: &Vessel) -> Vec<UnavailableCrystallisation> {
+    let water_moles = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid)
+        .map(|portion| portion.moles.0)
+        .sum::<f64>();
+    if water_moles <= 0.0 {
+        return Vec::new();
+    }
+    let water_ml = species::lookup_key(SOLVENT)
+        .map(|water| water.liters_from_moles(Moles(water_moles)).0 * 1000.0)
+        .unwrap_or(0.0);
+    let dissolved_ion = |key: &str| {
+        vessel
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == key && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>()
+    };
+    UNAVAILABLE_SOLID_PHASES
+        .iter()
+        .filter_map(
+            |(cation, anion, salt, grams_per_100ml, molar_mass, reason)| {
+                // The salt is only as present as its scarcer ion: a beaker of
+                // sodium chloride and a little acetate is not a concentrated
+                // acetate solution.
+                let paired = dissolved_ion(cation).min(dissolved_ion(anion));
+                let capacity = grams_per_100ml * water_ml / 100.0 / molar_mass;
+                (paired > capacity + 1e-12).then_some(UnavailableCrystallisation {
+                    salt,
+                    dissolved: Moles(paired),
+                    capacity: Moles(capacity),
+                    reason,
+                })
+            },
+        )
+        .collect()
+}
+
 pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let water_moles = vessel
         .contents

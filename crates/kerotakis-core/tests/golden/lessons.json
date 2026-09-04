@@ -80,6 +80,73 @@
       }
     ]
   },
+  "borax-snowflake": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1242 mol sodium tetraborate (borax)",
+      "v1: 0.0202 mol sodium tetraborate (borax) dissolved",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: 25.0 °C → 81.8 °C",
+      "v1: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+      "v1: 0.0879 mol sodium tetraborate (borax) dissolved",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: 81.8 °C → 13.6 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
+      "v1: 0.0957 mol sodium tetraborate (borax) precipitated ↓",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.7304 mol sucrose",
+      "v2: 0.6367 mol sucrose dissolved",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: 25.0 °C → 57.5 °C",
+      "v2: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+      "v2: 0.0937 mol sucrose dissolved"
+    ],
+    "lesson": "borax-snowflake.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01242427,
+            "phase": "Aqueous",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 0.11181847,
+            "phase": "Solid",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 286.7822
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.73036096,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 291.6584
+      }
+    ]
+  },
   "buffer": {
     "event_count": 12,
     "events_sample": [
@@ -1172,6 +1239,102 @@
       }
     ]
   },
+  "float-or-sink": {
+    "event_count": 28,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.1188 mol polypropylene",
+      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 density meter: 1.00 g/mL",
+      "v1: The liquid is colourless and clear, white polypropylene floats on top.",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +0.0480 mol polystyrene",
+      "v2: not yet modelled — polystyrene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: 97% of the suspended particles settle in 120 s",
+      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — polystyrene in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is colourless and very slightly hazy, there is white polystyrene at the bottom.",
+      "v3: new vessel",
+      "v3: +11.0686 mol water",
+      "v3: +0.0260 mol polyethylene terephthalate",
+      "v3: not yet modelled — polyethylene terephthalate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: 97% of the suspended particles settle in 120 s",
+      "v3: 100% of the suspended particles settle in 120 s",
+      "v1: not yet modelled — polypropylene in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "float-or-sink.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.11881847,
+            "phase": "Solid",
+            "species": "PP"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04800768,
+            "phase": "Solid",
+            "species": "PS"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02601863,
+            "phase": "Solid",
+            "species": "PET"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 1.02664134,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "grit": {
     "event_count": 14,
     "events_sample": [
@@ -1220,6 +1383,39 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 262.1556
+      }
+    ]
+  },
+  "hand-warmer": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +0.4876 mol sodium acetate",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 25.00 °C",
+      "v1: 25.0 °C → -23.5 °C",
+      "v1: 12.00 kJ requested; 12.00 kJ removed — time model not yet coupled",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: -23.52 °C"
+    ],
+    "lesson": "hand-warmer.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.4876027,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 249.6308
       }
     ]
   },
@@ -2418,28 +2614,28 @@
     ]
   },
   "slime": {
-    "event_count": 31,
+    "event_count": 28,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +52.500 g pva_glue (2 known ingredients)",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: +0.050 g borax (1 known ingredients)",
+      "v1: 0.0001 mol sodium tetraborate (borax) dissolved",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +52.500 g pva_glue (2 known ingredients)",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: +0.250 g borax (1 known ingredients)",
+      "v2: 0.0007 mol sodium tetraborate (borax) dissolved",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 15% of the poly(vinyl alcohol) is bound into a gel by 0.00065 mol sodium tetraborate (borax) across 11.55 g of polymer",
       "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+      "v3: new vessel",
+      "v3: +5.5343 mol water"
     ],
     "lesson": "slime.lab",
     "vessels": [
@@ -2447,7 +2643,7 @@
         "contents": [
           {
             "moles": 0.00013095,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {
@@ -2469,7 +2665,7 @@
         "contents": [
           {
             "moles": 0.00065476,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {
@@ -2491,7 +2687,7 @@
         "contents": [
           {
             "moles": 0.00523807,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {

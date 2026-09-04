@@ -47866,6 +47866,72 @@
       }
     },
     {
+      "id": "aqueous-solubility/Na2B4O7",
+      "subject": {
+        "kind": "species",
+        "id": "Na2B4O7"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 2.5,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Na2B4O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility-100c/Na2B4O7",
+      "subject": {
+        "kind": "species",
+        "id": "Na2B4O7"
+      },
+      "model": "two-point-temperature-dependent-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml-at-100c",
+      "quantity": {
+        "value": 27.4,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Na2B4O7",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "legacy-tint-strength/Na2B4O7",
       "subject": {
         "kind": "species",

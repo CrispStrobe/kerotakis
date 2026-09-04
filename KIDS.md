@@ -710,6 +710,127 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### KID-10b: an odour is a question of how much (2026-09-04)
+
+KID-10 taught `waft` to match odour rows by Brønsted family, because
+vinegar poured into water leaves `CH3COO-` in the ledger while the odour
+table is keyed on `CH3COOH`, and the bench had been saying "no odour a
+careful waft detects" over a beaker of vinegar. That fixed a real bug.
+
+**It also asserted the converse, which is false.** The relation has no
+direction, so the same rule made **sodium acetate smell of vinegar** and
+**ammonium chloride smell of ammonia** — salts of the odorous thing
+reported with exactly the confidence of the odorous thing. A peer session
+found it by running the two, and it is this file's own defect class again:
+a test that is symmetric standing in for a claim that is not.
+
+The fallback is now gone rather than patched, and it has no job left. A
+peer's `PROTONATION_SPLITS` keeps both members of a Brønsted pair in the
+ledger, so the odorous molecule is present under its own key whenever it
+is genuinely present — household vinegar carries 0.88 mol/L of
+undissociated acid, a pH 8.75 acetate solution carries 7.65e-6, and both
+are real entries rather than reconstructions.
+
+What replaces it is the question the old rule never asked: **how much?**
+
+* A gas in the headspace is not gated at all. It has already reached the
+  nose.
+* Anything dissolved must reach a floor that belongs to the substance, not
+  to the function. Ammonia's is 1e-5 mol/L and hydrogen peroxide's is
+  1e-1 — four orders apart, because you smell ammonia far below the
+  concentration at which you smell peroxide, and 3% peroxide barely smells
+  at all even neat.
+
+Those floors are curated teaching values and the module says so. They are
+not measured detection thresholds and no claim is made about any
+individual nose. What they are is *per substance*, which is the part that
+carries information: a single global threshold would have been a fudge
+factor, and thirteen different ones are a small table of facts.
+
+Verified on the four cases that matter: vinegar smells and sodium acetate
+does not; ammonia solution smells and ammonium chloride does not; the ester
+still smells, which was the regression risk, since `bio-102` asks whether
+an ester can smell fruity when its reactants do not. Corpus drift 0 and no
+lesson golden moved.
+
+### K51 closes as a refusal, and that is the right shape (2026-09-04)
+
+The reusable hand warmer is a sodium acetate solution held far past
+saturation: click the disc, the trihydrate crystallises on the scratch, and
+the heat of crystallisation is the product. This bench cooled one from
+65 °C to 8 °C and **nothing happened and nothing was said**, which is the
+worst of the three possible answers — worse than refusing, because a
+learner cannot tell a boundary from a bug.
+
+It cannot be fixed by a datum, and it cannot be fixed by choosing another
+database. A peer session searched the `PHASES` section of every `.dat`
+vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl —
+and **there is not one acetate solid phase in any of them.** That is not a
+shipping choice this project made; nobody's PHREEQC database carries one.
+`saturation_moves` cannot help either: it works on undissociated molecular
+solutes, and the aqueous engine has already split this salt into sodium and
+acetate ions, so there is no `NaOAc` portion for KID-7's machinery to find.
+
+So the refusal is the deliverable. The salt is reconstructed from its ions
+— only as present as its scarcer one, so a beaker of table salt with a
+little acetate in it is not a concentrated acetate solution — compared
+against a curated solubility, and the bench says what it cannot do:
+
+```
+not yet modelled — the crystallisation of sodium acetate: 0.488 mol is
+dissolved against a limit of 0.283 mol at this temperature, and the solid
+it would crystallise as is sodium acetate trihydrate, and no PHREEQC
+database vendored with this project defines any acetate solid phase at all
+```
+
+`lessons/hand-warmer.lab` exists to be read beside `borax-snowflake.lab`,
+because the pair makes the point neither makes alone: two solutions past
+their limit on cooling, one of which crystallises and one of which cannot,
+and **the difference is not the chemistry a child sees — it is whether
+anybody has written the phase down.**
+
+One implementation note worth keeping: the refusal is emitted from both
+`equilibrate` and `equilibrate_delta`. ARCH-012 requires the delta path to
+say everything the direct path says, and a line like this one — which
+exists purely to break a silence — is exactly what would go missing in a
+host that computes deltas.
+
+### K52: the contrast the bench draws better than the numbers do (2026-09-04)
+
+Borax needed a solubility at two temperatures and nothing else — KID-7's
+rock-candy machinery had been waiting for it since the day before. The
+values carry one modelling choice, stated rather than applied quietly:
+handbook solubilities are for the decahydrate Na₂B₄O₇·10H₂O, which is also
+what really crystallises out of a cooling solution, and this registry has
+only the anhydrous salt. So the anhydrous species stands in for the
+decahydrate at the decahydrate's solubility, scaled by 201.22/381.37 — 4.7
+and 52 g/100 mL become **2.5 and 27.4**. The amounts are right; the solid
+carrying them is a stand-in, and the source record says so.
+
+What makes the row worth more than a datum is what happened when the same
+cooling was applied to sugar for contrast:
+
+```
+borax    25 g into cold water  → 0.0202 mol dissolved, the rest sits there
+         heat to 81.8 °C       → 0.0879 mol more dissolves
+         cool to 13.6 °C       → 0.0957 mol precipitated ↓
+sucrose  cool from 57.5 °C     → supersaturated at 1.25× saturation,
+                                  and it stays dissolved
+```
+
+One mechanism, two substances, two different answers — and they are the two
+answers a kitchen gets. A borax snowflake grows overnight on its own; rock
+candy sits there refusing to start until you give it a string. The lesson's
+prose originally explained the contrast by quoting the two solubility
+ratios, which is the smaller of the two things the bench had to say.
+
+**A change to an existing lesson, checked rather than assumed:** the
+solubility limit changed `slime.lab`, because borax now reports what
+dissolved instead of only its unspeciated caveat. The gel still forms —
+*"the glue in v2 stops running and starts stretching"* — and the doses
+there are far below the new limit, so nothing was lost. The golden was
+diffed lesson by lesson rather than in bulk, which is how that was
+established rather than hoped.
 ### The audit had drifted from the bench (re-audit, 2026-09-04)
 
 Before closing the remaining rows I re-ran every one of them against
@@ -893,7 +1014,7 @@ or a rate in them.
 | # | Experiment | Verdict | What the bench did |
 |---|---|---|---|
 | K31 | Pull the iron out of the sand | computed | `magnet v1 v2` moves 3 g of iron and names the quartz left behind. `EXP-1` exactly as promised |
-| K32 | Which plastics float? | **silent miss** | all four polymers carry densities in the registry (`EXP-12`) and all four sit as undifferentiated solids; `look` says only "white and cloudy", and each addition reports "this part of the lab isn't awake yet" |
+| K32 | Which plastics float? | ~~silent miss~~ → computed | closed by KID-19b (2026-09-04). Nothing was missing but the comparison: polypropylene at 0.90 g/mL **floats on top**, polystyrene at 1.05 and PET at 1.38 settle and are named where they went, and a floating solid stops counting as turbidity. The registry had all three densities the whole time |
 | K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
 | K34 | A battery from a lemon | unreachable | "Nothing happens to the zinc … too unreactive for this", then "the voltmeter reads nothing — one of them isn't a proper half-cell yet". A half-cell needs the metal *and* its own ion; nothing tells a learner that, and the citric-acid lemon has no zinc ion in it |
 | K35 | Split water with electricity | ~~silent miss~~ → honest miss | **stale verdict, corrected 2026-09-04.** It now says why: "neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode". The gap is real — the verb models metal deposition and not 2 H₂O → 2 H₂ + O₂ — but it is no longer silent. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
@@ -912,8 +1033,8 @@ or a rate in them.
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
 | K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
 | K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
-| K51 | A hand warmer that crystallises | **wrong** | the dissolution exotherm is computed; the *crystallisation on demand* that is the entire experiment is absent. KID-7 built that mechanism for molecular solutes, but sodium acetate is an electrolyte the aqueous engine owns, and no shipped database carries a sodium-acetate-trihydrate phase for it to precipitate as — so this row waits on **KID-7b** |
-| K52 | A borax snowflake | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** Borax landed with KID-14 and dissolves. It has no solubility curve, so it never saturates and never comes back out on cooling — one datum at two temperatures away from KID-7's rock-candy machinery |
+| K51 | A hand warmer that crystallises | **wrong** → **stated boundary** | closed 2026-09-04, and closed as a refusal rather than a feature. The bench cooled a supersaturated pouch from 65 °C to 8 °C and said *nothing at all*; it now says how far past saturation the solution is (0.488 mol against 0.283) and why the solid cannot appear. A peer session searched the `PHASES` section of **every** `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl — and there is not one acetate solid phase anywhere. Not a shipping choice; nobody's PHREEQC database has one |
+| K52 | A borax snowflake | ~~unreachable~~ → computed | the row was stale before it was fixed: borax landed with KID-14 and only wanted a solubility curve. With 2.5 g/100 mL at 20 °C and 27.4 at 100 °C, 25 g into cold water leaves most of it sitting there, heating dissolves it, and cooling returns **0.0957 mol** as solid — while the same cooling makes a sugar syrup *supersaturate* instead |
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
@@ -942,6 +1063,34 @@ thirty separate problems, it is finding the same eight.
   *Acceptance:* the shipped lesson demonstrates Faraday's law; an inert
   electrode is something a learner can add; the refusals name what is
   missing at every register.
+  **KID-19b landed 2026-09-04: the observable half**, and the acceptance
+  line above is met — a solid whose density is known now floats or settles
+  against the liquid it is in, and `look` says which. Polypropylene floats,
+  polystyrene and PET sink, and `lessons/float-or-sink.lab` is the
+  float-sink tank a recycling plant uses, in a glass.
+
+  A floating solid also stops counting towards turbidity. Five grams of
+  polypropylene made the water "so cloudy you cannot see through it",
+  which is the same defect the plated-metal branch beside it was written to
+  prevent: something sitting on the surface is not a suspension.
+
+  **And it found a defect in KID-19a, one day old.** The second half of the
+  experiment raises the water's density with salt so that polystyrene
+  floats too. The brine reads **exactly 1.00 g/mL** — because all twelve
+  ion species in the registry carry a density of exactly 1.0, a structural
+  default that no provenance line even mentions. Dissolved salt adds its
+  mass and an equal volume of "water", so the density never moves; real
+  brine is about 1.2.
+
+  KID-19a's own tests missed this because they used sucrose, which has a
+  real measured density of 1.59 and therefore works. **A placeholder that
+  produces a believable number is the hardest kind to see**, and it took a
+  different experiment asking a different question to surface it. Partial
+  molar volumes are not something this registry can invent, so the meter
+  now answers *and says what it leaves out*: the solvent's figure is right
+  and the solutes' is missing. The lesson ends on that refusal rather than
+  letting the next reader try the salt trick and believe it.
+
 - **KID-19 — density is data, not an observable.** Four polymers with
   reviewed densities float and sink nowhere. `EXP-12`'s data landed and its
   quest is authored, but nothing in the vessel picture separates them.

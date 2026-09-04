@@ -103,6 +103,53 @@ pub fn liquid_density_g_per_ml(vessel: &Vessel) -> Option<f64> {
     (volume_ml > 0.0).then(|| mass_g / volume_ml)
 }
 
+/// KID-19b: whether this liquid holds dissolved ions whose VOLUME the
+/// density reading cannot account for.
+///
+/// Every one of the twelve ion species in the registry carries a density of
+/// exactly 1.0 g/mL, and none of their provenance mentions density at all —
+/// it is a structural default, not a measurement. So a dissolved salt adds
+/// its mass and an equal volume of "water", and 60 g of sodium chloride in
+/// 200 mL comes out at exactly 1.00 g/mL. Real brine is about 1.2, and it is
+/// the number the plastics-separation experiment turns on.
+///
+/// This was found by K32 and not by the density meter's own tests, because
+/// sucrose — the solute those tests used — has a real measured density and
+/// happens to work. A placeholder that produces a believable number is the
+/// hardest kind to see.
+///
+/// The reading is still worth giving: the solvent's density is right, and
+/// for a molecular solute the whole answer is. What must not happen is the
+/// bench claiming a brine is as light as water without saying why.
+pub fn ionic_volume_unaccounted(vessel: &Vessel) -> bool {
+    vessel.contents.iter().any(|portion| {
+        portion.phase == crate::species::Phase::Aqueous
+            && portion.moles.0 > crate::OBSERVABLE_MOLES
+            && crate::conductivity::ion_charge(&portion.species.0) != 0
+    })
+}
+
+/// KID-19b: does this solid float in this liquid?
+///
+/// K32 asked which plastics float, and all four sat as undifferentiated
+/// solids at the bottom of the beaker while the registry knew every one of
+/// their densities. Nothing was missing but the comparison: KID-13 computes
+/// the liquid's density and KID-19a reads the solid's, and no code put the
+/// two side by side.
+///
+/// `None` means the question cannot be asked — no density for the species,
+/// or nothing to float in. It is deliberately not "false": a solid whose
+/// density the registry does not carry has not been shown to sink.
+///
+/// What this does NOT claim: a piece's shape, whether it is hollow, or
+/// surface tension. A steel boat floats and a steel nail does not, and this
+/// compares materials rather than objects — the same boundary the density
+/// meter states.
+pub fn floats_in(species: &crate::SpeciesId, liquid_density_g_per_ml: f64) -> Option<bool> {
+    let density = crate::species::lookup(species)?.density;
+    (density > 0.0 && liquid_density_g_per_ml > 0.0).then_some(density < liquid_density_g_per_ml)
+}
+
 /// The bubble-riding reading for this vessel, if it holds a rider in a
 /// liquid.
 pub fn observe(vessel: &Vessel) -> Option<BubbleRide> {
