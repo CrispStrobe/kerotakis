@@ -521,6 +521,16 @@ fn execute_prompt(
                 ));
             }
         };
+        // `last_routes` is cleared by `SolverStack::equilibrate`, so a step
+        // that never equilibrates — `new`, and any other operator that only
+        // touches bookkeeping — leaves the PREVIOUS step's routes standing.
+        // Across prompts that is the previous PROMPT's routes, and this loop
+        // then attributes them to this one. `aq-091` was classified `curated`
+        // in a smoke run and `computed` in a full one, same script, because
+        // the prompt that happened to run before it differed; the route it
+        // was judged on belonged to its neighbour. Clearing here makes a
+        // prompt's routes its own.
+        stack.last_routes.clear();
         let step_events = bench
             .step_with(op, stack, &PermissiveScreen)
             .map_err(|error| {

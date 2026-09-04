@@ -1598,3 +1598,101 @@ eyes. All five are protein or enzyme behaviour, no protein species is
 installed, and the mass sits conserved. That is one gap wearing five names,
 and it is the largest single thing standing between this shelf and the
 kitchen-chemistry half of the corpus.
+
+## Four test failures, and what each one turned out to be
+*2026-09-04, later*
+
+Running the whole workspace rather than one crate found four failing targets.
+Not one of them was what it first looked like, and the sequence is worth
+recording because three of the four were *caused by a previous improvement*.
+
+**`cargo test` is fail-fast by test binary, and that hid two of them.** The
+three failures sort alphabetically — `element_coverage`, `frozen_behavior`,
+`registry_snapshot` — and each run stopped at the first, so each fix revealed
+the next and cost another full suite. A partially-green run means "nothing
+failed *before* the first failure", not "everything else passed".
+`--no-fail-fast --workspace` is the default worth having.
+
+**The safety screen refuses a species it has never been shown.** Seven had no
+row: the four copper hydroxy-sulfates K40 added, graphite and diamond, and the
+ammonium nitrate behind the cold pack. The first six join the
+no-reactive-group arm with their reasons written down — the copper phases are
+the same metal in the same oxidation state as the chalcanthite already there,
+and the two carbons are allotropes of the `C` already listed. Ammonium nitrate
+does not: it is a strong oxidiser and gets `OxidizerStrong`. The shelf's other
+nitrates being ungrouped is not a reason to repeat that, because sodium and
+potassium nitrate need a fuel and a match, and ammonium nitrate carries its
+fuel in the cation.
+
+**A more accurate chemistry broke three displacement tests, and the mechanism
+is a chain.** K40 put the copper hydroxy-sulfates in the registry. A 0.1 mol/L
+copper sulfate solution at pH 3.9 is supersaturated in antlerite by about 0.8
+log units, so the bench now precipitates 1.11e-5 mol of it — and the net ionic
+is `3 Cu²⁺ + SO₄²⁻ + 4 H₂O → antlerite + 4 H⁺`. Three consequences followed,
+in order:
+
+1. Three copper per formula unit is 3.33e-5 mol of copper parked in a solid
+   before any magnesium arrives — *exactly* the shortfall in what plated out.
+   Mass is conserved; the copper is not missing, it is elsewhere.
+2. Those four protons dropped the pH past the threshold that makes `acid`
+   true in the displacement bystander pass.
+3. That flipped a branch. Silver in copper sulfate is above copper **and**
+   above hydrogen; both sentences are true; the code preferred the hydrogen
+   one. So the bench stopped saying the thing the beaker was set up to
+   demonstrate and started saying a true aside instead.
+
+The third is the same defect as "an aside outranking the answer" that the
+classifier work was about, in a different file, arrived at from the opposite
+direction. The metal-versus-metal comparison now wins wherever there is
+another metal's ion to make it against; the acid sentence is for a metal in
+acid with no such partner, which is the case it was written for. The
+tolerances were widened to 4e-5 with the arithmetic written beside them, so
+the trace stays visible rather than being tuned away.
+
+A real beaker of copper sulfate stays clear blue — because nucleating a basic
+sulfate is slow, not because it is disfavoured, which is why stock solutions
+are acidified. The bench computes equilibrium and has no nucleation, so it
+takes the thermodynamic answer. That is a limitation to state, not to hide.
+
+**A prompt was being graded on its neighbour's evidence.** `aq-091` returned
+`curated` from a smoke run and `computed` from a full one — same script, same
+binary, deterministic in each. `last_routes` is cleared by
+`SolverStack::equilibrate`, so a step that never equilibrates (`new`) leaves
+the previous step's routes standing, and at the top of a script that is the
+previous *prompt's*. The classifier then read a `curated` route that belonged
+to a different experiment. One line to fix.
+
+What makes it worth a paragraph is how it stayed hidden. The full corpus is
+unaffected — zero rows move — because there every neighbour happened to agree.
+Only the smoke subset disagreed, and only because a material added in this
+branch made `aq-091` run at all. **The bug was latent for exactly as long as
+the row was `missing`; closing the row is what exposed it.** Which is an
+argument for closing rows that has nothing to do with the score.
+
+## Where this leaves the kids' experiments
+*2026-09-04*
+
+First thirty: **computed 25 · partial 4 · declined 1**, unchanged by this
+branch — the materials work moved corpus rows rather than verdict rows.
+
+What the second thirty and the 12–16 list now need is a short list, and it is
+mechanisms rather than substances:
+
+- **Protein.** No protein species is installed. Egg white, gelatine, cream,
+  albumin and onion are all on the shelf now and none can do the thing it is
+  used to teach. Five demonstrations, one gap.
+- **Enzymes beyond amylase.** `pepsin`, `lactase`, `protease`, `lipase`,
+  `catalase` are named by corpus rows and only amylase has a reaction.
+- **Photosynthesis.** `pondweed`, `leaf`, `chlorophyll`, `germinating_seed` —
+  five rows, and a mechanism the bench has no shape for at all.
+- **Browning.** Apple, potato and bread are all present and none browns; it
+  needs polyphenol oxidase and a quinone, or the Maillard reaction.
+- **Hydrocarbon fuels.** `methane`, `propane`, `butane`, `petrol`, `diesel`
+  want species with CEA thermochemistry. The combustion machinery from KID-12
+  already exists and has nothing to burn.
+- **Nucleation.** Honey is supersaturated and reads grainy from the first
+  moment; copper sulfate deposits antlerite a real beaker would not. Both are
+  the same missing clock.
+
+The prediction recorded earlier — first list about half, second about four
+fifths — still stands and is still unchecked.

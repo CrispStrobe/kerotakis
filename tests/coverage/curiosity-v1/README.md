@@ -935,3 +935,42 @@ is written against. That is a formatting change with a repo-wide blast radius
 and it does not belong at the end of a branch about materials. The two lines
 do explain each other. Recorded here so the next person finds a known edge
 rather than a fresh bug.
+
+## A prompt was being classified on its neighbour's routes
+
+`aq-091` came back `curated` from a smoke run and `computed` from a full run,
+same script, same binary, deterministic in each. That is not a tolerance and
+not nondeterminism — it is one prompt's verdict depending on which prompt
+happened to run before it.
+
+`SolverStack::equilibrate` clears `last_routes` on entry, so the field is only
+ever the routes of the last step that *equilibrated*. A step that does not —
+`new`, and any operator that only touches bookkeeping — leaves the previous
+step's routes standing, and at the top of a script that is the previous
+**prompt's** last step. `execute_prompt` then did
+
+    routes.extend(stack.last_routes.iter().cloned());
+
+on every step including the first, so the leading `new` of `aq-091` collected
+whatever its neighbour had finished with. In the smoke run that neighbour left
+`curated-reactions: Succeeded`; in the full run, `NotApplicable`. The
+classifier reads `succeeded(SolverRouteKind::Curated)`, so the row was graded
+`curated` on a route belonging to another prompt.
+
+The fix is one line — clear `last_routes` before each step — and the comment
+at that line is the part worth keeping, because the bug is invisible in the
+place it does damage. Note what it cost to find: the *full* corpus is
+unaffected (0 rows move), because there every neighbour happened to agree.
+Only the smoke subset disagreed, and only because a material added in this
+branch made `aq-091` run at all. **The bug was latent for as long as the row
+was `missing`, and closing the row is what exposed it.**
+
+Two consequences for anyone reading a coverage report:
+
+- A route list is now a fact about its own prompt. Before this, a prompt whose
+  script began with a non-equilibrating operator had a route list that started
+  with someone else's evidence.
+- The smoke gate is not merely a faster full run. It selects a different
+  neighbour ordering, and that is exactly why it caught something the
+  500-prompt run could not. A disagreement between the two is a signal about
+  state leaking across prompts, not a flake to be retried.

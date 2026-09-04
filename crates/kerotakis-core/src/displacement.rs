@@ -823,16 +823,23 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
             .filter(|o| o.reduced_phase == Phase::Solid && o.reduced != c.reduced)
             .filter(|o| oxidant_available(vessel, o) > crate::OBSERVABLE_MOLES)
             .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
-        if acid && c.e0_volts > 0.0 {
-            events.push(Event::Inert {
-                vessel: vessel.id,
-                species: SpeciesId::new(c.reduced),
-                why: format!(
-                    "{name} sits above hydrogen in the activity series (E° {:+.3} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
-                    c.e0_volts
-                ),
-            });
-        } else if let Some(o) = idle_against {
+        // Which of the two true sentences is the RESULT, and which is an
+        // aside. Both can hold at once: silver in copper sulfate is above
+        // copper AND above hydrogen. The metal-versus-metal comparison is
+        // the one the beaker was set up to make, so it wins wherever there
+        // is another metal's ion to make it against; the acid sentence is
+        // for a metal sitting in acid with no such partner, which is the
+        // case it was written for.
+        //
+        // The order used to be the other way round, and K40 is what exposed
+        // it. Those copper hydroxy-sulfate phases precipitate from a plain
+        // copper sulfate solution and release four protons each — the net
+        // ionic is `3 Cu²⁺ + SO₄²⁻ + 4 H₂O → antlerite + 4 H⁺` — which drops
+        // the pH past the threshold that makes `acid` true. Adding phases
+        // that made the chemistry more accurate silently switched three
+        // displacement results onto the less informative of two true
+        // sentences. Same shape as an aside outranking the answer.
+        if let Some(o) = idle_against {
             // The series grid: which metal displaces which. The negative
             // cells are as much the result as the positive ones.
             let other = species::lookup_key(o.reduced)
@@ -844,6 +851,17 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                 why: format!(
                     "{name} sits above {other} in the activity series (E° {:+.3} V against {:+.3} V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one",
                     c.e0_volts, o.e0_volts
+                ),
+            });
+        } else if acid && c.e0_volts > 0.0 {
+            // No other metal's ion to compare against, so the acid is the
+            // whole question.
+            events.push(Event::Inert {
+                vessel: vessel.id,
+                species: SpeciesId::new(c.reduced),
+                why: format!(
+                    "{name} sits above hydrogen in the activity series (E° {:+.3} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
+                    c.e0_volts
                 ),
             });
         } else if !acid && c.e0_volts < 0.0 {

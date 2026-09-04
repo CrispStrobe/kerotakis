@@ -135,3 +135,38 @@ CAP/EXP/apparatus/GUI document, and keep the PR within that task's scope. A
 decision-gate task produces evidence and a go/no-go record; it must not quietly
 add the candidate dependency. Completion requires the task's acceptance tests,
 an updated status, and—once BRD-001 exists—an updated curiosity-corpus baseline.
+
+## 6. Reading a test run honestly
+
+Three ways a run can look greener than it is. All three cost real time on
+2026-09-04, and all three are cheap to avoid.
+
+**`cargo test` is fail-fast by test *binary*.** Targets run in roughly
+alphabetical order and the run stops at the first that fails. A run printing
+twenty `test result: ok` lines and one failure has not told you the rest
+passed — only that nothing failed *before* that binary. Three goldens failed
+in sequence (`element_coverage` → `frozen_behavior` → `registry_snapshot`),
+each fix revealing the next, while four other crates were failing untouched.
+**Verify a branch with `cargo test --no-fail-fast --workspace`**; single-crate
+runs are a fast inner loop, not evidence.
+
+**`cargo fmt --check` is the first gated step in `tools/preflight.sh`.** A CI
+failure at ~30 seconds is almost always formatting, and it means every other
+gate step was skipped — so it says nothing at all about the tests. Run
+`cargo fmt --all --check` before pushing. (`cargo fmt --all` also reformats
+inside the `sundials-kinetics-rs` submodule; revert that before committing.)
+
+**A smoke/full disagreement is a state-leak signal, never a flake.** The smoke
+gate is *not* a faster full run — it selects a different subset, and therefore
+a different **ordering**, and prompts that share a solver stack can leak state
+into their successors. `aq-091` once classified `curated` in a smoke run and
+`computed` in a full one, same script and same binary, deterministic in each,
+because a script's leading non-equilibrating operator inherited the previous
+*prompt's* solver routes. The 500-prompt run could not find it: there every
+neighbour happened to agree. **Never retry past such a disagreement.**
+
+A corollary worth stating, because it changes what the `missing` column is
+for: **a defect can be latent for exactly as long as a corpus row is
+`missing`.** A row that never executes cannot expose anything. Closing rows is
+a way of finding bugs and not only of raising a number, and the `missing`
+column is a shadow as much as it is a to-do list.

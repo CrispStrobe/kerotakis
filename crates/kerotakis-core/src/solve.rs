@@ -1464,19 +1464,19 @@ impl Equilibrator for HonestyEquilibrator {
                 // sentence about dissolution, said where it reads as a
                 // claim about reactivity, is a false one.
                 if !crate::curated::consumes(vessel, &p.species) {
-                if let Some(limit) = species::lookup(&p.species)
-                    .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
-                    .filter(|limit| *limit < 0.01)
-                {
-                    events.push(Event::Inert {
+                    if let Some(limit) = species::lookup(&p.species)
+                        .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                        .filter(|limit| *limit < 0.01)
+                    {
+                        events.push(Event::Inert {
                         vessel: vessel.id,
                         species: p.species.clone(),
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
                     });
-                    continue;
-                }
+                        continue;
+                    }
                 }
                 let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
@@ -1568,19 +1568,19 @@ impl Equilibrator for HonestyEquilibrator {
                 // sentence about dissolution, said where it reads as a
                 // claim about reactivity, is a false one.
                 if !crate::curated::consumes(vessel, &p.species) {
-                if let Some(limit) = species::lookup(&p.species)
-                    .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
-                    .filter(|limit| *limit < 0.01)
-                {
-                    events.push(Event::Inert {
+                    if let Some(limit) = species::lookup(&p.species)
+                        .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                        .filter(|limit| *limit < 0.01)
+                    {
+                        events.push(Event::Inert {
                         vessel: vessel.id,
                         species: p.species.clone(),
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
                     });
-                    continue;
-                }
+                        continue;
+                    }
                 }
                 let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
