@@ -52,7 +52,7 @@ silent miss teaches the silence.
 
 | # | Experiment | What the child is watching for | Verdict | What the bench did |
 |---|---|---|---|---|
-| K01 | Volcano (soda + vinegar) | the eruption | partial | CO₂, pH 9.70 and mass are computed; there is no foam and no overflow, because foam exists only on the peroxide path. **This verdict was half true and the wrong half was the temperature** — see the finding below: in the order most people pour, the bench says the volcano gets *warmer*, and it gets colder |
+| K01 | Volcano (soda + vinegar) | the eruption | ~~partial~~ → computed | CO₂, pH 9.70 and mass were always computed; the eruption is too, as of KID-11 (2026-09-04) — with washing-up liquid in the glass first, **foam 1.375 L, 49.1 cm high, 1.178 L over the rim**, and nothing at all in the no-soap control. **The earlier verdict was half true and the wrong half was the temperature** — see the finding below: in the order most people pour, the bench says the volcano gets *warmer*, and it gets colder |
 | K02 | Balloon on a bottle | the balloon filling | computed | sealed 500 mL headspace reaches 1.875 bar; `regulate` gives a real expanding boundary (766 mL) — but nothing in the docs calls that a balloon |
 | K03 | Limewater breath test | milky, then clear | computed | Ca(OH)₂ → calcite → redissolution, exactly as the shipped lesson promises |
 | K04 | Snuff a candle with CO₂ | the flame going out | ~~silent miss~~ → computed | the last silent miss, closed by KID-12 (2026-09-03). Wax is paraffin now, it burns, and a jar over it puts it out **with 77% of the oxygen still in the jar** — the number that contradicts the sentence every child is taught. Carbon dioxide poured in first stops it lighting at all, without taking anything away |
@@ -87,8 +87,9 @@ silent miss teaches the silence.
 
 **Tally at audit time: computed 13 · partial 7 · honest miss 2 · silent
 miss 2 · wrong 3 · unreachable 3.** After KID-1, 2, 5, 6, 7, 8, 9, 10, 14,
-15, 20, 21, 12 and 13: **computed 24 · partial 6**. Neither a silent miss
-nor an unreachable row is left in the first thirty.
+15, 20, 21, 12, 13 and 11: **computed 25 · partial 5**. Neither a silent
+miss nor an unreachable row is left in the first thirty, and the volcano —
+the experiment the whole list opens with — finally erupts.
 
 **The thirty scripts, exactly as a newcomer first wrote them, now run
 30/30** — against 17/30 when the audit was taken. Not one row is still
@@ -552,6 +553,15 @@ and `main` moves only by PR.
   every later `look`. The old call site got that guard for free by never
   running otherwise. No gas and no elapsed time is not an event.
 
+  **Measured, not predicted.** The no-soap control evolves 0.049 mol of
+  carbon dioxide and does nothing. The same reaction with washing-up liquid
+  in the glass first reaches **foam 1.375 L, 49.1 cm high, 1.178 L over the
+  rim**, and two minutes against the soap's 180-second half-life takes it
+  back to 0.866 L. The lesson's prose originally said the foam would be
+  "most of the way back to a liquid" after that wait; the measurement says
+  a bit over a third of it goes, and the prose now says what the number
+  says.
+
   **Stated boundaries:** bubble size, film drainage geometry, and the
   difference between a detergent film and a protein one are not modelled.
   The half-life is the recipe's own reviewed number and the trapped
@@ -876,7 +886,7 @@ or a rate in them.
 | K53 | Salt or sugar on the ice? | computed | −2 °C against +1 °C: the colligative contrast a child can feel |
 | K54 | Three gases, three tests | computed | limewater goes milky and the magnesium is used up. The script did not use `test`, because the audit did not know it existed — a separate probe confirms `test v1 splint` answers "glowing splint — negative" over hydrogen, so `EXP-31` works and was invisible (KID-17) |
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
-| K56 | Bubble mixture that lasts | partial | no foam without the peroxide path (KID-11) |
+| K56 | Bubble mixture that lasts | ~~partial~~ → computed | KID-11 made foam a property of gas meeting a surfactant rather than of one reaction id, so any gas-making vessel with a declared surfactant foams and drains on the recipe's own half-life — 1.375 L falls to 0.866 L over two minutes against a 180-second half-life |
 | K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 gave the bench the density of a sugar solution — solute volume included, which it was not before — and KID-19a gave the learner a way to read it, so the *number* a tower would be built on is both right and askable; the layering is the part that is still missing |
 | K58 | Instant snow from a powder | unreachable | no superabsorbent polymer |
 | K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |

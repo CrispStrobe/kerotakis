@@ -21,9 +21,11 @@ add v2 NaHCO3 5g
 add v2 white_vinegar_5_percent 50mL
 look v2
 
-# 3. And it does not last. Foam drains and the bubbles join up; wait a
-#    couple of minutes and the same vessel is most of the way back to a
-#    liquid with a head on it.
+# 3. And it does not last. Foam drains and the bubbles join up: two minutes
+#    against this soap's 180-second half-life takes 1.375 L down to 0.866 L,
+#    a bit over a third of it gone. Not "most of the way back to a liquid" —
+#    that was the guess before the run, and the number is slower than the
+#    guess.
 wait 2min
 look v2
 

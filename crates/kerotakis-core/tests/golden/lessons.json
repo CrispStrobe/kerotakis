@@ -893,10 +893,10 @@
       "v1: +1.000 g dry_yeast (1 known ingredients)",
       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v1: 0.044546 mol O2 produced (4.455e-3 mol/s)",
+      "v1: foam 1.029 L, 36.8 cm high, overflow 0.907 L",
       "v1: peroxide-decomposition released 4374.39 J",
       "v1: 26.6 °C → 34.7 °C",
       "v1: 0.0445 mol reacted in 10 s, sped up by catalase  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v1: foam 1.029 L, 36.8 cm high, overflow 0.907 L",
       "v2: 25.0 °C → 26.7 °C",
       "v2: +1.1069 mol water — 6.5451 mol now in vessel",
       "v2: +1.000 g dry_yeast (1 known ingredients)",
@@ -974,15 +974,15 @@
       "v2: +0.0060 mol potassium iodide",
       "v2: 0.0060 mol potassium iodide dissolved",
       "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
+      "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
       "v1: peroxide-decomposition released 203.91 J",
       "v1: 25.0 °C → 25.5 °C",
       "v1: 0.0021 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
       "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
+      "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L",
       "v2: peroxide-decomposition released 760.35 J",
       "v2: 25.0 °C → 26.7 °C",
-      "v2: 0.0077 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L"
+      "v2: 0.0077 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑"
     ],
     "lesson": "elephant-toothpaste-catalyst-dose.lab",
     "vessels": [
@@ -3133,6 +3133,73 @@
           },
           {
             "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "volcano-foam": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +0.0595 mol baking soda (sodium bicarbonate)",
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and clear, there is white baking soda (sodium bicarbonate) at the bottom.",
+      "v2: new vessel",
+      "v2: +5.150 g dish_soap (1 known ingredients)",
+      "v2: +0.0595 mol baking soda (sodium bicarbonate)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is white and so cloudy you cannot see through it.",
+      "v2: 100% of the suspended particles settle in 120 s",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is colourless and clear, there is white baking soda (sodium bicarbonate) at the bottom."
+    ],
+    "lesson": "volcano-foam.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 2.8812101,
             "phase": "Liquid",
             "species": "water"
           }
