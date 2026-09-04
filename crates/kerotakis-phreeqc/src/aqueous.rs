@@ -3372,6 +3372,7 @@ impl PhreeqcEquilibrator {
         // happened.
         if let Some(why) = &coupling_failed {
             events.push(Event::NotYetModeled {
+                cause: kerotakis_core::ops::NotModelledCause::NoSolver,
                 vessel: vessel.id,
                 what: format!(
                     "these elements have not reacted with each other — they are shown in \
@@ -3425,7 +3426,7 @@ impl PhreeqcEquilibrator {
         // minor oxidation state, and losing it silently is exactly the kind
         // of quiet subtraction this engine keeps having to root out.
         for (column, moles) in unnameable {
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
                 vessel: vessel.id,
                 what: format!(
                     "{moles:.3e} mol settled as {column}, an oxidation state this lab has no name for — it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in"
@@ -3482,7 +3483,7 @@ impl PhreeqcEquilibrator {
             format!("{}{rest}", named.join(", "))
         };
         if !unnamed.is_empty() {
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
                 vessel: vessel.id,
                 what: format!(
                     "a real beaker would not stay like this: the solution is supersaturated against {}. Those phases are in {db_tag}.dat but not in this lab's registry, so nothing can precipitate out of it here",
@@ -3492,7 +3493,7 @@ impl PhreeqcEquilibrator {
         }
         if !withheld.is_empty() {
             let t_c = vessel.temperature.to_celsius();
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::PhaseNotInRegistry,
                 vessel: vessel.id,
                 what: format!(
                     "the solution is supersaturated against {}, which this lab is deliberately holding back: it is the more stable solid, but at {t_c:.0} °C the metastable one forms first and stays. That is a claim about rates, not about equilibrium, and it is curated rather than computed",
@@ -3557,6 +3558,7 @@ fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
     notes
         .into_iter()
         .map(|why| Event::NotYetModeled {
+            cause: kerotakis_core::ops::NotModelledCause::NotSpeciated,
             vessel: vessel.id,
             what: format!(
                 "this solution holds an acid whose acidity is not modelled: {why}. \

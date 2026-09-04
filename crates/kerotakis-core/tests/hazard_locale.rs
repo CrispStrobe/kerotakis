@@ -125,7 +125,7 @@ fn other_events_are_not_disturbed() {
 
 #[test]
 fn dynamic_refusals_translate_the_species_and_the_reason() {
-    let event = Event::NotYetModeled {
+    let event = Event::NotYetModeled { cause: kerotakis_core::ops::NotModelledCause::NoSolver,
         vessel: kerotakis_core::vessel::VesselId(0),
         what: "sodium chloride in contact with liquid: no wired solver models this dissolution/reaction".to_string(),
     };
@@ -146,6 +146,7 @@ fn dynamic_refusals_translate_the_species_and_the_reason() {
 #[test]
 fn meter_refusals_are_translated_as_whole_sentences() {
     let event = Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::NoSolution,
         vessel: kerotakis_core::vessel::VesselId(0),
         what:
             "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
