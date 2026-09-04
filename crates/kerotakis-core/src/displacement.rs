@@ -345,7 +345,16 @@ fn bound_protons(vessel: &Vessel) -> f64 {
     vessel
         .contents
         .iter()
-        .filter(|p| p.phase == Phase::Aqueous)
+        // Aqueous OR liquid. An acid that has been through a solve is
+        // booked as dissolved; one that has just been poured in is still
+        // sitting in its own standard phase, and acetic acid's is liquid.
+        // Counting only the first meant a beaker was not acidic until it
+        // had been solved once — so the bleach-and-acid warning fired if
+        // the vinegar was already there and stayed silent if the vinegar
+        // was what you were pouring, which is the order somebody actually
+        // does it in. The same matter is never in both phases at once, so
+        // there is nothing to double count.
+        .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid))
         .filter(|p| LEDGER_ACIDS.iter().any(|(acid, _)| *acid == p.species.0))
         .map(|p| p.moles.0)
         .sum()

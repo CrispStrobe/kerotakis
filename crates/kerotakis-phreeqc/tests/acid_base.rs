@@ -721,3 +721,65 @@ fn a_trace_of_acid_makes_only_a_trace_of_chlorine() {
         "0.002 mol of acid is worth 0.001 mol of chlorine, got {cl2:.5}"
     );
 }
+
+/// Bleach and vinegar warns, in either order, and vinegar is not a strong
+/// acid.
+///
+/// This is the commonest household chemical accident there is, and the
+/// bench was silent on it. The screen recognises `AcidStrong`, correctly
+/// keyed to acids that come essentially all the way apart — and vinegar is
+/// about 6% dissociated, so putting it in that group to get this warning
+/// would have attached "strong acid" to every school experiment that uses
+/// it. Bleach does not care how strong the acid is, so the hypochlorite
+/// rule takes a wider group and nothing else does.
+///
+/// Both orders, because the first attempt fixed only one. The acidity was
+/// read from portions marked aqueous, and an acid that has just been poured
+/// in is still in its own standard phase — so a beaker was not acidic until
+/// it had been solved once, and the warning appeared if the vinegar was
+/// already there and not if the vinegar was what you were pouring.
+#[test]
+fn bleach_and_vinegar_warn_in_either_order() {
+    for bleach_first in [true, false] {
+        let mut bench = Bench::new();
+        let mut stack = stack();
+        let v = VesselId(0);
+        add(&mut bench, &mut stack, v, "water", 5.5343);
+        let events = if bleach_first {
+            add(&mut bench, &mut stack, v, "NaOCl", 0.01);
+            add(&mut bench, &mut stack, v, "CH3COOH", 0.05)
+        } else {
+            add(&mut bench, &mut stack, v, "CH3COOH", 0.05);
+            add(&mut bench, &mut stack, v, "NaOCl", 0.01)
+        };
+        assert!(
+            events.iter().any(
+                |e| matches!(e, Event::HazardWarning { hazard, .. } if hazard.contains("chlorine"))
+            ),
+            "bleach_first={bleach_first}: no chlorine warning in {events:?}"
+        );
+    }
+}
+
+/// And the everyday things that are merely acidic do not acquire a bleach
+/// warning, or a strong-acid one.
+///
+/// The point of splitting the group rather than widening `AcidStrong` was
+/// to avoid exactly this: a Danger banner on the school experiments that
+/// use vinegar. A warning that fires on the safe cases is not a safety
+/// feature, it is something a learner stops reading.
+#[test]
+fn vinegar_alone_raises_no_alarm() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "CH3COOH", 0.05);
+    let events = add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
+    assert!(
+        !events
+            .iter()
+            .any(|e| matches!(e, Event::HazardWarning { .. })),
+        "vinegar and baking soda is a kitchen experiment, not a hazard: {events:?}"
+    );
+}
