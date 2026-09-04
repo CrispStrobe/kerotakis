@@ -705,3 +705,46 @@ folding it in properly means teaching that runner to track answers per
 vessel. It exits non-zero today, so it can be added to CI as it stands
 whenever someone wants it; it is checked in now so the rule is written down
 where the next person writing a prompt will meet it.
+
+## Refresh 2026-09-04: two rows were never gaps
+
+`mat-096` (what three things does iron need in order to rust?) and `mat-099`
+(why does galvanizing with zinc protect iron?) move
+`missing`/`not-yet-modeled` → `computed`/**`computed-route`**. No engine
+change: the classifier was mis-reading them.
+
+`mat-096` has been answering its own question the whole time:
+
+    v1: 0.0010 mol reacted in 3600 s  —  4 Fe + 3 O₂ → 2 Fe₂O₃↓
+
+Iron, water and oxygen, and it rusts — with an extent and a rate. The row
+was recorded as the engine standing aside because the same step ALSO said,
+honestly, that no wired solver models iron dissolving in liquid. **A row
+that answers its question and then names a limitation was being counted as
+a row that answered nothing.**
+
+The classifier already had this argument in it. KID-12 added `FlameStarved`
+to the same allow-list with the note "a smothered flame is an answer with a
+number in it, not a gap in the model". A reaction that happened, with an
+extent and a rate, is the same kind of thing, so `Event::Reacted` joins it.
+
+**The mismatch count does not move (87).** Both rows carry
+`expected = "qualitative"` and now observe `computed`, so they are still
+mismatches — they have moved from the "engine stood aside" bucket into
+"route differs". That is the whole of the improvement and it is worth being
+precise about: **the stood-aside list is the tail worth working, and two of
+its fourteen entries were never gaps.** Whether "what three things does iron
+need to rust" ought to be answered qualitatively or with a rate is a real
+question and belongs to BRD-023, not to this refresh.
+
+### How to read the stood-aside list after this
+
+It is now twelve rows, and they are genuine. Three of them (`mat-003`,
+`mat-034`, `mat-108`, all CAP-16) are rate-and-surface-area questions the
+bench does not model; two (`mat-063`, `mat-064`, EXP-15) want brine and
+copper-sulfate electrolysis, and the electrolyser models metal-electrode
+cells only — it refuses salt water precisely and for the right reason:
+"neither a metal of the series nor a dissolved metal ion, so there is
+nothing to be an electrode". Those refusals are correct. They are also a
+capability nobody has built yet, which is a different sentence from the one
+this file used to be making about `mat-096`.

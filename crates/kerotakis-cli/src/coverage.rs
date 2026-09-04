@@ -571,6 +571,17 @@ fn execute_prompt(
                     | Event::FlameStarved { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
+                    // A reaction that happened, with an extent and a rate,
+                    // is the same kind of thing as a smothered flame: an
+                    // answer with a number in it. `mat-096` asks what iron
+                    // needs in order to rust, and the bench answers —
+                    // `0.0010 mol reacted in 3600 s — 4 Fe + 3 O₂ →
+                    // 2 Fe₂O₃↓` — and was recorded as having stood aside,
+                    // because it ALSO said honestly that it does not model
+                    // iron dissolving. A row that answers its question and
+                    // then names a limitation was being counted as a row
+                    // that answered nothing.
+                    | Event::Reacted { .. }
             )
         })
     {

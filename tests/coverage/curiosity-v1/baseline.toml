@@ -2075,8 +2075,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-096"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-097"
@@ -2093,8 +2093,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "mat-099"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-100"
