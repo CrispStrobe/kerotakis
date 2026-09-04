@@ -537,12 +537,12 @@
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +2.000 g chalk_stick (1 known ingredients)",
-      "v1: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v1: 6.494e-6 mol chalk (calcium carbonate) dissolved",
       "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
       "v2: +2.000 g chalk_stick (1 known ingredients)",
-      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v2: 6.225e-6 mol chalk (calcium carbonate) dissolved",
       "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "chalk-vinegar.lab",
@@ -751,18 +751,18 @@
     "events_sample": [
       "v1: +5.000 g raisin (0 known ingredients)",
       "v1: +11.0686 mol water",
-      "v1: The liquid is colourless and clear, a piece of dark brown raisin (dried grape) is in the beaker.",
+      "v1: The liquid is colourless and clear, a piece of dark brown raisin (dried grape) is at the bottom.",
       "v2: new vessel",
       "v2: +5.000 g raisin (0 known ingredients)",
       "v2: +200.000 g sparkling_water (2 known ingredients)",
-      "v2: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is in the beaker.",
+      "v2: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is at the bottom.",
       "v3: new vessel",
       "v3: +5.000 g raisin (0 known ingredients)",
       "v3: +6.6411 mol water",
       "v3: +0.5843 mol sucrose",
       "v3: 0.5843 mol sucrose dissolved",
       "v3: +100.000 g sparkling_water (2 known ingredients)",
-      "v3: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is in the beaker."
+      "v3: The liquid is colourless and clear, bubbles of gas are rising through it, a piece of dark brown raisin (dried grape) is at the bottom."
     ],
     "lesson": "dancing-raisins.lab",
     "vessels": [
@@ -1522,7 +1522,7 @@
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +0.0100 mol chalk (calcium carbonate)",
-      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v2: 2.598e-5 mol chalk (calcium carbonate) dissolved",
       "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: +0.0300 mol hydrochloric acid",
       "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
@@ -2085,7 +2085,7 @@
       "v4: +5.5343 mol water",
       "v4: +0.1000 mol hydrochloric acid",
       "v4: +0.0500 mol chalk (calcium carbonate)",
-      "v4: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v4: 1.299e-5 mol chalk (calcium carbonate) dissolved",
       "v4: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "never-mix.lab",
