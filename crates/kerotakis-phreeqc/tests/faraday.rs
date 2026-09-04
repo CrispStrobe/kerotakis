@@ -157,9 +157,19 @@ fn charge_beyond_the_supply_is_refused_rather_than_invented() {
     );
 }
 
-/// A beaker with no electrode says so instead of guessing one.
+/// Brine electrolyses with no metal electrode at all.
+///
+/// This test used to assert the opposite, and its own comment said why:
+/// "brine has no metal electrode here, **and chlorine is not modelled**".
+/// It was pinning a limitation, correctly, and the limitation has been
+/// lifted — two carbon rods, hydrogen at one and chlorine at the other, is
+/// the school cell and it needs no metal.
+///
+/// The refusal it used to check still exists and still matters, for the
+/// case that genuinely has nothing to work with: pure water does not
+/// conduct, and `electrolyse_solution.rs` holds that test now.
 #[test]
-fn a_vessel_with_no_electrode_is_refused() {
+fn brine_electrolyses_with_no_metal_electrode() {
     let (mut bench, v, mut stack) = bench_with(&[("water", 5.55), ("NaCl", 0.1)]);
     let events = bench
         .step_with(
@@ -172,11 +182,35 @@ fn a_vessel_with_no_electrode_is_refused() {
             &PermissiveScreen,
         )
         .expect("electrolyse");
+    let gas = |key: &str| -> f64 {
+        events
+            .iter()
+            .filter_map(|e| match e {
+                Event::GasEvolved { species, moles, .. }
+                | Event::GasContained { species, moles, .. }
+                    if species.0 == key =>
+                {
+                    Some(moles.0)
+                }
+                _ => None,
+            })
+            .sum()
+    };
+    // 1.0 A for 60 s is 60 C, so 6.22e-4 mol of electrons: half that as
+    // hydrogen, and the same again as chlorine.
     assert!(
-        events.iter().any(|e| matches!(
+        (gas("H2") - 3.11e-4).abs() < 2e-5,
+        "hydrogen at the cathode: {events:?}"
+    );
+    assert!(
+        (gas("Cl2") - gas("H2")).abs() < 1e-9,
+        "and one chlorine per hydrogen: {events:?}"
+    );
+    assert!(
+        !events.iter().any(|e| matches!(
             e,
             Event::NotYetModeled { what, .. } if what.contains("nothing here can be electrolysed")
         )),
-        "brine has no metal electrode here, and chlorine is not modelled: {events:?}"
+        "there is plenty here to electrolyse: {events:?}"
     );
 }

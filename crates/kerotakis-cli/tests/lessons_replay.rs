@@ -739,3 +739,225 @@ fn a_volcano_with_soap_in_it_climbs_out_of_the_glass() {
         "both vessels make the same gas; only one keeps it:\n{out}"
     );
 }
+
+/// KID-19b: the sorting a recycling plant does, in a glass of water.
+///
+/// K32 was a silent miss — four polymers with reviewed densities, all four
+/// sitting as undifferentiated solids, and `look` saying only that the
+/// water was cloudy. Nothing was missing but the comparison.
+#[test]
+fn plastics_sort_themselves_by_density_in_water() {
+    let lesson = lessons_dir().join("float-or-sink.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    assert!(
+        out.contains("polypropylene floats on top"),
+        "0.90 g/mL is lighter than water:\n{out}"
+    );
+    for (sinker, density) in [
+        ("polystyrene", "1.05"),
+        ("polyethylene terephthalate", "1.38"),
+    ] {
+        assert!(
+            out.contains(&format!("{sinker} at the bottom")),
+            "{density} g/mL sinks, and must be named where it went:\n{out}"
+        );
+    }
+    assert_eq!(
+        out.matches("floats on top").count(),
+        1,
+        "exactly one of the three floats:\n{out}"
+    );
+
+    // The lesson ends by trying the salt trick and the bench declining to
+    // pretend. Whoever reads it meets the limit before they rely on it.
+    assert!(
+        out.contains("dissolved ions' share of this density"),
+        "the brine caveat is the point of the last vessel:\n{out}"
+    );
+}
+
+/// K52: the borax snowflake, and the two different things a cooling
+/// solution can do.
+///
+/// The row said "no borate in the registry" long after KID-14 put one
+/// there; what was actually missing was a solubility at two temperatures.
+/// With it, KID-7's machinery does the rest — and does something more
+/// interesting than the numbers alone suggest.
+#[test]
+fn borax_crystallises_on_cooling_where_sugar_supersaturates() {
+    let lesson = lessons_dir().join("borax-snowflake.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Cold water holds almost none of it; hot water swallows it.
+    assert!(
+        out.contains("0.0202 mol sodium tetraborate (borax) dissolved"),
+        "25 g into cold water is mostly undissolved:\n{out}"
+    );
+    assert!(
+        out.contains("0.0879 mol sodium tetraborate (borax) dissolved"),
+        "heating dissolves the rest:\n{out}"
+    );
+    // And cooling gives it back, which is the experiment.
+    assert!(
+        out.contains("sodium tetraborate (borax) precipitated"),
+        "cooling must return the solid:\n{out}"
+    );
+
+    // The contrast: the same cooling makes sugar supersaturate instead.
+    // One mechanism, two substances, two different answers.
+    assert!(
+        out.contains("supersaturated") && out.contains("sucrose"),
+        "sugar stays dissolved where borax comes out:\n{out}"
+    );
+}
+
+/// K51: the refusal IS the deliverable.
+///
+/// A reusable hand warmer is a supersaturated sodium acetate solution, and
+/// the bench cooled one from 65 °C to 8 °C while saying nothing at all.
+/// It cannot be fixed by a datum or by another database — every `.dat`
+/// vendored with iphreeqc was searched and not one defines an acetate
+/// solid phase — so what the row wanted was for the silence to become a
+/// sentence.
+#[test]
+fn the_hand_warmer_says_why_it_cannot_click() {
+    let lesson = lessons_dir().join("hand-warmer.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // It knows the solution is past its limit, and by how much.
+    assert!(
+        out.contains("the crystallisation of sodium acetate"),
+        "the refusal must name what it cannot do:\n{out}"
+    );
+    assert!(
+        out.contains("0.488 mol is dissolved against a limit of 0.283 mol"),
+        "and say how far past saturation it is:\n{out}"
+    );
+    // And why: the phase, not the number, is what is missing.
+    assert!(
+        out.contains("trihydrate") && out.contains("acetate solid phase"),
+        "the cause is an absent phase, not an absent datum:\n{out}"
+    );
+    // The solution really is still liquid and still all there.
+    assert!(
+        out.contains("0.4876 mol  acetate ion"),
+        "nothing crystallised, and the ledger says so:\n{out}"
+    );
+}
+
+/// K16: the green that comes back on a wet copper coin.
+///
+/// The bench could already see that the solution was supersaturated
+/// against atacamite and could say so — *"those phases are in
+/// minteq.v4.dat but not in this lab's registry"* — and could put nothing
+/// at the bottom of the beaker. The database had the phase all along; the
+/// registry had no species for it, and phases are matched to species by
+/// composition. One registry entry, and the boundary becomes a solid.
+#[test]
+fn a_copper_coin_in_vinegar_and_salt_grows_its_own_green() {
+    let lesson = lessons_dir().join("copper-patina.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Acid alone gives a blue solution and no green.
+    let salt_at = out
+        .find("sodium chloride")
+        .unwrap_or_else(|| panic!("the lesson adds salt:\n{out}"));
+    assert!(
+        out[..salt_at].contains("The liquid is blue"),
+        "the acid dissolves the oxide first:\n{out}"
+    );
+    assert!(
+        !out[..salt_at].contains("atacamite"),
+        "no chloride, no atacamite:\n{out}"
+    );
+
+    // With chloride the green solid appears, and is named.
+    assert!(
+        out.contains("atacamite (green copper corrosion) precipitated"),
+        "chloride is what turns dissolved copper back into a solid:\n{out}"
+    );
+    assert!(
+        out.contains("green atacamite"),
+        "and the learner is told what colour it is:\n{out}"
+    );
+
+    // And the refusal it replaces is gone.
+    assert!(
+        !out.contains("supersaturated against Atacamite"),
+        "the bench no longer has to decline this one:\n{out}"
+    );
+}
+
+/// K40: blue vitriol, which turned out to be already working.
+///
+/// The row carried three complaints and three separate tasks had answered
+/// them without anyone re-reading it: KID-6 fixed the 109 °C boil with
+/// liquid water still in the ledger, KID-7 gave cooling solutions their
+/// crystals, and KID-20 stopped chalcanthite being drawn white. This test
+/// exists so the row cannot go stale in the other direction.
+#[test]
+fn a_cooling_copper_sulfate_solution_grows_blue_crystals() {
+    let lesson = lessons_dir().join("blue-crystals.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    assert!(
+        out.contains("net ionic: Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)"),
+        "the five waters are what make it blue vitriol:\n{out}"
+    );
+    assert!(
+        out.contains("blue copper(II) sulfate pentahydrate (chalcanthite)"),
+        "and the crystals are described as blue, not white:\n{out}"
+    );
+
+    // The concentration story: too dark to see through while the copper is
+    // dissolved, blue once most of it has crystallised out.
+    let cooled_at = out
+        .rfind("net ionic")
+        .unwrap_or_else(|| panic!("the lesson cools the solution:\n{out}"));
+    assert!(
+        out[..cooled_at].contains("The liquid is black"),
+        "a strong copper sulfate solution saturates to black:\n{out}"
+    );
+    assert!(
+        out[cooled_at..].contains("The liquid is blue"),
+        "and lightens as the copper leaves it:\n{out}"
+    );
+}
+
+/// K50: a kitchen pH map, and the one bottle the meter cannot price.
+///
+/// Four of the five answer. Apple juice does not, and the reason is not
+/// the recipe, the fruit or the engine: malic acid is resolved and in the
+/// glass, and no shipped database defines a malate, so its protons are in
+/// nobody's speciation. Lemon juice, two beakers along, is the control
+/// that makes that visible — same kind of juice, same kind of acid, and
+/// minteq.v4 happens to define a citrate.
+#[test]
+fn the_kitchen_ph_map_says_which_bottle_it_cannot_price() {
+    let lesson = lessons_dir().join("kitchen-ph.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    for reading in [
+        "v1 pH meter: 2.41",
+        "v2 pH meter: 10.02",
+        "v4 pH meter: 1.86",
+    ] {
+        assert!(out.contains(reading), "missing {reading}:\n{out}");
+    }
+    // The fifth is a sentence, not a number, and names its own cause.
+    assert!(
+        out.contains("no shipped database defines a malate species"),
+        "the refusal must say why:\n{out}"
+    );
+    assert!(
+        !out.contains("v5 pH meter:"),
+        "and must not also produce a number that looks like the others:\n{out}"
+    );
+}

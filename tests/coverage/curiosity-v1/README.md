@@ -627,3 +627,395 @@ classifier checks the curated route first.
 So a row can be *right* and still be evidence of nothing. Both of these
 computed a number the whole time. What changed today is which model produced
 it, and that was never visible in the file.
+
+## The answer-invariance sweep (2026-09-04)
+
+`tools/curiosity-answer-invariance.py`. Written after `mat-012` — a prompt
+asking how density distinguishes copper, zinc and aluminium, whose script
+weighed five grams of each on a balance — turned out to have matched its
+own `expected`, appeared in no mismatch list, and read as evidence of
+coverage for as long as the corpus had existed.
+
+**The rule needs no vocabulary: a prompt that distinguishes N things must
+produce N different answers.** If a script fills two or more vessels with
+different things and the bench says the same thing about all of them, the
+script cannot answer any question that separates them — whatever events it
+emits and whatever disposition it earns.
+
+Two refinements make it precise, and both were found by getting it wrong
+first:
+
+* **Setup echoes are not answers.** A first attempt compared whole
+  per-vessel output and found nothing, because `v1: +0.0787 mol copper`
+  differs from `v2: +0.0765 mol zinc`. That difference is the script
+  reading back what was typed into it. Only what the bench says *back*
+  counts, and with the echoes dropped `mat-012` scores 3 vessels → 1
+  answer.
+* **A refusal repeated is not this defect.** `mat-011` ("why are wires
+  copper rather than iron?") measures conductivity on two dry metals and
+  both vessels answer *"the conductivity meter reads nothing — no aqueous
+  solution has been characterised"*. Two subjects, one answer — but that is
+  an engine gap, already counted as `missing`, and no edit to the script
+  would change it. Prompts where every vessel refuses are excluded.
+
+The tool is validated against the instance it was written for: restoring
+`mat-012`'s pre-fix script makes it exit 1 and print `3 vessels, 1 distinct
+answers`; the current corpus exits 0.
+
+### What it found, and the more interesting thing it did not
+
+**Zero violations today**, on 8 comparison prompts. That is a thin result,
+and the reason is the finding:
+
+| | count |
+|---|---|
+| prompts | 500 |
+| comparative question ("than", "which", "faster", "difference between"…) | 55 |
+| …whose script builds two or more filled vessels | **6** |
+| …whose script builds one | 49 |
+| …of those single-vessel comparisons, passing today | 22 |
+| any prompt with two or more filled vessels | 14 |
+
+**Fifty-five questions ask a comparison and six of them build something to
+compare.** Some of the 49 are legitimate — "does a larger spoonful leave
+crystals in the same water" is one vessel by construction, and several
+compare a vessel against a value rather than against another vessel. Many
+are not: "does warm dough rise faster than cold dough", "does crushing
+magnesium make it react faster with acid", "does hot water dissolve more
+sugar than cold water" each name two conditions and script one.
+
+Those 49 are not currently a lie, because most of them are `missing` — the
+engine cannot answer them either way, so nothing false is being claimed.
+They become one the moment their mechanism lands: the row will start
+passing, on a script that never built the second condition. **That is
+mat-012's exact history**, and it is why the sweep is checked in rather
+than run once.
+
+The 22 that pass today are the half worth reading. Sorting findings by
+whether the row currently passes is the discipline this sweep is built on:
+a failing row is already on somebody's list, and a passing row whose script
+cannot reach its question is a false statement about coverage that nothing
+else in the harness will ever contradict.
+
+### Wiring it into the gate
+
+Not yet. It runs each comparison prompt through the shipped binary, which
+belongs beside `coverage curiosity --check` rather than in a unit test, and
+folding it in properly means teaching that runner to track answers per
+vessel. It exits non-zero today, so it can be added to CI as it stands
+whenever someone wants it; it is checked in now so the rule is written down
+where the next person writing a prompt will meet it.
+
+## Refresh 2026-09-04 (second): the cell that needs no metal
+
+`mat-063` (what forms at the electrodes in salt-water electrolysis) →
+`computed`/`computed-route`. `mat-064` (why copper plates onto one
+electrode) and `mat-110` (electrolysis to remove rust) →
+`qualitative`/`typed-observation`. All three were `missing`.
+
+**Stood aside 14 → 12, and this time by capability rather than by
+reclassification.** The engine does more than it did; the measurement
+followed. That is the distinction worth holding onto after #362, which
+moved the number by changing what counted as an answer and was closed
+unmerged for it.
+
+The electrolyser modelled one cell: a metal standing in a solution of its
+own ion. Brine needs no metal at all — two carbon rods — and the refusal
+was accurate about the model and wrong about the chemistry. Now:
+
+    add v1 water 100mL ; add v1 NaCl 0.01mol ; electrolyse v1 0.5A 30min
+    -> 0.0047 mol hydrogen ↑,  0.0047 mol chlorine ↑,  pH 6.98 -> 12.86
+
+The alkali is not a detail. That is the chloralkali process, and the caustic
+soda is what the cell is for.
+
+    add v1 water 100mL ; add v1 CuSO4 0.01mol ; electrolyse v1 0.5A 30min
+    -> 0.0047 mol copper plated (0.296 g),  0.0023 mol oxygen ↑,  pH 1.44
+
+Two questions, answered separately because they are separate: **how much**
+is `n = I·t/F`, arithmetic with a constant already present for the activity
+series; **what** is the activity series itself. A metal ion plates only when
+it is easier to reduce than water — copper at E° +0.342 does, sodium at
+−2.71 does not — and chloride is oxidised before water where there is
+chloride to oxidise, which is the whole difference between the two runs
+above.
+
+Pure water still refuses, and that refusal is the answer: pure water does
+not conduct, and a bench that electrolysed it would be teaching that it
+does.
+
+### `mat-110` moved and does not answer its question
+
+Flagged here rather than quietly accepted. It asks whether electrolysis can
+remove rust without dissolving the iron, and its script contains iron,
+bicarbonate and water — **no rust**. What it now does is correct water
+electrolysis in a bicarbonate electrolyte (0.0047 mol H₂, 0.0023 mol O₂),
+which is real and is not what was asked.
+
+That is a script that cannot reach its own question, so it belongs to the
+answer-invariance sweep rather than to this refresh. It is recorded here
+because a row moving out of `missing` for a good reason and a row moving out
+for the wrong one look identical in the drift, and the only way to tell is
+to read each one.
+## aq-067 was waiting for a bottle (2026-09-04)
+
+`aq-067` — *"Does lemon juice neutralise a sodium bicarbonate solution?"* —
+was declared `parse_boundary = "unknown_species"`, tagged
+`material-recipe-gap`, and owned by BRD-014. It was not a failing row or a
+gap in the engine: it was a **note that the shelf had no lemon juice**,
+written into the corpus by whoever wanted the question asked.
+
+K13's invisible-ink row needed the same bottle, so `lemon_juice` is now on
+the shelf — 91% water, 4.7% citric acid, a little sugar. That fulfils the
+note, so the declaration had to go, and the lint said so before I had
+noticed:
+
+```
+prompt aq-067: declared parse_boundary Some(UnknownSpecies), observed None
+```
+
+That is the corpus working exactly as intended. A prompt that declares
+*why* it cannot run is a to-do with an owner, and the lint refuses to let
+the declaration outlive the reason. Compare the four stale rows in
+`KIDS.md` this week, which had no such check and sat wrong for days.
+
+**`missing`/`unknown-species` → `computed`/`computed-route`**, one row of
+drift. The script now measures the pH it was always about: lemon juice at
+1.86, then 0.0471 mol of carbon dioxide off, ending at 9.75 — so the answer
+to the question is yes, and rather more than neutralise. `measure v1 ph`
+was added to the script, because a prompt that asks whether something
+neutralises and never reads a pH is the class the answer-invariance sweep
+was written for.
+
+## Bare English words, and three rows that got worse by getting better (2026-09-04)
+
+**Thirty of the 147 `missing` rows were blocked on a name.** Not on data,
+not on a mechanism — on the shelf being filed under the word a chemist
+uses while the prompt used the word a child uses.
+
+The evidence that this was an oversight rather than a decision is that
+**German already had the bare words and English did not**. `Essig`, `Hefe`,
+`Milch`, `Sand`, `Natron`, `Kreide` all resolve; `vinegar`, `yeast`,
+`milk` did not. Thirty-five of fifty-six recipes were reachable by an
+everyday word in German and only by a compound one in English. The project
+had already decided a bare word is claimable; it had only done it once.
+
+Thirteen bare English aliases now match the German: vinegar, milk, yeast,
+soap, sugar, oil, pepper, glue, ink, bicarb, filings — and not `wax`,
+because `candle_wax`'s own lot assumption declines it in writing, nor
+`apple` or `cabbage`, because a fruit is not its juice and a vegetable is
+not its indicator. `cola` and `sand` were rejected by the registry
+validator as already claimed, which is the guard working.
+
+**Fourteen rows opened**: `missing` 147 → 133, computed 229 → 236,
+qualitative 45 → 52. Each had declared `parse_boundary = unknown_species`
+and each declaration became false the moment the word resolved — the same
+mechanism that caught `aq-067`. One of them, `bio-075`, then failed on
+`wait 7d`: the parser has no day unit, and the parse boundary had been
+masking a second problem behind the first. It is `168h` now, the same week
+in a unit that exists.
+
+### The three that regressed, and why they are not a mistake
+
+`aq-123`, `mat-057` and `th-082` went **computed → qualitative**. All three
+are copper-sulfate displacement or cell rows, and none of them uses a new
+alias. The cause is K40's basic copper sulfates.
+
+Precipitating antlerite releases protons — `Cu3(OH)4SO4 + 4 H+ = 3 Cu+2 +
+4 H2O + SO4-2`, run backwards — so the solution is now slightly more acid
+than it was. That is enough for the displacement model to add its honest
+aside: *"iron should dissolve in this acid by the series (driving force
++0.25 V), but hydrogen has to form on iron"*. That aside is an `Inert`
+event, `Inert` is in the classifier's typed-observation list, and that list
+is checked **before** the route-based branch that would have said
+`computed`.
+
+So the chemistry is strictly better — more phases modelled, a more accurate
+pH, an extra true statement — and the score is worse. The copper is still
+plated: `0.009967 mol copper plated out onto iron`, unchanged.
+
+**This is the answers-and-qualifies problem arriving from the engine's end
+rather than the corpus's.** The other instances were rows that happened to
+qualify; this is a change that made the bench explain *more* and be marked
+down for it. The classifier ordering is the cause and it is not being
+touched here: a commit that adds species has no business redefining how
+rows are scored, which is the lesson of #362. Raised for whoever owns the
+ordering, with these three rows as the worked example.
+
+## The vocabulary batch, and what a stale `parse_boundary` costs
+
+Ninety-five of the 145 `missing` rows carried reason code `unknown-species`:
+the run never started, because the parser did not know a word. Counting the
+distinct tokens gave 88, and the shape of that distribution is the useful
+part — a handful wanted by three rows each (`silica_glass`, `gelatin`,
+`apple`, `albumin`, `pondweed`), a long flat tail wanted by one. There is no
+small set of additions that unblocks most of it; volume here is bought a
+material at a time.
+
+Twenty-six were added, closing 63 rows. Two things worth recording for whoever
+does the next batch.
+
+**Ask the engine, not the registry file.** The first pass diffed the corpus
+tokens against `registry-source-v1.json` and reported `vinegar`, `milk`,
+`soap`, `yeast`, `lemon_juice`, `flour` and `vegetable_oil` as unknown. All
+seven already resolved. Material aliases do not live where that walk was
+looking, so the list was wrong in the direction that wastes the most work —
+it invited re-adding things that were already there. Probing the binary with
+`add v1 <token> 1g` is a two-line loop and is ground truth.
+
+**Every added material makes some `parse_boundary` declaration false, and the
+lint will stop the corpus dead until they are removed.** Thirty-five rows
+across two batches. This is the lint behaving exactly as designed — a
+declaration is a to-do with an owner, and one that has become false is a
+claim the corpus is still blocked when it is not — but it means the real unit
+of work is *add the material, then sweep the declarations*, and a batch that
+skips the sweep does not run at all. `kero coverage curiosity --json` names
+every stale row.
+
+**The validator's naming rules, in the order they bite.** A material's `name`
+may not equal its `canonical_key`; an alias may not equal the key or another
+alias case-insensitively (`Kaolin` in `de` against `kaolin` in `en` collides;
+so does `Butter` against key `butter`); and a material may not shadow a
+species name. Six of the twenty-six tripped one of these, all on the first
+export, none of them interesting — but they are silent until export and the
+error names an index into `material_recipes`, not a key, so keep a count of
+where the new block starts.
+
+## An insolubility remark that read as a claim about reactivity
+
+Eleven species gained reviewed near-zero aqueous solubilities, and `solve.rs`
+turned that into a positive `Event::Inert` — "it does not dissolve, and it is
+still all there" — in place of a `NotYetModeled` apology. Seven rows improved
+and seven regressed, and the regressions were not a scoring artefact. The
+bench printed
+
+    v1: starch does not react — starch does not dissolve in water: ...
+    v1: 2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁
+
+in one run. Both sentences are true and the pair is false.
+
+The fix has two halves, and the split is the point. The engine holds back the
+remark only when a curated reaction *that can fire in this vessel* consumes
+the species — `curated::consumes`, built on a `fires` predicate extracted from
+`CuratedSolver::applies` so the two cannot drift apart. Being a *product* does
+not count, or chalk would lose its answer to reactions it is not in.
+
+That fixes the sentence and not the row, because the remark is emitted when
+starch is added and the amylase arrives on a later line: it is true when
+spoken, and stale by the end of the transcript the row is graded on. So the
+classifier gained the second half — an `Inert` beside a **succeeded curated
+route** is an aside, not the result. Narrow for the same reason the
+`Plated`/`CellVoltage` guard next to it is narrow: a computed route is not
+enough. `bio-042` (starch + HCl + heat) and `mat-029` (PET + NaOH + heat) have
+no curated hydrolysis, so their computed route is the acid or the base
+speciating rather than the polymer doing anything, and there "the polymer is
+unchanged" *is* the answer. Those two stay qualitative, which is what they
+are, and they are the two accepted regressions in this branch.
+
+Net: 63 rows out of `missing`, 2 regressed, expectation mismatches flat at 85
+across every step — which is the number that would have caught a guard written
+wider than its evidence.
+
+### A rough edge left in deliberately: `0.0000 mol chalk dissolved`
+
+Giving calcium carbonate its reviewed 0.0013 g/100 mL let the aqueous path
+dissolve a real trace of it — 6.49e-6 mol — where before the run said "not yet
+modelled". That is the improvement. It renders as
+
+    v1: 0.0000 mol chalk (calcium carbonate) dissolved
+    v1: chalk (calcium carbonate) does not react — chalk does not dissolve in
+        water: its reviewed solubility is 0.0013 g per 100 mL, ...
+
+and the first line is a number that says nothing, which is the defect this
+branch spent its time hunting. It is left in. The event is *true* — there is
+aqueous CaCO₃ in that beaker — so suppressing it would hide real inventory to
+tidy a display; and the honest fix, not printing a non-zero quantity as
+`0.0000`, means changing `{:.4}` in `render.rs`, which every golden in the repo
+is written against. That is a formatting change with a repo-wide blast radius
+and it does not belong at the end of a branch about materials. The two lines
+do explain each other. Recorded here so the next person finds a known edge
+rather than a fresh bug.
+
+## A prompt was being classified on its neighbour's routes
+
+`aq-091` came back `curated` from a smoke run and `computed` from a full run,
+same script, same binary, deterministic in each. That is not a tolerance and
+not nondeterminism — it is one prompt's verdict depending on which prompt
+happened to run before it.
+
+`SolverStack::equilibrate` clears `last_routes` on entry, so the field is only
+ever the routes of the last step that *equilibrated*. A step that does not —
+`new`, and any operator that only touches bookkeeping — leaves the previous
+step's routes standing, and at the top of a script that is the previous
+**prompt's** last step. `execute_prompt` then did
+
+    routes.extend(stack.last_routes.iter().cloned());
+
+on every step including the first, so the leading `new` of `aq-091` collected
+whatever its neighbour had finished with. In the smoke run that neighbour left
+`curated-reactions: Succeeded`; in the full run, `NotApplicable`. The
+classifier reads `succeeded(SolverRouteKind::Curated)`, so the row was graded
+`curated` on a route belonging to another prompt.
+
+The fix is one line — clear `last_routes` before each step — and the comment
+at that line is the part worth keeping, because the bug is invisible in the
+place it does damage. Note what it cost to find: the *full* corpus is
+unaffected (0 rows move), because there every neighbour happened to agree.
+Only the smoke subset disagreed, and only because a material added in this
+branch made `aq-091` run at all. **The bug was latent for as long as the row
+was `missing`, and closing the row is what exposed it.**
+
+Two consequences for anyone reading a coverage report:
+
+- A route list is now a fact about its own prompt. Before this, a prompt whose
+  script began with a non-equilibrating operator had a route list that started
+  with someone else's evidence.
+- The smoke gate is not merely a faster full run. It selects a different
+  neighbour ordering, and that is exactly why it caught something the
+  500-prompt run could not. A disagreement between the two is a signal about
+  state leaking across prompts, not a flake to be retried.
+
+## The CAP-16 cluster is not a capability gap (2026-09-04)
+
+Three of the ten remaining stood-aside rows are filed under CAP-16, surface
+area and rate, and read as a single missing capability: the bench does not
+compute rates. **Building one would not move any of them.** Their questions
+are comparative and their scripts build one condition:
+
+| row | question | script |
+|---|---|---|
+| `mat-003` | Does crushing magnesium make it react **faster**? | grinds, never compares against unground |
+| `mat-034` | Can ground powder dissolve **faster than a solid chunk**? | names two conditions, builds one |
+| `mat-108` | How does acid **change** the corrosion rate? | one acid concentration, no baseline |
+
+Every one is a single vessel. `mat-003` grinds the magnesium and then has
+nothing to compare the ground sample with; a perfect kinetics model would
+answer "how fast", and the question is "faster than what". `mat-034` states
+both conditions in its own sentence and builds only the first.
+
+So kinetics is **necessary but not sufficient** for these rows. Each also
+needs its script rewritten to build both conditions — which is a corpus
+change and a prescriptive one, and belongs with whoever owns CAP-16 rather
+than to a refresh.
+
+This is worth writing down because the mis-attribution is expensive in one
+direction: it invites a large capability build on the expectation that ten
+stood-aside rows become seven, and they would not.
+
+### And the answer-invariance sweep cannot see them
+
+`tools/curiosity-answer-invariance.py` compares what the bench says **across
+vessels**: a script that fills two or more and gets one answer cannot
+distinguish them. These three fill one vessel each, so the sweep is blind to
+them by construction — not a flaw in it, a different shape.
+
+The shape is: **a comparative question whose script builds a single
+condition.** It is the same defect as `mat-012` — a script that cannot reach
+its own question — arriving without the multi-vessel signature that makes
+`mat-012` detectable. `mat-012` weighed three metals and got three identical
+readings; these grind one sample and never weigh the other.
+
+Worth a second pass over the corpus for it. The mechanical part is
+findable — a script that performs a condition-changing operation (`grind`,
+`heat`, a concentration choice) exactly once, in one vessel — even though
+deciding whether the question is comparative needs a reader.

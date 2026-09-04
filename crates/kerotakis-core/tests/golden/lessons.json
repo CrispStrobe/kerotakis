@@ -1,4 +1,40 @@
 {
+  "blue-crystals": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1880 mol copper sulfate",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v1: 25.0 °C → 70.9 °C",
+      "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 70.9 °C → 2.0 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "blue-crystals.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.18795933,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 275.1893
+      }
+    ]
+  },
   "boiling-curve": {
     "event_count": 25,
     "events_sample": [
@@ -77,6 +113,73 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 436.3948
+      }
+    ]
+  },
+  "borax-snowflake": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1242 mol sodium tetraborate (borax)",
+      "v1: 0.0202 mol sodium tetraborate (borax) dissolved",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: 25.0 °C → 81.8 °C",
+      "v1: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+      "v1: 0.0879 mol sodium tetraborate (borax) dissolved",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: 81.8 °C → 13.6 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
+      "v1: 0.0957 mol sodium tetraborate (borax) precipitated ↓",
+      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.7304 mol sucrose",
+      "v2: 0.6367 mol sucrose dissolved",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: 25.0 °C → 57.5 °C",
+      "v2: 25.00 kJ requested; 25.00 kJ delivered — time model not yet coupled",
+      "v2: 0.0937 mol sucrose dissolved"
+    ],
+    "lesson": "borax-snowflake.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01242427,
+            "phase": "Aqueous",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 0.11181847,
+            "phase": "Solid",
+            "species": "Na2B4O7"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 286.7822
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.73036096,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 291.6584
       }
     ]
   },
@@ -430,14 +533,16 @@
     ]
   },
   "chalk-vinegar": {
-    "event_count": 7,
+    "event_count": 9,
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +2.000 g chalk_stick (1 known ingredients)",
-      "v1: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
       "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
       "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "chalk-vinegar.lab",
@@ -445,7 +550,12 @@
       {
         "contents": [
           {
-            "moles": 0.01998262,
+            "moles": 6.49e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997612,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -467,7 +577,12 @@
             "species": "CH3COOH"
           },
           {
-            "moles": 0.01998262,
+            "moles": 6.23e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997639,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -536,6 +651,49 @@
       },
       {
         "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "copper-patina": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +0.0126 mol copper(II) oxide",
+      "v1: +30.180 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and clear, there is black copper(II) oxide at the bottom.",
+      "v1: +0.0342 mol sodium chloride",
+      "v1: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is black copper(II) oxide at the bottom."
+    ],
+    "lesson": "copper-patina.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02512822,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.01257071,
+            "phase": "Solid",
+            "species": "CuO"
+          },
+          {
+            "moles": 0.03422138,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 1.59150708,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
@@ -1172,6 +1330,102 @@
       }
     ]
   },
+  "float-or-sink": {
+    "event_count": 28,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.1188 mol polypropylene",
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1 density meter: 1.00 g/mL",
+      "v1: The liquid is colourless and clear, white polypropylene floats on top.",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +0.0480 mol polystyrene",
+      "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: 97% of the suspended particles settle in 120 s",
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: polystyrene does not react — polystyrene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: The liquid is colourless and very slightly hazy, there is white polystyrene at the bottom.",
+      "v3: new vessel",
+      "v3: +11.0686 mol water",
+      "v3: +0.0260 mol polyethylene terephthalate",
+      "v3: polyethylene terephthalate does not react — polyethylene terephthalate does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: 97% of the suspended particles settle in 120 s",
+      "v3: 100% of the suspended particles settle in 120 s",
+      "v1: polypropylene does not react — polypropylene does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
+    ],
+    "lesson": "float-or-sink.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.11881847,
+            "phase": "Solid",
+            "species": "PP"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04800768,
+            "phase": "Solid",
+            "species": "PS"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02601863,
+            "phase": "Solid",
+            "species": "PET"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 1.02664134,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "grit": {
     "event_count": 14,
     "events_sample": [
@@ -1223,8 +1477,41 @@
       }
     ]
   },
+  "hand-warmer": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +0.4876 mol sodium acetate",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 25.00 °C",
+      "v1: 25.0 °C → -23.5 °C",
+      "v1: 12.00 kJ requested; 12.00 kJ removed — time model not yet coupled",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: -23.52 °C"
+    ],
+    "lesson": "hand-warmer.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.4876027,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 249.6308
+      }
+    ]
+  },
   "hard-water": {
-    "event_count": 31,
+    "event_count": 32,
     "events_sample": [
       "v1: +27.6714 mol water",
       "v1: +0.0202 mol baking soda (sodium bicarbonate)",
@@ -1235,17 +1522,17 @@
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +0.0100 mol chalk (calcium carbonate)",
-      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: +0.0300 mol hydrochloric acid",
-      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2 balance: 201.49 g",
       "v3: new vessel",
       "v3: +27.6714 mol water",
       "v3: +0.0050 mol calcium chloride",
       "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v3: +0.0030 mol magnesium sulfate",
-      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
-      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction"
+      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "hard-water.lab",
     "vessels": [
@@ -1274,7 +1561,12 @@
       {
         "contents": [
           {
-            "moles": 0.00999131,
+            "moles": 0.00002598,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.00996533,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -1418,6 +1710,149 @@
           },
           {
             "moles": 1.71573689,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "kitchen-ph": {
+    "event_count": 25,
+    "events_sample": [
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0595 mol baking soda (sodium bicarbonate)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.0472 mol washing soda (sodium carbonate)",
+      "v3: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v4: new vessel",
+      "v4: +51.500 g lemon_juice (5 known ingredients)",
+      "v4: 0.0029 mol D-fructose (fruit sugar) dissolved",
+      "v4: 0.0029 mol D-glucose (dextrose) dissolved",
+      "v4: 0.0008 mol sucrose dissolved",
+      "v4: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v5: new vessel",
+      "v5: +52.250 g apple_juice (5 known ingredients)"
+    ],
+    "lesson": "kitchen-ph.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04717515,
+            "phase": "Solid",
+            "species": "Na2CO3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0125987,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00075227,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.59286706,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01711156,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00696063,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00194836,
+            "phase": "Aqueous",
+            "species": "malic_acid"
+          },
+          {
+            "moles": 0.00198439,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.55927838,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1631,7 +2066,7 @@
     ]
   },
   "never-mix": {
-    "event_count": 18,
+    "event_count": 19,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1000 mol bleach (sodium hypochlorite)",
@@ -1650,7 +2085,8 @@
       "v4: +5.5343 mol water",
       "v4: +0.1000 mol hydrochloric acid",
       "v4: +0.0500 mol chalk (calcium carbonate)",
-      "v4: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+      "v4: 0.0000 mol chalk (calcium carbonate) dissolved",
+      "v4: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "never-mix.lab",
     "vessels": [
@@ -1718,7 +2154,12 @@
       {
         "contents": [
           {
-            "moles": 0.05,
+            "moles": 0.00001299,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.04998701,
             "phase": "Solid",
             "species": "CaCO3"
           },
@@ -1843,19 +2284,19 @@
     "events_sample": [
       "v1: +2.7671 mol water",
       "v1: +100.000 g corn_starch (1 known ingredients)",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 60 rpm for 5 s — bar tip 0.079 m/s; 73% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.08 m/s",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v1: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
       "v1: 67% starch by mass — a shear-thickening suspension at 1.00 of full strength, sheared at 0.79 m/s",
-      "v1: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +20.000 g corn_starch (1 known ingredients)",
-      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
       "v2: magnetic stirrer 600 rpm for 5 s — bar tip 0.785 m/s; 100% resuspension",
-      "v2: not yet modelled — starch in contact with liquid: no wired solver models this dissolution/reaction"
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there"
     ],
     "lesson": "oobleck.lab",
     "vessels": [
@@ -2418,28 +2859,28 @@
     ]
   },
   "slime": {
-    "event_count": 31,
+    "event_count": 28,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +52.500 g pva_glue (2 known ingredients)",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: +0.050 g borax (1 known ingredients)",
+      "v1: 0.0001 mol sodium tetraborate (borax) dissolved",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v1: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v2: +52.500 g pva_glue (2 known ingredients)",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: +0.250 g borax (1 known ingredients)",
+      "v2: 0.0007 mol sodium tetraborate (borax) dissolved",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 15% of the poly(vinyl alcohol) is bound into a gel by 0.00065 mol sodium tetraborate (borax) across 11.55 g of polymer",
       "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v2: not yet modelled — poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: not yet modelled — sodium tetraborate (borax) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+      "v3: new vessel",
+      "v3: +5.5343 mol water"
     ],
     "lesson": "slime.lab",
     "vessels": [
@@ -2447,7 +2888,7 @@
         "contents": [
           {
             "moles": 0.00013095,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {
@@ -2469,7 +2910,7 @@
         "contents": [
           {
             "moles": 0.00065476,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {
@@ -2491,7 +2932,7 @@
         "contents": [
           {
             "moles": 0.00523807,
-            "phase": "Solid",
+            "phase": "Aqueous",
             "species": "Na2B4O7"
           },
           {

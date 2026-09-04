@@ -95,14 +95,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-016"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-017"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-018"
@@ -113,38 +113,38 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-019"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-020"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-021"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-022"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-023"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-024"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "aq-025"
@@ -401,14 +401,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-067"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-068"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-069"
@@ -545,20 +545,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-091"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-092"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-093"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "aq-094"
@@ -623,8 +623,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "aq-104"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-105"
@@ -755,20 +755,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-001"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-002"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-003"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-004"
@@ -791,8 +791,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-007"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-008"
@@ -809,38 +809,38 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-010"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-011"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-012"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-013"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-014"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-015"
 owning_task = "BRD-073"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-016"
@@ -869,14 +869,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-020"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-021"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-022"
@@ -887,14 +887,14 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-023"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-024"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-025"
@@ -906,13 +906,13 @@ reason_code = "unknown-species"
 id = "bio-026"
 owning_task = "EXP-9"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-027"
 owning_task = "BRD-052"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-028"
@@ -942,7 +942,7 @@ reason_code = "curated-route"
 id = "bio-032"
 owning_task = "EXP-9"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-033"
@@ -971,20 +971,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-037"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-038"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-039"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-040"
@@ -1001,8 +1001,8 @@ reason_code = "qualitative-route"
 [[observation]]
 id = "bio-042"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-043"
@@ -1013,32 +1013,32 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-044"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-045"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-046"
 owning_task = "BRD-050"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-047"
 owning_task = "BRD-050"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-048"
 owning_task = "BRD-050"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-049"
@@ -1091,8 +1091,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-057"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-058"
@@ -1103,8 +1103,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-059"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-060"
@@ -1151,14 +1151,14 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-067"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-068"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-069"
@@ -1181,8 +1181,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-072"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-073"
@@ -1193,14 +1193,14 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-074"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-075"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-076"
@@ -1319,8 +1319,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "bio-095"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-096"
@@ -1386,7 +1386,7 @@ reason_code = "unknown-species"
 id = "bio-106"
 owning_task = "BRD-023"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-107"
@@ -1409,8 +1409,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-110"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-111"
@@ -1584,7 +1584,7 @@ reason_code = "computed-route"
 id = "mat-014"
 owning_task = "BRD-014"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-015"
@@ -1626,13 +1626,13 @@ reason_code = "not-yet-modeled"
 id = "mat-021"
 owning_task = "EXP-12"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-022"
 owning_task = "EXP-12"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-023"
@@ -1661,8 +1661,8 @@ reason_code = "unsafe-toxic-combustion"
 [[observation]]
 id = "mat-027"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-028"
@@ -1673,8 +1673,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-029"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-030"
@@ -1697,14 +1697,14 @@ reason_code = "typed-observation"
 [[observation]]
 id = "mat-033"
 owning_task = "BRD-070"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-034"
 owning_task = "CAP-16"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-035"
@@ -1715,8 +1715,8 @@ reason_code = "unsupported-surface-forces"
 [[observation]]
 id = "mat-036"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-037"
@@ -1740,13 +1740,13 @@ reason_code = "typed-engine-event"
 id = "mat-040"
 owning_task = "EXP-12"
 outcome = "qualitative"
-reason_code = "qualitative-route"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-041"
 owning_task = "BRD-081"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "mat-042"
@@ -1763,8 +1763,8 @@ reason_code = "unsupported-fracture-mechanics"
 [[observation]]
 id = "mat-044"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-045"
@@ -1775,14 +1775,14 @@ reason_code = "unsafe-high-hazard-reagent"
 [[observation]]
 id = "mat-046"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "mat-047"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-048"
@@ -1793,14 +1793,14 @@ reason_code = "unsupported-fracture-mechanics"
 [[observation]]
 id = "mat-049"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-050"
 owning_task = "BRD-070"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-051"
@@ -1818,13 +1818,13 @@ reason_code = "computed-route"
 id = "mat-053"
 owning_task = "BRD-014"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-054"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-055"
@@ -1877,20 +1877,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-063"
 owning_task = "EXP-15"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-064"
 owning_task = "EXP-15"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-065"
 owning_task = "BRD-060"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-066"
@@ -1967,8 +1967,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-078"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-079"
@@ -1979,8 +1979,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-080"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "mat-081"
@@ -2003,8 +2003,8 @@ reason_code = "unsupported-streak-test"
 [[observation]]
 id = "mat-084"
 owning_task = "BRD-070"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-085"
@@ -2051,8 +2051,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-092"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-093"
@@ -2100,7 +2100,7 @@ reason_code = "not-yet-modeled"
 id = "mat-100"
 owning_task = "BRD-023"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-101"
@@ -2124,7 +2124,7 @@ reason_code = "typed-engine-event"
 id = "mat-104"
 owning_task = "BRD-070"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-105"
@@ -2159,8 +2159,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-110"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "mat-111"
@@ -2291,8 +2291,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-007"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-008"
@@ -2675,14 +2675,14 @@ reason_code = "unknown-species"
 [[observation]]
 id = "th-071"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-072"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-073"

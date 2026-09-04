@@ -1,0 +1,49 @@
+# Which plastics float?
+#
+# Recycling sorts plastics by density, and you can do it in a glass. Every
+# one of these is a solid, all of them look much the same, and the water
+# tells them apart without weighing anything: what is lighter than the
+# liquid comes to the top, and what is heavier goes to the bottom.
+register lv2
+
+# 1. Polypropylene, 0.90 g/mL — lighter than water.
+add v1 water 200mL
+add v1 PP 5g
+measure v1 density
+look v1
+
+# 2. Polystyrene, 1.05 g/mL. Barely heavier — but heavier is heavier. Give
+#    it a couple of minutes: a solid that has just been dropped in is still
+#    swirling, and the bench says so before it says where it ended up.
+new beaker
+add v2 water 200mL
+add v2 PS 5g
+wait 2min
+look v2
+
+# 3. PET, 1.38 g/mL, the drinks-bottle plastic. Heavier again.
+new beaker
+add v3 water 200mL
+add v3 PET 5g
+wait 2min
+look v3
+
+# The sorting worked: one floats, two sink, and nothing was weighed. That
+# is the whole of the industrial method — a float-sink tank with the liquid
+# set to a chosen density.
+#
+# What this does not model: the density belongs to the MATERIAL, not to the
+# piece. A hollow bottle of PET floats in a real sink and this bench would
+# still call PET heavier than water, because it has no shape to reason
+# about — the same boundary the density meter states. Surface tension,
+# which really does hold small light objects up, is not modelled either.
+#
+# And a caution the bench prints for itself: raising the water's density
+# with salt is how you would separate the two sinkers, and this model
+# cannot do it. Every ion in the registry carries water's density as a
+# placeholder, so salt water reads exactly 1.00 g/mL. The meter says so
+# rather than letting you believe the brine.
+new beaker
+add v4 water 200mL
+add v4 NaCl 60g
+measure v4 density

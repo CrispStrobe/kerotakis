@@ -316,10 +316,19 @@ Notes per layer:
   cascade (mirroring L4's), each layer labeled with what produced it:
   1. **Curated codex outcome** — shows exactly what forms (the current seed
      entries live here).
-  2. **Computed outcome** where a solver genuinely covers it: chlorine
-     evolution from hypochlorite + acid is redox speciation (PHREEQC,
-     llnl.dat-class database — spike this; if it works the entry moves from
-     curated to computed); an L2g Gibbs minimisation finding a strongly
+  2. **Computed outcome** where a solver genuinely covers it. The
+     hypochlorite example this list used to give has since been SPIKED AND
+     ANSWERED, negatively, and the answer is worth keeping because it is
+     permanent: chlorine evolution from hypochlorite + acid CANNOT become
+     computed, because no PHREEQC database defines a hypochlorite species
+     at all. Searched by name for `HClO`, `ClO-`, `Cl(1)` and the word
+     itself across every `.dat` vendored with iphreeqc on 2026-09-04 —
+     including llnl.dat, which is the one this note proposed — and the
+     `ClO-` matches are all perchlorate. It stays curated permanently, and
+     it now fires in both orders (#357) with the beaker saying why it
+     cannot be speciated (#367, `NotInAnyDatabase`). The general point
+     survives its own example: the cascade is right, and a route that no
+     shipped database can supply is a boundary rather than a to-do; an L2g Gibbs minimisation finding a strongly
      exothermic accessible state (high adiabatic flame T) *is* an
      energetic-mixture detector; build-time RMG/xtb ΔH_rxn plus classical
      indicators (oxygen balance, energetic functional groups) give

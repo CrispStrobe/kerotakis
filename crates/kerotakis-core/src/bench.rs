@@ -772,7 +772,7 @@ impl Bench {
                     // the thermal solver never engages — and reporting that
                     // silence as "it does not burn" would be a false
                     // observation dressed as a result.
-                    None if !examined => events.push(Event::NotYetModeled {
+                    None if !examined => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
                         vessel: *vessel,
                         what: "whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way".to_string(),
                     }),
@@ -1125,6 +1125,7 @@ impl Bench {
                     if wanted < 0.0 {
                         let could_pay = cp * from.0 / 1000.0;
                         events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::ModelBoundary,
                             vessel: *vessel,
                             what: format!(
                                 "this vessel had only {could_pay:.2} kJ to give up before absolute \
@@ -1140,6 +1141,7 @@ impl Bench {
                     }
                 } else {
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolver,
                         vessel: *vessel,
                         what: "heating an empty vessel (container heat capacity not modelled)"
                             .to_string(),
@@ -1919,6 +1921,7 @@ impl Bench {
                 let present = v.moles_of(&water);
                 if present.0 <= 0.0 {
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NothingToActOn,
                         vessel: *vessel,
                         what: "nothing to evaporate — no water in the vessel".to_string(),
                     });
@@ -1954,6 +1957,7 @@ impl Bench {
                         .collect();
                     if dry && !stranded.is_empty() {
                         events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::NoSolver,
                             vessel: *vessel,
                             what: format!(
                                 "the last of the water is gone and {} are still shown as \
@@ -1983,7 +1987,7 @@ impl Bench {
                         .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
                         .collect();
                     if !other_liquids.is_empty() {
-                        events.push(Event::NotYetModeled {
+                        events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
                             vessel: *vessel,
                             what: format!(
                                 "co-evaporation of {} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
@@ -2046,6 +2050,7 @@ impl Bench {
                 let volatile = w + e;
                 if volatile <= 0.0 {
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NotParameterised,
                         vessel: *from,
                         what: "distillation of a vessel with no liquid water or ethanol — \
                                other volatile liquids need their Antoine constants curated \
@@ -2062,6 +2067,7 @@ impl Bench {
                         pressure_kpa,
                     ) {
                         None => events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::ModelBoundary,
                             vessel: *from,
                             what: format!(
                                 "a bubble point for this mixture at {pressure_kpa:.1} kPa — \
@@ -2148,6 +2154,7 @@ impl Bench {
                 let src = self.vessel_mut(*from)?;
                 let Some((_upper, lower)) = crate::solve::layered_pair(src) else {
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NothingToActOn,
                         vessel: *from,
                         what: "draining a single-phase liquid — the funnel only separates \
                                what the thermodynamics has already split into layers"
@@ -2295,7 +2302,7 @@ impl Bench {
                             value: info.ph,
                             unit: "pH".to_string(),
                         }),
-                        None => events.push(Event::NotYetModeled {
+                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
                             vessel: *vessel,
                             what: "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
                                 .to_string(),
@@ -2328,7 +2335,7 @@ impl Bench {
                                 unit: "mL".to_string(),
                             })
                         }
-                        _ => events.push(Event::NotYetModeled {
+                        _ => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::BoundaryMismatch,
                             vessel: *vessel,
                             what: "the volume meter reads a sealed vessel's headspace, and \
                                    this one is open — seal it to give the gas a measured \
@@ -2344,7 +2351,7 @@ impl Bench {
                                 .microsiemens_per_cm,
                             unit: "µS/cm".to_string(),
                         }),
-                        None => events.push(Event::NotYetModeled {
+                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
                             vessel: *vessel,
                             what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
                         }),
@@ -2364,6 +2371,17 @@ impl Bench {
                                 value: density,
                                 unit: "g/mL".to_string(),
                             });
+                            // KID-19b: and say what the number leaves out.
+                            if crate::buoyancy::ionic_volume_unaccounted(v) {
+                                events.push(Event::NotYetModeled {
+                                    vessel: *vessel,
+                                    // The ions have a density field; it is a
+                                    // structural default rather than a measured
+                                    // value, which is a datum nobody reviewed.
+                                    cause: crate::ops::NotModelledCause::NoReviewedDatum,
+                                    what: "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing".to_string(),
+                                });
+                            }
                         } else {
                             // Dry: then the instrument is a balance and a
                             // measuring cylinder, and the reading is the
@@ -2394,7 +2412,7 @@ impl Bench {
                                             value: density,
                                             unit: "g/mL".to_string(),
                                         }),
-                                        None => events.push(Event::NotYetModeled {
+                                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoReviewedDatum,
                                             vessel: *vessel,
                                             what: format!(
                                                 "the density of {} — the registry carries no reviewed density for it, so the piece has a mass here and no size",
@@ -2414,7 +2432,7 @@ impl Bench {
                                             value: density,
                                             unit: "g/mL".to_string(),
                                         }),
-                                        None => events.push(Event::NotYetModeled {
+                                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoReviewedDatum,
                                             vessel: *vessel,
                                             what: format!(
                                                 "the density of {} — the recipe carries no reviewed bulk density",
@@ -2423,7 +2441,7 @@ impl Bench {
                                         }),
                                     }
                                 }
-                                ([], []) => events.push(Event::NotYetModeled {
+                                ([], []) => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
                                     vessel: *vessel,
                                     what: "a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh".to_string(),
                                 }),
@@ -2439,7 +2457,7 @@ impl Bench {
                                     named.extend(
                                         objects.iter().map(|portion| portion.material.clone()),
                                     );
-                                    events.push(Event::NotYetModeled {
+                                    events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolver,
                                         vessel: *vessel,
                                         what: format!(
                                             "a single density for this vessel: it holds {}, and a density belongs to one substance rather than to a mixture of them. Weigh them separately",
@@ -2460,7 +2478,7 @@ impl Bench {
                                 unit: reading.observable,
                             });
                         } else {
-                            events.push(Event::NotYetModeled {
+                            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
                                 vessel: *vessel,
                                 what: "no aqueous solution for spectrophotometer".to_string(),
                             });
@@ -2522,7 +2540,7 @@ impl Bench {
                             .map(|p| p.moles.0)
                             .sum();
                         if mobile_moles <= 0.0 {
-                            events.push(Event::NotYetModeled {
+                            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
                                 vessel: *vessel,
                                 what: "chromatography needs an aqueous sample — \
                                        the column's mobile phase is water"
@@ -2593,7 +2611,7 @@ impl Bench {
                                     .iter()
                                     .map(|s| s.0.as_str())
                                     .collect();
-                                events.push(Event::NotYetModeled {
+                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NotParameterised,
                                     vessel: *vessel,
                                     what: format!(
                                         "the column has no curated group decomposition for \
@@ -2606,7 +2624,7 @@ impl Bench {
                                 // Nothing dissolved at all: there is no sample,
                                 // which is a different thing from a sample the
                                 // method cannot see.
-                                events.push(Event::NotYetModeled {
+                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
                                     vessel: *vessel,
                                     what: "chromatography needs something dissolved to \
                                            inject — this vessel holds only its mobile \
@@ -2759,6 +2777,7 @@ impl Bench {
                         // water instead; this one says it cannot.
                         if run.demanded > run.moles * (1.0 + 1e-9) + crate::OBSERVABLE_MOLES {
                             events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::NothingToActOn,
                                 vessel: *vessel,
                                 what: format!(
                                     "the charge would deposit {:.4} mol and the solution \
@@ -2770,13 +2789,98 @@ impl Bench {
                             });
                         }
                     }
-                    None => {
-                        let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
-                        events.push(Event::NotYetModeled {
-                            vessel: *vessel,
-                            what: format!("nothing here can be electrolysed: {why}"),
-                        });
-                    }
+                    // No metal half-cell is not the same as nothing to
+                    // electrolyse. Brine needs no metal at all — carbon
+                    // rods, hydrogen at one and chlorine at the other — and
+                    // the refusal below was accurate about the model and
+                    // wrong about the chemistry.
+                    None => match crate::displacement::electrolyse_solvent(
+                        self.vessel(*vessel)?,
+                        *amps,
+                        *seconds,
+                    ) {
+                        Some(run) => {
+                            let v = self.vessel_mut(*vessel)?;
+                            // Cathode.
+                            if run.cathode_moles > crate::OBSERVABLE_MOLES {
+                                if run.cathode_plates {
+                                    v.deposit(
+                                        run.cathode.clone(),
+                                        Moles(run.cathode_moles),
+                                        Phase::Solid,
+                                    );
+                                    if let Some((ion, taken)) = &run.cathode_ion {
+                                        v.withdraw(ion, Moles(*taken));
+                                    }
+                                    events.push(Event::Electrolysed {
+                                        vessel: *vessel,
+                                        species: run.cathode.clone(),
+                                        amps: *amps,
+                                        seconds: *seconds,
+                                        coulombs: run.coulombs,
+                                        electrons: Moles(run.electrons),
+                                        moles: Moles(run.cathode_moles),
+                                        grams: crate::species::lookup(&run.cathode)
+                                            .map(|d| run.cathode_moles * d.molar_mass)
+                                            .unwrap_or(0.0),
+                                        per_ion: run.electrons
+                                            / run.cathode_moles.max(f64::MIN_POSITIVE),
+                                    });
+                                } else {
+                                    let m = Moles(run.cathode_moles);
+                                    if v.retain_gas(run.cathode.clone(), m) {
+                                        events.push(Event::GasContained {
+                                            vessel: *vessel,
+                                            species: run.cathode.clone(),
+                                            moles: m,
+                                        });
+                                    } else {
+                                        events.push(Event::GasEvolved {
+                                            vessel: *vessel,
+                                            species: run.cathode.clone(),
+                                            moles: m,
+                                        });
+                                    }
+                                }
+                            }
+                            // The caustic soda the chloralkali cell is FOR.
+                            if run.hydroxide_made > crate::OBSERVABLE_MOLES {
+                                v.deposit(
+                                    SpeciesId::new("OH-"),
+                                    Moles(run.hydroxide_made),
+                                    Phase::Aqueous,
+                                );
+                            }
+                            // Anode.
+                            if run.chloride_spent > crate::OBSERVABLE_MOLES {
+                                v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
+                            }
+                            if run.anode_moles > crate::OBSERVABLE_MOLES {
+                                let m = Moles(run.anode_moles);
+                                if v.retain_gas(run.anode.clone(), m) {
+                                    events.push(Event::GasContained {
+                                        vessel: *vessel,
+                                        species: run.anode.clone(),
+                                        moles: m,
+                                    });
+                                } else {
+                                    events.push(Event::GasEvolved {
+                                        vessel: *vessel,
+                                        species: run.anode.clone(),
+                                        moles: m,
+                                    });
+                                }
+                            }
+                        }
+                        None => {
+                            let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
+                            events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::NothingToActOn,
+                                vessel: *vessel,
+                                what: format!("nothing here can be electrolysed: {why}"),
+                            });
+                        }
+                    },
                 }
             }
             Operator::Cell { a, b } => {
@@ -3053,6 +3157,7 @@ impl Bench {
                         .map(|n| n.nuclide)
                         .collect();
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NotParameterised,
                         vessel: *vessel,
                         what: format!(
                             "no curated nuclide '{nuclide}' — the teaching set: {}",
@@ -3102,6 +3207,7 @@ impl Bench {
                             // The parser vets names, but an operator can arrive
                             // by JSON; refuse out loud rather than panic.
                             events.push(Event::NotYetModeled {
+                                cause: crate::ops::NotModelledCause::NotParameterised,
                                 vessel: *vessel,
                                 what: format!(
                                     "no curated reaction named '{reaction}' — curated: {}",
@@ -3123,7 +3229,7 @@ impl Bench {
                             if !(extent.is_finite() && extent > 1e-12) {
                                 let needs: Vec<&str> =
                                     r.reactants.iter().map(|(k, _)| *k).collect();
-                                events.push(Event::NotYetModeled {
+                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
                                 vessel: *vessel,
                                 what: format!(
                                     "nothing for {} to work on — it needs {} together                                      in the vessel",
@@ -3419,6 +3525,7 @@ impl Bench {
                     // but an unsolved vessel holds the titrant as the
                     // solid it was added as, and a solid has no ε(λ).
                     events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolver,
                         vessel,
                         what: "titration needs an aqueous solver to compute pH \
                                after each addition — none is wired"
@@ -3466,7 +3573,11 @@ impl Bench {
                 )),
             };
             if let Some(what) = what {
-                events.push(Event::NotYetModeled { vessel, what });
+                events.push(Event::NotYetModeled {
+                    vessel,
+                    what,
+                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                });
             }
         }
 

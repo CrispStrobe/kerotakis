@@ -1,0 +1,49 @@
+# A borax snowflake: why some things crystallise on cooling and some do not
+#
+# Borax is the reason this experiment is done with borax. Cold water holds
+# almost none of it; boiling water holds eleven times as much. Dissolve all
+# you can in hot water, let it cool, and the water has to give most of it
+# back — as crystals.
+register lv2
+
+# 1. Cold water first, so you can see how little it takes. Twenty-five
+#    grams goes in and most of it just sits there.
+add v1 water 100mL
+add v1 Na2B4O7 25g
+inspect v1
+
+# 2. Heat it. Now the same water swallows almost all of it.
+heat v1 25kJ
+inspect v1
+
+# 3. And cool it right down. What the water can no longer hold comes back
+#    out — 0.096 mol of it, which is most of what dissolved.
+cool v1 30kJ
+inspect v1
+
+# 4. The contrast that makes the point, and the bench draws it sharper than
+#    the numbers alone do. Sugar's solubility also rises with temperature —
+#    200 to 487 g per 100 mL, a bit over double, against borax's 2.5 to
+#    27.4, eleven times. But watch what the two do on the way down: the
+#    borax comes OUT, and the sugar syrup goes SUPERSATURATED and stays
+#    dissolved at 1.25 times what the water should hold. That is the same
+#    difference a kitchen sees. A borax snowflake grows overnight on its
+#    own; rock candy sits there refusing to start until you give it a
+#    string to grow on.
+new beaker
+add v2 water 100mL
+add v2 sucrose 250g
+heat v2 25kJ
+cool v2 30kJ
+inspect v2
+
+# What this does not model: the crystal. There is no pipe cleaner to grow
+# on, no habit, no six-fold symmetry — the bench says how much solid comes
+# back, not what shape it takes, and a snowflake is entirely about shape.
+#
+# And a stated substitution: handbook solubilities for borax are for the
+# decahydrate, Na2B4O7·10H2O, which is also what really crystallises out of
+# a cooling solution. This registry has only the anhydrous salt, so it
+# stands in for the decahydrate at the decahydrate's solubility, scaled by
+# the mass ratio. The amounts are right; the solid that carries them is a
+# stand-in.

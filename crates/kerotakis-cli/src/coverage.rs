@@ -521,6 +521,16 @@ fn execute_prompt(
                 ));
             }
         };
+        // `last_routes` is cleared by `SolverStack::equilibrate`, so a step
+        // that never equilibrates — `new`, and any other operator that only
+        // touches bookkeeping — leaves the PREVIOUS step's routes standing.
+        // Across prompts that is the previous PROMPT's routes, and this loop
+        // then attributes them to this one. `aq-091` was classified `curated`
+        // in a smoke run and `computed` in a full one, same script, because
+        // the prompt that happened to run before it differed; the route it
+        // was judged on belonged to its neighbour. Clearing here makes a
+        // prompt's routes its own.
+        stack.last_routes.clear();
         let step_events = bench
             .step_with(op, stack, &PermissiveScreen)
             .map_err(|error| {
@@ -581,7 +591,22 @@ fn execute_prompt(
             routes,
         ));
     }
-    if all_events.iter().any(|event| {
+    let succeeded = |kind| {
+        routes.iter().any(|route| {
+            route.kind == kind
+                && matches!(
+                    route.outcome,
+                    SolverRouteOutcome::Succeeded { event_count } if event_count > 0
+                )
+        })
+    };
+    let computed_chemistry = routes.iter().any(|route| {
+        route.kind == SolverRouteKind::Computed
+            && route.chemistry
+            && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
+    });
+
+    let typed_observation = all_events.iter().any(|event| {
         matches!(
             event,
             Event::Smelled { .. }
@@ -598,8 +623,84 @@ fn execute_prompt(
         // below — this check is on `burned`, not on the event.
         || all_events.iter().any(|event| {
             matches!(event, Event::FlameStarved { burned, .. } if burned.0 <= 0.0)
-        })
-    {
+        });
+
+    // A typed observation BESIDE a computed result does not make the row a
+    // typed observation. That is KID-12's rule above, generalised from the
+    // single event it was written for: a beaker that plates 0.0099 mol of
+    // copper onto iron and also says, truly, that the iron itself is
+    // kinetically blocked has computed something. The aside is extra, not
+    // instead.
+    //
+    // It arrived as a REGRESSION FROM AN IMPROVEMENT, which is what makes
+    // it worth fixing rather than tolerating. K40 added three copper
+    // hydroxy-sulfate phases; precipitating them releases protons; the
+    // solution is a little more acid; and that is enough for the
+    // displacement model to add one true sentence about the overpotential
+    // on iron. Same copper plated, better pH, one more honest sentence,
+    // and `aq-123`, `mat-057` and `th-082` fell from computed to
+    // qualitative. The only way to have kept the score would have been not
+    // to model the phases. (Found by kerotakis-5f, who declined to change
+    // the ordering in a commit that added species — correctly, and this is
+    // that change made separately.)
+    //
+    // Note what this does NOT do. It does not decide whether the PROMPT's
+    // question was answered; that needs the question, which lives in the
+    // prompt and not in the engine, and guessing it from event kinds is
+    // exactly what #362 got wrong. It decides which ROUTE produced the
+    // answer, which is a fact about the engine that `routes` states
+    // directly.
+    //
+    // Two events, and the second was found by the first not being enough.
+    // `mat-057` asks which metal pair gives the largest cell voltage and
+    // never plates anything — its answer is a `CellVoltage`, beside the
+    // same kind of true aside about a metal. Fixing `Plated` alone moved
+    // two of the three rows, and the third was the reason to look rather
+    // than to declare the job done.
+    //
+    // And it is deliberately NARROW. The first attempt guarded the whole
+    // branch with "a computed route succeeded", which moved fifteen rows
+    // and raised the mismatch count — because for a smell or a gas test
+    // the typed observation IS the answer, even in a beaker that also ran
+    // an aqueous solve. Only the metal-plating case has an event that is
+    // unambiguously the result beside an aside that is unambiguously not,
+    // so only that case is claimed. The measurement said the guard was
+    // wider than the evidence, which is the whole reason to measure.
+    let plated_beside_an_aside = all_events
+        .iter()
+        .any(|event| matches!(event, Event::Plated { .. } | Event::CellVoltage { .. }))
+        && all_events.iter().all(|event| {
+            !matches!(
+                event,
+                Event::Smelled { .. }
+                    | Event::GasTested { .. }
+                    | Event::FlameTest { .. }
+                    | Event::DidNotIgnite { .. }
+                    | Event::FlameStarved { .. }
+            )
+        });
+    // The same "aside, not instead" rule, for the one other event that
+    // is a remark rather than a result. An `Inert` fires at the step that
+    // adds the substance, when it is TRUE: starch really does not dissolve
+    // in cold water. The reagent arrives on a later line, and by the end of
+    // the run a curated reaction has digested it. The engine cannot see the
+    // future at the step it speaks, so nothing it says there is wrong — but
+    // the row is graded on the whole transcript, where a curated reaction
+    // ran and the remark about the starting material is no longer the
+    // result.
+    //
+    // Narrow on purpose, in the same way and for the same reason as the
+    // guard above: only a SUCCEEDED CURATED route overrides it. A computed
+    // route is not enough — `bio-042` (starch + HCl + heat) and `mat-029`
+    // (PET + NaOH + heat) have no curated hydrolysis, so their computed
+    // route is the acid or the base speciating, not the polymer doing
+    // anything, and there "the polymer is unchanged" IS the answer. Those
+    // two stay qualitative, which is what they are.
+    let inert_beside_curated = all_events
+        .iter()
+        .any(|event| matches!(event, Event::Inert { .. } | Event::InertInSolvent { .. }))
+        && succeeded(SolverRouteKind::Curated);
+    if typed_observation && !plated_beside_an_aside && !inert_beside_curated {
         return Ok(result(
             prompt,
             Disposition::Qualitative,
@@ -620,20 +721,6 @@ fn execute_prompt(
         ));
     }
 
-    let succeeded = |kind| {
-        routes.iter().any(|route| {
-            route.kind == kind
-                && matches!(
-                    route.outcome,
-                    SolverRouteOutcome::Succeeded { event_count } if event_count > 0
-                )
-        })
-    };
-    let computed_chemistry = routes.iter().any(|route| {
-        route.kind == SolverRouteKind::Computed
-            && route.chemistry
-            && matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
-    });
     let (observed, reason) = if succeeded(SolverRouteKind::Curated) {
         (Disposition::Curated, "curated-route")
     } else if computed_chemistry || succeeded(SolverRouteKind::Computed) {

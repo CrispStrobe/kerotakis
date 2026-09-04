@@ -490,6 +490,115 @@ pub struct CentrifugeSeparation {
 }
 
 /// What one step produced. Everything user-visible derives from this.
+/// Why a refusal is a refusal — the kind of gap, beside the sentence.
+///
+/// `NotYetModeled` carried its subject as prose and nothing else. That reads
+/// well and groups not at all: three refusals mentioning water can be three
+/// different problems, and the only way to ask "are these the same gap" was
+/// to match sentences, which is the defect this programme has spent its time
+/// removing everywhere else. The prose stays exactly as it was — it is what a
+/// learner reads — and this sits next to it for everything that is not a
+/// learner.
+///
+/// # This is for grouping and diagnosis. It is NOT for scoring.
+///
+/// Do not key a coverage rule, a disposition or any other verdict on it.
+///
+/// The reason is specific rather than stylistic. PR #362 tried to decide
+/// whether a corpus row had been answered by looking at which event KINDS a
+/// step emitted. It moved `mat-096`, which really does answer its question,
+/// and `mat-099`, which does not — the iron rusts anyway and the zinc does
+/// nothing, so the row demonstrates the opposite of "galvanizing protects
+/// iron". Both rows emit the same events. `mat-003` and `mat-006` emit
+/// BYTE-IDENTICAL event streams and differ only in what the prompt asks.
+///
+/// It was closed unmerged, and the sentence worth carrying forward is this:
+/// the change shrank the missing column and therefore looked like progress.
+/// A cause id makes exactly that mistake easier to make and harder to see,
+/// because it looks principled. Deciding whether a question was answered
+/// needs the QUESTION, which lives in the prompt and not in the engine.
+///
+/// If you are reading this because you want to key something on it: the
+/// thing you actually want is for the prompt to say what it is asking about.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum NotModelledCause {
+    /// No aqueous solution has been characterised, so an instrument that
+    /// reads one has nothing to read.
+    NoSolution,
+    /// The operation is modelled; the vessel simply does not hold what it
+    /// needs. Nothing to evaporate, no substrate for the verb, an empty
+    /// beaker under the hydrometer. Not a gap in the lab at all, which is
+    /// exactly why it is worth being able to tell apart from one.
+    NothingToActOn,
+    /// No wired solver covers this state at all.
+    NoSolver,
+    /// The chemistry is right and the SPEED of it is not modelled.
+    RateNotModelled,
+    /// A model was asked outside the range it is parameterised for.
+    ModelBoundary,
+    /// The registry carries no reviewed value for a quantity this needs.
+    NoReviewedDatum,
+    /// A phase or oxidation state the databases know about is absent from
+    /// this lab's registry, so nothing can form, dissolve or be named as it.
+    PhaseNotInRegistry,
+    /// The substance has no aqueous role that any shipped database can
+    /// speciate.
+    NotSpeciated,
+    /// The matter exists and there is no modelled route between where it is
+    /// and where the question looks — dissolved gas and a headspace, say.
+    NoTransportPath,
+    /// The vessel's boundary cannot do what the operation needs.
+    BoundaryMismatch,
+    /// A curated table has no row for this, and the general case is not
+    /// derivable.
+    NotParameterised,
+    /// No shipped thermodynamic database defines the species at all, so no
+    /// registry entry and no wiring can rescue it.
+    ///
+    /// Distinct from `PhaseNotInRegistry`, and the distinction is the whole
+    /// value of the row: that one is in this lab's gift and this one is
+    /// not. Hypochlorite is the example — searched by name across every
+    /// `.dat` vendored with iphreeqc, and not one defines it — as is
+    /// malate, and sodium acetate as a solid. A reader who groups by cause
+    /// can tell "we have not got to it" from "nobody has".
+    NotInAnyDatabase,
+    /// Recorded before this field existed.
+    ///
+    /// Exists ONLY so that `serde(default)` can load an operator log or a
+    /// golden fixture written earlier. New code must never construct it:
+    /// if you find yourself reaching for it, the honest move is a new
+    /// variant naming the actual cause. It is deliberately not a general
+    /// `Other`, because an `Other` becomes the drawer everything is swept
+    /// into and the grouping stops meaning anything. (The trap named by
+    /// kerotakis-5f, who hit the serialisation half of it on `ElutedPeak`
+    /// the same week.)
+    #[default]
+    Unclassified,
+}
+
+impl NotModelledCause {
+    /// A stable kebab-case id, following the safety rule ids. Stable across
+    /// releases: it is what a reader groups by.
+    pub fn id(self) -> &'static str {
+        match self {
+            Self::NoSolution => "no-solution",
+            Self::NothingToActOn => "nothing-to-act-on",
+            Self::NoSolver => "no-solver",
+            Self::RateNotModelled => "rate-not-modelled",
+            Self::ModelBoundary => "model-boundary",
+            Self::NoReviewedDatum => "no-reviewed-datum",
+            Self::PhaseNotInRegistry => "phase-not-in-registry",
+            Self::NotSpeciated => "not-speciated",
+            Self::NoTransportPath => "no-transport-path",
+            Self::BoundaryMismatch => "boundary-mismatch",
+            Self::NotParameterised => "not-parameterised",
+            Self::NotInAnyDatabase => "not-in-any-database",
+            Self::Unclassified => "unclassified",
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -1203,6 +1312,16 @@ pub enum Event {
     NotYetModeled {
         vessel: VesselId,
         what: String,
+        /// What KIND of gap this is, beside the sentence rather than
+        /// instead of it. See `NotModelledCause`.
+        ///
+        /// `serde(default)` because `Event` is serialised: saved operator
+        /// logs and the golden lesson fixtures carry refusals written
+        /// before this field existed, and a required field would refuse to
+        /// load them. The default is `Unclassified`, which means exactly
+        /// "written before there was a cause" and nothing else.
+        #[serde(default)]
+        cause: NotModelledCause,
     },
     /// The solvent changed state: froze, melted or boiled.
     ///

@@ -509,6 +509,20 @@ impl Equilibrator for MixingEquilibrator {
                 }),
             }
         }
+        // K51: and the salts that are past saturation and cannot be made
+        // to come out. Silence here is the answer a learner cannot use.
+        for gap in unavailable_crystallisations(vessel) {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                // Not a gap in our gift: no PHREEQC database vendored with
+                // this project defines an acetate solid phase at all.
+                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
+                what: format!(
+                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
+                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
+                ),
+            });
+        }
 
         Ok(events)
     }
@@ -595,6 +609,22 @@ impl Equilibrator for MixingEquilibrator {
                 }),
             }
         }
+        // ARCH-012: the delta path must say everything the direct path
+        // says, or a host that computes deltas gets a quieter bench than
+        // one that does not. K51's refusal is exactly the kind of line
+        // that would go missing.
+        for gap in unavailable_crystallisations(vessel) {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                // Not a gap in our gift: no PHREEQC database vendored with
+                // this project defines an acetate solid phase at all.
+                cause: crate::ops::NotModelledCause::NotInAnyDatabase,
+                what: format!(
+                    "the crystallisation of {}: {:.3} mol is dissolved against a limit of {:.3} mol at this temperature, and {}",
+                    gap.salt, gap.dissolved.0, gap.capacity.0, gap.reason
+                ),
+            });
+        }
 
         Ok((delta, events))
     }
@@ -628,6 +658,93 @@ pub enum SaturationMove {
 /// more sugar than cold water, so the one thing every crystal experiment is
 /// run to show could not happen. It now reads the limit at the vessel's own
 /// temperature and answers in both directions.
+/// K51: a salt that is over its solubility and cannot be made to come out,
+/// because no shipped database carries the solid it would come out as.
+///
+/// The reusable hand warmer is a sodium acetate solution held far past
+/// saturation; you click the disc, the trihydrate crystallises on the
+/// scratch, and the heat of crystallisation is the whole product. This
+/// bench cools such a solution from 65 °C to 8 °C and **nothing happens
+/// and nothing is said**, which is the worst of the three possible
+/// answers.
+///
+/// It cannot be fixed by a datum or by choosing another database. Every
+/// `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer,
+/// sit, llnl — was searched for an acetate solid in its `PHASES` section
+/// and there is not one, anywhere. That is not a shipping choice this
+/// project made; nobody's PHREEQC database carries one. `saturation_moves`
+/// cannot help either: it works on undissociated molecular solutes, and
+/// the aqueous engine has already split this salt into sodium and acetate
+/// ions, so there is no `NaOAc` portion for it to find.
+///
+/// So the refusal is the deliverable. The salt is reconstructed from its
+/// ions, compared against a curated solubility, and the bench says what it
+/// cannot do and why — which is what the learner needed from the moment
+/// the beaker refused to freeze.
+#[derive(Debug, Clone, PartialEq)]
+pub struct UnavailableCrystallisation {
+    pub salt: &'static str,
+    pub dissolved: Moles,
+    pub capacity: Moles,
+    pub reason: &'static str,
+}
+
+/// (cation key, anion key, salt name, g per 100 mL at 20 °C, g/mol, why).
+///
+/// Deliberately a short curated list rather than anything derived: a row
+/// here is a claim that the solid phase is absent from every shipped
+/// database, and that claim is only worth making where somebody has looked.
+const UNAVAILABLE_SOLID_PHASES: &[(&str, &str, &str, f64, f64, &str)] = &[(
+    "Na+",
+    "CH3COO-",
+    "sodium acetate",
+    46.5,
+    82.034,
+    "the solid it would crystallise as is sodium acetate trihydrate, and no PHREEQC database vendored with this project defines any acetate solid phase at all — so the aqueous engine has nothing to precipitate and the crystallisation a hand warmer is built on cannot be computed here",
+)];
+
+/// Salts held past saturation whose solid the bench cannot form.
+pub fn unavailable_crystallisations(vessel: &Vessel) -> Vec<UnavailableCrystallisation> {
+    let water_moles = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid)
+        .map(|portion| portion.moles.0)
+        .sum::<f64>();
+    if water_moles <= 0.0 {
+        return Vec::new();
+    }
+    let water_ml = species::lookup_key(SOLVENT)
+        .map(|water| water.liters_from_moles(Moles(water_moles)).0 * 1000.0)
+        .unwrap_or(0.0);
+    let dissolved_ion = |key: &str| {
+        vessel
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == key && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>()
+    };
+    UNAVAILABLE_SOLID_PHASES
+        .iter()
+        .filter_map(
+            |(cation, anion, salt, grams_per_100ml, molar_mass, reason)| {
+                // The salt is only as present as its scarcer ion: a beaker of
+                // sodium chloride and a little acetate is not a concentrated
+                // acetate solution.
+                let paired = dissolved_ion(cation).min(dissolved_ion(anion));
+                let capacity = grams_per_100ml * water_ml / 100.0 / molar_mass;
+                (paired > capacity + 1e-12).then_some(UnavailableCrystallisation {
+                    salt,
+                    dissolved: Moles(paired),
+                    capacity: Moles(capacity),
+                    reason,
+                })
+            },
+        )
+        .collect()
+}
+
 pub fn saturation_moves(vessel: &Vessel) -> Vec<SaturationMove> {
     let water_moles = vessel
         .contents
@@ -821,7 +938,7 @@ impl Equilibrator for StateEquilibrator {
                 && t.freezing_k <= crate::states::BRINE_MODEL_MIN_K
                 && now <= crate::states::BRINE_MODEL_MIN_K
             {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate the dilute colligative relation",
@@ -851,7 +968,7 @@ impl Equilibrator for StateEquilibrator {
 
             if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
-                    events.push(Event::NotYetModeled {
+                    events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                         vessel: vessel.id,
                         what: format!(
                             "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
@@ -892,7 +1009,7 @@ impl Equilibrator for StateEquilibrator {
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
             if reached_boundary {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "the partial-freezing model boundary at {:.1} °C: pure ice was removed and the residual brine retained, but further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
@@ -1240,7 +1357,7 @@ impl Equilibrator for HonestyEquilibrator {
                 .iter()
                 .any(|p| p.species == SpeciesId::new(SOLVENT) && p.phase != Phase::Solid)
         {
-            events.push(Event::NotYetModeled {
+            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                 vessel: vessel.id,
                 what: format!(
                     "the aqueous model's temperature ceiling at {:.0} °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
@@ -1275,7 +1392,7 @@ impl Equilibrator for HonestyEquilibrator {
                 && !curated_answered
                 && x < crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR
             {
-                events.push(Event::NotYetModeled {
+                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::ModelBoundary,
                     vessel: vessel.id,
                     what: format!(
                         "a mixed solvent that is mostly organic (water is {:.0}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
@@ -1328,20 +1445,60 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                let what = if species::lookup(&p.species)
+                // Two different gaps wearing one event. It dissolves and
+                // nothing speciates it, or nothing models it at all — and
+                // which one it is decides whether a database could ever fix
+                // it, so the cause is computed beside the sentence.
+                // A reviewed solubility of essentially zero is not a gap,
+                // it is the answer. "Does sand dissolve overnight?" was
+                // reaching `not yet modelled` — the bench declining to say
+                // what the registry already knew — and a learner cannot
+                // tell that from "nobody has modelled this yet". Where a
+                // solubility has been reviewed and is below what a beaker
+                // could show, the bench says so and stops refusing.
+                // ...but only where nothing else in the bench is about to
+                // consume it. Starch is insoluble in cold water AND is what
+                // amylase digests, and the first draft of this branch had
+                // the bench print "starch does not react" in the same run
+                // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
+                // sentence about dissolution, said where it reads as a
+                // claim about reactivity, is a false one.
+                if !crate::curated::consumes(vessel, &p.species) {
+                    if let Some(limit) = species::lookup(&p.species)
+                        .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                        .filter(|limit| *limit < 0.01)
+                    {
+                        events.push(Event::Inert {
+                        vessel: vessel.id,
+                        species: p.species.clone(),
+                        why: format!(
+                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
+                        ),
+                    });
+                        continue;
+                    }
+                }
+                let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
-                    format!(
-                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    (
+                        format!(
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        ),
+                        crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
-                    format!(
-                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    (
+                        format!(
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        ),
+                        crate::ops::NotModelledCause::NoSolver,
                     )
                 };
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
                     what,
+                    cause,
                 });
             }
         }
@@ -1392,20 +1549,60 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
-                let what = if species::lookup(&p.species)
+                // Two different gaps wearing one event. It dissolves and
+                // nothing speciates it, or nothing models it at all — and
+                // which one it is decides whether a database could ever fix
+                // it, so the cause is computed beside the sentence.
+                // A reviewed solubility of essentially zero is not a gap,
+                // it is the answer. "Does sand dissolve overnight?" was
+                // reaching `not yet modelled` — the bench declining to say
+                // what the registry already knew — and a learner cannot
+                // tell that from "nobody has modelled this yet". Where a
+                // solubility has been reviewed and is below what a beaker
+                // could show, the bench says so and stops refusing.
+                // ...but only where nothing else in the bench is about to
+                // consume it. Starch is insoluble in cold water AND is what
+                // amylase digests, and the first draft of this branch had
+                // the bench print "starch does not react" in the same run
+                // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
+                // sentence about dissolution, said where it reads as a
+                // claim about reactivity, is a false one.
+                if !crate::curated::consumes(vessel, &p.species) {
+                    if let Some(limit) = species::lookup(&p.species)
+                        .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
+                        .filter(|limit| *limit < 0.01)
+                    {
+                        events.push(Event::Inert {
+                        vessel: vessel.id,
+                        species: p.species.clone(),
+                        why: format!(
+                            "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
+                        ),
+                    });
+                        continue;
+                    }
+                }
+                let (what, cause) = if species::lookup(&p.species)
                     .is_some_and(|d| d.dissolves_without_speciation)
                 {
-                    format!(
-                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    (
+                        format!(
+                            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                        ),
+                        crate::ops::NotModelledCause::NotSpeciated,
                     )
                 } else {
-                    format!(
-                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    (
+                        format!(
+                            "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                        ),
+                        crate::ops::NotModelledCause::NoSolver,
                     )
                 };
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
                     what,
+                    cause,
                 });
             }
         }

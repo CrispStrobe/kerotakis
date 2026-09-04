@@ -154,10 +154,19 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     // same defect the particle view already refuses to commit: a picture
     // that silently omits a species teaches that the species is not there.
     let mut settled: Vec<(&str, f64, Colour)> = Vec::new();
+    // KID-19b: a solid lighter than the liquid is at the TOP, and saying it
+    // is at the bottom is not a simplification, it is the wrong answer to
+    // the question K32 asks. The registry knew every plastic's density all
+    // along; nothing put it beside the liquid's.
+    let mut floating: Vec<(&str, f64, Colour)> = Vec::new();
+    let liquid_density = crate::buoyancy::liquid_density_g_per_ml(vessel);
     for p in &vessel.contents {
         if p.phase != Phase::Solid {
             continue;
         }
+        let rises = liquid_density
+            .and_then(|density| crate::buoyancy::floats_in(&p.species, density))
+            .unwrap_or(false);
         // A plated metal is not a suspension.
         //
         // Every solid used to count towards turbidity, so copper displaced
@@ -170,7 +179,11 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         // It still names itself as the deposit below: what changes is that
         // you can see through the liquid to look at it.
         let tracked_suspension = vessel.suspended_fraction_of(&p.species);
-        if !crate::displacement::is_elemental_metal(&p.species.0) {
+        // Neither a plated metal nor something sitting on the surface is a
+        // suspension: five grams of floating polystyrene made the water
+        // "so cloudy you cannot see through it", which is the same defect
+        // the plated-metal branch below was written to fix.
+        if !crate::displacement::is_elemental_metal(&p.species.0) && !rises {
             solid_moles += p.moles.0 * tracked_suspension.unwrap_or(1.0);
         }
         let data = species::lookup(&p.species);
@@ -191,10 +204,18 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
-        if settled_moles > 1e-12 {
-            settled.push((name, settled_moles, colour));
-            if biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
-                biggest = Some((name, settled_moles, colour));
+        // A floating solid is not settled, so `settled_moles` is the wrong
+        // measure of it — a tracked suspension makes that term zero and the
+        // plastic would be named nowhere at all, which is the silent miss
+        // K32 recorded. What floats is all of it.
+        if rises && p.moles.0 > 1e-12 {
+            floating.push((name, p.moles.0, colour));
+        } else if settled_moles > 1e-12 {
+            {
+                settled.push((name, settled_moles, colour));
+                if biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
+                    biggest = Some((name, settled_moles, colour));
+                }
             }
         }
     }
@@ -227,6 +248,13 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         .map(|(name, _, colour)| ((*name).to_string(), *colour))
         .collect();
 
+    floating.sort_by(|a, b| b.1.total_cmp(&a.1));
+    let floats: Vec<(String, Colour)> = floating
+        .iter()
+        .take(3)
+        .map(|(name, _, colour)| ((*name).to_string(), *colour))
+        .collect();
+
     // Gas in a vessel that also holds liquid is gas coming *out* of the
     // liquid, which is the single most visible thing in a school kinetics
     // practical. This field existed and was hardcoded `false`, so a flask
@@ -237,7 +265,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .iter()
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
-    let words = describe(&liquid, cloudiness, &deposits, has_liquid, bubbling, vessel);
+    let words = describe(
+        &liquid, cloudiness, &deposits, &floats, has_liquid, bubbling, vessel,
+    );
     Appearance {
         liquid,
         cloudiness,
@@ -342,6 +372,7 @@ fn describe(
     liquid: &Option<Colour>,
     cloudiness: f64,
     deposits: &[(String, Colour)],
+    floats: &[(String, Colour)],
     has_liquid: bool,
     bubbling: bool,
     vessel: &Vessel,
@@ -394,6 +425,30 @@ fn describe(
         } else {
             format!("there is {list} in the beaker")
         });
+    }
+    // A powder that sits ON the water is at the top of it too, and it is
+    // named by its recipe rather than by a species: the grains are
+    // conserved unresolved matter, which is exactly why nothing was
+    // saying they were there.
+    for float in crate::material::surface_floaters(vessel) {
+        parts.push(if float.coverage >= 0.999 {
+            format!("a skin of {} covers the surface", float.material)
+        } else {
+            format!("grains of {} float on the surface", float.material)
+        });
+    }
+    // KID-19b: and what is lighter than the liquid is at the top of it.
+    if !floats.is_empty() && has_liquid {
+        let named: Vec<String> = floats
+            .iter()
+            .map(|(name, colour)| format!("{} {name}", colour_word(colour, true)))
+            .collect();
+        let list = match named.split_last() {
+            Some((last, [])) => last.clone(),
+            Some((last, rest)) => format!("{} and {last}", rest.join(", ")),
+            None => String::new(),
+        };
+        parts.push(format!("{list} floats on top"));
     }
     // A named solid the registry does not resolve into species is still
     // there, and saying nothing about it would be the same defect as

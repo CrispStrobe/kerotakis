@@ -92,6 +92,7 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
 
     if matches!(vessel.headspace, Headspace::Open) {
         events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
             vessel: vessel_id,
             what: format!(
                 "nothing to test — gas left as it formed; \
@@ -103,6 +104,7 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
 
     if !vessel.owns_headspace_gas() {
         events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::BoundaryMismatch,
             vessel: vessel_id,
             what: format!(
                 "the vessel's boundary does not retain gas — \
@@ -159,6 +161,7 @@ pub fn dispatch(vessel: &mut Vessel, vessel_id: VesselId, test: GasTest) -> Vec<
             .sum();
         if dissolved > 0.0 {
             events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::NoTransportPath,
                 vessel: vessel_id,
                 what: format!(
                     "the {test} reads the headspace, and this bench has no path from \

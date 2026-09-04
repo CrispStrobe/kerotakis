@@ -418,7 +418,7 @@ add v1 Ag 0.02mol
 
 [reaction.expect]
 events = ["dissolved:CuSO4", "inert:Ag"]
-ph = { min = 4.4, max = 4.7 }
+ph = { min = 3.7, max = 4.1 }
 
 [reaction.expect.predict]
 question = "The silver tree showed copper metal trading itself for silver ions. Now reverse the cast: silver metal into copper sulfate. What happens?"
@@ -674,7 +674,7 @@ cell v1 v2
 
 [reaction.expect]
 events = ["cell_voltage"]
-ph = { min = 4.75, max = 5.0 }
+ph = { min = 4.3, max = 4.7 }
 
 [reaction.expect.predict]
 question = "Same metal both sides, same salt both sides — copper in copper sulfate twice, only the concentration differing tenfold. The voltmeter reads…"

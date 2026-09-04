@@ -192,6 +192,7 @@ fn a_refusal_reason_is_german_too() {
     use kerotakis_core::render::render_event_in;
 
     let event = Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::NothingToActOn,
         vessel: VesselId(0),
         what: "nothing to evaporate — no water in the vessel".into(),
     };
@@ -213,6 +214,7 @@ fn an_untranslated_refusal_keeps_its_english() {
     use kerotakis_core::render::render_event_in;
 
     let event = Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::NothingToActOn,
         vessel: VesselId(0),
         what: "nothing here can be electrolysed: no ions".into(),
     };

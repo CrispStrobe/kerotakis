@@ -111,3 +111,81 @@ fn an_open_vessel_never_bursts() {
         "no seal, no burst — gas leaves an open vessel"
     );
 }
+
+/// KID-10b: an odour is a question of how much, not only of what.
+///
+/// `waft` used to match odour rows by Brønsted family, in both directions,
+/// so **sodium acetate smelled of vinegar** and ammonium chloride smelled
+/// of ammonia. Both are salts of the odorous thing rather than the odorous
+/// thing, and both were reported with the same confidence as the real
+/// bottle. A peer session found it; the fallback existed to fix a real bug
+/// in one direction — vinegar poured into water leaves acetate in the
+/// ledger — and the relation it tested has no direction.
+///
+/// The fallback is gone. It has no job left: the aqueous engine now keeps
+/// both members of a Brønsted pair in the ledger, so the odorous molecule
+/// is there under its own key when it is genuinely present.
+#[test]
+fn vinegar_smells_and_its_salt_does_not() {
+    use kerotakis_core::script::parse_op;
+    use kerotakis_core::Bench;
+
+    let smells = |commands: &[&str]| {
+        let mut bench = Bench::new();
+        for command in commands {
+            let op = parse_op(command)
+                .unwrap_or_else(|error| panic!("parse {command}: {error}"))
+                .expect("operator");
+            bench.step(op).expect("step");
+        }
+        kerotakis_core::senses::waft(&bench.vessels[0])
+            .iter()
+            .map(|odor| odor.species)
+            .collect::<Vec<_>>()
+    };
+
+    // Neat acetic acid is 17 mol/L and unmistakable.
+    assert!(smells(&["add v1 CH3COOH 20mL"]).contains(&"CH3COOH"));
+    // A trace of it in a lot of water is not. 1e-5 mol in 100 mL is
+    // 1e-4 mol/L, an order below the floor.
+    assert!(smells(&["add v1 water 100mL", "add v1 CH3COOH 0.00001mol"]).is_empty());
+}
+
+/// The floors differ by three orders of magnitude between rows, and that
+/// is the fact rather than a fudge: you smell ammonia far below the
+/// concentration at which you smell vinegar, and hydrogen peroxide barely
+/// at all even neat.
+#[test]
+fn the_detection_floor_belongs_to_the_substance() {
+    use kerotakis_core::senses::{odor_of, ODORS};
+    use kerotakis_core::SpeciesId;
+    let floor = |key: &str| odor_of(&SpeciesId::new(key)).expect(key).detect_molar;
+    assert!(floor("NH3") < floor("CH3COOH"), "ammonia is smelled lower");
+    assert!(floor("CH3COOH") < floor("H2O2"), "peroxide barely smells");
+    // Every row carries one: a missing floor would silently mean "any
+    // trace at all", which is the behaviour this test exists to prevent.
+    for odor in ODORS {
+        assert!(
+            odor.detect_molar > 0.0,
+            "{} has no detection floor",
+            odor.species
+        );
+    }
+}
+
+/// A gas in the headspace is not gated: it has already reached the nose.
+#[test]
+fn a_gas_in_the_headspace_is_smelled_however_little_of_it_there_is() {
+    use kerotakis_core::species::Phase;
+    use kerotakis_core::units::Moles;
+    use kerotakis_core::{SpeciesId, Vessel, VesselId};
+    let mut vessel = Vessel::new(VesselId(0), "beaker");
+    vessel.deposit(SpeciesId::new("Cl2"), Moles(1e-9), Phase::Gas);
+    assert_eq!(
+        kerotakis_core::senses::waft(&vessel)
+            .iter()
+            .map(|o| o.species)
+            .collect::<Vec<_>>(),
+        vec!["Cl2"]
+    );
+}

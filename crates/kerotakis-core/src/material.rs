@@ -55,6 +55,58 @@ pub fn all() -> Vec<MaterialRecipe> {
     recipes
 }
 
+/// Grains of a named powder sitting on the water rather than in it, with
+/// how much of the visible surface they cover.
+///
+/// `SurfaceFloater` was declared, validated, exported and read by nothing.
+/// Ground black pepper carries it, and the whole point of pepper in the
+/// pepper-and-soap demonstration is that it floats until the detergent
+/// arrives — while `look` said "the liquid is colourless and clear" over a
+/// beaker with a skin of pepper on it. A role that describes an observable
+/// and produces no observation is a fact the bench holds and does not say,
+/// which is this project's commonest defect and was sitting inside the
+/// mechanism named for it.
+///
+/// Coverage is the recipe's own declared dose response and saturates at 1:
+/// it is a bounded classroom observable, not a packing fraction, and no
+/// claim is made about grain size or how the raft breaks up.
+#[derive(Debug, Clone, PartialEq)]
+pub struct SurfaceFloatObservation {
+    pub material: String,
+    pub coverage: f64,
+}
+
+pub fn surface_floaters(vessel: &crate::Vessel) -> Vec<SurfaceFloatObservation> {
+    if vessel.liquid_volume().0 <= 0.0 {
+        return Vec::new();
+    }
+    let mut seen: Vec<SurfaceFloatObservation> = Vec::new();
+    for portion in &vessel.unresolved_materials {
+        let Some(recipe) = lookup_versioned(&portion.recipe_id, portion.recipe_version) else {
+            continue;
+        };
+        let Some(saturation) = recipe.roles.iter().find_map(|role| match role {
+            MaterialRole::SurfaceFloater { saturation_amount } => Some(*saturation_amount),
+            _ => None,
+        }) else {
+            continue;
+        };
+        if portion.amount <= 0.0 || saturation <= 0.0 {
+            continue;
+        }
+        let coverage = (portion.amount / saturation).clamp(0.0, 1.0);
+        if let Some(existing) = seen.iter_mut().find(|item| item.material == recipe.name) {
+            existing.coverage = (existing.coverage + coverage).min(1.0);
+        } else {
+            seen.push(SurfaceFloatObservation {
+                material: recipe.name,
+                coverage,
+            });
+        }
+    }
+    seen
+}
+
 /// Recover the exact recipe pinned by an unresolved material portion.
 pub fn lookup_versioned(id: &str, version: u32) -> Option<MaterialRecipe> {
     all()

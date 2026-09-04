@@ -173,6 +173,41 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   baseline pins owner/outcome/reason per prompt and treats seven initial solver
   failures as their own regression state; ownership and graduation rules live
   beside it in `tests/coverage/curiosity-v1/README.md`.
+- **Coverage state (2026-09-04).** Against the 500-prompt corpus:
+
+  | disposition | `origin/main` | now |
+  |---|---|---|
+  | computed | 229 | 269 |
+  | curated | 20 | 20 |
+  | qualitative | 47 | 70 |
+  | boundary | 59 | 59 |
+  | **missing** | **145** | **82** |
+
+  Expectation mismatches held at 85 throughout, which is the number that
+  catches a classifier guard written wider than its evidence.
+
+  **What the remaining 82 need is not more of the same.** Sixty carry
+  `unknown-species`, and after this branch's twenty-six additions the tail is
+  no longer substances — it is `pepsin`, `lactase`, `pondweed`, `chlorophyll`,
+  `acetobacter`, `sourdough_starter`: enzymes and organisms, which need a
+  mechanism decision before a recipe can be written. The rest want hydrocarbon
+  fuel species (`methane`, `propane`, `butane`, `petrol`, `diesel`), which is
+  registry work of a different kind — species with CEA thermochemistry rather
+  than mass-fraction recipes.
+
+  **The single largest blocker is that no protein species is installed.** One
+  gap wearing five names: egg white does not set at 65 °C, gelatine does not
+  gel, cream does not whip, albumin does not denature by heat, acid, alcohol
+  or salt, and onion does not sting the eyes. It gates most of the
+  kitchen-chemistry half of the corpus, and no amount of recipe writing moves
+  it.
+
+  **Two measurement lessons are recorded in the corpus README** because they
+  cost real time: a prompt was being classified on its *neighbour's* solver
+  routes when its script began with a non-equilibrating operator, and diffing
+  corpus tokens against `registry-source-v1.json` reports substances that
+  already resolve (material aliases do not live where that walk looks — probe
+  the binary instead).
 
 ### BRD-002 — `MaterialRecipe`: named mixtures and objects
 

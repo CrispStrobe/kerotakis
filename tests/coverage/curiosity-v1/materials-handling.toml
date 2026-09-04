@@ -163,7 +163,6 @@ material_class="alloys"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 stainless_steel 5g", "add v1 water 20mL", "add v1 O2 0.01mol", "wait 1h"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -392,7 +391,6 @@ material_class="plastics"
 owning_task="BRD-070"
 tags=["BRD-070"]
 script=["add v1 expanded_PS 2g", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -488,7 +486,6 @@ material_class="glass"
 owning_task="BRD-081"
 tags=["BRD-081"]
 script=["add v1 silica_glass 2g", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=true
 
 [[prompt]]
@@ -526,7 +523,6 @@ material_class="glass"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 water 100mL", "add v1 silica_glass 2g", "wait 1h"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -551,7 +547,6 @@ material_class="glass"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 borosilicate_glass 2g", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -563,7 +558,6 @@ material_class="glass"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 colored_glass 2g", "add v1 water 100mL", "stir v1"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -588,7 +582,6 @@ material_class="ceramics"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 clay 10g", "heat v1 50kJ"]
-parse_boundary="unknown_species"
 smoke=true
 
 [[prompt]]
@@ -600,7 +593,6 @@ material_class="ceramics"
 owning_task="BRD-070"
 tags=["BRD-070"]
 script=["add v1 glazed_ceramic 10g", "add v1 water 100mL", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -637,7 +629,6 @@ material_class="ceramics"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 porcelain 2g", "measure v1 conductivity"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -649,7 +640,6 @@ material_class="glass"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 silica_glass 2g", "heat v1 100kJ", "cool v1 100kJ"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -785,7 +775,6 @@ material_class="electronics"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 graphite 2g", "measure v1 conductivity"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -943,7 +932,6 @@ material_class="rocks_minerals"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 water 100mL", "add v1 NaCl 2g", "add v1 quartz 2g", "stir v1"]
-parse_boundary="unknown_species"
 smoke=true
 
 [[prompt]]
@@ -966,8 +954,7 @@ action="materials"
 material_class="rocks_minerals"
 owning_task="BRD-060"
 tags=["BRD-060", "BRD-061"]
-script=["add v1 graphite 1g", "measure v1 balance"]
-parse_boundary="unknown_species"
+script=["add v1 graphite 1g", "measure v1 balance", "measure v1 density", "look v1", "new", "add v2 diamond 1g", "measure v2 balance", "measure v2 density", "look v2"]
 smoke=false
 
 [[prompt]]
@@ -1016,7 +1003,6 @@ material_class="rocks_minerals"
 owning_task="BRD-070"
 tags=["BRD-070"]
 script=["add v1 water 250mL", "add v1 pumice 5g", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -1112,7 +1098,6 @@ material_class="rocks_minerals"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 clay 10g", "heat v1 50kJ"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -1207,7 +1192,6 @@ material_class="corrosion"
 owning_task="BRD-023"
 tags=["BRD-023"]
 script=["add v1 galvanized_steel 2g", "add v1 water 20mL", "wait 1h"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -1252,7 +1236,6 @@ material_class="corrosion"
 owning_task="BRD-070"
 tags=["BRD-070"]
 script=["add v1 painted_iron 2g", "add v1 water 20mL", "wait 1h"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
