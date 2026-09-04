@@ -1074,13 +1074,13 @@ reason_code = "unknown-species"
 id = "bio-054"
 owning_task = "BRD-052"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "bio-055"
 owning_task = "BRD-050"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "bio-056"
@@ -1098,7 +1098,7 @@ reason_code = "computed-route"
 id = "bio-058"
 owning_task = "BRD-052"
 outcome = "missing"
-reason_code = "unknown-species"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "bio-059"
@@ -3001,4 +3001,3 @@ id = "th-125"
 owning_task = "BRD-041"
 outcome = "boundary"
 reason_code = "out-of-scope-scale"
-

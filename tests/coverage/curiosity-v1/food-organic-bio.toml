@@ -614,7 +614,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["lactase", "lactose"]
 script = ["add v1 milk 100mL", "add v1 lactase 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -626,7 +625,6 @@ material_class = "enzyme"
 owning_task = "BRD-050"
 tags = ["denaturation", "lactase"]
 script = ["add v1 milk 100mL @ 100C", "add v1 lactase 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -661,7 +659,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["digestion", "lipase"]
 script = ["add v1 vegetable_oil 20mL", "add v1 water 100mL", "add v1 lipase 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
