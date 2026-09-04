@@ -26,6 +26,7 @@
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import CapabilityExplorer from "./lib/components/CapabilityExplorer.svelte";
+  import KidsCatalog from "./lib/components/KidsCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
@@ -44,6 +45,7 @@
   import { i18n, t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
+  import { parseKidsCatalog, type KidsExperiment } from "./lib/kidsCatalog";
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle, type MissionSummary } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
@@ -467,6 +469,10 @@
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (capabilityPrompts = parseCapabilityIndex(raw)))
       .catch(() => {});
+    void fetch(new URL("kids/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (kidsExperiments = parseKidsCatalog(raw)))
+      .catch(() => {});
     void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
@@ -590,10 +596,12 @@
   let catalogInitial = $state<CodexEntry | null>(null);
   let catalogOpen = $state(false);
   let capabilityOpen = $state(false);
+  let kidsOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
   let capabilityPrompts = $state<CapabilityPrompt[]>([]);
+  let kidsExperiments = $state<KidsExperiment[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   let buretteTarget = $state<number | null>(null);
@@ -788,6 +796,7 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (capabilityOpen) capabilityOpen = false;
+      else if (kidsOpen) kidsOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
@@ -1302,6 +1311,7 @@
     profile={labProfile}
     missions={lessons.length}
     experiments={codexEntries.length}
+    kidsExperiments={kidsExperiments.length}
     canclose={hasSeenHome()}
     {persistenceNotice}
     canclone={labMode === "story" && appSaveRepository !== null}
@@ -1315,6 +1325,10 @@
     onresearch={() => {
       homeOpen = false;
       catalogOpen = true;
+    }}
+    onkids={() => {
+      homeOpen = false;
+      kidsOpen = true;
     }}
     onrename={renameLab}
     onclose={() => (homeOpen = false)}
@@ -1406,6 +1420,27 @@
 
 {#if capabilityOpen}
   <CapabilityExplorer prompts={capabilityPrompts} {session} onclose={() => (capabilityOpen = false)} />
+{/if}
+
+{#if kidsOpen}
+  <KidsCatalog
+    entries={kidsExperiments}
+    onlesson={(file) => {
+      kidsOpen = false;
+      void startLesson(file);
+    }}
+    onquest={(id) => {
+      const quest = quests.find((item) => item.id === id);
+      if (!quest) return;
+      kidsOpen = false;
+      void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
+    }}
+    onsandbox={() => {
+      kidsOpen = false;
+      enterLab("sandbox");
+    }}
+    onclose={() => (kidsOpen = false)}
+  />
 {/if}
 
 {#if mapOpen}

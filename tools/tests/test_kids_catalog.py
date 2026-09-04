@@ -1,0 +1,32 @@
+import importlib.util
+import json
+import pathlib
+import unittest
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+SPEC = importlib.util.spec_from_file_location("kids_catalog", ROOT / "tools/kids-catalog.py")
+MODULE = importlib.util.module_from_spec(SPEC)
+assert SPEC.loader
+SPEC.loader.exec_module(MODULE)
+
+
+class KidsCatalogTests(unittest.TestCase):
+    def setUp(self):
+        self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
+
+    def test_catalog_is_the_exact_audited_sixty(self):
+        rows = MODULE.validate(self.document)
+        self.assertEqual([row["id"] for row in rows], [f"K{i:02d}" for i in range(1, 61)])
+
+    def test_non_computed_rows_explain_the_boundary(self):
+        rows = MODULE.validate(self.document)
+        self.assertTrue(all(row.get("boundary") for row in rows if row["status"] != "computed"))
+
+    def test_every_launch_link_exists(self):
+        rows = MODULE.validate(self.document)
+        self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))
+        self.assertTrue(all(not row.get("lesson") and not row.get("quest") for row in rows if row["status"] in {"declined", "unreachable"}))
+
+
+if __name__ == "__main__":
+    unittest.main()
