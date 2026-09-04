@@ -2,8 +2,7 @@
   import { t } from "../i18n.svelte";
   import type { CodexEntry } from "../codex";
   import type { LabMode } from "../worldState";
-
-  type Mission = { file: string; name: string; blurb?: string; topic?: string };
+  import type { MissionSummary as Mission } from "../storyProgress";
 
   let {
     missions,
@@ -38,8 +37,12 @@
     if (topic?.includes("water")) return "◉";
     if (topic?.includes("gas")) return "◎";
     if (topic?.includes("separation")) return "◇";
+    if (topic?.includes("crystal")) return "◆";
     return "✦";
   };
+  const collections = $derived([...new Set(missions.flatMap((mission) => mission.collection ? [mission.collection] : []))]);
+  let collection = $state<string | null>(null);
+  const shownMissions = $derived(collection ? missions.filter((mission) => mission.collection === collection) : missions);
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
@@ -91,18 +94,29 @@
 
     <div class="mission-heading">
       <div><span>{t("Story missions")}</span><h2>{t("Available missions")}</h2></div>
-      <span class="mission-count">{missions.length}</span>
+      <span class="mission-count">{shownMissions.length}</span>
     </div>
+
+    {#if collections.length > 0}
+      <nav class="collection-filter" aria-label={t("lesson collections")}>
+        <button class:on={collection === null} onclick={() => (collection = null)}>{t("all missions")}</button>
+        {#each collections as name (name)}
+          <button class:on={collection === name} onclick={() => (collection = collection === name ? null : name)}>{t(name)}</button>
+        {/each}
+      </nav>
+    {/if}
 
     {#if missions.length > 0}
       <div class="mission-grid">
-        {#each missions as mission, i (mission.file)}
+        {#each shownMissions as mission, i (mission.file)}
           <article class="mission-card" style={`--delay:${Math.min(i, 8) * 35}ms`}>
             <div class="mission-number">{String(i + 1).padStart(2, "0")}</div>
             <div class="topic-icon" aria-hidden="true">{topicIcon(mission.topic)}</div>
             <span class="topic">{t(mission.topic ?? "more")}</span>
             <h3>{t(mission.name)}</h3>
             {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
+            {#if mission.outcome_note}<p class="scope modeled"><strong>{t("modeled outcome")}</strong>{t(mission.outcome_note)}</p>{/if}
+            {#if mission.boundary_note}<p class="scope boundary"><strong>{t("model boundary")}</strong>{t(mission.boundary_note)}</p>{/if}
             <button onclick={() => onstart(mission.file)}>
               <span>{t("launch mission")}</span><span aria-hidden="true">→</span>
             </button>
@@ -179,6 +193,13 @@
     gap: 0.8rem;
     padding: 1rem clamp(1rem, 4vw, 2.6rem) 0;
   }
+  .collection-filter { display: flex; flex-wrap: wrap; gap: .45rem; padding: 0 clamp(1rem, 4vw, 2.6rem) 1rem; }
+  .collection-filter button { padding: .42rem .7rem; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); background: var(--surface-raised); cursor: pointer; font: inherit; font-size: .7rem; font-weight: 750; }
+  .collection-filter button.on { border-color: var(--discovery); color: var(--discovery); background: color-mix(in srgb, var(--discovery) 10%, var(--surface)); }
+  .scope { display: grid; gap: .12rem; margin: .35rem 0 0; padding: .38rem .48rem; border-radius: 9px; font-size: .62rem; line-height: 1.3; }
+  .scope strong { font-size: .52rem; letter-spacing: .07em; text-transform: uppercase; }
+  .scope.modeled { color: var(--success); background: color-mix(in srgb, var(--success) 9%, var(--surface)); }
+  .scope.boundary { color: var(--dim); background: color-mix(in srgb, var(--edge) 35%, transparent); }
   .sandbox-card,
   .library-card,
   .active-mission {

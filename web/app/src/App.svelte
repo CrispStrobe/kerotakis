@@ -45,7 +45,7 @@
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { commandCount, completedCommandCount } from "./lib/lesson";
-  import { missionTitle } from "./lib/storyProgress";
+  import { missionTitle, type MissionSummary } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
@@ -257,7 +257,7 @@
     }
   }
 
-  let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
+  let lessons = $state<MissionSummary[]>([]);
   /** Engine-evaluated free-form quests, shipped beside the lesson index. */
   let quests = $state<Record<string, unknown>[]>([]);
 

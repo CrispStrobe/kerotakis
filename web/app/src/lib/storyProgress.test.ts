@@ -9,6 +9,7 @@ const missions: MissionSummary[] = [
   { file: "fire.lab", name: "fire", topic: "heat & fire" },
   { file: "electrolysis.lab", name: "electrolysis", topic: "redox & electricity" },
   { file: "rates.lab", name: "rates", topic: "rates" },
+  { file: "rock-candy.lab", name: "rock candy", topic: "crystals & solubility", collection: "crystal lab" },
 ];
 
 describe("story progression", () => {
@@ -31,6 +32,8 @@ describe("story progression", () => {
     expect(afterOne[0]?.completed).toBe(1);
     expect(afterOne.find((district) => district.id === "matter-gardens")?.missions.map((mission) => mission.file))
       .toContain("rusting.lab");
+    expect(afterOne.find((district) => district.id === "matter-gardens")?.missions)
+      .toContainEqual(expect.objectContaining({ file: "rock-candy.lab" }));
   });
 
   it("preserves every shipped mission exactly once", () => {
