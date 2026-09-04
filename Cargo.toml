@@ -61,6 +61,55 @@ serde_json = "1"
 serde_yaml_ng = "=0.10.0"
 thiserror = "2"
 
+# Debug builds keep line tables and drop the rest of the DWARF.
+#
+# `target/debug/deps` was 13.7 GB, of which 11.9 GB was 128 extensionless
+# test binaries averaging 95 MB each — one statically linked executable per
+# test target, each embedding full debug info. Not incremental state and not
+# intermediates: the same type information written out 128 times. Found by
+# crispasr-ba on 2026-09-03, when this filesystem hit 99% and two sessions
+# on the box were OOM-killed the same day.
+#
+# Measured by kerotakis-5f with `readelf -S` on a real 187.9 MB dev-profile
+# binary, rather than estimated:
+#
+#     all .debug_*        155.1 MB   82.5% of the binary
+#     std's fixed floor     ~3.9 MB  precompiled rlibs, untouchable here
+#     dev default          187.9 MB
+#     line-tables-only      ~60 MB   -68%
+#     debug = 0            ~36.7 MB  -80%
+#
+# Measured on this workspace after the change, both readings from the same
+# moment (the first attempt compared a before and an after and reported a
+# subdirectory as larger than its parent — crispasr-ba caught it):
+#
+#     target/debug/deps   13.7 GB -> 6.1 GB     -55%
+#     target/debug/kero  187.5 MB -> 72.9 MB    -61%
+#
+# The percentage is not a constant and degrades as binaries get smaller:
+# std's precompiled floor is a fixed cost this profile cannot touch, so it
+# is a larger share of a 73 MB binary than of a 188 MB one. Which is also
+# why an earlier hello-world benchmark put the saving at 0.1% and was wrong
+# by about 700x — on a toy, std's floor IS the whole binary. Measure the
+# class of artifact you actually care about.
+#
+# `debug = 0` would save roughly 1.5 GB more and take the `at ./src/...`
+# line off every stack frame. That is the trade this profile declines.
+#
+# `line-tables-only` rather than `0`, deliberately: it keeps file and line in
+# panic backtraces, and several defects found this week were located from
+# one. What goes is the type and variable detail a step debugger wants,
+# which is recoverable by building the one crate under investigation with
+# `RUSTFLAGS="-C debuginfo=2"`.
+#
+# `strip` is deliberately NOT set here. `strip = "debuginfo"` would remove
+# the line tables this profile just asked for, which is the trap in doing
+# both at once. Release strips because release has nothing to keep.
+#
+# `[profile.test]` inherits from `dev`, so this covers `cargo test`.
+[profile.dev]
+debug = "line-tables-only"
+
 [profile.release]
 lto = "thin"
 codegen-units = 1
