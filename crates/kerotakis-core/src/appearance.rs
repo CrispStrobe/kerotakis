@@ -266,7 +266,14 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
     let words = describe(
-        &liquid, cloudiness, &deposits, &floats, has_liquid, bubbling, vessel,
+        &liquid,
+        cloudiness,
+        &deposits,
+        &floats,
+        has_liquid,
+        bubbling,
+        liquid_density,
+        vessel,
     );
     Appearance {
         liquid,
@@ -375,6 +382,7 @@ fn describe(
     floats: &[(String, Colour)],
     has_liquid: bool,
     bubbling: bool,
+    liquid_density: Option<f64>,
     vessel: &Vessel,
 ) -> String {
     if vessel.is_empty() {
@@ -450,17 +458,46 @@ fn describe(
         };
         parts.push(format!("{list} floats on top"));
     }
-    // A named solid the registry does not resolve into species is still
-    // there, and saying nothing about it would be the same defect as
-    // reporting liquid water below its freezing point: a state the engine
-    // holds, returned as though the vessel were empty of it. The wording
-    // stays position-neutral on purpose — whether wax floats and wet paper
-    // sinks is buoyancy physics the bench has not computed.
+    // A named object is governed by its whole-object bulk density. Comparing
+    // only its resolved ingredients gets porous pumice, foam and fruit wrong:
+    // the trapped air that lowers their bulk density is not a species.
     for solid in crate::material::conserved_unresolved_solids(vessel) {
-        parts.push(format!(
-            "a piece of {} {} is in the beaker",
-            solid.colour_word, solid.material
-        ));
+        let position = liquid_density
+            .zip(solid.bulk_density_g_per_ml)
+            .map(|(liquid, object)| object < liquid);
+        parts.push(match (has_liquid, position) {
+            (true, Some(true)) => format!(
+                "a piece of {} {} floats on top",
+                solid.colour_word, solid.material
+            ),
+            (true, Some(false)) => format!(
+                "a piece of {} {} is at the bottom",
+                solid.colour_word, solid.material
+            ),
+            _ => format!(
+                "a piece of {} {} is in the beaker",
+                solid.colour_word, solid.material
+            ),
+        });
+    }
+    for object in crate::material::bulk_solid_objects(vessel) {
+        // Role-backed conserved solids were already described above with
+        // their reviewed colour; do not name the same raisin twice.
+        if crate::material::conserved_unresolved_solids(vessel)
+            .iter()
+            .any(|solid| solid.recipe_id == object.recipe_id)
+        {
+            continue;
+        }
+        parts.push(if has_liquid {
+            if liquid_density.is_some_and(|liquid| object.bulk_density_g_per_ml < liquid) {
+                format!("a piece of {} floats on top", object.material)
+            } else {
+                format!("a piece of {} is at the bottom", object.material)
+            }
+        } else {
+            format!("a piece of {} is in the beaker", object.material)
+        });
     }
     let mut text = parts.join(", ");
     text.push('.');

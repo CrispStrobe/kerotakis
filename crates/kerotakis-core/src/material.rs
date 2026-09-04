@@ -262,16 +262,67 @@ pub struct ConservedSolidObservation {
     pub srgb: [u8; 3],
     /// Conserved amount in the recipe's own basis.
     pub amount: f64,
+    /// Reviewed bulk density of the whole named object, when supplied.
+    /// This deliberately differs from the density of any resolved ingredient:
+    /// pores and trapped air are part of why objects such as apples and pumice
+    /// float.
+    pub bulk_density_g_per_ml: Option<f64>,
+}
+
+/// A named, coherent solid object whose unresolved balance keeps its recipe
+/// identity in vessel state. Unlike powders and suspensions, its reviewed
+/// bulk density describes the object that floats or sinks.
+#[derive(Debug, Clone, PartialEq)]
+pub struct BulkSolidObservation {
+    pub material: String,
+    pub recipe_id: String,
+    pub amount: f64,
+    pub bulk_density_g_per_ml: f64,
+}
+
+pub fn bulk_solid_objects(vessel: &crate::Vessel) -> Vec<BulkSolidObservation> {
+    let mut seen: Vec<BulkSolidObservation> = Vec::new();
+    for portion in &vessel.unresolved_materials {
+        let Some(recipe) = lookup_versioned(&portion.recipe_id, portion.recipe_version) else {
+            continue;
+        };
+        if portion.amount <= 0.0
+            || !matches!(
+                recipe.physical_form,
+                MaterialPhysicalForm::BulkSolid
+                    | MaterialPhysicalForm::Granules
+                    | MaterialPhysicalForm::CompositeObject { .. }
+            )
+            || recipe
+                .roles
+                .iter()
+                .any(|role| matches!(role, MaterialRole::SurfaceFloater { .. }))
+        {
+            continue;
+        }
+        let Some(density) = recipe.bulk_density.map(|density| density.value) else {
+            continue;
+        };
+        if let Some(existing) = seen.iter_mut().find(|item| item.recipe_id == recipe.id) {
+            existing.amount += portion.amount;
+        } else {
+            seen.push(BulkSolidObservation {
+                material: recipe.name,
+                recipe_id: recipe.id,
+                amount: portion.amount,
+                bulk_density_g_per_ml: density,
+            });
+        }
+    }
+    seen
 }
 
 /// Named solids whose substance has no installed species, in the order they
 /// were dispensed and aggregated by pinned recipe.
 ///
-/// This is the whole visible consequence of `ConservedUnresolvedSolid`: the
-/// bench can say a piece of the named material is there and what colour it
-/// is. It states no position in the vessel, because floating and sinking are
-/// the physics BRD-070/071 own, and no reactivity, because the material has
-/// no resolved composition to react with.
+/// The observation carries the whole object's reviewed bulk density so the
+/// buoyancy model compares like with like instead of treating a porous object
+/// as a loose pile of its denser resolved ingredients.
 pub fn conserved_unresolved_solids(vessel: &crate::Vessel) -> Vec<ConservedSolidObservation> {
     let mut seen: Vec<ConservedSolidObservation> = Vec::new();
     for portion in &vessel.unresolved_materials {
@@ -298,6 +349,7 @@ pub fn conserved_unresolved_solids(vessel: &crate::Vessel) -> Vec<ConservedSolid
                 colour_word,
                 srgb,
                 amount: portion.amount,
+                bulk_density_g_per_ml: recipe.bulk_density.map(|density| density.value),
             });
         }
     }
