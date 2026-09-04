@@ -854,3 +854,40 @@ fn a_copper_coin_in_vinegar_and_salt_grows_its_own_green() {
         "the bench no longer has to decline this one:\n{out}"
     );
 }
+
+/// K40: blue vitriol, which turned out to be already working.
+///
+/// The row carried three complaints and three separate tasks had answered
+/// them without anyone re-reading it: KID-6 fixed the 109 °C boil with
+/// liquid water still in the ledger, KID-7 gave cooling solutions their
+/// crystals, and KID-20 stopped chalcanthite being drawn white. This test
+/// exists so the row cannot go stale in the other direction.
+#[test]
+fn a_cooling_copper_sulfate_solution_grows_blue_crystals() {
+    let lesson = lessons_dir().join("blue-crystals.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    assert!(
+        out.contains("net ionic: Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)"),
+        "the five waters are what make it blue vitriol:\n{out}"
+    );
+    assert!(
+        out.contains("blue copper(II) sulfate pentahydrate (chalcanthite)"),
+        "and the crystals are described as blue, not white:\n{out}"
+    );
+
+    // The concentration story: too dark to see through while the copper is
+    // dissolved, blue once most of it has crystallised out.
+    let cooled_at = out
+        .rfind("net ionic")
+        .unwrap_or_else(|| panic!("the lesson cools the solution:\n{out}"));
+    assert!(
+        out[..cooled_at].contains("The liquid is black"),
+        "a strong copper sulfate solution saturates to black:\n{out}"
+    );
+    assert!(
+        out[cooled_at..].contains("The liquid is blue"),
+        "and lightens as the copper leaves it:\n{out}"
+    );
+}

@@ -1,4 +1,40 @@
 {
+  "blue-crystals": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1880 mol copper sulfate",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v1: 25.0 °C → 70.9 °C",
+      "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 70.9 °C → 2.0 °C",
+      "v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "blue-crystals.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.18795933,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 275.1893
+      }
+    ]
+  },
   "boiling-curve": {
     "event_count": 25,
     "events_sample": [

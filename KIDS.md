@@ -60,7 +60,7 @@ silent miss teaches the silence.
 | K06 | Magic milk | colours racing | computed | `SurfaceColourSpread` fires; the stirred control correctly does not |
 | K07 | Pepper runs from soap | the darting | computed | fires on the soap-second order and stays silent on the soap-first control |
 | K08 | Oil and water | two layers | computed | layer forms; the dye stays in the aqueous phase |
-| K09 | Lava lamp | rising blobs | partial | layers and fizz computed; blob motion is a stated non-goal |
+| K09 | Lava lamp | rising blobs | **declined** | layers and fizz are computed; the rising blobs are bulk fluid motion, which `BREADTH.md` places outside this engine's authority. Listed as *partial* this read as work pending. It is not pending — it is refused, and the matrix should not imply otherwise |
 | K10 | Density tower | three stacked liquids | partial | immiscible layering is computed; a *miscible* sugar-syrup tower has no stratification model, so vinegar correctly mixes and there is no third band. KID-19a made the half that is data answerable — `measure v1 density` reads 1.00, 1.14 and 1.28 g/mL up a sugar ladder, which is the number a tower is built on; the slow pour that would keep them apart is still not modelled |
 | K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
@@ -710,6 +710,43 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### A fourth stale row, and two that were never work (2026-09-04)
+
+**K40 was closed by nobody.** Its verdict listed three complaints — a boil
+at 109 °C with liquid water still in the ledger, no crystals from a cooling
+saturated solution, and chalcanthite drawn white — and three separate tasks
+answered them one at a time. KID-6 fixed the latent heat, KID-7 gave
+cooling solutions their crystals, KID-20 gave chalcanthite its blue. Nobody
+re-read the row, so it has been sitting at *partial* describing a bench
+that answered it days ago.
+
+Verified rather than assumed: 0.0884 mol of chalcanthite precipitates on
+cooling with `Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)` printed,
+and the description is blue. `lessons/blue-crystals.lab` and its replay
+test now pin it, so it cannot go stale in the other direction either.
+
+One detail worth keeping, because it is the model being right rather than
+convenient: the liquid reads **black** while the copper is dissolved and
+**blue** after the crystals have come out. Nothing changed colour. A strong
+copper sulfate solution saturates the light path in a 4 cm beaker and you
+genuinely cannot see through it; taking most of the copper out is what
+makes it blue again.
+
+**K09 and K49 are not work and should never have been listed as if they
+were.** The lava lamp's rising blobs and the soap-driven boat are both bulk
+fluid motion, which `BREADTH.md` places outside this engine's authority.
+Their chemistry is computed — the fizz, the layers, the surface-tension
+event all fire. What is missing is motion, and it is missing on purpose.
+
+Listed as *partial* they read as a promise, and a promise nobody intends to
+keep is worse than a refusal: it inflates the outstanding list, and the
+next person to plan work off this file will cost themselves an afternoon
+discovering the decision was made years ago. They are now **declined**.
+
+That is a different correction from the four stale rows. A stale row said
+something that had stopped being true. These two said something that was
+never true — not about the bench, but about the intention.
+
 ### K16: the phase was in the database and the species was not (2026-09-04)
 
 The copper-coin row was the one I most expected to be expensive, and it was
@@ -1070,7 +1107,7 @@ or a rate in them.
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
 | K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
-| K40 | Grow blue crystals | **wrong** → partial | ended at **109 °C with liquid water in the ledger** — the KID-6 latent-heat gap, fixed 2026-09-02. Cooling a hot saturated solution still grows no crystals (KID-7), and chalcanthite is still drawn *white* when it is the blue vitriol of the experiment's title (KID-20) |
+| K40 | Grow blue crystals | **wrong** → computed | **the fourth stale row, and the only one closed by nobody.** Its three complaints were answered by three separate tasks and the row was never re-read: KID-6 fixed the 109 °C boil with liquid water in the ledger, KID-7 gave cooling solutions their crystals, KID-20 stopped chalcanthite being drawn white. Verified 2026-09-04 — 0.0884 mol precipitates on cooling with the net ionic equation, and the liquid goes from *black* (too concentrated to see through) to *blue* as the copper leaves it |
 | K41 | Powder fizzes faster than a lump | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** `grind` works when the chalk goes in before the water: "ground to 50.0 µm — about 0.221 m² surface area", and the curated equation then fires. What is still missing is the *contrast*: the acid-carbonate route carries no rate, so powder and lump fizz identically |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
@@ -1079,7 +1116,7 @@ or a rate in them.
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
 | K47 | A fire extinguisher in a jar | ~~silent miss~~ → computed | KID-12: the fire exists now, and the extinguisher works the way a real one does — by dilution. The wax is untouched, the oxygen is untouched, and the flame will not start, because 14% of the gas being oxygen is not enough |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
-| K49 | A boat pushed by soap | partial | the surface event fires; nothing moves |
+| K49 | A boat pushed by soap | **declined** | the surface-tension event fires and is computed; nothing moves, and nothing will. A boat crossing a bowl is bulk motion under a surface-tension gradient — the same authority boundary as K09, and the same correction: refused rather than owed |
 | K50 | A pH map of the kitchen | **wrong** → partial | vinegar 2.4, soda 8.4, washing soda 12 — and **apple juice read nothing at all**, because the recipe resolved to water and sucrose with no acid in it. KID-20 gave it the malic acid its tartness is actually made of; the engine now says precisely why it still cannot price that acidity (no shipped database defines a malate species) instead of behaving as a neutral sugar solution |
 | K51 | A hand warmer that crystallises | **wrong** → **stated boundary** | closed 2026-09-04, and closed as a refusal rather than a feature. The bench cooled a supersaturated pouch from 65 °C to 8 °C and said *nothing at all*; it now says how far past saturation the solution is (0.488 mol against 0.283) and why the solid cannot appear. A peer session searched the `PHASES` section of **every** `.dat` vendored with iphreeqc — wateq4f, minteq.v4, minteq, pitzer, sit, llnl — and there is not one acetate solid phase anywhere. Not a shipping choice; nobody's PHREEQC database has one |
 | K52 | A borax snowflake | ~~unreachable~~ → computed | the row was stale before it was fixed: borax landed with KID-14 and only wanted a solubility curve. With 2.5 g/100 mL at 20 °C and 27.4 at 100 °C, 25 g into cold water leaves most of it sitting there, heating dissolves it, and cooling returns **0.0957 mol** as solid — while the same cooling makes a sugar syrup *supersaturate* instead |
