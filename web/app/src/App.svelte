@@ -25,6 +25,7 @@
   import AboutDialog from "./lib/components/AboutDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
+  import CapabilityExplorer from "./lib/components/CapabilityExplorer.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
@@ -42,6 +43,7 @@
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
+  import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
@@ -461,6 +463,10 @@
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (codexEntries = parseCodexIndex(raw)))
       .catch(() => {});
+    void fetch(new URL("capabilities/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (capabilityPrompts = parseCapabilityIndex(raw)))
+      .catch(() => {});
     void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
@@ -583,9 +589,11 @@
   /** An entry handed from the map straight to the experiment page. */
   let catalogInitial = $state<CodexEntry | null>(null);
   let catalogOpen = $state(false);
+  let capabilityOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
+  let capabilityPrompts = $state<CapabilityPrompt[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   let buretteTarget = $state<number | null>(null);
@@ -779,6 +787,7 @@
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
+      else if (capabilityOpen) capabilityOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
@@ -871,6 +880,9 @@
       {#if codexEntries.length > 0}
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
+      {/if}
+      {#if capabilityPrompts.length > 0}
+        <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("capabilities")}</button>
       {/if}
       {#if quests.length > 0 && !session.quest}
         <label class="quest-picker">
@@ -1390,6 +1402,10 @@
       catalogInitial = null;
     }}
   />
+{/if}
+
+{#if capabilityOpen}
+  <CapabilityExplorer prompts={capabilityPrompts} {session} onclose={() => (capabilityOpen = false)} />
 {/if}
 
 {#if mapOpen}

@@ -54,6 +54,10 @@ mkdir -p "$OUT/lessons"
 cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
 python3 "$ROOT/tools/lessons-index.py" "$OUT/lessons"
 
+echo "== reviewed capability index"
+python3 "$ROOT/tools/curiosity-index.py" \
+  "$ROOT/tests/coverage/curiosity-v1" "$OUT/capabilities/index.json"
+
 echo "== codex export"
 cargo run -p kerotakis-cli -- codex export "$OUT/codex/index.json"
 
