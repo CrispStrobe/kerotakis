@@ -702,6 +702,44 @@ fn density_tells_apart_what_the_balance_cannot() {
     );
 }
 
+/// KID-11: the volcano's whole point, which the bench could not show.
+///
+/// Foam was fed by one hard-coded reaction id — `peroxide-decomposition` —
+/// so a baking-soda volcano with washing-up liquid in it made no foam at
+/// all, however much detergent was there. The gas was never the problem:
+/// 0.049 mol of carbon dioxide came out either way. It arrived by a route
+/// nothing was watching.
+#[test]
+fn a_volcano_with_soap_in_it_climbs_out_of_the_glass() {
+    let lesson = lessons_dir().join("volcano-foam.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // The control fizzes and does nothing else. Everything before v2's
+    // first line belongs to it.
+    let split = out
+        .find("v2:")
+        .unwrap_or_else(|| panic!("the lesson has two vessels:\n{out}"));
+    assert!(
+        !out[..split].to_lowercase().contains("foam"),
+        "no soap, no foam:\n{out}"
+    );
+
+    // The same reaction with detergent in the glass first.
+    assert!(
+        out[split..].to_lowercase().contains("foam"),
+        "soap must catch the gas the volcano makes:\n{out}"
+    );
+
+    // And the carbon dioxide is the same carbon dioxide either way: the
+    // soap changes whether the gas is caught, not how much there is.
+    let fizzes = out.matches("carbon dioxide").count();
+    assert!(
+        fizzes >= 2,
+        "both vessels make the same gas; only one keeps it:\n{out}"
+    );
+}
+
 /// KID-19b: the sorting a recycling plant does, in a glass of water.
 ///
 /// K32 was a silent miss — four polymers with reviewed densities, all four

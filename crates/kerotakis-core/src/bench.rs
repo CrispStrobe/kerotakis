@@ -576,6 +576,56 @@ impl Bench {
             }
         }
 
+        // KID-11: foam is a property of gas meeting a surfactant, and it
+        // used to be a property of one reaction id. The trap lives here
+        // rather than in `advance_vessel_time` because the gas that makes a
+        // volcano erupt leaves during the solver pass of the ADD step —
+        // there is no `wait` in a volcano, and by the next one the carbon
+        // dioxide is long gone from the ledger.
+        let foam_seconds = match &op {
+            Operator::Wait { seconds } => seconds.max(0.0),
+            Operator::Stir { seconds, .. } => seconds.max(0.0),
+            _ => 0.0,
+        };
+        let mut foam_events: Vec<(usize, Event)> = Vec::new();
+        for id in touched.iter().copied() {
+            let (gas, after) = gas_made_this_step(&events, id);
+            // Nothing new to trap and no time to drain is not a foam
+            // event. Without this, a vessel that had once foamed would
+            // report its unchanged foam again on every later `look`,
+            // which is noise in the log and churn in the goldens — the
+            // old call site got this for free by running only on `stir`
+            // and `wait`.
+            if gas <= 0.0 && foam_seconds <= 0.0 {
+                continue;
+            }
+            let Ok(vessel) = self.vessel_mut(id) else {
+                continue;
+            };
+            let Some(foam) = crate::foam::advance(vessel, foam_seconds, gas) else {
+                continue;
+            };
+            if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
+                let at = after.map(|index| index + 1).unwrap_or(events.len());
+                foam_events.push((
+                    at,
+                    Event::FoamChanged {
+                        vessel: id,
+                        trapped_gas_liters: foam.trapped_gas_liters,
+                        volume_liters: foam.volume_liters,
+                        height_cm: foam.height_cm,
+                        overflow_liters: foam.overflow_liters,
+                        half_life_seconds: foam.half_life_seconds,
+                    },
+                ));
+            }
+        }
+        // Insert from the back so earlier positions stay valid.
+        foam_events.sort_by_key(|(at, _)| std::cmp::Reverse(*at));
+        for (at, event) in foam_events {
+            events.insert(at.min(events.len()), event);
+        }
+
         // KID-13: gas leaving the liquid is what the dancing raisin rides.
         // The trigger is the gas, not the clock — this bench degasses a
         // glass in one step, so the moment to say it is the moment the
@@ -3696,12 +3746,10 @@ fn advance_vessel_time(
         });
     }
 
-    let mut oxygen_moles = 0.0;
     for (reaction, moles) in
         crate::kinetics::advance_with_context(vessel, seconds, kinetic_context)?
     {
         if reaction.id == "peroxide-decomposition" {
-            oxygen_moles += moles.0;
             // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately -98.2 kJ
             // per stoichiometric extent at 25 °C.
             let energy_j = 98_200.0 * moles.0;
@@ -3778,19 +3826,59 @@ fn advance_vessel_time(
         }
     }
 
-    if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
-        if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
-            events.push(Event::FoamChanged {
-                vessel: vessel.id,
-                trapped_gas_liters: foam.trapped_gas_liters,
-                volume_liters: foam.volume_liters,
-                height_cm: foam.height_cm,
-                overflow_liters: foam.overflow_liters,
-                half_life_seconds: foam.half_life_seconds,
-            });
+    Ok(())
+}
+
+/// KID-11: how much gas was made in this vessel this step, from whichever
+/// engine saw it.
+///
+/// Two engines report gas and they report it in different words. A curated
+/// kinetic reaction announces `GasProduced`; the aqueous solver announces
+/// `GasEvolved` when gas leaves an open vessel and `GasContained` when a
+/// closed one keeps it. A baking-soda volcano is entirely the second kind
+/// — 0.049 mol of carbon dioxide, in two parcels, with no `GasProduced`
+/// anywhere — and peroxide is entirely the first.
+///
+/// The two totals are combined with `max`, not `+`. They are two VIEWS of
+/// one step, and a parcel that both engines described would otherwise be
+/// counted twice, which would inflate an observable rather than a number
+/// anyone can check. No shipped path reports the same parcel both ways
+/// today; `max` means that if one ever does, the foam is under-claimed
+/// rather than doubled, and under-claiming is the safe direction for a
+/// bounded teaching observable.
+///
+/// Returns the gas and the index of the last event that reported it, so
+/// the foam can be told beside its own cause. A lesson like
+/// `elephant-toothpaste-catalyst-dose` is a two-vessel fair comparison,
+/// and a `wait` touches both: appending every vessel's foam after every
+/// vessel's chemistry groups the transcript by event kind instead of by
+/// vessel, which is the wrong axis for the one thing that lesson exists to
+/// let a learner do. The gas line, then what the gas did.
+fn gas_made_this_step(events: &[Event], vessel: VesselId) -> (f64, Option<usize>) {
+    let mut produced = 0.0;
+    let mut reported = 0.0;
+    let mut last = None;
+    for (index, event) in events.iter().enumerate() {
+        match event {
+            Event::GasProduced {
+                vessel: id, moles, ..
+            } if *id == vessel => {
+                produced += moles.0;
+                last = Some(index);
+            }
+            Event::GasEvolved {
+                vessel: id, moles, ..
+            }
+            | Event::GasContained {
+                vessel: id, moles, ..
+            } if *id == vessel => {
+                reported += moles.0;
+                last = Some(index);
+            }
+            _ => {}
         }
     }
-    Ok(())
+    (produced.max(reported), last)
 }
 
 /// BRD-002: carry a typed shelf refusal into the event stream so it reaches

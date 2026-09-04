@@ -1,0 +1,36 @@
+# The volcano: why the soap matters
+#
+# A baking-soda volcano without washing-up liquid is a fizz. With it, the
+# gas is caught in a film as it comes out and the whole thing climbs over
+# the rim. Nothing about the chemistry changes — the same carbon dioxide,
+# the same amount of it. What changes is whether the gas can get away.
+register lv2
+
+# 1. The control. Soda and vinegar, no soap: it fizzes, the gas leaves, and
+#    there is nothing to see afterwards but a flat liquid.
+add v1 NaHCO3 5g
+add v1 white_vinegar_5_percent 50mL
+look v1
+
+# 2. The same reaction with washing-up liquid already in the glass. Put the
+#    soap in FIRST — it has to be there when the gas arrives, because gas
+#    that has already left cannot be caught.
+new beaker
+add v2 dish_soap 5mL
+add v2 NaHCO3 5g
+add v2 white_vinegar_5_percent 50mL
+look v2
+
+# 3. And it does not last. Foam drains and the bubbles join up: two minutes
+#    against this soap's 180-second half-life takes 1.375 L down to 0.866 L,
+#    a bit over a third of it gone. Not "most of the way back to a liquid" —
+#    that was the guess before the run, and the number is slower than the
+#    guess.
+wait 2min
+look v2
+
+# What this does not model: bubble size, how the film drains, or the
+# difference between a detergent film and a protein one. The half-life is
+# the recipe's own reviewed number and the trapped fraction is a bounded
+# teaching value — this says THAT it foams and roughly how fast it goes,
+# not what the foam is made of.
