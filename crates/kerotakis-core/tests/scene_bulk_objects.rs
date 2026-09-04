@@ -31,4 +31,8 @@ fn whole_object_bulk_density_reaches_the_scene_contract() {
 
     let potato = scene_with("potato");
     assert_eq!(potato.bulk_objects[0].position, "sunk");
+
+    // A poured-grain density includes air between separate grains and must
+    // not be mistaken for the density of one coherent object.
+    assert!(scene_with("rice").bulk_objects.is_empty());
 }

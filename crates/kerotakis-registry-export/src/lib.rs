@@ -2421,12 +2421,18 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 component("SiO2", 0.7),
             ],
             unresolved_fraction: Some(FractionRange { lower: 0.3, upper: 0.3 }),
-            physical_form: MaterialPhysicalForm::Granules,
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("porous stone".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
             roles: Vec::new(),
             preparation: Some("volcanic pumice: 70% resolved silica with a conserved 30% remainder, at the bulk density of the frothed rock".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
-                "0.64 g/mL is a BULK density and is the point of the material: the glass it is made of is denser than water and the stone floats anyway, because most of its volume is trapped gas. The bench's float-and-sink test reads the density of each SPECIES a material resolves into, not the material's own bulk density, and no general material-level buoyancy exists: `bulk_density` is consumed only by the raisin bubble-ride. So this figure is recorded, is right, and does not float or sink anything. What a run actually sees is the resolved silica at 2.65, so pumice sinks here, and 50 g of it makes the water opaque as suspended quartz — the wrong answer for a stone, arrived at honestly from a composition that is right".to_string(),
+                "0.64 g/mL is a BULK density and is the point of the material: the glass it is made of is denser than water and the stone floats anyway, because most of its volume is trapped gas. Whole-object buoyancy compares this reviewed bulk density with the liquid density and keeps the resolved silica from being drawn again as a loose deposit".to_string(),
                 "the pores are also why real pumice slowly waterlogs and sinks; there is no transport into a pore in this bench, so it floats indefinitely".to_string(),
                 "abrasiveness, and the vesicular texture behind it, are physics this recipe does not claim".to_string(),
             ],
@@ -2629,7 +2635,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             preparation: Some("a fresh eating apple: water, its three sugars, cell-wall cellulose and a little fruit acid, resolved; skin, pectin, pigment and aroma conserved".to_string()),
             lot_assumptions: vec![
                 "the sugars are resolved separately rather than as one 'sugar' because an apple's sweetness is mostly fructose, and the bench can now dissolve each of them at its own solubility".to_string(),
-                "0.85 g/mL is the bulk density of the whole fruit and is below water, which is why an apple bobs — because of the air in the core and between the cells, not because apple flesh is lighter than water, which it barely is. The bench's float-and-sink test reads the density of each SPECIES a material resolves into, not the material's own bulk density, and no general material-level buoyancy exists: `bulk_density` is consumed only by the raisin bubble-ride. So this figure is recorded, is right, and does not float or sink anything, so an apple here does neither".to_string(),
+                "0.85 g/mL is the bulk density of the whole fruit and is below water, which is why an apple bobs — because of the air in the core and between the cells, not because apple flesh is lighter than water, which it barely is. Whole-object buoyancy compares this reviewed bulk density with the liquid density".to_string(),
                 "malic acid is the acid an apple actually contains and it is NOT installed; citric acid stands in for it at the same mass. The pH will be about right and the identity is wrong, which is a substitution recorded here rather than hidden".to_string(),
                 "browning is the reaction an apple is used to teach and this bench does not have it: no polyphenol oxidase, no phenolic substrate, no quinone. A cut apple here stays the colour it started".to_string(),
                 "the cellulose is resolved as the installed species and is the cell wall; it does not dissolve and is not digested here, which is right for water and wrong for a gut".to_string(),
@@ -2669,7 +2675,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             preparation: Some("a raw potato: water, storage starch, cell-wall cellulose and a trace of free sugar".to_string()),
             lot_assumptions: vec![
                 "the starch is the point of the tuber and is resolved, so an iodine test on this material has something real to bind to".to_string(),
-                "1.08 g/mL is above water, and the gap between it and the apple's 0.85 is what the salt-water flotation demonstration turns on. The bench's float-and-sink test reads the density of each SPECIES a material resolves into, not the material's own bulk density, and no general material-level buoyancy exists: `bulk_density` is consumed only by the raisin bubble-ride. So this figure is recorded, is right, and does not float or sink anything, so the demonstration cannot be run here even though both numbers are present and correct".to_string(),
+                "1.08 g/mL is above water, and the gap between it and the apple's 0.85 is what the salt-water flotation demonstration turns on. Whole-object buoyancy compares this reviewed bulk density with the liquid density, so a potato sinks in ordinary water".to_string(),
                 "gelatinisation is what happens when a potato is boiled and the bench does not have it: the starch here cannot swell, burst or thicken, so a heated potato changes temperature and nothing else".to_string(),
                 "solanine, the reason green potatoes are not eaten, is not represented; nothing here should be read as a statement about whether a potato is safe".to_string(),
                 "the cellulose is resolved as the installed species and is the cell wall; it does not dissolve and is not digested here, which is right for water and wrong for a gut".to_string(),

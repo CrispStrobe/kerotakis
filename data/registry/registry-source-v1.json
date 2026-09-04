@@ -56351,7 +56351,12 @@
         "upper": 0.3
       },
       "physical_form": {
-        "kind": "granules"
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "porous stone",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
       },
       "roles": [],
       "preparation": "volcanic pumice: 70% resolved silica with a conserved 30% remainder, at the bulk density of the frothed rock",
