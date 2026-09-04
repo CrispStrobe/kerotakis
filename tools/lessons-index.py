@@ -26,6 +26,7 @@ TOPICS = {
     "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
                             "counting-in-fives", "permanganate-standardisation"],
     "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
+    "corrosion & materials": ["rusting", "copper-patina"],
     "gases & pressure": ["sealed-gas"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates"],
     "separations": ["spirit-still", "transport-column"],

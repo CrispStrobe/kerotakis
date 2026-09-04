@@ -28,6 +28,15 @@ measure v1 ph
             path.write_text("# A demo\nadd v1 CuSO4 1g\nadd v1 water 10mL\n")
             self.assertEqual(MODULE.index(path.parent)[0]["kit"], ["CuSO4", "water"])
 
+    def test_corrosion_lessons_have_a_visible_topic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            (root / "rusting.lab").write_text("# Rust controls\nadd v1 Fe 1g\n")
+            (root / "copper-patina.lab").write_text("# Copper controls\nadd v1 CuO 1g\n")
+            indexed = {entry["file"]: entry for entry in MODULE.index(root)}
+            self.assertEqual(indexed["rusting.lab"]["topic"], "corrosion & materials")
+            self.assertEqual(indexed["copper-patina.lab"]["topic"], "corrosion & materials")
+
 
 if __name__ == "__main__":
     unittest.main()
