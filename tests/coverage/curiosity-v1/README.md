@@ -974,3 +974,48 @@ Two consequences for anyone reading a coverage report:
   neighbour ordering, and that is exactly why it caught something the
   500-prompt run could not. A disagreement between the two is a signal about
   state leaking across prompts, not a flake to be retried.
+
+## The CAP-16 cluster is not a capability gap (2026-09-04)
+
+Three of the ten remaining stood-aside rows are filed under CAP-16, surface
+area and rate, and read as a single missing capability: the bench does not
+compute rates. **Building one would not move any of them.** Their questions
+are comparative and their scripts build one condition:
+
+| row | question | script |
+|---|---|---|
+| `mat-003` | Does crushing magnesium make it react **faster**? | grinds, never compares against unground |
+| `mat-034` | Can ground powder dissolve **faster than a solid chunk**? | names two conditions, builds one |
+| `mat-108` | How does acid **change** the corrosion rate? | one acid concentration, no baseline |
+
+Every one is a single vessel. `mat-003` grinds the magnesium and then has
+nothing to compare the ground sample with; a perfect kinetics model would
+answer "how fast", and the question is "faster than what". `mat-034` states
+both conditions in its own sentence and builds only the first.
+
+So kinetics is **necessary but not sufficient** for these rows. Each also
+needs its script rewritten to build both conditions — which is a corpus
+change and a prescriptive one, and belongs with whoever owns CAP-16 rather
+than to a refresh.
+
+This is worth writing down because the mis-attribution is expensive in one
+direction: it invites a large capability build on the expectation that ten
+stood-aside rows become seven, and they would not.
+
+### And the answer-invariance sweep cannot see them
+
+`tools/curiosity-answer-invariance.py` compares what the bench says **across
+vessels**: a script that fills two or more and gets one answer cannot
+distinguish them. These three fill one vessel each, so the sweep is blind to
+them by construction — not a flaw in it, a different shape.
+
+The shape is: **a comparative question whose script builds a single
+condition.** It is the same defect as `mat-012` — a script that cannot reach
+its own question — arriving without the multi-vessel signature that makes
+`mat-012` detectable. `mat-012` weighed three metals and got three identical
+readings; these grind one sample and never weigh the other.
+
+Worth a second pass over the corpus for it. The mechanical part is
+findable — a script that performs a condition-changing operation (`grind`,
+`heat`, a concentration choice) exactly once, in one vessel — even though
+deciding whether the question is comparative needs a reader.

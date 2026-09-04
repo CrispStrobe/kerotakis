@@ -783,3 +783,56 @@ fn vinegar_alone_raises_no_alarm() {
         "vinegar and baking soda is a kitchen experiment, not a hazard: {events:?}"
     );
 }
+
+/// Bleach in water says why it cannot be modelled, instead of nothing.
+///
+/// The whole run used to be three lines, all true, which between them
+/// never said the bleach was the reason:
+///
+/// ```text
+/// v1: +27.6714 mol water
+/// v1: +0.0050 mol bleach (sodium hypochlorite)
+/// v1: the pH meter reads nothing — no aqueous solution has been
+///     characterised in this vessel
+/// ```
+///
+/// A learner is told an instrument failed. What actually happened is that
+/// no thermodynamic database defines a hypochlorite species — searched by
+/// name across every `.dat` vendored with iphreeqc, including the ones
+/// this lab does not load, and the `ClO-` matches are all perchlorate.
+///
+/// That is a fact about the world rather than a gap in the wiring, which
+/// is exactly the distinction `NotInAnyDatabase` exists to carry: not in
+/// this lab's gift, and not in anybody's. It does not move the row —
+/// `aq-053` still stands aside, correctly, because there is still no pH
+/// to give — and that is the point. The bench got more honest without the
+/// number moving, which is the opposite of the trade that made #362 wrong.
+#[test]
+fn bleach_says_why_it_cannot_be_speciated() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 27.67);
+    let events = add(&mut bench, &mut stack, v, "NaOCl", 0.005);
+
+    let note = events
+        .iter()
+        .find_map(|e| match e {
+            Event::NotYetModeled { what, cause, .. } if what.contains("hypochlorite") => {
+                Some((what.clone(), *cause))
+            }
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("bleach must say why it is unspeciated: {events:?}"));
+
+    assert_eq!(
+        note.1,
+        kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
+        "no shipped database defines it, which is a boundary and not a to-do"
+    );
+    assert!(
+        note.0.contains("database"),
+        "and the sentence names what is missing: {}",
+        note.0
+    );
+}
