@@ -1,0 +1,31 @@
+# Kitchen starch hunt: flour and dough are not just white powders
+#
+# Lugol solution is brown without starch and blue-black when its iodine meets
+# sufficiently long starch helices. Use separate cups so that each sample sees
+# the same water and indicator dose. Iodine stains: protect eyes, clothes and
+# the work surface, and do not taste any laboratory mixture.
+register lv1
+
+# A sugar control. White does not mean starch.
+add v1 water 100mL
+add v1 granulated_sugar 2g
+add v1 lugol_solution_1_percent 2mL
+look v1
+
+# Flour resolves a reviewed starch fraction, so the same computed absorption
+# band appears without a special-case claim about flour.
+new beaker
+add v2 water 100mL
+add v2 flour 2g
+add v2 lugol_solution_1_percent 2mL
+look v2
+
+# Plain flour-and-water dough carries the same starch identity.
+new beaker
+add v3 water 100mL
+add v3 flour_water_dough 3g
+add v3 lugol_solution_1_percent 2mL
+look v3
+
+# The colour identifies starch; it does not measure how much is present. This
+# bench also does not model cooking, starch gelatinisation or food safety.

@@ -1,0 +1,35 @@
+# Kitchen hot and cold packs: dissolving can warm or cool
+#
+# Equal water portions receive equal salt masses. The thermometer decides;
+# "dissolving releases heat" is not a general rule. These are simulation
+# samples, not food or medical-pack instructions.
+register lv1
+
+# Calcium chloride dissolution is exothermic.
+add v1 water 100mL
+measure v1 thermometer
+add v1 CaCl2 20g
+measure v1 thermometer
+inspect v1
+
+# Ammonium chloride dissolution is endothermic under the same starting
+# conditions. Do not ingest laboratory ammonium salts.
+new beaker
+add v2 water 100mL
+measure v2 thermometer
+add v2 NH4Cl 20g
+measure v2 thermometer
+inspect v2
+
+# Ordinary salt provides a household-scale comparison rather than another
+# universal rule.
+new beaker
+add v3 water 100mL
+measure v3 thermometer
+add v3 NaCl 20g
+measure v3 thermometer
+inspect v3
+
+# The vessels are adiabatic approximations. A real cup, packet and room absorb
+# heat, and dissolution rate and packet construction are outside this result.
+

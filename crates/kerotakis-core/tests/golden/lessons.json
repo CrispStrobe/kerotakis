@@ -1,4 +1,91 @@
 {
+  "baking-powder-or-soda": {
+    "event_count": 18,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +5.000 g baking_soda (1 known ingredients)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +2.7671 mol water",
+      "v2: +5.000 g baking_powder (2 known ingredients)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2 thermometer: 25.00 °C",
+      "v2: 25.0 °C → 72.4 °C",
+      "v2: 10.00 kJ requested; 10.00 kJ delivered — time model not yet coupled",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2 thermometer: 72.41 °C",
+      "v3: new vessel",
+      "v3: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v3: +5.000 g baking_soda (1 known ingredients)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "baking-powder-or-soda.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01785565,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 0.00770939,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 345.5587
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "blue-crystals": {
     "event_count": 11,
     "events_sample": [
@@ -946,6 +1033,66 @@
       }
     ]
   },
+  "dry-then-wet-fizz": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +0.0104 mol citric acid",
+      "v1: +2.000 g baking_soda (1 known ingredients)",
+      "v1: There is white baking soda (sodium bicarbonate) and white citric acid in the beaker.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0104 mol citric acid",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: +2.000 g baking_soda (1 known ingredients)",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "dry-then-wet-fizz.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02380754,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 0.01041,
+            "phase": "Solid",
+            "species": "citric_acid"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02380754,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 0.01041,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "electrode": {
     "event_count": 14,
     "events_sample": [
@@ -1803,6 +1950,82 @@
       }
     ]
   },
+  "kitchen-hot-and-cold-packs": {
+    "event_count": 17,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1 thermometer: 25.00 °C",
+      "v1: +0.1802 mol calcium chloride",
+      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2 thermometer: 25.00 °C",
+      "v2: +0.3739 mol ammonium chloride",
+      "v2: not yet modelled — ammonium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 thermometer: 25.00 °C",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3 thermometer: 25.00 °C",
+      "v3: +0.3422 mol sodium chloride",
+      "v3: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3 thermometer: 25.00 °C"
+    ],
+    "lesson": "kitchen-hot-and-cold-packs.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.18021265,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.37390865,
+            "phase": "Solid",
+            "species": "NH4Cl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.34221378,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "kitchen-ph": {
     "event_count": 25,
     "events_sample": [
@@ -1936,6 +2159,115 @@
           },
           {
             "moles": 2.55927838,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "kitchen-starch-hunt": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +2.000 g table_sugar (1 known ingredients)",
+      "v1: 0.0058 mol sucrose dissolved",
+      "v1: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v1: 0.0002 mol potassium iodide dissolved",
+      "v1: 0.0001 mol iodine dissolved",
+      "v1: The liquid is brown and clear.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +2.000 g wheat_flour (1 known ingredients)",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v2: 0.0002 mol potassium iodide dissolved",
+      "v2: 0.0001 mol iodine dissolved",
+      "v2: The liquid is blue-black and so cloudy you cannot see through it.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +3.000 g flour_water_dough (1 known ingredients)",
+      "v3: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v3: +2.040 g lugol_solution_1_percent (3 known ingredients)"
+    ],
+    "lesson": "kitchen-starch-hunt.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00584289,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00863451,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00777106,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
             "phase": "Liquid",
             "species": "water"
           }
@@ -3864,6 +4196,91 @@
           },
           {
             "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "vitamin-c-detective": {
+    "event_count": 18,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +1.000 g corn_starch (1 known ingredients)",
+      "v1: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v1: 0.0002 mol potassium iodide dissolved",
+      "v1: 0.0001 mol iodine dissolved",
+      "v1: The liquid is blue-black and so cloudy you cannot see through it.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +1.000 g corn_starch (1 known ingredients)",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: +0.0100 mol ascorbic acid (vitamin C)",
+      "v2: starch does not react — starch does not dissolve in water: its reviewed solubility is 0.0000 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: not yet modelled — ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v2: 0.0002 mol potassium iodide dissolved",
+      "v2: 0.0001 mol iodine dissolved",
+      "v2: not yet modelled — ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "vitamin-c-detective.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00616751,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ascorbic_acid"
+          },
+          {
+            "moles": 0.00616751,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
             "phase": "Liquid",
             "species": "water"
           }
