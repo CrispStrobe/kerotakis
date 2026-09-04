@@ -589,6 +589,15 @@ impl Bench {
         };
         for id in touched.iter().copied() {
             let gas = gas_made_this_step(&events, id);
+            // Nothing new to trap and no time to drain is not a foam
+            // event. Without this, a vessel that had once foamed would
+            // report its unchanged foam again on every later `look`,
+            // which is noise in the log and churn in the goldens — the
+            // old call site got this for free by running only on `stir`
+            // and `wait`.
+            if gas <= 0.0 && foam_seconds <= 0.0 {
+                continue;
+            }
             let Ok(vessel) = self.vessel_mut(id) else {
                 continue;
             };
