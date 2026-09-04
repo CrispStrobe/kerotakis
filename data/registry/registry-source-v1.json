@@ -1280,6 +1280,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/atacamite",
+      "citation": "Atacamite Cu2Cl(OH)3, the green corrosion product of copper in the presence of chloride, added so the aqueous engine has something to precipitate where minteq.v4 already computes the solution to be supersaturated against it. Molar mass 213.566 g/mol from IUPAC/CIAAW 2021 atomic weights; density 3.76 g/mL and the green appearance are standard mineralogical values; the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No thermodynamic constant is asserted here: the phase is defined by the shipped database and matched to this species by composition",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3541,6 +3550,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "atacamite",
+      "canonical_key": "legacy:species/atacamite",
+      "name": "atacamite (green copper corrosion)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/atacamite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -18254,6 +18277,152 @@
       },
       "evidence": {
         "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/atacamite",
+      "species_id": "atacamite",
+      "formula": "Cu2ClH3O3",
+      "elements": [
+        {
+          "element": "Cl",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/atacamite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Cu",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/atacamite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/atacamite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/atacamite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/atacamite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -34351,6 +34520,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/atacamite",
+      "species_id": "atacamite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 213.566,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/atacamite",
+      "species_id": "atacamite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 210.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/atacamite",
+      "species_id": "atacamite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.76,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -41123,6 +41382,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/atacamite",
+      "species_id": "atacamite",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": null,
+      "reflective_srgb": "#4E9A5B",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/atacamite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -48024,6 +48299,72 @@
           "kind": "not_reported"
         },
         "source_id": "legacy/paraffin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/atacamite",
+      "subject": {
+        "kind": "species",
+        "id": "atacamite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/atacamite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/atacamite",
+      "subject": {
+        "kind": "species",
+        "id": "atacamite"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/atacamite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"

@@ -609,6 +609,49 @@
       }
     ]
   },
+  "copper-patina": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +0.0126 mol copper(II) oxide",
+      "v1: +30.180 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and clear, there is black copper(II) oxide at the bottom.",
+      "v1: +0.0342 mol sodium chloride",
+      "v1: not yet modelled — copper(II) oxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is black copper(II) oxide at the bottom."
+    ],
+    "lesson": "copper-patina.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02512822,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.01257071,
+            "phase": "Solid",
+            "species": "CuO"
+          },
+          {
+            "moles": 0.03422138,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 1.59150708,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "counting-in-fives": {
     "event_count": 11,
     "events_sample": [

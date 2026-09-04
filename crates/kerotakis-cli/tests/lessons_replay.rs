@@ -810,3 +810,47 @@ fn the_hand_warmer_says_why_it_cannot_click() {
         "nothing crystallised, and the ledger says so:\n{out}"
     );
 }
+
+/// K16: the green that comes back on a wet copper coin.
+///
+/// The bench could already see that the solution was supersaturated
+/// against atacamite and could say so — *"those phases are in
+/// minteq.v4.dat but not in this lab's registry"* — and could put nothing
+/// at the bottom of the beaker. The database had the phase all along; the
+/// registry had no species for it, and phases are matched to species by
+/// composition. One registry entry, and the boundary becomes a solid.
+#[test]
+fn a_copper_coin_in_vinegar_and_salt_grows_its_own_green() {
+    let lesson = lessons_dir().join("copper-patina.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+
+    // Acid alone gives a blue solution and no green.
+    let salt_at = out
+        .find("sodium chloride")
+        .unwrap_or_else(|| panic!("the lesson adds salt:\n{out}"));
+    assert!(
+        out[..salt_at].contains("The liquid is blue"),
+        "the acid dissolves the oxide first:\n{out}"
+    );
+    assert!(
+        !out[..salt_at].contains("atacamite"),
+        "no chloride, no atacamite:\n{out}"
+    );
+
+    // With chloride the green solid appears, and is named.
+    assert!(
+        out.contains("atacamite (green copper corrosion) precipitated"),
+        "chloride is what turns dissolved copper back into a solid:\n{out}"
+    );
+    assert!(
+        out.contains("green atacamite"),
+        "and the learner is told what colour it is:\n{out}"
+    );
+
+    // And the refusal it replaces is gone.
+    assert!(
+        !out.contains("supersaturated against Atacamite"),
+        "the bench no longer has to decline this one:\n{out}"
+    );
+}

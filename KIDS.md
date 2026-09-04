@@ -67,7 +67,7 @@ silent miss teaches the silence.
 | K13 | Invisible ink | brown writing appearing | **wrong** → partial | still no browning: the sugars caramelise through chemistry the engine does not have. The other two halves are fixed — KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger** (the water now leaves at its boiling point), and KID-12 made the paper itself burn, as cellulose, at 506 K. What is missing is only the brown stage in between |
 | K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
-| K16 | Clean a copper coin | the shine returning | partial | CuO + acid + chloride computed (blue solution, Cu(II) speciated); there is no tarnish layer on a copper object, so the child has to dose copper oxide by hand |
+| K16 | Clean a copper coin | the shine returning | ~~partial~~ → computed | closed 2026-09-04. The acid dissolves the oxide to a blue solution, and with chloride the bench now precipitates **green atacamite** — the mineral that grows on wet copper. There is still no coin: no tarnish layer, no shine returning, and no difference between a second's dip and a night's soak. What the bench has is what the liquid does |
 | K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
 | K18 | Hot pack / cold pack | the thermometer | ~~partial~~ → computed | CaCl₂ gives +36 K, computed from dissolution enthalpy. **This row was my own mistake, corrected 2026-09-03:** I reached for Epsom salt, whose dissolution is very nearly athermal, and concluded the cold pack was unreachable because NH₄NO₃ is absent. Ammonium *chloride* is on the shelf, is what school kits actually contain, and gives −13 K |
 | K19 | Salt crystals | cubes appearing | computed | evaporation precipitates halite with the ledger exact; crystal *habit* is not drawn |
@@ -710,6 +710,50 @@ Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
 finds and a corpus written by the author cannot.
 
+### K16: the phase was in the database and the species was not (2026-09-04)
+
+The copper-coin row was the one I most expected to be expensive, and it was
+the cheapest of the five. The bench had been saying:
+
+```
+not yet modelled — a real beaker would not stay like this: the solution is
+supersaturated against Atacamite (SI +2.8). Those phases are in
+minteq.v4.dat but not in this lab's registry, so nothing can precipitate
+out of it here
+```
+
+Every word of which is load-bearing. The database defines the phase. The
+solver computes the saturation index. `derived::build` matches database
+phases to registry solids **by composition**, so the only thing standing
+between that message and a green solid was a species entry with the
+formula `Cu2ClH3O3`.
+
+One species — atacamite, Cu₂Cl(OH)₃, 213.566 g/mol, 3.76 g/mL, green — and:
+
+```
+v1: 0.0027 mol atacamite (green copper corrosion) precipitated ↓
+v1: The liquid is blue and so cloudy you cannot see through it, there is
+    green atacamite (green copper corrosion) at the bottom.
+```
+
+That is the chemistry of the experiment: acid takes the dull oxide off,
+chloride puts the green back, and the green has a name and a formula. It is
+also, incidentally, why a coin left wet in salty water goes worse than it
+started.
+
+**I got this wrong in the re-audit two sections down and have corrected it
+there.** I read the message as saying the phase was in a *database* we were
+not using, and called it a routing question. It says *registry*. The
+distinction is exactly the one a peer session's new cause taxonomy draws —
+`PhaseNotInRegistry` is in our gift, `NotInAnyDatabase` is in nobody's —
+and I had the two confused while writing the section that was supposed to
+stop exactly that.
+
+**K40 is the same shape and is not closed by this.** Cooling copper sulfate
+reports Langite, Antlerite and Brochantite, three copper hydroxy-sulfates,
+and each needs its own registry entry with its own reviewed data. The route
+is now proven; the work is four more species rather than a mechanism.
+
 ### KID-10b: an odour is a question of how much (2026-09-04)
 
 KID-10 taught `waft` to match odour rows by Brønsted family, because
@@ -858,12 +902,16 @@ remaining rows are not one problem:
 * **Shelf gaps** — the experiment needs a material the shelf has not got.
   K10 (honey), K13 (lemon juice), K58 (a superabsorbent polymer), K59
   (luminol). Each is a recipe or a species with reviewed data, not a model.
-* **Database routing** — K16 and K40 now answer with a boundary that names
-  its own cause: *"the solution is supersaturated against Atacamite (SI
-  +2.8) … those phases are in minteq.v4.dat but not in this database"*.
-  The chemistry exists in a database this project already ships; what is
-  missing is the routing that would reach it. That is a different and much
-  cheaper question than modelling copper corrosion.
+* **A species the registry has not got** — K16 and K40 answer with a
+  boundary that names its own cause. **I misquoted it in this section when
+  I first wrote it**, as "those phases are in minteq.v4.dat but not in this
+  database", and called it a routing question. The message says *"not in
+  this lab's **registry**"*, which is a different thing and a cheaper one:
+  the loaded database defines the phase, and `derived::build` matches
+  database phases to registry solids **by composition**, so the phase
+  becomes available the moment a species with that formula exists. Not
+  routing — one registry entry. Corrected here rather than quietly, because
+  a re-audit that introduces its own inaccuracy has earned no authority.
 * **One datum** — K52's borax needs a solubility at two temperatures, and
   KID-7's rock-candy machinery does the rest.
 * **A bounded observable** — K32's float-or-sink needs no new data at all:
