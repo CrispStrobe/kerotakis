@@ -148,6 +148,44 @@ pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[(
     "no shipped database defines a malate species, so its two carboxylic protons are not in this pH",
 )];
 
+/// Substances no shipped database can speciate AT ALL.
+///
+/// `UNSPECIATED_ACIDS` above is about a missing acidity: the substance
+/// dissolves and its protons are absent from the pH. This is the total
+/// case — nothing gives the thing an aqueous role, so it sits in the water
+/// and the solver has nothing whatever to say about it.
+///
+/// Until this table existed it said nothing, and that was the defect. A
+/// beaker of bleach and water produced, in full:
+///
+/// ```text
+/// v1: +27.6714 mol water
+/// v1: +0.0050 mol bleach (sodium hypochlorite)
+/// v1: the pH meter reads nothing — no aqueous solution has been
+///     characterised in this vessel
+/// ```
+///
+/// Every line true, and between them they never say the bleach is why. A
+/// learner is told an instrument failed. What actually happened is a fact
+/// about the world that is worth having.
+///
+/// Each row carries its whole sentence rather than a fragment, because the
+/// reason differs in kind between rows and a shared wrapper would flatten
+/// them. Membership is a strong claim — checked against every `.dat`
+/// vendored with iphreeqc, not only the four this lab loads — and it is
+/// what earns the `NotInAnyDatabase` cause: not in our gift, and not in
+/// anybody's.
+pub const UNSPECIATED_SOLUTES: &[(&str, &str)] = &[(
+    "NaOCl",
+    "no thermodynamic database defines a hypochlorite species — searched by \
+     name for HClO, ClO-, Cl(1) and the word itself across every .dat \
+     vendored with iphreeqc on 2026-09-04, including the ones this lab does \
+     not load, and the ClO- matches are all perchlorate. So the bleach sits \
+     in the water and nothing here can give it a pH, a strength, or any \
+     other number: this is a boundary of the shipped thermodynamics rather \
+     than a gap in this lab's wiring",
+)];
+
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
 /// protonation-state choice.

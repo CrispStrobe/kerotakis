@@ -1451,7 +1451,10 @@ impl Equilibrator for PhreeqcEquilibrator {
         // the stack skipped this solver entirely, so the one place that
         // knows the acidity is missing never got to say so. The refusal is
         // the whole point of carrying the substance at all.
-        inside_validity && (partition(vessel).is_some() || holds_unspeciated_acid(vessel))
+        inside_validity
+            && (partition(vessel).is_some()
+                || holds_unspeciated_acid(vessel)
+                || holds_unspeciated_solute(vessel))
     }
 
     /// Solve, and keep solving until the temperature stops moving.
@@ -1576,10 +1579,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
 
         let Some((solved, mut events, t_final)) = settled else {
-            return Ok(unspeciated_acid_notes(&start));
+            let mut notes = unspeciated_acid_notes(&start);
+            notes.extend(unspeciated_solute_notes(&start));
+            return Ok(notes);
         };
         *vessel = solved;
         events.extend(unspeciated_acid_notes(vessel));
+        events.extend(unspeciated_solute_notes(vessel));
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && (t_final - t0).abs() > 0.01 {
             // From where the vessel actually started, not from the last
             // trial temperature the iteration happened to stop on.
@@ -3537,6 +3543,51 @@ fn holds_unspeciated_acid(vessel: &Vessel) -> bool {
                 .iter()
                 .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
         })
+}
+
+/// The same argument as `holds_unspeciated_acid`, for the substances that
+/// get no aqueous role at all rather than a partial one.
+fn holds_unspeciated_solute(vessel: &Vessel) -> bool {
+    let has_water = vessel.contents.iter().any(|portion| {
+        portion.species.0 == "water" && portion.phase == Phase::Liquid && portion.moles.0 > TRACE
+    });
+    has_water
+        && derived::UNSPECIATED_SOLUTES.iter().any(|(key, _)| {
+            vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
+        })
+}
+
+fn unspeciated_solute_notes(vessel: &Vessel) -> Vec<Event> {
+    let mut notes: Vec<(&str, &str)> = derived::UNSPECIATED_SOLUTES
+        .iter()
+        .filter(|(key, _)| {
+            vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == *key && portion.moles.0 > TRACE)
+        })
+        .map(|(key, why)| (*key, *why))
+        .collect();
+    notes.sort_unstable();
+    notes.dedup();
+    notes
+        .into_iter()
+        .map(|(key, why)| {
+            let name = kerotakis_core::species::lookup_key(key)
+                .map(|d| d.name)
+                .unwrap_or(key);
+            Event::NotYetModeled {
+                // Not in our gift, and not in anybody's — which is the
+                // distinction this cause exists to carry.
+                cause: kerotakis_core::ops::NotModelledCause::NotInAnyDatabase,
+                vessel: vessel.id,
+                what: format!("{name} is dissolved and unspeciated: {why}"),
+            }
+        })
+        .collect()
 }
 
 fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
