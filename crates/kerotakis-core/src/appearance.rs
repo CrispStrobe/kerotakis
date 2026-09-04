@@ -272,13 +272,15 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
     let words = describe(
-        &liquid,
-        cloudiness,
+        LiquidState {
+            colour: &liquid,
+            cloudiness,
+            present: has_liquid,
+            density: liquid_density,
+        },
         &deposits,
         &floats,
-        has_liquid,
         bubbling,
-        liquid_density,
         vessel,
     );
     Appearance {
@@ -381,16 +383,26 @@ pub(crate) fn liquid_colour_word(c: &Colour, cloudiness: f64) -> &'static str {
     }
 }
 
-fn describe(
-    liquid: &Option<Colour>,
+struct LiquidState<'a> {
+    colour: &'a Option<Colour>,
     cloudiness: f64,
+    present: bool,
+    density: Option<f64>,
+}
+
+fn describe(
+    liquid: LiquidState<'_>,
     deposits: &[(String, Colour)],
     floats: &[(String, Colour)],
-    has_liquid: bool,
     bubbling: bool,
-    liquid_density: Option<f64>,
     vessel: &Vessel,
 ) -> String {
+    let LiquidState {
+        colour,
+        cloudiness,
+        present: has_liquid,
+        density: liquid_density,
+    } = liquid;
     if vessel.is_empty() {
         return "The beaker is empty.".to_string();
     }
@@ -401,7 +413,7 @@ fn describe(
         } else if crate::starch_iodine::has_aqueous_lugol_colour(vessel) {
             "brown"
         } else {
-            liquid
+            colour
                 .as_ref()
                 .map(|c| liquid_colour_word(c, cloudiness))
                 .unwrap_or("colourless")
