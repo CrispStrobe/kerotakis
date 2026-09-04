@@ -27,7 +27,7 @@ const DISTRICTS = [
     description: "Follow acids, bases, minerals, and water through the living campus.",
     icon: "⚗",
     minimumCompleted: 1,
-    topics: ["acids & bases", "water chemistry"],
+    topics: ["acids & bases", "water chemistry", "corrosion & materials"],
   },
   {
     id: "energy-yard",

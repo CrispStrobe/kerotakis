@@ -5,6 +5,7 @@ const missions: MissionSummary[] = [
   { file: "silver-and-salt.lab", name: "silver and salt", topic: "start here" },
   { file: "never-mix.lab", name: "never mix", topic: "safety" },
   { file: "fizz.lab", name: "fizz", topic: "acids & bases" },
+  { file: "rusting.lab", name: "rusting", topic: "corrosion & materials" },
   { file: "fire.lab", name: "fire", topic: "heat & fire" },
   { file: "electrolysis.lab", name: "electrolysis", topic: "redox & electricity" },
   { file: "rates.lab", name: "rates", topic: "rates" },
@@ -28,6 +29,8 @@ describe("story progression", () => {
       "energy-yard",
     ]);
     expect(afterOne[0]?.completed).toBe(1);
+    expect(afterOne.find((district) => district.id === "matter-gardens")?.missions.map((mission) => mission.file))
+      .toContain("rusting.lab");
   });
 
   it("preserves every shipped mission exactly once", () => {

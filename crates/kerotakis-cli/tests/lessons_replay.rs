@@ -863,22 +863,23 @@ fn a_copper_coin_in_vinegar_and_salt_grows_its_own_green() {
     let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
     assert!(ok, "lesson replays: {err}");
 
-    // Acid alone gives a blue solution and no green.
-    let salt_at = out
-        .find("sodium chloride")
-        .unwrap_or_else(|| panic!("the lesson adds salt:\n{out}"));
+    // The first beaker is the matched no-chloride control.
     assert!(
-        out[..salt_at].contains("The liquid is blue"),
-        "the acid dissolves the oxide first:\n{out}"
+        out.contains("v1: The liquid is blue"),
+        "the control's acid dissolves the oxide:\n{out}"
     );
     assert!(
-        !out[..salt_at].contains("atacamite"),
-        "no chloride, no atacamite:\n{out}"
+        !out.lines()
+            .any(|line| line.contains("v1:") && line.contains("atacamite")),
+        "the no-chloride control has no atacamite:\n{out}"
     );
 
     // With chloride the green solid appears, and is named.
     assert!(
-        out.contains("atacamite (green copper corrosion) precipitated"),
+        out.lines().any(|line| {
+            line.starts_with("  v2:")
+                && line.contains("atacamite (green copper corrosion) precipitated")
+        }),
         "chloride is what turns dissolved copper back into a solid:\n{out}"
     );
     assert!(
