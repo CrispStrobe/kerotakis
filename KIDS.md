@@ -512,6 +512,51 @@ and `main` moves only by PR.
 - **KID-11 — Foam is general.** A declared surfactant plus any gas-evolving
   reaction produces the existing foam observable, not only the peroxide
   path.
+  **Landed 2026-09-04.** It was literally one reaction id:
+
+  ```rust
+  if reaction.id == "peroxide-decomposition" { oxygen_moles += moles.0; }
+  ```
+
+  and `foam::advance` took a parameter called `oxygen_moles` while nothing
+  in its arithmetic ever looked at which gas it was. Carbon dioxide lifts a
+  soap film exactly as oxygen does. The name was the only thing claiming
+  otherwise, and the name came true.
+
+  **Widening the accumulator would not have been enough**, which is the
+  part worth keeping. The two engines that make gas report it in different
+  words, and a volcano is entirely the second kind:
+
+  ```
+  peroxide  0.019183 mol O2 produced             GasProduced, retained
+  volcano   0.041880 mol carbon dioxide evolved  GasEvolved, gone
+            0.007449 mol carbon dioxide evolved
+  ```
+
+  A volcano's carbon dioxide leaves during the *solver pass of the `add`
+  step*. There is no `wait` in a volcano, so by the next time advance the
+  gas is out of the ledger entirely — and `advance_vessel_time`, where the
+  trap lived, only runs on `stir` and `wait`. So the trap moved to
+  `step_with`, where both engines' reports are visible.
+
+  `gas_made_this_step` combines the two views with `max`, not `+`: they are
+  two views of one step, and a parcel both engines described would
+  otherwise be counted twice. No shipped path reports the same parcel both
+  ways today, which is exactly the kind of coincidence this file has been
+  cataloguing all week, so `max` fails towards under-claiming rather than
+  doubling.
+
+  **A regression the move introduced, caught by reading the diff rather
+  than by a test:** running on every operator instead of only timed ones
+  meant a vessel that had foamed once re-reported its unchanged foam on
+  every later `look`. The old call site got that guard for free by never
+  running otherwise. No gas and no elapsed time is not an event.
+
+  **Stated boundaries:** bubble size, film drainage geometry, and the
+  difference between a detergent film and a protein one are not modelled.
+  The half-life is the recipe's own reviewed number and the trapped
+  fraction is a bounded teaching value — this claims *that* it foams and
+  roughly how fast it subsides, not what the foam is made of.
 - **KID-12 — Combustion of organic solids.** Paraffin, paper and sugar with
   real combustion data; a flame that a gas blanket can starve; browning as
   a separate, honestly-bounded observable.
