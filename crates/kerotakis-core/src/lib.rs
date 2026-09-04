@@ -66,6 +66,7 @@ pub mod photochem;
 pub mod pigment;
 pub mod polymer;
 pub mod properties;
+pub mod protein;
 pub mod relations;
 pub mod render;
 pub mod rheology;

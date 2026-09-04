@@ -230,9 +230,15 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         .map(|emulsion| 0.78 * emulsion.dispersed_fraction)
         .unwrap_or(0.0);
     let colloid_cloudiness = colloid.map(|colloid| colloid.cloudiness).unwrap_or(0.0);
+    let protein_cloudiness = crate::protein::observe(vessel)
+        .iter()
+        .filter(|protein| protein.coagulated)
+        .map(|protein| protein.denatured_fraction)
+        .fold(0.0_f64, f64::max);
     let cloudiness = particle_cloudiness
         .max(emulsion_cloudiness)
-        .max(colloid_cloudiness);
+        .max(colloid_cloudiness)
+        .max(protein_cloudiness);
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
     // Ordered by how much of it there is, and cut where a solid stops being
     // worth mentioning: a tenth of the largest heap is still a heap, a
@@ -417,6 +423,15 @@ fn describe(
     }
     if bubbling {
         parts.push("bubbles of gas are rising through it".to_string());
+    }
+    for protein in crate::protein::observe(vessel)
+        .into_iter()
+        .filter(|protein| protein.coagulated)
+    {
+        parts.push(format!(
+            "the protein in {} has denatured and coagulated into an opaque white solid",
+            protein.material
+        ));
     }
     if !deposits.is_empty() {
         let named: Vec<String> = deposits
