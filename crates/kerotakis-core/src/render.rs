@@ -659,6 +659,36 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 carbon_dioxide_moles.0,
             ),
         },
+        Event::EnzymeHydrolysed {
+            vessel,
+            family,
+            material,
+            substrate,
+            hydrolysed_mass_g,
+            converted_fraction,
+            seconds,
+        } => match register.level() {
+            1 => locale.fill(
+                "event.enzyme-hydrolysed.lv1",
+                "The {family} in {vessel} is cutting up {substrate} from {material}.",
+                &[
+                    ("family", &format!("{family:?}").to_lowercase()),
+                    ("vessel", &vessel.to_string()),
+                    ("substrate", substrate),
+                    ("material", material),
+                ],
+            ),
+            2 => format!(
+                "{vessel}: {:?} hydrolysed {hydrolysed_mass_g:.4} g of {substrate} in {seconds:.0} s ({:.1}% converted)",
+                family,
+                converted_fraction * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: {:?} bounded activity hydrolysed {hydrolysed_mass_g:.6} g of {substrate} in {material}; {:.3}% converted. Products remain in conserved unresolved material: no named product inventory is claimed.",
+                family,
+                converted_fraction * 100.0,
+            ),
+        },
         Event::ReactionHeatReleased {
             vessel,
             reaction,

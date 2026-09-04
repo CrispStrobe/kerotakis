@@ -5,9 +5,12 @@
 //! carbon placeholder already used by catalase; the approximate molar mass is
 //! only a dose conversion and must not be read as a molecular formula claim.
 
+use serde::{Deserialize, Serialize};
+
 use crate::species::{Phase, SpeciesData};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum EnzymeFamily {
     Lactase,
     Protease,

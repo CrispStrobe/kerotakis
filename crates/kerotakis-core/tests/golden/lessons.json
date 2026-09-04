@@ -1946,6 +1946,71 @@
       }
     ]
   },
+  "lactase-and-milk": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +20.000 g whole_milk (1 known ingredients)",
+      "v1: +0.0000 mol lactase",
+      "v2: new vessel",
+      "v2: +20.000 g whole_milk (1 known ingredients)",
+      "v3: new vessel",
+      "v3: +20.000 g whole_milk (1 known ingredients)",
+      "v3: +0.0000 mol lipase",
+      "v1: Lactase hydrolysed 0.9034 g of lactose in milk in 3600 s (94.1% converted)",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v2: The liquid is white and so cloudy you cannot see through it.",
+      "v3: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "lactase-and-milk.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.3e-7,
+            "phase": "Aqueous",
+            "species": "lactase"
+          },
+          {
+            "moles": 0.96586178,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.96586178,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 3.03e-6,
+            "phase": "Aqueous",
+            "species": "lipase"
+          },
+          {
+            "moles": 0.96586178,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [
@@ -1975,6 +2040,80 @@
           },
           {
             "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "lipase-and-oil": {
+    "event_count": 22,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +10.000 g vegetable_oil (0 known ingredients)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: +0.0000 mol lipase",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v2: new vessel",
+      "v2: +2.7671 mol water",
+      "v2: +10.000 g vegetable_oil (0 known ingredients)",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below",
+      "v3: new vessel",
+      "v3: +2.7671 mol water",
+      "v3: +10.000 g vegetable_oil (0 known ingredients)",
+      "v3: vegetable oil forms the upper layer; water is denser and remains below",
+      "v3: +0.0000 mol protease",
+      "v3: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: Lipase hydrolysed 2.5044 g of triglycerides in vegetable oil in 3600 s (25.0% converted)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below",
+      "v3: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: The liquid is colourless and clear."
+    ],
+    "lesson": "lipase-and-oil.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 3.03e-6,
+            "phase": "Aqueous",
+            "species": "lipase"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 3.33e-6,
+            "phase": "Aqueous",
+            "species": "protease"
+          },
+          {
+            "moles": 2.7671385,
             "phase": "Liquid",
             "species": "water"
           }
@@ -2491,6 +2630,74 @@
           },
           {
             "moles": 5.53704413,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "protease-and-gelatin": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +10.000 g gelatin (1 known ingredients)",
+      "v1: +0.0000 mol protease",
+      "v2: new vessel",
+      "v2: +2.7671 mol water",
+      "v2: +10.000 g gelatin (1 known ingredients)",
+      "v3: new vessel",
+      "v3: +2.7671 mol water",
+      "v3: +10.000 g gelatin (1 known ingredients)",
+      "v3: +0.0000 mol lactase",
+      "v1: Protease hydrolysed 2.4666 g of gelatine protein in 3600 s (27.4% converted)",
+      "v1: The liquid is colourless and clear.",
+      "v2: The liquid is colourless and clear.",
+      "v3: The liquid is colourless and clear."
+    ],
+    "lesson": "protease-and-gelatin.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 3.33e-6,
+            "phase": "Aqueous",
+            "species": "protease"
+          },
+          {
+            "moles": 2.82264779,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.82264779,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.3e-7,
+            "phase": "Aqueous",
+            "species": "lactase"
+          },
+          {
+            "moles": 2.82264779,
             "phase": "Liquid",
             "species": "water"
           }

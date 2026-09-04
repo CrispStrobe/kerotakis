@@ -1373,6 +1373,17 @@ pub enum Event {
         active_yeast_grams: f64,
         seconds: f64,
     },
+    /// A catalyst hydrolysed a bounded substrate fraction inside conserved,
+    /// unresolved food material; no named product ledger is implied.
+    EnzymeHydrolysed {
+        vessel: VesselId,
+        family: crate::enzyme::EnzymeFamily,
+        material: String,
+        substrate: String,
+        hydrolysed_mass_g: f64,
+        converted_fraction: f64,
+        seconds: f64,
+    },
     /// Exothermic energy released by a curated kinetic reaction.
     ReactionHeatReleased {
         vessel: VesselId,

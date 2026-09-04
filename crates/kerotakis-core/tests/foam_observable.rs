@@ -58,6 +58,7 @@ fn declared_dish_soap_role_maps_gas_to_bounded_foam_and_decay() {
         recipe_version: 1,
         basis: MaterialBasis::MassFraction,
         amount: 0.4,
+        enzyme_hydrolysis: None,
     });
     let first = foam::advance(&mut vessel, 0.0, 0.01).expect("foam target");
     assert!(first.volume_liters > 0.2);

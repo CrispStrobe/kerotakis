@@ -507,6 +507,7 @@ sucrose = "Saccharose"
 "spill-hazard.lv1" = "Gefahr an der verschütteten Stelle {where}: {hazard} {real_world}"
 
 "fermented.lv1" = "Hefe ernährt sich vom Zucker in {vessel} und erzeugt Alkohol und Kohlendioxid-Bläschen."
+"enzyme-hydrolysed.lv1" = "Die {family} in {vessel} spaltet {substrate} aus {material}."
 "surface-spread.lv1" = "Das {material} flieht vor der Seife in {vessel}!"
 "surface-colour-spread.lv1" = "Die Farben jagen und wirbeln über die Milch in {vessel}!"
 "surface-colour-mixed.lv1" = "Das Rühren verteilt die Oberflächenfarben in {vessel}."

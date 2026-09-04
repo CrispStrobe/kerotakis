@@ -1,0 +1,25 @@
+# Lipase and oil: hydrolysing a triglyceride mixture
+#
+# Equal oil-and-water samples compare lipase, no enzyme, and protease.
+register lv1
+
+add v1 water 50mL
+add v1 vegetable_oil 10g
+add v1 lipase 0.1g
+
+new beaker
+add v2 water 50mL
+add v2 vegetable_oil 10g
+
+new beaker
+add v3 water 50mL
+add v3 vegetable_oil 10g
+add v3 protease 0.1g
+
+wait 1h
+look v1
+look v2
+look v3
+
+# The oil remains a conserved unresolved mixture. The bench does not invent
+# a pH fall or named glycerol and fatty-acid amounts it cannot yet ledger.

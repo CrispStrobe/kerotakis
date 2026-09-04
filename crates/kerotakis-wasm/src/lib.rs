@@ -676,10 +676,11 @@ impl Lab {
                         kerotakis_core::enzyme::EnzymeFamily::Lipase => "lipase",
                         kerotakis_core::enzyme::EnzymeFamily::Catalase => "catalase",
                     }),
-                    // Only catalase currently owns a kinetic reaction. The
-                    // other family entries are identity/dose scaffolds.
+                    // Catalase owns a stoichiometric kinetic reaction. The
+                    // other families expose bounded activity inside conserved
+                    // food material without inventing product inventories.
                     "capability": kerotakis_core::enzyme::profile(s.key).map(|_| {
-                        if s.key == "catalase" { "modeled_reaction" } else { "identity_only" }
+                        if s.key == "catalase" { "modeled_reaction" } else { "modeled_activity" }
                     }),
                 })
             })

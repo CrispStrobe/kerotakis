@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::enzyme::EnzymeFamily;
 use crate::material::MaterialBasis;
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
@@ -28,6 +29,16 @@ pub struct UnresolvedMaterialPortion {
     pub recipe_version: u32,
     pub basis: MaterialBasis,
     pub amount: f64,
+    /// Bounded progress within matter that deliberately remains unresolved.
+    /// Hydrolysis changes its structure, not its conserved mass.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub enzyme_hydrolysis: Option<EnzymeHydrolysisState>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EnzymeHydrolysisState {
+    pub family: EnzymeFamily,
+    pub converted_fraction: f64,
 }
 
 /// Persistent visual state for gas trapped by a declared foam stabilizer.

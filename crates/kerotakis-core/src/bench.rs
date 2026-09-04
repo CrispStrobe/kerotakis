@@ -1031,6 +1031,7 @@ impl Bench {
                         recipe_version: *recipe_version,
                         basis: *basis,
                         amount: expansion.unresolved_amount,
+                        enzyme_hydrolysis: None,
                     });
                 }
                 events.push(Event::MaterialAdded {
@@ -3824,6 +3825,18 @@ fn advance_vessel_time(
                 seconds,
             });
         }
+    }
+
+    for step in crate::enzyme_activity::advance(vessel, seconds) {
+        events.push(Event::EnzymeHydrolysed {
+            vessel: vessel.id,
+            family: step.family,
+            material: step.material,
+            substrate: step.substrate.to_string(),
+            hydrolysed_mass_g: step.hydrolysed_mass_g,
+            converted_fraction: step.converted_fraction,
+            seconds,
+        });
     }
 
     Ok(())
