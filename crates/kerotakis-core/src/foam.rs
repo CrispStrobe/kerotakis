@@ -20,9 +20,17 @@ pub struct FoamObservation {
     pub half_life_seconds: f64,
 }
 
-/// Decay existing foam over `seconds`, then trap a bounded fraction of newly
-/// produced oxygen. Returns `None` for the no-soap control.
-pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<FoamObservation> {
+/// Decay existing foam over `seconds`, then trap a bounded fraction of the
+/// gas made in the vessel this step. Returns `None` for the no-soap control.
+///
+/// KID-11: the parameter used to be called `oxygen_moles`, and the caller
+/// fed it from exactly one reaction id. Nothing in the arithmetic below
+/// ever looked at which gas it was — carbon dioxide from a volcano lifts a
+/// soap film exactly as oxygen from peroxide does — so the name was the
+/// only thing claiming otherwise, and it was the name that came true: a
+/// baking-soda volcano with dish soap in it made no foam at all, because
+/// its gas came from the aqueous solver rather than from that one reaction.
+pub fn advance(vessel: &mut Vessel, seconds: f64, gas_moles: f64) -> Option<FoamObservation> {
     let stabilizer = vessel
         .unresolved_materials
         .iter()
@@ -63,7 +71,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
     vessel.foam.trapped_gas_liters *= decay;
     let dose = (amount / saturation).clamp(0.0, 1.0);
     vessel.foam.trapped_gas_liters +=
-        oxygen_moles.max(0.0) * ROOM_MOLAR_GAS_VOLUME_L * efficiency * dose;
+        gas_moles.max(0.0) * ROOM_MOLAR_GAS_VOLUME_L * efficiency * dose;
     vessel.foam.volume_liters = vessel.foam.trapped_gas_liters / gas_fraction;
     vessel.foam.peak_volume_liters = vessel
         .foam
