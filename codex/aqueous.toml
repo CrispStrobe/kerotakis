@@ -634,7 +634,7 @@ misconception = "\"Salt solutions are neutral\" is a rule learned from sodium ch
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Salt' carries the pH information in this picture: the category answers the question, so every salt reads 7 the way sodium chloride does."
-next = "Run the mirror pair: this beaker reads 11 and `copper-sulfate-is-blue-and-acidic` reads 4.5. Two salts, two opposite directions — so the word 'salt' cannot be what decides. The parent ions do, one at a time."
+next = "Run the mirror pair: this beaker reads 11 and `copper-sulfate-is-blue-and-acidic` reads 3.9. Two salts, two opposite directions — so the word 'salt' cannot be what decides. The parent ions do, one at a time."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
@@ -769,14 +769,14 @@ look v1
 
 [reaction.expect]
 events = ["dissolved:CuSO4", "observed"]
-ph = { min = 4.3, max = 4.7 }
+ph = { min = 3.7, max = 4.1 }
 temperature_c = { min = 25.5, max = 28.0 }
 
 [reaction.expect.predict]
 question = "Copper sulfate dissolves to a beautiful blue. What does the pH meter read?"
 options = [
   "7 — it is a salt of a strong acid and a metal, so neutral",
-  "About 4.5 — the solution is distinctly acidic",
+  "About 3.9 — the solution is distinctly acidic",
   "About 9 — metal ions are basic",
 ]
 answer = 1
@@ -785,7 +785,7 @@ misconception = "The tempting answer treats \"metal\" as automatically basic and
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Two category rules stacked: salts are neutral, and this one comes from a strong acid and a metal, so doubly neutral — the ions themselves were never consulted."
-next = "Run the mirror: `washing-soda-is-alkaline` is also 'a salt of a metal and an acid residue' and reads 11 where this reads 4.5. Categories that give opposite answers to the same rule are not the thing doing the deciding."
+next = "Run the mirror: `washing-soda-is-alkaline` is also 'a salt of a metal and an acid residue' and reads 11 where this reads 3.9. Categories that give opposite answers to the same rule are not the thing doing the deciding."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
@@ -794,8 +794,8 @@ next = "Compare cations at lv3: sodium — large, singly charged — leaves wate
 
 [reaction.registers]
 lv1 = "White-ish crystals go in and the water turns a deep blue you cannot look away from. The jar also gets slightly warm. And — surprisingly — the water has turned sour."
-lv2 = "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. The hydrated Cu²⁺ ion is a weak acid, so the pH falls to about 4.5."
-lv3 = "Computed pH 4.52. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed, from CuOH⁺ at 7.8 × 10⁻⁶ and the dimer Cu₂(OH)₂²⁺ at 4.4 × 10⁻⁵ mol/kgw. Note also that half the copper is present as the neutral CuSO₄ ion pair, so \"0.1 M Cu²⁺\" is not what is in the beaker."
+lv2 = "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. Copper hydrolysis and a trace of basic copper sulfate precipitation leave the solution at about pH 3.9."
+lv3 = "Computed pH 3.86. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed. The expanded solid-phase registry now admits the trace basic copper sulfate that equilibrium favours, and its formation releases additional protons; this is why the value is lower than the earlier aqueous-only result."
 
 [reaction.provenance]
 source = "Standard curriculum transition-metal salt chemistry; colour curated (sRGB and absorptivity in the species registry), speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
