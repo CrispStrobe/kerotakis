@@ -73,7 +73,7 @@ pub struct SceneVessel {
     pub solids: Vec<SceneSolid>,
     /// Coherent named material objects, positioned by whole-object bulk
     /// density rather than by the density of their resolved ingredients.
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde(default)]
     pub bulk_objects: Vec<SceneBulkObject>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
