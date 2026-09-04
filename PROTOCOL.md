@@ -110,6 +110,26 @@ quantities (`VesselId`, `SpeciesId`, `Moles`, `Kelvin`). Rules:
 - The `Confidence` vocabulary (`computed`/`modeled`/`template_match`/
   `curated`/`unknown`) rides on events/results wherever a number is claimed
   and gets one fixed visual encoding in every UI (GUI-023).
+- `not_yet_modeled` carries a `cause` alongside its prose (added
+  2026-09-04, `#[serde(default)]`, so older logs load unchanged). Values
+  are kebab-case and stable: `no-solution`, `nothing-to-act-on`,
+  `no-solver`, `rate-not-modelled`, `model-boundary`, `no-reviewed-datum`,
+  `phase-not-in-registry`, `not-speciated`, `no-transport-path`,
+  `boundary-mismatch`, `not-parameterised`, `not-in-any-database`, and
+  `unclassified` for records written before the field existed.
+
+  The `what` prose is unchanged and remains what a reader sees; the cause
+  sits beside it so a client can GROUP refusals — "how many of these are
+  the same gap?" — without matching sentences. The distinction clients will
+  care about most is `phase-not-in-registry` (a phase the databases know
+  and this lab does not carry: fixable here) against `not-in-any-database`
+  (no shipped database defines it at all: not fixable anywhere).
+
+  **It is for grouping and diagnosis, never for scoring.** A UI may sort,
+  filter or count by it; nothing should derive a verdict about whether a
+  question was answered from it, because that needs the question and the
+  cause does not carry one. The reasoning is in `NotModelledCause`'s doc
+  comment, at length, with the PR that got it wrong.
 
 ## Scene JSON v1 (GUI-003 — implemented in `kerotakis-core/src/scene.rs`)
 
