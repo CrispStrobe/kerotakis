@@ -67,6 +67,7 @@ step "no-engine";     gated cargo check -p kerotakis-phreeqc --no-default-featur
 step "portable deps"; gated python3 tools/portable-dependency-lint.py
 step "portable deps self-test"; gated python3 -m unittest tools.tests.test_portable_dependency_lint
 step "lesson coverage index self-test"; gated python3 -m unittest tools.tests.test_lessons_index
+step "curiosity capability index self-test"; gated python3 -m unittest tools/test_curiosity_index.py
 step "GPU release tools self-test"; gated bash tools/test-gpu-release-tools.sh
 
 if $LIGHT; then
