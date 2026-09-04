@@ -34,4 +34,8 @@ echo "== shell payload: codex"
 cd "$ROOT"
 cargo run --quiet -p kerotakis-cli -- codex export "$OUT/codex/index.json"
 
+echo "== reviewed capability index"
+python3 "$ROOT/tools/curiosity-index.py" \
+  "$ROOT/tests/coverage/curiosity-v1" "$OUT/capabilities/index.json"
+
 du -sh "$OUT"
