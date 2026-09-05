@@ -58,6 +58,8 @@ export interface SceneVessel {
   soap_scum?: SceneSoapScum | null;
   /** Reviewed lemon-juice mark carried by a paper substrate. */
   lemon_paper_mark?: SceneLemonPaperMark | null;
+  /** Current borate-crosslinked polymer projection; not a rheology model. */
+  gel?: SceneGel | null;
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
@@ -88,6 +90,14 @@ export interface SceneMaterialObject {
 export interface SceneSoapScum {
   aggregate_mass_g: number;
   divalent_ion_moles: number;
+}
+
+export interface SceneGel {
+  polymer: string;
+  crosslinker: string;
+  gelled_fraction: number;
+  polymer_grams: number;
+  crosslinker_moles: number;
 }
 
 export interface SceneLemonPaperMark {

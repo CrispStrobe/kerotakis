@@ -586,6 +586,19 @@
       />
     {/if}
 
+    {#if vessel.gel && vessel.gel.gelled_fraction > 0}
+      {@const gelStrength = Math.min(1, Math.max(0, vessel.gel.gelled_fraction))}
+      {@const gelHeight = Math.max(12, Math.max(liquidH, solidH) * (0.45 + 0.45 * gelStrength))}
+      <g class="gel-body" style={`--gel-opacity:${0.16 + gelStrength * 0.28}`}>
+        <path
+          d={`M ${INNER_X + 4} ${BOTTOM_Y - 3} C ${INNER_X + 10} ${BOTTOM_Y - gelHeight}, ${INNER_X + INNER_W - 10} ${BOTTOM_Y - gelHeight}, ${INNER_X + INNER_W - 4} ${BOTTOM_Y - 3} Z`}
+        >
+          <title>{t("translucent cohesive gel")} · {Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</title>
+        </path>
+        <path class="gel-strand" d={`M ${INNER_X + 10} ${BOTTOM_Y - 9} Q 50 ${BOTTOM_Y - gelHeight - 2} ${INNER_X + INNER_W - 10} ${BOTTOM_Y - 9}`} aria-hidden="true" />
+      </g>
+    {/if}
+
     {#if fluidLookup}
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
@@ -1199,6 +1212,9 @@
 
   <figcaption class="caption">
     <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
+    {#if vessel.gel}
+      <small class="gel-status">{Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</small>
+    {/if}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -1366,6 +1382,20 @@
     stroke: color-mix(in srgb, var(--ink) 55%, transparent);
     stroke-width: 0.8;
     filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .gel-body > path:first-of-type {
+    fill: #9f8bd7;
+    fill-opacity: var(--gel-opacity);
+    stroke: #7865b2;
+    stroke-width: 1.1;
+    stroke-opacity: 0.72;
+  }
+  .gel-strand {
+    fill: none;
+    stroke: #e8e0ff;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    opacity: 0.65;
   }
   .soap-scum {
     fill: none;

@@ -82,6 +82,10 @@ pub struct SceneVessel {
     pub soap_scum: Option<SceneSoapScum>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub lemon_paper_mark: Option<SceneLemonPaperMark>,
+    /// Borate-crosslinked polymer fraction derived from the vessel's current
+    /// inventory. This is a visible-state projection, not rheology.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub gel: Option<SceneGel>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -149,6 +153,15 @@ pub struct SceneSoapScum {
 pub struct SceneLemonPaperMark {
     pub dry: bool,
     pub browned_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneGel {
+    pub polymer: String,
+    pub crosslinker: String,
+    pub gelled_fraction: f64,
+    pub polymer_grams: f64,
+    pub crosslinker_moles: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -342,6 +355,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let emulsion_observation = crate::emulsion::observe(v);
     let curdling_observation = crate::curdling::observe(v);
     let swelling_observation = crate::swelling::observe(v);
+    let gel_observation = crate::gel::observe(v);
     let chemiluminescence_observation = crate::chemiluminescence::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
@@ -582,6 +596,13 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         });
     }
     let mut words = seen.words;
+    if let Some(gel) = &gel_observation {
+        words.push_str(&format!(
+            " A translucent cohesive gel contains {:.0}% of the {} polymer.",
+            gel.gelled_fraction * 100.0,
+            gel.polymer,
+        ));
+    }
     if let Some(swelling) = &swelling_observation {
         words.push_str(&format!(
             " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
@@ -661,6 +682,13 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         lemon_paper_mark: v.lemon_paper_mark.as_ref().map(|mark| SceneLemonPaperMark {
             dry: mark.dry,
             browned_fraction: mark.browned_fraction,
+        }),
+        gel: gel_observation.map(|gel| SceneGel {
+            polymer: gel.polymer.to_string(),
+            crosslinker: gel.crosslinker.to_string(),
+            gelled_fraction: gel.gelled_fraction,
+            polymer_grams: gel.polymer_grams,
+            crosslinker_moles: gel.crosslinker_moles,
         }),
         bubbling: seen.bubbling,
         foam,
@@ -994,8 +1022,34 @@ mod tests {
         let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
         json.as_object_mut().unwrap().remove("swelling");
         json.as_object_mut().unwrap().remove("chemiluminescence");
+        json.as_object_mut().unwrap().remove("gel");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.swelling.is_none());
         assert!(old.chemiluminescence.is_none());
+        assert!(old.gel.is_none());
+    }
+
+    #[test]
+    fn gel_scene_is_derived_from_current_inventory_with_accessible_words() {
+        let v = vessel_with(&[
+            ("PVA", 0.25, Phase::Solid),
+            ("Na2B4O7", 0.001, Phase::Liquid),
+        ]);
+        let observed = crate::gel::observe(&v).expect("gel observation");
+        let scene = scene_vessel(&v);
+        let gel = scene.gel.expect("persistent gel render target");
+        assert_eq!(gel.polymer, observed.polymer);
+        assert_eq!(gel.crosslinker, observed.crosslinker);
+        assert!((gel.gelled_fraction - observed.gelled_fraction).abs() < 1e-12);
+        assert!((gel.polymer_grams - observed.polymer_grams).abs() < 1e-12);
+        assert!((gel.crosslinker_moles - observed.crosslinker_moles).abs() < 1e-12);
+        assert!(scene.words.contains("translucent cohesive gel"));
+        assert!(scene.words.contains("PVA polymer"));
+    }
+
+    #[test]
+    fn polymer_without_crosslinker_has_no_gel_scene() {
+        let scene = scene_vessel(&vessel_with(&[("PVA", 0.25, Phase::Solid)]));
+        assert!(scene.gel.is_none());
     }
 }
