@@ -30,6 +30,7 @@ pub mod combustion;
 pub mod compartment;
 pub mod conductivity;
 pub mod constants;
+pub mod corrosion;
 pub mod coverage;
 pub mod curated;
 pub mod curdling;

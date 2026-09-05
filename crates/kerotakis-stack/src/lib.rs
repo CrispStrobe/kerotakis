@@ -59,6 +59,17 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
         Box::new(kerotakis_core::combustion::CombustionEquilibrator),
     ];
     solvers.extend(aqueous_tail);
+    // BRD-023: corrosion runs AFTER the aqueous tail rather than beside
+    // the other curated rungs, and the reason is a data dependency. Its
+    // one quantitative claim — how much of the oxygen-diffusion ceiling
+    // this electrolyte's conductivity lets through — is computed from
+    // `vessel.solution`, which is exactly what the aqueous tail has just
+    // produced. Placed earlier it would read the PREVIOUS step's
+    // speciation, so a nail dropped into brine would be told it was
+    // standing in whatever the beaker held before the salt went in.
+    // It is still before honesty, because it is a chemistry answer and
+    // honesty only speaks for states nothing answered.
+    solvers.push(Box::new(kerotakis_core::corrosion::CorrosionEquilibrator));
     solvers.push(Box::new(HonestyEquilibrator));
     solvers
 }

@@ -709,6 +709,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   characteristic behavior test; changing recipe version invalidates cache keys.
 - **Out of scope:** product endorsements, clandestine composition guessing, or
   detailed toxicology from generic recipes.
+- **Checkpoint 2026-09-05 — three recipes stopped describing bare iron.** The
+  `metal/stainless-steel`, `metal/galvanized-steel` and `metal/painted-iron`
+  entries each said in their own `lot_assumptions` that they resolve to iron
+  the bench will attack, with no representation of the film or coat that is
+  the whole point of the object. `corrosion::BARRIERS` (BRD-023's checkpoint
+  above) is where the bench now keeps those two sentences, keyed on the lot
+  source the material route stamps, and the galvanised entry needs no barrier
+  at all — its zinc protects its iron by the ordinary galvanic rule, which is
+  also the honest answer for a scratched sheet. Closes curiosity row mat-014.
 - **Checkpoint 1 implemented:** baking soda/Natron, anhydrous washing
   soda/Waschsoda, and cornstarch/Speisestärke are versioned localized material
   recipes that expand exactly to the existing `NaHCO3`, `Na2CO3`, and `starch`
@@ -1217,6 +1226,26 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Out of scope:** pharmaceuticals as a catalog objective, reaction-condition
   recommendation, yield optimization, and routes outside curriculum/household
   demand.
+- **Checkpoint 2026-09-05 — corrosion route shipped.** The curiosity corpus
+  books its rust prompts against this task even though the task text is about
+  organic families, so the evidence is recorded here rather than renumbered.
+  `crates/kerotakis-core/src/corrosion.rs` adds one bounded aqueous/galvanic
+  corrosion route and `crates/kerotakis-core/tests/corrosion.rs` its tests:
+  rusting needs metal + liquid water + oxygen and each missing one is a typed
+  negative; the lowest-E° metal in contact is the anode (the same
+  `displacement::SERIES` the displacement route computes with, so the bench
+  holds one activity series and not two); the cathodic current is Levich's
+  oxygen-diffusion limit throttled by the electrolyte's Kohlrausch
+  conductivity, which is what dissolved salt changes; and `BARRIERS` carries
+  the passive film of stainless steel and the paint film of painted iron,
+  keyed on the material recipe the lot came from. It reports µA/cm² and mm/yr
+  and moves no inventory, because mass loss needs a surface area no recipe on
+  this bench has. `displacement::bystanders` no longer writes its "reaction
+  with water itself is a rate this lab does not model" apology where this
+  route speaks. Rows closed: mat-020, mat-069, mat-096, mat-097, mat-099,
+  mat-100, mat-105 (this task), mat-014 (BRD-014), mat-104 (BRD-070),
+  mat-108 (CAP-16). Still open here: the whole organic family pack, which
+  this checkpoint does not touch.
 
 ## Stage B3 — general thermodynamics and gas kinetics
 

@@ -28,6 +28,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "collision_withstood",
     "container_broken",
     "consumed",
+    "corroded",
     "curdling_changed",
     "dehydrated",
     "did_not_ignite",
@@ -1373,6 +1374,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Decayed { parent, .. } => ("decayed", Some(parent.as_str())),
         E::DissolvedInSolvent { species, .. } => ("dissolved_in_solvent", Some(species.0.as_str())),
         E::InertInSolvent { species, .. } => ("inert_in_solvent", Some(species.0.as_str())),
+        // BRD-023: a quest can claim that a named metal got a corrosion
+        // verdict — `corroded:Zn` — without claiming which way it went.
+        E::Corroded { species, .. } => ("corroded", Some(species.0.as_str())),
         E::Filtered { .. } => ("filtered", None),
         E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),

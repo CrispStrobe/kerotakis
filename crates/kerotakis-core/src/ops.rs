@@ -857,6 +857,35 @@ pub enum Event {
         species: SpeciesId,
         why: String,
     },
+    /// BRD-023: the corrosion route's verdict on one metal in one vessel.
+    ///
+    /// A separate event from `Inert` because the two say opposite things
+    /// about the same nail. `Inert` is "nothing is happening to this
+    /// solid"; this is "here is what the corrosion cell in this beaker is
+    /// doing, and whether this metal is the one paying for it". The
+    /// negative form — a metal that is NOT corroding, and which of the
+    /// three requirements is missing, or what is protecting it — is as
+    /// much a computed result as the positive one, which is why it is the
+    /// same event with `corroding: false` rather than a stand-aside.
+    ///
+    /// The rates are optional because they are optional in the model:
+    /// the route computes a current density only where it has a
+    /// characterised electrolyte to compute the ohmic throttle from, and
+    /// says nothing rather than guessing. It never carries a mass loss —
+    /// see `corrosion`'s module docs for why the bench reports a rate per
+    /// unit area and refuses the extent.
+    Corroded {
+        vessel: VesselId,
+        species: SpeciesId,
+        corroding: bool,
+        why: String,
+        /// Corrosion current density, µA/cm².
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        current_density_ua_per_cm2: Option<f64>,
+        /// Uniform penetration rate on a bare surface, mm per year.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        penetration_mm_per_year: Option<f64>,
+    },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {
         vessel: VesselId,
