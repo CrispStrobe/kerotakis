@@ -53,6 +53,9 @@ export interface KidsConnections {
   codex: string[];
   lessonCompleted: boolean;
   codexCompleted: string[];
+  progress: "none" | "some" | "all";
+  completedLearning: number;
+  linkedLearning: number;
 }
 
 /** Resolve only exported identifiers. Broken references disappear safely. */
@@ -66,11 +69,20 @@ export function kidsConnections(
   const capabilities = (entry.capabilities ?? []).filter((id) => capabilityIds.has(id));
   const codex = (entry.codex ?? []).filter((id) => codexIds.has(id));
   const lessonId = entry.lesson?.replace(/\.lab$/, "") ?? null;
+  const lessonCompleted = lessonId !== null && completedMissions.has(lessonId);
+  const codexCompleted = codex.filter((id) => completedExperiments.has(id));
+  // Quests are intentionally absent: their completion is session-only and
+  // cannot honestly be presented as saved learning progress.
+  const linkedLearning = (lessonId === null ? 0 : 1) + codex.length;
+  const completedLearning = (lessonCompleted ? 1 : 0) + codexCompleted.length;
   return {
     capabilities,
     codex,
-    lessonCompleted: lessonId !== null && completedMissions.has(lessonId),
-    codexCompleted: codex.filter((id) => completedExperiments.has(id)),
+    lessonCompleted,
+    codexCompleted,
+    linkedLearning,
+    completedLearning,
+    progress: completedLearning === 0 ? "none" : completedLearning === linkedLearning ? "all" : "some",
   };
 }
 

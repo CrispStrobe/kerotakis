@@ -91,3 +91,30 @@ export function storyDistricts(
     };
   });
 }
+
+/** Pick one useful continuation without inventing a second progression model.
+ * District order and mission export order are stable, so the answer is stable.
+ * An active, unlocked, incomplete mission wins; otherwise take the first
+ * unlocked incomplete mission on the existing map. */
+export function nextUnlockedMission(
+  missions: MissionSummary[],
+  completedIds: ReadonlySet<string>,
+  activeId: string | null = null,
+): MissionSummary | null {
+  const available = storyDistricts(missions, completedIds)
+    .filter((district) => district.unlocked)
+    .flatMap((district) => district.missions)
+    .filter((mission) => !completedIds.has(missionId(mission.file)));
+  return available.find((mission) => missionId(mission.file) === activeId) ?? available[0] ?? null;
+}
+
+/** Locate a mission on the existing map so its district can be selected. */
+export function missionDistrictId(
+  missions: MissionSummary[],
+  completedIds: ReadonlySet<string>,
+  mission: MissionSummary | null,
+): string | null {
+  if (mission === null) return null;
+  return storyDistricts(missions, completedIds)
+    .find((district) => district.missions.some((candidate) => candidate.file === mission.file))?.id ?? null;
+}

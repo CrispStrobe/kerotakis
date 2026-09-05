@@ -12,7 +12,7 @@
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
-  import { experimentMatches } from "../catalogSearch";
+  import { experimentHasProgress, experimentMatches, type ExperimentProgressFilter } from "../catalogSearch";
 
   let {
     entries,
@@ -37,11 +37,12 @@
   let view = $state<"all" | "concepts" | "curriculum">("all");
   let filter = $state("");
   let concept = $state<string | null>(null);
+  let progress = $state<ExperimentProgressFilter>("all");
   const concepts = $derived(conceptIndex(entries));
   const curricula = $derived(curriculumIndex(entries));
   const related = $derived(concept ? relatedConcepts(entries, concept).slice(0, 8) : []);
   const shown = $derived.by(() => {
-    let list = entries;
+    let list = entries.filter((entry) => experimentHasProgress(entry, session.completedExperiments, progress));
     if (view === "concepts" && concept) {
       // i18n-ok: concept slugs are keys; `concept` comes from a chip, not a box.
       list = list.filter((e) => e.concepts?.includes(concept!));
@@ -143,6 +144,11 @@
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
           <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
+        <span class="progress-filters" role="group" aria-label={t("completion status")}>
+          {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}
+            <button class:on={progress === value} onclick={() => (progress = value)}>{t(label)}</button>
+          {/each}
+        </span>
         <input
           class="filter"
           type="search"
@@ -192,12 +198,15 @@
                 </summary>
                 <ul class="list">
                   {#each st.entries as e (e.id)}
+                    {#if experimentHasProgress(e, session.completedExperiments, progress)}
                     <li>
                       <button class="entry" onclick={() => openEntry(e)}>
                         <strong>{t(e.id.replace(/-/g, " "))}</strong>
                         <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
+                        <span class="completion">{session.completedExperiments.has(e.id) ? `✓ ${t("completed")}` : t("not tried")}</span>
                       </button>
                     </li>
+                    {/if}
                   {/each}
                 </ul>
                 {#if st.sources.length > 0}
@@ -214,6 +223,7 @@
               <button class="entry" onclick={() => openEntry(e)}>
                 <strong>{t(e.id.replace(/-/g, " "))}</strong>
                 <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
+                <span class="completion">{session.completedExperiments.has(e.id) ? `✓ ${t("completed")}` : t("not tried")}</span>
               </button>
             </li>
           {/each}
@@ -407,9 +417,12 @@
   }
   .tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.3rem;
     margin: 0.7rem 0;
   }
+  .progress-filters { display: flex; gap: .3rem; padding-left: .3rem; border-left: 1px solid var(--edge); }
+  .completion { color: var(--dim); font-size: .68rem; }
   .tabs button {
     background: none;
     border: 1px solid var(--edge);

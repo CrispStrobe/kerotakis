@@ -1,6 +1,19 @@
 import type { ShelfItem } from "./session.svelte";
 import type { CodexEntry } from "./codex";
 
+export type ExperimentProgressFilter = "all" | "not-tried" | "completed";
+
+/** Completion is a persisted successful Codex run, never catalog availability. */
+export function experimentHasProgress(
+  entry: Pick<CodexEntry, "id">,
+  completedIds: ReadonlySet<string>,
+  filter: ExperimentProgressFilter,
+): boolean {
+  if (filter === "all") return true;
+  const done = completedIds.has(entry.id);
+  return filter === "completed" ? done : !done;
+}
+
 /** Search as a learner types: case- and accent-insensitive, without changing formulae. */
 export function normalizeCatalogText(value: string): string {
   return value
