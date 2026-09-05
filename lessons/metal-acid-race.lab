@@ -1,0 +1,23 @@
+# Which metal reacts first? Same acid, equal metal amounts
+#
+# Magnesium reacts vigorously, zinc more slowly, and copper refuses for an
+# electrochemical reason. The engine computes reaction and heat but not literal
+# wall-clock race times or differences in piece surface area.
+register lv2
+add v1 water 100mL
+add v1 HCl 0.1mol
+add v1 Mg 0.01mol
+measure v1 thermometer
+look v1
+new beaker
+add v2 water 100mL
+add v2 HCl 0.1mol
+add v2 Zn 0.01mol
+measure v2 thermometer
+look v2
+new beaker
+add v3 water 100mL
+add v3 HCl 0.1mol
+add v3 Cu 0.01mol
+measure v3 thermometer
+look v3

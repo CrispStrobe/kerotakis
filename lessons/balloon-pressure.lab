@@ -1,0 +1,12 @@
+# Balloon on a bottle: gas needs somewhere to go
+# A piston lid represents a flexible balloon: it computes pressure and expanding
+# volume, not rubber elasticity, balloon shape or latex failure.
+register lv2
+add v1 white_vinegar_5_percent 50mL
+seal v1 500mL
+add v1 baking_soda 5g
+measure v1 pressure
+measure v1 volume
+regulate v1 1bar 500mL
+measure v1 pressure
+measure v1 volume

@@ -1,0 +1,23 @@
+# Six salts, six flame observations
+#
+# Each dry salt carries a reviewed flame colour. This is a virtual flame test:
+# never taste salts or put household substances into a real flame. Lithium is
+# absent from the current registry and is not silently substituted.
+register lv1
+add v1 NaCl 1g
+ignite v1
+new crucible
+add v2 KCl 1g
+ignite v2
+new crucible
+add v3 CaCl2 1g
+ignite v3
+new crucible
+add v4 Sr+2 0.01mol
+ignite v4
+new crucible
+add v5 BaCl2 1g
+ignite v5
+new crucible
+add v6 Cu+2 0.01mol
+ignite v6
