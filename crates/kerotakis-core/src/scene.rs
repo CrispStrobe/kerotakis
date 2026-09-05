@@ -75,6 +75,11 @@ pub struct SceneVessel {
     /// density rather than by the density of their resolved ingredients.
     #[serde(default)]
     pub bulk_objects: Vec<SceneBulkObject>,
+    /// Protective surface films asserted by the provenance of a coherent
+    /// material object still present in this vessel. This is persistent state,
+    /// never a reconstruction from transient events.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub coatings: Vec<SceneCoating>,
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
@@ -82,6 +87,10 @@ pub struct SceneVessel {
     pub soap_scum: Option<SceneSoapScum>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub lemon_paper_mark: Option<SceneLemonPaperMark>,
+    /// Borate-crosslinked polymer fraction derived from the vessel's current
+    /// inventory. This is a visible-state projection, not rheology.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub gel: Option<SceneGel>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -110,6 +119,11 @@ pub struct SceneVessel {
     /// system at this vessel's temperature and elapsed time.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub chemiluminescence: Option<SceneChemiluminescence>,
+    /// Current conversion of supported unresolved food substrates. This is
+    /// stored vessel state projected into the scene, not reconstructed event
+    /// history or a claim about visible texture.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub enzyme_hydrolysis: Vec<SceneEnzymeHydrolysis>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -149,6 +163,15 @@ pub struct SceneSoapScum {
 pub struct SceneLemonPaperMark {
     pub dry: bool,
     pub browned_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneGel {
+    pub polymer: String,
+    pub crosslinker: String,
+    pub gelled_fraction: f64,
+    pub polymer_grams: f64,
+    pub crosslinker_moles: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -213,6 +236,14 @@ pub struct SceneChemiluminescence {
     pub half_life_s: f64,
     pub elapsed_s: f64,
     pub temperature_k: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneEnzymeHydrolysis {
+    pub family: crate::enzyme::EnzymeFamily,
+    pub material: String,
+    pub substrate: String,
+    pub converted_fraction: f64,
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -294,6 +325,20 @@ pub struct SceneBulkObject {
     pub srgb: [u8; 3],
 }
 
+/// A source-backed protective film on a coherent material object.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneCoating {
+    /// "paint" or "passive_film". Renderers must not infer thickness or
+    /// coverage from this label.
+    pub kind: String,
+    /// Material recipe whose persistent lot provenance supports the film.
+    pub recipe_id: String,
+    /// Registry key of the protected metal.
+    pub host_species: String,
+    /// Short accessible description of what the projection claims.
+    pub words: String,
+}
+
 fn fully_settled() -> f64 {
     1.0
 }
@@ -342,7 +387,9 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let emulsion_observation = crate::emulsion::observe(v);
     let curdling_observation = crate::curdling::observe(v);
     let swelling_observation = crate::swelling::observe(v);
+    let gel_observation = crate::gel::observe(v);
     let chemiluminescence_observation = crate::chemiluminescence::observe(v);
+    let enzyme_hydrolysis = crate::enzyme_activity::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
@@ -448,6 +495,41 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     }
 
     let bulk_observations = crate::material::bulk_solid_objects(v);
+    let coatings: Vec<SceneCoating> = crate::corrosion::BARRIERS
+        .iter()
+        .filter(|barrier| {
+            crate::corrosion::barrier_for(v, barrier.metal) == Some(*barrier)
+                && v.contents.iter().any(|portion| {
+                    portion.species.0 == barrier.metal
+                        && portion.phase == Phase::Solid
+                        && portion.moles.0 > crate::OBSERVABLE_MOLES
+                })
+        })
+        .map(|barrier| {
+            let recipe_id = barrier
+                .lot_source
+                .strip_prefix("material recipe ")
+                .unwrap_or(barrier.lot_source)
+                .to_string();
+            let (kind, words) = if recipe_id == "metal/painted-iron" {
+                (
+                    "paint",
+                    "The painted iron has a complete protective paint film; scratches are not modeled.",
+                )
+            } else {
+                (
+                    "passive_film",
+                    "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+                )
+            };
+            SceneCoating {
+                kind: kind.to_string(),
+                recipe_id,
+                host_species: barrier.metal.to_string(),
+                words: words.to_string(),
+            }
+        })
+        .collect();
     let bulk_component_keys: std::collections::BTreeSet<String> = bulk_observations
         .iter()
         .flat_map(|object| {
@@ -582,6 +664,17 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         });
     }
     let mut words = seen.words;
+    if let Some(gel) = &gel_observation {
+        words.push_str(&format!(
+            " A translucent cohesive gel contains {:.0}% of the {} polymer.",
+            gel.gelled_fraction * 100.0,
+            gel.polymer,
+        ));
+    }
+    for coating in &coatings {
+        words.push(' ');
+        words.push_str(&coating.words);
+    }
     if let Some(swelling) = &swelling_observation {
         words.push_str(&format!(
             " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
@@ -592,6 +685,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         words.push_str(&format!(
             " The luminol system is glowing blue at relative intensity {:.2}; its estimated half-life here is {:.1} seconds.",
             glow.relative_intensity, glow.half_life_s,
+        ));
+    }
+    for progress in &enzyme_hydrolysis {
+        words.push_str(&format!(
+            " The bounded enzyme model reports {:.0}% conversion of {} in {}.",
+            progress.converted_fraction * 100.0,
+            progress.substrate,
+            progress.material,
         ));
     }
     if !v.surface_colours.is_empty() {
@@ -643,6 +744,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         layers,
         solids,
         bulk_objects,
+        coatings,
         material_objects: v
             .material_objects
             .iter()
@@ -661,6 +763,13 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         lemon_paper_mark: v.lemon_paper_mark.as_ref().map(|mark| SceneLemonPaperMark {
             dry: mark.dry,
             browned_fraction: mark.browned_fraction,
+        }),
+        gel: gel_observation.map(|gel| SceneGel {
+            polymer: gel.polymer.to_string(),
+            crosslinker: gel.crosslinker.to_string(),
+            gelled_fraction: gel.gelled_fraction,
+            polymer_grams: gel.polymer_grams,
+            crosslinker_moles: gel.crosslinker_moles,
         }),
         bubbling: seen.bubbling,
         foam,
@@ -715,6 +824,15 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             elapsed_s: seen.elapsed_s,
             temperature_k: seen.temperature_k,
         }),
+        enzyme_hydrolysis: enzyme_hydrolysis
+            .into_iter()
+            .map(|seen| SceneEnzymeHydrolysis {
+                family: seen.family,
+                material: seen.material,
+                substrate: seen.substrate.to_string(),
+                converted_fraction: seen.converted_fraction,
+            })
+            .collect(),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
@@ -940,6 +1058,64 @@ mod tests {
     }
 
     #[test]
+    fn material_provenance_projects_protective_coatings() {
+        let mut painted = vessel_with(&[]);
+        painted.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/painted-iron".into()),
+            None,
+        );
+        let scene = scene_vessel(&painted);
+        assert_eq!(scene.coatings.len(), 1);
+        assert_eq!(scene.coatings[0].kind, "paint");
+        assert_eq!(scene.coatings[0].recipe_id, "metal/painted-iron");
+        assert!(scene.words.contains("complete protective paint film"));
+
+        let mut stainless = vessel_with(&[]);
+        stainless.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/stainless-steel".into()),
+            None,
+        );
+        assert_eq!(scene_vessel(&stainless).coatings[0].kind, "passive_film");
+    }
+
+    #[test]
+    fn coating_projection_fails_closed_for_bare_or_mixed_iron() {
+        let bare = vessel_with(&[("Fe", 0.1, Phase::Solid)]);
+        assert!(scene_vessel(&bare).coatings.is_empty());
+
+        let mut mixed = vessel_with(&[]);
+        mixed.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            None,
+            None,
+        );
+        mixed.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/painted-iron".into()),
+            None,
+        );
+        assert!(scene_vessel(&mixed).coatings.is_empty());
+    }
+
+    #[test]
+    fn older_scene_json_without_coatings_still_deserializes() {
+        let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
+        json.as_object_mut().unwrap().remove("coatings");
+        let old: SceneVessel = serde_json::from_value(json).unwrap();
+        assert!(old.coatings.is_empty());
+    }
+
+    #[test]
     fn swelling_is_persistent_scene_state_with_accessible_words() {
         let mut v = vessel_with(&[("water", 50.0 / 18.01528, Phase::Liquid)]);
         v.unresolved_materials.push(UnresolvedMaterialPortion {
@@ -990,12 +1166,63 @@ mod tests {
     }
 
     #[test]
+    fn enzyme_conversion_is_persistent_readout_not_a_fake_texture() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 13.0,
+            enzyme_hydrolysis: Some(crate::vessel::EnzymeHydrolysisState {
+                family: crate::enzyme::EnzymeFamily::Lactase,
+                converted_fraction: 0.625,
+                carried_enzyme_denatured: false,
+            }),
+        });
+        let scene = scene_vessel(&v);
+        assert_eq!(scene.enzyme_hydrolysis.len(), 1);
+        let reading = &scene.enzyme_hydrolysis[0];
+        assert_eq!(reading.substrate, "lactose in milk");
+        assert!((reading.converted_fraction - 0.625).abs() < 1e-12);
+        assert!(scene.words.contains("% conversion of lactose in milk"));
+    }
+
+    #[test]
     fn additive_observation_fields_default_when_old_scene_is_read() {
         let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
         json.as_object_mut().unwrap().remove("swelling");
         json.as_object_mut().unwrap().remove("chemiluminescence");
+        json.as_object_mut().unwrap().remove("gel");
+        json.as_object_mut().unwrap().remove("enzyme_hydrolysis");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.swelling.is_none());
         assert!(old.chemiluminescence.is_none());
+        assert!(old.gel.is_none());
+        assert!(old.enzyme_hydrolysis.is_empty());
+    }
+
+    #[test]
+    fn gel_scene_is_derived_from_current_inventory_with_accessible_words() {
+        let v = vessel_with(&[
+            ("PVA", 0.25, Phase::Solid),
+            ("Na2B4O7", 0.001, Phase::Liquid),
+        ]);
+        let observed = crate::gel::observe(&v).expect("gel observation");
+        let scene = scene_vessel(&v);
+        let gel = scene.gel.expect("persistent gel render target");
+        assert_eq!(gel.polymer, observed.polymer);
+        assert_eq!(gel.crosslinker, observed.crosslinker);
+        assert!((gel.gelled_fraction - observed.gelled_fraction).abs() < 1e-12);
+        assert!((gel.polymer_grams - observed.polymer_grams).abs() < 1e-12);
+        assert!((gel.crosslinker_moles - observed.crosslinker_moles).abs() < 1e-12);
+        assert!(scene.words.contains("translucent cohesive gel"));
+        assert!(scene.words.contains("PVA polymer"));
+    }
+
+    #[test]
+    fn polymer_without_crosslinker_has_no_gel_scene() {
+        let scene = scene_vessel(&vessel_with(&[("PVA", 0.25, Phase::Solid)]));
+        assert!(scene.gel.is_none());
     }
 }

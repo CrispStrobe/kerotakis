@@ -204,7 +204,12 @@ fn displacement_owns(vessel: &Vessel) -> bool {
         .any(|ion| solids.iter().any(|metal| metal.e0_volts < ion.e0_volts))
 }
 
-fn barrier_for(vessel: &Vessel, metal: &str) -> Option<&'static Barrier> {
+/// A persistent barrier carried by every current lot of `metal`.
+///
+/// This is public for state projections such as the scene renderer. It is
+/// intentionally derived from the vessel's current material provenance, not
+/// from an earlier corrosion verdict or event log.
+pub fn barrier_for(vessel: &Vessel, metal: &str) -> Option<&'static Barrier> {
     let mut found: Option<&'static Barrier> = None;
     for lot in vessel.lots.iter() {
         if lot.species.0 != metal || lot.phase != Phase::Solid {

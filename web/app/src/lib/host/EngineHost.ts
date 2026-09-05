@@ -52,12 +52,16 @@ export interface SceneVessel {
   solids: SceneSolid[];
   /** Coherent named objects positioned using whole-object bulk density. */
   bulk_objects?: SceneBulkObject[];
+  /** Persistent, source-backed protective films on coherent objects. */
+  coatings?: SceneCoating[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
   soap_scum?: SceneSoapScum | null;
   /** Reviewed lemon-juice mark carried by a paper substrate. */
   lemon_paper_mark?: SceneLemonPaperMark | null;
+  /** Current borate-crosslinked polymer projection; not a rheology model. */
+  gel?: SceneGel | null;
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
@@ -66,6 +70,8 @@ export interface SceneVessel {
   curds?: SceneCurds | null;
   swelling?: SceneSwelling | null;
   chemiluminescence?: SceneChemiluminescence | null;
+  /** Additive scene-v1 projection of stored unresolved-substrate progress. */
+  enzyme_hydrolysis?: SceneEnzymeHydrolysis[];
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -88,6 +94,14 @@ export interface SceneMaterialObject {
 export interface SceneSoapScum {
   aggregate_mass_g: number;
   divalent_ion_moles: number;
+}
+
+export interface SceneGel {
+  polymer: string;
+  crosslinker: string;
+  gelled_fraction: number;
+  polymer_grams: number;
+  crosslinker_moles: number;
 }
 
 export interface SceneLemonPaperMark {
@@ -148,6 +162,13 @@ export interface SceneChemiluminescence {
   temperature_k: number;
 }
 
+export interface SceneEnzymeHydrolysis {
+  family: string;
+  material: string;
+  substrate: string;
+  converted_fraction: number;
+}
+
 /** One visible liquid layer, bottom first (GUI-058) — the engine's
  * computed phase split, e.g. hexane floating on water. */
 export interface SceneLayer {
@@ -186,6 +207,13 @@ export interface SceneBulkObject {
   bulk_density_g_per_ml: number;
   position: "floating" | "sunk" | "dry";
   srgb: [number, number, number];
+}
+
+export interface SceneCoating {
+  kind: "paint" | "passive_film";
+  recipe_id: string;
+  host_species: string;
+  words: string;
 }
 
 export interface SceneBadge {

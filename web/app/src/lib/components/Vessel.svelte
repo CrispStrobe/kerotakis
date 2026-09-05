@@ -12,6 +12,7 @@
   import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
   import IgnitionFlameCanvas from "./IgnitionFlameCanvas.svelte";
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
+  import { enzymeReadouts } from "../persistentReadouts";
 
   let {
     vessel,
@@ -174,6 +175,7 @@
     : 0);
   const snowH = $derived(vessel.swelling ? Math.max(7, FULL_H * (0.22 + snowFraction * 0.68)) : 0);
   const glowStrength = $derived(Math.min(1, (vessel.chemiluminescence?.relative_intensity ?? 0) / 4));
+  const persistentEnzymeReadouts = $derived(enzymeReadouts(vessel));
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -526,6 +528,21 @@
       >
         <title>{t(object.material)} · {object.bulk_density_g_per_ml.toPrecision(3)} g/mL · {t(object.position)}</title>
       </rect>
+      {#each (vessel.coatings ?? []).filter((coating) => coating.recipe_id === object.recipe_id) as coating (coating.kind)}
+        <rect
+          class="persistent-coating"
+          class:paint={coating.kind === "paint"}
+          class:passive={coating.kind === "passive_film"}
+          x={objectX - 1}
+          y={objectY - 1}
+          width={objectWidth + 2}
+          height="9"
+          rx="4.5"
+          fill="none"
+        >
+          <title>{t(coating.words)}</title>
+        </rect>
+      {/each}
     {/each}
 
     {#each (vessel.material_objects ?? []).slice(0, 3) as object, i (`${object.recipe_id}-${i}`)}
@@ -584,6 +601,19 @@
         y1={BOTTOM_Y - solidH}
         y2={BOTTOM_Y - solidH}
       />
+    {/if}
+
+    {#if vessel.gel && vessel.gel.gelled_fraction > 0}
+      {@const gelStrength = Math.min(1, Math.max(0, vessel.gel.gelled_fraction))}
+      {@const gelHeight = Math.max(12, Math.max(liquidH, solidH) * (0.45 + 0.45 * gelStrength))}
+      <g class="gel-body" style={`--gel-opacity:${0.16 + gelStrength * 0.28}`}>
+        <path
+          d={`M ${INNER_X + 4} ${BOTTOM_Y - 3} C ${INNER_X + 10} ${BOTTOM_Y - gelHeight}, ${INNER_X + INNER_W - 10} ${BOTTOM_Y - gelHeight}, ${INNER_X + INNER_W - 4} ${BOTTOM_Y - 3} Z`}
+        >
+          <title>{t("translucent cohesive gel")} · {Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</title>
+        </path>
+        <path class="gel-strand" d={`M ${INNER_X + 10} ${BOTTOM_Y - 9} Q 50 ${BOTTOM_Y - gelHeight - 2} ${INNER_X + INNER_W - 10} ${BOTTOM_Y - 9}`} aria-hidden="true" />
+      </g>
     {/if}
 
     {#if fluidLookup}
@@ -1199,6 +1229,23 @@
 
   <figcaption class="caption">
     <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
+    {#if vessel.gel}
+      <small class="gel-status">{Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</small>
+    {/if}
+    {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
+      <span
+        class="persistent-readout"
+        aria-label={t("{family} enzyme model: {percent}% of {substrate} converted in {material}", {
+          family: t(progress.family),
+          percent: progress.percent,
+          substrate: t(progress.substrate),
+          material: t(progress.material),
+        })}
+      >
+        <small>{t(progress.family)} · {t("enzyme conversion")}</small>
+        <strong>{progress.percent}%</strong>
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -1362,10 +1409,36 @@
     transform-origin: center;
     animation: object-bob 2.8s ease-in-out infinite alternate;
   }
+  .persistent-coating {
+    pointer-events: none;
+    stroke-width: 2;
+    stroke-dasharray: 2 1;
+  }
+  .persistent-coating.paint {
+    stroke: #3f78a8;
+  }
+  .persistent-coating.passive {
+    stroke: rgb(196 225 235 / 70%);
+    stroke-width: 1.2;
+  }
   .prepared-object {
     stroke: color-mix(in srgb, var(--ink) 55%, transparent);
     stroke-width: 0.8;
     filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .gel-body > path:first-of-type {
+    fill: #9f8bd7;
+    fill-opacity: var(--gel-opacity);
+    stroke: #7865b2;
+    stroke-width: 1.1;
+    stroke-opacity: 0.72;
+  }
+  .gel-strand {
+    fill: none;
+    stroke: #e8e0ff;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    opacity: 0.65;
   }
   .soap-scum {
     fill: none;
@@ -2037,6 +2110,20 @@
     animation: status-pulse 0.8s ease-in-out infinite alternate;
   }
   @keyframes status-pulse { to { box-shadow: 0 0 0 6px transparent; } }
+  .persistent-readout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .2rem .45rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
+    border-radius: 8px;
+    color: var(--discovery);
+    background: color-mix(in srgb, var(--discovery) 7%, var(--surface));
+  }
+  .persistent-readout small { color: var(--dim); font-size: .55rem; }
+  .persistent-readout strong { font-variant-numeric: tabular-nums; }
   .badge {
     border: 1px solid var(--edge);
     border-radius: 999px;

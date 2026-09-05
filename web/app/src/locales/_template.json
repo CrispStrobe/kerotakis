@@ -453,7 +453,9 @@
   "apple browning": "",
   "sugar water density tower": "",
   "water filter": "",
-  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": ""
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "",
+  "enzyme conversion": "",
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
   "Kids Lab": "",
@@ -2099,6 +2101,10 @@
   "invisible ink boundary": "",
   "dry lemon mark": "",
   "wet lemon mark": "",
-  "brown": ""
+  "brown": "",
+  "translucent cohesive gel": "",
+  "of polymer gelled": "",
+  "The painted iron has a complete protective paint film; scratches are not modeled.": "",
+  "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.": ""
  }
 }

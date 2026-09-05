@@ -19,4 +19,19 @@ describe("persistent material observations", () => {
   it("keeps decorative light out of the accessibility tree", () => {
     expect(source).toContain('class="computed-glow" aria-hidden="true"');
   });
+
+  it("draws a persistent translucent gel from scene state", () => {
+    expect(source).toContain("vessel.gel.gelled_fraction");
+    expect(source).toContain('class="gel-body"');
+    expect(source).toContain('class="gel-status"');
+    expect(source).toContain('t("translucent cohesive gel")');
+    expect(source).toContain('t("of polymer gelled")');
+  });
+
+  it("draws only persistent source-backed protective coatings", () => {
+    expect(source).toContain("vessel.coatings ?? []");
+    expect(source).toContain("coating.recipe_id === object.recipe_id");
+    expect(source).toContain('class="persistent-coating"');
+    expect(source).toContain("t(coating.words)");
+  });
 });

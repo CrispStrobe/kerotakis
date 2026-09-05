@@ -453,7 +453,9 @@
   "apple browning": "Bräunung eines Apfels",
   "sugar water density tower": "Dichteturm aus Zuckerwasser",
   "water filter": "Wasserfilter",
-  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse"
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse",
+  "enzyme conversion": "Enzymumsatz",
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
@@ -2099,6 +2101,10 @@
   "invisible ink boundary": "Unsichtbare Tinte",
   "dry lemon mark": "trockene Zitronenspur",
   "wet lemon mark": "feuchte Zitronenspur",
-  "brown": "braun"
+  "brown": "braun",
+  "translucent cohesive gel": "durchscheinendes zusammenhängendes Gel",
+  "of polymer gelled": "des Polymers geliert",
+  "The painted iron has a complete protective paint film; scratches are not modeled.": "Das lackierte Eisen hat einen vollständigen schützenden Lackfilm; Kratzer werden nicht modelliert.",
+  "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.": "Der Edelstahl hat eine transparente schützende Passivschicht; ihre Dicke ist nicht maßstabsgetreu dargestellt."
  }
 }
