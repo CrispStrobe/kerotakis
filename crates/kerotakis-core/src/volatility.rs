@@ -264,9 +264,14 @@ impl Equilibrator for HeadspacePartitionEquilibrator {
     }
 
     fn route_kind(&self) -> SolverRouteKind {
-        // A reviewed coefficient applied by a closed-form law: the same
-        // rung as the phase routes, not a computed equilibrium.
-        SolverRouteKind::Curated
+        // A closed-form law evaluated on a reviewed coefficient is a
+        // computation, as CEA's minimisation over NASA polynomials is; the
+        // coefficient's provenance travels in the event. Calling it curated
+        // would let this side-observation outrank the aqueous engine's
+        // computed answer in the corpus classifier — th-092, "can ammonia
+        // gas dissolve into water?", is answered by PHREEQC, and the 0.7%
+        // that Henry's law puts in the headspace is a footnote to it.
+        SolverRouteKind::Computed
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {

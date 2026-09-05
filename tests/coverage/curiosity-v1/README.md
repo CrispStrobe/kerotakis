@@ -96,8 +96,11 @@ why the full check is what runs.
 ## Refresh 2026-09-05, twelfth — aq-036, the ammonia reaches the litmus
 
 `aq-036` ("Can damp litmus identify ammonia gas?") leaves `missing` for
-`curated`, and the reason is an engine change, not a corpus edit. The row's
-`expected = "curated"` is untouched.
+`qualitative`/`typed-observation` — the disposition its siblings `aq-035`,
+`aq-037` and `aq-038` already carry, because a `GasTested` verdict is a typed
+observation — and the reason is an engine change, not a corpus edit. The
+row's `expected = "curated"` is untouched, and so is the sibling mismatch it
+now shares.
 
 The refusal recorded two refreshes below was true when written: `NH3` is
 *ammonia solution* (standard phase Liquid), nothing moved dissolved ammonia
@@ -106,7 +109,12 @@ into the headspace the gas tests read, and `smell` read the liquid directly
 Henry's law and nothing more: a dissolved species with a reviewed
 coefficient in `properties::HENRY_COEFFICIENTS` (Sander 2015) is moved to
 its equilibrium share of an owned headspace, in either direction, and the
-pressure refreshed. It runs on the core bench's default stack and in the
+pressure refreshed. Its route kind is `computed` — a closed-form law on a
+reviewed coefficient, as CEA is on NASA polynomials — and not `curated`,
+because the first CI run showed why: `th-092` ("Can ammonia gas dissolve
+into water?") is answered by PHREEQC, and a curated side-observation that
+0.7% of the ammonia sits in the 1 L headspace outranked it in the classifier.
+It runs on the core bench's default stack and in the
 full stack after the phase routes and before the aqueous tail; the tail now
 carries a headspace share of a solute it did not take through its rebuild
 instead of deleting it. Species the registry carries as gases (O₂, N₂, H₂,

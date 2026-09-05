@@ -215,8 +215,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "aq-036"
 owning_task = "EXP-25"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-037"
@@ -371,8 +371,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "aq-062"
 owning_task = "CAP-25"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-063"
