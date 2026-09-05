@@ -103,8 +103,7 @@ pub fn observe(vessel: &Vessel) -> Vec<HeatResponse> {
         .into_iter()
         .filter_map(|recipe| {
             let (_, softens_above_k, chars_above_k) = response(&recipe)?;
-            let charred = now.0 >= chars_above_k
-                || vessel.charred_materials.iter().any(|id| *id == recipe.id);
+            let charred = now.0 >= chars_above_k || vessel.charred_materials.contains(&recipe.id);
             let (state, threshold, reversible) = if charred {
                 (PolymerState::Charred, chars_above_k, false)
             } else {
@@ -136,10 +135,7 @@ pub fn settle(vessel: &mut Vessel) -> Vec<Event> {
     let seen = observe(vessel);
     for response in &seen {
         if response.state == PolymerState::Charred
-            && !vessel
-                .charred_materials
-                .iter()
-                .any(|id| *id == response.recipe_id)
+            && !vessel.charred_materials.contains(&response.recipe_id)
         {
             vessel.charred_materials.push(response.recipe_id.clone());
         }

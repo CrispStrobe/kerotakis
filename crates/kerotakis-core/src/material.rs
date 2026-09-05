@@ -135,7 +135,7 @@ pub const LOT_SOURCE_PREFIX: &str = "material recipe ";
 pub fn named_objects(vessel: &crate::Vessel) -> Vec<MaterialRecipe> {
     let mut ids: Vec<String> = Vec::new();
     for portion in &vessel.unresolved_materials {
-        if portion.amount > 0.0 && !ids.iter().any(|id| *id == portion.recipe_id) {
+        if portion.amount > 0.0 && !ids.contains(&portion.recipe_id) {
             ids.push(portion.recipe_id.clone());
         }
     }
