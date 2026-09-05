@@ -68,6 +68,20 @@ const PROFILES: &[SubstrateProfile] = &[
     },
 ];
 
+/// The share of a recipe's conserved remainder that is milk sugar.
+///
+/// One number, two consumers: the lactase activity model hydrolyses it and
+/// the lactic fermentation route eats it. It lives here because the
+/// substrate table is here, and it is exposed rather than copied so the
+/// two engines can never disagree about how much lactose a gram of milk
+/// solids is.
+pub fn unresolved_lactose_share(recipe_id: &str) -> Option<f64> {
+    PROFILES
+        .iter()
+        .find(|profile| profile.recipe_id == recipe_id && profile.class == SubstrateClass::Lactose)
+        .map(|profile| profile.substrate_share)
+}
+
 // Editorial teaching correlation, not a measured universal rate constant.
 // At the reference temperature it converts roughly 97% of 1 g substrate in
 // an hour with 0.1 g enzyme. Dose ordering and the bounded asymptote are the

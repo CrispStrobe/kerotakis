@@ -143,10 +143,24 @@ const HALIDE_RESIDUE: &[&str] = &["Cl", "Br", "F"];
 /// Each row is (registry key, what is missing). The message the solver
 /// builds from it names the substance, so a reader is told which bottle
 /// on the bench the caveat is about.
-pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[(
-    "malic_acid",
-    "no shipped database defines a malate species, so its two carboxylic protons are not in this pH",
-)];
+pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[
+    (
+        "malic_acid",
+        "no shipped database defines a malate species, so its two carboxylic protons are not in this pH",
+    ),
+    // Lactic acid is the second row, and unlike malate it names the file
+    // that WOULD fix it: llnl-organics defines Lactate, and it is not one
+    // of the three databases this lab loads. That is a boundary of this
+    // lab's wiring rather than of the shipped thermodynamics, and saying
+    // which is which is the point of separating this table from
+    // `UNSPECIATED_SOLUTES`.
+    (
+        "lactic_acid",
+        "none of the three databases this lab loads (wateq4f, minteq.v4, pitzer) defines a \
+         lactate species, so the carboxylic proton of the acid a lactic fermentation just \
+         made is not in this pH",
+    ),
+];
 
 /// Substances no shipped database can speciate AT ALL.
 ///
@@ -1139,7 +1153,12 @@ mod tests {
         //   malic acid       C4H6O5  = 2 x C2H3O2 + O
         // None of them has a cation to balance those units, so none of
         // them is that salt.
-        for key in ["glucose", "fructose", "malic_acid"] {
+        //   lactic acid      C3H6O3  = one and a half acetate units, which
+        //                              is not a whole number of them, so
+        //                              the arithmetic cannot even reach for
+        //                              the salt — and the residue rules
+        //                              reject the leftover carbon anyway.
+        for key in ["glucose", "fructose", "malic_acid", "lactic_acid"] {
             assert!(
                 role(key).is_none(),
                 "{key} must have no derived aqueous role, got {:?}",
@@ -1171,5 +1190,22 @@ mod tests {
             );
         }
         assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "malic_acid"));
+    }
+
+    #[test]
+    fn lactate_is_in_none_of_the_databases_this_lab_loads() {
+        // Same premise, one step weaker than malate's: llnl-organics IS
+        // vendored with iphreeqc and DOES define Lactate, and this lab does
+        // not load it. So the refusal names a wiring boundary rather than a
+        // gap in the world's thermodynamics, and if a loaded database ever
+        // gains the species this test says the refusal must go.
+        for tag in DB_TAGS {
+            assert!(
+                !index_for(tag).has_element("Lactate"),
+                "{tag} now defines Lactate — lactic acid can be speciated, so \
+                 UNSPECIATED_ACIDS should lose its row"
+            );
+        }
+        assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "lactic_acid"));
     }
 }

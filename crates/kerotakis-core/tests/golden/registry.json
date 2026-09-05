@@ -3202,6 +3202,25 @@
     "standard_phase": "solid"
   },
   {
+    "appearance": "colourless, syrupy",
+    "colour": null,
+    "density": 1.209,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C3H6O3",
+    "heat_capacity": 118.29,
+    "inchikey": "",
+    "key": "lactic_acid",
+    "magnetic": false,
+    "molar_mass": 90.078,
+    "name": "lactic acid",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights. Density 1.209 g/mL at 20 C for the neat syrupy acid: CRC Handbook of Chemistry and Physics, 97th ed. Molar heat capacity 118.3 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement, and Kopp's rule is a solid-state additivity applied here to a liquid, which is a second approximation stated rather than hidden. NO INCHIKEY IS ASSERTED: writing one means choosing a stereochemistry, and fermentation lactic acid is a mixture of the L-(+) and D-(-) forms in proportions that depend on which organism made it, so this record claims neither. Aqueous solubility is not entered because the acid is miscible with water in all proportions and a finite g/100 mL would be a false ceiling. ACIDITY IS NOT MODELLED: none of the three databases this lab loads defines a lactate species - wateq4f, minteq.v4 and pitzer were searched by name, and the only vendored file that carries Lactate is llnl-organics, which is not among them - so this acid enters solution as a finite neutral solute and its carboxylic proton is absent from any computed pH. The engine says so out loud rather than reporting a silently neutral solution. Enthalpy of solution is not claimed",
+    "spectrum_bands": null,
+    "standard_phase": "liquid"
+  },
+  {
     "appearance": "white crystalline powder",
     "colour": null,
     "density": 1.665,

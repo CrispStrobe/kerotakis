@@ -382,6 +382,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // engine DOES say about their acidity lives in the aqueous
         // solver, where citrate is computed and malate is refused aloud.
         | "malic_acid"
+        // Lactic acid joins them for the same reading: a weak carboxylic
+        // acid, filed with acetic and ascorbic rather than given a strong-
+        // acid row whose incompatibility rules would overstate it.
+        | "lactic_acid"
         | "citric_acid"
         | "C6H5O7-3"
         | "glucose"
@@ -565,6 +569,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "indigo_carmine_ox",
     "isobutylene",
     "isopropanol",
+    "lactic_acid",
     "langite",
     "malic_acid",
     "maltose",
