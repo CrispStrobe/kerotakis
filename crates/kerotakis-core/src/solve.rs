@@ -896,7 +896,12 @@ impl Equilibrator for StateEquilibrator {
         // where there is one, so ion pairs are counted as the single
         // particles they are rather than as the ions they came from.
         let solute_molality = dissolved_particle_molality(vessel);
-        let t = crate::states::transitions(solute_molality);
+        // BRD-032: the vessel's own pressure, routed through the BRD-031
+        // pack by the solvent's InChIKey rather than by its name. An open
+        // beaker reports exactly one atmosphere, takes the curated normal
+        // boiling point, and is bit-for-bit what it was before this line.
+        let pressure_kpa = vessel.pressure.0 / 1000.0;
+        let (t, boiling_route) = crate::states::transitions_at(solute_molality, pressure_kpa);
         let now = vessel.temperature.0;
 
         let liquid_water = vessel
@@ -1112,6 +1117,20 @@ impl Equilibrator for StateEquilibrator {
                 Kelvin(t.boiling_k + (available_j - latent_total) / cp)
             };
 
+            if boiling_route != crate::states::BoilingRoute::NormalBoilingPoint {
+                events.push(Event::BoilingPointRouted {
+                    vessel: vessel.id,
+                    species: solvent.clone(),
+                    pressure_kpa,
+                    boiling: Kelvin(t.boiling_k),
+                    shifted_by: t.boiling_pressure_shift(),
+                    route: boiling_route,
+                    model: crate::states::solvent_row()
+                        .and_then(|row| row.saturation_model())
+                        .unwrap_or("no cleared correlation")
+                        .to_owned(),
+                });
+            }
             events.push(Event::StateChanged {
                 vessel: vessel.id,
                 species: solvent.clone(),

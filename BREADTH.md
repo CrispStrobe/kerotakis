@@ -1402,10 +1402,75 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Chemistry WebBook's rendering of Stull 1947, and NIST WebBook is a rejected
   source class in this task's own audit. The row now carries the primary
   citation and the detour in writing.
+- **Open-source search checkpoint (2026-09-05):** the "replacement dataset
+  under an explicit open licence" route named in the S01 clearance list has
+  been searched for the first time and the result is recorded in
+  `provenance/brd-031-pilot-source-audit.md` § Addendum. Seven CC BY 4.0
+  articles between them carry PC-SAFT parameters for all nine fluids,
+  including the only clean sources found for oxygen (Staubach et al., IJT
+  2023) and ethyl acetate (Molecules 2016). **They are candidates, not
+  clearance, and nothing is promoted:** the numbers are second-hand, mostly
+  republished from Gross & Sadowski's closed papers, and two of them
+  disagree with each other on ethanol — which is itself the argument for
+  putting them through the existing quarantine path rather than typing them
+  in. Three named candidates were rejected on their licences (the Esper
+  IECR database is closed; the FeOs paper is CC BY-NC-ND; arXiv 2309.12404
+  is CC BY-NC-SA), and the ML-SAFT Zenodo deposit was rejected because its
+  own README contradicts its CC BY stamp with a Dortmund Databank
+  proprietary notice. A CC BY-stamped critical-constant compilation was
+  likewise recorded and refused, because its README names Perry, Yaws, VDI,
+  NIST WebBook and the CRC Handbook as its sources: a depositor's licence
+  stamp does not launder upstream rights, and accepting it would make every
+  rejection above meaningless. **Saturated liquid density remains
+  unsourceable** under any accepted licence, which is why the pack refuses
+  it for every fluid rather than shipping the registry's 25 °C constant
+  dressed as a correlation.
 
 ### BRD-032 — feos-backed bench routing
 
-- [ ] **Status:** blocked. **Size:** large. **Depends on:** BRD-031.
+- [ ] **Status:** first slice shipped (2026-09-05); the residual-EOS half
+  remains blocked on BRD-031's uncleared parameter pack. **Size:** large.
+  **Depends on:** BRD-031.
+- **Pressure-dependent boiling checkpoint (2026-09-05):** the bench boiled
+  water at 100 °C in a vacuum flask and at 100 °C in a pressure cooker,
+  because `states::transitions` took a molality and nothing else. That is
+  the defect shape this document warns about — a quantity claimed to depend
+  on X that does not move when X does — and the corpus asks about it
+  directly in th-019 and th-020.
+  `states::transitions_at` now takes the vessel's own pressure and returns
+  the boiling point **with the route that set it**. The route resolves the
+  solvent's parameters through the BRD-031 pack **by InChIKey**, inverts the
+  cleared saturation-pressure correlation by bisection inside its own fitted
+  bracket, and composes the answer as
+  `T_b(P) = T_b(1 atm) + [T_fit(P) − T_fit(1 atm)]`. The anchoring is the
+  design decision worth reading: Stull's water fit reproduces the normal
+  boiling point to 0.003 K rather than to zero, so anchoring keeps every open
+  vessel — which reports exactly one atmosphere — bit-for-bit unchanged, and
+  leaves the correlation doing the one job it is better at than a table.
+  **No refusal is weakened and one is added.** Water's shipped fit spans
+  0.65–101.34 kPa, so a vacuum flask routes and a pressure cooker does not;
+  above that window the curated boiling point stands and a new
+  `Event::BoilingPointRouted` *says so by name*, in all three registers and
+  in German. A silent fall-through would have been indistinguishable from a
+  modelled answer, which is precisely what BRD-030 finding 5 forbids.
+  `Transitions` now reports the colligative and pressure shifts separately,
+  because "higher than pure water because of what is dissolved in it" and
+  "lower because the vessel is under vacuum" are different sentences and
+  folding them together would make the first one lie.
+  Proved by `crates/kerotakis-core/tests/pressure_boiling.rs` (open beaker
+  unchanged to 1e-12 and emitting no routing event at all; 50 kPa boils at
+  81.4 °C against the steam tables' 81.3; 200 kPa refuses by name;
+  monotonicity across the routed window; scale invariance; the two shifts
+  reported separately) and by `kerotakis-thermo`'s own pack tests
+  (monotonicity and inverse-consistency for each of the six cleared fluids,
+  1 atm within 0.4 K of each substance's normal boiling point, a
+  pressure-shaped refusal outside each window).
+  Still refused, and named: liquid density for every fluid; saturation
+  pressure for CO2/N2/O2/hexane/ethyl acetate; every residual-EOS route.
+  The `measure <vessel> boiling_point` apparatus is **not** routed — it lives
+  in `crates/kerotakis-core/src/bench.rs`, outside this task's boundary — so
+  the other five cleared fluids are answered by the pack API and not yet by
+  a bench surface. That is the next BRD-032 slice and it is small.
 - **Scope:** route pressure-dependent boiling/condensation, flash, phase split,
   density and transport-property requests through the adapter when the exact
   parameter/model domain is present. Preserve existing UNIFAC/cubic routes as

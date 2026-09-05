@@ -1340,6 +1340,30 @@ pub enum Event {
         /// dissolved particles have lowered it.
         shifted_by: f64,
     },
+    /// BRD-032: which model set the boiling temperature, and at what
+    /// pressure.
+    ///
+    /// Emitted only where the vessel is **not** at one atmosphere, so an
+    /// open beaker's event stream is exactly what it was. It is also
+    /// emitted when the pressure route *declined* — that is the point.
+    /// A bench that quietly kept the 1 atm answer under a pressure cooker
+    /// lid would be indistinguishable from one that had modelled it, and
+    /// BRD-032's whole condition is that a fall-through be named.
+    BoilingPointRouted {
+        vessel: VesselId,
+        species: SpeciesId,
+        /// The vessel's own pressure, kPa.
+        pressure_kpa: f64,
+        /// The boiling temperature actually used, including any colligative
+        /// elevation.
+        boiling: Kelvin,
+        /// How much of that came from the pressure alone, K.
+        shifted_by: f64,
+        /// Which model answered, or why none did.
+        route: crate::states::BoilingRoute,
+        /// The model's own name, from its pack row.
+        model: String,
+    },
     /// Time passed, and this is what it did.
     Reacted {
         vessel: VesselId,

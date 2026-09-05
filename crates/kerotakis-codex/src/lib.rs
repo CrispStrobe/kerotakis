@@ -1405,6 +1405,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Mixed { .. } => ("mixed", None),
         E::Transported { .. } => ("transported", None),
         E::Reacted { reaction, .. } => ("reacted", Some(reaction.as_str())),
+        // BRD-032: a routing statement, not a chemistry event. Keyed by
+        // the solvent so an entry can assert which fluid was routed.
+        E::BoilingPointRouted { species, .. } => ("boiling_point_routed", Some(species.0.as_str())),
         // Named per direction so an entry can assert `froze:water` rather
         // than the weaker "some state changed".
         E::StateChanged {

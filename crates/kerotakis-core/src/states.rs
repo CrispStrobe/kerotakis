@@ -81,6 +81,16 @@ pub struct Transitions {
     /// Total solute molality, mol per kg of water — the particle count that
     /// drives both shifts.
     pub solute_molality: f64,
+    /// BRD-032: how much of `boiling_k`'s offset came from the vessel's
+    /// pressure rather than from what is dissolved.
+    ///
+    /// Kept separate because the two shifts answer different questions and
+    /// the prose says so: "higher than pure water because of the salt" is a
+    /// different sentence from "lower because the pressure is". Defaulted
+    /// on deserialization so a scene saved before this field existed still
+    /// loads as the atmospheric case it was.
+    #[serde(default)]
+    pub pressure_shift_k: f64,
 }
 
 impl Transitions {
@@ -88,25 +98,168 @@ impl Transitions {
     pub fn freezing_depression(&self) -> f64 {
         WATER_FREEZING_K - self.freezing_k
     }
-    /// How far the boiling point has been pushed up, K.
+    /// How far the boiling point has been pushed up by dissolved particles,
+    /// K. Deliberately **not** the total offset: a vessel under vacuum has a
+    /// lower boiling point without anything being dissolved in it, and
+    /// folding that into this number would make the colligative prose lie.
     pub fn boiling_elevation(&self) -> f64 {
-        self.boiling_k - WATER_BOILING_K
+        self.boiling_k - WATER_BOILING_K - self.pressure_shift_k
+    }
+
+    /// How far the vessel's pressure moved the boiling point, K. Negative
+    /// under vacuum, positive under pressure, zero at one atmosphere.
+    pub fn boiling_pressure_shift(&self) -> f64 {
+        self.pressure_shift_k
     }
 }
 
-/// Where this solution freezes and boils, given the total molality of
-/// dissolved particles.
+/// Where this solution freezes and boils at one atmosphere, given the total
+/// molality of dissolved particles.
 ///
 /// Colligative properties depend on how *many* particles are dissolved and
 /// not at all on what they are — which is the whole point, and the reason
 /// this takes a molality rather than a composition.
+///
+/// BRD-032 note: this is the 1 atm answer, which is what every caller that
+/// only wants a liquidus should ask for. A vessel under pressure wants
+/// [`transitions_at`].
 pub fn transitions(solute_molality: f64) -> Transitions {
-    let m = solute_molality.max(0.0);
-    Transitions {
-        freezing_k: WATER_FREEZING_K - cryoscopic_constant() * m,
-        boiling_k: WATER_BOILING_K + ebullioscopic_constant() * m,
-        solute_molality: m,
+    transitions_at(solute_molality, ATMOSPHERE_KPA).0
+}
+
+/// Standard atmospheric pressure, kPa — the pressure this module assumed
+/// silently until BRD-032 made it an argument.
+pub const ATMOSPHERE_KPA: f64 = kerotakis_thermo::vle::ATMOSPHERE_KPA;
+
+/// The registry key of the solvent whose phase behaviour this module owns.
+/// The *identity* join to a parameter row is by InChIKey (see
+/// [`solvent_row`]); this key only says which species to ask the registry
+/// about.
+const SOLVENT_KEY: &str = "water";
+
+/// Which model set the boiling temperature, so `explain` can say.
+///
+/// BRD-032 forbids a silent fall-through: where the cleared correlation
+/// cannot answer, the bench keeps the curated normal boiling point and
+/// *names* the fact, rather than extrapolating a local fit into a pressure
+/// it was never given data for.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BoilingRoute {
+    /// The vessel is at one atmosphere. The curated normal boiling point is
+    /// the answer and no correlation was consulted.
+    NormalBoilingPoint,
+    /// The BRD-031 pack's cleared saturation-pressure correlation was
+    /// inverted at the vessel's own pressure.
+    ClearedCorrelation,
+    /// The pressure is known and sits outside the window the cleared
+    /// correlation spans. Water's shipped fit stops at 100 °C, so a vacuum
+    /// flask routes and a pressure cooker lands here.
+    PressureOutsideClearedWindow,
+    /// The vessel reports no positive finite pressure to route on — a
+    /// sealed vessel with nothing in its headspace, for instance.
+    NoUsablePressure,
+    /// No pack row carries the solvent's identity.
+    SolventNotInPack,
+}
+
+impl BoilingRoute {
+    /// Did a cleared parameter set actually answer?
+    pub const fn routed(self) -> bool {
+        matches!(self, Self::ClearedCorrelation)
     }
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::NormalBoilingPoint => "normal-boiling-point",
+            Self::ClearedCorrelation => "cleared-correlation",
+            Self::PressureOutsideClearedWindow => "pressure-outside-cleared-window",
+            Self::NoUsablePressure => "no-usable-pressure",
+            Self::SolventNotInPack => "solvent-not-in-pack",
+        }
+    }
+}
+
+/// The solvent's row in the BRD-031 pack, reached by InChIKey.
+///
+/// The registry key picks the *species*; the species' InChIKey picks the
+/// *parameters*. That two-step is the seam BRD-031 landed, and it is why
+/// renaming a species cannot silently disconnect it from its correlation.
+pub fn solvent_row() -> Option<&'static kerotakis_thermo::pack::FluidRow> {
+    let data = crate::species::lookup(&crate::species::SpeciesId::new(SOLVENT_KEY))?;
+    kerotakis_thermo::pack::row_by_inchikey(data.inchikey)
+}
+
+/// How far the vessel's pressure moves the solvent's boiling point, K.
+///
+/// The cleared correlation supplies the **shift** and the registry's
+/// reviewed normal boiling point supplies the **anchor**:
+///
+/// ```text
+/// T_b(P) = T_b(1 atm) + [ T_fit(P) − T_fit(1 atm) ]
+/// ```
+///
+/// That composition is worth its sentence. Stull's water fit reproduces the
+/// normal boiling point to 0.003 K, not to zero; taking the fit's own value
+/// at one atmosphere would move every open beaker on this bench by that
+/// much for no gain in truth, and would make a 1 atm result depend on which
+/// correlation happened to be installed. Anchoring makes the answer at one
+/// atmosphere *exactly* the curated measurement, so nothing that is not
+/// actually under pressure changes at all — and leaves the correlation
+/// doing the one job it is better at than a table, which is saying how far
+/// the boiling point moves when the pressure does.
+pub fn boiling_shift_from_pressure_k(pressure_kpa: f64) -> (f64, BoilingRoute) {
+    if !pressure_kpa.is_finite() || pressure_kpa <= 0.0 {
+        return (0.0, BoilingRoute::NoUsablePressure);
+    }
+    if (pressure_kpa - ATMOSPHERE_KPA).abs() <= AMBIENT_TOLERANCE_KPA {
+        return (0.0, BoilingRoute::NormalBoilingPoint);
+    }
+    let Some(row) = solvent_row() else {
+        return (0.0, BoilingRoute::SolventNotInPack);
+    };
+    let (Ok(here), Ok(reference)) = (
+        row.boiling_point_c_at(pressure_kpa),
+        row.boiling_point_c_at(ATMOSPHERE_KPA),
+    ) else {
+        return (0.0, BoilingRoute::PressureOutsideClearedWindow);
+    };
+    let shift = here - reference;
+    if shift.is_finite() {
+        (shift, BoilingRoute::ClearedCorrelation)
+    } else {
+        (0.0, BoilingRoute::PressureOutsideClearedWindow)
+    }
+}
+
+/// Pressures this close to one atmosphere are one atmosphere.
+///
+/// Not a fudge factor for the physics — the anchored form above is
+/// continuous through 1 atm, so widening or narrowing this changes no
+/// answer by more than the amount the pressure itself changed. It exists so
+/// an open vessel, whose pressure is the atmospheric constant exactly,
+/// takes the `NormalBoilingPoint` label rather than reporting a routed
+/// correlation that shifted it by zero.
+const AMBIENT_TOLERANCE_KPA: f64 = 1e-9;
+
+/// Where this solution freezes and boils in a vessel at `pressure_kpa`,
+/// and which model said so.
+///
+/// Freezing is unmoved: the pressure dependence of a melting point is tiny
+/// (about −0.0074 K per atmosphere for water) and this bench has no model
+/// for it, so claiming one would be worse than the silence.
+pub fn transitions_at(solute_molality: f64, pressure_kpa: f64) -> (Transitions, BoilingRoute) {
+    let m = solute_molality.max(0.0);
+    let (shift, route) = boiling_shift_from_pressure_k(pressure_kpa);
+    (
+        Transitions {
+            freezing_k: WATER_FREEZING_K - cryoscopic_constant() * m,
+            boiling_k: WATER_BOILING_K + ebullioscopic_constant() * m + shift,
+            solute_molality: m,
+            pressure_shift_k: shift,
+        },
+        route,
+    )
 }
 
 #[cfg(test)]

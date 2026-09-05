@@ -2944,6 +2944,56 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string()), ("pressure", &locale.number(format!("{:.3}", pressure.0))), ("total_moles", &locale.number(format!("{:.8}", total_moles.0)))],
             ),
         },
+        Event::BoilingPointRouted {
+            vessel,
+            species,
+            pressure_kpa,
+            boiling,
+            shifted_by,
+            route,
+            model,
+        } => {
+            let name = crate::species::lookup(species)
+                .map(|d| d.name)
+                .unwrap_or(species.0.as_str());
+            let c = boiling.to_celsius();
+            let pressure = locale.number(format!("{pressure_kpa:.1}"));
+            let direction = if *shifted_by < 0.0 {
+                locale.t("shifted.lower", "lower")
+            } else {
+                locale.t("shifted.higher", "higher")
+            };
+            let route_name = locale
+                .lookup(&format!("boiling-route.{}", route.as_str()))
+                .unwrap_or(route.as_str());
+            match register.level() {
+                1 if route.routed() => locale.fill(
+                    "event.boiling-point-routed.lv1",
+                    "The pressure over {vessel} is not ordinary air pressure, so the {name} boils at {c} °C.",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("c", &locale.number(format!("{c:.0}")))],
+                ),
+                1 => locale.fill(
+                    "event.boiling-point-routed.lv1-unrouted",
+                    "The pressure over {vessel} is outside what this lab has measurements for, so the {name} still boils at {c} °C.",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("c", &locale.number(format!("{c:.0}")))],
+                ),
+                2 if route.routed() => locale.fill(
+                    "event.boiling-point-routed.lv2",
+                    "{vessel}: at {pressure} kPa the {name} boils at {c} °C — {shifted_by} °C {direction} than at one atmosphere",
+                    &[("vessel", &vessel.to_string()), ("pressure", &pressure), ("name", name), ("c", &locale.number(format!("{c:.1}"))), ("shifted_by", &locale.number(format!("{:.1}", shifted_by.abs()))), ("direction", direction)],
+                ),
+                2 => locale.fill(
+                    "event.boiling-point-routed.lv2-unrouted",
+                    "{vessel}: at {pressure} kPa no cleared measurements cover the {name}, so its one-atmosphere boiling point of {c} °C stands",
+                    &[("vessel", &vessel.to_string()), ("pressure", &pressure), ("name", name), ("c", &locale.number(format!("{c:.1}")))],
+                ),
+                _ => locale.fill(
+                    "event.boiling-point-routed.lv3",
+                    "{vessel}: {name} boiling point {boiling} K at {pressure} kPa; route {route}; model {model}; pressure shift {shifted_by} K",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("boiling", &locale.number(format!("{:.3}", boiling.0))), ("pressure", &pressure), ("route", route_name), ("model", model.as_str()), ("shifted_by", &locale.number(format!("{shifted_by:+.3}")))],
+                ),
+            }
+        }
         Event::StateChanged {
             vessel,
             species,
