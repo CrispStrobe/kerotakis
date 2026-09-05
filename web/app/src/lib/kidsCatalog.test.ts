@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { kidsConnections, kidsExperimentMatches, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
+import { kidsConnections, kidsExperimentMatches, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
 
 const apple: KidsExperiment = {
   id: "K45", title: "Stop an apple going brown", phenomenon: "Enzymatic browning",
   status: "boundary", topics: ["food", "enzymes"], ingredients: ["ascorbic_acid", "apple"],
   apparatus: ["look"], safety: "home", boundary: "Browning is not modeled.",
+  title_de: "Verhindern, dass ein Apfel braun wird", phenomenon_de: "Enzymatische Bräunung",
+  boundary_de: "Bräunung wird nicht modelliert.",
 };
 
 describe("kids catalog", () => {
@@ -48,5 +50,12 @@ describe("kids catalog", () => {
     const linked = { ...apple, capabilities: ["bio-095"], codex: ["fruit-browning"] };
     expect(kidsExperimentMatches(linked, "bio 095")).toBe(true);
     expect(kidsExperimentMatches(linked, "fruit browning")).toBe(true);
+  });
+
+  it("renders and searches the selected catalog locale with English fallback", () => {
+    expect(kidsText(apple, "title", "de")).toContain("Apfel");
+    expect(kidsText(apple, "boundary", "de")).toContain("Bräunung");
+    expect(kidsExperimentMatches(apple, "verhindern", "de")).toBe(true);
+    expect(kidsText({ ...apple, title_de: undefined }, "title", "de")).toBe(apple.title);
   });
 });

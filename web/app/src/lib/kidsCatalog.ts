@@ -7,6 +7,8 @@ export interface KidsExperiment {
   id: string;
   title: string;
   phenomenon: string;
+  title_de?: string;
+  phenomenon_de?: string;
   status: KidsStatus;
   topics: string[];
   ingredients: string[];
@@ -18,6 +20,7 @@ export interface KidsExperiment {
   codex?: string[];
   safety: KidsSafety;
   boundary?: string;
+  boundary_de?: string;
 }
 
 export function parseKidsCatalog(raw: unknown): KidsExperiment[] {
@@ -32,6 +35,9 @@ export function parseKidsCatalog(raw: unknown): KidsExperiment[] {
     return /^K\d{2}$/.test(value.id ?? "")
       && typeof value.title === "string"
       && typeof value.phenomenon === "string"
+      && typeof value.title_de === "string"
+      && typeof value.phenomenon_de === "string"
+      && (!value.boundary || typeof value.boundary_de === "string")
       && ["computed", "partial", "boundary", "declined", "unreachable"].includes(value.status ?? "")
       && (value.safety === "home" || value.safety === "school")
       && [value.topics, value.ingredients, value.apparatus]
@@ -68,9 +74,19 @@ export function kidsConnections(
   };
 }
 
-export function kidsExperimentMatches(item: KidsExperiment, query: string): boolean {
+export function kidsText(item: KidsExperiment, field: "title" | "phenomenon" | "boundary", locale: string): string {
+  if (locale === "de") {
+    const localized = field === "title" ? item.title_de : field === "phenomenon" ? item.phenomenon_de : item.boundary_de;
+    return localized ?? item[field] ?? "";
+  }
+  return item[field] ?? "";
+}
+
+export function kidsExperimentMatches(item: KidsExperiment, query: string, locale = "en"): boolean {
   const needle = normalizeCatalogText(query.trim().replaceAll("_", " ").replaceAll("-", " "));
   if (!needle) return true;
-  return [item.id, item.title, item.phenomenon, item.boundary ?? "", ...item.topics, ...item.ingredients, ...item.apparatus, ...(item.capabilities ?? []), ...(item.codex ?? [])]
+  return [item.id, kidsText(item, "title", locale), kidsText(item, "phenomenon", locale), kidsText(item, "boundary", locale),
+    item.title, item.phenomenon, item.boundary ?? "", ...item.topics, ...item.ingredients, ...item.apparatus,
+    ...(item.capabilities ?? []), ...(item.codex ?? [])]
     .some((value) => normalizeCatalogText(value.replaceAll("_", " ").replaceAll("-", " ")).includes(needle));
 }

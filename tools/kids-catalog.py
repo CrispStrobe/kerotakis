@@ -72,10 +72,36 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
     return rows
 
 
+def add_translation(document: dict, translation: dict) -> dict:
+    """Merge a complete locale file into export rows without changing English."""
+    locale = translation.get("locale")
+    if translation.get("schema") != document.get("schema") or locale != "de":
+        raise ValueError("kids translation must use schema 1 and locale de")
+    source_rows = document["experiments"]
+    translated = translation.get("experiments")
+    expected = [row["id"] for row in source_rows]
+    if not isinstance(translated, list) or [row.get("id") for row in translated] != expected:
+        raise ValueError("German catalog must contain the same K01 through K60 rows in order")
+    by_id = {row["id"]: row for row in translated}
+    for source in source_rows:
+        target = by_id[source["id"]]
+        required = ["title", "phenomenon"] + (["boundary"] if source.get("boundary") else [])
+        if not source.get("boundary") and "boundary" in target:
+            raise ValueError(f"{source['id']}: German boundary exists without an English boundary")
+        for field in required:
+            value = target.get(field)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"{source['id']}: missing German {field}")
+            source[f"{field}_{locale}"] = value
+    return document
+
+
 def main() -> None:
     source = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data/kids/experiments-v1.json"
     document = json.loads(source.read_text())
     validate(document)
+    translation = source.with_name("experiments-de-v1.json")
+    add_translation(document, json.loads(translation.read_text()))
     if len(sys.argv) > 2:
         target = pathlib.Path(sys.argv[2])
         target.parent.mkdir(parents=True, exist_ok=True)
