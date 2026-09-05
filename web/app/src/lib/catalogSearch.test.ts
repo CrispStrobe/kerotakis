@@ -18,6 +18,26 @@ describe("reagentMatches", () => {
   it("ignores case and accents", () => {
     expect(normalizeCatalogText("LÖSCH-Kalk")).toBe("losch-kalk");
   });
+
+  it("finds a named material by a resolved component", () => {
+    const material = {
+      ...water,
+      key: "teaching_mixture",
+      name: "teaching mixture",
+      formula: "",
+      material_details: {
+        basis: "mass_fraction" as const,
+        confidence: "curated" as const,
+        components: [{ key: "sodium_chloride", lower: 0.1, upper: 0.1 }],
+        lot_assumptions: [],
+        source_id: "source",
+      },
+    };
+    expect(reagentMatches(material, "sodium chloride", "Lehrmischung")).toBe(true);
+    expect(reagentMatches(material, "Natriumchlorid", "Lehrmischung", (value) =>
+      value === "sodium chloride" ? "Natriumchlorid" : value,
+    )).toBe(true);
+  });
 });
 
 describe("experimentMatches", () => {

@@ -467,6 +467,17 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
+  "recipe confidence": "",
+  "by mass": "",
+  "by amount of substance": "",
+  "by volume": "",
+  "measured": "",
+  "estimated": "",
+  "surrogate": "",
+  "unresolved matter": "",
+  "preparation": "",
+  "lot assumptions": "",
+  "recipe source": "",
   "about {name}": "",
   "physical state": "",
   "visual appearance": "",

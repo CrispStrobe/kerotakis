@@ -127,6 +127,15 @@
       : capability === "identity_only"
         ? t("identity and dose only")
         : null;
+  const percent = (value: number) => `${(value * 100).toLocaleString(i18n.locale, { maximumFractionDigits: 2 })}%`;
+  const range = (lower: number, upper: number) => lower === upper
+    ? percent(lower)
+    : `${percent(lower)}–${percent(upper)}`;
+  const basisLabel = (basis: NonNullable<ShelfItem["material_details"]>["basis"]) => ({
+    mass_fraction: t("by mass"),
+    mole_fraction: t("by amount of substance"),
+    volume_fraction: t("by volume"),
+  })[basis];
   /**
    * What the species chip has always said in a `title`, in text a finger
    * can reach. Silence is not a clearance: an unassessed species says so.
@@ -170,6 +179,31 @@
     }
     const hazards = hazardLine(item);
     if (hazards) rows.push({ term: t("safety labels"), detail: hazards, tone: "danger" });
+    const recipe = item.material_details;
+    if (recipe) {
+      rows.push({
+        term: t("recipe confidence"),
+        detail: `${t(recipe.confidence)} · ${basisLabel(recipe.basis)}`,
+      });
+      rows.push(...recipe.components.map((component) => ({
+        term: t(component.key.replace(/_/g, " ")),
+        detail: range(component.lower, component.upper),
+      })));
+      if (recipe.unresolved) {
+        rows.push({
+          term: t("unresolved matter"),
+          detail: range(recipe.unresolved.lower, recipe.unresolved.upper),
+          tone: "warn" as const,
+        });
+      }
+      if (recipe.preparation) {
+        rows.push({ term: t("preparation"), detail: t(recipe.preparation), block: true });
+      }
+      if (recipe.lot_assumptions.length > 0) {
+        rows.push({ term: t("lot assumptions"), detail: recipe.lot_assumptions.join("; "), block: true });
+      }
+      rows.push({ term: t("recipe source"), detail: recipe.source_id, block: true });
+    }
     // `stockBadge` answers null for a level it has nothing to say about,
     // and a row whose value is empty is worse than no row: it teaches the
     // reader that the panel sometimes has nothing in it.
