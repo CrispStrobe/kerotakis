@@ -903,6 +903,57 @@ impl ParsedMechanism {
         self.species.iter().map(|species| species.name.as_str())
     }
 
+    /// Call one species by another name everywhere the mechanism uses it:
+    /// the species list, every stoichiometric term, every order, every
+    /// equilibrium term and every third-body efficiency. Returns how many
+    /// places changed.
+    ///
+    /// A pack is written in the formulas its evaluation used — `CH4`,
+    /// `H2O` — and the bench keeps its ledger by registry key — `methane`,
+    /// `water`. The two have to agree before a network can read a vessel
+    /// or write products into it, and the honest place to reconcile them
+    /// is here, on the validated document, not by editing the pack text
+    /// the tests and the provenance point at. The `equation` strings are
+    /// left as written: they are what a learner reads.
+    pub fn rename_species(&mut self, from: &str, to: &str) -> usize {
+        let mut changed = 0usize;
+        let mut rename = |name: &mut String| {
+            if name == from {
+                *name = to.to_string();
+                changed += 1;
+            }
+        };
+        for species in &mut self.species {
+            rename(&mut species.name);
+        }
+        for reaction in &mut self.reactions {
+            for term in &mut reaction.stoichiometry {
+                rename(&mut term.species);
+            }
+            for order in &mut reaction.orders {
+                rename(&mut order.species);
+            }
+            if let Some(orders) = &mut reaction.reverse_orders {
+                for order in orders {
+                    rename(&mut order.species);
+                }
+            }
+            for term in &mut reaction.equilibrium {
+                rename(&mut term.species);
+            }
+            match &mut reaction.pressure_dependence {
+                OwnedPressureDependence::ThirdBody { collider }
+                | OwnedPressureDependence::Falloff { collider, .. } => {
+                    for (name, _) in &mut collider.efficiencies {
+                        rename(name);
+                    }
+                }
+                OwnedPressureDependence::None | OwnedPressureDependence::Plog { .. } => {}
+            }
+        }
+        changed
+    }
+
     pub fn summary(&self) -> MechanismSummary {
         let elements = self
             .species
