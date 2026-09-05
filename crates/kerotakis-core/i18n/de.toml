@@ -231,6 +231,12 @@ paraffin = "Paraffin"
 "langite (blue-green copper sulfate)" = "Langit (blaugrünes Kupfersulfat)"
 sucrose = "Saccharose"
 "zinc hydroxide" = "Zinkhydroxid"
+methane = "Methan"
+propane = "Propan"
+butane = "Butan"
+helium = "Helium"
+naphthalene = "Naphthalin"
+"hydrogen sulfide" = "Schwefelwasserstoff"
 
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."

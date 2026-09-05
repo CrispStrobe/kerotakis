@@ -535,6 +535,28 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     the new species, because that tranche was still unmerged when this
     one landed. That upgrade is the follow-up, and each recipe that gains
     a resolved fraction needs its own conservation test.
+  - `BRD-012.S04` — six pure substances the curiosity corpus names and the
+    parser could not resolve: the three fuel-gas alkanes (methane, propane,
+    butane), helium, naphthalene and hydrogen sulfide. Chosen because each
+    one already has an engine waiting for it — the NASA CEA database defines
+    a gas record for every one of them, matched by composition, so the three
+    alkanes reach the combustion solver on the same road sulfur and paper
+    already take, and helium reaches the sealed-vessel pressure route with
+    no chemistry underneath it at all. Naphthalene arrives with its melting
+    and boiling points and an explicit boundary note saying that the slow
+    room-temperature sublimation a mothball is known for is exactly what
+    this bench does *not* model. Hydrogen sulfide arrives able to be named
+    and weighed and nothing more: there is no sulfide ion on the shelf, so
+    it forms no metal sulfide, and the row that asked for silver tarnish is
+    closed as a typed observation rather than as chemistry. Six rows leave
+    `unknown-species`, and the split matters more than the count: th-044,
+    th-045 and th-046 reach `computed`/`computed-route` through the CEA
+    equilibrium solve, th-095 reaches `qualitative`/`typed-observation` on
+    a real computed pressure, and th-028 and th-070 reach
+    `computed`/`typed-engine-event` — the classifier's weakest evidence,
+    which here means the run happened rather than that the question was
+    answered. Sublimation and metal-sulfide formation remain absent, and
+    those two rows are closed against the parser, not against the science.
 - **Outcome:** at least 300 reviewed identities that a school-age user is likely
   to name, including common gases, acids/bases, salts, metals, minerals, fuels,
   solvents, sugars, fats, monomers, polymers-as-populations, pigments, and
@@ -1366,6 +1388,16 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 - [ ] **Status:** open, and now blocked on a sourcing decision rather than on
   engineering. **Size:** large/data-heavy. **Depends on:** BRD-040 (complete).
+- **2026-09-05, BRD-012.S04:** the three fuel gases the corpus asks about —
+  methane, propane and butane — are now registry species, so th-044, th-045
+  and th-046 run instead of failing at the parser. What they run through is
+  the **CEA equilibrium** path, not a mechanism: composition-matched NASA-9
+  records give an equilibrium endpoint and an energy, and that is the whole
+  of it. No rate, no ignition delay, no flame. The sourcing decision above
+  is untouched by this, and the acceptance criterion — twenty-five prompts
+  reaching *computed* through a reviewed reduced mechanism — is not met by
+  three prompts reaching an equilibrium solver. Recorded here so the next
+  reader does not mistake the closed rows for a mechanism pack.
 - **BRD-040 finding (2026-08-29):** *no* audited mechanism may ship as
   runtime-data — not GRI-Mech 3.0, Ó Conaire, Boivin, the syngas sets, FFCM-1 or
   San Diego. None carries a redistribution grant, and Cantera states it "is not

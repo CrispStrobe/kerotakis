@@ -2417,8 +2417,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-028"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-029"
@@ -2513,20 +2513,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-044"
 owning_task = "BRD-041"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-045"
 owning_task = "BRD-041"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-046"
 owning_task = "BRD-041"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-047"
@@ -2669,8 +2669,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-070"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-071"
@@ -2819,8 +2819,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-095"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-096"

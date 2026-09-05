@@ -30,6 +30,8 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 (six rows, BRD-012.S04's pure substances) — see below.
+
 Refreshed 2026-09-02 again (three rows, EXP-25's gas tests) — see below.
 
 Refreshed 2026-09-02 (four rows), and wired into CI in the same change.
@@ -1098,3 +1100,62 @@ Worth a second pass over the corpus for it. The mechanical part is
 findable — a script that performs a condition-changing operation (`grind`,
 `heat`, a concentration choice) exactly once, in one vessel — even though
 deciding whether the question is comparative needs a reader.
+
+## 2026-09-05 — six rows, and the word that was the whole blockage
+
+`BRD-012.S04` added six pure substances to the registry. Nothing else in
+the engine changed: no solver, no classifier, no curated reaction. All six
+rows had been failing at the **parser** with `unknown-species`, which means
+no solver had ever seen them — the run stopped on a word.
+
+Each row and what its new outcome actually rests on:
+
+- **th-044 `methane`, th-045 `propane`, th-046 `butane`** —
+  `missing`/`unknown-species` → `computed`/`computed-route`. `thermal.rs`
+  maps registry species to NASA CEA records **by chemical composition**, and
+  the vendored CEA database defines CH4, C3H8 and both butane isomers. So
+  `ignite` now reaches the same Gibbs equilibrium solve that already burns
+  sulfur (th-043) and paper (th-059), and the three rows compute an exhaust
+  composition and an energy. What this is **not** is a combustion mechanism:
+  there is no rate, no ignition delay and no flame model behind these three,
+  and BRD-041's acceptance criteria are untouched by them. The record says
+  `computed-route` because a computed route really did succeed; the reader
+  who wants kinetics should read BRD-041, where this is stated again.
+
+- **th-095 `helium`** — `missing`/`unknown-species` →
+  `qualitative`/`typed-observation`. The vessel seals and the barometer
+  reads, and the classifier files a `handle_and_inspect` prompt whose events
+  are observations as qualitative — exactly as it already does for th-094's
+  hydrogen. The pressure itself is computed from the amount of substance,
+  which is the point of the question, and helium is the one substance on the
+  shelf with no chemistry underneath it to confuse that.
+
+- **th-028 `naphthalene`** — `missing`/`unknown-species` →
+  `computed`/`typed-engine-event`. Read this one carefully, because the
+  disposition flatters it. `typed-engine-event` is the classifier's weakest
+  evidence: it means "no solver route claimed this vessel, but typed events
+  happened, so call it computed". The question is whether mothballs sublime,
+  and **the bench does not model that**. Naphthalene's slow loss at room
+  temperature is a vapour-pressure phenomenon; what the species carries is a
+  melting point and a boiling point, and its transition record says so in a
+  boundary note. The row no longer stops at the parser. It does not answer
+  the question, and closing it should not be read as if it did.
+
+- **th-070 `hydrogen_sulfide`** — `missing`/`unknown-species` →
+  `computed`/`typed-engine-event`. The same caveat, more sharply. Silver
+  tarnishes because it forms Ag₂S, and there is **no sulfide ion and no
+  silver sulfide on this shelf** — so nothing tarnishes. The word parses,
+  the gas is weighed into the vessel, typed events follow from handling it,
+  and the classifier's fallback calls that computed. The chemistry the
+  question asks about is still absent, and the species' own provenance line
+  records that it forms no metal sulfide.
+
+Two of the six therefore graduated on the classifier's fallback rather than
+on an answer. That is worth stating plainly rather than counting six closed
+rows: `unknown-species` is a vocabulary gap, and removing it reveals what
+the engine can and cannot do about the question underneath — which for
+th-028 and th-070 is "not much yet". The remaining work is a sublimation
+route and a sulfide species with a solid it can precipitate.
+
+No other row moved. The full check reported exactly six drifts, no
+regressions, and the expectation-mismatch count held flat at 85.

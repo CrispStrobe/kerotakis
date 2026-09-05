@@ -189,6 +189,25 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // ── flammable gas ─────────────────────────────────────────
         "H2" => &[FlammableGas],
         "ethene" | "isobutylene" => &[FlammableGas],
+        // The three fuel gases a kitchen, a caravan and a lighter run on.
+        // Each is a light alkane whose whole hazard on this bench is that
+        // it burns; none of them does anything to anything else in a
+        // beaker, which is what the rest of this matrix screens for.
+        "methane" | "propane" | "butane" => &[FlammableGas],
+
+        // ── flammable and acutely toxic ───────────────────────────
+        // Hydrogen sulfide is both, and both rows follow from identity.
+        // It burns like the other gases above; it is also an acute
+        // systemic toxicant at a few hundred ppm, by inhibiting the same
+        // respiratory enzyme cyanide does, and it is freely soluble in
+        // water — which is the membership test `ToxicSoluble` states.
+        // That group is the only row in this matrix that carries the
+        // "toxic" label for something which is not an amine, and filing
+        // this gas anywhere else would leave the shelf showing a
+        // fatally toxic substance as merely flammable. What is NOT
+        // claimed here is the warning a person actually gets in a room,
+        // which is the smell: this bench has no odour entry for it.
+        "hydrogen_sulfide" => &[FlammableGas, ToxicSoluble],
 
         // ── water-reactive ────────────────────────────────────────
         "CaO" => &[WaterReactive],
@@ -357,7 +376,23 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "glucose"
         | "fructose"
         | "cellulose"
-        | "NaBr" => &[],
+        | "NaBr"
+        // Helium is the one substance on this shelf that is inert in the
+        // strongest sense the word has: a closed shell, no compounds at
+        // bench conditions, and nothing to say in a mixture screen. The
+        // hazard it does carry — asphyxiation, by displacing air — is
+        // about a room rather than about a beaker, and this matrix
+        // classifies what substances do to each other.
+        | "helium"
+        // Naphthalene burns and is a toxic, sensitising solid whose
+        // vapour is the point of a mothball. Neither fact has a row in
+        // this matrix: there is no combustible-organic-solid group, and
+        // `FlammableLiquid`'s rules are written about a liquid's vapour
+        // above a pool. So no group is claimed here rather than one that
+        // means something else — the same reading `paraffin` already
+        // gets — and this comment records that the absence is a gap in
+        // the matrix and not a finding that a mothball is harmless.
+        | "naphthalene" => &[],
 
         _ => &[],
     }
@@ -523,6 +558,12 @@ pub const COVERED_KEYS: &[&str] = &[
     "tert_butanol",
     "tert_butyl_bromide",
     "water",
+    "butane",
+    "helium",
+    "hydrogen_sulfide",
+    "methane",
+    "naphthalene",
+    "propane",
 ];
 
 struct Incompatibility {

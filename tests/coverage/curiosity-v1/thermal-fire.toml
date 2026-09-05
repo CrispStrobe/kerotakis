@@ -324,7 +324,6 @@ material_class = "organic_solid"
 owning_task = "BRD-012"
 tags = ["naphthalene", "sublimation"]
 script = ["add v1 naphthalene 1g", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -512,7 +511,6 @@ material_class = "fuel_gas"
 owning_task = "BRD-041"
 tags = ["combustion", "methane"]
 script = ["add v1 methane 0.01mol", "add v1 O2 0.03mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -524,7 +522,6 @@ material_class = "fuel_gas"
 owning_task = "BRD-041"
 tags = ["combustion", "propane"]
 script = ["add v1 propane 0.01mol", "add v1 O2 0.06mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -536,7 +533,6 @@ material_class = "fuel_gas"
 owning_task = "BRD-041"
 tags = ["butane", "combustion"]
 script = ["add v1 butane 0.01mol", "add v1 O2 0.07mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -811,7 +807,6 @@ material_class = "metal"
 owning_task = "BRD-012"
 tags = ["silver", "tarnish"]
 script = ["add v1 Ag 1g", "add v1 hydrogen_sulfide 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1107,7 +1102,6 @@ material_class = "gas"
 owning_task = "BRD-012"
 tags = ["gas_law", "helium"]
 script = ["add v1 helium 0.1mol", "seal v1 1L", "measure v1 pressure"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

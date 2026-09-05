@@ -1,13 +1,13 @@
 {
   "elements": 118,
-  "identity_only": 94,
-  "property_backed": 24,
+  "identity_only": 93,
+  "property_backed": 25,
   "schema": 1,
   "selected_example_counts": {
     "Ag": 4,
     "Cu": 12,
     "Fe": 14,
-    "H": 135,
+    "H": 140,
     "Mn": 6,
     "Na": 33,
     "O": 163,

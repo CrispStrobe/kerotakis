@@ -427,7 +427,13 @@
   "diamond": "Diamant",
   "graphite": "Graphit",
   "cold pack salt": "Kältepack-Salz",
-  "grey-black": "grauschwarz"
+  "grey-black": "grauschwarz",
+  "methane": "Methan",
+  "propane": "Propan",
+  "butane": "Butan",
+  "helium": "Helium",
+  "naphthalene": "Naphthalin",
+  "hydrogen sulfide": "Schwefelwasserstoff"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
