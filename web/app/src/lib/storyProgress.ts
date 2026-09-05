@@ -1,4 +1,12 @@
-export type MissionSummary = { file: string; name: string; blurb?: string; topic?: string };
+export type MissionSummary = {
+  file: string;
+  name: string;
+  blurb?: string;
+  topic?: string;
+  collection?: string;
+  outcome_note?: string;
+  boundary_note?: string;
+};
 
 export type StoryDistrict = {
   id: string;
@@ -27,7 +35,7 @@ const DISTRICTS = [
     description: "Follow acids, bases, minerals, and water through the living campus.",
     icon: "⚗",
     minimumCompleted: 1,
-    topics: ["acids & bases", "water chemistry", "corrosion & materials"],
+    topics: ["acids & bases", "water chemistry", "corrosion & materials", "crystals & solubility"],
   },
   {
     id: "energy-yard",

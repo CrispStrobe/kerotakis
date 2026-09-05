@@ -37,6 +37,16 @@ measure v1 ph
             self.assertEqual(indexed["rusting.lab"]["topic"], "corrosion & materials")
             self.assertEqual(indexed["copper-patina.lab"]["topic"], "corrosion & materials")
 
+    def test_crystal_collection_separates_outcome_from_boundary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = pathlib.Path(directory) / "rock-candy.lab"
+            path.write_text("# Rock candy\nadd v1 water 10mL\n")
+            entry = MODULE.index(path.parent)[0]
+            self.assertEqual(entry["topic"], "crystals & solubility")
+            self.assertEqual(entry["collection"], "crystal lab")
+            self.assertIn("computed", entry["outcome_note"])
+            self.assertIn("no crystal", entry["boundary_note"])
+
 
 if __name__ == "__main__":
     unittest.main()

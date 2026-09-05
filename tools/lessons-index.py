@@ -25,12 +25,39 @@ TOPICS = {
     "heat & fire": ["calorimetry", "fire", "grit"],
     "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
                             "counting-in-fives", "permanganate-standardisation"],
-    "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
+    "water chemistry": ["hard-water", "limewater"],
     "corrosion & materials": ["rusting", "copper-patina"],
+    "crystals & solubility": ["rock-candy", "borax-snowflake", "blue-crystals",
+                                "salt-from-brine"],
     "gases & pressure": ["sealed-gas"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates"],
     "separations": ["spirit-still", "transport-column"],
     "safety": ["never-mix"],
+}
+
+# A collection says what the existing lesson can demonstrate and, separately,
+# where its authority stops.  These are display facts, not new chemistry.
+COLLECTIONS = {
+    "rock-candy": {
+        "collection": "crystal lab",
+        "outcome_note": "computed saturation and seeded crystal yield",
+        "boundary_note": "no crystal size, habit, purity, or growth clock",
+    },
+    "borax-snowflake": {
+        "collection": "crystal lab",
+        "outcome_note": "computed cooling yield with a declared phase stand-in",
+        "boundary_note": "no snowflake shape; anhydrous borax stands in for the decahydrate",
+    },
+    "blue-crystals": {
+        "collection": "crystal lab",
+        "outcome_note": "computed crystal amount, hydration, and solution colour",
+        "boundary_note": "no crystal faces, specimen size, or week-long growth",
+    },
+    "salt-from-brine": {
+        "collection": "crystal lab",
+        "outcome_note": "computed evaporation and salt recovery",
+        "boundary_note": "no crystal habit, grain size, or growth time",
+    },
 }
 
 REAGENT = re.compile(r"^(?:add|titrate|grind)\s+\S+\s+(\S+)")
@@ -54,7 +81,7 @@ def index(directory: pathlib.Path) -> list[dict]:
             (l.lstrip("#").strip() for l in text.splitlines() if l.startswith("#")),
             "",
         )
-        out.append({
+        entry = {
             "file": p.name,
             "name": p.stem.replace("-", " "),
             "blurb": blurb,
@@ -63,7 +90,9 @@ def index(directory: pathlib.Path) -> list[dict]:
             # and reparsing every lesson in the browser. The .lab file stays
             # authoritative; this field is rebuilt for every payload.
             "kit": lesson_kit(text),
-        })
+        }
+        entry.update(COLLECTIONS.get(p.stem, {}))
+        out.append(entry)
     topics = list(TOPICS) + ["more"]
     out.sort(key=lambda e: (topics.index(e["topic"]), order.get(e["file"][:-4], 99)))
     return out
