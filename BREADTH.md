@@ -882,10 +882,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   protection assertion with the unprotected control that rusts under the
   same script. Deliberately no second rate model, no area ratio, and no
   atmospheric weathering — the copper patina is named as unmodelled.
-  Rows closed: mat-020, mat-069, mat-096, mat-097, mat-099, mat-100,
-  mat-105 (this task), mat-014 (BRD-014), mat-104 (BRD-070), mat-108
-  (CAP-16). Still open here: the whole organic family pack, which this
-  checkpoint does not touch.
+  Rows answered by the new chemistry: mat-099 (the one that mattered — it
+  used to rust its iron at full rate with untouched zinc lying against it),
+  mat-020, mat-100, mat-105, mat-069 (this task), mat-014 (BRD-014) and
+  mat-104 (BRD-070). mat-096 and mat-097 were already rusting and gain a
+  verdict beside the extent. Four more rows move for a different and
+  smaller reason — `Event::Corroded` joins the classifier's answering list,
+  so aq-089, mat-006, mat-003 and mat-108 stop being called `missing` while
+  printing an answer; mat-003 and mat-108 remain comparative questions their
+  single-condition scripts cannot ask, which is an `expected` problem and not
+  an engine one (see the triage in #389). `engine stood aside` falls 19 -> 5.
+  Still open here: the whole organic family pack, which this checkpoint does
+  not touch.
 
 ## Stage B3 — general thermodynamics and gas kinetics
 
