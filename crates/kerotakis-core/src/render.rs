@@ -2155,42 +2155,42 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let limit = locale.number(format!("{:.0}", threshold.to_celsius()));
             match (register.level(), state, cross_linked) {
                 (1, crate::ops::PolymerState::Softened, _) => locale.fill(
-                    "event.polymer.lv1-softened",
+                    "event.polymer-heated.lv1-softened",
                     "The {name} in {vessel} has gone soft — its chains are sliding past one another, so it can be pressed into a new shape, and it will set that way when it cools.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
                 (1, crate::ops::PolymerState::Charred, _) => locale.fill(
-                    "event.polymer.lv1-charred",
+                    "event.polymer-heated.lv1-charred",
                     "The {name} in {vessel} has charred. Past {limit} °C the bonds holding it together break, and nothing brings it back.",
                     &[("name", name), ("vessel", &vessel.to_string()), ("limit", &limit)],
                 ),
                 (1, crate::ops::PolymerState::Rigid, true) => locale.fill(
-                    "event.polymer.lv1-network",
+                    "event.polymer-heated.lv1-network",
                     "The {name} in {vessel} keeps its shape, and it will keep it all the way up: a cured thermoset has no melting point to reach. It is cross-linked into one molecule, so there are no separate chains to slide.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
                 (1, crate::ops::PolymerState::Rigid, false) => locale.fill(
-                    "event.polymer.lv1-rigid",
+                    "event.polymer-heated.lv1-rigid",
                     "The {name} in {vessel} is still hard. Above {limit} °C its chains would start to slide and it would soften.",
                     &[("name", name), ("vessel", &vessel.to_string()), ("limit", &limit)],
                 ),
                 (2, crate::ops::PolymerState::Softened, _) => locale.fill(
-                    "event.polymer.lv2-softened",
+                    "event.polymer-heated.lv2-softened",
                     "{vessel}: {name} softened — {at} °C, above its {limit} °C softening point; reversible on cooling",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
                 ),
                 (2, crate::ops::PolymerState::Charred, _) => locale.fill(
-                    "event.polymer.lv2-charred",
+                    "event.polymer-heated.lv2-charred",
                     "{vessel}: {name} charred — {at} °C, past its {limit} °C decomposition temperature; not reversible",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
                 ),
                 (2, crate::ops::PolymerState::Rigid, true) => locale.fill(
-                    "event.polymer.lv2-network",
+                    "event.polymer-heated.lv2-network",
                     "{vessel}: {name} rigid at {at} °C — cross-linked, so no softening point exists; it decomposes at {limit} °C instead",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
                 ),
                 (2, crate::ops::PolymerState::Rigid, false) => locale.fill(
-                    "event.polymer.lv2-rigid",
+                    "event.polymer-heated.lv2-rigid",
                     "{vessel}: {name} rigid at {at} °C — below its {limit} °C softening point",
                     &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
                 ),
