@@ -1351,6 +1351,38 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   whose grant covers the numerical fields, with per-field provenance and a
   reproducible checksum; it may not reconstruct or transcribe the currently
   blocked candidates under a new label.
+- **Identity-seam checkpoint (2026-09-05):** the model-neutral
+  component-identity condition carried over from BRD-030 is discharged.
+  `crates/kerotakis-thermo/src/pack.rs` holds the nine fluids the curiosity
+  corpus and Kids Lab actually reach for — water, ethanol, methanol,
+  propanone, isopropanol, ethanoic acid, ethyl acetate, hexane, CO2, N2, O2 —
+  as rows keyed by **Standard InChIKey**, and `row_by_inchikey` is the only
+  lookup the module offers, so the spike's `"WATER" => vle::WATER` name match
+  has no successor. `crates/kerotakis-core/tests/fluid_pack_identity.rs`
+  proves the join from the side that can see both halves: each row resolves
+  to exactly one registry species, agrees with it in both directions, and
+  neither the registry key nor the display name selects a row.
+  Provenance is per *parameter*, not per row, and the ethanol row is why —
+  its two correlation segments sit in two different rights lanes, which one
+  `source` string on the row would have lost. `lint_row` refuses a row whose
+  segment or provenance carries no source, no locator, no licence or no ISO
+  date; whose open-lane licence is outside the audit's allowlist; whose
+  provenance count does not match its segment count; or which leaves a
+  parameter neither cleared nor declared a gap. It is run in both directions,
+  the shipped pack passing and a deliberately sourceless row being refused.
+  **Nothing is newly cleared, and the S01 `no-go` stands.** Liquid density
+  and residual-EOS (PC-SAFT) parameters are absent for *every* fluid and each
+  row says so by name, citing
+  `provenance/brd-031-pilot-source-audit.md`; asking for either returns a
+  typed refusal rather than a number. Five of the six shipped Antoine sets
+  are recorded in the new
+  `PrimaryLiteratureCoefficientsPendingReview` lane, which is a statement
+  that an independent rights review still owes them an answer, not a
+  clearance. One finding fell out of writing the records down: the
+  isopropanol coefficients in `vle.rs` were transcribed from the NIST
+  Chemistry WebBook's rendering of Stull 1947, and NIST WebBook is a rejected
+  source class in this task's own audit. The row now carries the primary
+  citation and the detour in writing.
 
 ### BRD-032 — feos-backed bench routing
 

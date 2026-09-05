@@ -33,6 +33,7 @@ pub mod eos;
 pub mod excess;
 pub mod fluid;
 pub mod lle;
+pub mod pack;
 pub mod phase_diagram;
 pub mod unifac;
 pub mod vle;
