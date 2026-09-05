@@ -398,22 +398,35 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
     out
 }
 
-/// Whether the corrosion route has a verdict for this metal in this
-/// vessel.
+/// Whether the slow clock is actually corroding this metal in this
+/// vessel: a gated corrosion reaction names it, and that reaction can
+/// run here.
 ///
-/// `displacement::bystanders` asks before writing its "reaction with
-/// water itself is a rate this lab does not model" apology, because that
-/// sentence is now false on its own terms: `kinetics::iron-corrosion`
-/// models exactly that reaction and runs on the slow clock whatever
-/// solver stack is assembled.
+/// `displacement::bystanders` asks before writing its "{metal} stays as
+/// the metal … its slow reaction with water itself is a rate this lab
+/// does not model" apology, and the predicate is deliberately this one
+/// rather than "the corrosion route has a verdict". The apology is about
+/// the metal's OWN reaction with water, and it stays true in every case
+/// this module does not actually eat the metal in:
 ///
-/// `solve`'s honesty pass deliberately does NOT ask. Its apology is about
-/// a solid in contact with liquid that no wired solver claims, and
-/// whether one is wired is a property of the stack: a stack without
-/// `CorrosionEquilibrator` would lose the apology and gain no verdict,
-/// which is the silent filter this bench exists not to be.
-pub fn speaks_for(vessel: &Vessel, metal: &str) -> bool {
-    verdicts(vessel).iter().any(|v| v.metal == metal)
+/// * magnesium in brine — no corrosion entry names magnesium, so nothing
+///   here models what it does in water and the apology is the honest
+///   answer (a phreeqc test pins exactly this);
+/// * iron in de-aerated water — the entry exists and cannot run, so the
+///   slow clock is not corroding it either;
+/// * iron beside zinc — protected, so again nothing is eating it, and a
+///   stack without `CorrosionEquilibrator` would otherwise lose the
+///   apology and gain no verdict in its place.
+///
+/// Only where `iron-corrosion` or `zinc-corrosion` is genuinely running
+/// does the sentence become false, and only there is it withdrawn.
+pub fn kinetics_corrodes(vessel: &Vessel, metal: &str) -> bool {
+    crate::kinetics::REGISTRY.iter().any(|reaction| {
+        GATED_REACTIONS
+            .iter()
+            .any(|(id, gated)| *id == reaction.id && *gated == metal)
+            && reaction.can_run(vessel)
+    })
 }
 
 /// Corrosion as a solver: it decides and it narrates, and the slow clock

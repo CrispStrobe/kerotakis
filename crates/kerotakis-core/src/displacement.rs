@@ -797,9 +797,9 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
 /// slow reaction with water itself — and that is said as `NotYetModeled`.
 /// Conflating the two would be the silent-filter fault in a new coat.
 ///
-/// BRD-023 added a third case between them: where `corrosion` has a
-/// verdict for the metal, neither sentence is this function's to write,
-/// and it writes none.
+/// BRD-023 added a third case between them: where the slow clock is
+/// actually corroding the metal, the second sentence is false, so this
+/// function writes neither.
 pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
     let mut events = Vec::new();
     if kgw(vessel) <= 0.0 || vessel.solution.is_none() {
@@ -868,17 +868,21 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                     c.e0_volts
                 ),
             });
-        } else if !acid && c.e0_volts < 0.0 && !crate::corrosion::speaks_for(vessel, c.reduced) {
+        } else if !acid
+            && c.e0_volts < 0.0
+            && !crate::corrosion::kinetics_corrodes(vessel, c.reduced)
+        {
             // Nothing below it to displace, no acid to dissolve in: the
             // remaining question is water itself.
             //
-            // BRD-023: unless the corrosion route has already answered
-            // it. That route models the cell this sentence was written to
-            // apologise for — metal, liquid water and dissolved oxygen —
-            // so where it speaks for this metal the apology is simply
-            // false, and printing both would have the bench say the nail
-            // is rusting at 0.5 mm a year and that its reaction with
-            // water is not modelled, in the same breath.
+            // BRD-023: unless the slow clock is actually corroding this
+            // metal, in which case the sentence is false. It stays true
+            // for magnesium in brine — no kinetic entry names magnesium —
+            // and for iron with no oxygen or iron under zinc, where the
+            // entry exists and is not running. The predicate is "is it
+            // being eaten", not "does some route have an opinion", so a
+            // stack without the corrosion solver cannot lose the apology
+            // and gain nothing in its place.
             events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::RateNotModelled,
                 vessel: vessel.id,
                 what: format!(
