@@ -285,3 +285,97 @@ fn the_bench_emits_the_reading_as_an_event() {
         "lv3 must print the source: {lv3}"
     );
 }
+
+// BRD-032: the boiling-point apparatus reads at the vessel's own pressure.
+
+fn water_inchikey() -> &'static str {
+    species::lookup(&SpeciesId::new("water")).unwrap().inchikey
+}
+
+#[test]
+fn under_vacuum_the_boiling_apparatus_reads_lower_and_names_the_model() {
+    let mut sample = vessel_with(&[("water", 1.0, species::Phase::Liquid)]);
+    sample.pressure = Pascal(50_000.0);
+    let r = read(&sample, TransitionRead::Boiling);
+    assert_eq!(r.verdict, PurityVerdict::Pure);
+    let c = r.value_c.unwrap();
+    // Steam tables: 81.3 °C at 50 kPa.
+    assert!(
+        (c - 81.35).abs() < 0.3,
+        "water at 50 kPa boils near 81.3 C, got {c}"
+    );
+    let source = r.source.unwrap();
+    assert!(
+        source.contains("shifted") && source.contains("50.00 kPa"),
+        "{source}"
+    );
+    assert!(
+        kerotakis_thermo::pack::row_by_inchikey(water_inchikey()).is_some(),
+        "the shift came from the pack row the species' InChIKey names"
+    );
+}
+
+#[test]
+fn at_one_atmosphere_the_apparatus_reads_exactly_what_it_always_did() {
+    let sample = vessel_with(&[("water", 1.0, species::Phase::Liquid)]);
+    assert_eq!(sample.pressure, Pascal::ATMOSPHERIC);
+    let r = read(&sample, TransitionRead::Boiling);
+    let c = r.value_c.unwrap();
+    assert!((c + 273.15 - kerotakis_core::states::WATER_BOILING_K).abs() < 1e-9);
+    let source = r.source.unwrap();
+    assert!(
+        !source.contains("shifted"),
+        "no correlation is consulted at 1 atm: {source}"
+    );
+    assert!(!r
+        .boundary
+        .unwrap()
+        .contains("normal boiling point although"));
+}
+
+#[test]
+fn outside_the_cleared_window_the_curated_value_stands_and_says_so() {
+    // A pressure cooker: above water's cleared fit. The curated point is
+    // read, and the reading says the pressure was not answered.
+    let mut sample = vessel_with(&[("water", 1.0, species::Phase::Liquid)]);
+    sample.pressure = Pascal(300_000.0);
+    let r = read(&sample, TransitionRead::Boiling);
+    let c = r.value_c.unwrap();
+    assert!((c + 273.15 - kerotakis_core::states::WATER_BOILING_K).abs() < 1e-9);
+    let boundary = r.boundary.unwrap();
+    assert!(
+        boundary.contains("300.00 kPa") && boundary.contains("pressure-outside-cleared-window"),
+        "{boundary}"
+    );
+}
+
+#[test]
+fn a_liquid_the_pack_does_not_know_is_read_at_its_normal_point_and_told_why() {
+    // Every cleared fluid answers or refuses by name; a liquid with no pack
+    // row is told the pack does not know it, and keeps its curated point.
+    let mut sample = vessel_with(&[("ethanol", 1.0, species::Phase::Liquid)]);
+    sample.pressure = Pascal(50_000.0);
+    let r = read(&sample, TransitionRead::Boiling);
+    let c = r.value_c.unwrap();
+    let key = species::lookup(&SpeciesId::new("ethanol"))
+        .unwrap()
+        .inchikey;
+    match kerotakis_thermo::pack::row_by_inchikey(key) {
+        Some(row) if row.boiling_point_c_at(50.0).is_ok() => {
+            assert!(
+                c < 78.0,
+                "ethanol under vacuum boils below 78.29 C, got {c}"
+            );
+            assert!(r.source.unwrap().contains("shifted"));
+        }
+        _ => {
+            assert!((c - 78.29).abs() < 0.05, "the curated point stands: {c}");
+            let boundary = r.boundary.unwrap();
+            assert!(
+                boundary.contains("solvent-not-in-pack")
+                    || boundary.contains("pressure-outside-cleared-window"),
+                "{boundary}"
+            );
+        }
+    }
+}

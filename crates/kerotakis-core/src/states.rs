@@ -209,13 +209,24 @@ pub fn solvent_row() -> Option<&'static kerotakis_thermo::pack::FluidRow> {
 /// doing the one job it is better at than a table, which is saying how far
 /// the boiling point moves when the pressure does.
 pub fn boiling_shift_from_pressure_k(pressure_kpa: f64) -> (f64, BoilingRoute) {
+    let Some(data) = crate::species::lookup(&crate::species::SpeciesId::new(SOLVENT_KEY)) else {
+        return (0.0, BoilingRoute::SolventNotInPack);
+    };
+    boiling_shift_for_k(data.inchikey, pressure_kpa)
+}
+
+/// [`boiling_shift_from_pressure_k`] for any fluid the pack knows by
+/// InChIKey — the boiling-point apparatus asks this for whatever pure
+/// liquid is in its flask, with the same anchoring and the same named
+/// refusals as the solvent route.
+pub fn boiling_shift_for_k(inchikey: &str, pressure_kpa: f64) -> (f64, BoilingRoute) {
     if !pressure_kpa.is_finite() || pressure_kpa <= 0.0 {
         return (0.0, BoilingRoute::NoUsablePressure);
     }
     if (pressure_kpa - ATMOSPHERE_KPA).abs() <= AMBIENT_TOLERANCE_KPA {
         return (0.0, BoilingRoute::NormalBoilingPoint);
     }
-    let Some(row) = solvent_row() else {
+    let Some(row) = kerotakis_thermo::pack::row_by_inchikey(inchikey) else {
         return (0.0, BoilingRoute::SolventNotInPack);
     };
     let (Ok(here), Ok(reference)) = (
