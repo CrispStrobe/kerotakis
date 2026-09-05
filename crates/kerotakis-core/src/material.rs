@@ -114,6 +114,58 @@ pub fn lookup_versioned(id: &str, version: u32) -> Option<MaterialRecipe> {
         .find(|recipe| recipe.id == id && recipe.version == version)
 }
 
+/// The lot source the material route stamps on everything a recipe
+/// deposits. The tail is the recipe id.
+pub const LOT_SOURCE_PREFIX: &str = "material recipe ";
+
+/// Every named object still present in this vessel, one recipe each.
+///
+/// A recipe leaves two different traces and which one it leaves is an
+/// accident of how completely it resolves. `thermoset_resin` resolves into
+/// nothing, so it exists only as an unresolved portion; a moulded
+/// polyethylene sheet resolves entirely into `PE`, so it exists only as
+/// the lot its polyethylene arrived in. A model about the OBJECT — what
+/// heat does to a plastic, what a meter reads off an insulator — has to
+/// see both, and reading one of the two is how a shelf ends up answering
+/// for half its materials.
+///
+/// Both traces are checked for matter still being there: an unresolved
+/// portion with nothing left in it, or a lot whose species has since been
+/// consumed, is a recipe the vessel no longer holds.
+pub fn named_objects(vessel: &crate::Vessel) -> Vec<MaterialRecipe> {
+    let mut ids: Vec<String> = Vec::new();
+    for portion in &vessel.unresolved_materials {
+        if portion.amount > 0.0 && !ids.iter().any(|id| *id == portion.recipe_id) {
+            ids.push(portion.recipe_id.clone());
+        }
+    }
+    for lot in &vessel.lots {
+        let Some(id) = lot
+            .source
+            .as_deref()
+            .and_then(|source| source.strip_prefix(LOT_SOURCE_PREFIX))
+        else {
+            continue;
+        };
+        if ids.iter().any(|seen| seen == id) {
+            continue;
+        }
+        if vessel.moles_of(&lot.species).0 <= crate::OBSERVABLE_MOLES {
+            continue;
+        }
+        ids.push(id.to_string());
+    }
+    if ids.is_empty() {
+        // Most vessels hold no named object at all, and `all()` clones the
+        // whole shelf. This runs on every vessel on every step.
+        return Vec::new();
+    }
+    let shelf = all();
+    ids.into_iter()
+        .filter_map(|id| shelf.iter().find(|recipe| recipe.id == id).cloned())
+        .collect()
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct ImmiscibleLiquidLayer {
     pub material: String,

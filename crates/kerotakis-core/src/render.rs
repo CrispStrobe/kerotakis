@@ -2138,6 +2138,80 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::PolymerHeated {
+            vessel,
+            material,
+            state,
+            temperature,
+            threshold,
+            reversible: _,
+            cross_linked,
+        } => {
+            // The recipe display name, untouched: material names are
+            // translated by the shell against the registry rather than by
+            // this catalogue, which is what `MaterialAdded` above does too.
+            let name = material.as_str();
+            let at = locale.number(format!("{:.0}", temperature.to_celsius()));
+            let limit = locale.number(format!("{:.0}", threshold.to_celsius()));
+            match (register.level(), state, cross_linked) {
+                (1, crate::ops::PolymerState::Softened, _) => locale.fill(
+                    "event.polymer.lv1-softened",
+                    "The {name} in {vessel} has gone soft — its chains are sliding past one another, so it can be pressed into a new shape, and it will set that way when it cools.",
+                    &[("name", name), ("vessel", &vessel.to_string())],
+                ),
+                (1, crate::ops::PolymerState::Charred, _) => locale.fill(
+                    "event.polymer.lv1-charred",
+                    "The {name} in {vessel} has charred. Past {limit} °C the bonds holding it together break, and nothing brings it back.",
+                    &[("name", name), ("vessel", &vessel.to_string()), ("limit", &limit)],
+                ),
+                (1, crate::ops::PolymerState::Rigid, true) => locale.fill(
+                    "event.polymer.lv1-network",
+                    "The {name} in {vessel} keeps its shape, and it will keep it all the way up: a cured thermoset has no melting point to reach. It is cross-linked into one molecule, so there are no separate chains to slide.",
+                    &[("name", name), ("vessel", &vessel.to_string())],
+                ),
+                (1, crate::ops::PolymerState::Rigid, false) => locale.fill(
+                    "event.polymer.lv1-rigid",
+                    "The {name} in {vessel} is still hard. Above {limit} °C its chains would start to slide and it would soften.",
+                    &[("name", name), ("vessel", &vessel.to_string()), ("limit", &limit)],
+                ),
+                (2, crate::ops::PolymerState::Softened, _) => locale.fill(
+                    "event.polymer.lv2-softened",
+                    "{vessel}: {name} softened — {at} °C, above its {limit} °C softening point; reversible on cooling",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
+                ),
+                (2, crate::ops::PolymerState::Charred, _) => locale.fill(
+                    "event.polymer.lv2-charred",
+                    "{vessel}: {name} charred — {at} °C, past its {limit} °C decomposition temperature; not reversible",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
+                ),
+                (2, crate::ops::PolymerState::Rigid, true) => locale.fill(
+                    "event.polymer.lv2-network",
+                    "{vessel}: {name} rigid at {at} °C — cross-linked, so no softening point exists; it decomposes at {limit} °C instead",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
+                ),
+                (2, crate::ops::PolymerState::Rigid, false) => locale.fill(
+                    "event.polymer.lv2-rigid",
+                    "{vessel}: {name} rigid at {at} °C — below its {limit} °C softening point",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("limit", &limit)],
+                ),
+                (_, crate::ops::PolymerState::Softened, _) => format!(
+                    "{vessel}: {name} at {:.1} K, above the reviewed softening point {:.1} K — chain slip, reversible; no viscosity or rate of flow is claimed",
+                    temperature.0, threshold.0
+                ),
+                (_, crate::ops::PolymerState::Charred, _) => format!(
+                    "{vessel}: {name} at {:.1} K, past the reviewed decomposition temperature {:.1} K — irreversible; the products of the pyrolysis are not modelled and the ledger is untouched",
+                    temperature.0, threshold.0
+                ),
+                (_, crate::ops::PolymerState::Rigid, true) => format!(
+                    "{vessel}: {name} at {:.1} K, cross-linked — no softening point exists at any temperature; the nearest threshold is decomposition at {:.1} K",
+                    temperature.0, threshold.0
+                ),
+                (_, crate::ops::PolymerState::Rigid, false) => format!(
+                    "{vessel}: {name} at {:.1} K, below the reviewed softening point {:.1} K",
+                    temperature.0, threshold.0
+                ),
+            }
+        }
         Event::Corroded {
             vessel,
             species: sid,

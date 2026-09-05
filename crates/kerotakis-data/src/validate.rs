@@ -640,6 +640,57 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::PolymerHeatResponse {
+                        specific_heat_j_per_g_k,
+                        softens_above_k,
+                        chars_above_k,
+                        boundary,
+                        source,
+                    } => {
+                        self.nonempty(&format!("{role_path}.boundary"), boundary);
+                        self.nonempty(&format!("{role_path}.source"), source);
+                        if !specific_heat_j_per_g_k.is_finite() || *specific_heat_j_per_g_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.specific_heat_j_per_g_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !chars_above_k.is_finite() || *chars_above_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.chars_above_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                        // A polymer that softened only after it had already
+                        // decomposed would be describing an object that
+                        // cannot exist, and the ordering is the whole
+                        // content of the thermoplastic row.
+                        if let Some(softens) = softens_above_k {
+                            if !softens.is_finite() || *softens <= 0.0 {
+                                self.issue(
+                                    format!("{role_path}.softens_above_k"),
+                                    "must be finite and positive",
+                                );
+                            } else if softens >= chars_above_k {
+                                self.issue(
+                                    format!("{role_path}.softens_above_k"),
+                                    "must be below chars_above_k",
+                                );
+                            }
+                        }
+                        // The role speaks for a solid object. A poured
+                        // liquid has no shape to lose.
+                        if matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                                | MaterialPhysicalForm::GasMixture
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "a polymer heat-response role requires a solid physical form",
+                            );
+                        }
+                    }
                     MaterialRole::BulkElectricalResistivity {
                         ohm_m,
                         span_lower_ohm_m,

@@ -283,6 +283,39 @@ pub enum MaterialRole {
     /// what the meter reads for THIS reviewed object; the span is what
     /// the class covers, and a reading that quotes one without the other
     /// is a confidence the data does not have.
+    /// How a named polymer answers heat — the one property that separates
+    /// the two families of plastic, and the reason they are two families.
+    ///
+    /// A thermoplastic is a tangle of separate chains held to one another
+    /// by nothing stronger than the attraction between them. Heat it past
+    /// the point where those give way and the chains slide: it softens, it
+    /// can be moulded, and on cooling it sets again in the new shape. That
+    /// is why it can be recycled by melting.
+    ///
+    /// A thermoset was cured, and curing built covalent bonds BETWEEN the
+    /// chains. There are no separate chains left to slide — the object is
+    /// one molecule — so there is no melting point to reach. Raise the
+    /// temperature far enough and the bonds that hold it together break
+    /// instead: it chars, and nothing brings it back. `softens_above_k`
+    /// being `None` is that claim, stated as an absence rather than as a
+    /// very large number.
+    PolymerHeatResponse {
+        /// Specific heat capacity, J/(g.K), so that heating an object made
+        /// of this actually warms something. Without it a vessel holding a
+        /// two-gram block reports itself empty to the heater.
+        specific_heat_j_per_g_k: f64,
+        /// Temperature, K, above which the chains slide and the object
+        /// softens and can be reshaped. `None` for a cross-linked network,
+        /// and the `None` is the claim.
+        softens_above_k: Option<f64>,
+        /// Temperature, K, above which the polymer decomposes. This one is
+        /// not reversible in either family.
+        chars_above_k: f64,
+        /// What this row does not claim.
+        boundary: String,
+        /// The citation that travels with the two temperatures.
+        source: String,
+    },
     BulkElectricalResistivity {
         /// Room-temperature bulk DC volume resistivity of this reviewed
         /// object, in ohm.m. Must lie inside the declared span.

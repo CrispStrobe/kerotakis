@@ -66386,6 +66386,103 @@
       }
     },
     {
+      "id": "polymer/thermoplastic-sheet",
+      "version": 1,
+      "canonical_key": "thermoplastic",
+      "name": "thermoplastic sheet",
+      "aliases": {
+        "de": [
+          "Thermoplast",
+          "thermoplastische Folie",
+          "Polyethylenplatte"
+        ],
+        "en": [
+          "thermoplastic",
+          "polyethylene sheet",
+          "moulded plastic"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.95,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "PE",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a moulded sheet or offcut",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [
+        {
+          "kind": "polymer_heat_response",
+          "specific_heat_j_per_g_k": 1.82,
+          "softens_above_k": 403.15,
+          "chars_above_k": 673.15,
+          "boundary": "A moulded high-density polyethylene article. 130 C is the CRYSTALLINE MELT, and it is the threshold this bench uses because it is the one a hot-air gun or a pan of oil actually reaches and the one that lets the object be reshaped. Polyethylene's glass transition is far below room temperature and is not modelled at all; for the amorphous thermoplastics - polystyrene, PVC, acrylic - it is the glass transition rather than a melt that does this job, and this row does not speak for them. Crystallinity, molecular weight and any plasticiser move the melt by tens of kelvin. The 400 C figure is the onset of thermal decomposition and not a boiling point; no degradation product is named, and no viscosity, no rate of flow and no mould-filling behaviour is claimed.",
+          "source": "Kerotakis curated polymer heat-response tranche v1: the softening (crystalline melt or flow) and decomposition temperatures of the two families of plastic, in K at 101.325 kPa, with a room-temperature specific heat capacity in J/(g.K). THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. Polymer handbooks and general materials references are the intended primary source, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the phase-transition and electrical-resistivity tranches are. Polymer transition temperatures are grade-dependent by nature: molecular weight, crystallinity, plasticiser content and degree of cure each move them by tens of kelvin, so these are class figures for a teaching object rather than a specification for any material that could be bought. Compiled 2026-09-05"
+        }
+      ],
+      "preparation": "a moulded high-density polyethylene article, resolved in full as the installed PE species",
+      "lot_assumptions": [
+        "polyethylene HAS a repeat unit, so unlike the cured thermoset beside it this object resolves entirely into the installed PE species and its solvent and reaction chemistry is that species'. The recipe adds the one thing a species record does not carry: what heat does to the ARTICLE, which is a question about chains sliding rather than about a molecule",
+        "high-density polyethylene is the stand-in for the whole thermoplastic family here. The amorphous thermoplastics soften at a glass transition rather than at a crystalline melt, and reading this row as a figure for polystyrene or PVC would be wrong by a hundred kelvin in either direction",
+        "softening changes the sentence and nothing else: there is no shape on this bench, so a softened object can be described as mouldable and cannot be moulded",
+        "recycling by melting is exactly what this threshold is, and the bench does not model the degradation that limits how many times it can be done"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "polymer/thermoset-resin",
       "version": 1,
       "canonical_key": "thermoset_resin",
@@ -66447,14 +66544,22 @@
             160
           ],
           "colour_word": "off-white"
+        },
+        {
+          "kind": "polymer_heat_response",
+          "specific_heat_j_per_g_k": 1.5,
+          "softens_above_k": null,
+          "chars_above_k": 573.15,
+          "boundary": "A cured epoxy or phenolic network. It has NO softening point, and that is a claim rather than a gap: the chains are joined to one another by covalent cross-links, so there are no separate chains left to slide and the object cannot melt at any temperature. It does have a glass transition - a cured epoxy's usually falls between 100 and 200 C - above which the network turns rubbery, and this bench deliberately does not model that, because a rubbery thermoset still holds its shape and still cannot be moulded, which is the distinction the row exists to make. The 300 C figure is the onset of thermal decomposition; the char, the smoke and the volatiles that come off it are real products this bench has no formulas for and does not claim, so the ledger is untouched and only the sentence changes.",
+          "source": "Kerotakis curated polymer heat-response tranche v1: the softening (crystalline melt or flow) and decomposition temperatures of the two families of plastic, in K at 101.325 kPa, with a room-temperature specific heat capacity in J/(g.K). THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. Polymer handbooks and general materials references are the intended primary source, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the phase-transition and electrical-resistivity tranches are. Polymer transition temperatures are grade-dependent by nature: molecular weight, crystallinity, plasticiser content and degree of cure each move them by tens of kelvin, so these are class figures for a teaching object rather than a specification for any material that could be bought. Compiled 2026-09-05"
         }
       ],
-      "preparation": "a block of cured thermosetting resin: cross-linked, wholly unresolved, and with nowhere to go when heated",
+      "preparation": "a block of cured thermosetting resin: cross-linked, wholly unresolved, and with no melting point to reach at any temperature",
       "lot_assumptions": [
         "an epoxy or phenolic network has no repeat unit that could be dispensed as a species, so the block is conserved whole. That is the honest reading of a material whose identity IS its cross-linking",
-        "the absence of a melting point here happens to be correct: a cured thermoset does not melt, it decomposes, and this bench claims neither a melt nor the decomposition. Heating this block raises its temperature and does nothing else",
-        "the contrast the row is really about - a thermoplastic softens and a thermoset does not - is therefore only half present, because the softening of the thermoplastic is not modelled either",
-        "no char, no smoke and no strength"
+        "the absence of a melting point here is correct rather than convenient: a cured thermoset does not melt, it decomposes, and the reviewed heat-response row says so as an absence - no softening temperature at all - rather than as a very large number",
+        "the glass transition a cured epoxy does have, usually between 100 and 200 C, is not modelled. Above it the network turns rubbery and still holds its shape and still cannot be moulded, so it changes nothing this row is about",
+        "the char, the smoke and the loss of strength that follow decomposition are real and are not modelled: the bench names the decomposition and leaves the ledger alone, having no formula for the products"
       ],
       "substitutions": [],
       "confidence": "surrogate",

@@ -1649,8 +1649,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-025"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-026"

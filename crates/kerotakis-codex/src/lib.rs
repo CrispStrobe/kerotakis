@@ -68,6 +68,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "org_reacted",
     "partitioned",
     "plated",
+    "polymer_heated",
     "precipitated",
     "reacted",
     "reaction",
@@ -1383,6 +1384,10 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // BRD-041: a quest can claim that a named fuel was found below its
         // autoignition temperature — `below_autoignition:methane`.
         E::BelowAutoignition { fuel, .. } => ("below_autoignition", Some(fuel.0.as_str())),
+        // BRD-023: a quest can claim that a named plastic got a heat
+        // verdict — `polymer_heated:cured thermoset resin` — without
+        // claiming which of the three states it landed in.
+        E::PolymerHeated { material, .. } => ("polymer_heated", Some(material.as_str())),
         E::Filtered { .. } => ("filtered", None),
         E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),

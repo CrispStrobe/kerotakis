@@ -605,6 +605,15 @@ fn execute_prompt(
                     // verdict beside those is an aside about a spectator
                     // metal.
                     | Event::Corroded { .. }
+                    // BRD-023: and so is a verdict about what heat has
+                    // done to a plastic. Same placement and same reason
+                    // as the corrosion verdict directly above: it should
+                    // stop a prompt being called `missing` when the
+                    // polymer route answered it, and it should not
+                    // outrank a computed or curated route that was the
+                    // real answer, so it is deliberately absent from
+                    // `typed_observation` below.
+                    | Event::PolymerHeated { .. }
                     // BRD-041: "warm, with oxygen, and not burning" is an
                     // answer about a fuel, in the same class as `Inert`.
                     | Event::BelowAutoignition { .. }
