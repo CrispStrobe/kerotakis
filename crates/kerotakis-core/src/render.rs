@@ -569,12 +569,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
             total_after,
         } => {
-            let named = species_name(locale, sid);
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.added.lv1",
                     "You add {what} to {vessel}.",
-                    &[("what", named), ("vessel", &vessel.to_string())],
+                    &[("what", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => match total_after {
                     Some(total) if (total.0 - moles.0).abs() > 1e-12 => locale.fill(
@@ -583,7 +583,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[
                             ("vessel", &vessel.to_string()),
                             ("amount", &locale.number(format!("{:.4}", moles.0))),
-                            ("what", named),
+                            ("what", name),
                             ("total", &locale.number(format!("{:.4}", total.0))),
                         ],
                     ),
@@ -593,7 +593,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[
                             ("vessel", &vessel.to_string()),
                             ("amount", &locale.number(format!("{:.4}", moles.0))),
-                            ("what", named),
+                            ("what", name),
                         ],
                     ),
                 },
