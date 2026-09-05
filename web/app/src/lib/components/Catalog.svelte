@@ -266,7 +266,7 @@
   onclick={() => !running && onclose()}
   onkeydown={(e) => e.key === "Escape" && !running && onclose()}
 >
-  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" class:running aria-modal={!running} aria-label={tier === "kids" ? t("Kids Lab") : t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if running}
       <div class="dock" role="status" aria-live="polite">
         <div>
@@ -279,7 +279,7 @@
       </div>
     {:else if !open}
       <header>
-        <h2>{tier === "kids" ? t("Kids Lab") : t("experiments")}</h2>
+        <h2 id={tier === "kids" ? "kids-title" : "experiments-title"}>{tier === "kids" ? t("Kids Lab") : t("experiments")}</h2>
         <span class="hint">
           {tier === "kids"
             ? t("sixty experiments for curious kids")
@@ -321,7 +321,7 @@
                   <strong>{links.completedLearning}/{links.linkedLearning}</strong>
                 </div>
               {/if}
-              <h3>{kidsText(entry, "title", i18n.locale)}</h3><p>{kidsText(entry, "phenomenon", i18n.locale)}</p>
+              <h2>{kidsText(entry, "title", i18n.locale)}</h2><p>{kidsText(entry, "phenomenon", i18n.locale)}</p>
               <dl><div><dt>{t("ingredients")}</dt><dd>{entry.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div><div><dt>{t("apparatus")}</dt><dd>{entry.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div></dl>
               {#if entry.boundary}<p class="boundary">{kidsText(entry, "boundary", i18n.locale)}</p>{/if}
               {#if links.capabilities.length || links.codex.length || links.lessonCompleted}
@@ -952,7 +952,7 @@
   .kid-id { color: var(--bg); background: var(--hot); }
   .status { color: var(--cool); background: var(--panel-raised); }
   .safety { margin-left: auto; color: var(--dim); }
-  .cards h3 { margin: 0.55rem 0 0.25rem; font-size: 1rem; }
+  .cards h2 { margin: 0.55rem 0 0.25rem; font-size: 1rem; }
   .cards article > p { margin: 0; color: var(--dim); font-size: 0.74rem; line-height: 1.45; }
   dl { display: grid; gap: 0.35rem; margin: 0.7rem 0; }
   dl div { display: grid; grid-template-columns: 5rem 1fr; gap: 0.35rem; }
