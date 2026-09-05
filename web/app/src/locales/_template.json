@@ -427,7 +427,13 @@
   "diamond": "",
   "graphite": "",
   "cold pack salt": "",
-  "grey-black": ""
+  "grey-black": "",
+  "methane": "",
+  "propane": "",
+  "butane": "",
+  "helium": "",
+  "naphthalene": "",
+  "hydrogen sulfide": ""
  },
  "messages": {
   "Kids Lab": "",
