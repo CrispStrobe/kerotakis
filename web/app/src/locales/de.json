@@ -2191,6 +2191,11 @@
   "ethanol and oxygen give acetic acid — the overall equation of vinegar, not its pathway": "Ethanol und Sauerstoff ergeben Essigsäure — die Bruttogleichung der Essigbildung, nicht ihr Reaktionsweg",
   "the overall equation of aerobic respiration; no cell, no enzyme and no reaction heat is modelled": "die Bruttogleichung der Zellatmung; keine Zelle, kein Enzym und keine Reaktionswärme werden modelliert",
   "picks the SN1, SN2, E1 or E2 mechanism from substrate, nucleophile and temperature": "wählt den Mechanismus SN1, SN2, E1 oder E2 anhand von Substrat, Nucleophil und Temperatur",
-  "equation": "Gleichung"
+  "equation": "Gleichung",
+  "abandon mission": "Mission abbrechen",
+  "End this mission? It will not be recorded as complete, and your bench keeps everything on it.": "Diese Mission beenden? Sie wird nicht als abgeschlossen gespeichert, und deine Werkbank behält alles.",
+  "also in this district": "ebenfalls in diesem Viertel",
+  "Open any of these too": "Öffne auch eine davon",
+  "no order, no prerequisite": "keine Reihenfolge, keine Voraussetzung"
  }
 }

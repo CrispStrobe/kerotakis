@@ -90,6 +90,25 @@ export function contaminatedSampleLeads(
   });
 }
 
+/**
+ * Discovery Hall's missions that the case file does not name.
+ *
+ * The case is four leads. The district is seven missions — `start here`
+ * plus `safety` in `tools/lessons-index.py` — and the board rendered the
+ * four, so the district header honestly counted "0 of 7 complete" beside a
+ * board on which three of them could not be opened at all. Nothing locked
+ * them; they were simply not drawn, which is the worse failure because it
+ * has no explanation to read.
+ *
+ * These are not leads and are deliberately not promoted into the case:
+ * the case's evidence bar is three core leads and stays three. They are
+ * the rest of the district, listed so the learner can reach them.
+ */
+export function missionsBeyondTheCase(missions: MissionSummary[]): MissionSummary[] {
+  const named = new Set(LEADS.map((lead) => lead.id as string));
+  return missions.filter((mission) => !named.has(missionId(mission.file)));
+}
+
 export function contaminatedSampleProgress(leads: CaseLead[]): { done: number; total: number; complete: boolean } {
   const core = leads.filter((lead) => !lead.optional);
   const done = core.filter((lead) => lead.done).length;

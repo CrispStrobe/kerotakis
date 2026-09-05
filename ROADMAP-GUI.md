@@ -1383,6 +1383,19 @@ hide them completely.
   and a replayed mission both compute the same single award. The debrief names
   the route the learner took and the award the case earned, on the one run
   that earned it.*
+  *Whole-district follow-up 2026-09-05: the board drew its four named leads
+  while Discovery Hall ships seven missions, so the district header counted
+  "0 of 7 complete" beside a board on which three of them could not be
+  opened at all. Nothing had locked them — they were simply not rendered,
+  which is worse than a lock, because a lock at least states its
+  requirement. The board now lists the rest of the district beneath the
+  case, openable in any order, without promoting them into the case, whose
+  evidence bar stays three core leads. An active mission can also be
+  abandoned, from the field journal or from the campus map, behind one
+  in-place confirmation: it ends without being recorded, the bench keeps
+  everything, and the map stays open, because abandoning a mission is how a
+  learner gets to choose another one. Both surfaces ship in English and
+  German.*
 
 ### Phase G3 — Desktop
 

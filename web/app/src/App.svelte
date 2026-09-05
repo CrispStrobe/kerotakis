@@ -1449,6 +1449,13 @@
       }
     }}
     onstart={(file) => void startLesson(file)}
+    onabandon={() => {
+      // Ending it leaves the map open: abandoning a mission is how a
+      // learner gets to choose another one, so it must not close the
+      // place they choose from.
+      session.exitLesson();
+      missionJournalOpen = false;
+    }}
     onsandbox={() => {
       missionOpen = false;
       enterLab("sandbox");

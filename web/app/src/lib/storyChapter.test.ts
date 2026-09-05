@@ -6,6 +6,7 @@ import {
   contaminatedSampleComplete,
   contaminatedSampleLeads,
   contaminatedSampleProgress,
+  missionsBeyondTheCase,
 } from "./storyChapter";
 
 const missions = [
@@ -65,5 +66,32 @@ describe("the case-level award (GUI-080)", () => {
   it("names the award for the debrief and the instrument wall", () => {
     expect(caseAwardDetail(CONTAMINATED_SAMPLE_AWARD)?.title).toBe("UV/Vis spectrophotometer");
     expect(caseAwardDetail("nothing-earned-this")).toBeNull();
+  });
+});
+
+describe("the district is larger than the case", () => {
+  const hall = [
+    ...missions.slice(0, 4),
+    { file: "pepper-and-soap.lab", name: "pepper and soap", topic: "start here" },
+    { file: "oil-water-colour.lab", name: "oil water colour", topic: "start here" },
+    { file: "magic-milk.lab", name: "magic milk", topic: "start here" },
+  ];
+
+  it("names the missions the case file leaves out, so the board can draw them", () => {
+    expect(missionsBeyondTheCase(hall).map((mission) => mission.file)).toEqual([
+      "pepper-and-soap.lab",
+      "oil-water-colour.lab",
+      "magic-milk.lab",
+    ]);
+  });
+
+  it("does not promote them into the case, whose bar stays three core leads", () => {
+    const progress = contaminatedSampleProgress(contaminatedSampleLeads(hall, new Set()));
+    expect(progress.total).toBe(3);
+    expect(missionsBeyondTheCase(hall).some((mission) => mission.file === "never-mix.lab")).toBe(false);
+  });
+
+  it("returns nothing when the district holds only the case", () => {
+    expect(missionsBeyondTheCase(missions.slice(0, 4))).toEqual([]);
   });
 });
