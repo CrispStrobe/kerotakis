@@ -401,12 +401,17 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
 /// Whether the corrosion route has a verdict for this metal in this
 /// vessel.
 ///
-/// Two honesty passes ask before apologising for the metal — `solve`'s,
-/// which speaks for solids in contact with liquid, and
-/// `displacement::bystanders`, which speaks for metals the series has
-/// nothing to displace. Once this route has answered, both apologies are
-/// simply false, and two contradictory sentences about one nail are worse
-/// than either.
+/// `displacement::bystanders` asks before writing its "reaction with
+/// water itself is a rate this lab does not model" apology, because that
+/// sentence is now false on its own terms: `kinetics::iron-corrosion`
+/// models exactly that reaction and runs on the slow clock whatever
+/// solver stack is assembled.
+///
+/// `solve`'s honesty pass deliberately does NOT ask. Its apology is about
+/// a solid in contact with liquid that no wired solver claims, and
+/// whether one is wired is a property of the stack: a stack without
+/// `CorrosionEquilibrator` would lose the apology and gain no verdict,
+/// which is the silent filter this bench exists not to be.
 pub fn speaks_for(vessel: &Vessel, metal: &str) -> bool {
     verdicts(vessel).iter().any(|v| v.metal == metal)
 }
