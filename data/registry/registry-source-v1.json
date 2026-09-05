@@ -61354,6 +61354,51 @@
       }
     },
     {
+      "id": "school/sodium-polyacrylate-instant-snow",
+      "version": 1,
+      "canonical_key": "instant_snow_powder",
+      "name": "superabsorbent instant-snow powder",
+      "aliases": {"de": ["Instant-Schnee-Pulver", "Superabsorber"], "en": ["superabsorbent_polymer", "instant snow"]},
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [],
+      "unresolved_fraction": {"lower": 1.0, "upper": 1.0},
+      "physical_form": {"kind": "powder"},
+      "roles": [],
+      "preparation": "dry cross-linked sodium-polyacrylate teaching powder",
+      "lot_assumptions": [
+        "the commercial formulation remains conserved and unresolved; cross-link density, additives and particle-size distribution are not guessed",
+        "the runtime reports equilibrium retained water with a conservative editorial capacity of 100 g/g; it does not predict swelling time, volume, texture, salinity or pH response"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {"kind": "fixed"},
+      "evidence": {"source_id": "kerotakis/material-recipes-v1", "method": {"kind": "editorial", "detail": "bounded sodium-polyacrylate classroom surrogate; mechanism supported by DOI 10.1039/C9SM00464E"}}
+    },
+    {
+      "id": "school/luminol-glow-solution",
+      "version": 1,
+      "canonical_key": "luminol_glow_solution",
+      "name": "prepared luminol glow solution",
+      "aliases": {"de": ["Luminol-Leuchtlösung"], "en": ["luminol_solution", "luminol"]},
+      "basis": "mass_fraction",
+      "bulk_density": {"value": 1.0, "unit": {"symbol": "g/mL", "dimension": "mass_density"}, "conditions": {"temperature": null, "pressure": null, "ph": null, "ionic_strength": null, "medium": null, "phase": null, "notes": null}, "uncertainty": {"kind": "not_reported"}, "source_id": "kerotakis/material-recipes-v1", "method": {"kind": "editorial", "detail": "aqueous teaching-solution geometry only"}},
+      "components": [],
+      "unresolved_fraction": {"lower": 1.0, "upper": 1.0},
+      "physical_form": {"kind": "homogeneous_liquid"},
+      "roles": [],
+      "preparation": "a prepared alkaline luminol solution containing a suitable catalyst, activated separately with 3% hydrogen peroxide",
+      "lot_assumptions": [
+        "luminol, alkali and catalyst remain a conserved unresolved formulation; the model does not invent concentrations, products or photon yield",
+        "the Arrhenius-shaped intensity and half-life are a bounded comparison calibrated at 20 C, not a fit to a commercial product",
+        "commercial glow sticks normally use peroxyoxalate chemistry, not this luminol demonstration"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {"kind": "fixed"},
+      "evidence": {"source_id": "kerotakis/material-recipes-v1", "method": {"kind": "editorial", "detail": "bounded luminol/peroxide teaching system; kinetic mechanism context DOI 10.1002/bit.260411115"}}
+    },
+    {
       "id": "household/red-cabbage-juice-surrogate",
       "version": 1,
       "canonical_key": "red_cabbage_juice",

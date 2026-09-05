@@ -1,0 +1,22 @@
+# Luminol light: warm is brighter, cold lasts longer
+# Two matched prepared systems differ only in temperature. This is a luminol
+# classroom demonstration, not commercial glow-stick chemistry.
+register lv2
+
+add v1 luminol_glow_solution 20g
+add v1 hydrogen_peroxide_3_percent 5g
+cool v1 2kJ
+
+new beaker
+add v2 luminol_glow_solution 20g
+add v2 hydrogen_peroxide_3_percent 5g
+heat v2 2kJ
+
+look v1
+look v2
+wait 30s
+look v1
+look v2
+
+# Relative intensity and half-life are an explicitly calibrated,
+# Arrhenius-shaped comparison. Products and photon yield are not computed.

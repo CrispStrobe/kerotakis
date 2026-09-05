@@ -484,6 +484,32 @@ impl Bench {
                 })
             })
             .collect::<Vec<_>>();
+        let swelling_before = op_touches(&op)
+            .into_iter()
+            .filter_map(|id| {
+                self.vessel(id).ok().map(|v| {
+                    (
+                        id,
+                        crate::swelling::observe(v)
+                            .map(|seen| seen.retained_water_g)
+                            .unwrap_or(0.0),
+                    )
+                })
+            })
+            .collect::<Vec<_>>();
+        let glow_before = op_touches(&op)
+            .into_iter()
+            .filter_map(|id| {
+                self.vessel(id).ok().map(|v| {
+                    (
+                        id,
+                        crate::chemiluminescence::observe(v)
+                            .map(|seen| seen.relative_intensity)
+                            .unwrap_or(0.0),
+                    )
+                })
+            })
+            .collect::<Vec<_>>();
         let mut events = self.apply(&op, screen)?;
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
@@ -580,6 +606,47 @@ impl Bench {
                     acid_species: SpeciesId::new(&after.acid_species),
                     acid_moles: Moles(after.acid_moles),
                 });
+            }
+        }
+
+        for id in touched.iter().copied() {
+            let before = swelling_before
+                .iter()
+                .find(|(candidate, _)| *candidate == id)
+                .map(|(_, value)| *value)
+                .unwrap_or(0.0);
+            if let Some(after) = self.vessel(id).ok().and_then(crate::swelling::observe) {
+                if !matches!(op, Operator::Wait { .. }) && after.retained_water_g > before + 1e-9 {
+                    events.push(Event::PolymerSwelled {
+                        vessel: id,
+                        dry_polymer_g: after.dry_polymer_g,
+                        retained_water_g: after.retained_water_g,
+                        swelling_ratio_g_per_g: after.swelling_ratio_g_per_g,
+                        capacity_g_per_g: after.capacity_g_per_g,
+                        saturated: after.saturated,
+                    });
+                }
+            }
+            let before = glow_before
+                .iter()
+                .find(|(candidate, _)| *candidate == id)
+                .map(|(_, value)| *value)
+                .unwrap_or(0.0);
+            if let Some(after) = self
+                .vessel(id)
+                .ok()
+                .and_then(crate::chemiluminescence::observe)
+            {
+                if (after.relative_intensity - before).abs() > 1e-9 {
+                    events.push(Event::ChemiluminescenceObserved {
+                        vessel: id,
+                        relative_intensity: after.relative_intensity,
+                        half_life_s: after.half_life_s,
+                        elapsed_s: after.elapsed_s,
+                        temperature: Kelvin(after.temperature_k),
+                        oxidant_moles: Moles(after.oxidant_moles),
+                    });
+                }
             }
         }
 
