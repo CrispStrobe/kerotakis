@@ -65,6 +65,16 @@ class KidsCatalogTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "same K01 through K60"):
             MODULE.add_translation(self.document, broken)
 
+    def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        self.assertEqual(rows["K33"]["status"], "computed")
+        self.assertEqual(rows["K33"]["lesson"], "water-filter.lab")
+        self.assertEqual(rows["K33"]["quest"], "water-filter")
+        self.assertEqual(rows["K33"]["capabilities"], ["aq-071"])
+        self.assertEqual(rows["K33"]["codex"], ["filtering-a-precipitate"])
+        self.assertEqual(rows["K59"]["status"], "computed")
+        self.assertIn("absolute photon yield", rows["K59"]["boundary"])
+
 
 if __name__ == "__main__":
     unittest.main()

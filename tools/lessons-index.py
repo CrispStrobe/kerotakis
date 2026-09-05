@@ -33,7 +33,7 @@ TOPICS = {
     "gases & pressure": ["sealed-gas"],
     "rates": ["elephant-toothpaste", "yeast-fermentation", "rates",
               "luminol-temperature"],
-    "separations": ["spirit-still", "transport-column"],
+    "separations": ["water-filter", "spirit-still", "transport-column"],
     "safety": ["never-mix"],
 }
 

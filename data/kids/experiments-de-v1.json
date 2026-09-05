@@ -34,7 +34,7 @@
     {"id":"K30","title":"Flammenfarben","phenomenon":"Metallionen erzeugen verschiedene Flammenfarben","boundary":"Lithium gehört noch nicht zur derzeitigen Flammenreihe."},
     {"id":"K31","title":"Eisen aus Sand ziehen","phenomenon":"Ein Magnet trennt Eisen ab, während Quarz zurückbleibt"},
     {"id":"K32","title":"Welche Kunststoffe schwimmen?","phenomenon":"Die Rohdichte sagt voraus, welche ganzen Kunststoffstücke schwimmen"},
-    {"id":"K33","title":"Einen Wasserfilter bauen","phenomenon":"Filtration überträgt Flüssigkeit, doch die Sandtrübung wird nicht dargestellt","boundary":"Sand erzeugt derzeit keine sichtbare Trübung; deshalb ist der Vorher-Nachher-Vergleich unvollständig."},
+    {"id":"K33","title":"Einen Wasserfilter bauen","phenomenon":"Eine quarzreiche Sandsuspension trübt Wasser; die Filtration hält den Feststoff zurück und überträgt klares Wasser","boundary":"Der geprüfte Spielsand-Ersatz stellt schwebenden Quarz und einen erhaltenen variablen Anteil dar; natürliche Korngrößen, Mikroben, gelöste Schadstoffe und Trinkwassersicherheit werden nicht modelliert."},
     {"id":"K34","title":"Leerlaufspannung aus Zitronensaft","phenomenon":"Zinkoxidation und Wasserstoffreduktion liefern eine deterministische Spannung ohne Last","boundary":"Dies ist eine berechnete Leerlauf-Lehrschätzung mit ausdrücklich auf eins gesetzter Zinkionenaktivität, keine angetriebene Zitronenbatterie. Fruchtgeometrie, Elektrodenfläche und -abstand, Innenwiderstand, Laststrom, Leistung und Lebensdauer werden nicht modelliert."},
     {"id":"K35","title":"Leitfähiges Wasser mit Strom zerlegen","phenomenon":"Der Strom erzeugt Wasserstoff und Sauerstoff im Stoffmengenverhältnis zwei zu eins","boundary":"Reines Wasser bleibt ein Isolator; angenommen werden inerte Elektroden und ein vorgegebener Strom, ohne Überspannung, Wirkungsgrad oder Gasübertritt."},
     {"id":"K36","title":"Einen Eisennagel verkupfern","phenomenon":"Eisen verdrängt Kupfer aus Kupfersulfat"},
@@ -60,7 +60,7 @@
     {"id":"K56","title":"Schaummischung, die lange hält","phenomenon":"Ein Tensid hält jedes erzeugte Gas fest und der Schaum fällt mit der Zeit zusammen"},
     {"id":"K57","title":"Ein Turm aus Zuckerwasser","phenomenon":"Die Lösungsdichte wird berechnet, Schichtung durch langsames Gießen jedoch nicht","boundary":"Schichtung mischbarer Flüssigkeiten durch langsames Gießen wird nicht modelliert."},
     {"id":"K58","title":"Sofortschnee aus Pulver","phenomenon":"Ein vernetztes superabsorbierendes Netzwerk hält Wasser zurück, ohne es zu verbrauchen"},
-    {"id":"K59","title":"Luminol-Licht in warmem und kaltem Wasser","phenomenon":"Die Temperatur tauscht momentane Helligkeit gegen Leuchtdauer","boundary":"Ein begrenzter Luminol-Peroxid-Vergleich wird berechnet; er bildet weder den Peroxyoxalat-Mechanismus eines kommerziellen Leuchtstabs noch Produktspeziation oder Photonenausbeute ab."},
+    {"id":"K59","title":"Luminol-Licht in warmem und kaltem Wasser","phenomenon":"Die Temperatur tauscht momentane Helligkeit gegen Leuchtdauer","boundary":"Ein begrenzter Luminol-Peroxid-Vergleich einschließlich zeitabhängigem Verblassen und Peroxidverbrauch wird berechnet; er bildet weder den Peroxyoxalat-Mechanismus eines kommerziellen Leuchtstabs noch die Speziierung der Luminolprodukte oder eine absolute Photonenausbeute ab."},
     {"id":"K60","title":"Ein Indikator, fünf Gläser","phenomenon":"Phenolphthalein folgt fünf Punkten durch eine Neutralisation"}
   ]
 }

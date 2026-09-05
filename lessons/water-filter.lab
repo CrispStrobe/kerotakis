@@ -1,0 +1,18 @@
+# Build a water filter: cloudy is not the same as dissolved
+#
+# This is a reviewed quartz-rich play-sand teaching suspension. Natural dirty
+# water can also contain clay, microbes, dissolved salts and pollutants; clear
+# filtrate is not automatically safe or pure, and this simulation makes no
+# drinking-water claim.
+register lv1
+
+add v1 water 100mL
+add v1 quartz_sand 5g
+look v1
+
+# Filter paper retains the solid grains while water enters the receiver.
+filter v1 v2
+look v2
+
+# The visible contrast and conserved quartz are computed. Paper pore size,
+# natural grain-size distributions and purification beyond solids are not.

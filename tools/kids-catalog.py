@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
 EXPECTED_STATUS_COUNTS = {
-    "computed": 49, "partial": 8, "boundary": 1, "declined": 2, "unreachable": 0,
+    "computed": 52, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
 }
 
 

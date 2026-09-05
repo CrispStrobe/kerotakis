@@ -5675,6 +5675,51 @@
       }
     ]
   },
+  "water-filter": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +5.000 g quartz_sand (1 known ingredients)",
+      "v1: 1.997e-5 mol silicon dioxide (quartz) dissolved",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v2: new vessel",
+      "v1 → v2: filtrate passed; residue retained",
+      "v2: The liquid is colourless and clear."
+    ],
+    "lesson": "water-filter.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.07903602,
+            "phase": "Solid",
+            "species": "SiO2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001997,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "whole-object-buoyancy": {
     "event_count": 21,
     "events_sample": [
