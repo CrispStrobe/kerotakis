@@ -622,10 +622,26 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::ObjectSpillBoundary { vessel, object_count } => format!("{vessel}: {object_count} coherent object(s) remain in the vessel; this spill model moves bulk phases only"),
-        Event::OsmosisChanged { vessel, material, water_moles, mass_change_g } => format!("{vessel}: {material} exchanged {water_moles:.6} mol water ({mass_change_g:+.3} g)"),
-        Event::BrowningChanged { vessel, material, browned_fraction } => format!("{vessel}: {material} surface is {:.0}% browned", browned_fraction * 100.0),
-        Event::SoapScumFormed { vessel, aggregate_mass_g, divalent_ion_moles } => format!("{vessel}: {aggregate_mass_g:.3} g soap-scum aggregate formed from {divalent_ion_moles:.6} mol Ca/Mg"),
+        Event::ObjectSpillBoundary { vessel, object_count } => locale.fill(
+            "event.object-spill-boundary.lv1",
+            "{vessel}: {count} coherent object(s) remain in the vessel; this spill model moves bulk phases only",
+            &[("vessel", &vessel.to_string()), ("count", &object_count.to_string())],
+        ),
+        Event::OsmosisChanged { vessel, material, water_moles, mass_change_g } => locale.fill(
+            "event.osmosis-changed.lv1",
+            "{vessel}: {material} exchanged {water} mol water ({mass} g)",
+            &[("vessel", &vessel.to_string()), ("material", material), ("water", &locale.number(format!("{water_moles:.6}"))), ("mass", &locale.number(format!("{mass_change_g:+.3}")))],
+        ),
+        Event::BrowningChanged { vessel, material, browned_fraction } => locale.fill(
+            "event.browning-changed.lv1",
+            "{vessel}: {material} surface is {percent}% browned",
+            &[("vessel", &vessel.to_string()), ("material", material), ("percent", &locale.number(format!("{:.0}", browned_fraction * 100.0)))],
+        ),
+        Event::SoapScumFormed { vessel, aggregate_mass_g, divalent_ion_moles } => locale.fill(
+            "event.soap-scum-formed.lv1",
+            "{vessel}: {mass} g soap-scum aggregate formed from {moles} mol Ca/Mg",
+            &[("vessel", &vessel.to_string()), ("mass", &locale.number(format!("{aggregate_mass_g:.3}"))), ("moles", &locale.number(format!("{divalent_ion_moles:.6}")))],
+        ),
         Event::GasProduced {
             vessel,
             species,
