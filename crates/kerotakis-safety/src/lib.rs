@@ -477,7 +477,19 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // claimed here rather than one that means something else, and
         // this comment says that the absence is a gap in the matrix and
         // not a finding that a block of dry ice is safe to hold.
-        | "dry_ice" => &[],
+        | "dry_ice"
+        // Liquid nitrogen is nitrogen, and nitrogen is the gas this
+        // matrix already files with no reactive group: it is what a
+        // vessel is PURGED with, the thing that does nothing. Its
+        // hazards are the same two dry ice's are and this matrix has a
+        // row for neither - a contact burn at -196 °C, and displacing
+        // the air in a room as it boils, at roughly seven hundred litres
+        // of gas per litre of liquid. There is no cryogen group and no
+        // asphyxiant group, so none is claimed rather than one that
+        // means something else, and this comment says that the absence
+        // is a gap in the matrix and not a finding that a dewar is safe
+        // to pour over your hand.
+        | "liquid_nitrogen" => &[],
 
         _ => &[],
     }
@@ -620,6 +632,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "dodecane",
     "diamond",
     "dry_ice",
+    "liquid_nitrogen",
     "ethanol",
     "ethene",
     "ethyl_acetate",

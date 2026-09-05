@@ -3922,5 +3922,30 @@
     "provenance": "Activated charcoal, and a SEPARATE row from `C` (carbon (charcoal)) on purpose rather than the same substance under another name. What makes an activated carbon adsorb is its pore structure and its specific surface area - typically several hundred to over a thousand square metres per gram - and NEITHER IS A PROPERTY THIS REGISTRY CARRIES. The two rows differ in what the engine will do with them: the curated Langmuir isotherm in crates/kerotakis-core/src/adsorption.rs names this key and not `C`, and that difference is the entire content of the distinction. Molar mass from IUPAC/CIAAW 2021 atomic weights over one carbon atom; the composition is written as C because that is what the material is made of, and it is not a claim that the solid is a molecule. No InChIKey is asserted for the same reason. The density, 2.1 g/mL, is the SKELETAL density of the carbon itself and is PENDING REVIEW: it is recorded as commonly tabulated, no positively identified source is claimed, and it is emphatically NOT the poured bulk density of a granular carbon, which is several times lower because most of the volume is pore and void - so a volume or buoyancy answer computed from this row describes the carbon skeleton and not a spoonful of powder. The molar heat capacity is graphite's and is a teaching approximation. A reviewed aqueous solubility of zero is entered so the bench can say the carbon does not dissolve instead of apologising for not knowing, and unlike a solid that is being consumed, that sentence stays true for the whole of a run: adsorption holds a dye on the carbon and does not eat the carbon.",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "colourless",
+    "colour": null,
+    "density": 0.807,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "N2",
+    "heat_capacity": 57.2,
+    "inchikey": "",
+    "key": "liquid_nitrogen",
+    "magnetic": false,
+    "molar_mass": 28.014,
+    "name": "liquid nitrogen",
+    "provenance": "liquid nitrogen, entered as its own key for the same reason dry ice is: `add` deposits a species in its standard phase, so a beaker asking for the cold liquid cannot be given the N2 gas the registry already carries. The two rows are one substance in two states - the molar mass is N2's to the digit so a boil-off conserves mass exactly. NO INCHIKEY IS ASSERTED: the identifier would be nitrogen's, and two identities may not claim one canonical key. Molar mass from IUPAC/CIAAW 2021 atomic weights. Cp(l) 57.2 J/(mol.K) and density 0.807 g/mL at the 77.36 K boiling point are as commonly tabulated, PENDING REVIEW: no positively identified page was opened for either. The heat capacity is read only when nitrogen is still in the flask afterwards - the cryogen route removes the cryogen's own heat capacity from the budget before spending it, because a liquid found above its boiling point never had that sensible heat - so the cooling this row exists for is set by the enthalpy of vaporisation and by what is being cooled",
+    "spectrum_bands": null,
+    "standard_phase": "liquid",
+    "transitions": {
+      "boiling_k": 77.36,
+      "boundary": "the two transitions of nitrogen itself at one atmosphere. The melting point is recorded as data and nothing on this bench uses it: no route freezes nitrogen, because a beaker that cold would need a colder cryogen than the coldest one here. What the boiling point IS used for is the cryogen route, and that route models a boil-off rather than a vapour pressure - the nitrogen either sits at 77.36 K or it leaves, and there is nothing in between",
+      "melting_k": 63.15,
+      "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+    }
   }
 ]
