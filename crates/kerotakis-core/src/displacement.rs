@@ -978,6 +978,14 @@ pub struct SolventElectrolysis {
     /// the chloralkali process: brine in, hydrogen and chlorine off, and
     /// caustic soda left in the cell.
     pub hydroxide_made: f64,
+    /// Net water consumed by the represented half-reactions. For an
+    /// undivided sulfate cell this is 0.5 mol H2O per mol electron; for
+    /// chloralkali it is one, with hydroxide retained in solution.
+    pub water_spent: f64,
+    /// Protons left by oxygen evolution when the cathode plates metal instead
+    /// of reducing water. In a water-splitting cell cathodic hydroxide cancels
+    /// these; in copper sulfate they remain and acidify the electrolyte.
+    pub protons_made: f64,
 }
 
 /// The current does something to the solution even with no metal cell.
@@ -1062,6 +1070,22 @@ pub fn electrolyse_solvent(
         (SpeciesId::new("O2"), electrons / 4.0, 0.0)
     };
 
+    let water_spent = if anode.0 == "O2" {
+        electrons / 2.0
+    } else if !cathode_plates {
+        electrons
+    } else {
+        0.0
+    };
+    let protons_made = if anode.0 == "O2" && cathode_plates {
+        electrons
+    } else {
+        0.0
+    };
+    // In an undivided oxygen-producing cell the H+ and OH- half-reaction
+    // products neutralise: only the net gases and water consumption remain.
+    let hydroxide_made = if anode.0 == "O2" { 0.0 } else { hydroxide_made };
+
     Some(SolventElectrolysis {
         coulombs,
         electrons,
@@ -1073,6 +1097,58 @@ pub fn electrolyse_solvent(
         anode_moles,
         chloride_spent,
         hydroxide_made,
+        water_spent,
+        protons_made,
+    })
+}
+
+/// A bounded open-circuit estimate for the familiar zinc/copper lemon cell.
+///
+/// Copper is only the conducting surface for H+/H2 here; it is not a Cu/Cu2+
+/// half-cell. With no measured zinc-ion activity the voltage is not uniquely
+/// decidable, so this reports the conventional unit-activity Zn2+ estimate and
+/// carries that assumption into the event instead of presenting it as a fully
+/// specified Nernst calculation. No current, power, lifetime or fruit internal
+/// resistance is claimed.
+#[derive(Debug, Clone, PartialEq)]
+pub struct AcidMetalCell {
+    pub anode_is_first: bool,
+    pub volts: f64,
+    pub ph: f64,
+}
+
+pub fn acid_zinc_copper_cell(a: &Vessel, b: &Vessel) -> Option<AcidMetalCell> {
+    // This fallback is for an explicitly acidic fruit/electrolyte cell, not
+    // every solution whose numerical pH happens to sit microscopically below
+    // neutral after equilibration. Keeping the bound at pH 4 also prevents a
+    // copper-in-brine vessel from overriding the ordinary half-cell refusal.
+    const MAX_ACID_CELL_PH: f64 = 4.0;
+    let zinc_a = moles_in(a, "Zn", Phase::Solid) > crate::OBSERVABLE_MOLES;
+    let zinc_b = moles_in(b, "Zn", Phase::Solid) > crate::OBSERVABLE_MOLES;
+    let copper_a = moles_in(a, "Cu", Phase::Solid) > crate::OBSERVABLE_MOLES;
+    let copper_b = moles_in(b, "Cu", Phase::Solid) > crate::OBSERVABLE_MOLES;
+    let anode_is_first = match (zinc_a && copper_b, zinc_b && copper_a) {
+        (true, false) => true,
+        (false, true) => false,
+        _ => return None,
+    };
+    let (anode, cathode) = if anode_is_first { (a, b) } else { (b, a) };
+    if anode.solution.as_ref()?.ph > MAX_ACID_CELL_PH {
+        return None;
+    }
+    let ph = cathode.solution.as_ref()?.ph;
+    if !ph.is_finite() || ph > MAX_ACID_CELL_PH {
+        return None;
+    }
+    let hydrogen_volts = -nernst_slope(cathode.temperature) * ph;
+    let zinc_standard = SERIES
+        .iter()
+        .find(|couple| couple.reduced == "Zn")?
+        .e0_volts;
+    Some(AcidMetalCell {
+        anode_is_first,
+        volts: hydrogen_volts - zinc_standard,
+        ph,
     })
 }
 

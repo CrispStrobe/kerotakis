@@ -967,6 +967,14 @@ pub enum Event {
         /// The reaction that would run if the circuit were closed.
         equation: String,
     },
+    /// A zinc/acid/copper teaching cell whose voltage is explicitly a bounded
+    /// unit-activity estimate, not a fully specified two-ion half-cell.
+    AcidMetalCellVoltage {
+        anode: VesselId,
+        cathode: VesselId,
+        volts: f64,
+        ph: f64,
+    },
     /// Two vessels were wired and no cell exists between them, with the
     /// reason. A computed answer about the beakers, not a gap in the lab.
     NoCell {

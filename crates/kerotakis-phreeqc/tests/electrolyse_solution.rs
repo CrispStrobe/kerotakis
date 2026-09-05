@@ -156,6 +156,17 @@ fn copper_sulfate_plates_copper_and_gives_oxygen() {
     // not oxidised at these potentials and water goes instead, which is
     // the difference between this cell and the brine one.
     assert_eq!(gas(&events, "Cl2"), 0.0, "no chloride, no chlorine");
+    let ph = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .as_ref()
+        .expect("solution")
+        .ph;
+    assert!(
+        ph < 2.0,
+        "oxygen evolution leaves anode protons in the copper sulfate cell: pH {ph:.2}"
+    );
 }
 
 /// Pure water is not electrolysed, because pure water does not conduct.
@@ -178,4 +189,25 @@ fn pure_water_is_an_insulator_and_says_so() {
     );
     assert_eq!(gas(&events, "H2"), 0.0, "nothing comes off pure water");
     assert_eq!(gas(&events, "O2"), 0.0, "nothing comes off pure water");
+}
+
+/// An inert sulfate electrolyte lets the school cell split water without
+/// introducing a competing electrode product.
+#[test]
+fn sodium_sulfate_water_gives_two_hydrogen_per_oxygen_and_spends_water() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 5.5343);
+    add(&mut bench, &mut stack, v, "Na2SO4", 0.01);
+    let before = bench.vessel(v).unwrap().mass().0;
+    let events = run_cell(&mut bench, &mut stack, v);
+    let h2 = gas(&events, "H2");
+    let o2 = gas(&events, "O2");
+    assert!((h2 / o2 - 2.0).abs() < 1e-9, "H2={h2}, O2={o2}");
+    assert_eq!(gas(&events, "Cl2"), 0.0, "sulfate is not chloride");
+    assert!(
+        bench.vessel(v).unwrap().mass().0 < before,
+        "open-cell gases carry mass away"
+    );
 }

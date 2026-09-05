@@ -2690,6 +2690,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("notation", &notation.to_string()), ("volts", &locale.number(format!("{volts:.4}"))), ("standard_volts", &locale.number(format!("{standard_volts:.4}"))), ("anode", &anode.to_string()), ("cathode", &cathode.to_string()), ("equation", &equation.to_string())],
             ),
         },
+        Event::AcidMetalCellVoltage { anode, cathode, volts, ph } => match register.level() {
+            1 => locale.fill(
+                "event.acid-metal-cell-voltage.lv1",
+                "The zinc and copper in acid offer about {volts} V — electrons would flow from zinc at {anode} to the copper surface at {cathode}. This is a voltmeter estimate, not a promise about how much current a lemon can deliver.",
+                &[("volts", &locale.number(format!("{volts:.2}"))), ("anode", &anode.to_string()), ("cathode", &cathode.to_string())],
+            ),
+            _ => locale.fill(
+                "event.acid-metal-cell-voltage.lv2",
+                "Zn | Zn²⁺(unit-activity estimate) ‖ H⁺(pH {ph}) | H₂ on Cu: E ≈ {volts} V open-circuit; zinc is the anode at {anode}, copper is the inert hydrogen-evolution surface at {cathode}. The zinc-ion activity was not measured, so this is a bounded teaching estimate; internal resistance, current, power and lifetime are not modeled",
+                &[("volts", &locale.number(format!("{volts:.3}"))), ("ph", &locale.number(format!("{ph:.2}"))), ("anode", &anode.to_string()), ("cathode", &cathode.to_string())],
+            ),
+        },
         Event::NoCell { a, b, why } => match register.level() {
             // KID-21: say what a half-cell is, since that is the thing the
             // learner is missing. A beaker of acid with a metal in it is not

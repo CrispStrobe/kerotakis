@@ -2802,6 +2802,9 @@ impl Bench {
                     ) {
                         Some(run) => {
                             let v = self.vessel_mut(*vessel)?;
+                            if run.water_spent > crate::OBSERVABLE_MOLES {
+                                v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
+                            }
                             // Cathode.
                             if run.cathode_moles > crate::OBSERVABLE_MOLES {
                                 if run.cathode_plates {
@@ -2849,6 +2852,13 @@ impl Bench {
                                 v.deposit(
                                     SpeciesId::new("OH-"),
                                     Moles(run.hydroxide_made),
+                                    Phase::Aqueous,
+                                );
+                            }
+                            if run.protons_made > crate::OBSERVABLE_MOLES {
+                                v.deposit(
+                                    SpeciesId::new("H+"),
+                                    Moles(run.protons_made),
                                     Phase::Aqueous,
                                 );
                             }
@@ -2905,7 +2915,23 @@ impl Bench {
                             equation: cell.equation(),
                         });
                     }
-                    Err(why) => events.push(Event::NoCell { a: *a, b: *b, why }),
+                    Err(why) => {
+                        if let Some(cell) = crate::displacement::acid_zinc_copper_cell(va, vb) {
+                            let (anode, cathode) = if cell.anode_is_first {
+                                (*a, *b)
+                            } else {
+                                (*b, *a)
+                            };
+                            events.push(Event::AcidMetalCellVoltage {
+                                anode,
+                                cathode,
+                                volts: cell.volts,
+                                ph: cell.ph,
+                            });
+                        } else {
+                            events.push(Event::NoCell { a: *a, b: *b, why });
+                        }
+                    }
                 }
             }
             Operator::Grind {

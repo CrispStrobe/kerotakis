@@ -3,6 +3,10 @@
  "@@name": "",
  "@@note": "Copy to <code>.json, set @@locale, translate the VALUES only. Keys are English source text and must not change.",
  "terms": {
+  "A lemon cell: voltage is not the same thing as useful power": "",
+  "Splitting conductive water: two gases, in a two-to-one ratio": "",
+  "lemon cell": "",
+  "water electrolysis": "",
   "A salt pulse through a water column": "",
   "Antimony": "",
   "Arsenic": "",

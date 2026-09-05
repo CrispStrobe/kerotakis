@@ -3,6 +3,10 @@
  "@@name": "Deutsch",
  "@@note": "The shell's German. One file per language: adding French means adding fr.json beside this one and translating the values — no code change, and no other translation touched. Keys are the English source text, which is what t() is called with. `terms` are the engine's vocabulary (species, colours, hazards) and are substituted inside longer sentences; `messages` are the interface's own strings, plus the concept and experiment names the codex refers to by slug.",
  "terms": {
+  "A lemon cell: voltage is not the same thing as useful power": "Eine Zitronenzelle: Spannung ist nicht dasselbe wie nutzbare Leistung",
+  "Splitting conductive water: two gases, in a two-to-one ratio": "Leitfähiges Wasser zerlegen: zwei Gase im Verhältnis zwei zu eins",
+  "lemon cell": "Zitronenzelle",
+  "water electrolysis": "Wasserelektrolyse",
   "water": "Wasser",
   "rusting": "Rosten",
   "rock candy": "Kandiszucker",

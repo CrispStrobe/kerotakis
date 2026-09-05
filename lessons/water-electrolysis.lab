@@ -1,0 +1,18 @@
+# Splitting conductive water: two gases, in a two-to-one ratio
+#
+# Pure water conducts too poorly for this apparatus and is still refused. A
+# little sodium sulfate carries current without being preferentially discharged:
+# water becomes hydrogen at the cathode and oxygen at the anode.
+register lv2
+add v1 water 200mL
+add v1 Na2SO4 1g
+# Keep the cell open: collecting hydrogen and oxygen together would make an
+# ignitable mixture, and gas collection is not needed to compare their amounts.
+electrolyse v1 0.5A 30min
+look v1
+inspect v1
+
+# Faraday's law owns the amounts: two electrons per H2 and four per O2, hence
+# twice as much hydrogen. This is an undivided teaching cell with inert
+# electrodes. It does not model electrode overpotential, gas crossover, a
+# membrane, ignition, efficiency or the voltage needed to drive the current.

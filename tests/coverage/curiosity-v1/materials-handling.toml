@@ -659,10 +659,10 @@ question="Why does a lemon battery produce a voltage?"
 age_band="age9_to12"
 action="materials"
 material_class="batteries"
-expected="qualitative"
+expected="computed"
 owning_task="EXP-17"
 tags=["EXP-17"]
-script=["add v1 water 100mL", "add v1 CH3COOH 0.05mol", "add v1 Zn 1g", "new", "add v2 water 100mL", "add v2 CH3COOH 0.05mol", "add v2 Cu 1g", "cell v1 v2"]
+script=["add v1 lemon_juice 50mL", "add v1 Zn 1g", "new", "add v2 lemon_juice 50mL", "add v2 Cu 1g", "cell v1 v2"]
 smoke=true
 
 [[prompt]]
@@ -1299,9 +1299,11 @@ question="Can electrolysis remove rust without dissolving the iron object?"
 age_band="age16_to18"
 action="separate"
 material_class="corrosion"
+expected="boundary"
 owning_task="BRD-023"
 tags=["BRD-023", "EXP-15"]
-script=["add v1 water 100mL", "add v1 NaHCO3 0.01mol", "add v1 Fe 2g", "electrolyse v1 0.5A 30min"]
+script=[]
+boundary="unsupported-rust-electrolysis-object"
 smoke=true
 
 [[prompt]]
