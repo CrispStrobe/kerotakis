@@ -446,6 +446,7 @@
   "hydrogen sulfide": "Schwefelwasserstoff",
   "chlorophyll a": "Chlorophyll a",
   "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)",
+  "lactic acid": "Milchsäure",
   "naked egg osmosis": "Osmose beim nackten Ei",
   "hard water soap scum": "Seifenkalk in hartem Wasser",
   "apple browning": "Bräunung eines Apfels",
@@ -2076,6 +2077,9 @@
   "freshly cut apple": "frisch geschnittener Apfel",
   "naked egg membrane surrogate": "Membranmodell eines nackten Eis",
   "sodium fatty-soap teaching equivalent": "Natrium-Fettsäureseifen-Lehräquivalent",
-  "pineapple (fresh fruit)": "Ananas (frische Frucht)"
+  "pineapple (fresh fruit)": "Ananas (frische Frucht)",
+  "yoghurt starter culture": "Joghurt-Starterkultur",
+  "acetic-acid bacteria culture": "Essigsäurebakterien-Kultur",
+  "sourdough starter": "Sauerteig-Anstellgut"
  }
 }

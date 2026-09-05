@@ -233,6 +233,11 @@ pub enum MaterialRole {
         optimum_temperature_k: f64,
         temperature_width_k: f64,
         requires_hydration: bool,
+        /// Which balanced aggregate reaction this culture runs. Defaulted
+        /// to the alcoholic route so the yeast recipes that predate the
+        /// other three read unchanged.
+        #[serde(default)]
+        metabolism: CultureMetabolism,
     },
     /// A named food that BRINGS its own enzyme rather than having one
     /// weighed into the beaker beside it.
@@ -260,6 +265,31 @@ pub enum MaterialRole {
         /// it back, which is the difference between fresh and cooked.
         denatures_above_k: f64,
     },
+}
+
+/// The balanced aggregate reaction a declared culture runs.
+///
+/// Each is one reviewed equation on a disaccharide, or on ethanol, and
+/// each conserves mass exactly. What a culture IS — its species, its
+/// strain, what else it makes and whether the result is safe to eat —
+/// is deliberately outside this enum.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CultureMetabolism {
+    /// Baker's yeast: C12H22O11 + H2O -> 4 C2H5OH + 4 CO2.
+    #[default]
+    Alcoholic,
+    /// Homofermentative lactic bacteria, the yoghurt route:
+    /// C12H22O11 + H2O -> 4 C3H6O3. No gas, which is why a yoghurt pot
+    /// does not rise and a sourdough does.
+    Homolactic,
+    /// Heterofermentative lactic bacteria beside wild yeast, the sourdough
+    /// route: C12H22O11 + H2O -> 2 C3H6O3 + 2 C2H5OH + 2 CO2. Acid and
+    /// gas from the same sugar.
+    Heterolactic,
+    /// Acetic acid bacteria, the vinegar route: C2H5OH + O2 -> CH3COOH +
+    /// H2O. An oxidation, so it stops when the air does.
+    Acetic,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

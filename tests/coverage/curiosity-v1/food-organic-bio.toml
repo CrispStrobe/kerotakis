@@ -772,7 +772,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["lactic_acid", "yoghurt"]
 script = ["add v1 milk 100mL", "add v1 yoghurt_culture 1g", "wait 8h", "measure v1 ph"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -784,7 +783,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["temperature_rate", "yoghurt"]
 script = ["add v1 milk 100mL @ 5C", "add v1 yoghurt_culture 1g", "wait 8h", "measure v1 ph"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -796,7 +794,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["acetic_acid", "fermentation"]
 script = ["add v1 ethanol 0.1mol", "add v1 water 100mL", "add v1 acetobacter 1g", "add v1 O2 0.1mol", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -819,7 +816,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["carbon_dioxide", "sourdough"]
 script = ["add v1 sourdough_starter 50g", "add v1 flour 50g", "add v1 water 50mL", "wait 8h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

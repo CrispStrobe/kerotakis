@@ -1217,6 +1217,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/lactic_acid",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights. Density 1.209 g/mL at 20 C for the neat syrupy acid: CRC Handbook of Chemistry and Physics, 97th ed. Molar heat capacity 118.3 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement, and Kopp's rule is a solid-state additivity applied here to a liquid, which is a second approximation stated rather than hidden. NO INCHIKEY IS ASSERTED: writing one means choosing a stereochemistry, and fermentation lactic acid is a mixture of the L-(+) and D-(-) forms in proportions that depend on which organism made it, so this record claims neither. Aqueous solubility is not entered because the acid is miscible with water in all proportions and a finite g/100 mL would be a false ceiling. ACIDITY IS NOT MODELLED: none of the three databases this lab loads defines a lactate species - wateq4f, minteq.v4 and pitzer were searched by name, and the only vendored file that carries Lactate is llnl-organics, which is not among them - so this acid enters solution as a finite neutral solute and its carboxylic proton is absent from any computed pH. The engine says so out loud rather than reporting a silently neutral solution. Enthalpy of solution is not claimed",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/citric_acid",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; density 1.665 g/mL at 25 C (anhydrous) and aqueous solubility 59.2 g/100 mL water at 20 C: CRC Handbook of Chemistry and Physics, 97th ed. Solid molar heat capacity 219.8 J/(mol.K) is an explicit editorial estimate by Kopp's rule from the additive contributions C 10.89, H 7.56, O 13.42 J/(mol.K), not a measurement. ACIDITY IS MODELLED: minteq.v4 is the only shipped database that defines a Citrate master species, and it carries all three protonation constants, so a citric-acid solution computes its own pH from the database rather than being told one. The quoted solubility is provenance only: the speciated route and the finite neutral-solute route are mutually exclusive in this engine, so this dissolution is not amount-limited. Enthalpy of solution is not claimed",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -3601,6 +3610,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/malic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "lactic_acid",
+      "canonical_key": "legacy:species/lactic_acid",
+      "name": "lactic acid",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/lactic_acid",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -17846,6 +17869,125 @@
       },
       "evidence": {
         "source_id": "legacy/malic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/lactic_acid",
+      "species_id": "lactic_acid",
+      "formula": "C3H6O3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactic_acid",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactic_acid",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactic_acid",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/lactic_acid",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -36109,6 +36251,96 @@
       }
     },
     {
+      "id": "molar-mass/lactic_acid",
+      "species_id": "lactic_acid",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 90.078,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/lactic_acid",
+      "species_id": "lactic_acid",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 118.29,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/lactic_acid",
+      "species_id": "lactic_acid",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.209,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/citric_acid",
       "species_id": "citric_acid",
       "phase": "solid",
@@ -44204,6 +44436,22 @@
       }
     },
     {
+      "id": "optical/lactic_acid",
+      "species_id": "lactic_acid",
+      "phase": "liquid",
+      "appearance": "colourless, syrupy",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/citric_acid",
       "species_id": "citric_acid",
       "phase": "solid",
@@ -52126,6 +52374,39 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/lactic_acid",
+      "subject": {
+        "kind": "species",
+        "id": "lactic_acid"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/lactic_acid",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/citric_acid",
       "subject": {
         "kind": "species",
@@ -54687,7 +54968,8 @@
           "reference_rate_per_second_per_gram": 0.0002,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
-          "requires_hydration": true
+          "requires_hydration": true,
+          "metabolism": "alcoholic"
         }
       ],
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
@@ -54769,7 +55051,8 @@
           "reference_rate_per_second_per_gram": 0.0002,
           "optimum_temperature_k": 308.15,
           "temperature_width_k": 18.0,
-          "requires_hydration": false
+          "requires_hydration": false,
+          "metabolism": "alcoholic"
         }
       ],
       "preparation": "fresh compressed baker's-yeast surrogate; already hydrated and scaled to 30% solids",
@@ -65180,6 +65463,236 @@
         "luminol, alkali and catalyst remain a conserved unresolved formulation; the model does not invent concentrations, products or photon yield",
         "the Arrhenius-shaped intensity and half-life are a bounded comparison calibrated at 20 C, not a fit to a commercial product",
         "commercial glow sticks normally use peroxyoxalate chemistry, not this luminol demonstration"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/yoghurt-culture",
+      "version": 1,
+      "canonical_key": "yoghurt_culture",
+      "name": "yoghurt starter culture",
+      "aliases": {
+        "de": [
+          "Joghurtkulturen",
+          "Joghurt-Starterkultur"
+        ],
+        "en": [
+          "yogurt culture",
+          "yoghurt starter",
+          "live yoghurt"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.00001,
+          "optimum_temperature_k": 316.15,
+          "temperature_width_k": 15.0,
+          "requires_hydration": false,
+          "metabolism": "homolactic"
+        }
+      ],
+      "preparation": "a homofermentative lactic starter, conserved entirely as unresolved culture; what it DOES is the declared metabolism and nothing else",
+      "lot_assumptions": [
+        "the metabolism is the homolactic route, one balanced equation: lactose or sucrose plus water gives four lactic acids and NO gas. That is why a yoghurt pot does not rise and a sourdough does, and it is the whole of what this recipe claims",
+        "43 degC as the optimum is the incubation temperature yoghurt cultures are described as working at; the Gaussian around it is what makes a refrigerator roughly two orders of magnitude slower, which is the food-preservation fact rather than a measured rate",
+        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "NO SPECIES AND NO STRAIN IS NAMED. Real yoghurt is two organisms in symbiosis and which of them dominates decides whether the acid is the L-(+) or the D-(-) form; this recipe names neither and the acid it makes carries no stereochemistry",
+        "the acid is made and the yoghurt is not: coagulation of casein into a gel is what turns milk into yoghurt, and this bench has no protein gelation. Texture, thickness, flavour and aroma are all outside it",
+        "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/acetic-acid-bacteria",
+      "version": 1,
+      "canonical_key": "acetobacter",
+      "name": "acetic-acid bacteria culture",
+      "aliases": {
+        "de": [
+          "Essigsaeurebakterien",
+          "Essigmutter"
+        ],
+        "en": [
+          "acetic acid bacteria",
+          "vinegar mother",
+          "mother of vinegar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "live cellulose-and-culture mat"
+      },
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.00001,
+          "optimum_temperature_k": 303.15,
+          "temperature_width_k": 12.0,
+          "requires_hydration": false,
+          "metabolism": "acetic"
+        }
+      ],
+      "preparation": "an acetic-acid bacteria mat, conserved entirely as unresolved culture",
+      "lot_assumptions": [
+        "the metabolism is one balanced oxidation: ethanol plus oxygen gives acetic acid and water. It is an OXIDATION, which is why a vinegar jar is covered with cloth rather than a lid, and here it stops the moment the vessel's oxygen runs out",
+        "the oxygen is the oxygen IN THE VESSEL. This bench does not feed room air into a reaction, so an uncovered jar with no oxygen added ferments nothing here — which is a boundary of the wiring, not of the chemistry",
+        "30 degC as the optimum follows the range acetification is described as running fastest over",
+        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "the acetaldehyde the oxidation really goes through is not modelled: this is the aggregate equation, not the pathway, and no intermediate is claimed",
+        "vinegar is more than its acid — the aroma esters, the residual sugars and the colour of a wine or cider vinegar are all absent, and what this makes is acetic acid in water",
+        "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/sourdough-starter",
+      "version": 1,
+      "canonical_key": "sourdough_starter",
+      "name": "sourdough starter",
+      "aliases": {
+        "de": [
+          "Sauerteig",
+          "Anstellgut"
+        ],
+        "en": [
+          "sourdough",
+          "sourdough sponge",
+          "levain"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.5,
+            "upper": 0.5
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.48,
+        "upper": 0.48
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.00001,
+          "optimum_temperature_k": 300.15,
+          "temperature_width_k": 15.0,
+          "requires_hydration": false,
+          "metabolism": "heterolactic"
+        }
+      ],
+      "preparation": "a mature flour-and-water starter: half water, a little free sugar resolved, and the flour solids and the mixed culture conserved",
+      "lot_assumptions": [
+        "the metabolism is the heterolactic route, one balanced equation: sucrose plus water gives two lactic acids, two ethanols and two carbon dioxides. Acid AND gas out of the same sugar is exactly what makes a sourdough sour and risen, and it is what separates this culture from the yoghurt one",
+        "THE FREE SUGAR IS ENTERED AS SUCROSE AND A REAL STARTER'S IS MOSTLY MALTOSE. The substitution is recorded rather than hidden: the fermentation model consumes disaccharides, sucrose is the disaccharide it books gas against, and entering maltose would make carbon dioxide that no event reports. The mass is right and the identity is wrong",
+        "2% free sugar is an editorial figure for a mature starter, not a measured one, and it is the ONLY fermentable substrate here: this bench does not saccharify starch, so the flour beside the starter contributes none and the fermentation stops when the starter's own sugar is gone. A real starter keeps making maltose from flour amylases for as long as it is fed",
+        "0.00001 per second per gram of culture at the declared optimum is one editorial classroom timescale shared by the three cultures added with it; what differs between them is the temperature envelope and the dose, not a measured activity. Cell growth, a lag phase, inhibition by the acid the culture itself makes, nutrient depletion and strain variation are all absent",
+        "27 degC as the optimum is the room-temperature range a starter is kept at",
+        "a sourdough starter is a community of wild yeasts and lactic bacteria and no organism is named; what is claimed is one aggregate equation, not who runs which half of it",
+        "no gluten, no dough, no rise and no crumb: the gas is booked as carbon dioxide in the vessel, and whether a loaf holds it is a mechanical question this bench does not ask",
+        "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat"
       ],
       "substitutions": [],
       "confidence": "surrogate",

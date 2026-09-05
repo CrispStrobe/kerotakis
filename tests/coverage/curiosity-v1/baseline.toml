@@ -1163,20 +1163,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-069"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-070"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-071"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-072"
@@ -1187,8 +1187,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-073"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-074"
