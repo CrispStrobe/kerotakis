@@ -1724,6 +1724,41 @@ mod route_trace_tests {
         assert!(bare.step_start.is_none());
     }
 
+    /// A solver whose gas stays in a sealed headspace.
+    struct ContainedRoute;
+
+    impl Equilibrator for ContainedRoute {
+        fn name(&self) -> &'static str {
+            "contained-route"
+        }
+
+        fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            let species = SpeciesId::new("CO2");
+            let kept = vessel.retain_gas(species.clone(), Moles(0.01));
+            assert!(kept, "a sealed headspace keeps its gas");
+            Ok(vec![Event::GasContained {
+                vessel: vessel.id,
+                species,
+                moles: Moles(0.01),
+            }])
+        }
+    }
+
+    #[test]
+    fn gas_kept_in_a_headspace_is_not_booked_as_gas_that_left() {
+        // Booking it would count it twice: once as the `Phase::Gas` portion
+        // the headspace holds, once as an outward transfer.
+        let mut vessel = Vessel::new(crate::vessel::VesselId(0), "sealed");
+        vessel.headspace = crate::vessel::Headspace::Sealed {
+            volume: crate::units::Liters(1.0),
+        };
+        vessel.step_start = Some(crate::vessel::StepStart::capture(&vessel));
+        let mut stack = SolverStack::new(vec![Box::new(ContainedRoute)]);
+        stack.equilibrate(&mut vessel).expect("equilibrates");
+        assert!(vessel.step_start.as_ref().unwrap().gas_out.is_empty());
+        assert!((vessel.moles_of(&SpeciesId::new("CO2")).0 - 0.01).abs() < 1e-12);
+    }
+
     impl Equilibrator for TestRoute {
         fn name(&self) -> &'static str {
             self.name
