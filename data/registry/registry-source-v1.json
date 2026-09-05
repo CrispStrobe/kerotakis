@@ -60605,7 +60605,8 @@
         ],
         "en": [
           "dried egg-white protein",
-          "serum albumin"
+          "serum albumin",
+          "protein"
         ]
       },
       "basis": "mass_fraction",
@@ -60662,6 +60663,7 @@
         "this is the purified protein rather than a food, and with no protein species installed it is 94% conserved mass",
         "it exists on this shelf so that a run about protein has something to name; what it cannot do is behave like one. Denaturation by heat, by acid, by alcohol and by salt are four separate demonstrations albumin is used for and the bench has none of them",
         "the Biuret and Ninhydrin tests that would identify it are equally absent",
+        "it answers to the bare word 'protein' as well as to its own name, because it is the only purified protein on this shelf. That alias is a pointer, not a claim of generality: a digestion run that asks for protein gets dried egg-white albumin and its conserved remainder, not a representative average of dietary protein",
         "no protein species is installed, so every protein in this food sits in the conserved remainder as mass without chemistry; denaturation, coagulation and the setting of a cooked white are reactions this bench does not have"
       ],
       "substitutions": [],
@@ -64376,6 +64378,160 @@
       "preparation": "declared sodium-stearate-equivalent reagent for bounded hard-water precipitation; not a commercial detergent formulation",
       "lot_assumptions": [
         "two fatty-carboxylate equivalents bind each calcium or magnesium ion; aggregate mass follows the consumed sodium-soap equivalent plus bound Ca/Mg minus sodium returned to solution"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/pineapple",
+      "version": 1,
+      "canonical_key": "pineapple",
+      "name": "pineapple (fresh fruit)",
+      "aliases": {
+        "de": [
+          "Ananas",
+          "frische Ananas"
+        ],
+        "en": [
+          "fresh pineapple",
+          "pineapple flesh"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.01,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.86,
+            "upper": 0.86
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.0599,
+            "upper": 0.0599
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "fructose",
+          "fraction": {
+            "lower": 0.0212,
+            "upper": 0.0212
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.0173,
+            "upper": 0.0173
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "citric_acid",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0356,
+        "upper": 0.0356
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "fresh fruit flesh",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [
+        {
+          "kind": "enzyme_source",
+          "enzyme": "bromelain",
+          "catalyst_equivalent_per_gram": 0.05,
+          "denatures_above_k": 343.15
+        }
+      ],
+      "preparation": "fresh pineapple flesh: water, its three sugars and its fruit acid resolved; fibre, protein and the bromelain the fruit is famous for conserved, with the enzyme's ACTIVITY declared separately",
+      "lot_assumptions": [
+        "the sugars follow the raw-pineapple composition and are resolved separately for the same reason the apple's are: the bench dissolves each at its own solubility",
+        "citric acid is the fruit acid entered, at 0.6% of the flesh. Real pineapple also carries malic acid and buffering citrate salts, neither of which is installed, so the pH this recipe produces in a small volume is LOWER than a fresh pineapple measures. The acid mass is right and the buffering is missing",
+        "0.05 g of catalyst-equivalent activity per gram of fruit is an ACTIVITY EQUIVALENT in the bounded enzyme model's own dose units, not a bromelain content. Nothing here claims to know how much bromelain a pineapple holds; the number is an editorial classroom calibration, chosen so that a 20 g piece of fresh fruit visibly cuts a 10 g gelatine dose within an hour, which is the timescale the kitchen demonstration runs on",
+        "70 degC as the denaturation point is why cooked and canned pineapple set a jelly and fresh pineapple does not. Above it the carried enzyme is gone for good and cooling the beaker does not bring it back",
+        "the gelatine it acts on is conserved unresolved protein, so what the bench reports is hydrolysed protein MASS. It still has no gelation model: the jelly that fails to set is the consequence, and this bench cannot show it",
+        "bromelain is a mixture of cysteine proteases rather than one enzyme, and the recipe declares one activity for the mixture; no strain, cultivar, ripeness or stem-versus-flesh difference is claimed"
       ],
       "substitutions": [],
       "confidence": "surrogate",

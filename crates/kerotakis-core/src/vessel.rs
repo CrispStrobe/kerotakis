@@ -37,8 +37,16 @@ pub struct UnresolvedMaterialPortion {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EnzymeHydrolysisState {
+    /// The catalyst family whose progress this is — or, for a portion that
+    /// is an enzyme SOURCE rather than a substrate, the family it carries.
     pub family: EnzymeFamily,
     pub converted_fraction: f64,
+    /// Set once this portion has been held above the denaturation
+    /// temperature of the enzyme it carries. It is never cleared: a cooked
+    /// pineapple does not become raw again when the beaker cools, and that
+    /// irreversibility is the entire difference the row asks about.
+    #[serde(default)]
+    pub carried_enzyme_denatured: bool,
 }
 
 /// A coherent prepared object whose resolved ingredients remain owned by the
