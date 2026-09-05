@@ -3825,6 +3825,16 @@ fn precipitate_declared_soap(
     }
     let ca_take = scum.divalent_ion_bound_moles.min(ca);
     let mg_take = scum.divalent_ion_bound_moles - ca_take;
+    let soap_mass_g = scum.soap_bound_moles / eq_per_g;
+    let ion_mass_g = ca_take
+        * species::lookup(&SpeciesId::new("Ca+2")).map_or(40.078, |data| data.molar_mass)
+        + mg_take * species::lookup(&SpeciesId::new("Mg+2")).map_or(24.305, |data| data.molar_mass);
+    let sodium_mass_g = scum.soap_bound_moles
+        * species::lookup(&SpeciesId::new("Na+")).map_or(22.989_769, |data| data.molar_mass);
+    // The aggregate receives exactly the consumed sodium-soap mass plus the
+    // bound Ca/Mg mass, less the sodium returned to solution. This keeps the
+    // ledger exact for calcium, magnesium, and mixtures of the two.
+    let aggregate_mass_g = soap_mass_g + ion_mass_g - sodium_mass_g;
     vessel.withdraw(&SpeciesId::new("Ca+2"), Moles(ca_take));
     vessel.withdraw(&SpeciesId::new("Mg+2"), Moles(mg_take));
     vessel.deposit(
@@ -3835,12 +3845,12 @@ fn precipitate_declared_soap(
     vessel.unresolved_materials[index].amount =
         (soap_g - scum.soap_bound_moles / eq_per_g).max(0.0);
     let state = vessel.soap_scum.get_or_insert_with(Default::default);
-    state.aggregate_mass_g += scum.aggregate_mass_g;
+    state.aggregate_mass_g += aggregate_mass_g;
     state.divalent_ion_moles += scum.divalent_ion_bound_moles;
     state.soap_equivalent_moles += scum.soap_bound_moles;
     events.push(Event::SoapScumFormed {
         vessel: vessel.id,
-        aggregate_mass_g: scum.aggregate_mass_g,
+        aggregate_mass_g,
         divalent_ion_moles: scum.divalent_ion_bound_moles,
     });
 }

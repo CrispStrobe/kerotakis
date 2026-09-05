@@ -81,7 +81,6 @@ pub fn apple_browning(
 pub struct SoapScumPrediction {
     pub soap_bound_moles: f64,
     pub divalent_ion_bound_moles: f64,
-    pub aggregate_mass_g: f64,
 }
 
 /// Two fatty-carboxylate anions bind each Ca²⁺ or Mg²⁺. `soap_moles` is an
@@ -97,11 +96,8 @@ pub fn soap_scum(divalent_moles: f64, soap_moles: f64) -> Option<SoapScumPredict
     }
     let bound_ion = divalent_moles.min(soap_moles / 2.0);
     let bound_soap = 2.0 * bound_ion;
-    // Calcium stearate is the bounded visual surrogate (607.0 g/mol). A
-    // magnesium-rich water differs slightly; callers must label this aggregate.
     Some(SoapScumPrediction {
         soap_bound_moles: bound_soap,
         divalent_ion_bound_moles: bound_ion,
-        aggregate_mass_g: bound_ion * 607.0,
     })
 }

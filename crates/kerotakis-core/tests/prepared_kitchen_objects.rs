@@ -74,3 +74,16 @@ fn declared_fatty_soap_forms_a_stoichiometric_conserved_aggregate() {
         "before={before} after={after}"
     );
 }
+
+#[test]
+fn magnesium_soap_scum_also_conserves_mass() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit(SpeciesId::new("Mg+2"), Moles(0.001), Phase::Aqueous);
+    let before = bench.vessels[0].mass().0;
+    run(&mut bench, "add v1 fatty_soap 1g");
+    let after = bench.vessels[0].mass().0;
+    assert!(
+        (after - (before + 1.0)).abs() < 1e-9,
+        "before={before} after={after}"
+    );
+}

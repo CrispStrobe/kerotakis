@@ -26,5 +26,4 @@ fn soap_scum_is_two_to_one_and_limiting_reagent_bounded() {
     assert!((ion_limited.divalent_ion_bound_moles - 0.001).abs() < 1e-12);
     let soap_limited = soap_scum(0.010, 0.002).unwrap();
     assert!((soap_limited.divalent_ion_bound_moles - 0.001).abs() < 1e-12);
-    assert!(soap_limited.aggregate_mass_g > 0.0);
 }
