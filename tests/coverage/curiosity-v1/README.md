@@ -830,10 +830,10 @@ to read each one.
 
 The 2026-09-05 bounded-electrochemistry audit now pins that distinction in
 the baseline. `mat-056` receives the computed open-circuit lemon-cell voltage
-it asks for. `mat-110` remains explicitly missing: water electrolysis occurs,
-but the script contains no rust and cannot establish rust removal or
-preservation of an iron object. Counting its gas events as the answer would
-inflate coverage without delivering the requested capability.
+it asks for. `mat-110` is an explicit boundary: water electrolysis occurring
+in a rust-free script cannot establish rust-layer reduction or preservation
+of a coherent iron object. Counting its gas events as the answer would inflate
+coverage without delivering the requested capability.
 
 ## aq-067 was waiting for a bottle (2026-09-04)
 

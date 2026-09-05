@@ -2159,8 +2159,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-110"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "boundary"
+reason_code = "unsupported-rust-electrolysis-object"
 
 [[observation]]
 id = "mat-111"
@@ -3001,4 +3001,3 @@ id = "th-125"
 owning_task = "BRD-041"
 outcome = "boundary"
 reason_code = "out-of-scope-scale"
-
