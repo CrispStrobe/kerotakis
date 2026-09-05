@@ -14,8 +14,14 @@ fn lessons_dir() -> std::path::PathBuf {
 #[test]
 fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     let cases: &[(&str, &[&str])] = &[
-        ("naked-egg-osmosis.lab", &["naked_egg exchanged", "mol water"]),
-        ("hard-water-soap-scum.lab", &["soap-scum aggregate formed", "mol Ca/Mg"]),
+        (
+            "naked-egg-osmosis.lab",
+            &["naked_egg exchanged", "mol water"],
+        ),
+        (
+            "hard-water-soap-scum.lab",
+            &["soap-scum aggregate formed", "mol Ca/Mg"],
+        ),
         ("apple-browning.lab", &["cut_apple surface is", "% browned"]),
     ];
     for (name, evidence) in cases {
