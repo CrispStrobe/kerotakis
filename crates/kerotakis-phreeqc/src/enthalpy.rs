@@ -67,7 +67,7 @@
 //! the nearest available number. Charging a plausible enthalpy for the
 //! wrong substance is exactly how this went wrong before.
 
-use kerotakis_core::{Phase, Portion};
+use kerotakis_core::{species, Phase, Portion, SpeciesId};
 use std::collections::BTreeMap;
 
 use crate::derived;
@@ -170,32 +170,57 @@ fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
 pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Unpriced> {
     let idx = derived::index_for(db_tag);
     match phase {
-        // A gas is priced by the reaction that dissolves it, reversed.
-        Phase::Gas => idx
-            .phases
-            .get(&format!("{key}(g)"))
-            .and_then(|p| p.delta_h_kj)
-            .map(|d| -d)
-            .ok_or(Unpriced {
+        // A gas is priced by where it goes, less what the trip costs —
+        // the same rule as a solid, and for the same reason.
+        //
+        // `delta_h` is the enthalpy of the dissolution reaction AS THE
+        // DATABASE WRITES IT, and the databases do not write the same
+        // reaction. minteq.v4 dissolves CO2(g) to `2 H+ + CO3-2`, which are
+        // master species and cost nothing, so the gas is just the reaction
+        // reversed. wateq4f dissolves it to an aqueous `CO2` that carries
+        // about -24 kJ/mol of its own, and ignoring that put the same gas
+        // leaving the same beaker at +19.98 kJ/mol on one route and -4.06
+        // on the other. The volcano then cooled by 1.70 K poured one way
+        // and 1.28 K poured the other, and the 1.28 was the correct one.
+        Phase::Gas => {
+            let phase = idx.phases.get(&format!("{key}(g)")).ok_or(Unpriced {
+                species: key.to_string(),
+                why: "the routed database defines no gas phase of this name",
+            })?;
+            let dissolution = phase.delta_h_kj.ok_or(Unpriced {
                 species: key.to_string(),
                 why: "the routed database states no enthalpy for this gas dissolving",
-            }),
-        // A solid is priced as WHERE IT GOES, and nothing more.
+            })?;
+            let mut sum = 0.0;
+            for (product, n) in &phase.products {
+                let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
+                    species: product.clone(),
+                    why: "a dissolution product the routed database does not define",
+                })?;
+                sum += h * n;
+            }
+            Ok(sum - dissolution)
+        }
+        // A solid is where its ions go, LESS what the trip costs.
         //
-        // The enthalpy of getting there — the registry's enthalpy of
-        // dissolution — is deliberately NOT subtracted here, because the
-        // `Dissolved`/`Precipitated` loop in `aqueous.rs` already charges
-        // it per event and has done for a long time. Subtracting it here
-        // as well double-counts; leaving it out makes a solid going into
-        // solution cost this balance exactly nothing, which is right,
-        // because dissolving is not the reaction this balance is for.
+        // The enthalpy of dissolution belongs in this sum and not beside
+        // it. It used to be charged separately, per `Dissolved` event, and
+        // that survived as the last second path in the heat balance — with
+        // exactly the failure a second path always has. Pouring baking soda
+        // into water dissolves it through the aqueous tail, the event
+        // fires, +16.7 kJ/mol is charged. Pouring it into vinegar lets the
+        // curated row consume the solid outright: no dissolution event, no
+        // dissolution heat, and the same reaction came out cooling by 0.49 K
+        // one way round and 1.70 K the other.
         //
-        // The two are disjoint rather than parallel: dissolution is
-        // charged by the event that observes it, and everything that
-        // happens to the resulting IONS is charged here. NaOH into acid
-        // still totals -100.31 kJ/mol — -44.5 of dissolution from the
-        // loop, -55.81 of neutralisation from this sum — and neither
-        // knows about the other.
+        // Here it is one term of one sum, so both routes begin from the
+        // same solid in the same state and reach +26.8 kJ/mol either way.
+        //
+        // The subtlety, and it cost a factor of two before it was caught:
+        // the products are NOT all master species. `NaHCO3 -> Na+ + HCO3-`
+        // and the bicarbonate carries -14.6 of its own, so the solid is
+        // `(0 + -14.6) - 16.7 = -31.3`, not `-16.7`. Both look reasonable.
+        // Only one is within a mile of what the world measures.
         Phase::Solid => {
             let products = DISSOCIATION
                 .iter()
@@ -205,6 +230,12 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
                     species: key.to_string(),
                     why: "no curated dissociation for this solid, so where it goes is unknown",
                 })?;
+            let dissolution = species::lookup(&SpeciesId::new(key))
+                .and_then(|d| d.dissolution_enthalpy_kj)
+                .ok_or(Unpriced {
+                    species: key.to_string(),
+                    why: "the registry holds no enthalpy of dissolution for this solid",
+                })?;
             let mut sum = 0.0;
             for (product, n) in products {
                 let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
@@ -213,7 +244,7 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
                 })?;
                 sum += h * n;
             }
-            Ok(sum)
+            Ok(sum - dissolution)
         }
         // Water is the solvent and the basis; any other miscible liquid is
         // priced as what it becomes in solution, which leaves its enthalpy
@@ -398,6 +429,12 @@ pub fn heat_released_j(
             species_enthalpy(key, phase_of(*phase), db_tag)?
         };
         d_h_kj += h * moved;
+        if std::env::var("KERO_BAL").is_ok() {
+            eprintln!(
+                "    [d] {key:<12} ph={phase} moved={moved:+.9} h={h:+.3} -> {:+.4} kJ",
+                h * moved
+            );
+        }
     }
     // Heat released is the negative of the enthalpy the contents gained.
     Ok(-d_h_kj * 1000.0)
@@ -418,21 +455,24 @@ mod tests {
 
     const DB: &str = "minteq.v4";
 
-    /// A solid is priced as where its ions go. The cost of the trip —
-    /// the enthalpy of dissolution — belongs to the `Dissolved` event and
-    /// is charged there, so it must NOT appear in these numbers.
+    /// A solid is where its ions go, less what the trip costs. Both terms
+    /// belong in this one number: charging the dissolution separately, per
+    /// event, was the last second path in the balance and it made the
+    /// answer depend on which solver happened to consume the solid.
     #[test]
-    fn a_solids_enthalpy_is_where_its_ions_go() {
-        // NaHCO3 -> Na+ (0) + HCO3- (-14.6).
+    fn a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there() {
+        // NaHCO3 -> Na+ (0) + HCO3- (-14.6), less +16.7 of dissolution.
+        // Taking the dissolution alone gives -16.7 and puts the volcano at
+        // +12.2 kJ/mol instead of +26.8. Both look reasonable; one is not.
         let h = species_enthalpy("NaHCO3", Phase::Solid, DB).expect("priced");
-        assert!((h - (-14.6)).abs() < 1e-9, "{h}");
-        // NaOH -> Na+ (0) + OH- (+55.81). This is the term that makes
-        // neutralisation fall out: spend the hydroxide and it goes to zero.
+        assert!((h - (-31.3)).abs() < 1e-9, "{h}");
+        // NaOH -> Na+ (0) + OH- (+55.81), less -44.5 of dissolution. Both
+        // halves of `NaOH + HCl` are in this one number.
         let h = species_enthalpy("NaOH", Phase::Solid, DB).expect("priced");
-        assert!((h - 55.81).abs() < 1e-9, "{h}");
-        // NaCl -> two master species, so it is the basis itself.
+        assert!((h - 100.31).abs() < 1e-9, "{h}");
+        // NaCl -> two master species, so it is only its dissolution.
         let h = species_enthalpy("NaCl", Phase::Solid, DB).expect("priced");
-        assert!(h.abs() < 1e-9, "{h}");
+        assert!((h - (-3.88)).abs() < 1e-9, "{h}");
     }
 
     /// The strong-acid/strong-base heat is not a special case in here; it
@@ -469,14 +509,14 @@ mod tests {
         let q = heat_released_j(&before, 0.0, &after, 0.0, &[("CO2".into(), 0.02)], DB)
             .expect("priced");
         let kj_per_mol = -q / 1000.0 / 0.02;
-        // This is the ION half only — bicarbonate meeting an acid and
-        // leaving as gas. The +16.7 of dissolving the powder is charged by
-        // the `Dissolved` event, so the full +25..30 kJ/mol the beaker
-        // shows is asserted end to end in `tests/reaction_heat.rs`, where
-        // both halves are on the thermometer together.
+        // The whole reaction now, dissolution included, against the
+        // literature's +25 to +30 for baking soda and vinegar. Pinned to
+        // the BAND rather than to our own figure, so a correction to the
+        // registry's enthalpy of dissolution (its +16.7 is flagged as not
+        // reproducible) moves the answer without breaking the test.
         assert!(
-            (8.0..14.0).contains(&kj_per_mol),
-            "expected about +10 kJ/mol for the ion half, got {kj_per_mol}"
+            (25.0..=30.0).contains(&kj_per_mol),
+            "expected +25..30 kJ/mol endothermic, got {kj_per_mol}"
         );
     }
 
@@ -551,11 +591,11 @@ mod tests {
         );
     }
 
-    /// Every row prices, and a solid prices as EXACTLY the sum of where
-    /// its ions go — no dissolution term anywhere in it. That enthalpy
-    /// belongs to the `Dissolved` event in `aqueous.rs`; if it ever leaks
-    /// in here it is charged twice and every salt is out by its own heat
-    /// of solution.
+    /// Every row prices, and a solid prices as its ions LESS its enthalpy
+    /// of dissolution — both terms, once each. If the dissolution ever
+    /// leaves this number it becomes an event-driven second path, and the
+    /// same reaction then costs different amounts depending on which
+    /// solver consumed the solid.
     ///
     /// Compared against the products directly rather than against the
     /// same key priced as aqueous, because those are not always the same
@@ -564,7 +604,7 @@ mod tests {
     /// thing from dissolved sodium bicarbonate, and comparing the two
     /// would be comparing a salt with a complex that shares its name.
     #[test]
-    fn a_solid_prices_as_its_ions_and_carries_no_dissolution_heat() {
+    fn a_solid_prices_as_its_ions_less_its_dissolution() {
         for (key, products) in DISSOCIATION {
             let expected: f64 = products
                 .iter()
@@ -574,12 +614,30 @@ mod tests {
                         * n
                 })
                 .sum();
+            // The rows below the solids arrive ALREADY dissolved and have
+            // no dissolution to charge — they only have to price in
+            // solution, as the sum of what they are.
+            let Some(dissolution) =
+                species::lookup(&SpeciesId::new(key)).and_then(|d| d.dissolution_enthalpy_kj)
+            else {
+                let aqueous = species_enthalpy(key, Phase::Aqueous, DB).unwrap_or_else(|e| {
+                    panic!(
+                        "{key} arrives dissolved and does not price: {} ({})",
+                        e.species, e.why
+                    )
+                });
+                assert!(
+                    (aqueous - expected).abs() < 1e-9,
+                    "{key} in solution: priced {aqueous}, its ions come to {expected}"
+                );
+                continue;
+            };
             let solid = species_enthalpy(key, Phase::Solid, DB)
                 .unwrap_or_else(|e| panic!("{key} as a solid: {} ({})", e.species, e.why));
             assert!(
-                (solid - expected).abs() < 1e-9,
-                "{key}: priced {solid}, its ions come to {expected} — the \
-                 difference is its enthalpy of dissolution leaking in"
+                (solid - (expected - dissolution)).abs() < 1e-9,
+                "{key}: priced {solid}, expected its ions ({expected}) less \
+                 its dissolution ({dissolution})"
             );
             // And it must price in solution too, by whichever route.
             species_enthalpy(key, Phase::Aqueous, DB)

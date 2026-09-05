@@ -40,6 +40,19 @@ pub struct PhaseInfo {
     /// this database and nothing may be derived from it.
     #[serde(default)]
     pub delta_h_kj: Option<f64>,
+    /// What the dissolution reaction puts INTO solution, as the database
+    /// writes it: (species, coefficient), `H2O` and `e-` dropped.
+    ///
+    /// Kept because a phase's enthalpy is only half an answer without it.
+    /// `delta_h` is the enthalpy of the reaction AS WRITTEN, and the two
+    /// databases do not write the same reaction: minteq.v4 dissolves CO2(g)
+    /// to `2 H+ + CO3-2`, which are master species and cost nothing, while
+    /// wateq4f dissolves it to an aqueous `CO2` that carries -24 kJ/mol of
+    /// its own. Reading the enthalpy without the products put carbon
+    /// dioxide at +19.98 kJ/mol on one route and -4.06 on the other, for
+    /// the same gas leaving the same beaker.
+    #[serde(default)]
+    pub products: Vec<(String, f64)>,
     /// Name ends in "(g)".
     pub is_gas: bool,
 }
@@ -139,6 +152,7 @@ impl DbIndex {
         // Enthalpies recovered from log K slopes, used only where the file
         // states no `delta_h` of its own — an explicit statement always wins.
         let mut analytic_species: BTreeMap<String, f64> = BTreeMap::new();
+        let mut analytic_phases: BTreeMap<String, f64> = BTreeMap::new();
         let mut last_inserted: Option<String> = None;
 
         // Activity model: derived from what the file declares about itself.
@@ -313,6 +327,17 @@ impl DbIndex {
                                     }
                                 }
                             }
+                            // Phases state their temperature dependence the
+                            // same way species do, and pitzer states it
+                            // that way for CO2(g) — which is the gas half
+                            // of every carbonate reaction. Without this a
+                            // brine holding baking soda declined its whole
+                            // heat and sat at exactly room temperature.
+                            Some(k) if k.starts_with("analytic") => {
+                                if let Some(kj) = delta_h_from_analytic(&tokens) {
+                                    analytic_phases.entry(name.clone()).or_insert(kj);
+                                }
+                            }
                             _ => {}
                         }
                     }
@@ -322,6 +347,13 @@ impl DbIndex {
         }
         for (name, kj) in analytic_species {
             idx.species_delta_h_kj.entry(name).or_insert(kj);
+        }
+        for (name, kj) in analytic_phases {
+            if let Some(phase) = idx.phases.get_mut(&name) {
+                if phase.delta_h_kj.is_none() {
+                    phase.delta_h_kj = Some(kj);
+                }
+            }
         }
         // Two or more valence-tagged master lines means the element really
         // has a redox chemistry here; one alone is just a naming choice.
@@ -438,6 +470,7 @@ fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseIn
 
     // Elements moved into solution: read the RHS master species.
     let mut elements: Vec<(String, f64)> = Vec::new();
+    let mut products: Vec<(String, f64)> = Vec::new();
     for term in rhs.split(" + ") {
         let term = term.trim();
         if term.is_empty() {
@@ -452,6 +485,15 @@ fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseIn
             (Some(s), None) => (1.0, s),
             _ => continue,
         };
+        // `H+` and `OH-` are real products and are priced (H+ at zero,
+        // being a master species; OH- is not), even though they carry no
+        // ELEMENT into solution. Water and electrons are the basis.
+        if !matches!(species, "H2O" | "e-") {
+            match products.iter_mut().find(|(s, _)| s == species) {
+                Some(entry) => entry.1 += coeff,
+                None => products.push((species.to_string(), coeff)),
+            }
+        }
         if matches!(species, "H2O" | "H+" | "OH-" | "e-") {
             continue;
         }
@@ -468,6 +510,7 @@ fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseIn
         formula,
         composition,
         waters,
+        products,
         elements,
         log_k: None,
         delta_h_kj: None,

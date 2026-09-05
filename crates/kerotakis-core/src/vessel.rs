@@ -762,6 +762,12 @@ pub struct StepStart {
     /// off. Gas kept in a headspace is not here: it is a `Phase::Gas`
     /// portion in `contents` already, and would be counted twice.
     pub gas_out: Vec<(SpeciesId, Moles)>,
+    /// Free hydroxide and free protons as the aqueous solver last measured
+    /// them, carried so the heat balance can price a step from its start.
+    #[serde(default)]
+    pub free_hydroxide: f64,
+    #[serde(default)]
+    pub free_proton: f64,
 }
 
 impl StepStart {
@@ -771,6 +777,8 @@ impl StepStart {
             solute_charge: vessel.solute_charge,
             temperature: vessel.temperature,
             gas_out: Vec::new(),
+            free_hydroxide: vessel.free_hydroxide,
+            free_proton: vessel.free_proton,
         }
     }
 

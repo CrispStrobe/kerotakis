@@ -1897,19 +1897,31 @@ impl PhreeqcEquilibrator {
             return Ok((Vec::new(), 0.0));
         };
 
-        // The state this step starts from, kept whole for the enthalpy
-        // balance at the bottom. `vessel.contents` is overwritten partway
-        // through, so the snapshot has to be taken before anything moves.
-        let before_contents = vessel.contents.clone();
-        // Free hydroxide as the engine last measured it, in moles — not
-        // inferred from the solutes' net charge. See `enthalpy`.
-        // Free base carried into this step. `vessel.solution` is cleared
-        // at the top of every step as stale, so the engine's last
-        // measurement is gone and the solutes' net charge is the only
-        // persistent record. It is used here — and CHECKED below against
-        // what the engine measures on the state this step produces, which
-        // is the whole reason it can be trusted at all.
-        let before_oh = vessel.free_hydroxide;
+        // The state this step starts from.
+        //
+        // Preferring the bench's `step_start` over this call's own opening
+        // state is what makes the balance a property of the STEP rather
+        // than of one solver. Solvers above the tail change what the vessel
+        // holds: the curated `NaHCO3 + CH3COOH` row consumes the
+        // bicarbonate and gives off the carbon dioxide itself, so a balance
+        // beginning at the tail's call-start would price a step in which
+        // the bicarbonate had never been there and the carbon simply
+        // stopped existing.
+        //
+        // The fallback is the call-start, unchanged, for hosts that never
+        // set the snapshot — the wasm bench and the cache-only path.
+        let (before_contents, before_oh, mut gas_out) = match &vessel.step_start {
+            Some(start) => (
+                start.contents.clone(),
+                start.free_hydroxide,
+                start
+                    .gas_out
+                    .iter()
+                    .map(|(species, moles)| (species.0.clone(), moles.0))
+                    .collect::<Vec<_>>(),
+            ),
+            None => (vessel.contents.clone(), vessel.free_hydroxide, Vec::new()),
+        };
 
         let (cached, coupling_failed) =
             self.dispatch_solve(vessel, &problem, db_tag, &input, key)?;
@@ -2074,40 +2086,6 @@ impl PhreeqcEquilibrator {
         // It no longer carries any heat.
         let mut q_joules = 0.0; // heat released into the vessel
 
-        // Dissolution stays here, per observed event, exactly as before.
-        // The balance below prices what happens to the IONS; this prices
-        // getting them into solution. Disjoint, so nothing is counted
-        // twice — see `enthalpy`'s note on the solid branch.
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            for e in &events {
-                match e {
-                    Event::Dissolved {
-                        species: sid,
-                        moles,
-                        ..
-                    } => {
-                        if let Some(dh) =
-                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
-                        {
-                            q_joules -= dh * 1000.0 * moles.0;
-                        }
-                    }
-                    Event::Precipitated {
-                        species: sid,
-                        moles,
-                        ..
-                    } => {
-                        if let Some(dh) =
-                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
-                        {
-                            q_joules += dh * 1000.0 * moles.0;
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-
         let idx = derived::index_for(db_tag);
         // pe is reported only when the beaker contains a redox couple the
         // user actually put there. Left to itself PHREEQC reports the value
@@ -2183,7 +2161,8 @@ impl PhreeqcEquilibrator {
         );
 
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            let mut gas_out: Vec<(String, f64)> = Vec::new();
+            // Gas this solver gave off, added to whatever the solvers
+            // above it already booked into the snapshot.
             for e in &events {
                 let (species, signed) = match e {
                     Event::GasEvolved { species, moles, .. } => (species, moles.0),
@@ -2205,6 +2184,53 @@ impl PhreeqcEquilibrator {
             ) {
                 Ok(j) => q_joules += j,
                 Err(_unpriced) => {
+                    // THE LAST SECOND PATH, and it is confined to exactly
+                    // the steps the balance cannot answer.
+                    //
+                    // Declining outright loses heats the bench already
+                    // knew. A copper sulfate solution precipitates
+                    // chalcanthite, which no registry row prices, and the
+                    // whole step then declined — throwing away the -73.1
+                    // kJ/mol of dissolving the copper sulfate, which is
+                    // known and large. The beaker sat at room temperature
+                    // instead of reaching 58 °C, and because solubility
+                    // follows temperature the lesson's crystals and even
+                    // its colour changed with it.
+                    //
+                    // So where the balance can price a step it owns it
+                    // completely and no event charges anything; where it
+                    // cannot, this falls back to what the bench charged
+                    // before — per observed dissolution, partial by
+                    // construction, and no worse than yesterday.
+                    // `dissolution_fallback_is_only_for_steps_the_balance_declines`
+                    // counts what still lands here.
+                    for e in &events {
+                        match e {
+                            Event::Dissolved {
+                                species: sid,
+                                moles,
+                                ..
+                            } => {
+                                if let Some(dh) =
+                                    species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                                {
+                                    q_joules -= dh * 1000.0 * moles.0;
+                                }
+                            }
+                            Event::Precipitated {
+                                species: sid,
+                                moles,
+                                ..
+                            } => {
+                                if let Some(dh) =
+                                    species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                                {
+                                    q_joules += dh * 1000.0 * moles.0;
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
                     // Nothing charged and nothing guessed.
                     //
                     // Deliberately SILENT, and this was measured rather

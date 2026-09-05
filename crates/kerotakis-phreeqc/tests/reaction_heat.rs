@@ -110,42 +110,37 @@ fn the_volcano_gets_cold() {
     );
 }
 
-/// **A known gap, pinned rather than asserted as correct.**
+/// The whole point, and the last thing to come true.
 ///
-/// The same three reagents, poured the other way round, barely move the
-/// thermometer. It is not the balance that differs: it is which solver
-/// does the chemistry.
+/// The same three reagents, poured both ways round, must reach the same
+/// temperature. Enthalpy is a state function; nothing about it knows the
+/// order a beaker was filled in.
 ///
-/// Adding the powder to vinegar leaves a `NaHCO3` portion beside the acid,
-/// which is exactly what the CURATED row `NaHCO₃ + CH₃COOH` matches — so
-/// the curated solver converts them and deposits the products, and it
-/// charges no enthalpy. By the time the aqueous tail runs, the reaction
-/// has already happened and its before-state is the aftermath. Adding the
-/// powder to water first dissolves it, the curated row can no longer see
-/// its named reactant, and the tail does the chemistry itself, where the
-/// balance prices it correctly.
+/// This test replaces `the_curated_route_is_still_missing_its_heat`, which
+/// asserted the opposite and existed to be deleted. It failed for a while
+/// because the balance was a property of ONE SOLVER's call: adding the
+/// powder to vinegar leaves a `NaHCO3` portion beside the acid, the curated
+/// row matches it and does the chemistry itself, and by the time the
+/// aqueous tail ran the reaction had already happened where it could not
+/// see it. Adding the powder to water first dissolves it, the curated row
+/// can no longer find its named reactant, and the tail did the chemistry
+/// and priced it properly. One route cooled by 1.3 K and the other by 0.01.
 ///
-/// So the heat of a step is not the aqueous tail's to own: solvers above
-/// it also change what the vessel holds. The complete fix is to take the
-/// balance across the whole step rather than across one solver's call —
-/// which would price curated and reaction-family products the same way,
-/// with no second enthalpy path anywhere. That is a change to where the
-/// balance is invoked, not to the balance, and it is deliberately not
-/// smuggled in here.
-///
-/// This asserts what the bench does today, so it turns red when that
-/// changes in either direction.
+/// Now the bench hands the tail the state the STEP began in, plus the gas
+/// that left before it ran, so curated and family products are priced the
+/// same way as its own — and there is no second enthalpy path anywhere to
+/// disagree with the first.
 #[test]
-fn the_curated_route_is_still_missing_its_heat() {
-    let through_the_tail = ROOM - pour(&[("water", WATER), ("NaHCO3", 0.02), ("CH3COOH", 0.02)]);
-    let through_curated = ROOM - pour(&[("water", WATER), ("CH3COOH", 0.02), ("NaHCO3", 0.02)]);
+fn the_volcano_cools_the_same_whichever_way_round_you_pour_it() {
+    let soda_first = ROOM - pour(&[("water", WATER), ("NaHCO3", 0.02), ("CH3COOH", 0.02)]);
+    let vinegar_first = ROOM - pour(&[("water", WATER), ("CH3COOH", 0.02), ("NaHCO3", 0.02)]);
     assert!(
-        through_the_tail > 1.0,
-        "the tail's route should cool properly, got {through_the_tail} K"
+        (soda_first - vinegar_first).abs() < 0.05,
+        "pouring order changed the heat: {soda_first} K against {vinegar_first} K"
     );
+    // And both of them are the real reaction, not a fraction of it.
     assert!(
-        through_curated < 0.1,
-        "FIXED: the curated route now carries heat ({through_curated} K) — \
-         delete this test and assert the two orders agree"
+        (1.1..1.6).contains(&soda_first),
+        "expected about 1.3 K of cooling, got {soda_first}"
     );
 }
