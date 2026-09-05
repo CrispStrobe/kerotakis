@@ -676,6 +676,38 @@ pub fn read_transition(vessel: &Vessel, kind: TransitionRead) -> TransitionReadi
                 Some(extra) => format!("{APPARATUS_BOUNDARY}. {extra}"),
                 None => APPARATUS_BOUNDARY.to_string(),
             });
+            // BRD-032: a boiling point is read at the vessel's own
+            // pressure. The cleared correlation (BRD-031 pack, by the
+            // species' InChIKey) supplies the shift and the curated normal
+            // boiling point stays the anchor, so an open flask at one
+            // atmosphere reads exactly what it read before; a vacuum flask
+            // reads lower, and says which model moved it. Where the pack
+            // cannot answer — no row, or a pressure outside the cleared
+            // window — the curated value stands and the refusal is named
+            // rather than the fit extrapolated.
+            if kind == TransitionRead::Boiling {
+                let pressure_kpa = vessel.pressure.0 / 1000.0;
+                let (shift, route) =
+                    crate::states::boiling_shift_for_k(data.inchikey, pressure_kpa);
+                if route.routed() {
+                    reading.value_c = Some(k - 273.15 + shift);
+                    let model = kerotakis_thermo::pack::row_by_inchikey(data.inchikey)
+                        .and_then(|row| row.saturation_model())
+                        .unwrap_or("cleared correlation");
+                    reading.source = Some(format!(
+                        "{} at 1 atm; shifted {shift:+.2} K to {pressure_kpa:.2} kPa by the {model} \
+                         correlation of the BRD-031 pack",
+                        t.source
+                    ));
+                } else if route != crate::states::BoilingRoute::NormalBoilingPoint {
+                    reading.boundary = Some(format!(
+                        "{}. Read as the normal boiling point although the vessel stands at \
+                         {pressure_kpa:.2} kPa: {}",
+                        reading.boundary.as_deref().unwrap_or(APPARATUS_BOUNDARY),
+                        route.as_str()
+                    ));
+                }
+            }
         }
         None => reading.verdict = PurityVerdict::NoData,
     }
