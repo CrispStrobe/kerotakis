@@ -714,7 +714,6 @@ impl ResolvedState {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
 /// What a step started from — see [`Vessel::step_start`].
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StepStart {
@@ -749,6 +748,7 @@ impl StepStart {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     /// Seconds of bench time this vessel has experienced.
     ///
