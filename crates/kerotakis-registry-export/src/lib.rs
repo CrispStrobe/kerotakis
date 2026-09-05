@@ -4445,7 +4445,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             name: "thermoplastic sheet".to_string(),
             aliases: BTreeMap::from([
                 ("de".to_string(), vec!["Thermoplast".to_string(), "thermoplastische Folie".to_string(), "Polyethylenplatte".to_string()]),
-                ("en".to_string(), vec!["thermoplastic".to_string(), "polyethylene sheet".to_string(), "moulded plastic".to_string()]),
+                ("en".to_string(), vec!["polyethylene sheet".to_string(), "moulded plastic".to_string()]),
             ]),
             basis: MaterialBasis::MassFraction,
             bulk_density: Some(density(0.95)),
