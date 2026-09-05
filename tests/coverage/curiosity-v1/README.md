@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a fourth time (thirteen rows, BRD-023's galvanic
+corrosion route) — see below.
+
 Refreshed 2026-09-05 a third time (nineteen rows, BRD-014.S03's biology
 tranche) — see below, and read that entry before quoting its count.
 
@@ -63,6 +66,65 @@ BRD-014 (#237), `methanol` last moved by EXP-33 (#288), `PE` in EXP-12 — so
 the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
+
+
+## Refresh 2026-09-05 — thirteen rows, one capability and one artefact
+
+Thirteen rows move `missing`/`not-yet-modeled` to `computed`/`computed-route`.
+They are two different things and the difference matters, so they are listed
+apart rather than counted together.
+
+**The capability.** `crates/kerotakis-core/src/corrosion.rs` adds the
+galvanic couple to a bench that could already rust iron. The lower-E° metal
+in contact is the anode, read off `displacement::SERIES`; a barrier table
+carries the passive film of stainless steel and the paint film of painted
+iron; and both rules are enforced where the rate is computed, so a protected
+metal's corrosion reaction returns zero rather than merely being described as
+protected. A companion kinetic entry `zinc-corrosion` makes the sacrifice
+real. These rows are answered by chemistry that did not exist before:
+
+- `mat-099` galvanising, `mat-020` zinc and iron in brine, `mat-100`
+  scratched galvanised steel, `mat-105` two metals in seawater — the zinc
+  (or the iron, against copper) is the anode and the other metal is spared.
+  `mat-099` is the row that matters most: before this change the iron rusted
+  at its full rate with untouched zinc lying against it, which demonstrates
+  the opposite of what the question asks. It is now measured in the beaker
+  and paired with an unprotected control in
+  `crates/kerotakis-core/tests/corrosion.rs`.
+- `mat-014` stainless steel and `mat-104` painted iron — the iron is behind a
+  barrier and does not rust.
+- `mat-069` copper contacts — copper is above hydrogen and is the cathode
+  here, not the anode. The green patina is named as atmospheric weathering
+  this bench has no route for, rather than answered.
+- `mat-096` the three things and `mat-097` salt and speed — these were
+  already rusting; what they gained is a verdict beside the extent.
+
+**The artefact.** Four rows were being *answered* and filed as standing
+aside, because the classifier calls a prompt `missing` when the last step
+carries a `NotYetModeled` and no event in a fixed allow-list. Adding
+`Event::Corroded` to that list — and only to that list, not to the typed
+observation branch, so it can never outrank a real curated or computed route
+— lets those answers count:
+
+- `aq-089` "will a magnet remove copper powder?" printed *no magnetic species
+  present*, which is the answer, beside an apology about the copper. This was
+  the fix PR #362 attempted and was closed for, because the same rule also
+  moved `mat-099` while its iron rusted beside untouched zinc. That objection
+  is what the capability above removes.
+- `mat-006` "what gas forms when magnesium meets acid?" printed 0.0100 mol of
+  hydrogen.
+- `mat-003` and `mat-108` are comparative questions — "does crushing make it
+  faster", "how does acid change the rate" — whose scripts run one condition.
+  Their DISPOSITION moves, because a route did answer and the answer is a
+  truthful typed verdict on the leftover magnesium. Their QUESTION is still
+  unanswerable from a single-condition script, and no engine change can close
+  that; see the row-by-row triage in #389. The corpus's `expected` column is
+  where that belongs, not the observed one.
+
+`engine stood aside (corpus claimed it)` falls from 19 to 5, and the five are
+the ones that triage identified as permanent boundaries, scripts that cannot
+reach their question, or the one remaining capability gap (`mat-011`,
+metallic conduction, which needs sourced data the registry does not carry).
 
 ## What "expectation mismatch" actually counts (2026-09-02)
 

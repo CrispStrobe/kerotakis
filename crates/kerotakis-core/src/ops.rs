@@ -857,6 +857,28 @@ pub enum Event {
         species: SpeciesId,
         why: String,
     },
+    /// BRD-023: the corrosion route's verdict on one metal in one vessel.
+    ///
+    /// A separate event from `Inert` because the two say opposite things
+    /// about the same nail. `Inert` is "nothing is happening to this
+    /// solid"; this is "here is what the corrosion cell in this beaker is
+    /// doing, and whether this metal is the one paying for it". The
+    /// negative form — a metal that is NOT corroding, and which of the
+    /// three requirements is missing, or what is protecting it — is as
+    /// much a computed result as the positive one, which is why it is the
+    /// same event with `corroding: false` rather than a stand-aside.
+    ///
+    /// It carries no rate, on purpose. The corrosion reactions live in
+    /// `kinetics::REGISTRY`, where `wait` drives them and `Reacted`
+    /// reports what moved; this event is the verdict that decides which
+    /// of them may run at all, and a second number here would be a second
+    /// opinion about the same nail.
+    Corroded {
+        vessel: VesselId,
+        species: SpeciesId,
+        corroding: bool,
+        why: String,
+    },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {
         vessel: VesselId,

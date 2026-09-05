@@ -596,6 +596,15 @@ fn execute_prompt(
                     // KID-12: a smothered flame is an answer with a
                     // number in it, not a gap in the model.
                     | Event::FlameStarved { .. }
+                    // BRD-023: so is a corrosion verdict. It is listed
+                    // HERE and deliberately not in `typed_observation`
+                    // below: it should stop a prompt being called
+                    // `missing` when the corrosion route answered it, and
+                    // it should not outrank a computed or curated route
+                    // that was the real answer, because a corrosion
+                    // verdict beside those is an aside about a spectator
+                    // metal.
+                    | Event::Corroded { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

@@ -374,6 +374,22 @@ and `main` moves only by PR.
   hydrated mixture real rust is; and an open vessel still does not draw
   oxygen from the room, which is why every arm of the lesson is sealed over
   a measured amount of it.
+  **Extended 2026-09-05 (BRD-023) with the coupling this entry named as
+  missing.** `crates/kerotakis-core/src/corrosion.rs` resolves exactly the
+  part `iron-corrosion`'s own uncertainty note stood aside from — which of
+  two metals in one electrolyte is the anode — and enforces it where it
+  counts, in `KineticReaction::can_run`. The lower-E° metal (read off
+  `displacement::SERIES`, so the bench keeps one activity series) corrodes
+  for both; a companion entry `zinc-corrosion` makes the sacrifice real, so
+  the zinc is consumed and turns to zinc hydroxide while the iron beside it
+  is left alone; and a barrier table carries the passive film of stainless
+  steel and the paint film of painted iron, keyed on the material recipe the
+  lot came from. Every verdict, positive or negative, is an
+  `Event::Corroded`, so "this is not rusting, and here is what is protecting
+  it" is a computed answer rather than a silence. Its own stated boundaries:
+  protection is all-or-nothing because the bench has no anode-to-cathode
+  area ratio, and a sacrificial zinc does not speed up to carry the iron's
+  current, so a coat lasts longer here than it would in a bucket.
 - **KID-6 — The boiling plateau.** Hold temperature at the (solute-shifted)
   boiling point while water leaves as steam; make the lv1 register say what
   lv3 already says when the aqueous model's 300 °C ceiling is passed.

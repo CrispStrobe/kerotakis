@@ -2067,6 +2067,45 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => format!("{vessel}: {name} inert: {why}"),
             }
         }
+        // BRD-023: the corrosion verdict. `why` already carries the
+        // whole mechanism in the register the module wrote it in, so the
+        // levels differ in how much of it they show rather than in what
+        // they claim.
+        Event::Corroded {
+            vessel,
+            species: sid,
+            corroding,
+            why,
+        } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            match (register.level(), *corroding) {
+                (1, true) => locale.fill(
+                    "event.corroded.lv1",
+                    "The {name} in {vessel} is the one that corrodes here.",
+                    &[("name", name), ("vessel", &vessel.to_string())],
+                ),
+                (1, false) => locale.fill(
+                    "event.corroded.lv1-spared",
+                    "The {name} in {vessel} is not corroding — and that is an answer, not a gap.",
+                    &[("name", name), ("vessel", &vessel.to_string())],
+                ),
+                (2, true) => locale.fill(
+                    "event.corroded.lv2",
+                    "{vessel}: {name} corrodes — {why}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
+                ),
+                (2, false) => locale.fill(
+                    "event.corroded.lv2-spared",
+                    "{vessel}: {name} does not corrode — {why}",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
+                ),
+                _ => {
+                    let verdict = if *corroding { "corroding" } else { "not corroding" };
+                    format!("{vessel}: {name} {verdict}: {why}")
+                }
+            }
+        }
         Event::Consumed {
             vessel,
             species: sid,
