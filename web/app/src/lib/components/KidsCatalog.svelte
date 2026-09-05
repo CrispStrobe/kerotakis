@@ -40,8 +40,8 @@
     <section class="filters">
       <input type="search" bind:value={query} placeholder={t("find an experiment, ingredient, or tool…")} aria-label={t("find a kids experiment")} />
       <div class="chips">
-        <button class:on={status === null} onclick={() => (status = null)}>{t("all")}</button>
-        {#each statuses as value}<button class:on={status === value} data-status={value} onclick={() => (status = status === value ? null : value)}>{t(value)}</button>{/each}
+        <button class:on={status === null} aria-pressed={status === null} onclick={() => (status = null)}>{t("all")}</button>
+        {#each statuses as value}<button class:on={status === value} aria-pressed={status === value} data-status={value} onclick={() => (status = status === value ? null : value)}>{t(value)}</button>{/each}
       </div>
       <select bind:value={topic} aria-label={t("topic")}><option value="">{t("all topics")}</option>{#each topics as value}<option value={value}>{t(value)}</option>{/each}</select>
     </section>

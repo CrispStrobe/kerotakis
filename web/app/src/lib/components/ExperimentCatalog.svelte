@@ -142,7 +142,7 @@
       </header>
       <nav class="tabs">
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
-          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
+          <button class:on={view === key} aria-pressed={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
         <span class="progress-filters" role="group" aria-label={t("completion status")}>
           {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}

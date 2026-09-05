@@ -18,12 +18,15 @@ describe("learning navigation accessibility wiring", () => {
     const catalog = source("ExperimentCatalog.svelte");
     expect(catalog).toContain('role="group" aria-label={t("completion status")}');
     expect(catalog).toContain("aria-pressed={progress === value}");
+    expect(catalog).toContain("aria-pressed={view === key}");
     expect(catalog).toContain("experimentProgressLabel(e, session.completedExperiments)");
   });
 
   it("keeps KIDS progress and Continue/Replay actions in the catalog cards", () => {
     const kids = source("KidsCatalog.svelte");
     expect(kids).toContain('data-progress={links.progress}');
+    expect(kids).toContain("aria-pressed={status === null}");
+    expect(kids).toContain("aria-pressed={status === value}");
     expect(kids).toContain("{links.completedLearning}/{links.linkedLearning}");
     expect(kids).toContain("guidedLearningLabel(links.lessonCompleted)");
     expect(kids).toContain("codexLearningLabel(links.codexCompleted.includes(id))");
@@ -37,6 +40,7 @@ describe("persistent vessel accessibility wiring", () => {
     expect(vessel).toContain('class="gel-status"');
     expect(vessel).toContain('class="persistent-readout"');
     expect(vessel).toContain('aria-label={t("{family} enzyme model: {percent}% of {substrate} converted in {material}"');
+    expect(vessel).toContain('class="observation-status" role="status" aria-live="polite" aria-atomic="true"');
   });
 
   it("keeps additive gel, coating, and enzyme fields safe with old scene payloads", () => {

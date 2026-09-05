@@ -1227,6 +1227,8 @@
 
   {#if dropReady}<span class="drop-hint">{t("add here")}</span>{/if}
 
+  <span class="observation-status" role="status" aria-live="polite" aria-atomic="true">{t(vessel.words)}</span>
+
   <figcaption class="caption">
     <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
     {#if vessel.gel}
@@ -2072,6 +2074,14 @@
     gap: 0.3rem;
     justify-content: center;
     font-size: 0.78rem;
+  }
+  .observation-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .label {
     color: var(--dim);
