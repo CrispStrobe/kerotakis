@@ -17,4 +17,11 @@ describe("physical apparatus assemblies", () => {
     expect(assemblyFor("sweep", {}).parts.map((part) => part.id))
       .toEqual(["source", "inlet", "sample", "outlet"]);
   });
+
+  it("shows familiar candle and balloon skins over existing operators", () => {
+    expect(assemblyFor("bunsen", {}).parts.map((part) => part.id))
+      .toEqual(["wax", "wick", "flame", "sample"]);
+    expect(assemblyFor("regulate", {}).parts.map((part) => part.id))
+      .toEqual(["bag", "seal", "sample"]);
+  });
 });
