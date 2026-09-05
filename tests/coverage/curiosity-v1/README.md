@@ -123,6 +123,18 @@ which moves a corpus row today; they exist so that the shelf answers the
 same question the same way whichever insulator is on it. The tranche's
 provenance lane is PENDING REVIEW and every row's citation says so.
 
+`mat-053` was the smoke set's only `missing` row, and
+`curiosity_smoke_routes_without_crashing` requires the sixteen-prompt
+subset to exhibit every disposition. Flipping it therefore emptied a
+disposition, and the slot goes to **`bio-111`** ("does sunscreen absorb
+ultraviolet light?"), whose refusal is not an accident of coverage but a
+recorded decision: BRD-014.S05 assessed extending the spectral table below
+405 nm and rejected it as neither small nor honest, so this row is the
+corpus's most durably `missing` one. The set keeps sixteen prompts and
+still covers every action family and age band; `materials` now has one
+representative rather than two, because no other `materials` row is
+`missing` for a reason that will outlast the next slice.
+
 Not done here, and named rather than quietly skipped: PVC and rubber have
 no recipe on this shelf to hang a resistivity on, and adding one is a
 material question rather than an electrical one.

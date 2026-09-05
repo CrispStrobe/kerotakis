@@ -9,7 +9,7 @@ smoke_prompts = [
   "aq-100", "th-001",
   "aq-118", "mat-012",
   "bio-001", "bio-009",
-  "mat-053", "mat-046",
+  "bio-111", "mat-046",
   "mat-100", "th-117",
 ]
 shards = [
