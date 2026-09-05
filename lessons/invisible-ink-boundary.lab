@@ -1,12 +1,15 @@
 # Invisible ink: drying, browning and burning are different changes
-# Lemon juice and paper can be heated, but caramelisation and Maillard browning
-# are missing. The modeled burn endpoint must not be mistaken for brown writing.
+# This lesson computes only the reviewed lemon-juice mark on paper. Its bounded
+# brown appearance is not a general caramelisation or Maillard mechanism.
 register lv2
+# Wet control: heat alone cannot reveal a mark while water remains.
 add v1 paper 2g
 add v1 lemon_juice 2mL
 heat v1 2kJ
 look v1
-heat v1 20kJ
+# Dry the same mark first, then warm it. Browning does not ignite the paper.
+evaporate v1 1
+heat v1 2kJ
 look v1
 # Separate virtual burn control. Never ignite real paper for this activity.
 new crucible

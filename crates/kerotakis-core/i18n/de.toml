@@ -781,3 +781,6 @@ white = "weiß"
 # nothing, so what went past unseparated is the answer (aq-087).
 "chromatographed.lv1-nothing-separated" = "Alles, was in {vessel} gelöst ist, läuft mit dem Wasser direkt durch die Säule — diese Methode trennt nichts davon ({outside_method})."
 "chromatographed.lv2-no-peaks" = "{vessel}: Chromatogramm — keine Peaks{unseen}"
+"event.lemon-paper-marked" = "{vessel}: {lemon_amount_g} g Zitronensaft markieren {paper_amount_g} g Papier; die Spur ist noch feucht"
+"event.lemon-paper-dried" = "{vessel}: Die Zitronenspur ist trocken und noch blass"
+"event.lemon-paper-browned" = "{vessel}: Die trockene Zitronenspur ist bei {temperature_k} K zu {percent} % braun"

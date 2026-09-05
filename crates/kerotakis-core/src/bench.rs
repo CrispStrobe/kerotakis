@@ -18,8 +18,8 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::spill::SpillCompartment;
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{
-    Headspace, MaterialLot, MaterialObject, MaterialObjectState, ObjectComponent, ThermalMode,
-    UnresolvedMaterialPortion, Vessel, VesselId,
+    Headspace, LemonPaperMarkState, MaterialLot, MaterialObject, MaterialObjectState,
+    ObjectComponent, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
 };
 
 /// The temperature a match or spark brings its immediate surroundings to.
@@ -1176,6 +1176,7 @@ impl Bench {
                     });
                 }
                 precipitate_declared_soap(v, &recipe, &mut events);
+                recognize_lemon_paper_mark(v, &mut events);
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
                 if energy.0 < 0.0 {
@@ -1219,6 +1220,7 @@ impl Bench {
                         delivered_j: (to.0 - from.0).abs() * cp,
                         time_coupled: false,
                     });
+                    brown_dry_lemon_mark(v, &mut events);
                     if wanted < 0.0 {
                         let could_pay = cp * from.0 / 1000.0;
                         events.push(Event::NotYetModeled {
@@ -2046,6 +2048,14 @@ impl Bench {
                     // guessing one would be inventing a result. So it says
                     // what it is holding and what it cannot decide.
                     let dry = v.moles_of(&water).0 <= 0.0;
+                    if dry {
+                        if let Some(mark) = v.lemon_paper_mark.as_mut() {
+                            if !mark.dry {
+                                mark.dry = true;
+                                events.push(Event::LemonPaperDried { vessel: *vessel });
+                            }
+                        }
+                    }
                     let stranded: Vec<&str> = v
                         .contents
                         .iter()
@@ -3884,6 +3894,66 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
     } else if water_delta < 0.0 {
         vessel.deposit(SpeciesId::new("water"), Moles(-water_delta), Phase::Liquid);
     }
+}
+
+fn material_total_g(vessel: &Vessel, recipe_id: &str) -> Option<f64> {
+    let recipe = material::all().into_iter().find(|r| r.id == recipe_id)?;
+    let unresolved_fraction = recipe.unresolved_fraction?.lower;
+    (unresolved_fraction > 0.0).then(|| {
+        vessel
+            .unresolved_materials
+            .iter()
+            .filter(|p| p.recipe_id == recipe_id)
+            .map(|p| p.amount / unresolved_fraction)
+            .sum()
+    })
+}
+
+fn recognize_lemon_paper_mark(vessel: &mut Vessel, events: &mut Vec<Event>) {
+    if vessel.lemon_paper_mark.is_some() {
+        return;
+    }
+    let Some(lemon_amount_g) = material_total_g(vessel, "household/lemon-juice-surrogate") else {
+        return;
+    };
+    let Some(paper_amount_g) = material_total_g(vessel, "household/paper-sheet") else {
+        return;
+    };
+    if lemon_amount_g <= 0.0 || paper_amount_g <= 0.0 {
+        return;
+    }
+    vessel.lemon_paper_mark = Some(LemonPaperMarkState {
+        lemon_amount_g,
+        paper_amount_g,
+        dry: false,
+        browned_fraction: 0.0,
+    });
+    events.push(Event::LemonPaperMarked {
+        vessel: vessel.id,
+        lemon_amount_g,
+        paper_amount_g,
+    });
+}
+
+fn brown_dry_lemon_mark(vessel: &mut Vessel, events: &mut Vec<Event>) {
+    let Some(mark) = vessel.lemon_paper_mark.as_mut() else {
+        return;
+    };
+    // A narrow classroom observable: a dry lemon mark becomes visibly brown
+    // across 350–450 K. This is not a molecular caramelisation/Maillard model.
+    if !mark.dry || vessel.temperature.0 < 350.0 {
+        return;
+    }
+    let fraction = ((vessel.temperature.0 - 350.0) / 100.0).clamp(0.0, 1.0);
+    if fraction <= mark.browned_fraction + 1e-9 {
+        return;
+    }
+    mark.browned_fraction = fraction;
+    events.push(Event::LemonPaperBrowned {
+        vessel: vessel.id,
+        browned_fraction: fraction,
+        temperature_k: vessel.temperature.0,
+    });
 }
 
 fn precipitate_declared_soap(

@@ -56,6 +56,8 @@ export interface SceneVessel {
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
   soap_scum?: SceneSoapScum | null;
+  /** Reviewed lemon-juice mark carried by a paper substrate. */
+  lemon_paper_mark?: SceneLemonPaperMark | null;
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
@@ -86,6 +88,11 @@ export interface SceneMaterialObject {
 export interface SceneSoapScum {
   aggregate_mass_g: number;
   divalent_ion_moles: number;
+}
+
+export interface SceneLemonPaperMark {
+  dry: boolean;
+  browned_fraction: number;
 }
 
 export interface SceneFoam {

@@ -684,6 +684,19 @@ pub enum Event {
         aggregate_mass_g: f64,
         divalent_ion_moles: f64,
     },
+    LemonPaperMarked {
+        vessel: VesselId,
+        lemon_amount_g: f64,
+        paper_amount_g: f64,
+    },
+    LemonPaperDried {
+        vessel: VesselId,
+    },
+    LemonPaperBrowned {
+        vessel: VesselId,
+        browned_fraction: f64,
+        temperature_k: f64,
+    },
     TemperatureChanged {
         vessel: VesselId,
         from: Kelvin,

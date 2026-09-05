@@ -89,6 +89,17 @@ pub struct SoapScumState {
     pub soap_equivalent_moles: f64,
 }
 
+/// Geometry/appearance state for the one reviewed invisible-ink system.
+/// Matter remains in the ordinary paper and lemon-juice ledgers; this records
+/// only whether that specific mark has dried and darkened.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct LemonPaperMarkState {
+    pub lemon_amount_g: f64,
+    pub paper_amount_g: f64,
+    pub dry: bool,
+    pub browned_fraction: f64,
+}
+
 /// Persistent visual state for gas trapped by a declared foam stabilizer.
 /// Chemistry still owns every gas mole; this only describes a temporary
 /// bubble structure while it drains and coalesces.
@@ -744,6 +755,8 @@ pub struct Vessel {
     pub material_objects: Vec<MaterialObject>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub soap_scum: Option<SoapScumState>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lemon_paper_mark: Option<LemonPaperMarkState>,
     #[serde(default)]
     pub foam: FoamState,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -807,6 +820,7 @@ impl Vessel {
             unresolved_materials: Vec::new(),
             material_objects: Vec::new(),
             soap_scum: None,
+            lemon_paper_mark: None,
             foam: FoamState::default(),
             surface_particles: None,
             surface_colours: Vec::new(),

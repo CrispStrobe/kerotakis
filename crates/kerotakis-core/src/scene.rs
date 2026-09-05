@@ -80,6 +80,8 @@ pub struct SceneVessel {
     pub material_objects: Vec<SceneMaterialObject>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub soap_scum: Option<SceneSoapScum>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lemon_paper_mark: Option<SceneLemonPaperMark>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -141,6 +143,12 @@ pub struct SceneMaterialObject {
 pub struct SceneSoapScum {
     pub aggregate_mass_g: f64,
     pub divalent_ion_moles: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneLemonPaperMark {
+    pub dry: bool,
+    pub browned_fraction: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -649,6 +657,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         soap_scum: v.soap_scum.as_ref().map(|scum| SceneSoapScum {
             aggregate_mass_g: scum.aggregate_mass_g,
             divalent_ion_moles: scum.divalent_ion_moles,
+        }),
+        lemon_paper_mark: v.lemon_paper_mark.as_ref().map(|mark| SceneLemonPaperMark {
+            dry: mark.dry,
+            browned_fraction: mark.browned_fraction,
         }),
         bubbling: seen.bubbling,
         foam,

@@ -42,6 +42,17 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     }
 }
 
+#[test]
+fn invisible_ink_requires_drying_before_the_mark_browns() {
+    let lesson = lessons_dir().join("invisible-ink-boundary.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let wet = out.find("the mark is still wet").expect("wet mark event");
+    let dry = out.find("the lemon mark is dry").expect("dry mark event");
+    let brown = out.find("dry lemon mark is").expect("brown mark event");
+    assert!(wet < dry && dry < brown, "mark order must be wet → dry → brown:\n{out}");
+}
+
 fn run(args: &[&str]) -> (String, String, bool) {
     let out = Command::new(env!("CARGO_BIN_EXE_kero"))
         .args(args)
