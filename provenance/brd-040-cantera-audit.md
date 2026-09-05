@@ -71,7 +71,7 @@ parsed into a network that answered a different question; these were the bugs.
 | `A`, `b`, `Ea` numeric | Supported | |
 | `Ea` as a unit-bearing string (`Ea: 10 kcal/mol`) | Supported | |
 | `A` as a unit-bearing string (`A: 1e12 cm^3/mol/s`) | **Was confusing** → refused | had surfaced as serde `invalid type: string` |
-| Negative `Ea` | Refused | legal and common — 4× in `h2o2.yaml`, 32× in `gri30.yaml` |
+| Negative `Ea` | Refused (2026-08-29) → **accepted (2026-09-05, BRD-041)** | legal and common — 4× in `h2o2.yaml`, 32× in `gri30.yaml`. §7 item 3 recommended dropping the `Ea ≥ 0` guard; BRD-041 needed it for `CO + OH → CO₂ + H` and did. The guard is now a finiteness check, and a NaN `Ea` is still refused by name. |
 | Negative `A` / `negative-A: true` | Refused | value guard already refused `A ≤ 0`; the flag is now refused by name too |
 | `orders` (explicit reaction orders) | **Was silent** → refused | changes the concentration exponents *and* the units of `A` |
 | `negative-orders`, `nonreactant-orders` | **Was silent** → refused | |
@@ -262,6 +262,11 @@ teaching set reduces to **exactly three rate-law additions**:
 3. **Negative activation energies.** Drop the `Ea ≥ 0` guard. `Ea` in a fitted
    Arrhenius expression is a fitted parameter, not a barrier height, and
    negative values are ordinary. The guard should become a finiteness check.
+   **Done (2026-09-05, BRD-041).** The barrierless `CO + OH → CO₂ + H` step
+   is the one that decides whether carbon monoxide burns at all, and its
+   recommended fit has a negative activation energy; a CO pack could not be
+   written honestly without this. `MechanismError::NonFiniteActivationEnergy`
+   still refuses a NaN.
 
 Plus one piece of document handling that is not a rate law:
 

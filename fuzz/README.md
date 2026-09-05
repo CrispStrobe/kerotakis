@@ -1,6 +1,6 @@
 # Fuzzing
 
-Five libFuzzer targets over the parsers and the bench loop (PLAN.md,
+Eight libFuzzer targets over the parsers and the bench loop (PLAN.md,
 "Testing is part of the architecture"). This directory is its own
 workspace on purpose: it needs nightly and libFuzzer, and must never
 make `cargo test --workspace` need either.
@@ -10,6 +10,7 @@ cargo +nightly fuzz run lab_grammar -- -max_total_time=120
 cargo +nightly fuzz run stoich      -- -max_total_time=120
 cargo +nightly fuzz run dbindex     -- -max_total_time=120
 cargo +nightly fuzz run bench_ops   -- -max_total_time=180
+cargo +nightly fuzz run mechanism_yaml -- -max_total_time=180
 cargo +nightly fuzz run --no-default-features quarantine -- -max_total_time=600
 ```
 
@@ -25,6 +26,7 @@ cargo-fuzz 0.13 accepts it after and then ignores it.
 | `stoich` | `parse_equation` + `balance` | 2026-08-20: found a real panic in minutes |
 | `dbindex` | `DbIndex::parse` on corrupted database bytes | 2026-08-20: 2.3M runs, clean |
 | `bench_ops` | arbitrary operator sequences through the bench, NaN and infinity included | 2026-08-20: 3.2M runs, clean |
+| `mechanism_yaml` | BRD-041: `kinetics::mechanism::parse_yaml` + `compile_in` on arbitrary text, asserting that compiling neither adds nor drops a reaction and that no parsed rate law evaluates to NaN | **not yet run** — added with the BRD-041 guard relaxations (negative `Ea`, explicit `orders`); needs a nightly toolchain this VPS does not build on |
 | `quarantine` | BRD-003's external-bytes surface: snapshot manifests, candidate fixtures, promotion policies and unit spellings | 2026-08-29: 1.57M runs in 901 s, clean |
 
 `quarantine`'s first run started from a 14-file corpus seeded with the

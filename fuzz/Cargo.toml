@@ -68,6 +68,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "mechanism_yaml"
+path = "fuzz_targets/mechanism_yaml.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "fluid_parameters"
 path = "fuzz_targets/fluid_parameters.rs"
 test = false

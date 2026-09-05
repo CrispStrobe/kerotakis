@@ -1,0 +1,349 @@
+description: Kerotakis CO/H2 wet oxidation v1
+
+note: >-
+  BRD-041. A project-original reduced mechanism for the oxidation of
+  carbon monoxide in the presence of water, assembled by Kerotakis from
+  the recommended ("preferred") rate coefficients of a single
+  evaluation: Baulch, Bowman, Cobos, Cox, Just, Kerr, Pilling, Stocker,
+  Troe, Tsang, Walker and Warnatz, "Evaluated Kinetic Data for
+  Combustion Modeling. Supplement II", Journal of Physical and Chemical
+  Reference Data 34(3), 757-1397 (2005), DOI 10.1063/1.1748524. Every
+  reaction carries the recommendation it came from, the data-sheet page
+  it was read from, the range that recommendation covers, its stated
+  uncertainty, and the date it was read.
+  WHAT THIS PACK IS ABOUT. Carbon monoxide is famously hard to burn dry
+  and easy to burn damp, and the reason is one reaction, CO + OH ->
+  CO2 + H. The H atom it hands back goes straight into H + O2 -> O + OH,
+  so a trace of water is a CATALYST for the whole oxidation rather than
+  a reactant in it. That is why this pack is the hydrogen mechanism with
+  a carbon sink attached, and not a shorter file.
+  LICENCE. Kerotakis-authored curated data, CC BY 4.0, separately from
+  the AGPL-3.0 engine code. Attribute as "Kerotakis gas-phase mechanism
+  packs, CC BY 4.0". Rate constants are measured facts and a table of
+  facts is not a copyrightable work; no mechanism file was copied.
+  BRD-040 established that no audited combustion mechanism carries a
+  redistribution grant - see provenance/brd-040-cantera-audit.md.
+  UNITS. Baulch et al. tabulate k in cm3 molecule-1 s-1, cm6 molecule-2
+  s-1 for a combination low-pressure limit, and cm3 molecule-1 s-1 for a
+  dissociation low-pressure limit. Every pre-exponential below has been
+  multiplied by the Avogadro constant once per molecularity beyond the
+  first, to reach the cm/mol/s convention declared here, and every "B"
+  in exp(-B/T) has been multiplied by the gas constant and expressed in
+  cal/mol.
+  THIRD-BODY EFFICIENCIES. Each three-body step names the bath gas its
+  rate coefficient was recommended for, and gives explicit efficiencies
+  only for the other bath gases the same evaluation recommends a
+  coefficient for. Every species without an explicit entry therefore
+  collides with efficiency 1.0, which means "as effectively as the
+  reference bath gas of that step" - a stated approximation, not a
+  measurement.
+  WHAT THIS PACK DOES NOT CLAIM. It carries NO hydrogen-free route from
+  CO to CO2. The dry reactions CO + O2 -> CO2 + O, CO + HO2 -> CO2 + OH
+  and CO + O (+M) -> CO2 (+M) are real and slow, and the 2005 evaluation
+  recommends values for none of them - the enumeration was checked, and
+  the earlier 1992 evaluation does not cover them either - so this pack
+  does not invent any. A vessel of dry CO and O2 therefore does NOTHING
+  here, which understates a genuinely slow reaction rather than
+  overstating it, and which means the pack must not be used to argue
+  that dry carbon monoxide cannot burn. It does not claim the HOCO
+  stabilisation channel of OH + CO, only the CO2 + H channel. It does
+  not claim soot, luminosity or flame colour. It does not claim NOx:
+  nitrogen is an inert diluent and third-body collider here. It does not
+  claim ignition delay. It does not claim falloff: the third-body steps
+  are written at their LOW-PRESSURE limits only. It does not claim
+  transport, flame structure or flame speed.
+  EXTRAPOLATION, NAMED. Four steps are used outside the range their
+  evaluation covers, and are named here rather than hidden: the two
+  H + HO2 channels (recommended 250-1000 K), OH + HO2 -> H2O + O2
+  (recommended 250-400 K and 1300-2000 K, with an unfilled gap between),
+  and the H2O + M initiation (recommended 2000-6000 K, used far below
+  that as a small ignition source, where a large-barrier Arrhenius fit
+  extrapolates downward to an almost-zero rate).
+
+references:
+- >-
+  Baulch, D. L., Bowman, C. T., Cobos, C. J., Cox, R. A., Just, Th., Kerr,
+  J. A., Pilling, M. J., Stocker, D., Troe, J., Tsang, W., Walker, R. W.,
+  Warnatz, J. "Evaluated Kinetic Data for Combustion Modeling. Supplement
+  II." J. Phys. Chem. Ref. Data 34(3), 757-1397 (2005). DOI
+  10.1063/1.1748524. Retrieved 2026-09-05.
+
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  kinetics: gas
+  species: [CO, CO2, H2, O2, H2O, H, O, OH, HO2, H2O2, N2, Ar]
+
+species:
+- name: CO
+  composition: {C: 1, O: 1}
+- name: CO2
+  composition: {C: 1, O: 2}
+- name: H2
+  composition: {H: 2}
+- name: O2
+  composition: {O: 2}
+- name: H2O
+  composition: {H: 2, O: 1}
+- name: H
+  composition: {H: 1}
+- name: O
+  composition: {O: 1}
+- name: OH
+  composition: {O: 1, H: 1}
+- name: HO2
+  composition: {H: 1, O: 2}
+- name: H2O2
+  composition: {H: 2, O: 2}
+- name: N2
+  composition: {N: 2}
+- name: Ar
+  composition: {Ar: 1}
+
+reactions:
+
+# --- chain branching: the two steps that turn one radical into three ---
+- equation: H + O2 => O + OH
+  rate-constant: {A: 2.0656e+14, b: -0.097, Ea: 15023.26}
+  note: >-
+    id=cowet-branching-h-o2; source=Baulch et al. 2005, data sheet p. 895,
+    summary Table 4.1 p. 780, preferred k = 3.43e-10 T^-0.097
+    exp(-7560/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.1 at
+    800 K rising to +/- 0.2 at 3500 K; validity=800-3500 K;
+    retrieved=2026-09-05
+
+- equation: O + H2 => OH + H
+  rate-constant: {A: 3.8180e+12, b: 0.0, Ea: 7948.82}
+  note: >-
+    id=cowet-branching-o-h2-low; source=Baulch et al. 2005, data sheet
+    p. 803, summary Table 4.1 p. 777, preferred k = [6.34e-12
+    exp(-4000/T) + 1.46e-9 exp(-9650/T)] cm3 molecule-1 s-1, uncertainty
+    delta log k +/- 0.2 over the whole range. The recommendation is a sum
+    of two Arrhenius terms and is written here as two entries whose rates
+    add, which is exactly what the sum means. This is the first term;
+    validity=298-3300 K; retrieved=2026-09-05
+
+- equation: O + H2 => OH + H
+  rate-constant: {A: 8.7923e+14, b: 0.0, Ea: 19176.52}
+  note: >-
+    id=cowet-branching-o-h2-high; source=Baulch et al. 2005, data sheet
+    p. 803, second Arrhenius term of the preferred k = [6.34e-12
+    exp(-4000/T) + 1.46e-9 exp(-9650/T)] cm3 molecule-1 s-1, uncertainty
+    delta log k +/- 0.2; validity=298-3300 K; retrieved=2026-09-05
+
+# --- propagation: where the water actually comes from ---
+- equation: OH + H2 => H2O + H
+  rate-constant: {A: 2.1680e+8, b: 1.52, Ea: 3457.74}
+  note: >-
+    id=cowet-propagation-oh-h2; source=Baulch et al. 2005, data sheet
+    p. 1029, summary Table 4.1 p. 782, preferred k = 3.6e-16 T^1.52
+    exp(-1740/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.1 at
+    250 K rising to +/- 0.3 at 2500 K; validity=250-2500 K;
+    retrieved=2026-09-05
+
+- equation: H + H2O => OH + H2
+  rate-constant: {A: 4.5166e+8, b: 1.6, Ea: 17944.45}
+  note: >-
+    id=cowet-reverse-h-h2o; source=Baulch et al. 2005, data sheet p. 922,
+    summary Table 4.1 p. 780, preferred k = 7.5e-16 T^1.6 exp(-9030/T)
+    cm3 molecule-1 s-1, uncertainty delta log k +/- 0.2. This is the
+    separately evaluated reverse of OH + H2 -> H2O + H. Both directions
+    are carried as independent irreversible steps rather than derived
+    from a thermochemical equilibrium constant, which is why the network
+    can reach a steady state instead of running to completion;
+    validity=800-2500 K; retrieved=2026-09-05
+
+- equation: OH + OH => H2O + O
+  rate-constant: {A: 3.3483e+4, b: 2.42, Ea: -1927.59}
+  note: >-
+    id=cowet-oh-oh; source=Baulch et al. 2005, data sheet p. 1032, summary
+    Table 4.1 p. 782, preferred k = 5.56e-20 T^2.42 exp(970/T) cm3
+    molecule-1 s-1, uncertainty delta log k +/- 0.15. The exponential is
+    POSITIVE in the recommendation, so the activation energy written here
+    is negative - a fitted parameter, not a barrier height. The same data
+    sheet supplies the equilibrium constant for the reverse,
+    O + H2O -> OH + OH, which the 2005 evaluation does not give a
+    forward data sheet of its own and which this pack therefore omits;
+    validity=250-2400 K; retrieved=2026-09-05
+
+# --- the HO2 shunt: what stops a hydrogen flame below the crossover ---
+- equation: H + O2 + M => HO2 + M
+  type: three-body
+  rate-constant: {A: 2.6474e+19, b: -1.3, Ea: 0.0}
+  efficiencies: {Ar: 0.53, H2O: 11.5}
+  note: >-
+    id=cowet-shunt-h-o2-m; source=Baulch et al. 2005, data sheet p. 898
+    with the preferred-values box on p. 900, summary Table 4.2 p. 797,
+    preferred low-pressure limit k0(N2) = 7.3e-29 T^-1.3 cm6 molecule-2
+    s-1, uncertainty delta log k +/- 0.1 at 298 K rising to +/- 0.2 at
+    2000 K. N2 is the reference collider. The Ar and H2O efficiencies are
+    the ratios of the same evaluation's k0(Ar) = 1.9e-29 T^-1.2 and
+    k0(H2O) = 1.0e-28 T^-1.0 to k0(N2), evaluated at 1200 K - the three
+    recommendations carry different temperature exponents, so a single
+    efficiency number is an approximation and the temperature it was
+    taken at is stated. The falloff to k_infinity is NOT modelled;
+    validity=298-2000 K; retrieved=2026-09-05
+
+- equation: H + HO2 => OH + OH
+  rate-constant: {A: 4.4564e+14, b: 0.0, Ea: 1391.04}
+  note: >-
+    id=cowet-ho2-h-branch; source=Baulch et al. 2005, data sheet p. 919,
+    summary Table 4.1 p. 780, preferred k = 7.4e-10 exp(-700/T) cm3
+    molecule-1 s-1 for channel 2, uncertainty delta log k +/- 0.15;
+    validity=250-1000 K; retrieved=2026-09-05
+
+- equation: H + HO2 => H2 + O2
+  rate-constant: {A: 1.0539e+14, b: 0.0, Ea: 2046.82}
+  note: >-
+    id=cowet-ho2-h-terminate; source=Baulch et al. 2005, data sheet
+    p. 919, summary Table 4.1 p. 780, preferred k = 1.75e-10
+    exp(-1030/T) cm3 molecule-1 s-1 for channel 1, uncertainty delta
+    log k +/- 0.3. The third channel, H + HO2 -> H2O + O, has a
+    recommendation at 298 K only and no temperature dependence at all, so
+    it is not carried here; validity=250-1000 K; retrieved=2026-09-05
+
+- equation: OH + HO2 => H2O + O2
+  rate-constant: {A: 9.2741e+15, b: 0.0, Ea: 17507.27}
+  note: >-
+    id=cowet-ho2-oh-terminate; source=Baulch et al. 2005, data sheet
+    p. 1037, summary Table 4.1 p. 783, HIGH-TEMPERATURE preferred k =
+    1.54e-8 exp(-8810/T) cm3 molecule-1 s-1, uncertainty delta log k
+    +/- 0.5. The evaluation gives two disjoint expressions for this
+    reaction, this one over 1300-2000 K and k = 4.8e-11 exp(250/T) over
+    250-400 K, and NO RECOMMENDATION AT ALL between 400 and 1300 K.
+    Anyone running this pack in that gap is interpolating on their own
+    authority and should say so; validity=1300-2000 K;
+    retrieved=2026-09-05
+
+- equation: HO2 + HO2 => H2O2 + O2
+  rate-constant: {A: 4.2155e+14, b: 0.0, Ea: 11982.84}
+  note: >-
+    id=cowet-ho2-ho2-high; source=Baulch et al. 2005, data sheet p. 1109,
+    summary Table 4.1 p. 784, first Arrhenius term of the preferred k =
+    [7.0e-10 exp(-6030/T) + 2.2e-13 exp(820/T)] cm3 molecule-1 s-1,
+    uncertainty delta log k +/- 0.15 over 550-800 K rising to +/- 0.4 at
+    1250 K; validity=550-1250 K; retrieved=2026-09-05
+
+- equation: HO2 + HO2 => H2O2 + O2
+  rate-constant: {A: 1.3249e+11, b: 0.0, Ea: -1629.51}
+  note: >-
+    id=cowet-ho2-ho2-low; source=Baulch et al. 2005, data sheet p. 1109,
+    second Arrhenius term of the preferred k = [7.0e-10 exp(-6030/T) +
+    2.2e-13 exp(820/T)] cm3 molecule-1 s-1. The second term has a
+    positive exponential and therefore a negative activation energy;
+    validity=550-1250 K; retrieved=2026-09-05
+
+- equation: H2O2 + M => OH + OH + M
+  type: three-body
+  rate-constant: {A: 1.2044e+17, b: 0.0, Ea: 45506.98}
+  efficiencies: {Ar: 0.42}
+  note: >-
+    id=cowet-peroxide-split; source=Baulch et al. 2005, data sheet p. 1036
+    with the preferred-values box on p. 1037, summary Table 4.3 p. 800,
+    preferred low-pressure limit k0(N2) = 2.0e-7 exp(-22900/T) cm3
+    molecule-1 s-1, uncertainty delta log k +/- 0.2. N2 is the reference
+    collider. The Ar efficiency is the ratio of the same evaluation's
+    k0(Ar) = 3.8e-8 exp(-21960/T) to k0(N2), evaluated at 1200 K, the two
+    barriers being different. The falloff to k_infinity = 3.0e14
+    exp(-24400/T) s-1 is NOT modelled; validity=700-1500 K;
+    retrieved=2026-09-05
+
+# --- termination: where the radicals go to die ---
+- equation: H + OH + M => H2O + M
+  type: three-body
+  rate-constant: {A: 2.2122e+22, b: -2.0, Ea: 0.0}
+  efficiencies: {Ar: 0.38, H2O: 6.39}
+  note: >-
+    id=cowet-termination-h-oh-m; source=Baulch et al. 2005, data sheet
+    p. 913, summary Table 4.2 p. 797, preferred low-pressure limit
+    k0(N2) = 6.1e-26 T^-2.0 cm6 molecule-2 s-1, uncertainty delta log k
+    +/- 0.5. N2 is the reference collider. The Ar and H2O efficiencies
+    are the exact ratios of the same evaluation's k0(Ar) = 2.3e-26 T^-2.0
+    and k0(H2O) = 3.9e-25 T^-2.0 to k0(N2) - all three carry the same
+    temperature exponent, so these ratios are temperature independent;
+    validity=300-3000 K; retrieved=2026-09-05
+
+- equation: H + H + M => H2 + M
+  type: three-body
+  rate-constant: {A: 6.5279e+17, b: -1.0, Ea: 0.0}
+  efficiencies: {H2: 2.65}
+  note: >-
+    id=cowet-termination-h-h-m; source=Baulch et al. 2005, data sheet
+    p. 905, summary Table 4.2 p. 797, preferred low-pressure limit
+    k0(Ar) = 1.8e-30 T^-1.0 cm6 molecule-2 s-1, uncertainty delta log k
+    +/- 0.5. Argon is the reference collider because the evaluation gives
+    no N2 value. The H2 efficiency is the ratio of the same evaluation's
+    k0(H2) = 2.8e-31 T^-0.6 to k0(Ar) evaluated at 1200 K, the exponents
+    being different; validity=200-2500 K; retrieved=2026-09-05
+
+# --- initiation, for completeness, and far outside a bench flame ---
+- equation: H2 + M => H + H + M
+  type: three-body
+  rate-constant: {A: 2.2282e+14, b: 0.0, Ea: 96081.33}
+  efficiencies: {H2: 4.05}
+  note: >-
+    id=cowet-initiation-h2-split; source=Baulch et al. 2005, summary
+    Table 4.3 p. 800, preferred low-pressure limit k0(Ar) = 3.7e-10
+    exp(-48350/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.3.
+    Argon is the reference collider. The H2 efficiency is the exact ratio
+    of the same evaluation's k0(H2) = 1.5e-9 exp(-48350/T) to k0(Ar),
+    both carrying the same barrier. This is the pack's only initiation
+    channel and its evaluation starts at 2500 K, so at ordinary flame
+    temperatures it contributes essentially nothing and the network must
+    be given a radical source; validity=2500-8000 K; retrieved=2026-09-05
+
+# --- the carbon step, and the only one this pack has ---
+- equation: OH + CO => H + CO2
+  rate-constant: {A: 1.0057e+13, b: 0.0, Ea: 15996.99}
+  note: >-
+    id=cowet-co-oh-a; source=Baulch et al. 2005, data sheet p. 1045 with
+    the preferred-values box on p. 1046, summary Table 4.2 p. 798,
+    low-pressure limit of the CO2 + H channel, k0(N2) = [1.67e-11
+    exp(-8050/T) + 1.50e-12 exp(-2300/T) + 1.68e-13 exp(-30/T)],
+    uncertainty delta log k +/- 0.1. The recommendation is a sum of three
+    Arrhenius terms and is written here as three entries whose rates add.
+    This is the first term. NOTE ON UNITS - both Table 4.2 and the data
+    sheet print these coefficients as cm6 molecule-2 s-1, which is a
+    publication error: k0 here is the BIMOLECULAR CO2 + H branch, in cm3
+    molecule-1 s-1. It evaluates to 1.52e-13 at 300 K, the accepted
+    room-temperature value, and the pressure correction k(P) = k0 [1 +
+    3.2 (P/bar) exp(-T/161)] on the same page is dimensionally
+    consistent only for a bimolecular k0. That correction raises k by 0.2
+    per cent at 1200 K and one bar and is NOT modelled here;
+    validity=80-3000 K; retrieved=2026-09-05
+
+- equation: OH + CO => H + CO2
+  rate-constant: {A: 9.0332e+11, b: 0.0, Ea: 4570.57}
+  note: >-
+    id=cowet-co-oh-b; source=Baulch et al. 2005, data sheet p. 1045,
+    second Arrhenius term of the low-pressure limit k0(N2) = [1.67e-11
+    exp(-8050/T) + 1.50e-12 exp(-2300/T) + 1.68e-13 exp(-30/T)] cm3
+    molecule-1 s-1 for the CO2 + H channel, uncertainty delta log k
+    +/- 0.1; validity=80-3000 K; retrieved=2026-09-05
+
+- equation: OH + CO => H + CO2
+  rate-constant: {A: 1.0117e+11, b: 0.0, Ea: 59.62}
+  note: >-
+    id=cowet-co-oh-c; source=Baulch et al. 2005, data sheet p. 1045,
+    third Arrhenius term of the low-pressure limit k0(N2) = [1.67e-11
+    exp(-8050/T) + 1.50e-12 exp(-2300/T) + 1.68e-13 exp(-30/T)] cm3
+    molecule-1 s-1 for the CO2 + H channel, uncertainty delta log k
+    +/- 0.1. This nearly temperature-independent term is what makes
+    CO + OH fast at room temperature; validity=80-3000 K;
+    retrieved=2026-09-05
+
+# --- the wet ignition source ---
+- equation: H2O + M => H + OH + M
+  type: three-body
+  rate-constant: {A: 4.8177e+15, b: 0.0, Ea: 105162.85}
+  note: >-
+    id=cowet-initiation-water-split; source=Baulch et al. 2005, summary
+    Table 4.3 p. 800, preferred low-pressure limit k0(N2) = 8e-9
+    exp(-52920/T) cm3 molecule-1 s-1, uncertainty delta log k +/- 0.5.
+    This is the pack's only initiation channel and it needs water, which
+    is the point. Its evaluation starts at 2000 K, so below that it is an
+    extrapolation of a large-barrier Arrhenius fit to a very small
+    number, and the network should be given a radical source rather than
+    relied on to light itself; validity=2000-6000 K; retrieved=2026-09-05
