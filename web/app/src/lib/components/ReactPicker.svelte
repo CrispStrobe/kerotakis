@@ -52,6 +52,13 @@
     },
   };
   const detail = $derived(DETAILS[chosen] ?? null);
+  // Through a function, not a repeated `DETAILS[name] ? DETAILS[name].blurb`:
+  // under `noUncheckedIndexedAccess` the second index access is a fresh
+  // `| undefined` and svelte-check is right to say so.
+  const blurbOf = (name: string): string => {
+    const known = DETAILS[name];
+    return known ? t(known.blurb) : "";
+  };
 </script>
 
 <section class="react" aria-label={t("curated reaction on v{vessel}", { vessel: vessel + 1 })}>
@@ -61,7 +68,7 @@
   <div class="row">
     <select bind:value={chosen}>
       <option value="">{t("choose…")}</option>
-      {#each options as name (name)}<option value={name} title={DETAILS[name] ? t(DETAILS[name].blurb) : ""}>{t(name)}</option>{/each}
+      {#each options as name (name)}<option value={name} title={blurbOf(name)}>{t(name)}</option>{/each}
     </select>
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
       {t("run")}
