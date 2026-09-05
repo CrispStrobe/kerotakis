@@ -61,10 +61,16 @@ use crate::enthalpy;
 /// right answer for the step that first adds an alkali, because the base
 /// is then still a portion and is priced as one.
 fn free_hydroxide_moles(species: Option<&[SpeciesDetail]>, water_kg: f64) -> f64 {
+    measured_species_moles(species, "OH-", water_kg)
+}
+
+/// Moles of one species, from PHREEQC's own distribution. Absent means the
+/// engine did not report it, which for `H+` or `OH-` means negligible.
+fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_kg: f64) -> f64 {
     species
         .unwrap_or(&[])
         .iter()
-        .find(|s| s.name == "OH-")
+        .find(|s| s.name == name)
         .map(|s| s.molality * water_kg)
         .unwrap_or(0.0)
 }
@@ -2193,6 +2199,15 @@ impl PhreeqcEquilibrator {
             problem.kgw,
         );
         vessel.free_hydroxide = measured_oh;
+        // Written beside it and unused by this balance — H+ is a master
+        // species and carries no enthalpy — but a gate above the tail has
+        // no other way to read it once `solution` has been cleared. See
+        // the field docs for why it is not `unspent_acidity`.
+        vessel.free_proton = measured_species_moles(
+            vessel.solution.as_ref().map(|s| s.species.as_slice()),
+            "H+",
+            problem.kgw,
+        );
 
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
             let mut gas_out: Vec<(String, f64)> = Vec::new();
