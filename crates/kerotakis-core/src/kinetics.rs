@@ -1734,11 +1734,28 @@ pub fn advance_network<'a>(
 /// making results depend on registry order. Aggregation also gives one place
 /// to scale an unexpectedly aggressive midpoint step before any reactant can
 /// become negative.
+/// Commit a vector of reaction extents to the vessel.
+///
+/// `intermediates` are the species the network both makes and consumes
+/// (see `kinetics_integrator::intermediate_keys`). A REAGENT that the
+/// extents would drive negative bounds the whole vector: the solver has
+/// asked for more than the inventory holds, and every coupled extent is
+/// scaled back together so conservation stays structural. An INTERMEDIATE
+/// is different. Its net change is the small difference of two large
+/// extents — a radical made and eaten a million times over — and a
+/// reconstructed amount of −1e-8 mol at the end of an interval is the
+/// solver's tolerance showing, not an over-draft. Letting it bound the
+/// fraction rescaled a millimole hydrogen burn by a fifth to protect a
+/// nanomole of atomic oxygen from going negative. Intermediates are
+/// therefore clamped per species: what is there is withdrawn, the
+/// tolerance-sized remainder is not, and the fuel burns as far as the
+/// solver said it did.
 fn apply_coupled_extents<'a>(
     vessel: &mut Vessel,
     reactions: &[KineticReaction<'a>],
     extents: &[f64],
     deltas: &mut Vec<(&'a str, Phase, f64)>,
+    intermediates: &std::collections::BTreeSet<(&'a str, Phase)>,
 ) -> f64 {
     deltas.clear();
     for (reaction, extent) in reactions.iter().zip(extents) {
@@ -1755,13 +1772,15 @@ fn apply_coupled_extents<'a>(
         }
     }
 
-    let accepted_fraction = deltas.iter().filter(|(_, _, change)| *change < 0.0).fold(
-        1.0f64,
-        |fraction, (species, phase, change)| {
+    let accepted_fraction = deltas
+        .iter()
+        .filter(|(species, phase, change)| {
+            *change < 0.0 && !intermediates.contains(&(*species, *phase))
+        })
+        .fold(1.0f64, |fraction, (species, phase, change)| {
             let available = phase_moles(vessel, species, *phase);
             fraction.min((available / -change).clamp(0.0, 1.0))
-        },
-    );
+        });
 
     // Withdraw first, then deposit. Because changes have been aggregated by
     // species and phase, neither loop can observe an intermediate produced by
@@ -2865,7 +2884,13 @@ mod tests {
         // commit must accept half of both, not let the first path win and
         // then create the second path's product from a truncated withdrawal.
         let mut deltas = Vec::new();
-        let accepted = apply_coupled_extents(&mut vessel, &reactions, &[0.1, 0.1], &mut deltas);
+        let accepted = apply_coupled_extents(
+            &mut vessel,
+            &reactions,
+            &[0.1, 0.1],
+            &mut deltas,
+            &std::collections::BTreeSet::new(),
+        );
         assert!((accepted - 0.5).abs() < 1e-12);
         assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) < 1e-12);
         assert!((phase_moles(&vessel, "H2O2", Phase::Liquid) - 0.05).abs() < 1e-12);

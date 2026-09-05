@@ -296,8 +296,8 @@ pub struct GasMechanismClock;
 /// short enough to see the induction period.
 const GAS_MECHANISM_OPTIONS: crate::kinetics::IntegrationOptions =
     crate::kinetics::IntegrationOptions {
-        relative_tolerance: 1e-6,
-        absolute_tolerance_moles: 1e-14,
+        relative_tolerance: 1e-8,
+        absolute_tolerance_moles: 1e-16,
         initial_step_seconds: 1e-9,
     };
 

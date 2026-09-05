@@ -72,8 +72,8 @@ fn a_hot_seeded_hydrogen_vessel_burns_on_the_clock_and_heats_up() {
         1.0e-2,
         &pack.network,
         kerotakis_core::kinetics::IntegrationOptions {
-            relative_tolerance: 1e-6,
-            absolute_tolerance_moles: 1e-14,
+            relative_tolerance: 1e-8,
+            absolute_tolerance_moles: 1e-16,
             initial_step_seconds: 1e-9,
         },
     )

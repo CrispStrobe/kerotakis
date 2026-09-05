@@ -400,8 +400,11 @@ fn an_unbalanced_edit_is_refused() {
 /// packs were already doing real chemistry, and they are the regression
 /// the fix must not break.
 const STIFF: IntegrationOptions = IntegrationOptions {
-    relative_tolerance: 1e-6,
-    absolute_tolerance_moles: 1e-14,
+    // Tight, because an intermediate's amount is the difference of two
+    // large extents: at 1e-6 the radicals' bookkeeping error reached
+    // 1e-8 mol, which is visible in an atom count over 4e-3 mol.
+    relative_tolerance: 1e-8,
+    absolute_tolerance_moles: 1e-16,
     initial_step_seconds: 1e-9,
 };
 

@@ -615,8 +615,13 @@ pub fn advance_network_with_context_and_options<'a>(
         drop(solver);
         drop(problem);
 
-        let accepted_fraction =
-            apply_coupled_extents(vessel, network.reactions, &proposed_buf, &mut deltas_buf);
+        let accepted_fraction = apply_coupled_extents(
+            vessel,
+            network.reactions,
+            &proposed_buf,
+            &mut deltas_buf,
+            &intermediates,
+        );
         if accepted_fraction < 1.0 {
             statistics.constrained_commits += 1;
         }
@@ -733,5 +738,12 @@ pub fn amount_at_extents(
 /// (may be < 1.0 if a reactant would go negative).
 pub fn commit_extents(vessel: &mut Vessel, network: &ReactionNetwork<'_>, extents: &[f64]) -> f64 {
     let mut deltas = Vec::new();
-    apply_coupled_extents(vessel, network.reactions, extents, &mut deltas)
+    let intermediates = intermediate_keys(network.reactions);
+    apply_coupled_extents(
+        vessel,
+        network.reactions,
+        extents,
+        &mut deltas,
+        &intermediates,
+    )
 }
