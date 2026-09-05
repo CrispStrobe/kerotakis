@@ -1501,7 +1501,9 @@ impl Equilibrator for HonestyEquilibrator {
                 // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
                 // sentence about dissolution, said where it reads as a
                 // claim about reactivity, is a false one.
-                if !crate::curated::consumes(vessel, &p.species) {
+                if !crate::curated::consumes(vessel, &p.species)
+                    && !crate::kinetics::consumes(vessel, &p.species)
+                {
                     if let Some(limit) = species::lookup(&p.species)
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)
@@ -1605,7 +1607,9 @@ impl Equilibrator for HonestyEquilibrator {
                 // as `2 (C6H10O5) + H2O ->[amylase] C12H22O11`. A true
                 // sentence about dissolution, said where it reads as a
                 // claim about reactivity, is a false one.
-                if !crate::curated::consumes(vessel, &p.species) {
+                if !crate::curated::consumes(vessel, &p.species)
+                    && !crate::kinetics::consumes(vessel, &p.species)
+                {
                     if let Some(limit) = species::lookup(&p.species)
                         .and_then(|d| d.aqueous_solubility_at(vessel.temperature.0))
                         .filter(|limit| *limit < 0.01)

@@ -159,3 +159,38 @@ fn the_bleach_conserves_every_element() {
         );
     }
 }
+
+/// The honesty pass must not call the pigment "still all there" while the
+/// slow clock is bleaching it: insoluble is not the same as inert, and the
+/// aside is skipped wherever a curated rate law consumes the solid.
+#[test]
+fn the_honesty_pass_does_not_call_a_pigment_being_bleached_inert() {
+    use kerotakis_core::{Equilibrator, Event, HonestyEquilibrator};
+    let mut v = bleach_vessel();
+    let events = HonestyEquilibrator
+        .equilibrate(&mut v)
+        .expect("the pass runs");
+    assert!(
+        !events.iter().any(|e| matches!(
+            e,
+            Event::Inert { species, .. } if species.0 == "hair_pigment"
+        )),
+        "{events:?}"
+    );
+
+    // Without the peroxide nothing consumes it, and the reviewed
+    // insolubility IS the answer.
+    let mut alone = Vessel::new(VesselId(1), "beaker");
+    alone.deposit(SpeciesId::new("hair_pigment"), Moles(0.001), Phase::Solid);
+    alone.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
+    let events = HonestyEquilibrator
+        .equilibrate(&mut alone)
+        .expect("the pass runs");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::Inert { species, .. } if species.0 == "hair_pigment"
+        )),
+        "{events:?}"
+    );
+}

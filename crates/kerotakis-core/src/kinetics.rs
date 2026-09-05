@@ -1557,6 +1557,21 @@ pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction<'static>> {
         .collect()
 }
 
+/// Whether some curated rate law that can run in this vessel consumes the
+/// species — the slow clock's twin of `curated::consumes`. The honesty
+/// pass asks both before it calls an insoluble solid "still all there":
+/// a pigment that peroxide is bleaching over ten minutes is insoluble AND
+/// being eaten, and a true sentence about dissolution said there reads as
+/// a false one about reactivity.
+pub fn consumes(vessel: &Vessel, species: &SpeciesId) -> bool {
+    applicable(vessel).iter().any(|reaction| {
+        reaction
+            .stoichiometry
+            .iter()
+            .any(|term| term.species == species.0 && term.coefficient < 0.0)
+    })
+}
+
 impl<'a> KineticReaction<'a> {
     pub fn reactants(&self) -> impl Iterator<Item = &StoichiometricTerm<'a>> {
         self.stoichiometry
