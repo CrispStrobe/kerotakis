@@ -200,7 +200,7 @@ export async function runCatalogEntry(
   const ran: string[] = [];
   let refusedAt: number | null = null;
   bench.beginEventCapture();
-  let observed: string[];
+  let observed: string[] = [];
   try {
     for (const [index, line] of lines.entries()) {
       if (stopped?.()) break;

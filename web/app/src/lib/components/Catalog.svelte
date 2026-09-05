@@ -235,6 +235,10 @@
     } finally {
       running = false;
       step = null;
+      // Consent is per run, not per entry. A replay of an experiment the
+      // learner cleared the bench for must ask again, or the second tap
+      // is the silent wipe the first one was written to prevent.
+      decision = null;
     }
   }
 
