@@ -77,8 +77,8 @@ export const APPARATUS: ApparatusSpec[] = [
   {
     verb: "bunsen",
     commandVerb: "heat",
-    title: "Bunsen burner",
-    blurb: "adjust the flame, then heat or test ignition",
+    title: "candle / Bunsen flame",
+    blurb: "adjust a flame, then heat or test ignition",
     fields: [
       { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5 },
       { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5 },
@@ -284,8 +284,8 @@ export const APPARATUS: ApparatusSpec[] = [
   },
   {
     verb: "regulate",
-    title: "piston lid",
-    blurb: "hold a set pressure over the vessel",
+    title: "balloon or gas bag",
+    blurb: "hold a chosen pressure and gas volume with a flexible boundary",
     fields: [
       { name: "pressure", label: "pressure", type: "number", unit: "bar", default: 1.5, min: 0.1, step: 0.1 },
       { name: "volume", label: "headspace", type: "number", unit: "mL", default: 500, min: 10 },

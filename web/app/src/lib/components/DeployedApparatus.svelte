@@ -22,7 +22,7 @@
 
   const toolNames: Record<string, string> = {
     burette: "burette",
-    bunsen: "Bunsen burner",
+    bunsen: "candle / Bunsen flame",
     dilute: "wash bottle",
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
@@ -30,7 +30,7 @@
     heat: "hotplate",
     cool: "cooling bath",
     irradiate: "lamp",
-    regulate: "piston lid",
+    regulate: "balloon or gas bag",
     stir: "magnetic stirrer",
     sweep: "carrier-gas line",
   };
@@ -51,7 +51,7 @@
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, effect?.pressureControl?.pressurePa ? effect.pressureControl.pressurePa / 100_000 : Number(values.pressure ?? 1)));
   const regulatorVolumeL = $derived(Math.max(.01, effect?.pressureControl?.initialVolumeL ?? Number(values.volume ?? 500) / 1000));
-  const pistonY = $derived(18 + (1 - Math.min(1, regulatorVolumeL)) * 12);
+  const bagRadius = $derived(16 + Math.min(1, regulatorVolumeL) * 10);
   const gaugeAngle = $derived(-120 + Math.min(1, pressure / 5) * 240);
   const sweepPressureBar = $derived(effect?.sweep?.pressurePa ? effect.sweep.pressurePa / 100_000 : Number(values.pressure ?? 1));
   const sweepRate = $derived(`${Math.max(.35, 1.3 - Math.min(1, sweepPressureBar / 5) * .8)}s`);
@@ -193,18 +193,18 @@
     </g>
   {:else if tool === "regulate"}
     <g class="regulator">
-      <rect class="lid-plate" x="19" y={pistonY} width="62" height="6" rx="2" />
-      <path class="piston" d={`M 50 ${pistonY} V 5 M 41 5 H 59`} />
-      <path class="pressure-volume" d={`M 22 ${pistonY + 7} H 78 V ${Math.min(surfaceY, pistonY + 30)} H 22 Z`} />
+      <ellipse class="gas-bag" cx="50" cy="25" rx={bagRadius} ry={bagRadius * .72} />
+      <path class="bag-neck" d={`M 46 42 L 50 48 L 54 42 M 50 48 V ${Math.min(surfaceY, 74)}`} />
+      <path class="bag-hose" d={`M 50 ${Math.min(surfaceY, 74)} H 68 V ${surfaceY}`} />
       <circle class="gauge" cx="82" cy="8" r="9" />
       {#each [-120, -60, 0, 60, 120] as angle (angle)}
         <path class="gauge-tick" d="M 82 1 V 3" transform={`rotate(${angle} 82 8)`} />
       {/each}
       <path class="needle" d="M 82 8 V 2" transform={`rotate(${gaugeAngle} 82 8)`} />
       <text x="82" y="-4" text-anchor="middle">{pressure.toFixed(1)} bar</text>
-      <text class="volume-readout" x="50" y={pistonY + 12} text-anchor="middle">{(regulatorVolumeL * 1000).toFixed(0)} mL</text>
+      <text class="volume-readout" x="50" y="25" text-anchor="middle">{(regulatorVolumeL * 1000).toFixed(0)} mL</text>
       {#if effect?.pressureControl}
-        <text class="trapped-readout" x="50" y={pistonY + 18} text-anchor="middle">{(effect.pressureControl.trappedGasMoles * 1000).toPrecision(2)} mmol {t("trapped gas")}</text>
+        <text class="trapped-readout" x="50" y="32" text-anchor="middle">{(effect.pressureControl.trappedGasMoles * 1000).toPrecision(2)} mmol {t("trapped gas")}</text>
       {/if}
     </g>
   {:else if tool === "sweep"}
@@ -223,7 +223,7 @@
 
 <style>
   .apparatus { color: var(--instrument); pointer-events: none; }
-  .stand, .metal, .tube, .wire, .lamp-arm, .hose, .piston, .needle { fill: none; stroke: var(--edge-strong); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .stand, .metal, .tube, .wire, .lamp-arm, .hose, .bag-neck, .bag-hose, .needle { fill: none; stroke: var(--edge-strong); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .burner-base, .burner-tube, .burner-collar { fill: color-mix(in srgb, var(--instrument) 35%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
   .air-hole { fill: var(--surface); }
   .flame-outer { fill: var(--flame-outer, #248cff); opacity: calc(.45 + var(--flame-power) * .5); }
@@ -266,10 +266,9 @@
   .working .light-cone { animation: lamp-pulse .8s ease-in-out infinite alternate; }
   .model-boundary rect { fill: color-mix(in srgb, var(--surface) 92%, var(--lamp)); stroke: var(--lamp); stroke-width: .6; }
   .lamp .model-boundary text { fill: var(--ink); font-size: 4px; font-weight: 750; }
-  .lid-plate { fill: var(--edge-strong); }
+  .gas-bag { fill: color-mix(in srgb, var(--discovery) 13%, var(--glass)); stroke: var(--instrument); stroke-width: 1.2; }
   .gauge { fill: var(--surface); stroke: var(--instrument); stroke-width: 1.5; }
   .gauge-tick { fill: none; stroke: var(--dim); stroke-width: .7; }
-  .pressure-volume { fill: color-mix(in srgb, var(--cool) 13%, transparent); stroke: none; }
   .regulator .volume-readout, .regulator .trapped-readout { fill: var(--ink); font-size: 5px; font-weight: 800; paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; }
   .regulator .trapped-readout { font-size: 4px; fill: var(--instrument); }
   .arrow { fill: var(--instrument); }

@@ -30,6 +30,9 @@
     heat: "M 3 12 H 15 L 14 16 H 4 Z M 6 9 Q 4 6 7 3 M 11 9 Q 9 6 12 2",
     react: "M 6 2 H 12 M 8 2 V 7 L 4 14 Q 3 16 6 16 H 12 Q 15 16 14 14 L 10 7 V 2 M 6 12 Q 9 10 13 12",
     transport: "M 2 4 H 6 V 14 H 2 Z M 12 4 H 16 V 14 H 12 Z M 6 7 H 12 M 9 5 L 12 7 L 9 9",
+    balloon: "M 9 2 C 4 2 3 6 4 9 C 5 12 7 14 9 14 C 11 14 13 12 14 9 C 15 6 14 2 9 2 Z M 8 14 L 10 14 L 9 16 M 9 16 C 7 17 11 17 9 18",
+    candle: "M 6 7 H 12 V 17 H 6 Z M 9 7 C 5 5 9 1 9 1 C 13 5 11 7 9 7 Z M 9 7 V 9",
+    "chromatography-paper": "M 4 2 H 14 V 16 H 4 Z M 6 13 H 12 M 7 11 H 11 M 6 8 H 12 M 7 5 H 11",
   };
   const d = $derived(PATHS[name]);
 </script>

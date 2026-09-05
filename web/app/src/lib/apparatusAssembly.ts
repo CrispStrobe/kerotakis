@@ -25,6 +25,8 @@ export function assemblyFor(
   values: Record<string, number | string>,
 ): ApparatusAssembly {
   switch (tool) {
+    case "bunsen":
+      return line(part("wax", "candle wax", "▮"), part("wick", "wick", "│"), part("flame", "ignition flame", "♨"), part("sample", "sample vessel", "▽"));
     case "stir":
       return line(part("drive", "magnetic drive", "↻"), part("bar", "stir bar", "━"), part("sample", "sample vessel", "▽"));
     case "heat":
@@ -49,7 +51,7 @@ export function assemblyFor(
     case "irradiate":
       return line(part("lamp", "lamp", "☀"), part("sample", "sample vessel", "▽"));
     case "regulate":
-      return line(part("piston", "piston lid", "↕"), part("seal", "sealed connection", "◉"), part("sample", "sample vessel", "▽"));
+      return line(part("bag", "balloon or gas bag", "◯"), part("seal", "sealed connection", "◉"), part("sample", "sample vessel", "▽"));
     case "sweep":
       return line(part("source", "gas source", "◉"), part("inlet", "inlet hose", "⌁"), part("sample", "sample vessel", "▽"), part("outlet", "safe exhaust", "→"));
     case "grind":

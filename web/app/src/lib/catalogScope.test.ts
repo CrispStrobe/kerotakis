@@ -11,4 +11,9 @@ describe("missionEquipment", () => {
       "measure v1 thermometer", "smell v1", "chromatograph v1", "measure v2 thermometer",
     ])).toEqual(["measure:thermometer", "measure:smell", "measure:chromatograph"]);
   });
+
+  it("loans the familiar flame and magnet objects for their engine commands", () => {
+    expect(missionEquipment(["ignite v1", "magnet v1 v2"]))
+      .toEqual(["bunsen", "magnet"]);
+  });
 });

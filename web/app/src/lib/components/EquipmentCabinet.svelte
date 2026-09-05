@@ -8,6 +8,7 @@
   import type { CatalogScope } from "../catalogScope";
   import { equipmentMatches } from "../catalogSearch";
   import { INSTRUMENTS, instrumentCommand, instrumentVerb } from "../instruments";
+  import { KIDS_EQUIPMENT, type KidsEquipment } from "../kidsEquipment";
 
   const TRANSFER_TOOLS: { verb: TwoVesselAction; title: string; blurb: string }[] = [
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
@@ -82,16 +83,26 @@
     const verb = instrumentVerb(item.token);
     return visible(verb) && matches(verb, item.label, item.purpose);
   }));
+  const visibleKidsEquipment = $derived(KIDS_EQUIPMENT.filter((item) =>
+    visible(item.engineVerb) && matches(item.engineVerb, item.title, `${item.blurb} ${item.parts.join(" ")}`)
+  ));
   const showBurette = $derived(visible("burette") && matches("burette", "burette", "controlled addition"));
   const showMix = $derived(visible("mix") && matches("mix", "mixer", "combine two sources into a receiver"));
   const showTransport = $derived(visible("transport") && matches("transport", "column train", "move solution through connected cells"));
   const showReact = $derived(reactAvailable && visible("react") && matches("react", "curated reaction", "choose a verified reaction family"));
-  const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + visibleInstruments.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
+  const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + visibleInstruments.length + visibleKidsEquipment.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
   const requirementLabel = (verb: string) => {
     const count = requirement(catalog, verb);
     // Silent rather than guessing while the engine has not answered.
     if (count === null) return "";
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
+  };
+  const useKidsEquipment = (item: KidsEquipment) => {
+    if (item.action === "apparatus") return onapparatus(item.engineVerb);
+    if (item.action === "instrument" && item.instrument) {
+      return onmeasure(instrumentCommand(target, item.instrument));
+    }
+    if (item.action === "transfer") return ontransfer(item.engineVerb as TwoVesselAction);
   };
 </script>
 
@@ -111,6 +122,29 @@
     <input bind:value={filter} placeholder={t("filter…")} aria-label={`${t("filter…")} ${t("equipment")}`} />
     {#if filter}<button type="button" onclick={() => (filter = "")} aria-label={t("clear")}>×</button>{/if}
   </label>
+
+  {#if visibleKidsEquipment.length > 0}<div class="equipment-group kids-equipment">
+    <h2><span>{t("children's activity kits")}</span><small>{visibleKidsEquipment.length}</small></h2>
+    <div class="equipment-grid">
+      {#each visibleKidsEquipment as item (item.id)}
+        {@const itemAccess = accessOf(item.engineVerb)}
+        <button
+          class="equipment-card kids-card"
+          class:locked={!itemAccess.available}
+          class:deployed={item.action === "apparatus" && apparatusOut === item.engineVerb}
+          disabled={busy || !itemAccess.available}
+          onclick={() => useKidsEquipment(item)}
+        >
+          <span class="equipment-icon"><ToolIcon name={item.icon} /></span>
+          <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
+          <span class="kit-parts">{item.parts.map((part) => t(part)).join(" · ")}</span>
+          <span class="skin-boundary">{t(item.boundary)}</span>
+          {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+          {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.engineVerb)}</span>{/if}
+        </button>
+      {/each}
+    </div>
+  </div>{/if}
 
   {#if showBurette || visibleApparatus.length > 0}<div class="equipment-group">
     <h2><span>{t("measure and transform")}</span><small>{visibleApparatus.length + Number(showBurette)}</small></h2>
@@ -238,4 +272,8 @@
   .loaned-label { margin-top: auto; padding: .2rem .36rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .5rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }
   .equipment-card.wide .locked-label { margin: 0 0 0 auto; }
+  .kids-equipment { padding: .55rem; border: 1px solid color-mix(in srgb, var(--discovery) 25%, var(--edge)); border-radius: 14px; background: color-mix(in srgb, var(--discovery) 5%, transparent); }
+  .kids-card { min-height: 170px; }
+  .kit-parts { color: var(--instrument); font-size: .55rem; font-weight: 750; line-height: 1.3; }
+  .skin-boundary { color: var(--dim); font-size: .53rem; line-height: 1.3; }
 </style>
