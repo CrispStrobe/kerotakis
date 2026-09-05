@@ -38,7 +38,10 @@ fn reviewed_sand_suspension_filters_to_clear_water_with_retained_solid() {
         .as_ref()
         .expect("water remains visible")
         .cloudiness;
-    assert!(cloudy > 0.9, "the reviewed suspension must look cloudy: {cloudy}");
+    assert!(
+        cloudy > 0.9,
+        "the reviewed suspension must look cloudy: {cloudy}"
+    );
 
     let silica_before: f64 = bench
         .vessels
@@ -47,7 +50,9 @@ fn reviewed_sand_suspension_filters_to_clear_water_with_retained_solid() {
         .sum();
     let solid_before = solid_silica(&bench, VesselId(0));
     let events = run(&mut bench, "filter v1 v2");
-    assert!(events.iter().any(|event| matches!(event, Event::Filtered { .. })));
+    assert!(events
+        .iter()
+        .any(|event| matches!(event, Event::Filtered { .. })));
 
     bench.vessel(VesselId(0)).expect("filter residue");
     bench.vessel(VesselId(1)).expect("receiver");
@@ -60,9 +65,15 @@ fn reviewed_sand_suspension_filters_to_clear_water_with_retained_solid() {
         .as_ref()
         .expect("filtrate water")
         .cloudiness;
-    assert!(clear < 1e-12, "the solid-free filtrate must look clear: {clear}");
     assert!(
-        after.vessels[0].solids.iter().any(|solid| solid.species == "SiO2"),
+        clear < 1e-12,
+        "the solid-free filtrate must look clear: {clear}"
+    );
+    assert!(
+        after.vessels[0]
+            .solids
+            .iter()
+            .any(|solid| solid.species == "SiO2"),
         "the sand's resolved quartz must remain as filter residue"
     );
 
@@ -71,5 +82,8 @@ fn reviewed_sand_suspension_filters_to_clear_water_with_retained_solid() {
         .iter()
         .map(|vessel| vessel.moles_of(&SpeciesId::new("SiO2")).0)
         .sum();
-    assert!((silica_after - silica_before).abs() < 1e-12, "filtration conserves silica");
+    assert!(
+        (silica_after - silica_before).abs() < 1e-12,
+        "filtration conserves silica"
+    );
 }

@@ -35,6 +35,7 @@
   "whole object buoyancy": "Auftrieb ganzer Objekte",
   "candle jar": "Kerze im Glas",
   "density": "Dichte",
+  "density tower boundary": "Grenze des Dichteturms",
   "volcano foam": "Vulkan-Schaum",
   "float or sink": "Schwimmen oder Sinken",
   "borax snowflake": "Borax-Schneeflocke",
@@ -450,6 +451,8 @@
   "naked egg osmosis": "Osmose beim nackten Ei",
   "hard water soap scum": "Seifenkalk in hartem Wasser",
   "apple browning": "Bräunung eines Apfels",
+  "sugar water density tower": "Dichteturm aus Zuckerwasser",
+  "water filter": "Wasserfilter",
   "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse"
  },
  "messages": {

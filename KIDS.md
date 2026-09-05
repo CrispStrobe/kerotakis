@@ -1341,7 +1341,7 @@ or a rate in them.
 |---|---|---|---|
 | K31 | Pull the iron out of the sand | computed | `magnet v1 v2` moves 3 g of iron and names the quartz left behind. `EXP-1` exactly as promised |
 | K32 | Which plastics float? | ~~silent miss~~ → computed | closed by KID-19b (2026-09-04). Nothing was missing but the comparison: polypropylene at 0.90 g/mL **floats on top**, polystyrene at 1.05 and PET at 1.38 settle and are named where they went, and a floating solid stops counting as turbidity. The registry had all three densities the whole time |
-| K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
+| K33 | Build a water filter | ~~partial~~ → computed | the reviewed quartz-rich sand surrogate now makes a visible suspension; `filter` transfers clear water, retains solid SiO₂ and conserves the small dissolved share, without claiming to remove microbes or dissolved pollutants |
 | K34 | Open-circuit voltage from lemon juice | ~~unreachable~~ → computed | the renamed question matches what the engine actually answers: zinc and copper in the lemon surrogate give a deterministic no-load estimate from computed pH and an explicit unit zinc-ion activity. It does not claim a powered fruit battery; geometry, electrode spacing and area, internal resistance, loaded current, power and lifetime remain outside the model |
 | K35 | Split water with electricity | ~~honest miss~~ → computed | conductive water with an inert sulfate electrolyte gives hydrogen and oxygen by Faraday's law in the 2:1 amount ratio; `lessons/water-electrolysis.lab` contrasts that with pure water, which remains correctly refused as an insulator |
 | K36 | Turn an iron nail copper | computed | Fe + CuSO₄ → Cu + FeSO₄, +17 K, orange copper at the bottom. Textbook |
@@ -1367,13 +1367,14 @@ or a rate in them.
 | K56 | Bubble mixture that lasts | ~~partial~~ → computed | KID-11 made foam a property of gas meeting a surfactant rather than of one reaction id, so any gas-making vessel with a declared surfactant foams and drains on the recipe's own half-life — 1.375 L falls to 0.866 L over two minutes against a 180-second half-life |
 | K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 gave the bench the density of a sugar solution — solute volume included, which it was not before — and KID-19a gave the learner a way to read it, so the *number* a tower would be built on is both right and askable; the layering is the part that is still missing |
 | K58 | Instant snow from a powder | computed | bounded, mass-balanced sodium-polyacrylate water uptake; no swelling time, volume, texture, salinity or pH response |
-| K59 | Luminol light in warm and cold water | partial | computed relative intensity/lifetime comparison for a prepared luminol/peroxide system; not commercial peroxyoxalate glow-stick chemistry, product speciation or photon yield |
+| K59 | Luminol light in warm and cold water | ~~partial~~ → computed | temperature changes relative intensity and lifetime, both samples fade on the clock, and ordinary engine chemistry consumes peroxide; commercial peroxyoxalate chemistry, luminol product speciation and absolute photon yield remain explicit boundaries |
 | K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |
 
-**Current shipped-catalog tally (2026-09-05): computed 49 · partial 8 ·
-boundary 1 · declined 2 · unreachable 0.** K14, K39, K45, K58 and K59 now
-contribute guided GUI lessons backed by explicit prepared-material state; the
-older audit labels in this narrative remain as history.
+**Current shipped-catalog tally (2026-09-05): computed 52 · partial 5 ·
+boundary 1 · declined 2 · unreachable 0.** K33, K34 and K59 are the latest
+honest promotions; the five remaining partials now link to guided evidence or
+explicit model boundaries. Older audit labels in this narrative remain as
+history.
 
 ## What the second thirty added to the register
 

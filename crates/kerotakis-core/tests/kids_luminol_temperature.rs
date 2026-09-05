@@ -44,7 +44,8 @@ fn matched_warm_and_cold_luminol_systems_trade_brightness_for_lifetime() {
     assert!(warm_now.half_life_s < cold_now.half_life_s);
 
     let peroxide_before = [VesselId(0), VesselId(1)].map(|id| {
-        bench.vessel(id)
+        bench
+            .vessel(id)
             .unwrap()
             .moles_of(&SpeciesId::new("H2O2"))
             .0
@@ -69,7 +70,10 @@ fn matched_warm_and_cold_luminol_systems_trade_brightness_for_lifetime() {
             .unwrap()
             .moles_of(&SpeciesId::new("H2O2"))
             .0;
-        assert!(after < peroxide_before[index], "the activator must advance with time");
+        assert!(
+            after < peroxide_before[index],
+            "the activator must advance with time"
+        );
     }
 }
 
