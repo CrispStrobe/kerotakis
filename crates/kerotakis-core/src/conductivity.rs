@@ -39,10 +39,23 @@
 //! Kohlrausch says nothing about that, and no amount of λ° data would make
 //! it. So [`dry_solid_conductance`] is a separate path over a separate
 //! datum — the registry's curated `electrical_resistivity` — and it fires
-//! only where the solution model does not: a dry vessel, one solid, no
+//! only where the solution model does not: a dry vessel, one sample, no
 //! aqueous phase at all. A beaker with a copper wire standing in salt water
 //! is a solution measurement and stays one, because that is what the probe
 //! would read.
+//!
+//! And a third kind, which is neither. A porcelain insulator conducts by
+//! almost nothing at all — twenty orders of magnitude below the copper —
+//! and the reason is that it has no free carriers rather than that its
+//! carriers are slow. The number for it cannot ride a species record,
+//! because porcelain is not a species: the recipe resolves 68% of it into
+//! silica, and the silica's record would be quartz sand's. So a named
+//! object carries its own reviewed resistivity as a material role, and
+//! [`dry_solid_conductance`] reads THAT for a vessel holding one object.
+//! Insulators and semiconductors also differ from metals in a way the
+//! datum has to admit: their resistivity is a span, not a constant, so
+//! every such row states the span its class covers beside the point value
+//! the meter reads.
 
 use crate::vessel::{SolutionInfo, SpeciesDetail, Vessel};
 
@@ -221,16 +234,38 @@ pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
 /// `TransitionReading`.
 #[derive(Debug, Clone, PartialEq)]
 pub struct SolidConductance {
-    /// The species key the reading is about.
+    /// The species key, or the material recipe's canonical key, that the
+    /// reading is about.
     pub species: String,
     /// Ω·m at 293.15 K, as curated.
     pub resistivity_ohm_m: f64,
+    /// The span the reviewed class of material covers, when the single
+    /// value above is one point inside a range the object does not pin
+    /// down. `None` for a pure solid, whose resistivity IS the claim.
+    ///
+    /// It exists because the insulator and semiconductor rows are not
+    /// like the metal rows. Copper's resistivity is a constant of copper;
+    /// porcelain's moves by orders of magnitude with the alkali content
+    /// of its glassy phase and with temperature, and doped silicon's is
+    /// set by a dopant concentration no recipe here states. Quoting the
+    /// point without the span would be a confidence the data has not got.
+    pub span_ohm_m: Option<(f64, f64)>,
     /// S/m — the reciprocal, which is what a conductance meter reads.
     pub conductivity_s_per_m: f64,
     /// The tranche citation behind the number.
-    pub source: &'static str,
-    /// What the row does not claim: purity, temper, alloy, anisotropy.
-    pub boundary: Option<&'static str>,
+    pub source: String,
+    /// What the row does not claim: purity, temper, alloy, anisotropy,
+    /// temperature dependence, surface leakage, dopant level.
+    pub boundary: Option<String>,
+}
+
+impl SolidConductance {
+    /// The span as conductances, high first, because a conductance meter
+    /// reads S/m and the reciprocal reverses the order.
+    pub fn span_s_per_m(&self) -> Option<(f64, f64)> {
+        self.span_ohm_m
+            .map(|(lower, upper)| (1.0 / upper, 1.0 / lower))
+    }
 }
 
 /// The dry-solid path, or `None` if this vessel is not one.
@@ -242,16 +277,74 @@ pub struct SolidConductance {
 ///   vessel, the probe is in a solution and the Kohlrausch path owns it.
 /// * **No liquid at all.** A wet solid conducts through the film of liquid
 ///   on it, which is neither model.
-/// * **Exactly one solid**, and nothing unresolved beside it. Two metals
-///   touching are a circuit with a geometry, and this reading has no
-///   geometry — it is a material property, not a resistance in ohms.
+/// * **One sample.** Two metals touching are a circuit with a geometry,
+///   and this reading has no geometry — it is a material property, not a
+///   resistance in ohms. So: exactly one solid species and nothing
+///   unresolved, or exactly one named object and nothing that did not
+///   arrive as part of it.
 /// * **A curated resistivity.** Most solids in this registry have none, and
 ///   the meter says so instead of inventing one.
+///
+/// # Why there are two paths
+///
+/// A pure solid's resistivity rides its species record, because that is
+/// where a handbook puts a constant of a substance. An insulator on this
+/// shelf is not a substance: `porcelain` is a fired object, 68% resolved
+/// silica and a conserved remainder, and its resistivity belongs to
+/// neither half — it belongs to the object. Reading the silica's record
+/// would be reading quartz sand, which is a different material with the
+/// same species key, and reading nothing was the refusal this function
+/// used to make. So a named object's resistivity is a reviewed property
+/// of the recipe, and this is where the meter picks it up.
 pub fn dry_solid_conductance(vessel: &Vessel) -> Option<SolidConductance> {
-    if vessel.solution.is_some() || !vessel.unresolved_materials.is_empty() {
+    if vessel.solution.is_some() {
         return None;
     }
     if vessel.liquid_volume().0 > 0.0 {
+        return None;
+    }
+    // Any non-solid left over (a gas headspace aside) means the sample is
+    // not the isolated lump this reading describes. Checked before either
+    // path, because it disqualifies both.
+    if vessel.contents.iter().any(|other| {
+        other.phase != crate::species::Phase::Solid
+            && other.phase != crate::species::Phase::Gas
+            && other.moles.0 > crate::OBSERVABLE_MOLES
+    }) {
+        return None;
+    }
+    named_object_conductance(vessel).or_else(|| pure_solid_conductance(vessel))
+}
+
+/// The lot source the material route stamps on everything a named recipe
+/// deposits. `corrosion::Barrier` keys on the whole string; here the tail
+/// is the recipe id and the reading needs it.
+const MATERIAL_LOT_PREFIX: &str = "material recipe ";
+
+/// Record `candidate` as the one object seen so far, or report that it
+/// disagrees with the object already seen.
+fn agrees(seen: &mut Option<String>, candidate: &str) -> bool {
+    match seen {
+        Some(already) => already == candidate,
+        None => {
+            *seen = Some(candidate.to_string());
+            true
+        }
+    }
+}
+
+/// One solid species, one curated species resistivity.
+///
+/// Refuses outright while any named material is in the vessel: an object
+/// that resolves nothing at all (silicon) leaves the beaker holding only
+/// whatever else was dropped in beside it, and reporting THAT solid's
+/// resistivity would answer about the wrong thing.
+fn pure_solid_conductance(vessel: &Vessel) -> Option<SolidConductance> {
+    if vessel
+        .unresolved_materials
+        .iter()
+        .any(|portion| portion.amount > 0.0)
+    {
         return None;
     }
     let mut solids = vessel.contents.iter().filter(|portion| {
@@ -261,22 +354,91 @@ pub fn dry_solid_conductance(vessel: &Vessel) -> Option<SolidConductance> {
     if solids.next().is_some() {
         return None;
     }
-    // Any non-solid left over (a gas headspace aside) means the sample is
-    // not the isolated lump this reading describes.
-    if vessel.contents.iter().any(|other| {
-        other.phase != crate::species::Phase::Solid
-            && other.phase != crate::species::Phase::Gas
-            && other.moles.0 > crate::OBSERVABLE_MOLES
-    }) {
-        return None;
-    }
     let resistivity = crate::species::lookup(&portion.species)?.electrical_resistivity?;
     Some(SolidConductance {
         species: portion.species.0.clone(),
         resistivity_ohm_m: resistivity.ohm_m,
+        span_ohm_m: None,
         conductivity_s_per_m: resistivity.conductivity_s_per_m(),
-        source: resistivity.source,
-        boundary: resistivity.boundary,
+        source: resistivity.source.to_string(),
+        boundary: resistivity.boundary.map(String::from),
+    })
+}
+
+/// One named object, and its own reviewed resistivity.
+///
+/// The strictness is the pure path's, restated for a material: one recipe,
+/// and everything solid in the vessel arrived as part of it. A porcelain
+/// dish resolves 68% of itself into `SiO2`, so the vessel holds silica
+/// beside the unresolved remainder and "no other solids" would refuse the
+/// object its own inventory. The rule that means what the pure path's
+/// means is therefore about PROVENANCE: the silica may stay because the
+/// porcelain brought it, and a copper wire dropped in beside the dish
+/// makes this a circuit with a geometry again, so the meter stands down.
+///
+/// Both halves of an object are consulted, because recipes differ in
+/// which half they have. `porcelain` and `glass` keep an unresolved
+/// remainder; `quartz` and `silica_glass` resolve into silica entirely and
+/// have no unresolved portion at all; `silicon` resolves into nothing and
+/// has no species portion at all. Reading only one of the two would leave
+/// a third of the shelf unreadable for a reason that is about bookkeeping
+/// rather than about electricity.
+fn named_object_conductance(vessel: &Vessel) -> Option<SolidConductance> {
+    use crate::material::MaterialRole;
+    let mut id: Option<String> = None;
+    for portion in vessel
+        .unresolved_materials
+        .iter()
+        .filter(|portion| portion.amount > 0.0)
+    {
+        if !agrees(&mut id, &portion.recipe_id) {
+            return None;
+        }
+    }
+    for portion in vessel.contents.iter().filter(|portion| {
+        portion.phase == crate::species::Phase::Solid && portion.moles.0 > crate::OBSERVABLE_MOLES
+    }) {
+        let from = vessel.lots.iter().find_map(|lot| {
+            if lot.species.0 != portion.species.0 || lot.phase != crate::species::Phase::Solid {
+                return None;
+            }
+            lot.source.as_deref()?.strip_prefix(MATERIAL_LOT_PREFIX)
+        })?;
+        if !agrees(&mut id, from) {
+            return None;
+        }
+    }
+    let id = id?;
+    let recipe = crate::material::all()
+        .into_iter()
+        .find(|recipe| recipe.id == id)?;
+    let (ohm_m, span_lower, span_upper, boundary, source) =
+        recipe.roles.iter().find_map(|role| match role {
+            MaterialRole::BulkElectricalResistivity {
+                ohm_m,
+                span_lower_ohm_m,
+                span_upper_ohm_m,
+                boundary,
+                source,
+            } => Some((
+                *ohm_m,
+                *span_lower_ohm_m,
+                *span_upper_ohm_m,
+                boundary.clone(),
+                source.clone(),
+            )),
+            _ => None,
+        })?;
+    if !ohm_m.is_finite() || ohm_m <= 0.0 {
+        return None;
+    }
+    Some(SolidConductance {
+        species: recipe.canonical_key.clone(),
+        resistivity_ohm_m: ohm_m,
+        span_ohm_m: Some((span_lower, span_upper)),
+        conductivity_s_per_m: 1.0 / ohm_m,
+        source,
+        boundary: Some(boundary),
     })
 }
 

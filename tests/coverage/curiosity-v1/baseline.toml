@@ -1817,8 +1817,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-053"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "mat-054"
@@ -1895,8 +1895,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-066"
 owning_task = "BRD-060"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "mat-067"

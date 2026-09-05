@@ -265,6 +265,42 @@ pub enum MaterialRole {
         /// it back, which is the difference between fresh and cooked.
         denatures_above_k: f64,
     },
+    /// The bulk DC electrical resistivity of a named solid object.
+    ///
+    /// A pure solid's resistivity rides its species record, because it is
+    /// a constant of the substance and a handbook tabulates it as one.
+    /// A porcelain insulator has no such record and could not: its
+    /// resistivity belongs to the fired object rather than to the silica
+    /// the recipe resolves, it is set by the alkali content of the glassy
+    /// phase between the crystals, and no component of this recipe
+    /// carries it. That is exactly what a role is for.
+    ///
+    /// It carries a span as well as a value on purpose. An insulator's
+    /// resistivity is not one number the way copper's is — it moves by
+    /// orders of magnitude with composition, temperature and surface
+    /// condition, and a doped semiconductor's is set by a dopant
+    /// concentration the recipe does not pin down. The single value is
+    /// what the meter reads for THIS reviewed object; the span is what
+    /// the class covers, and a reading that quotes one without the other
+    /// is a confidence the data does not have.
+    BulkElectricalResistivity {
+        /// Room-temperature bulk DC volume resistivity of this reviewed
+        /// object, in ohm.m. Must lie inside the declared span.
+        ohm_m: f64,
+        /// Lower bound of the span this class of material covers, ohm.m.
+        span_lower_ohm_m: f64,
+        /// Upper bound of the same span, ohm.m.
+        span_upper_ohm_m: f64,
+        /// What this row does not claim: temperature dependence, surface
+        /// leakage, anisotropy, dopant level.
+        boundary: String,
+        /// The citation that must travel with the reading. Unlike the
+        /// other roles this one carries its own source, for the reason
+        /// `corrosion::Barrier` does: the meter prints the number, so it
+        /// has to be able to print the book behind it, and a runtime
+        /// recipe cannot reach the registry's source records.
+        source: String,
+    },
 }
 
 /// The balanced aggregate reaction a declared culture runs.

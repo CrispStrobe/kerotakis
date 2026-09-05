@@ -743,6 +743,28 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     with the CRC Handbook's pure-metals table as the intended primary
     reference and every row flagged for reviewer confirmation against a
     positively identified copy, exactly as the phase-transition tranche is.
+  - `BRD-014.S06` (2026-09-05) — the other end of the same scale. S04 gave
+    seven pure solids a resistivity and PR #413 wired the meter's bench arm;
+    what remained refused was every NAMED OBJECT, because
+    `dry_solid_conductance` declined any vessel holding an unresolved
+    material and porcelain is exactly that. `mat-053` ("why is porcelain
+    electrically insulating?") therefore got "no aqueous solution has been
+    characterised" over a beaker with an insulator in it. A resistivity
+    cannot ride a species record here: `porcelain` resolves 68% of itself
+    into `SiO2` and that record is quartz sand's, so the number belongs to
+    the object. `MaterialRole::BulkElectricalResistivity` is that datum —
+    nine rows: soda-lime, coloured, borosilicate and fused-silica glass,
+    quartz crystal, porcelain, glazed ceramic, and the two silicon wafers —
+    and the meter reads it through the recipe or through the material lot
+    a fully resolved object's silica arrived in. Porcelain reads 1e-12 S/m
+    against copper's 5.96e7, twenty orders of magnitude, which is the
+    answer. **`mat-053` flips `missing` → `computed`.** Every row carries a
+    SPAN as well as a value, because an insulator's resistivity is not a
+    constant of the substance the way a metal's is: it moves by orders of
+    magnitude with alkali content, temperature and surface condition, and
+    each row's own boundary says so. The tranche's provenance lane is
+    PENDING REVIEW and its citation says so in its second sentence, exactly
+    as S04's does.
   - `BRD-014.S05` assessment (2026-09-05, no code) — **`bio-111` stays
     `missing`, and the BRD-014.S02 refusal above stands.** Extending the
     spectral table below 405 nm was assessed and rejected as neither small
@@ -1644,6 +1666,24 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-060 — Crystallography Open Database adapter
 
 - [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-003.
+  - `BRD-060.S01` (2026-09-05) — `mat-066` ("why does silicon conduct
+    differently after doping?") closed WITHOUT a doping model, which is what
+    S04 declined to invent and was right to. The bench now holds two
+    reviewed objects instead of one computation: `silicon` (intrinsic,
+    2.3e3 ohm.m at 300 K) and `doped_silicon` (an ordinary 1 ohm.cm n-type
+    wafer, 1e-2 ohm.m), each conserved whole because no elemental silicon
+    species is installed, and each carrying a
+    `BulkElectricalResistivity` row. Measuring them gives readings five
+    orders of magnitude apart, and the doped row's own boundary states the
+    1e-5 to 1e-1 ohm.m span it does NOT pin down, names the dopant
+    concentration that sets where a wafer sits in it, and says in as many
+    words that the carrier density is what changed and that no
+    carrier-density model was computed. **`mat-066` flips `missing` →
+    `computed`**, and its stale `parse_boundary="unknown_species"` is
+    removed because the name now resolves. Still not claimed: n-type
+    against p-type (a hole and an electron conduct alike here), the
+    rectifying junction between them, and therefore every semiconductor
+    device.
 - **Source/licence:** COD structures/data CC0. Primary source:
   <https://www.crystallography.net/cod/new.html>.
 - **Scope:** ingest a small reviewed educational subset of CIF structures for
