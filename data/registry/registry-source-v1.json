@@ -1460,6 +1460,24 @@
       "retrieved": null
     },
     {
+      "id": "legacy/hair_pigment",
+      "citation": "A melanin surrogate, and deliberately not melanin. Eumelanin is a heterogeneous cross-linked biopolymer with no molecular formula and no molar mass, so this row stands for ONE 5,6-dihydroxyindole repeat unit, C8H7NO2 - the accepted building block of it - using the same polymer-as-population convention polyethylene, PET and nylon already use on this shelf. Molar mass from IUPAC/CIAAW 2021 atomic weights over that repeat unit. The molar heat capacity, 179.5 J/(mol.K), is a Kopp's-rule estimate over the atomic contributions C 10.89, H 7.56, N 12.66 and O 13.42, and is an explicit teaching approximation. The density, 1.6 g/mL, is the figure commonly quoted for melanin granules and IS PENDING REVIEW: no positively identified source is claimed for it, and it is flagged for reviewer confirmation. No InChIKey is asserted, because a pigment of indefinite length and irregular linkage is not a molecule; eumelanin, pheomelanin and the carboxylated DHICA units a real hair contains are not distinguished, and neither are the red-blond pigments. THE COLOUR IS RECORDED, NOT COMPUTED: this species carries no absorption spectrum, so melanin's characteristic featureless absorbance rising monotonically towards the blue is nowhere in this record, and a run has only a reflective value on a solid. Nothing here models a hair fibre, a cuticle, a melanosome, or the diffusion of anything into one - the pigment is a powder in a beaker. A REVIEWED AQUEOUS SOLUBILITY OF ZERO is entered deliberately, on the precedent the polymers on this shelf set: melanin is insoluble in water, and recording the zero is what lets the bench say so instead of apologising for not knowing. Note what that sentence then does NOT know about: the honesty pass that speaks it asks the curated reaction table whether anything is consuming the solid, and does not yet ask the kinetic network, so while the bleach is running the bench prints a true remark about dissolution beside it in words that read as though the pigment were untouched. That is a gap in that pass, it is recorded here where a reader meets it, and it is not fixed by this record.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/hair_pigment_ox",
+      "citation": "The colourless product of oxidising the pigment above, and a BOOKKEEPING SPECIES rather than an identified compound. Peroxide bleaching really cleaves the melanin chromophore into a mixture of smaller, largely carboxylic fragments, and no single one of them is this row. What the row does is conserve the atoms and stop absorbing light, which is the same convention the hypochlorite decolourisations on this shelf already use for indigo carmine, betanin and curcumin: the parent formula plus exactly one oxygen. Molar mass from IUPAC/CIAAW 2021 atomic weights over C8H7NO3; the molar heat capacity, 192.9 J/(mol.K), is the parent's Kopp's-rule estimate plus one oxygen contribution, and the density is carried over from the parent unchanged. Both are explicit teaching approximations and the density is PENDING REVIEW with the parent's. No InChIKey is asserted, because no single molecule is meant. It is colourless because it carries no absorption spectrum and an off-white reflective value - a RECORDED absence, not a computed one. A reviewed aqueous solubility of zero is entered for the same reason as the parent's, and carries the same caveat about the honesty pass.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -4037,6 +4055,34 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "hair_pigment",
+      "canonical_key": "legacy:species/hair_pigment",
+      "name": "hair pigment (eumelanin repeat unit)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "hair_pigment_ox",
+      "canonical_key": "legacy:species/hair_pigment_ox",
+      "name": "bleached hair pigment (oxidised)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/hair_pigment_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -20887,6 +20933,298 @@
       },
       "evidence": {
         "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/hair_pigment",
+      "species_id": "hair_pigment",
+      "formula": "C8H7NO2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 7.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/hair_pigment_ox",
+      "species_id": "hair_pigment_ox",
+      "formula": "C8H7NO3",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 7.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hair_pigment_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/hair_pigment_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -39323,6 +39661,186 @@
           "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
+    },
+    {
+      "id": "molar-mass/hair_pigment",
+      "species_id": "hair_pigment",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 149.149,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/hair_pigment",
+      "species_id": "hair_pigment",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 179.5,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/hair_pigment",
+      "species_id": "hair_pigment",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/hair_pigment_ox",
+      "species_id": "hair_pigment_ox",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 165.148,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/hair_pigment_ox",
+      "species_id": "hair_pigment_ox",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 192.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/hair_pigment_ox",
+      "species_id": "hair_pigment_ox",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -46415,6 +46933,38 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/hair_pigment",
+      "species_id": "hair_pigment",
+      "phase": "solid",
+      "appearance": "black",
+      "flame_colour": null,
+      "reflective_srgb": "#1A1614",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/hair_pigment_ox",
+      "species_id": "hair_pigment_ox",
+      "phase": "solid",
+      "appearance": "off-white",
+      "flame_colour": null,
+      "reflective_srgb": "#F2F0EC",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/hair_pigment_ox",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -54672,6 +55222,204 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/hair_pigment",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/hair_pigment",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/hair_pigment",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/hair_pigment_ox",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/hair_pigment_ox",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment_ox"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/hair_pigment_ox",
+      "subject": {
+        "kind": "species",
+        "id": "hair_pigment_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hair_pigment_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

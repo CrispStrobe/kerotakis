@@ -1043,6 +1043,99 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         source_ids: &["kerotakis:kinetics:zinc-corrosion"],
         provenance: "Zinc's aqueous oxidation written as the net 2 Zn + O₂ + 2 H₂O → 2 Zn(OH)₂, the wet-storage-stain reaction of galvanised sheet. Ea is taken as the iron entry's 40 kJ/mol, inside the 20-50 kJ/mol range corrosion texts report for oxygen-reduction-controlled aqueous corrosion, because zinc's cathodic reaction is the same oxygen reduction. Editorial judgement (Kerotakis): the pre-exponential is set at a quarter of iron's so that zinc free-corrodes several times more slowly than mild steel in fresh water, which is the qualitative fact that makes a zinc coat a coating and not a sacrifice for its own sake; it is calibrated, not measured. The real white rust of galvanising is a basic zinc carbonate formed from this hydroxide and atmospheric CO₂, and that second step is not modelled",
     },
+    // BRD-023, bio-112. Peroxide bleaching of hair pigment, and it is
+    // here rather than in `curated::REACTIONS` for a reason that is the
+    // whole point of the question. A curated reaction fires inside the
+    // solver stack at the end of the step that completes its reactant
+    // set, so it would have consumed every last mole of pigment on the
+    // line that ADDS the peroxide, and `wait 10min` would then advance a
+    // clock over a finished reaction. "Why does peroxide bleach hair
+    // pigments" is a question about a process taking minutes; only a rate
+    // law can answer it, and the corpus script's `wait` is what asks.
+    //
+    // Both sides of the colour claim are RECORDED rather than computed:
+    // neither species carries an absorption spectrum, so what changes in
+    // `look` is which solid the beaker names, black or off-white. Their
+    // provenance says so.
+    KineticReaction {
+        id: "peroxide-melanin-bleach",
+        equation: "C₈H₇NO₂ + H₂O₂ → C₈H₇NO₃ + H₂O",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "hair_pigment",
+                coefficient: -1.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "hair_pigment_ox",
+                coefficient: 1.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "water",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ],
+        // The liquid is the reaction volume, exactly as it is for the two
+        // corrosion entries: an insoluble pigment lying in a dry dish has
+        // nothing to be oxidised by, and a zero liquid volume makes the
+        // rate zero rather than infinite.
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "hair_pigment",
+                    phase: Some(Phase::Solid),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "H2O2",
+                    phase: Some(Phase::Liquid),
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // EDITORIAL TEACHING TIMESCALE, not a measurement, and the
+                // uncertainty note below says so at length. At room
+                // temperature this gives the pigment a half-life near two
+                // minutes against the peroxide dose the corpus script
+                // pours on it, so most of the colour is gone after ten
+                // minutes and none of it is gone at the moment the bottle
+                // is opened. Same calibration philosophy as the peroxide
+                // and corrosion entries above: chosen so the observation
+                // lands on a lesson clock.
+                pre_exponential: 1.6e4,
+                temperature_exponent: 0.0,
+                activation_energy: 45_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        // No alkali catalyst, deliberately — see the validity note. A real
+        // developer is peroxide plus ammonia, and adding a catalyst here
+        // would claim an acceleration this bench has not calibrated.
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for peroxide lying against the pigment. THE ALKALI IS MISSING: salon bleaching is peroxide plus ammonia, and the alkalinity that swells the fibre and speeds the oxidation has no term in this rate law, so neutral peroxide and a developer bleach at the same speed here. That is wrong about the world and is written down rather than hidden. Arrhenius extrapolation away from room temperature is not validated",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "THE RATE IS NOT MEASURED. No rate constant for the oxidation of melanin by hydrogen peroxide was found that this bench could cite, so the pre-exponential is an editorial classroom timescale chosen so the pigment is most of the way gone after ten minutes and visibly present at one, exactly as the peroxide-decomposition and iron-corrosion entries above choose theirs. The activation energy, 45 kJ/mol, is an ordinary value for a solution-phase oxidation and is not taken from a measurement of THIS reaction. Pigment amount stands in for pigment area, as it does for the two metals; granule size, diffusion into a hair fibre, the cuticle, and the several intermediates a real chromophore cleavage passes through are all absent",
+        },
+        source_ids: &["kerotakis:kinetics:peroxide-melanin-bleach"],
+        provenance: "Oxidative bleaching of the melanin chromophore by hydrogen peroxide, written as one atom-balanced step on the pigment's repeat unit: C₈H₇NO₂ + H₂O₂ → C₈H₇NO₃ + H₂O. That hydrogen peroxide decolourises melanin, and that what it leaves behind is a mixture of smaller colourless fragments rather than any one compound, is the standard description; the single-product bookkeeping is this bench's own convention and is stated in `hair_pigment_ox`'s provenance, where the reader meets it. Editorial judgement (Kerotakis): BOTH RATE PARAMETERS ARE CHOSEN RATHER THAN MEASURED - see the uncertainty note, which is the one field on this row that would have to change if a real constant were ever installed. What the entry claims is that the colour goes, that it takes minutes, and that the atoms are conserved while it does",
+    },
 ];
 
 thread_local! {

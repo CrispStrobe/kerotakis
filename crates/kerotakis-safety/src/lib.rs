@@ -434,6 +434,17 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // than a finding that the pair is safe.
         | "chlorophyll"
         | "nylon"
+        // The hair pigment and its bleached product. A melanin surrogate is
+        // a biological pigment with nothing to say in a mixture screen, and
+        // the oxidised form has less; the OXIDANT that bleaches it is
+        // hydrogen peroxide, which carries `Oxidizer` on its own row, so the
+        // pair that matters is already screened and neither of these two
+        // adds to it. What this matrix cannot say is that concentrated
+        // peroxide on skin and hair is a burn hazard — that is a claim about
+        // a person, not about two substances in a beaker — and the absence
+        // is recorded here rather than read as a finding of safety.
+        | "hair_pigment"
+        | "hair_pigment_ox"
         // Naphthalene burns and is a toxic, sensitising solid whose
         // vapour is the point of a mothball. Neither fact has a row in
         // this matrix: there is no combustible-organic-solid group, and
@@ -621,6 +632,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "chlorophyll",
     "nylon",
     "uranium",
+    "hair_pigment",
+    "hair_pigment_ox",
 ];
 
 struct Incompatibility {

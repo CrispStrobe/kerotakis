@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 an eighth time (one row, BRD-023's peroxide bleach) —
+see below, and read the last paragraph of that entry before quoting it: the
+row is closed and the transcript still carries one stale sentence.
+
 Refreshed 2026-09-05 a seventh time (two rows, the insulator and
 semiconductor end of the resistivity scale) — see below.
 
@@ -1548,3 +1552,57 @@ fail typed) rather than satisfied by leaving a row permanently broken to feed
 it; keeping the row would have been the corpus serving the test.
 
 Two drifts, no regressions.
+
+
+## 2026-09-05, eighth — one row, a rate rather than a reaction
+
+`bio-112` ("why does hydrogen peroxide bleach hair pigments?") leaves
+`missing`/`unknown-species` for `qualitative`/`typed-observation`. Two
+species and one rate law close it: `hair_pigment`, a 5,6-dihydroxyindole
+repeat unit standing for eumelanin, `hair_pigment_ox`, its colourless
+oxidised twin, and `peroxide-melanin-bleach` in the curated kinetic network.
+
+**It is deliberately a rate law and not a curated reaction.** A curated
+reaction fires inside the solver stack at the end of the step that completes
+its reactant set, so it would have consumed every mole of pigment on the line
+that ADDS the peroxide, and `wait 10min` would then have advanced a clock
+over a finished reaction. The prompt asks why peroxide bleaches *over time*;
+only a rate can answer that, and the script's own `wait` is what asks.
+
+**The rate is an editorial classroom timescale and is not measured.** No
+citable rate constant for the oxidation of melanin by hydrogen peroxide was
+found, so the pre-exponential is chosen so the colour is mostly gone after
+ten minutes and plainly present after one — the same calibration the
+`peroxide-decomposition` and `iron-corrosion` entries admit to. The entry's
+`uncertainty` note is where that is stated, and it is the one field that
+would have to change if a real constant were ever installed. There is no pH
+term either: salon bleaching is peroxide plus ammonia, and here a developer
+and a neutral bottle bleach at the same speed.
+
+**Both colours are recorded, not computed.** Neither species carries an
+absorption spectrum, so nothing derives melanin's broadband absorbance from
+anything. What changes in `look` is which SOLID the beaker names — a black
+one at one minute, an off-white one at ten — and the threshold that flips the
+sentence is the renderer's own rule that a settled solid is named while it is
+at least a tenth of the largest heap.
+
+The disposition is `qualitative`/`typed-observation` rather than `computed`,
+and the reason is worth stating plainly: the event the classifier files on is
+the bench saying the pigment does not dissolve, not the bleach. A kinetic
+`Reacted` is not a solver route and is not on the classifier's answering
+list, so the reason code credits the remark. The chemistry that answers the
+question is the rate law.
+
+**One stale sentence, and it is not fixed here.** The honesty pass in
+`solve.rs` asks `curated::consumes` whether anything is eating an insoluble
+solid before it remarks on the solid not dissolving — a guard added for
+exactly this reason when starch was being digested by amylase — and it does
+not ask the kinetic network. So a ten-minute transcript reads
+"peroxide-melanin-bleach ran" and then "hair pigment does not dissolve in
+water … It is still all there", and the second clause is stale by then. The
+first half of that sentence is true and always will be; the trailing clause
+is the defect. It is recorded in the species' own provenance where a reader
+meets it, and fixing it is a change to `solve.rs`, which this lane did not
+touch.
+
+One drift, no regressions.

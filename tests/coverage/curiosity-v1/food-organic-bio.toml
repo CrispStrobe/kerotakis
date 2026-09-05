@@ -1264,7 +1264,10 @@ material_class = "cosmetic"
 owning_task = "BRD-023"
 tags = ["hair", "oxidation"]
 script = ["add v1 hair_pigment 0.001mol", "add v1 H2O2 0.01mol", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
+# BRD-023 landed the melanin surrogate and a curated RATE for its oxidation,
+# so the script runs and `look` names an off-white solid where a black one
+# was. The rate is an editorial classroom timescale and the reaction row
+# says so; there is still no hair, no fibre and no alkali here.
 smoke = false
 
 [[prompt]]
