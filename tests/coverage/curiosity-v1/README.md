@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a fifth time (eight rows, BRD-050's bounded
+biochemical route) — see below, and read that entry before quoting its
+count: three of the eight are not answers.
+
 Refreshed 2026-09-05 a fourth time (thirteen rows, BRD-023's galvanic
 corrosion route) — see below.
 
@@ -67,6 +71,69 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-05, fifth — eight rows, and three of them are not answers
+
+Eight rows leave `missing`/`unknown-species`. Two engine changes did it: a
+recipe-to-catalyst bridge with an acidity window in the enzyme activity
+model, and three culture kinds beside the yeast in the fermentation model.
+Where they land differs enough that counting them together would be the
+wrong summary, so they are listed apart.
+
+**Five are answers.**
+
+- `bio-052`, `bio-053` (pineapple and gelatine) → `computed`/`computed-route`.
+  `MaterialRole::EnzymeSource` lets `food/pineapple` carry bromelain, so a
+  real hydrolysis runs with no enzyme weighed into the beaker. Heating the
+  fruit past 70 °C marks the carried enzyme irreversibly denatured, and
+  cooling the beaker does not bring it back — which is the whole difference
+  between the two rows and is computed from one number in the recipe. What
+  the bench still cannot show is the jelly failing to set: there is no
+  gelation here, so the answer is hydrolysed protein MASS.
+- `bio-049`, `bio-050` (pepsin in acid, pepsin in base) →
+  `computed`/`computed-route`. Every catalyst now carries a pH optimum and
+  width beside its temperature pair, read from the vessel's solved solution.
+  At pH 1 pepsin digests the albumin; at pH 13 its envelope is about 1e-19
+  of the optimum, the hydrolysed mass falls below the observable floor and
+  **no hydrolysis event fires at all**. bio-050's answer is that absence,
+  and it is produced rather than asserted.
+- `bio-071` (acetic acid bacteria) → `computed`/`computed-route`. The one
+  new fermentation route whose acid the shipped thermodynamics can
+  speciate: minteq.v4 carries Acetate, so the vinegar really does acidify
+  the solution. It is limited by the oxygen actually in the vessel, and
+  with none added it does nothing.
+
+**Two run a real fermentation and still cannot answer.**
+
+- `bio-069`, `bio-070` (yoghurt, and yoghurt in a refrigerator) →
+  `missing`/`not-yet-modeled`. They no longer stop at the parser. The
+  culture runs: milk sugar leaves the conserved unresolved solids, lactic
+  acid appears in the vessel, mass is conserved exactly, and the 5 °C run
+  is more than two orders of magnitude slower than the room-temperature
+  one. They stop at the pH meter. Milk resolves only water, and lactic acid
+  cannot be speciated by any database this lab loads — `llnl-organics`
+  defines Lactate and is not one of the three — so no aqueous solution is
+  characterised at all and the meter reads nothing. **Closing these two
+  needs a lactate species in a loaded database, or milk's minerals
+  resolved, and not more fermentation.**
+
+**One is a true remark outranking a computed result.**
+
+- `bio-073` (sourdough) → `qualitative`/`typed-observation`. The starter
+  really does make lactic acid, ethanol and carbon dioxide out of one
+  sugar, in the 1:1 ratio the balanced heterolactic equation gives, and the
+  gas is announced. Beside it the flour's starch is genuinely inert: this
+  bench does not saccharify starch, the recipe says so, and an `Inert`
+  observation outranks a computed route unless a CURATED one answered.
+  The classifier was left alone rather than widened to flatter this row —
+  the same reading `bio-042` and `mat-029` already get.
+
+One capability gap is recorded rather than worked around: the lactic and
+acetic routes emit no typed event of their own, because the clock arm
+builds `Fermented` and `GasProduced` out of the sucrose/ethanol/CO2 fields.
+A lactic fermentation therefore reports through the vessel inventory and
+the unspeciated-acid note. What it needs is one arm in `clock.rs` and one
+event variant.
 
 ## Refresh 2026-09-05 — thirteen rows, one capability and one artefact
 

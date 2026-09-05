@@ -1506,8 +1506,49 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-050 — Bounded biochemical reaction IR and router
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-011, BRD-020 and
-  existing reaction-network kinetics.
+- [ ] **Status:** open, with a bounded first route shipped. **Size:** medium.
+  **Depends on:** BRD-011, BRD-020 and existing reaction-network kinetics.
+- **2026-09-05, the bounded biochemical route.** The acceptance line asked for
+  a pH/T window, a documented denaturation model and an enzyme that is not
+  consumed. Two of the three now exist for the food enzymes, and the eight
+  curiosity rows that were blocked on them ran. **Evidence, row by row:**
+  - **A pH window per catalyst.** `enzyme::FAMILIES` carries an optimum and a
+    width in pH beside the temperature pair, read from the vessel's solved
+    solution as a second Gaussian. Pepsin sits at pH 1.8, bromelain at 5.5,
+    lactase at 6.5, lipase at 8, catalase and the generic protease near
+    neutral. `bio-049` digests protein at pH 1 and `bio-050` does not at pH
+    13 — the hydrolysed mass there falls below the observable floor, so no
+    event fires at all and the answer is the absence.
+  - **A denaturation model, and it is irreversible.** A material's carried
+    enzyme held above the recipe's `denatures_above_k` is marked, and cooling
+    does not bring it back. `bio-053` (cooked pineapple sets a jelly) is that
+    one number.
+  - **The enzyme is not consumed, and now a FOOD can carry one.**
+    `MaterialRole::EnzymeSource` was the missing bridge: a recipe component
+    must be a registry identity and an enzyme deliberately is not, so no food
+    could bring its own catalyst. The role declares an ACTIVITY EQUIVALENT in
+    the model's own dose units per gram of material, never a mass of enzyme
+    in the food. `bio-052` runs on it.
+  - **Substrate class, not enzyme name, joins the two tables.** Three
+    proteases cut the same peptide bond and differ only in where; when more
+    than one is in the beaker their rates ADD over one shared pool.
+  - **Bounded fermentation gains three metabolisms.** Homolactic,
+    heterolactic and acetic beside the alcoholic route, each one balanced
+    aggregate equation conserving mass exactly, each with its own temperature
+    envelope. `bio-071` makes vinegar from ethanol and oxygen, and stops when
+    the oxygen does. `bio-073` makes acid and gas out of the same sugar.
+  - **What is still missing, precisely.** There is no reaction IR and no
+    `Biochemical` solver route: these are two hand-written models with typed
+    parameters, not the composable representation this task names. No
+    Michaelis–Menten, no cofactors, no inhibition, no compartments, no
+    directionality. `bio-069`/`bio-070` (yoghurt) run a real fermentation and
+    still cannot answer, because lactic acid cannot be speciated by any
+    database this lab loads and milk resolves only water, so no solution is
+    characterised and the pH meter reads nothing. And the lactic and acetic
+    routes emit no typed event of their own: the clock arm builds `Fermented`
+    from the sucrose/ethanol/CO2 fields, so they report through the vessel
+    inventory. Closing those needs a lactate species in a loaded database (or
+    milk's minerals resolved) and one more arm in `clock.rs`.
 - **Outcome:** familiar biochemical reactions can be represented without
   pretending PHREEQC or the organic family router models a living cell.
 - **Scope:** extend/compose the reaction-family IR with enzyme identity,
@@ -1553,16 +1594,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   against `unknown-species`, not against the question, and the corpus README
   records the distinction row by row. What they still need is listed there
   and is not a data problem.
-- **Not closed and why:** `bio-052`/`bio-053` (pineapple and gelatine) need a
-  material to CARRY an enzyme. The activity model reads its catalyst from the
-  vessel's species inventory, and a material component must be a registry
-  identity — the enzyme species deliberately are not. A pineapple recipe is
-  otherwise ready; the missing piece is a recipe-to-catalyst bridge in
-  `enzyme_activity.rs`. `bio-049`/`bio-050` (pepsin in acid and in base) need
-  that bridge and a **pH response**: the model's only environmental term is a
-  Gaussian in temperature, so a pepsin added to sodium hydroxide would digest
-  protein exactly as fast as one in stomach acid, which is the opposite of
-  what bio-050 asks. Both rows stay `missing` rather than answer wrongly.
+- **2026-09-05, closed by BRD-050's bounded route.** The four rows this entry
+  held open — `bio-052`/`bio-053` (pineapple and gelatine) and
+  `bio-049`/`bio-050` (pepsin in acid and in base) — are answered. The
+  recipe-to-catalyst bridge and the pH window are described under BRD-050
+  above. Four more rows moved with them: `bio-071` (vinegar) answers,
+  `bio-073` (sourdough) computes and is graded on a true remark about the
+  inert flour beside it, and `bio-069`/`bio-070` (yoghurt) run a real lactic
+  fermentation and stop at a pH no shipped database can compute. The corpus
+  README records all eight row by row rather than counting eight closures.
 - **Scope:** curate roughly 100 reactions/networks around starch/sugar
   digestion, catalase, lactase/protease exemplars, yeast fermentation, bread
   rising, respiration, photosynthesis as a bounded net model, acidification,
