@@ -231,6 +231,32 @@ pub enum MaterialRole {
         temperature_width_k: f64,
         requires_hydration: bool,
     },
+    /// A named food that BRINGS its own enzyme rather than having one
+    /// weighed into the beaker beside it.
+    ///
+    /// The enzyme activity model reads its catalyst out of the vessel's
+    /// species inventory, and an enzyme is deliberately not a registry
+    /// identity — it is a catalyst with an approximate dose mass and no
+    /// molecular formula. A recipe component must be an identity, so
+    /// fresh pineapple had no way to carry its bromelain and the classic
+    /// pineapple-and-jelly demonstration could not run. This role is that
+    /// bridge, and it carries the one thing a component could not: how
+    /// much activity, in the activity model's own dose units.
+    EnzymeSource {
+        /// Catalyst key from the engine's enzyme catalogue, for example
+        /// `bromelain`.
+        enzyme: String,
+        /// Grams of that catalyst which reproduce this material's activity,
+        /// per gram of the material AS DISPENSED. It is an activity
+        /// equivalent expressed in the bounded activity model's dose units
+        /// and is NOT a mass of enzyme in the food: nothing here claims to
+        /// know how much bromelain a pineapple contains.
+        catalyst_equivalent_per_gram: f64,
+        /// Above this temperature the carried enzyme is treated as
+        /// irreversibly denatured. Letting the beaker cool does not bring
+        /// it back, which is the difference between fresh and cooked.
+        denatures_above_k: f64,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

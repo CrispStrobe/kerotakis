@@ -548,7 +548,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["digestion", "pepsin"]
 script = ["add v1 protein 1g", "add v1 water 100mL", "add v1 HCl 0.01mol", "add v1 pepsin 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -560,7 +559,6 @@ material_class = "enzyme"
 owning_task = "BRD-050"
 tags = ["pepsin", "ph_effect"]
 script = ["add v1 protein 1g", "add v1 water 100mL", "add v1 NaOH 0.01mol", "add v1 pepsin 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -583,7 +581,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["bromelain", "gelatin"]
 script = ["add v1 gelatin 10g", "add v1 pineapple 20g", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -595,7 +592,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["bromelain", "denaturation"]
 script = ["add v1 pineapple 20g", "heat v1 20kJ", "add v1 gelatin 10g", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

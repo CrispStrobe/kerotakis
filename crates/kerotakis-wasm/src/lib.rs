@@ -675,6 +675,8 @@ impl Lab {
                         kerotakis_core::enzyme::EnzymeFamily::Protease => "protease",
                         kerotakis_core::enzyme::EnzymeFamily::Lipase => "lipase",
                         kerotakis_core::enzyme::EnzymeFamily::Catalase => "catalase",
+                        kerotakis_core::enzyme::EnzymeFamily::Pepsin => "pepsin",
+                        kerotakis_core::enzyme::EnzymeFamily::Bromelain => "bromelain",
                     }),
                     // Catalase owns a stoichiometric kinetic reaction. The
                     // other families expose bounded activity inside conserved

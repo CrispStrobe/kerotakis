@@ -91,7 +91,13 @@ export type ShelfItem = {
   /** Materials only: the registry keys of what the mixture is made of. */
   components?: string[];
   /** Biochemical discovery metadata supplied by the engine. */
-  enzyme_family?: "lactase" | "protease" | "lipase" | "catalase";
+  enzyme_family?:
+    | "lactase"
+    | "protease"
+    | "lipase"
+    | "catalase"
+    | "pepsin"
+    | "bromelain";
   protein?: boolean;
   capability?: "modeled_reaction" | "modeled_activity" | "modeled_observation" | "identity_only";
 };

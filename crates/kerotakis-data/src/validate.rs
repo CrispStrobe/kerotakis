@@ -603,6 +603,43 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    // The catalyst key is deliberately NOT checked against
+                    // the species table here: an enzyme is not a registry
+                    // identity, which is the whole reason this role exists.
+                    // `kerotakis-core` owns the catalogue and its own test
+                    // checks every recipe's key against it.
+                    MaterialRole::EnzymeSource {
+                        enzyme,
+                        catalyst_equivalent_per_gram,
+                        denatures_above_k,
+                    } => {
+                        self.nonempty(&format!("{role_path}.enzyme"), enzyme);
+                        if !catalyst_equivalent_per_gram.is_finite()
+                            || *catalyst_equivalent_per_gram <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.catalyst_equivalent_per_gram"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !denatures_above_k.is_finite() || *denatures_above_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.denatures_above_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                        // An enzyme source has to have something to carry
+                        // the enzyme in. A fully resolved recipe keeps no
+                        // conserved remainder, and the activity model
+                        // reads the dose from the dispensed amount that
+                        // remainder pins.
+                        if recipe.unresolved_fraction.is_none() {
+                            self.issue(
+                                format!("{role_path}.unresolved_fraction"),
+                                "an enzyme-source role requires an unresolved fraction to carry it",
+                            );
+                        }
+                    }
                     MaterialRole::ConservedUnresolvedSolid { colour_word, .. } => {
                         self.nonempty(&format!("{role_path}.colour_word"), colour_word);
                         // The role exists to keep a *solid* honest. Declaring
