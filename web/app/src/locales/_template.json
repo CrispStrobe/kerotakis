@@ -2160,6 +2160,7 @@
   "the bench stopped at {line} — the rest of the script did not run": "",
   "your bench is not empty": "",
   "{count} steps, run one at a time on the bench you can see": "",
-  "This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.": ""
+  "This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.": "",
+  "what the bench can compute": ""
  }
 }

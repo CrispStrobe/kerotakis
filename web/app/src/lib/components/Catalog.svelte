@@ -302,7 +302,7 @@
 
       {#if tier === "kids"}
         <section class="filters">
-          <div class="chips" role="group" aria-label={t("completion status")}>
+          <div class="chips" role="group" aria-label={t("what the bench can compute")}>
             <button class:on={status === null} aria-pressed={status === null} onclick={() => (status = null)}>{t("all")}</button>
             {#each statuses as value (value)}<button class:on={status === value} aria-pressed={status === value} data-status={value} onclick={() => (status = status === value ? null : value)}>{t(value)}</button>{/each}
           </div>
