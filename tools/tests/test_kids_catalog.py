@@ -13,6 +13,7 @@ SPEC.loader.exec_module(MODULE)
 class KidsCatalogTests(unittest.TestCase):
     def setUp(self):
         self.document = json.loads((ROOT / "data/kids/experiments-v1.json").read_text())
+        self.german = json.loads((ROOT / "data/kids/experiments-de-v1.json").read_text())
 
     def test_catalog_is_the_exact_audited_sixty(self):
         rows = MODULE.validate(self.document)
@@ -37,6 +38,19 @@ class KidsCatalogTests(unittest.TestCase):
         broken["experiments"][0]["codex"] = ["not-a-codex-entry"]
         with self.assertRaisesRegex(ValueError, "codex must contain existing exact identifiers"):
             MODULE.validate(broken)
+
+    def test_german_is_complete_and_merged_without_replacing_english(self):
+        english = [row["title"] for row in self.document["experiments"]]
+        merged = MODULE.add_translation(self.document, self.german)["experiments"]
+        self.assertEqual([row["title"] for row in merged], english)
+        self.assertTrue(all(row.get("title_de") and row.get("phenomenon_de") for row in merged))
+        self.assertTrue(all(row.get("boundary_de") for row in merged if row.get("boundary")))
+
+    def test_german_must_have_exactly_the_same_rows(self):
+        broken = json.loads(json.dumps(self.german))
+        broken["experiments"].pop()
+        with self.assertRaisesRegex(ValueError, "same K01 through K60"):
+            MODULE.add_translation(self.document, broken)
 
 
 if __name__ == "__main__":

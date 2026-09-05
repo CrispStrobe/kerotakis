@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { t } from "../i18n.svelte";
-  import { kidsConnections, kidsExperimentMatches, type KidsExperiment, type KidsStatus } from "../kidsCatalog";
+  import { i18n, t } from "../i18n.svelte";
+  import { kidsConnections, kidsExperimentMatches, kidsText, type KidsExperiment, type KidsStatus } from "../kidsCatalog";
 
   let { entries, capabilityIds, codexIds, completedMissions, completedExperiments, onlesson, onquest, oncapability, oncodex, onsandbox, onclose }: {
     entries: KidsExperiment[];
@@ -23,7 +23,7 @@
   const topics = $derived([...new Set(entries.flatMap((entry) => entry.topics))].sort());
   const shown = $derived(entries.filter((entry) =>
     (!status || entry.status === status) && (!topic || entry.topics.includes(topic))
-      && kidsExperimentMatches(entry, query),
+      && kidsExperimentMatches(entry, query, i18n.locale),
   ));
   const linksById = $derived(new Map(entries.map((entry) => [entry.id,
     kidsConnections(entry, capabilityIds, codexIds, completedMissions, completedExperiments),
@@ -50,9 +50,9 @@
         {@const links = linksById.get(entry.id)!}
         <article data-status={entry.status}>
           <div class="card-head"><span class="kid-id">{entry.id}</span><span class="status">{t(entry.status)}</span><span class="safety">{entry.safety === "home" ? t("home-friendly") : t("school supervision")}</span></div>
-          <h2>{t(entry.title)}</h2><p>{t(entry.phenomenon)}</p>
+          <h2>{kidsText(entry, "title", i18n.locale)}</h2><p>{kidsText(entry, "phenomenon", i18n.locale)}</p>
           <dl><div><dt>{t("ingredients")}</dt><dd>{entry.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div><div><dt>{t("apparatus")}</dt><dd>{entry.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div></dl>
-          {#if entry.boundary}<p class="boundary">{t(entry.boundary)}</p>{/if}
+          {#if entry.boundary}<p class="boundary">{kidsText(entry, "boundary", i18n.locale)}</p>{/if}
           {#if links.capabilities.length || links.codex.length || links.lessonCompleted}
             <div class="connections" aria-label={t("related learning and saved progress")}>
               {#each links.capabilities as id (id)}
