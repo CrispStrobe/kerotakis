@@ -3716,5 +3716,24 @@
     "provenance": "nylon 6,6 as one adipamide repeat unit, the same polymer-as-population convention polyethylene and PET already use. Molar mass from IUPAC/CIAAW 2021 atomic weights over the repeat unit; density 1.14 g/mL is a standard reference value and the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No InChIKey is asserted, because a chain of indefinite length is not a molecule. NO aqueous solubility is entered either, and that is deliberate: the other polymers on this shelf carry a reviewed zero so the bench can say they do not dissolve, but nylon IS attacked by hot concentrated acid - the amide bond hydrolyses - and no solver here models that. Entering a zero would turn a gap into the claim that the polymer survives, so this record stays silent and the engine says it does not know.",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "dull silvery grey",
+    "colour": null,
+    "density": 19.05,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "U",
+    "heat_capacity": 27.665,
+    "inchikey": "",
+    "key": "uranium",
+    "magnetic": false,
+    "molar_mass": 238.029,
+    "name": "uranium",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s) and density are the standard reference room-temperature values for alpha-uranium. This entry exists so the bench can answer whether a block of uranium warms itself through its own decay (curiosity corpus th-122), and it is a metal on a ledger rather than a metal on a shelf: no acquisition, handling, storage or disposal claim is made or implied by its presence here. The block is modelled as pure U-238; natural uranium's specific activity is about twice this, because U-234 at roughly 54 ppm sits in secular equilibrium with U-238 and contributes almost as many decays again, and the 0.72% U-235 adds a little more. The L0 safety screen has no radiological class, so uranium is filed there by its chemistry alone - it is an active metal and displaces hydrogen from acid - which is wrong about the world in the same way the lead row already says it is, and is written down rather than hidden",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

@@ -180,7 +180,9 @@ impl Clock for DecayClock {
     ) -> Result<(), IntegrationError> {
         // EXP-49: decay is the slowest clock on the bench; it runs beside
         // kinetics on the same shared time.
+        let mut energy_j = 0.0;
         for step in crate::nuclide::advance(&mut vessel.nuclides, seconds) {
+            energy_j += step.energy_j;
             events.push(Event::Decayed {
                 vessel: vessel.id,
                 parent: step.parent.to_string(),
@@ -190,6 +192,48 @@ impl Clock for DecayClock {
                 half_life_s: step.half_life_s,
                 equation: step.equation,
             });
+        }
+        // th-122: a tracer is spiked into the nuclide ledger, but a block
+        // of uranium is a chemical portion, and the two are deliberately
+        // separate stores. A bulk radionuclide decays all the same, so its
+        // heat is counted from the contents. The block is NOT transmuted:
+        // a day turns four parts in ten trillion of it into thorium, and
+        // ledgering that would be false precision dressed as conservation.
+        for portion in &vessel.contents {
+            if portion.phase != Phase::Solid {
+                continue;
+            }
+            if let Some(heat) =
+                crate::nuclide::bulk_decay_heat(&portion.species.0, portion.moles.0, seconds)
+            {
+                energy_j += heat.energy_j;
+            }
+        }
+        // Decay heat is heat like any other: it raises an adiabatic
+        // vessel's temperature through its own heat capacity, and a
+        // thermostatted one not at all. The event is pushed either way,
+        // because "the block released this much and the bath took it" is
+        // an answer and a silent nothing is not.
+        if energy_j > 0.0 {
+            let from = vessel.temperature;
+            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+                let heat_capacity = vessel.heat_capacity();
+                if heat_capacity > 0.0 {
+                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                }
+            }
+            events.push(Event::ReactionHeatReleased {
+                vessel: vessel.id,
+                reaction: "radioactive-decay".to_string(),
+                energy_j,
+            });
+            if (vessel.temperature.0 - from.0).abs() > 1e-9 {
+                events.push(Event::TemperatureChanged {
+                    vessel: vessel.id,
+                    from,
+                    to: vessel.temperature,
+                });
+            }
         }
         Ok(())
     }

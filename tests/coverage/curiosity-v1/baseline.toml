@@ -2981,8 +2981,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "th-122"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-123"

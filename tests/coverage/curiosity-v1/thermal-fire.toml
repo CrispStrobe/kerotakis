@@ -1425,7 +1425,6 @@ material_class = "radioactive_material"
 owning_task = "BRD-012"
 tags = ["decay_heat", "uranium"]
 script = ["add v1 uranium 1g", "wait 24h", "measure v1 thermometer"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
