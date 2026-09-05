@@ -150,3 +150,46 @@ fn dissolving_baking_soda_cools_the_water() {
         "endothermic dissolution should cool ~4 K, got {t:.1} °C"
     );
 }
+
+#[test]
+fn a_carbonate_solution_never_precipitates_dry_ice() {
+    // The engine-side half of `derived::a_condensed_gas_is_never_a_database_mineral`.
+    //
+    // `dry_ice` is a registry SOLID whose formula is CO2, and the phase
+    // matcher pairs registry solids with database phases by composition.
+    // A beaker full of carbonate is the case where that would show:
+    // there is plenty of carbon and plenty of oxygen, the solution really
+    // is supersaturated in CO2 against the atmosphere, and if dry ice had
+    // become a candidate phase the solver could have "precipitated" it at
+    // 25 °C — 253 kelvin below the temperature it can exist at. It must
+    // not, the vessel must never hold a grain of it, and the carbon that
+    // leaves must leave as gas.
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add_with(&mut bench, &mut eq, v, "water", 55.51);
+    add_with(&mut bench, &mut eq, v, "NaHCO3", 0.05);
+    let events = add_with(&mut bench, &mut eq, v, "CH3COOH", 0.06);
+
+    assert!(
+        !events.iter().any(|event| matches!(
+            event,
+            Event::Precipitated { species, .. } if species.0 == "dry_ice"
+        )),
+        "dry ice is not a mineral and a fizzing beaker must not make one: {events:#?}"
+    );
+    assert!(
+        bench
+            .vessel(v)
+            .unwrap()
+            .contents
+            .iter()
+            .all(|portion| portion.species.0 != "dry_ice"),
+        "no dry ice may end up in a room-temperature beaker: {:#?}",
+        bench.vessel(v).unwrap().contents
+    );
+    assert!(
+        evolved_co2(&events) > 0.03,
+        "and the carbon that left must still leave as gas"
+    );
+}

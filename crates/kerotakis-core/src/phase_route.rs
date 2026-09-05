@@ -143,6 +143,102 @@ pub fn sublimes_at(species: &SpeciesId) -> Option<f64> {
     t.melting_k.is_none().then_some(t.sublimation_k)?
 }
 
+/// The latent heat one phase route has to pay for, in kJ/mol, positive
+/// meaning "the vessel supplies it".
+///
+/// This is a curated table for the same reason `combustion::FUELS` is one:
+/// the value is a measurement with a source, not something the registry
+/// schema has a slot for. `PhaseTransitions` carries five temperatures and
+/// no energies, and widening it would touch the build script, the runtime
+/// loader, the export crate and their three fidelity tests for a claim
+/// that two rows need.
+///
+/// **The table is deliberately not total, and that is load-bearing.** A
+/// substance with no row here sublimes exactly as it did before this
+/// tranche: all of it, in the step that crosses the threshold, at no
+/// energy cost. Ammonium chloride is such a substance, and its behaviour
+/// is unchanged — the crucible separation is a *separation*, and nobody
+/// weighed the heat it took. Adding a row is therefore a deliberate act
+/// that changes what a vessel does.
+#[derive(Debug, Clone, Copy)]
+pub struct LatentHeat {
+    /// Registry species key of the CONDENSED phase.
+    pub species: &'static str,
+    /// kJ per mole of the formula unit.
+    pub kj_per_mol: f64,
+    pub provenance: &'static str,
+}
+
+/// Enthalpies of sublimation, keyed by the solid that leaves.
+pub const SUBLIMATION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
+    species: "dry_ice",
+    // 25.2 kJ/mol at the 1 atm sublimation point.
+    kj_per_mol: 25.2,
+    provenance: "Enthalpy of sublimation of carbon dioxide at its 194.7 K normal sublimation point, 25.2 kJ/mol, as commonly tabulated from NIST/CODATA-class evaluated data. PENDING REVIEW: no positively identified page was opened for this row, so no edition-level provenance is claimed and the value stands as the standard tabulated one. Sanity check a reviewer can run without a book: it is the sum of the tabulated 8.65 kJ/mol enthalpy of fusion at the triple point and about 16.7 kJ/mol of vaporisation there, and it is the number that makes 5 g of dry ice cool 100 g of water by about 6.8 K, which is what a kitchen thermometer reads",
+}];
+
+/// The enthalpy of sublimation of a solid, J/mol, or `None` where the
+/// bench does not claim one.
+pub fn sublimation_enthalpy(species: &str) -> Option<f64> {
+    SUBLIMATION_ENTHALPIES
+        .iter()
+        .find(|row| row.species == species)
+        .map(|row| row.kj_per_mol * 1000.0)
+}
+
+/// The gas a subliming solid becomes.
+///
+/// Ammonium chloride's vapour is ammonium chloride: nothing else on the
+/// shelf has its formula, so the route moves the same key between phases
+/// and the crust that comes back is the salt that left. Dry ice's vapour
+/// is *carbon dioxide*, which this registry carries as its own gas
+/// species — and calling it "dry ice gas" in a vessel would be a
+/// contradiction in terms.
+///
+/// The pair is derived from the formula rather than tabulated, exactly as
+/// `hydrate_pairs` derives its stoichiometry from one: a species that
+/// claims to be the solid form of a shipped gas cannot disagree with the
+/// gas about what it is made of.
+pub fn sublimation_product(solid_key: &str) -> &'static str {
+    let Some(solid) = crate::species::lookup(&SpeciesId::new(solid_key)) else {
+        return "";
+    };
+    crate::species::registry()
+        .iter()
+        .find(|candidate| {
+            candidate.standard_phase == Phase::Gas
+                && candidate.formula == solid.formula
+                && candidate.key != solid.key
+        })
+        .map_or(solid.key, |gas| gas.key)
+}
+
+/// The solid a gas deposits as, with the temperature it happens at:
+/// the inverse of [`sublimation_product`], resolved over the registry.
+pub fn deposition_partner(gas_key: &str) -> Option<(&'static str, f64)> {
+    crate::species::registry().iter().find_map(|candidate| {
+        let k = sublimes_at(&SpeciesId::new(candidate.key))?;
+        (candidate.standard_phase != Phase::Gas && sublimation_product(candidate.key) == gas_key)
+            .then_some((candidate.key, k))
+    })
+}
+
+/// A condensed species that is a phase of a substance this registry also
+/// ships as a gas: `dry_ice` for `CO2`.
+///
+/// Such a key exists so that a bench can HOLD the condensed phase — you
+/// cannot put carbon dioxide gas in a beaker and call it dry ice. It is
+/// emphatically not a mineral, and anything that pairs registry solids
+/// with database phases by composition must skip it, or a carbonate
+/// solution acquires a "mineral" with dry ice's formula and precipitates
+/// it at 25 °C. `kerotakis_phreeqc::derived` is the caller that matters.
+pub fn is_condensed_gas(key: &str) -> bool {
+    let Some(data) = crate::species::lookup(&SpeciesId::new(key)) else {
+        return false;
+    };
+    data.standard_phase != Phase::Gas && sublimation_product(key) != key
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents
@@ -183,6 +279,116 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
     }
 }
 
+/// The molar heat capacity the registry gives a species, J/(mol·K).
+fn molar_cp(key: &str) -> f64 {
+    crate::species::lookup(&SpeciesId::new(key)).map_or(0.0, |d| d.heat_capacity)
+}
+
+/// What a latent-heat transition costs, and what the vessel can spend.
+///
+/// `budget` is the heat available to the transition, in joules, measured
+/// from the transition temperature; `None` means no enthalpy is claimed
+/// for this substance and the route stays athermal, exactly as it was
+/// before this tranche.
+struct Ledger {
+    moles: f64,
+    budget: Option<f64>,
+    latent: f64,
+    forward: bool,
+}
+
+/// ## The superheat a cryogen never had
+///
+/// `add` gives every portion the room temperature nobody asked it about
+/// (`bench.rs` defaults `at` to `Kelvin::STANDARD`), and for a condensed
+/// gas that is a state which does not exist: a block of dry ice is at
+/// 194.7 K, not at 25 °C. Letting that fiction pay for the cooling would
+/// be free energy — 5 g of "dry ice at 25 °C" carries 553 J of sensible
+/// heat that no real block has.
+///
+/// So the forward route treats the condensed phase as having arrived AT
+/// its transition temperature: the rest of the vessel supplies the latent
+/// heat, and the sample's own superheat is discarded rather than spent.
+/// The consequence is stated rather than hidden — **this bench cannot
+/// show you a cryogen warming up**, only a cryogen at its transition
+/// temperature and whatever it takes from the beaker around it. A lone
+/// sample with nothing to draw on therefore sits at its own sublimation
+/// point and does not leave, which is what an insulated flask of dry ice
+/// really does and is why the temperature is settled even when no matter
+/// moves.
+///
+/// Deposition needs no such correction: a vapour really is at the vessel
+/// temperature, and the heat it gives back warms everything present.
+fn ledger(
+    vessel: &Vessel,
+    condensed: &str,
+    inventory: f64,
+    now: f64,
+    threshold: f64,
+    forward: bool,
+) -> Ledger {
+    let Some(latent) = sublimation_enthalpy(condensed) else {
+        return Ledger {
+            moles: inventory,
+            budget: None,
+            latent: 0.0,
+            forward,
+        };
+    };
+    let budget = if forward {
+        let own = inventory * molar_cp(condensed);
+        (vessel.heat_capacity() - own).max(0.0) * (now - threshold)
+    } else {
+        vessel.heat_capacity() * (threshold - now)
+    }
+    .max(0.0);
+    Ledger {
+        moles: (budget / latent).min(inventory),
+        budget: Some(budget),
+        latent,
+        forward,
+    }
+}
+
+/// Spend the ledger and put the vessel at the temperature that leaves.
+///
+/// One expression covers all three cases the physics has. When the budget
+/// is exactly consumed the vessel lands on the transition temperature and
+/// stays there — the plateau, with condensed phase still in the flask.
+/// When there is heat to spare the remainder warms (or, on deposition,
+/// cools) whatever is left, over the heat capacity the vessel has AFTER
+/// the move, so matter that left the ledger takes its own sensible heat
+/// with it. And when nothing could be afforded at all, the same
+/// expression puts the vessel on the transition temperature, which is the
+/// correction described on [`ledger`].
+fn settle(vessel: &mut Vessel, l: &Ledger, moved: f64, threshold: f64, events: &mut Vec<Event>) {
+    let Some(budget) = l.budget else {
+        return;
+    };
+    let cp = vessel.heat_capacity();
+    if cp <= 0.0 {
+        return;
+    }
+    let left = budget - moved * l.latent;
+    let to = if l.forward {
+        threshold + left / cp
+    } else {
+        threshold - left / cp
+    };
+    let to = crate::units::Kelvin(to.max(0.0));
+    let from = vessel.temperature;
+    if (to.0 - from.0).abs() <= 1e-9 {
+        return;
+    }
+    vessel.temperature = to;
+    vessel.refresh_pressure();
+    events.push(Event::TemperatureChanged {
+        vessel: vessel.id,
+        from,
+        to,
+    });
+}
+
 /// Sublimation and hydrate bookkeeping, applied wherever the temperature
 /// says they apply.
 pub struct PhaseRouteEquilibrator;
@@ -192,50 +398,73 @@ impl PhaseRouteEquilibrator {
         let now = vessel.temperature.0;
         let mut moved = false;
         // Collect first: the loop mutates `contents`.
+        //
+        // A solid is a candidate if it has a sublimation point of its own;
+        // a gas is a candidate if it has one (ammonium chloride vapour) or
+        // if it is the vapour of a solid that does (carbon dioxide over
+        // dry ice).
         let candidates: Vec<(SpeciesId, f64, Phase)> = vessel
             .contents
             .iter()
             .filter(|p| matches!(p.phase, Phase::Solid | Phase::Gas) && p.moles.0 > TRACE)
-            .filter_map(|p| sublimes_at(&p.species).map(|k| (p.species.clone(), k, p.phase)))
+            .filter_map(|p| {
+                let k = sublimes_at(&p.species).or_else(|| match p.phase {
+                    Phase::Gas => deposition_partner(&p.species.0).map(|(_, k)| k),
+                    _ => None,
+                })?;
+                Some((p.species.clone(), k, p.phase))
+            })
             .collect();
         for (species, threshold, phase) in candidates {
             match phase {
                 Phase::Solid if now >= threshold => {
-                    let n = moles_in_phase(vessel, &species, Phase::Solid);
-                    if n <= TRACE {
+                    let inventory = moles_in_phase(vessel, &species, Phase::Solid);
+                    if inventory <= TRACE {
                         continue;
                     }
-                    withdraw_phase(vessel, &species, Phase::Solid, n);
-                    events.push(Event::StateChanged {
-                        vessel: vessel.id,
-                        species: species.clone(),
-                        from: Phase::Solid,
-                        to: Phase::Gas,
-                        at: crate::units::Kelvin(threshold),
-                        shifted_by: 0.0,
-                    });
-                    release_gas(vessel, species, Moles(n), events);
-                    moved = true;
+                    let l = ledger(vessel, &species.0, inventory, now, threshold, true);
+                    if l.moles > TRACE {
+                        let vapour = SpeciesId::new(sublimation_product(&species.0));
+                        withdraw_phase(vessel, &species, Phase::Solid, l.moles);
+                        events.push(Event::StateChanged {
+                            vessel: vessel.id,
+                            species: species.clone(),
+                            from: Phase::Solid,
+                            to: Phase::Gas,
+                            at: crate::units::Kelvin(threshold),
+                            shifted_by: 0.0,
+                        });
+                        release_gas(vessel, vapour, Moles(l.moles), events);
+                        moved = true;
+                    }
+                    settle(vessel, &l, l.moles, threshold, events);
                 }
                 // Deposition: the cold-finger half of the separation. The
                 // vapour only comes back where the vessel kept it.
                 Phase::Gas if now < threshold => {
-                    let n = moles_in_phase(vessel, &species, Phase::Gas);
-                    if n <= TRACE {
+                    let inventory = moles_in_phase(vessel, &species, Phase::Gas);
+                    if inventory <= TRACE {
                         continue;
                     }
-                    withdraw_phase(vessel, &species, Phase::Gas, n);
-                    vessel.deposit(species.clone(), Moles(n), Phase::Solid);
-                    vessel.refresh_pressure();
-                    events.push(Event::StateChanged {
-                        vessel: vessel.id,
-                        species,
-                        from: Phase::Gas,
-                        to: Phase::Solid,
-                        at: crate::units::Kelvin(threshold),
-                        shifted_by: 0.0,
-                    });
-                    moved = true;
+                    let solid = SpeciesId::new(
+                        deposition_partner(&species.0).map_or(species.0.as_str(), |(key, _)| key),
+                    );
+                    let l = ledger(vessel, &solid.0, inventory, now, threshold, false);
+                    if l.moles > TRACE {
+                        withdraw_phase(vessel, &species, Phase::Gas, l.moles);
+                        vessel.deposit(solid.clone(), Moles(l.moles), Phase::Solid);
+                        vessel.refresh_pressure();
+                        events.push(Event::StateChanged {
+                            vessel: vessel.id,
+                            species,
+                            from: Phase::Gas,
+                            to: Phase::Solid,
+                            at: crate::units::Kelvin(threshold),
+                            shifted_by: 0.0,
+                        });
+                        moved = true;
+                    }
+                    settle(vessel, &l, l.moles, threshold, events);
                 }
                 _ => {}
             }

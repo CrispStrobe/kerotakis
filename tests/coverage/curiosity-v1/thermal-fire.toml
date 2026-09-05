@@ -301,7 +301,6 @@ material_class = "carbon_dioxide"
 owning_task = "BRD-032"
 tags = ["dry_ice", "sublimation"]
 script = ["add v1 water 100mL", "add v1 dry_ice 5g", "seal v1 1L", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
