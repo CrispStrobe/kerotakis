@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 an eleventh time (two rows, the two batteries) — see
+below.
+
 Refreshed 2026-09-05 a tenth time (one row, BRD-032's Langmuir isotherm) —
 see below; the row that had been deliberately left open twice is closed, and
 the entry says what `look` still cannot show.
@@ -89,6 +92,63 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-05, eleventh — the two batteries
+
+`mat-058` "what happens inside an alkaline battery while it discharges?"
+(`add v1 alkaline_battery 20g; measure v1 balance`) and `mat-071` "why can
+battery terminals grow white crust?" (`add v1 battery_terminal 2g;
+add v1 water 5mL; measure v1 balance`), both `missing`/`unknown-species`,
+both now **`computed`/`computed-route`**. Both prompts' stale
+`parse_boundary="unknown_species"` annotations go with them, because the
+codex corpus check fails on a declared boundary that is no longer observed.
+
+Neither row is closed by making a name parse. What each one needed was for
+the object to be the RIGHT KIND of object, and the two are opposite kinds.
+
+- **`alkaline_battery` is a coherent object.** A recipe that dispensed its
+  zinc, its manganese dioxide and its potassium-hydroxide paste into the
+  beaker the moment it was put down would describe a battery that had been
+  cut open: the zinc would corrode in the alkali, the water would make a
+  solution, and every route on the bench would narrate the wrong
+  experiment. Kept whole, it reads **20.00 g** on the balance, and that
+  reading is the row's evidence rather than a formality — a sealed cell
+  lets nothing out, so a flat one weighs exactly what a fresh one does.
+  Beside it, a new `MaterialRole::SealedCell` carries the curated
+  discharge — `Zn + 2 MnO2 -> ZnO + Mn2O3`, nominal 1.5 V open-circuit —
+  as a typed `Event::SealedCell` that says the zinc is the anode, the
+  manganese dioxide the cathode, and the hydroxide the carrier that is not
+  used up. The reaction is **named and not run**, and the row's own
+  boundary says so in those words: neither ZnO nor Mn2O3 is an installed
+  species and no charge is tracked, so the ledger is untouched and the
+  mass is conserved by construction rather than by arithmetic over
+  products.
+- **`battery_terminal` is the opposite.** The crust is a corrosion verdict
+  and the corrosion route reads metal in the vessel, so the post is
+  dispensed as lead. Its sulfuric-acid film is deliberately NOT resolved:
+  acid put in as a species would be free acidity, the displacement route
+  would own the beaker, and the answer would become "lead in acid" — a
+  different experiment. The film is asserted from the object's identity
+  instead, exactly as stainless steel's chromium film is, and
+  `corrosion::ELECTROLYTE_CREEP` is where the sentence lives. The verdict
+  names **lead(II) sulfate**, says it comes out of the battery rather than
+  out of the water, explains the creep along the post that puts it there,
+  and says that nothing was added to the ledger because no PbSO4 species
+  is installed. One chemistry is claimed and it is the lead-acid one; a
+  zinc or copper contact grows a different crust by a different route and
+  this row does not speak for it.
+
+Both passes live in `corrosion.rs`, on a principle worth stating: corrosion
+is a battery nobody wanted, and a battery is a corrosion cell somebody
+built on purpose. Same physics, and the only difference is whether the
+arrangement was chosen.
+
+`Event::SealedCell` counts in the classifier where `Event::Corroded` and
+`Event::PolymerHeated` do — enough to stop a row being called `missing`,
+never enough to outrank a computed or curated route.
+
+No brand is named or implied in either recipe. Both are described by their
+chemistry, which is the only thing that makes them what they are.
 
 ## Refresh 2026-09-05, ninth — mat-025, and a block that weighed nothing
 

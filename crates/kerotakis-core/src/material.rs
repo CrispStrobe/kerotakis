@@ -120,23 +120,32 @@ pub const LOT_SOURCE_PREFIX: &str = "material recipe ";
 
 /// Every named object still present in this vessel, one recipe each.
 ///
-/// A recipe leaves two different traces and which one it leaves is an
-/// accident of how completely it resolves. `thermoset_resin` resolves into
+/// A recipe leaves three different traces and which one it leaves is an
+/// accident of how completely it resolves, plus one deliberate choice. `thermoset_resin` resolves into
 /// nothing, so it exists only as an unresolved portion; a moulded
 /// polyethylene sheet resolves entirely into `PE`, so it exists only as
-/// the lot its polyethylene arrived in. A model about the OBJECT — what
-/// heat does to a plastic, what a meter reads off an insulator — has to
-/// see both, and reading one of the two is how a shelf ends up answering
-/// for half its materials.
+/// the lot its polyethylene arrived in. And a recipe declaring
+/// `CoherentObject` is not dispensed into the vessel at all: it stays a
+/// whole object with its own mass, which is what a sealed cell has to be.
+/// A model about the OBJECT — what heat does to a plastic, what a meter
+/// reads off an insulator, what is inside a battery — has to see all
+/// three, and reading one of them is how a shelf ends up answering for a
+/// third of its materials.
 ///
-/// Both traces are checked for matter still being there: an unresolved
-/// portion with nothing left in it, or a lot whose species has since been
-/// consumed, is a recipe the vessel no longer holds.
+/// The dispensed traces are checked for matter still being there: an
+/// unresolved portion with nothing left in it, or a lot whose species has
+/// since been consumed, is a recipe the vessel no longer holds. A coherent
+/// object needs no such check — it is either in the vessel or it is not.
 pub fn named_objects(vessel: &crate::Vessel) -> Vec<MaterialRecipe> {
     let mut ids: Vec<String> = Vec::new();
     for portion in &vessel.unresolved_materials {
         if portion.amount > 0.0 && !ids.contains(&portion.recipe_id) {
             ids.push(portion.recipe_id.clone());
+        }
+    }
+    for object in &vessel.material_objects {
+        if !ids.contains(&object.recipe_id) {
+            ids.push(object.recipe_id.clone());
         }
     }
     for lot in &vessel.lots {

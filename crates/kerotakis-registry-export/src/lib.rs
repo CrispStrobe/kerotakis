@@ -96,6 +96,13 @@ const MATERIAL_RESISTIVITY_CITATION: &str = "Kerotakis curated material-resistiv
 /// polymer transition is also grade-dependent in a way a melting
 /// point is not, which every row here says.
 const POLYMER_HEAT_CITATION: &str = "Kerotakis curated polymer heat-response tranche v1: the softening (crystalline melt or flow) and decomposition temperatures of the two families of plastic, in K at 101.325 kPa, with a room-temperature specific heat capacity in J/(g.K). THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. Polymer handbooks and general materials references are the intended primary source, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the phase-transition and electrical-resistivity tranches are. Polymer transition temperatures are grade-dependent by nature: molecular weight, crystallinity, plasticiser content and degree of cure each move them by tens of kelvin, so these are class figures for a teaching object rather than a specification for any material that could be bought. Compiled 2026-09-05";
+/// What is inside a sealed cell, and what moves while it discharges.
+///
+/// Its own tranche again, and for the sharpest version of the same
+/// reason: this one is a REACTION rather than a property, it is
+/// written down rather than run, and a reader who wants to check it
+/// has to be able to land on where it came from.
+const SEALED_CELL_CITATION: &str = "Kerotakis curated sealed-cell tranche v1: the discharge reaction and nominal open-circuit voltage of a familiar primary cell. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. The alkaline zinc/manganese-dioxide cell's overall discharge is written Zn + 2 MnO2 -> ZnO + Mn2O3 in the general accounts, with a nominal 1.5 V open circuit; the real cathode reaction proceeds through MnOOH by a homogeneous proton insertion rather than in one step, which is why the cell's voltage slopes down through discharge instead of holding, and the single equation here is the overall one rather than the mechanism. Battery-chemistry references and manufacturers' general technical literature are the intended primary source, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and the row is flagged for reviewer confirmation before any stronger claim is made. NO BRAND IS NAMED OR IMPLIED: the object is described by its chemistry. Compiled 2026-09-05";
 /// `(species key, resistivity in ohm.m at 293.15 K, what the row does not claim)`.
 ///
 /// Seven rows, and the gap in them is the point: the registry carries no
@@ -4582,6 +4589,98 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         },
         // bio-006. Setting is protein coagulation and starch
         // gelatinisation; the bench has neither.
+        // mat-058. A sealed cell is a coherent object on purpose: it keeps
+        // its own mass and does not empty its insides into the beaker.
+        MaterialRecipe {
+            id: "battery/alkaline-cell".to_string(),
+            version: 1,
+            canonical_key: "alkaline_battery".to_string(),
+            name: "alkaline battery cell".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Alkalibatterie".to_string(), "Alkali-Mangan-Zelle".to_string()]),
+                ("en".to_string(), vec!["alkaline cell".to_string(), "zinc-manganese dioxide cell".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(2.9)),
+            components: vec![
+                component("MnO2", 0.35),
+                component("Fe", 0.2),
+                component("Zn", 0.15),
+                component("water", 0.09),
+                component("KOH", 0.06),
+                component("graphite", 0.04),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.11,
+                upper: 0.11,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a sealed cylindrical cell".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![
+                MaterialRole::CoherentObject,
+                MaterialRole::SealedCell {
+                    open_circuit_volts: 1.5,
+                    reaction: "Zn + 2 MnO2 -> ZnO + Mn2O3".to_string(),
+                    why: "the zinc powder is the anode and gives up electrons as it turns to zinc oxide; the manganese dioxide is the cathode and takes them as it turns to manganese(III) oxide; and the potassium hydroxide paste between the two carries hydroxide ions from one to the other and is not used up. Nothing crosses the steel case, so nothing enters or leaves the cell while it works - the atoms inside are only rearranged, and a flat battery weighs exactly what a fresh one does.".to_string(),
+                    boundary: "The reaction is NAMED AND NOT RUN. Neither ZnO nor Mn2O3 is an installed species here and no charge is tracked, so a reaction that moved matter would have to invent both its products and its bookkeeping; the ledger is untouched and the object's mass is conserved by construction rather than by arithmetic over products. The bench does not open the case: state of charge, capacity in ampere-hours, internal resistance, self-discharge and the way the voltage sags under load are all outside it, and so is what happens if the cell is short-circuited, heated or opened. 1.5 V is the NOMINAL open-circuit figure: a fresh cell reads nearer 1.6 V and one under load reads less. The composition is a class figure for a consumer cylindrical cell and varies by size and by maker.".to_string(),
+                    source: SEALED_CELL_CITATION.to_string(),
+                },
+            ],
+            preparation: Some("a sealed consumer alkaline cell: a zinc anode, a manganese-dioxide cathode and a potassium-hydroxide paste in a steel can, kept whole".to_string()),
+            lot_assumptions: vec![
+                "the cell is a COHERENT OBJECT: its components are recorded inside it and are not dispensed into the beaker. That is the whole point - a sealed cell that emptied its zinc, its manganese dioxide and its caustic paste into a vessel the moment it was put down would be a description of a battery that had been cut open, and every route on this bench would then narrate the wrong experiment".to_string(),
+                "the mass fractions are a class figure for a consumer cylindrical alkaline cell as commonly tabulated - manganese dioxide the largest single fraction, then the steel can, then the zinc, with the potassium hydroxide electrolyte and its water under a fifth between them - and they are recorded for the record rather than acted on. Size and maker move every one of them".to_string(),
+                "the conserved eleven percent is the separator, the brass current collector, the seals, the plastic label and the cathode binder: real mass with no species this registry could honestly name".to_string(),
+                "no brand is named or implied anywhere in this recipe, and none is needed: what makes an alkaline cell an alkaline cell is its chemistry".to_string(),
+                "a battery is a corrosion cell somebody built on purpose, which is why the route that speaks for this object is the corrosion route. What separates them is that this one's electrodes and electrolyte were chosen and sealed in".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // mat-071. The post is dispensed as lead on purpose: the crust is
+        // a corrosion verdict, and the corrosion route reads metal in the
+        // vessel rather than objects beside it.
+        MaterialRecipe {
+            id: "battery/lead-terminal".to_string(),
+            version: 1,
+            canonical_key: "battery_terminal".to_string(),
+            name: "lead battery terminal".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Batteriepol".to_string(), "Bleipol".to_string()]),
+                ("en".to_string(), vec!["battery post".to_string(), "lead terminal".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(11.34)),
+            components: vec![component("Pb", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a cast lead post".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("the cast lead post of a lead-acid battery, with the thin film of sulfuric-acid electrolyte that creeps up it".to_string()),
+            lot_assumptions: vec![
+                "the post is resolved as pure lead. A real one is a lead alloy - antimony or calcium, a percent or two - which changes how it casts and how fast it corrodes and is not represented; the bench holds the metal and not the grade".to_string(),
+                "THE ELECTROLYTE FILM IS NOT RESOLVED, and that is deliberate rather than an omission. Sulfuric acid put into this vessel as a species would be free acidity, the displacement route would own the beaker, and the answer would become 'lead in acid' - which is a different experiment from a lead post with a creeping film on it. The film is asserted from the object's identity instead, exactly as the chromium film of stainless steel is, and the corrosion route's ELECTROLYTE_CREEP row is where the bench keeps the sentence".to_string(),
+                "the white crust is named and not weighed: no lead sulfate species is installed, so nothing is added to the ledger and the mass on the balance is the lead plus whatever was poured over it".to_string(),
+                "LEAD IS TOXIC and a real battery post is handled with gloves and washed hands. Nothing on this bench can hurt anyone, which is exactly why the note belongs in the recipe".to_string(),
+                "one chemistry is claimed here and it is the lead-acid one. A zinc-plated or copper contact grows a different crust - basic zinc carbonate, or a copper sulfate hydrate - by a different route, and this row does not speak for either".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         MaterialRecipe {
             id: "food/cake-batter".to_string(),
             version: 1,

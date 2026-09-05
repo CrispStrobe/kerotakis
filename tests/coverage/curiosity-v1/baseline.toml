@@ -1847,8 +1847,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-058"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-059"
@@ -1925,8 +1925,8 @@ reason_code = "unsupported-electrical-circuit"
 [[observation]]
 id = "mat-071"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-072"

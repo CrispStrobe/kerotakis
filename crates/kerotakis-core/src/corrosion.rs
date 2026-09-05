@@ -89,6 +89,26 @@
 //! * **Acid corrosion belongs to `displacement`.** Where free acidity or a
 //!   dissolved noble-metal ion is present the cathode is not oxygen, and
 //!   this route stands aside so the two never both narrate one beaker.
+//!
+//! # The two batteries
+//!
+//! BRD-014 put two more passes in this module, and they belong here for a
+//! reason worth stating plainly: **corrosion is a battery nobody wanted,
+//! and a battery is a corrosion cell somebody built on purpose.** They are
+//! the same physics — two electrodes, one electrolyte, electrons taking
+//! the outside path — and the difference is only whether the arrangement
+//! was chosen.
+//!
+//! * [`sealed_cells`] speaks for a named object that IS a cell. It does
+//!   not open the case: the reaction is curated prose written down beside
+//!   a balance reading, and the balance reading is the evidence for the
+//!   sealing, because a cell that lets nothing out weighs the same
+//!   discharged as new.
+//! * [`ELECTROLYTE_CREEP`] speaks for the other end of a battery's life —
+//!   the white crust on a terminal, which is a corrosion product grown
+//!   from a film of the cell's own electrolyte rather than from anything
+//!   in the beaker. Like [`BARRIERS`], it is keyed on the lot the object
+//!   arrived in, because it is a fact about the object.
 
 use crate::displacement::{Couple, SERIES};
 use crate::ops::Event;
@@ -127,6 +147,31 @@ pub const BARRIERS: &[Barrier] = &[
         source: "Barrier protection by organic coatings and the absence of cathodic protection at a defect: Jones, Principles and Prevention of Corrosion, 2nd ed., chapter on coatings. Editorial judgement (Kerotakis): the recipe metal/painted-iron holds the paint as a conserved unresolved 5% with no geometry, so 'the film is complete' is an assumption of the object rather than a state the bench can inspect — there is no scratch verb, and a broken film is described here rather than simulated",
     },
 ];
+
+/// A corrosion product a named object grows from a film of its own
+/// electrolyte, rather than from anything in the beaker.
+///
+/// Keyed on the `MaterialLot::source` the material route stamps, for the
+/// same reason [`Barrier`] is: it is a fact about the object. A bare lead
+/// sheet in water grows nothing of the kind, and neither does a bare lead
+/// sheet that arrived by any other road.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ElectrolyteCreep {
+    /// `MaterialLot::source` written by the material route.
+    pub lot_source: &'static str,
+    /// The metal the film sits on.
+    pub metal: &'static str,
+    /// The sentence the verdict carries.
+    pub why: &'static str,
+    pub source: &'static str,
+}
+
+pub const ELECTROLYTE_CREEP: &[ElectrolyteCreep] = &[ElectrolyteCreep {
+    lot_source: "material recipe battery/lead-terminal",
+    metal: "Pb",
+    why: "the white crust on a battery post is lead(II) sulfate, and it does not come out of the water in this beaker - it comes out of the battery. Sulfuric acid creeps up the post as a thin film along the lead and out under the seal, wetting the terminal with electrolyte; the lead under that film corrodes as the anode of the cell it is part of, Pb + SO4(2-) -> PbSO4 + 2 e-, and lead sulfate is white, insoluble and powdery, so it stays exactly where it grew instead of washing away. That is why the crust is at the terminal and nowhere else on the case, why it comes back after it is brushed off while the film is still there, and why the cure is to stop the creep rather than to clean the post. NOTHING IS ADDED TO THE LEDGER HERE: no PbSO4 species is installed and no sulfate is in this vessel, so the product is named and not weighed, and the acid film is asserted from the object's identity rather than resolved - the recipe battery/lead-terminal says exactly that in its own lot assumptions",
+    source: "Lead sulfate as the corrosion product of a lead-acid post under an electrolyte film, and creep of sulfuric acid along the terminal as the mechanism: Jones, Principles and Prevention of Corrosion, 2nd ed., and Pavlov, Lead-Acid Batteries: Science and Technology, chapters on the negative plate and on grid corrosion; the Pb/PbSO4 couple at -0.36 V vs SHE is the standard electrochemical-series value. Editorial judgement (Kerotakis): PENDING REVIEW - these are the standard accounts as commonly given and no positively identified copy was read for this row. A zinc/copper contact grows a different crust (basic zinc carbonate, or copper sulfate hydrate) by a different route; ONE chemistry is claimed here and it is the lead-acid one",
+}];
 
 /// The kinetic corrosion reactions this route gates, and the metal each
 /// one eats.
@@ -233,6 +278,27 @@ pub fn barrier_for(vessel: &Vessel, metal: &str) -> Option<&'static Barrier> {
     found
 }
 
+/// An electrolyte film carried by every current lot of `metal`.
+///
+/// Exactly [`barrier_for`]'s rule and for exactly its reason: one bare lot
+/// of the same metal withdraws the claim, because the bench cannot tell
+/// two lots of lead apart once they are in `contents` and a plain lead
+/// sheet dropped in beside a battery post does not grow a crust.
+pub fn creep_for(vessel: &Vessel, metal: &str) -> Option<&'static ElectrolyteCreep> {
+    let mut found: Option<&'static ElectrolyteCreep> = None;
+    for lot in vessel.lots.iter() {
+        if lot.species.0 != metal || lot.phase != Phase::Solid {
+            continue;
+        }
+        let source = lot.source.as_deref().unwrap_or("");
+        let creep = ELECTROLYTE_CREEP
+            .iter()
+            .find(|creep| creep.metal == metal && creep.lot_source == source)?;
+        found = Some(creep);
+    }
+    found
+}
+
 fn display_name(key: &str) -> &str {
     species::lookup_key(key).map(|d| d.name).unwrap_or(key)
 }
@@ -329,6 +395,20 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
         let metal = couple.reduced;
         let name = display_name(metal);
 
+        // The crust comes first, because it is the more specific claim
+        // about this particular object and every branch below it would
+        // otherwise answer about metal in general. A lead post under an
+        // electrolyte film is corroding whether or not there is oxygen in
+        // the beaker: its cathode is the cell it is part of.
+        if let Some(creep) = creep_for(vessel, metal) {
+            out.push(Verdict {
+                metal,
+                corroding: true,
+                why: creep.why.to_string(),
+            });
+            continue;
+        }
+
         if let Some(barrier) = barrier_for(vessel, metal) {
             out.push(Verdict {
                 metal,
@@ -403,6 +483,39 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
     out
 }
 
+/// What a named sealed cell in this vessel says about its own insides.
+///
+/// It reads the reviewed `SealedCell` role and nothing else. The bench
+/// does not open the case, does not track state of charge, and does not
+/// run the reaction: the products of an alkaline discharge have no
+/// species in this registry, so a reaction that moved matter would have
+/// to invent them. What IS checked is the thing a sealed cell's whole
+/// claim rests on — the object's mass, which stays exactly what it was,
+/// and which the balance beside this sentence reads.
+pub fn sealed_cells(vessel: &Vessel) -> Vec<Event> {
+    let id = vessel.id;
+    crate::material::named_objects(vessel)
+        .into_iter()
+        .filter_map(|recipe| {
+            recipe.roles.iter().find_map(|role| match role {
+                crate::material::MaterialRole::SealedCell {
+                    open_circuit_volts,
+                    reaction,
+                    why,
+                    ..
+                } => Some(Event::SealedCell {
+                    vessel: id,
+                    material: recipe.name.clone(),
+                    open_circuit_volts: *open_circuit_volts,
+                    reaction: reaction.clone(),
+                    why: why.clone(),
+                }),
+                _ => None,
+            })
+        })
+        .collect()
+}
+
 /// Whether the slow clock is actually corroding this metal in this
 /// vessel: a gated corrosion reaction names it, and that reaction can
 /// run here.
@@ -455,12 +568,12 @@ impl Equilibrator for CorrosionEquilibrator {
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {
-        !verdicts(vessel).is_empty()
+        !verdicts(vessel).is_empty() || !sealed_cells(vessel).is_empty()
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let id = vessel.id;
-        Ok(verdicts(vessel)
+        let mut events: Vec<Event> = verdicts(vessel)
             .into_iter()
             .map(|v| Event::Corroded {
                 vessel: id,
@@ -468,7 +581,9 @@ impl Equilibrator for CorrosionEquilibrator {
                 corroding: v.corroding,
                 why: v.why,
             })
-            .collect())
+            .collect();
+        events.extend(sealed_cells(vessel));
+        Ok(events)
     }
 }
 

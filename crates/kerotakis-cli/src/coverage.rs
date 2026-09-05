@@ -622,6 +622,9 @@ fn execute_prompt(
                     // should not outrank a computed route that was the
                     // real answer.
                     | Event::Adsorbed { .. }
+                    // BRD-014: and so is what a sealed cell says about
+                    // its own insides. Same placement, same reason.
+                    | Event::SealedCell { .. }
                     // BRD-041: "warm, with oxygen, and not burning" is an
                     // answer about a fuel, in the same class as `Inert`.
                     | Event::BelowAutoignition { .. }

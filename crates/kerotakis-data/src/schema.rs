@@ -283,6 +283,34 @@ pub enum MaterialRole {
     /// what the meter reads for THIS reviewed object; the span is what
     /// the class covers, and a reading that quotes one without the other
     /// is a confidence the data does not have.
+    /// A named object that is a galvanic cell in its own right, sealed,
+    /// and which the bench deliberately does not open.
+    ///
+    /// Corrosion is a battery nobody wanted; a battery is a corrosion cell
+    /// somebody built on purpose. The difference is that the cell's two
+    /// electrodes and its electrolyte are chosen, packaged and sealed, so
+    /// nothing crosses the case and the object's mass is the same
+    /// discharged as it was new. That last fact is the one a balance can
+    /// check, and it is why this role exists beside the reaction rather
+    /// than instead of it.
+    ///
+    /// The reaction is CURATED PROSE. It is written down, not run: the
+    /// products of an alkaline discharge have no species in this registry,
+    /// no charge is tracked, and a reaction that moved matter would have
+    /// to invent both. So the ledger is untouched and the sentence is the
+    /// claim.
+    SealedCell {
+        /// Nominal open-circuit voltage of the couple, V.
+        open_circuit_volts: f64,
+        /// The balanced discharge reaction, as written.
+        reaction: String,
+        /// What moves inside while it discharges.
+        why: String,
+        /// What this row does not claim.
+        boundary: String,
+        /// The citation that travels with the voltage and the equation.
+        source: String,
+    },
     /// How a named polymer answers heat — the one property that separates
     /// the two families of plastic, and the reason they are two families.
     ///
