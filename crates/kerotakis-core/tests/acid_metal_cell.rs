@@ -20,9 +20,20 @@ fn zinc_and_copper_in_acid_offer_a_bounded_open_circuit_estimate() {
     let zinc = acidic_metal(0, "Zn", 1.86);
     let copper = acidic_metal(1, "Cu", 1.86);
     let cell = displacement::acid_zinc_copper_cell(&zinc, &copper).expect("acid cell");
+    let repeated = displacement::acid_zinc_copper_cell(&zinc, &copper).expect("same state");
     assert!(cell.anode_is_first);
     assert!((0.63..0.68).contains(&cell.volts), "{} V", cell.volts);
     assert_eq!(cell.ph, 1.86);
+    assert_eq!(cell, repeated, "an open-circuit reading is deterministic");
+    assert_eq!(
+        zinc.contents.iter().map(|p| p.moles.0).sum::<f64>(),
+        acidic_metal(0, "Zn", 1.86)
+            .contents
+            .iter()
+            .map(|p| p.moles.0)
+            .sum::<f64>(),
+        "reading an open circuit draws no current and consumes no zinc"
+    );
 }
 
 #[test]

@@ -1,6 +1,7 @@
-# Rubbery bone: what a chalk stand-in can and cannot prove
-# Acid removes carbonate from chalk. Real bone is calcium phosphate in collagen;
-# chalk is not bone, and flexibility is not modeled.
+# Chalk in vinegar: why this is not a rubbery-bone model
+# Acid removes carbonate from chalk. Real bone is a composite: calcium-phosphate
+# mineral reinforces collagen. Acid can leave that collagen scaffold flexible;
+# chalk contains no collagen, so dissolving it cannot predict bone bending.
 register lv1
 add v1 water 50mL
 add v1 chalk_stick 2g
@@ -9,3 +10,9 @@ new beaker
 add v2 white_vinegar_5_percent 50mL
 add v2 chalk_stick 2g
 look v2
+inspect v1
+inspect v2
+
+# The matched control honestly computes acid–carbonate dissolution and carbon
+# dioxide. It is evidence about chalk only. No bone species, collagen scaffold,
+# mechanical stiffness or bending observable exists in this model.

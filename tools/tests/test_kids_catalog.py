@@ -28,6 +28,19 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))
         self.assertTrue(all(not row.get("lesson") and not row.get("quest") for row in rows if row["status"] in {"declined", "unreachable"}))
 
+    def test_lemon_voltage_and_bone_boundary_are_named_honestly(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        lemon = rows["K34"]
+        self.assertEqual(lemon["status"], "computed")
+        self.assertIn("Open-circuit", lemon["title"])
+        self.assertIn("not a powered lemon battery", lemon["boundary"])
+        self.assertIn("internal resistance", lemon["boundary"])
+        bone = rows["K15"]
+        self.assertEqual(bone["status"], "partial")
+        self.assertEqual(bone["lesson"], "rubbery-bone-boundary.lab")
+        self.assertIn("collagen", bone["boundary"])
+        self.assertIn("calcium-phosphate", bone["boundary"])
+
     def test_cross_references_are_checked_against_their_sources(self):
         broken = json.loads(json.dumps(self.document))
         broken["experiments"][0]["capabilities"] = ["not-a-reviewed-prompt"]

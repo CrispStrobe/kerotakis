@@ -939,6 +939,28 @@ fn lemon_cell_reports_a_bounded_voltage_not_unmeasured_power() {
         "{out}"
     );
     assert!(!out.contains("no cell"), "{out}");
+    assert!(
+        !out.contains(" W"),
+        "the no-load result must not invent power:\n{out}"
+    );
+}
+
+#[test]
+fn rubbery_bone_lesson_computes_only_the_chalk_control() {
+    let lesson = lessons_dir().join("rubbery-bone-boundary.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    assert!(out.contains("chalk (calcium carbonate)"), "{out}");
+    assert!(
+        out.lines()
+            .any(|line| line.starts_with("  v2:") && line.contains("carbon dioxide")),
+        "vinegar control should compute carbonate gas:\n{out}"
+    );
+    assert!(
+        !out.lines()
+            .any(|line| line.contains("bone") || line.contains("collagen")),
+        "the engine must not relabel chalk as bone:\n{out}"
+    );
 }
 
 #[test]
