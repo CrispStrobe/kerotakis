@@ -643,13 +643,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             &[("vessel", &vessel.to_string()), ("mass", &locale.number(format!("{aggregate_mass_g:.3}"))), ("moles", &locale.number(format!("{divalent_ion_moles:.6}")))],
         ),
         Event::LemonPaperMarked { vessel, lemon_amount_g, paper_amount_g } => locale.fill(
-            "event.lemon-paper-marked",
+            "event.lemon-paper-marked.lv1",
             "{vessel}: {lemon_amount_g} g lemon juice marks {paper_amount_g} g paper; the mark is still wet",
             &[("vessel", &vessel.to_string()), ("lemon_amount_g", &locale.number(format!("{lemon_amount_g:.2}"))), ("paper_amount_g", &locale.number(format!("{paper_amount_g:.2}")))],
         ),
-        Event::LemonPaperDried { vessel } => locale.fill("event.lemon-paper-dried", "{vessel}: the lemon mark is dry and still faint", &[("vessel", &vessel.to_string())]),
+        Event::LemonPaperDried { vessel } => locale.fill("event.lemon-paper-dried.lv1", "{vessel}: the lemon mark is dry and still faint", &[("vessel", &vessel.to_string())]),
         Event::LemonPaperBrowned { vessel, browned_fraction, temperature_k } => locale.fill(
-            "event.lemon-paper-browned", "{vessel}: the dry lemon mark is {percent}% brown at {temperature_k} K",
+            "event.lemon-paper-browned.lv1", "{vessel}: the dry lemon mark is {percent}% brown at {temperature_k} K",
             &[("vessel", &vessel.to_string()), ("percent", &locale.number(format!("{:.0}", browned_fraction * 100.0))), ("temperature_k", &locale.number(format!("{temperature_k:.1}")))],
         ),
         Event::GasProduced {
