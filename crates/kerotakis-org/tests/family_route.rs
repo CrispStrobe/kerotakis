@@ -171,7 +171,7 @@ fn warm_ester_and_hydroxide_in_water_saponify_and_keep_the_sodium() {
 }
 
 #[test]
-fn hydroxide_the_aqueous_tail_left_as_charge_saponifies_too() {
+fn hydroxide_the_aqueous_tail_measured_saponifies_too() {
     // After a solve the tail keeps a strong base as Na+ plus alkalinity,
     // with no hydroxide portion at all. The record names "OH-" and the
     // router backs it with the charge; the match runs through chematic's
@@ -181,6 +181,7 @@ fn hydroxide_the_aqueous_tail_left_as_charge_saponifies_too() {
         340.0,
     );
     v.solute_charge = 0.1;
+    v.free_hydroxide = 0.1;
     let events = family_equilibrator().equilibrate(&mut v).unwrap();
     assert!(fired(&events, "alkaline-ester-hydrolysis"), "{events:?}");
     assert!(moles(&v, "ethyl_acetate") < 1e-12, "the ester is gone");
