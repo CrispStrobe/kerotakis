@@ -27,4 +27,11 @@ describe("persistent material observations", () => {
     expect(source).toContain('t("translucent cohesive gel")');
     expect(source).toContain('t("of polymer gelled")');
   });
+
+  it("draws only persistent source-backed protective coatings", () => {
+    expect(source).toContain("vessel.coatings ?? []");
+    expect(source).toContain("coating.recipe_id === object.recipe_id");
+    expect(source).toContain('class="persistent-coating"');
+    expect(source).toContain("t(coating.words)");
+  });
 });

@@ -75,6 +75,11 @@ pub struct SceneVessel {
     /// density rather than by the density of their resolved ingredients.
     #[serde(default)]
     pub bulk_objects: Vec<SceneBulkObject>,
+    /// Protective surface films asserted by the provenance of a coherent
+    /// material object still present in this vessel. This is persistent state,
+    /// never a reconstruction from transient events.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub coatings: Vec<SceneCoating>,
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
@@ -307,6 +312,20 @@ pub struct SceneBulkObject {
     pub srgb: [u8; 3],
 }
 
+/// A source-backed protective film on a coherent material object.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneCoating {
+    /// "paint" or "passive_film". Renderers must not infer thickness or
+    /// coverage from this label.
+    pub kind: String,
+    /// Material recipe whose persistent lot provenance supports the film.
+    pub recipe_id: String,
+    /// Registry key of the protected metal.
+    pub host_species: String,
+    /// Short accessible description of what the projection claims.
+    pub words: String,
+}
+
 fn fully_settled() -> f64 {
     1.0
 }
@@ -462,6 +481,41 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     }
 
     let bulk_observations = crate::material::bulk_solid_objects(v);
+    let coatings: Vec<SceneCoating> = crate::corrosion::BARRIERS
+        .iter()
+        .filter(|barrier| {
+            crate::corrosion::barrier_for(v, barrier.metal) == Some(*barrier)
+                && v.contents.iter().any(|portion| {
+                    portion.species.0 == barrier.metal
+                        && portion.phase == Phase::Solid
+                        && portion.moles.0 > crate::OBSERVABLE_MOLES
+                })
+        })
+        .map(|barrier| {
+            let recipe_id = barrier
+                .lot_source
+                .strip_prefix("material recipe ")
+                .unwrap_or(barrier.lot_source)
+                .to_string();
+            let (kind, words) = if recipe_id == "metal/painted-iron" {
+                (
+                    "paint",
+                    "The painted iron has a complete protective paint film; scratches are not modeled.",
+                )
+            } else {
+                (
+                    "passive_film",
+                    "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+                )
+            };
+            SceneCoating {
+                kind: kind.to_string(),
+                recipe_id,
+                host_species: barrier.metal.to_string(),
+                words: words.to_string(),
+            }
+        })
+        .collect();
     let bulk_component_keys: std::collections::BTreeSet<String> = bulk_observations
         .iter()
         .flat_map(|object| {
@@ -603,6 +657,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             gel.polymer,
         ));
     }
+    for coating in &coatings {
+        words.push(' ');
+        words.push_str(&coating.words);
+    }
     if let Some(swelling) = &swelling_observation {
         words.push_str(&format!(
             " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
@@ -664,6 +722,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         layers,
         solids,
         bulk_objects,
+        coatings,
         material_objects: v
             .material_objects
             .iter()
@@ -965,6 +1024,64 @@ mod tests {
         // And it round-trips.
         let back: SceneVessel = serde_json::from_value(json).unwrap();
         assert_eq!(back, s);
+    }
+
+    #[test]
+    fn material_provenance_projects_protective_coatings() {
+        let mut painted = vessel_with(&[]);
+        painted.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/painted-iron".into()),
+            None,
+        );
+        let scene = scene_vessel(&painted);
+        assert_eq!(scene.coatings.len(), 1);
+        assert_eq!(scene.coatings[0].kind, "paint");
+        assert_eq!(scene.coatings[0].recipe_id, "metal/painted-iron");
+        assert!(scene.words.contains("complete protective paint film"));
+
+        let mut stainless = vessel_with(&[]);
+        stainless.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/stainless-steel".into()),
+            None,
+        );
+        assert_eq!(scene_vessel(&stainless).coatings[0].kind, "passive_film");
+    }
+
+    #[test]
+    fn coating_projection_fails_closed_for_bare_or_mixed_iron() {
+        let bare = vessel_with(&[("Fe", 0.1, Phase::Solid)]);
+        assert!(scene_vessel(&bare).coatings.is_empty());
+
+        let mut mixed = vessel_with(&[]);
+        mixed.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            None,
+            None,
+        );
+        mixed.deposit_lot(
+            crate::SpeciesId::new("Fe"),
+            crate::Moles(0.1),
+            Phase::Solid,
+            Some("material recipe metal/painted-iron".into()),
+            None,
+        );
+        assert!(scene_vessel(&mixed).coatings.is_empty());
+    }
+
+    #[test]
+    fn older_scene_json_without_coatings_still_deserializes() {
+        let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
+        json.as_object_mut().unwrap().remove("coatings");
+        let old: SceneVessel = serde_json::from_value(json).unwrap();
+        assert!(old.coatings.is_empty());
     }
 
     #[test]

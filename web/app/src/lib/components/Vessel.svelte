@@ -526,6 +526,21 @@
       >
         <title>{t(object.material)} · {object.bulk_density_g_per_ml.toPrecision(3)} g/mL · {t(object.position)}</title>
       </rect>
+      {#each (vessel.coatings ?? []).filter((coating) => coating.recipe_id === object.recipe_id) as coating (coating.kind)}
+        <rect
+          class="persistent-coating"
+          class:paint={coating.kind === "paint"}
+          class:passive={coating.kind === "passive_film"}
+          x={objectX - 1}
+          y={objectY - 1}
+          width={objectWidth + 2}
+          height="9"
+          rx="4.5"
+          fill="none"
+        >
+          <title>{t(coating.words)}</title>
+        </rect>
+      {/each}
     {/each}
 
     {#each (vessel.material_objects ?? []).slice(0, 3) as object, i (`${object.recipe_id}-${i}`)}
@@ -1377,6 +1392,18 @@
     transform-box: fill-box;
     transform-origin: center;
     animation: object-bob 2.8s ease-in-out infinite alternate;
+  }
+  .persistent-coating {
+    pointer-events: none;
+    stroke-width: 2;
+    stroke-dasharray: 2 1;
+  }
+  .persistent-coating.paint {
+    stroke: #3f78a8;
+  }
+  .persistent-coating.passive {
+    stroke: rgb(196 225 235 / 70%);
+    stroke-width: 1.2;
   }
   .prepared-object {
     stroke: color-mix(in srgb, var(--ink) 55%, transparent);

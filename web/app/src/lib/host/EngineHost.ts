@@ -52,6 +52,8 @@ export interface SceneVessel {
   solids: SceneSolid[];
   /** Coherent named objects positioned using whole-object bulk density. */
   bulk_objects?: SceneBulkObject[];
+  /** Persistent, source-backed protective films on coherent objects. */
+  coatings?: SceneCoating[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -196,6 +198,13 @@ export interface SceneBulkObject {
   bulk_density_g_per_ml: number;
   position: "floating" | "sunk" | "dry";
   srgb: [number, number, number];
+}
+
+export interface SceneCoating {
+  kind: "paint" | "passive_film";
+  recipe_id: string;
+  host_species: string;
+  words: string;
 }
 
 export interface SceneBadge {

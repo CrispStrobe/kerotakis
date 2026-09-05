@@ -2101,6 +2101,8 @@
   "wet lemon mark": "feuchte Zitronenspur",
   "brown": "braun",
   "translucent cohesive gel": "durchscheinendes zusammenhängendes Gel",
-  "of polymer gelled": "des Polymers geliert"
+  "of polymer gelled": "des Polymers geliert",
+  "The painted iron has a complete protective paint film; scratches are not modeled.": "Das lackierte Eisen hat einen vollständigen schützenden Lackfilm; Kratzer werden nicht modelliert.",
+  "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.": "Der Edelstahl hat eine transparente schützende Passivschicht; ihre Dicke ist nicht maßstabsgetreu dargestellt."
  }
 }
