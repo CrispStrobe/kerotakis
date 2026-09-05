@@ -301,17 +301,17 @@ fn the_pouring_order_no_longer_decides_whether_the_ester_hydrolyses() {
     // NaOH could match only on the step the base was poured. The router
     // now carries the charge-backed hydroxide as a candidate of its own.
     let mut bench = Bench::new();
-    let mut stack = stack();
+    let mut solver = stack();
     let v = VesselId(0);
-    add(&mut bench, &mut stack, v, "water", WATER);
-    add(&mut bench, &mut stack, v, "ethyl_acetate", SCALE);
-    let cold_base = add(&mut bench, &mut stack, v, "NaOH", SCALE);
+    add(&mut bench, &mut solver, v, "water", WATER);
+    add(&mut bench, &mut solver, v, "ethyl_acetate", SCALE);
+    let cold_base = add(&mut bench, &mut solver, v, "NaOH", SCALE);
     assert!(!saponified(&cold_base), "fired cold: {cold_base:?}");
     assert!(
         moles(&bench, v, "NaOH") < 1e-12 && moles(&bench, v, "Na+") > 0.0,
         "the tail is expected to have eaten the hydroxide and left the sodium"
     );
-    let heated = heat(&mut bench, &mut stack, v, HEAT_J);
+    let heated = heat(&mut bench, &mut solver, v, HEAT_J);
     assert!(
         temperature(&bench, v) > 323.15,
         "the second beaker must clear the same gate, got {} K",
@@ -326,7 +326,7 @@ fn the_pouring_order_no_longer_decides_whether_the_ester_hydrolyses() {
     let waited = bench
         .step_with(
             Operator::Wait { seconds: 600.0 },
-            &mut stack,
+            &mut solver,
             &PermissiveScreen,
         )
         .expect("wait");
