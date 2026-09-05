@@ -268,19 +268,26 @@
           >i</button>
         </div>
         {#if info === item.key}
+          <!-- Bound once each: narrowing a `string | null` through a
+               `{#if}` and reading it again inside is the kind of thing that
+               type-checks by luck. -->
+          {@const appearance = item.appearance}
+          {@const families = rolesOf(item.key)}
+          {@const computes = capabilityLabel(item.capability)}
+          {@const hazards = hazardLine(item)}
           <dl class="detail" id={infoPanelId(item.key)}>
             <div><dt>{t("physical state")}</dt><dd>{t(item.phase)}</dd></div>
-            {#if item.appearance}
-              <div><dt>{t("visual appearance")}</dt><dd>{t(item.appearance)}</dd></div>
+            {#if appearance}
+              <div><dt>{t("visual appearance")}</dt><dd>{t(appearance)}</dd></div>
             {/if}
-            {#if rolesOf(item.key).length > 0}
-              <div><dt>{t("chemical family")}</dt><dd>{rolesOf(item.key).map((r) => t(ROLE_LABELS[r])).join(" · ")}</dd></div>
+            {#if families.length > 0}
+              <div><dt>{t("chemical family")}</dt><dd>{families.map((family) => t(ROLE_LABELS[family])).join(" · ")}</dd></div>
             {/if}
-            {#if capabilityLabel(item.capability)}
-              <div><dt>{t("what the model computes")}</dt><dd data-capability={item.capability}>{capabilityLabel(item.capability)}</dd></div>
+            {#if computes}
+              <div><dt>{t("what the model computes")}</dt><dd data-capability={item.capability}>{computes}</dd></div>
             {/if}
-            {#if hazardLine(item)}
-              <div class="danger"><dt>{t("safety labels")}</dt><dd>{hazardLine(item)}</dd></div>
+            {#if hazards}
+              <div class="danger"><dt>{t("safety labels")}</dt><dd>{hazards}</dd></div>
             {/if}
             {#if bottle}
               <div><dt>{t("in the bottle")}</dt><dd>{stockBadge(bottle, t)}</dd></div>
