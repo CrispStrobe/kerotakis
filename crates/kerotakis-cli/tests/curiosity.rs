@@ -6,9 +6,15 @@ fn curiosity_smoke_routes_without_crashing() {
         .args(["coverage", "curiosity", "--smoke", "--check", "--json"])
         .output()
         .expect("run kero coverage curiosity");
+    // The report is on STDOUT and the failure message printed only
+    // stderr, so a drifting row failed this test with an empty panic and
+    // the one artefact that says WHICH row was thrown away. `--check`
+    // exits non-zero on drift, so this assertion is the one that fires
+    // first and it has to carry the evidence.
     assert!(
         output.status.success(),
-        "stderr:\n{}",
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
     let report: serde_json::Value =
@@ -16,7 +22,12 @@ fn curiosity_smoke_routes_without_crashing() {
     assert_eq!(report["prompts"].as_array().map(Vec::len), Some(16));
     assert_eq!(report["expectation_mismatches"], 0);
     assert_eq!(report["failures"].as_array().map(Vec::len), Some(0));
-    assert_eq!(report["baseline_drift"].as_array().map(Vec::len), Some(0));
+    let drift = report["baseline_drift"].as_array().expect("drift array");
+    assert!(
+        drift.is_empty(),
+        "baseline drift:\n{}",
+        serde_json::to_string_pretty(drift).unwrap_or_default()
+    );
     for disposition in ["computed", "curated", "qualitative", "boundary", "missing"] {
         assert!(
             report["by_observed"][disposition]
@@ -66,7 +77,12 @@ fn curiosity_check_rejects_a_synthetic_routing_regression() {
     assert!(!output.status.success(), "regression must fail --check");
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON report");
     let drift = report["baseline_drift"].as_array().expect("drift array");
-    assert_eq!(drift.len(), 1);
+    assert_eq!(
+        drift.len(),
+        1,
+        "one injected regression, one drift line — got:\n{}",
+        serde_json::to_string_pretty(drift).unwrap_or_default()
+    );
     assert_eq!(drift[0]["id"], "aq-003");
     assert_eq!(drift[0]["kind"], "changed");
 }
