@@ -12,6 +12,7 @@
   import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
   import IgnitionFlameCanvas from "./IgnitionFlameCanvas.svelte";
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
+  import { enzymeReadouts } from "../persistentReadouts";
 
   let {
     vessel,
@@ -174,6 +175,7 @@
     : 0);
   const snowH = $derived(vessel.swelling ? Math.max(7, FULL_H * (0.22 + snowFraction * 0.68)) : 0);
   const glowStrength = $derived(Math.min(1, (vessel.chemiluminescence?.relative_intensity ?? 0) / 4));
+  const persistentEnzymeReadouts = $derived(enzymeReadouts(vessel));
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -1230,6 +1232,20 @@
     {#if vessel.gel}
       <small class="gel-status">{Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</small>
     {/if}
+    {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
+      <span
+        class="persistent-readout"
+        aria-label={t("{family} enzyme model: {percent}% of {substrate} converted in {material}", {
+          family: t(progress.family),
+          percent: progress.percent,
+          substrate: t(progress.substrate),
+          material: t(progress.material),
+        })}
+      >
+        <small>{t(progress.family)} · {t("enzyme conversion")}</small>
+        <strong>{progress.percent}%</strong>
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -2094,6 +2110,20 @@
     animation: status-pulse 0.8s ease-in-out infinite alternate;
   }
   @keyframes status-pulse { to { box-shadow: 0 0 0 6px transparent; } }
+  .persistent-readout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .2rem .45rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
+    border-radius: 8px;
+    color: var(--discovery);
+    background: color-mix(in srgb, var(--discovery) 7%, var(--surface));
+  }
+  .persistent-readout small { color: var(--dim); font-size: .55rem; }
+  .persistent-readout strong { font-variant-numeric: tabular-nums; }
   .badge {
     border: 1px solid var(--edge);
     border-radius: 999px;

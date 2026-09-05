@@ -453,7 +453,9 @@
   "apple browning": "",
   "sugar water density tower": "",
   "water filter": "",
-  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": ""
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "",
+  "enzyme conversion": "",
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
   "Kids Lab": "",

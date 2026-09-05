@@ -119,6 +119,11 @@ pub struct SceneVessel {
     /// system at this vessel's temperature and elapsed time.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub chemiluminescence: Option<SceneChemiluminescence>,
+    /// Current conversion of supported unresolved food substrates. This is
+    /// stored vessel state projected into the scene, not reconstructed event
+    /// history or a claim about visible texture.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub enzyme_hydrolysis: Vec<SceneEnzymeHydrolysis>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -231,6 +236,14 @@ pub struct SceneChemiluminescence {
     pub half_life_s: f64,
     pub elapsed_s: f64,
     pub temperature_k: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneEnzymeHydrolysis {
+    pub family: crate::enzyme::EnzymeFamily,
+    pub material: String,
+    pub substrate: String,
+    pub converted_fraction: f64,
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -376,6 +389,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let swelling_observation = crate::swelling::observe(v);
     let gel_observation = crate::gel::observe(v);
     let chemiluminescence_observation = crate::chemiluminescence::observe(v);
+    let enzyme_hydrolysis = crate::enzyme_activity::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
@@ -673,6 +687,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             glow.relative_intensity, glow.half_life_s,
         ));
     }
+    for progress in &enzyme_hydrolysis {
+        words.push_str(&format!(
+            " The bounded enzyme model reports {:.0}% conversion of {} in {}.",
+            progress.converted_fraction * 100.0,
+            progress.substrate,
+            progress.material,
+        ));
+    }
     if !v.surface_colours.is_empty() {
         let spread = v
             .surface_colours
@@ -802,6 +824,15 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             elapsed_s: seen.elapsed_s,
             temperature_k: seen.temperature_k,
         }),
+        enzyme_hydrolysis: enzyme_hydrolysis
+            .into_iter()
+            .map(|seen| SceneEnzymeHydrolysis {
+                family: seen.family,
+                material: seen.material,
+                substrate: seen.substrate.to_string(),
+                converted_fraction: seen.converted_fraction,
+            })
+            .collect(),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
@@ -1135,15 +1166,40 @@ mod tests {
     }
 
     #[test]
+    fn enzyme_conversion_is_persistent_readout_not_a_fake_texture() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 13.0,
+            enzyme_hydrolysis: Some(crate::vessel::EnzymeHydrolysisState {
+                family: crate::enzyme::EnzymeFamily::Lactase,
+                converted_fraction: 0.625,
+                carried_enzyme_denatured: false,
+            }),
+        });
+        let scene = scene_vessel(&v);
+        assert_eq!(scene.enzyme_hydrolysis.len(), 1);
+        let reading = &scene.enzyme_hydrolysis[0];
+        assert_eq!(reading.substrate, "lactose in milk");
+        assert!((reading.converted_fraction - 0.625).abs() < 1e-12);
+        assert!(scene.words.contains("63% conversion of lactose in milk"));
+    }
+
+    #[test]
     fn additive_observation_fields_default_when_old_scene_is_read() {
         let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
         json.as_object_mut().unwrap().remove("swelling");
         json.as_object_mut().unwrap().remove("chemiluminescence");
         json.as_object_mut().unwrap().remove("gel");
+        json.as_object_mut().unwrap().remove("enzyme_hydrolysis");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.swelling.is_none());
         assert!(old.chemiluminescence.is_none());
         assert!(old.gel.is_none());
+        assert!(old.enzyme_hydrolysis.is_empty());
     }
 
     #[test]

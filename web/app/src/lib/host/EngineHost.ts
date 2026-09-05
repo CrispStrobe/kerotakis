@@ -70,6 +70,8 @@ export interface SceneVessel {
   curds?: SceneCurds | null;
   swelling?: SceneSwelling | null;
   chemiluminescence?: SceneChemiluminescence | null;
+  /** Additive scene-v1 projection of stored unresolved-substrate progress. */
+  enzyme_hydrolysis?: SceneEnzymeHydrolysis[];
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -158,6 +160,13 @@ export interface SceneChemiluminescence {
   half_life_s: number;
   elapsed_s: number;
   temperature_k: number;
+}
+
+export interface SceneEnzymeHydrolysis {
+  family: string;
+  material: string;
+  substrate: string;
+  converted_fraction: number;
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

@@ -19,6 +19,17 @@ pub struct EnzymeActivityStep {
     pub converted_fraction: f64,
 }
 
+/// Persistent, current-state projection for renderers. Unlike an event this
+/// survives reload, and unlike a guessed animation it reports only the
+/// conversion fraction already stored on a supported substrate portion.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EnzymeHydrolysisObservation {
+    pub family: EnzymeFamily,
+    pub material: String,
+    pub substrate: &'static str,
+    pub converted_fraction: f64,
+}
+
 #[derive(Clone, Copy)]
 struct SubstrateProfile {
     recipe_id: &'static str,
@@ -80,6 +91,27 @@ pub fn unresolved_lactose_share(recipe_id: &str) -> Option<f64> {
         .iter()
         .find(|profile| profile.recipe_id == recipe_id && profile.class == SubstrateClass::Lactose)
         .map(|profile| profile.substrate_share)
+}
+
+pub fn observe(vessel: &Vessel) -> Vec<EnzymeHydrolysisObservation> {
+    vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let profile = PROFILES
+                .iter()
+                .find(|profile| profile.recipe_id == portion.recipe_id)?;
+            let state = portion.enzyme_hydrolysis.as_ref()?;
+            Some(EnzymeHydrolysisObservation {
+                family: state.family,
+                material: material::lookup_versioned(&portion.recipe_id, portion.recipe_version)
+                    .map(|recipe| recipe.name)
+                    .unwrap_or_else(|| portion.material.clone()),
+                substrate: profile.substrate,
+                converted_fraction: state.converted_fraction.clamp(0.0, 1.0),
+            })
+        })
+        .collect()
 }
 
 // Editorial teaching correlation, not a measured universal rate constant.

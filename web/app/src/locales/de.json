@@ -453,7 +453,9 @@
   "apple browning": "Bräunung eines Apfels",
   "sugar water density tower": "Dichteturm aus Zuckerwasser",
   "water filter": "Wasserfilter",
-  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse"
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse",
+  "enzyme conversion": "Enzymumsatz",
+  "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
