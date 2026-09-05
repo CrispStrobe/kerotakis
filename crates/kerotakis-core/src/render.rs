@@ -2091,6 +2091,33 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         // whole mechanism in the register the module wrote it in, so the
         // levels differ in how much of it they show rather than in what
         // they claim.
+        Event::BelowAutoignition {
+            vessel,
+            fuel,
+            autoignition,
+            temperature,
+        } => {
+            let name = species::lookup(fuel).map(|d| d.name).unwrap_or(fuel.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let needs = locale.number(format!("{:.0}", autoignition.to_celsius()));
+            let at = locale.number(format!("{:.0}", temperature.to_celsius()));
+            match register.level() {
+                1 => locale.fill(
+                    "event.below-autoignition.lv1",
+                    "The {name} in {vessel} is warm but not hot enough to catch — it needs {needs} °C, or a spark.",
+                    &[("name", name), ("vessel", &vessel.to_string()), ("needs", &needs)],
+                ),
+                2 => locale.fill(
+                    "event.below-autoignition.lv2",
+                    "{vessel}: {name} below autoignition — at {at} °C, needs {needs} °C or a spark",
+                    &[("vessel", &vessel.to_string()), ("name", name), ("at", &at), ("needs", &needs)],
+                ),
+                _ => format!(
+                    "{vessel}: {name} with oxygen at {:.1} K, below its autoignition temperature of {:.1} K; no spark, so the thermal solver stands aside",
+                    temperature.0, autoignition.0
+                ),
+            }
+        }
         Event::Corroded {
             vessel,
             species: sid,

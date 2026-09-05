@@ -899,6 +899,18 @@ pub enum Event {
         corroding: bool,
         why: String,
     },
+    /// BRD-041: a fuel stands with oxygen, warm, but below its
+    /// autoignition temperature and without a spark — so nothing burns,
+    /// and that is an answer. The thermal solver says this instead of
+    /// equilibrating a mixture that, on a real bench, would sit there.
+    BelowAutoignition {
+        vessel: VesselId,
+        fuel: SpeciesId,
+        /// The fuel's autoignition temperature in air.
+        autoignition: Kelvin,
+        /// Where the vessel actually stands.
+        temperature: Kelvin,
+    },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {
         vessel: VesselId,

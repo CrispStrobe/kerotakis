@@ -354,6 +354,24 @@ impl Equilibrator for ThermalEquilibrator {
         let Some(charge) = charge(vessel) else {
             return Ok(Vec::new());
         };
+        // BRD-041: equilibrium would burn methane and air the moment they
+        // were warm. A real mixture below its autoignition temperature sits
+        // there until a spark, and `ignite` IS the spark — it takes the
+        // vessel to 1200 K, above every tabulated autoignition point. So a
+        // warm, unsparked fuel is answered by name rather than burned, and
+        // the slow clock's mechanism packs own whatever happens with time.
+        let unsparked = kerotakis_core::combustion::unsparked_fuels(vessel);
+        if !unsparked.is_empty() {
+            return Ok(unsparked
+                .into_iter()
+                .map(|(fuel, autoignition_k)| Event::BelowAutoignition {
+                    vessel: vessel.id,
+                    fuel,
+                    autoignition: kerotakis_core::Kelvin(autoignition_k),
+                    temperature: vessel.temperature,
+                })
+                .collect());
+        }
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
         let mut pool = pool_for(&elements);
         if charge.used_feed_thermo {
