@@ -167,6 +167,36 @@ impl TransitionOutcome {
     }
 }
 
+/// A dry solid's bulk electrical resistivity, with the citation that has
+/// to travel with it.
+///
+/// This is a different claim from anything in [`PhaseTransitions`] and a
+/// different claim from the aqueous conductivity the meter usually reports:
+/// a solution conducts because ions move through it, and a metal conducts
+/// because its electrons are not attached to any one atom. Sharing a field
+/// between the two would let a reader mistake one for the other, so they
+/// do not share one.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Resistivity {
+    /// Ohm-metres at 293.15 K.
+    pub ohm_m: f64,
+    /// Per-record provenance - this value's own source, not the species'
+    /// general citation.
+    pub source: &'static str,
+    /// What this row does NOT claim: purity, temper, alloy, anisotropy.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boundary: Option<&'static str>,
+}
+
+impl Resistivity {
+    /// The reciprocal, S/m - what a conductance meter reads directly.
+    /// Resistivity is what the handbooks tabulate, so it is what the
+    /// registry stores; the meter inverts it rather than storing both.
+    pub fn conductivity_s_per_m(&self) -> f64 {
+        1.0 / self.ohm_m
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpeciesData {
     pub key: &'static str,
@@ -255,6 +285,12 @@ pub struct SpeciesData {
     /// guessing one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub transitions: Option<PhaseTransitions>,
+    /// Bulk electrical resistivity of the dry solid, with its own citation.
+    /// `None` means none is curated and the conductance meter says so
+    /// rather than guessing one - which is the whole difference between a
+    /// bench that can say why wire is copper and one that cannot.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub electrical_resistivity: Option<Resistivity>,
     pub provenance: &'static str,
 }
 

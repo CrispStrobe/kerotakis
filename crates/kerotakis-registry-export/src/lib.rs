@@ -69,6 +69,58 @@ const DISSOLUTION_NOTES: &[(&str, &str)] = &[
     ("Na2SO4", "-2.43 kJ/mol for the anhydrous salt at infinite dilution, from the CRC Handbook of Chemistry and Physics 97th ed. per the species' own citation. The vendored Thenardite delta_h is -2.39 kJ in wateq4f.dat and -9.12 kJ in minteq.v4.dat; the two databases disagree with each other and neither is this row's source."),
     ("NH4NO3", "+25.7 kJ/mol, the cold-pack number, and one of the most strongly endothermic dissolutions a kitchen can produce. Stated in the species' own citation and recorded here so the row carries its own source."),
 ];
+/// The electrical claim a wire is chosen for. It gets its own source
+/// record for the same reason the transition temperatures and the
+/// dissolution enthalpies got theirs: a resistivity is a different claim
+/// with a different origin from a molar mass, and the meter that prints it
+/// must be able to print the book behind it.
+const RESISTIVITY_SOURCE: &str = "kerotakis/electrical-resistivity-v1";
+const RESISTIVITY_CITATION: &str = "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. The CRC Handbook of Chemistry and Physics table 'Electrical Resistivity of Pure Metals' is the intended primary reference and these numbers agree with it to the precision quoted, but this is NOT a transcription from a positively identified copy of any single edition and no edition-level provenance is claimed: every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made, exactly as the phase-transition tranche is. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05";
+const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, provenance lane pending review; the row's own note states what the value does not cover";
+/// `(species key, resistivity in ohm.m at 293.15 K, what the row does not claim)`.
+///
+/// Seven rows, and the gap in them is the point: the registry carries no
+/// elemental silicon, so the semiconductor case is absent rather than
+/// approximated. Doped silicon needs a carrier-density model this bench
+/// does not have, and the intrinsic value alone would answer no question
+/// anyone asked.
+const RESISTIVITY: &[(&str, f64, &str)] = &[
+    (
+        "Ag",
+        1.587e-8,
+        "Silver is the least resistive metal known at room temperature, and only about 5% below copper - which is why wire is copper and not silver: the metal is thirty to a hundred times the price for a twentieth less resistance. Price is not a property this registry records, and this row does not claim it.",
+    ),
+    (
+        "Cu",
+        1.678e-8,
+        "Annealed copper of ordinary commercial purity. Hard-drawn copper reads a percent or two higher and alloyed copper much higher; neither is this row.",
+    ),
+    (
+        "Al",
+        2.65e-8,
+        "About 58% more resistive than copper by volume, but under a third of its density - which is why overhead transmission line is aluminium and house wiring is not. This row records the resistivity only; the per-mass comparison is arithmetic a reader can do with the density row beside it.",
+    ),
+    (
+        "Mg",
+        4.39e-8,
+        "Pure magnesium. This bench's magnesium is ribbon, which is an alloy of unstated composition, and an alloy's resistivity is not its parent metal's.",
+    ),
+    (
+        "Zn",
+        5.9e-8,
+        "Pure zinc. Galvanised steel is a zinc coating on iron and conducts as neither.",
+    ),
+    (
+        "Fe",
+        9.71e-8,
+        "Pure iron, about 5.8 times copper's resistivity - the whole of the answer to why wire is not made of it. Steel is higher again, and rust is not a conductor at all; neither is this row.",
+    ),
+    (
+        "graphite",
+        1e-5,
+        "AN ORDER OF MAGNITUDE, NOT A MEASUREMENT. Graphite is strongly anisotropic - roughly 4e-7 ohm.m along the basal plane and some thousands of times more across it - and commercial grades differ widely. This value describes a polycrystalline bench rod or pencil lead, and is recorded so the meter can say 'a conductor, but a poor one beside a metal' rather than nothing. It supports no comparison finer than that.",
+    ),
+];
 const SILICA_SOURCE: &str = "us-federal/pubchem-silica";
 const SILICA_CITATION: &str = "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27";
 
@@ -95,6 +147,7 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
+    electrical_resistivity: None,
     provenance: ISOPROPANOL_CITATION,
 };
 
@@ -118,6 +171,7 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
+    electrical_resistivity: None,
     provenance: SUCROSE_CITATION,
 };
 
@@ -146,6 +200,7 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
+    electrical_resistivity: None,
     provenance: IRON_III_OXIDE_CITATION,
 };
 
@@ -169,6 +224,7 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
+    electrical_resistivity: None,
     provenance: EPSOMITE_CITATION,
 };
 
@@ -192,6 +248,7 @@ const SILICA_SEED: SpeciesData = SpeciesData {
     forms_only_above_k: None,
     magnetic: false,
     transitions: None,
+    electrical_resistivity: None,
     provenance: SILICA_CITATION,
 };
 
@@ -246,6 +303,26 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         document.sources.push(SourceRecord {
             id: DISSOLUTION_SOURCE.to_string(),
             citation: DISSOLUTION_CITATION.to_string(),
+            licence: "AGPL-3.0-or-later".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
+            revision: Some("v1".to_string()),
+            retrieved: Some("2026-09-05".to_string()),
+        });
+    }
+    // Same guard again. This tranche's lane is pending review, and the
+    // citation says so in prose rather than in a lane the schema does not
+    // have: `SourceLane` has no pending-review variant, so the caveat that
+    // `kerotakis-thermo`'s `RightsLane::PrimaryLiteratureCoefficientsPendingReview`
+    // carries as a type is carried here as the first sentence a reviewer reads.
+    if document
+        .phase_thermodynamics
+        .iter()
+        .any(|record| record.quantity.source_id == RESISTIVITY_SOURCE)
+    {
+        document.sources.push(SourceRecord {
+            id: RESISTIVITY_SOURCE.to_string(),
+            citation: RESISTIVITY_CITATION.to_string(),
             licence: "AGPL-3.0-or-later".to_string(),
             lane: SourceLane::Runtime,
             origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -4598,6 +4675,43 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                     uncertainty: Uncertainty::NotReported,
                     source_id: DISSOLUTION_SOURCE.to_string(),
                     method: Method::Curated(DISSOLUTION_METHOD.to_string()),
+                },
+            });
+    }
+
+    // The same escape the transition temperatures take, for the same
+    // reason: the schema has no `ElectricalResistivity` property and
+    // inventing one would claim a dimension check the schema cannot make.
+    if let Some((_, value, note)) = RESISTIVITY.iter().find(|(key, _, _)| *key == species.key) {
+        document
+            .phase_thermodynamics
+            .push(PhaseThermodynamicRecord {
+                id: format!("electrical-resistivity/{}", species.key),
+                species_id: species.key.to_string(),
+                phase,
+                property: PhaseProperty::Other("electrical_resistivity".to_string()),
+                quantity: NumericRecord {
+                    value: *value,
+                    unit: Unit {
+                        symbol: "Ohm.m".to_string(),
+                        dimension: Dimension::Other("electrical_resistivity".to_string()),
+                    },
+                    conditions: Applicability {
+                        temperature: Some(Interval {
+                            lower: 293.15,
+                            upper: 293.15,
+                            unit: Unit {
+                                symbol: "K".to_string(),
+                                dimension: Dimension::Temperature,
+                            },
+                        }),
+                        phase: Some(phase),
+                        notes: Some((*note).to_string()),
+                        ..Applicability::default()
+                    },
+                    uncertainty: Uncertainty::NotReported,
+                    source_id: RESISTIVITY_SOURCE.to_string(),
+                    method: Method::Curated(RESISTIVITY_METHOD.to_string()),
                 },
             });
     }
