@@ -2067,58 +2067,42 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => format!("{vessel}: {name} inert: {why}"),
             }
         }
-        // BRD-023: the corrosion verdict. `why` already carries the whole
-        // mechanism sentence in the register the module wrote it in, so
-        // the levels differ in how much of the arithmetic they show
-        // rather than in what they claim.
+        // BRD-023: the corrosion verdict. `why` already carries the
+        // whole mechanism in the register the module wrote it in, so the
+        // levels differ in how much of it they show rather than in what
+        // they claim.
         Event::Corroded {
             vessel,
             species: sid,
             corroding,
             why,
-            current_density_ua_per_cm2,
-            penetration_mm_per_year,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
-            let rate = penetration_mm_per_year
-                .as_ref()
-                .map(|mm| locale.number(format!("{mm:.2}")))
-                .unwrap_or_default();
-            match (register.level(), *corroding, penetration_mm_per_year.is_some()) {
-                (1, true, true) => locale.fill(
-                    "event.corroded.lv1-rate",
-                    "The {name} in {vessel} is corroding — about {rate} mm a year would come off a bare surface at this rate.",
-                    &[("name", name), ("vessel", &vessel.to_string()), ("rate", &rate)],
-                ),
-                (1, true, false) => locale.fill(
+            match (register.level(), *corroding) {
+                (1, true) => locale.fill(
                     "event.corroded.lv1",
-                    "The {name} in {vessel} is corroding.",
+                    "The {name} in {vessel} is the one that corrodes here.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
-                (1, false, _) => locale.fill(
+                (1, false) => locale.fill(
                     "event.corroded.lv1-spared",
-                    "The {name} in {vessel} is not corroding.",
+                    "The {name} in {vessel} is not corroding — and that is an answer, not a gap.",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
-                (2, true, _) => locale.fill(
+                (2, true) => locale.fill(
                     "event.corroded.lv2",
-                    "{vessel}: {name} is corroding — {why}",
+                    "{vessel}: {name} corrodes — {why}",
                     &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
                 ),
-                (2, false, _) => locale.fill(
+                (2, false) => locale.fill(
                     "event.corroded.lv2-spared",
-                    "{vessel}: {name} is not corroding — {why}",
+                    "{vessel}: {name} does not corrode — {why}",
                     &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
                 ),
                 _ => {
                     let verdict = if *corroding { "corroding" } else { "not corroding" };
-                    match current_density_ua_per_cm2 {
-                        Some(j) => format!(
-                            "{vessel}: {name} {verdict}: {j:.1} µA/cm², {rate} mm/yr — {why}"
-                        ),
-                        None => format!("{vessel}: {name} {verdict}: {why}"),
-                    }
+                    format!("{vessel}: {name} {verdict}: {why}")
                 }
             }
         }

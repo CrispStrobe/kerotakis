@@ -868,23 +868,16 @@ pub enum Event {
     /// much a computed result as the positive one, which is why it is the
     /// same event with `corroding: false` rather than a stand-aside.
     ///
-    /// The rates are optional because they are optional in the model:
-    /// the route computes a current density only where it has a
-    /// characterised electrolyte to compute the ohmic throttle from, and
-    /// says nothing rather than guessing. It never carries a mass loss —
-    /// see `corrosion`'s module docs for why the bench reports a rate per
-    /// unit area and refuses the extent.
+    /// It carries no rate, on purpose. The corrosion reactions live in
+    /// `kinetics::REGISTRY`, where `wait` drives them and `Reacted`
+    /// reports what moved; this event is the verdict that decides which
+    /// of them may run at all, and a second number here would be a second
+    /// opinion about the same nail.
     Corroded {
         vessel: VesselId,
         species: SpeciesId,
         corroding: bool,
         why: String,
-        /// Corrosion current density, µA/cm².
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        current_density_ua_per_cm2: Option<f64>,
-        /// Uniform penetration rate on a bare surface, mm per year.
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        penetration_mm_per_year: Option<f64>,
     },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {

@@ -1448,6 +1448,15 @@ impl Equilibrator for HonestyEquilibrator {
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
+                // BRD-023: a metal the corrosion route has a verdict for
+                // is not an unmodelled mystery either. That route says
+                // whether this metal corrodes here, and why not where it
+                // does not, so an apology beside its answer would have
+                // the bench report the nail going orange and, in the same
+                // breath, that nothing is modelled for the iron.
+                if crate::corrosion::speaks_for(vessel, &p.species.0) {
+                    continue;
+                }
                 // A declared kinetic catalyst is already wired even when
                 // this equilibrium rung cannot speciate the salt. The slow
                 // clock consumes its catalytic effect and deliberately leaves
@@ -1555,6 +1564,15 @@ impl Equilibrator for HonestyEquilibrator {
                     continue;
                 }
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
+                    continue;
+                }
+                // BRD-023: a metal the corrosion route has a verdict for
+                // is not an unmodelled mystery either. That route says
+                // whether this metal corrodes here, and why not where it
+                // does not, so an apology beside its answer would have
+                // the bench report the nail going orange and, in the same
+                // breath, that nothing is modelled for the iron.
+                if crate::corrosion::speaks_for(vessel, &p.species.0) {
                     continue;
                 }
                 if crate::kinetics::applicable(vessel).iter().any(|reaction| {

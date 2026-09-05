@@ -945,6 +945,103 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         source_ids: &["kerotakis:kinetics:iron-corrosion"],
         provenance: "Rusting as the net oxidation 4 Fe + 3 O₂ → 2 Fe₂O₃, gated on liquid water by its locality so that air and water are needed together. Ea = 40 kJ/mol sits inside the 20–50 kJ/mol range corrosion texts report for oxygen-reduction-controlled aqueous corrosion of steel near room temperature. Editorial judgement (Kerotakis): the pre-exponential is chosen so the observation is watchable on a lesson clock — nothing in an hour, a little overnight — rather than measured, exactly as the peroxide entry above does. Real rust is a hydrated iron(III) oxide mixture whose composition depends on how it formed; the registry's reddish-brown iron(III) oxide is the reviewed stand-in, and a hydrated rust species with its own reviewed data is registry work rather than a rate question",
     },
+    // BRD-023: the other half of galvanising, and the reason the corpus
+    // kept asking. `iron-corrosion` above will happily rust a nail with
+    // a lump of zinc sitting against it in the same brine, because it
+    // has no idea the zinc is there — its own uncertainty note says the
+    // half-reactions and the cell that separates them are not resolved.
+    // `corrosion::allows_reaction` now resolves exactly that much of it:
+    // the lower-E° metal is the anode, the iron's entry does not run
+    // while zinc is in contact, and THIS entry is what makes the
+    // sacrifice something that happens to the beaker rather than
+    // something the bench merely says.
+    //
+    // The product is zinc hydroxide rather than an oxide because the
+    // registry has no ZnO, and because in water it is the hydroxide that
+    // actually forms — the white bloom on old galvanising is a basic
+    // carbonate built on it, and the carbonate step needs a dissolved
+    // CO₂ route this bench does not have.
+    KineticReaction {
+        id: "zinc-corrosion",
+        equation: "2 Zn + O₂ + 2 H₂O → 2 Zn(OH)₂↓",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "Zn",
+                coefficient: -2.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "O2",
+                coefficient: -1.0,
+                phase: Phase::Gas,
+            },
+            // Unlike the iron entry, the water IS consumed here: a
+            // hydroxide cannot be written without it, and leaving it out
+            // would create 34 g/mol of matter per extent while the
+            // equation string above claimed otherwise.
+            StoichiometricTerm {
+                species: "water",
+                coefficient: -2.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "Zn(OH)2",
+                coefficient: 2.0,
+                phase: Phase::Solid,
+            },
+        ],
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "O2",
+                    phase: None,
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "Zn",
+                    phase: Some(Phase::Solid),
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // A quarter of the iron entry's pre-exponential, at the
+                // same barrier. That ratio is the whole reason
+                // galvanising is worth doing: zinc's own free-corrosion
+                // rate in fresh water is several times lower than mild
+                // steel's, so a thin coat outlives the steel it is
+                // protecting. Editorial judgement (Kerotakis), calibrated
+                // against the iron entry rather than measured — the pair
+                // is meant to reproduce "the coat lasts", not to predict
+                // a coating life.
+                pre_exponential: 5.0e1,
+                temperature_exponent: 0.0,
+                activation_energy: 40_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        // No chloride catalyst, deliberately. Salt accelerates zinc too,
+        // and the iron entry's half-order correlation was fitted to the
+        // one observation a nail in brine makes. Copying it onto zinc
+        // would be asserting a second acceleration nobody measured, so
+        // the bench leaves zinc's salt response unmodelled and says so.
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for zinc under aerated water, relative to the iron entry; oxygen must be present in the vessel, because an open vessel does not yet draw oxygen from the room",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rates are indicative and the ratio to iron is the claim. Zinc amount stands in for zinc area, exactly as it does for iron. The largest omission is the coupling itself: a sacrificial zinc carries the protected iron's cathodic current as well as its own and therefore corrodes FASTER than this entry, which runs at the free-corrosion rate whether or not it is protecting anything — so the coat lasts too long here by roughly the factor the coupling would have cost it. Zinc's own acceleration by chloride is not modelled",
+        },
+        source_ids: &["kerotakis:kinetics:zinc-corrosion"],
+        provenance: "Zinc's aqueous oxidation written as the net 2 Zn + O₂ + 2 H₂O → 2 Zn(OH)₂, the wet-storage-stain reaction of galvanised sheet. Ea is taken as the iron entry's 40 kJ/mol, inside the 20-50 kJ/mol range corrosion texts report for oxygen-reduction-controlled aqueous corrosion, because zinc's cathodic reaction is the same oxygen reduction. Editorial judgement (Kerotakis): the pre-exponential is set at a quarter of iron's so that zinc free-corrodes several times more slowly than mild steel in fresh water, which is the qualitative fact that makes a zinc coat a coating and not a sacrifice for its own sake; it is calibrated, not measured. The real white rust of galvanising is a basic zinc carbonate formed from this hydroxide and atmospheric CO₂, and that second step is not modelled",
+    },
 ];
 
 thread_local! {
@@ -1405,7 +1502,15 @@ impl<'a> KineticReaction<'a> {
     }
 
     pub fn can_run(&self, vessel: &Vessel) -> bool {
-        self.in_validity_domain(vessel)
+        // BRD-023: the galvanic gate. A metal that is cathodically
+        // protected, or behind a coating, does not corrode — and saying
+        // so has to change what is left in the beaker, not only what the
+        // narration claims, or "zinc protects iron" is a caption on a
+        // vessel where the iron rusted anyway. `allows_reaction` speaks
+        // only for the corrosion entries it names; every other reaction
+        // passes straight through.
+        crate::corrosion::allows_reaction(self.id, vessel)
+            && self.in_validity_domain(vessel)
             && (self.direction_available(vessel, true)
                 || (self.reverse.is_some() && self.direction_available(vessel, false)))
     }

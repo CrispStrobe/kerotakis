@@ -709,382 +709,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   characteristic behavior test; changing recipe version invalidates cache keys.
 - **Out of scope:** product endorsements, clandestine composition guessing, or
   detailed toxicology from generic recipes.
-- **Checkpoint 2026-09-05 — three recipes stopped describing bare iron.** The
-  `metal/stainless-steel`, `metal/galvanized-steel` and `metal/painted-iron`
-  entries each said in their own `lot_assumptions` that they resolve to iron
-  the bench will attack, with no representation of the film or coat that is
-  the whole point of the object. `corrosion::BARRIERS` (BRD-023's checkpoint
-  above) is where the bench now keeps those two sentences, keyed on the lot
-  source the material route stamps, and the galvanised entry needs no barrier
-  at all — its zinc protects its iron by the ordinary galvanic rule, which is
-  also the honest answer for a scratched sheet. Closes curiosity row mat-014.
-- **Checkpoint 1 implemented:** baking soda/Natron, anhydrous washing
-  soda/Waschsoda, and cornstarch/Speisestärke are versioned localized material
-  recipes that expand exactly to the existing `NaHCO3`, `Na2CO3`, and `starch`
-  solver species. The bare word “Soda” remains intentionally unclaimed because
-  its meaning changes by language and context. Baking powder waits for an
-  audited acid-salt component; pepper waits for aggregate-solid appearance.
-  Isopropanol identity, 70% v/v household solution, safety and boiling-range
-  volatility land in checkpoint 5 below; its combustion route still waits for
-  feed thermochemistry. Dyes and paints are covered by BRD-075 optical material
-  roles. These are
-  prerequisite boundaries, not generic inert substitutes.
-- **Checkpoint 2 implemented:** the familiar vinegar + baking-soda reaction is
-  a balanced curated route with limiting-reagent stoichiometry, dissolved
-  sodium acetate, and CO2 that visibly evolves from an open vessel or remains
-  in a sealed headspace. Reaction heat remains explicitly unclaimed pending an
-  audited enthalpy record.
-- **Checkpoint 3 implemented:** liquid hand soap/Flüssigseife is distinct from
-  dish detergent/Spülmittel, with its own versioned unresolved formulation and
-  bounded foam-stabilisation parameters. Generic “Seife/soap” remains
-  unclaimed because a solid soap bar and a liquid hand wash are not the same
-  material.
-- **Checkpoint 4 implemented:** native and WebAssembly shelf catalogues now
-  append every built-in `MaterialRecipe` beside pure species, using its
-  canonical key so taps and drags compile to the same replayable `add`
-  operator as typed commands. Physical form selects household-friendly volume
-  or mass amounts; component formulas feed search/periodic-table coverage;
-  component hazards are combined and any unresolved fraction remains visibly
-  unassessed. Optical materials reuse their computed solution swatches.
-- **Checkpoint 5 implemented:** pure isopropanol is a searchable registry
-  identity backed by public-domain U.S. federal property data. Localized 70%
-  rubbing alcohol expands as its labelled 70/30 volume mixture with water,
-  preserving the explicit additive-volume approximation. The shared safety
-  surface marks its resolved alcohol component as flammable; the thermodynamics
-  library supplies a range-checked NIST Antoine correlation around its normal
-  boiling point. Combustion remains explicitly unmodelled until compatible feed
-  thermochemistry is installed.
-- **Checkpoint 6 implemented:** localized 5% household bleach and 5% ammonia
-  cleaner surrogates expand into the already modelled NaOCl/NH3 aqueous
-  components. Their density and concentration assumptions remain visible; no
-  brand additives are guessed. Mixing the named cleaners now reaches the same
-  danger warning, limiting-reagent consumption and chloramine-gas evolution as
-  the pure reagents, with the warning emitted before the computed chemistry.
-- **Checkpoint 7 implemented:** localized sparkling water and a bounded cola
-  surrogate now expand into water plus finite CO2 doses, so the installed
-  gas-liquid/headspace model—not an animation constant—computes dissolved
-  carbonate, acidity, escaping fizz and sealed pressure. Cola additionally
-  resolves a small phosphoric-acid fraction while keeping sweetener, caramel
-  colour, caffeine and flavours as conserved unresolved mass; it makes no brand
-  or nutritional claim.
-- **Checkpoint 8 implemented:** `Backpulver`/baking powder is available as a
-  versioned heat-activated surrogate with resolved sodium bicarbonate and
-  starch plus a conserved unresolved acid-salt fraction. At room temperature
-  it remains still; sufficient computed heating reaches the installed balanced
-  bicarbonate-decomposition route and evolves stoichiometric CO2. Wet and
-  double-acting activation remain explicitly unclaimed until the actual acid
-  salts and their dissolution kinetics are installed.
-- **Checkpoint 9 implemented:** localized tap-water and 3.5% seawater
-  surrogates expand into installed major-ion species with explicit density and
-  regional/compositional assumptions. The aqueous engine computes hardness and
-  ionic-strength consequences; concentrating named seawater through the normal
-  evaporation operator precipitates computed sodium chloride. Minor seawater
-  ions, dissolved gases and organics remain conserved unresolved mass rather
-  than being silently discarded.
-- **Checkpoint 10 implemented:** ground black pepper/`Pfeffer` is a localized,
-  fully conserved unresolved plant-powder recipe with a reviewed floating-grain
-  role. On quiet water it persists as a visible surface layer; adding the
-  existing dish-soap surrogate computes a dose-bounded central clearing,
-  records a `SurfaceSpread` event, retains the resulting state in scene JSON,
-  and animates the grains toward the rim in the web vessel. Soap-first order
-  deliberately emits no sudden-spread event. This is the familiar classroom
-  observable only—not a universal surface-tension coefficient, molecular
-  surfactant model, Marangoni solver, or CFD particle trajectory.
-- **Checkpoint 11 implemented:** `pepper-and-soap.lab` exposes the surface
-  model as a child-facing, replayable experiment rather than a hidden command
-  combination. It compares pepper-first and soap-first vessels, explains why a
-  fresh surface is required, and is placed in the lesson picker's `start here`
-  sequence. The lesson uses only water, pepper and dish soap and keeps the
-  empirical-model boundary in its narration.
-- **Checkpoint 12 implemented:** fresh/compressed baker's yeast is distinct
-  from dry yeast under localized `Frischhefe`/`Presshefe` and fresh/compressed
-  English names. The surrogate is 70% resolved water and 30% conserved yeast
-  solids, with catalase activity scaled to equal dry solids. Because its water
-  is already present, it enters the existing peroxide kinetics immediately;
-  dry yeast retains its measured-time hydration ramp. Strain, age, cold-chain,
-  brand and storage effects remain explicitly unresolved.
-- **Checkpoint 13 implemented:** sucrose is now a canonical `C12H22O11`
-  species and localized granulated table sugar/`Haushaltszucker` expands to it
-  exactly. A new finite neutral-solute rung moves crystals into the aqueous
-  phase only up to a declared conservative room-temperature capacity; excess
-  sugar remains visibly solid and mass is conserved. The runtime record uses
-  an openly curated approximation rather than redistributing NIST SRD data.
-  Sucrose currently contributes dissolved-particle count but makes no pH,
-  activity, dissolution-heat, caramelization, fermentation, or combustion
-  claim; those remain separate reviewed checkpoints.
-- **Checkpoint 14 implemented:** localized vegetable/cooking oil is a fully
-  conserved unresolved household mixture rather than a fictional pure
-  molecule. Its reviewed material role and representative 0.92 g/mL geometry
-  parameter produce a persistent pale-yellow upper layer on water; aqueous
-  food-colour optics remain confined to the lower layer. Scene volume includes
-  both phases while aqueous concentration calculations still use only resolved
-  solvent volume. Decanting and multi-vessel mixing now transfer unresolved
-  homogeneous liquids proportionally, so the oil survives real pours and
-  replay. This bounded checkpoint does not yet claim emulsions, droplet
-  dynamics, oxidation, hydrolysis, combustion, or an edible-oil composition.
-- **Checkpoint 15 implemented:** `oil-water-colour.lab` turns the material
-  layer model into a guided child-facing density and polarity activity. It
-  compares blue-water-then-oil with oil-then-red-food-colour, so learners can
-  predict and see that the aqueous dye colours the lower water phase rather
-  than tinting the oil. The lesson is in the curated `start here` sequence,
-  carries staining/adult-supervision guidance, and names the current droplet,
-  emulsion, detergent and lava-lamp boundaries instead of implying animation
-  support that the engine has not computed.
-- **Checkpoint 16 implemented:** dish soap now has a bounded aqueous-emulsifier
-  role activated by the real timed magnetic-stir operator. Surfactant dose and
-  delivered stir travel compute a finite dispersed vegetable-oil volume; scene
-  JSON reallocates it from the upper oil layer into a cloudy aqueous emulsion,
-  while retaining any undispersed oil above. Persistent emulsion state then
-  coalesces during `wait` with a declared five-minute teaching half-life and
-  emits events as the oil layer returns. A no-detergent stirred control remains
-  separated. This is explicitly not a CMC, droplet-size, viscosity, brand,
-  transient hand-shake, or CFD model.
-- **Checkpoint 17 implemented:** the existing `oil-water-colour.lab` now
-  continues into the newly installed emulsion model instead of ending with a
-  stale “not modelled” boundary. Learners add dish soap, deliver a replayable
-  500 rpm ten-second stir, inspect the cloudy 92%-dispersed state, then wait one
-  coalescence half-life and see half the droplets return to the upper layer.
-  The golden lesson contract pins all sixteen events and the conserved final
-  vessel contents.
-- **Checkpoint 18 implemented:** localized whole milk/`Vollmilch` is now a
-  conserved household colloid rather than a fictional pure molecule. Its
-  approximately 87% water enters the installed liquid model; fat, protein,
-  lactose, minerals and natural variation remain one explicit unresolved milk
-  fraction. A bounded opaque-colloid role computes a warm-white, dilution-
-  dependent cloudiness that survives proportional pouring, while shared scene
-  bookkeeping now includes unresolved homogeneous-liquid mass and visible
-  volume without leaking them into aqueous concentrations. This checkpoint
-  deliberately stops before acid curdling, spoilage, fermentation and the
-  detergent-driven “magic milk” surface motion; those require distinct,
-  testable transitions rather than decorative animations.
-- **Checkpoint 19 implemented:** adding real acetic-acid inventory, including
-  localized household vinegar, to the milk surrogate now computes a bounded
-  acid-dose curdling response. The event and scene contract report the formed
-  fraction and conserved aggregate curd-solids mass (not wet yield);
-  dispersed opacity falls as milk solids join warm-white clumps over cloudy
-  whey. The web vessel draws those clumps
-  and animates their formation only from the typed `CurdlingChanged` event.
-  Vinegar without milk and trace doses remain unchanged controls. Parameters
-  are calibrated only to the familiar classroom milk-and-vinegar ratio: this
-  is not a casein speciation, cheese-yield, food-safety or spoilage model.
-- **Checkpoint 20 implemented:** `milk-curds.lab` makes the curdling model a
-  discoverable, replayable fair test. Equal 100 mL milk portions receive 1 mL
-  and 10 mL of localized 5% household vinegar: the trace-dose control remains
-  dispersed while the second vessel emits the computed curdling event and
-  shows curds over whey. The child-facing notes prohibit tasting lab material,
-  ask for adult permission before using food, and distinguish the aggregate
-  teaching model from a recipe, food-safety check or cheese-yield prediction.
-  The full lesson replay also advances the intentional shared wording change
-  from “colourless” to “white” for bright, fully opaque suspensions.
-- **Checkpoint 21 implemented:** red, yellow and blue food-colour additions to
-  the whole-milk surrogate now retain their resolved dye moles as localized
-  surface spots instead of instantly tinting the whole vessel. A subsequent
-  recipe-declared dish-soap dose computes a bounded spread transition and
-  emits `SurfaceColourSpread`; scene JSON carries each spot's colour, relative
-  amount and computed extent, and the web vessel draws event-driven coloured
-  streaks with a reduced-motion fallback. Real stirring emits
-  `SurfaceColourMixed`, releases the exactly conserved dye inventory into the
-  existing Beer–Lambert bulk-colour path, and removes the surface geometry.
-  Plain-water dye controls retain normal homogeneous optics. This observable
-  is calibrated to the ACS “Colors on the Move” activity and explicitly does
-  not claim CFD, a molecular milk composition, universal surface tension, or
-  literal streak trajectories.
-- **Checkpoint 22 implemented:** `magic-milk.lab` exposes that surface state as
-  a discoverable, replayable child-facing fair test. One vessel receives three
-  localized colour drops followed by dish soap and therefore emits the
-  computed spread event; an equal control is stirred before soap, explicitly
-  homogenizing its dyes and preventing a false rainbow event. The lesson is in
-  the picker's curated `start here` sequence, warns about staining and tasting,
-  and invites changes to dye and detergent dose while repeating the empirical
-  model boundary.
-- **Checkpoint 23 implemented:** pouring, multi-stream mixing and filtration
-  now explicitly homogenize any localized food-colour surface state before
-  moving resolved liquid. A proportional decant therefore splits the real dye
-  inventory exactly between source and target without leaving impossible
-  surface spots behind; receiving pours also disturb pre-existing spots. Each
-  actual transition emits `SurfaceColourMixed`, while a zero-fraction decant
-  remains a no-op. This closes the interaction lifecycle without inventing
-  droplet trajectories during a pour.
-- **Checkpoint 24 implemented:** dissolved table sugar and baker's yeast now
-  enter a finite timed fermentation pathway instead of remaining inert. The
-  conserved aggregate reaction consumes sucrose and water and produces four
-  moles each of resolved ethanol and carbon dioxide per mole of sucrose;
-  `GasProduced` drives real bubbles while `Fermented` reports the sugar, gas,
-  alcohol, effective yeast dose and elapsed time. Dry yeast follows its
-  existing hydration clock, equal-dry-solids fresh yeast is immediately
-  active, and a smooth bounded temperature envelope replaces unrestricted
-  extrapolation. Sugar-water and yeast-without-sugar controls remain still.
-  The absolute rate is an explicit classroom surrogate informed by measurable
-  baker's-yeast CO2 experiments—not a strain-growth, oxygen-switching,
-  inhibition, flavour, food-safety or brewing model.
-- **Checkpoint 25 implemented:** `yeast-fermentation.lab` turns the pathway
-  into a discoverable three-vessel fair test on the bench's shared clock:
-  sugar-water, yeast-water and sugar-plus-yeast receive equal relevant doses,
-  but only the complete third condition produces computed CO2 and ethanol.
-  The lesson is grouped under `rates`, warns against tasting or tightly sealing
-  a real active fermentation, and suggests dose, culture form and temperature
-  comparisons while preserving the biological-model boundaries.
-- **Checkpoint 26 implemented:** seven localized familiar solids now preserve
-  object identity while expanding exactly into installed canonical matter:
-  table salt/`NaCl`, a calcium-carbonate chalk stick/`CaCO3`, magnesium ribbon,
-  zinc strip, an iron-nail surrogate, copper wire and aluminium foil. The first
-  six immediately inherit real dissolution, carbonate-acid or electrochemical
-  routes where applicable; geometry remains explicit metadata rather than an
-  invented kinetic multiplier. Aluminium foil deliberately retains the
-  engine's passivation/model boundary. Epsom salt's hydrate prerequisite is
-  completed in checkpoint 29. Bare `salt`/`Salz` remains unclaimed as a
-  chemical class.
-- **Checkpoint 27 implemented:** named 5% white vinegar plus the named
-  calcium-carbonate chalk object now reaches a balanced portable reaction,
-  `CaCO3 + 2 CH3COOH -> Ca2+ + 2 CH3COO- + H2O + CO2`, rather than depending
-  on a PHREEQC-only strong-acid demonstration. Chalk and acid are finite,
-  calcium and acetate remain resolved aqueous ions, and open/sealed vessel
-  boundaries reuse the ordinary gas-evolved/gas-contained events. The
-  discoverable `chalk-vinegar.lab` compares water and vinegar controls so the
-  browser's existing chemistry-driven bubbles visualize only the reacting
-  vessel; it does not claim a kinetic bubble-size distribution.
-- **Checkpoint 28 implemented:** localized steel wool/`Stahlwolle` is a
-  conserved surrogate with 98% resolved iron and a visible 2% unresolved
-  alloy/coating remainder. Naming hematite (`Fe2O3`) in the runtime registry
-  unlocks the existing NASA-CEA open-air Gibbs route: ignition consumes the
-  iron, draws finite oxygen from the explicit atmospheric reservoir, produces
-  reddish-brown iron(III) oxide, computes released energy and drives the real
-  ignition visual. The fibrous form explains the familiar demonstration but
-  does not yet claim a measured surface-area rate; a nail and steel wool still
-  share the explicit ignition-zone threshold until surface kinetics land.
-- **Checkpoint 29 implemented:** Epsom salt/`Bittersalz` is now the real dry
-  hydrate epsomite, `MgSO4·7H2O`, rather than anhydrous magnesium sulfate plus
-  fictional liquid water. Its PubChem identity and the shipped USGS WATEQ4F
-  `Epsomite` phase are runtime data. A dispensed crystal remains one solid
-  species; when the aqueous engine dissolves it, the magnesium and sulfate are
-  speciated and exactly seven moles of crystal water per mole of epsomite enter
-  the liquid ledger. Retail additives, dehydration, dissolution heat and grain
-  size remain explicit boundaries.
-- **Checkpoint 30 implemented:** concentrating a dissolved named Epsom-salt
-  sample through the ordinary evaporation interaction now grows computed,
-  visible epsomite crystals rather than generic `MgSO4` or a decorative solid.
-  The USGS saturation model decides when precipitation begins, the hydrate
-  phase rebinds seven waters per formula unit, and dissolved plus crystalline
-  magnesium is conserved. Crystal habit, nucleation delay, seed crystals and
-  slow real-world evaporation time remain future morphology/kinetics work.
-- **Checkpoint 31 implemented:** localized iron filings/`Eisenfeilspäne` and
-  quartz-rich play sand/`Spielsand` make magnetic separation a complete
-  child-directed material interaction. Sand resolves 95% canonical `SiO2`
-  while conserving a 5% variable-mineral remainder; filings resolve to
-  magnetic `Fe`. The `magnet` tool moves only the real iron inventory into a
-  receiver, leaves silica and unresolved grains behind, narrates both sides,
-  and preserves mass. The existing shelf, receiver-vessel and `magnet`
-  interaction expose the sequence; field strength and individual grain
-  trajectories remain explicit future physics.
-- **Checkpoint 32 implemented:** dilute 1% Lugol iodine solution/
-  `Lugol-Lösung 1%` expands to water, retained KI and iodine. Iodide now
-  supports a bounded aqueous iodine inventory instead of leaving a fictional
-  crystal sediment, and cornstarch/`Speisestärke` produces a computed
-  blue-black optical response from the broad 620 nm amylose-polyiodide band.
-  A no-starch control remains brown; inventory bounds, phase transfer and the
-  visible positive/negative result are regression-tested. Individual
-  polyiodide speciation, exact binding stoichiometry, botanical amylose
-  fraction and temperature-dependent helix changes remain explicit limits.
-- **Checkpoint 33 implemented:** `starch-iodine-test.lab` turns the Lugol route
-  into a controlled child-directed comparison. Equal water and indicator doses
-  begin brown; only the vessel receiving named cornstarch becomes blue-black.
-  The sequence uses localized shelf materials and ordinary `inspect` state, so
-  native and web clients replay the same computed optics. Potato,
-  unknown white powders, heating and botanical-source comparisons remain
-  withheld until their own reviewed material/temperature models exist; flour
-  arrives in checkpoint 35 below.
-- **Checkpoint 34 implemented:** a named solid whose substance the registry
-  does not install is now representable without either discarding it or
-  handing it a stand-in molecule. The reviewed `ConservedUnresolvedSolid`
-  role carries exactly what such a material lets the bench say — that a
-  visible piece of it is in the vessel, and what colour it is — and the
-  validator accepts it only on a fully unresolved solid, so it can never
-  name matter a resolved component already names. Localized candle
-  wax/`Kerzenwachs` and paper/`Papier` are its first two materials: each
-  conserves its whole dose, contributes no solute, no colour and no
-  cloudiness to the water it sits in, and states the substance it cannot
-  resolve instead of omitting it. Melting is not claimed, because the
-  installed state model derives its transitions from water's enthalpies of
-  fusion and vaporisation and covers nothing else; burning is not claimed
-  either, because feed thermochemistry is still missing and a wick is an
-  object the bench does not have. The bare words `wax`/`Wachs` remain
-  unclaimed because beeswax and paraffin wax are different materials,
-  `paraffin` remains unclaimed because British English gives that name to a
-  lamp fuel, and `Kerze`/`candle` remains unclaimed because a candle is the
-  wick-and-flame object rather than this material.
-- **Checkpoint 35 implemented:** localized white wheat flour/`Mehl` resolves
-  a 70% starch fraction and conserves the 30% of protein, moisture, fibre,
-  lipid and ash that no installed species describes; a plain flour-and-water
-  dough/`Teig` resolves the 42% starch that follows from it. Because that
-  starch is real inventory, checkpoint 32's amylose-polyiodide band reaches
-  it: named Lugol solution on named flour and on named dough computes the
-  same blue-black that cornstarch produces, with candle wax as a control
-  that stays brown. Nothing about the positive is scripted for flour. The
-  flour's sorbed moisture is deliberately not resolved as free liquid water,
-  and the dough's water stays inside its conserved remainder, because a
-  dough in a dry beaker is not a beaker of water and the bench has no matrix
-  or water-activity model to say otherwise. Dough is dispensed by mass only:
-  a kneaded mass has no reviewed packing density, and inventing one would be
-  a visible number without provenance. Gluten development, kneading,
-  rheology, proving, gelatinisation and baking remain unclaimed; adding
-  yeast to this dough does not make bread.
-- **Checkpoint 36 implemented:** a localized apple-juice surrogate/`Apfelsaft`
-  expands into 88% water and the 2% of it that genuinely is sucrose, and
-  leaves the roughly 8.5% that is fructose and glucose in its conserved
-  unresolved fraction rather than relabelling it as the one sugar the
-  registry happens to hold. Its acidity is an explicit boundary for the same
-  reason: apple juice is tart because of malic acid, malic acid is not an
-  installed species, and computing a pH from a substituted acid would be a
-  number from the wrong molecule. The surrogate therefore behaves as the
-  neutral sugar solution the engine can actually compute, and the regression
-  test asserts that no acetic, phosphoric, hydrochloric or sulfuric acid is
-  borrowed for the taste. Glucose, fructose and malic acid are named here for
-  BRD-012 rather than added here.
-- **Checkpoint 37 implemented:** a localized soda-lime glass object/`Glas`
-  resolves 73% of its mass as the installed `SiO2` species, so the object's
-  silicon and oxygen are real inventory for search and element coverage, and
-  conserves the 27% of soda, lime, magnesia and alumina that make a melt
-  workable. Those modifiers stay unresolved on purpose: `CaO` and `MgO` in a
-  glass network are not `CaO` and `MgO` in a beaker, and resolving them would
-  invent an alkaline dissolution glass does not perform. Explicit
-  composite-object geometry travels with the recipe. The characteristic
-  behaviour is the computed negative that checkpoint 27's chalk makes
-  meaningful: named glass in named 5% vinegar emits no reaction, evolves no
-  CO2, and leaves the acetic acid exactly where it was. Sharing a species key
-  with play sand implies no polymorph claim, since glass silica is an
-  amorphous network rather than quartz, and hydrofluoric-acid etching,
-  hot-alkali attack, softening, thermal shock and breakage remain chemistry
-  and physics the bench does not have. Clay/`Ton` is deliberately still
-  missing: its retention parameters belong with EXP-15, and `Ton` names a
-  sound as readily as a soil in German, so it waits for the same kind of
-  disambiguation `Soda` already has.
-- **Corpus movement and two defects it exposed (checkpoints 34-37).** Four
-  curiosity prompts stop failing at the parser: `aq-019` (flour in cold
-  water), `th-030` (does candle wax melt before it burns), `th-051` (a candle
-  in a sealed jar) and `th-059` (what paper burning produces). Only `aq-019`
-  is a clean win — it moves from “unknown species” to the specific boundary
-  `starch in contact with liquid: no wired solver models this
-  dissolution/reaction`, which is what BRD-014's acceptance means by a more
-  specific model boundary. The other three now run far enough to expose
-  defects that the parser had been hiding, and neither is caused by the
-  recipes:
-  - the coverage classifier tests `NotYetModelled` only on the script's
-    **last** step, so a trailing `look` reclassifies an honest boundary as
-    `computed`/`typed-engine-event`. `th-030` and `th-059` both print “not
-    yet modelled — whether these contents burn” and are then recorded as
-    computed. An inspection supplies no reactant and must not supersede an
-    earlier boundary; the fix belongs with the coverage tooling.
-  - `ignite` on a sealed vessel holding oxygen and no fuel reports
-    “0.0000 mol carbon dioxide ↑” and “thermal equilibrium at 927 °C”. The
-    same script without any wax prints the identical two lines, so this is
-    the existing CEA ignition route answering a question it has no fuel for.
-    `th-051` is recorded as computed for that reason and is **not** counted
-    as coverage this task earned.
-  Their baseline rows are updated to what the engine now actually does, and
-  their prompts keep `expected = "missing"` so the mismatch stays visible
-  rather than being quietly blessed.
-
-## Stage B2 — organic structure and curated reaction families
+- **Checkpoint 2026-09-05 — three recipes stopped describing bare iron.**
+  The `metal/stainless-steel`, `metal/galvanized-steel` and
+  `metal/painted-iron` entries each said in their own `lot_assumptions` that
+  they resolve to iron the bench will attack, with no representation of the
+  film or coat that is the whole point of the object. `corrosion::BARRIERS`
+  (BRD-023's checkpoint above) is where the bench now keeps the first two of
+  those sentences, keyed on the lot source the material route stamps, and it
+  is enforced in the kinetics gate so a stainless spoon does not rust. The
+  galvanised entry needs no barrier row at all: its zinc protects its iron
+  by the ordinary galvanic rule, which is also the honest answer for a
+  *scratched* sheet, since the zinc protects the iron it is merely next to.
+  Closes curiosity row mat-014.
 
 ### BRD-020 — Reaction-family intermediate representation
 
@@ -1226,26 +862,30 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Out of scope:** pharmaceuticals as a catalog objective, reaction-condition
   recommendation, yield optimization, and routes outside curriculum/household
   demand.
-- **Checkpoint 2026-09-05 — corrosion route shipped.** The curiosity corpus
-  books its rust prompts against this task even though the task text is about
-  organic families, so the evidence is recorded here rather than renumbered.
-  `crates/kerotakis-core/src/corrosion.rs` adds one bounded aqueous/galvanic
-  corrosion route and `crates/kerotakis-core/tests/corrosion.rs` its tests:
-  rusting needs metal + liquid water + oxygen and each missing one is a typed
-  negative; the lowest-E° metal in contact is the anode (the same
-  `displacement::SERIES` the displacement route computes with, so the bench
-  holds one activity series and not two); the cathodic current is Levich's
-  oxygen-diffusion limit throttled by the electrolyte's Kohlrausch
-  conductivity, which is what dissolved salt changes; and `BARRIERS` carries
-  the passive film of stainless steel and the paint film of painted iron,
-  keyed on the material recipe the lot came from. It reports µA/cm² and mm/yr
-  and moves no inventory, because mass loss needs a surface area no recipe on
-  this bench has. `displacement::bystanders` no longer writes its "reaction
-  with water itself is a rate this lab does not model" apology where this
-  route speaks. Rows closed: mat-020, mat-069, mat-096, mat-097, mat-099,
-  mat-100, mat-105 (this task), mat-014 (BRD-014), mat-104 (BRD-070),
-  mat-108 (CAP-16). Still open here: the whole organic family pack, which
-  this checkpoint does not touch.
+- **Checkpoint 2026-09-05 — the galvanic couple shipped.** The curiosity
+  corpus books its rust prompts against this task even though the task text
+  is about organic families, so the evidence is recorded here rather than
+  renumbered. The bench could already rust iron (`kinetics::iron-corrosion`,
+  KID-5, with a chloride catalyst so brine beats tap water); what it could
+  not do was notice a lump of zinc lying against the nail, which that
+  entry's own uncertainty note admits by saying the half-reactions and the
+  cell that separates them are not resolved.
+  `crates/kerotakis-core/src/corrosion.rs` resolves that much of it and no
+  more: the lower-E° metal in contact is the anode, read off
+  `displacement::SERIES` so the bench holds one activity series and not two;
+  `BARRIERS` carries the stainless passive film and the paint film, keyed on
+  the material recipe the lot came from; and both rules are enforced in
+  `KineticReaction::can_run`, so a protected metal's corrosion reaction does
+  not run rather than merely being described as protected. A companion
+  kinetic entry `zinc-corrosion` (`2 Zn + O2 + 2 H2O -> 2 Zn(OH)2`) makes
+  the sacrifice real. `crates/kerotakis-core/tests/corrosion.rs` pairs every
+  protection assertion with the unprotected control that rusts under the
+  same script. Deliberately no second rate model, no area ratio, and no
+  atmospheric weathering — the copper patina is named as unmodelled.
+  Rows closed: mat-020, mat-069, mat-096, mat-097, mat-099, mat-100,
+  mat-105 (this task), mat-014 (BRD-014), mat-104 (BRD-070), mat-108
+  (CAP-16). Still open here: the whole organic family pack, which this
+  checkpoint does not touch.
 
 ## Stage B3 — general thermodynamics and gas kinetics
 
