@@ -1835,8 +1835,8 @@ reason_code = "unsupported-microscopy-scale"
 [[observation]]
 id = "mat-056"
 owning_task = "EXP-17"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-057"
@@ -2159,8 +2159,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "mat-110"
 owning_task = "BRD-023"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "missing"
+reason_code = "not-yet-modeled"
 
 [[observation]]
 id = "mat-111"

@@ -827,6 +827,14 @@ answer-invariance sweep rather than to this refresh. It is recorded here
 because a row moving out of `missing` for a good reason and a row moving out
 for the wrong one look identical in the drift, and the only way to tell is
 to read each one.
+
+The 2026-09-05 bounded-electrochemistry audit now pins that distinction in
+the baseline. `mat-056` receives the computed open-circuit lemon-cell voltage
+it asks for. `mat-110` remains explicitly missing: water electrolysis occurs,
+but the script contains no rust and cannot establish rust removal or
+preservation of an iron object. Counting its gas events as the answer would
+inflate coverage without delivering the requested capability.
+
 ## aq-067 was waiting for a bottle (2026-09-04)
 
 `aq-067` — *"Does lemon juice neutralise a sodium bicarbonate solution?"* —
