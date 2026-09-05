@@ -599,6 +599,8 @@
   let capabilityInitial = $state<string | null>(null);
   let capabilityOpen = $state(false);
   let kidsOpen = $state(false);
+  /** A kids task handed over from the concept map, opened on its own card. */
+  let kidsInitial = $state<string | null>(null);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
@@ -1446,6 +1448,7 @@
 {#if kidsOpen}
   <KidsCatalog
     entries={kidsExperiments}
+    initial={kidsInitial}
     {capabilityIds}
     {codexIds}
     completedMissions={session.completedMissions}
@@ -1486,7 +1489,7 @@
         enterLab("sandbox");
       }
     }}
-    onclose={() => (kidsOpen = false)}
+    onclose={() => { kidsOpen = false; kidsInitial = null; }}
   />
 {/if}
 
@@ -1494,10 +1497,21 @@
   <ConceptMap
     entries={codexEntries}
     {session}
+    kids={kidsExperiments}
+    missions={lessons}
     onopenentry={(e) => {
       mapOpen = false;
       catalogInitial = e;
       catalogOpen = true;
+    }}
+    onopenkids={(id) => {
+      mapOpen = false;
+      kidsInitial = id;
+      kidsOpen = true;
+    }}
+    onopenmission={(file) => {
+      mapOpen = false;
+      void startLesson(file);
     }}
     onclose={() => (mapOpen = false)}
   />

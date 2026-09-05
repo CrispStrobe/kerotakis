@@ -5,7 +5,10 @@
    * edges only for the concept in hand; at lv3 the full DAG shows.
    * Nothing here is decoration: node fill means the learner ran an
    * entry teaching that concept to a green check on THIS device, and
-   * tapping a concept lists the entries that teach it, ready ones first.
+   * tapping a concept lists everything affiliated with it — catalogue
+   * entries, kids tasks, and guided missions — each with the reason it is
+   * offered and a button that opens it. A concept the shipped content
+   * cannot reach says so rather than showing an empty panel.
    */
   import {
     conceptGraph,
@@ -13,19 +16,32 @@
     metConcepts,
     type CodexEntry,
   } from "../codex";
+  import { conceptLinks, relationLabel, type ConceptLink } from "../conceptLinks";
+  import { kidsText, type KidsExperiment } from "../kidsCatalog";
+  import type { MissionSummary } from "../storyProgress";
   import type { Session } from "../session.svelte";
   import { i18n, t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
     session,
+    kids = [],
+    missions = [],
     onopenentry,
+    onopenkids,
+    onopenmission,
     onclose,
   }: {
     entries: CodexEntry[];
     session: Session;
+    kids?: KidsExperiment[];
+    missions?: MissionSummary[];
     /** Hand the tapped entry to the experiment page. */
     onopenentry: (e: CodexEntry) => void;
+    /** Open the Kids Lab on one task. */
+    onopenkids?: (id: string) => void;
+    /** Start a guided mission by its `.lab` file. */
+    onopenmission?: (file: string) => void;
     onclose: () => void;
   } = $props();
 
@@ -56,20 +72,43 @@
       : graph.edges.filter((e) => picked !== null && (e.from === picked || e.to === picked)),
   );
 
-  const teaching = $derived.by(() => {
-    if (!picked) return [];
+  const links = $derived.by(() => {
+    if (!picked) return [] as ConceptLink[];
     // i18n-ok: concept slugs are keys; `picked` is one, not typed text.
-    const list = entries.filter((e) => e.concepts?.includes(picked!));
-    return [...list].sort(
-      // Order by the rendered label, not the hidden slug: sorting German
-      // entries by their English ids puts them in an order with no visible
-      // logic. The locale goes to the collator so umlauts sort as German
-      // readers expect rather than after z.
-      (a, b) =>
-        Number(entryReady(b, met)) - Number(entryReady(a, met)) ||
-        tSlug(a.id).localeCompare(tSlug(b.id), i18n.locale),
-    );
+    return conceptLinks(picked, {
+      entries,
+      kids,
+      missions,
+      completedExperiments: session.completedExperiments,
+      completedMissions: session.completedMissions,
+    });
   });
+
+  const teaching = $derived(
+    links
+      .filter((link): link is Extract<ConceptLink, { kind: "experiment" }> => link.kind === "experiment")
+      .sort(
+        // Order by the rendered label, not the hidden slug: sorting German
+        // entries by their English ids puts them in an order with no visible
+        // logic. The locale goes to the collator so umlauts sort as German
+        // readers expect rather than after z.
+        (a, b) =>
+          Number(entryReady(b.entry, met)) - Number(entryReady(a.entry, met)) ||
+          tSlug(a.id).localeCompare(tSlug(b.id), i18n.locale),
+      ),
+  );
+
+  type Elsewhere = Exclude<ConceptLink, { kind: "experiment" }>;
+
+  /** Everything that is not a catalogue entry, evidence links first. */
+  const elsewhere = $derived(
+    links
+      .filter((link): link is Elsewhere => link.kind !== "experiment")
+      .sort((a, b) => Number(b.relation === "evidence") - Number(a.relation === "evidence")),
+  );
+
+  const linkTitle = (link: Elsewhere): string =>
+    link.kind === "kids" ? kidsText(link.kid, "title", i18n.locale) : t(link.mission.name);
 
   function edgePath(e: { from: string; to: string }): string {
     const a = layout.at.get(e.from);
@@ -130,21 +169,40 @@
       {#if picked}
         <div class="teach">
           <h3>{t(picked.replace(/-/g, " "))}</h3>
+          {#if links.length === 0}
+            <p class="none">{t("no activity teaches this concept yet")}</p>
+          {/if}
           <ul>
-            {#each teaching as e (e.id)}
+            {#each teaching as link (link.id)}
+              {@const e = link.entry}
               <li>
                 <button class="entry" onclick={() => onopenentry(e)}>
                   <span class="ready" class:ok={entryReady(e, met)}>
                     {entryReady(e, met) ? t("ready") : t("locked")}
                   </span>
                   {tSlug(e.id)}
-                  {#if session.completedExperiments.has(e.id)}<span class="done">✓</span>{/if}
+                  {#if link.done}<span class="done">✓</span>{/if}
                 </button>
+                <span class="why">{t(relationLabel(link.relation))}</span>
                 {#if !entryReady(e, met)}
                   <span class="needs">
                     {t("needs: {concepts}", { concepts: (e.requires ?? []).filter((r) => !met.has(r)).map(tSlug).join(", ") })}
                   </span>
                 {/if}
+              </li>
+            {/each}
+            {#each elsewhere as link (link.kind + ":" + link.id)}
+              <li>
+                <button
+                  class="entry"
+                  onclick={() => (link.kind === "kids" ? onopenkids?.(link.id) : onopenmission?.(link.id))}
+                  disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined}
+                >
+                  <span class="ready kind">{link.kind === "kids" ? t("kids task") : t("mission")}</span>
+                  {linkTitle(link)}
+                  {#if link.done}<span class="done">✓</span>{/if}
+                </button>
+                <span class="why">{t(relationLabel(link.relation))}</span>
               </li>
             {/each}
           </ul>
@@ -249,7 +307,7 @@
   }
   .teach {
     margin-top: 0.6rem;
-    max-height: 10rem;
+    max-height: 14rem;
     overflow-y: auto;
   }
   .teach h3 {
@@ -288,9 +346,22 @@
   .done {
     color: var(--good);
   }
-  .needs {
+  .needs, .why {
     color: var(--dim);
     font-size: 0.72rem;
     margin-left: 0.5rem;
+  }
+  .ready.kind {
+    border-color: var(--hot);
+    color: var(--hot);
+  }
+  .entry:disabled {
+    color: var(--dim);
+    cursor: default;
+  }
+  .none {
+    color: var(--dim);
+    font-size: 0.8rem;
+    margin: 0.2rem 0;
   }
 </style>
