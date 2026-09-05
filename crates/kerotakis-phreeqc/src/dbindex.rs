@@ -31,6 +31,15 @@ pub struct PhaseInfo {
     /// log K of the dissolution reaction (for polymorph choice: the stable
     /// polymorph has the lowest solubility, i.e. lowest log_k).
     pub log_k: Option<f64>,
+    /// Enthalpy of the dissolution reaction AS WRITTEN, kJ/mol, from the
+    /// database's own `delta_h` line — normalised out of whatever unit it
+    /// was written in (minteq.v4 writes kJ, wateq4f writes kcal).
+    ///
+    /// `None` means the entry states no enthalpy, which is not the same as
+    /// stating zero: a phase without one has no temperature dependence in
+    /// this database and nothing may be derived from it.
+    #[serde(default)]
+    pub delta_h_kj: Option<f64>,
     /// Name ends in "(g)".
     pub is_gas: bool,
 }
@@ -72,6 +81,16 @@ pub struct DbIndex {
     pub species_element: BTreeMap<String, String>,
     /// Phase name → info.
     pub phases: BTreeMap<String, PhaseInfo>,
+    /// Aqueous species name → the enthalpy of the `SOLUTION_SPECIES`
+    /// reaction that DEFINES it, kJ/mol, as the database writes it
+    /// (`H+ + CO3-2 = HCO3-` → the enthalpy of that association).
+    ///
+    /// This is the same quantity PHREEQC's `GetSpeciesDeltaH` returns, read
+    /// from the file instead of from a running engine — which is what lets
+    /// a reaction enthalpy be combined with a PHASES one, since phases have
+    /// no engine accessor at all.
+    #[serde(default)]
+    pub species_delta_h_kj: BTreeMap<String, f64>,
     /// Activity model, derived from the file's own declarations.
     pub activity_model: ActivityModel,
     /// Literature citations found in the file's comments, in file order.
@@ -116,6 +135,7 @@ impl DbIndex {
         let mut valences: BTreeMap<String, usize> = BTreeMap::new();
         let mut section = "";
         let mut pending_phase: Option<String> = None;
+        let mut pending_species: Option<String> = None;
         let mut last_inserted: Option<String> = None;
 
         // Activity model: derived from what the file declares about itself.
@@ -149,10 +169,12 @@ impl DbIndex {
             {
                 section = match first {
                     "SOLUTION_MASTER_SPECIES" => "masters",
+                    "SOLUTION_SPECIES" => "species",
                     "PHASES" => "phases",
                     _ => "",
                 };
                 pending_phase = None;
+                pending_species = None;
                 continue;
             }
 
@@ -204,6 +226,26 @@ impl DbIndex {
                         .entry(element.clone())
                         .or_insert(MasterSpecies { element, species });
                 }
+                "species" => {
+                    // `A + B = C` at column 0 names the species it defines
+                    // (the right-hand side); its `delta_h` follows indented.
+                    if !line.starts_with([' ', '\t']) {
+                        pending_species = line
+                            .split('=')
+                            .nth(1)
+                            .map(|rhs| rhs.trim().to_string())
+                            .filter(|rhs| !rhs.is_empty());
+                    } else if let Some(name) = &pending_species {
+                        let tokens: Vec<&str> = line.split_whitespace().collect();
+                        if tokens.first().is_some_and(|t| {
+                            t.trim_start_matches('-').eq_ignore_ascii_case("delta_h")
+                        }) {
+                            if let Some(kj) = parse_delta_h(&tokens) {
+                                idx.species_delta_h_kj.entry(name.clone()).or_insert(kj);
+                            }
+                        }
+                    }
+                }
                 "phases" => {
                     if !line.starts_with([' ', '\t']) {
                         // Phase name line (column 0).
@@ -219,16 +261,29 @@ impl DbIndex {
                     } else if let Some(name) = &last_inserted {
                         // log_k line for the phase just inserted.
                         let tokens: Vec<&str> = line.split_whitespace().collect();
-                        if tokens.first().is_some_and(|t| {
-                            t.trim_start_matches('-').eq_ignore_ascii_case("log_k")
-                        }) {
-                            if let Some(k) = tokens.get(1).and_then(|t| t.parse::<f64>().ok()) {
-                                if let Some(p) = idx.phases.get_mut(name) {
-                                    if p.log_k.is_none() {
-                                        p.log_k = Some(k);
+                        let keyword = tokens
+                            .first()
+                            .map(|t| t.trim_start_matches('-').to_ascii_lowercase());
+                        match keyword.as_deref() {
+                            Some("log_k") => {
+                                if let Some(k) = tokens.get(1).and_then(|t| t.parse::<f64>().ok()) {
+                                    if let Some(p) = idx.phases.get_mut(name) {
+                                        if p.log_k.is_none() {
+                                            p.log_k = Some(k);
+                                        }
                                     }
                                 }
                             }
+                            Some("delta_h") => {
+                                if let Some(kj) = parse_delta_h(&tokens) {
+                                    if let Some(p) = idx.phases.get_mut(name) {
+                                        if p.delta_h_kj.is_none() {
+                                            p.delta_h_kj = Some(kj);
+                                        }
+                                    }
+                                }
+                            }
+                            _ => {}
                         }
                     }
                 }
@@ -263,6 +318,29 @@ impl DbIndex {
     pub fn has_phase(&self, name: &str) -> bool {
         self.phases.contains_key(name)
     }
+}
+
+/// A PHREEQC `delta_h` line's value in kJ/mol.
+///
+/// The unit is optional and the databases disagree: minteq.v4 writes
+/// `delta_h 4.06 kJ`, wateq4f writes `delta_h 3.72 kcal`. PHREEQC's own
+/// default when none is given is kilojoules, so that is what an absent
+/// unit means here too — getting this wrong is a silent factor of 4.184,
+/// which is exactly the size of error that looks like a plausible number.
+fn parse_delta_h(tokens: &[&str]) -> Option<f64> {
+    let value: f64 = tokens.get(1)?.parse().ok()?;
+    let unit = tokens
+        .get(2)
+        .map(|u| u.trim_end_matches("/mol").to_ascii_lowercase());
+    let kj = match unit.as_deref() {
+        None | Some("") | Some("kj") => value,
+        Some("kcal") => value * 4.184,
+        Some("cal") => value * 4.184e-3,
+        Some("j") => value * 1e-3,
+        // A unit we do not know is not a unit we may guess at.
+        Some(_) => return None,
+    };
+    kj.is_finite().then_some(kj)
 }
 
 fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseInfo> {
@@ -311,6 +389,7 @@ fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseIn
         waters,
         elements,
         log_k: None,
+        delta_h_kj: None,
         is_gas: name.ends_with("(g)"),
     })
 }
@@ -417,5 +496,71 @@ mod tests {
         // Charge and state suffixes ignored.
         assert_eq!(parse_formula("SO4-2").unwrap()["S"], 1.0);
         assert_eq!(parse_formula("NH3(aq)").unwrap()["N"], 1.0);
+    }
+}
+
+#[cfg(test)]
+mod delta_h_tests {
+    use super::*;
+
+    fn minteq() -> DbIndex {
+        DbIndex::parse(crate::databases::MINTEQ_V4)
+    }
+
+    /// The unit is optional and the two databases disagree about it, so
+    /// the conversion is the part worth pinning: a missed `kcal` is a
+    /// silent factor of 4.184 and lands in the range a real answer would.
+    #[test]
+    fn delta_h_is_normalised_to_kilojoules() {
+        assert_eq!(parse_delta_h(&["delta_h", "4.06", "kJ"]), Some(4.06));
+        assert_eq!(parse_delta_h(&["delta_h", "4.06"]), Some(4.06));
+        let kcal = parse_delta_h(&["delta_h", "3.72", "kcal"]).expect("kcal");
+        assert!((kcal - 15.56448).abs() < 1e-6, "{kcal}");
+        assert_eq!(parse_delta_h(&["delta_h", "1000", "J"]), Some(1.0));
+        // A unit we do not know is not a unit we may guess at.
+        assert_eq!(parse_delta_h(&["delta_h", "4.06", "furlongs"]), None);
+        assert_eq!(parse_delta_h(&["delta_h", "not-a-number"]), None);
+    }
+
+    #[test]
+    fn phase_and_species_enthalpies_come_off_the_shipped_files() {
+        let m = minteq();
+        let co2 = m.phases["CO2(g)"].delta_h_kj.expect("CO2(g) delta_h");
+        assert!((co2 - 4.06).abs() < 1e-9, "{co2}");
+        let hco3 = m.species_delta_h_kj["HCO3-"];
+        assert!((hco3 + 14.6).abs() < 1e-9, "{hco3}");
+
+        // wateq4f writes kcal; the same field must come back in kJ.
+        let w = DbIndex::parse(crate::databases::WATEQ4F);
+        let co2 = w.phases["CO2(g)"].delta_h_kj.expect("CO2(g) delta_h");
+        assert!((co2 - (-4.776 * 4.184)).abs() < 1e-6, "{co2}");
+
+        // An entry that states no enthalpy must stay None rather than
+        // becoming a confident zero. wateq4f has ~100 such phases; minteq.v4
+        // states one for very nearly everything, which is itself the reason
+        // the carbonate cycle above is derivable there and not here.
+        assert!(
+            w.phases
+                .values()
+                .any(|p| p.delta_h_kj.is_none() && p.log_k.is_some()),
+            "no wateq4f phase lacks an enthalpy — suspect the parser, not the file"
+        );
+    }
+
+    /// The Hess cycle in `derived::carbonate_acid_enthalpy_kj` depends on
+    /// the SHAPE of these two rows, not only on their numbers. If a
+    /// database update rewrites either, the algebra silently becomes a
+    /// different reaction — so pin the shapes here and fail loudly.
+    #[test]
+    fn carbonate_rows_are_the_shape_the_algebra_assumes() {
+        let text = String::from_utf8_lossy(crate::databases::MINTEQ_V4);
+        assert!(
+            text.contains("H+ + CO3-2 = HCO3-"),
+            "minteq.v4 no longer defines HCO3- by protonating the carbonate master species"
+        );
+        assert!(
+            text.contains("CO2 + H2O = 2 H+ + CO3-2"),
+            "minteq.v4's CO2(g) dissolution is no longer written to the carbonate master species"
+        );
     }
 }

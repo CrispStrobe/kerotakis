@@ -852,6 +852,57 @@ fn contribution_from_counts(
     }
 }
 
+/// ΔH of `HCO₃⁻ + H⁺ → H₂O(l) + CO₂(g)` in kJ/mol, positive endothermic,
+/// assembled by Hess's law from the routed database's own `delta_h` rows.
+///
+/// This is the reaction under a bicarbonate meeting an acid — the school
+/// volcano, and the reason it gets COLD. The bench had no number for it:
+/// `aqueous.rs` discounts the carbonate route out of the neutralisation
+/// heat precisely because charging it the strong-acid-strong-base enthalpy
+/// gave the wrong magnitude and the wrong sign, and there was nothing
+/// honest to charge instead.
+///
+/// Derived, not curated, and not transcribed from a book we do not have
+/// open. In minteq.v4 the two rows are
+///
+/// ```text
+///     H+ + CO3-2 = HCO3-        delta_h -14.6 kJ   # source: NIST46.4
+///     CO2(g): CO2 + H2O = 2 H+ + CO3-2   delta_h 4.06 kJ
+/// ```
+///
+/// and the target is the first reversed plus the second reversed:
+///
+/// ```text
+///     HCO3-        -> H+ + CO3-2      +14.60
+///     2H+ + CO3-2  -> CO2(g) + H2O     -4.06
+///     ------------------------------------------
+///     HCO3- + H+   -> CO2(g) + H2O    +10.54 kJ/mol
+/// ```
+///
+/// Only minteq.v4 is answered, and deliberately so. The algebra above
+/// depends on the SHAPE of the phase equation, not just its number:
+/// wateq4f writes its CO2(g) dissolution as `CO2 = CO2` — gas to an
+/// aqueous CO2 species rather than to the carbonate master species and a
+/// proton — so the same subtraction there would be a different reaction
+/// wearing this one's name. `carbonate_rows_are_the_shape_the_algebra_assumes`
+/// pins both lines against the shipped file, so a database update that
+/// changes either fails loudly instead of silently returning a number for
+/// the wrong cycle.
+///
+/// Standard state, 25 °C: the phase enthalpy has no engine accessor to
+/// temperature-correct it through, so neither side is corrected and the
+/// pair stays consistent. Over the 0–100 °C a beaker sees, ΔH for this
+/// reaction moves by a few percent — small against being absent.
+pub fn carbonate_acid_enthalpy_kj(db_tag: &str) -> Option<f64> {
+    if db_tag != "minteq.v4" {
+        return None;
+    }
+    let idx = index_for(db_tag);
+    let hco3 = idx.species_delta_h_kj.get("HCO3-")?;
+    let co2_gas = idx.phases.get("CO2(g)")?.delta_h_kj?;
+    Some(-hco3 - co2_gas)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
