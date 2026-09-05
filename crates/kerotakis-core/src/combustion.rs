@@ -150,6 +150,96 @@ pub fn fuel_of(species: &str) -> Option<&'static Fuel> {
     FUELS.iter().find(|fuel| fuel.species == species)
 }
 
+/// BRD-041 routing: the autoignition temperature of a fuel the registry
+/// names, in air near one atmosphere.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct GasAutoignition {
+    pub species: &'static str,
+    pub autoignition_k: f64,
+    pub provenance: &'static str,
+}
+
+const ZABETAKIS: &str =
+    "Autoignition temperature in air, as commonly tabulated from M. G. Zabetakis, \
+    Flammability Characteristics of Combustible Gases and Vapors, U.S. Bureau of Mines Bulletin \
+    627 (1965). Pending-review lane: the bulletin was not re-read for this row, so the value is \
+    the standard tabulated one and the page is not cited";
+
+/// The fuels the thermal solver must not burn without a spark below these
+/// temperatures. Equilibrium would burn methane and air the moment they
+/// were warm; a real mixture sits there until a spark or its autoignition
+/// temperature, and this table is where the bench says so.
+pub const GAS_AUTOIGNITION: &[GasAutoignition] = &[
+    GasAutoignition {
+        species: "H2",
+        autoignition_k: 773.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "methane",
+        autoignition_k: 810.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "propane",
+        autoignition_k: 743.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "butane",
+        autoignition_k: 678.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "CO",
+        autoignition_k: 882.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "ethanol",
+        autoignition_k: 636.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "methanol",
+        autoignition_k: 658.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "propanone",
+        autoignition_k: 738.15,
+        provenance: ZABETAKIS,
+    },
+    GasAutoignition {
+        species: "hexane",
+        autoignition_k: 498.15,
+        provenance: ZABETAKIS,
+    },
+];
+
+pub fn gas_autoignition(species: &str) -> Option<&'static GasAutoignition> {
+    GAS_AUTOIGNITION.iter().find(|row| row.species == species)
+}
+
+/// Fuels standing in this vessel with oxygen to hand — an O₂ portion, or
+/// an open headspace on the room's air — while the vessel is below their
+/// autoignition temperature. Each is returned with that temperature. A
+/// spark (`ignite`) takes the vessel to 1200 K, above every row here, so
+/// a sparked mixture is never on this list.
+pub fn unsparked_fuels(vessel: &Vessel) -> Vec<(SpeciesId, f64)> {
+    let oxygen = vessel.moles_of(&SpeciesId::new("O2")).0 > crate::OBSERVABLE_MOLES
+        || matches!(vessel.headspace, crate::vessel::Headspace::Open);
+    if !oxygen {
+        return Vec::new();
+    }
+    GAS_AUTOIGNITION
+        .iter()
+        .filter(|row| vessel.temperature.0 < row.autoignition_k)
+        .filter(|row| vessel.moles_of(&SpeciesId::new(row.species)).0 > crate::OBSERVABLE_MOLES)
+        .map(|row| (SpeciesId::new(row.species), row.autoignition_k))
+        .collect()
+}
+
 /// What the vessel's boundary offers a flame.
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum Air {

@@ -1434,9 +1434,22 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   the standard stack a fuel/air mixture is burned to equilibrium by CEA the
   moment it is hot, before any `wait` can hand it to a pack; the packs are
   reached today in CEA-less stacks and in the same `wait` step that CEA then
-  finishes. Separating "sparked or above autoignition" from "500 K" in
-  CEA's gate is the next slice, and moves corpus rows. Radicals and CO enter
+  finishes. Radicals and CO enter
   the ledger by name without a registry identity; CO is a registry gap.
+- **Precedence checkpoint (2026-09-05, Fable):** `cea-thermal` no longer
+  burns a warm fuel that has not been sparked. A table of autoignition
+  temperatures in air (`combustion::GAS_AUTOIGNITION`, H₂, methane, propane,
+  butane, CO, ethanol, methanol, propanone, hexane; Zabetakis 1965 as
+  commonly tabulated, pending-review lane) gates the thermal solver: a fuel
+  standing with oxygen below its autoignition temperature is answered with a
+  typed `BelowAutoignition` event — "warm but not hot enough to catch; needs
+  X °C or a spark" — and left alone. `ignite` takes a vessel to 1200 K, above
+  every row, so a spark still burns; heating past the autoignition point
+  burns too, which is what autoignition means. Below the point, the `wait`
+  clock hands the mixture to the mechanism packs, whose rate laws are zero
+  there without a radical source — the honest "nothing happens" a real bench
+  shows. The classifier counts `BelowAutoignition` as an answer beside
+  `Inert`, never above a computed or curated route.
 
 ### BRD-042 — Full Cantera C-API shipping gate
 

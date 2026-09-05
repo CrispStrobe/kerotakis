@@ -605,6 +605,9 @@ fn execute_prompt(
                     // verdict beside those is an aside about a spectator
                     // metal.
                     | Event::Corroded { .. }
+                    // BRD-041: "warm, with oxygen, and not burning" is an
+                    // answer about a fuel, in the same class as `Inert`.
+                    | Event::BelowAutoignition { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

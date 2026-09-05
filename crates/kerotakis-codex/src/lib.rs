@@ -23,6 +23,7 @@ pub mod quest;
 /// lint names the gap.
 pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "added",
+    "below_autoignition",
     "cell_voltage",
     "chromatographed",
     "collision_withstood",
@@ -1377,6 +1378,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // BRD-023: a quest can claim that a named metal got a corrosion
         // verdict — `corroded:Zn` — without claiming which way it went.
         E::Corroded { species, .. } => ("corroded", Some(species.0.as_str())),
+        // BRD-041: a quest can claim that a named fuel was found below its
+        // autoignition temperature — `below_autoignition:methane`.
+        E::BelowAutoignition { fuel, .. } => ("below_autoignition", Some(fuel.0.as_str())),
         E::Filtered { .. } => ("filtered", None),
         E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),
