@@ -42,9 +42,10 @@
 //!   those of the ammonia alone — 0.17 g for 0.01 mol — not of the bottle
 //!   of solution a learner actually pours. Priced against that, the jar
 //!   would cool by hundreds of kelvin. The *amount* partitioned is robust
-//!   to the representation (0.01 mol in a 500 mL jar puts 65% of the
-//!   ammonia in the air as pure NH₃, 16% as a 10% w/w solution — both
-//!   unmistakable to litmus); the heat is not, so it is not claimed.
+//!   to the representation — 0.01 mol in a 500 mL jar puts nearly all of
+//!   the ammonia in the air as a portion of NH₃ with no water of its own
+//!   to hold it, and about 16% as a 10% w/w solution, both unmistakable
+//!   to litmus — the heat is not, so it is not claimed.
 //! - **It is silent over an open vessel.** An infinite headspace has an
 //!   equilibrium partial pressure but no inventory to read, and the
 //!   reservoir exchange is the aqueous tail's.
@@ -144,15 +145,58 @@ pub fn partitions(vessel: &Vessel) -> Vec<Partition> {
         if total <= 0.0 {
             continue;
         }
+        let condensed_phase = condensed_phase.unwrap_or(if water_present {
+            Phase::Aqueous
+        } else {
+            Phase::Liquid
+        });
         let h = henry_at_t(coeff, t).value;
-        let gas_at_equilibrium = total * gas_capacity / (h * v_liq + gas_capacity);
+        // The liquid volume is not a constant when the volatile IS the
+        // liquid: the registry's ammonia solution is a portion of NH₃ whose
+        // volume follows its own moles, so every mole that leaves for the
+        // headspace shrinks the liquid that holds the rest, and the
+        // closed-form split is not self-consistent. Solve the fixed point
+        // instead: n_gas such that n_gas = n_total · C / (H · V_liq(n_gas) + C),
+        // where V_liq counts the other liquids plus what of this species is
+        // still held as a liquid. An aqueous share adds no volume (the
+        // solvent's is already counted), so there V_liq is constant and the
+        // bisection lands on the closed form.
+        let molar_volume = species::lookup_key(&p.species.0)
+            .map(|d| d.liters_from_moles(Moles(1.0)).0)
+            .unwrap_or(0.0);
+        let own_liquid_now: f64 = vessel
+            .contents
+            .iter()
+            .filter(|q| q.species == p.species && q.phase == Phase::Liquid)
+            .map(|q| q.moles.0 * molar_volume)
+            .sum();
+        let v_other = (v_liq - own_liquid_now).max(0.0);
+        let v_liq_at = |n_gas: f64| -> f64 {
+            if condensed_phase == Phase::Liquid {
+                v_other + (total - n_gas) * molar_volume
+            } else {
+                v_other
+            }
+        };
+        let residual =
+            |n_gas: f64| n_gas - total * gas_capacity / (h * v_liq_at(n_gas) + gas_capacity);
+        // residual(0) < 0 and residual(total) >= 0, so a root is bracketed.
+        let (mut lo, mut hi) = (0.0_f64, total);
+        for _ in 0..200 {
+            let mid = 0.5 * (lo + hi);
+            if residual(mid) > 0.0 {
+                hi = mid;
+            } else {
+                lo = mid;
+            }
+            if hi - lo <= f64::EPSILON * total {
+                break;
+            }
+        }
+        let gas_at_equilibrium = 0.5 * (lo + hi);
         out.push(Partition {
             species: p.species.clone(),
-            condensed_phase: condensed_phase.unwrap_or(if water_present {
-                Phase::Aqueous
-            } else {
-                Phase::Liquid
-            }),
+            condensed_phase,
             total,
             gas_now: gas,
             gas_at_equilibrium,
@@ -279,11 +323,24 @@ mod tests {
         let parts = partitions(&v);
         assert_eq!(parts.len(), 1);
         let p = &parts[0];
-        // 0.5 L / (0.082057 × 298.15) = 0.02044 mol/atm of headspace;
-        // 0.17 g of solution at 0.91 g/mL is 0.187 mL, × 57 mol/(L·atm)
-        // = 0.01066 mol/atm of liquid. 0.02044 / 0.0311 = 65.7%.
+        // 0.5 L / (0.082057 × 298.15) = 0.02044 mol/atm of headspace. The
+        // liquid is the ammonia itself — 0.17 g at 0.91 g/mL is 0.187 mL,
+        // × 57 mol/(L·atm) = 0.0107 mol/atm when all of it is still there,
+        // and less as it leaves — so the fixed point sits far above the
+        // 65.7% the closed form gives at the starting volume.
         let frac = p.gas_at_equilibrium / p.total;
-        assert!((frac - 0.657).abs() < 0.01, "gas share {frac}");
+        assert!(frac > 0.9 && frac < 1.0, "gas share {frac}");
+        // Self-consistent: the share is the closed form AT the liquid volume
+        // that share leaves behind.
+        let r = crate::volatility::R_LITRE_ATM * v.temperature.0;
+        let c = 0.5 / r;
+        let v_liq_left = (p.total - p.gas_at_equilibrium) * 17.031 / 0.91 / 1000.0;
+        let closed = p.total * c / (p.henry_mol_per_l_atm * v_liq_left + c);
+        assert!(
+            (closed - p.gas_at_equilibrium).abs() < 1e-9,
+            "{closed} vs {}",
+            p.gas_at_equilibrium
+        );
         let events = settle(&mut v);
         assert_eq!(events.len(), 1);
         let gas: f64 = v

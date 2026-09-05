@@ -113,9 +113,12 @@ instead of deleting it. Species the registry carries as gases (O₂, N₂, H₂,
 CO₂) are excluded — their dissolution stays PHREEQC's — and no heat is
 booked: the registry's ammonia-solution portion has the mass of the ammonia
 alone, and a desorption enthalpy priced against 0.17 g would cool the jar by
-hundreds of kelvin. The *amount* is robust to that representation (65% of
-0.01 mol in a 500 mL jar as pure NH₃, 16% as a 10% w/w solution — both far
-above the litmus floor); the heat is not, so it is not claimed.
+hundreds of kelvin. The *amount* is robust to that representation (nearly
+all of 0.01 mol in a 500 mL jar as a portion of NH₃ with no water of its own
+to hold it, about 16% as a 10% w/w solution — both far above the litmus
+floor); the heat is not, so it is not claimed. The split is solved as a fixed
+point, because the ammonia IS the liquid and every mole that leaves shrinks
+the volume holding the rest.
 
 The divergence pin `smell_and_gas_test_disagree_about_dissolved_ammonia`
 was written to fail once a path existed; it did, and it is now
