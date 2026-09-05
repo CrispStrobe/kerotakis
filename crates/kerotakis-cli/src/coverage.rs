@@ -261,6 +261,23 @@ pub(crate) fn command(args: &[String], build_stack: fn() -> SolverStack) {
         println!("  baseline drift: {}", report.baseline_drift.len());
         for drift in &report.baseline_drift {
             println!("    {}: {:?}", drift.id, drift.kind);
+            // Both rows in full, because the reader of this line is
+            // usually a CI log: the box that ran the corpus is not the
+            // box the maintainer is sitting at, and a drift line that
+            // names only the id sends them off to re-run 500 prompts to
+            // learn what changed.
+            if let Some(baseline) = &drift.baseline {
+                println!(
+                    "      baseline: {}",
+                    serde_json::to_string(baseline).unwrap_or_default()
+                );
+            }
+            if let Some(observed) = &drift.observed {
+                println!(
+                    "      observed: {}",
+                    serde_json::to_string(observed).unwrap_or_default()
+                );
+            }
         }
     }
     if check && !report.baseline_drift.is_empty() {
