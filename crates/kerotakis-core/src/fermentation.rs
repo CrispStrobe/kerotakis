@@ -141,7 +141,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Option<FermentationStep> {
 }
 
 fn active_cultures(vessel: &Vessel) -> Vec<ActiveCulture> {
-    let mut cultures = Vec::new();
+    let mut cultures: Vec<ActiveCulture> = Vec::new();
     for portion in &vessel.unresolved_materials {
         let Some(recipe) = material::lookup_versioned(&portion.recipe_id, portion.recipe_version)
         else {
