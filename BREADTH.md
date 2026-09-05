@@ -656,8 +656,27 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-014 — Household and school material packs
 
-- [ ] **Status:** open. **Size:** large/data-heavy. **Depends on:** BRD-002,
-  BRD-012, and BRD-013.
+- [ ] **Status:** open; slices in flight. **Size:** large/data-heavy.
+  **Depends on:** BRD-002, BRD-012, and BRD-013.
+  - `BRD-014.S02` (2026-09-05) — thirteen materials the curiosity corpus names
+    and the parser could not resolve: mayonnaise, prepared mustard, fruit jam,
+    coconut fat, alcohol hand sanitiser, perfume, permanent marker ink, orange
+    peel oil, kitchen grease, petrol, damp wood, sugar water and dried beans,
+    plus one alias so `red_cabbage_extract` reaches the jar that already
+    exists. The shelf reaches 102 recipes. Two of them exist to be acted on
+    rather than to act: kitchen grease is the immiscible layer `dish_soap`'s
+    emulsifier role had nothing to work on, and sugar water is the substrate
+    the dry-yeast fermentation role was already able to eat. Three carry a
+    bounded role of their own — mayonnaise as an opaque colloid, mustard as an
+    emulsifier, orange peel oil as an immiscible liquid — and in every case
+    the role is a declared observable rather than an interfacial model, which
+    each recipe's own notes say. Deliberately NOT in this slice: activated
+    charcoal and sunscreen. Both would parse and both would then answer their
+    question WRONGLY — there is no adsorption model, so charcoal would leave
+    the dye in the beaker, and the spectral bands stop at 405 nm, so a
+    sunscreen could not absorb the 300 nm light bio-111 shines at it. A
+    confident wrong answer is worse than `unknown-species`, and those two rows
+    stay open until the models exist.
 - **Outcome:** versioned packs for at least 75 familiar named materials, selected
   by BRD-000 demand.
 - **Scope:** begin with air, tap/seawater, vinegar, baking powder/soda, bleach,

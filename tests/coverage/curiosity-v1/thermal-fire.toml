@@ -544,7 +544,6 @@ material_class = "fuel_mixture"
 owning_task = "BRD-014"
 tags = ["fuel_vapour", "petrol"]
 script = ["add v1 petrol 5mL", "add v1 O2 0.5mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -693,7 +692,6 @@ material_class = "wood"
 owning_task = "BRD-014"
 tags = ["combustion", "wood"]
 script = ["add v1 wet_wood 5g", "add v1 O2 0.5mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
