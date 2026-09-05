@@ -115,11 +115,11 @@ const learningProgressJourney = async () => {
     return JSON.stringify({ next, selected: selected?.textContent?.trim() || "" });
   })()`));
   check("Story exposes its Next investigation and selected district", Boolean(story.next && story.selected), `${story.selected}: ${story.next}`);
-  await page.evaluate(`document.querySelector('dialog.story-map button.close')?.click()`);
-  await waitFor(page, `!document.querySelector('dialog.story-map')`, { timeout: 5000 });
-
-  await waitFor(page, `!document.querySelector('button.research-node small')?.textContent.includes('syncing')`, { timeout: 60000 });
-  check("the Experiment Library opens", await page.evaluate(`(() => { const button = document.querySelector('button.research-node'); button?.click(); return Boolean(button); })()`)
+  check("the Experiment Library opens from the Mission Board", await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('dialog.story-map footer button')]
+      .find((item) => /experiment library/i.test(item.textContent || ""));
+    button?.click(); return Boolean(button);
+  })()`)
     && await waitFor(page, `document.querySelector('dialog.panel .progress-filters')`, { timeout: 5000 }));
   await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length > 0`, { timeout: 5000 });
   const experimentInitial = JSON.parse(await page.evaluate(`(() => {
@@ -137,6 +137,8 @@ const learningProgressJourney = async () => {
   await page.evaluate(`document.querySelector('dialog.panel button.close')?.click()`);
   await waitFor(page, `!document.querySelector('dialog.panel')`, { timeout: 5000 });
 
+  await page.evaluate(`document.querySelector('button.brand')?.click()`);
+  await waitFor(page, `document.querySelector('button.kids-node')`, { timeout: 5000 });
   await waitFor(page, `!document.querySelector('button.kids-node small')?.textContent.includes('syncing')`, { timeout: 60000 });
   check("the KIDS catalog opens", await page.evaluate(`(() => { const button = document.querySelector('button.kids-node'); button?.click(); return Boolean(button); })()`)
     && await waitFor(page, `document.querySelector('dialog #kids-title')`, { timeout: 5000 }));
