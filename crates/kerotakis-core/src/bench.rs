@@ -2414,7 +2414,7 @@ impl Bench {
                                     events.push(Event::NotYetModeled {
                                         cause: crate::ops::NotModelledCause::NoSolution,
                                         vessel: *vessel,
-                                        what: "the conductivity meter reads nothing — no aqueous solution has been characterised, and this is not one isolated dry solid".to_string(),
+                                        what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
                                     });
                                 }
                             }
