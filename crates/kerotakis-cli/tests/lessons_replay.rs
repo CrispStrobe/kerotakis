@@ -23,6 +23,14 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
             &["soap-scum aggregate formed", "mol Ca/Mg"],
         ),
         ("apple-browning.lab", &["cut_apple surface is", "% browned"]),
+        (
+            "instant-snow.lab",
+            &["powder retains", "times its dry mass"],
+        ),
+        (
+            "luminol-temperature.lab",
+            &["relative blue-light intensity", "estimated half-life"],
+        ),
     ];
     for (name, evidence) in cases {
         let lesson = lessons_dir().join(name);

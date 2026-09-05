@@ -670,6 +670,26 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::ConservedUnresolvedLiquid => {
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "a conserved unresolved liquid role requires homogeneous_liquid form",
+                            );
+                        }
+                        if !recipe.unresolved_fraction.is_some_and(|fraction| {
+                            (fraction.lower - 1.0).abs() < 1e-12
+                                && (fraction.upper - 1.0).abs() < 1e-12
+                        }) {
+                            self.issue(
+                                format!("{role_path}.unresolved_fraction"),
+                                "a conserved unresolved liquid role requires a fully unresolved recipe",
+                            );
+                        }
+                    }
                     MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
                         if recipe.bulk_density.is_none() {
                             self.issue(

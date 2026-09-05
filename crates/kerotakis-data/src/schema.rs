@@ -222,6 +222,9 @@ pub enum MaterialRole {
         srgb: [u8; 3],
         colour_word: String,
     },
+    /// A named homogeneous liquid formulation that remains fully unresolved
+    /// and conserved. This role makes no claim about its reactivity or colour.
+    ConservedUnresolvedLiquid,
     /// A conserved unresolved baker's-yeast fraction with a bounded sucrose
     /// fermentation response. Parameters describe a classroom gas-evolution
     /// timescale, not strain growth or a universal product specification.

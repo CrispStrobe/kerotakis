@@ -59,8 +59,8 @@
     {"id":"K55","title":"Nichts geht verloren, wenn nichts entweicht","phenomenon":"Eine geschlossene Reaktion erhält die gemessene Masse"},
     {"id":"K56","title":"Schaummischung, die lange hält","phenomenon":"Ein Tensid hält jedes erzeugte Gas fest und der Schaum fällt mit der Zeit zusammen"},
     {"id":"K57","title":"Ein Turm aus Zuckerwasser","phenomenon":"Die Lösungsdichte wird berechnet, Schichtung durch langsames Gießen jedoch nicht","boundary":"Schichtung mischbarer Flüssigkeiten durch langsames Gießen wird nicht modelliert."},
-    {"id":"K58","title":"Sofortschnee aus Pulver","phenomenon":"Ein Modell für superabsorbierende Polymere fehlt","boundary":"Es gibt weder einen superabsorbierenden Polymerstoff noch ein Quellmodell."},
-    {"id":"K59","title":"Ein Leuchtstab in warmem und kaltem Wasser","phenomenon":"Chemilumineszenz und ihre Temperaturabhängigkeit fehlen","boundary":"Es ist kein Chemilumineszenz-Mechanismus implementiert."},
+    {"id":"K58","title":"Sofortschnee aus Pulver","phenomenon":"Ein vernetztes superabsorbierendes Netzwerk hält Wasser zurück, ohne es zu verbrauchen"},
+    {"id":"K59","title":"Luminol-Licht in warmem und kaltem Wasser","phenomenon":"Die Temperatur tauscht momentane Helligkeit gegen Leuchtdauer","boundary":"Ein begrenzter Luminol-Peroxid-Vergleich wird berechnet; er bildet weder den Peroxyoxalat-Mechanismus eines kommerziellen Leuchtstabs noch Produktspeziation oder Photonenausbeute ab."},
     {"id":"K60","title":"Ein Indikator, fünf Gläser","phenomenon":"Phenolphthalein folgt fünf Punkten durch eine Neutralisation"}
   ]
 }

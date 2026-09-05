@@ -444,7 +444,8 @@
   "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)",
   "naked egg osmosis": "Osmose beim nackten Ei",
   "hard water soap scum": "Seifenkalk in hartem Wasser",
-  "apple browning": "Bräunung eines Apfels"
+  "apple browning": "Bräunung eines Apfels",
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "Berechneter Superabsorber-Schnee: {water} g Wasser zurückgehalten, das {ratio}-Fache der trockenen Polymermasse"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
