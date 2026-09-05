@@ -69,8 +69,8 @@ export function kidsConnections(
 }
 
 export function kidsExperimentMatches(item: KidsExperiment, query: string): boolean {
-  const needle = normalizeCatalogText(query.trim());
+  const needle = normalizeCatalogText(query.trim().replaceAll("_", " ").replaceAll("-", " "));
   if (!needle) return true;
   return [item.id, item.title, item.phenomenon, item.boundary ?? "", ...item.topics, ...item.ingredients, ...item.apparatus, ...(item.capabilities ?? []), ...(item.codex ?? [])]
-    .some((value) => normalizeCatalogText(value.replaceAll("_", " ")).includes(needle));
+    .some((value) => normalizeCatalogText(value.replaceAll("_", " ").replaceAll("-", " ")).includes(needle));
 }
