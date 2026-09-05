@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { kidsExperimentMatches, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
+import { kidsConnections, kidsExperimentMatches, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
 
 const apple: KidsExperiment = {
   id: "K45", title: "Stop an apple going brown", phenomenon: "Enzymatic browning",
@@ -19,10 +19,34 @@ describe("kids catalog", () => {
     expect(parseKidsCatalog({ schema: 1, experiments: [apple] })).toEqual([apple]);
   });
 
+  it("rejects malformed optional cross-references", () => {
+    expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, capabilities: [] }] })).toEqual([]);
+    expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, codex: [42] }] })).toEqual([]);
+  });
+
+  it("resolves only available links and reports real persisted progress", () => {
+    const linked = { ...apple, lesson: "apple-browning.lab", capabilities: ["bio-095", "gone"], codex: ["vitamin-c", "gone"] };
+    expect(kidsConnections(
+      linked,
+      new Set(["bio-095"]),
+      new Set(["vitamin-c"]),
+      new Set(["apple-browning"]),
+      new Set(["vitamin-c"]),
+    )).toEqual({
+      capabilities: ["bio-095"], codex: ["vitamin-c"], lessonCompleted: true, codexCompleted: ["vitamin-c"],
+    });
+  });
+
   it("searches number, title, ingredient, apparatus and boundary text", () => {
     for (const query of ["K45", "apple", "ascorbic acid", "look", "not modeled"]) {
       expect(kidsExperimentMatches(apple, query)).toBe(true);
     }
     expect(kidsExperimentMatches(apple, "electrolysis")).toBe(false);
+  });
+
+  it("searches reviewed connection identifiers", () => {
+    const linked = { ...apple, capabilities: ["bio-095"], codex: ["fruit-browning"] };
+    expect(kidsExperimentMatches(linked, "bio 095")).toBe(true);
+    expect(kidsExperimentMatches(linked, "fruit browning")).toBe(true);
   });
 });

@@ -596,6 +596,7 @@
   /** An entry handed from the map straight to the experiment page. */
   let catalogInitial = $state<CodexEntry | null>(null);
   let catalogOpen = $state(false);
+  let capabilityInitial = $state<string | null>(null);
   let capabilityOpen = $state(false);
   let kidsOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
@@ -603,6 +604,8 @@
   let codexEntries = $state<CodexEntry[]>([]);
   let capabilityPrompts = $state<CapabilityPrompt[]>([]);
   let kidsExperiments = $state<KidsExperiment[]>([]);
+  const capabilityIds = $derived(new Set(capabilityPrompts.map((prompt) => prompt.id)));
+  const codexIds = $derived(new Set(codexEntries.map((entry) => entry.id)));
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   let buretteTarget = $state<number | null>(null);
@@ -1434,12 +1437,19 @@
 {/if}
 
 {#if capabilityOpen}
-  <CapabilityExplorer prompts={capabilityPrompts} {session} onclose={() => (capabilityOpen = false)} />
+  <CapabilityExplorer prompts={capabilityPrompts} {session} initial={capabilityInitial} onclose={() => {
+    capabilityOpen = false;
+    capabilityInitial = null;
+  }} />
 {/if}
 
 {#if kidsOpen}
   <KidsCatalog
     entries={kidsExperiments}
+    {capabilityIds}
+    {codexIds}
+    completedMissions={session.completedMissions}
+    completedExperiments={session.completedExperiments}
     onlesson={(file) => {
       kidsOpen = false;
       void startLesson(file);
@@ -1449,6 +1459,18 @@
       if (!quest) return;
       kidsOpen = false;
       void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
+    }}
+    oncapability={(id) => {
+      kidsOpen = false;
+      capabilityInitial = id;
+      capabilityOpen = true;
+    }}
+    oncodex={(id) => {
+      const entry = codexEntries.find((item) => item.id === id);
+      if (!entry) return;
+      kidsOpen = false;
+      catalogInitial = entry;
+      catalogOpen = true;
     }}
     onsandbox={(entry) => {
       const brief = briefFor(entry);

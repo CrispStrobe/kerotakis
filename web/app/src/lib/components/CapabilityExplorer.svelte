@@ -1,14 +1,15 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { capabilityMatches, type CapabilityPrompt, type CapabilitySupport } from "../capabilities";
   import type { Session } from "../session.svelte";
   import { t } from "../i18n.svelte";
 
-  let { prompts, session, onclose }: { prompts: CapabilityPrompt[]; session: Session; onclose: () => void } = $props();
-  let query = $state("");
+  let { prompts, session, onclose, initial = null }: { prompts: CapabilityPrompt[]; session: Session; onclose: () => void; initial?: string | null } = $props();
+  let query = $state(untrack(() => initial ?? ""));
   let support = $state<CapabilitySupport | "all">("all");
   let topic = $state("all");
   let age = $state("all");
-  let open = $state<string | null>(null);
+  let open = $state<string | null>(untrack(() => initial));
   let running = $state<string | null>(null);
 
   const topics = $derived([...new Set(prompts.map((prompt) => prompt.topic))].sort());
