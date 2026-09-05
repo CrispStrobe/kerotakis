@@ -248,6 +248,7 @@ naphthalene = "Naphthalin"
 "bleached hair pigment (oxidised)" = "gebleichtes Haarpigment (oxidiert)"
 "dry ice" = "Trockeneis"
 "activated charcoal" = "Aktivkohle"
+"liquid nitrogen" = "flüssiger Stickstoff"
 
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."

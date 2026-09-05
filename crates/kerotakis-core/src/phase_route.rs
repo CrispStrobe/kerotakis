@@ -1,9 +1,16 @@
-//! EXP-33: the two phase routes that are not melting.
+//! EXP-33: the phase routes that are not the solvent's.
 //!
 //! `states.rs` is the solvent's story — water freezing and boiling, with the
 //! thresholds moved by whatever is dissolved in it. This module is the other
-//! two ways a solid leaves the bottom of a crucible, and neither of them is
-//! water's:
+//! ways matter changes state on this bench, and none of them is water's:
+//!
+//! * **The cryogen route.** Liquid nitrogen boils at 77 K, and what it takes
+//!   from the beaker around it while doing so is the whole point of pouring
+//!   it: ethanol at room temperature ends up a solid block. Freezing,
+//!   melting, boiling and condensing for the substances that carry an
+//!   enthalpy for it, with the freezing and the boiling COUPLED — heat
+//!   released at a cryogen's boiling point does not raise a temperature, it
+//!   boils more cryogen.
 //!
 //! * **Sublimation.** Ammonium chloride does not melt on a hot plate; it goes
 //!   straight to vapour at 338 °C and comes back as a white crust on anything
@@ -14,8 +21,8 @@
 //!   weigh it, and the missing mass is exactly the water. Put a drop back and
 //!   the blue returns.
 //!
-//! Both are curated thresholds rather than computed equilibria, and both say
-//! so. What is *not* curated is the arithmetic: the water driven off a
+//! All three are curated thresholds rather than computed equilibria, and all
+//! three say so. What is *not* curated is the arithmetic: the water driven off a
 //! hydrate is counted in moles and reappears as mass on the balance, so the
 //! classic mass-before / mass-after lesson closes to the digit rather than to
 //! a rounding.
@@ -279,6 +286,110 @@ fn release_gas(vessel: &mut Vessel, species: SpeciesId, moles: Moles, events: &m
     }
 }
 
+/// Enthalpies of fusion, keyed by the substance that freezes or melts.
+///
+/// **Water is deliberately absent and has to stay absent.**
+/// `solve::StateEquilibrator` owns the solvent's freezing and boiling,
+/// with the colligative shifts `states.rs` computes on top, and two
+/// solvers moving the same ice would be a bug rather than a redundancy.
+/// This table is for the substances that model was never about.
+pub const FUSION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
+    species: "ethanol",
+    // 4.93 kJ/mol at the 159.01 K melting point already in the registry.
+    kj_per_mol: 4.93,
+    provenance: "Enthalpy of fusion of ethanol at its normal melting point, 4.93 kJ/mol, as commonly tabulated. PENDING REVIEW: no positively identified page was opened for this row and no edition-level provenance is claimed. It is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth of it per gram, which is the reason a small pour of liquid nitrogen freezes a beaker of ethanol solid and would barely dent the same beaker of water",
+}];
+
+/// Enthalpies of vaporisation at the normal boiling point.
+///
+/// Also deliberately short, and for a sharper reason than the fusion
+/// table's: this bench has no boiling route for an ordinary liquid at
+/// all. Ethanol above 78 °C is not modelled here and is not modelled
+/// anywhere else either — `states.rs` boils water and nothing boils
+/// anything else. Giving ethanol a row would silently install a general
+/// boiling route through the back door of a cryogen tranche, so it does
+/// not get one. What IS here is the one substance whose *whole point* is
+/// that it boils: a cryogen, which is a liquid only because it is cold
+/// and is otherwise a gas the registry already ships.
+pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
+    species: "liquid_nitrogen",
+    // 5.57 kJ/mol at 77.36 K.
+    kj_per_mol: 5.57,
+    provenance: "Enthalpy of vaporisation of nitrogen at its 77.36 K normal boiling point, 5.57 kJ/mol, as commonly tabulated from NIST/CODATA-class evaluated data. PENDING REVIEW: no positively identified page was opened for this row and no edition-level provenance is claimed. The sanity check a reviewer can run without a book is that it is very small — a fourteenth of an equal amount of water's 40.65 kJ/mol — which is why liquid nitrogen boils away so fast in a warm room and why 100 mL of it is not, in energy terms, the enormous cold reservoir it looks like",
+}];
+
+/// The enthalpy of fusion of a substance, J/mol, or `None` where this
+/// bench claims none — which for a solvent means its own model owns it.
+pub fn fusion_enthalpy(species: &str) -> Option<f64> {
+    FUSION_ENTHALPIES
+        .iter()
+        .find(|row| row.species == species)
+        .map(|row| row.kj_per_mol * 1000.0)
+}
+
+/// The enthalpy of vaporisation of a liquid at its normal boiling point,
+/// J/mol, or `None` where this bench does not boil it.
+pub fn vaporisation_enthalpy(species: &str) -> Option<f64> {
+    VAPORISATION_ENTHALPIES
+        .iter()
+        .find(|row| row.species == species)
+        .map(|row| row.kj_per_mol * 1000.0)
+}
+
+/// The normal melting point the registry records for a substance, K.
+fn melts_at(key: &str) -> Option<f64> {
+    crate::species::lookup(&SpeciesId::new(key))?
+        .transitions?
+        .melting_k
+}
+
+/// The normal boiling point the registry records for a substance, K.
+fn boils_at(key: &str) -> Option<f64> {
+    crate::species::lookup(&SpeciesId::new(key))?
+        .transitions?
+        .boiling_k
+}
+
+/// The liquid a vapour condenses back to, with its boiling point: the
+/// inverse of the formula pairing [`sublimation_product`] performs, for
+/// the boiling route rather than the subliming one.
+fn condensation_partner(gas_key: &str) -> Option<(&'static str, f64)> {
+    crate::species::registry().iter().find_map(|candidate| {
+        if candidate.standard_phase != Phase::Liquid
+            || vaporisation_enthalpy(candidate.key).is_none()
+            || sublimation_product(candidate.key) != gas_key
+        {
+            return None;
+        }
+        boils_at(candidate.key).map(|boiling| (candidate.key, boiling))
+    })
+}
+
+/// Heat with nothing left to absorb it warms the vessel.
+fn spend_pool(vessel: &mut Vessel, pool: &mut f64, events: &mut Vec<Event>) {
+    if *pool <= 0.0 {
+        return;
+    }
+    let cp = vessel.heat_capacity();
+    if cp <= 0.0 {
+        *pool = 0.0;
+        return;
+    }
+    let from = vessel.temperature;
+    let to = crate::units::Kelvin(from.0 + *pool / cp);
+    *pool = 0.0;
+    if (to.0 - from.0).abs() <= 1e-9 {
+        return;
+    }
+    vessel.temperature = to;
+    vessel.refresh_pressure();
+    events.push(Event::TemperatureChanged {
+        vessel: vessel.id,
+        from,
+        to,
+    });
+}
+
 /// The molar heat capacity the registry gives a species, J/(mol·K).
 fn molar_cp(key: &str) -> f64 {
     crate::species::lookup(&SpeciesId::new(key)).map_or(0.0, |d| d.heat_capacity)
@@ -317,17 +428,38 @@ struct Ledger {
 /// really does and is why the temperature is settled even when no matter
 /// moves.
 ///
+/// **The correction is gated on [`is_condensed_gas`], and the gate is the
+/// principle rather than a convenience.** It exists because `add` can only
+/// hand you a substance in its STANDARD phase, so the only substances that
+/// can arrive in a state they cannot be in are the ones this registry
+/// ships in two phases — dry ice for carbon dioxide, liquid nitrogen for
+/// nitrogen. Frozen ethanol is not one of those: a solid warmed past its
+/// melting point got there by being heated, honestly, and correcting it
+/// would mean a flask of frozen ethanol on a hot plate could never melt.
+///
+/// **What the correction costs, stated rather than hidden.** From inside
+/// this module, superheat a cryogen ARRIVED with and heat a `heat` command
+/// genuinely put into the flask look identical — the vessel carries one
+/// temperature and one heat capacity, and nothing records where either
+/// came from. The correction discards both, so warming a flask that still
+/// holds liquid nitrogen boils away rather less of it than the energy
+/// implies. The temperature is still right (the flask sits at 77 K while
+/// any nitrogen remains) and the inventory errs on the side of keeping
+/// it. The real fix is not here: it is for `add` to deposit a cryogen at
+/// its own temperature instead of the room's, which is `bench.rs`'s.
+///
 /// Deposition needs no such correction: a vapour really is at the vessel
 /// temperature, and the heat it gives back warms everything present.
 fn ledger(
     vessel: &Vessel,
     condensed: &str,
+    latent: Option<f64>,
     inventory: f64,
     now: f64,
     threshold: f64,
     forward: bool,
 ) -> Ledger {
-    let Some(latent) = sublimation_enthalpy(condensed) else {
+    let Some(latent) = latent else {
         return Ledger {
             moles: inventory,
             budget: None,
@@ -335,9 +467,11 @@ fn ledger(
             forward,
         };
     };
-    let budget = if forward {
+    let budget = if forward && is_condensed_gas(condensed) {
         let own = inventory * molar_cp(condensed);
         (vessel.heat_capacity() - own).max(0.0) * (now - threshold)
+    } else if forward {
+        vessel.heat_capacity() * (now - threshold)
     } else {
         vessel.heat_capacity() * (threshold - now)
     }
@@ -347,6 +481,28 @@ fn ledger(
         budget: Some(budget),
         latent,
         forward,
+    }
+}
+
+impl Ledger {
+    /// Fold heat an exothermic change released in this same pass into an
+    /// endothermic one's budget.
+    ///
+    /// This is what couples freezing to boiling, and without it energy
+    /// goes missing. Ethanol dropped into liquid nitrogen freezes, and
+    /// the 844 J that releases has to go somewhere — but the vessel is
+    /// AT the nitrogen's boiling point, where heat does not raise a
+    /// temperature, it boils nitrogen. Letting the freeze warm the flask
+    /// to 83 K and then asking the boil-off to spend it would lose most
+    /// of it to the superheat correction on [`ledger`], because liquid
+    /// nitrogen at 83 K is exactly the impossible state that correction
+    /// exists to discard.
+    fn draw_on(&mut self, pool: &mut f64, inventory: f64) {
+        if let Some(budget) = self.budget.as_mut() {
+            *budget += *pool;
+            *pool = 0.0;
+            self.moles = (*budget / self.latent).min(inventory);
+        }
     }
 }
 
@@ -394,6 +550,230 @@ fn settle(vessel: &mut Vessel, l: &Ledger, moved: f64, threshold: f64, events: &
 pub struct PhaseRouteEquilibrator;
 
 impl PhaseRouteEquilibrator {
+    /// Freezing, melting, boiling and condensing, for the substances that
+    /// carry an enthalpy for it (th-123).
+    ///
+    /// This is the cryogen route, and it exists because pouring liquid
+    /// nitrogen over ethanol is two coupled phase changes running at once:
+    /// the nitrogen boils, the vessel falls to 77 K, the ethanol freezes,
+    /// and the heat the freezing releases boils *more* nitrogen rather
+    /// than warming anything. The pool is what couples them — see
+    /// [`Ledger::draw_on`] — and running the exothermic half first in each
+    /// pass is what lets the endothermic half spend it in the same pass.
+    ///
+    /// The sublimation route above deliberately has no pool: only one
+    /// substance on this shelf sublimes and nothing exothermic coexists
+    /// with it, so there is never anything to couple.
+    ///
+    /// Honest boundaries this route does NOT model: the Leidenfrost layer
+    /// that makes a real pour skitter and slows the heat transfer to a
+    /// fraction of what this instantaneous balance assumes; the glass that
+    /// cracks when a warm beaker meets a cryogen; the fact that solid
+    /// ethanol is a glassy slush before it is a block; and any heat
+    /// leaking in from the room, which is the reason a real open dewar
+    /// empties itself and this adiabatic one does not.
+    fn cryogen(&self, vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
+        let mut moved = false;
+        // Latent heat an exothermic change has released and nothing has
+        // spent yet.
+        let mut pool = 0.0;
+        for _ in 0..4 {
+            let a = self.condensing(vessel, events, &mut pool);
+            let b = self.vaporising(vessel, events, &mut pool);
+            if !a && !b {
+                break;
+            }
+            moved = true;
+        }
+        spend_pool(vessel, &mut pool, events);
+        moved
+    }
+
+    /// The exothermic half: a liquid below its melting point freezes, a
+    /// vapour below its boiling point condenses. Neither raises the
+    /// temperature here — the heat goes to the pool, and what nothing
+    /// absorbs is spent at the end of the pass.
+    ///
+    /// Both are limited by how much heat the vessel can still take before
+    /// it reaches the transition temperature, which is what stops a freeze
+    /// warming the flask back above the melting point and melting the same
+    /// substance again on the next pass.
+    ///
+    /// Its endothermic partner admits a candidate sitting EXACTLY on its
+    /// transition temperature, which is why the coupling works at all: a
+    /// beaker of boiling nitrogen is at 77.36 K, not above it, and if the
+    /// boil-off refused to look at it there the freezing heat would have
+    /// nowhere to go but the thermometer.
+    fn condensing(&self, vessel: &mut Vessel, events: &mut Vec<Event>, pool: &mut f64) -> bool {
+        let mut moved = false;
+        let freezing: Vec<(SpeciesId, f64, f64)> = vessel
+            .contents
+            .iter()
+            .filter(|p| p.phase == Phase::Liquid && p.moles.0 > TRACE)
+            .filter_map(|p| {
+                let melting = melts_at(&p.species.0)?;
+                let latent = fusion_enthalpy(&p.species.0)?;
+                (vessel.temperature.0 < melting).then(|| (p.species.clone(), melting, latent))
+            })
+            .collect();
+        for (species, melting, latent) in freezing {
+            let now = vessel.temperature.0;
+            if now >= melting {
+                continue;
+            }
+            let inventory = moles_in_phase(vessel, &species, Phase::Liquid);
+            let budget = (vessel.heat_capacity() * (melting - now)).max(0.0);
+            let n = (budget / latent).min(inventory);
+            if n <= TRACE {
+                continue;
+            }
+            withdraw_phase(vessel, &species, Phase::Liquid, n);
+            vessel.deposit(species.clone(), Moles(n), Phase::Solid);
+            events.push(Event::StateChanged {
+                vessel: vessel.id,
+                species,
+                from: Phase::Liquid,
+                to: Phase::Solid,
+                at: crate::units::Kelvin(melting),
+                shifted_by: 0.0,
+            });
+            *pool += n * latent;
+            moved = true;
+        }
+
+        let condensing: Vec<(SpeciesId, &'static str, f64, f64)> = vessel
+            .contents
+            .iter()
+            .filter(|p| p.phase == Phase::Gas && p.moles.0 > TRACE)
+            .filter_map(|p| {
+                let (liquid, boiling) = condensation_partner(&p.species.0)?;
+                let latent = vaporisation_enthalpy(liquid)?;
+                (vessel.temperature.0 < boiling)
+                    .then(|| (p.species.clone(), liquid, boiling, latent))
+            })
+            .collect();
+        for (gas, liquid, boiling, latent) in condensing {
+            let now = vessel.temperature.0;
+            if now >= boiling {
+                continue;
+            }
+            let inventory = moles_in_phase(vessel, &gas, Phase::Gas);
+            let budget = (vessel.heat_capacity() * (boiling - now)).max(0.0);
+            let n = (budget / latent).min(inventory);
+            if n <= TRACE {
+                continue;
+            }
+            withdraw_phase(vessel, &gas, Phase::Gas, n);
+            vessel.deposit(SpeciesId::new(liquid), Moles(n), Phase::Liquid);
+            vessel.refresh_pressure();
+            events.push(Event::StateChanged {
+                vessel: vessel.id,
+                species: gas,
+                from: Phase::Gas,
+                to: Phase::Liquid,
+                at: crate::units::Kelvin(boiling),
+                shifted_by: 0.0,
+            });
+            *pool += n * latent;
+            moved = true;
+        }
+        moved
+    }
+
+    /// The endothermic half: a solid above its melting point melts, a
+    /// liquid above its boiling point boils. Both spend the pool first and
+    /// the vessel's own sensible heat after, and both take the superheat
+    /// correction [`ledger`] describes — a liquid found above its boiling
+    /// point is as impossible as a block of dry ice at room temperature.
+    fn vaporising(&self, vessel: &mut Vessel, events: &mut Vec<Event>, pool: &mut f64) -> bool {
+        let mut moved = false;
+        let melting: Vec<(SpeciesId, f64, f64)> = vessel
+            .contents
+            .iter()
+            .filter(|p| p.phase == Phase::Solid && p.moles.0 > TRACE)
+            .filter_map(|p| {
+                let melting = melts_at(&p.species.0)?;
+                let latent = fusion_enthalpy(&p.species.0)?;
+                (vessel.temperature.0 >= melting).then(|| (p.species.clone(), melting, latent))
+            })
+            .collect();
+        for (species, point, latent) in melting {
+            let now = vessel.temperature.0;
+            if now < point {
+                continue;
+            }
+            let inventory = moles_in_phase(vessel, &species, Phase::Solid);
+            let mut l = ledger(
+                vessel,
+                &species.0,
+                Some(latent),
+                inventory,
+                now,
+                point,
+                true,
+            );
+            l.draw_on(pool, inventory);
+            if l.moles > TRACE {
+                withdraw_phase(vessel, &species, Phase::Solid, l.moles);
+                vessel.deposit(species.clone(), Moles(l.moles), Phase::Liquid);
+                events.push(Event::StateChanged {
+                    vessel: vessel.id,
+                    species: species.clone(),
+                    from: Phase::Solid,
+                    to: Phase::Liquid,
+                    at: crate::units::Kelvin(point),
+                    shifted_by: 0.0,
+                });
+                moved = true;
+            }
+            settle(vessel, &l, l.moles, point, events);
+        }
+
+        let boiling: Vec<(SpeciesId, f64, f64)> = vessel
+            .contents
+            .iter()
+            .filter(|p| p.phase == Phase::Liquid && p.moles.0 > TRACE)
+            .filter_map(|p| {
+                let boiling = boils_at(&p.species.0)?;
+                let latent = vaporisation_enthalpy(&p.species.0)?;
+                (vessel.temperature.0 >= boiling).then(|| (p.species.clone(), boiling, latent))
+            })
+            .collect();
+        for (species, point, latent) in boiling {
+            let now = vessel.temperature.0;
+            if now < point {
+                continue;
+            }
+            let inventory = moles_in_phase(vessel, &species, Phase::Liquid);
+            let mut l = ledger(
+                vessel,
+                &species.0,
+                Some(latent),
+                inventory,
+                now,
+                point,
+                true,
+            );
+            l.draw_on(pool, inventory);
+            if l.moles > TRACE {
+                let vapour = SpeciesId::new(sublimation_product(&species.0));
+                withdraw_phase(vessel, &species, Phase::Liquid, l.moles);
+                events.push(Event::StateChanged {
+                    vessel: vessel.id,
+                    species: species.clone(),
+                    from: Phase::Liquid,
+                    to: Phase::Gas,
+                    at: crate::units::Kelvin(point),
+                    shifted_by: 0.0,
+                });
+                release_gas(vessel, vapour, Moles(l.moles), events);
+                moved = true;
+            }
+            settle(vessel, &l, l.moles, point, events);
+        }
+        moved
+    }
+
     fn sublimation(&self, vessel: &mut Vessel, events: &mut Vec<Event>) -> bool {
         let now = vessel.temperature.0;
         let mut moved = false;
@@ -422,7 +802,15 @@ impl PhaseRouteEquilibrator {
                     if inventory <= TRACE {
                         continue;
                     }
-                    let l = ledger(vessel, &species.0, inventory, now, threshold, true);
+                    let l = ledger(
+                        vessel,
+                        &species.0,
+                        sublimation_enthalpy(&species.0),
+                        inventory,
+                        now,
+                        threshold,
+                        true,
+                    );
                     if l.moles > TRACE {
                         let vapour = SpeciesId::new(sublimation_product(&species.0));
                         withdraw_phase(vessel, &species, Phase::Solid, l.moles);
@@ -449,7 +837,15 @@ impl PhaseRouteEquilibrator {
                     let solid = SpeciesId::new(
                         deposition_partner(&species.0).map_or(species.0.as_str(), |(key, _)| key),
                     );
-                    let l = ledger(vessel, &solid.0, inventory, now, threshold, false);
+                    let l = ledger(
+                        vessel,
+                        &solid.0,
+                        sublimation_enthalpy(&solid.0),
+                        inventory,
+                        now,
+                        threshold,
+                        false,
+                    );
                     if l.moles > TRACE {
                         withdraw_phase(vessel, &species, Phase::Gas, l.moles);
                         vessel.deposit(solid.clone(), Moles(l.moles), Phase::Solid);
@@ -557,9 +953,13 @@ impl Equilibrator for PhaseRouteEquilibrator {
         // salt would take up, and deposition can never trigger sublimation
         // at the same temperature, so the sequence cannot cycle.
         for _ in 0..2 {
-            let a = self.sublimation(vessel, &mut events);
-            let b = self.hydrates(vessel, &mut events);
-            if !a && !b {
+            // The cryogen route runs first: it is the one that can move
+            // the vessel's temperature by two hundred kelvin, and both
+            // routes below are temperature thresholds.
+            let a = self.cryogen(vessel, &mut events);
+            let b = self.sublimation(vessel, &mut events);
+            let c = self.hydrates(vessel, &mut events);
+            if !a && !b && !c {
                 break;
             }
         }

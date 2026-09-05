@@ -1434,7 +1434,6 @@ material_class = "cryogenic_material"
 owning_task = "BRD-032"
 tags = ["cryogenic", "ethanol"]
 script = ["add v1 ethanol 10mL", "add v1 liquid_nitrogen 100mL", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

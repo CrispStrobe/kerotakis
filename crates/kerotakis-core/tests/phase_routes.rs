@@ -409,6 +409,180 @@ fn a_substance_with_no_enthalpy_row_sublimes_exactly_as_before() {
     assert!(moles(&bench, "NH4Cl", Phase::Solid) < 1e-9);
 }
 
+// ── the cryogen route ──────────────────────────────────────────────
+
+/// 10 mL of ethanol in 100 mL of liquid nitrogen: 0.171 mol and 2.881 mol.
+fn ethanol_moles() -> f64 {
+    10.0 * 0.789 / molar_mass("ethanol")
+}
+
+fn nitrogen_moles() -> f64 {
+    100.0 * 0.807 / molar_mass("liquid_nitrogen")
+}
+
+/// th-123, and the answer is the one the question hopes for.
+///
+/// The nitrogen boils at 77.36 K taking the ethanol's heat with it; the
+/// ethanol reaches 159.01 K, freezes, and the heat THAT releases boils
+/// still more nitrogen rather than warming anything. There is nitrogen
+/// left over, which is why a cold bath works.
+#[test]
+fn liquid_nitrogen_freezes_ethanol_solid() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "ethanol", ethanol_moles());
+    let events = add(&mut bench, &mut stack, "liquid_nitrogen", nitrogen_moles());
+
+    let t = vessel_of(&bench).temperature.0;
+    assert!(
+        (t - 77.36).abs() < 0.01,
+        "the flask sits at the nitrogen's boiling point while any is left; got {t} K"
+    );
+    assert!(
+        (moles(&bench, "ethanol", Phase::Solid) - ethanol_moles()).abs() < 1e-9,
+        "every mole of ethanol should be a solid: {} mol",
+        moles(&bench, "ethanol", Phase::Solid)
+    );
+    assert!(
+        moles(&bench, "ethanol", Phase::Liquid) < 1e-9,
+        "and none of it liquid"
+    );
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::StateChanged {
+                from: Phase::Liquid,
+                to: Phase::Solid,
+                ..
+            }
+        )),
+        "the freezing must be reported: {events:#?}"
+    );
+    // The nitrogen boils off AS NITROGEN, not as "liquid nitrogen gas":
+    // the vapour is read off the formula, exactly as dry ice's is.
+    let evolved: f64 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "N2" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!(evolved > 0.9 && evolved < 0.93, "{evolved} mol boiled off");
+    assert!(
+        moles(&bench, "liquid_nitrogen", Phase::Liquid) > 1.9,
+        "and most of the dewar is still liquid: {} mol",
+        moles(&bench, "liquid_nitrogen", Phase::Liquid)
+    );
+}
+
+/// The coupling, as an energy identity computed outside the engine.
+///
+/// This is the assertion that would fail if freezing warmed the flask
+/// instead of boiling nitrogen. The heat the ethanol gave up is its
+/// sensible heat from room temperature down to 77.36 K plus its enthalpy
+/// of fusion, and every joule of it has to come back out as boiled
+/// nitrogen — nothing else in the vessel can hold it.
+#[test]
+fn the_heat_of_freezing_boils_nitrogen_rather_than_warming_the_flask() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "ethanol", ethanol_moles());
+    add(&mut bench, &mut stack, "liquid_nitrogen", nitrogen_moles());
+
+    let boiled = nitrogen_moles() - moles(&bench, "liquid_nitrogen", Phase::Liquid);
+    let cp = ethanol_moles()
+        * species::lookup(&SpeciesId::new("ethanol"))
+            .unwrap()
+            .heat_capacity;
+    let sensible = cp * (298.15 - 77.36);
+    let fusion = ethanol_moles() * 4930.0;
+    let expected = (sensible + fusion) / 5570.0;
+    assert!(
+        (boiled - expected).abs() < 1e-6,
+        "{boiled} mol boiled, but the ethanol only gave up {sensible:.0} + {fusion:.0} J, \
+         which is {expected} mol of nitrogen"
+    );
+}
+
+/// A dewar with nothing in it but the cryogen sits at its own boiling
+/// point and keeps its contents — the same correction the lone block of
+/// dry ice gets, in the other phase.
+#[test]
+fn a_lone_dewar_of_liquid_nitrogen_settles_on_its_boiling_point() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "liquid_nitrogen", 1.0);
+
+    let t = vessel_of(&bench).temperature.0;
+    assert!(
+        (t - 77.36).abs() < 1e-6,
+        "a dewar of liquid nitrogen is at -196 C, not at room temperature; got {t} K"
+    );
+    assert!(
+        (moles(&bench, "liquid_nitrogen", Phase::Liquid) - 1.0).abs() < 1e-12,
+        "with nothing to draw heat from, none of it boils"
+    );
+}
+
+/// The tables are short on purpose, and the two absences are different.
+///
+/// Water must never appear in either: `solve::StateEquilibrator` owns the
+/// solvent's freezing and boiling with the colligative shifts on top, and
+/// two solvers moving the same ice would be a bug. Ethanol must never
+/// appear in the vaporisation table: it would install a general boiling
+/// route through the back door of a cryogen tranche, and this bench boils
+/// nothing but water and the one cryogen.
+#[test]
+fn the_cryogen_tables_are_deliberately_short() {
+    use kerotakis_core::phase_route::{fusion_enthalpy, is_condensed_gas, vaporisation_enthalpy};
+    assert!(
+        fusion_enthalpy("water").is_none(),
+        "the solvent's fusion belongs to states.rs and must not be duplicated here"
+    );
+    assert!(vaporisation_enthalpy("water").is_none());
+    assert!(
+        vaporisation_enthalpy("ethanol").is_none(),
+        "this bench has no general boiling route and must not pretend to"
+    );
+    assert!(fusion_enthalpy("ethanol").is_some());
+    assert!(vaporisation_enthalpy("liquid_nitrogen").is_some());
+    // And the superheat correction is gated on being a condensed gas,
+    // which is why frozen ethanol can still melt.
+    assert!(is_condensed_gas("liquid_nitrogen"));
+    assert!(!is_condensed_gas("ethanol"));
+}
+
+/// Frozen ethanol is not a one-way street: warm it past 159 K with the
+/// nitrogen gone and it melts again.
+#[test]
+fn frozen_ethanol_melts_when_the_nitrogen_is_gone() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "ethanol", 0.1);
+    // Just enough nitrogen to freeze it and no more: 0.1 mol of ethanol
+    // gives up 0.1 x 112.3 x 220.79 J of sensible heat plus 493 J of
+    // fusion, which is 0.53 mol of nitrogen.
+    add(&mut bench, &mut stack, "liquid_nitrogen", 0.53);
+    assert!(
+        moles(&bench, "ethanol", Phase::Solid) > 0.09,
+        "the ethanol should be frozen first: {} mol solid",
+        moles(&bench, "ethanol", Phase::Solid)
+    );
+    assert!(
+        moles(&bench, "liquid_nitrogen", Phase::Liquid) < 0.02,
+        "and the nitrogen essentially gone: {} mol",
+        moles(&bench, "liquid_nitrogen", Phase::Liquid)
+    );
+
+    heat(&mut bench, &mut stack, 3_000.0);
+    assert!(
+        moles(&bench, "ethanol", Phase::Liquid) > 0.09,
+        "warmed past its melting point it is a liquid again: {} mol liquid, {} mol solid",
+        moles(&bench, "ethanol", Phase::Liquid),
+        moles(&bench, "ethanol", Phase::Solid)
+    );
+}
+
 // ── the hydrate ledger ─────────────────────────────────────────────
 
 #[test]

@@ -1468,6 +1468,72 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   `a_condensed_gas_is_never_a_database_mineral` walks every matched phase
   in all three databases, and `a_carbonate_solution_never_precipitates_dry_ice`
   runs the engine on the case that would have shown it.
+- **Liquid nitrogen, and the two phase changes that have to be coupled
+  (2026-09-05).** `th-123` asked whether liquid nitrogen can freeze ethanol
+  solid. The species is the small half: `liquid_nitrogen` is a registry key
+  for the same reason `dry_ice` is — `add` deposits a species in its
+  standard phase, so a beaker asking for the cold liquid cannot be handed
+  the `N2` gas — with N2's molar mass to the digit and no InChIKey
+  asserted.
+
+  The engine half is a cryogen route in `phase_route.rs`: freezing,
+  melting, boiling and condensing for the substances that carry an
+  enthalpy for it. **The two halves have to be coupled or energy goes
+  missing.** The nitrogen boils, the flask falls to 77.36 K, the ethanol
+  reaches its 159.01 K freezing point and freezes — and the 844 J that
+  releases must boil MORE nitrogen, because heat delivered at a cryogen's
+  boiling point does not raise a temperature. The naive ordering (let the
+  freeze warm the flask to 83 K, then boil) loses five sixths of that heat
+  to the superheat correction, since liquid nitrogen at 83 K is exactly
+  the impossible state the correction exists to discard. The route
+  therefore runs its exothermic half into a pool and its endothermic half
+  draws on the pool first;
+  `the_heat_of_freezing_boils_nitrogen_rather_than_warming_the_flask`
+  computes the identity outside the engine and would fail on any other
+  ordering.
+
+  **The superheat correction is now gated on `is_condensed_gas`, and the
+  gate is the principle.** `add` can only hand you a substance in its
+  standard phase, so the only substances that can arrive in a state they
+  cannot be in are the ones the registry ships in two phases. Frozen
+  ethanol is not one of them: a solid warmed past its melting point got
+  there honestly, and correcting it would mean a flask of frozen ethanol
+  on a hot plate could never melt. Pinned by
+  `frozen_ethanol_melts_when_the_nitrogen_is_gone`.
+
+  **What the correction costs, and it is a real cost.** From inside the
+  route, superheat a cryogen arrived with and heat a `heat` command
+  genuinely put into the flask are indistinguishable — one temperature,
+  one heat capacity, no record of where either came from. Both are
+  discarded, so warming a flask that still holds liquid nitrogen boils
+  away rather less of it than the energy implies. The temperature stays
+  right (the flask sits at 77 K while any nitrogen remains) and the
+  inventory errs towards keeping it. The fix is not in this module: it is
+  for `add` to deposit a cryogen at its own temperature instead of the
+  room's, in `bench.rs`.
+
+  **`th-123` closes as `curated`, and one predicted blocker did not
+  materialise.** The route was expected to trip
+  `solve::HonestyEquilibrator`, which apologises for any `Phase::Solid`
+  beside a liquid — "no wired solver models this dissolution" — and
+  frozen ethanol beside the liquid nitrogen that froze it is exactly that
+  shape. It does not fire, because the corpus grades the LAST step's
+  events and `look` is a measurement rather than a solve. **The latent
+  hazard is still there** and is written down here rather than left to be
+  rediscovered: that pass carries this exemption twice already, once for
+  the solvent (*"Frozen solvent is not an unmodelled dissolution — the
+  state pass just explained it"*) and once for curated reaction products
+  (*"a solid that a curated reaction produces is not an unmodelled
+  mystery — the reaction just put it there"*), and it has none for a
+  solid a PHASE ROUTE just put there. Any script that ends on a step
+  which solves rather than looks will meet the apology. The fix is a
+  one-line `continue` in `solve.rs`, outside this task's boundary.
+
+  Honest boundaries, stated: no Leidenfrost layer, so the heat transfer
+  is instantaneous where a real pour skitters and slows; no glass
+  fracture; no glassy slush before the solid block; and no heat leaking in
+  from the room, which is the reason a real open dewar empties itself and
+  this adiabatic one does not.
 - **Scope:** route pressure-dependent boiling/condensation, flash, phase split,
   density and transport-property requests through the adapter when the exact
   parameter/model domain is present. Preserve existing UNIFAC/cubic routes as
