@@ -1,4 +1,4 @@
-# A lemon cell: voltage is not the same thing as useful power
+# Open-circuit lemon-juice voltage: a voltmeter reading is not useful power
 #
 # Zinc supplies electrons. Copper is an inert surface where hydrogen ions can
 # accept them. The lemon juice carries charge between the two, but its pH alone
@@ -16,6 +16,8 @@ cell v1 v2
 inspect v1
 inspect v2
 
-# Boundary: fruit geometry, electrode area and spacing, polarisation and
+# This completes the no-load question: the same state always gives the same
+# bounded voltage estimate. It deliberately does not answer a loaded-battery
+# question. Fruit geometry, electrode area and spacing, polarisation and
 # internal resistance decide the loaded voltage and power. None is inferred
 # from the open-circuit estimate, and the copper is not treated as Cu/Cu2+.

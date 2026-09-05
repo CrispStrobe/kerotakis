@@ -404,6 +404,7 @@
   "whole object buoyancy": "",
   "candle jar": "",
   "density": "",
+  "density tower boundary": "",
   "volcano foam": "",
   "float or sink": "",
   "borax snowflake": "",
@@ -450,6 +451,8 @@
   "naked egg osmosis": "",
   "hard water soap scum": "",
   "apple browning": "",
+  "sugar water density tower": "",
+  "water filter": "",
   "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": ""
  },
  "messages": {
@@ -2080,6 +2083,10 @@
   "pineapple (fresh fruit)": "",
   "yoghurt starter culture": "",
   "acetic-acid bacteria culture": "",
-  "sourdough starter": ""
+  "sourdough starter": "",
+  "invisible ink boundary": "",
+  "dry lemon mark": "",
+  "wet lemon mark": "",
+  "brown": ""
  }
 }

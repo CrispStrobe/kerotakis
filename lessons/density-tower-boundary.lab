@@ -1,0 +1,21 @@
+# Density tower: what the meter proves, and what mixing removes
+register lv2
+
+add v1 water 100mL
+measure v1 density
+
+new cylinder
+add v2 water 100mL
+add v2 table_sugar 50g
+measure v2 density
+
+new cylinder
+add v3 white_vinegar_5_percent 100mL
+measure v3 density
+
+# Each source liquid has a computed density. Putting mutually miscible
+# liquids in one cylinder uses the ordinary add operation and therefore
+# mixes them; without a slow-pour operation and vertical diffusion state,
+# a persistent layered tower would be a false visual claim.
+decant v3 v2 0.25
+measure v2 density

@@ -559,6 +559,9 @@ naphthalene = "Naphthalin"
 "osmosis-changed.lv1" = "{vessel}: {material} tauscht {water} mol Wasser aus ({mass} g)"
 "browning-changed.lv1" = "{vessel}: Die Oberfläche von {material} ist zu {percent} % gebräunt"
 "soap-scum-formed.lv1" = "{vessel}: {mass} g Seifenkalk-Aggregat entstehen aus {moles} mol Ca/Mg"
+"lemon-paper-marked.lv1" = "{vessel}: {lemon_amount_g} g Zitronensaft markieren {paper_amount_g} g Papier; die Spur ist noch feucht"
+"lemon-paper-dried.lv1" = "{vessel}: Die Zitronenspur ist trocken und noch blass"
+"lemon-paper-browned.lv1" = "{vessel}: Die trockene Zitronenspur ist bei {temperature_k} K zu {percent} % braun"
 
 [ionic]
 net = "Netto-Ionengleichung"

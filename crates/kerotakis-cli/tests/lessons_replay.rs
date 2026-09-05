@@ -42,6 +42,20 @@ fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     }
 }
 
+#[test]
+fn invisible_ink_requires_drying_before_the_mark_browns() {
+    let lesson = lessons_dir().join("invisible-ink-boundary.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    let wet = out.find("the mark is still wet").expect("wet mark event");
+    let dry = out.find("the lemon mark is dry").expect("dry mark event");
+    let brown = out.find("dry lemon mark is").expect("brown mark event");
+    assert!(
+        wet < dry && dry < brown,
+        "mark order must be wet → dry → brown:\n{out}"
+    );
+}
+
 fn run(args: &[&str]) -> (String, String, bool) {
     let out = Command::new(env!("CARGO_BIN_EXE_kero"))
         .args(args)
@@ -939,6 +953,27 @@ fn lemon_cell_reports_a_bounded_voltage_not_unmeasured_power() {
         "{out}"
     );
     assert!(!out.contains("no cell"), "{out}");
+    assert!(
+        !out.contains(" W"),
+        "the no-load result must not invent power:\n{out}"
+    );
+}
+
+#[test]
+fn rubbery_bone_lesson_computes_only_the_chalk_control() {
+    let lesson = lessons_dir().join("rubbery-bone-boundary.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    assert!(out.contains("chalk (calcium carbonate)"), "{out}");
+    assert!(
+        out.contains("Bubbles! A gas rises out of v2.") && out.contains("calcium ion"),
+        "vinegar control should compute carbonate reaction evidence:\n{out}"
+    );
+    assert!(
+        !out.lines()
+            .any(|line| line.contains("bone") || line.contains("collagen")),
+        "the engine must not relabel chalk as bone:\n{out}"
+    );
 }
 
 #[test]

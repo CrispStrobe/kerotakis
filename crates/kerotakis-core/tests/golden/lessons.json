@@ -1264,6 +1264,77 @@
       }
     ]
   },
+  "density-tower-boundary": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1 density meter: 1.00 g/mL",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +50.000 g table_sugar (1 known ingredients)",
+      "v2: 0.1461 mol sucrose dissolved",
+      "v2 density meter: 1.14 g/mL",
+      "v3: new vessel",
+      "v3: +100.600 g white_vinegar_5_percent (2 known ingredients)",
+      "v3 density meter: 1.00 g/mL",
+      "v3 → v2: 25% of the liquid",
+      "v2 density meter: 1.12 g/mL"
+    ],
+    "lesson": "density-tower-boundary.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02094019,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.14607219,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 6.86053289,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.06282056,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 3.97876769,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "dry-then-wet-fizz": {
     "event_count": 13,
     "events_sample": [
@@ -2547,10 +2618,11 @@
     ]
   },
   "invisible-ink-boundary": {
-    "event_count": 21,
+    "event_count": 29,
     "events_sample": [
       "v1: +2.000 g paper_sheet (1 known ingredients)",
       "v1: +2.060 g lemon_juice (5 known ingredients)",
+      "v1: 2.06 g lemon juice marks 2.00 g paper; the mark is still wet",
       "v1: 0.0001 mol D-fructose (fruit sugar) dissolved",
       "v1: 0.0001 mol D-glucose (dextrose) dissolved",
       "v1: 3.009e-5 mol sucrose dissolved",
@@ -2561,14 +2633,13 @@
       "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
-      "v1: 221.7 °C → 2188.2 °C",
-      "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
-      "v1: not yet modelled — the aqueous model's temperature ceiling at 300 °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
-      "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
-      "v2: new vessel",
-      "v2: +2.000 g paper_sheet (1 known ingredients)",
-      "v2: +0.5000 mol oxygen",
-      "v2: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way"
+      "v1: 0.104 mol water evaporated",
+      "v1: the lemon mark is dry and still faint",
+      "v1: not yet modelled — the last of the water is gone and D-fructose (fruit sugar), D-glucose (dextrose), sucrose are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
+      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 221.7 °C → 1069.0 °C",
+      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled"
     ],
     "lesson": "invisible-ink-boundary.lab",
     "vessels": [
@@ -2598,16 +2669,11 @@
             "moles": 0.00003009,
             "phase": "Aqueous",
             "species": "sucrose"
-          },
-          {
-            "moles": 0.10371468,
-            "phase": "Liquid",
-            "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 2461.3808
+        "temperature_k": 1342.1724
       },
       {
         "contents": [
@@ -5176,6 +5242,72 @@
       }
     ]
   },
+  "sugar-water-density-tower": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1 density meter: 1.00 g/mL",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +25.000 g table_sugar (1 known ingredients)",
+      "v2: 0.0730 mol sucrose dissolved",
+      "v2 density meter: 1.08 g/mL",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +50.000 g table_sugar (1 known ingredients)",
+      "v3: 0.1461 mol sucrose dissolved",
+      "v3 density meter: 1.14 g/mL"
+    ],
+    "lesson": "sugar-water-density-tower.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0730361,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.14607219,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "there-and-back": {
     "event_count": 8,
     "events_sample": [
@@ -5665,6 +5797,51 @@
           },
           {
             "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "water-filter": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +5.000 g quartz_sand (1 known ingredients)",
+      "v1: 1.997e-5 mol silicon dioxide (quartz) dissolved",
+      "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) does not dissolve in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v2: new vessel",
+      "v1 → v2: filtrate passed; residue retained",
+      "v2: The liquid is colourless and clear."
+    ],
+    "lesson": "water-filter.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.07903602,
+            "phase": "Solid",
+            "species": "SiO2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001997,
+            "phase": "Aqueous",
+            "species": "SiO2"
+          },
+          {
+            "moles": 5.53427699,
             "phase": "Liquid",
             "species": "water"
           }

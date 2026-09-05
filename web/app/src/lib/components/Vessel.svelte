@@ -548,6 +548,19 @@
       </path>
     {/if}
 
+    {#if vessel.lemon_paper_mark}
+      <g class="lemon-paper-mark">
+        <rect x={INNER_X + 12} y={BOTTOM_Y - 15} width={INNER_W - 24} height="10" rx="1" />
+        <path
+          class:browned={vessel.lemon_paper_mark.browned_fraction > 0}
+          style={`--mark-opacity:${Math.max(0.12, vessel.lemon_paper_mark.browned_fraction)}`}
+          d={`M ${INNER_X + 18} ${BOTTOM_Y - 10} q 8 -4 15 0 t 15 0`}
+        >
+          <title>{vessel.lemon_paper_mark.dry ? t("dry lemon mark") : t("wet lemon mark")} · {Math.round(vessel.lemon_paper_mark.browned_fraction * 100)}% {t("brown")}</title>
+        </path>
+      </g>
+    {/if}
+
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = shownSolidLayers[i]!}
@@ -1361,6 +1374,9 @@
     stroke-linecap: round;
     opacity: 0.9;
   }
+  .lemon-paper-mark rect { fill: #f4f0df; stroke: #9e957b; stroke-width: 0.6; }
+  .lemon-paper-mark path { fill: none; stroke: #d9cf9c; stroke-width: 1.4; opacity: 0.25; }
+  .lemon-paper-mark path.browned { stroke: #7a431e; opacity: var(--mark-opacity); }
   @keyframes object-bob {
     to { transform: translateY(-1.2px) rotate(1.5deg); }
   }

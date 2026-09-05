@@ -28,6 +28,19 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))
         self.assertTrue(all(not row.get("lesson") and not row.get("quest") for row in rows if row["status"] in {"declined", "unreachable"}))
 
+    def test_lemon_voltage_and_bone_boundary_are_named_honestly(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        lemon = rows["K34"]
+        self.assertEqual(lemon["status"], "computed")
+        self.assertIn("Open-circuit", lemon["title"])
+        self.assertIn("not a powered lemon battery", lemon["boundary"])
+        self.assertIn("internal resistance", lemon["boundary"])
+        bone = rows["K15"]
+        self.assertEqual(bone["status"], "partial")
+        self.assertEqual(bone["lesson"], "rubbery-bone-boundary.lab")
+        self.assertIn("collagen", bone["boundary"])
+        self.assertIn("calcium-phosphate", bone["boundary"])
+
     def test_cross_references_are_checked_against_their_sources(self):
         broken = json.loads(json.dumps(self.document))
         broken["experiments"][0]["capabilities"] = ["not-a-reviewed-prompt"]
@@ -51,6 +64,16 @@ class KidsCatalogTests(unittest.TestCase):
         broken["experiments"].pop()
         with self.assertRaisesRegex(ValueError, "same K01 through K60"):
             MODULE.add_translation(self.document, broken)
+
+    def test_newly_computed_filter_and_luminol_keep_their_honest_routes(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        self.assertEqual(rows["K33"]["status"], "computed")
+        self.assertEqual(rows["K33"]["lesson"], "water-filter.lab")
+        self.assertEqual(rows["K33"]["quest"], "water-filter")
+        self.assertEqual(rows["K33"]["capabilities"], ["aq-071"])
+        self.assertEqual(rows["K33"]["codex"], ["filtering-a-precipitate"])
+        self.assertEqual(rows["K59"]["status"], "computed")
+        self.assertIn("absolute photon yield", rows["K59"]["boundary"])
 
 
 if __name__ == "__main__":
