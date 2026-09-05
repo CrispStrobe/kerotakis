@@ -1,0 +1,70 @@
+# Reaction-family pack v1 — BRD-020 (IR) feeding BRD-023 (the organic pack).
+#
+# Every record is authored, sourced and linted when loaded
+# (`kerotakis_core::family::load_records`): an empty provenance or an empty
+# refusal domain refuses the whole pack. Structures are matched only through
+# `kerotakis-org`'s curated structure table, so a family can never fire on a
+# species nobody curated, and a product the registry cannot name comes back as
+# a typed refusal in the event stream, never as a silent drop.
+#
+# The router (`FamilyRouter`) asks a record only when its mapped pattern
+# matches species actually in the vessel; the gates then decide, in order, and
+# the first refusing gate names itself. Records fire in `conflict_order`:
+# priority descending, then more gates first, then id.
+
+[[family]]
+id = "fischer-esterification"
+version = 1
+smirks = "[C:1](=[O:2])[OH:3].[OH:4][C:5]>>[C:1](=[O:2])[O:4][C:5].[OH2:3]"
+substrates = ["CH3COOH", "ethanol"]
+priority = 0
+confidence = "curated_family"
+provenance = """Fischer–Speier esterification (Fischer & Speier, Ber. Dtsch. Chem. Ges. 28 (1895) 3252). \
+K ≈ 4 for CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O from Berthelot & Péan de Saint-Gilles, \
+Ann. Chim. Phys. (3) 65 (1862) 385 — the classical two-thirds conversion of an equimolar \
+mixture — and nearly temperature-independent because ΔH° is small (≈ −4 kJ/mol). \
+Stoichiometry proven against the atom-mapped template at the InChIKey level \
+(kerotakis-org template_oracle)."""
+refusal_domain = """Claims only a carboxylic acid meeting an alcohol whose product ester and water the \
+registry can name; the extent is the ideal-mixture equilibrium at K = 4 counted in moles, \
+so added water pushes it back and a cold or uncatalysed vessel is declined by its gate. \
+No rate, no yield beyond K, no tertiary alcohols, no acid anhydrides; ester hydrolysis \
+without the acid and alcohol present is not asked by this record."""
+
+[family.gates]
+required_groups = ["carboxylic acid", "alcohol"]
+
+[family.gates.temperature_k]
+min = 333.15
+
+[family.gates.catalyst]
+species = { key = "H2SO4" }
+
+[family.outcome.equilibrium]
+log_k = 0.602
+source = "Berthelot & Péan de Saint-Gilles (1862): K ≈ 4 for acetic acid + ethanol, equimolar conversion 2/3"
+
+[[family]]
+id = "alkaline-ester-hydrolysis"
+version = 1
+smirks = "[C:1](=[O:2])[O:3][C:4].[OH-:5]>>[C:1](=[O:2])[O-:5].[OH:3][C:4]"
+substrates = ["ethyl_acetate", "NaOH"]
+priority = 0
+confidence = "curated_family"
+outcome = "to_completion"
+provenance = """Alkaline ester hydrolysis (saponification), BAc2 mechanism; March's Advanced Organic \
+Chemistry, ester hydrolysis. Irreversible in practice because the carboxylate is a \
+thermodynamic sink under base. Stoichiometry proven against the atom-mapped template at \
+the InChIKey level (kerotakis-org template_oracle); the hydroxide arrives as the registry's \
+NaOH and its sodium is carried through the ledger as Na+."""
+refusal_domain = """Claims only an ester meeting hydroxide in water-majority liquid warm enough to notice \
+(≥ 50 °C); runs the limiting reagent to completion and says so. No rate, no heat of reaction, \
+no acid-catalysed hydrolysis, no amide or nitrile hydrolysis, no fats or triglycerides yet — \
+those are registry tasks before they are family tasks."""
+
+[family.gates]
+medium = "aqueous"
+required_groups = ["ester"]
+
+[family.gates.temperature_k]
+min = 323.15
