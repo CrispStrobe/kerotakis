@@ -227,14 +227,27 @@ impl DbIndex {
                         .or_insert(MasterSpecies { element, species });
                 }
                 "species" => {
-                    // `A + B = C` at column 0 names the species it defines
-                    // (the right-hand side); its `delta_h` follows indented.
-                    if !line.starts_with([' ', '\t']) {
+                    // Indentation cannot be the signal here. minteq.v4
+                    // writes its species equations at column 0; wateq4f
+                    // indents EVERY line, equations included. Keying on
+                    // column 0 parsed wateq4f's species enthalpies as an
+                    // empty set — and an empty set is not an error, it is
+                    // silence: every lookup then fell through to "it must
+                    // be a master species, so it is zero", and every heat
+                    // drawn from that database would have quietly gone to
+                    // zero with no refusal anywhere.
+                    //
+                    // So split on content: a line with an `=` is a
+                    // reaction and names the species it defines (the first
+                    // product); anything else is an attribute of the one
+                    // most recently named.
+                    if line.contains('=') {
                         pending_species = line
                             .split('=')
                             .nth(1)
-                            .map(|rhs| rhs.trim().to_string())
-                            .filter(|rhs| !rhs.is_empty());
+                            .and_then(|rhs| rhs.split_whitespace().next())
+                            .map(|first| first.to_string())
+                            .filter(|first| !first.is_empty());
                     } else if let Some(name) = &pending_species {
                         let tokens: Vec<&str> = line.split_whitespace().collect();
                         if tokens.first().is_some_and(|t| {
@@ -529,6 +542,50 @@ mod delta_h_tests {
         assert!((co2 - 4.06).abs() < 1e-9, "{co2}");
         let hco3 = m.species_delta_h_kj["HCO3-"];
         assert!((hco3 + 14.6).abs() < 1e-9, "{hco3}");
+        // Water's dissociation is written with TWO products, `H2O = OH- +
+        // H+`. The species being defined is the first of them.
+        let oh = m.species_delta_h_kj["OH-"];
+        assert!((oh - 55.81).abs() < 1e-9, "{oh}");
+
+        // EVERY shipped database must yield species enthalpies, not just
+        // the one this module's carbonate cycle happens to use. wateq4f
+        // indents its equations where minteq.v4 does not, and keying on
+        // indentation parsed it as an empty set — which is silent, because
+        // every lookup then falls through to "master species, therefore
+        // zero". A corpus proved for one source says nothing about another.
+        for (tag, bytes) in [
+            ("wateq4f", crate::databases::WATEQ4F),
+            ("minteq.v4", crate::databases::MINTEQ_V4),
+        ] {
+            let parsed = DbIndex::parse(bytes);
+            let nonzero = parsed
+                .species_delta_h_kj
+                .values()
+                .filter(|v| **v != 0.0)
+                .count();
+            assert!(
+                nonzero > 50,
+                "{tag}: only {nonzero} non-zero species enthalpies — suspect the parser"
+            );
+            let oh = parsed
+                .species_delta_h_kj
+                .get("OH-")
+                .unwrap_or_else(|| panic!("{tag} defines no hydroxide enthalpy"));
+            assert!(*oh > 40.0 && *oh < 70.0, "{tag}: OH- at {oh} kJ/mol");
+        }
+
+        // pitzer is the deliberate exception and is pinned as one rather
+        // than left to look like a parser failure: it states its equilibria
+        // as `-analytic` temperature expressions, not `delta_h`, and gives
+        // no enthalpy for hydroxide at all. `enthalpy` refuses a heat
+        // balance on that database by name instead of pricing whatever
+        // happens to be a master species at zero and calling the rest of
+        // the sum an answer.
+        let pitzer = DbIndex::parse(crate::databases::PITZER);
+        assert!(
+            pitzer.species_delta_h_kj.get("OH-").is_none(),
+            "pitzer now states a hydroxide enthalpy — the refusal in `enthalpy` can be lifted"
+        );
 
         // wateq4f writes kcal; the same field must come back in kJ.
         let w = DbIndex::parse(crate::databases::WATEQ4F);
