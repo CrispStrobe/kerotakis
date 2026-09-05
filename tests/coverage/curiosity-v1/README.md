@@ -975,6 +975,85 @@ Two consequences for anyone reading a coverage report:
   500-prompt run could not. A disagreement between the two is a signal about
   state leaking across prompts, not a flake to be retried.
 
+## The stood-aside list, triaged row by row (2026-09-05)
+
+The eleven remaining stood-aside rows are described as "the tail worth
+working" — the ones where the corpus asked for an answer and the engine
+declined. **Two of them are that.** Every row below was RUN, and the
+classification is from what the bench actually printed.
+
+### Answered already, and filed as standing aside — 4 rows
+
+The bench gives the answer and then adds an honest caveat, and the caveat
+is what the classifier sees.
+
+| row | what it printed |
+|---|---|
+| `aq-062` "Can a sealed vessel burst?" | `BURST at 10854 kPa (glass rating ~405 kPa)` **plus a Danger hazard** |
+| `aq-089` "Will a magnet remove copper powder?" | `no magnetic species present` — copper is not ferromagnetic, which IS the answer |
+| `mat-006` "What gas forms when magnesium meets acid?" | `0.0100 mol hydrogen ↑` |
+| `mat-096` "What three things does iron need to rust?" | `0.0010 mol reacted in 3600 s — 4 Fe + 3 O₂ → 2 Fe₂O₃↓` |
+
+These cannot be fixed in the classifier, and the attempt is on record: PR
+#362 moved two of them and was closed unmerged, because the same rule also
+moved `mat-099`, which demonstrates the *opposite* of what it asks. What
+unblocks them is the prompt saying what it is ASKING ABOUT, so "answered"
+can be checked against the question instead of against whatever else the
+step emitted.
+
+### The script cannot reach the question — 3 rows
+
+Comparative questions with single-condition scripts. **A perfect model
+answers "how fast"; the question is "faster than what".**
+
+| row | question | script builds |
+|---|---|---|
+| `mat-003` | does crushing make it react **faster**? | one condition, never compares |
+| `mat-108` | how does acid **change** the corrosion rate? | one concentration, no baseline |
+| `aq-085` | can **repeated small** extractions remove more than **one tiny** one? | one extraction |
+
+`aq-085` is doubly blocked — iodine's dissolution is also unmodelled — but
+even with iodine modelled the script could not answer it.
+
+These need their scripts rewritten to build both conditions, which is a
+prescriptive corpus change, and they are invisible to the answer-invariance
+sweep because it compares ACROSS vessels and these fill one each.
+
+### Permanent boundaries, correctly refused — 2 rows
+
+Not to-dos. Nothing will change them and both now say why in full.
+
+* `aq-036` — the damp-litmus test reads the headspace and there is no
+  modelled path from dissolved NH₃ into it.
+* `aq-053` — no `.dat` vendored with iphreeqc defines a hypochlorite
+  species at all.
+
+### Genuine capability gaps — 2 rows
+
+* `mat-099` galvanic protection. Today the iron rusts anyway and the zinc
+  does nothing. **In flight** as #387.
+* `mat-011` "why are wires copper rather than iron" — the conductivity
+  meter reads solutions only, and the question is about metallic
+  conduction. Needs sourced data before wiring: the registry carries **no
+  conductivity or resistivity property for any species**, checked.
+
+### The number that matters
+
+**Of eleven "gaps", two are capability gaps and one of those is already
+being built.** Four rows are answered and mis-filed, three have scripts
+that cannot reach their questions, two are permanent boundaries.
+
+Anyone planning work off the stood-aside count should read this first. The
+column is not a backlog of missing chemistry; it is mostly a backlog of
+questions the corpus cannot yet ask precisely enough to grade.
+
+### And the sharpest single piece of evidence in the corpus
+
+`mat-003` and `mat-006` print **byte-identical output** — same equation,
+same 0.0100 mol of hydrogen, same caveat about the leftover magnesium.
+`mat-006` is answered. `mat-003` is not. The difference is entirely in the
+question, and no classifier that reads events can ever see it.
+
 ## The CAP-16 cluster is not a capability gap (2026-09-04)
 
 Three of the ten remaining stood-aside rows are filed under CAP-16, surface
