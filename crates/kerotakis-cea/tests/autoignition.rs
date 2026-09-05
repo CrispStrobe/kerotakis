@@ -72,10 +72,18 @@ fn above_autoignition_the_same_mixture_burns() {
         "methane burned: {} left",
         moles(&v, "methane")
     );
+    // CEA reports product gases as leaving the charge rather than keeping
+    // them as portions, so the carbon dioxide is in the event stream.
+    let co2 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum::<f64>();
     assert!(
-        moles(&v, "CO2") > 0.005,
-        "carbon dioxide formed: {}",
-        moles(&v, "CO2")
+        co2 > 0.005,
+        "carbon dioxide formed: {co2} mol, events {events:?}"
     );
     assert!(v.temperature.0 > 900.0, "the flame heated the vessel");
 }
