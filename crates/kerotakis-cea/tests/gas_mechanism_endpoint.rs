@@ -54,6 +54,26 @@ fn pack_text(name: &str) -> String {
         .unwrap_or_else(|error| panic!("cannot read {}: {error}", path.display()))
 }
 
+/// Every shipped pack, as `gas_mechanism_packs.rs` lists them.
+const PACKS: &[&str] = &["h2-o2-skeletal-v1", "co-h2-wet-v1", "hydrocarbon-global-v1"];
+
+/// The CEA record for a mechanism species.
+///
+/// One name needs translating. `thermo.inp` keys its two butanes by
+/// their full record names — `C4H10,n-butane` and `C4H10,isobutane` —
+/// because the formula alone does not say which one, and the mechanism
+/// packs say `C4H10` because Westbrook and Dryer's n-paraffin fit is for
+/// the straight chain. Naming the translation here beats a silent
+/// lookup miss.
+fn cea_record(pack: &str, species: &str) -> &'static Species {
+    let key = match species {
+        "C4H10" => "C4H10,n-butane",
+        other => other,
+    };
+    db().get(key)
+        .unwrap_or_else(|| panic!("{pack}: CEA has no thermochemistry for {species} (as {key})"))
+}
+
 fn pool(names: &[&str]) -> Vec<&'static Species> {
     names.iter().filter_map(|name| db().get(name)).collect()
 }
@@ -105,18 +125,17 @@ fn moles(vessel: &Vessel, species: &str) -> f64 {
     vessel.moles_of(&SpeciesId::new(species)).0
 }
 
-/// Every species the H₂/O₂ pack names is a species CEA can also price.
+/// Every pack in the directory names species CEA can also price.
 ///
 /// If this ever fails, the two solvers are no longer answering about the
 /// same chemistry and every comparison below is meaningless.
 #[test]
-fn cea_carries_every_species_the_hydrogen_pack_names() {
-    let mechanism = parse_yaml(&pack_text("h2-o2-skeletal-v1")).expect("the pack parses");
-    for species in mechanism.species_names() {
-        assert!(
-            db().get(species).is_some(),
-            "CEA has no thermochemistry for {species}, so the endpoint cannot be checked"
-        );
+fn cea_carries_every_species_the_packs_name() {
+    for pack in PACKS {
+        let mechanism = parse_yaml(&pack_text(pack)).expect("the pack parses");
+        for species in mechanism.species_names() {
+            let _ = cea_record(pack, species);
+        }
     }
 }
 
@@ -210,24 +229,152 @@ fn the_kinetic_route_approaches_equilibrium_without_overshooting_it() {
     );
 }
 
-/// The overall reaction the pack's stoichiometry can perform is the
-/// reaction CEA settles on: nothing in the network can make a species the
-/// equilibrium calculation is not also offered.
+/// Every species either kind of pack can move is a species CEA can price,
+/// so the comparison below is between two accounts of one chemistry.
 #[test]
-fn the_networks_only_overall_change_is_the_one_cea_finds() {
-    for pack in ["h2-o2-skeletal-v1", "co-h2-wet-v1"] {
+fn every_species_a_pack_can_move_is_one_cea_can_price() {
+    for pack in PACKS {
         let mechanism = parse_yaml(&pack_text(pack)).expect("the pack parses");
         let arena = MechanismArena::default();
         let network = mechanism.compile_in(&arena);
         for reaction in network.reactions {
             for term in reaction.stoichiometry {
-                assert!(
-                    db().get(term.species).is_some(),
-                    "{pack}: {} moves {}, which CEA cannot price",
-                    reaction.equation,
-                    term.species
-                );
+                let _ = cea_record(pack, term.species);
             }
         }
+    }
+}
+
+/// A global step ends where CEA ends, when equilibrium is complete
+/// combustion.
+///
+/// This is the endpoint oracle the skeletal packs cannot supply, because
+/// a three-reaction network with no radical pool integrates all the way
+/// to exhaustion. Lean methane at 1600 K is the condition where the
+/// claim is fair: with four times the stoichiometric oxygen, equilibrium
+/// really is CO₂ and H₂O, so a one-step form that can only make CO₂ and
+/// H₂O is allowed to agree with it. Pressure is not a variable here —
+/// `CH4 + 2 O2 → CO2 + 2 H2O` has Δn = 0, so the equilibrium composition
+/// does not move with it.
+#[test]
+fn a_global_step_ends_where_cea_ends_under_lean_conditions() {
+    let fuel = 1.0e-3;
+    let oxygen = 4.0e-3;
+    let nitrogen = 1.0e-2;
+
+    let species = pool(&["CH4", "O2", "CO2", "H2O", "CO", "H2", "OH", "O", "H", "N2"]);
+    let equilibrium = equilibrate_tp(
+        &budget(&[
+            ("C", fuel),
+            ("H", 4.0 * fuel),
+            ("O", 2.0 * oxygen),
+            ("N", 2.0 * nitrogen),
+        ]),
+        &species,
+        1600.0,
+        PRESSURE_BAR,
+    )
+    .expect("Gibbs minimisation converges");
+    assert!(
+        equilibrium.moles_of("CO") < 0.01 * equilibrium.moles_of("CO2"),
+        "lean methane at 1600 K leaves almost no CO: {:?}",
+        equilibrium.composition
+    );
+
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    let mut vessel = reactor(
+        1.0,
+        1600.0,
+        &[("CH4", fuel), ("O2", oxygen), ("N2", nitrogen)],
+    );
+    for _ in 0..20 {
+        advance_network_with_options(&mut vessel, 5.0e-3, &network, STIFF)
+            .expect("a three-reaction global network integrates");
+    }
+
+    for product in ["CO2", "H2O"] {
+        let kinetic = moles(&vessel, product);
+        let thermodynamic = equilibrium.moles_of(product);
+        assert!(
+            (kinetic - thermodynamic).abs() / thermodynamic < 0.02,
+            "{product}: the global step ends at {kinetic} mol, CEA at {thermodynamic}"
+        );
+    }
+}
+
+/// And where equilibrium is NOT complete combustion, the global step is
+/// wrong in the direction its own authors documented.
+///
+/// Westbrook and Dryer's Table III (p. 37) puts a detailed methane-air
+/// mechanism at CO/CO₂ = 0.11 at an equivalence ratio of 1.0 and 0.69 at
+/// 1.2, against a one-step form that gives none at all — and an adiabatic
+/// flame temperature 100 K too high because of it. CEA agrees that the
+/// carbon monoxide is there. The pack cannot make any: it has no CO in
+/// it, by construction. This test is the limitation, executable.
+#[test]
+fn a_global_step_cannot_make_the_carbon_monoxide_cea_finds() {
+    // Rich: an equivalence ratio of 1.2, so 2/1.2 moles of O2 per methane.
+    let species = pool(&["CH4", "O2", "CO2", "H2O", "CO", "H2", "OH", "O", "H"]);
+    let equilibrium = equilibrate_tp(
+        &budget(&[("C", 1.0), ("H", 4.0), ("O", 2.0 * 2.0 / 1.2)]),
+        &species,
+        2000.0,
+        PRESSURE_BAR,
+    )
+    .expect("Gibbs minimisation converges");
+    let ratio = equilibrium.moles_of("CO") / equilibrium.moles_of("CO2");
+    assert!(
+        ratio > 0.05,
+        "rich methane at 2000 K really does make carbon monoxide: CO/CO2 = {ratio}"
+    );
+
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    assert!(
+        !mechanism.species_names().any(|name| name == "CO"),
+        "the global pack has no carbon monoxide in it at all"
+    );
+    let note = pack_text("hydrocarbon-global-v1");
+    assert!(
+        note.contains("does not claim carbon monoxide"),
+        "and the pack says so in its own header"
+    );
+}
+
+/// Every hydrocarbon releases about the same heat per mole of oxygen it
+/// burns, and each global step's stoichiometry must too.
+///
+/// This is the energy check, and it is deliberately not a comparison
+/// against three memorised heats of combustion. Roughly 400-410 kJ per
+/// mole of O₂ is a property of hydrocarbon oxidation itself, so a step
+/// whose stoichiometry drifted — a lost water, a miscounted CO₂ — falls
+/// outside the band even though it still balances by element. The
+/// enthalpies are CEA's own formation values, priced through the pack's
+/// own stoichiometric vector.
+#[test]
+fn every_global_step_releases_about_the_same_heat_per_mole_of_oxygen() {
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+
+    for reaction in network.reactions {
+        let mut enthalpy = 0.0;
+        let mut oxygen = 0.0;
+        for term in reaction.stoichiometry {
+            enthalpy +=
+                term.coefficient * cea_record("hydrocarbon-global-v1", term.species).h_formation;
+            if term.species == "O2" {
+                oxygen -= term.coefficient;
+            }
+        }
+        assert!(oxygen > 0.0, "{}: consumes no oxygen", reaction.equation);
+        let per_oxygen = enthalpy / oxygen;
+        assert!(
+            (-420_000.0..=-395_000.0).contains(&per_oxygen),
+            "{}: {per_oxygen:.0} J per mole of O2 is outside the 400-410 kJ band \
+             every hydrocarbon shares",
+            reaction.equation
+        );
     }
 }

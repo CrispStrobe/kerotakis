@@ -34,7 +34,7 @@ use kerotakis_core::SpeciesId;
 
 /// Every shipped pack. A new file that is not listed here is not tested,
 /// so the directory listing is checked against this list as well.
-const PACKS: &[&str] = &["h2-o2-skeletal-v1", "co-h2-wet-v1"];
+const PACKS: &[&str] = &["h2-o2-skeletal-v1", "co-h2-wet-v1", "hydrocarbon-global-v1"];
 
 /// `units: {length: cm, quantity: mol}` means a concentration written in
 /// mol·cm⁻³ is 10³ times the same concentration in mol·L⁻¹.
@@ -613,4 +613,175 @@ fn carbon_monoxide_burns_only_through_a_hydrogen_bearing_radical() {
             "the header must name the dry route it does not carry: {missing}"
         );
     }
+}
+
+// ---------------------------------------------------------------------------
+// The global steps
+// ---------------------------------------------------------------------------
+
+/// A global step's orders are measured, not read off its equation.
+///
+/// This is the whole reason the mechanism front end had to learn
+/// `orders:`. `CH4 + 2 O2 => CO2 + 2 H2O` looks third order and is not:
+/// Westbrook and Dryer fitted it at −0.3 in the fuel and 1.3 in the
+/// oxygen, which is FIRST order overall, and the pre-exponential they
+/// tabulate only means what they say it means at that order. Writing the
+/// equation's exponents instead would be a different rate law wearing a
+/// citation that does not belong to it.
+#[test]
+fn the_global_steps_carry_the_orders_westbrook_and_dryer_fitted() {
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let summary = mechanism.summary();
+    let expected = [
+        ("CH4", 1.0, -0.3, 1.3),
+        ("C3H8", 1.75, 0.1, 1.65),
+        ("C4H10", 1.75, 0.15, 1.6),
+    ];
+    assert_eq!(summary.reactions, expected.len(), "one step per fuel");
+
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    for (index, (fuel, total, fuel_order, oxygen_order)) in expected.iter().enumerate() {
+        let reaction = &network.reactions[index];
+        let detail = &summary.reaction_details[index];
+        assert!(
+            (detail.total_order - *total).abs() < 1e-12,
+            "{fuel}: total order {} is not the fitted {total}",
+            detail.total_order
+        );
+        let order_of = |species: &str| {
+            reaction
+                .forward
+                .orders
+                .iter()
+                .find(|term| term.species == species)
+                .unwrap_or_else(|| panic!("{fuel}: no order term for {species}"))
+                .order
+        };
+        assert!(
+            (order_of(fuel) - *fuel_order).abs() < 1e-12,
+            "{fuel}: fuel order {} is not {fuel_order}",
+            order_of(fuel)
+        );
+        assert!(
+            (order_of("O2") - *oxygen_order).abs() < 1e-12,
+            "{fuel}: oxygen order {} is not {oxygen_order}",
+            order_of("O2")
+        );
+    }
+}
+
+/// Methane inhibits its own combustion, and the arithmetic says so.
+///
+/// The negative fuel order is not a curiosity. It is what lets a
+/// one-step form reproduce the RICH flammability limit at all — the
+/// paper's own point is that "the often-employed choice of simultaneous
+/// first order fuel and oxidizer dependence ... cannot correctly predict
+/// the rich flammability limit". Doubling the methane at fixed oxygen
+/// makes the reaction SLOWER, by exactly 2^−0.3.
+#[test]
+fn methane_inhibits_its_own_combustion() {
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    let methane = &network.reactions[0];
+    assert!(
+        methane.equation.starts_with("CH4"),
+        "the first step is methane's: {}",
+        methane.equation
+    );
+
+    let rate_at = |fuel: f64| {
+        let vessel = reactor(
+            1.0,
+            1600.0,
+            &[("CH4", fuel), ("O2", 4.0e-3), ("N2", 1.0e-2)],
+        );
+        methane.rates_now(&vessel).net
+    };
+    let ratio = rate_at(2.0e-3) / rate_at(1.0e-3);
+    assert!(
+        (ratio - 2f64.powf(-0.3)).abs() < 1e-9,
+        "twice the methane must burn 2^-0.3 as fast, not {ratio} as fast"
+    );
+    assert!(ratio < 1.0, "and that is slower, not faster");
+}
+
+/// Oxygen drives each fitted step at its own fitted power.
+#[test]
+fn oxygen_drives_each_global_step_at_its_fitted_power() {
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+
+    for (fuel, oxygen_order) in [("CH4", 1.3), ("C3H8", 1.65), ("C4H10", 1.6)] {
+        let reaction = network
+            .reactions
+            .iter()
+            .find(|candidate| candidate.equation.starts_with(fuel))
+            .unwrap_or_else(|| panic!("no step for {fuel}"));
+        let rate_at = |oxygen: f64| {
+            let vessel = reactor(
+                1.0,
+                1600.0,
+                &[(fuel, 1.0e-3), ("O2", oxygen), ("N2", 1.0e-2)],
+            );
+            reaction.rates_now(&vessel).net
+        };
+        let ratio = rate_at(4.0e-3) / rate_at(2.0e-3);
+        assert!(
+            (ratio - 2f64.powf(oxygen_order)).abs() / 2f64.powf(oxygen_order) < 1e-9,
+            "{fuel}: doubling oxygen multiplied the rate by {ratio}, not 2^{oxygen_order}"
+        );
+    }
+}
+
+/// A one-step fuel burns out, and takes its atoms with it.
+///
+/// Unlike the skeletal packs this is a three-reaction network with no
+/// radical pool, so the integrator carries it all the way to exhaustion —
+/// which is exactly what a global step is for and the only thing it is
+/// for.
+#[test]
+fn lean_methane_burns_out_under_a_global_step() {
+    let mechanism = parse_yaml(&pack_text("hydrocarbon-global-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+
+    let fuel = 1.0e-3;
+    let mut vessel = reactor(
+        1.0,
+        1600.0,
+        &[("CH4", fuel), ("O2", 4.0e-3), ("N2", 1.0e-2)],
+    );
+    let carbon_before = moles(&vessel, "CH4") + moles(&vessel, "CO2");
+    for _ in 0..20 {
+        advance_network_with_options(&mut vessel, 5.0e-3, &network, STIFF)
+            .expect("a three-reaction global network integrates");
+    }
+
+    assert!(
+        moles(&vessel, "CH4") < 0.01 * fuel,
+        "the fuel is gone: {} mol left of {fuel}",
+        moles(&vessel, "CH4")
+    );
+    assert!(
+        relative_error(moles(&vessel, "CO2"), fuel) < 0.01,
+        "one CO2 per methane: {}",
+        moles(&vessel, "CO2")
+    );
+    assert!(
+        relative_error(moles(&vessel, "H2O"), 2.0 * fuel) < 0.01,
+        "two waters per methane: {}",
+        moles(&vessel, "H2O")
+    );
+    let carbon_after = moles(&vessel, "CH4") + moles(&vessel, "CO2");
+    assert!(
+        relative_error(carbon_after, carbon_before) < 1e-9,
+        "carbon is conserved: {carbon_before} -> {carbon_after}"
+    );
+    assert!(
+        relative_error(moles(&vessel, "N2"), 1.0e-2) < 1e-12,
+        "nitrogen takes no part"
+    );
 }
