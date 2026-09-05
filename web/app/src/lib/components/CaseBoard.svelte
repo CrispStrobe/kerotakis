@@ -1,7 +1,7 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
   import { missionId, type MissionSummary } from "../storyProgress";
-  import { contaminatedSampleLeads, contaminatedSampleProgress } from "../storyChapter";
+  import { contaminatedSampleLeads, contaminatedSampleProgress, missionsBeyondTheCase } from "../storyChapter";
 
   let {
     missions,
@@ -23,6 +23,9 @@
   const progress = $derived(contaminatedSampleProgress(leads));
   const core = $derived(leads.filter((lead) => !lead.optional));
   const optional = $derived(leads.find((lead) => lead.optional) ?? null);
+  /** The rest of the district. The case names four of seven; the other
+   * three were drawn nowhere, so nothing could open them. */
+  const rest = $derived(missionsBeyondTheCase(missions));
 </script>
 
 <section class="case-board" aria-labelledby="case-title">
@@ -86,6 +89,31 @@
         <button onclick={() => onstart(optional.mission.file)}>{running ? t("continue") : optional.done ? t("review") : t("inspect")} <span aria-hidden="true">→</span></button>
       </article>
     {/if}
+
+    {#if rest.length > 0}
+      <div class="lead-heading">
+        <div><span>{t("also in this district")}</span><h3>{t("Open any of these too")}</h3></div>
+        <small>{t("no order, no prerequisite")}</small>
+      </div>
+      <div class="rest-list">
+        {#each rest as mission (mission.file)}
+          {@const done = completed.has(missionId(mission.file))}
+          {@const running = active === missionId(mission.file)}
+          <article class="rest" class:done class:running>
+            <span class="rest-status" aria-hidden="true">{done ? "✓" : running ? "●" : "◇"}</span>
+            <div>
+              <span class="rest-topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
+              <h4>{t(mission.name)}</h4>
+              {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
+            </div>
+            <button onclick={() => onstart(mission.file)}>
+              {running ? t("continue investigation") : done ? t("review investigation") : t("investigate")}
+              <span aria-hidden="true">→</span>
+            </button>
+          </article>
+        {/each}
+      </div>
+    {/if}
   {/if}
 </section>
 
@@ -120,7 +148,17 @@
   .lead-grid h4, .optional h4 { margin: .25rem 0; font-size: .88rem; }.lead-grid p, .optional p { margin: 0; color: var(--dim); font-size: .68rem; line-height: 1.35; }.lead-grid article > small { margin-top: .55rem; color: var(--dim); font-size: .58rem; }.lead-grid button { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding: 0 .65rem; }
   .assessment { display: inline-flex; align-items: center; align-self: flex-start; gap: .35rem; margin-top: .55rem; padding: .25rem .45rem; border-radius: 999px; color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); font-size: .58rem; font-weight: 800; }.assessment i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
   .optional { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: .7rem; padding: .7rem; border: 1px dashed color-mix(in srgb, var(--warning) 55%, var(--edge)); border-radius: 15px; background: color-mix(in srgb, var(--warning) 6%, var(--surface)); }.optional-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; color: var(--warning); background: color-mix(in srgb, var(--warning) 12%, var(--surface)); }.optional button { min-width: 7rem; padding: 0 .65rem; }
+  .rest-list { display: grid; gap: .5rem; }
+  .rest { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: .7rem; padding: .65rem .7rem; border: 1px solid var(--edge); border-radius: 15px; background: color-mix(in srgb, var(--surface-raised) 45%, var(--surface)); }
+  .rest.done { border-color: color-mix(in srgb, var(--success) 40%, var(--edge)); }
+  .rest.running { border-color: var(--discovery); box-shadow: inset 4px 0 var(--discovery); }
+  .rest-status { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 11px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: .72rem; font-weight: 900; }
+  .rest.done .rest-status { color: var(--on-accent); background: var(--success); }
+  .rest-topic { color: var(--discovery); font-size: .58rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .rest h4 { margin: .1rem 0; font-size: .86rem; }
+  .rest p { max-width: 36rem; margin: 0; color: var(--dim); font-size: .66rem; line-height: 1.35; }
+  .rest button { display: flex; align-items: center; gap: .7rem; padding: 0 .65rem; }
   @media (max-width: 900px) { .lead-grid { grid-template-columns: 1fr; }.lead-grid article { min-height: 10rem; }.case-header { grid-template-columns: 58px 1fr; }.case-progress { grid-column: 1 / -1; display: flex; justify-content: center; }.case-progress div { margin-left: .4rem; } }
-  @media (max-width: 520px) { .briefing { grid-template-columns: 1fr; }.contact { width: 54px; height: 54px; }.optional { grid-template-columns: 38px 1fr; }.optional button { grid-column: 1 / -1; }.sample { transform: scale(.82); } }
+  @media (max-width: 520px) { .rest { grid-template-columns: 32px 1fr; } .rest button { grid-column: 1 / -1; justify-content: space-between; } .briefing { grid-template-columns: 1fr; }.contact { width: 54px; height: 54px; }.optional { grid-template-columns: 38px 1fr; }.optional button { grid-column: 1 / -1; }.sample { transform: scale(.82); } }
   @media (prefers-reduced-motion: reduce) { .sample .liquid::before, .sample i, .sample b, .lead-grid article, .briefing { animation: none; } }
 </style>

@@ -11,6 +11,7 @@
     caseBriefed,
     oncasebriefed,
     onstart,
+    onabandon,
     onsandbox,
     onexperiments,
     onmap,
@@ -22,11 +23,16 @@
     caseBriefed: boolean;
     oncasebriefed: () => void;
     onstart: (file: string) => void;
+    /** End the active mission without recording it, staying on the map so
+     * another can be chosen. */
+    onabandon?: () => void;
     onsandbox: () => void;
     onexperiments: () => void;
     onmap: () => void;
     onclose: () => void;
   } = $props();
+
+  let confirmingAbandon = $state(false);
 
   const districts = $derived(storyDistricts(missions, completed));
   let selectedId = $state(untrack(() => {
@@ -53,6 +59,19 @@
         </button>
       {:else if missions.length > 0}
         <span class="all-complete">✓ {t("all missions complete")}</span>
+      {/if}
+      {#if active !== null && onabandon}
+        {#if confirmingAbandon}
+          <div class="abandon-confirm" role="group" aria-label={t("abandon mission")}>
+            <small>{t("End this mission? It will not be recorded as complete, and your bench keeps everything on it.")}</small>
+            <div>
+              <button class="abandon" onclick={() => { confirmingAbandon = false; onabandon(); }}>{t("abandon mission")}</button>
+              <button class="abandon-cancel" onclick={() => (confirmingAbandon = false)}>{t("cancel")}</button>
+            </div>
+          </div>
+        {:else}
+          <button class="abandon" onclick={() => (confirmingAbandon = true)}>{t("abandon mission")}</button>
+        {/if}
       {/if}
       <div class="research-score" aria-label={t("{count} missions complete", { count: completedCount })}>
         <strong>{completedCount}</strong><span>{t("discoveries")}</span>
@@ -169,6 +188,11 @@
   .next-investigation strong { grid-column: 1; overflow: hidden; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
   .next-investigation span { grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--discovery); }
   .all-complete { color: var(--success); font-size: .72rem; font-weight: 850; }
+  .abandon { padding: .45rem .7rem; border: 1px solid color-mix(in srgb, var(--danger) 40%, var(--edge)); border-radius: 12px; color: var(--danger); background: var(--surface); cursor: pointer; font: inherit; font-size: .7rem; font-weight: 800; }
+  .abandon-cancel { padding: .45rem .7rem; border: 1px solid var(--edge); border-radius: 12px; color: var(--ink); background: var(--surface); cursor: pointer; font: inherit; font-size: .7rem; font-weight: 800; }
+  .abandon-confirm { max-width: 17rem; display: grid; gap: .35rem; }
+  .abandon-confirm small { color: var(--dim); font-size: .64rem; line-height: 1.3; }
+  .abandon-confirm div { display: flex; gap: .35rem; }
   .research-score { min-width: 5rem; margin-left: auto; display: grid; justify-items: center; padding: .6rem 1rem; border: 1px solid color-mix(in srgb, var(--discovery) 35%, var(--edge)); border-radius: 16px; background: color-mix(in srgb, var(--surface) 72%, transparent); }
   .research-score strong { color: var(--discovery); font-size: 1.55rem; line-height: 1; }
   .research-score span { color: var(--dim); font-size: .65rem; }
@@ -215,6 +239,7 @@
     header { padding: 1rem 3.8rem 1rem 1rem; }
     .research-score { display: none; }
     .next-investigation, .all-complete { display: none; }
+    .abandon-confirm { max-width: none; }
     .map-and-board { display: block; overflow: auto; }
     .campus { overflow: visible; }
     .mission-board { overflow: visible; }

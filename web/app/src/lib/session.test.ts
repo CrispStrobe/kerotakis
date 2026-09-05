@@ -393,6 +393,42 @@ describe("Session", () => {
     expect(s.missionDebrief).toMatchObject({ id: "silver-and-salt", firstCompletion: true });
   });
 
+  it("abandons an outcome mission without banking its partial evidence", async () => {
+    // Abandoning is how a learner gets to choose a different mission, so it
+    // has to be genuinely free: nothing recorded, no debrief, no half-secured
+    // contract left behind to complete the mission the moment it is restarted.
+    const host = new FakeHost();
+    host.runScript = async (line) => ({
+      steps: [{
+        operator: {},
+        events: line.includes("AgNO3")
+          ? [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.0099 }]
+          : [],
+        rendered: [`did: ${line}`],
+      }],
+      scene: { scene: 1, vessels: [] },
+    });
+    const s = new Session(host, new FakeStorage(), "story");
+    s.startLesson("one-thing-at-a-time", "# Separate it\nadd v1 water 100mL\n");
+    await s.submit("add v1 water 100mL");
+    expect(s.missionOutcome).not.toBeNull();
+
+    s.exitLesson();
+    expect(s.lesson).toBeNull();
+    expect(s.missionOutcome).toBeNull();
+    expect(s.missionDebrief).toBeNull();
+    expect(s.completedMissions.size).toBe(0);
+    // The bench is untouched — leaving a mission is not an undo.
+    expect(s.commandLog).toContain("add v1 water 100mL");
+    // And it is said out loud, so the notebook shows why the mission stopped.
+    expect(s.feed.some((entry) => entry.text.includes("one thing at a time"))).toBe(true);
+
+    // Restarting it starts it over rather than finishing it.
+    s.startLesson("one-thing-at-a-time", "# Separate it\nadd v1 water 100mL\n");
+    expect(s.missionOutcome?.secured).toEqual([]);
+    expect(s.completedMissions.size).toBe(0);
+  });
+
   it("persists mission completion but does not complete an exited lesson", async () => {
     const values = new Map<string, string>();
     const storage = {

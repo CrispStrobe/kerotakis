@@ -21,6 +21,10 @@
   } = $props();
 
   let hintOpen = $state(false);
+  /** Leaving is cheap but not free: it ends the mission without recording
+   * it, and the bench keeps everything. Both halves of that are worth one
+   * click to confirm, in place, rather than a modal over the chemistry. */
+  let confirmingExit = $state(false);
   const secured = $derived(new Set(outcome?.secured ?? []));
   const activeHint = $derived(outcome?.contract.hint ?? (next ? missionHint(next) : ""));
 </script>
@@ -49,7 +53,13 @@
       <button onclick={onreturn} disabled={busy}>{t("return to the script")}</button>
     {/if}
     <button class="journal-button" aria-expanded={journalOpen} onclick={() => (journalOpen = !journalOpen)}>▤ {t("mission journal")}</button>
-    <button class="leave" onclick={onexit}>{t("leave mission")}</button>
+    {#if confirmingExit}
+      <span class="leave-confirm">{t("End this mission? It will not be recorded as complete, and your bench keeps everything on it.")}</span>
+      <button class="leave" onclick={() => { confirmingExit = false; onexit(); }}>{t("abandon mission")}</button>
+      <button onclick={() => (confirmingExit = false)}>{t("cancel")}</button>
+    {:else}
+      <button class="leave" onclick={() => (confirmingExit = true)}>{t("leave mission")}</button>
+    {/if}
   </div>
   {#if journalOpen}
     <section class="journal" aria-label={t("mission journal")}>
@@ -126,6 +136,7 @@
   .next { min-width: 5.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; color: var(--on-accent); border-color: var(--discovery); background: var(--discovery); font-weight: 750; }
   .deviation { color: var(--dim); font-size: 0.7rem; }
   .leave { color: var(--dim); }
+  .leave-confirm { color: var(--dim); font-size: .72rem; line-height: 1.3; }
   .journal-button { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 35%, var(--edge)); }
   .journal { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(17rem, .85fr) minmax(20rem, 1.15fr); gap: .65rem; padding: .75rem; border: 1px solid color-mix(in srgb, var(--discovery) 30%, var(--edge)); border-radius: 16px; background: color-mix(in srgb, var(--panel-raised) 82%, var(--panel)); animation: journal-in 220ms ease both; }
   @keyframes journal-in { from { opacity: 0; transform: translateY(-5px); } }

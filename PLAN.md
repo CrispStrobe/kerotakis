@@ -91,10 +91,14 @@ explore a place or problem
 
 The current playable campaign shell implements the first part of that loop as
 a non-linear research campus. Discovery Hall starts with the shipped beginner
-and safety missions; the first completion opens two simultaneous routes through
-Matter Gardens and the Energy Yard. Later districts preview their requirements,
-completion is stored by stable lesson id in the Story save, and Sandbox remains
-an independent full-access world. Contacts, material rewards, and transactional
+and safety missions, all of them openable in any order — the case file names
+four of them as leads and the board lists the rest of the district beneath it,
+rather than leaving them counted but undrawn; the first completion opens two
+simultaneous routes through Matter Gardens and the Energy Yard. An active
+mission can be abandoned at any time, which records nothing and returns to the
+map. Later districts preview their requirements, completion is stored by stable
+lesson id in the Story save, and Sandbox remains an independent full-access
+world. Contacts, material rewards, and transactional
 engine-evaluated mission outcomes remain roadmap work rather than decorative
 claims in the interface.
 
