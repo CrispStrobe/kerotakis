@@ -2140,6 +2140,12 @@
   "gathers evidence for this concept": "sammelt Belege für diesen Begriff",
   "puts these materials on the bench": "stellt diese Materialien auf die Werkbank",
   "kids task": "Kinderversuch",
-  "mission": "Mission"
+  "mission": "Mission",
+  "from your bench": "von deiner Werkbank",
+  "from your mission": "aus deiner Mission",
+  "next in the catalogue": "als Nächstes im Katalog",
+  "choose which equation to balance": "wähle, welche Gleichung du ausgleichen willst",
+  "recommended": "empfohlen",
+  "already balanced": "schon ausgeglichen"
  }
 }

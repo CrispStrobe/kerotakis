@@ -21,10 +21,13 @@
   import type { Session } from "../session.svelte";
   import type { BalanceExercise, BalanceMark } from "../host/EngineHost";
   import { t, tSlug } from "../i18n.svelte";
+  import { scriptKit } from "../codex";
   import {
-    balancingSources,
+    balancingCandidates,
     markMessage,
     nextSource,
+    originReason,
+    skeletonOf,
     type BalancingSource,
   } from "../balancing";
 
@@ -34,11 +37,32 @@
     onclose,
   }: {
     session: Session;
-    entries: { id: string; equation?: string | null }[];
+    entries: { id: string; equation?: string | null; setup?: { script: string } }[];
     onclose: () => void;
   } = $props();
 
-  const sources = $derived(balancingSources(entries, session.benchEquations));
+  /** Answered correctly this round, so the ordering can put them last. */
+  let solved = $state<ReadonlySet<string>>(new Set());
+
+  const kits = $derived(
+    new Map(entries.map((entry) => [entry.id, entry.setup ? scriptKit(entry.setup.script) : []])),
+  );
+  const sources = $derived(
+    balancingCandidates({
+      entries,
+      benchEquations: session.benchEquations,
+      missionKit: session.lesson?.kit,
+      entryKit: (id) => kits.get(id) ?? [],
+      met: session.completedExperiments,
+      solved,
+    }),
+  );
+  /** Enough to choose from without turning the drill into a catalogue. */
+  const shortlist = $derived(sources.slice(0, 8));
+  /** The label for a candidate — never its coefficients, which are the
+   * answer to the very question it would be chosen for. */
+  const candidateLabel = (candidate: BalancingSource): string =>
+    candidate.origin === "bench" ? skeletonOf(candidate.equation) : tSlug(candidate.id);
 
   let asked = $state<string[]>([]);
   let source = $state<BalancingSource | null>(null);
@@ -57,7 +81,7 @@
   let right = $state(0);
   let done = $state(0);
 
-  async function draw() {
+  async function draw(chosen: BalancingSource | null = null) {
     mark = null;
     revealed = null;
     revealError = null;
@@ -82,7 +106,10 @@
       // being shown as a broken question. Bounded, so a codex full of
       // prose cannot spin here.
       for (let attempt = 0; attempt < 12; attempt += 1) {
-        const candidate = nextSource(sources, asked);
+        // A learner's explicit pick is asked exactly once, and only on the
+        // first turn of the loop: if the engine refuses it the drill falls
+        // back to the ordered list rather than looping on the refusal.
+        const candidate = attempt === 0 && chosen ? chosen : nextSource(sources, asked);
         if (!candidate) break;
         asked = [...asked, candidate.id];
         const reply = await session.balanceExercise(candidate.equation);
@@ -127,6 +154,9 @@
       if (mark === null && result.verdict !== "incomplete") {
         done += 1;
         if (result.verdict === "correct") right += 1;
+      }
+      if (result.verdict === "correct" && source) {
+        solved = new Set([...solved, source.id]);
       }
       mark = result;
     } finally {
@@ -186,10 +216,36 @@
         <p class="empty">{t("drawing a question…")}</p>
       {:else}
         <p class="origin">
-          {source?.origin === "bench" ? t("from this session's own bench") : t("from the experiment catalogue")}
-          {#if source && source.origin === "codex"}<span class="slug">{tSlug(source.id)}</span>{/if}
+          {source ? t(originReason(source.origin)) : ""}
+          {#if source && source.origin !== "bench"}<span class="slug">{tSlug(source.id)}</span>{/if}
         </p>
         <p class="skeleton">{exercise.skeleton}</p>
+
+        {#if shortlist.length > 1}
+          <details class="pick">
+            <summary>{t("choose which equation to balance")}</summary>
+            <ul>
+              {#each shortlist as candidate, index (candidate.id)}
+                <li>
+                  <button
+                    class="candidate"
+                    class:on={source?.id === candidate.id}
+                    aria-pressed={source?.id === candidate.id}
+                    disabled={loading}
+                    onclick={() => void draw(candidate)}
+                  >
+                    <span class="candidate-name">{candidateLabel(candidate)}</span>
+                    <span class="candidate-why">
+                      {t(originReason(candidate.origin))}
+                      {#if index === 0}· {t("recommended")}{/if}
+                      {#if candidate.solved}· {t("already balanced")}{/if}
+                    </span>
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          </details>
+        {/if}
 
         <form
           class="answer"
@@ -275,6 +331,15 @@
   .close { margin-left: auto; border: 0; color: var(--dim); background: none; font-size: 1.3rem; cursor: pointer; }
   .body { display: grid; gap: .7rem; overflow-y: auto; padding: 1rem 1.1rem; }
   .empty { margin: 0; color: var(--dim); font-size: .85rem; }
+  .pick { border: 1px solid var(--edge); border-radius: 9px; background: var(--surface); }
+  .pick summary { padding: .4rem .6rem; color: var(--dim); font-size: .74rem; cursor: pointer; }
+  .pick ul { display: grid; gap: .2rem; max-height: 11rem; overflow-y: auto; margin: 0; padding: 0 .4rem .4rem; list-style: none; }
+  .candidate { width: 100%; display: grid; gap: .1rem; padding: .35rem .45rem; border: 1px solid transparent; border-radius: 7px; color: var(--ink); background: none; font: inherit; text-align: left; cursor: pointer; }
+  .candidate:hover:not(:disabled) { border-color: var(--edge-strong); }
+  .candidate.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+  .candidate:disabled { opacity: .5; cursor: default; }
+  .candidate-name { overflow: hidden; font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
+  .candidate-why { color: var(--dim); font-size: .66rem; }
   .origin { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; color: var(--dim); font-size: .68rem; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
   .slug { color: var(--ink); text-transform: none; letter-spacing: 0; }
   .skeleton { overflow-x: auto; margin: 0; padding: .5rem .6rem; border: 1px dashed var(--edge-strong); border-radius: 9px; background: var(--surface); font-family: ui-monospace, SFMono-Regular, monospace; font-size: .9rem; white-space: nowrap; }
