@@ -1,4 +1,41 @@
 {
+  "antacid-suspension": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0100 mol hydrochloric acid",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0200 mol magnesium hydroxide",
+      "v1: not yet modelled — magnesium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "antacid-suspension.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.02,
+            "phase": "Solid",
+            "species": "Mg(OH)2"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "baking-powder-or-soda": {
     "event_count": 18,
     "events_sample": [
@@ -81,6 +118,61 @@
           }
         ],
         "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "balloon-pressure": {
+    "event_count": 10,
+    "events_sample": [
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: +5.000 g baking_soda (1 known ingredients)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 pressure gauge: 101.33 kPa",
+      "v1 volume meter: 500.00 mL",
+      "v1: pressure controlled at 1.000 bar; initial headspace 0.500 L",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 pressure gauge: 100.00 kPa",
+      "v1 volume meter: 506.62 mL"
+    ],
+    "lesson": "balloon-pressure.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "PressureControlled { pressure: Pascal(100000.0), volume: Liters(0.506625) }",
         "label": "beaker",
         "temperature_k": 298.15
       }
@@ -675,6 +767,81 @@
           },
           {
             "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "cola-shell-surrogate": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +104.000 g cola_drink (3 known ingredients)",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +2.000 g chalk_stick (1 known ingredients)",
+      "v1: 1.199e-5 mol chalk (calcium carbonate) dissolved",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: The liquid is white and so cloudy you cannot see through it, bubbles of gas are rising through it.",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: 1.299e-5 mol chalk (calcium carbonate) dissolved",
+      "v2: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v2: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "cola-shell-surrogate.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01417892,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.00001199,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997062,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.00053064,
+            "phase": "Liquid",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 5.10907577,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001299,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01996963,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 5.53427699,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1503,6 +1670,103 @@
       }
     ]
   },
+  "flame-colour-series": {
+    "event_count": 17,
+    "events_sample": [
+      "v1: +0.0171 mol sodium chloride",
+      "v1: flame test — sodium chloride colours the flame bright yellow",
+      "v2: new vessel",
+      "v2: +0.0134 mol potassium chloride",
+      "v2: flame test — potassium chloride colours the flame lilac",
+      "v3: new vessel",
+      "v3: +0.0090 mol calcium chloride",
+      "v3: flame test — calcium chloride colours the flame brick red",
+      "v4: new vessel",
+      "v4: +0.0100 mol strontium ion",
+      "v4: flame test — strontium ion colours the flame crimson red",
+      "v5: new vessel",
+      "v5: +0.0048 mol barium chloride",
+      "v5: flame test — barium chloride colours the flame apple green",
+      "v6: new vessel",
+      "v6: +0.0100 mol copper(II) ion",
+      "v6: flame test — copper(II) ion colours the flame blue-green"
+    ],
+    "lesson": "flame-colour-series.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01711069,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01341364,
+            "phase": "Solid",
+            "species": "KCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00901063,
+            "phase": "Solid",
+            "species": "CaCl2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Aqueous",
+            "species": "Sr+2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00480245,
+            "phase": "Solid",
+            "species": "BaCl2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Aqueous",
+            "species": "Cu+2"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "float-or-sink": {
     "event_count": 28,
     "events_sample": [
@@ -1589,6 +1853,80 @@
           },
           {
             "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "grinding-rate-boundary": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +2.000 g chalk_stick (1 known ingredients)",
+      "v1: chalk (calcium carbonate) ground to 50.0 µm — about 0.089 m² surface area",
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: 6.225e-6 mol chalk (calcium carbonate) dissolved",
+      "v1: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and clear, there is white chalk (calcium carbonate) at the bottom.",
+      "v2: new vessel",
+      "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: 6.225e-6 mol chalk (calcium carbonate) dissolved",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is colourless and clear, there is white chalk (calcium carbonate) at the bottom."
+    ],
+    "lesson": "grinding-rate-boundary.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.23e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997639,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.23e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997639,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.6525118,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1811,6 +2149,90 @@
       }
     ]
   },
+  "hard-water-soap-boundary": {
+    "event_count": 22,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0020 mol calcium chloride",
+      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0010 mol magnesium sulfate",
+      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +2.060 g dish_soap (1 known ingredients)",
+      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and cloudy.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +2.060 g dish_soap (1 known ingredients)",
+      "v2: The liquid is colourless and clear.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.0202 mol baking soda (sodium bicarbonate)",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +0.0099 mol calcium chloride",
+      "v3: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "hard-water-soap-boundary.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "MgSO4"
+          },
+          {
+            "moles": 5.62575631,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.62575631,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0099117,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 0.02023641,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "heating-proteins": {
     "event_count": 17,
     "events_sample": [
@@ -1972,6 +2394,88 @@
         ],
         "headspace": "Open",
         "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "invisible-ink-boundary": {
+    "event_count": 21,
+    "events_sample": [
+      "v1: +2.000 g paper_sheet (1 known ingredients)",
+      "v1: +2.060 g lemon_juice (5 known ingredients)",
+      "v1: 0.0001 mol D-fructose (fruit sugar) dissolved",
+      "v1: 0.0001 mol D-glucose (dextrose) dissolved",
+      "v1: 3.009e-5 mol sucrose dissolved",
+      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: 25.0 °C → 221.7 °C",
+      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
+      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
+      "v1: 221.7 °C → 2188.2 °C",
+      "v1: 20.00 kJ requested; 20.00 kJ delivered — time model not yet coupled",
+      "v1: not yet modelled — the aqueous model's temperature ceiling at 300 °C: the shipped thermodynamic databases' temperature expressions end there, so this solution is reported uncharacterised rather than extrapolated",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
+      "v2: new vessel",
+      "v2: +2.000 g paper_sheet (1 known ingredients)",
+      "v2: +0.5000 mol oxygen",
+      "v2: not yet modelled — whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way"
+    ],
+    "lesson": "invisible-ink-boundary.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0104847,
+            "phase": "Solid",
+            "species": "cellulose"
+          },
+          {
+            "moles": 0.00050395,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00011435,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00011435,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00003009,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.10371468,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 2461.3808
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.5,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0104847,
+            "phase": "Solid",
+            "species": "cellulose"
+          }
+        ],
+        "headspace": "Open",
+        "label": "crucible",
         "temperature_k": 298.15
       }
     ]
@@ -2369,6 +2873,89 @@
       }
     ]
   },
+  "lemonade-indicator": {
+    "event_count": 16,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0010 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0000 mol bromothymol blue",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and cloudy.",
+      "v2: new vessel",
+      "v2: +103.000 g lemon_juice (5 known ingredients)",
+      "v2: 0.0057 mol D-fructose (fruit sugar) dissolved",
+      "v2: 0.0057 mol D-glucose (dextrose) dissolved",
+      "v2: 0.0015 mol sucrose dissolved",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +0.0000 mol bromothymol blue",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is white and so cloudy you cannot see through it.",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "lemonade-indicator.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 0.00001,
+            "phase": "Aqueous",
+            "species": "bromothymol_blue"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00001,
+            "phase": "Aqueous",
+            "species": "bromothymol_blue"
+          },
+          {
+            "moles": 0.0251974,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00571727,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00571727,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00150454,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.18573411,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "limewater": {
     "event_count": 9,
     "events_sample": [
@@ -2548,6 +3135,100 @@
           },
           {
             "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "metal-acid-race": {
+    "event_count": 20,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1000 mol hydrochloric acid",
+      "v1: +0.0100 mol magnesium",
+      "v1: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 25.00 °C",
+      "v1: The liquid is colourless and clear, there is white magnesium at the bottom.",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.1000 mol hydrochloric acid",
+      "v2: +0.0100 mol zinc",
+      "v2: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 thermometer: 25.00 °C",
+      "v2: The liquid is colourless and clear, there is grey zinc at the bottom.",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.1000 mol hydrochloric acid",
+      "v3: +0.0100 mol copper",
+      "v3: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3 thermometer: 25.00 °C",
+      "v3: The liquid is colourless and clear, there is orange copper at the bottom."
+    ],
+    "lesson": "metal-acid-race.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "Mg"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 5.53427699,
             "phase": "Liquid",
             "species": "water"
           }
@@ -3208,6 +3889,74 @@
       }
     ]
   },
+  "rubbery-bone-boundary": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +2.000 g chalk_stick (1 known ingredients)",
+      "v1: 6.494e-6 mol chalk (calcium carbonate) dissolved",
+      "v1: chalk (calcium carbonate) does not react — chalk (calcium carbonate) does not dissolve in water: its reviewed solubility is 0.0013 g per 100 mL, which is below anything a beaker would show. It is still all there",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v2: new vessel",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: 6.225e-6 mol chalk (calcium carbonate) dissolved",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "rubbery-bone-boundary.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 6.49e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997612,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 6.23e-6,
+            "phase": "Aqueous",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.01997639,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "rusting": {
     "event_count": 40,
     "events_sample": [
@@ -3395,6 +4144,63 @@
       }
     ]
   },
+  "salt-or-sugar-ice": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: 25.0 °C → 0.0 °C",
+      "v1: +5.5343 mol water",
+      "v1: 0.0 °C → 1.0 °C",
+      "v1: +0.3422 mol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 1.00 °C",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
+      "v2: new vessel",
+      "v2: 25.0 °C → 0.0 °C",
+      "v2: +5.5343 mol water",
+      "v2: 0.0 °C → 1.6 °C",
+      "v2: +0.0584 mol sucrose",
+      "v2: 0.0584 mol sucrose dissolved",
+      "v2 thermometer: 1.59 °C",
+      "v2: The liquid is colourless and clear."
+    ],
+    "lesson": "salt-or-sugar-ice.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.34221378,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 274.1455
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05842888,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 274.7387
+      }
+    ]
+  },
   "sealed-gas": {
     "event_count": 13,
     "events_sample": [
@@ -3455,6 +4261,83 @@
         "contents": [],
         "headspace": "Open",
         "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "sealed-mass-conservation": {
+    "event_count": 10,
+    "events_sample": [
+      "v1: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air",
+      "v1: +5.000 g baking_soda (1 known ingredients)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 balance: 55.89 g",
+      "v2: new vessel",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: +5.000 g baking_soda (1 known ingredients)",
+      "v2: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 balance: 55.30 g"
+    ],
+    "lesson": "sealed-mass-conservation.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 8.17e-6,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01614729,
+            "phase": "Gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 0.00428156,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Sealed { volume: Liters(0.5) }",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.05951885,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "flask",
         "temperature_k": 298.15
       }
     ]
