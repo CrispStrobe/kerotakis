@@ -439,7 +439,10 @@
   "naphthalene": "Naphthalin",
   "hydrogen sulfide": "Schwefelwasserstoff",
   "chlorophyll a": "Chlorophyll a",
-  "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)"
+  "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)",
+  "naked egg osmosis": "Osmose beim nackten Ei",
+  "hard water soap scum": "Seifenkalk in hartem Wasser",
+  "apple browning": "Bräunung eines Apfels"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
@@ -2058,9 +2061,6 @@
   "alkaline battery electrolyte": "Alkalibatterie-Elektrolyt",
   "cake batter": "Kuchenteig",
   "popcorn kernel": "Puffmaiskorn",
-  "naked egg osmosis": "Osmose beim nackten Ei",
-  "hard water soap scum": "Seifenkalk in hartem Wasser",
-  "apple browning": "Bräunung eines Apfels",
   "browned": "gebräunt",
   "soap-scum aggregate": "Seifenkalk-Aggregat",
   "naked_egg": "nacktes Ei",
