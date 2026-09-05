@@ -58,6 +58,14 @@ export interface KidsConnections {
   linkedLearning: number;
 }
 
+export function guidedLearningLabel(completed: boolean): "continue guided lesson" | "replay guided lesson" {
+  return completed ? "replay guided lesson" : "continue guided lesson";
+}
+
+export function codexLearningLabel(completed: boolean): "continue Codex investigation" | "replay Codex investigation" {
+  return completed ? "replay Codex investigation" : "continue Codex investigation";
+}
+
 /** Resolve only exported identifiers. Broken references disappear safely. */
 export function kidsConnections(
   entry: KidsExperiment,

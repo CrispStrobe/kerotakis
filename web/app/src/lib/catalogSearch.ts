@@ -14,6 +14,13 @@ export function experimentHasProgress(
   return filter === "completed" ? done : !done;
 }
 
+export function experimentProgressLabel(
+  entry: Pick<CodexEntry, "id">,
+  completedIds: ReadonlySet<string>,
+): "completed" | "not tried" {
+  return completedIds.has(entry.id) ? "completed" : "not tried";
+}
+
 /** Search as a learner types: case- and accent-insensitive, without changing formulae. */
 export function normalizeCatalogText(value: string): string {
   return value

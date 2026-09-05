@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { kidsConnections, kidsExperimentMatches, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
+import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
 
 const apple: KidsExperiment = {
   id: "K45", title: "Stop an apple going brown", phenomenon: "Enzymatic browning",
@@ -48,6 +48,13 @@ describe("kids catalog", () => {
     expect(progress([], [])).toBe("none");
     expect(progress(["apple-browning"], [])).toBe("some");
     expect(progress(["apple-browning"], ["vitamin-c"])).toBe("all");
+  });
+
+  it("uses Continue until stable completion exists, then Replay", () => {
+    expect(guidedLearningLabel(false)).toBe("continue guided lesson");
+    expect(guidedLearningLabel(true)).toBe("replay guided lesson");
+    expect(codexLearningLabel(false)).toBe("continue Codex investigation");
+    expect(codexLearningLabel(true)).toBe("replay Codex investigation");
   });
 
   it("searches number, title, ingredient, apparatus and boundary text", () => {

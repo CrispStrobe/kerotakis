@@ -108,6 +108,10 @@ export function nextUnlockedMission(
   return available.find((mission) => missionId(mission.file) === activeId) ?? available[0] ?? null;
 }
 
+export function continuationLabel(mission: MissionSummary, activeId: string | null): "continue investigation" | "next investigation" {
+  return missionId(mission.file) === activeId ? "continue investigation" : "next investigation";
+}
+
 /** Locate a mission on the existing map so its district can be selected. */
 export function missionDistrictId(
   missions: MissionSummary[],

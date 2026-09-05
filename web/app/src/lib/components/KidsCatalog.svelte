@@ -1,6 +1,6 @@
 <script lang="ts">
   import { i18n, t } from "../i18n.svelte";
-  import { kidsConnections, kidsExperimentMatches, kidsText, type KidsExperiment, type KidsStatus } from "../kidsCatalog";
+  import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsText, type KidsExperiment, type KidsStatus } from "../kidsCatalog";
 
   let { entries, capabilityIds, codexIds, completedMissions, completedExperiments, onlesson, onquest, oncapability, oncodex, onsandbox, onclose }: {
     entries: KidsExperiment[];
@@ -65,14 +65,14 @@
                 <button class="related" onclick={() => oncapability(id)}>{t("related question")} <span>{id}</span> →</button>
               {/each}
               {#each links.codex as id (id)}
-                <button class="related" onclick={() => oncodex(id)}>{links.codexCompleted.includes(id) ? t("replay Codex investigation") : t("continue Codex investigation")} <span>{id.replaceAll("-", " ")}</span> →</button>
+                <button class="related" onclick={() => oncodex(id)}>{t(codexLearningLabel(links.codexCompleted.includes(id)))} <span>{id.replaceAll("-", " ")}</span> →</button>
               {/each}
               {#if links.lessonCompleted}<span class="saved">✓ {t("guided completion saved")}</span>{/if}
             </div>
           {/if}
           <footer>
             <span>{entry.topics.map((value) => t(value)).join(" · ")}</span>
-            {#if entry.lesson}<button onclick={() => onlesson(entry.lesson!)}>{links.lessonCompleted ? t("replay guided lesson") : t("continue guided lesson")} →</button>{/if}
+            {#if entry.lesson}<button onclick={() => onlesson(entry.lesson!)}>{t(guidedLearningLabel(links.lessonCompleted))} →</button>{/if}
             {#if entry.quest}<button onclick={() => onquest(entry.quest!)}>{t("start quest")} →</button>{/if}
             {#if !entry.lesson && !entry.quest && (entry.status === "computed" || entry.status === "partial")}<button class="sandbox" onclick={() => onsandbox(entry)}>{t("explore in Sandbox")} →</button>{/if}
             {#if !entry.lesson && !entry.quest && entry.status !== "computed" && entry.status !== "partial"}<span class="no-launch">{t("documented boundary")}</span>{/if}

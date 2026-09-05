@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { t } from "../i18n.svelte";
-  import { missionDistrictId, missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
+  import { continuationLabel, missionDistrictId, missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
 
   let {
@@ -36,7 +36,6 @@
   const selected = $derived(districts.find((district) => district.id === selectedId) ?? districts[0]);
   const completedCount = $derived(completed.size);
   const nextMission = $derived(nextUnlockedMission(missions, completed, active));
-  const continuing = $derived(nextMission !== null && missionId(nextMission.file) === active);
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(event) => event.key === "Escape" && onclose()}>
@@ -49,7 +48,7 @@
       </div>
       {#if nextMission}
         <button class="next-investigation" onclick={() => onstart(nextMission.file)}>
-          <small>{continuing ? t("continue investigation") : t("next investigation")}</small>
+          <small>{t(continuationLabel(nextMission, active))}</small>
           <strong>{t(nextMission.name)}</strong><span aria-hidden="true">→</span>
         </button>
       {:else if missions.length > 0}
