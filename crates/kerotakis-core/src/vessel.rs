@@ -41,6 +41,37 @@ pub struct EnzymeHydrolysisState {
     pub converted_fraction: f64,
 }
 
+/// A coherent prepared object whose resolved ingredients remain owned by the
+/// object rather than joining the bulk vessel phases. This is the minimum
+/// state needed for membranes and prepared food surfaces: chemistry can inspect
+/// the object's inventory without losing its identity. Additive/defaulted for
+/// backward-compatible snapshots.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialObject {
+    pub material: String,
+    pub recipe_id: String,
+    pub recipe_version: u32,
+    pub mass_g: f64,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub components: Vec<ObjectComponent>,
+    #[serde(default)]
+    pub state: MaterialObjectState,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ObjectComponent {
+    pub species: SpeciesId,
+    pub moles: Moles,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct MaterialObjectState {
+    #[serde(default)]
+    pub exchanged_water_moles: f64,
+    #[serde(default)]
+    pub browned_fraction: f64,
+}
+
 /// Persistent visual state for gas trapped by a declared foam stabilizer.
 /// Chemistry still owns every gas mole; this only describes a temporary
 /// bubble structure while it drains and coalesces.
@@ -692,6 +723,8 @@ pub struct Vessel {
     pub contents: Vec<Portion>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub material_objects: Vec<MaterialObject>,
     #[serde(default)]
     pub foam: FoamState,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -753,6 +786,7 @@ impl Vessel {
             label: label.into(),
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
+            material_objects: Vec::new(),
             foam: FoamState::default(),
             surface_particles: None,
             surface_colours: Vec::new(),
@@ -774,6 +808,7 @@ impl Vessel {
     pub fn is_empty(&self) -> bool {
         self.contents.is_empty()
             && self.unresolved_materials.is_empty()
+            && self.material_objects.is_empty()
             && self.surfaces.is_empty()
             && self.exchanges.is_empty()
             && self.solid_solutions.is_empty()
@@ -992,7 +1027,19 @@ impl Vessel {
             .map(|solid_solution| solid_solution.mass().0)
             .sum();
         let unresolved_materials = crate::material::unresolved_material_mass_g(self);
-        Grams(contents + interfaces + exchangers + solid_solutions + unresolved_materials)
+        let material_objects: f64 = self
+            .material_objects
+            .iter()
+            .map(|object| object.mass_g)
+            .sum();
+        Grams(
+            contents
+                + interfaces
+                + exchangers
+                + solid_solutions
+                + unresolved_materials
+                + material_objects,
+        )
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an

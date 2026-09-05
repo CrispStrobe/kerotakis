@@ -75,6 +75,9 @@ pub struct SceneVessel {
     /// density rather than by the density of their resolved ingredients.
     #[serde(default)]
     pub bulk_objects: Vec<SceneBulkObject>,
+    /// Prepared coherent objects with object-owned inventories.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub material_objects: Vec<SceneMaterialObject>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -113,6 +116,15 @@ pub struct SceneVessel {
     /// Numbers worth pinning to the vessel, each with the confidence class
     /// its visual encoding follows (GUI-023).
     pub badges: Vec<Badge>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneMaterialObject {
+    pub material: String,
+    pub recipe_id: String,
+    pub mass_g: f64,
+    pub exchanged_water_moles: f64,
+    pub browned_fraction: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -576,6 +588,17 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         layers,
         solids,
         bulk_objects,
+        material_objects: v
+            .material_objects
+            .iter()
+            .map(|object| SceneMaterialObject {
+                material: object.material.clone(),
+                recipe_id: object.recipe_id.clone(),
+                mass_g: object.mass_g,
+                exchanged_water_moles: object.state.exchanged_water_moles,
+                browned_fraction: object.state.browned_fraction,
+            })
+            .collect(),
         bubbling: seen.bubbling,
         foam,
         surface_particles: v
