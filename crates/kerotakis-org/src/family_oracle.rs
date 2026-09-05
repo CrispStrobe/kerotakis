@@ -64,6 +64,12 @@ fn chematic_key(smiles: &str) -> Option<String> {
 /// The registry key whose curated structure canonicalises identically to
 /// `smiles`, if any — one algorithm, compared with itself.
 fn key_of_product(smiles: &str) -> Option<&'static str> {
+    // A curated SMILES written exactly as the toolkit wrote the product
+    // is the same structure by construction — and it is the only route
+    // for a bare ion like `[Na+]`, whose InChI the toolkit may not form.
+    if let Some((key, _)) = CURATED_STRUCTURES.iter().find(|(_, s)| *s == smiles) {
+        return Some(key);
+    }
     let want = chematic_key(smiles)?;
     CURATED_STRUCTURES
         .iter()
@@ -103,15 +109,20 @@ impl StructureOracle for ChematicOracle {
             validated: true,
         };
         // Whole molecules first.
-        if let Some(products) = run(&template, &substrate_smiles)? {
-            return Ok(Some(name_all(&record.id, &products, &[])?));
+        let whole = run(&template, &substrate_smiles);
+        if let Ok(Some(products)) = &whole {
+            return Ok(Some(name_all(&record.id, products, &[])?));
         }
         // A salt arrives as ONE registry species and two fragments — NaOH
         // is `[Na+].[OH-]` — while the pattern names only the fragment
-        // that reacts. Offer each fragment of one such substrate in its
-        // slot and carry the rest through unchanged, as spectators the
-        // ledger still has to name: the sodium does not vanish because
-        // the hydroxide was the interesting half.
+        // that reacts. Matched whole, the toolkit drops the spectator and
+        // the conservation ledger refuses the product set (Na: 1 in, 0
+        // out), which is the ledger doing its job, not the family being
+        // wrong. So offer each fragment of one such substrate in its slot
+        // and carry the rest through unchanged, as spectators the ledger
+        // still has to name: the sodium does not vanish because the
+        // hydroxide was the interesting half. The whole-molecule error is
+        // kept and surfaced only if no fragment matches either.
         for (slot, smiles) in substrate_smiles.iter().enumerate() {
             if !smiles.contains('.') {
                 continue;
@@ -131,7 +142,7 @@ impl StructureOracle for ChematicOracle {
                 }
             }
         }
-        Ok(None)
+        whole.map(|_| None)
     }
 }
 

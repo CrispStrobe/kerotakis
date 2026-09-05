@@ -41,7 +41,7 @@ min = 333.15
 species = { key = "H2SO4" }
 
 [family.outcome.equilibrium]
-log_k = 0.602
+log_k = 0.60206
 source = "Berthelot & Péan de Saint-Gilles (1862): K ≈ 4 for acetic acid + ethanol, equimolar conversion 2/3"
 
 [[family]]
