@@ -10,3 +10,6 @@ authors.workspace = true
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
 kerotakis-cea = { path = "../kerotakis-cea" }
+# BRD-020: the reaction-family router rides on kerotakis-org's structural
+# oracle; the stack owns its position, org owns the chemistry.
+kerotakis-org = { path = "../kerotakis-org" }

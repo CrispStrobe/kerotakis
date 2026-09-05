@@ -1048,8 +1048,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-020 — Reaction-family intermediate representation
 
-- [ ] **Status:** open; phase 1 (IR + chematic oracle, #272) and phase 2
-  (conservation ledger + order independence, 2026-09-02) landed. **Size:**
+- [ ] **Status:** open; phase 1 (IR + chematic oracle, #272), phase 2
+  (conservation ledger + order independence, 2026-09-02) and phase 3 (the
+  router in the standard stack, 2026-09-05) landed. **Size:**
   large. **Depends on:** BRD-012 and the landed kinetics/curated-reaction
   infrastructure.
   *Phase 2, 2026-09-02: the IR shipped contract-first — templates that could
@@ -1071,6 +1072,37 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   fallback, is an owner-level decision about precedence, and this phase
   builds the guard that has to exist before products may enter the vessel
   ledger at all.*
+  *Phase 3, 2026-09-05 — the router, decided and wired.* Precedence:
+  `FamilyRouter` sits in `kerotakis-stack` immediately after
+  `CuratedEquilibrator` and before every general engine. A curated pair is
+  the more specific claim and answers first; the bench screens the operator
+  for safety and resolves names at parse time before any solver sees the
+  vessel, so the position is the IR's "after safety and identity, before
+  honesty". The router (`kerotakis-core::family::FamilyRouter`, generic over
+  `StructureOracle`) asks a record only when its pattern matches species in
+  the vessel that have curated structures, in a fixed candidate order so
+  pouring order cannot change the answer; the gates then decide and the first
+  refusing gate names itself. Gate declines are quiet in the event stream
+  (a lesson that never meant to esterify does not gain a line per step) and
+  spoken through the solver's capability report; a product the registry
+  cannot name is a typed `NotYetModeled` refusal where the gates admit
+  (the vessel would run and the lab cannot name what forms), and a quiet
+  decline behind a closed gate — citric acid beside a sugar's alcohol group
+  matches the esterification pattern in every glass of lemonade, and six
+  corpus rows said so before this rule. Outcomes:
+  `to_completion` runs the limiting reagent; `equilibrium` solves the
+  mole-basis quotient to K (bidirectional, so a mixture past K runs back —
+  and added water pushes esterification back, computed); `kinetic_law`
+  declines by name until BRD-050 admits a law. Records ship as data,
+  `data/families/families-v1.toml`, linted on load; the chematic oracle
+  learned to offer one fragment of a salt (`[Na+].[OH-]`) in a slot and carry
+  the rest as named spectators, which is how the sodium survives
+  saponification. Pack v1: Fischer esterification (H₂SO₄, ≥ 60 °C, K = 4)
+  and alkaline ester hydrolysis (water-majority, ≥ 50 °C). The SN2/E2
+  templates stay out of the pack until their haloalkanes have curated
+  structures — a record that can never fire is documentation in a record's
+  clothes. Spoken declines as events are the next slice, gated on being able
+  to regenerate the lesson goldens.
 - **Outcome:** one audited rule can apply a known transformation to structurally
   matching substrates without becoming an arbitrary predictor.
 - **Scope:** versioned family records contain mapped reactant/product query,

@@ -27,6 +27,19 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
     let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
         Box::new(MixingEquilibrator),
         Box::new(CuratedEquilibrator),
+        // BRD-020 router decision (2026-09-05): reaction families sit
+        // immediately after the exact curated pairs and before every
+        // general engine. A curated row is the more specific claim, so it
+        // answers first; a family is asked only about structures the
+        // registry curated, and only once its gates admit the vessel — an
+        // acid and an alcohol standing cold and uncatalysed decline, in
+        // words the capability report carries, rather than esterify. The
+        // bench has screened the operator for safety and resolved every
+        // name at parse time before any solver sees the vessel, which is
+        // the IR's "after safety and identity resolution, before the
+        // honesty fallback". Products enter the ordinary ledger and the
+        // phase, thermal and aqueous routes below take them from there.
+        Box::new(kerotakis_org::family_oracle::family_equilibrator()),
         // EXP-33: sublimation and hydrate bookkeeping sit beside the
         // curated reactions and before anything aqueous. A hydrate must
         // have decided whether it still holds its water before a solver

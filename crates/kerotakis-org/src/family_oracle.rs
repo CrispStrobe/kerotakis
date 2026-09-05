@@ -16,10 +16,28 @@
 //!   the pool of the nameable is the boundary, exactly as in the thermal
 //!   solver's species pool.
 
-use kerotakis_core::family::{FamilyRecord, StructureOracle};
+use kerotakis_core::family::{FamilyRecord, FamilyRouter, StructureOracle};
 
 use crate::inchi_validate::CURATED_STRUCTURES;
 use crate::{groups, templates};
+
+/// The shipped family pack (BRD-020 → BRD-023 v1), linted at load.
+pub const FAMILY_PACK_V1: &str = include_str!("../../../data/families/families-v1.toml");
+
+/// The pack's records, or the lint's complaint. A shipped pack that does
+/// not lint is a build defect; `family_equilibrator` treats it as one.
+pub fn family_records() -> Result<Vec<FamilyRecord>, String> {
+    kerotakis_core::family::load_records(FAMILY_PACK_V1)
+}
+
+/// The reaction-family solver the standard stack carries: the shipped
+/// records over the chematic-backed oracle.
+pub fn family_equilibrator() -> FamilyRouter<ChematicOracle> {
+    FamilyRouter::new(
+        ChematicOracle,
+        family_records().expect("the shipped family pack lints clean"),
+    )
+}
 
 /// The registry-anchored structural oracle: structures come only from
 /// `CURATED_STRUCTURES` (the same table the official-InChI identity gate
@@ -46,6 +64,12 @@ fn chematic_key(smiles: &str) -> Option<String> {
 /// The registry key whose curated structure canonicalises identically to
 /// `smiles`, if any — one algorithm, compared with itself.
 fn key_of_product(smiles: &str) -> Option<&'static str> {
+    // A curated SMILES written exactly as the toolkit wrote the product
+    // is the same structure by construction — and it is the only route
+    // for a bare ion like `[Na+]`, whose InChI the toolkit may not form.
+    if let Some((key, _)) = CURATED_STRUCTURES.iter().find(|(_, s)| *s == smiles) {
+        return Some(key);
+    }
     let want = chematic_key(smiles)?;
     CURATED_STRUCTURES
         .iter()
@@ -84,30 +108,98 @@ impl StructureOracle for ChematicOracle {
             source: record.provenance.clone(),
             validated: true,
         };
-        let products = match templates::apply_template(&template, &substrate_smiles) {
-            Ok(p) if p.is_empty() => return Ok(None),
-            Ok(p) => p,
-            // A malformed pattern is a record bug, surfaced; a pattern
-            // that simply does not match reports "not asked" above.
-            Err(e) if e.contains("failed") => return Ok(None),
-            Err(e) => return Err(e),
-        };
-        let mut product_keys = Vec::with_capacity(products.len());
-        for p in &products {
-            match key_of_product(p) {
-                Some(key) => product_keys.push(key.to_string()),
-                None => {
-                    return Err(format!(
-                        "family {} produced a structure the registry cannot name ({p}); \
-                         the pool of the nameable is the boundary, and widening it is a \
-                         registry task, not a silent drop",
-                        record.id
-                    ))
+        // Whole molecules first.
+        let whole = run(&template, &substrate_smiles);
+        if let Ok(Some(products)) = &whole {
+            return Ok(Some(name_all(&record.id, products, &[])?));
+        }
+        // A salt arrives as ONE registry species and two fragments — NaOH
+        // is `[Na+].[OH-]` — while the pattern names only the fragment
+        // that reacts. Matched whole, the toolkit drops the spectator and
+        // the conservation ledger refuses the product set (Na: 1 in, 0
+        // out), which is the ledger doing its job, not the family being
+        // wrong. So offer each fragment of one such substrate in its slot
+        // and carry the rest through unchanged, as spectators the ledger
+        // still has to name: the sodium does not vanish because the
+        // hydroxide was the interesting half. The whole-molecule error is
+        // kept and surfaced only if no fragment matches either.
+        for (slot, smiles) in substrate_smiles.iter().enumerate() {
+            if !smiles.contains('.') {
+                continue;
+            }
+            let fragments: Vec<&str> = smiles.split('.').collect();
+            for (chosen, fragment) in fragments.iter().enumerate() {
+                let mut trial = substrate_smiles.clone();
+                trial[slot] = *fragment;
+                if let Some(products) = run(&template, &trial)? {
+                    let spectators: Vec<&str> = fragments
+                        .iter()
+                        .enumerate()
+                        .filter(|(i, _)| *i != chosen)
+                        .map(|(_, f)| *f)
+                        .collect();
+                    return Ok(Some(name_all(&record.id, &products, &spectators)?));
                 }
             }
         }
-        Ok(Some(product_keys))
+        whole.map(|_| None)
     }
+}
+
+/// One template application: `Ok(None)` when the pattern does not match,
+/// `Err` when the record itself is at fault (a malformed pattern, or a
+/// product set that does not conserve matter — surfaced, never swallowed).
+fn run(
+    template: &templates::ReactionTemplate,
+    smiles: &[&str],
+) -> Result<Option<Vec<String>>, String> {
+    match templates::apply_template(template, smiles) {
+        Ok(p) if p.is_empty() => Ok(None),
+        Ok(p) => Ok(Some(p)),
+        Err(e) if e.contains("failed") => Ok(None),
+        Err(e) => Err(e),
+    }
+}
+
+/// Registry keys for every product and every spectator fragment, or the
+/// refusal that names the structure nobody curated.
+fn name_all(family: &str, products: &[String], spectators: &[&str]) -> Result<Vec<String>, String> {
+    let mut keys = Vec::new();
+    for smiles in products
+        .iter()
+        .map(String::as_str)
+        .chain(spectators.iter().copied())
+    {
+        keys.extend(keys_of_product(family, smiles)?);
+    }
+    Ok(keys)
+}
+
+/// A product is named whole where the registry knows it whole, and
+/// fragment by fragment where the toolkit wrote a salt as `[Na+].CC(=O)[O-]`
+/// and the registry knows the ions. Anything else is the boundary.
+fn keys_of_product(family: &str, smiles: &str) -> Result<Vec<String>, String> {
+    if let Some(key) = key_of_product(smiles) {
+        return Ok(vec![key.to_string()]);
+    }
+    if smiles.contains('.') {
+        let mut keys = Vec::new();
+        for fragment in smiles.split('.') {
+            match key_of_product(fragment) {
+                Some(key) => keys.push(key.to_string()),
+                None => return Err(unnameable(family, smiles)),
+            }
+        }
+        return Ok(keys);
+    }
+    Err(unnameable(family, smiles))
+}
+
+fn unnameable(family: &str, smiles: &str) -> String {
+    format!(
+        "family {family} produced a structure the registry cannot name ({smiles}); the pool of \
+         the nameable is the boundary, and widening it is a registry task, not a silent drop"
+    )
 }
 
 #[cfg(test)]
