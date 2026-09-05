@@ -358,19 +358,16 @@ fn barrier_for(vessel: &Vessel, metal: &str) -> Option<&'static Barrier> {
             continue;
         }
         let source = lot.source.as_deref().unwrap_or("");
-        match BARRIERS
+        // Every lot of this metal has to have arrived under a barrier.
+        // A stainless spoon dropped in beside a bare nail protects the
+        // spoon and not the nail, and the bench cannot tell their iron
+        // apart once it is in `contents` — so the `?` here is the claim
+        // being withdrawn by ONE bare lot rather than extended to metal
+        // it was never about.
+        let barrier = BARRIERS
             .iter()
-            .find(|b| b.metal == metal && b.lot_source == source)
-        {
-            // Every lot of this metal has to have arrived under a
-            // barrier. A stainless spoon dropped in beside a bare nail
-            // protects the spoon and not the nail, and the bench cannot
-            // tell their iron apart once it is in `contents` — so the
-            // presence of ONE bare lot withdraws the claim rather than
-            // extending it to metal it was never about.
-            Some(barrier) => found = Some(barrier),
-            None => return None,
-        }
+            .find(|b| b.metal == metal && b.lot_source == source)?;
+        found = Some(barrier);
     }
     // `None` when no lot of this metal exists at all, which is the right
     // answer: a barrier is a claim about an object that was added, and
@@ -436,7 +433,7 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
     let mut out = Vec::new();
     for couple in present.iter().copied() {
         let metal = couple.reduced;
-        let name = display_name(metal).to_string();
+        let name = display_name(metal);
 
         if let Some(barrier) = barrier_for(vessel, metal) {
             out.push(Verdict {
@@ -473,7 +470,7 @@ pub fn verdicts(vessel: &Vessel) -> Vec<Verdict> {
         };
 
         if anode.reduced != metal {
-            let other = display_name(anode.reduced).to_string();
+            let other = display_name(anode.reduced);
             out.push(Verdict {
                 metal,
                 corroding: false,

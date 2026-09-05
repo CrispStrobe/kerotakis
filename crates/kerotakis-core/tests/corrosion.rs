@@ -204,7 +204,7 @@ fn the_anode_is_always_the_lower_potential_metal() {
             };
             assert_eq!(
                 corroding,
-                vec![expected],
+                [expected],
                 "{} against {}: exactly the lower-E° metal corrodes",
                 a.reduced,
                 b.reduced
