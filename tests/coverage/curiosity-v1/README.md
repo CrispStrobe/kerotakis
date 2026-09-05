@@ -93,6 +93,30 @@ smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
 
+## Refresh 2026-09-05, thirteenth — th-060, a fizz is not a fire
+
+`th-060` ("Why does damp wood burn poorly and smoke?") leaves `computed`
+for `qualitative`/`typed-observation`, and the row got *more* honest, not
+less. The bench's `ignite` used to decide the contents had caught because
+*something was consumed or a gas came off* during the step. Damp wood is
+cellulose plus liquid water; `combustion.rs` declines any vessel holding
+liquid water (a solution is not a fire, and two solvers must not own it),
+CEA has no cellulose, so nothing burned — but the water boiling off at the
+spark's 1200 K was read as ignition, the spark was never put out, and the
+row was filed as a computed burn. The same misreading cooked a beaker of
+vinegar and baking soda to 388 °C in a lesson (its CO₂ fizz was the "fire").
+
+Now only a combustion engine's `ThermalEquilibrium` carrying released energy
+counts as fire, which is how both CEA and the curated fuel table report a
+burn. Over damp wood the match goes out and the `look` is what remains: a
+typed observation. "Wood this wet does not catch from a match" is the first
+half of the school answer; the second half — it burns poorly and smokes once
+lit, because the water takes the heat and pyrolysis makes smoke — is still
+not modelled, and the row should be read as that gap, not as an answer. The
+older note two refreshes down that says the curated table "burns it instead"
+described the bench before `has_liquid_water` gated that table.
+
+
 ## Refresh 2026-09-05, twelfth — aq-036, the ammonia reaches the litmus
 
 `aq-036` ("Can damp litmus identify ammonia gas?") leaves `missing` for
