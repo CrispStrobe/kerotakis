@@ -307,6 +307,60 @@ mod tests {
         assert!(pack_for(&lone).is_none());
     }
 
+    /// Renaming changes the names and nothing else: the raw pack with `H2O`
+    /// and the shipped pack with `water`, run on identical vessels for the
+    /// same ten milliseconds, leave the same hydrogen.
+    #[test]
+    fn renaming_changes_nothing_but_the_names() {
+        use crate::kinetics::{advance_network_with_options, IntegrationOptions};
+        use crate::units::{Kelvin, Liters, Moles};
+        use crate::vessel::{Headspace, Vessel, VesselId};
+        use crate::SpeciesId;
+        let options = IntegrationOptions {
+            relative_tolerance: 1e-6,
+            absolute_tolerance_moles: 1e-14,
+            initial_step_seconds: 1e-9,
+        };
+        let reactor = |water_key: &str| {
+            let mut v = Vessel::new(VesselId(0), "r");
+            v.temperature = Kelvin(1200.0);
+            v.headspace = Headspace::Sealed {
+                volume: Liters(1.0),
+            };
+            for (k, n) in [("H2", 2e-3), ("O2", 1e-3), ("N2", 4e-3)] {
+                v.deposit(SpeciesId::new(k), Moles(n), Phase::Gas);
+            }
+            for k in ["H", "O", "OH", "HO2", "H2O2", water_key] {
+                v.deposit(SpeciesId::new(k), Moles(1e-7), Phase::Gas);
+            }
+            v.refresh_pressure();
+            v
+        };
+        let raw = parse_yaml(PACKS[0].1).unwrap();
+        let arena = MechanismArena::default();
+        let raw_network = raw.compile_in(&arena);
+        let mut a = reactor("H2O");
+        advance_network_with_options(&mut a, 1e-2, &raw_network, options).unwrap();
+        let shipped_pack = shipped()
+            .iter()
+            .find(|p| p.id == "h2-o2-skeletal-v1")
+            .unwrap();
+        let mut b = reactor("water");
+        advance_network_with_options(&mut b, 1e-2, &shipped_pack.network, options).unwrap();
+        let h2 = |v: &Vessel| v.moles_of(&SpeciesId::new("H2")).0;
+        assert!(
+            (h2(&a) - h2(&b)).abs() < 1e-9,
+            "raw {} vs renamed {} mol H2 left",
+            h2(&a),
+            h2(&b)
+        );
+        assert!(
+            h2(&a) < 0.2e-3,
+            "and the raw pack burns through: {} left",
+            h2(&a)
+        );
+    }
+
     #[test]
     fn every_shipped_species_has_a_formation_enthalpy() {
         for pack in shipped() {

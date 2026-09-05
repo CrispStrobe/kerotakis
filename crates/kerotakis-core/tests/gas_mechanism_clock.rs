@@ -48,25 +48,59 @@ fn a_hot_seeded_hydrogen_vessel_burns_on_the_clock_and_heats_up() {
         !reacted.is_empty(),
         "the pack's steps should report: {events:?}"
     );
+    let burned = 2.0e-3 - moles(&vessel, "H2");
     assert!(
-        moles(&vessel, "H2") < 0.2e-3,
-        "most hydrogen burned: {}",
+        burned > 1.0e-3,
+        "the clock burns most of the hydrogen: {} mol left",
         moles(&vessel, "H2")
     );
+    let water_made = moles(&vessel, "water") - 1e-7;
     assert!(
-        moles(&vessel, "water") > 1.8e-3,
-        "into water: {}",
-        moles(&vessel, "water")
+        water_made > 0.9 * burned,
+        "into water: {water_made} mol from {burned} mol of H2"
     );
-    let heat = events.iter().find_map(|e| match e {
-        Event::ReactionHeatReleased {
-            reaction, energy_j, ..
-        } if reaction == "h2-o2-skeletal-v1" => Some(*energy_j),
-        _ => None,
-    });
-    // 2 H2 + O2 → 2 H2O(g): 483.6 kJ per 2 mol H2 → ~484 J for 2 mmol.
-    let heat = heat.expect("the burn's heat is reported");
-    assert!((400.0..500.0).contains(&heat), "released {heat} J");
+
+    // The route IS the integrator: the same vessel handed to the pack's
+    // network directly lands in the same place.
+    let mut direct = reactor(1.0, 1200.0, &feeds);
+    let pack = shipped()
+        .iter()
+        .find(|p| p.id == "h2-o2-skeletal-v1")
+        .unwrap();
+    kerotakis_core::kinetics::advance_network_with_options(
+        &mut direct,
+        1.0e-2,
+        &pack.network,
+        kerotakis_core::kinetics::IntegrationOptions {
+            relative_tolerance: 1e-6,
+            absolute_tolerance_moles: 1e-14,
+            initial_step_seconds: 1e-9,
+        },
+    )
+    .expect("integrates");
+    assert!(
+        (moles(&direct, "H2") - moles(&vessel, "H2")).abs() < 1e-9,
+        "clock {} vs direct {}",
+        moles(&vessel, "H2"),
+        moles(&direct, "H2")
+    );
+
+    // The heat is the formation-enthalpy difference over what reacted:
+    // 241.8 kJ per mole of water made, to within the radicals' share.
+    let heat = events
+        .iter()
+        .find_map(|e| match e {
+            Event::ReactionHeatReleased {
+                reaction, energy_j, ..
+            } if reaction == "h2-o2-skeletal-v1" => Some(*energy_j),
+            _ => None,
+        })
+        .expect("the burn's heat is reported");
+    let expected = 241_826.0 * water_made;
+    assert!(
+        (heat - expected).abs() < 0.05 * expected,
+        "released {heat} J for {water_made} mol of water (expected ≈ {expected} J)"
+    );
     assert!(
         vessel.temperature.0 > 1200.0,
         "an adiabatic vessel warms: {} K",
