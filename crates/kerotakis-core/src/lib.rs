@@ -70,6 +70,7 @@ pub mod particles;
 pub mod phase_route;
 pub mod photochem;
 pub mod pigment;
+pub mod plastics;
 pub mod polymer;
 pub mod properties;
 pub mod protein;
@@ -121,7 +122,7 @@ pub use instrument::{
 };
 pub use ionic::{net_ionic, net_ionic_for, IonTerm, IonicBasis, NetIonic};
 pub use ledger::{audit_conservation, ConservedLedger};
-pub use ops::{Event, Instrument, LogEntry, Operator};
+pub use ops::{Event, Instrument, LogEntry, Operator, PolymerState};
 pub use orchestrator::Orchestrator;
 pub use phase_route::PhaseRouteEquilibrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};

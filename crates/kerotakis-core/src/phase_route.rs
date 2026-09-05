@@ -563,6 +563,14 @@ impl Equilibrator for PhaseRouteEquilibrator {
                 break;
             }
         }
+        // BRD-023: what heat has done to a named plastic. It lives here
+        // rather than in a solver of its own for the reason the two routes
+        // above share this module: it is a curated threshold on a
+        // thermometer, decided by a reviewed temperature and not by an
+        // equilibrium, and it moves no matter. It runs after them because
+        // a hydrate's water leaving is a change to the vessel and the
+        // plastic should be read against the vessel as it ends the step.
+        events.extend(crate::plastics::settle(vessel));
         Ok(events)
     }
 }

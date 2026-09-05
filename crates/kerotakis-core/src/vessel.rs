@@ -799,6 +799,16 @@ pub struct Vessel {
     pub surface_colours: Vec<SurfaceColourSpot>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub emulsion: Option<EmulsionState>,
+    /// BRD-023: named polymer objects that have been taken past their
+    /// decomposition temperature, by recipe id.
+    ///
+    /// Every other observable in this struct is recomputed from the state
+    /// the vessel is in now, and for softening that is right — cool a
+    /// thermoplastic and it sets again. Charring is the one that does not
+    /// undo, and nothing else here remembers a temperature the vessel has
+    /// since left. So it is written down, once, and never cleared.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub charred_materials: Vec<String>,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -874,6 +884,7 @@ impl Vessel {
             surface_particles: None,
             surface_colours: Vec::new(),
             emulsion: None,
+            charred_materials: Vec::new(),
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
@@ -1043,7 +1054,8 @@ impl Vessel {
     /// gas inventory; an explicit gas portion there is a finite dose and
     /// carries sensible heat until the chemistry pass absorbs or vents it.
     pub fn heat_capacity(&self) -> f64 {
-        self.contents
+        let resolved: f64 = self
+            .contents
             .iter()
             .filter_map(|portion| {
                 let data = species::lookup(&portion.species)?;
@@ -1054,7 +1066,8 @@ impl Vessel {
                 };
                 Some(portion.moles.0 * molar)
             })
-            .sum()
+            .sum();
+        resolved + crate::plastics::unresolved_heat_capacity(self)
     }
 
     /// Sensible energy of the contents relative to 298.15 K, J.

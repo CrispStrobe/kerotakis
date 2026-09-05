@@ -599,6 +599,33 @@ impl NotModelledCause {
     }
 }
 
+/// What a plastic is doing at the temperature it is being held at.
+///
+/// Three states and no fourth: a polymer object is rigid, or it has gone
+/// soft enough to reshape, or it has decomposed. The bench claims nothing
+/// between them — no viscosity, no rate of flow, no degree of cure.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PolymerState {
+    /// Below everything: it holds its shape.
+    Rigid,
+    /// Above the softening point and below decomposition: the chains
+    /// slide, so it can be moulded, and cooling sets it in the new shape.
+    Softened,
+    /// Past the decomposition temperature. This one does not undo.
+    Charred,
+}
+
+impl PolymerState {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Rigid => "rigid",
+            Self::Softened => "softened",
+            Self::Charred => "charred",
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -943,6 +970,27 @@ pub enum Event {
         autoignition: Kelvin,
         /// Where the vessel actually stands.
         temperature: Kelvin,
+    },
+    /// BRD-023: what heat has done to a named plastic, and which of the
+    /// two families it belongs to. One event with three states rather
+    /// than three events, because the states are exclusive readings of
+    /// one thermometer and the interesting thing is which one holds.
+    PolymerHeated {
+        vessel: VesselId,
+        /// The recipe's display name.
+        material: String,
+        state: PolymerState,
+        /// Where the vessel stands.
+        temperature: Kelvin,
+        /// The threshold the state turns on: the softening point for a
+        /// thermoplastic below or above it, the decomposition temperature
+        /// once that is the nearer wall.
+        threshold: Kelvin,
+        /// Whether the object comes back when it cools. Softening does;
+        /// charring does not; and staying rigid has nothing to undo.
+        reversible: bool,
+        /// True for a cross-linked network, which has no melt to reach.
+        cross_linked: bool,
     },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {

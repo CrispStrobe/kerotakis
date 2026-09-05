@@ -970,6 +970,32 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 - [ ] **Status:** open. **Size:** large/data-heavy. **Depends on:** BRD-014 and
   BRD-022.
+  - `BRD-023.S01` (2026-09-05) — why a thermoplastic softens and a
+    thermoset does not, which is the one question about plastics a school
+    bench is actually asked. `mat-025` used to answer it with *"heating an
+    empty vessel (container heat capacity not modelled)"* over a beaker
+    with a two-gram block in it: `thermoset_resin` resolves into no
+    species, and the vessel's heat capacity was a sum over resolved
+    portions only, so nothing could be warmed and nothing could be said.
+    Two things now exist. A recipe may declare a
+    `MaterialRole::PolymerHeatResponse` — a specific heat, a softening
+    temperature, and a decomposition temperature — and
+    `Vessel::heat_capacity` counts the mass of an unresolved portion that
+    declares one, which is deliberately narrow enough that no existing
+    material's energy accounting moves. And `plastics::observe` turns the
+    vessel's temperature into one of three states, carried by a new
+    `Event::PolymerHeated`: rigid, softened (reversible), charred (not).
+    `softens_above_k: None` is how a cross-linked network is written down —
+    an absence rather than a very large number — because a thermoset has no
+    melting point at all rather than a high one. `thermoplastic_sheet`
+    joins the shelf as the object the contrast needs, resolved in full into
+    the installed `PE` species, which is itself the difference the row is
+    about: polyethylene has a repeat unit and a cured network does not.
+    **`mat-025` flips `missing` → `curated`.** Not claimed: viscosity, rate
+    of flow, the glass transition (distinct from the melt) that the
+    amorphous thermoplastics soften at and that a cured epoxy also has, any
+    degradation product, and any moulding — a softened object can be
+    described as mouldable and not moulded, this bench having no shape.
 - **Scope:** curate a first useful set driven by `EXP-36/41/42/46/50` and the
   curiosity corpus: acid/base behavior of functional groups, combustion,
   esterification/hydrolysis, alcohol oxidation, carbonyl tests/additions,

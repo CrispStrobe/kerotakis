@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a ninth time (one row, the two families of
+plastic) — see below.
+
 Refreshed 2026-09-05 an eighth time (one row, BRD-023's peroxide bleach) —
 see below, and read the last paragraph of that entry before quoting it: the
 row is closed and the transcript still carries one stale sentence.
@@ -82,6 +85,52 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-05, ninth — mat-025, and a block that weighed nothing
+
+`mat-025` "why does thermoplastic soften but thermoset plastic does not?",
+script `add v1 thermoset_resin 2g; heat v1 5kJ`:
+`missing`/`not-yet-modeled` → **`curated`/`curated-route`**.
+
+The old answer was *"heating an empty vessel (container heat capacity not
+modelled)"*, printed over a beaker with a two-gram block in it. That is the
+shape of defect this corpus exists to find: not a gap that reads as a gap,
+but a confident sentence that is wrong about the thing in front of it.
+`thermoset_resin` resolves into no species — correctly, because a cured
+epoxy network has no repeat unit to dispense — and the vessel's heat
+capacity was a sum over resolved portions, so a wholly unresolved object
+was invisible to the heater.
+
+Two things changed and they are different things. A recipe may now declare
+a reviewed `PolymerHeatResponse`, and `Vessel::heat_capacity` counts the
+mass of an unresolved portion that has one; the term is narrow on purpose,
+so no existing material's energy accounting moves and no thermal fixture
+does either. And the temperature now means something: three states, carried
+by a new `Event::PolymerHeated` — rigid, softened, charred. Five kilojoules
+into two grams takes the resin far past 300 °C, so the row's answer is that
+the network chars, irreversibly, and that it never softened on the way
+because it has no softening point to reach.
+
+The `None` is the claim. A thermoset's softening temperature is recorded as
+an absence rather than as a very large number, because that is the physics:
+the chains are joined by covalent cross-links, so there are no separate
+chains to slide, and there is no temperature at which there would be. The
+new `thermoplastic_sheet` recipe is the object that makes the sentence
+mean something — the same script over it softens at 130 °C and sets again
+on cooling — and it resolves in full into the installed `PE` species, which
+is itself the distinction: polyethylene has a repeat unit and a network
+does not.
+
+`Event::PolymerHeated` counts in the classifier exactly where
+`Event::Corroded` does: it stops a row being called `missing` when the
+polymer route answered it, and it is deliberately absent from
+`typed_observation`, so it never outranks a computed or curated route that
+was the real answer. The reason code is `curated-route` because that is
+what it is — a reviewed threshold on a thermometer, in the pending-review
+lane, not an equilibrium.
+
+Nothing else moves: `thermoset_resin` appears in no other prompt, and the
+thermoplastic is a new name.
 
 ## Refresh 2026-09-05, seventh — two rows at the insulating end of the scale
 
