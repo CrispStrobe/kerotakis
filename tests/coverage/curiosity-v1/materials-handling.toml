@@ -686,7 +686,6 @@ material_class="batteries"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 alkaline_battery 20g", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -845,7 +844,6 @@ material_class="batteries"
 owning_task="BRD-014"
 tags=["BRD-014"]
 script=["add v1 battery_terminal 2g", "add v1 water 5mL", "measure v1 balance"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]

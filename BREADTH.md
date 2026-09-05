@@ -765,6 +765,39 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     each row's own boundary says so. The tranche's provenance lane is
     PENDING REVIEW and its citation says so in its second sentence, exactly
     as S04's does.
+  - `BRD-014.S07` (2026-09-05) — the two batteries, and what each of them
+    had to BE in order to answer honestly. `mat-058` ("what happens inside
+    an alkaline battery while it discharges?") and `mat-071` ("why can
+    battery terminals grow white crust?") both failed at the parser.
+    `alkaline_battery` is a **coherent object**: a recipe that emptied its
+    zinc, its manganese dioxide and its caustic paste into the beaker the
+    moment it was put down would describe a battery that had been cut open,
+    and every route on the bench would then narrate the wrong experiment.
+    Kept whole it weighs twenty grams on the balance, which is the row's
+    evidence — a flat cell weighs exactly what a fresh one does — and a new
+    `MaterialRole::SealedCell` carries the curated discharge beside it:
+    `Zn + 2 MnO2 -> ZnO + Mn2O3` at a nominal 1.5 V, with a typed
+    `Event::SealedCell` saying which electrode does what and that the
+    hydroxide is not used up. The reaction is NAMED AND NOT RUN and its own
+    boundary says so: neither product is an installed species and no charge
+    is tracked, so the ledger is untouched. `battery_terminal` is the
+    opposite — dispensed as lead, because the crust is a corrosion verdict
+    and the corrosion route reads metal in the vessel — while its acid film
+    is deliberately NOT resolved, since sulfuric acid put in as a species
+    would make the row "lead in acid", a different experiment.
+    `corrosion::ELECTROLYTE_CREEP` keys the crust on the lot the post
+    arrived in, exactly as `BARRIERS` keys the stainless film, and the
+    verdict names lead(II) sulfate, says it comes out of the battery rather
+    than out of the water, and says that nothing was added to the ledger.
+    **Both rows flip `missing` → `computed`**, and both stale
+    `parse_boundary="unknown_species"` annotations are removed. Both passes
+    live in `corrosion.rs` on a stated principle: corrosion is a battery
+    nobody wanted, and a battery is a corrosion cell somebody built on
+    purpose. No brand is named or implied anywhere. (Recorded rather than
+    silently fixed: `BRD-014.S06` is claimed TWICE above, by two lanes that
+    landed the same afternoon — the insulator resistivity tranche and the
+    diesel identity. Task numbers are never renumbered, so this slice takes
+    S07 and the collision is left for a reviewer to reconcile.)
   - `BRD-014.S05` assessment (2026-09-05, no code) — **`bio-111` stays
     `missing`, and the BRD-014.S02 refusal above stands.** Extending the
     spectral table below 405 nm was assessed and rejected as neither small

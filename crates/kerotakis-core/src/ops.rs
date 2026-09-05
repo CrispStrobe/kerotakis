@@ -995,6 +995,21 @@ pub enum Event {
         /// Where the vessel actually stands.
         temperature: Kelvin,
     },
+    /// BRD-014: what is inside a sealed cell, and what moves while it
+    /// discharges. The bench does not open the case — the object is
+    /// coherent and its mass is conserved by construction — so this is
+    /// the curated sentence that says what the mass is doing, beside a
+    /// balance reading that is the evidence for the sealing.
+    SealedCell {
+        vessel: VesselId,
+        /// The recipe's display name.
+        material: String,
+        /// Nominal open-circuit voltage, V.
+        open_circuit_volts: f64,
+        /// The balanced discharge reaction, as written. It is NOT run.
+        reaction: String,
+        why: String,
+    },
     /// BRD-023: what heat has done to a named plastic, and which of the
     /// two families it belongs to. One event with three states rather
     /// than three events, because the states are exclusive readings of

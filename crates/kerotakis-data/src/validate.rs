@@ -640,6 +640,35 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::SealedCell {
+                        open_circuit_volts,
+                        reaction,
+                        why,
+                        boundary,
+                        source,
+                    } => {
+                        self.nonempty(&format!("{role_path}.reaction"), reaction);
+                        self.nonempty(&format!("{role_path}.why"), why);
+                        self.nonempty(&format!("{role_path}.boundary"), boundary);
+                        self.nonempty(&format!("{role_path}.source"), source);
+                        if !open_circuit_volts.is_finite() || *open_circuit_volts <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.open_circuit_volts"),
+                                "must be finite and positive",
+                            );
+                        }
+                        // A sealed cell is a sealed OBJECT. The whole
+                        // claim is that nothing crosses the case, which
+                        // needs the case, and the coherent-object role is
+                        // where this registry keeps one.
+                        if !recipe
+                            .roles
+                            .iter()
+                            .any(|r| matches!(r, MaterialRole::CoherentObject))
+                        {
+                            self.issue(role_path, "a sealed cell requires a coherent object role");
+                        }
+                    }
                     MaterialRole::PolymerHeatResponse {
                         specific_heat_j_per_g_k,
                         softens_above_k,

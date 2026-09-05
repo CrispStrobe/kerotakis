@@ -2138,6 +2138,30 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::SealedCell {
+            vessel,
+            material,
+            open_circuit_volts,
+            reaction,
+            why,
+        } => {
+            let volts = locale.number(format!("{open_circuit_volts:.1}"));
+            match register.level() {
+                1 => locale.fill(
+                    "event.sealed-cell.lv1",
+                    "The {material} in {vessel} is a sealed cell: {why} It pushes about {volts} V, and because nothing gets out through the case it weighs exactly what it weighed before.",
+                    &[("material", material), ("vessel", &vessel.to_string()), ("why", why), ("volts", &volts)],
+                ),
+                2 => locale.fill(
+                    "event.sealed-cell.lv2",
+                    "{vessel}: {material} — {reaction}, about {volts} V open-circuit; sealed, so the mass is conserved",
+                    &[("vessel", &vessel.to_string()), ("material", material), ("reaction", reaction), ("volts", &volts)],
+                ),
+                _ => format!(
+                    "{vessel}: {material}, curated discharge {reaction} at {open_circuit_volts:.2} V open-circuit. The reaction is NAMED and not run — its products have no species in this registry and no charge is tracked — so the ledger is untouched and the object's mass is conserved by construction rather than by arithmetic over products"
+                ),
+            }
+        }
         Event::PolymerHeated {
             vessel,
             material,
