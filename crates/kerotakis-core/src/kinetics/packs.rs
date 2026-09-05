@@ -340,20 +340,49 @@ mod tests {
         let arena = MechanismArena::default();
         let raw_network = raw.compile_in(&arena);
         let mut a = reactor("H2O");
-        advance_network_with_options(&mut a, 1e-2, &raw_network, options).unwrap();
+        let report_a = advance_network_with_options(&mut a, 1e-2, &raw_network, options).unwrap();
         let shipped_pack = shipped()
             .iter()
             .find(|p| p.id == "h2-o2-skeletal-v1")
             .unwrap();
         let mut b = reactor("water");
-        advance_network_with_options(&mut b, 1e-2, &shipped_pack.network, options).unwrap();
+        let report_b =
+            advance_network_with_options(&mut b, 1e-2, &shipped_pack.network, options).unwrap();
         let h2 = |v: &Vessel| v.moles_of(&SpeciesId::new("H2")).0;
-        assert!(
-            (h2(&a) - h2(&b)).abs() < 1e-9,
-            "raw {} vs renamed {} mol H2 left",
-            h2(&a),
-            h2(&b)
-        );
+        if (h2(&a) - h2(&b)).abs() >= 1e-9 {
+            // Diagnostic: every step's extent side by side, and the
+            // third-body tables the two networks compiled.
+            let mut lines = Vec::new();
+            for (i, (ra, rb)) in raw_network
+                .reactions
+                .iter()
+                .zip(shipped_pack.network.reactions.iter())
+                .enumerate()
+            {
+                let xa = report_a
+                    .extents
+                    .iter()
+                    .find(|(r, _)| r.id == ra.id)
+                    .map_or(0.0, |(_, m)| m.0);
+                let xb = report_b
+                    .extents
+                    .iter()
+                    .find(|(r, _)| r.id == rb.id)
+                    .map_or(0.0, |(_, m)| m.0);
+                lines.push(format!(
+                    "{i:2} {:<40} raw {xa:+.3e} renamed {xb:+.3e} | pd raw {:?} | pd renamed {:?}",
+                    ra.equation, ra.pressure_dependence, rb.pressure_dependence
+                ));
+            }
+            panic!(
+                "raw {} vs renamed {} mol H2 left; raw stats {:?}; renamed stats {:?}\n{}",
+                h2(&a),
+                h2(&b),
+                report_a.statistics,
+                report_b.statistics,
+                lines.join("\n")
+            );
+        }
         assert!(
             h2(&a) < 0.2e-3,
             "and the raw pack burns through: {} left",
