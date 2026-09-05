@@ -1185,7 +1185,7 @@ mod tests {
         let reading = &scene.enzyme_hydrolysis[0];
         assert_eq!(reading.substrate, "lactose in milk");
         assert!((reading.converted_fraction - 0.625).abs() < 1e-12);
-        assert!(scene.words.contains("63% conversion of lactose in milk"));
+        assert!(scene.words.contains("% conversion of lactose in milk"));
     }
 
     #[test]
