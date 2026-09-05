@@ -30,8 +30,21 @@
 //!   ionic strength, the old scaling survives as an explicitly labelled
 //!   mean-mobility estimate (I × 10⁵ µS/cm ≈ a 1:1 electrolyte of
 //!   ordinary mobility) instead of masquerading as the real model.
+//!
+//! # The other kind of conductor
+//!
+//! A metal conducts for a different reason than a solution does. There are
+//! no ions moving through a copper wire; there are electrons that belong to
+//! no particular atom, and what limits them is scattering off the lattice.
+//! Kohlrausch says nothing about that, and no amount of λ° data would make
+//! it. So [`dry_solid_conductance`] is a separate path over a separate
+//! datum — the registry's curated `electrical_resistivity` — and it fires
+//! only where the solution model does not: a dry vessel, one solid, no
+//! aqueous phase at all. A beaker with a copper wire standing in salt water
+//! is a solution measurement and stays one, because that is what the probe
+//! would read.
 
-use crate::vessel::{SolutionInfo, SpeciesDetail};
+use crate::vessel::{SolutionInfo, SpeciesDetail, Vessel};
 
 /// Where every λ° in [`LIMITING_CONDUCTIVITY`] comes from.
 pub const LAMBDA_SOURCE: &str = "λ°: CRC Handbook of Chemistry and Physics, \
@@ -197,6 +210,74 @@ pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
         },
         within_dilute_limit,
     }
+}
+
+/// What the meter reads from a dry solid: the curated resistivity, its
+/// reciprocal, and the citation that has to travel with both.
+///
+/// Not a [`Reading`](crate::instrument::Reading), because the useful answer
+/// carries a boundary and a source, and a bare scalar has nowhere to put
+/// them — the same argument the melting-point apparatus makes for
+/// `TransitionReading`.
+#[derive(Debug, Clone, PartialEq)]
+pub struct SolidConductance {
+    /// The species key the reading is about.
+    pub species: String,
+    /// Ω·m at 293.15 K, as curated.
+    pub resistivity_ohm_m: f64,
+    /// S/m — the reciprocal, which is what a conductance meter reads.
+    pub conductivity_s_per_m: f64,
+    /// The tranche citation behind the number.
+    pub source: &'static str,
+    /// What the row does not claim: purity, temper, alloy, anisotropy.
+    pub boundary: Option<&'static str>,
+}
+
+/// The dry-solid path, or `None` if this vessel is not one.
+///
+/// Four conditions, and each of them is a refusal the meter should make
+/// rather than a case to approximate:
+///
+/// * **No characterised solution.** If a solver has spoken about this
+///   vessel, the probe is in a solution and the Kohlrausch path owns it.
+/// * **No liquid at all.** A wet solid conducts through the film of liquid
+///   on it, which is neither model.
+/// * **Exactly one solid**, and nothing unresolved beside it. Two metals
+///   touching are a circuit with a geometry, and this reading has no
+///   geometry — it is a material property, not a resistance in ohms.
+/// * **A curated resistivity.** Most solids in this registry have none, and
+///   the meter says so instead of inventing one.
+pub fn dry_solid_conductance(vessel: &Vessel) -> Option<SolidConductance> {
+    if vessel.solution.is_some() || !vessel.unresolved_materials.is_empty() {
+        return None;
+    }
+    if vessel.liquid_volume().0 > 0.0 {
+        return None;
+    }
+    let mut solids = vessel.contents.iter().filter(|portion| {
+        portion.phase == crate::species::Phase::Solid && portion.moles.0 > crate::OBSERVABLE_MOLES
+    });
+    let portion = solids.next()?;
+    if solids.next().is_some() {
+        return None;
+    }
+    // Any non-solid left over (a gas headspace aside) means the sample is
+    // not the isolated lump this reading describes.
+    if vessel.contents.iter().any(|other| {
+        other.phase != crate::species::Phase::Solid
+            && other.phase != crate::species::Phase::Gas
+            && other.moles.0 > crate::OBSERVABLE_MOLES
+    }) {
+        return None;
+    }
+    let resistivity = crate::species::lookup(&portion.species)?.electrical_resistivity?;
+    Some(SolidConductance {
+        species: portion.species.0.clone(),
+        resistivity_ohm_m: resistivity.ohm_m,
+        conductivity_s_per_m: resistivity.conductivity_s_per_m(),
+        source: resistivity.source,
+        boundary: resistivity.boundary,
+    })
 }
 
 #[cfg(test)]

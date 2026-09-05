@@ -14,6 +14,14 @@ use kerotakis_registry_export::export_current_registry;
 
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
 
+/// The seven dry solids the resistivity tranche covers, written out here
+/// rather than read from the exporter's own table: a test that derives its
+/// expectation from the code under test agrees with that code however
+/// wrong it is. Silicon is deliberately absent - the registry has no
+/// elemental silicon, and a semiconductor row would be a claim about
+/// doping this bench cannot make.
+const RESISTIVITY_KEYS: &[&str] = &["Ag", "Al", "Cu", "Fe", "Mg", "Zn", "graphite"];
+
 #[test]
 fn checked_in_source_document_is_current_byte_for_byte() {
     let mut generated =
@@ -99,6 +107,37 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .filter(|species| species.dissolution_enthalpy_kj.is_some())
                 .count()
             + transition_records
+            + RESISTIVITY_KEYS.len()
+    );
+    // The resistivity tranche is one source record, cited by every
+    // resistivity value and by nothing else, and it reaches exactly the
+    // seven species named above.
+    let resistivity = document
+        .sources
+        .iter()
+        .filter(|source| source.id == "kerotakis/electrical-resistivity-v1")
+        .collect::<Vec<_>>();
+    assert_eq!(resistivity.len(), 1);
+    assert_eq!(resistivity[0].lane, SourceLane::Runtime);
+    assert!(
+        resistivity[0].citation.contains("PENDING REVIEW"),
+        "the resistivity tranche's lane is not cleared and its citation must say so"
+    );
+    let mut cited: Vec<&str> = document
+        .phase_thermodynamics
+        .iter()
+        .filter(|record| record.quantity.source_id == "kerotakis/electrical-resistivity-v1")
+        .map(|record| record.species_id.as_str())
+        .collect();
+    cited.sort_unstable();
+    assert_eq!(cited, RESISTIVITY_KEYS);
+    assert_eq!(
+        REGISTRY
+            .iter()
+            .filter(|species| species.electrical_resistivity.is_some())
+            .count(),
+        RESISTIVITY_KEYS.len(),
+        "every exported resistivity must come back into REGISTRY"
     );
     // The tranche is one source record, cited by every transition value.
     assert_eq!(
@@ -381,6 +420,68 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         None => assert!(document.phase_thermodynamics.iter().all(|record| {
             record.species_id != species.key
                 || record.property != PhaseProperty::EnthalpyOfDissolution
+        })),
+    }
+
+    // Same shape as the dissolution block above, for the same reason: a
+    // resistivity is a different claim from a molar mass, and asserting
+    // its source here is what stops the record quietly reverting to the
+    // species citation the next time this file is regenerated.
+    match species.electrical_resistivity {
+        Some(resistivity) => {
+            let record = document
+                .phase_thermodynamics
+                .iter()
+                .find(|record| {
+                    record.species_id == species.key
+                        && record.property
+                            == PhaseProperty::Other("electrical_resistivity".to_string())
+                })
+                .unwrap_or_else(|| panic!("missing resistivity for {}", species.key));
+            assert_eq!(
+                record.phase, phase,
+                "{} resistivity is a dry-solid claim",
+                species.key
+            );
+            assert_eq!(
+                record.quantity.value, resistivity.ohm_m,
+                "{} resistivity value",
+                species.key
+            );
+            assert_eq!(record.quantity.unit.symbol, "Ohm.m");
+            assert_eq!(
+                record.quantity.unit.dimension,
+                Dimension::Other("electrical_resistivity".to_string())
+            );
+            assert_eq!(record.quantity.uncertainty, Uncertainty::NotReported);
+            assert_eq!(
+                record.quantity.source_id, "kerotakis/electrical-resistivity-v1",
+                "{} resistivity must cite its own tranche",
+                species.key
+            );
+            assert!(
+                matches!(record.quantity.method, Method::Curated(_)),
+                "{} resistivity is curated, not imported",
+                species.key
+            );
+            assert_eq!(
+                record.quantity.conditions.notes.as_deref(),
+                resistivity.boundary,
+                "{} resistivity boundary must survive the round trip",
+                species.key
+            );
+            let temperature = record
+                .quantity
+                .conditions
+                .temperature
+                .as_ref()
+                .unwrap_or_else(|| panic!("{} resistivity states no temperature", species.key));
+            assert_eq!(temperature.lower, 293.15);
+            assert_eq!(temperature.upper, 293.15);
+        }
+        None => assert!(document.phase_thermodynamics.iter().all(|record| {
+            record.species_id != species.key
+                || record.property != PhaseProperty::Other("electrical_resistivity".to_string())
         })),
     }
 

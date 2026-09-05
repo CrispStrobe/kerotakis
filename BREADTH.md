@@ -689,6 +689,45 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     `laboratory/bile-salts` an emulsifier role whose mechanism is the one the
     question is about, and `household/alkaline-battery-electrolyte` a fully
     resolved 30% potassium hydroxide solution that is honestly not a battery.
+  - `BRD-014.S04` (2026-09-05) — the electrical property the shelf did not
+    have. Until now the registry carried no conductivity or resistivity for
+    any solid, so `mat-011` ("why are wires copper rather than iron?") ran,
+    reached the Kohlrausch solution meter, and got `NotYetModeled — no
+    aqueous solution has been characterised`: true, and no answer, because a
+    metal does not conduct the way a salt solution does. Seven dry solids
+    (Ag, Cu, Al, Mg, Zn, Fe, graphite) now carry a curated
+    `electrical_resistivity` in the registry with its own source record, and
+    `conductivity::dry_solid_conductance` reads it — iron is 5.79 times
+    copper's resistivity, which is the whole of the answer. THE ROW IS NOT
+    FLIPPED. `measure <vessel> conductivity` is dispatched from
+    `bench.rs`'s `Operator::Measure` arm, which this session was scoped out
+    of; the model, its data and its tests are in place and the remaining
+    change is one match arm delegating to `crate::conductivity` the way
+    `Instrument::MeltingPointApparatus` already delegates to
+    `crate::instrument::read_transition`. Deliberately NOT in this slice:
+    elemental silicon. Adding it would answer no question — `mat-066` asks
+    about `doped_silicon`, and a doped resistivity needs a carrier-density
+    model this bench does not have. An intrinsic value alone would be a
+    number nobody asked for; a doped one would be a confident invention.
+    The tranche's provenance lane is PENDING REVIEW and its citation says so
+    in its first sentence: the values are recorded as commonly tabulated,
+    with the CRC Handbook's pure-metals table as the intended primary
+    reference and every row flagged for reviewer confirmation against a
+    positively identified copy, exactly as the phase-transition tranche is.
+  - `BRD-014.S05` assessment (2026-09-05, no code) — **`bio-111` stays
+    `missing`, and the BRD-014.S02 refusal above stands.** Extending the
+    spectral table below 405 nm was assessed and rejected as neither small
+    nor honest. `spectrum::BANDS` is a compile-time `16` behind 44 uses
+    across ten files including the Kubelka–Munk pigment path and the
+    registry validator, so the band count is not a local constant; six UV
+    bands would also demand ε(λ) for zinc oxide, titanium dioxide and an
+    organic absorber, each a new species with a safety-matrix row, and the
+    two oxides work by scattering rather than absorption, so the
+    Beer–Lambert path the question invites is the wrong physics for two of
+    the three. No CC0/CC BY ε(λ) source for the organic absorber was found.
+    The honest answer to "does sunscreen absorb UV" needs a UV model, not a
+    wider table, and until there is one `unknown-species` remains the
+    better answer.
 - **Outcome:** versioned packs for at least 75 familiar named materials, selected
   by BRD-000 demand.
 - **Scope:** begin with air, tap/seawater, vinegar, baking powder/soda, bleach,

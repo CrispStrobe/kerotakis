@@ -78,6 +78,7 @@ const fn enzyme_species(key: &'static str, mass: f64, provenance: &'static str) 
         forms_only_above_k: None,
         magnetic: false,
         transitions: None,
+        electrical_resistivity: None,
         provenance,
     }
 }

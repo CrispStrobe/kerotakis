@@ -215,6 +215,38 @@ fn main() {
             }
         };
 
+        // The resistivity rides `Other` for the same reason the sublimation
+        // and decomposition temperatures do, and it carries its own source
+        // for the same reason the transition block does: the citation the
+        // meter prints must be the one that stands behind the number.
+        let resistivity = match thermo_other(key, "electrical_resistivity") {
+            Some(r) => {
+                let v = r["quantity"]["value"]
+                    .as_f64()
+                    .unwrap_or_else(|| panic!("{key}: electrical resistivity has no value"));
+                let symbol = r["quantity"]["unit"]["symbol"].as_str();
+                assert_eq!(
+                    symbol,
+                    Some("Ohm.m"),
+                    "{key}: electrical resistivity must be in Ohm.m, got {symbol:?}"
+                );
+                let citation = find_source(
+                    r["quantity"]["source_id"]
+                        .as_str()
+                        .unwrap_or_else(|| panic!("{key}: electrical resistivity has no source")),
+                );
+                let boundary = match r["quantity"]["conditions"]["notes"].as_str() {
+                    Some(note) => format!("Some({note:?})"),
+                    None => "None".to_string(),
+                };
+                format!(
+                    "Some(Resistivity {{ ohm_m: {}, source: {citation:?}, boundary: {boundary} }})",
+                    f64_lit(v)
+                )
+            }
+            None => "None".to_string(),
+        };
+
         let dws = param_for(key, "dissolves-without-speciation").unwrap_or(0.0) != 0.0;
         let aqueous_solubility = param_for(key, "aqueous-solubility-g-per-100-ml")
             .map_or("None".to_string(), |v| format!("Some({})", f64_lit(v)));
@@ -231,7 +263,7 @@ fn main() {
 
         writeln!(
             out,
-            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        aqueous_solubility_g_per_100_ml_at_100c: {aqueous_solubility_hot},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        transitions: {transitions},\n        provenance: {provenance:?},\n    }},",
+            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        aqueous_solubility_g_per_100_ml_at_100c: {aqueous_solubility_hot},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        transitions: {transitions},\n        electrical_resistivity: {resistivity},\n        provenance: {provenance:?},\n    }},",
             identity["name"].as_str().expect("name"),
             comp["formula"].as_str().expect("formula"),
             // identifiers.inchikey, not canonical_key: the pack synthesizes

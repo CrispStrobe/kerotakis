@@ -166,6 +166,12 @@ impl InstrumentContract for PressureGauge {
 /// the solver reported no speciation. `in_range` is honest about both the
 /// instrument's span and the model's own validity: a concentrated
 /// solution or an uncovered ion reads as out-of-calibration.
+///
+/// A vessel holding a dry solid and no solution is the other kind of
+/// conductor entirely, and it takes the other path: the registry's curated
+/// resistivity, reported in S/m. See
+/// [`crate::conductivity::dry_solid_conductance`] for the four conditions
+/// that path insists on before it will read anything.
 pub struct ConductivityMeter;
 
 impl InstrumentContract for ConductivityMeter {
@@ -173,22 +179,35 @@ impl InstrumentContract for ConductivityMeter {
         "conductivity meter"
     }
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel.solution.is_some()
+        vessel.solution.is_some() || crate::conductivity::dry_solid_conductance(vessel).is_some()
     }
     fn mode(&self) -> InstrumentMode {
         InstrumentMode::Passive
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
-        let sol = vessel.solution.as_ref()?;
-        let est = crate::conductivity::specific_conductance(sol);
+        if let Some(sol) = vessel.solution.as_ref() {
+            let est = crate::conductivity::specific_conductance(sol);
+            return Some(Reading {
+                observable: "conductivity".into(),
+                value: est.microsiemens_per_cm,
+                unit: "µS/cm".into(),
+                precision: Some(1.0),
+                in_range: est.trustworthy()
+                    && est.microsiemens_per_cm > 0.0
+                    && est.microsiemens_per_cm < 1e6,
+            });
+        }
+        // A dry metal is the other kind of conductor, and it is reported in
+        // the other kind of unit: S/m for a bulk material property, not
+        // µS/cm for a solution's specific conductance. Putting the two on
+        // one scale would invite a comparison that means nothing.
+        let solid = crate::conductivity::dry_solid_conductance(vessel)?;
         Some(Reading {
             observable: "conductivity".into(),
-            value: est.microsiemens_per_cm,
-            unit: "µS/cm".into(),
-            precision: Some(1.0),
-            in_range: est.trustworthy()
-                && est.microsiemens_per_cm > 0.0
-                && est.microsiemens_per_cm < 1e6,
+            value: solid.conductivity_s_per_m,
+            unit: "S/m".into(),
+            precision: None,
+            in_range: true,
         })
     }
 }

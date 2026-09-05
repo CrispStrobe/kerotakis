@@ -1204,6 +1204,23 @@ green. **Size.** Medium-large. **Depends on:** nothing.
       boundary asserted rather than hidden. Above I ≈ 0.1 mol/kgw, or
       when an ion has no tabulated λ°, the reading declares itself
       out of calibration instead of pretending.
+      2026-09-05: the meter gained the *other* kind of conductor.
+      A dry solid with no characterised solution now reads the
+      registry's curated `electrical_resistivity` (seven species,
+      one source record, provenance lane pending review) as S/m
+      via `conductivity::dry_solid_conductance`, with the
+      Kohlrausch path untouched for anything aqueous. The two are
+      deliberately separate models in separate units, because
+      ions moving through water and electrons moving through a
+      lattice are not the same physics and a shared scale would
+      invite a comparison that means nothing. Acceptance:
+      `crates/kerotakis-core/tests/resistivity.rs` — six tests
+      pinning the values (Cu 1.678e-8 Ω·m, Fe 9.71e-8, ratio
+      5.79), the handbook ordering, the per-kilogram aluminium
+      trade computed from the density rows rather than asserted,
+      and four refusals. NOT yet reachable from the bench: the
+      `measure` verb's dispatch lives in `bench.rs`, and wiring
+      that one arm is the remaining step.
 
 **Why.** The differential-oracle discipline that makes the PHREEQC
 core trustworthy stops at that crate's border: instruments, apparatus,

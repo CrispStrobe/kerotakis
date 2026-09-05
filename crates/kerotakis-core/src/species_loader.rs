@@ -12,7 +12,7 @@
 //! session per pack, and the alternative (owned strings) would fork
 //! `SpeciesData` into two types across the whole engine.
 
-use crate::species::{Colour, Phase, SpeciesData};
+use crate::species::{Colour, Phase, Resistivity, SpeciesData};
 
 fn leak(s: &str) -> &'static str {
     Box::leak(s.to_string().into_boxed_str())
@@ -226,6 +226,30 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             }
         };
 
+        // Mirrors build.rs: the resistivity rides the schema's `Other`
+        // escape and carries its own citation, not the species' general
+        // provenance line.
+        let electrical_resistivity = match thermo_other(key, "electrical_resistivity") {
+            Some(r) => {
+                let ohm_m = r["quantity"]["value"]
+                    .as_f64()
+                    .ok_or_else(|| fail("electrical resistivity has no value"))?;
+                if r["quantity"]["unit"]["symbol"].as_str() != Some("Ohm.m") {
+                    return Err(fail("electrical resistivity must be given in Ohm.m"));
+                }
+                Some(Resistivity {
+                    ohm_m,
+                    source: leak(find_source(
+                        r["quantity"]["source_id"]
+                            .as_str()
+                            .ok_or_else(|| fail("electrical resistivity has no source"))?,
+                    )?),
+                    boundary: r["quantity"]["conditions"]["notes"].as_str().map(leak),
+                })
+            }
+            None => None,
+        };
+
         out.push(SpeciesData {
             key: leak(key),
             name: leak(identity["name"].as_str().ok_or_else(|| fail("no name"))?),
@@ -251,6 +275,7 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             forms_only_above_k: param_for(key, "forms-only-above"),
             magnetic: param_for(key, "magnetic").unwrap_or(0.0) != 0.0,
             transitions,
+            electrical_resistivity,
             provenance: leak(find_source(
                 identity["evidence"]["source_id"]
                     .as_str()
