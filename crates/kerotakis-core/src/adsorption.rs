@@ -124,22 +124,34 @@ fn langmuir(isotherm: &Isotherm, c_mg_per_l: f64) -> f64 {
     isotherm.capacity_mg_per_g * k_c / (1.0 + k_c)
 }
 
-/// The equilibrium split: milligrams of sorbate left in solution, given
-/// the total present and the carbon available.
+/// The equilibrium split: **milligrams** of sorbate left in solution —
+/// a MASS, not a concentration — given the total present and the carbon
+/// available.
+///
+/// The distinction is not pedantry. The bisection below solves for `C` in
+/// mg per litre, and an earlier draft returned that number to a caller
+/// that subtracted it from a mass. With a hundred millilitres in the
+/// beaker the two differ by exactly a factor of ten, which is small
+/// enough to look plausible in one test and large enough that a saturated
+/// carbon computed a NEGATIVE loading and silently adsorbed nothing at
+/// all. The unit is in the name, in this sentence, and in a test.
 ///
 /// `f(C) = C·V + q(C)·m − total` is strictly increasing in `C` and
 /// changes sign between 0 and `total/V`, so bisection finds the root
 /// without a derivative and cannot diverge. Fifty halvings take the
 /// bracket below a part in 10^15 of its width, which is far finer than
 /// either curated parameter deserves.
-fn dissolved_at_equilibrium(isotherm: &Isotherm, total_mg: f64, litres: f64, grams: f64) -> f64 {
+fn dissolved_mg_at_equilibrium(isotherm: &Isotherm, total_mg: f64, litres: f64, grams: f64) -> f64 {
     if litres <= 0.0 {
         return 0.0;
     }
     let residual = |c: f64| c * litres + langmuir(isotherm, c) * grams - total_mg;
     let (mut low, mut high) = (0.0, total_mg / litres);
+    // Only reachable with no sorbent at all, where `q(C)·m` is zero and
+    // the balance is met exactly at the top of the bracket: everything
+    // stays in solution.
     if residual(high) <= 0.0 {
-        return high;
+        return total_mg;
     }
     for _ in 0..50 {
         let mid = 0.5 * (low + high);
@@ -149,7 +161,7 @@ fn dissolved_at_equilibrium(isotherm: &Isotherm, total_mg: f64, litres: f64, gra
             low = mid;
         }
     }
-    0.5 * (low + high)
+    0.5 * (low + high) * litres
 }
 
 /// Bring every curated pair in this vessel to its isotherm, moving the
@@ -180,7 +192,7 @@ pub fn equilibrate(vessel: &mut Vessel) -> Vec<Event> {
                 vessel.adsorbed_moles(&sorbate_id).0 * sorbate.molar_mass * 1_000.0
             }
         } else {
-            let dissolved_mg = dissolved_at_equilibrium(isotherm, total_mg, litres, grams);
+            let dissolved_mg = dissolved_mg_at_equilibrium(isotherm, total_mg, litres, grams);
             (total_mg - dissolved_mg).max(0.0)
         };
         let bound_target = bound_target_mg / (sorbate.molar_mass * 1_000.0);
@@ -279,7 +291,7 @@ pub fn applies(vessel: &Vessel) -> bool {
         }
         let total_mg = total * sorbate.molar_mass * 1_000.0;
         let bound_target_mg =
-            total_mg - dissolved_at_equilibrium(isotherm, total_mg, litres, grams);
+            total_mg - dissolved_mg_at_equilibrium(isotherm, total_mg, litres, grams);
         (bound_target_mg - bound_now_mg).abs() >= OBSERVABLE_MG
     })
 }
@@ -308,5 +320,64 @@ impl Equilibrator for AdsorptionEquilibrator {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         Ok(equilibrate(vessel))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The unit bug, pinned. `dissolved_mg_at_equilibrium` returns a MASS,
+    /// and the arithmetic that proves it is the mass balance itself: what
+    /// is left in solution plus what is on the carbon must be what went
+    /// in. A function returning the CONCENTRATION would fail this by
+    /// exactly the reciprocal of the volume, which is how the defect hid.
+    #[test]
+    fn the_split_is_a_mass_and_closes_the_balance() {
+        let isotherm = &ISOTHERMS[0];
+        let total_mg = 327.334;
+        let litres = 0.1;
+        for grams in [0.1, 1.0, 5.0, 50.0] {
+            let dissolved = dissolved_mg_at_equilibrium(isotherm, total_mg, litres, grams);
+            assert!(
+                (0.0..=total_mg).contains(&dissolved),
+                "{grams} g: {dissolved} mg dissolved out of {total_mg} mg"
+            );
+            let bound = total_mg - dissolved;
+            let concentration = dissolved / litres;
+            assert!(
+                (bound - langmuir(isotherm, concentration) * grams).abs() < 1e-6,
+                "{grams} g: {bound} mg held is not the isotherm's own q({concentration}) x m"
+            );
+        }
+    }
+
+    /// More carbon holds more, and the monolayer is a ceiling.
+    #[test]
+    fn the_isotherm_is_monotone_and_capped() {
+        let isotherm = &ISOTHERMS[0];
+        let (total_mg, litres) = (327.334, 0.1);
+        let mut previous = f64::INFINITY;
+        for grams in [0.1, 0.5, 1.0, 5.0] {
+            let dissolved = dissolved_mg_at_equilibrium(isotherm, total_mg, litres, grams);
+            assert!(dissolved < previous, "{grams} g left {dissolved} mg");
+            previous = dissolved;
+            let loading = (total_mg - dissolved) / grams;
+            assert!(
+                loading <= isotherm.capacity_mg_per_g,
+                "{grams} g: {loading} mg/g is over the monolayer"
+            );
+        }
+    }
+
+    /// No carbon is not an edge case to be caught downstream: the split
+    /// itself has to say that all of it stays in the water.
+    #[test]
+    fn with_no_sorbent_everything_stays_dissolved() {
+        let isotherm = &ISOTHERMS[0];
+        assert_eq!(
+            dissolved_mg_at_equilibrium(isotherm, 327.334, 0.1, 0.0),
+            327.334
+        );
     }
 }
