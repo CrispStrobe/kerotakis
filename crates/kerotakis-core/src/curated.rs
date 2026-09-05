@@ -426,6 +426,37 @@ pub const ORG_REACTIONS: &[OrgReaction] = &[
         boundary: "alkaline hydrolysis is driven by the carboxylate sink and                    goes to completion honestly; the heat of reaction is not                    yet curated and no thermal effect is applied",
         source: "Alkaline ester hydrolysis, March's Advanced Organic                  Chemistry; stoichiometry proven against the kerotakis-org                  SMIRKS template at the InChIKey level",
     },
+    // BRD-023, bio-064. The overall reaction of acetification, and
+    // deliberately the SAME equation the fermentation lane already runs
+    // for `food/acetic-acid-bacteria`: two routes to vinegar that
+    // disagreed about its stoichiometry would be worse than one route.
+    // No SMIRKS template proves this row — `kerotakis-org` carries
+    // templates for the ester pair only — so the check available here is
+    // the atom and mass balance against the registry formulas, which the
+    // verb's own conservation test exercises.
+    OrgReaction {
+        name: "alcohol-oxidation",
+        equation: "C2H5OH + O2 → CH3COOH + H2O",
+        reactants: &[("ethanol", 1.0), ("O2", 1.0)],
+        products: &[
+            ("CH3COOH", 1.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+        ],
+        boundary: "asking for a named reaction is the LEARNER requesting an outcome, not the bench predicting one: nothing here decides that ethanol standing in air will turn into vinegar, and the verb runs only because it was asked. This is the overall equation of acetification and not its pathway — the acetaldehyde the oxidation really passes through is not modelled, no organism is present, and no rate, no oxygen transfer from room air and no reaction heat are claimed. The oxygen has to be in the vessel already.",
+        source: "The overall acetification reaction C2H5OH + O2 → CH3COOH + H2O, cited to the same place the fermentation lane cites it: the `food/acetic-acid-bacteria` culture shipped in #412, whose `CultureMetabolism::Acetic` route runs this identical stoichiometry in crates/kerotakis-core/src/fermentation.rs. The two must not disagree, so this row takes that route's equation unchanged rather than restating it. Atom- and mass-balanced against the registry formulas for ethanol, O2, CH3COOH and water; no enthalpy is curated and none is applied.",
+    },
+    // BRD-052, bio-080. Aerobic respiration as its overall equation, and
+    // nothing more: the point of putting it behind the verb rather than
+    // behind a solver is that a beaker of glucose and oxygen does NOT
+    // respire, and only a request makes this happen.
+    OrgReaction {
+        name: "respiration",
+        equation: "C6H12O6 + 6 O2 → 6 CO2 + 6 H2O",
+        reactants: &[("glucose", 1.0), ("O2", 6.0)],
+        products: &[("CO2", 6.0, Phase::Gas), ("water", 6.0, Phase::Liquid)],
+        boundary: "asking for a named reaction is the LEARNER requesting an outcome, not the bench predicting it: nothing here decides that glucose and oxygen in a beaker will respire. No cell, no membrane, no enzyme, no electron transport chain and no ATP is modelled — glycolysis, the citric acid cycle and oxidative phosphorylation are collapsed into one equation, which is a summary of respiration and not a mechanism for it. The standard enthalpy of combustion of glucose is about −2803 kJ/mol, and THAT HEAT IS NOT APPLIED: no row in this table carries a curated reaction enthalpy, so the vessel's temperature does not move and the figure is quoted rather than used. The energy a cell actually captures is smaller again, and is not claimed at all.",
+        source: "Aerobic respiration of D-glucose, C6H12O6 + 6 O2 → 6 CO2 + 6 H2O, the standard overall equation; atom- and mass-balanced against the registry formulas for glucose, O2, CO2 and water. The enthalpy quoted in the boundary, about −2803 kJ/mol as the standard enthalpy of combustion of D-glucose at 298.15 K, is recorded AS COMMONLY TABULATED and ITS PROVENANCE LANE IS PENDING REVIEW: it is not a transcription from a positively identified copy of any single edition of the CODATA key values, the NIST/JANAF tables or the CRC Handbook of Chemistry and Physics, no edition-level provenance is claimed, and it is flagged for reviewer confirmation against a positively identified copy. Nothing in the engine consumes it.",
+    },
 ];
 
 const TRACE: f64 = 1e-12;

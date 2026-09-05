@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a sixth time (two rows, BRD-023/BRD-052's two named
+reactions) — see below, and read that entry before quoting it: neither row
+gained a prediction.
+
 Refreshed 2026-09-05 a fifth time (eight rows, BRD-050's bounded
 biochemical route) — see below, and read that entry before quoting its
 count: three of the eight are not answers.
@@ -1421,3 +1425,53 @@ aqueous solubility on purpose, so the engine says it does not know rather
 than asserting that the polymer survives.
 
 Nineteen drifts, no regressions, and the expectation-mismatch count is 84.
+
+
+## 2026-09-05, sixth — two rows, and the last `unknown-reaction` in the corpus
+
+`bio-064` (alcohol to vinegar) and `bio-080` (glucose plus oxygen) were the
+only two prompts in all five hundred that stopped at
+`ParseErrorKind::UnknownReaction`: they asked the `react` verb for a name
+`curated::ORG_REACTIONS` did not carry. Both names are now on that shelf, so
+both scripts run end to end and both rows leave `missing`/`unknown-reaction`.
+
+**What they gained is an equation, not a prediction**, and the verb's own
+boundary text now says that in as many words: asking for a named reaction is
+the LEARNER requesting an outcome, and nothing in the bench decides that
+ethanol standing in air will acetify or that glucose in a beaker will
+respire. That is the whole reason these two live behind a verb rather than
+behind a solver.
+
+- `bio-064` → `alcohol-oxidation`, C2H5OH + O2 → CH3COOH + H2O. Deliberately
+  the SAME equation the fermentation lane's `food/acetic-acid-bacteria`
+  culture runs (#412, `CultureMetabolism::Acetic`), cited to that route
+  rather than restated: two paths to vinegar that disagreed about its
+  stoichiometry would be worse than one path. No organism, no rate, no
+  acetaldehyde intermediate, no oxygen drawn from room air, and the oxygen
+  has to be in the vessel already.
+- `bio-080` → `respiration`, C6H12O6 + 6 O2 → 6 CO2 + 6 H2O. Glycolysis, the
+  citric acid cycle and oxidative phosphorylation collapsed into one line.
+  **There is still no cell on this bench**, and the entry three sections
+  above — where `bio-096`'s respiration in a sealed jar runs and answers
+  nothing — is not superseded by this one. The standard enthalpy of
+  combustion of glucose, about −2803 kJ/mol as commonly tabulated with its
+  provenance lane pending review, is quoted in the row's boundary and **is
+  not applied**: no row in that table carries a curated reaction enthalpy, so
+  the vessel's temperature does not move.
+
+Neither row carries a SMIRKS template. `kerotakis-org` has templates for the
+ester pair only, and the differential test in
+`crates/kerotakis-org/tests/template_oracle.rs` proves those two rows by
+name; it is not a totality check and these two are outside it. What proves
+these is the atom and mass balance against the registry formulas, which the
+`react` verb's own conservation test exercises — a weaker check, and this
+paragraph is where that is admitted rather than hidden.
+
+One test moved with them. `crates/kerotakis-codex/tests/curiosity_corpus.rs`
+required the corpus to contain a prompt declaring each typed parser boundary,
+and closing both rows left `UnknownReaction` with none. The requirement is
+now asserted against the parser directly (`react v1 transmutation` must still
+fail typed) rather than satisfied by leaving a row permanently broken to feed
+it; keeping the row would have been the corpus serving the test.
+
+Two drifts, no regressions.

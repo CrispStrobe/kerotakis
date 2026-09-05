@@ -1133,8 +1133,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-064"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-reaction"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-065"
@@ -1229,8 +1229,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-080"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "unknown-reaction"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-081"
