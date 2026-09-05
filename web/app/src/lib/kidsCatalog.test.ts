@@ -36,7 +36,18 @@ describe("kids catalog", () => {
       new Set(["vitamin-c"]),
     )).toEqual({
       capabilities: ["bio-095"], codex: ["vitamin-c"], lessonCompleted: true, codexCompleted: ["vitamin-c"],
+      linkedLearning: 2, completedLearning: 2, progress: "all",
     });
+  });
+
+  it("reports none, some, and all from saved lesson and Codex ids only", () => {
+    const linked = { ...apple, lesson: "apple-browning.lab", quest: "temporary-quest", codex: ["vitamin-c"] };
+    const progress = (missions: string[], experiments: string[]) => kidsConnections(
+      linked, new Set(), new Set(["vitamin-c"]), new Set(missions), new Set(experiments),
+    ).progress;
+    expect(progress([], [])).toBe("none");
+    expect(progress(["apple-browning"], [])).toBe("some");
+    expect(progress(["apple-browning"], ["vitamin-c"])).toBe("all");
   });
 
   it("searches number, title, ingredient, apparatus and boundary text", () => {

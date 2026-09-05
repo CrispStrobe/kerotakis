@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
-  import { missionId, storyDistricts, type MissionSummary } from "../storyProgress";
+  import { missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
 
   let {
@@ -31,6 +31,8 @@
   let selectedId = $state("discovery-hall");
   const selected = $derived(districts.find((district) => district.id === selectedId) ?? districts[0]);
   const completedCount = $derived(completed.size);
+  const nextMission = $derived(nextUnlockedMission(missions, completed, active));
+  const continuing = $derived(nextMission !== null && missionId(nextMission.file) === active);
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(event) => event.key === "Escape" && onclose()}>
@@ -41,6 +43,14 @@
         <h1 id="story-title">{t("Choose where to investigate")}</h1>
         <p>{t("Finish missions to open new districts. Choose your own route through the campus.")}</p>
       </div>
+      {#if nextMission}
+        <button class="next-investigation" onclick={() => onstart(nextMission.file)}>
+          <small>{continuing ? t("continue investigation") : t("next investigation")}</small>
+          <strong>{t(nextMission.name)}</strong><span aria-hidden="true">→</span>
+        </button>
+      {:else if missions.length > 0}
+        <span class="all-complete">✓ {t("all missions complete")}</span>
+      {/if}
       <div class="research-score" aria-label={t("{count} missions complete", { count: completedCount })}>
         <strong>{completedCount}</strong><span>{t("discoveries")}</span>
       </div>
@@ -151,6 +161,11 @@
   h1 { margin: .2rem 0 .35rem; font-size: clamp(1.65rem, 3vw, 2.65rem); line-height: 1; letter-spacing: -.045em; }
   header p, .district-title p { max-width: 44rem; margin: 0; color: var(--dim); font-size: .88rem; }
   .eyebrow, .topic, footer > span { color: var(--discovery); font-size: .66rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  .next-investigation { max-width: 17rem; display: grid; grid-template-columns: 1fr auto; gap: .1rem .65rem; padding: .55rem .75rem; border: 1px solid color-mix(in srgb, var(--discovery) 35%, var(--edge)); border-radius: 13px; color: var(--ink); background: var(--surface); cursor: pointer; text-align: left; }
+  .next-investigation small { grid-column: 1; color: var(--discovery); font-size: .58rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .next-investigation strong { grid-column: 1; overflow: hidden; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+  .next-investigation span { grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--discovery); }
+  .all-complete { color: var(--success); font-size: .72rem; font-weight: 850; }
   .research-score { min-width: 5rem; margin-left: auto; display: grid; justify-items: center; padding: .6rem 1rem; border: 1px solid color-mix(in srgb, var(--discovery) 35%, var(--edge)); border-radius: 16px; background: color-mix(in srgb, var(--surface) 72%, transparent); }
   .research-score strong { color: var(--discovery); font-size: 1.55rem; line-height: 1; }
   .research-score span { color: var(--dim); font-size: .65rem; }
@@ -196,6 +211,7 @@
     .story-map { width: 100%; height: 100dvh; border: 0; border-radius: 0; }
     header { padding: 1rem 3.8rem 1rem 1rem; }
     .research-score { display: none; }
+    .next-investigation, .all-complete { display: none; }
     .map-and-board { display: block; overflow: auto; }
     .campus { overflow: visible; }
     .mission-board { overflow: visible; }

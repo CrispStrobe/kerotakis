@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { missionId, missionTitle, storyDistricts, type MissionSummary } from "./storyProgress";
+import { missionId, missionTitle, nextUnlockedMission, storyDistricts, type MissionSummary } from "./storyProgress";
 
 const missions: MissionSummary[] = [
   { file: "silver-and-salt.lab", name: "silver and salt", topic: "start here" },
@@ -40,5 +40,12 @@ describe("story progression", () => {
     const districts = storyDistricts(missions, new Set());
     expect(districts.flatMap((district) => district.missions).map((mission) => mission.file).sort())
       .toEqual(missions.map((mission) => mission.file).sort());
+  });
+
+  it("selects an active continuation, then the first unlocked incomplete mission", () => {
+    expect(nextUnlockedMission(missions, new Set(), "never-mix")?.file).toBe("never-mix.lab");
+    expect(nextUnlockedMission(missions, new Set(["silver-and-salt"]))?.file).toBe("never-mix.lab");
+    expect(nextUnlockedMission(missions, new Set(["silver-and-salt", "never-mix"]))?.file).toBe("fizz.lab");
+    expect(nextUnlockedMission(missions, new Set(missions.map((mission) => missionId(mission.file))))).toBeNull();
   });
 });

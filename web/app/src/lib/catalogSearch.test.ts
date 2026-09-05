@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { equipmentMatches, experimentMatches, normalizeCatalogText, reagentMatches } from "./catalogSearch";
+import { equipmentMatches, experimentHasProgress, experimentMatches, normalizeCatalogText, reagentMatches } from "./catalogSearch";
 
 const water = { key: "water", name: "water", formula: "H2O" };
 
@@ -44,6 +44,18 @@ describe("experimentMatches", () => {
   it("keeps canonical ids and formulae searchable", () => {
     expect(experimentMatches(entry, "peroxide", de)).toBe(true);
     expect(experimentMatches(entry, "H2O2", de)).toBe(true);
+  });
+});
+
+describe("experimentHasProgress", () => {
+  const entry = { id: "known-result" };
+  const completed = new Set(["known-result"]);
+
+  it("filters only by persisted successful-run ids", () => {
+    expect(experimentHasProgress(entry, completed, "all")).toBe(true);
+    expect(experimentHasProgress(entry, completed, "completed")).toBe(true);
+    expect(experimentHasProgress(entry, completed, "not-tried")).toBe(false);
+    expect(experimentHasProgress({ id: "new-result" }, completed, "not-tried")).toBe(true);
   });
 });
 
