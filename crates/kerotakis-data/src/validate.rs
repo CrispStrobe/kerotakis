@@ -640,6 +640,37 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::UvAttenuation {
+                        spf,
+                        uva_protection_factor,
+                        film_mg_per_cm2,
+                        mechanism,
+                        boundary,
+                        source,
+                    } => {
+                        self.nonempty(&format!("{role_path}.mechanism"), mechanism);
+                        self.nonempty(&format!("{role_path}.boundary"), boundary);
+                        self.nonempty(&format!("{role_path}.source"), source);
+                        // A factor below one would transmit more light than
+                        // arrived; a film of nothing protects nothing.
+                        for (name, value) in [
+                            ("spf", spf),
+                            ("uva_protection_factor", uva_protection_factor),
+                        ] {
+                            if !value.is_finite() || *value < 1.0 {
+                                self.issue(
+                                    format!("{role_path}.{name}"),
+                                    "must be finite and at least 1",
+                                );
+                            }
+                        }
+                        if !film_mg_per_cm2.is_finite() || *film_mg_per_cm2 <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.film_mg_per_cm2"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
                     MaterialRole::SealedCell {
                         open_circuit_volts,
                         reaction,

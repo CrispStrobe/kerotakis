@@ -3279,13 +3279,26 @@ impl Bench {
                 wavelength_nm,
                 irradiance_w_m2,
             } => {
-                let _v = self.vessel(*vessel)?;
+                let v = self.vessel(*vessel)?;
                 events.push(Event::Irradiated {
                     vessel: *vessel,
                     wavelength_nm: *wavelength_nm,
                     irradiance_w_m2: *irradiance_w_m2,
                     photolysis_coupled: false,
                 });
+                // BRD-014.S05: a named material with a UV-attenuation
+                // role answers a UV wavelength with the fraction it lets
+                // through; everything else is as silent as before.
+                for reading in crate::uv::attenuate(v, *wavelength_nm) {
+                    events.push(Event::UvAttenuated {
+                        vessel: *vessel,
+                        material: reading.material,
+                        wavelength_nm: reading.wavelength_nm,
+                        band: reading.band.as_str().to_string(),
+                        transmitted_fraction: reading.transmitted_fraction,
+                        mechanism: reading.mechanism,
+                    });
+                }
             }
             Operator::Particles { vessel } => {
                 let v = self.vessel(*vessel)?;

@@ -68969,6 +68969,101 @@
           "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
+    },
+    {
+      "id": "cosmetic/broad-spectrum-sunscreen",
+      "version": 1,
+      "canonical_key": "sunscreen",
+      "name": "sunscreen lotion",
+      "aliases": {
+        "de": [
+          "Sonnencreme",
+          "Sonnenmilch",
+          "Sonnenschutz"
+        ],
+        "en": [
+          "sunblock",
+          "sun cream",
+          "SPF 30 lotion"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.6,
+            "upper": 0.6
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.4,
+        "upper": 0.4
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "uv_attenuation",
+          "spf": 30.0,
+          "uva_protection_factor": 10.0,
+          "film_mg_per_cm2": 2.0,
+          "mechanism": "the light is attenuated, not merely absorbed: the mineral filters (zinc oxide and titanium dioxide) scatter and absorb it, the organic filters absorb it, and what reaches the skin is the labelled fraction",
+          "boundary": "A broad-spectrum SPF 30 teaching lotion. The two factors are label-class figures at the 2.0 mg/cm2 test film, not a measured spectrum: nothing here resolves wavelength inside a band, models photostability, water resistance, application thickness, or the skin underneath, and no filter is an installed species - the 40% unresolved fraction stands for the mineral and organic filters, emollients and emulsifiers together. Below 280 nm and above 400 nm this row says nothing; visible light passes it as it passes any white lotion, by scattering, which the colour path does not model either",
+          "source": "Kerotakis curated UV-attenuation tranche v1: the transmitted fraction of ultraviolet light through a named sun-protection material at the 2.0 mg/cm2 film the SPF test is defined at, per band. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE TEACHING FIGURES. The sun protection factor is defined as an erythemal dose ratio (ISO 24444 / the earlier COLIPA method) that the UV-B band dominates, so a labelled SPF of 30 is read here as transmitting 1/30 of UV-B; a broad-spectrum claim requires a UV-A protection factor of at least a third of the SPF, and 10 is the figure a broad-spectrum SPF 30 label implies. These are label-class factors for a teaching object, not a measured spectrum of any product, no edition of any standard was opened for this row, and it is flagged for reviewer confirmation. The mechanism is stated in words because it is two mechanisms: mineral filters (zinc oxide, titanium dioxide) scatter and absorb, organic filters absorb, and a Beer-Lambert absorbance would misdescribe the first. Compiled 2026-09-05"
+        }
+      ],
+      "preparation": "a broad-spectrum SPF 30 sunscreen lotion: 60% water, with the mineral and organic UV filters, emollients and emulsifiers conserved unresolved",
+      "lot_assumptions": [
+        "SPF 30 with a UV-A protection factor of 10 is the label a broad-spectrum lotion carries, and those two factors are what this recipe fixes; no filter is named as a species because none is installed and the filters' identity is not what the row answers",
+        "the transmitted fraction is read at the 2.0 mg/cm2 film the SPF test defines. A learner who applies less is less protected, and this bench does not model how much was applied",
+        "NOTHING HERE IS A DERMATOLOGICAL MODEL: no skin, no erythema, no dose over time, and no claim about any product that can be bought"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
     }
   ]
 }

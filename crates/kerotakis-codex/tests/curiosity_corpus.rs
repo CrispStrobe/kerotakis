@@ -58,22 +58,22 @@ fn curiosity_v1_is_complete_and_structurally_sound() {
     for age_band in AgeBand::LEARNER_BANDS {
         assert!(inventory.by_age_band[&age_band] > 0, "missing {age_band:?}");
     }
-    // `UnknownSpecies` still has corpus rows and should: substances this
-    // shelf does not carry are a standing state, not a defect.
-    //
-    // `UnknownReaction` no longer has one. bio-064 and bio-080 were the
-    // only two, and BRD-023/BRD-052 closed both by curating the reactions
-    // they asked for — which is the outcome this corpus exists to produce.
-    // What the assertion was actually protecting is that the `react` verb
-    // still vets its names and still says so in a TYPED way, so that is
-    // asserted against the parser directly. Keeping a row permanently
-    // broken to feed a test would be the corpus serving the test.
-    assert!(
-        corpus
-            .prompts
-            .iter()
-            .any(|prompt| prompt.parse_boundary == Some(ParseErrorKind::UnknownSpecies)),
-        "corpus does not exercise UnknownSpecies"
+    // Neither parser boundary has a corpus row any more, and that is the
+    // outcome this corpus exists to produce. `UnknownReaction` went first:
+    // bio-064 and bio-080 were the only two, and BRD-023/BRD-052 closed
+    // both by curating the reactions they asked for. `UnknownSpecies` went
+    // the same evening: bio-111 was the last, and BRD-014.S05 closed it
+    // with a UV-attenuation model rather than a wider spectral table. What
+    // each assertion was actually protecting is that the parser still vets
+    // its names and still says so in a TYPED way, so both are asserted
+    // against the parser directly. Keeping a row permanently broken to
+    // feed a test would be the corpus serving the test.
+    assert_eq!(
+        kerotakis_core::script::parse_op_typed("add v1 unobtainium 1g")
+            .expect_err("a substance the shelf does not carry must not parse")
+            .kind,
+        ParseErrorKind::UnknownSpecies,
+        "the add verb no longer vets its species typed"
     );
     assert_eq!(
         kerotakis_core::script::parse_op_typed("react v1 transmutation")

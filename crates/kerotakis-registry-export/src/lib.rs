@@ -87,6 +87,7 @@ const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, proven
 /// the reason `corrosion::Barrier` carries its own source: the meter
 /// prints the number, so it must be able to print the book, and the
 /// runtime holds recipes without holding the source records.
+const UV_ATTENUATION_CITATION: &str = "Kerotakis curated UV-attenuation tranche v1: the transmitted fraction of ultraviolet light through a named sun-protection material at the 2.0 mg/cm2 film the SPF test is defined at, per band. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE TEACHING FIGURES. The sun protection factor is defined as an erythemal dose ratio (ISO 24444 / the earlier COLIPA method) that the UV-B band dominates, so a labelled SPF of 30 is read here as transmitting 1/30 of UV-B; a broad-spectrum claim requires a UV-A protection factor of at least a third of the SPF, and 10 is the figure a broad-spectrum SPF 30 label implies. These are label-class factors for a teaching object, not a measured spectrum of any product, no edition of any standard was opened for this row, and it is flagged for reviewer confirmation. The mechanism is stated in words because it is two mechanisms: mineral filters (zinc oxide, titanium dioxide) scatter and absorb, organic filters absorb, and a Beer-Lambert absorbance would misdescribe the first. Compiled 2026-09-05";
 const MATERIAL_RESISTIVITY_CITATION: &str = "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05";
 /// The one property that separates the two families of plastic.
 ///
@@ -5029,6 +5030,47 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "a sourdough starter is a community of wild yeasts and lactic bacteria and no organism is named; what is claimed is one aggregate equation, not who runs which half of it".to_string(),
                 "no gluten, no dough, no rise and no crumb: the gas is booked as carbon dioxide in the vessel, and whether a loaf holds it is a mechanical question this bench does not ask".to_string(),
                 "NOTHING HERE IS A FOOD-SAFETY MODEL. There is no pathogen, no spoilage organism and no competing culture on this bench, so a finished run says an acid was made and never that the result is safe to eat".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-111: a sunscreen answers ultraviolet light by attenuating it,
+        // and the honest model is a label-class factor per band rather than
+        // a spectrum nobody can source - see the tranche citation.
+        MaterialRecipe {
+            id: "cosmetic/broad-spectrum-sunscreen".to_string(),
+            version: 1,
+            canonical_key: "sunscreen".to_string(),
+            name: "sunscreen lotion".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Sonnencreme".to_string(), "Sonnenmilch".to_string(), "Sonnenschutz".to_string()]),
+                ("en".to_string(), vec!["sunblock".to_string(), "sun cream".to_string(), "SPF 30 lotion".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.0)),
+            components: vec![
+                component("water", 0.6),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.4,
+                upper: 0.4,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::UvAttenuation {
+                spf: 30.0,
+                uva_protection_factor: 10.0,
+                film_mg_per_cm2: 2.0,
+                mechanism: "the light is attenuated, not merely absorbed: the mineral filters (zinc oxide and titanium dioxide) scatter and absorb it, the organic filters absorb it, and what reaches the skin is the labelled fraction".to_string(),
+                boundary: "A broad-spectrum SPF 30 teaching lotion. The two factors are label-class figures at the 2.0 mg/cm2 test film, not a measured spectrum: nothing here resolves wavelength inside a band, models photostability, water resistance, application thickness, or the skin underneath, and no filter is an installed species - the 40% unresolved fraction stands for the mineral and organic filters, emollients and emulsifiers together. Below 280 nm and above 400 nm this row says nothing; visible light passes it as it passes any white lotion, by scattering, which the colour path does not model either".to_string(),
+                source: UV_ATTENUATION_CITATION.to_string(),
+            }],
+            preparation: Some("a broad-spectrum SPF 30 sunscreen lotion: 60% water, with the mineral and organic UV filters, emollients and emulsifiers conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "SPF 30 with a UV-A protection factor of 10 is the label a broad-spectrum lotion carries, and those two factors are what this recipe fixes; no filter is named as a species because none is installed and the filters' identity is not what the row answers".to_string(),
+                "the transmitted fraction is read at the 2.0 mg/cm2 film the SPF test defines. A learner who applies less is less protected, and this bench does not model how much was applied".to_string(),
+                "NOTHING HERE IS A DERMATOLOGICAL MODEL: no skin, no erythema, no dose over time, and no claim about any product that can be bought".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

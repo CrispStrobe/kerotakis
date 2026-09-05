@@ -772,7 +772,7 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["lactic_acid", "yoghurt"]
 script = ["add v1 milk 100mL", "add v1 yoghurt_culture 1g", "wait 8h", "measure v1 ph"]
-smoke = false
+smoke = true
 
 [[prompt]]
 id = "bio-070"
@@ -1257,7 +1257,6 @@ material_class = "cosmetic"
 owning_task = "BRD-012"
 tags = ["sunscreen", "ultraviolet"]
 script = ["add v1 sunscreen 1g", "irradiate v1 300nm 10W/m2", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

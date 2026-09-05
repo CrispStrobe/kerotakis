@@ -865,6 +865,20 @@ pub enum Event {
         irradiance_w_m2: f64,
         photolysis_coupled: bool,
     },
+    /// BRD-014.S05: a named material stood in ultraviolet light and let
+    /// only a fraction through — the label's factor for that band, at the
+    /// standard film, with the mechanism in words.
+    UvAttenuated {
+        vessel: VesselId,
+        /// The recipe's display name.
+        material: String,
+        wavelength_nm: f64,
+        /// "UV-B" or "UV-A".
+        band: String,
+        /// Fraction of the incident light transmitted, 0–1.
+        transmitted_fraction: f64,
+        mechanism: String,
+    },
     /// Tracked particles settled under ordinary gravity while bench time
     /// advanced, using the same Stokes model as the centrifuge at 1 g.
     GravitySettled {

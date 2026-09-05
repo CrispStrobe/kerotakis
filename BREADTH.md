@@ -811,7 +811,17 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     the three. No CC0/CC BY ε(λ) source for the organic absorber was found.
     The honest answer to "does sunscreen absorb UV" needs a UV model, not a
     wider table, and until there is one `unknown-species` remains the
-    better answer.
+    better answer. **Superseded the same evening by that UV model
+    (Fable):** `MaterialRole::UvAttenuation` carries a label-class SPF and
+    UV-A protection factor at the 2.0 mg/cm² test film, `uv.rs` reads the
+    transmitted fraction per band (1/SPF for 280–320 nm, 1/UVA-PF for
+    320–400 nm) off any named material under `irradiate`, and
+    `Event::UvAttenuated` says so with the mechanism in words — attenuated,
+    scattered and absorbed, not "absorbed" — and its boundary: no spectrum
+    inside a band, no photostability, no skin, no filter as a species. The
+    visible table is untouched; ZnO/TiO₂ stay uninstalled; `bio-111` moves
+    out of `missing` on a computed transmitted fraction, and the two
+    factors are pending-review teaching figures, said so in the tranche.
   - `BRD-014.S06` (2026-09-05) — diesel, and the registry identity a rich
     flame needed. `th-048` ("why does diesel need different ignition
     conditions from petrol?") failed at the parser, and closing it honestly

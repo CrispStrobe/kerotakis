@@ -97,6 +97,7 @@ pub mod surface_spread;
 pub mod swelling;
 pub mod transport;
 pub mod units;
+pub mod uv;
 pub mod vessel;
 
 pub use appearance::{observe, Appearance};

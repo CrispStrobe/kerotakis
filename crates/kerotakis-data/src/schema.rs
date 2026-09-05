@@ -344,6 +344,28 @@ pub enum MaterialRole {
         /// The citation that travels with the two temperatures.
         source: String,
     },
+    /// How a named material answers ultraviolet light: the transmitted
+    /// fraction at the standard test film, in the two bands a sun-protection
+    /// label is defined over. A labelled SPF is an erythemal dose ratio that
+    /// the UV-B band dominates; a broad-spectrum claim adds a UV-A protection
+    /// factor. Neither is a spectrum — this row states attenuation per band,
+    /// and says why it is not absorption: mineral filters scatter as much as
+    /// they absorb, so the Beer–Lambert path the question invites would be
+    /// the wrong physics for them.
+    UvAttenuation {
+        /// Sun protection factor: the UV-B transmitted fraction is 1/SPF.
+        spf: f64,
+        /// UV-A protection factor: the UV-A transmitted fraction is 1/UVA-PF.
+        uva_protection_factor: f64,
+        /// The film the factors are defined at, mg/cm² (2.0 in the standard).
+        film_mg_per_cm2: f64,
+        /// How the light is stopped, in words.
+        mechanism: String,
+        /// What this row does not claim.
+        boundary: String,
+        /// The citation that travels with the factors.
+        source: String,
+    },
     BulkElectricalResistivity {
         /// Room-temperature bulk DC volume resistivity of this reviewed
         /// object, in ohm.m. Must lie inside the declared span.
