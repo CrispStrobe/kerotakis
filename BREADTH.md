@@ -1120,7 +1120,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   and alkaline ester hydrolysis (water-majority, ≥ 50 °C). The SN2/E2
   templates stay out of the pack until their haloalkanes have curated
   structures — a record that can never fire is documentation in a record's
-  clothes. Spoken declines as events are the next slice, gated on being able
+  clothes. *Same day, found by the aqueous-tail tests (#395):* the tail keeps
+  a strong base as `Na+` plus a positive `solute_charge`, never as an `NaOH`
+  or `OH-` portion, so a record naming `NaOH` matched only on the step the
+  base was poured. The router now carries two charge-backed keys — `OH-`
+  from free alkalinity and `H+` from free strong acidity (the
+  `unspent_acidity` convention) — as candidates and gate answers; consuming
+  them moves no portion, the charge refresh after the deposited ions does
+  the bookkeeping, and a balanced salt opens neither. The pack names `OH-`
+  and accepts `H+` as the esterification catalyst. Spoken declines as events are the next slice, gated on being able
   to regenerate the lesson goldens.
 - **Outcome:** one audited rule can apply a known transformation to structurally
   matching substrates without becoming an arbitrary predictor.

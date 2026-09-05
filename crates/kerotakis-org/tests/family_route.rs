@@ -171,6 +171,54 @@ fn warm_ester_and_hydroxide_in_water_saponify_and_keep_the_sodium() {
 }
 
 #[test]
+fn hydroxide_the_aqueous_tail_left_as_charge_saponifies_too() {
+    // After a solve the tail keeps a strong base as Na+ plus alkalinity,
+    // with no hydroxide portion at all. The record names "OH-" and the
+    // router backs it with the charge; the match runs through chematic's
+    // [OH-] slot exactly as a poured NaOH portion does.
+    let mut v = vessel(
+        &[("water", 1.0), ("ethyl_acetate", 0.1), ("Na+", 0.1)],
+        340.0,
+    );
+    v.solute_charge = 0.1;
+    let events = family_equilibrator().equilibrate(&mut v).unwrap();
+    assert!(fired(&events, "alkaline-ester-hydrolysis"), "{events:?}");
+    assert!(moles(&v, "ethyl_acetate") < 1e-12, "the ester is gone");
+    assert!((moles(&v, "ethanol") - 0.1).abs() < 1e-9);
+    assert!((moles(&v, "CH3COO-") - 0.1).abs() < 1e-9);
+    assert!(
+        (moles(&v, "Na+") - 0.1).abs() < 1e-9,
+        "the sodium was already there"
+    );
+    assert!(
+        moles(&v, "OH-") < 1e-12,
+        "no hydroxide portion was conjured"
+    );
+    assert!(
+        v.solute_charge.abs() < 1e-9,
+        "the alkalinity is spent: {}",
+        v.solute_charge
+    );
+}
+
+#[test]
+fn a_balanced_salt_solution_is_not_alkaline() {
+    let mut v = vessel(
+        &[
+            ("water", 1.0),
+            ("ethyl_acetate", 0.1),
+            ("Na+", 0.1),
+            ("Cl-", 0.1),
+        ],
+        340.0,
+    );
+    v.solute_charge = 0.0;
+    let e = family_equilibrator().evaluate(&v);
+    assert!(e.ready.is_empty(), "{:?}", e.ready);
+    assert!(e.declined.is_empty(), "{:?}", e.declined);
+}
+
+#[test]
 fn cold_saponification_declines_and_dry_ester_is_not_asked() {
     let router = family_equilibrator();
     let cold = vessel(
