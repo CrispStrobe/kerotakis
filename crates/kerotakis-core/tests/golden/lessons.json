@@ -2873,6 +2873,106 @@
       }
     ]
   },
+  "lemon-cell": {
+    "event_count": 18,
+    "events_sample": [
+      "v1: +51.500 g lemon_juice (5 known ingredients)",
+      "v1: 0.0029 mol D-fructose (fruit sugar) dissolved",
+      "v1: 0.0029 mol D-glucose (dextrose) dissolved",
+      "v1: 0.0008 mol sucrose dissolved",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0153 mol zinc",
+      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +51.500 g lemon_juice (5 known ingredients)",
+      "v2: 0.0029 mol D-fructose (fruit sugar) dissolved",
+      "v2: 0.0029 mol D-glucose (dextrose) dissolved",
+      "v2: 0.0008 mol sucrose dissolved",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +0.0157 mol copper",
+      "v2: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1–v2: no cell — v1 has Zn but none of its ion in solution: a metal in water that does not contain its own ion has no defined potential here"
+    ],
+    "lesson": "lemon-cell.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0152952,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.0125987,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00075227,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.59286706,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01573663,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.0125987,
+            "phase": "Solid",
+            "species": "citric_acid"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "fructose"
+          },
+          {
+            "moles": 0.00285863,
+            "phase": "Aqueous",
+            "species": "glucose"
+          },
+          {
+            "moles": 0.00075227,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 2.59286706,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "lemonade-indicator": {
     "event_count": 16,
     "events_sample": [
@@ -5257,6 +5357,37 @@
           },
           {
             "moles": 2.8812101,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "water-electrolysis": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.0070 mol sodium sulfate",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — nothing here can be electrolysed: v1 holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
+      "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is white and so cloudy you cannot see through it."
+    ],
+    "lesson": "water-electrolysis.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00704047,
+            "phase": "Solid",
+            "species": "Na2SO4"
+          },
+          {
+            "moles": 11.06855398,
             "phase": "Liquid",
             "species": "water"
           }

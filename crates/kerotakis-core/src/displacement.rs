@@ -982,6 +982,10 @@ pub struct SolventElectrolysis {
     /// undivided sulfate cell this is 0.5 mol H2O per mol electron; for
     /// chloralkali it is one, with hydroxide retained in solution.
     pub water_spent: f64,
+    /// Protons left by oxygen evolution when the cathode plates metal instead
+    /// of reducing water. In a water-splitting cell cathodic hydroxide cancels
+    /// these; in copper sulfate they remain and acidify the electrolyte.
+    pub protons_made: f64,
 }
 
 /// The current does something to the solution even with no metal cell.
@@ -1073,6 +1077,11 @@ pub fn electrolyse_solvent(
     } else {
         0.0
     };
+    let protons_made = if anode.0 == "O2" && cathode_plates {
+        electrons
+    } else {
+        0.0
+    };
     // In an undivided oxygen-producing cell the H+ and OH- half-reaction
     // products neutralise: only the net gases and water consumption remain.
     let hydroxide_made = if anode.0 == "O2" { 0.0 } else { hydroxide_made };
@@ -1089,6 +1098,7 @@ pub fn electrolyse_solvent(
         chloride_spent,
         hydroxide_made,
         water_spent,
+        protons_made,
     })
 }
 

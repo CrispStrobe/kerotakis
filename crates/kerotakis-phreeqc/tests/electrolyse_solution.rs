@@ -156,6 +156,8 @@ fn copper_sulfate_plates_copper_and_gives_oxygen() {
     // not oxidised at these potentials and water goes instead, which is
     // the difference between this cell and the brine one.
     assert_eq!(gas(&events, "Cl2"), 0.0, "no chloride, no chlorine");
+    let ph = bench.vessel(v).unwrap().solution.as_ref().expect("solution").ph;
+    assert!(ph < 2.0, "oxygen evolution leaves anode protons in the copper sulfate cell: pH {ph:.2}");
 }
 
 /// Pure water is not electrolysed, because pure water does not conduct.

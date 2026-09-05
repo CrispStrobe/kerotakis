@@ -2855,6 +2855,13 @@ impl Bench {
                                     Phase::Aqueous,
                                 );
                             }
+                            if run.protons_made > crate::OBSERVABLE_MOLES {
+                                v.deposit(
+                                    SpeciesId::new("H+"),
+                                    Moles(run.protons_made),
+                                    Phase::Aqueous,
+                                );
+                            }
                             // Anode.
                             if run.chloride_spent > crate::OBSERVABLE_MOLES {
                                 v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
