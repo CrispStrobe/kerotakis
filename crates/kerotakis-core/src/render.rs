@@ -194,7 +194,7 @@ fn appearance_word(appearance: Option<&'static str>, locale: Locale) -> &'static
 ///
 /// With one function there is nothing left to forget, and a grep for
 /// `\.name` in this file is a real check rather than a hint.
-fn species_name<'a>(locale: Locale, id: &'a SpeciesId) -> &'a str {
+fn species_name(locale: Locale, id: &SpeciesId) -> &str {
     let english = species::lookup(id).map(|d| d.name).unwrap_or(id.0.as_str());
     locale
         .lookup(&format!("species.{english}"))
