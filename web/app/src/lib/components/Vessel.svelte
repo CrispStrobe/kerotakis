@@ -247,6 +247,8 @@
     return `hsl(${270 - ((clamped - 380) / 360) * 270} 88% 54%)`;
   };
   const sealed = $derived(vessel.boundary !== "open");
+  // Engine wire tags, not words: the badge showed "pressure_controlled" raw. Values reuse the keys the lids above already translate.
+  const BOUNDARY_LABELS: Record<string, string> = { sealed: "sealed", pressure_controlled: "pressure-controlled", swept: "swept with carrier gas" };
   // Combustion is event-authoritative; temperature still owns glow/steam.
   const burning = $derived(ignitionEffect !== undefined);
   let ignitionFallbackVisible = $state(true);
@@ -1277,11 +1279,11 @@
           data-confidence={badge.confidence}
           onclick={() => onbadge?.(badge)}
         >
-          {badge.key === "ph" ? "pH" : t(badge.key)}
+          {badge.key === "ph" ? "pH" : t(badge.key.replaceAll("_", " "))}
           {badge.value.toFixed(2)}
         </button>
       {/each}
-      {#if sealed}<span class="badge">{t(vessel.boundary)}</span>{/if}
+      {#if sealed}<span class="badge">{t(BOUNDARY_LABELS[vessel.boundary] ?? vessel.boundary)}</span>{/if}
     {/if}
   </figcaption>
 </figure>

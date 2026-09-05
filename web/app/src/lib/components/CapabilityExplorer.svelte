@@ -20,6 +20,19 @@
     (age === "all" || prompt.age_band === age) &&
     capabilityMatches(prompt, query),
   ));
+  /**
+   * The corpus bands ages as identifiers. `age9_to12` de-underscored is
+   * "age9 to12", which is not a phrase any translator would be given; these
+   * are the words the dictionary is actually keyed by.
+   */
+  const AGE_LABELS: Record<string, string> = {
+    all: "all ages",
+    age9_to12: "ages 9–12",
+    age13_to15: "ages 13–15",
+    age16_to18: "ages 16–18",
+  };
+  const ageLabel = (band: string) => t(AGE_LABELS[band] ?? band.replaceAll("_", " "));
+
   const counts = $derived(Object.fromEntries(
     ["computed", "curated", "qualitative", "boundary", "missing"].map((key) =>
       [key, prompts.filter((prompt) => prompt.support === key).length],
@@ -65,7 +78,7 @@
       </select>
       <select bind:value={age} aria-label={t("filter by age")}>
         <option value="all">{t("all ages")}</option>
-        {#each ages as value (value)}<option value={value}>{t(value.replaceAll("_", " "))}</option>{/each}
+        {#each ages as value (value)}<option value={value}>{ageLabel(value)}</option>{/each}
       </select>
     </div>
 
@@ -75,16 +88,17 @@
         <li>
           <button class="question" onclick={() => (open = open === prompt.id ? null : prompt.id)} aria-expanded={open === prompt.id}>
             <span class="id">{prompt.id}</span>
-            <strong>{prompt.question}</strong>
+            <strong>{t(prompt.question)}</strong>
             <span class="badge" data-support={prompt.support}>{t(prompt.support)}</span>
           </button>
           {#if open === prompt.id}
             <div class="details">
-              <p>{t(prompt.topic.replaceAll("_", " "))} · {t(prompt.age_band.replaceAll("_", " "))} · {prompt.material_class}</p>
+              <p>{t(prompt.topic.replaceAll("_", " "))} · {ageLabel(prompt.age_band)} · {t(prompt.material_class.replaceAll("_", " ").replaceAll("-", " "))}</p>
               <div class="tags">{#each prompt.tags as tag (tag)}<span>{t(tag.replaceAll("_", " "))}</span>{/each}</div>
+              <p class="script-label">{t("bench script")}</p>
               <pre>{prompt.script.join("\n")}</pre>
               {#if prompt.support === "missing"}
-                <p class="boundary">{t("Not runnable yet: {reason}", { reason: prompt.boundary ?? prompt.reason_code })} · {prompt.owning_task}</p>
+                <p class="boundary">{t("Not runnable yet: {reason}", { reason: prompt.boundary ?? prompt.reason_code })} · {t("owner: {task}", { task: prompt.owning_task })}</p>
               {:else}
                 <button class="run" disabled={running !== null || session.busy} onclick={() => void run(prompt)}>
                   {running === prompt.id ? t("running…") : t("try this question on the bench")}
@@ -93,6 +107,8 @@
             </div>
           {/if}
         </li>
+      {:else}
+        <li class="empty">{t("No question matches these filters.")}</li>
       {/each}
     </ul>
   </dialog>
@@ -120,5 +136,7 @@
   pre { overflow-x: auto; padding: .6rem; border-radius: 8px; background: var(--panel-raised); font-size: .7rem; }
   .run { padding: .45rem .7rem; border: 0; border-radius: 8px; color: var(--on-accent); background: var(--primary); cursor: pointer; font-weight: 750; }
   .boundary { color: var(--warning) !important; }
+  .script-label { margin: .45rem 0 .2rem !important; color: var(--dim); font-size: .6rem !important; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .empty { padding: .9rem .2rem; color: var(--dim); font-size: .8rem; }
   @media (max-width: 680px) { .summary { grid-template-columns: repeat(3, 1fr); } .filters { grid-template-columns: 1fr; } .question { grid-template-columns: 3.5rem 1fr; } .badge { grid-column: 2; justify-self: start; } .details { padding-left: 4.1rem; } }
 </style>

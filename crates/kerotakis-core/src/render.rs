@@ -176,6 +176,31 @@ fn appearance_word(appearance: Option<&'static str>, locale: Locale) -> &'static
         .unwrap_or(english)
 }
 
+/// What a species is called in the reader's language.
+///
+/// The species catalogue is the engine's, so its German belongs to the
+/// engine too — but only where a language has actually named a species.
+/// An unnamed one reads in English inside a German line rather than
+/// falling back to its formula, which nobody asked for.
+///
+/// This is a FUNCTION rather than the two lines it replaces because the
+/// two lines were the bug. Every arm that names a substance wrote
+/// `species::lookup(id).map(|d| d.name)` — the catalogue's ENGLISH — and
+/// roughly half of them then forgot the `locale.lookup` beside it. The
+/// forgetting is invisible: the fallback is per term, so the English name
+/// simply appears inside the German sentence and no gate anywhere
+/// reports it. That is how "0,0108 mol carbon dioxide gebildet und
+/// verbleibt im geschlossenen Gasraum" reached a German reader.
+///
+/// With one function there is nothing left to forget, and a grep for
+/// `\.name` in this file is a real check rather than a hint.
+fn species_name(locale: Locale, id: &SpeciesId) -> &str {
+    let english = species::lookup(id).map(|d| d.name).unwrap_or(id.0.as_str());
+    locale
+        .lookup(&format!("species.{english}"))
+        .unwrap_or(english)
+}
+
 /// Render a vessel for a person. CLI, Wasm, and future clients share this
 /// instead of teaching each interface how to turn the state contract back
 /// into laboratory prose.
@@ -258,16 +283,7 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
         ));
     }
     for p in &v.contents {
-        let english = species::lookup(&p.species)
-            .map(|d| d.name)
-            .unwrap_or(p.species.0.as_str());
-        // The species catalogue is the engine's, so its German belongs to
-        // the engine too — but only where a language has actually named a
-        // species. An unnamed one reads in English inside a German line
-        // rather than falling back to its formula, which nobody asked for.
-        let name = locale
-            .lookup(&format!("species.{english}"))
-            .unwrap_or(english);
+        let name = species_name(locale, &p.species);
         // `{:?}` on the phase printed "Liquid" in every language. It is a
         // closed set of four words, so it is worth naming properly.
         let phase = locale.t(phase_key(p.phase), phase_english(p.phase));
@@ -553,13 +569,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
             total_after,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            let named = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.added.lv1",
                     "You add {what} to {vessel}.",
-                    &[("what", named), ("vessel", &vessel.to_string())],
+                    &[("what", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => match total_after {
                     Some(total) if (total.0 - moles.0).abs() > 1e-12 => locale.fill(
@@ -568,7 +583,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[
                             ("vessel", &vessel.to_string()),
                             ("amount", &locale.number(format!("{:.4}", moles.0))),
-                            ("what", named),
+                            ("what", name),
                             ("total", &locale.number(format!("{:.4}", total.0))),
                         ],
                     ),
@@ -578,7 +593,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[
                             ("vessel", &vessel.to_string()),
                             ("amount", &locale.number(format!("{:.4}", moles.0))),
-                            ("what", named),
+                            ("what", name),
                         ],
                     ),
                 },
@@ -708,10 +723,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("material", material),
                 ],
             ),
-            2 => format!(
-                "{vessel}: {:?} hydrolysed {hydrolysed_mass_g:.4} g of {substrate} in {seconds:.0} s ({:.1}% converted)",
-                family,
-                converted_fraction * 100.0,
+            2 => locale.fill(
+                "event.hydrolysed.lv2",
+                "{vessel}: {family} hydrolysed {mass} g of {substrate} in {seconds} s ({percent}% converted)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    // lv1 lower-cases this; lv2 never did, and changing
+                    // the English here would be a rewording rather than a
+                    // translation fix.
+                    ("family", &format!("{family:?}")),
+                    ("mass", &locale.number(format!("{hydrolysed_mass_g:.4}"))),
+                    ("substrate", substrate),
+                    ("seconds", &locale.number(format!("{seconds:.0}"))),
+                    ("percent", &locale.number(format!("{:.1}", converted_fraction * 100.0))),
+                ],
             ),
             _ => format!(
                 "{vessel}: {:?} bounded activity hydrolysed {hydrolysed_mass_g:.6} g of {substrate} in {material}; {:.3}% converted. Products remain in conserved unresolved material: no named product inventory is claimed.",
@@ -821,14 +846,27 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         )
                     }
                 }
-                2 => format!(
-                    "{vessel}: {:.1} °C → {:.1} °C",
-                    from.to_celsius(),
-                    to.to_celsius()
+                // "25.0 °C → 25.0 °C" in a German journal: the numbers
+                // were the only thing on the line and they were the one
+                // thing not going through the catalogue.
+                2 => locale.fill(
+                    "event.temperature-changed.lv2",
+                    "{vessel}: {from} °C → {to} °C",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("from", &locale.number(format!("{:.1}", from.to_celsius()))),
+                        ("to", &locale.number(format!("{:.1}", to.to_celsius()))),
+                    ],
                 ),
-                _ => format!(
-                    "{vessel}: T {:.3} K → {:.3} K (ΔT = {d:+.3} K)",
-                    from.0, to.0
+                _ => locale.fill(
+                    "event.temperature-changed.lv3",
+                    "{vessel}: T {from} K → {to} K (ΔT = {delta} K)",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("from", &locale.number(format!("{:.3}", from.0))),
+                        ("to", &locale.number(format!("{:.3}", to.0))),
+                        ("delta", &locale.number(format!("{d:+.3}"))),
+                    ],
                 ),
             }
         }
@@ -954,12 +992,17 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The droplets in {vessel} join back together, and the {material} layer starts returning.",
                 &[("material", material), ("vessel", &vessel.to_string())],
             ),
-            2 => format!(
-                "{vessel}: {material} dispersed {:.0}% → {:.0}% ({:.1} mL; {:.0} s coalescence half-life)",
-                from_dispersed_fraction * 100.0,
-                to_dispersed_fraction * 100.0,
-                dispersed_volume_l * 1000.0,
-                half_life_seconds,
+            2 => locale.fill(
+                "event.emulsion-changed.lv2",
+                "{vessel}: {material} dispersed {from}% → {to}% ({volume} mL; {half_life} s coalescence half-life)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("material", material),
+                    ("from", &locale.number(format!("{:.0}", from_dispersed_fraction * 100.0))),
+                    ("to", &locale.number(format!("{:.0}", to_dispersed_fraction * 100.0))),
+                    ("volume", &locale.number(format!("{:.1}", dispersed_volume_l * 1000.0))),
+                    ("half_life", &locale.number(format!("{half_life_seconds:.0}"))),
+                ],
             ),
             _ => format!(
                 "{vessel}: bounded recipe-level emulsion {:.6} → {:.6}; dispersed {:.9} L; half-life {:.3} s — no CMC, droplet distribution or CFD claim",
@@ -977,7 +1020,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             tip_speed_m_s,
             sheared_hard,
         } => {
-            let name = species::lookup(solid).map(|d| d.name).unwrap_or(solid.0.as_str());
+            let name = species_name(locale, solid);
             match register.level() {
                 1 => {
                     if *sheared_hard {
@@ -1015,8 +1058,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             crosslinker_moles,
             ..
         } => {
-            let poly = species::lookup(polymer).map(|d| d.name).unwrap_or(polymer.0.as_str());
-            let link = species::lookup(crosslinker).map(|d| d.name).unwrap_or(crosslinker.0.as_str());
+            let poly = species_name(locale, polymer);
+            let link = species_name(locale, crosslinker);
             match register.level() {
                 1 => locale.fill(
                     "event.gel-formed.lv1",
@@ -1060,10 +1103,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "The {material} in {vessel} separates into soft white curds and cloudy whey.",
                 &[("material", material), ("vessel", &vessel.to_string())],
             ),
-            2 => format!(
-                "{vessel}: {material} curd solids {:.0}% → {:.0}% ({curd_solids_mass_g:.2} g aggregate solids in visible curds)",
-                from_formed_fraction * 100.0,
-                to_formed_fraction * 100.0,
+            2 => locale.fill(
+                "event.curdling-changed.lv2",
+                "{vessel}: {material} curd solids {from}% → {to}% ({mass} g aggregate solids in visible curds)",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("material", material),
+                    ("from", &locale.number(format!("{:.0}", from_formed_fraction * 100.0))),
+                    ("to", &locale.number(format!("{:.0}", to_formed_fraction * 100.0))),
+                    ("mass", &locale.number(format!("{curd_solids_mass_g:.2}"))),
+                ],
             ),
             _ => format!(
                 "{vessel}: bounded acid-curdling response {:.6} → {:.6}; separation progress {:.6}; curd solids {:.6} g from {:.9} mol {}; conserved aggregate, no casein-speciation or wet-yield claim",
@@ -1083,15 +1132,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             surface_area_m2,
             rate_coupled,
         } => {
-            let name = species::lookup(sid)
-                .map(|data| data.name)
-                .unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.ground.lv1",
                     "You grind the {what} in {vessel} into a finer powder.",
                     &[
-                        ("what", locale.lookup(&format!("species.{name}")).unwrap_or(name)),
+                        ("what", name),
                         ("vessel", &vessel.to_string()),
                     ],
                 ),
@@ -1100,7 +1147,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel}: {what} ground to {diameter} µm — about {area} m² surface area",
                     &[
                         ("vessel", &vessel.to_string()),
-                        ("what", locale.lookup(&format!("species.{name}")).unwrap_or(name)),
+                        ("what", name),
                         ("diameter", &locale.number(format!("{diameter_um:.1}"))),
                         ("area", &locale.number(format!("{surface_area_m2:.3}"))),
                     ],
@@ -1228,8 +1275,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             henry_mol_per_l_atm,
             source,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, sid);
             let percent = locale.number(format!("{:.1}", gas_fraction * 100.0));
             let kpa = locale.number(format!("{:.3}", partial_pressure_pa / 1000.0));
             let moles_s = locale.number(format!("{:.4}", moles.0));
@@ -1364,7 +1410,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::MagnetSeparated { from, to, attracted, remained } => {
-            let name = |s: &SpeciesId| species::lookup(s).map(|d| d.name).unwrap_or(s.0.as_str()).to_string();
+            let name = |s: &SpeciesId| species_name(locale, s).to_string();
             if attracted.is_empty() {
                 match register.level() {
                     1 => locale.fill(
@@ -1439,12 +1485,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             1 => locale.fill(
                 "event.partitioned.lv1",
                 "Some of the {species} in {vessel} moves into each layer.",
-                &[("species", species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str())), ("vessel", &vessel.to_string())],
+                &[("species", species_name(locale, species)), ("vessel", &vessel.to_string())],
             ),
             2 => locale.fill(
                 "event.partitioned.lv2",
                 "{vessel}: {species} split between the layers — {fraction_lower}% in the lower, the rest dissolved in the upper",
-                &[("vessel", &vessel.to_string()), ("species", species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str())), ("fraction_lower", &locale.number(format!("{:.0}", fraction_lower * 100.0)))],
+                &[("vessel", &vessel.to_string()), ("species", species_name(locale, species)), ("fraction_lower", &locale.number(format!("{:.0}", fraction_lower * 100.0)))],
             ),
             _ => locale.fill(
                 "event.partitioned.lv3",
@@ -1453,10 +1499,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
         },
         Event::DissolvedInSolvent { vessel, species, solvent, dissolved, undissolved } => {
-            let name = species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str());
-            let solv = species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
-            let solv = locale.lookup(&format!("species.{solv}")).unwrap_or(solv);
+            let name = species_name(locale, species);
+            let solv = species_name(locale, solvent);
             match register.level() {
                 1 => {
                     // Three separate keys, not one template with a
@@ -1503,8 +1547,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             }
         }
         Event::InertInSolvent { vessel, species, solvent, why } => {
-            let name = species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str());
-            let solv = species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str());
+            let name = species_name(locale, species);
+            let solv = species_name(locale, solvent);
             match register.level() {
                 1 => locale.fill(
                     "event.inert-in-solvent.lv1",
@@ -1588,7 +1632,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 let list: Vec<String> = notes
                     .iter()
                     .map(|(sp, d)| {
-                        let name = species::lookup(sp).map(|x| x.name).unwrap_or(sp.0.as_str());
+                        let name = species_name(locale, sp);
                         locale.fill(
                             "event.smelled.lv3-species",
                             "{name}: {d}",
@@ -1753,7 +1797,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "Everything dissolved in {vessel} runs straight through the column with the water — this method separates none of it ({outside_method}).",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("outside_method", &outside_method.iter().map(|s| species::lookup(s).map(|d| d.name).unwrap_or(s.0.as_str())).collect::<Vec<_>>().join(", ").to_string()),
+                    ("outside_method", &outside_method.iter().map(|s| species_name(locale, s)).collect::<Vec<_>>().join(", ").to_string()),
                 ],
             ),
             1 => {
@@ -1763,7 +1807,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 // the column's times come from.
                 let order = peaks
                     .iter()
-                    .map(|p| species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()))
+                    .map(|p| species_name(locale, &p.species))
                     .collect::<Vec<_>>()
                     .join(", then ");
                 let strip = peaks
@@ -1774,7 +1818,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                             "event.chromatographed.lv1-spot",
                             "{name} {mm} mm up",
                             &[
-                                ("name", species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str())),
+                                ("name", species_name(locale, &p.species)),
                                 ("mm", &locale.number(format!("{:.0}", p.rf * 100.0))),
                             ],
                         )
@@ -1791,12 +1835,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 let table = peaks
                     .iter()
                     .map(|p| {
-                        format!(
-                            "{} at {:.0} s, Rf {:.2} ({:.0}% area)",
-                            species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()),
-                            p.retention_time_s,
-                            p.rf,
-                            p.relative_area * 100.0,
+                        locale.fill(
+                            "event.chromatographed.lv2-peak",
+                            "{name} at {seconds} s, Rf {rf} ({area}% area)",
+                            &[
+                                ("name", species_name(locale, &p.species)),
+                                ("seconds", &locale.number(format!("{:.0}", p.retention_time_s))),
+                                ("rf", &locale.number(format!("{:.2}", p.rf))),
+                                ("area", &locale.number(format!("{:.0}", p.relative_area * 100.0))),
+                            ],
                         )
                     })
                     .collect::<Vec<_>>()
@@ -1885,7 +1932,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             2 => locale.fill(
                 "event.drained.lv2",
                 "{from} → {to}: the lower layer drained — {moles} mol {species} with everything dissolved in it; the upper layer stays behind",
-                &[("from", &from.to_string()), ("to", &to.to_string()), ("moles", &locale.number(format!("{:.3}", moles.0))), ("species", species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str()))],
+                &[("from", &from.to_string()), ("to", &to.to_string()), ("moles", &locale.number(format!("{:.3}", moles.0))), ("species", species_name(locale, solvent))],
             ),
             _ => locale.fill(
                 "event.drained.lv3",
@@ -1902,7 +1949,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             2 => locale.fill(
                 "event.layers-formed.lv2",
                 "{vessel}: two layers — {species} floating on {species2}; mixing them would raise the Gibbs energy, so they split",
-                &[("vessel", &vessel.to_string()), ("species", species::lookup(upper).map(|d| d.name).unwrap_or(upper.0.as_str())), ("species2", species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()))],
+                &[("vessel", &vessel.to_string()), ("species", species_name(locale, upper)), ("species2", species_name(locale, lower))],
             ),
             _ => locale.fill(
                 "event.layers-formed.lv3",
@@ -1923,9 +1970,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     ("vessel", &vessel.to_string()),
                 ],
             ),
-            2 => format!(
-                "{vessel}: {upper_material} forms the upper layer; {} is denser and remains below",
-                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            2 => locale.fill(
+                "event.material-layers-formed.lv2",
+                "{vessel}: {upper_material} forms the upper layer; {lower} is denser and remains below",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("upper_material", upper_material),
+                    ("lower", species_name(locale, lower)),
+                ],
             ),
             _ => format!(
                 "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {}; this is not a molecular LLE calculation",
@@ -2031,18 +2083,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             moles,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            // The substance is the subject of the sentence. `Added` and
-            // `Ground` already translated it; these three did not, so a
-            // German reader was told "Das sucrose löst sich auf".
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            // The substance is the subject of the sentence, so it is
+            // named in the reader's language and not in the catalogue's.
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.dissolved.lv1",
                     "The {name} disappears into the water in {vessel}!",
                     &[("name", name), ("vessel", &vessel.to_string())],
                 ),
-                2 => format!("{vessel}: {} mol {name} dissolved", quantity(moles.0, 4)),
+                2 => locale.fill(
+                    "event.dissolved.lv2",
+                    "{vessel}: {moles} mol {name} dissolved",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("name", name),
+                    ],
+                ),
                 _ => format!("{vessel}: {} mol {name} dissolved", quantity(moles.0, 6)),
             }
         }
@@ -2069,7 +2127,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
         } => {
             let data = species::lookup(sid);
-            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => {
                     let colour = appearance_word(data.and_then(|d| d.appearance), locale);
@@ -2079,9 +2137,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("vessel", &vessel.to_string()), ("colour", colour)],
                     )
                 }
-                2 => {
-                    format!("{vessel}: {} mol {name} precipitated ↓", quantity(moles.0, 4))
-                }
+                2 => locale.fill(
+                    "event.precipitated.lv2",
+                    "{vessel}: {moles} mol {name} precipitated ↓",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("name", name),
+                    ],
+                ),
                 _ => {
                     format!("{vessel}: {} mol {name} precipitated", quantity(moles.0, 6))
                 }
@@ -2093,8 +2157,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             dissolved,
             capacity,
         } => {
-            let data = species::lookup(sid);
-            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             let excess = (dissolved.0 - capacity.0).max(0.0);
             let times = if capacity.0 > 0.0 {
                 dissolved.0 / capacity.0
@@ -2126,8 +2189,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
         } => {
             let data = species::lookup(sid);
-            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
-            let host = species::lookup(onto).map(|d| d.name).unwrap_or(onto.0.as_str());
+            let name = species_name(locale, sid);
+            let host = species_name(locale, onto);
             match register.level() {
                 1 => {
                     let colour = appearance_word(data.and_then(|d| d.appearance), locale);
@@ -2150,8 +2213,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             }
         }
         Event::Inert { vessel, species: sid, why } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, sid);
             match register.level() {
                 // KID-5: say which question this answers.
                 //
@@ -2186,8 +2248,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             autoignition,
             temperature,
         } => {
-            let name = species::lookup(fuel).map(|d| d.name).unwrap_or(fuel.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, fuel);
             let needs = locale.number(format!("{:.0}", autoignition.to_celsius()));
             let at = locale.number(format!("{:.0}", temperature.to_celsius()));
             match register.level() {
@@ -2311,8 +2372,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             corroding,
             why,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, sid);
             match (register.level(), *corroding) {
                 (1, true) => locale.fill(
                     "event.corroded.lv1",
@@ -2349,14 +2409,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             still_dissolved,
             boundary,
         } => {
-            let dye = species::lookup(sorbate)
-                .map(|d| d.name)
-                .unwrap_or(sorbate.0.as_str());
-            let dye = locale.lookup(&format!("species.{dye}")).unwrap_or(dye);
-            let solid = species::lookup(sorbent)
-                .map(|d| d.name)
-                .unwrap_or(sorbent.0.as_str());
-            let solid = locale.lookup(&format!("species.{solid}")).unwrap_or(solid);
+            let dye = species_name(locale, sorbate);
+            let solid = species_name(locale, sorbent);
             // The fraction is what answers the question, so it is what
             // lv1 says: "most of it" and "some of it" are different
             // answers to "can charcoal take the colour out of water".
@@ -2397,8 +2451,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
             remaining,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, sid);
             match register.level() {
                 // Says exactly as much as the event knows. With the
                 // remainder on the event: gone, or some of it gone. Without
@@ -2423,7 +2476,15 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("name", name), ("vessel", &vessel.to_string())],
                     ),
                 },
-                2 => format!("{vessel}: {} mol {name} consumed", quantity(moles.0, 4)),
+                2 => locale.fill(
+                    "event.consumed.lv2",
+                    "{vessel}: {moles} mol {name} consumed",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("name", name),
+                    ],
+                ),
                 _ => format!("{vessel}: −{} mol {name}", quantity(moles.0, 6)),
             }
         }
@@ -2453,12 +2514,37 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             },
             2 => {
+                // Both halves of this line were composed in English and
+                // then dropped into a German template, so the sentence
+                // read "entzündet — orange-red flame". lv1 already routes
+                // the colour through the flame table; every level does
+                // now, and the noun beside it is a key of its own.
                 let colour = flame
                     .as_ref()
-                    .map(|colour| format!(" — {colour} flame"))
+                    .map(|colour| {
+                        locale.fill(
+                            "event.ignited.lv2-flame",
+                            " — {colour} flame",
+                            &[(
+                                "colour",
+                                locale
+                                    .lookup(&format!("flame.{colour}"))
+                                    .unwrap_or(colour.as_str()),
+                            )],
+                        )
+                    })
                     .unwrap_or_default();
                 let energy = energy_j
-                    .map(|joules| format!(" · {:.2} kJ released", joules / 1000.0))
+                    .map(|joules| {
+                        locale.fill(
+                            "event.ignited.lv2-energy",
+                            " · {kilojoules} kJ released",
+                            &[(
+                                "kilojoules",
+                                &locale.number(format!("{:.2}", joules / 1000.0)),
+                            )],
+                        )
+                    })
                     .unwrap_or_default();
                 locale.fill(
                     "event.ignited.lv1-ignited",
@@ -2484,7 +2570,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             colour,
         } => {
-            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             // The colour is the result. A German frame around an English
             // colour loses the one word the reader needed.
             let colour = locale
@@ -2530,7 +2616,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             burned,
             oxygen_fraction,
         } => {
-            let name = species::lookup(fuel).map(|d| d.name).unwrap_or(fuel.0.as_str());
+            let name = species_name(locale, fuel);
             let percent = locale.number(format!("{:.0}", oxygen_fraction * 100.0));
             // Nothing burned at all is a different story from a flame
             // that ran itself out, and the learner is doing a different
@@ -2693,9 +2779,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 .lookup(&format!("transition.{}", reading.kind.as_str()))
                 .unwrap_or(reading.kind.as_str());
             let name = |s: &crate::SpeciesId| {
-                species::lookup(s)
-                    .map(|d| d.name.to_string())
-                    .unwrap_or_else(|| s.0.to_string())
+                species_name(locale, s).to_string()
             };
             let subject = reading.species.as_ref().map(name).unwrap_or_default();
             let listed = reading
@@ -2810,8 +2894,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             water,
             at,
         } => {
-            let hname = species::lookup(hydrate).map(|d| d.name).unwrap_or(hydrate.0.as_str());
-            let aname = species::lookup(anhydrous).map(|d| d.name).unwrap_or(anhydrous.0.as_str());
+            let hname = species_name(locale, hydrate);
+            let aname = species_name(locale, anhydrous);
             let water_g = species::lookup(&crate::SpeciesId::new("water"))
                 .map(|d| water.0 * d.molar_mass)
                 .unwrap_or(0.0);
@@ -2840,8 +2924,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             formula_units,
             water,
         } => {
-            let hname = species::lookup(hydrate).map(|d| d.name).unwrap_or(hydrate.0.as_str());
-            let aname = species::lookup(anhydrous).map(|d| d.name).unwrap_or(anhydrous.0.as_str());
+            let hname = species_name(locale, hydrate);
+            let aname = species_name(locale, anhydrous);
             match register.level() {
                 1 => locale.fill(
                     "event.hydrated.lv1",
@@ -2910,8 +2994,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             grams,
             per_ion,
         } => {
-            let name = species::lookup(species).map(|d| d.name).unwrap_or(&species.0);
-            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let name = species_name(locale, species);
             match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",
@@ -3099,7 +3182,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
         } => {
             let data = species::lookup(sid);
-            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             let toxic = data
                 .and_then(|d| d.appearance)
                 .is_some_and(|a| a.contains("toxic"));
@@ -3140,9 +3223,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             moles,
         } => {
-            let name = species::lookup(sid)
-                .map(|data| data.name)
-                .unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.gas-absorbed.lv1",
@@ -3166,9 +3247,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             moles,
         } => {
-            let name = species::lookup(sid)
-                .map(|data| data.name)
-                .unwrap_or(sid.0.as_str());
+            let name = species_name(locale, sid);
             match register.level() {
                 1 => locale.fill(
                     "event.gas-contained.lv1",
@@ -3289,9 +3368,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             route,
             model,
         } => {
-            let name = crate::species::lookup(species)
-                .map(|d| d.name)
-                .unwrap_or(species.0.as_str());
+            let name = species_name(locale, species);
             let c = boiling.to_celsius();
             let pressure = locale.number(format!("{pressure_kpa:.1}"));
             let direction = if *shifted_by < 0.0 {
@@ -3338,9 +3415,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             at,
             shifted_by,
         } => {
-            let name = crate::species::lookup(species)
-                .map(|d| d.name)
-                .unwrap_or(species.0.as_str());
+            let name = species_name(locale, species);
             let verb_en = phase_change_verb(*from, *to);
             let verb = locale
                 .lookup(&format!("verb.{verb_en}"))
@@ -3524,9 +3599,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             // at lv3, because the endpoint of a permanganate titration
             // depends on the flask staying acidic and a reader checking
             // the work needs to see that it did.
-            let name = species::lookup(titrant)
-                .map(|d| d.name)
-                .unwrap_or(titrant.0.as_str());
+            let name = species_name(locale, titrant);
             // A noun phrase in both languages, so the three sentences
             // below can slot it in without either one fighting the other
             // language's word order.
@@ -3583,9 +3656,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             final_ph,
             ..
         } => {
-            let name = species::lookup(titrant)
-                .map(|d| d.name)
-                .unwrap_or(titrant.0.as_str());
+            let name = species_name(locale, titrant);
             match register.level() {
                 1 => locale.fill(
                     "event.titrated.lv1",
@@ -3624,10 +3695,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .iter()
                         .filter(|(_, m)| m.0 > crate::OBSERVABLE_MOLES)
                         .map(|(s, m)| {
-                            let name = species::lookup(s)
-                                .map(|d| d.name)
-                                .unwrap_or(s.0.as_str());
-                            format!("{:.4} mol {name}", m.0)
+                            locale.fill(
+                                "event.transported.lv2-portion",
+                                "{moles} mol {name}",
+                                &[
+                                    ("moles", &locale.number(format!("{:.4}", m.0))),
+                                    ("name", species_name(locale, s)),
+                                ],
+                            )
                         })
                         .collect();
                     let what = if species_list.is_empty() {
@@ -3635,8 +3710,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     } else {
                         species_list.join(", ")
                     };
-                    format!(
-                        "{cells} cells × {steps} steps (Cf={courant:.2}); effluent → {receiver}: {what}"
+                    locale.fill(
+                        "event.transported.lv2",
+                        "{cells} cells × {steps} steps (Cf={courant}); effluent → {receiver}: {what}",
+                        &[
+                            ("cells", &cells.to_string()),
+                            ("steps", &steps.to_string()),
+                            ("courant", &locale.number(format!("{courant:.2}"))),
+                            ("receiver", &receiver.to_string()),
+                            ("what", &what),
+                        ],
                     )
                 }
                 _ => locale.fill(

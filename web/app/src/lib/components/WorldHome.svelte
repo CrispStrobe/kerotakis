@@ -118,7 +118,7 @@
         <article class="destination sandbox-destination" class:current={mode === "sandbox"}>
           <span class="current-flag">{mode === "sandbox" ? t("active now") : t("separate save")}</span>
           <div class="building sandbox-building" aria-hidden="true"><span>∞</span></div>
-          <span class="kicker">{t("Sandbox hangar")}</span>
+          <span class="kicker">{t("Sandbox")}</span>
           <h3>{t("The Open Bench")}</h3>
           <p>{t("Every reagent and instrument is available. Build freely without changing Story progress.")}</p>
           <div class="destination-meta"><span>{t("everything unlocked")}</span><span>{t("free exploration")}</span></div>

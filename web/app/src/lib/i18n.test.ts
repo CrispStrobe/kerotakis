@@ -88,6 +88,82 @@ describe("i18n", () => {
     expect(untranslated).toEqual([]);
   });
 
+  /**
+   * The label tables that reach `t()` as a VARIABLE.
+   *
+   * The literal scan above walks straight past `t(field.label)`,
+   * `t(meta.label)` and `t(vessel.boundary)`, so every one of these tables
+   * could — and did — ship a string the dictionary had never heard of. The
+   * German build then rendered the English source, or worse the engine's
+   * raw wire tag: "pressure_controlled" reached a badge, and "flame power",
+   * "air collar" and "exposure" reached the apparatus panel.
+   *
+   * Each case reads the table out of its own source rather than importing
+   * it, because most of them live inside a component and are not exported;
+   * each also asserts the table was actually found, so a rename turns this
+   * into a failure rather than into a vacuous pass.
+   */
+  describe("label tables that reach t() as a variable", () => {
+    const read = (relative: string): string =>
+      readFileSync(join(import.meta.dirname, relative), "utf8");
+
+    /** Authored prose fields. `equation` is deliberately excluded: a formula
+     *  is the same in every language and must not be sent to a translator. */
+    const authored = (source: string): string[] =>
+      [...source.matchAll(/\b(?:label|title|blurb):\s*"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1]!);
+
+    const untranslated = (strings: string[]): string[] =>
+      [...new Set(strings.filter((s) => s && !hasGermanTranslation(s)))].sort();
+
+    it("every apparatus spec string has German — these reach t() as t(f.label)", () => {
+      const strings = authored(read("apparatus.ts"));
+      expect(strings.length).toBeGreaterThan(40);
+      expect(untranslated(strings)).toEqual([]);
+    });
+
+    it("every reading label has German — the inset renders t(meta.label)", () => {
+      const strings = authored(read("components/ReadingInset.svelte"));
+      expect(strings.length).toBe(4);
+      expect(untranslated(strings)).toEqual([]);
+    });
+
+    it("every curated reaction blurb has German — the picker renders t(detail.blurb)", () => {
+      const strings = authored(read("components/ReactPicker.svelte"));
+      expect(strings.length).toBe(5);
+      expect(untranslated(strings)).toEqual([]);
+    });
+
+    it("every deployed-apparatus tool name has German", () => {
+      const table = /const toolNames[^=]*=\s*\{([^}]*)\}/.exec(read("components/DeployedApparatus.svelte"));
+      expect(table).not.toBeNull();
+      const names = [...table![1]!.matchAll(/"([^"]+)"/g)].map((m) => m[1]!);
+      expect(names.length).toBeGreaterThan(10);
+      expect(untranslated(names)).toEqual([]);
+    });
+
+    it("the vessel badge shows words, never the engine's boundary tag", () => {
+      const source = read("components/Vessel.svelte");
+      const table = /const BOUNDARY_LABELS[^=]*=\s*\{([^}]*)\}/.exec(source);
+      expect(table).not.toBeNull();
+      const labels = [...table![1]!.matchAll(/:\s*"([^"]+)"/g)].map((m) => m[1]!);
+      expect(labels.length).toBe(3);
+      expect(untranslated(labels)).toEqual([]);
+      // The wire tag itself must never be handed to the dictionary: t() falls
+      // back to its key, so `t(vessel.boundary)` renders "pressure_controlled".
+      expect(source).not.toContain("t(vessel.boundary)");
+    });
+
+    it("every capability support level and age band has German", () => {
+      const source = read("components/CapabilityExplorer.svelte");
+      const bands = /const AGE_LABELS[^=]*=\s*\{([^}]*)\}/.exec(source);
+      expect(bands).not.toBeNull();
+      const labels = [...bands![1]!.matchAll(/:\s*"([^"]+)"/g)].map((m) => m[1]!);
+      expect(labels.length).toBe(4);
+      expect(untranslated(labels)).toEqual([]);
+      expect(untranslated(["computed", "curated", "qualitative", "boundary", "missing"])).toEqual([]);
+    });
+  });
+
   it("has German display names for every registry material", () => {
     const registry = JSON.parse(readFileSync(
       join(import.meta.dirname, "../../../../data/registry/registry-source-v1.json"),
