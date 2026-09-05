@@ -890,7 +890,7 @@
     onclick={() => (homeOpen = true)}
   >
     <span class="mode-signal" aria-hidden="true">{labMode === "story" ? "◆" : "∞"}</span>
-    <span class="mode-copy"><small>{labMode === "story" ? t("Story laboratory") : t("Sandbox hangar")}</small><strong>{session.lesson ? t(missionTitle(session.lesson.lesson.name)) : labMode === "story" ? t("Story") : t("Sandbox")}</strong></span>
+    <span class="mode-copy"><small>{labMode === "story" ? t("Story laboratory") : t("Sandbox")}</small><strong>{session.lesson ? t(missionTitle(session.lesson.lesson.name)) : labMode === "story" ? t("Story") : t("Sandbox")}</strong></span>
     <span class="mode-arrow" aria-hidden="true">⌄</span>
   </button>
 

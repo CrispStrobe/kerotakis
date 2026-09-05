@@ -589,6 +589,68 @@ naphthalene = "Naphthalin"
 "lemon-paper-dried.lv1" = "{vessel}: Die Zitronenspur ist trocken und noch blass"
 "lemon-paper-browned.lv1" = "{vessel}: Die trockene Zitronenspur ist bei {temperature_k} K zu {percent} % braun"
 
+# ── Added by the i18n leak sweep ─────────────────────────────────────
+#
+# Everything below was reachable by the catalogue and had no German, so
+# the sentence rendered in English inside an otherwise German journal.
+# The two chromatogram lines are not new: they were written under
+# `[flame]` by mistake, which made their key `flame.chromatographed.…`
+# and left `event.chromatographed.…` unanswered. The orphan check could
+# not see it, because `flame.*` is looked up by value and therefore
+# exempt from that check — a misfiled key hid inside the exemption.
+
+# An empty chromatogram is a result: the run happened and the detector saw
+# nothing, so what went past unseparated is the answer (aq-087).
+"chromatographed.lv1-nothing-separated" = "Alles, was in {vessel} gelöst ist, läuft mit dem Wasser direkt durch die Säule — diese Methode trennt nichts davon ({outside_method})."
+"chromatographed.lv2-no-peaks" = "{vessel}: Chromatogramm — keine Peaks{unseen}"
+"chromatographed.lv1-spot" = "{name} {mm} mm hoch"
+"chromatographed.lv2-peak" = "{name} bei {seconds} s, Rf {rf} ({area} % der Fläche)"
+"chromatographed.lv3-method-mixed" = "K = γ∞(Wasser)/γ∞(Alkan) aus demselben UNIFAC, mit dem auch der Scheidetrichter verteilt — außer für {curated}, deren K ein geprüfter Lehrwert ist: Ein Farbstoff ist ein Glycosid oder ein sulfoniertes Aromat, und eine UNIFAC-Zerlegung davon wäre eine als Rechnung verkleidete Erfindung"
+
+"consumed.lv2" = "{vessel}: {moles} mol {name} verbraucht"
+"dissolved.lv2" = "{vessel}: {moles} mol {name} gelöst"
+"precipitated.lv2" = "{vessel}: {moles} mol {name} ausgefallen ↓"
+
+"curdling-changed.lv2" = "{vessel}: {material} — Quarkanteil {from} % → {to} % ({mass} g Feststoff insgesamt in sichtbaren Flocken)"
+"emulsion-changed.lv2" = "{vessel}: {material} dispergiert {from} % → {to} % ({volume} mL; {half_life} s Koaleszenz-Halbwertszeit)"
+"hydrolysed.lv2" = "{vessel}: {family} hat {mass} g {substrate} in {seconds} s hydrolysiert ({percent} % umgesetzt)"
+"material-layers-formed.lv2" = "{vessel}: {upper_material} bildet die obere Schicht; {lower} ist dichter und bleibt darunter"
+
+"dehydrated.lv2" = "{vessel}: {hydrate} → {anhydrous} + Wasser, bei {at} °C ausgetrieben — {water_g} g Wasser haben den Tiegel verlassen"
+"dehydrated.lv3" = "{vessel}: Entwässerung bei {at} K — {units} mol {hydrate} → {units} mol {anhydrous} + {water} mol H2O ({water_g} g). In einem Schritt bis zum wasserfreien Salz: Die Zwischenhydrate gibt es wirklich, sie werden hier aber nicht modelliert"
+"hydrated.lv2" = "{vessel}: {anhydrous} + Wasser → {hydrate}; {water} mol Wasser sind wieder ins Kristallgitter zurückgekehrt"
+"hydrated.lv3" = "{vessel}: Rehydratation — {units} mol {anhydrous} + {water} mol H2O → {units} mol {hydrate}. Ausgelöst, weil das vorhandene freie Wasser den stöchiometrischen Bedarf des Kristalls nicht übersteigt; bei mehr Wasser ist Auflösen die ehrliche Antwort, und dafür ist die wässrige Rechenmaschine zuständig"
+
+# The flame colour is the observation. It went through the table at lv1
+# and was composed in English at lv2, so the German line ended
+# "entzündet — orange-red flame". German cannot decline these colours
+# attributively without inflecting the table, so the noun goes first and
+# the colour follows as an apposition.
+"ignited.lv2-flame" = " — Flamme: {colour}"
+"ignited.lv2-energy" = " · {kilojoules} kJ freigesetzt"
+
+"temperature-changed.lv2" = "{vessel}: {from} °C → {to} °C"
+"temperature-changed.lv3" = "{vessel}: T {from} K → {to} K (ΔT = {delta} K)"
+
+"transported.lv2" = "{cells} Zellen × {steps} Schritte (Cf={courant}); Eluat → {receiver}: {what}"
+"transported.lv2-portion" = "{moles} mol {name}"
+
+# The melting/boiling apparatus. Every one of its refusals is the lesson —
+# a mixture is told WHY it has no sharp point — so an English refusal in a
+# German lab is the worst place for this table to be missing.
+"transition-point.lv2" = "{vessel} {what}: {subject} {outcome} bei {value} °C (± 0,5), scharf — ein einziger Stoff"
+"transition-point.lv3" = "{vessel} {what}: {subject} {outcome} bei {value} °C ± 0,5 (scharf: ein einziger Stoff oberhalb der Reinheitsschwelle von {trace} Stoffmengenanteil). Quelle: {source}. Grenze: {boundary}"
+"transition-point.empty.lv1" = "Im Röhrchen ist nichts, was schmelzen könnte."
+"transition-point.empty.lv2" = "{vessel} {what}: Von der benötigten Phase ist nichts im Gefäß"
+"transition-point.mixture.lv1" = "Es schmilzt nicht bei einer einzigen Temperatur — es wird über einen ganzen Bereich hinweg weich und breiig. Genau das tut ein Gemisch immer, und daran erkennst du, dass diese Probe nicht rein ist."
+"transition-point.mixture.lv2" = "{vessel} {what}: kein scharfer Punkt — die Probe ist ein Gemisch ({listed}). Sie wird über einen Bereich hinweg weich und schmilzt, beginnend unterhalb von {bound} °C"
+"transition-point.mixture.lv3" = "{vessel} {what}: abgelehnt — {listed} liegen alle oberhalb der Reinheitsschwelle vor, es gibt also keinen scharfen Übergang zu berichten. {boundary}"
+"transition-point.nodata.lv1" = "Das hat noch niemand ins Laborbuch geschrieben, also kann dir das Gerät dazu nichts sagen."
+"transition-point.nodata.lv2" = "{vessel} {what}: Die Probe ist ein einziger Stoff ({subject}), aber die Datenbank führt dafür keinen {what} — es wird kein Wert erfunden"
+"transition-point.wet.lv1" = "Die Probe ist noch feucht. Trockne sie zuerst — eine feuchte Probe schmilzt zu niedrig und unsauber, und der Messwert wäre eine Lüge."
+"transition-point.wet.lv2" = "{vessel} {what}: Die Probe ist nicht isoliert — im Gefäß befindet sich neben {subject} noch etwas einer anderen Phase. Trockne oder trenne sie zuerst"
+"transition-point.wet.lv3" = "{vessel} {what}: abgelehnt — {subject} ist zwar der einzige Stoff der gewünschten Phase, es ist aber Materie einer anderen Phase vorhanden; damit ist dies eine feuchte oder gelöste Probe und keine isolierte. {boundary}"
+
 [ionic]
 net = "Netto-Ionengleichung"
 spectators = "Zuschauerionen"
@@ -805,8 +867,3 @@ white = "weiß"
 "lilac" = "lila"
 "orange-red" = "orangerot"
 "violet" = "violett"
-
-# An empty chromatogram is a result: the run happened and the detector saw
-# nothing, so what went past unseparated is the answer (aq-087).
-"chromatographed.lv1-nothing-separated" = "Alles, was in {vessel} gelöst ist, läuft mit dem Wasser direkt durch die Säule — diese Methode trennt nichts davon ({outside_method})."
-"chromatographed.lv2-no-peaks" = "{vessel}: Chromatogramm — keine Peaks{unseen}"

@@ -131,7 +131,7 @@
 
   <div class="cabinet-intro">
     <span>{t("Instrument wall")} <b title={t("{available} of {total} instruments unlocked", { available: availableCount, total: allVerbs.length })}>{availableCount}/{allVerbs.length}</b></span>
-    <p>{mode === "sandbox" ? t("Every installed instrument is available in Sandbox.") : t("Complete investigations to earn permanent access to more instruments.")}</p>
+    {#if mode !== "sandbox"}<p>{t("Complete investigations to earn permanent access to more instruments.")}</p>{/if}
   </div>
 
   <label class="equipment-search">
