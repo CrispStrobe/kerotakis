@@ -109,6 +109,27 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         1
     );
+    // The dissolution tranche is one source record too, cited by every
+    // enthalpy of dissolution and by nothing else.
+    let dissolution = document
+        .sources
+        .iter()
+        .filter(|source| source.id == "kerotakis/dissolution-enthalpies-v1")
+        .collect::<Vec<_>>();
+    assert_eq!(dissolution.len(), 1);
+    assert_eq!(dissolution[0].lane, SourceLane::Runtime);
+    assert_eq!(dissolution[0].licence, "AGPL-3.0-or-later");
+    assert_eq!(
+        document
+            .phase_thermodynamics
+            .iter()
+            .filter(|record| record.quantity.source_id == "kerotakis/dissolution-enthalpies-v1")
+            .count(),
+        REGISTRY
+            .iter()
+            .filter(|species| species.dissolution_enthalpy_kj.is_some())
+            .count()
+    );
     assert_eq!(
         document.optical.len(),
         REGISTRY
@@ -309,17 +330,54 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         phase,
         &source_id,
     );
+    // EXP-33's pattern, applied to a second claim. An enthalpy of dissolution
+    // does not come from the same place a molar mass does — for three of the
+    // seventeen the species citation did not mention it at all — so it rides
+    // its own source record and carries a per-row note stating the arithmetic
+    // a reviewer can check. Asserting all three here is what stops the record
+    // quietly reverting to the species citation the next time this file is
+    // regenerated.
     match species.dissolution_enthalpy_kj {
-        Some(value) => assert_property(
-            document,
-            species,
-            PhaseProperty::EnthalpyOfDissolution,
-            value,
-            "kJ/mol",
-            Dimension::MolarEnergy,
-            phase,
-            &source_id,
-        ),
+        Some(value) => {
+            let record = document
+                .phase_thermodynamics
+                .iter()
+                .find(|record| {
+                    record.species_id == species.key
+                        && record.property == PhaseProperty::EnthalpyOfDissolution
+                })
+                .unwrap_or_else(|| panic!("missing dissolution enthalpy for {}", species.key));
+            assert_eq!(record.phase, phase, "{} dissolution phase", species.key);
+            assert_eq!(
+                record.quantity.value, value,
+                "{} dissolution value",
+                species.key
+            );
+            assert_eq!(record.quantity.unit.symbol, "kJ/mol");
+            assert_eq!(record.quantity.unit.dimension, Dimension::MolarEnergy);
+            assert_eq!(record.quantity.conditions.phase, Some(phase));
+            assert_eq!(record.quantity.uncertainty, Uncertainty::NotReported);
+            assert_eq!(
+                record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
+                "{} dissolution enthalpy must cite its own tranche",
+                species.key
+            );
+            assert!(
+                matches!(record.quantity.method, Method::Curated(_)),
+                "{} dissolution enthalpy is curated, not imported",
+                species.key
+            );
+            assert!(
+                record
+                    .quantity
+                    .conditions
+                    .notes
+                    .as_deref()
+                    .is_some_and(|note| !note.trim().is_empty()),
+                "{} dissolution enthalpy has no per-row provenance note",
+                species.key
+            );
+        }
         None => assert!(document.phase_thermodynamics.iter().all(|record| {
             record.species_id != species.key
                 || record.property != PhaseProperty::EnthalpyOfDissolution
