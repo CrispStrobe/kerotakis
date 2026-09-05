@@ -1016,7 +1016,7 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         ("balloon-pressure.lab", &["290.45 kPa", "1504.05 mL"]),
         (
             "grinding-rate-boundary.lab",
-            &["ground to 50.0 µm", "Bubbles!"],
+            &["ground to 50.0 µm", "carbon dioxide ↑"],
         ),
         (
             "lemonade-indicator.lab",
