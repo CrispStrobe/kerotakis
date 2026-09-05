@@ -162,3 +162,68 @@ fn an_aqueous_vessel_stays_the_solution_meters_business() {
     let bench = run(&["add v1 water 100mL", "add v1 NaCl 1g", "add v1 Cu 1g"]);
     assert!(dry_solid_conductance(vessel(&bench)).is_none());
 }
+
+// ── The bench arm: `measure <vessel> conductivity` on a dry metal ────────
+
+#[test]
+fn the_meter_on_the_bench_reads_a_dry_wire_in_siemens_per_metre() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    bench
+        .step(Operator::Add {
+            vessel: v,
+            species: SpeciesId::new("Cu"),
+            moles: Moles(0.0157),
+            at: None,
+        })
+        .expect("add");
+    let events = bench
+        .step(Operator::Measure {
+            vessel: v,
+            instrument: Instrument::ConductivityMeter,
+        })
+        .expect("measure");
+    let reading = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Measured { value, unit, .. } => Some((*value, unit.clone())),
+            _ => None,
+        })
+        .expect("a reading, not a refusal");
+    assert_eq!(reading.1, "S/m");
+    assert!(
+        (reading.0 - 1.0 / 1.678e-8).abs() / reading.0 < 1e-9,
+        "{}",
+        reading.0
+    );
+}
+
+#[test]
+fn the_meter_on_the_bench_names_the_missing_datum_for_an_uncurated_solid() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    bench
+        .step(Operator::Add {
+            vessel: v,
+            species: SpeciesId::new("NaCl"),
+            moles: Moles(0.01),
+            at: None,
+        })
+        .expect("add");
+    let events = bench
+        .step(Operator::Measure {
+            vessel: v,
+            instrument: Instrument::ConductivityMeter,
+        })
+        .expect("measure");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("no electrical resistivity")
+        )),
+        "{events:?}"
+    );
+    assert!(!events.iter().any(|e| matches!(e, Event::Measured { .. })));
+}

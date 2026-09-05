@@ -2449,10 +2449,43 @@ impl Bench {
                                 .microsiemens_per_cm,
                             unit: "µS/cm".to_string(),
                         }),
-                        None => events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
-                            vessel: *vessel,
-                            what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
-                        }),
+                        // The dry-solid path: one isolated solid with a
+                        // curated resistivity reads as a material property
+                        // in S/m (copper wire against iron wire). A dry
+                        // solid the registry has no resistivity for is a
+                        // missing datum, which is a different refusal from
+                        // "no solution here" and is named as one.
+                        None => match crate::conductivity::dry_solid_conductance(v) {
+                            Some(solid) => events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: solid.conductivity_s_per_m,
+                                unit: "S/m".to_string(),
+                            }),
+                            None => {
+                                let lone_dry_solid = v.liquid_volume().0 <= 0.0
+                                    && v.unresolved_materials.is_empty()
+                                    && v
+                                        .contents
+                                        .iter()
+                                        .filter(|p| p.phase == Phase::Solid && p.moles.0 > crate::OBSERVABLE_MOLES)
+                                        .count()
+                                        == 1;
+                                if lone_dry_solid {
+                                    events.push(Event::NotYetModeled {
+                                        cause: crate::ops::NotModelledCause::NoReviewedDatum,
+                                        vessel: *vessel,
+                                        what: "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess".to_string(),
+                                    });
+                                } else {
+                                    events.push(Event::NotYetModeled {
+                                        cause: crate::ops::NotModelledCause::NoSolution,
+                                        vessel: *vessel,
+                                        what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
+                                    });
+                                }
+                            }
+                        },
                     },
                     // KID-19a: density is a measurement, and it is the one
                     // that answers a question a balance cannot. Five grams
