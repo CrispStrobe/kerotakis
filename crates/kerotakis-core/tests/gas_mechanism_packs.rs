@@ -382,24 +382,23 @@ fn an_unbalanced_edit_is_refused() {
 /// absolute tolerance — extents here are nanomoles, not millimoles — let
 /// the solver find its own scale.
 ///
-/// That is not enough to reach ignition, and the reason is worth writing
-/// down rather than working around silently. `kinetics_integrator.rs`
-/// gives diffsol a matrix-free Jacobian whose finite-difference probe is
-/// ONE SCALAR for the whole extent vector, sized from `(1 + ||x||_inf)`.
-/// In a radical chain the extents span nine orders of magnitude at once,
-/// so a probe sized for the millimole extents linearises the nanomole
-/// ones across their entire range; the Newton iteration then fails, and
-/// on this network it exhausts its failure budget at about 2.7 µs. The
-/// `.max(0.0)` clamp on reconstructed amounts adds a second corner to the
-/// same right-hand side.
+/// Until 2026-09-05 that was not enough to reach ignition, and the reason
+/// is kept here because the fix is the reason's mirror image.
+/// `kinetics_integrator.rs` gives diffsol a matrix-free Jacobian whose
+/// finite-difference probe was ONE SCALAR for the whole extent vector,
+/// sized from `(1 + ||x||_inf)` — an absolute 1.5e-8 mol at the zero
+/// extents every interval starts from. In a radical chain the species span
+/// nine orders of magnitude at once, so a probe of that size linearised the
+/// nanomole radicals across their entire range; the Newton iteration then
+/// failed, and on this network it exhausted its failure budget at about
+/// 2.7 µs. The probe is now sized by the species it moves — no amount the
+/// probe touches moves by more than √ε of itself — and the same network
+/// integrates through ignition to exhaustion in one call
+/// (`hydrogen_burns_through_ignition_in_one_call` below).
 ///
-/// So these tests assert what this integrator demonstrably carries — the
-/// early chain, where the packs are already doing real chemistry — and
-/// the packs' endpoint claims are made against CEA thermodynamics rather
-/// than by integrating to one. Two exits exist for whoever picks this
-/// up: a component-scaled Jacobian probe, or the CVODE path that already
-/// exists in `kerotakis-sundials` and is API-compatible with
-/// `advance_network_with_options`.
+/// The bounded-window tests stay: they pin the early chain, where the
+/// packs were already doing real chemistry, and they are the regression
+/// the fix must not break.
 const STIFF: IntegrationOptions = IntegrationOptions {
     relative_tolerance: 1e-6,
     absolute_tolerance_moles: 1e-14,
@@ -502,6 +501,76 @@ fn hydrogen_moves_towards_water_in_bounded_time() {
     assert!(
         steps < 200_000,
         "a millisecond of skeletal hydrogen chemistry cost {steps} solver steps"
+    );
+}
+
+/// Through ignition and out the other side, in one call.
+///
+/// The bounded-window test above stops at half a microsecond because
+/// that was all the old probe could carry. With the species-scaled probe
+/// the same seeded stoichiometric mixture at 1200 K runs its induction
+/// period, its branching explosion and its recombination tail inside a
+/// single ten-millisecond interval, and comes out with the hydrogen
+/// essentially gone and every atom accounted for. The endpoint is what the
+/// CEA oracle in `kerotakis-cea/tests/gas_mechanism_endpoint.rs` already
+/// says it should be; this test is the integrator getting there itself.
+#[test]
+fn hydrogen_burns_through_ignition_in_one_call() {
+    let mechanism = parse_yaml(&pack_text("h2-o2-skeletal-v1")).expect("the pack parses");
+    let arena = MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+
+    let mut feeds = vec![("H2", 2.0e-3), ("O2", 1.0e-3), ("N2", 4.0e-3)];
+    for radical in ["H", "O", "OH", "HO2", "H2O2", "H2O"] {
+        feeds.push((radical, SEED_MOLES));
+    }
+    let mut vessel = reactor(1.0, 1200.0, &feeds);
+    let h_atoms = |v: &Vessel| {
+        2.0 * moles(v, "H2")
+            + moles(v, "H")
+            + moles(v, "OH")
+            + 2.0 * moles(v, "H2O")
+            + moles(v, "HO2")
+            + 2.0 * moles(v, "H2O2")
+    };
+    let o_atoms = |v: &Vessel| {
+        2.0 * moles(v, "O2")
+            + moles(v, "O")
+            + moles(v, "OH")
+            + moles(v, "H2O")
+            + 2.0 * moles(v, "HO2")
+            + 2.0 * moles(v, "H2O2")
+    };
+    let (h_before, o_before) = (h_atoms(&vessel), o_atoms(&vessel));
+    let fuel_before = moles(&vessel, "H2");
+
+    let report = advance_network_with_options(&mut vessel, 1.0e-2, &network, STIFF)
+        .expect("the skeletal hydrogen network integrates through ignition");
+
+    let fuel_after = moles(&vessel, "H2");
+    assert!(
+        fuel_after < 0.1 * fuel_before,
+        "ten milliseconds at 1200 K should burn most of the hydrogen: {fuel_before} -> {fuel_after}"
+    );
+    assert!(
+        moles(&vessel, "H2O") > 0.9 * fuel_before,
+        "and make it into water: {} mol",
+        moles(&vessel, "H2O")
+    );
+    assert!(
+        relative_error(h_atoms(&vessel), h_before) < 1e-6,
+        "hydrogen atoms conserved"
+    );
+    assert!(
+        relative_error(o_atoms(&vessel), o_before) < 1e-6,
+        "oxygen atoms conserved"
+    );
+    assert!(relative_error(moles(&vessel, "N2"), 4.0e-3) < 1e-9);
+    let steps = report.statistics.accepted_steps + report.statistics.rejected_steps;
+    assert!(
+        steps < 500_000,
+        "ignition should not cost the earth: {steps} solver steps, {} nonlinear failures",
+        report.statistics.nonlinear_failures
     );
 }
 

@@ -285,6 +285,54 @@ impl<'a> ExtentSystem<'a> {
         values
     }
 
+    /// The finite-difference step along `vector`, sized by the SPECIES the
+    /// probe moves rather than by the extents it moves them through.
+    ///
+    /// The state is reaction extent, and at the start of every interval
+    /// every extent is zero — so a step sized from `(1 + ‖ξ‖∞)` is an
+    /// absolute √ε mol, about 1.5e-8 mol, for every column alike. In a
+    /// radical chain the species span nine orders of magnitude at once: a
+    /// probe of that size is a rounding error to the fuel and a hundred
+    /// times the whole population of a nanomole radical. The column for a
+    /// step that consumes the radical is then a secant across its entire
+    /// range, Newton is handed a Jacobian that is wrong where it matters
+    /// most, and the hydrogen pack exhausted its failure budget 2.7 µs into
+    /// ignition (BRD-041's report).
+    ///
+    /// Sized instead so that no species amount the probe touches moves by
+    /// more than √ε of itself: the tightest-constrained species sets the
+    /// step, which is the classical optimum for that species' derivative,
+    /// and the entries the fuel contributes — smaller by the same ratio —
+    /// carry noise of order √ε relative to the entries that govern the
+    /// Newton iteration. A probe bounded this way also never crosses zero,
+    /// so the `.max(0.0)` clamp in `amount` is never linearised across.
+    /// Depleted species floor at the depletion threshold, where the rate
+    /// gate has already zeroed their reactions.
+    fn probe_step<X, V>(&self, extents: &X, vector: &V) -> Option<f64>
+    where
+        X: Index<usize, Output = f64>,
+        V: Index<usize, Output = f64>,
+    {
+        let mut tightest = f64::INFINITY;
+        for (index, reaction) in self.reactions.iter().enumerate() {
+            let along = vector[index].abs();
+            if along == 0.0 || !along.is_finite() {
+                continue;
+            }
+            for term in reaction.stoichiometry {
+                let coefficient = term.coefficient.abs();
+                if coefficient == 0.0 {
+                    continue;
+                }
+                let amount = self
+                    .amount(extents, term.species, term.phase)
+                    .max(DEPLETION_EVENT);
+                tightest = tightest.min(amount / (along * coefficient));
+            }
+        }
+        tightest.is_finite().then(|| tightest * f64::EPSILON.sqrt())
+    }
+
     fn jacobian_vector<X, V, Y>(&self, extents: &X, vector: &V, output: &mut Y)
     where
         X: Index<usize, Output = f64>,
@@ -292,7 +340,6 @@ impl<'a> ExtentSystem<'a> {
         Y: IndexMut<usize, Output = f64>,
     {
         let n = self.reactions.len();
-        let x_norm = (0..n).map(|i| extents[i].abs()).fold(0.0, f64::max);
         let v_norm = (0..n).map(|i| vector[i].abs()).fold(0.0, f64::max);
         if v_norm == 0.0 || !v_norm.is_finite() {
             for i in 0..n {
@@ -300,7 +347,13 @@ impl<'a> ExtentSystem<'a> {
             }
             return;
         }
-        let epsilon = f64::EPSILON.sqrt() * (1.0 + x_norm) / v_norm;
+        let epsilon = self.probe_step(extents, vector).unwrap_or_else(|| {
+            // A direction touching only reactions with no stoichiometry
+            // has nothing to scale by; the old absolute step is as good
+            // as anything there.
+            let x_norm = (0..n).map(|i| extents[i].abs()).fold(0.0, f64::max);
+            f64::EPSILON.sqrt() * (1.0 + x_norm) / v_norm
+        });
         let perturbed = (0..n)
             .map(|i| extents[i] + epsilon * vector[i])
             .collect::<Vec<_>>();
