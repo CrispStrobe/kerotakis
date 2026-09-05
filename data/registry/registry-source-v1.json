@@ -60352,7 +60352,8 @@
           "red cabbage juice",
           "cabbage indicator",
           "red_cabbage_indicator",
-          "purple cabbage juice"
+          "purple cabbage juice",
+          "red_cabbage_extract"
         ]
       },
       "basis": "mass_fraction",
@@ -60432,6 +60433,1350 @@
         "the 0.03% w/w anthocyanin fraction is an explicit teaching concentration at the strong end of what a well-steeped jar reaches; it is not a measurement of any cultivar or extraction",
         "sugars, other pigments and cell-wall material stay together as conserved unresolved cabbage solids rather than fictional molecules",
         "the juice's own pH is not asserted: a real extract is mildly acidic and carries buffering that this surrogate does not model, so the colour a vessel shows is the pH of what it was added to"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/mayonnaise",
+      "version": 1,
+      "canonical_key": "mayonnaise",
+      "name": "full-fat mayonnaise",
+      "aliases": {
+        "de": [
+          "Majonäse",
+          "Salatmayonnaise"
+        ],
+        "en": [
+          "mayo"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.91,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.16,
+            "upper": 0.16
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "NaCl",
+          "fraction": {
+            "lower": 0.012,
+            "upper": 0.012
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "CH3COOH",
+          "fraction": {
+            "lower": 0.004,
+            "upper": 0.004
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.824,
+        "upper": 0.824
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "opaque_liquid_colloid",
+          "srgb": [
+            246,
+            238,
+            205
+          ],
+          "opacity_saturation_g_per_litre": 40.0
+        }
+      ],
+      "preparation": "ordinary full-fat mayonnaise: the water, salt and vinegar acid resolved, and the oil and egg yolk that are four fifths of the jar conserved unresolved",
+      "lot_assumptions": [
+        "about 82% of a full-fat mayonnaise is oil and egg yolk. Neither has an installed species - there is no triglyceride and no lecithin on this shelf - so that fraction is conserved as named matter rather than given a stand-in molecule",
+        "the emulsion's STABILITY is the question this material exists for and it is not computed. Real mayonnaise holds because lecithin from the yolk sits at every oil-water interface and lowers it; this bench has no interfacial model, no droplet size and no coalescence, so what a run shows is a colloid that does not separate because nothing in the model separates it. That is the right observation for the wrong reason, and it should not be read as an explanation",
+        "the 0.4% acetic acid stands for the vinegar or lemon juice a recipe uses; it makes the material mildly acidic, which is true, but the preservation that acidity provides is not modelled",
+        "no thickness, no viscosity and no breaking: whipping it, warming it or adding oil too fast are the three ways a real emulsion fails and none of them is represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/prepared-mustard",
+      "version": 1,
+      "canonical_key": "mustard",
+      "name": "prepared mustard",
+      "aliases": {
+        "de": [
+          "Senf",
+          "Tafelsenf"
+        ],
+        "en": [
+          "table mustard",
+          "yellow mustard"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.68,
+            "upper": 0.68
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "CH3COOH",
+          "fraction": {
+            "lower": 0.016,
+            "upper": 0.016
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "NaCl",
+          "fraction": {
+            "lower": 0.018,
+            "upper": 0.018
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.286,
+        "upper": 0.286
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "a thick milled-seed paste"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_emulsifier",
+          "saturation_amount": 2.0,
+          "max_dispersed_fraction": 0.55,
+          "half_life_seconds": 1800.0
+        }
+      ],
+      "preparation": "prepared table mustard: water, vinegar acid and salt resolved, and the milled seed that does the emulsifying conserved unresolved",
+      "lot_assumptions": [
+        "the emulsifying is a bounded dose response, not chemistry. Mustard works because the seed coat's mucilage and its proteins adsorb at the oil-water interface; none of that is an installed species, so the recipe declares the observable and conserves the seed",
+        "the parameters are teaching values: about half the oil dispersed at a couple of grams of mustard, holding for something like half an hour. They are not a measurement of any mustard and not a claim about droplet size",
+        "the heat of mustard - the isothiocyanates released when the seed is wetted - is absent, and so is the colour: this recipe reports no pigment of its own",
+        "the 1.6% acetic acid is the vinegar the seed is milled into, and it is the whole of the acidity claimed here"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/fruit-jam",
+      "version": 1,
+      "canonical_key": "jam",
+      "name": "fruit jam",
+      "aliases": {
+        "de": [
+          "Marmelade",
+          "Konfitüre"
+        ],
+        "en": [
+          "fruit preserve",
+          "jelly preserve"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.33,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.44,
+            "upper": 0.44
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "fructose",
+          "fraction": {
+            "lower": 0.09,
+            "upper": 0.09
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.09,
+            "upper": 0.09
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "citric_acid",
+          "fraction": {
+            "lower": 0.005,
+            "upper": 0.005
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.075,
+        "upper": 0.075
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "a set fruit gel"
+      },
+      "roles": [],
+      "preparation": "an ordinary set fruit jam at about 62% sugar: the three sugars, the water and the fruit acid resolved, and the pectin and fruit solids conserved unresolved",
+      "lot_assumptions": [
+        "62% total sugar is the concentration a jam is boiled to and the reason it keeps; it is an explicit teaching figure for a set jam rather than a measurement of any preserve",
+        "the SETTING is not modelled. A jam sets because pectin chains cross-link once enough sugar has taken the water and the acid has lowered the pH, and this bench has no polymer network, no gelation and no viscosity. The sugar that makes it happen is in the vessel; what it does is not",
+        "keeping is not modelled either: water activity, the quantity that actually stops microbes growing, has no representation here",
+        "the split between sucrose and the invert sugars varies with fruit and boiling time and this recipe fixes one point; the pectin and the fruit's own cell-wall solids are the conserved remainder"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/coconut-fat",
+      "version": 1,
+      "canonical_key": "coconut_fat",
+      "name": "coconut fat",
+      "aliases": {
+        "de": [
+          "Kokosfett",
+          "Kokosnussfett"
+        ],
+        "en": [
+          "solid coconut fat",
+          "coconut butter"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.92,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "a firm white fat, solid at room temperature"
+      },
+      "roles": [
+        {
+          "kind": "conserved_unresolved_solid",
+          "srgb": [
+            250,
+            249,
+            242
+          ],
+          "colour_word": "white"
+        }
+      ],
+      "preparation": "coconut fat as it sits in the jar: firm, white and wholly unresolved",
+      "lot_assumptions": [
+        "there is no triglyceride on this shelf, so the fat is conserved whole rather than given an invented molecule. That also means it has NO melting point here, which is exactly the property the question is about: coconut fat is solid at room temperature because its fatty acids are short and saturated, and this bench cannot show that",
+        "the comparison with a liquid vegetable oil is therefore a comparison of two conserved materials with different densities and different notes, not a computed phase difference",
+        "nothing about saponification, rancidity or nutrition is claimed"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/alcohol-hand-sanitiser",
+      "version": 1,
+      "canonical_key": "hand_sanitiser",
+      "name": "alcohol hand sanitiser",
+      "aliases": {
+        "de": [
+          "Händedesinfektionsmittel",
+          "Handdesinfektionsgel"
+        ],
+        "en": [
+          "hand sanitizer",
+          "hand rub",
+          "alcohol gel"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.87,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "ethanol",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.27,
+            "upper": 0.27
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.03,
+        "upper": 0.03
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "an alcohol hand rub at 70% ethanol by mass, with the gelling agent and humectant conserved unresolved",
+      "lot_assumptions": [
+        "70% ethanol is the concentration hand rubs are sold at, and it is the strength this recipe fixes; the remaining 3% stands for the carbomer gel, glycerol and neutraliser that make it a gel rather than a splash",
+        "the cooling a hand feels is the ethanol's enthalpy of vaporisation and the bench computes it, which is why this material is worth having. The DISINFECTION is not modelled in any way: nothing here kills anything, and the concentration that matters for that is stated as a fact rather than used",
+        "no gel viscosity, no skin, and no evaporation rate: how fast it goes is not represented, only that it goes and what that costs in heat"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/alcohol-perfume",
+      "version": 1,
+      "canonical_key": "perfume",
+      "name": "alcohol-based perfume",
+      "aliases": {
+        "de": [
+          "Parfüm",
+          "Duftwasser"
+        ],
+        "en": [
+          "eau de toilette",
+          "fragrance spray"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.87,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "ethanol",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.15,
+            "upper": 0.15
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.05,
+        "upper": 0.05
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "an alcohol-based perfume: 80% ethanol with water, and the fragrance oils conserved unresolved",
+      "lot_assumptions": [
+        "the 5% fragrance concentrate is conserved rather than resolved: a perfume's odorants are dozens of terpenes and esters, and none of them is an installed species",
+        "the question is why a smell crosses a room, and DIFFUSION IS NOT MODELLED HERE. This bench has no gas-phase transport between a vessel and a room; what it can show is that the alcohol evaporates and what that takes in heat. The odorants riding that vapour, and their journey to a nose, are outside it entirely",
+        "there is no odour entry for any component, so nothing in a run smells of anything"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/permanent-marker-ink",
+      "version": 1,
+      "canonical_key": "permanent_marker_ink",
+      "name": "permanent marker ink",
+      "aliases": {
+        "de": [
+          "Permanentmarker-Tinte",
+          "Alkoholmarker-Tinte"
+        ],
+        "en": [
+          "permanent ink",
+          "alcohol marker ink"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.86,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "ethanol",
+          "fraction": {
+            "lower": 0.62,
+            "upper": 0.62
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "indigo_carmine",
+          "fraction": {
+            "lower": 0.0018,
+            "upper": 0.0018
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "betanin",
+          "fraction": {
+            "lower": 0.0012,
+            "upper": 0.0012
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "curcumin",
+          "fraction": {
+            "lower": 0.0009,
+            "upper": 0.0009
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.3761,
+        "upper": 0.3761
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "a permanent marker's ink: an alcohol solvent carrying dye, with the film-forming resin conserved unresolved",
+      "lot_assumptions": [
+        "the solvent is ethanol because ethanol is the installed alcohol; a real permanent marker uses n-propanol or n-butanol, which are not on this shelf. The claim the recipe makes is about the CLASS of solvent, and that is the claim the question turns on",
+        "the three dyes are the same stand-ins the water-based felt-tip ink uses, at the same order of concentration. A real permanent marker's colourant is a resin-bound pigment, not a soluble food dye, and the difference is exactly why one washes out and the other does not - a difference this recipe cannot express",
+        "the 38% conserved remainder is the resin that makes the mark permanent. It has no installed species, so nothing here binds to paper, and no run will show a mark that resists water"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/orange-peel-oil",
+      "version": 1,
+      "canonical_key": "orange_oil",
+      "name": "orange peel oil",
+      "aliases": {
+        "de": [
+          "Orangenschalenöl",
+          "Orangenöl"
+        ],
+        "en": [
+          "citrus peel oil",
+          "sweet orange oil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.844,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_immiscible_liquid",
+          "srgb": [
+            240,
+            178,
+            60
+          ],
+          "colour_word": "orange"
+        }
+      ],
+      "preparation": "cold-pressed orange peel oil: a wholly unresolved essential oil that floats on water",
+      "lot_assumptions": [
+        "orange peel oil is about 95% d-limonene, a terpene with no installed species, so the whole material is conserved rather than given a molecule. Its density of 0.844 g/mL is a real measured property of the oil and is why it floats",
+        "the layering is a bounded material role and not a computed liquid-liquid equilibrium: the recipe declares that this liquid stays separate and sits on top, which is what a jar shows, and claims no partition coefficient and no mutual solubility",
+        "limonene DOES dissolve polystyrene and is used as a solvent for it; that chemistry is absent here, and so is the smell"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/kitchen-grease",
+      "version": 1,
+      "canonical_key": "grease",
+      "name": "kitchen grease",
+      "aliases": {
+        "de": [
+          "Küchenfett",
+          "Bratfett"
+        ],
+        "en": [
+          "cooking grease",
+          "greasy film"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.92,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_immiscible_liquid",
+          "srgb": [
+            238,
+            226,
+            190
+          ],
+          "colour_word": "pale yellow"
+        }
+      ],
+      "preparation": "the fat left on a pan or a pair of hands: a wholly unresolved liquid fat that will not mix with water",
+      "lot_assumptions": [
+        "kitchen grease is a mixture of triglycerides and their breakdown products and none of them is an installed species, so it is conserved whole. What the recipe supplies is the one property the question needs: it does not mix with water",
+        "the cleaning that follows is the detergent's bounded emulsifier role acting on this layer under stirring. It is a declared dose response, not a micelle model: nothing here computes a critical micelle concentration, a droplet size or a rinse",
+        "soiled grease also carries particles, and no dirt is represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "fuel/petrol",
+      "version": 1,
+      "canonical_key": "petrol",
+      "name": "unleaded petrol",
+      "aliases": {
+        "de": [
+          "Benzin",
+          "Ottokraftstoff"
+        ],
+        "en": [
+          "gasoline",
+          "motor spirit"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.745,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "hexane",
+          "fraction": {
+            "lower": 0.85,
+            "upper": 0.85
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.15,
+        "upper": 0.15
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "petrol as a single representative light alkane: 85% resolved hexane with the aromatics, branched isomers and additives conserved unresolved",
+      "lot_assumptions": [
+        "real petrol is a blend spanning roughly C4 to C12 with a substantial aromatic fraction; hexane is the one alkane in that range this registry installs, and it stands for the whole blend. It is NOT a claim that petrol is hexane",
+        "octane rating, and therefore knock resistance, is a property of the blend that this single-component surrogate cannot express - which matters because it is the usual reason petrol and diesel behave differently in an engine",
+        "volatility is likewise not represented: a real puddle of petrol supplies vapour far faster than hexane's own boiling point suggests, and the ignition this bench performs takes a charge rather than a vapour above a pool",
+        "the conserved 15% is the aromatic and additive fraction; it contributes no chemistry and no energy"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "fuel/damp-wood",
+      "version": 1,
+      "canonical_key": "wet_wood",
+      "name": "damp wood",
+      "aliases": {
+        "de": [
+          "feuchtes Holz",
+          "nasses Holz"
+        ],
+        "en": [
+          "damp firewood",
+          "unseasoned wood"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.75,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.42,
+            "upper": 0.42
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.28,
+        "upper": 0.28
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "split log",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a split log of unseasoned wood at about 30% moisture: cellulose and water resolved, and the lignin and hemicellulose conserved unresolved",
+      "lot_assumptions": [
+        "30% water by mass is what freshly split, unseasoned wood carries, against something under 20% for firewood that has been stacked a year. That water is real inventory in the vessel and it takes heat, which is the half of the question this bench can answer",
+        "the SMOKE is not modelled. Damp wood smokes because the water cools the flame below the temperature that burns the pyrolysis volatiles, and this bench has neither pyrolysis nor volatiles nor soot. What it burns is the cellulose, straight to carbon dioxide and water, leaving no char and no ash",
+        "the conserved 28% is lignin and hemicellulose, which are roughly a third of wood's mass and a comparable share of its energy; that energy is therefore absent, so this log carries less than a real one"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/sugar-water",
+      "version": 1,
+      "canonical_key": "sugar_water",
+      "name": "sugar water",
+      "aliases": {
+        "de": [
+          "Zuckerwasser",
+          "Zuckerlösung"
+        ],
+        "en": [
+          "sugar solution",
+          "sucrose solution"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.04,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.1,
+            "upper": 0.1
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9,
+            "upper": 0.9
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "a ten-percent sugar solution: nothing but sucrose and water, both resolved",
+      "lot_assumptions": [
+        "10% w/w is an explicit teaching strength - roughly two teaspoons in a glass - and not a measurement of anything",
+        "this is the one recipe in this tranche with no conserved remainder at all: sugar water really is sugar and water, and both are installed species",
+        "it is stated as made up rather than as dissolving: the dissolution enthalpy of the sucrose is not applied on adding this material, because what arrives is a solution and not a spoonful of crystals"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/dried-beans",
+      "version": 1,
+      "canonical_key": "beans",
+      "name": "dried beans",
+      "aliases": {
+        "de": [
+          "Bohnen",
+          "Trockenbohnen"
+        ],
+        "en": [
+          "haricot beans",
+          "dry beans",
+          "pulses"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.8,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.5,
+            "upper": 0.5
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.115,
+            "upper": 0.115
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.155,
+            "upper": 0.155
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.21,
+        "upper": 0.21
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "dried beans as they come from the packet: starch, residual moisture, fibre and a little sugar resolved, with the storage protein conserved unresolved",
+      "lot_assumptions": [
+        "the composition is an explicit teaching figure for a dried pulse - about half starch, a sixth fibre, a tenth water - and not a measurement of any variety",
+        "the 21% conserved remainder is the storage protein and the minerals. Beans are a protein food and this bench has no protein species, so the part a cook cares most about is the part that stays unresolved",
+        "SOFTENING IS NOT MODELLED. A bean softens because heat and water break down the pectin holding its cell walls together, and nothing here does that. What a sealed pot can show is the pressure and the raised boiling temperature, which is the reason a pressure cooker is faster - so the mechanism is half present and the outcome is absent",
+        "the oligosaccharides that make beans famous, and the lectins that make raw ones unsafe, are both in the conserved remainder and neither is claimed"
       ],
       "substitutions": [],
       "confidence": "surrogate",

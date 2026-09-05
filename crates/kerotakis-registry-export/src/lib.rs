@@ -3252,6 +3252,8 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                         "cabbage indicator".to_string(),
                         "red_cabbage_indicator".to_string(),
                         "purple cabbage juice".to_string(),
+                        // bio-092 asks for the same jar by a different word.
+                        "red_cabbage_extract".to_string(),
                     ],
                 ),
             ]),
@@ -3273,6 +3275,498 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "the 0.03% w/w anthocyanin fraction is an explicit teaching concentration at the strong end of what a well-steeped jar reaches; it is not a measurement of any cultivar or extraction".to_string(),
                 "sugars, other pigments and cell-wall material stay together as conserved unresolved cabbage solids rather than fictional molecules".to_string(),
                 "the juice's own pH is not asserted: a real extract is mildly acidic and carries buffering that this surrogate does not model, so the colour a vessel shows is the pH of what it was added to".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-016: an oil-in-water emulsion that does not separate. The
+        // stability is a MODELLING CHOICE here, not a computed result: the
+        // bench has no coalescence to compute, so what the recipe supplies
+        // is a colloid that stays one thing, and the note says so.
+        MaterialRecipe {
+            id: "food/mayonnaise".to_string(),
+            version: 1,
+            canonical_key: "mayonnaise".to_string(),
+            name: "full-fat mayonnaise".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Majonäse".to_string(), "Salatmayonnaise".to_string()]),
+                ("en".to_string(), vec!["mayo".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.91)),
+            components: vec![
+                component("water", 0.16),
+                component("NaCl", 0.012),
+                component("CH3COOH", 0.004),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.824,
+                upper: 0.824,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![
+                MaterialRole::OpaqueLiquidColloid {
+                    srgb: [246, 238, 205],
+                    opacity_saturation_g_per_litre: 40.0,
+                },
+            ],
+            preparation: Some("ordinary full-fat mayonnaise: the water, salt and vinegar acid resolved, and the oil and egg yolk that are four fifths of the jar conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "about 82% of a full-fat mayonnaise is oil and egg yolk. Neither has an installed species - there is no triglyceride and no lecithin on this shelf - so that fraction is conserved as named matter rather than given a stand-in molecule".to_string(),
+                "the emulsion's STABILITY is the question this material exists for and it is not computed. Real mayonnaise holds because lecithin from the yolk sits at every oil-water interface and lowers it; this bench has no interfacial model, no droplet size and no coalescence, so what a run shows is a colloid that does not separate because nothing in the model separates it. That is the right observation for the wrong reason, and it should not be read as an explanation".to_string(),
+                "the 0.4% acetic acid stands for the vinegar or lemon juice a recipe uses; it makes the material mildly acidic, which is true, but the preservation that acidity provides is not modelled".to_string(),
+                "no thickness, no viscosity and no breaking: whipping it, warming it or adding oil too fast are the three ways a real emulsion fails and none of them is represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-017: mustard is an emulsifier, and that is a role this
+        // schema already has. The seed mucilage and its proteins are what
+        // actually do it; neither is an installed species, so the role
+        // carries the bounded observable and the components carry only
+        // what is really there.
+        MaterialRecipe {
+            id: "food/prepared-mustard".to_string(),
+            version: 1,
+            canonical_key: "mustard".to_string(),
+            name: "prepared mustard".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Senf".to_string(), "Tafelsenf".to_string()]),
+                ("en".to_string(), vec!["table mustard".to_string(), "yellow mustard".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.05)),
+            components: vec![
+                component("water", 0.68),
+                component("CH3COOH", 0.016),
+                component("NaCl", 0.018),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.286,
+                upper: 0.286,
+            }),
+            physical_form: MaterialPhysicalForm::Other {
+                description: "a thick milled-seed paste".to_string(),
+            },
+            roles: vec![
+                MaterialRole::AqueousEmulsifier {
+                    saturation_amount: 2.0,
+                    max_dispersed_fraction: 0.55,
+                    half_life_seconds: 1800.0,
+                },
+            ],
+            preparation: Some("prepared table mustard: water, vinegar acid and salt resolved, and the milled seed that does the emulsifying conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "the emulsifying is a bounded dose response, not chemistry. Mustard works because the seed coat's mucilage and its proteins adsorb at the oil-water interface; none of that is an installed species, so the recipe declares the observable and conserves the seed".to_string(),
+                "the parameters are teaching values: about half the oil dispersed at a couple of grams of mustard, holding for something like half an hour. They are not a measurement of any mustard and not a claim about droplet size".to_string(),
+                "the heat of mustard - the isothiocyanates released when the seed is wetted - is absent, and so is the colour: this recipe reports no pigment of its own".to_string(),
+                "the 1.6% acetic acid is the vinegar the seed is milled into, and it is the whole of the acidity claimed here".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-040: the sugar is real and resolved; the SETTING is pectin
+        // gelation and is not modelled at all.
+        MaterialRecipe {
+            id: "food/fruit-jam".to_string(),
+            version: 1,
+            canonical_key: "jam".to_string(),
+            name: "fruit jam".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Marmelade".to_string(), "Konfitüre".to_string()]),
+                ("en".to_string(), vec!["fruit preserve".to_string(), "jelly preserve".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.33)),
+            components: vec![
+                component("sucrose", 0.44),
+                component("fructose", 0.09),
+                component("glucose", 0.09),
+                component("water", 0.3),
+                component("citric_acid", 0.005),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.075,
+                upper: 0.075,
+            }),
+            physical_form: MaterialPhysicalForm::Other {
+                description: "a set fruit gel".to_string(),
+            },
+            roles: Vec::new(),
+            preparation: Some("an ordinary set fruit jam at about 62% sugar: the three sugars, the water and the fruit acid resolved, and the pectin and fruit solids conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "62% total sugar is the concentration a jam is boiled to and the reason it keeps; it is an explicit teaching figure for a set jam rather than a measurement of any preserve".to_string(),
+                "the SETTING is not modelled. A jam sets because pectin chains cross-link once enough sugar has taken the water and the acid has lowered the pH, and this bench has no polymer network, no gelation and no viscosity. The sugar that makes it happen is in the vessel; what it does is not".to_string(),
+                "keeping is not modelled either: water activity, the quantity that actually stops microbes growing, has no representation here".to_string(),
+                "the split between sucrose and the invert sugars varies with fruit and boiling time and this recipe fixes one point; the pectin and the fruit's own cell-wall solids are the conserved remainder".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-065: solid fat beside liquid oil. The bench holds the
+        // difference as a fact in a note and cannot compute it - there is
+        // no triglyceride species and therefore no melting point.
+        MaterialRecipe {
+            id: "food/coconut-fat".to_string(),
+            version: 1,
+            canonical_key: "coconut_fat".to_string(),
+            name: "coconut fat".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Kokosfett".to_string(), "Kokosnussfett".to_string()]),
+                ("en".to_string(), vec!["solid coconut fat".to_string(), "coconut butter".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.92)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::Other {
+                description: "a firm white fat, solid at room temperature".to_string(),
+            },
+            roles: vec![
+                MaterialRole::ConservedUnresolvedSolid {
+                    srgb: [250, 249, 242],
+                    colour_word: "white".to_string(),
+                },
+            ],
+            preparation: Some("coconut fat as it sits in the jar: firm, white and wholly unresolved".to_string()),
+            lot_assumptions: vec![
+                "there is no triglyceride on this shelf, so the fat is conserved whole rather than given an invented molecule. That also means it has NO melting point here, which is exactly the property the question is about: coconut fat is solid at room temperature because its fatty acids are short and saturated, and this bench cannot show that".to_string(),
+                "the comparison with a liquid vegetable oil is therefore a comparison of two conserved materials with different densities and different notes, not a computed phase difference".to_string(),
+                "nothing about saponification, rancidity or nutrition is claimed".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-107: 70% ethanol. Evaporation and its latent heat are real
+        // engine behaviour, so this row gets an answer rather than a note.
+        MaterialRecipe {
+            id: "household/alcohol-hand-sanitiser".to_string(),
+            version: 1,
+            canonical_key: "hand_sanitiser".to_string(),
+            name: "alcohol hand sanitiser".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Händedesinfektionsmittel".to_string(), "Handdesinfektionsgel".to_string()]),
+                ("en".to_string(), vec!["hand sanitizer".to_string(), "hand rub".to_string(), "alcohol gel".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.87)),
+            components: vec![
+                component("ethanol", 0.7),
+                component("water", 0.27),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.03,
+                upper: 0.03,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("an alcohol hand rub at 70% ethanol by mass, with the gelling agent and humectant conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "70% ethanol is the concentration hand rubs are sold at, and it is the strength this recipe fixes; the remaining 3% stands for the carbomer gel, glycerol and neutraliser that make it a gel rather than a splash".to_string(),
+                "the cooling a hand feels is the ethanol's enthalpy of vaporisation and the bench computes it, which is why this material is worth having. The DISINFECTION is not modelled in any way: nothing here kills anything, and the concentration that matters for that is stated as a fact rather than used".to_string(),
+                "no gel viscosity, no skin, and no evaporation rate: how fast it goes is not represented, only that it goes and what that costs in heat".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-101: an alcohol solution whose evaporation the bench does
+        // compute. What it cannot do is smell, or spread through a room.
+        MaterialRecipe {
+            id: "household/alcohol-perfume".to_string(),
+            version: 1,
+            canonical_key: "perfume".to_string(),
+            name: "alcohol-based perfume".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Parfüm".to_string(), "Duftwasser".to_string()]),
+                ("en".to_string(), vec!["eau de toilette".to_string(), "fragrance spray".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.87)),
+            components: vec![
+                component("ethanol", 0.8),
+                component("water", 0.15),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.05,
+                upper: 0.05,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("an alcohol-based perfume: 80% ethanol with water, and the fragrance oils conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "the 5% fragrance concentrate is conserved rather than resolved: a perfume's odorants are dozens of terpenes and esters, and none of them is an installed species".to_string(),
+                "the question is why a smell crosses a room, and DIFFUSION IS NOT MODELLED HERE. This bench has no gas-phase transport between a vessel and a room; what it can show is that the alcohol evaporates and what that takes in heat. The odorants riding that vapour, and their journey to a nose, are outside it entirely".to_string(),
+                "there is no odour entry for any component, so nothing in a run smells of anything".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-105: the point of the row is that this ink's solvent is an
+        // alcohol and not water. The three installed dyes stand in for the
+        // pigment exactly as the water-based felt-tip ink already does.
+        MaterialRecipe {
+            id: "school/permanent-marker-ink".to_string(),
+            version: 1,
+            canonical_key: "permanent_marker_ink".to_string(),
+            name: "permanent marker ink".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Permanentmarker-Tinte".to_string(), "Alkoholmarker-Tinte".to_string()]),
+                ("en".to_string(), vec!["permanent ink".to_string(), "alcohol marker ink".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.86)),
+            components: vec![
+                component("ethanol", 0.62),
+                component("indigo_carmine", 0.0018),
+                component("betanin", 0.0012),
+                component("curcumin", 0.0009),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.3761,
+                upper: 0.3761,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("a permanent marker's ink: an alcohol solvent carrying dye, with the film-forming resin conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "the solvent is ethanol because ethanol is the installed alcohol; a real permanent marker uses n-propanol or n-butanol, which are not on this shelf. The claim the recipe makes is about the CLASS of solvent, and that is the claim the question turns on".to_string(),
+                "the three dyes are the same stand-ins the water-based felt-tip ink uses, at the same order of concentration. A real permanent marker's colourant is a resin-bound pigment, not a soluble food dye, and the difference is exactly why one washes out and the other does not - a difference this recipe cannot express".to_string(),
+                "the 38% conserved remainder is the resin that makes the mark permanent. It has no installed species, so nothing here binds to paper, and no run will show a mark that resists water".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-115: an essential oil that does not dissolve in water. The
+        // immiscible-liquid role is the same one vegetable oil uses, and
+        // it is the whole of the answer the bench can give.
+        MaterialRecipe {
+            id: "food/orange-peel-oil".to_string(),
+            version: 1,
+            canonical_key: "orange_oil".to_string(),
+            name: "orange peel oil".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Orangenschalenöl".to_string(), "Orangenöl".to_string()]),
+                ("en".to_string(), vec!["citrus peel oil".to_string(), "sweet orange oil".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.844)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![
+                MaterialRole::AqueousImmiscibleLiquid {
+                    srgb: [240, 178, 60],
+                    colour_word: "orange".to_string(),
+                },
+            ],
+            preparation: Some("cold-pressed orange peel oil: a wholly unresolved essential oil that floats on water".to_string()),
+            lot_assumptions: vec![
+                "orange peel oil is about 95% d-limonene, a terpene with no installed species, so the whole material is conserved rather than given a molecule. Its density of 0.844 g/mL is a real measured property of the oil and is why it floats".to_string(),
+                "the layering is a bounded material role and not a computed liquid-liquid equilibrium: the recipe declares that this liquid stays separate and sits on top, which is what a jar shows, and claims no partition coefficient and no mutual solubility".to_string(),
+                "limonene DOES dissolve polystyrene and is used as a solvent for it; that chemistry is absent here, and so is the smell".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-109: soap and grease. `dish_soap` already carries the
+        // emulsifier role, so what was missing was something greasy for it
+        // to act on.
+        MaterialRecipe {
+            id: "household/kitchen-grease".to_string(),
+            version: 1,
+            canonical_key: "grease".to_string(),
+            name: "kitchen grease".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Küchenfett".to_string(), "Bratfett".to_string()]),
+                ("en".to_string(), vec!["cooking grease".to_string(), "greasy film".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.92)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![
+                MaterialRole::AqueousImmiscibleLiquid {
+                    srgb: [238, 226, 190],
+                    colour_word: "pale yellow".to_string(),
+                },
+            ],
+            preparation: Some("the fat left on a pan or a pair of hands: a wholly unresolved liquid fat that will not mix with water".to_string()),
+            lot_assumptions: vec![
+                "kitchen grease is a mixture of triglycerides and their breakdown products and none of them is an installed species, so it is conserved whole. What the recipe supplies is the one property the question needs: it does not mix with water".to_string(),
+                "the cleaning that follows is the detergent's bounded emulsifier role acting on this layer under stirring. It is a declared dose response, not a micelle model: nothing here computes a critical micelle concentration, a droplet size or a rinse".to_string(),
+                "soiled grease also carries particles, and no dirt is represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // th-047: hexane is the one installed alkane inside petrol's
+        // carbon-number range, and CEA has a record for it - so this row
+        // burns through the ordinary equilibrium route rather than a
+        // curated fuel table.
+        MaterialRecipe {
+            id: "fuel/petrol".to_string(),
+            version: 1,
+            canonical_key: "petrol".to_string(),
+            name: "unleaded petrol".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Benzin".to_string(), "Ottokraftstoff".to_string()]),
+                ("en".to_string(), vec!["gasoline".to_string(), "motor spirit".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.745)),
+            components: vec![
+                component("hexane", 0.85),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.15,
+                upper: 0.15,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("petrol as a single representative light alkane: 85% resolved hexane with the aromatics, branched isomers and additives conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "real petrol is a blend spanning roughly C4 to C12 with a substantial aromatic fraction; hexane is the one alkane in that range this registry installs, and it stands for the whole blend. It is NOT a claim that petrol is hexane".to_string(),
+                "octane rating, and therefore knock resistance, is a property of the blend that this single-component surrogate cannot express - which matters because it is the usual reason petrol and diesel behave differently in an engine".to_string(),
+                "volatility is likewise not represented: a real puddle of petrol supplies vapour far faster than hexane's own boiling point suggests, and the ignition this bench performs takes a charge rather than a vapour above a pool".to_string(),
+                "the conserved 15% is the aromatic and additive fraction; it contributes no chemistry and no energy".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // th-060: the water in the log is the part the bench really can
+        // do - it is inventory that takes heat. The smoke is not.
+        MaterialRecipe {
+            id: "fuel/damp-wood".to_string(),
+            version: 1,
+            canonical_key: "wet_wood".to_string(),
+            name: "damp wood".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["feuchtes Holz".to_string(), "nasses Holz".to_string()]),
+                ("en".to_string(), vec!["damp firewood".to_string(), "unseasoned wood".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.75)),
+            components: vec![
+                component("cellulose", 0.42),
+                component("water", 0.3),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.28,
+                upper: 0.28,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("split log".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a split log of unseasoned wood at about 30% moisture: cellulose and water resolved, and the lignin and hemicellulose conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "30% water by mass is what freshly split, unseasoned wood carries, against something under 20% for firewood that has been stacked a year. That water is real inventory in the vessel and it takes heat, which is the half of the question this bench can answer".to_string(),
+                "the SMOKE is not modelled. Damp wood smokes because the water cools the flame below the temperature that burns the pyrolysis volatiles, and this bench has neither pyrolysis nor volatiles nor soot. What it burns is the cellulose, straight to carbon dioxide and water, leaving no char and no ash".to_string(),
+                "the conserved 28% is lignin and hemicellulose, which are roughly a third of wood's mass and a comparable share of its energy; that energy is therefore absent, so this log carries less than a real one".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-066: the yeast recipe's fermentation role feeds on sucrose,
+        // and this is the sugar solution the prompt hands it.
+        MaterialRecipe {
+            id: "household/sugar-water".to_string(),
+            version: 1,
+            canonical_key: "sugar_water".to_string(),
+            name: "sugar water".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Zuckerwasser".to_string(), "Zuckerlösung".to_string()]),
+                ("en".to_string(), vec!["sugar solution".to_string(), "sucrose solution".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.04)),
+            components: vec![
+                component("sucrose", 0.1),
+                component("water", 0.9),
+            ],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("a ten-percent sugar solution: nothing but sucrose and water, both resolved".to_string()),
+            lot_assumptions: vec![
+                "10% w/w is an explicit teaching strength - roughly two teaspoons in a glass - and not a measurement of anything".to_string(),
+                "this is the one recipe in this tranche with no conserved remainder at all: sugar water really is sugar and water, and both are installed species".to_string(),
+                "it is stated as made up rather than as dissolving: the dissolution enthalpy of the sucrose is not applied on adding this material, because what arrives is a solution and not a spoonful of crystals".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-025: a sealed pot of beans. The raised boiling point under
+        // pressure is real engine behaviour; the softening is not.
+        MaterialRecipe {
+            id: "food/dried-beans".to_string(),
+            version: 1,
+            canonical_key: "beans".to_string(),
+            name: "dried beans".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Bohnen".to_string(), "Trockenbohnen".to_string()]),
+                ("en".to_string(), vec!["haricot beans".to_string(), "dry beans".to_string(), "pulses".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.8)),
+            components: vec![
+                component("starch", 0.5),
+                component("water", 0.115),
+                component("cellulose", 0.155),
+                component("sucrose", 0.02),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.21,
+                upper: 0.21,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some("dried beans as they come from the packet: starch, residual moisture, fibre and a little sugar resolved, with the storage protein conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "the composition is an explicit teaching figure for a dried pulse - about half starch, a sixth fibre, a tenth water - and not a measurement of any variety".to_string(),
+                "the 21% conserved remainder is the storage protein and the minerals. Beans are a protein food and this bench has no protein species, so the part a cook cares most about is the part that stays unresolved".to_string(),
+                "SOFTENING IS NOT MODELLED. A bean softens because heat and water break down the pectin holding its cell walls together, and nothing here does that. What a sealed pot can show is the pressure and the raised boiling temperature, which is the reason a pressure cooker is faster - so the mechanism is half present and the outcome is absent".to_string(),
+                "the oligosaccharides that make beans famous, and the lectins that make raw ones unsafe, are both in the conserved remainder and neither is claimed".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

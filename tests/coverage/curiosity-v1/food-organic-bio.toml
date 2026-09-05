@@ -175,7 +175,6 @@ material_class = "emulsion"
 owning_task = "BRD-014"
 tags = ["emulsion", "mayonnaise"]
 script = ["add v1 mayonnaise 50g", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -187,7 +186,6 @@ material_class = "emulsion"
 owning_task = "BRD-014"
 tags = ["emulsifier", "mustard"]
 script = ["add v1 vegetable_oil 50mL", "add v1 vinegar 20mL", "add v1 mustard 5g", "stir v1", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -279,7 +277,6 @@ material_class = "legume"
 owning_task = "BRD-052"
 tags = ["beans", "pressure_cooking"]
 script = ["add v1 water 500mL", "add v1 beans 100g", "seal v1 1L", "heat v1 300kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -451,7 +448,6 @@ material_class = "food_mixture"
 owning_task = "BRD-014"
 tags = ["jam", "pectin"]
 script = ["add v1 jam 50g", "cool v1 5kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -739,7 +735,6 @@ material_class = "lipid"
 owning_task = "BRD-014"
 tags = ["fat", "melting_point"]
 script = ["add v1 coconut_fat 10g", "new", "add v2 vegetable_oil 10mL", "look v1", "look v2"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -751,7 +746,6 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["carbon_dioxide", "yeast"]
 script = ["add v1 sugar_water 100mL", "add v1 yeast 1g", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -1061,7 +1055,6 @@ material_class = "plant_pigment"
 owning_task = "BRD-012"
 tags = ["anthocyanin", "ph_indicator"]
 script = ["add v1 red_cabbage_extract 20mL", "add v1 HCl 0.001mol", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -1168,7 +1161,6 @@ material_class = "fragrance"
 owning_task = "BRD-032"
 tags = ["diffusion", "fragrance"]
 script = ["add v1 perfume 1mL", "evaporate v1 1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -1216,7 +1208,6 @@ material_class = "ink"
 owning_task = "BRD-014"
 tags = ["ink", "solvent"]
 script = ["add v1 permanent_marker_ink 1g", "add v1 ethanol 20mL", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1239,7 +1230,6 @@ material_class = "cosmetic"
 owning_task = "BRD-014"
 tags = ["evaporation", "sanitiser"]
 script = ["add v1 hand_sanitiser 5mL", "evaporate v1 0.5", "measure v1 thermometer"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1262,7 +1252,6 @@ material_class = "cleaner"
 owning_task = "BRD-014"
 tags = ["grease", "soap"]
 script = ["add v1 water 100mL", "add v1 grease 5g", "add v1 soap 1g", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -1332,7 +1321,6 @@ material_class = "fragrance"
 owning_task = "BRD-014"
 tags = ["essential_oil", "solubility"]
 script = ["add v1 orange_oil 5mL", "add v1 water 100mL", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
