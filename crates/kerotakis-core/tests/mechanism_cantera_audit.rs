@@ -513,13 +513,33 @@ fn reversible_pressure_dependent_reactions_are_refused_plainly() {
 }
 
 /// Negative activation energies appear four times in Cantera's own
-/// `h2o2.yaml`. They are refused, but the refusal must name `Ea` and the value.
+/// `h2o2.yaml` and thirty-two times in `gri30.yaml`. BRD-040 refused them
+/// and recommended (§7, item 3) that the guard become a finiteness check;
+/// BRD-041 needs exactly that, because `CO + OH -> CO2 + H` — the reaction
+/// that decides whether carbon monoxide burns at all — is barrierless and
+/// its recommended fit has a negative `Ea`. So they are accepted now, and
+/// the sign survives into the compiled rate law rather than being clamped.
 #[test]
-fn negative_activation_energies_are_refused_with_the_value_named() {
+fn negative_activation_energies_are_accepted_as_fitted_parameters() {
     let yaml = BASE.replace("Ea: 10000.0", "Ea: -1700.0");
+    let mechanism = parse_yaml(&yaml).expect("a negative Ea is a legal fitted parameter");
+    let detail = &mechanism.summary().reaction_details[0];
+    assert!(
+        (detail.activation_energy_j_per_mol - (-1700.0 * 4.184)).abs() < 1e-9,
+        "the sign and the cal/mol scale both survive: {}",
+        detail.activation_energy_j_per_mol
+    );
+}
+
+/// A NaN activation energy is still refused, and by name. It is not a
+/// fitted parameter; it is a rate law that poisons every number computed
+/// from it, silently and forever.
+#[test]
+fn a_non_finite_activation_energy_is_refused_with_the_value_named() {
+    let yaml = BASE.replace("Ea: 10000.0", "Ea: .nan");
     let error = field_error(&yaml);
     assert!(error.contains("Ea"), "{error}");
-    assert!(error.contains("must be finite and positive"), "{error}");
+    assert!(error.contains("must be finite"), "{error}");
 }
 
 /// Real mechanisms ship Troe `A` outside [0, 1] — `n-heptane-NUIG-2016.yaml`

@@ -183,6 +183,17 @@ pub enum MechanismError {
         field: &'static str,
         value: f64,
     },
+    /// BRD-041: `Ea` in a fitted Arrhenius expression is a fitted parameter,
+    /// not a barrier height, so it may be negative — barrierless
+    /// radical-radical reactions such as `CO + OH -> CO2 + H` genuinely get
+    /// faster as they cool. BRD-040 counted four negative activation energies
+    /// in Cantera's own `h2o2.yaml` and thirty-two in `gri30.yaml`, and
+    /// recommended (§7, item 3) that the `Ea >= 0` guard become a finiteness
+    /// check. It has. What is still refused is a value that is not a number:
+    /// a NaN activation energy makes every rate downstream of it NaN, and
+    /// silently.
+    #[error("reaction {reaction}: Ea must be finite (got {value})")]
+    NonFiniteActivationEnergy { reaction: usize, value: f64 },
     /// A Cantera YAML key the portable subset does not model.
     ///
     /// Every such key is refused rather than skipped: silently dropping a field
@@ -1331,10 +1342,9 @@ fn normalize_rate(
     }
     let activation_energy =
         parse_activation_energy(&raw.activation_energy, units.activation_j_per_mol)?;
-    if !activation_energy.is_finite() || activation_energy < 0.0 {
-        return Err(MechanismError::InvalidRate {
+    if !activation_energy.is_finite() {
+        return Err(MechanismError::NonFiniteActivationEnergy {
             reaction,
-            field: "Ea",
             value: activation_energy,
         });
     }
