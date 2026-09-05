@@ -246,6 +246,26 @@ pub fn is_condensed_gas(key: &str) -> bool {
     data.standard_phase != Phase::Gas && sublimation_product(key) != key
 }
 
+/// The temperature a condensed gas ARRIVES at when it is poured from its
+/// bottle: its own sublimation or boiling point, K. `None` for everything
+/// else — a reagent that is stable at room temperature arrives at the
+/// room's.
+///
+/// `add` used to deposit every reagent at 298.15 K, and liquid nitrogen at
+/// 298.15 K is a state that cannot exist. The route above discarded that
+/// superheat, at the cost stated on `ledger`: it could not tell it from
+/// heat a `heat` command had honestly put in. Depositing the cryogen cold
+/// in the first place is the fix that cost pointed at — the adiabatic
+/// mix on `add` then cools the flask the way pouring really does, and the
+/// route finds a vessel already at the cryogen's temperature with nothing
+/// impossible to discard.
+pub fn arrives_at_k(key: &str) -> Option<f64> {
+    if !is_condensed_gas(key) {
+        return None;
+    }
+    sublimes_at(&SpeciesId::new(key)).or_else(|| boils_at(key))
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents

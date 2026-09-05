@@ -766,3 +766,41 @@ fn the_honesty_pass_does_not_call_frozen_ethanol_unmodelled() {
         "{events:?}"
     );
 }
+
+/// Pouring a cryogen cools the flask on the pour, not by a correction
+/// afterwards: `add` deposits a condensed gas at its own transition
+/// temperature and the adiabatic mix does the rest.
+#[test]
+fn a_cryogen_arrives_cold_and_a_salt_arrives_at_room_temperature() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    let add = |bench: &mut Bench, key: &str, moles: f64| {
+        bench
+            .step(Operator::Add {
+                vessel: v,
+                species: SpeciesId::new(key),
+                moles: Moles(moles),
+                at: None,
+            })
+            .expect("add")
+    };
+    add(&mut bench, "ethanol", 0.17);
+    assert!((bench.vessel(v).unwrap().temperature.0 - Kelvin::STANDARD.0).abs() < 1e-9);
+    let events = add(&mut bench, "liquid_nitrogen", 2.9);
+    let after = bench.vessel(v).unwrap().temperature.0;
+    assert!(after < 200.0, "the pour cools the flask: {after} K");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::TemperatureChanged { from, to, .. } if from.0 > to.0
+        )),
+        "{events:?}"
+    );
+    assert!(kerotakis_core::phase_route::arrives_at_k("liquid_nitrogen")
+        .is_some_and(|k| (k - 77.36).abs() < 0.5));
+    assert!(kerotakis_core::phase_route::arrives_at_k("dry_ice")
+        .is_some_and(|k| (k - 194.65).abs() < 0.5));
+    assert!(kerotakis_core::phase_route::arrives_at_k("NaCl").is_none());
+    assert!(kerotakis_core::phase_route::arrives_at_k("ethanol").is_none());
+}
