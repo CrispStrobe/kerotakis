@@ -34,6 +34,11 @@ pub fn lookup(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
         .find(|recipe| recipe.matches(query, language))
         .cloned()
         .or_else(|| {
+            prepared_object_recipes()
+                .into_iter()
+                .find(|recipe| recipe.matches(query, language))
+        })
+        .or_else(|| {
             loaded()
                 .read()
                 .unwrap_or_else(|poisoned| poisoned.into_inner())
@@ -45,6 +50,7 @@ pub fn lookup(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
 
 pub fn all() -> Vec<MaterialRecipe> {
     let mut recipes = builtins().to_vec();
+    recipes.extend(prepared_object_recipes());
     recipes.extend(
         loaded()
             .read()
@@ -52,6 +58,63 @@ pub fn all() -> Vec<MaterialRecipe> {
             .iter()
             .cloned(),
     );
+    recipes
+}
+
+/// Prepared teaching objects are distinct from their source food/material:
+/// only a peeled egg has an exposed membrane, only a cut apple has a fresh
+/// enzymatic surface, and only a declared fatty soap supplies carboxylate
+/// equivalents. Keeping these identities separate prevents capability leak.
+fn prepared_object_recipes() -> Vec<MaterialRecipe> {
+    let mut recipes = Vec::new();
+    if let Some(mut egg) = builtins()
+        .iter()
+        .find(|r| r.canonical_key == "egg_white")
+        .cloned()
+    {
+        egg.id = "prepared/naked-egg-surrogate".into();
+        egg.canonical_key = "naked_egg".into();
+        egg.name = "naked egg membrane surrogate".into();
+        egg.aliases.insert("en".into(), vec!["peeled egg".into()]);
+        egg.aliases.insert("de".into(), vec!["Nacktes Ei".into()]);
+        egg.physical_form = MaterialPhysicalForm::CompositeObject { geometry: None };
+        egg.preparation = Some("egg-white composition retained behind a semipermeable membrane; yolk and shell are outside this bounded surrogate".into());
+        egg.lot_assumptions = vec!["membrane water transfer is modeled from an osmolarity contrast; ion selectivity, tissue elasticity, yolk composition and final equilibrium mass are not".into()];
+        recipes.push(egg);
+    }
+    if let Some(mut apple) = builtins()
+        .iter()
+        .find(|r| r.canonical_key == "apple")
+        .cloned()
+    {
+        apple.id = "prepared/cut-apple".into();
+        apple.canonical_key = "cut_apple".into();
+        apple.name = "freshly cut apple".into();
+        apple
+            .aliases
+            .insert("de".into(), vec!["Apfelscheibe".into()]);
+        apple.physical_form = MaterialPhysicalForm::CompositeObject { geometry: None };
+        apple.preparation =
+            Some("fresh cut surface exposed at the moment the material is added".into());
+        apple.lot_assumptions = vec!["visible browning is a bounded oxygen/time response with ascorbate inhibition; no phenolic species, enzyme turnover, texture, flavour or food-safety claim is made".into()];
+        recipes.push(apple);
+    }
+    if let Some(mut soap) = builtins()
+        .iter()
+        .find(|r| r.canonical_key == "hand_soap")
+        .cloned()
+    {
+        soap.id = "prepared/fatty-soap-equivalent".into();
+        soap.canonical_key = "fatty_soap".into();
+        soap.name = "sodium fatty-soap teaching equivalent".into();
+        soap.aliases
+            .insert("de".into(), vec!["Fettsäureseife".into()]);
+        soap.preparation = Some(
+            "aggregate sodium fatty-carboxylate equivalent for hard-water precipitation".into(),
+        );
+        soap.lot_assumptions = vec!["two fatty-carboxylate equivalents bind each calcium or magnesium ion; calcium stearate supplies the aggregate mass scale, not a claim that every soap is pure stearate".into()];
+        recipes.push(soap);
+    }
     recipes
 }
 
