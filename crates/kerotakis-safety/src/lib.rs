@@ -453,7 +453,19 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // means something else — the same reading `paraffin` already
         // gets — and this comment records that the absence is a gap in
         // the matrix and not a finding that a mothball is harmless.
-        | "naphthalene" => &[],
+        | "naphthalene"
+        // Dry ice is carbon dioxide, and this shelf already files carbon
+        // dioxide with no reactive group — the chemistry is the same
+        // substance's. What is different is the hazard, and this matrix
+        // has a row for neither half of it: a cryogenic contact burn at
+        // -78.5 °C, and the fact that a subliming block displaces air in
+        // a small room faster than anything else a kitchen holds. There
+        // is no cryogen group and no asphyxiant group, and helium above
+        // records the same absence for the same reason. So no group is
+        // claimed here rather than one that means something else, and
+        // this comment says that the absence is a gap in the matrix and
+        // not a finding that a block of dry ice is safe to hold.
+        | "dry_ice" => &[],
 
         _ => &[],
     }
@@ -595,6 +607,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "dehydroascorbic_acid",
     "dodecane",
     "diamond",
+    "dry_ice",
     "ethanol",
     "ethene",
     "ethyl_acetate",

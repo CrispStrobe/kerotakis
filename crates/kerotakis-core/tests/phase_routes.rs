@@ -32,7 +32,7 @@ fn moles(bench: &Bench, key: &str, phase: Phase) -> f64 {
         .sum()
 }
 
-fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, n: f64) {
+fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, n: f64) -> Vec<Event> {
     bench
         .step_with(
             Operator::Add {
@@ -44,7 +44,7 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, n: f64) {
             stack,
             &PermissiveScreen,
         )
-        .expect("add");
+        .expect("add")
 }
 
 fn heat(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
@@ -240,6 +240,173 @@ fn nothing_sublimes_at_bench_temperature() {
     add(&mut bench, &mut stack, "NH4Cl", 0.2);
     assert!((moles(&bench, "NH4Cl", Phase::Solid) - 0.2).abs() < 1e-12);
     assert!(moles(&bench, "NH4Cl", Phase::Gas) < 1e-12);
+}
+
+// ── dry ice: sublimation that costs something ──────────────────────
+
+/// th-026, as arithmetic a kitchen thermometer can check.
+///
+/// 5 g of dry ice is 0.1136 mol and 2.86 kJ of sublimation enthalpy;
+/// 100 g of water is 418 J/K. 2863 / 418 is 6.85 K, and that is the whole
+/// claim. The vessel is open, so the carbon dioxide leaves — which is the
+/// honest answer to the second half of the row's question and is pinned
+/// here rather than glossed: seal the flask AFTERWARDS and you have
+/// sealed an empty headspace.
+#[test]
+fn dry_ice_cools_the_water_it_is_dropped_into() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "water", 100.0 / molar_mass("water"));
+    let before = vessel_of(&bench).temperature.0;
+    assert!((before - 298.15).abs() < 1e-9);
+
+    let n = 5.0 / molar_mass("dry_ice");
+    let events = add(&mut bench, &mut stack, "dry_ice", n);
+
+    let after = vessel_of(&bench).temperature.0;
+    let drop = before - after;
+    assert!(
+        (drop - 6.85).abs() < 0.15,
+        "5 g of dry ice cools 100 g of water by 6.85 K, got {drop:.2} K"
+    );
+    assert!(
+        moles(&bench, "dry_ice", Phase::Solid) < 1e-9,
+        "there is far more than enough heat in the water to take all of it"
+    );
+    // The vapour is carbon dioxide, not "dry ice gas": the route reads the
+    // gas partner off the formula.
+    let evolved: f64 = events
+        .iter()
+        .filter_map(|e| match e {
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum();
+    assert!(
+        (evolved - n).abs() < 1e-9,
+        "every mole should leave as carbon dioxide, got {evolved}"
+    );
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::StateChanged {
+                from: Phase::Solid,
+                to: Phase::Gas,
+                ..
+            }
+        )),
+        "the sublimation must be reported: {events:#?}"
+    );
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::TemperatureChanged { .. })),
+        "and so must the cooling: {events:#?}"
+    );
+}
+
+/// The half of th-026 its script cannot reach, and the capability is real.
+///
+/// Seal the flask FIRST and the carbon dioxide has nowhere to go: it fills
+/// the headspace, the pressure rises above two atmospheres, and the water
+/// still cools — less, because the cold gas stayed to be warmed.
+#[test]
+fn dry_ice_in_an_already_sealed_flask_fills_the_headspace() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "water", 100.0 / molar_mass("water"));
+    bench
+        .step_with(
+            Operator::Seal {
+                vessel: VesselId(0),
+                headspace_volume: Liters(1.0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("seal");
+    let sealed_mass = mass(&bench);
+
+    let n = 0.05;
+    add(&mut bench, &mut stack, "dry_ice", n);
+
+    assert!(
+        (moles(&bench, "CO2", Phase::Gas) - n).abs() < 1e-3,
+        "a sealed vessel keeps the vapour: {} mol",
+        moles(&bench, "CO2", Phase::Gas)
+    );
+    let p = vessel_of(&bench).pressure.0;
+    assert!(
+        (2.0e5..kerotakis_core::senses::GLASS_BURST_PA).contains(&p),
+        "0.05 mol of gas on top of a litre of trapped air is a couple of atmospheres, \
+         and the flask survives it; got {p} Pa"
+    );
+    let t = vessel_of(&bench).temperature.0;
+    assert!(
+        (290.0..297.5).contains(&t),
+        "the water still cools, by rather less than it would in the open: {t} K"
+    );
+    // Mass is conserved exactly through a paired phase change, which is
+    // only true because dry ice's molar mass IS carbon dioxide's.
+    let expected = sealed_mass + n * molar_mass("dry_ice");
+    assert!(
+        (mass(&bench) - expected).abs() < 1e-9,
+        "sealed mass {} vs expected {expected}",
+        mass(&bench)
+    );
+}
+
+/// The superheat correction, on its own.
+///
+/// A flask with nothing in it but dry ice has nothing to pay the latent
+/// heat with, so nothing sublimes — but it also cannot be at 25 °C, which
+/// is where `add` put it. It settles on its own sublimation point and
+/// keeps its block, which is what an insulated flask of dry ice does.
+#[test]
+fn a_lone_block_of_dry_ice_settles_on_its_own_sublimation_point() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "dry_ice", 0.05);
+
+    let t = vessel_of(&bench).temperature.0;
+    assert!(
+        (t - 194.65).abs() < 1e-6,
+        "a flask of dry ice is at -78.5 C, not at room temperature; got {t} K"
+    );
+    assert!(
+        (moles(&bench, "dry_ice", Phase::Solid) - 0.05).abs() < 1e-12,
+        "with nothing to draw heat from, the block stays"
+    );
+}
+
+/// The latent-heat table is deliberately partial, and this is the row
+/// that proves it stayed that way.
+///
+/// Ammonium chloride's crucible separation is a mass ledger that nobody
+/// weighed the heat of, and giving it an enthalpy it does not have would
+/// move every temperature in the tests above it. A substance with no row
+/// sublimes as it always did: all of it, at no cost.
+#[test]
+fn a_substance_with_no_enthalpy_row_sublimes_exactly_as_before() {
+    use kerotakis_core::phase_route::{
+        is_condensed_gas, sublimation_enthalpy, sublimation_product,
+    };
+    assert!(sublimation_enthalpy("NH4Cl").is_none());
+    assert!(sublimation_enthalpy("dry_ice").is_some());
+    // Ammonium chloride's vapour is ammonium chloride; dry ice's is
+    // carbon dioxide, and the pairing is read off the formula.
+    assert_eq!(sublimation_product("NH4Cl"), "NH4Cl");
+    assert_eq!(sublimation_product("dry_ice"), "CO2");
+    assert!(!is_condensed_gas("NH4Cl"));
+    assert!(is_condensed_gas("dry_ice"));
+
+    // And the behaviour: heat it past its point and it is simply gone,
+    // with no temperature the enthalpy would have taken away.
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    add(&mut bench, &mut stack, "NH4Cl", 0.2);
+    heat(&mut bench, &mut stack, 9_000.0);
+    assert!(moles(&bench, "NH4Cl", Phase::Solid) < 1e-9);
 }
 
 // ── the hydrate ledger ─────────────────────────────────────────────

@@ -491,6 +491,21 @@ impl Derived {
                 if kerotakis_core::displacement::is_elemental_metal(reg) {
                     continue;
                 }
+                // The same exclusion, for the same reason, one class over.
+                // `dry_ice` is a registry solid whose formula is CO2, and
+                // this matcher pairs registry solids with database phases
+                // by composition — so the moment dry ice reached the shelf
+                // it became a candidate "mineral" for any phase written
+                // with carbon and two oxygens, and a carbonate solution
+                // could have precipitated it at 25 °C. A condensed gas is
+                // not a mineral: it is the other phase of something this
+                // registry also ships as a gas, it exists so a beaker can
+                // hold it, and its stability is a temperature threshold in
+                // `kerotakis_core::phase_route`, not a solubility product.
+                // Pinned by `a_carbonate_solution_never_precipitates_dry_ice`.
+                if kerotakis_core::phase_route::is_condensed_gas(reg) {
+                    continue;
+                }
                 // Elements from the formula's own composition through the
                 // same group decomposition as registry formulas — robust
                 // against per-database equation quirks (e.g. wateq4f's
@@ -926,6 +941,45 @@ mod tests {
             Some(DerivedRole::Dissolves(c)) => c.clone(),
             other => panic!("{key}: expected Dissolves, got {other:?}"),
         }
+    }
+
+    /// A condensed gas is not a mineral, and the matcher must not make
+    /// one of it.
+    ///
+    /// `registry_solid_matching` pairs registry solids with database
+    /// phases by composition, and `dry_ice` is a registry solid whose
+    /// formula is CO2. Without the guard above, any database phase
+    /// written with one carbon and two oxygens would have adopted it —
+    /// and a carbonate solution could then precipitate "dry ice" at
+    /// 25 °C, which is not a saturation index, it is a category error.
+    /// This test walks the whole matched set rather than checking dry ice
+    /// alone, so the next condensed gas the shelf gains is covered before
+    /// anyone thinks about it.
+    #[test]
+    fn a_condensed_gas_is_never_a_database_mineral() {
+        use kerotakis_core::phase_route::is_condensed_gas;
+        // The predicate has to mean something, or the loop below passes
+        // by being vacuous.
+        assert!(
+            is_condensed_gas("dry_ice"),
+            "dry ice must be recognised as the condensed phase of a shipped gas"
+        );
+        assert!(!is_condensed_gas("CaCO3"), "chalk is a mineral");
+        assert!(!is_condensed_gas("CO2"), "the gas itself is not condensed");
+
+        for phase in derived().all_phases.iter().chain(&derived().phases) {
+            assert!(
+                !is_condensed_gas(phase.species),
+                "{} was paired with the database phase {}",
+                phase.species,
+                phase.name
+            );
+        }
+        assert!(
+            !matches!(role("dry_ice"), Some(DerivedRole::Mineral { .. })),
+            "dry ice must not carry a mineral role: {:?}",
+            role("dry_ice")
+        );
     }
 
     #[test]

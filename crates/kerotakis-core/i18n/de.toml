@@ -246,6 +246,7 @@ naphthalene = "Naphthalin"
 "n-hexadecane" = "n-Hexadecan"
 "hair pigment (eumelanin repeat unit)" = "Haarpigment (Eumelanin-Wiederholungseinheit)"
 "bleached hair pigment (oxidised)" = "gebleichtes Haarpigment (oxidiert)"
+"dry ice" = "Trockeneis"
 
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."

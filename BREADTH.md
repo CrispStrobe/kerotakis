@@ -1336,6 +1336,71 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   in `crates/kerotakis-core/src/bench.rs`, outside this task's boundary — so
   the other five cleared fluids are answered by the pack API and not yet by
   a bench surface. That is the next BRD-032 slice and it is small.
+- **Dry ice, and the enthalpy a phase route never charged for (2026-09-05).**
+  `th-026` asked whether dry ice can cool water and fill a headspace with
+  carbon dioxide, and failed at the parser. Two things were missing, and
+  only one of them was a word.
+
+  The word: `add` deposits a species in its *standard* phase, so no script
+  could ever put solid carbon dioxide in a beaker — the `CO2` row is a gas
+  and would have arrived as one. `dry_ice` is therefore its own registry
+  key with CO2's formula and CO2's molar mass to the digit, and no
+  InChIKey is asserted, because the identifier would be carbon dioxide's
+  and two identities may not claim one canonical key. The sublimation
+  route reads the gas partner off the formula, exactly as `hydrate_pairs`
+  reads its stoichiometry off one, so the solid leaves as `CO2` and never
+  as "dry ice gas".
+
+  The engine: **the EXP-33 sublimation route was athermal.** It moved
+  moles between phases at zero energy cost and never touched a
+  temperature, so dry ice would have vanished into a beaker without
+  cooling it by a single kelvin — which is the entire point of dry ice.
+  `phase_route.rs` now carries a curated enthalpy table (the same shape
+  `combustion::FUELS` uses, and for the same reason: `PhaseTransitions`
+  has five temperatures and no energies, and widening the schema would
+  touch the build script, the runtime loader, the export crate and their
+  three fidelity tests for a claim that one row needs). **The table is
+  deliberately not total.** Ammonium chloride has no row and its crucible
+  separation is byte-for-byte what it was — a substance with no enthalpy
+  sublimes as it always did, all of it, at no cost, and adding a row is a
+  deliberate act that changes what a vessel does.
+
+  One model choice is worth reading, because it is a fiction being
+  corrected rather than introduced. `add` gives every portion room
+  temperature, and for a cryogen that is a state which does not exist: a
+  block of dry ice is at 194.7 K, not 25 °C. Letting that fiction pay for
+  the cooling would be 553 J of free energy per 5 g. The route therefore
+  treats a condensed phase found above the temperature it can exist at as
+  having arrived AT that temperature — its superheat is discarded rather
+  than spent — and the consequence is stated: **this bench cannot show a
+  cryogen warming up.** A lone flask of dry ice settles on −78.5 °C and
+  keeps its block, which is what an insulated flask does.
+
+  **What the row actually gets, and what it does not.** 5 g of dry ice
+  cools 100 g of water by 6.85 K, computed from 25.2 kJ/mol and the
+  water's own heat capacity, with `StateChanged`, `GasEvolved` and
+  `TemperatureChanged` events behind it. The headspace half of the
+  question is NOT answered by that script, and the honest reason is
+  printed rather than engineered around: the vessel is open when the dry
+  ice goes in, the bench has no sublimation *rate*, so all of it leaves
+  in that step and `seal v1 1L` seals an empty headspace. Sealing first
+  does fill it — 0.05 mol reaches a little over two atmospheres and the
+  water still cools — and
+  `dry_ice_in_an_already_sealed_flask_fills_the_headspace` pins that. A
+  sublimation rate is the follow-on work, and it is a real one.
+
+  **A category error the shelf came within one row of making.**
+  `kerotakis_phreeqc::derived` pairs registry solids with database phases
+  by composition, so the moment a solid with CO2's formula existed, any
+  phase written with one carbon and two oxygens could have adopted it and
+  a fizzing beaker could have "precipitated dry ice" at 25 °C. A
+  condensed gas is not a mineral: it is the other phase of something the
+  registry also ships as a gas, its stability is a temperature threshold
+  and not a solubility product, and the matcher now skips the whole class
+  rather than dry ice by name. Pinned twice —
+  `a_condensed_gas_is_never_a_database_mineral` walks every matched phase
+  in all three databases, and `a_carbonate_solution_never_precipitates_dry_ice`
+  runs the engine on the case that would have shown it.
 - **Scope:** route pressure-dependent boiling/condensation, flash, phase split,
   density and transport-property requests through the adapter when the exact
   parameter/model domain is present. Preserve existing UNIFAC/cubic routes as
