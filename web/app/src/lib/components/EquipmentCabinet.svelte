@@ -3,7 +3,7 @@
   import type { TwoVesselAction } from "../directActions";
   import { t } from "../i18n.svelte";
   import ToolIcon from "./ToolIcon.svelte";
-  import { access, available, requirement, type CatalogMap } from "../catalogProgress";
+  import { equipmentAccess, requirement, type CatalogMap } from "../catalogProgress";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { equipmentMatches } from "../catalogSearch";
@@ -66,10 +66,15 @@
     ...TRANSFER_TOOLS.map((item) => item.verb), ...INSTRUMENTS.map((item) => instrumentVerb(item.token)),
     "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
-  const availableCount = $derived(allVerbs.filter((verb) => available(catalog, verb)).length);
+  // `equipmentAccess`, not `access`: a verb the engine does not tier at all
+  // (the cooling bath's `cool` is a bench control, not earned equipment) has
+  // no catalog row, and reading that silence as a refusal disabled the card
+  // in Sandbox and made this tally read 33/34 under a sentence saying
+  // everything was available. See catalogProgress.ts for the whole story.
+  const availableCount = $derived(allVerbs.filter((verb) => equipmentAccess(catalog, verb).available).length);
   const visible = (verb: string) => scope === "all"
-    || (scope === "mission" ? missionVerbs.includes(verb) : mode === "sandbox" || available(catalog, verb));
-  const accessOf = (verb: string) => access(catalog, verb) ?? { available: false, loaned: false, granted: false, minimumCompleted: 0 };
+    || (scope === "mission" ? missionVerbs.includes(verb) : mode === "sandbox" || equipmentAccess(catalog, verb).available);
+  const accessOf = (verb: string) => equipmentAccess(catalog, verb);
   let filter = $state("");
   const matches = (verb: string, title: string, blurb: string) => equipmentMatches(
     { verb, title, blurb },
@@ -97,6 +102,11 @@
     if (count === null) return "";
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
   };
+  /** The mixer and the transfer tools choose their own vessels on the
+   * bench; while one of them is armed, the selected vessel is not where the
+   * next thing goes, so the card would be a wrong answer rather than a
+   * quiet one. */
+  const namesNextTarget = $derived(transferVerb === null && !mixActive);
   const useKidsEquipment = (item: KidsEquipment) => {
     if (item.action === "apparatus") return onapparatus(item.engineVerb);
     if (item.action === "instrument" && item.instrument) {
@@ -107,13 +117,20 @@
 </script>
 
 <section class="equipment-cabinet" aria-label={t("equipment") }>
-  <div class="target-card">
-    <span class="target-orbit" aria-hidden="true"><span></span></span>
-    <span><small>{t("active work area")}</small><strong>{t(targetLabel)} · v{target + 1}</strong></span>
-  </div>
+  {#if namesNextTarget}
+    <!-- What this card is FOR: everything below installs on, or measures,
+         one vessel, and this names it. "Active work area" did not say that,
+         and it kept claiming a target while the mixer and the transfer
+         tools were waiting for the learner to pick their own vessels on the
+         bench — the one time it was actively wrong. -->
+    <div class="target-card">
+      <span class="target-orbit" aria-hidden="true"><span></span></span>
+      <span><small>{t("next instrument installs on")}</small><strong>v{target + 1} · {t(targetLabel)}</strong></span>
+    </div>
+  {/if}
 
   <div class="cabinet-intro">
-    <span>{t("Instrument wall")} <b>{availableCount}/{allVerbs.length}</b></span>
+    <span>{t("Instrument wall")} <b title={t("{available} of {total} instruments unlocked", { available: availableCount, total: allVerbs.length })}>{availableCount}/{allVerbs.length}</b></span>
     <p>{mode === "sandbox" ? t("Every installed instrument is available in Sandbox.") : t("Complete investigations to earn permanent access to more instruments.")}</p>
   </div>
 

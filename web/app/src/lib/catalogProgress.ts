@@ -47,6 +47,38 @@ export function access(catalog: CatalogMap, id: string): CatalogAccess | null {
   };
 }
 
+/**
+ * Cabinet access, which differs from `access` in exactly one case.
+ *
+ * The engine tiers equipment. It deliberately does NOT tier bench controls
+ * — `kerotakis_core::catalog::NOT_CABINET` holds `cool`, `wait`, `open`,
+ * `seal` and the rest — because they are not things a learner earns. Those
+ * verbs therefore have no catalog row at all, and `access` cannot tell "the
+ * engine gates this and the answer is no" apart from "the engine does not
+ * gate this at all": both are a missing key.
+ *
+ * The instrument wall read that silence as a refusal. `cool` is a card in
+ * the cabinet (the cooling bath), so in Sandbox — where the engine derives
+ * everything as reachable — the card was still disabled, and the wall's own
+ * tally said 33/34 while the sentence under it promised that everything was
+ * available. Both halves of that contradiction are this one lookup.
+ *
+ * So: an id a LOADED catalog does not mention is ungated — reachable, at
+ * tier zero, neither loaned nor awarded. While the catalog is still empty
+ * nothing at all is known, and the caller gets the same conservative answer
+ * `access` would have given rather than a promise the engine never made.
+ */
+export function equipmentAccess(catalog: CatalogMap, id: string): CatalogAccess {
+  const answered = access(catalog, id);
+  if (answered) return answered;
+  return {
+    available: catalog.size > 0,
+    loaned: false,
+    granted: false,
+    minimumCompleted: 0,
+  };
+}
+
 /** Availability alone, with an unloaded catalog reading as not-yet-available. */
 export function available(catalog: CatalogMap, id: string): boolean {
   return catalog.get(id)?.available ?? false;

@@ -58,6 +58,15 @@
     return available(catalog, item.key);
   }));
   let open = $state<string | null>(null);
+  /**
+   * GUI: which item has its explanation showing. Separate from `open`,
+   * which is the amount form, because the two answer different questions —
+   * "how much of this do I add" and "what IS this" — and a learner reading
+   * the second should not have to arm the first to do it. One at a time,
+   * like `open`, so the shelf never grows several essays at once.
+   */
+  let info = $state<string | null>(null);
+  const infoPanelId = (key: string) => `shelf-info-${key}`;
   let amountValue = $state(1);
   let amountUnit = $state<AmountUnit>("g");
 
@@ -115,6 +124,17 @@
       : capability === "identity_only"
         ? t("identity and dose only")
         : null;
+  /**
+   * What the species chip has always said in a `title`, in text a finger
+   * can reach. Silence is not a clearance: an unassessed species says so.
+   * Returns null only where the safety matrix has a row and it is empty,
+   * which is the one case with nothing to report.
+   */
+  const hazardLine = (item: ShelfItem): string | null => {
+    if (item.hazard_assessed === false) return t("hazards unassessed");
+    const hazards = item.hazards ?? [];
+    return hazards.length > 0 ? hazards.map((hazard) => t(hazard)).join(" · ") : null;
+  };
 
   function toggle(item: ShelfItem) {
     if (open === item.key) {
@@ -157,34 +177,44 @@
     aria-label={t("find a substance")}
     bind:value={query}
   />
-  {#if phases.length > 1}
-    <div class="phases" role="radiogroup" aria-label={t("phase filter")}>
-      {#each phases as p (p)}
-        <button
-          data-phase={p}
-          role="radio"
-          aria-checked={phase === p}
-          class:on={phase === p}
-          onclick={() => (phase = phase === p ? null : p)}
-        >
-          {t(p)}
-        </button>
-      {/each}
-    </div>
-  {/if}
-  {#if roles.length > 1}
-    <div class="roles" role="radiogroup" aria-label={t("role filter")}>
-      {#each roles as r (r)}
-        <button
-          data-role={r}
-          role="radio"
-          aria-checked={role === r}
-          class:on={role === r}
-          onclick={() => (role = role === r ? null : r)}
-        >
-          {t(ROLE_LABELS[r])}
-        </button>
-      {/each}
+  <!-- One rail, not a stack. The two axes wrapped to four rows of chips on
+       a phone and pushed the shelf itself below the fold, so the filter was
+       larger than the thing it filtered. They remain two radiogroups in
+       this order, so the DOM order — and therefore the tab order — is
+       exactly what it was; they are laid side by side in a single
+       horizontal scroller instead of each wrapping onto new lines. -->
+  {#if phases.length > 1 || roles.length > 1}
+    <div class="filter-rail">
+      {#if phases.length > 1}
+        <div class="phases" role="radiogroup" aria-label={t("phase filter")}>
+          {#each phases as p (p)}
+            <button
+              data-phase={p}
+              role="radio"
+              aria-checked={phase === p}
+              class:on={phase === p}
+              onclick={() => (phase = phase === p ? null : p)}
+            >
+              {t(p)}
+            </button>
+          {/each}
+        </div>
+      {/if}
+      {#if roles.length > 1}
+        <div class="roles" role="radiogroup" aria-label={t("role filter")}>
+          {#each roles as r (r)}
+            <button
+              data-role={r}
+              role="radio"
+              aria-checked={role === r}
+              class:on={role === r}
+              onclick={() => (role = role === r ? null : r)}
+            >
+              {t(ROLE_LABELS[r])}
+            </button>
+          {/each}
+        </div>
+      {/if}
     </div>
   {/if}
   <ul>
@@ -198,33 +228,75 @@
       {@const depleted = emptyBottle || (access.available && !access.loaned && remaining === 0)}
       {@const usable = access.available && !depleted}
       <li data-phase={item.phase}>
-        <button
-          class="species"
-          class:locked={!access.available}
-          class:depleted
-          aria-expanded={open === item.key}
-          aria-disabled={!usable}
-          draggable={usable}
-          ondragstart={(e) => {
-            if (!usable) return;
-            e.dataTransfer?.setData(
-              "application/x-kero-species",
-              JSON.stringify({ key: item.key, phase: item.phase }),
-            );
-          }}
-          onclick={() => toggle(item)}
-        >
-          <SpeciesChip {item} />
-          <span class="name">{t(item.name)}</span>
-          <span class="formula">{item.formula}</span>
-          {#if capabilityLabel(item.capability)}
-            <span class="capability" data-capability={item.capability}>{capabilityLabel(item.capability)}</span>
-          {/if}
-          {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
-          {#if mode === "story" && access.available && !access.loaned}<span class="stock">{stockLabel(remaining)}</span>{/if}
-          {#if bottle}<span class="bottle" class:out={emptyBottle}>{stockBadge(bottle, t)}</span>{/if}
-          {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
-        </button>
+        <!-- The row carries identity and nothing else: chip, name, formula,
+             and the two states that change what a tap will DO (a mission
+             loan, an empty bottle). Everything descriptive moved behind the
+             (i) — with all of it inline the row wrapped to three lines per
+             substance, and a shelf of ~90 of them was mostly badge. -->
+        <div class="row">
+          <button
+            class="species"
+            class:locked={!access.available}
+            class:depleted
+            aria-expanded={open === item.key}
+            aria-disabled={!usable}
+            draggable={usable}
+            ondragstart={(e) => {
+              if (!usable) return;
+              e.dataTransfer?.setData(
+                "application/x-kero-species",
+                JSON.stringify({ key: item.key, phase: item.phase }),
+              );
+            }}
+            onclick={() => toggle(item)}
+          >
+            <SpeciesChip {item} />
+            <span class="name">{t(item.name)}</span>
+            <span class="formula">{item.formula}</span>
+            {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
+            {#if emptyBottle}<span class="bottle out">{t("empty")}</span>{/if}
+            {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
+          </button>
+          <button
+            type="button"
+            class="info-toggle"
+            class:on={info === item.key}
+            aria-expanded={info === item.key}
+            aria-controls={infoPanelId(item.key)}
+            aria-label={t("about {name}", { name: t(item.name) })}
+            onclick={() => (info = info === item.key ? null : item.key)}
+          >i</button>
+        </div>
+        {#if info === item.key}
+          <!-- Bound once each: narrowing a `string | null` through a
+               `{#if}` and reading it again inside is the kind of thing that
+               type-checks by luck. -->
+          {@const appearance = item.appearance}
+          {@const families = rolesOf(item.key)}
+          {@const computes = capabilityLabel(item.capability)}
+          {@const hazards = hazardLine(item)}
+          <dl class="detail" id={infoPanelId(item.key)}>
+            <div><dt>{t("physical state")}</dt><dd>{t(item.phase)}</dd></div>
+            {#if appearance}
+              <div><dt>{t("visual appearance")}</dt><dd>{t(appearance)}</dd></div>
+            {/if}
+            {#if families.length > 0}
+              <div><dt>{t("chemical family")}</dt><dd>{families.map((family) => t(ROLE_LABELS[family])).join(" · ")}</dd></div>
+            {/if}
+            {#if computes}
+              <div><dt>{t("what the model computes")}</dt><dd data-capability={item.capability}>{computes}</dd></div>
+            {/if}
+            {#if hazards}
+              <div class="danger"><dt>{t("safety labels")}</dt><dd>{hazards}</dd></div>
+            {/if}
+            {#if bottle}
+              <div><dt>{t("in the bottle")}</dt><dd>{stockBadge(bottle, t)}</dd></div>
+            {/if}
+            {#if mode === "story" && access.available && !access.loaned}
+              <div><dt>{t("shelf stock")}</dt><dd>{stockLabel(remaining)}</dd></div>
+            {/if}
+          </dl>
+        {/if}
         {#if open === item.key}
           {#if usable}
             <form
@@ -295,11 +367,33 @@
     flex-direction: column;
     min-height: 0;
   }
+  /* The rail scrolls; the groups inside it never wrap. `flex: none` on the
+     chips matters as much as `nowrap` — without it they shrink to fit and
+     "Oxidationsmittel" becomes an ellipsis instead of scrolling. */
+  .filter-rail {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    /* Without this the scroller reports its content's min-content width up
+       to the pane and the 320px page gains a horizontal scrollbar — the
+       overflow has to happen HERE, which is the whole point of the rail. */
+    min-width: 0;
+    gap: 0.5rem;
+    margin: 0.4rem 0.65rem 0;
+    padding-bottom: 0.28rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
   .phases {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.25rem;
-    margin: 0.4rem 0.8rem 0;
+    margin: 0;
+  }
+  .filter-rail button {
+    flex: none;
+    white-space: nowrap;
   }
   .phases button {
     --phase-color: var(--primary);
@@ -326,9 +420,15 @@
      eye lands first, and two equally loud rows would compete. */
   .roles {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.25rem;
-    margin: 0.3rem 0.8rem 0;
+    margin: 0;
+  }
+  /* A hairline where the axes meet, so one long row still reads as two
+     questions rather than eleven unrelated chips. */
+  .phases + .roles {
+    border-left: 1px solid var(--edge);
+    padding-left: 0.5rem;
   }
   .roles button {
     --role-color: var(--dim);
@@ -390,15 +490,63 @@
     padding: 0 0.65rem 0.8rem;
     overflow-y: auto;
   }
+  .row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.3rem;
+    margin-bottom: 0.32rem;
+  }
+  .info-toggle {
+    flex: none;
+    width: 2.15rem;
+    min-height: 40px;
+    border: 1px solid var(--edge);
+    border-radius: 11px;
+    color: var(--dim);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .info-toggle:hover,
+  .info-toggle.on {
+    color: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 55%, var(--edge));
+    background: color-mix(in srgb, var(--primary) 12%, var(--surface-raised));
+  }
+  .detail {
+    margin: 0 0.2rem 0.5rem;
+    padding: 0.5rem 0.55rem;
+    border-left: 3px solid var(--primary);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--primary) 6%, transparent);
+    font-size: 0.67rem;
+    line-height: 1.35;
+  }
+  .detail div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+  .detail div + div { margin-top: 0.22rem; }
+  .detail dt { color: var(--dim); }
+  .detail dd { margin: 0; text-align: right; }
+  .detail dd[data-capability="modeled_activity"] { color: var(--instrument); }
+  .detail dd[data-capability="identity_only"] { color: var(--warning); }
+  .detail .danger dd { color: var(--warning); font-weight: 700; }
   .species {
     --phase-color: var(--primary);
     width: 100%;
     display: flex;
-    /* German names are long enough that chip + name + formula + the stock
-       count do not fit one line: "Natriumchlorid" left the count showing
-       as "no". Wrapping puts the count on its own line when it has to,
-       and leaves it inline when it fits — rather than truncating a
-       chemical name, which the reader actually needs to read. */
+    /* Still allowed to wrap, but it rarely has to now that the capability
+       badge and the stock counts sit behind the (i): chip + a German name
+       + a formula is one line for almost everything on the shelf. Wrapping
+       stays the fallback because truncating a chemical name — which is what
+       `nowrap` would do to "Natriumhydrogencarbonat" — hides the one word
+       the reader actually needs. */
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
@@ -414,6 +562,10 @@
     padding: 0.55rem 0.6rem;
     cursor: pointer;
     min-height: 40px;
+    /* The row is the flexible half of `.row`; the (i) beside it is fixed. */
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
   }
   li[data-phase="liquid"] .species { --phase-color: var(--instrument); }
   li[data-phase="gas"] .species { --phase-color: var(--discovery); }
@@ -431,12 +583,10 @@
   .species.locked:hover .name { color: var(--ink); }
   .lock { color: var(--dim); font-weight: 900; }
   .loan { padding: .12rem .28rem; border-radius: 6px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: .48rem; font-weight: 850; text-transform: uppercase; }
-  .stock { margin-left: auto; flex: none; color: var(--dim); font-size: .54rem; font-weight: 800; line-height: 1.15; text-align: right; }
-  /* The engine's own bottle level. Reads as a quantity, not a warning,
-     until it is actually empty — a shelf of orange badges teaches
-     nothing except to ignore orange badges. */
-  .bottle { margin-left: auto; flex: none; padding: .12rem .3rem; border-radius: 6px; color: var(--dim); background: color-mix(in srgb, var(--edge) 40%, transparent); font-size: .54rem; font-weight: 800; line-height: 1.15; white-space: nowrap; }
-  .bottle.out { color: var(--warning); background: color-mix(in srgb, var(--warning) 13%, transparent); }
+  /* Only the empty bottle stays on the row. A LEVEL is a quantity and
+     belongs behind the (i) with the other numbers; an empty one changes
+     what the next tap does, so it has to be visible without one. */
+  .bottle.out { margin-left: auto; flex: none; padding: .12rem .3rem; border-radius: 6px; color: var(--warning); background: color-mix(in srgb, var(--warning) 13%, transparent); font-size: .54rem; font-weight: 800; line-height: 1.15; white-space: nowrap; }
   .stock-lock { margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {
@@ -445,9 +595,6 @@
   .formula {
     color: var(--dim);
   }
-  .capability { padding: .12rem .28rem; border-radius: 6px; color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); font-size: .48rem; font-weight: 800; white-space: nowrap; }
-  .capability[data-capability="modeled_activity"] { color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); }
-  .capability[data-capability="identity_only"] { color: var(--warning); background: color-mix(in srgb, var(--warning) 11%, var(--surface)); }
   .amounts {
     display: grid;
     /* Two rows, not one. Widening the amount column for the steppers
