@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::authority::SpillDestination;
 use crate::instrument::InstrumentContract;
-use crate::material::{self, MaterialBasis, MaterialRecipe};
+use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
     CentrifugeSeparation, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
     MaterialComponentAdded, Operator,
@@ -18,7 +18,8 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::spill::SpillCompartment;
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{
-    Headspace, MaterialLot, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
+    Headspace, MaterialLot, MaterialObject, MaterialObjectState, ObjectComponent, ThermalMode,
+    UnresolvedMaterialPortion, Vessel, VesselId,
 };
 
 /// The temperature a match or spark brings its immediate surroundings to.
@@ -199,6 +200,12 @@ impl Bench {
         events: &mut Vec<Event>,
     ) -> Result<(), BenchError> {
         let source = self.vessel(from)?.clone();
+        if !source.material_objects.is_empty() {
+            events.push(Event::ObjectSpillBoundary {
+                vessel: from,
+                object_count: source.material_objects.len(),
+            });
+        }
         let eligible = |phase: Phase| all_phases || matches!(phase, Phase::Liquid | Phase::Aqueous);
         let moved = source
             .contents
@@ -1015,16 +1022,37 @@ impl Bench {
                     }
                     v.temperature = t_new;
                 }
-                for (sid, phase, _, moles) in &components {
-                    v.deposit_lot(
-                        sid.clone(),
-                        *moles,
-                        *phase,
-                        Some(format!("material recipe {recipe_id}")),
-                        None,
-                    );
+                let coherent = recipe
+                    .roles
+                    .iter()
+                    .any(|role| matches!(role, MaterialRole::CoherentObject));
+                if coherent {
+                    v.material_objects.push(MaterialObject {
+                        material: recipe.canonical_key.clone(),
+                        recipe_id: recipe_id.clone(),
+                        recipe_version: *recipe_version,
+                        mass_g: *total_amount,
+                        components: components
+                            .iter()
+                            .map(|(species, _, _, moles)| ObjectComponent {
+                                species: species.clone(),
+                                moles: *moles,
+                            })
+                            .collect(),
+                        state: MaterialObjectState::default(),
+                    });
+                } else {
+                    for (sid, phase, _, moles) in &components {
+                        v.deposit_lot(
+                            sid.clone(),
+                            *moles,
+                            *phase,
+                            Some(format!("material recipe {recipe_id}")),
+                            None,
+                        );
+                    }
                 }
-                if expansion.unresolved_amount > 0.0 {
+                if !coherent && expansion.unresolved_amount > 0.0 {
                     v.unresolved_materials.push(UnresolvedMaterialPortion {
                         material: material_name.clone(),
                         recipe_id: recipe_id.clone(),
@@ -1080,6 +1108,7 @@ impl Bench {
                         spot_count: spread.spot_count,
                     });
                 }
+                precipitate_declared_soap(v, &recipe, &mut events);
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
                 if energy.0 < 0.0 {
@@ -2275,6 +2304,7 @@ impl Bench {
                         crate::kinetics::KineticContext::default(),
                         &mut events,
                     )?;
+                    advance_prepared_objects(vessel, seconds, &mut events);
                 }
             }
             Operator::Measure { vessel, instrument } => {
@@ -3652,6 +3682,169 @@ impl Bench {
 /// Advance the slow clocks for one vessel. `WAIT` calls this for the whole
 /// bench; timed apparatus calls it only for the vessel being operated.
 /// The clocks themselves, and their order, live in `clock.rs`.
+fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<Event>) {
+    if seconds <= 0.0 {
+        return;
+    }
+    let volume_l = vessel.liquid_volume().0.max(1e-9);
+    let external_osmolarity = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 != "water" && matches!(p.phase, Phase::Aqueous | Phase::Liquid))
+        .map(|p| p.moles.0)
+        .sum::<f64>()
+        / volume_l;
+    let external_water = vessel
+        .contents
+        .iter()
+        .find(|p| p.species.0 == "water")
+        .map_or(0.0, |p| p.moles.0);
+    let ascorbate = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "ascorbic_acid")
+        .map(|p| p.moles.0)
+        .sum::<f64>();
+    let oxygen_fraction = if matches!(vessel.headspace, Headspace::Open) {
+        0.21
+    } else {
+        0.0
+    };
+    let mut water_delta = 0.0;
+    for object in &mut vessel.material_objects {
+        let Some(recipe) = material::lookup(&object.material, None) else {
+            continue;
+        };
+        object.state.elapsed_seconds += seconds;
+        if let Some(internal) = recipe.roles.iter().find_map(|role| match role {
+            MaterialRole::OsmoticMembrane {
+                internal_osmolarity_mol_per_litre,
+            } => Some(*internal_osmolarity_mol_per_litre),
+            _ => None,
+        }) {
+            if let Some(prediction) =
+                crate::kitchen_biology::egg_osmosis(internal, external_osmolarity, seconds)
+            {
+                if let Some(water) = object
+                    .components
+                    .iter_mut()
+                    .find(|c| c.species.0 == "water")
+                {
+                    let requested = water.moles.0 * prediction.water_fraction;
+                    let signed = match prediction.direction {
+                        crate::kitchen_biology::OsmosisDirection::IntoObject => {
+                            requested.min((external_water - water_delta).max(0.0))
+                        }
+                        crate::kitchen_biology::OsmosisDirection::OutOfObject => {
+                            -requested.min(water.moles.0)
+                        }
+                        crate::kitchen_biology::OsmosisDirection::Balanced => 0.0,
+                    };
+                    water.moles.0 += signed;
+                    water_delta += signed;
+                    let grams = signed
+                        * species::lookup(&SpeciesId::new("water"))
+                            .map_or(18.01528, |d| d.molar_mass);
+                    object.mass_g += grams;
+                    object.state.exchanged_water_moles += signed;
+                    if signed.abs() > 1e-15 {
+                        events.push(Event::OsmosisChanged {
+                            vessel: vessel.id,
+                            material: object.material.clone(),
+                            water_moles: signed,
+                            mass_change_g: grams,
+                        });
+                    }
+                }
+            }
+        }
+        if recipe
+            .roles
+            .iter()
+            .any(|role| matches!(role, MaterialRole::BrowningSurface))
+        {
+            if let Some(fraction) = crate::kitchen_biology::apple_browning(
+                object.state.elapsed_seconds,
+                oxygen_fraction,
+                ascorbate / object.mass_g.max(1e-9),
+            ) {
+                if fraction > object.state.browned_fraction + 1e-9 {
+                    object.state.browned_fraction = fraction;
+                    events.push(Event::BrowningChanged {
+                        vessel: vessel.id,
+                        material: object.material.clone(),
+                        browned_fraction: fraction,
+                    });
+                }
+            }
+        }
+    }
+    if water_delta > 0.0 {
+        vessel.withdraw(&SpeciesId::new("water"), Moles(water_delta));
+    } else if water_delta < 0.0 {
+        vessel.deposit(SpeciesId::new("water"), Moles(-water_delta), Phase::Liquid);
+    }
+}
+
+fn precipitate_declared_soap(
+    vessel: &mut Vessel,
+    recipe: &MaterialRecipe,
+    events: &mut Vec<Event>,
+) {
+    let Some(eq_per_g) = recipe.roles.iter().find_map(|role| match role {
+        MaterialRole::FattySoapEquivalent { moles_per_gram } => Some(*moles_per_gram),
+        _ => None,
+    }) else {
+        return;
+    };
+    let Some(index) = vessel
+        .unresolved_materials
+        .iter()
+        .rposition(|p| p.recipe_id == recipe.id)
+    else {
+        return;
+    };
+    let soap_g = vessel.unresolved_materials[index].amount;
+    let ca = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "Ca+2")
+        .map(|p| p.moles.0)
+        .sum::<f64>();
+    let mg = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == "Mg+2")
+        .map(|p| p.moles.0)
+        .sum::<f64>();
+    let Some(scum) = crate::kitchen_biology::soap_scum(ca + mg, soap_g * eq_per_g) else {
+        return;
+    };
+    if scum.divalent_ion_bound_moles <= 0.0 {
+        return;
+    }
+    let ca_take = scum.divalent_ion_bound_moles.min(ca);
+    let mg_take = scum.divalent_ion_bound_moles - ca_take;
+    vessel.withdraw(&SpeciesId::new("Ca+2"), Moles(ca_take));
+    vessel.withdraw(&SpeciesId::new("Mg+2"), Moles(mg_take));
+    vessel.deposit(
+        SpeciesId::new("Na+"),
+        Moles(scum.soap_bound_moles),
+        Phase::Aqueous,
+    );
+    vessel.unresolved_materials[index].amount =
+        (soap_g - scum.soap_bound_moles / eq_per_g).max(0.0);
+    let state = vessel.soap_scum.get_or_insert_with(Default::default);
+    state.aggregate_mass_g += scum.aggregate_mass_g;
+    state.divalent_ion_moles += scum.divalent_ion_bound_moles;
+    state.soap_equivalent_moles += scum.soap_bound_moles;
+    events.push(Event::SoapScumFormed {
+        vessel: vessel.id,
+        aggregate_mass_g: scum.aggregate_mass_g,
+        divalent_ion_moles: scum.divalent_ion_bound_moles,
+    });
+}
+
 fn advance_vessel_time(
     vessel: &mut Vessel,
     seconds: f64,
@@ -3668,6 +3861,7 @@ fn advance_vessel_time(
         },
         events,
     )?;
+    advance_prepared_objects(vessel, seconds.max(0.0), events);
     Ok(())
 }
 

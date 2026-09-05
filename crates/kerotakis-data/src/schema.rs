@@ -124,6 +124,14 @@ pub enum MaterialPhysicalForm {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case")]
 pub enum MaterialRole {
+    CoherentObject,
+    OsmoticMembrane {
+        internal_osmolarity_mol_per_litre: f64,
+    },
+    BrowningSurface,
+    FattySoapEquivalent {
+        moles_per_gram: f64,
+    },
     /// Empirical bridge from gas made by chemistry to a foam visual. Values
     /// are recipe-level teaching surrogates, not claims about a hidden exact
     /// surfactant formulation.
@@ -197,7 +205,9 @@ pub enum MaterialRole {
     /// A dilute, resolved colourant that can remain as a visible surface
     /// drop on an opaque colloid until detergent spreads it or mechanical
     /// mixing releases it into the bulk optical model.
-    SurfaceColourant { srgb: [u8; 3] },
+    SurfaceColourant {
+        srgb: [u8; 3],
+    },
     /// A named solid whose substance the registry does not resolve into any
     /// installed species, and which is therefore conserved as named matter
     /// rather than silently discarded or given a stand-in molecule.
@@ -208,7 +218,10 @@ pub enum MaterialRole {
     /// neither that the material is inert nor that it takes part in anything,
     /// and it adds no chemistry that could mask an operator's ordinary
     /// `NotYetModelled` answer.
-    ConservedUnresolvedSolid { srgb: [u8; 3], colour_word: String },
+    ConservedUnresolvedSolid {
+        srgb: [u8; 3],
+        colour_word: String,
+    },
     /// A conserved unresolved baker's-yeast fraction with a bounded sucrose
     /// fermentation response. Parameters describe a classroom gas-evolution
     /// timescale, not strain growth or a universal product specification.

@@ -67,9 +67,18 @@ pub struct ObjectComponent {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct MaterialObjectState {
     #[serde(default)]
+    pub elapsed_seconds: f64,
+    #[serde(default)]
     pub exchanged_water_moles: f64,
     #[serde(default)]
     pub browned_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct SoapScumState {
+    pub aggregate_mass_g: f64,
+    pub divalent_ion_moles: f64,
+    pub soap_equivalent_moles: f64,
 }
 
 /// Persistent visual state for gas trapped by a declared foam stabilizer.
@@ -725,6 +734,8 @@ pub struct Vessel {
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<MaterialObject>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub soap_scum: Option<SoapScumState>,
     #[serde(default)]
     pub foam: FoamState,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -787,6 +798,7 @@ impl Vessel {
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
             material_objects: Vec::new(),
+            soap_scum: None,
             foam: FoamState::default(),
             surface_particles: None,
             surface_colours: Vec::new(),
@@ -1038,7 +1050,11 @@ impl Vessel {
                 + exchangers
                 + solid_solutions
                 + unresolved_materials
-                + material_objects,
+                + material_objects
+                + self
+                    .soap_scum
+                    .as_ref()
+                    .map_or(0.0, |scum| scum.aggregate_mass_g),
         )
     }
 

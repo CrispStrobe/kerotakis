@@ -78,6 +78,8 @@ pub struct SceneVessel {
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub soap_scum: Option<SceneSoapScum>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
     /// Persistent foam target derived from gas production and a declared
@@ -125,6 +127,12 @@ pub struct SceneMaterialObject {
     pub mass_g: f64,
     pub exchanged_water_moles: f64,
     pub browned_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSoapScum {
+    pub aggregate_mass_g: f64,
+    pub divalent_ion_moles: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -599,6 +607,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 browned_fraction: object.state.browned_fraction,
             })
             .collect(),
+        soap_scum: v.soap_scum.as_ref().map(|scum| SceneSoapScum {
+            aggregate_mass_g: scum.aggregate_mass_g,
+            divalent_ion_moles: scum.divalent_ion_moles,
+        }),
         bubbling: seen.bubbling,
         foam,
         surface_particles: v

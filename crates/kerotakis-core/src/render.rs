@@ -622,6 +622,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::ObjectSpillBoundary { vessel, object_count } => format!("{vessel}: {object_count} coherent object(s) remain in the vessel; this spill model moves bulk phases only"),
+        Event::OsmosisChanged { vessel, material, water_moles, mass_change_g } => format!("{vessel}: {material} exchanged {water_moles:.6} mol water ({mass_change_g:+.3} g)"),
+        Event::BrowningChanged { vessel, material, browned_fraction } => format!("{vessel}: {material} surface is {:.0}% browned", browned_fraction * 100.0),
+        Event::SoapScumFormed { vessel, aggregate_mass_g, divalent_ion_moles } => format!("{vessel}: {aggregate_mass_g:.3} g soap-scum aggregate formed from {divalent_ion_moles:.6} mol Ca/Mg"),
         Event::GasProduced {
             vessel,
             species,
