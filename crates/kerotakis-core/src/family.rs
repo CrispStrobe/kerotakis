@@ -308,6 +308,38 @@ pub fn lint_record(record: &FamilyRecord) -> Vec<String> {
 
 const TRACE: f64 = 1e-12;
 
+/// Free hydroxide, as the aqueous tail leaves it. After a solve the tail
+/// does not keep a strong base as a portion: it writes back `Na+` and
+/// carries the alkalinity as a positive `solute_charge`, because an `OH-`
+/// portion beside the water would double-count water's own hydrogen and
+/// oxygen. A record whose substrate is hydroxide therefore names this key,
+/// and the router backs it with the charge — the same convention the
+/// neutralisation extent in `displacement.rs` already leans on.
+pub const FREE_HYDROXIDE: &str = "OH-";
+/// Free strong acidity, symmetric with [`FREE_HYDROXIDE`]: the tail leaves
+/// `SO4-2` and a negative charge where sulfuric acid was poured. Weak acids
+/// stay portions and are named as themselves; this key is only the strong
+/// acid the tail has dissociated, so a beaker of vinegar does not open a
+/// gate that asks for sulfuric acid.
+pub const FREE_PROTON: &str = "H+";
+
+/// How much of `key` the vessel holds for the router's purposes: portions,
+/// plus the charge-backed equivalents for the two virtual keys. A real
+/// `OH-` portion and a positive charge never double-count — a portion of
+/// hydroxide carries its own −1 into the charge sum.
+fn amount_of(vessel: &Vessel, key: &str) -> f64 {
+    let portions = vessel.moles_of(&SpeciesId::new(key)).0;
+    match key {
+        FREE_HYDROXIDE => portions + vessel.solute_charge.max(0.0),
+        FREE_PROTON => portions + (-vessel.solute_charge).max(0.0),
+        _ => portions,
+    }
+}
+
+fn is_virtual(key: &str) -> bool {
+    key == FREE_HYDROXIDE || key == FREE_PROTON
+}
+
 /// A family pack: `[[family]]` tables in TOML, every record linted on
 /// load. A pack with one bad record is refused whole — a lint that let
 /// the good records through would ship the bad one beside them.
@@ -429,6 +461,11 @@ impl<O: StructureOracle> FamilyRouter<O> {
             .iter()
             .filter(|p| p.moles.0 > TRACE)
             .map(|p| p.species.0.clone())
+            .chain(
+                // The charge-backed hydroxide: present as a candidate
+                // exactly when the tail left free alkalinity behind.
+                (vessel.solute_charge > TRACE).then(|| FREE_HYDROXIDE.to_string()),
+            )
             .filter(|k| self.oracle.groups_of(k).is_some())
             .collect();
         keys.sort();
@@ -544,7 +581,7 @@ impl<O: StructureOracle> FamilyRouter<O> {
             passed.push("ph".to_string());
         }
         if let Some(c) = &g.catalyst {
-            let present = |key: &str| vessel.moles_of(&SpeciesId::new(key)).0 > TRACE;
+            let present = |key: &str| amount_of(vessel, key) > TRACE;
             let (ok, wanted) = match c {
                 CatalystGate::Species { key } => (present(key), key.clone()),
                 CatalystGate::AnyOf { keys } => {
@@ -746,7 +783,7 @@ fn solve_extent(
     reactants: &[(String, f64)],
     products: &[(String, f64)],
 ) -> Result<f64, String> {
-    let amount = |k: &str| vessel.moles_of(&SpeciesId::new(k)).0;
+    let amount = |k: &str| amount_of(vessel, k);
     let forward_max = reactants
         .iter()
         .map(|(k, c)| amount(k) / c)
@@ -833,15 +870,27 @@ fn apply_extent(
         (products, reactants)
     };
     let n = x.abs();
-    let phases: Vec<Phase> = formed
+    // The virtual keys move no portion: consuming charge-backed hydroxide
+    // beside a deposited anion is what the charge refresh below records,
+    // and a hydroxide portion (a test's, or one poured before any solve)
+    // is withdrawn like anything else.
+    let phases: Vec<Option<Phase>> = formed
         .iter()
-        .map(|(k, _)| phase_of(k))
+        .map(|(k, _)| {
+            if is_virtual(k) {
+                Ok(None)
+            } else {
+                phase_of(k).map(Some)
+            }
+        })
         .collect::<Result<_, _>>()?;
     for (k, c) in consumed {
         vessel.withdraw(&SpeciesId::new(k), Moles(n * c));
     }
     for ((k, c), phase) in formed.iter().zip(phases) {
-        vessel.deposit(SpeciesId::new(k), Moles(n * c), phase);
+        if let Some(phase) = phase {
+            vessel.deposit(SpeciesId::new(k), Moles(n * c), phase);
+        }
     }
     // The aqueous tail reads this current; a family that moves ions has
     // to leave it right, exactly as `curated.rs` does.
@@ -1011,7 +1060,7 @@ mod router_tests {
                 "CH3COOH" => Some(vec!["carboxylic acid".to_string()]),
                 "ethanol" | "methanol" => Some(vec!["alcohol".to_string()]),
                 "ethyl_acetate" => Some(vec!["ester".to_string()]),
-                "water" => Some(Vec::new()),
+                "water" | "OH-" => Some(Vec::new()),
                 _ => None,
             }
         }
@@ -1021,6 +1070,14 @@ mod router_tests {
             record: &FamilyRecord,
             keys: &[&str],
         ) -> Result<Option<Vec<String>>, String> {
+            if record.id == "fake-saponification" {
+                return Ok(match keys {
+                    ["ethyl_acetate", "OH-"] => {
+                        Some(vec!["CH3COO-".to_string(), "ethanol".to_string()])
+                    }
+                    _ => None,
+                });
+            }
             if !record.id.starts_with("fake-esterification") {
                 return Ok(None);
             }
@@ -1254,6 +1311,116 @@ mod router_tests {
         assert!(e.refused.is_empty());
         assert_eq!(e.declined.len(), 1);
         assert_eq!(e.declined[0].gate, "temperature_k");
+    }
+
+    fn saponification() -> FamilyRecord {
+        FamilyRecord {
+            id: "fake-saponification".to_string(),
+            version: 1,
+            smirks: "[C:1](=[O:2])[O:3][C:4].[OH-:5]>>[C:1](=[O:2])[O-:5].[OH:3][C:4]".to_string(),
+            substrates: vec!["ethyl_acetate".to_string(), FREE_HYDROXIDE.to_string()],
+            ledger_reactants: BTreeMap::new(),
+            ledger_products: BTreeMap::new(),
+            gates: GateSet {
+                temperature_k: Some(KelvinWindow {
+                    min: Some(323.15),
+                    max: None,
+                }),
+                ..GateSet::default()
+            },
+            priority: 0,
+            outcome: OutcomeModel::ToCompletion,
+            confidence: FamilyConfidence::CuratedFamily,
+            provenance: "test".to_string(),
+            refusal_domain: "test boundary".to_string(),
+        }
+    }
+
+    #[test]
+    fn hydroxide_the_tail_left_as_charge_is_a_substrate() {
+        // What the aqueous tail leaves after dissolving NaOH: sodium as
+        // a portion, the alkalinity as charge, no hydroxide portion.
+        let mut v = vessel(
+            &[("water", 1.0), ("ethyl_acetate", 0.1), ("Na+", 0.1)],
+            340.0,
+        );
+        v.solute_charge = 0.1;
+        let mut r = FamilyRouter::new(FakeOracle, vec![saponification()]);
+        assert!(r.applies(&v));
+        let events = r.equilibrate(&mut v).unwrap();
+        assert!(events.iter().any(|e| matches!(
+            e,
+            Event::OrgReacted { name, .. } if name == "fake-saponification"
+        )));
+        assert!(v.moles_of(&SpeciesId::new("ethyl_acetate")).0 < 1e-12);
+        assert!((v.moles_of(&SpeciesId::new("CH3COO-")).0 - 0.1).abs() < 1e-12);
+        assert!((v.moles_of(&SpeciesId::new("ethanol")).0 - 0.1).abs() < 1e-12);
+        // Na+ stays; the acetate now balances it; the alkalinity is spent.
+        assert!((v.moles_of(&SpeciesId::new("Na+")).0 - 0.1).abs() < 1e-12);
+        assert!(v.solute_charge.abs() < 1e-12, "charge {}", v.solute_charge);
+        // Nothing invented: no OH- portion appeared or vanished.
+        assert!(v.moles_of(&SpeciesId::new("OH-")).0 < 1e-12);
+    }
+
+    #[test]
+    fn a_neutral_salt_does_not_open_the_hydroxide_gate() {
+        // Net cation excess is free base only while nothing else
+        // unbalanced is dissolved; a balanced salt has none.
+        let mut v = vessel(
+            &[
+                ("water", 1.0),
+                ("ethyl_acetate", 0.1),
+                ("Na+", 0.1),
+                ("Cl-", 0.1),
+            ],
+            340.0,
+        );
+        v.solute_charge = crate::displacement::solute_charge(&v);
+        assert!(v.solute_charge.abs() < 1e-12);
+        let r = FamilyRouter::new(FakeOracle, vec![saponification()]);
+        let e = r.evaluate(&v);
+        assert!(e.ready.is_empty() && e.declined.is_empty() && e.refused.is_empty());
+    }
+
+    #[test]
+    fn a_hydroxide_portion_and_the_charge_do_not_double_count() {
+        let mut v = vessel(
+            &[
+                ("water", 1.0),
+                ("ethyl_acetate", 0.3),
+                ("Na+", 0.1),
+                ("OH-", 0.1),
+            ],
+            340.0,
+        );
+        v.solute_charge = crate::displacement::solute_charge(&v);
+        assert_eq!(
+            amount_of(&v, FREE_HYDROXIDE),
+            0.1 + v.solute_charge.max(0.0)
+        );
+        let mut r = FamilyRouter::new(FakeOracle, vec![saponification()]);
+        r.equilibrate(&mut v).unwrap();
+        // Exactly the hydroxide there was, not twice it.
+        assert!((v.moles_of(&SpeciesId::new("CH3COO-")).0 - 0.1).abs() < 1e-9);
+        assert!((v.moles_of(&SpeciesId::new("ethyl_acetate")).0 - 0.2).abs() < 1e-9);
+    }
+
+    #[test]
+    fn free_strong_acidity_opens_the_catalyst_gate() {
+        // Sulfuric acid after the tail: sulfate as a portion, the two
+        // protons as charge. The gate asks for H2SO4 or free acidity.
+        let mut record = esterification("fake-esterification", 0);
+        record.gates.catalyst = Some(CatalystGate::AnyOf {
+            keys: vec!["H2SO4".to_string(), FREE_PROTON.to_string()],
+        });
+        let mut v = vessel(
+            &[("CH3COOH", 0.1), ("ethanol", 0.1), ("SO4-2", 0.001)],
+            340.0,
+        );
+        v.solute_charge = crate::displacement::solute_charge(&v);
+        assert!(v.solute_charge < 0.0, "sulfate alone is a negative charge");
+        let r = FamilyRouter::new(FakeOracle, vec![record]);
+        assert!(r.applies(&v), "{:?}", r.evaluate(&v).declined);
     }
 
     #[test]

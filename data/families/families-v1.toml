@@ -37,8 +37,11 @@ required_groups = ["carboxylic acid", "alcohol"]
 [family.gates.temperature_k]
 min = 333.15
 
+# The acid may stand as a portion (a dry ethanol bench) or, after the
+# aqueous tail has dissolved it, as sulfate plus free acidity carried in
+# the vessel's charge; "H+" is the router's name for the latter.
 [family.gates.catalyst]
-species = { key = "H2SO4" }
+any_of = { keys = ["H2SO4", "H+"] }
 
 [family.outcome.equilibrium]
 log_k = 0.60206
@@ -48,7 +51,10 @@ source = "Berthelot & Péan de Saint-Gilles (1862): K ≈ 4 for acetic acid + et
 id = "alkaline-ester-hydrolysis"
 version = 1
 smirks = "[C:1](=[O:2])[O:3][C:4].[OH-:5]>>[C:1](=[O:2])[O-:5].[OH:3][C:4]"
-substrates = ["ethyl_acetate", "NaOH"]
+# "OH-" is the router's charge-backed hydroxide: after a solve the tail
+# keeps a strong base as Na+ plus alkalinity, not as an NaOH portion. A
+# freshly poured NaOH portion still matches, through its [OH-] fragment.
+substrates = ["ethyl_acetate", "OH-"]
 priority = 0
 confidence = "curated_family"
 outcome = "to_completion"
@@ -56,7 +62,8 @@ provenance = """Alkaline ester hydrolysis (saponification), BAc2 mechanism; Marc
 Chemistry, ester hydrolysis. Irreversible in practice because the carboxylate is a \
 thermodynamic sink under base. Stoichiometry proven against the atom-mapped template at \
 the InChIKey level (kerotakis-org template_oracle); the hydroxide arrives as the registry's \
-NaOH and its sodium is carried through the ledger as Na+."""
+NaOH, or as the free alkalinity the aqueous tail leaves behind, and any sodium is \
+carried through the ledger as Na+."""
 refusal_domain = """Claims only an ester meeting hydroxide in water-majority liquid warm enough to notice \
 (≥ 50 °C); runs the limiting reagent to completion and says so. No rate, no heat of reaction, \
 no acid-catalysed hydrolysis, no amide or nitrile hydrolysis, no fats or triglycerides yet — \

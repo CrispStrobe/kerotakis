@@ -290,55 +290,66 @@ fn water_pushes_esterification_back_in_the_full_stack() {
 /// This test asserts what the bench *does*, so it turns red the day the
 /// behaviour changes — in either direction.
 #[test]
-fn only_the_pouring_order_decides_whether_the_ester_hydrolyses() {
+fn the_pouring_order_no_longer_decides_whether_the_ester_hydrolyses() {
     // Base last, into a warm vessel: fires.
     let (_, _, late_base) = saponify();
     assert!(saponified(&late_base), "{late_base:?}");
 
-    // Base first, then heat: the same three reagents, the same
-    // temperature, and nothing happens.
+    // Base first, then heat. This once did nothing at any temperature:
+    // the aqueous tail keeps a strong base as Na+ plus a positive
+    // solute_charge, never as an NaOH or OH- portion, so a record naming
+    // NaOH could match only on the step the base was poured. The router
+    // now carries the charge-backed hydroxide as a candidate of its own.
     let mut bench = Bench::new();
-    let mut stack = stack();
+    let mut solver = stack();
     let v = VesselId(0);
-    add(&mut bench, &mut stack, v, "water", WATER);
-    add(&mut bench, &mut stack, v, "ethyl_acetate", SCALE);
-    let cold_base = add(&mut bench, &mut stack, v, "NaOH", SCALE);
-    let heated = heat(&mut bench, &mut stack, v, HEAT_J);
-    let waited = bench
-        .step_with(
-            Operator::Wait { seconds: 600.0 },
-            &mut stack,
-            &PermissiveScreen,
-        )
-        .expect("wait");
-
+    add(&mut bench, &mut solver, v, "water", WATER);
+    add(&mut bench, &mut solver, v, "ethyl_acetate", SCALE);
+    let cold_base = add(&mut bench, &mut solver, v, "NaOH", SCALE);
     assert!(!saponified(&cold_base), "fired cold: {cold_base:?}");
+    assert!(
+        moles(&bench, v, "NaOH") < 1e-12 && moles(&bench, v, "Na+") > 0.0,
+        "the tail is expected to have eaten the hydroxide and left the sodium"
+    );
+    let heated = heat(&mut bench, &mut solver, v, HEAT_J);
     assert!(
         temperature(&bench, v) > 323.15,
         "the second beaker must clear the same gate, got {} K",
         temperature(&bench, v)
     );
-    assert!(!saponified(&heated), "DEFECT FIXED: fired on heating");
-    assert!(!saponified(&waited), "DEFECT FIXED: fired on waiting");
+    assert!(saponified(&heated), "did not fire on heating: {heated:?}");
     assert!(
-        (moles(&bench, v, "ethyl_acetate") - SCALE).abs() < 1e-9,
-        "the ester is untouched"
+        moles(&bench, v, "ethyl_acetate") < 1e-9,
+        "the ester should be gone, {} mol left",
+        moles(&bench, v, "ethyl_acetate")
+    );
+    let waited = bench
+        .step_with(
+            Operator::Wait { seconds: 600.0 },
+            &mut solver,
+            &PermissiveScreen,
+        )
+        .expect("wait");
+    assert!(
+        !saponified(&waited),
+        "nothing left to hydrolyse: {waited:?}"
     );
 
-    // And the router cannot explain itself either: it reports neither a
-    // firing nor a decline, because it never saw a hydroxide to match
-    // the ester against. A learner asking what this bench can do with a
-    // warm alkaline ester is told nothing at all, which is the part of
-    // this that matters beyond the one reaction.
-    let vessel = bench.vessel(v).unwrap();
+    // And the router can explain itself: with the ester gone it has no
+    // opinion, but a fresh warm alkaline ester is matched and gated.
+    let mut again = Bench::new();
+    let mut stack2 = stack();
+    add(&mut again, &mut stack2, v, "water", WATER);
+    add(&mut again, &mut stack2, v, "ethyl_acetate", SCALE);
+    add(&mut again, &mut stack2, v, "NaOH", SCALE);
+    let vessel = again.vessel(v).unwrap();
     let router = kerotakis_org::family_oracle::family_equilibrator();
     let evaluated = router.evaluate(vessel);
     assert!(
-        evaluated.ready.is_empty() && evaluated.declined.is_empty(),
-        "DEFECT FIXED: the router now has an opinion: {evaluated:?}"
-    );
-    assert!(
-        moles(&bench, v, "NaOH") < 1e-12 && moles(&bench, v, "Na+") > 0.0,
-        "the tail is expected to have eaten the hydroxide and left the sodium"
+        evaluated
+            .declined
+            .iter()
+            .any(|d| d.family == "alkaline-ester-hydrolysis" && d.gate == "temperature_k"),
+        "cold, the router should decline at the temperature gate: {evaluated:?}"
     );
 }

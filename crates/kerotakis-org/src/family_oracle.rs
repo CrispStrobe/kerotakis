@@ -44,9 +44,17 @@ pub fn family_equilibrator() -> FamilyRouter<ChematicOracle> {
 /// pins), so a family can never fire on a structure nobody curated.
 pub struct ChematicOracle;
 
+/// Structures for the router's charge-backed keys (`family::FREE_HYDROXIDE`),
+/// which the aqueous tail carries as `solute_charge` rather than as a
+/// portion. Kept apart from `CURATED_STRUCTURES` because that table is the
+/// official-InChI identity gate's, and a bare ion is not a registry
+/// identity the gate can pin.
+const VIRTUAL_STRUCTURES: &[(&str, &str)] = &[(kerotakis_core::family::FREE_HYDROXIDE, "[OH-]")];
+
 fn smiles_of(species_key: &str) -> Option<&'static str> {
     CURATED_STRUCTURES
         .iter()
+        .chain(VIRTUAL_STRUCTURES.iter())
         .find(|(key, _)| *key == species_key)
         .map(|(_, smiles)| *smiles)
 }
@@ -67,7 +75,11 @@ fn key_of_product(smiles: &str) -> Option<&'static str> {
     // A curated SMILES written exactly as the toolkit wrote the product
     // is the same structure by construction — and it is the only route
     // for a bare ion like `[Na+]`, whose InChI the toolkit may not form.
-    if let Some((key, _)) = CURATED_STRUCTURES.iter().find(|(_, s)| *s == smiles) {
+    if let Some((key, _)) = CURATED_STRUCTURES
+        .iter()
+        .chain(VIRTUAL_STRUCTURES.iter())
+        .find(|(_, s)| *s == smiles)
+    {
         return Some(key);
     }
     let want = chematic_key(smiles)?;
