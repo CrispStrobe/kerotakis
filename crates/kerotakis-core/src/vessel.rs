@@ -255,6 +255,30 @@ pub struct SurfaceOccupancy {
     pub moles: Moles,
 }
 
+/// BRD-032: dye held on the surface of a sorbent solid, in moles.
+///
+/// Deliberately NOT `SurfaceSites`. That structure is the PHREEQC
+/// hydrous-ferric-oxide model: a closed `SurfaceSorbate` enum of two ions
+/// that go into the aqueous element totals, a strong/weak site split, and
+/// a water release the solver books against `kgw`. An organic dye on a
+/// lump of charcoal is none of those things — no shipped database
+/// speciates it, so putting it through that machinery would be borrowing
+/// a thermodynamic claim nobody made. This is the smaller honest shape:
+/// a bound amount, keyed by what is bound and what it is bound to.
+///
+/// It lives outside `contents` for a reason that is the whole point of
+/// the model: `filter` rewrites `contents` and touches nothing else, so
+/// what is bound to the retained solid is retained WITH it, and the
+/// filtrate carries only what was still dissolved.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AdsorbedAmount {
+    /// The solid the sorbate is held on.
+    pub sorbent: SpeciesId,
+    /// The species held.
+    pub sorbate: SpeciesId,
+    pub moles: Moles,
+}
+
 /// A finite, mass-owning oxide interface and its adsorption ledger.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SurfaceSites {
@@ -822,6 +846,10 @@ pub struct Vessel {
     /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exchanges: Vec<ExchangeSites>,
+    /// BRD-032: what a sorbent solid is holding on its surface. Defaulted
+    /// and omitted when empty, so no existing save changes shape.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub adsorbed: Vec<AdsorbedAmount>,
     /// Finite mixed crystalline phases. Defaulted for old save compatibility.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub solid_solutions: Vec<SolidSolution>,
@@ -891,6 +919,7 @@ impl Vessel {
             headspace: Headspace::Open,
             surfaces: Vec::new(),
             exchanges: Vec::new(),
+            adsorbed: Vec::new(),
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             step_start: None,
@@ -906,7 +935,20 @@ impl Vessel {
             && self.material_objects.is_empty()
             && self.surfaces.is_empty()
             && self.exchanges.is_empty()
+            && self.adsorbed.is_empty()
             && self.solid_solutions.is_empty()
+    }
+
+    /// Moles of `species` held on a sorbent surface in this vessel — the
+    /// part of it that is present and is not in solution.
+    pub fn adsorbed_moles(&self, species: &SpeciesId) -> Moles {
+        Moles(
+            self.adsorbed
+                .iter()
+                .filter(|entry| &entry.sorbate == species)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {
@@ -1118,6 +1160,16 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
+        // What is bound to a sorbent left `contents` and has to be
+        // weighed here, or every adsorption would look like matter
+        // vanishing to the conservation checks.
+        let bound: f64 = self
+            .adsorbed
+            .iter()
+            .filter_map(|entry| {
+                species::lookup(&entry.sorbate).map(|data| entry.moles.0 * data.molar_mass)
+            })
+            .sum();
         let solid_solutions: f64 = self
             .solid_solutions
             .iter()
@@ -1133,6 +1185,7 @@ impl Vessel {
             contents
                 + interfaces
                 + exchangers
+                + bound
                 + solid_solutions
                 + unresolved_materials
                 + material_objects

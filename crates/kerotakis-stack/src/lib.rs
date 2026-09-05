@@ -70,6 +70,14 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
     // It is still before honesty, because it is a chemistry answer and
     // honesty only speaks for states nothing answered.
     solvers.push(Box::new(kerotakis_core::corrosion::CorrosionEquilibrator));
+    // BRD-032: adsorption runs after the aqueous tail too, and for a
+    // sharper reason than corrosion's. PHREEQC's readback rebuilds
+    // `contents` and re-dissolves every `dissolves_without_speciation`
+    // solid it finds there; a rung that moved a dye out of solution
+    // before the tail ran would have that work undone on the same step.
+    // Placed here, what it moves lives in `vessel.adsorbed`, which the
+    // tail does not touch, and the split it computes survives.
+    solvers.push(Box::new(kerotakis_core::adsorption::AdsorptionEquilibrator));
     solvers.push(Box::new(HonestyEquilibrator));
     solvers
 }

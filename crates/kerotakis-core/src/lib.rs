@@ -14,6 +14,7 @@
 /// is a lie of scale.
 pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
+pub mod adsorption;
 pub mod apparatus;
 pub mod appearance;
 pub mod authority;

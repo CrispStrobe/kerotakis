@@ -3897,5 +3897,30 @@
       "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "sublimation_k": 194.65
     }
+  },
+  {
+    "appearance": "black",
+    "aqueous_solubility_g_per_100_ml": 0.0,
+    "colour": {
+      "b": 18,
+      "g": 18,
+      "r": 20,
+      "strength": 0.0
+    },
+    "density": 2.1,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C",
+    "heat_capacity": 8.5,
+    "inchikey": "",
+    "key": "activated_charcoal",
+    "magnetic": false,
+    "molar_mass": 12.011,
+    "name": "activated charcoal",
+    "provenance": "Activated charcoal, and a SEPARATE row from `C` (carbon (charcoal)) on purpose rather than the same substance under another name. What makes an activated carbon adsorb is its pore structure and its specific surface area - typically several hundred to over a thousand square metres per gram - and NEITHER IS A PROPERTY THIS REGISTRY CARRIES. The two rows differ in what the engine will do with them: the curated Langmuir isotherm in crates/kerotakis-core/src/adsorption.rs names this key and not `C`, and that difference is the entire content of the distinction. Molar mass from IUPAC/CIAAW 2021 atomic weights over one carbon atom; the composition is written as C because that is what the material is made of, and it is not a claim that the solid is a molecule. No InChIKey is asserted for the same reason. The density, 2.1 g/mL, is the SKELETAL density of the carbon itself and is PENDING REVIEW: it is recorded as commonly tabulated, no positively identified source is claimed, and it is emphatically NOT the poured bulk density of a granular carbon, which is several times lower because most of the volume is pore and void - so a volume or buoyancy answer computed from this row describes the carbon skeleton and not a spoonful of powder. The molar heat capacity is graphite's and is a teaching approximation. A reviewed aqueous solubility of zero is entered so the bench can say the carbon does not dissolve instead of apologising for not knowing, and unlike a solid that is being consumed, that sentence stays true for the whole of a run: adsorption holds a dye on the carbon and does not eat the carbon.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

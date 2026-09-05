@@ -2247,6 +2247,57 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
             }
         }
+        Event::Adsorbed {
+            vessel,
+            sorbate,
+            sorbent,
+            held,
+            loading_mg_per_g,
+            still_dissolved,
+            boundary,
+        } => {
+            let dye = species::lookup(sorbate)
+                .map(|d| d.name)
+                .unwrap_or(sorbate.0.as_str());
+            let dye = locale.lookup(&format!("species.{dye}")).unwrap_or(dye);
+            let solid = species::lookup(sorbent)
+                .map(|d| d.name)
+                .unwrap_or(sorbent.0.as_str());
+            let solid = locale.lookup(&format!("species.{solid}")).unwrap_or(solid);
+            // The fraction is what answers the question, so it is what
+            // lv1 says: "most of it" and "some of it" are different
+            // answers to "can charcoal take the colour out of water".
+            let total = held.0 + still_dissolved.0;
+            let taken = if total > 0.0 { held.0 / total } else { 0.0 };
+            match register.level() {
+                1 => locale.fill(
+                    "event.adsorbed.lv1",
+                    "The {solid} in {vessel} holds on to {percent} of the {dye}; the rest stays in the water.",
+                    &[
+                        ("solid", solid),
+                        ("vessel", &vessel.to_string()),
+                        ("percent", &locale.number(format!("{:.0}%", taken * 100.0))),
+                        ("dye", dye),
+                    ],
+                ),
+                2 => locale.fill(
+                    "event.adsorbed.lv2",
+                    "{vessel}: {solid} holds {held} mol of {dye} ({loading} mg/g); {left} mol is still dissolved",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("solid", solid),
+                        ("held", &locale.number(format!("{:.6}", held.0))),
+                        ("dye", dye),
+                        ("loading", &locale.number(format!("{loading_mg_per_g:.1}"))),
+                        ("left", &locale.number(format!("{:.6}", still_dissolved.0))),
+                    ],
+                ),
+                _ => format!(
+                    "{vessel}: {dye} on {solid}, held {:.6} mol at {loading_mg_per_g:.2} mg/g, {:.6} mol still dissolved. Boundary: {boundary}",
+                    held.0, still_dissolved.0
+                ),
+            }
+        }
         Event::Consumed {
             vessel,
             species: sid,

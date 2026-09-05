@@ -445,6 +445,18 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // is recorded here rather than read as a finding of safety.
         | "hair_pigment"
         | "hair_pigment_ox"
+        // Activated charcoal. `C` is already on this shelf with no
+        // reactive group and this row inherits that reading: elemental
+        // carbon is a combustible solid, and there is no
+        // combustible-solid group here any more than there is one for
+        // naphthalene below. What THIS row adds over `C` is surface area,
+        // and a large surface area is a real hazard the matrix cannot
+        // express either — finely divided carbon dust is an explosion
+        // hazard, and a spent carbon loaded with an oxidiser can heat
+        // itself. Neither is a claim about two substances in a beaker, so
+        // no group is entered, and the absence is a gap rather than a
+        // finding that a jar of powdered carbon is harmless.
+        | "activated_charcoal"
         // Naphthalene burns and is a toxic, sensitising solid whose
         // vapour is the point of a mothball. Neither fact has a row in
         // this matrix: there is no combustible-organic-solid group, and
@@ -647,6 +659,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "uranium",
     "hair_pigment",
     "hair_pigment_ox",
+    "activated_charcoal",
 ];
 
 struct Incompatibility {
