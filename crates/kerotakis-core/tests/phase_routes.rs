@@ -737,3 +737,32 @@ fn the_hydrate_survives_a_warm_bench_and_only_goes_at_its_own_temperature() {
         "the crystal water is not driven off by a warm bench"
     );
 }
+
+/// The honesty pass must not apologise for a solid the cold has made: frozen
+/// ethanol beside liquid nitrogen is a phase route's answer, not a gap.
+#[test]
+fn the_honesty_pass_does_not_call_frozen_ethanol_unmodelled() {
+    use kerotakis_core::*;
+    let mut v = vessel::Vessel::new(VesselId(0), "flask");
+    v.temperature = Kelvin(150.0);
+    v.deposit(
+        SpeciesId::new("ethanol"),
+        Moles(0.17),
+        species::Phase::Solid,
+    );
+    v.deposit(
+        SpeciesId::new("liquid_nitrogen"),
+        Moles(3.0),
+        species::Phase::Liquid,
+    );
+    let events = HonestyEquilibrator
+        .equilibrate(&mut v)
+        .expect("the pass runs");
+    assert!(
+        !events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("ethanol")
+        ) || matches!(e, Event::Inert { species, .. } if species.0 == "ethanol")),
+        "{events:?}"
+    );
+}

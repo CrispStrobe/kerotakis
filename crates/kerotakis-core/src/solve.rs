@@ -1362,6 +1362,18 @@ fn curated_solid_product(species: &SpeciesId) -> bool {
 /// pass names the boundary instead.
 pub const AQUEOUS_MODEL_CEILING_K: f64 = 573.15;
 
+/// A solid portion of a substance that is a liquid at standard conditions,
+/// standing below its curated melting point: frozen, not unreacted.
+fn frozen_liquid(vessel: &Vessel, species: &SpeciesId) -> bool {
+    species::lookup(species).is_some_and(|data| {
+        data.standard_phase == Phase::Liquid
+            && data
+                .transitions
+                .and_then(|t| t.melting_reading())
+                .is_some_and(|(melting_k, _)| vessel.temperature.0 < melting_k)
+    })
+}
+
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
@@ -1462,6 +1474,14 @@ impl Equilibrator for HonestyEquilibrator {
                 // The water byproduct of the reaction can break
                 // single_organic_solvent, so this check is independent.
                 if curated_solid_product(&p.species) {
+                    continue;
+                }
+                // A liquid the cold has frozen is not an unmodelled reagent
+                // either: a phase route just put it in that state, on a
+                // curated melting point, and the apology would read as
+                // "nobody has modelled frozen ethanol" in the same breath
+                // as the route that froze it.
+                if frozen_liquid(vessel, &p.species) {
                     continue;
                 }
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
@@ -1573,6 +1593,14 @@ impl Equilibrator for HonestyEquilibrator {
                     }
                 }
                 if curated_solid_product(&p.species) {
+                    continue;
+                }
+                // A liquid the cold has frozen is not an unmodelled reagent
+                // either: a phase route just put it in that state, on a
+                // curated melting point, and the apology would read as
+                // "nobody has modelled frozen ethanol" in the same breath
+                // as the route that froze it.
+                if frozen_liquid(vessel, &p.species) {
                     continue;
                 }
                 if crate::starch_iodine::covers_solid(vessel, &p.species) {
