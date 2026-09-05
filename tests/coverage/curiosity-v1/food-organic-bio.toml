@@ -772,7 +772,7 @@ material_class = "fermentation"
 owning_task = "BRD-052"
 tags = ["lactic_acid", "yoghurt"]
 script = ["add v1 milk 100mL", "add v1 yoghurt_culture 1g", "wait 8h", "measure v1 ph"]
-smoke = false
+smoke = true
 
 [[prompt]]
 id = "bio-070"
