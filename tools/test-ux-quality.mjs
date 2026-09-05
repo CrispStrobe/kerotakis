@@ -128,6 +128,7 @@ const learningProgressJourney = async () => {
   })()`));
   check("Experiment completion filters expose one accessible selected state", Boolean(experimentInitial.name) && experimentInitial.selected === 1);
   await page.evaluate(`document.querySelector('dialog.panel .progress-filters button:last-child')?.click()`);
+  await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length >= 2`, { timeout: 5000 });
   const experiments = JSON.parse(await page.evaluate(`(() => {
     const group = document.querySelector('dialog.panel .progress-filters');
     const rows = [...document.querySelectorAll('dialog.panel .entry .completion')].filter((item) => item.offsetParent);
