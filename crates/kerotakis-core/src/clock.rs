@@ -316,10 +316,8 @@ impl Clock for GasMechanismClock {
         if seconds <= 0.0 {
             return Ok(());
         }
-        for pack in crate::kinetics::packs::shipped() {
-            if !pack.matches(vessel) {
-                continue;
-            }
+        // One pack per vessel per interval — see `packs::pack_for`.
+        if let Some(pack) = crate::kinetics::packs::pack_for(vessel) {
             let report = crate::kinetics::advance_network_with_options(
                 vessel,
                 seconds,
@@ -345,7 +343,7 @@ impl Clock for GasMechanismClock {
                 });
             }
             if released_j.abs() < 1e-9 {
-                continue;
+                return Ok(());
             }
             let from = vessel.temperature;
             if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {

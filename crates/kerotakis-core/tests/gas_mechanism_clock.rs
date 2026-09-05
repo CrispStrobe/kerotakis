@@ -95,12 +95,14 @@ fn a_cold_fuel_and_air_mixture_does_nothing_on_the_clock() {
 
 #[test]
 fn a_vessel_with_one_pack_species_is_not_asked() {
-    let vessel = reactor(1.0, 1200.0, &[("O2", 0.01), ("N2", 0.04)]);
+    let lone = reactor(1.0, 1200.0, &[("O2", 0.01)]);
     for pack in shipped() {
-        // O2 and N2 are two pack species, so the hydrocarbon pack matches
-        // and integrates to nothing; a lone species never matches.
-        let lone = reactor(1.0, 1200.0, &[("O2", 0.01)]);
         assert!(!pack.matches(&lone), "{}", pack.id);
     }
-    let _ = vessel;
+    // Two inert-to-each-other species match a pack and integrate to
+    // nothing, which is also what happens on a bench.
+    let mut vessel = reactor(1.0, 1200.0, &[("O2", 0.01), ("N2", 0.04)]);
+    let mut events = Vec::new();
+    advance(&mut vessel, 60.0, ClockContext::default(), &mut events).expect("advances");
+    assert!(!events.iter().any(|e| matches!(e, Event::Reacted { .. })));
 }

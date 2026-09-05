@@ -160,13 +160,9 @@ impl ShippedPack {
         Some(total)
     }
 
-    /// Whether this pack has anything to say about the vessel: at least
-    /// two of its species stand in the gas phase. The rate laws decide the
-    /// rest — a cold mixture, or one with no radical to carry a chain,
-    /// integrates to nothing in a few evaluations.
-    pub fn matches(&self, vessel: &Vessel) -> bool {
-        let present = self
-            .species
+    /// How many of this pack's species stand in the vessel's gas phase.
+    pub fn present_count(&self, vessel: &Vessel) -> usize {
+        self.species
             .iter()
             .filter(|name| {
                 vessel
@@ -174,9 +170,40 @@ impl ShippedPack {
                     .iter()
                     .any(|p| p.phase == Phase::Gas && p.species.0 == **name && p.moles.0 > 0.0)
             })
-            .count();
-        present >= 2
+            .count()
     }
+
+    /// Whether this pack has anything to say about the vessel: at least
+    /// two of its species stand in the gas phase. The rate laws decide the
+    /// rest — a cold mixture, or one with no radical to carry a chain,
+    /// integrates to nothing in a few evaluations.
+    pub fn matches(&self, vessel: &Vessel) -> bool {
+        self.present_count(vessel) >= 2
+    }
+}
+
+/// The one pack that speaks for a vessel this interval: the pack covering
+/// the most of its gas species, the earlier-listed pack on a tie.
+///
+/// One, not every matching pack. The wet-CO pack contains the hydrogen
+/// pack's chemistry, so running both on a hydrogen flame would count the
+/// same steps twice — and, with the first pack's heat already applied,
+/// the second would run at flame temperature and dissociate the water
+/// the first had just made. That is a real effect at 3000 K, and it is
+/// CEA's to settle over the equilibrated state, not a kinetic pack's to
+/// half-do at the end of its interval.
+pub fn pack_for(vessel: &Vessel) -> Option<&'static ShippedPack> {
+    let mut best: Option<(&'static ShippedPack, usize)> = None;
+    for pack in shipped() {
+        let present = pack.present_count(vessel);
+        if present < 2 {
+            continue;
+        }
+        if best.is_none_or(|(_, count)| present > count) {
+            best = Some((pack, present));
+        }
+    }
+    best.map(|(pack, _)| pack)
 }
 
 /// The shipped packs, compiled on first use and kept for the life of the
@@ -247,6 +274,37 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn one_pack_speaks_for_a_vessel_and_the_larger_cover_wins() {
+        use crate::units::{Kelvin, Liters, Moles};
+        use crate::vessel::{Headspace, Vessel, VesselId};
+        use crate::SpeciesId;
+        let mut hydrogen = Vessel::new(VesselId(0), "h2");
+        hydrogen.headspace = Headspace::Sealed {
+            volume: Liters(1.0),
+        };
+        hydrogen.temperature = Kelvin(1200.0);
+        for (k, n) in [("H2", 2e-3), ("O2", 1e-3), ("N2", 4e-3)] {
+            hydrogen.deposit(SpeciesId::new(k), Moles(n), Phase::Gas);
+        }
+        // Both hydrogen packs cover the same three species: the earlier
+        // listed, smaller one speaks.
+        assert_eq!(pack_for(&hydrogen).map(|p| p.id), Some("h2-o2-skeletal-v1"));
+        hydrogen.deposit(SpeciesId::new("CO"), Moles(1e-3), Phase::Gas);
+        assert_eq!(pack_for(&hydrogen).map(|p| p.id), Some("co-h2-wet-v1"));
+        let mut methane = Vessel::new(VesselId(1), "ch4");
+        for (k, n) in [("methane", 1e-2), ("O2", 3e-2), ("N2", 0.1)] {
+            methane.deposit(SpeciesId::new(k), Moles(n), Phase::Gas);
+        }
+        assert_eq!(
+            pack_for(&methane).map(|p| p.id),
+            Some("hydrocarbon-global-v1")
+        );
+        let mut lone = Vessel::new(VesselId(2), "o2");
+        lone.deposit(SpeciesId::new("O2"), Moles(1e-2), Phase::Gas);
+        assert!(pack_for(&lone).is_none());
     }
 
     #[test]
