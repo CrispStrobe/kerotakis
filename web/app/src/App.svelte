@@ -46,6 +46,7 @@
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { parseKidsCatalog, type KidsExperiment } from "./lib/kidsCatalog";
+  import { briefFor, kidsEquipmentVerbs, kidsShelfKeys, storePendingKidsSandbox, takePendingKidsSandbox, type KidsSandboxBrief } from "./lib/kidsSandbox";
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle, type MissionSummary } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
@@ -723,7 +724,8 @@
   let toolsOpen = $state(false);
   /** The supply room keeps chemicals and reusable equipment distinct. */
   let cabinetTab = $state<"reagents" | "equipment">("reagents");
-  let catalogScope = $state<CatalogScope>(labMode === "sandbox" ? "all" : "unlocked");
+  let kidsSandboxBrief = $state<KidsSandboxBrief | null>(labMode === "sandbox" ? takePendingKidsSandbox(appStorage) : null);
+  let catalogScope = $state<CatalogScope>(kidsSandboxBrief ? "mission" : labMode === "sandbox" ? "all" : "unlocked");
   let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
   /** BRD-002: the engine's finite bottles, refreshed with every scene —
    * so the shelf card tracks the ledger through undo and scrub without a
@@ -735,6 +737,7 @@
   const missionEquipmentVerbs = $derived([...new Set([
     ...missionEquipment(session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? []),
     ...(session.missionOutcome?.contract.extraTools ?? []),
+    ...kidsEquipmentVerbs(kidsSandboxBrief?.apparatus ?? []),
   ])]);
   $effect(() => {
     const mission = session.lesson?.lesson.name ?? null;
@@ -1015,6 +1018,18 @@
       <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
       <button role="tab" aria-selected={cabinetTab === "equipment"} class:active={cabinetTab === "equipment"} onclick={() => (cabinetTab = "equipment")}>{t("equipment")}</button>
     </div>
+    {#if kidsSandboxBrief}
+      <section class="kids-bench-brief" aria-label={t("Kids Lab bench guide")}>
+        <span>{kidsSandboxBrief.id}</span><strong>{t(kidsSandboxBrief.title)}</strong>
+        <small>{t("ingredients")}: {kidsSandboxBrief.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
+        <small>{t("apparatus")}: {kidsSandboxBrief.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
+        {#if kidsSandboxBrief.boundary}<p>{t(kidsSandboxBrief.boundary)}</p>{/if}
+        <div>
+          <button onclick={() => { catalogScope = catalogScope === "mission" ? "all" : "mission"; }}>{catalogScope === "mission" ? t("show entire cabinet") : t("show experiment kit")}</button>
+          <button onclick={() => { kidsSandboxBrief = null; catalogScope = "all"; }}>{t("dismiss guide")}</button>
+        </div>
+      </section>
+    {/if}
     {#if labMode === "story"}
       <div class="catalog-scope" role="radiogroup" aria-label={t("cabinet contents")}>
         <button role="radio" aria-checked={catalogScope === "mission"} class:active={catalogScope === "mission"} disabled={!session.lesson} onclick={() => (catalogScope = "mission")}>{t("mission set")}</button>
@@ -1029,7 +1044,7 @@
         register={session.register}
         target={session.selected}
         targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
-        kit={session.lesson?.kit ?? null}
+        kit={session.lesson?.kit ?? (kidsSandboxBrief ? kidsShelfKeys(kidsSandboxBrief.ingredients) : null)}
         scope={catalogScope}
         mode={labMode}
         completed={session.completedMissions.size}
@@ -1435,9 +1450,19 @@
       kidsOpen = false;
       void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
     }}
-    onsandbox={() => {
+    onsandbox={(entry) => {
+      const brief = briefFor(entry);
       kidsOpen = false;
-      enterLab("sandbox");
+      if (labMode === "sandbox") {
+        kidsSandboxBrief = brief;
+        catalogScope = "mission";
+        cabinetTab = "reagents";
+        pane = "shelf";
+        homeOpen = false;
+      } else {
+        try { storePendingKidsSandbox(appStorage, brief); } catch { /* sandbox still opens without persisted guidance */ }
+        enterLab("sandbox");
+      }
     }}
     onclose={() => (kidsOpen = false)}
   />
@@ -2083,6 +2108,20 @@
   }
   .catalog-scope button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised)); }
   .catalog-scope button:disabled { opacity: .38; cursor: not-allowed; }
+  .kids-bench-brief {
+    display: grid;
+    gap: .35rem;
+    margin: .65rem;
+    padding: .7rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+    border-radius: .65rem;
+    background: color-mix(in srgb, var(--primary) 7%, var(--surface-raised));
+  }
+  .kids-bench-brief > span { color: var(--primary); font: 700 .7rem/1 var(--mono); }
+  .kids-bench-brief small { line-height: 1.35; }
+  .kids-bench-brief p { margin: .15rem 0; font-size: .78rem; line-height: 1.4; }
+  .kids-bench-brief div { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .kids-bench-brief button { padding: .35rem .55rem; }
   .equation {
     background: var(--surface);
   }

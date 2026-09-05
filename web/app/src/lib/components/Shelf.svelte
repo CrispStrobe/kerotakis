@@ -52,8 +52,9 @@
 
   let query = $state("");
   const visible = $derived(items.filter((item) => {
-    if (mode === "sandbox" || scope === "all") return true;
+    if (scope === "all") return true;
     if (scope === "mission") return kit?.includes(item.key) ?? false;
+    if (mode === "sandbox") return true;
     return available(catalog, item.key);
   }));
   let open = $state<string | null>(null);
