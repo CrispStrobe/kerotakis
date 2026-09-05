@@ -1170,7 +1170,6 @@ material_class = "apparatus_aid"
 owning_task = "BRD-073"
 tags = ["boiling", "nucleation"]
 script = ["add v1 water 100mL", "add v1 boiling_chips 1g", "heat v1 50kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

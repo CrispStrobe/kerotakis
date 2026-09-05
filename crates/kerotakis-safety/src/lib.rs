@@ -384,6 +384,15 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // about a room rather than about a beaker, and this matrix
         // classifies what substances do to each other.
         | "helium"
+        // The leaf pigment and a polyamide. Neither has a NOAA reactive
+        // group: chlorophyll is a plant metabolite that does nothing to
+        // anything in a mixture screen, and nylon joins the other polymers
+        // already listed above. Nylon IS attacked by hot concentrated acid,
+        // and that is a reaction the matrix has no row for -- as with
+        // naphthalene below, the absence is a gap in this matrix rather
+        // than a finding that the pair is safe.
+        | "chlorophyll"
+        | "nylon"
         // Naphthalene burns and is a toxic, sensitising solid whose
         // vapour is the point of a mothball. Neither fact has a row in
         // this matrix: there is no combustible-organic-solid group, and
@@ -564,6 +573,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "methane",
     "naphthalene",
     "propane",
+    "chlorophyll",
+    "nylon",
 ];
 
 struct Incompatibility {

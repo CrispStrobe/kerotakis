@@ -63,6 +63,20 @@ const PROFILES: &[SubstrateProfile] = &[
         optimum_k: 310.15,
         width_k: 18.0,
     },
+    // bio-051: a raw cut of muscle. Roughly three quarters of the recipe's
+    // conserved 28% remainder is protein and the rest is fat and connective
+    // tissue, so the substrate share is 0.75 rather than 1.0 — a protease
+    // does not eat the fat. What this reports is hydrolysed protein mass and
+    // never texture: tenderness is a mechanical property of collagen, and
+    // this is a chemical claim about peptide bonds.
+    SubstrateProfile {
+        recipe_id: "food/meat",
+        family: EnzymeFamily::Protease,
+        substrate: "muscle protein",
+        substrate_share: 0.75,
+        optimum_k: 310.15,
+        width_k: 18.0,
+    },
 ];
 
 // Editorial teaching correlation, not a measured universal rate constant.

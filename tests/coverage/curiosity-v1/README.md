@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a third time (nineteen rows, BRD-014.S03's biology
+tranche) — see below, and read that entry before quoting its count.
+
 Refreshed 2026-09-05 again (fourteen rows, BRD-014.S02's household
 materials) — see below.
 
@@ -1214,3 +1217,70 @@ They stay `missing` until the models exist.
 
 No other row moved. Fourteen drifts, no regressions, and the
 expectation-mismatch count held flat at 85 again.
+
+
+## 2026-09-05 — nineteen rows, and why the count is the wrong thing to quote
+
+`BRD-014.S03` added fourteen materials and two species. `missing` falls from
+59 to 41 and `computed` rises from 288 to 301, and **most of these rows did
+not get an answer**. The reason codes are doing real work here and the
+summary line is not, so this entry sorts them by what actually happened.
+
+### Three rows gained a mechanism
+
+- `bio-085` bile salts → `computed-route`. Bile salts are amphipathic
+  surfactants and the bounded emulsifier role is, for once, the mechanism the
+  question is about rather than a stand-in for it.
+- `bio-091` alcohol extracting leaf pigment → `computed-route`. Chlorophyll
+  has a reviewed ethanol solubility, so the pigment really does leave the leaf
+  and enter the filtrate. What the bench does NOT do is paint the filtrate
+  green: the species carries no absorption spectrum.
+- `bio-051` protease and meat → `typed-engine-event`. A real hydrolysis of a
+  named protein fraction runs. It is not `computed-route` because the enzyme
+  model reports converted mass rather than claiming a solver route, and it is
+  emphatically not tenderness: texture is collagen and this is peptide bonds.
+
+### Eight rows run and answer nothing
+
+`bio-086`, `bio-087`, `bio-088`, `bio-089` (photosynthesis, light intensity,
+green light), `bio-096` (respiration in a sealed jar), `bio-097` (germination
+in brine), `bio-098` (transpiration up a celery stalk), `bio-099` (turgor),
+`bio-100` (plasmolysis).
+
+Several of these read `computed-route`, and that is the **classifier being
+right about the wrong thing**: a leaf in water with carbon dioxide dissolved
+in it really does have an aqueous route, and the aqueous route really does
+compute. It computes the carbonate system. It does not photosynthesise,
+because nothing on this bench does. Same for the celery: the dye's solution
+chemistry is computed and the dye does not move up the stalk, because there
+is no stalk and no transpiration. Reading `bio-098` as "closed" would be a
+mistake this file exists to prevent.
+
+Each material's `lot_assumptions` names the missing model in capitals, so the
+gap is recorded where a reader meets it rather than only here.
+
+### Two are honest for a better reason
+
+- `mat-025` cured thermoset → still `missing`, but the reason code changes
+  from `unknown-species` to `not-yet-modeled`. **This row is not closed and
+  the change is still worth making**: the bench has gone from not knowing the
+  word to knowing the substance and declining to claim a softening it cannot
+  compute. A cured thermoset also genuinely has no melting point — it
+  decomposes — so the absence happens to be correct.
+- `th-101` boiling chips → `typed-observation`. The chips are inert because
+  porosity is not a property this bench has, and bumping is not modelled
+  either, so there is nothing for them to prevent.
+
+### Four more
+
+`bio-006` cake batter and `bio-022` popcorn kernel are typed observations;
+setting and bursting are both absent. `bio-090` chlorophyll is a typed
+observation of a green solid, and the species' provenance says the colour is
+recorded rather than derived from the two absorption bands that cause it.
+`mat-037` nylon in acid and `mat-072` battery electrolyte both reach a
+computed route — the acid speciates, the alkali cools — while the amide
+hydrolysis and the cell reaction respectively are absent. Nylon carries no
+aqueous solubility on purpose, so the engine says it does not know rather
+than asserting that the polymer survives.
+
+Nineteen drifts, no regressions, and the expectation-mismatch count is 84.

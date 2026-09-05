@@ -677,6 +677,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     sunscreen could not absorb the 300 nm light bio-111 shines at it. A
     confident wrong answer is worse than `unknown-species`, and those two rows
     stay open until the models exist.
+  - `BRD-014.S03` (2026-09-05) — the biology tranche: fourteen materials and
+    two species. Chlorophyll and nylon 6,6 arrive as registry species;
+    chlorophyll also gains a reviewed ethanol solubility so `bio-091`'s
+    pigment extraction is a real dissolution rather than a shrug, and nylon
+    deliberately gains NO aqueous solubility, because the reviewed zero the
+    other polymers carry would assert that hot acid leaves it intact. Nine of
+    the materials are plant and food matter whose rows the bench can run and
+    cannot answer — the missing models are named in each recipe. Three carry
+    something real: `food/meat` gains an enzyme-activity substrate profile,
+    `laboratory/bile-salts` an emulsifier role whose mechanism is the one the
+    question is about, and `household/alkaline-battery-electrolyte` a fully
+    resolved 30% potassium hydroxide solution that is honestly not a battery.
 - **Outcome:** versioned packs for at least 75 familiar named materials, selected
   by BRD-000 demand.
 - **Scope:** begin with air, tap/seawater, vinegar, baking powder/soda, bleach,
@@ -1636,6 +1648,30 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 - [ ] **Status:** open. **Size:** large/data/content. **Depends on:** BRD-051,
   BRD-012 and EXP-51's kinetic family.
+- **2026-09-05, vocabulary only.** Ten of this task's curiosity rows stopped in
+  the PARSER rather than in a solver, and BRD-014.S03 gave them their words:
+  meat, bile salts, a green leaf, pondweed, a dry seed, a germinating seed, a
+  celery stem, a wilted lettuce leaf and an onion epidermis. **Exactly one of
+  them gained a mechanism.** `bio-051` now hydrolyses muscle protein, because
+  `food/meat` carries an enzyme-activity profile and the prompt adds the
+  protease itself; and `bio-085` emulsifies fat, because bile salts really are
+  surfactants and the bounded emulsifier role is the right shape for them. The
+  other eight run and answer nothing: **photosynthesis, respiration,
+  transpiration, turgor and plasmolysis are all absent**, and each recipe's
+  own `lot_assumptions` say which one it is missing. Those rows are closed
+  against `unknown-species`, not against the question, and the corpus README
+  records the distinction row by row. What they still need is listed there
+  and is not a data problem.
+- **Not closed and why:** `bio-052`/`bio-053` (pineapple and gelatine) need a
+  material to CARRY an enzyme. The activity model reads its catalyst from the
+  vessel's species inventory, and a material component must be a registry
+  identity — the enzyme species deliberately are not. A pineapple recipe is
+  otherwise ready; the missing piece is a recipe-to-catalyst bridge in
+  `enzyme_activity.rs`. `bio-049`/`bio-050` (pepsin in acid and in base) need
+  that bridge and a **pH response**: the model's only environmental term is a
+  Gaussian in temperature, so a pepsin added to sodium hydroxide would digest
+  protein exactly as fast as one in stomach acid, which is the opposite of
+  what bio-050 asks. Both rows stay `missing` rather than answer wrongly.
 - **Scope:** curate roughly 100 reactions/networks around starch/sugar
   digestion, catalase, lactase/protease exemplars, yeast fermentation, bread
   rising, respiration, photosynthesis as a bounded net model, acidification,

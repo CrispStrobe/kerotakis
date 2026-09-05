@@ -3633,5 +3633,53 @@
     "provenance": "hydrogen sulfide, the gas that tarnishes silver and that a rotten egg smells of. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 34.2 J/(mol.K) at 298 K: standard reference values. It is recorded as colourless because it is; the smell is the property that matters most about it in a room and this bench has no odour entry for it, so nothing in a run will warn a reader by nose. No sulfide solution chemistry is installed either: there is no S(-2) species on the shelf, so this gas dissolves into nothing and forms no metal sulfide. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number.",
     "spectrum_bands": null,
     "standard_phase": "gas"
+  },
+  {
+    "appearance": "green",
+    "colour": {
+      "b": 60,
+      "g": 110,
+      "r": 47,
+      "strength": 0.0
+    },
+    "density": 1.079,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C55H72MgN4O5",
+    "heat_capacity": 1325.0,
+    "inchikey": "",
+    "key": "chlorophyll",
+    "magnetic": false,
+    "molar_mass": 893.509,
+    "name": "chlorophyll a",
+    "provenance": "chlorophyll a, the magnesium porphyrin that makes a leaf green. Molar mass from IUPAC/CIAAW 2021 atomic weights over the accepted C55H72MgN4O5 formula; density 1.079 g/mL is a standard reference value and the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No InChIKey is asserted: this record stands for the chlorophyll of a leaf, and chlorophyll b and the several allomers a real extract contains are not distinguished. The colour is RECORDED, not computed: chlorophyll looks green because it absorbs strongly in the blue near 430 nm and in the red near 665 nm and reflects what is left, and this species carries no absorption spectrum, so nothing in a run derives the green from those two bands. Photosynthesis is not modelled anywhere on this bench, so holding the pigment is not holding the process.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white opaque plastic",
+    "colour": {
+      "b": 242,
+      "g": 245,
+      "r": 245,
+      "strength": 0.0
+    },
+    "density": 1.14,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C12H22N2O2",
+    "heat_capacity": 363.0,
+    "inchikey": "",
+    "key": "nylon",
+    "magnetic": false,
+    "molar_mass": 226.32,
+    "name": "nylon 6,6 (repeat unit)",
+    "provenance": "nylon 6,6 as one adipamide repeat unit, the same polymer-as-population convention polyethylene and PET already use. Molar mass from IUPAC/CIAAW 2021 atomic weights over the repeat unit; density 1.14 g/mL is a standard reference value and the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No InChIKey is asserted, because a chain of indefinite length is not a molecule. NO aqueous solubility is entered either, and that is deliberate: the other polymers on this shelf carry a reviewed zero so the bench can say they do not dissolve, but nylon IS attacked by hot concentrated acid - the amide bond hydrolyses - and no solver here models that. Entering a zero would turn a gap into the claim that the polymer survives, so this record stays silent and the engine says it does not know.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]
