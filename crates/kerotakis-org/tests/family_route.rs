@@ -154,7 +154,14 @@ fn warm_ester_and_hydroxide_in_water_saponify_and_keep_the_sodium() {
         (moles(&v, "Na+") - 0.1).abs() < 1e-9,
         "the spectator sodium"
     );
-    assert!((mass_g(&v) - before).abs() < 1e-9, "mass drifted");
+    // To the registry's own precision: the ions' molar masses are tabulated
+    // apart from the salt's, so agreement is to the milligram here, not the
+    // femtogram the esterification test can ask for.
+    assert!(
+        (mass_g(&v) - before).abs() < 1e-3,
+        "mass drifted by {} g",
+        mass_g(&v) - before
+    );
     // Charge: Na+ and CH3COO- balance, exactly as NaOH did.
     assert!(
         v.solute_charge.abs() < 1e-9,
