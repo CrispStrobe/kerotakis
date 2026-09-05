@@ -14,8 +14,12 @@ describe("learning navigation accessibility wiring", () => {
     expect(story).toContain("onstart(nextMission.file)");
   });
 
+  // Both tiers live in one component now (the unified catalogue), so both
+  // sets of assertions read the same file. They are kept separate because
+  // they are separate promises: the experiment tier's filters and the KIDS
+  // tier's progress cards can regress independently.
   it("exposes a named, pressed-state experiment completion filter", () => {
-    const catalog = source("ExperimentCatalog.svelte");
+    const catalog = source("Catalog.svelte");
     expect(catalog).toContain('role="group" aria-label={t("completion status")}');
     expect(catalog).toContain("aria-pressed={progress === value}");
     expect(catalog).toContain("aria-pressed={view === key}");
@@ -23,7 +27,7 @@ describe("learning navigation accessibility wiring", () => {
   });
 
   it("keeps KIDS progress and Continue/Replay actions in the catalog cards", () => {
-    const kids = source("KidsCatalog.svelte");
+    const kids = source("Catalog.svelte");
     expect(kids).toContain('data-progress={links.progress}');
     expect(kids).toContain("aria-pressed={status === null}");
     expect(kids).toContain("aria-pressed={status === value}");

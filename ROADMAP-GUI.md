@@ -714,6 +714,38 @@ been ignoring all of it:
   never recomputing chemistry; vitest-pinned). Lights up the moment the
   codex export ships `codex/index.json` in the payload (kero-basic's
   task); quiet absence until then.*
+
+  *Correction 2026-09-05 — the Bench tab was the missing one, and the
+  two catalogues are now ONE module.* The run was never fake: it always
+  went through `session.submit()`, so the chemistry, the feed, the log
+  and undo were all real. What was missing was that anyone could SEE it.
+  Every line of a script was fired in a single tick, so ten commands'
+  worth of animation collapsed into one frame, and a full-screen modal
+  sat over the stage while it happened. A learner opening
+  "Löslichkeitsprodukt von Silberchlorid" got a verdict and no
+  experiment, which is exactly the text-only genre GUI-054 was written
+  to beat.
+
+  The walk moved out of the component into `lib/catalogRunner.ts`, which
+  paces the steps and announces each line before it goes; the panel docks
+  to a one-line strip at the foot of the screen while it runs, and the
+  scrim stops taking pointer events, so the bench is watched rather than
+  covered. A bench that already holds the learner's work is ASKED about
+  first — clear it, run beside it in fresh glassware (the script's `vN`
+  tokens shifted past what is there), or run on it as it is — and is
+  never silently wiped.
+
+  `ExperimentCatalog.svelte` and `KidsCatalog.svelte` became one
+  `Catalog.svelte` in the same change, because the Kids tier's cards were
+  offering a different meaning of "run this" than the experiment tier's,
+  and reconciling two runners is how they drift apart again. Tier is now
+  presentation — Kids cards stay wordier and bigger-buttoned, and gain a
+  direct "run it on the bench" wherever the KIDS entry names a codex
+  entry we actually ship — over one search box, one progress record
+  (`session.completedExperiments`), one close affordance and one runner.
+  `kidsOpen`/`catalogOpen` survive as the tier selector so every existing
+  door (home screen, story map, periodic table, concept map) still opens
+  the panel on the tier it meant.
 - [x] **GUI-055 — The curriculum browser.** *Client shipped 2026-08-24,
   armed on the codex export:* the experiments dialog gained three doors —
   all (with a filter), by concept (chips with counts; a selected concept

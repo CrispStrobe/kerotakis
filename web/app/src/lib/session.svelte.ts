@@ -1715,22 +1715,45 @@ export class Session {
   }
 
   /**
+   * Start recording the typed event keys `submit()` sees.
+   *
+   * The catalogue runner owns the walk over a script now — it paces the
+   * steps so the stage can be watched, and gets the panel out of the way
+   * while it does — so the collection it needs has to be openable from
+   * outside. The pair is deliberately narrow: nothing else may read or
+   * write the collector.
+   */
+  beginEventCapture(): void {
+    this.eventCollector = [];
+  }
+
+  /** Stop recording and hand back what was seen. Idempotent. */
+  endEventCapture(): string[] {
+    const seen = this.eventCollector ?? [];
+    this.eventCollector = null;
+    return seen;
+  }
+
+  /**
    * Run an experiment's setup script line by line, collecting the typed
    * event keys the engine emits — the material the codex checker compares
    * against. The run is ordinary bench work: it lands in the feed, the
    * log, and undo like anything else.
+   *
+   * Kept for callers that want the whole script at once and no pacing;
+   * the catalogue uses `runCatalogEntry` instead.
    */
   async runExperiment(text: string): Promise<string[]> {
-    this.eventCollector = [];
+    this.beginEventCapture();
     try {
       for (const raw of text.split("\n")) {
         const line = raw.trim();
         if (!line || line.startsWith("#")) continue;
         if (!(await this.submit(line))) break;
       }
-      return this.eventCollector;
+      return this.eventCollector ?? [];
     } finally {
-      this.eventCollector = null;
+      this.endEventCapture();
     }
   }
 
