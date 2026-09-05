@@ -37,6 +37,7 @@
     aria-label={t("about Kerotakis")}
     onclick={(e) => e.stopPropagation()}
   >
+    <button class="icon-close about-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     <h2>Kerotakis</h2>
     <p class="tagline">{t("a virtual chemistry laboratory that computes real chemistry")}</p>
 
@@ -122,8 +123,6 @@
         </ul>
       </section>
     {/each}
-
-    <button class="close" onclick={onclose}>{t("close")}</button>
   </dialog>
 </div>
 
@@ -135,6 +134,12 @@
     display: grid;
     place-items: center;
     z-index: 60;
+  }
+  .about-close {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    float: right;
   }
   .about {
     /* Tablets: never taller than the viewport, and scroll inside rather
@@ -213,10 +218,5 @@
     margin: 0.3rem 0;
     font-size: 0.85rem;
     line-height: 1.45;
-  }
-  .close {
-    margin-top: 1.2rem;
-    min-height: 2.75rem;
-    width: 100%;
   }
 </style>

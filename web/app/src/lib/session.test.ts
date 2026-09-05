@@ -1564,3 +1564,78 @@ describe("a wrong answer is spoken, not thrown (WORLD-007 host switch)", () => {
     expect(s.feed.at(-1)!.kind).toBe("note");
   });
 });
+
+describe("clearing the bench clears the whole bench", () => {
+  it("empties the journal, the log and the pinned equation, keeping one note", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage());
+    await s.submit("add v1 water 100mL");
+    s.addUserNote("the solution went cloudy");
+    s.lastEquation = "Ag⁺ + Cl⁻ → AgCl";
+    expect(s.feed.length).toBeGreaterThan(1);
+
+    await s.clear();
+
+    // The feed was a record of a bench that no longer exists; leaving it
+    // standing was the visible half of a clear that did not clear.
+    expect(s.feed).toHaveLength(1);
+    expect(s.feed[0]!.kind).toBe("note");
+    expect(s.commandLog).toEqual([]);
+    expect(s.lastEquation).toBeNull();
+    expect(s.benchEquations).toEqual([]);
+    expect(s.latestResult).toBeNull();
+  });
+
+  it("resets bench state the shell holds, like a deployed apparatus", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage());
+    // The burner stands on the stage; App.svelte, not the session, knows it.
+    let burnerOut = true;
+    s.registerBenchExtra({ active: () => burnerOut, reset: () => (burnerOut = false) });
+
+    await s.clear();
+
+    expect(burnerOut).toBe(false);
+  });
+
+  it("offers itself whenever there is anything to clear, and not after", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage());
+    expect(s.clearable).toBe(false);
+
+    // Deployed apparatus alone is something to clear — the command log is
+    // still empty here, which is exactly the state the button used to
+    // refuse to work in.
+    let burnerOut = true;
+    const unregister = s.registerBenchExtra({ active: () => burnerOut, reset: () => (burnerOut = false) });
+    expect(s.clearable).toBe(true);
+    await s.clear();
+    expect(s.clearable).toBe(false);
+
+    unregister();
+    await s.submit("add v1 water 100mL");
+    expect(s.clearable).toBe(true);
+    await s.clear();
+    expect(s.clearable).toBe(false);
+  });
+
+  it("pins the equation without the vessel prefix the engine renders around it", async () => {
+    class ReactingHost extends FakeHost {
+      async runScript(script: string) {
+        this.calls.push(`run:${script}`);
+        return {
+          steps: [{
+            operator: {},
+            events: [],
+            rendered: ["v1: HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑"],
+          }],
+          scene: { scene: 1, vessels: [] } as Scene,
+        };
+      }
+    }
+    const s = new Session(new ReactingHost(), new FakeStorage());
+    await s.submit("add v1 vinegar 10mL");
+    expect(s.lastEquation).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
+    expect(s.benchEquations[0]).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
+  });
+});

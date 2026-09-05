@@ -31,6 +31,7 @@
 </script>
 
 <section class="train" aria-label={t("column train")}>
+  <button class="icon-close corner" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
   <strong>{t("column train")}</strong>
   <span class="hint">{t("cells in flow order, then where solution enters and collects")}</span>
   <div class="roles">
@@ -64,13 +65,13 @@
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
       {t("run the column")}
     </button>
-    <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
   {#if line}<code>{line}</code>{/if}
 </section>
 
 <style>
   .train {
+    position: relative;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--edge);
     background: var(--panel);
@@ -133,16 +134,6 @@
     color: var(--ink);
     font: inherit;
     padding: 0.3rem 0.8rem;
-    cursor: pointer;
-    min-height: 36px;
-  }
-  .close {
-    background: none;
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--dim);
-    font: inherit;
-    padding: 0.3rem 0.7rem;
     cursor: pointer;
     min-height: 36px;
   }

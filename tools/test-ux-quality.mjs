@@ -135,7 +135,7 @@ const learningProgressJourney = async () => {
     return JSON.stringify({ pressed: group?.querySelector('button[aria-pressed="true"]')?.textContent?.trim(), rows: rows.length, allComplete: rows.every((row) => /completed/i.test(row.textContent || "")) });
   })()`));
   check("Experiment completed filter shows only completed rows", /completed/i.test(experiments.pressed || "") && experiments.rows >= 2 && experiments.allComplete, `${experiments.rows} rows`);
-  await page.evaluate(`document.querySelector('dialog.panel button.close')?.click()`);
+  await page.evaluate(`document.querySelector('dialog.panel button.icon-close')?.click()`);
   await waitFor(page, `!document.querySelector('dialog.panel')`, { timeout: 5000 });
 
   await page.evaluate(`document.querySelector('button.brand')?.click()`);
@@ -204,7 +204,7 @@ try {
   await page.evaluate(`document.querySelector('dialog.table-panel button.mode')?.click()`);
   const fullTable = JSON.parse(await periodicAudit());
   check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);
-  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
 
   const dockTargets = JSON.parse(await page.evaluate(`JSON.stringify(
     [...document.querySelectorAll('.actions button')].filter((button) => button.offsetParent)
@@ -231,7 +231,7 @@ try {
   check("the periodic table opens on a phone", await openPeriodicTable());
   const phoneTable = JSON.parse(await periodicAudit());
   check("the phone periodic table stays inside the viewport", phoneTable.viewportOverflow <= 1, `${phoneTable.viewportOverflow}px`);
-  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
 
   // 320 CSS pixels remains a real supported width: compact phones, split
   // views and a 640px browser at 200% zoom all reach it. Audit every pane,
@@ -274,7 +274,7 @@ try {
   check("the periodic table opens with reduced motion", await openPeriodicTable());
   const reducedTable = JSON.parse(await periodicAudit());
   check("reduced motion leaves no running periodic-table animation", reducedTable.animations === 0, `${reducedTable.animations} animations`);
-  await page.evaluate(`document.querySelector('dialog.table-panel button.close')?.click()`);
+  await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
   const inputReady = await waitFor(page, `!document.querySelector('form.bar input')?.disabled`, { timeout: 60000 });
   if (inputReady) {
     await page.evaluate(`(() => {

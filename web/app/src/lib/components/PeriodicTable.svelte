@@ -143,7 +143,7 @@
       >
         {fullTable ? t("show lab table") : t("show all 118 elements")}
       </button>
-      <button class="close" onclick={onclose}>{t("close")}</button>
+      <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     </header>
 
     <label class="search">
@@ -274,16 +274,8 @@
     color: var(--dim);
     font-size: 0.78rem;
   }
-  .close {
+  .icon-close {
     margin-left: auto;
-    background: var(--panel-raised);
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.8rem;
-    padding: 0.25rem 0.7rem;
-    cursor: pointer;
   }
   .mode {
     margin-left: auto;
@@ -296,7 +288,7 @@
     padding: 0.25rem 0.65rem;
     cursor: pointer;
   }
-  .mode + .close {
+  .mode + .icon-close {
     margin-left: 0;
   }
   .grid {

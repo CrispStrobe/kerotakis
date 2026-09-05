@@ -61,7 +61,7 @@
     {#if selectedVessel !== vessel && onretarget}
       <button class="retarget" disabled={busy} onclick={onretarget}>{t("move to selected v{vessel}", { vessel: selectedVessel + 1 })}</button>
     {/if}
-    <button class="icon-close" aria-label={t("put away")} title={t("put away")} onclick={onclose}>×</button>
+    <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
   </div>
   <p class="blurb">{t(spec.blurb)}</p>
   <ApparatusAssembly tool={spec.verb} {values} />
@@ -257,22 +257,6 @@
   .readouts small { color: var(--dim); font-size: 0.63rem; }
   .readouts strong { color: var(--ink); font-size: 0.76rem; white-space: nowrap; }
   .warning { margin: 0; max-width: 15rem; color: var(--danger); font-size: .75rem; font-weight: 750; }
-  .icon-close {
-    width: 28px;
-    height: 28px;
-    display: grid;
-    place-items: center;
-    flex: none;
-    padding: 0;
-    border: 1px solid var(--edge);
-    border-radius: 9px;
-    color: var(--dim);
-    background: var(--surface);
-    font: inherit;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  .icon-close:hover { color: var(--danger); border-color: var(--danger); }
   @media (max-width: 700px) {
     .apparatus {
       position: fixed;

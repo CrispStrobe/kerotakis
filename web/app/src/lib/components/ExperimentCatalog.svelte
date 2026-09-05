@@ -138,7 +138,7 @@
       <header>
         <h2>{t("experiments")}</h2>
         <span class="hint">{t("{count} from the codex — each one computed, checked, and yours to break", { count: entries.length })}</span>
-        <button class="close" onclick={onclose}>{t("close")}</button>
+        <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
       <nav class="tabs">
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
@@ -236,7 +236,7 @@
       <header>
         <button class="back" onclick={() => (open = null)}>←</button>
         <h2>{t(open.id.replace(/-/g, " "))}</h2>
-        <button class="close" onclick={onclose}>{t("close")}</button>
+        <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
       <nav class="tabs">
         {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as const as [key, label] (key)}
@@ -375,7 +375,6 @@
     color: var(--dim);
     font-size: 0.76rem;
   }
-  .close,
   .back {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
@@ -386,7 +385,7 @@
     padding: 0.25rem 0.7rem;
     cursor: pointer;
   }
-  .close {
+  .icon-close {
     margin-left: auto;
   }
   .list {

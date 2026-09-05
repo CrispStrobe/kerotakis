@@ -26,6 +26,7 @@
     aria-label={t("keyboard shortcuts")}
     onclick={(e) => e.stopPropagation()}
   >
+    <button class="icon-close corner" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     <h2>{t("Keyboard")}</h2>
     <dl>
       {#each keys as [key, what] (key)}
@@ -36,7 +37,6 @@
     <p class="note">
       {t("Every button and drag also works from the keyboard — vessels are buttons, and everything you do is a command you can read back in the notebook.")}
     </p>
-    <button onclick={onclose}>{t("close")}</button>
   </dialog>
 </div>
 
@@ -52,7 +52,7 @@
     z-index: 50;
   }
   .help {
-    position: static;
+    position: relative;
     margin: 0;
     color: var(--ink);
     background: var(--panel);

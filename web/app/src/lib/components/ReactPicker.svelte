@@ -19,6 +19,7 @@
 </script>
 
 <section class="react" aria-label={t("curated reaction on v{vessel}", { vessel: vessel + 1 })}>
+  <button class="icon-close corner" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
   <strong>{t("curated reaction")} · v{vessel + 1}</strong>
   <span class="hint">{t("verified family templates the engine can run")}</span>
   <div class="row">
@@ -29,13 +30,13 @@
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
       {t("run")}
     </button>
-    <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
   {#if line}<code>{line}</code>{/if}
 </section>
 
 <style>
   .react {
+    position: relative;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--edge);
     background: var(--panel);
@@ -68,16 +69,6 @@
     color: var(--ink);
     font: inherit;
     padding: 0.3rem 0.8rem;
-    cursor: pointer;
-    min-height: 36px;
-  }
-  .close {
-    background: none;
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--dim);
-    font: inherit;
-    padding: 0.3rem 0.7rem;
     cursor: pointer;
     min-height: 36px;
   }
