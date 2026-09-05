@@ -47,6 +47,7 @@ use crate::vessel::Vessel;
 #[path = "kinetics_integrator.rs"]
 mod integrator;
 pub mod mechanism;
+pub mod packs;
 
 pub use integrator::{
     advance_network_with_context_and_options, advance_network_with_options, amount_at_extents,

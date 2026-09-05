@@ -51,6 +51,7 @@ pub fn standard_clocks() -> Vec<Box<dyn Clock>> {
         Box::new(ElapsedClock),
         Box::new(DecayClock),
         Box::new(CuratedKineticsClock),
+        Box::new(GasMechanismClock),
         Box::new(FermentationClock),
         Box::new(EnzymeClock),
     ]
@@ -273,6 +274,104 @@ impl Clock for CuratedKineticsClock {
     }
 }
 
+/// BRD-041: the shipped gas-phase mechanism packs, run on any vessel that
+/// holds two or more of a pack's species as gas, with the heat of what
+/// burned applied to an adiabatic vessel.
+///
+/// The integrator is isothermal inside the interval and the heat lands at
+/// its end, as the standard formation-enthalpy difference over what
+/// reacted: no dissociation, no temperature-dependent heat capacity. That
+/// is the same approximation the peroxide step above makes, stated here
+/// because a burn is a bigger number. Where CEA sits in the solver stack
+/// it re-equilibrates the hot products afterwards and owns the flame
+/// temperature; the packs own the time.
+///
+/// Where the rate laws are zero — a cold mixture, a mixture with no
+/// radical to carry a chain, a global step outside its fitted window —
+/// the integrator returns in a handful of evaluations and nothing is
+/// said, which is also what happens on a real bench.
+pub struct GasMechanismClock;
+
+/// Tolerances for a stiff chain: extents in nanomoles and a first step
+/// short enough to see the induction period.
+const GAS_MECHANISM_OPTIONS: crate::kinetics::IntegrationOptions =
+    crate::kinetics::IntegrationOptions {
+        relative_tolerance: 1e-6,
+        absolute_tolerance_moles: 1e-14,
+        initial_step_seconds: 1e-9,
+    };
+
+impl Clock for GasMechanismClock {
+    fn name(&self) -> &'static str {
+        "gas-mechanisms"
+    }
+
+    fn advance(
+        &self,
+        vessel: &mut Vessel,
+        seconds: f64,
+        _ctx: &ClockContext,
+        events: &mut Vec<Event>,
+    ) -> Result<(), IntegrationError> {
+        if seconds <= 0.0 {
+            return Ok(());
+        }
+        for pack in crate::kinetics::packs::shipped() {
+            if !pack.matches(vessel) {
+                continue;
+            }
+            let report = crate::kinetics::advance_network_with_options(
+                vessel,
+                seconds,
+                &pack.network,
+                GAS_MECHANISM_OPTIONS,
+            )?;
+            let mut released_j = 0.0;
+            for (reaction, moles) in &report.extents {
+                if let Some(enthalpy) = pack.reaction_enthalpy_j_per_mol(reaction) {
+                    released_j -= enthalpy * moles.0;
+                }
+                if moles.0.abs() < crate::OBSERVABLE_MOLES {
+                    continue;
+                }
+                events.push(Event::Reacted {
+                    vessel: vessel.id,
+                    reaction: reaction.id.to_string(),
+                    equation: reaction.equation.to_string(),
+                    moles: *moles,
+                    seconds,
+                    catalyst: None,
+                    activation_energy: reaction.forward.arrhenius.activation_energy,
+                });
+            }
+            if released_j.abs() < 1e-9 {
+                continue;
+            }
+            let from = vessel.temperature;
+            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+                let heat_capacity = vessel.heat_capacity();
+                if heat_capacity > 0.0 {
+                    vessel.temperature = Kelvin(from.0 + released_j / heat_capacity);
+                    vessel.refresh_pressure();
+                }
+            }
+            events.push(Event::ReactionHeatReleased {
+                vessel: vessel.id,
+                reaction: pack.id.to_string(),
+                energy_j: released_j,
+            });
+            if (vessel.temperature.0 - from.0).abs() > 1e-9 {
+                events.push(Event::TemperatureChanged {
+                    vessel: vessel.id,
+                    from,
+                    to: vessel.temperature,
+                });
+            }
+        }
+        Ok(())
+    }
+}
+
 /// Yeast on sucrose.
 pub struct FermentationClock;
 
@@ -428,6 +527,7 @@ mod tests {
                 "elapsed",
                 "decay",
                 "curated-kinetics",
+                "gas-mechanisms",
                 "fermentation",
                 "enzymes"
             ]

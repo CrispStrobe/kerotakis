@@ -1381,6 +1381,24 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   temperature/pressure metamorphic cases; bounded runtime in wasm; at least 25
   curiosity prompts graduate from missing to computed.
 
+- **Routing checkpoint (2026-09-05, Fable):** the three packs are compiled
+  into the engine (`kinetics::packs`), renamed onto registry keys where the
+  registry has one (`CH4`→`methane`, `H2O`→`water`), and run by the slow
+  clock as `gas-mechanisms` on any vessel holding two or more of a pack's
+  species as gas — with the heat of what burned applied from the vendored
+  NASA formation enthalpies, cited per species. Two integrator defects had
+  to go first (#404): a Jacobian probe sized by extents rather than by the
+  species it moved, and a depletion gate that flipped a radical's reactions
+  off at ten nanomoles. The hydrogen pack now integrates through ignition
+  in one call. **Precedence, stated honestly:** `cea-thermal` still claims
+  every gas vessel at or above 500 K on the equilibration step itself, so in
+  the standard stack a fuel/air mixture is burned to equilibrium by CEA the
+  moment it is hot, before any `wait` can hand it to a pack; the packs are
+  reached today in CEA-less stacks and in the same `wait` step that CEA then
+  finishes. Separating "sparked or above autoignition" from "500 K" in
+  CEA's gate is the next slice, and moves corpus rows. Radicals and CO enter
+  the ledger by name without a registry identity; CO is a registry gap.
+
 ### BRD-042 — Full Cantera C-API shipping gate
 
 - [ ] **Status:** parked — BRD-040 recorded a **no-go** on 2026-08-29. **Size:**
