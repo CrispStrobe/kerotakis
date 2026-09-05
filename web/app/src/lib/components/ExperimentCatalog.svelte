@@ -12,7 +12,7 @@
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
-  import { experimentHasProgress, experimentMatches, type ExperimentProgressFilter } from "../catalogSearch";
+  import { experimentHasProgress, experimentMatches, experimentProgressLabel, type ExperimentProgressFilter } from "../catalogSearch";
 
   let {
     entries,
@@ -142,11 +142,11 @@
       </header>
       <nav class="tabs">
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
-          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
+          <button class:on={view === key} aria-pressed={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
         <span class="progress-filters" role="group" aria-label={t("completion status")}>
           {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}
-            <button class:on={progress === value} onclick={() => (progress = value)}>{t(label)}</button>
+            <button class:on={progress === value} aria-pressed={progress === value} onclick={() => (progress = value)}>{t(label)}</button>
           {/each}
         </span>
         <input
@@ -203,7 +203,7 @@
                       <button class="entry" onclick={() => openEntry(e)}>
                         <strong>{t(e.id.replace(/-/g, " "))}</strong>
                         <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
-                        <span class="completion">{session.completedExperiments.has(e.id) ? `✓ ${t("completed")}` : t("not tried")}</span>
+                        <span class="completion">{session.completedExperiments.has(e.id) ? "✓ " : ""}{t(experimentProgressLabel(e, session.completedExperiments))}</span>
                       </button>
                     </li>
                     {/if}
@@ -223,7 +223,7 @@
               <button class="entry" onclick={() => openEntry(e)}>
                 <strong>{t(e.id.replace(/-/g, " "))}</strong>
                 <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
-                <span class="completion">{session.completedExperiments.has(e.id) ? `✓ ${t("completed")}` : t("not tried")}</span>
+                <span class="completion">{session.completedExperiments.has(e.id) ? "✓ " : ""}{t(experimentProgressLabel(e, session.completedExperiments))}</span>
               </button>
             </li>
           {/each}

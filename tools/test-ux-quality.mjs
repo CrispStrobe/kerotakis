@@ -84,6 +84,83 @@ const openPeriodicTable = async () => {
   return waitFor(page, `document.querySelector('dialog.table-panel')`, { timeout: 5000 });
 };
 
+const clickButtonContaining = async (text) => page.evaluate(`(() => {
+  const needle = ${JSON.stringify(text)}.toLocaleLowerCase();
+  const button = [...document.querySelectorAll('button')].find((item) =>
+    item.offsetParent && (item.textContent || "").toLocaleLowerCase().includes(needle));
+  button?.click();
+  return Boolean(button);
+})()`);
+
+/** One real-browser journey over persisted learning state. The scoped legacy
+ * keys are a supported bootstrap input; using them before app boot exercises
+ * migration and keeps test-only switches out of the product. */
+const learningProgressJourney = async () => {
+  await page.goto(`${origin}/privacy.html`);
+  await page.evaluate(`(() => {
+    localStorage.clear();
+    localStorage.setItem("kerotakis.mode.v1", "story");
+    localStorage.setItem("kero.mode.story.kero.missions.done.v1", JSON.stringify(["kitchen-hot-and-cold-packs"]));
+    localStorage.setItem("kero.mode.story.kero.codex.done.v1", JSON.stringify(["hot-pack", "cold-pack"]));
+  })()`);
+  await page.goto(`${origin}/app/`);
+  await waitFor(page, `document.querySelector('.story-destination .destination-meta')?.textContent.includes('missions') && !document.querySelector('.story-destination .destination-meta')?.textContent.includes('arriving')`, { timeout: 60000 });
+
+  check("the Mission Board opens with seeded progress", await clickButtonContaining("Mission Board")
+    && await waitFor(page, `document.querySelector('dialog.story-map')`, { timeout: 5000 }));
+  const story = JSON.parse(await page.evaluate(`(() => {
+    const dialog = document.querySelector('dialog.story-map');
+    const next = dialog?.querySelector('button.next-investigation strong')?.textContent?.trim() || "";
+    const selected = dialog?.querySelector('button.district[aria-pressed="true"]');
+    return JSON.stringify({ next, selected: selected?.textContent?.trim() || "" });
+  })()`));
+  check("Story exposes its Next investigation and selected district", Boolean(story.next && story.selected), `${story.selected}: ${story.next}`);
+  check("the Experiment Library opens from the Mission Board", await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('dialog.story-map footer button')]
+      .find((item) => /experiment library/i.test(item.textContent || ""));
+    button?.click(); return Boolean(button);
+  })()`)
+    && await waitFor(page, `document.querySelector('dialog.panel .progress-filters')`, { timeout: 5000 }));
+  await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length > 0`, { timeout: 5000 });
+  const experimentInitial = JSON.parse(await page.evaluate(`(() => {
+    const group = document.querySelector('dialog.panel .progress-filters');
+    return JSON.stringify({ name: group?.getAttribute('aria-label'), selected: group?.querySelectorAll('button[aria-pressed="true"]').length });
+  })()`));
+  check("Experiment completion filters expose one accessible selected state", Boolean(experimentInitial.name) && experimentInitial.selected === 1);
+  await page.evaluate(`document.querySelector('dialog.panel .progress-filters button:last-child')?.click()`);
+  await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length >= 2`, { timeout: 5000 });
+  const experiments = JSON.parse(await page.evaluate(`(() => {
+    const group = document.querySelector('dialog.panel .progress-filters');
+    const rows = [...document.querySelectorAll('dialog.panel .entry .completion')].filter((item) => item.offsetParent);
+    return JSON.stringify({ pressed: group?.querySelector('button[aria-pressed="true"]')?.textContent?.trim(), rows: rows.length, allComplete: rows.every((row) => /completed/i.test(row.textContent || "")) });
+  })()`));
+  check("Experiment completed filter shows only completed rows", /completed/i.test(experiments.pressed || "") && experiments.rows >= 2 && experiments.allComplete, `${experiments.rows} rows`);
+  await page.evaluate(`document.querySelector('dialog.panel button.close')?.click()`);
+  await waitFor(page, `!document.querySelector('dialog.panel')`, { timeout: 5000 });
+
+  await page.evaluate(`document.querySelector('button.brand')?.click()`);
+  await waitFor(page, `document.querySelector('button.kids-node')`, { timeout: 5000 });
+  await waitFor(page, `!document.querySelector('button.kids-node small')?.textContent.includes('syncing')`, { timeout: 60000 });
+  check("the KIDS catalog opens", await page.evaluate(`(() => { const button = document.querySelector('button.kids-node'); button?.click(); return Boolean(button); })()`)
+    && await waitFor(page, `document.querySelector('dialog #kids-title')`, { timeout: 5000 }));
+  await waitFor(page, `[...document.querySelectorAll('dialog article h2')].some((item) => /Hot pack and cold pack/i.test(item.textContent || ""))`, { timeout: 5000 });
+  const kids = JSON.parse(await page.evaluate(`(() => {
+    const cards = [...document.querySelectorAll('dialog article')];
+    const card = cards.find((item) => /Hot pack and cold pack/i.test(item.querySelector('h2')?.textContent || ""));
+    const chips = document.querySelector('dialog .chips');
+    return JSON.stringify({
+      progress: card?.querySelector('.learning-progress')?.getAttribute('data-progress'),
+      count: card?.querySelector('.learning-progress strong')?.textContent?.trim(),
+      replayLesson: /replay guided lesson/i.test(card?.textContent || ""),
+      replayCodex: (card?.textContent?.match(/replay Codex investigation/gi) || []).length,
+      selected: chips?.querySelectorAll('button[aria-pressed="true"]').length,
+    });
+  })()`));
+  check("KIDS reports all linked learning and Replay actions", kids.progress === "all" && kids.count === "3/3" && kids.replayLesson && kids.replayCodex === 2, `${kids.progress} ${kids.count}`);
+  check("KIDS status chips expose one accessible selected state", kids.selected === 1, `${kids.selected} selected`);
+  await page.evaluate(`document.querySelector('dialog header button[aria-label="close"]')?.click()`);
+};
+
 const periodicAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.table-panel');
   const options = [...(panel?.querySelectorAll('[role="option"]') || [])];
@@ -100,8 +177,15 @@ const periodicAudit = () => page.evaluate(`(() => {
 
 try {
   await viewport(1440, 900);
+  await learningProgressJourney();
   await page.goto(`${origin}/app/`);
   check("the desktop bench opens", await openSandbox());
+  await waitFor(page, `document.querySelector('.observation-status')?.textContent?.trim().length > 0`, { timeout: 60000 });
+  const observationStatus = JSON.parse(await page.evaluate(`(() => {
+    const status = document.querySelector('.observation-status');
+    return JSON.stringify({ live: status?.getAttribute('aria-live'), atomic: status?.getAttribute('aria-atomic'), words: status?.textContent?.trim().length || 0 });
+  })()`));
+  check("vessel observations have one polite atomic live status", observationStatus.live === "polite" && observationStatus.atomic === "true" && observationStatus.words > 0);
   const desktop = JSON.parse(await layoutAudit());
   check("desktop has no page-level horizontal overflow", desktop.bodyOverflow <= 1, `${desktop.bodyOverflow}px`);
   check("desktop cabinet, bench, and journal are present", Boolean(desktop.cabinet && desktop.bench && desktop.journal));

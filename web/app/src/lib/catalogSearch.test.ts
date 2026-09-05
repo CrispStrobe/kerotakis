@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { equipmentMatches, experimentHasProgress, experimentMatches, normalizeCatalogText, reagentMatches } from "./catalogSearch";
+import { equipmentMatches, experimentHasProgress, experimentMatches, experimentProgressLabel, normalizeCatalogText, reagentMatches } from "./catalogSearch";
 
 const water = { key: "water", name: "water", formula: "H2O" };
 
@@ -56,6 +56,15 @@ describe("experimentHasProgress", () => {
     expect(experimentHasProgress(entry, completed, "completed")).toBe(true);
     expect(experimentHasProgress(entry, completed, "not-tried")).toBe(false);
     expect(experimentHasProgress({ id: "new-result" }, completed, "not-tried")).toBe(true);
+  });
+
+  it("partitions a mixed catalog and labels both states", () => {
+    const entries = [{ id: "known-result" }, { id: "new-result" }, { id: "another-result" }];
+    expect(entries.filter((item) => experimentHasProgress(item, completed, "all"))).toHaveLength(3);
+    expect(entries.filter((item) => experimentHasProgress(item, completed, "completed"))).toEqual([entries[0]]);
+    expect(entries.filter((item) => experimentHasProgress(item, completed, "not-tried"))).toEqual(entries.slice(1));
+    expect(experimentProgressLabel(entries[0]!, completed)).toBe("completed");
+    expect(experimentProgressLabel(entries[1]!, completed)).toBe("not tried");
   });
 });
 

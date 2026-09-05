@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { missionDistrictId, missionId, missionTitle, nextUnlockedMission, storyDistricts, type MissionSummary } from "./storyProgress";
+import { continuationLabel, missionDistrictId, missionId, missionTitle, nextUnlockedMission, storyDistricts, type MissionSummary } from "./storyProgress";
 
 const missions: MissionSummary[] = [
   { file: "silver-and-salt.lab", name: "silver and salt", topic: "start here" },
@@ -53,5 +53,10 @@ describe("story progression", () => {
     const continuation = nextUnlockedMission(missions, new Set(["silver-and-salt", "never-mix"]));
     expect(missionDistrictId(missions, new Set(["silver-and-salt", "never-mix"]), continuation)).toBe("matter-gardens");
     expect(missionDistrictId(missions, new Set(), null)).toBeNull();
+  });
+
+  it("labels an active mission Continue and a selected successor Next", () => {
+    expect(continuationLabel(missions[1]!, "never-mix")).toBe("continue investigation");
+    expect(continuationLabel(missions[2]!, "never-mix")).toBe("next investigation");
   });
 });
