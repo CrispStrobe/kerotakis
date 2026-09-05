@@ -265,13 +265,14 @@ fn dry_ice_cools_the_water_it_is_dropped_into() {
 
     let after = vessel_of(&bench).temperature.0;
     let drop = before - after;
-    // 6.85 K is the latent heat alone; the dry ice also arrives at
-    // 194.65 K and warms, which costs the water another ~1.3 K (carried at
-    // the solid's heat capacity, a stated half-kelvin over-count against
-    // the gas's — see `phase_route::ledger`).
+    // The latent heat alone: the dry ice arrives at 194.65 K, but its
+    // own heat capacity leaves with the gas when the route settles the
+    // vessel from the sublimation point, so the water pays 25.2 kJ/mol
+    // and nothing for warming the sample — the kitchen-thermometer figure
+    // the tranche's own sanity check quotes.
     assert!(
-        (drop - 8.2).abs() < 0.3,
-        "5 g of dry ice cools 100 g of water by ~8.2 K (6.85 latent + its own cold), got {drop:.2} K"
+        (drop - 6.85).abs() < 0.15,
+        "5 g of dry ice cools 100 g of water by 6.85 K, got {drop:.2} K"
     );
     assert!(
         moles(&bench, "dry_ice", Phase::Solid) < 1e-9,
