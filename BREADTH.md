@@ -1322,6 +1322,47 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - [ ] **Status:** first slice shipped (2026-09-05); the residual-EOS half
   remains blocked on BRD-031's uncleared parameter pack. **Size:** large.
   **Depends on:** BRD-031.
+- **Adsorption checkpoint (2026-09-05) — a dye on a lump of charcoal.**
+  `bio-103` ("can activated charcoal remove a food dye from water?") had
+  been left `missing` twice on purpose, and the corpus README records why:
+  the species alone would have parsed and then answered **wrongly**, because
+  `filter` keeps solids and pours the solution, so the carbon would come out
+  and every molecule of dye go through with the water. A confident wrong
+  answer about what removes a dye is worse than `unknown-species`. So the row
+  moved only when the adsorption became real.
+  `crates/kerotakis-core/src/adsorption.rs` holds one curated **Langmuir
+  isotherm** — methyl orange on activated charcoal, a monolayer capacity in
+  mg per g and an affinity in L per mg — solved against the vessel's own mass
+  balance by bisection. What it binds lives in a new `Vessel::adsorbed`
+  ledger **outside `contents`**, which is the whole mechanism: `filter`
+  rewrites `contents` and touches nothing else, so what is held on the
+  retained solid is retained with it and the filtrate carries only what was
+  still dissolved. `Vessel::mass` weighs the bound amount, or every
+  adsorption would read as matter leaving the beaker.
+  **BOTH CURATED PARAMETERS ARE PENDING REVIEW**, and the row's `source`
+  says so: published monolayer capacities for this pair spread over most of
+  an order of magnitude with the carbon's activation and the pH, and the
+  affinity is chosen so the knee of the isotherm sits below classroom
+  concentrations. **The answer is a partial one and the event carries both
+  halves** — 1 g of carbon at 200 mg/g cannot hold the 327 mg of dye this
+  script pours on it, so about three fifths comes out and two fifths stays,
+  and `Event::Adsorbed` reports the loading and the remainder together
+  because either alone would mislead.
+  Deliberately NOT the PHREEQC surface machinery in `vessel::SurfaceSites`:
+  that is a hydrous-ferric-oxide model with a closed sorbate enum whose bound
+  ions re-enter the aqueous element totals, and no shipped database speciates
+  an azo dye, so routing one through it would borrow a thermodynamic claim
+  nobody made. What is NOT claimed here: any rate (Langmuir is an
+  equilibrium, so the split is reached in the step the carbon arrives and
+  `wait` does not move it), pore size, specific area, competition between two
+  dyes, or a pH term.
+  **One thing the row still cannot do, and it is worth knowing before
+  quoting it:** `look v2` cannot SHOW the difference. Methyl orange's
+  spectrum is pH-dependent and this vessel has no electrolyte, so no
+  solution is characterised and the filtrate reads "colourless" whether or
+  not the carbon did anything. The row is answered by the adsorption event
+  and the ledger, not by the colour word. A dye whose colour survives an
+  uncharacterised solution is a separate change.
 - **Pressure-dependent boiling checkpoint (2026-09-05):** the bench boiled
   water at 100 °C in a vacuum flask and at 100 °C in a pressure cooker,
   because `states::transitions` took a molality and nothing else. That is

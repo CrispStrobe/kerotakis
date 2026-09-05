@@ -1381,6 +1381,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // BRD-023: a quest can claim that a named metal got a corrosion
         // verdict — `corroded:Zn` — without claiming which way it went.
         E::Corroded { species, .. } => ("corroded", Some(species.0.as_str())),
+        // BRD-032: a quest can claim that a named dye was taken up —
+        // `adsorbed:methyl_orange` — without claiming how much of it.
+        E::Adsorbed { sorbate, .. } => ("adsorbed", Some(sorbate.0.as_str())),
         // BRD-041: a quest can claim that a named fuel was found below its
         // autoignition temperature — `below_autoignition:methane`.
         E::BelowAutoignition { fuel, .. } => ("below_autoignition", Some(fuel.0.as_str())),

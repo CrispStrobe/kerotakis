@@ -959,6 +959,30 @@ pub enum Event {
         corroding: bool,
         why: String,
     },
+    /// BRD-032: a sorbent solid is holding some of a dissolved species on
+    /// its surface, and the beaker's own solution is what is left.
+    ///
+    /// It carries both halves on purpose. "The charcoal adsorbed the dye"
+    /// is the sentence a demonstration wants and is the one that misleads:
+    /// a gram of carbon has a finite capacity, and whether it took most of
+    /// the dye or a tenth of it is the whole answer to "can charcoal
+    /// remove a food dye from water". So the loading and the remainder are
+    /// reported together, and neither can be read without the other.
+    Adsorbed {
+        vessel: VesselId,
+        sorbate: SpeciesId,
+        sorbent: SpeciesId,
+        /// Moles now held on the surface.
+        held: Moles,
+        /// Milligrams of sorbate per gram of sorbent — the number an
+        /// isotherm is quoted in, and the one that says whether the
+        /// carbon is saturated.
+        loading_mg_per_g: f64,
+        /// Moles still in solution, which is what a filtration pours.
+        still_dissolved: Moles,
+        /// What the curated isotherm does NOT claim.
+        boundary: String,
+    },
     /// BRD-041: a fuel stands with oxygen, warm, but below its
     /// autoignition temperature and without a spark — so nothing burns,
     /// and that is an answer. The thermal solver says this instead of

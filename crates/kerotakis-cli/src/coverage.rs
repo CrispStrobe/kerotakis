@@ -614,6 +614,14 @@ fn execute_prompt(
                     // real answer, so it is deliberately absent from
                     // `typed_observation` below.
                     | Event::PolymerHeated { .. }
+                    // BRD-032: so is an adsorption split. Listed HERE
+                    // and deliberately not in `typed_observation`
+                    // below, for the same reason the corrosion verdict
+                    // is: it should stop a prompt being called
+                    // `missing` when the isotherm answered it, and it
+                    // should not outrank a computed route that was the
+                    // real answer.
+                    | Event::Adsorbed { .. }
                     // BRD-041: "warm, with oxygen, and not burning" is an
                     // answer about a fuel, in the same class as `Inert`.
                     | Event::BelowAutoignition { .. }
@@ -743,10 +751,23 @@ fn execute_prompt(
     // route is the acid or the base speciating, not the polymer doing
     // anything, and there "the polymer is unchanged" IS the answer. Those
     // two stay qualitative, which is what they are.
+    // The same "aside, not instead" rule again, and this time the aside
+    // and the answer are about the SAME solid. A gram of activated
+    // charcoal in dye solution truly does not dissolve, and the honesty
+    // pass says so; then the isotherm computes how much of the dye it
+    // holds. The remark is about the carbon's solubility and the answer
+    // is about the dye's, so the first must not be allowed to file the
+    // row as a typed observation and hide the second. Narrow on purpose:
+    // an `Adsorbed` event is the only thing that lifts it, exactly as a
+    // succeeded curated route is the only thing that lifts the clause
+    // above.
     let inert_beside_curated = all_events
         .iter()
         .any(|event| matches!(event, Event::Inert { .. } | Event::InertInSolvent { .. }))
-        && succeeded(SolverRouteKind::Curated);
+        && (succeeded(SolverRouteKind::Curated)
+            || all_events
+                .iter()
+                .any(|event| matches!(event, Event::Adsorbed { .. })));
     if typed_observation && !plated_beside_an_aside && !inert_beside_curated {
         return Ok(result(
             prompt,

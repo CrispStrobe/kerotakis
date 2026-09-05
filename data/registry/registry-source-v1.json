@@ -1487,6 +1487,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/activated_charcoal",
+      "citation": "Activated charcoal, and a SEPARATE row from `C` (carbon (charcoal)) on purpose rather than the same substance under another name. What makes an activated carbon adsorb is its pore structure and its specific surface area - typically several hundred to over a thousand square metres per gram - and NEITHER IS A PROPERTY THIS REGISTRY CARRIES. The two rows differ in what the engine will do with them: the curated Langmuir isotherm in crates/kerotakis-core/src/adsorption.rs names this key and not `C`, and that difference is the entire content of the distinction. Molar mass from IUPAC/CIAAW 2021 atomic weights over one carbon atom; the composition is written as C because that is what the material is made of, and it is not a claim that the solid is a molecule. No InChIKey is asserted for the same reason. The density, 2.1 g/mL, is the SKELETAL density of the carbon itself and is PENDING REVIEW: it is recorded as commonly tabulated, no positively identified source is claimed, and it is emphatically NOT the poured bulk density of a granular carbon, which is several times lower because most of the volume is pore and void - so a volume or buoyancy answer computed from this row describes the carbon skeleton and not a spoonful of powder. The molar heat capacity is graphite's and is a teaching approximation. A reviewed aqueous solubility of zero is entered so the bench can say the carbon does not dissolve instead of apologising for not knowing, and unlike a solid that is being consumed, that sentence stays true for the whole of a run: adsorption holds a dye on the carbon and does not eat the carbon.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -4106,6 +4115,20 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/dry_ice",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "activated_charcoal",
+      "canonical_key": "legacy:species/activated_charcoal",
+      "name": "activated charcoal",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/activated_charcoal",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -21340,6 +21363,71 @@
       },
       "evidence": {
         "source_id": "legacy/dry_ice",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/activated_charcoal",
+      "species_id": "activated_charcoal",
+      "formula": "C",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/activated_charcoal",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/activated_charcoal",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -40085,6 +40173,96 @@
           "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
+    },
+    {
+      "id": "molar-mass/activated_charcoal",
+      "species_id": "activated_charcoal",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 12.011,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/activated_charcoal",
+      "species_id": "activated_charcoal",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 8.5,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/activated_charcoal",
+      "species_id": "activated_charcoal",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -47225,6 +47403,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/dry_ice",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/activated_charcoal",
+      "species_id": "activated_charcoal",
+      "phase": "solid",
+      "appearance": "black",
+      "flame_colour": null,
+      "reflective_srgb": "#141212",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/activated_charcoal",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -55713,6 +55907,105 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/activated_charcoal",
+      "subject": {
+        "kind": "species",
+        "id": "activated_charcoal"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/activated_charcoal",
+      "subject": {
+        "kind": "species",
+        "id": "activated_charcoal"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/activated_charcoal",
+      "subject": {
+        "kind": "species",
+        "id": "activated_charcoal"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/activated_charcoal",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

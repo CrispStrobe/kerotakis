@@ -1162,7 +1162,12 @@ material_class = "dye_solution"
 owning_task = "BRD-032"
 tags = ["activated_charcoal", "adsorption"]
 script = ["add v1 water 100mL", "add v1 methyl_orange 0.001mol", "add v1 activated_charcoal 1g", "filter v1 v2", "look v2"]
-parse_boundary = "unknown_species"
+# BRD-032 landed the carbon AND a curated Langmuir isotherm, in that order
+# of importance: the species alone would have parsed and then answered
+# wrongly, because `filter` keeps solids and pours the solution, so the
+# charcoal would have come out and every molecule of dye gone through with
+# the water. The answer is a partial one and the event carries both halves
+# — 1 g of carbon cannot hold all 327 mg of dye this script pours on it.
 smoke = false
 
 [[prompt]]

@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a tenth time (one row, BRD-032's Langmuir isotherm) —
+see below; the row that had been deliberately left open twice is closed, and
+the entry says what `look` still cannot show.
+
 Refreshed 2026-09-05 a ninth time (one row, the two families of
 plastic) — see below.
 
@@ -1653,5 +1657,63 @@ first half of that sentence is true and always will be; the trailing clause
 is the defect. It is recorded in the species' own provenance where a reader
 meets it, and fixing it is a change to `solve.rs`, which this lane did not
 touch.
+
+One drift, no regressions.
+
+
+## 2026-09-05, tenth — the row that was left open twice
+
+`bio-103` ("can activated charcoal remove a food dye from water?") is closed:
+`missing`/`unknown-species` becomes `computed`/`computed-route`. It had been
+left open deliberately in two earlier tranches, and the entry above dated
+2026-09-05 (the fourteen-row materials refresh) states the reason in the
+words this one has to answer to:
+
+> Both would then answer their question **wrongly**: there is no adsorption
+> model, so the charcoal would be filtered out and the dye would still be in
+> the beaker … A confident wrong answer about what removes a dye … is worse
+> than `unknown-species`.
+
+So the species was not the fix and was never added alone.
+`crates/kerotakis-core/src/adsorption.rs` carries one curated **Langmuir
+isotherm** for methyl orange on activated charcoal, and what it binds lives
+in a new `Vessel::adsorbed` ledger outside `contents`. That placement is the
+mechanism, not an implementation detail: `filter` rewrites `contents` and
+touches nothing else, so what is held on the retained carbon is retained with
+it, and the filtrate carries only what was still dissolved. `Vessel::mass`
+weighs the bound amount, so nothing disappears.
+
+**The answer is partial, and the event says both halves.** One gram of carbon
+at a 200 mg/g monolayer cannot hold the 327 mg of dye this script pours on
+it: about three fifths comes out of solution and two fifths stays. "The
+charcoal adsorbed the dye" is the sentence a demonstration wants and is the
+one that misleads, so `Event::Adsorbed` reports the loading in mg/g beside
+the moles still dissolved and neither can be read without the other.
+
+**Both curated parameters are pending review.** Published monolayer
+capacities for this pair spread over most of an order of magnitude with the
+carbon's activation and the solution pH; 200 mg/g is a mid-range
+laboratory-grade value recorded as commonly tabulated, and the affinity is
+chosen so the knee of the isotherm sits below classroom concentrations.
+Neither is transcribed from a positively identified paper and neither claims
+to be.
+
+**What `look v2` still cannot show, and this is the part to read before
+quoting the closure.** Methyl orange's spectrum is pH-dependent, this vessel
+has no electrolyte, and no shipped database speciates an azo dye — so no
+solution is characterised, the renderer has no pH to pick a spectrum with,
+and **the filtrate reads "colourless" whether or not the carbon did
+anything**. The row is answered by the adsorption event and the ledger, not
+by the colour word its script asks for. A dye that keeps its colour in an
+uncharacterised solution is a separate change and is not made here.
+
+The reason code is `computed-route` rather than `typed-observation`, and one
+classifier rule moved to make that true. The honesty pass truly says the
+carbon does not dissolve, and that remark used to file the row as a typed
+observation and hide the isotherm behind it. The existing "an aside is extra,
+not instead" rule — written for a plated metal beside a true remark about
+overpotential — now also lifts an `Inert` that stands beside an `Adsorbed`.
+It is the same argument: the remark is about the carbon's solubility and the
+answer is about the dye's.
 
 One drift, no regressions.
