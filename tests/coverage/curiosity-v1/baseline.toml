@@ -1883,8 +1883,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-064"
 owning_task = "EXP-15"
-outcome = "qualitative"
-reason_code = "typed-observation"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-065"
@@ -3001,3 +3001,4 @@ id = "th-125"
 owning_task = "BRD-041"
 outcome = "boundary"
 reason_code = "out-of-scope-scale"
+

@@ -683,19 +683,30 @@ fn execute_prompt(
     // unambiguously the result beside an aside that is unambiguously not,
     // so only that case is claimed. The measurement said the guard was
     // wider than the evidence, which is the whole reason to measure.
-    let plated_beside_an_aside = all_events
-        .iter()
-        .any(|event| matches!(event, Event::Plated { .. } | Event::CellVoltage { .. }))
-        && all_events.iter().all(|event| {
-            !matches!(
-                event,
-                Event::Smelled { .. }
-                    | Event::GasTested { .. }
-                    | Event::FlameTest { .. }
-                    | Event::DidNotIgnite { .. }
-                    | Event::FlameStarved { .. }
-            )
-        });
+    let plated_beside_an_aside = all_events.iter().any(|event| {
+        matches!(
+            event,
+            Event::Plated { .. }
+                    | Event::CellVoltage { .. }
+                    // Electrolytic plating is plating. `mat-064` asks why
+                    // copper plates onto one electrode and the bench plates
+                    // 0.0047 mol of it, but the solvent-electrolysis path
+                    // reports that as `Electrolysed` rather than `Plated`,
+                    // so the guard above could not see it. The same
+                    // omission as `CellVoltage` before it: the list
+                    // enumerates result-events and was missing one.
+                    | Event::Electrolysed { .. }
+        )
+    }) && all_events.iter().all(|event| {
+        !matches!(
+            event,
+            Event::Smelled { .. }
+                | Event::GasTested { .. }
+                | Event::FlameTest { .. }
+                | Event::DidNotIgnite { .. }
+                | Event::FlameStarved { .. }
+        )
+    });
     // The same "aside, not instead" rule, for the one other event that
     // is a remark rather than a result. An `Inert` fires at the step that
     // adds the substance, when it is TRUE: starch really does not dissolve
