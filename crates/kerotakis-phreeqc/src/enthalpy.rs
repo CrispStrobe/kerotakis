@@ -132,14 +132,6 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     ("H2SO4", &[("H+", 2.0), ("SO4-2", 1.0)]),
 ];
 
-/// Species the engine is asked about at start-up, because a database file
-/// may state its equilibrium as a temperature expression rather than a
-/// `delta_h` line. pitzer states almost all of them that way.
-///
-/// Short on purpose: everything else the balance meets is either a master
-/// species, which is zero by definition, or written out in the file.
-pub const ENGINE_BASIS_SPECIES: &[&str] = &["OH-", "HCO3-", "CO3-2", "H2CO3", "CO2", "NH3", "NH4+"];
-
 /// A species the balance cannot price, named so the refusal can say which.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Unpriced {
@@ -148,20 +140,6 @@ pub struct Unpriced {
 }
 
 /// The enthalpy of one aqueous species relative to the master basis.
-fn aqueous_enthalpy_with(
-    key: &str,
-    db_tag: &str,
-    engine: Option<&std::collections::HashMap<String, f64>>,
-) -> Option<f64> {
-    // The engine's answer first where there is one: it is the same
-    // quantity, computed from whatever form the database states, and it is
-    // the only source for a dataset that states no `delta_h` at all.
-    if let Some(dh) = engine.and_then(|m| m.get(key)) {
-        return Some(*dh);
-    }
-    aqueous_enthalpy(key, db_tag)
-}
-
 fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     let idx = derived::index_for(db_tag);
     if key == "water" || key == "H2O" {
@@ -190,16 +168,6 @@ fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
 
 /// The enthalpy of one portion's species, kJ/mol, relative to the basis.
 pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Unpriced> {
-    species_enthalpy_with(key, phase, db_tag, None)
-}
-
-/// As `species_enthalpy`, consulting the engine-supplied basis first.
-pub fn species_enthalpy_with(
-    key: &str,
-    phase: Phase,
-    db_tag: &str,
-    engine: Option<&std::collections::HashMap<String, f64>>,
-) -> Result<f64, Unpriced> {
     let idx = derived::index_for(db_tag);
     match phase {
         // A gas is priced by the reaction that dissolves it, reversed.
@@ -239,7 +207,7 @@ pub fn species_enthalpy_with(
                 })?;
             let mut sum = 0.0;
             for (product, n) in products {
-                let h = aqueous_enthalpy_with(product, db_tag, engine).ok_or(Unpriced {
+                let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
                     species: (*product).to_string(),
                     why: "a dissociation product the routed database does not define",
                 })?;
@@ -252,7 +220,7 @@ pub fn species_enthalpy_with(
         // of MIXING to `hmix`, where it already lives, rather than counting
         // it twice.
         Phase::Liquid | Phase::Aqueous => {
-            if let Some(h) = aqueous_enthalpy_with(key, db_tag, engine) {
+            if let Some(h) = aqueous_enthalpy(key, db_tag) {
                 return Ok(h);
             }
             // Already dissolved, and the database spells it only as its
@@ -268,7 +236,7 @@ pub fn species_enthalpy_with(
                 })?;
             let mut sum = 0.0;
             for (product, n) in products {
-                let h = aqueous_enthalpy_with(product, db_tag, engine).ok_or(Unpriced {
+                let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {
                     species: (*product).to_string(),
                     why: "a dissociation product the routed database does not define",
                 })?;
@@ -336,21 +304,7 @@ pub fn heat_released_j(
     oh_after: f64,
     gas_out: &[(String, f64)],
     db_tag: &str,
-    engine: Option<&std::collections::HashMap<String, f64>>,
 ) -> Result<f64, Unpriced> {
-    // A database that does not state reaction enthalpies cannot supply a
-    // basis, and must say so ONCE and plainly rather than half-answer.
-    // pitzer gives its equilibria as `-analytic` temperature expressions;
-    // most of what a brine holds would then fall through to "it is a master
-    // species, therefore zero" and the sum would look like an answer.
-    if aqueous_enthalpy_with("OH-", db_tag, engine).is_none() {
-        return Err(Unpriced {
-            species: "OH-".to_string(),
-            why: "this database states its equilibria as analytic temperature \
-                  expressions rather than reaction enthalpies, so it cannot \
-                  price a heat at all",
-        });
-    }
     let mut delta = tally(after);
     for (k, n) in tally(before) {
         *delta.entry(k).or_insert(0.0) -= n;
@@ -384,7 +338,7 @@ pub fn heat_released_j(
     // Hydroxide SHRINKING needs no such licence — that is neutralisation,
     // and what consumed it is the acid, which is priced already.
     if d_oh.abs() > NEGLIGIBLE {
-        let h = aqueous_enthalpy_with("OH-", db_tag, engine).ok_or(Unpriced {
+        let h = aqueous_enthalpy("OH-", db_tag).ok_or(Unpriced {
             species: "OH-".to_string(),
             why: "the routed database does not define hydroxide",
         })?;
@@ -436,12 +390,12 @@ pub fn heat_released_j(
             continue;
         }
         let h = if key == "__free_hydroxide" {
-            aqueous_enthalpy_with("OH-", db_tag, engine).ok_or(Unpriced {
+            aqueous_enthalpy("OH-", db_tag).ok_or(Unpriced {
                 species: "OH-".to_string(),
                 why: "the routed database does not define hydroxide",
             })?
         } else {
-            species_enthalpy_with(key, phase_of(*phase), db_tag, engine)?
+            species_enthalpy(key, phase_of(*phase), db_tag)?
         };
         d_h_kj += h * moved;
     }
@@ -491,7 +445,7 @@ mod tests {
             portion("Na+", 0.1, Phase::Aqueous),
             portion("Cl-", 0.1, Phase::Aqueous),
         ];
-        let q = heat_released_j(&before, 0.1, &after, 0.0, &[], DB, None).expect("priced");
+        let q = heat_released_j(&before, 0.1, &after, 0.0, &[], DB).expect("priced");
         // 0.1 mol x -55.81 kJ/mol of enthalpy lost = that much heat out.
         assert!(
             (q - 5581.0).abs() < 1e-6,
@@ -512,7 +466,7 @@ mod tests {
             portion("Na+", 0.02, Phase::Aqueous),
             portion("CH3COO-", 0.02, Phase::Aqueous),
         ];
-        let q = heat_released_j(&before, 0.0, &after, 0.0, &[("CO2".into(), 0.02)], DB, None)
+        let q = heat_released_j(&before, 0.0, &after, 0.0, &[("CO2".into(), 0.02)], DB)
             .expect("priced");
         let kj_per_mol = -q / 1000.0 / 0.02;
         // This is the ION half only — bicarbonate meeting an acid and
@@ -539,7 +493,7 @@ mod tests {
             portion("Cl-", 0.1, Phase::Aqueous),
             portion("glitter", 1.0, Phase::Solid),
         ];
-        assert!(heat_released_j(&before, 0.1, &after, 0.0, &[], DB, None).is_ok());
+        assert!(heat_released_j(&before, 0.1, &after, 0.0, &[], DB).is_ok());
     }
 
     /// But one that MOVES stops the balance, by name, rather than being
@@ -548,7 +502,7 @@ mod tests {
     fn something_unpriceable_that_moves_declines_by_name() {
         let before = [portion("glitter", 1.0, Phase::Solid)];
         let after = [portion("glitter", 0.5, Phase::Solid)];
-        let err = heat_released_j(&before, 0.0, &after, 0.0, &[], DB, None).expect_err("declines");
+        let err = heat_released_j(&before, 0.0, &after, 0.0, &[], DB).expect_err("declines");
         assert_eq!(err.species, "glitter");
     }
 

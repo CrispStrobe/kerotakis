@@ -187,16 +187,6 @@ pub struct PhreeqcEquilibrator {
     /// Heat of neutralisation per database tag, kJ/mol, asked of the
     /// database the first time that database is used.
     neutralisation: std::collections::HashMap<String, f64>,
-    /// Species reaction enthalpies the DATABASE FILE does not state but
-    /// the engine can still compute, per database tag, kJ/mol.
-    ///
-    /// pitzer is why this exists. It writes its equilibria as `-analytic`
-    /// temperature expressions rather than `delta_h` lines, so parsing the
-    /// file yields nothing for it — but PHREEQC differentiates those
-    /// expressions and answers perfectly well. Without this, every brine
-    /// silently lost its neutralisation heat: 0.1 mol of acid and alkali
-    /// in 100 g of water routes to pitzer and came back 13 K short.
-    engine_species_h: std::collections::HashMap<String, std::collections::HashMap<String, f64>>,
     /// An outside solver, for builds that cannot link IPhreeqc themselves.
     ///
     /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
@@ -638,7 +628,6 @@ impl PhreeqcEquilibrator {
         // dataset that declines to answer simply contributes no
         // neutralisation heat, which is the state the bench was in before.
         let mut neutralisation = std::collections::HashMap::new();
-        let mut engine_species_h = std::collections::HashMap::new();
         for (tag, engine) in [
             ("wateq4f", &mut inorganic),
             ("minteq.v4", &mut organic),
@@ -647,20 +636,6 @@ impl PhreeqcEquilibrator {
             if let Some(dh) = neutralisation_enthalpy(engine) {
                 neutralisation.insert(tag.to_string(), dh);
             }
-            // The same question, asked of the species the heat balance
-            // needs and a file may not spell out. Asked once per dataset
-            // here rather than per solve, and only for this short list:
-            // everything else the balance meets is either a master species
-            // (zero by definition) or stated in the file.
-            let mut basis = std::collections::HashMap::new();
-            for name in enthalpy::ENGINE_BASIS_SPECIES {
-                if let Ok(dh) = engine.species_delta_h(name) {
-                    if dh.is_finite() {
-                        basis.insert((*name).to_string(), dh);
-                    }
-                }
-            }
-            engine_species_h.insert(tag.to_string(), basis);
         }
         Ok(PhreeqcEquilibrator {
             inorganic,
@@ -677,7 +652,6 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation,
-            engine_species_h,
         })
     }
 
@@ -696,7 +670,6 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation: std::collections::HashMap::new(),
-            engine_species_h: std::collections::HashMap::new(),
         })
     }
 
@@ -2229,7 +2202,6 @@ impl PhreeqcEquilibrator {
                 measured_oh,
                 &gas_out,
                 db_tag,
-                self.engine_species_h.get(db_tag),
             ) {
                 Ok(j) => q_joules += j,
                 Err(_unpriced) => {

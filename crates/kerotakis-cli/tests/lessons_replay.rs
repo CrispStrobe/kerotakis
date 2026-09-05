@@ -1104,7 +1104,15 @@ fn household_food_lessons_keep_their_observable_contrasts() {
 #[test]
 fn newly_guided_kids_rows_keep_their_evidence() {
     let cases: &[(&str, &[&str])] = &[
-        ("balloon-pressure.lab", &["290.45 kPa", "1504.05 mL"]),
+        // The balloon lesson IS the volcano, sealed: vinegar onto baking
+        // soda under a piston lid. Since the aqueous heat balance, the
+        // reaction carries its own endothermicity, so the bottle cools
+        // 25.0 -> 23.6 °C and the gas figures move with it (290.45 kPa and
+        // 1504.05 mL before). The cooling is still only about a quarter of
+        // the reaction's, because the CURATED row does most of the
+        // chemistry here and charges no heat yet; these two numbers move
+        // again, further, when that is priced.
+        ("balloon-pressure.lab", &["290.74 kPa", "1504.30 mL"]),
         (
             "grinding-rate-boundary.lab",
             &["ground to 50.0 µm", "carbon dioxide ↑"],
