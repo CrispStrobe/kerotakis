@@ -38,8 +38,10 @@ required_groups = ["carboxylic acid", "alcohol"]
 min = 333.15
 
 # The acid may stand as a portion (a dry ethanol bench) or, after the
-# aqueous tail has dissolved it, as sulfate plus free acidity carried in
-# the vessel's charge; "H+" is the router's name for the latter.
+# aqueous tail has dissolved it, as sulfate plus the free protons the tail
+# MEASURED; "H+" is the router's name for the latter, counted as present
+# at 1e-3 mol/L (pH 3) — the loose protons, not the titratable total, so a
+# beaker of vinegar (two hundred times fewer loose) is not a catalyst.
 [family.gates.catalyst]
 any_of = { keys = ["H2SO4", "H+"] }
 
@@ -51,9 +53,10 @@ source = "Berthelot & Péan de Saint-Gilles (1862): K ≈ 4 for acetic acid + et
 id = "alkaline-ester-hydrolysis"
 version = 1
 smirks = "[C:1](=[O:2])[O:3][C:4].[OH-:5]>>[C:1](=[O:2])[O-:5].[OH:3][C:4]"
-# "OH-" is the router's charge-backed hydroxide: after a solve the tail
-# keeps a strong base as Na+ plus alkalinity, not as an NaOH portion. A
-# freshly poured NaOH portion still matches, through its [OH-] fragment.
+# "OH-" is the hydroxide the aqueous tail measured: after a solve the tail
+# keeps a strong base as Na+ plus the free hydroxide it found, not as an
+# NaOH portion. A freshly poured NaOH portion still matches, through its
+# [OH-] fragment.
 substrates = ["ethyl_acetate", "OH-"]
 priority = 0
 confidence = "curated_family"

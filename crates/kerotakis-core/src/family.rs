@@ -308,30 +308,43 @@ pub fn lint_record(record: &FamilyRecord) -> Vec<String> {
 
 const TRACE: f64 = 1e-12;
 
-/// Free hydroxide, as the aqueous tail leaves it. After a solve the tail
+/// Free hydroxide, as the aqueous tail MEASURES it. After a solve the tail
 /// does not keep a strong base as a portion: it writes back `Na+` and
-/// carries the alkalinity as a positive `solute_charge`, because an `OH-`
-/// portion beside the water would double-count water's own hydrogen and
-/// oxygen. A record whose substrate is hydroxide therefore names this key,
-/// and the router backs it with the charge — the same convention the
-/// neutralisation extent in `displacement.rs` already leans on.
+/// persists the hydroxide it found in the species distribution as
+/// [`Vessel::free_hydroxide`]. A record whose substrate is hydroxide names
+/// this key and the router backs it with that measurement.
+///
+/// Not with the charge. The first version of this key read
+/// `solute_charge > 0` as free base, and net charge is free base only in a
+/// vessel of strong electrolytes: a bicarbonate solution carries its charge
+/// excess as carbonate alkalinity and a beaker handed a bare cation carries
+/// it as nothing at all — both would have opened a hydroxide gate on a
+/// vessel nobody added a base to. The tail measures; the router reads.
 pub const FREE_HYDROXIDE: &str = "OH-";
-/// Free strong acidity, symmetric with [`FREE_HYDROXIDE`]: the tail leaves
-/// `SO4-2` and a negative charge where sulfuric acid was poured. Weak acids
-/// stay portions and are named as themselves; this key is only the strong
-/// acid the tail has dissociated, so a beaker of vinegar does not open a
-/// gate that asks for sulfuric acid.
+/// Free protons, symmetric with [`FREE_HYDROXIDE`] and measured the same
+/// way ([`Vessel::free_proton`]). This is the acidity that is LOOSE, not the
+/// titratable total `displacement::unspent_acidity` keeps for the
+/// neutralisation extent: a beaker of vinegar holds two hundred times
+/// fewer free protons than its titratable total suggests, and a catalyst
+/// gate that read the total would call it sulfuric acid.
 pub const FREE_PROTON: &str = "H+";
 
+/// The free-proton concentration at which an acid-catalysed family counts
+/// its catalyst as present: 1e-3 mol/L, pH 3. A concentration rather than
+/// an amount, so the gate says the same thing about a drop of sulfuric acid
+/// in a test tube and in a beaker.
+pub const CATALYTIC_ACIDITY_MOL_PER_L: f64 = 1e-3;
+
 /// How much of `key` the vessel holds for the router's purposes: portions,
-/// plus the charge-backed equivalents for the two virtual keys. A real
-/// `OH-` portion and a positive charge never double-count — a portion of
-/// hydroxide carries its own −1 into the charge sum.
+/// plus the measured free ions for the two virtual keys. A real `OH-`
+/// portion (poured before any solve) and the measurement never double
+/// count, because the tail replaces the portion with the measurement when
+/// it runs.
 fn amount_of(vessel: &Vessel, key: &str) -> f64 {
     let portions = vessel.moles_of(&SpeciesId::new(key)).0;
     match key {
-        FREE_HYDROXIDE => portions + vessel.solute_charge.max(0.0),
-        FREE_PROTON => portions + (-vessel.solute_charge).max(0.0),
+        FREE_HYDROXIDE => portions + vessel.free_hydroxide,
+        FREE_PROTON => portions + vessel.free_proton,
         _ => portions,
     }
 }
@@ -462,9 +475,9 @@ impl<O: StructureOracle> FamilyRouter<O> {
             .filter(|p| p.moles.0 > TRACE)
             .map(|p| p.species.0.clone())
             .chain(
-                // The charge-backed hydroxide: present as a candidate
-                // exactly when the tail left free alkalinity behind.
-                (vessel.solute_charge > TRACE).then(|| FREE_HYDROXIDE.to_string()),
+                // The measured hydroxide: a candidate exactly when the tail
+                // found free base in its last solve.
+                (vessel.free_hydroxide > TRACE).then(|| FREE_HYDROXIDE.to_string()),
             )
             .filter(|k| self.oracle.groups_of(k).is_some())
             .collect();
@@ -581,7 +594,16 @@ impl<O: StructureOracle> FamilyRouter<O> {
             passed.push("ph".to_string());
         }
         if let Some(c) = &g.catalyst {
-            let present = |key: &str| amount_of(vessel, key) > TRACE;
+            // A species is present by amount; free acidity is present by
+            // concentration, so the gate does not depend on the beaker.
+            let present = |key: &str| {
+                if key == FREE_PROTON {
+                    let litres = vessel.liquid_volume().0;
+                    litres > 0.0 && amount_of(vessel, key) / litres >= CATALYTIC_ACIDITY_MOL_PER_L
+                } else {
+                    amount_of(vessel, key) > TRACE
+                }
+            };
             let (ok, wanted) = match c {
                 CatalystGate::Species { key } => (present(key), key.clone()),
                 CatalystGate::AnyOf { keys } => {
@@ -1337,14 +1359,16 @@ mod router_tests {
     }
 
     #[test]
-    fn hydroxide_the_tail_left_as_charge_is_a_substrate() {
-        // What the aqueous tail leaves after dissolving NaOH: sodium as
-        // a portion, the alkalinity as charge, no hydroxide portion.
+    fn hydroxide_the_tail_measured_is_a_substrate() {
+        // What the aqueous tail leaves after dissolving NaOH: sodium as a
+        // portion, the charge, and the hydroxide it measured — no
+        // hydroxide portion.
         let mut v = vessel(
             &[("water", 1.0), ("ethyl_acetate", 0.1), ("Na+", 0.1)],
             340.0,
         );
         v.solute_charge = 0.1;
+        v.free_hydroxide = 0.1;
         let mut r = FamilyRouter::new(FakeOracle, vec![saponification()]);
         assert!(r.applies(&v));
         let events = r.equilibrate(&mut v).unwrap();
@@ -1360,6 +1384,22 @@ mod router_tests {
         assert!(v.solute_charge.abs() < 1e-12, "charge {}", v.solute_charge);
         // Nothing invented: no OH- portion appeared or vanished.
         assert!(v.moles_of(&SpeciesId::new("OH-")).0 < 1e-12);
+    }
+
+    #[test]
+    fn charge_without_measured_hydroxide_opens_nothing() {
+        // A bicarbonate solution, or a beaker handed a bare cation: net
+        // charge excess with no hydroxide in the species distribution.
+        let mut v = vessel(
+            &[("water", 1.0), ("ethyl_acetate", 0.1), ("Na+", 0.1)],
+            340.0,
+        );
+        v.solute_charge = 0.1;
+        v.free_hydroxide = 0.0;
+        let r = FamilyRouter::new(FakeOracle, vec![saponification()]);
+        let e = r.evaluate(&v);
+        assert!(e.ready.is_empty() && e.declined.is_empty() && e.refused.is_empty());
+        assert!(!r.applies(&v));
     }
 
     #[test]
@@ -1394,10 +1434,7 @@ mod router_tests {
             340.0,
         );
         v.solute_charge = crate::displacement::solute_charge(&v);
-        assert_eq!(
-            amount_of(&v, FREE_HYDROXIDE),
-            0.1 + v.solute_charge.max(0.0)
-        );
+        assert_eq!(amount_of(&v, FREE_HYDROXIDE), 0.1 + v.free_hydroxide);
         let mut r = FamilyRouter::new(FakeOracle, vec![saponification()]);
         r.equilibrate(&mut v).unwrap();
         // Exactly the hydroxide there was, not twice it.
@@ -1406,9 +1443,9 @@ mod router_tests {
     }
 
     #[test]
-    fn free_strong_acidity_opens_the_catalyst_gate() {
-        // Sulfuric acid after the tail: sulfate as a portion, the two
-        // protons as charge. The gate asks for H2SO4 or free acidity.
+    fn measured_free_protons_open_the_catalyst_gate_by_concentration() {
+        // Sulfuric acid after the tail: sulfate as a portion, the protons
+        // measured loose. The gate asks for H2SO4 or free acidity at pH 3.
         let mut record = esterification("fake-esterification", 0);
         record.gates.catalyst = Some(CatalystGate::AnyOf {
             keys: vec!["H2SO4".to_string(), FREE_PROTON.to_string()],
@@ -1417,10 +1454,21 @@ mod router_tests {
             &[("CH3COOH", 0.1), ("ethanol", 0.1), ("SO4-2", 0.001)],
             340.0,
         );
-        v.solute_charge = crate::displacement::solute_charge(&v);
-        assert!(v.solute_charge < 0.0, "sulfate alone is a negative charge");
-        let r = FamilyRouter::new(FakeOracle, vec![record]);
+        v.free_proton = 0.002;
+        let r = FamilyRouter::new(FakeOracle, vec![record.clone()]);
         assert!(r.applies(&v), "{:?}", r.evaluate(&v).declined);
+
+        // Vinegar's own loose protons in a litre of water: two hundred
+        // times fewer than its titratable total, and not a catalyst.
+        let mut weak = vessel(
+            &[("CH3COOH", 0.1), ("ethanol", 0.1), ("water", 55.5)],
+            340.0,
+        );
+        weak.free_proton = 4.5e-4;
+        let r = FamilyRouter::new(FakeOracle, vec![record]);
+        let e = r.evaluate(&weak);
+        assert!(e.ready.is_empty());
+        assert_eq!(e.declined[0].gate, "catalyst", "{:?}", e.declined);
     }
 
     #[test]
