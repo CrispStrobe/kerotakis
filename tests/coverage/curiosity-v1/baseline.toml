@@ -2609,8 +2609,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-060"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-061"

@@ -269,8 +269,14 @@ function flameCss(colour: unknown): string | undefined {
 // "large" look like on the bench.
 
 // event.moles — GasEvolved: 0.001 mol is a wisp, 0.1 mol is vigorous.
+// event.moles — GasEvolved/GasContained: a millimole is a few beads on
+// the glass, a tenth of a mole is a rolling fizz. Logarithmic on purpose:
+// a spoon of baking soda in vinegar makes ~0.01 mol of CO₂ (a quarter of
+// a litre of gas), which the old linear ramp drew as two shy bubbles.
 function gasMag(e: EngineEvent): number {
-  return scale(Number(e.moles ?? 0), 0.001, 0.1);
+  const moles = Number(e.moles ?? 0);
+  if (!(moles > 0)) return 0;
+  return scale(Math.log10(moles), Math.log10(0.001), Math.log10(0.1));
 }
 
 // event.moles — Precipitated: 0.0005 mol is a few specks, 0.05 mol is

@@ -791,13 +791,25 @@ impl Bench {
         // A spark held to something that will not burn leaves nothing
         // behind: put the vessel back as it was, and say so.
         if let Operator::Ignite { vessel } = &op {
-            let caught = events.iter().any(|e| match e {
-                Event::Consumed { moles, .. }
-                | Event::GasEvolved { moles, .. }
-                | Event::GasContained { moles, .. }
-                | Event::Precipitated { moles, .. } => moles.0 >= crate::OBSERVABLE_MOLES,
-                Event::ReactionOccurred { .. } => true,
-                _ => false,
+            // Did anything BURN? Only a combustion engine may say so, and
+            // both of them — CEA's Gibbs minimisation and the curated fuel
+            // table — say it the same way: a `ThermalEquilibrium` carrying
+            // the energy the reaction released. Reading "something was
+            // consumed or a gas came off" as fire was wrong: a beaker of
+            // vinegar and baking soda fizzes on every step whether a match
+            // is held over it or not, and that CO₂ was taken as ignition,
+            // so the spark's 1200 K stayed, the water boiled and a lesson
+            // logged "388 °C" over a beaker nothing in which can burn. What
+            // fizzes is not what burns; the acid-base step's products are
+            // kept (they were coming anyway) and only the flame is undone.
+            let caught = events.iter().any(|e| {
+                matches!(
+                    e,
+                    Event::ThermalEquilibrium {
+                        reaction_energy_j: Some(released),
+                        ..
+                    } if *released > 0.0
+                )
             });
             // A chemistry solver may quantify the heat released using its
             // own thermodynamic model. Carry that number on the ignition

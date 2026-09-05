@@ -355,10 +355,17 @@ describe("effectFromEvent", () => {
     expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
   });
 
-  it("doubling moles roughly doubles the magnitude", () => {
+  it("more gas is more fizz, on a logarithmic ramp", () => {
+    // The ramp is logarithmic from 1 mmol to 100 mmol: doubling the gas
+    // adds a fixed step rather than doubling the magnitude, so a spoon of
+    // baking soda's ~0.01 mol of CO₂ (a quarter of a litre) reads as a
+    // real fizz instead of two shy bubbles.
     const small = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.02 });
     const big = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.04 });
-    expect(big!.magnitude).toBeGreaterThan(small!.magnitude * 1.5);
+    expect(big!.magnitude).toBeGreaterThan(small!.magnitude);
+    expect(big!.magnitude - small!.magnitude).toBeCloseTo(Math.log10(2) / 2, 5);
+    const spoon = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.01 });
+    expect(spoon!.magnitude).toBeCloseTo(0.5, 5);
   });
 
   it("scales magnetic stirring from the engine-computed bar tip speed", () => {
