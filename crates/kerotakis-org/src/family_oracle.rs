@@ -119,7 +119,7 @@ impl StructureOracle for ChematicOracle {
             let fragments: Vec<&str> = smiles.split('.').collect();
             for (chosen, fragment) in fragments.iter().enumerate() {
                 let mut trial = substrate_smiles.clone();
-                trial[slot] = fragment;
+                trial[slot] = *fragment;
                 if let Some(products) = run(&template, &trial)? {
                     let spectators: Vec<&str> = fragments
                         .iter()

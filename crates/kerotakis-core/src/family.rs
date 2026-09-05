@@ -685,13 +685,16 @@ fn describe_window(min: Option<f64>, max: Option<f64>) -> String {
     }
 }
 
-/// The two sides of a matched record as (registry key, coefficient):
-/// the structural substrates and products at one each, then the ledger
-/// bridge for the species the structural layer does not model.
-fn sides(record: &FamilyRecord, m: &Matched) -> (Vec<(String, f64)>, Vec<(String, f64)>) {
-    let mut reactants: Vec<(String, f64)> = m.substrates.iter().map(|k| (k.clone(), 1.0)).collect();
+/// One side of a record as (registry key, coefficient) pairs.
+type Side = Vec<(String, f64)>;
+
+/// The two sides of a matched record: the structural substrates and
+/// products at one each, then the ledger bridge for the species the
+/// structural layer does not model.
+fn sides(record: &FamilyRecord, m: &Matched) -> (Side, Side) {
+    let mut reactants: Side = m.substrates.iter().map(|k| (k.clone(), 1.0)).collect();
     reactants.extend(record.ledger_reactants.iter().map(|(k, c)| (k.clone(), *c)));
-    let mut products: Vec<(String, f64)> = m.products.iter().map(|k| (k.clone(), 1.0)).collect();
+    let mut products: Side = m.products.iter().map(|k| (k.clone(), 1.0)).collect();
     products.extend(record.ledger_products.iter().map(|(k, c)| (k.clone(), *c)));
     (reactants, products)
 }

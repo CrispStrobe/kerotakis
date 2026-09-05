@@ -39,7 +39,7 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
         // the IR's "after safety and identity resolution, before the
         // honesty fallback". Products enter the ordinary ledger and the
         // phase, thermal and aqueous routes below take them from there.
-        Box::new(kerotakis_org::family_equilibrator()),
+        Box::new(kerotakis_org::family_oracle::family_equilibrator()),
         // EXP-33: sublimation and hydrate bookkeeping sit beside the
         // curated reactions and before anything aqueous. A hydrate must
         // have decided whether it still holds its water before a solver
