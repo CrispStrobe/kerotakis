@@ -5,6 +5,7 @@ import json
 import pathlib
 import re
 import sys
+import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
@@ -25,6 +26,18 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
     if ids != expected:
         raise ValueError("experiments must contain K01 through K60 exactly, in order")
     counts = {status: 0 for status in ALLOWED_STATUS}
+    curiosity = root / "tests" / "coverage" / "curiosity-v1"
+    manifest = tomllib.loads((curiosity / "manifest.toml").read_text())
+    capability_ids = {
+        prompt["id"]
+        for shard in manifest["shards"]
+        for prompt in tomllib.loads((curiosity / shard).read_text())["prompt"]
+    }
+    codex_ids = {
+        reaction["id"]
+        for source in (root / "codex").glob("*.toml")
+        for reaction in tomllib.loads(source.read_text()).get("reaction", [])
+    }
     for row in rows:
         kid = row["id"]
         for field in ("title", "phenomenon"):
@@ -50,6 +63,10 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
             raise ValueError(f"{kid}: quest link does not exist: {quest}")
         if status in {"declined", "unreachable"} and (lesson or quest):
             raise ValueError(f"{kid}: {status} rows cannot carry a launch link")
+        for field, known in (("capabilities", capability_ids), ("codex", codex_ids)):
+            links = row.get(field, [])
+            if not isinstance(links, list) or not all(isinstance(link, str) and link in known for link in links):
+                raise ValueError(f"{kid}: {field} must contain existing exact identifiers")
     if counts != EXPECTED_STATUS_COUNTS:
         raise ValueError(f"status totals drifted from the audited matrix: {counts}")
     return rows

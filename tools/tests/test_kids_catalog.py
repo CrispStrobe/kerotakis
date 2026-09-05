@@ -27,6 +27,17 @@ class KidsCatalogTests(unittest.TestCase):
         self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))
         self.assertTrue(all(not row.get("lesson") and not row.get("quest") for row in rows if row["status"] in {"declined", "unreachable"}))
 
+    def test_cross_references_are_checked_against_their_sources(self):
+        broken = json.loads(json.dumps(self.document))
+        broken["experiments"][0]["capabilities"] = ["not-a-reviewed-prompt"]
+        with self.assertRaisesRegex(ValueError, "capabilities must contain existing exact identifiers"):
+            MODULE.validate(broken)
+
+        broken = json.loads(json.dumps(self.document))
+        broken["experiments"][0]["codex"] = ["not-a-codex-entry"]
+        with self.assertRaisesRegex(ValueError, "codex must contain existing exact identifiers"):
+            MODULE.validate(broken)
+
 
 if __name__ == "__main__":
     unittest.main()
