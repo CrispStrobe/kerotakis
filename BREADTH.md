@@ -557,6 +557,35 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     which here means the run happened rather than that the question was
     answered. Sublimation and metal-sulfide formation remain absent, and
     those two rows are closed against the parser, not against the science.
+  - `BRD-012.S05` (2026-09-05) — one species and one energy: a block of
+    uranium that warms itself. `th-122` asked whether radioactive decay
+    heats the sample, and the bench had a decay ledger that advanced
+    nuclides on the slow clock and deposited no energy at all, so the row
+    could not be answered even in principle. Each radioactive row in
+    `nuclide::TEACHING_NUCLIDES` now states what ONE of its decays leaves
+    behind — `Deposited::Mev` with its own source, or `Deposited::NotCurated`
+    with the reason there is no reviewed value — and `DecayClock` books that
+    as heat into an adiabatic vessel with `ReactionHeatReleased`. Uranium
+    joins the registry as a species so the block can be weighed, and
+    `nuclide::BULK_RADIONUCLIDES` bridges the chemical contents to the
+    nuclide table, because a tracer is spiked into the ledger and a block of
+    metal is a portion, and those are deliberately separate stores.
+    **`th-122` flips `missing`/`unknown-species` → `computed`/
+    `typed-engine-event`.** THE NUMBERS ARE THE POINT: 1 g decays 1.075e9
+    times a day (12 440 Bq/g, U-238's textbook specific activity), each α
+    depositing 4.270 MeV, for 7.35e-4 J into 0.1162 J/K — 6.3 mK in
+    twenty-four hours. A test that checked only the sign of ΔT would pass
+    with the energy per decay wrong by any factor, so `tests/nuclear.rs`
+    pins the energy per decay and derives the temperature from it. Three
+    boundaries are declared rather than absorbed, each with a test: the
+    ledger stops at Th-234, so this is the first α and NOT the ~51.7 MeV
+    the whole series deposits in secular equilibrium (a factor of twelve);
+    the block is modelled as pure U-238, where natural uranium's activity
+    is about twice that because of U-234; and β rows book the MEAN electron
+    energy with the neutrino's share and any penetrating γ excluded, which
+    the table test enforces against the mass defect. Tc-99m books no heat
+    at all, because an isomeric transition is almost all γ and no reviewed
+    internal-conversion split is recorded — a refusal, not a zero.
 - **Outcome:** at least 300 reviewed identities that a school-age user is likely
   to name, including common gases, acids/bases, salts, metals, minerals, fuels,
   solvents, sugars, fats, monomers, polymers-as-populations, pigments, and

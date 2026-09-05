@@ -176,6 +176,17 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Zn" => &[ActiveMetal],
         "Fe" => &[ActiveMetal],
         "Pb" => &[ActiveMetal],
+        // th-122's block of uranium. The row is chemistry and only
+        // chemistry: uranium sits above hydrogen in the activity series and
+        // displaces it from acid exactly as the five metals above do, and
+        // finely divided uranium is pyrophoric, which is what
+        // `ActiveMetal` already labels `flammable_solid`. THE L0 SCREEN HAS
+        // NO RADIOLOGICAL CLASS, so the one property this species was added
+        // for is the one property this screen does not see. That is wrong
+        // about the world in precisely the way the lead row already says it
+        // is, and it is written down here rather than hidden behind an
+        // empty group list.
+        "uranium" => &[ActiveMetal],
 
         // ── flammable liquids ─────────────────────────────────────
         "ethanol" | "isopropanol" => &[FlammableLiquid],
@@ -575,6 +586,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "propane",
     "chlorophyll",
     "nylon",
+    "uranium",
 ];
 
 struct Incompatibility {
