@@ -1177,9 +1177,9 @@ this section does by hand for the thirty.
 **The re-run also sharpened the classification of what is left.** The
 remaining rows are not one problem:
 
-* **Shelf gaps** — the experiment needs a material the shelf has not got.
-  K10 (honey), K13 (lemon juice), K58 (a superabsorbent polymer), K59
-  (luminol). Each is a recipe or a species with reviewed data, not a model.
+* **Shelf gaps** — the experiment needs a material the shelf has not got:
+  K10 (honey) and K13 (lemon juice). Each is a recipe or a species with
+  reviewed data, not a model.
 * **A species the registry has not got** — K16 and K40 answer with a
   boundary that names its own cause. **I misquoted it in this section when
   I first wrote it**, as "those phases are in minteq.v4.dat but not in this
@@ -1366,14 +1366,14 @@ or a rate in them.
 | K55 | Nothing is lost if nothing escapes | computed | 165 g sealed, 163 g once opened. The conservation lesson, in two numbers |
 | K56 | Bubble mixture that lasts | ~~partial~~ → computed | KID-11 made foam a property of gas meeting a surfactant rather than of one reaction id, so any gas-making vessel with a declared surfactant foams and drains on the recipe's own half-life — 1.375 L falls to 0.866 L over two minutes against a 180-second half-life |
 | K57 | A tower of sugar water | partial | the two solutions mix, which is correct; a slow pour that would not mix is not modelled. KID-13 gave the bench the density of a sugar solution — solute volume included, which it was not before — and KID-19a gave the learner a way to read it, so the *number* a tower would be built on is both right and askable; the layering is the part that is still missing |
-| K58 | Instant snow from a powder | unreachable | no superabsorbent polymer |
-| K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |
+| K58 | Instant snow from a powder | computed | bounded, mass-balanced sodium-polyacrylate water uptake; no swelling time, volume, texture, salinity or pH response |
+| K59 | Luminol light in warm and cold water | partial | computed relative intensity/lifetime comparison for a prepared luminol/peroxide system; not commercial peroxyoxalate glow-stick chemistry, product speciation or photon yield |
 | K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |
 
-**Current shipped-catalog tally (2026-09-05): computed 47 · partial 8 ·
-boundary 1 · declined 2 · unreachable 2.** K14, K39 and K45 now contribute
-guided GUI lessons backed by the prepared-object and aggregate state described
-above; the older audit labels in this narrative remain as history.
+**Current shipped-catalog tally (2026-09-05): computed 48 · partial 9 ·
+boundary 1 · declined 2 · unreachable 0.** K14, K39, K45, K58 and K59 now
+contribute guided GUI lessons backed by explicit prepared-material state; the
+older audit labels in this narrative remain as history.
 
 ## What the second thirty added to the register
 

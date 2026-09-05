@@ -2507,6 +2507,45 @@
       }
     ]
   },
+  "instant-snow": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +0.500 g instant_snow_powder (0 known ingredients)",
+      "v2: +2.7671 mol water",
+      "v2: 0.50 g powder retains 49.9 g water — 99.7 times its dry mass",
+      "v2: The liquid is colourless and clear, a piece of white superabsorbent instant-snow powder is in the beaker."
+    ],
+    "lesson": "instant-snow.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "invisible-ink-boundary": {
     "event_count": 21,
     "events_sample": [
@@ -3275,6 +3314,73 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
+      }
+    ]
+  },
+  "luminol-temperature": {
+    "event_count": 23,
+    "events_sample": [
+      "v1: +20.000 g luminol_glow_solution (0 known ingredients)",
+      "v1: +5.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v1: relative blue-light intensity 1.27; estimated half-life 47.2s at 298.1 K",
+      "v1: 25.0 °C → -71.8 °C",
+      "v1: 2.00 kJ requested; 2.00 kJ removed — time model not yet coupled",
+      "v1: relative blue-light intensity 0.35; estimated half-life 171.7s at 273.1 K",
+      "v2: new vessel",
+      "v2: +20.000 g luminol_glow_solution (0 known ingredients)",
+      "v2: +5.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v2: relative blue-light intensity 1.27; estimated half-life 47.2s at 298.1 K",
+      "v2: 25.0 °C → 121.8 °C",
+      "v2: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
+      "v2: relative blue-light intensity 4.00; estimated half-life 10.7s at 333.1 K",
+      "v1: The liquid is colourless and clear.",
+      "v2: The liquid is colourless and clear.",
+      "v2: 0.000734 mol O2 produced (2.445e-5 mol/s)",
+      "v2: peroxide-decomposition released 72.03 J",
+      "v2: 121.8 °C → 125.3 °C",
+      "v2: 0.0007 mol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: relative blue-light intensity 0.31; estimated half-life 171.7s at 273.1 K"
+    ],
+    "lesson": "luminol-temperature.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00441047,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.26922009,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 201.3692
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0029434,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00073353,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.27068716,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 398.4163
       }
     ]
   },

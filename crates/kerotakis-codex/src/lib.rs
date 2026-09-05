@@ -1297,6 +1297,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Supersaturated { species, .. } => ("supersaturated", Some(species.0.as_str())),
         // KID-14: a quest can claim that the glue turned into slime.
         E::GelFormed { polymer, .. } => ("gel_formed", Some(polymer.0.as_str())),
+        E::PolymerSwelled { .. } => ("polymer_swelled", None),
+        E::ChemiluminescenceObserved { .. } => ("chemiluminescence", None),
         // KID-13: a quest can claim that the mixture went stiff.
         E::Thickened { solid, .. } => ("thickened", Some(solid.0.as_str())),
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),

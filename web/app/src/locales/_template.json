@@ -7,6 +7,10 @@
   "Splitting conductive water: two gases, in a two-to-one ratio": "",
   "lemon cell": "",
   "water electrolysis": "",
+  "instant snow": "",
+  "luminol temperature": "",
+  "superabsorbent instant-snow powder": "",
+  "prepared luminol glow solution": "",
   "A salt pulse through a water column": "",
   "Antimony": "",
   "Arsenic": "",
@@ -444,7 +448,8 @@
   "nylon 6,6 (repeat unit)": "",
   "naked egg osmosis": "",
   "hard water soap scum": "",
-  "apple browning": ""
+  "apple browning": "",
+  "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": ""
  },
  "messages": {
   "Kids Lab": "",

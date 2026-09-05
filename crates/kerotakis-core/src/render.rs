@@ -1025,6 +1025,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::PolymerSwelled { vessel, dry_polymer_g, retained_water_g, swelling_ratio_g_per_g, capacity_g_per_g, saturated } => match register.level() {
+            1 => locale.fill("event.polymer-swelled.lv1", "The powder in {vessel} drinks up the water and becomes a heap of soft, wet snow.", &[("vessel", &vessel.to_string())]),
+            2 => locale.fill("event.polymer-swelled.lv2", "{vessel}: {polymer} g powder retains {water} g water — {ratio} times its dry mass", &[("vessel", &vessel.to_string()), ("polymer", &locale.number(format!("{dry_polymer_g:.2}"))), ("water", &locale.number(format!("{retained_water_g:.1}"))), ("ratio", &locale.number(format!("{swelling_ratio_g_per_g:.1}")))]),
+            _ => locale.fill("event.polymer-swelled.lv3", "{vessel}: bounded equilibrium swelling {ratio} g/g (declared capacity {capacity} g/g; saturated={saturated}); water remains in the conserved ledger, and salinity, pH, particle size and swelling time are outside this teaching model", &[("vessel", &vessel.to_string()), ("ratio", &locale.number(format!("{swelling_ratio_g_per_g:.4}"))), ("capacity", &locale.number(format!("{capacity_g_per_g:.1}"))), ("saturated", &saturated.to_string())]),
+        },
+        Event::ChemiluminescenceObserved { vessel, relative_intensity, half_life_s, elapsed_s, temperature, oxidant_moles } => match register.level() {
+            1 => locale.fill("event.chemiluminescence-observed.lv1", "The mixture in {vessel} glows blue. Warmer mixtures shine more brightly now, but fade sooner.", &[("vessel", &vessel.to_string())]),
+            2 => locale.fill("event.chemiluminescence-observed.lv2", "{vessel}: relative blue-light intensity {intensity}; estimated half-life {half}s at {temp} K", &[("vessel", &vessel.to_string()), ("intensity", &locale.number(format!("{relative_intensity:.2}"))), ("half", &locale.number(format!("{half_life_s:.1}"))), ("temp", &locale.number(format!("{:.1}", temperature.0)))]),
+            _ => locale.fill("event.chemiluminescence-observed.lv3", "{vessel}: bounded luminol-system relative intensity {intensity} after {elapsed} s at {temp} K with {oxidant} mol H2O2; Arrhenius-shaped teaching response, not photon yield or product speciation, and not the peroxyoxalate chemistry of a commercial glow stick", &[("vessel", &vessel.to_string()), ("intensity", &locale.number(format!("{relative_intensity:.4}"))), ("elapsed", &locale.number(format!("{elapsed_s:.1}"))), ("temp", &locale.number(format!("{:.2}", temperature.0))), ("oxidant", &locale.number(format!("{:.6}", oxidant_moles.0)))]),
+        },
         Event::CurdlingChanged {
             vessel,
             material,

@@ -58,6 +58,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, gas_moles: f64) -> Option<Foam
                 | MaterialRole::AcidCurdlingColloid { .. }
                 | MaterialRole::SurfaceColourant { .. }
                 | MaterialRole::ConservedUnresolvedSolid { .. }
+                | MaterialRole::ConservedUnresolvedLiquid
                 | MaterialRole::FermentationCulture { .. }
                 | MaterialRole::CoherentObject
                 | MaterialRole::OsmoticMembrane { .. }

@@ -62,6 +62,8 @@ export interface SceneVessel {
   surface_colours?: SceneSurfaceColour[];
   emulsion?: SceneEmulsion | null;
   curds?: SceneCurds | null;
+  swelling?: SceneSwelling | null;
+  chemiluminescence?: SceneChemiluminescence | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -122,6 +124,21 @@ export interface SceneCurds {
   separation_progress: number;
   solids_mass_g: number;
   srgb: [number, number, number];
+}
+
+export interface SceneSwelling {
+  dry_polymer_g: number;
+  retained_water_g: number;
+  swelling_ratio_g_per_g: number;
+  capacity_g_per_g: number;
+  saturated: boolean;
+}
+
+export interface SceneChemiluminescence {
+  relative_intensity: number;
+  half_life_s: number;
+  elapsed_s: number;
+  temperature_k: number;
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

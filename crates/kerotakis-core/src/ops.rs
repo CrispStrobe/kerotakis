@@ -768,6 +768,26 @@ pub enum Event {
         polymer_grams: f64,
         crosslinker_moles: Moles,
     },
+    /// A declared superabsorbent network retained water without consuming it.
+    PolymerSwelled {
+        vessel: VesselId,
+        dry_polymer_g: f64,
+        retained_water_g: f64,
+        swelling_ratio_g_per_g: f64,
+        capacity_g_per_g: f64,
+        saturated: bool,
+    },
+    /// Light predicted for the declared luminol/peroxide teaching system.
+    /// This is a relative observable, not photon-counting or a glow-stick
+    /// formulation claim.
+    ChemiluminescenceObserved {
+        vessel: VesselId,
+        relative_intensity: f64,
+        half_life_s: f64,
+        elapsed_s: f64,
+        temperature: Kelvin,
+        oxidant_moles: Moles,
+    },
     /// A mortar changed the mean diameter of a solid powder. Surface area
     /// assumes equal spherical particles: A = 6V/d, using registry density.
     Ground {
