@@ -894,6 +894,31 @@ fn a_copper_coin_in_vinegar_and_salt_grows_its_own_green() {
     );
 }
 
+#[test]
+fn lemon_cell_reports_a_bounded_voltage_not_unmeasured_power() {
+    let lesson = lessons_dir().join("lemon-cell.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    assert!(
+        out.contains("unit-activity estimate") && out.contains("open-circuit"),
+        "{out}"
+    );
+    assert!(
+        out.contains("internal resistance, current, power and lifetime are not modeled"),
+        "{out}"
+    );
+    assert!(!out.contains("no cell"), "{out}");
+}
+
+#[test]
+fn conductive_water_electrolysis_reports_both_gases() {
+    let lesson = lessons_dir().join("water-electrolysis.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+    assert!(ok, "lesson replays: {err}");
+    assert!(out.contains("hydrogen") && out.contains("oxygen"), "{out}");
+    assert!(!out.contains("nothing here can be electrolysed"), "{out}");
+}
+
 /// K40: blue vitriol, which turned out to be already working.
 ///
 /// The row carried three complaints and three separate tasks had answered

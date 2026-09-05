@@ -1342,8 +1342,8 @@ or a rate in them.
 | K31 | Pull the iron out of the sand | computed | `magnet v1 v2` moves 3 g of iron and names the quartz left behind. `EXP-1` exactly as promised |
 | K32 | Which plastics float? | ~~silent miss~~ → computed | closed by KID-19b (2026-09-04). Nothing was missing but the comparison: polypropylene at 0.90 g/mL **floats on top**, polystyrene at 1.05 and PET at 1.38 settle and are named where they went, and a floating solid stops counting as turbidity. The registry had all three densities the whole time |
 | K33 | Build a water filter | partial | `filter` works and passes clean water; sand makes no turbidity to remove, so there is no before/after to see (`EXP-4`) |
-| K34 | A battery from a lemon | unreachable | "Nothing happens to the zinc … too unreactive for this", then "the voltmeter reads nothing — one of them isn't a proper half-cell yet". A half-cell needs the metal *and* its own ion; nothing tells a learner that, and the citric-acid lemon has no zinc ion in it |
-| K35 | Split water with electricity | ~~silent miss~~ → honest miss | **stale verdict, corrected 2026-09-04.** It now says why: "neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode". The gap is real — the verb models metal deposition and not 2 H₂O → 2 H₂ + O₂ — but it is no longer silent. The cause is real and shared with K34 — the cell wants a metal electrode standing in its own ion — but at lv1 the only word is "this part of the lab isn't awake yet" |
+| K34 | A battery from a lemon | ~~unreachable~~ → partial | zinc and copper in the lemon surrogate now give a bounded open-circuit estimate from the measured pH. The result explicitly assumes unit zinc-ion activity because none was measured, and does not claim loaded current, power, lifetime or fruit resistance; `lessons/lemon-cell.lab` teaches that distinction |
+| K35 | Split water with electricity | ~~honest miss~~ → computed | conductive water with an inert sulfate electrolyte gives hydrogen and oxygen by Faraday's law in the 2:1 amount ratio; `lessons/water-electrolysis.lab` contrasts that with pure water, which remains correctly refused as an insulator |
 | K36 | Turn an iron nail copper | computed | Fe + CuSO₄ → Cu + FeSO₄, +17 K, orange copper at the bottom. Textbook |
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
@@ -1377,15 +1377,12 @@ thirty separate problems, it is finding the same eight.
 
 ## What the second thirty added to the register
 
-- **KID-18 — a half-cell is not discoverable.** `cell` and `electrolyse`
-  both need a metal standing in a solution of its own ion, and both refuse
-  with a message that is correct at lv3 and mute at lv1. The lemon battery
-  and the electrolysis of water — two of the best-known experiments there
-  are — are unreachable, and there is no inert-electrode concept for the
-  second. `lessons/electrolysis.lab` ships under the title "Electrolysis of
-  copper sulfate: Faraday's law" and produces the refusal rather than the
-  law: the balance reads 204.40 g before and after. That is a second lesson
-  whose headline claim does not reproduce, exactly like KID-2's.
+- **KID-18 — a half-cell must explain what kind it is.** The ordinary
+  `cell` path still requires a metal in a solution of its own ion. A lemon
+  cell is now a deliberately narrower zinc/acid/copper estimate, labelled
+  with its missing zinc-ion activity and load boundaries. The inert-electrode
+  `electrolyse` path separately splits conductive sulfate water; pure water
+  remains refused because it cannot carry the imposed current.
   *Acceptance:* the shipped lesson demonstrates Faraday's law; an inert
   electrode is something a learner can add; the refusals name what is
   missing at every register.

@@ -696,15 +696,13 @@ fn execute_prompt(
         matches!(
             event,
             Event::Plated { .. }
-                    | Event::CellVoltage { .. }
-                    // Electrolytic plating is plating. `mat-064` asks why
-                    // copper plates onto one electrode and the bench plates
-                    // 0.0047 mol of it, but the solvent-electrolysis path
-                    // reports that as `Electrolysed` rather than `Plated`,
-                    // so the guard above could not see it. The same
-                    // omission as `CellVoltage` before it: the list
-                    // enumerates result-events and was missing one.
-                    | Event::Electrolysed { .. }
+                | Event::CellVoltage { .. }
+                | Event::AcidMetalCellVoltage { .. }
+                // Electrolytic plating is plating. `mat-064` asks why
+                // copper plates onto one electrode and the bench plates
+                // 0.0047 mol of it, but the solvent-electrolysis path
+                // reports that as `Electrolysed` rather than `Plated`.
+                | Event::Electrolysed { .. }
         )
     }) && all_events.iter().all(|event| {
         !matches!(

@@ -249,3 +249,20 @@ fn electrolysis_operating_point_is_german_and_keeps_numeric_evidence() {
     assert!(line.contains("Kupfer"), "{line}");
     assert!(!line.contains(" A for "), "{line}");
 }
+
+#[test]
+fn bounded_acid_metal_cell_is_german_and_names_its_assumption() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+
+    let event = Event::AcidMetalCellVoltage {
+        anode: VesselId(0),
+        cathode: VesselId(1),
+        volts: 0.652,
+        ph: 1.86,
+    };
+    let rendered = render_event_in(&event, Register::LV2, Locale::parse("de"));
+    assert!(rendered.contains("Einheitsaktivität"), "{rendered}");
+    assert!(rendered.contains("0,652 V"), "{rendered}");
+    assert!(rendered.contains("Innenwiderstand"), "{rendered}");
+}
