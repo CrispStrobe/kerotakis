@@ -20,39 +20,6 @@ pub struct SwellingObservation {
     pub saturated: bool,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::vessel::{UnresolvedMaterialPortion, VesselId};
-    use crate::{Phase, SpeciesId};
-
-    #[test]
-    fn uptake_is_water_limited_and_conserves_the_ledger() {
-        let mut vessel = Vessel::new(VesselId(0), "beaker");
-        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
-            material: "instant snow".into(),
-            recipe_id: RECIPE_ID.into(),
-            recipe_version: 1,
-            basis: MaterialBasis::MassFraction,
-            amount: 1.0,
-            enzyme_hydrolysis: None,
-        });
-        vessel.deposit(
-            SpeciesId::new("water"),
-            crate::Moles(50.0 / 18.01528),
-            Phase::Liquid,
-        );
-        let water_before: f64 = vessel.contents.iter().map(|p| p.moles.0).sum();
-        let seen = observe(&vessel).unwrap();
-        assert!((seen.swelling_ratio_g_per_g - 50.0).abs() < 0.01);
-        assert!(!seen.saturated);
-        assert_eq!(
-            water_before,
-            vessel.contents.iter().map(|p| p.moles.0).sum::<f64>()
-        );
-    }
-}
-
 /// Observe equilibrium uptake without moving or creating matter.
 ///
 /// `100 g/g` is a conservative teaching capacity, not a product
@@ -85,4 +52,37 @@ pub fn observe(vessel: &Vessel) -> Option<SwellingObservation> {
         capacity_g_per_g: CAPACITY_G_PER_G,
         saturated: retained_water_g + 1e-9 >= dry_polymer_g * CAPACITY_G_PER_G,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::vessel::{UnresolvedMaterialPortion, VesselId};
+    use crate::{Phase, SpeciesId};
+
+    #[test]
+    fn uptake_is_water_limited_and_conserves_the_ledger() {
+        let mut vessel = Vessel::new(VesselId(0), "beaker");
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "instant snow".into(),
+            recipe_id: RECIPE_ID.into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 1.0,
+            enzyme_hydrolysis: None,
+        });
+        vessel.deposit(
+            SpeciesId::new("water"),
+            crate::Moles(50.0 / 18.01528),
+            Phase::Liquid,
+        );
+        let water_before: f64 = vessel.contents.iter().map(|p| p.moles.0).sum();
+        let seen = observe(&vessel).unwrap();
+        assert!((seen.swelling_ratio_g_per_g - 50.0).abs() < 0.01);
+        assert!(!seen.saturated);
+        assert_eq!(
+            water_before,
+            vessel.contents.iter().map(|p| p.moles.0).sum::<f64>()
+        );
+    }
 }
