@@ -93,6 +93,35 @@ ISO date. A rate constant without a source cannot be merged.
   understates a real, slow reaction — it is not a claim that dry carbon
   monoxide cannot burn.
 
+## What the tests can and cannot demonstrate
+
+The packs are validated as **data** — parsed, compiled, unit-checked,
+balance-checked, provenance-checked — and then exercised dynamically over
+a **bounded early-chain window** of half a microsecond, not through an
+ignition transient.
+
+That boundary is the engine's, not the packs'. `kinetics_integrator.rs`
+hands diffsol a matrix-free Jacobian whose finite-difference probe is one
+scalar for the whole extent vector, sized from `(1 + ‖x‖∞)`. A radical
+chain has extents spanning nine orders of magnitude at once, so a probe
+sized for the millimole extents linearises the nanomole ones across their
+entire range; the Newton iteration fails, and on the H₂/O₂ pack it
+exhausts its failure budget at about 2.7 µs — right where the chain
+starts to run away. The `.max(0.0)` clamp on reconstructed amounts puts a
+second corner in the same right-hand side.
+
+So the endpoint claims here are established against **CEA
+thermodynamics** rather than by integrating to one, and the kinetic tests
+assert what a bounded window can honestly show: the right direction, atom
+conservation, the metamorphic responses, and that the kinetic route never
+passes the equilibrium the thermodynamics allows — which is true at every
+instant, not only at the end.
+
+Two exits exist for whoever takes this further: a component-scaled
+Jacobian probe in the extent integrator, or the CVODE path that already
+exists in `kerotakis-sundials` and is API-compatible with
+`advance_network_with_options`.
+
 ## The packs
 
 | File | Steps | Kind | What it is for |
