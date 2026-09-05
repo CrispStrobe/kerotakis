@@ -1134,7 +1134,7 @@ reason_code = "computed-route"
 id = "bio-064"
 owning_task = "BRD-023"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-065"
@@ -1230,7 +1230,7 @@ reason_code = "computed-route"
 id = "bio-080"
 owning_task = "BRD-052"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-081"

@@ -1459,6 +1459,16 @@ behind a solver.
   not applied**: no row in that table carries a curated reaction enthalpy, so
   the vessel's temperature does not move.
 
+Both land on `computed`/`computed-route`, and the reason code is worth
+reading carefully rather than banking. **The computed route is the aqueous
+chemistry of the PRODUCTS, not the reaction.** `bio-064` makes acetic acid
+and water, and minteq.v4 can speciate acetate, so a real solve follows the
+verb; `bio-080` makes carbon dioxide and water, and the carbonate system
+solves. The curated verb is what answered the question; the solver is what
+happened next. This is the same shape as `bio-063` and unlike `bio-062`,
+whose ester and water give the aqueous tail nothing to work on and which
+therefore records the weaker `typed-engine-event`.
+
 Neither row carries a SMIRKS template. `kerotakis-org` has templates for the
 ester pair only, and the differential test in
 `crates/kerotakis-org/tests/template_oracle.rs` proves those two rows by
