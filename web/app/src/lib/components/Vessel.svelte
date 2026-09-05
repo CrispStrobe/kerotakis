@@ -1153,16 +1153,21 @@
     {/if}
 
     {#if vessel.bubbling && liquidH > 0}
-      {@const bMag = mag("vent", 2600)}
-      {@const bCount = Math.max(2, Math.round(2 + bMag * 4))}
-      {@const bRadius = 1.6 + bMag * 1.4}
-      {#each Array.from({length: bCount}, (_, i) => INNER_X + 6 + (i / Math.max(1, bCount - 1)) * (INNER_W - 12)) as x, i (i)}
+      <!-- GUI-059: the fizz is sized by the gas the step actually made. Two
+           staggered columns of bubbles so a real effervescence reads as a
+           curtain rising through the liquid, not a row of beads; the count,
+           size and tempo all follow the magnitude. -->
+      {@const bMag = mag("vent", 4000)}
+      {@const bCount = Math.max(3, Math.round(3 + bMag * 11))}
+      {@const bRadius = 1.2 + bMag * 1.6}
+      {@const bPeriod = 2.4 - bMag * 1.2}
+      {#each Array.from({length: bCount}, (_, i) => INNER_X + 5 + (i / Math.max(1, bCount - 1)) * (INNER_W - 10)) as x, i (i)}
         <circle
           class="bubble"
           cx={x}
-          cy={BOTTOM_Y - 4}
-          r={bRadius}
-          style={`--rise:${liquidH - 8}px; animation-delay:${i * 0.35}s`}
+          cy={BOTTOM_Y - 4 - (i % 3) * 3}
+          r={bRadius * (0.7 + ((i * 7) % 5) * 0.12)}
+          style={`--rise:${liquidH - 8}px; animation-duration:${bPeriod}s; animation-delay:${(i * 0.37) % bPeriod}s`}
         />
       {/each}
     {/if}
