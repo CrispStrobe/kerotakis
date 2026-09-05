@@ -1118,6 +1118,11 @@ pub struct AcidMetalCell {
 }
 
 pub fn acid_zinc_copper_cell(a: &Vessel, b: &Vessel) -> Option<AcidMetalCell> {
+    // This fallback is for an explicitly acidic fruit/electrolyte cell, not
+    // every solution whose numerical pH happens to sit microscopically below
+    // neutral after equilibration. Keeping the bound at pH 4 also prevents a
+    // copper-in-brine vessel from overriding the ordinary half-cell refusal.
+    const MAX_ACID_CELL_PH: f64 = 4.0;
     let zinc_a = moles_in(a, "Zn", Phase::Solid) > crate::OBSERVABLE_MOLES;
     let zinc_b = moles_in(b, "Zn", Phase::Solid) > crate::OBSERVABLE_MOLES;
     let copper_a = moles_in(a, "Cu", Phase::Solid) > crate::OBSERVABLE_MOLES;
@@ -1128,11 +1133,11 @@ pub fn acid_zinc_copper_cell(a: &Vessel, b: &Vessel) -> Option<AcidMetalCell> {
         _ => return None,
     };
     let (anode, cathode) = if anode_is_first { (a, b) } else { (b, a) };
-    if anode.solution.as_ref()?.ph >= 7.0 {
+    if anode.solution.as_ref()?.ph > MAX_ACID_CELL_PH {
         return None;
     }
     let ph = cathode.solution.as_ref()?.ph;
-    if !ph.is_finite() || ph >= 7.0 {
+    if !ph.is_finite() || ph > MAX_ACID_CELL_PH {
         return None;
     }
     let hydrogen_volts = -nernst_slope(cathode.temperature) * ph;

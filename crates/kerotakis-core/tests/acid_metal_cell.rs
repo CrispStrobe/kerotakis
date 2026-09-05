@@ -32,4 +32,11 @@ fn the_bounded_path_does_not_turn_arbitrary_metal_or_neutral_water_into_a_lemon_
     assert!(displacement::acid_zinc_copper_cell(&zinc, &copper).is_none());
     let iron = acidic_metal(0, "Fe", 2.0);
     assert!(displacement::acid_zinc_copper_cell(&iron, &copper).is_none());
+
+    let mildly_acidic_zinc = acidic_metal(0, "Zn", 5.0);
+    let mildly_acidic_copper = acidic_metal(1, "Cu", 5.0);
+    assert!(
+        displacement::acid_zinc_copper_cell(&mildly_acidic_zinc, &mildly_acidic_copper).is_none(),
+        "the fruit-cell fallback is deliberately bounded to acidic media"
+    );
 }
