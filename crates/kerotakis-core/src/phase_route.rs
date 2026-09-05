@@ -410,11 +410,6 @@ fn spend_pool(vessel: &mut Vessel, pool: &mut f64, events: &mut Vec<Event>) {
     });
 }
 
-/// The molar heat capacity the registry gives a species, J/(mol·K).
-fn molar_cp(key: &str) -> f64 {
-    crate::species::lookup(&SpeciesId::new(key)).map_or(0.0, |d| d.heat_capacity)
-}
-
 /// What a latent-heat transition costs, and what the vessel can spend.
 ///
 /// `budget` is the heat available to the transition, in joules, measured
@@ -458,7 +453,7 @@ struct Ledger {
 /// temperature, and the heat it gives back warms everything present.
 fn ledger(
     vessel: &Vessel,
-    condensed: &str,
+    _condensed: &str,
     latent: Option<f64>,
     inventory: f64,
     now: f64,
