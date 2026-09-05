@@ -482,6 +482,11 @@ naphthalene = "Naphthalin"
 "smelled.lv3" = "{vessel}: zufächeln (gelehrte Technik — niemals direktes Einatmen): {list}. Geruchsbegriffe sind redaktionelle Auswahl im Register der qualitativen Analyse"
 "state-changed.lv2" = "{vessel}: {name} {verb} bei {c} °C — {shifted_by} °C {direction} als reines {name}, wegen der darin gelösten Stoffe"
 "state-changed.lv3" = "{vessel}: {name} {from} → {to} bei {at} K ({c} °C), um {shifted_by} K durch gelöste Teilchen verschoben"
+"boiling-point-routed.lv1" = "Der Druck über {vessel} ist kein gewöhnlicher Luftdruck, deshalb siedet das {name} bei {c} °C."
+"boiling-point-routed.lv1-unrouted" = "Der Druck über {vessel} liegt außerhalb dessen, wofür dieses Labor Messwerte hat, deshalb siedet das {name} weiterhin bei {c} °C."
+"boiling-point-routed.lv2" = "{vessel}: bei {pressure} kPa siedet das {name} bei {c} °C — {shifted_by} °C {direction} als bei einer Atmosphäre"
+"boiling-point-routed.lv2-unrouted" = "{vessel}: bei {pressure} kPa decken keine freigegebenen Messwerte das {name} ab, daher gilt weiterhin sein Siedepunkt von {c} °C bei einer Atmosphäre"
+"boiling-point-routed.lv3" = "{vessel}: {name} Siedepunkt {boiling} K bei {pressure} kPa; Route {route}; Modell {model}; Druckverschiebung {shifted_by} K"
 "stirred.lv3" = "{vessel}: rühren {rpm} rpm × {seconds} s; Rührstab {bar_length_m} mm; Spitzengeschwindigkeit {tip_speed_m_s} m/s; resuspendiert {resuspended_fraction}%; Ratenkopplung {coupling}"
 "thermal-equilibrium.lv2" = "{vessel}: thermisches Gleichgewicht bei {temperature} °C"
 "thermal-equilibrium.lv3" = "{vessel}: Gibbs-Minimum bei {temperature} K · {provenance} · {provenance2}"
@@ -577,6 +582,14 @@ froze = "gefror"
 melted = "schmolz"
 boiled = "siedete"
 "changed state" = "wechselte den Zustand"
+
+# BRD-032: which model set a boiling temperature, for the lv3 register.
+[boiling-route]
+"normal-boiling-point" = "normaler Siedepunkt"
+"cleared-correlation" = "freigegebene Korrelation"
+"pressure-outside-cleared-window" = "Druck außerhalb des freigegebenen Fensters"
+"no-usable-pressure" = "kein verwertbarer Druck"
+"solvent-not-in-pack" = "Lösungsmittel nicht im Parametersatz"
 
 [centrifuged]
 "diameter-assumed" = " (Durchmesser angenommen)"

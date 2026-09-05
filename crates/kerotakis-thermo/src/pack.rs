@@ -163,6 +163,10 @@ pub struct ParameterGap {
 #[derive(Clone, Copy, Debug)]
 pub struct ClearedVapourPressure {
     pub correlation: VapourPressure,
+    /// The name `explain` gives the model when this correlation answers.
+    /// Short enough to sit in a sentence and specific enough that two
+    /// different fits are never reported under one label.
+    pub model: &'static str,
     /// In segment order, same length as `correlation.segments()`.
     pub provenance: &'static [ParameterProvenance],
 }
@@ -213,6 +217,15 @@ pub enum PackRefusal {
         requested_c: f64,
         valid_c: (f64, f64),
     },
+    /// The parameter is cleared, and the *pressure* asked for lies outside
+    /// the interval the correlation spans over its own fitted temperature
+    /// range. Separate from `OutsideValidity` because the caller asked in
+    /// pressure and deserves the boundary back in pressure.
+    OutsidePressureWindow {
+        inchikey: &'static str,
+        requested_kpa: f64,
+        valid_kpa: (f64, f64),
+    },
     /// The parameter is cleared and in range, and the numerics found no
     /// solution. Distinct from every case above on purpose.
     NoSolution {
@@ -229,6 +242,7 @@ impl PackRefusal {
             | Self::NotCleared { parameter, .. }
             | Self::OutsideValidity { parameter, .. }
             | Self::NoSolution { parameter, .. } => *parameter,
+            Self::OutsidePressureWindow { .. } => FluidParameter::SaturationPressure,
         }
     }
 }
@@ -264,6 +278,16 @@ impl fmt::Display for PackRefusal {
                 parameter.as_str(),
                 valid_c.0,
                 valid_c.1
+            ),
+            Self::OutsidePressureWindow {
+                inchikey,
+                requested_kpa,
+                valid_kpa,
+            } => write!(
+                f,
+                "{inchikey}: the cleared saturation-pressure fit spans \
+                 {:.3}..{:.3} kPa, and {requested_kpa:.3} kPa is outside it",
+                valid_kpa.0, valid_kpa.1
             ),
             Self::NoSolution {
                 inchikey,
@@ -344,6 +368,104 @@ impl FluidRow {
         }
     }
 
+    /// The pressure interval this row's cleared correlation actually
+    /// spans, kPa — the saturation pressure at each end of its fitted
+    /// temperature range.
+    ///
+    /// This is the honest domain of [`Self::boiling_point_c_at`], and it is
+    /// narrower than a bench's reach: water's shipped fit stops at 100 °C,
+    /// so it covers a vacuum flask and refuses a pressure cooker.
+    pub fn cleared_pressure_window_kpa(&self) -> Result<(f64, f64), PackRefusal> {
+        let cleared = self
+            .vapour_pressure
+            .as_ref()
+            .ok_or_else(|| self.refuse(FluidParameter::SaturationPressure))?;
+        let (lo, hi) = cleared
+            .correlation
+            .valid_range()
+            .ok_or(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            })?;
+        let low = cleared
+            .correlation
+            .pressure_kpa(lo)
+            .ok_or(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            })?;
+        let high = cleared
+            .correlation
+            .pressure_kpa(hi)
+            .ok_or(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            })?;
+        Ok((low, high))
+    }
+
+    /// The temperature, °C, at which this pure fluid's cleared saturation
+    /// pressure equals `pressure_kpa` — its boiling point at that pressure,
+    /// and equally its condensation point, because for a pure fluid the
+    /// bubble and dew curves are one line.
+    ///
+    /// Bisection rather than an algebraic inversion of Antoine: a piecewise
+    /// correlation has no single closed form, and the same code path must
+    /// answer for one segment and for two. The bracket is the correlation's
+    /// own fitted range, so nothing is extrapolated — a pressure outside the
+    /// window this row spans is refused in pressure rather than clamped.
+    ///
+    /// Deterministic and host-independent: a fixed iteration count on f64
+    /// with no early exit, so native and wasm walk the identical sequence.
+    pub fn boiling_point_c_at(&self, pressure_kpa: f64) -> Result<f64, PackRefusal> {
+        let cleared = self
+            .vapour_pressure
+            .as_ref()
+            .ok_or_else(|| self.refuse(FluidParameter::SaturationPressure))?;
+        if !pressure_kpa.is_finite() || pressure_kpa <= 0.0 {
+            return Err(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            });
+        }
+        let (lo, hi) = cleared
+            .correlation
+            .valid_range()
+            .ok_or(PackRefusal::NoSolution {
+                inchikey: self.identity.inchikey,
+                parameter: FluidParameter::SaturationPressure,
+            })?;
+        let window = self.cleared_pressure_window_kpa()?;
+        if pressure_kpa < window.0 || pressure_kpa > window.1 {
+            return Err(PackRefusal::OutsidePressureWindow {
+                inchikey: self.identity.inchikey,
+                requested_kpa: pressure_kpa,
+                valid_kpa: window,
+            });
+        }
+        let (mut low, mut high) = (lo, hi);
+        for _ in 0..BISECTION_STEPS {
+            let mid = 0.5 * (low + high);
+            match cleared.correlation.pressure_kpa(mid) {
+                Some(p) if p < pressure_kpa => low = mid,
+                Some(_) => high = mid,
+                None => {
+                    return Err(PackRefusal::NoSolution {
+                        inchikey: self.identity.inchikey,
+                        parameter: FluidParameter::SaturationPressure,
+                    })
+                }
+            }
+        }
+        Ok(0.5 * (low + high))
+    }
+
+    /// The label `explain` gives whichever model answers this row's
+    /// saturation questions.
+    pub fn saturation_model(&self) -> Option<&'static str> {
+        self.vapour_pressure.as_ref().map(|cleared| cleared.model)
+    }
+
     /// Saturated-liquid density in g/mL. Nothing is cleared, so this
     /// always refuses; it exists so the refusal is named rather than the
     /// question being unaskable.
@@ -351,6 +473,14 @@ impl FluidRow {
         Err(self.refuse(FluidParameter::LiquidDensity))
     }
 }
+
+/// Bisection steps used to invert a saturation-pressure correlation.
+///
+/// Sixty halvings take a 200 K bracket below 2e-16 K, which is under the
+/// f64 resolution of a bench temperature, so the loop runs to a fixed count
+/// rather than to a tolerance. A fixed count is also what makes the answer
+/// identical on every host: there is no data-dependent early exit to differ.
+const BISECTION_STEPS: usize = 60;
 
 /// Look a row up by Standard InChIKey. The only lookup this module has.
 pub fn row_by_inchikey(inchikey: &str) -> Option<&'static FluidRow> {
@@ -506,6 +636,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::PROPANONE,
+            model: "Antoine (Stull 1947)",
             provenance: PROPANONE_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -536,6 +667,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::ISOPROPANOL,
+            model: "Antoine (Stull 1947)",
             provenance: ISOPROPANOL_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -548,6 +680,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::ETHANOL,
+            model: "Antoine, piecewise (Stull 1947; Susial Badajoz et al. 2026)",
             provenance: ETHANOL_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -569,6 +702,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::METHANOL,
+            model: "Antoine (Stull 1947)",
             provenance: METHANOL_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -581,6 +715,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::ETHANOIC_ACID,
+            model: "Antoine (Stull 1947)",
             provenance: ETHANOIC_ACID_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -611,6 +746,7 @@ pub const CLEARED_FLUIDS: &[FluidRow] = &[
         },
         vapour_pressure: Some(ClearedVapourPressure {
             correlation: crate::vle::WATER,
+            model: "Antoine (Stull 1947)",
             provenance: WATER_PROVENANCE,
         }),
         gaps: CORRELATION_GAPS,
@@ -656,6 +792,9 @@ pub fn lint_row(row: &FluidRow) -> Result<(), Vec<String>> {
         }
         if segments.is_empty() {
             problems.push(format!("{at}: cleared correlation has no segments"));
+        }
+        if cleared.model.is_empty() {
+            problems.push(format!("{at}: cleared correlation carries no model name"));
         }
         for (index, segment) in segments.iter().enumerate() {
             lint_segment(at, index, segment, &mut problems);
@@ -883,6 +1022,143 @@ mod tests {
         assert!(matches!(refusal, PackRefusal::OutsideValidity { .. }));
     }
 
+    /// Every fluid whose cleared window reaches one atmosphere, against the
+    /// normal boiling point a handbook prints. The tolerance is stated
+    /// rather than tuned: 0.4 K is the worst residual of the six fits at
+    /// 1 atm (isopropanol, -0.36 K), and a fit that drifts further than
+    /// that from its own substance's boiling point is not fit for a bench.
+    const NORMAL_BOILING_C: [(&str, f64); 6] = [
+        ("XLYOFNOQVPJJNP-UHFFFAOYSA-N", 100.00),
+        ("LFQSCWFLJHTTHZ-UHFFFAOYSA-N", 78.37),
+        ("OKKJLVBELUTLKV-UHFFFAOYSA-N", 64.70),
+        ("CSCPPACGZOOCGX-UHFFFAOYSA-N", 56.05),
+        ("KFZMGEQAYNKOFK-UHFFFAOYSA-N", 82.60),
+        ("QTBSBXVTEAMEQO-UHFFFAOYSA-N", 117.90),
+    ];
+
+    #[test]
+    fn boiling_rises_with_pressure_for_every_cleared_fluid() {
+        // BRD-032's acceptance criterion, checked inside each fluid's own
+        // cleared window rather than over one shared interval, because the
+        // windows genuinely differ: water's fit stops at 1 atm and
+        // ethanol's reaches ten.
+        for row in rows() {
+            let Ok((low, high)) = row.cleared_pressure_window_kpa() else {
+                continue;
+            };
+            let mut previous = f64::NEG_INFINITY;
+            for step in 0..=20 {
+                let fraction = f64::from(step) / 20.0;
+                let pressure = low + (high - low) * fraction;
+                let boiling = row
+                    .boiling_point_c_at(pressure)
+                    .unwrap_or_else(|e| panic!("{}: {e}", row.identity.species_key));
+                assert!(
+                    boiling > previous,
+                    "{}: {pressure:.3} kPa gave {boiling:.4} °C, not above {previous:.4} °C",
+                    row.identity.species_key
+                );
+                previous = boiling;
+            }
+        }
+    }
+
+    #[test]
+    fn one_atmosphere_reproduces_the_substance_normal_boiling_point() {
+        for (inchikey, literature) in NORMAL_BOILING_C {
+            let row = row_by_inchikey(inchikey).expect("cleared row");
+            let boiling = row
+                .boiling_point_c_at(crate::vle::ATMOSPHERE_KPA)
+                .unwrap_or_else(|e| panic!("{inchikey}: {e}"));
+            assert!(
+                (boiling - literature).abs() <= 0.4,
+                "{}: {boiling:.4} °C against a normal boiling point of {literature} °C",
+                row.identity.species_key
+            );
+        }
+    }
+
+    #[test]
+    fn the_inversion_is_the_correlation_read_backwards() {
+        // A boiling point that does not put the vapour pressure back where
+        // it was asked for is not a boiling point, whatever it looks like.
+        for row in rows() {
+            let Ok((low, high)) = row.cleared_pressure_window_kpa() else {
+                continue;
+            };
+            for step in 1..10 {
+                let pressure = low + (high - low) * f64::from(step) / 10.0;
+                let boiling = row.boiling_point_c_at(pressure).expect("inside the window");
+                let back = row
+                    .saturation_pressure_kpa(boiling)
+                    .expect("the boiling point is inside the fitted range");
+                // 0.2% rather than machine epsilon, and the reason is
+                // ethanol: its two segments meet at 80 °C with a 0.07%
+                // step in pressure, which `valid_range` already bounds at
+                // 1%. A bisection that lands on that join cannot round-trip
+                // more tightly than the join itself, and tightening the
+                // tolerance here would only make the test fail on a
+                // correlation the crate has already accepted.
+                assert!(
+                    (back - pressure).abs() <= 2e-3 * pressure,
+                    "{}: {pressure} kPa -> {boiling} °C -> {back} kPa",
+                    row.identity.species_key
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn a_pressure_outside_the_cleared_window_is_refused_in_pressure() {
+        let water = row_by_inchikey("XLYOFNOQVPJJNP-UHFFFAOYSA-N").expect("water row");
+        let (low, high) = water.cleared_pressure_window_kpa().expect("a window");
+        assert!(low > 0.0 && high > low);
+        // A pressure cooker sits above the shipped fit, and saying so is the
+        // deliverable: the alternative is an extrapolated number that looks
+        // like a measurement.
+        let refusal = water
+            .boiling_point_c_at(2.0 * crate::vle::ATMOSPHERE_KPA)
+            .expect_err("two atmospheres is above water's cleared window");
+        match refusal {
+            PackRefusal::OutsidePressureWindow { valid_kpa, .. } => {
+                assert!((valid_kpa.1 - high).abs() < 1e-12);
+            }
+            other => panic!("expected a pressure-shaped refusal, got {other:?}"),
+        }
+        assert!(refusal.to_string().contains("kPa is outside it"));
+        assert!(water.boiling_point_c_at(0.0).is_err());
+        assert!(water.boiling_point_c_at(f64::NAN).is_err());
+    }
+
+    #[test]
+    fn a_fluid_with_no_cleared_correlation_refuses_a_boiling_point() {
+        for inchikey in [
+            "IJGRMHOSHXDMSA-UHFFFAOYSA-N",
+            "MYMOFIZGZYHOMD-UHFFFAOYSA-N",
+            "CURLTUGMZLYLDI-UHFFFAOYSA-N",
+            "VLKZOEOYAKHREP-UHFFFAOYSA-N",
+            "XEKOWRVHYACXOJ-UHFFFAOYSA-N",
+        ] {
+            let row = row_by_inchikey(inchikey).expect("identity row");
+            let refusal = row
+                .boiling_point_c_at(crate::vle::ATMOSPHERE_KPA)
+                .expect_err("nothing is cleared for this fluid");
+            assert!(matches!(refusal, PackRefusal::NotCleared { .. }));
+            assert!(row.saturation_model().is_none());
+            assert!(row.cleared_pressure_window_kpa().is_err());
+        }
+    }
+
+    #[test]
+    fn every_cleared_row_names_the_model_that_speaks_for_it() {
+        for row in rows() {
+            if row.vapour_pressure.is_some() {
+                let model = row.saturation_model().expect("a cleared row names a model");
+                assert!(model.contains("Antoine"), "{model}");
+            }
+        }
+    }
+
     #[test]
     fn the_lint_refuses_a_row_with_no_source() {
         const SOURCELESS: Antoine = Antoine {
@@ -907,6 +1183,7 @@ mod tests {
             },
             vapour_pressure: Some(ClearedVapourPressure {
                 correlation: VapourPressure::Antoine(SOURCELESS),
+                model: "",
                 provenance: NO_PROVENANCE,
             }),
             gaps: &[],
@@ -919,5 +1196,6 @@ mod tests {
         assert!(joined.contains("not a Standard InChIKey"), "{joined}");
         assert!(joined.contains("liquid density"), "{joined}");
         assert!(joined.contains("residual equation of state"), "{joined}");
+        assert!(joined.contains("carries no model name"), "{joined}");
     }
 }
