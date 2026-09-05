@@ -1006,3 +1006,43 @@ fn household_food_lessons_keep_their_observable_contrasts() {
         }
     }
 }
+
+/// The KIDS catalog links these boundary and comparison lessons because their
+/// actual outputs teach the row. A successful parse alone would not protect
+/// that contract.
+#[test]
+fn newly_guided_kids_rows_keep_their_evidence() {
+    let cases: &[(&str, &[&str])] = &[
+        ("balloon-pressure.lab", &["290.45 kPa", "1504.05 mL"]),
+        (
+            "grinding-rate-boundary.lab",
+            &["ground to 50.0 µm", "Bubbles!"],
+        ),
+        (
+            "lemonade-indicator.lab",
+            &["liquid is blue", "liquid is orange"],
+        ),
+        (
+            "antacid-suspension.lab",
+            &["0.0150 mol  magnesium hydroxide Solid"],
+        ),
+        ("salt-or-sugar-ice.lab", &["-3.19 °C", "1.59 °C"]),
+        ("flame-colour-series.lab", &["bright yellow", "blue-green"]),
+        (
+            "metal-acid-race.lab",
+            &["25.0 °C → 36.2 °C", "copper does not react"],
+        ),
+        (
+            "sealed-mass-conservation.lab",
+            &["v1 balance: 55.88 g", "v2 balance: 53.14 g"],
+        ),
+    ];
+    for (name, evidence) in cases {
+        let lesson = lessons_dir().join(name);
+        let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+        assert!(ok, "{name} replays: {err}");
+        for expected in *evidence {
+            assert!(out.contains(expected), "{name} lost {expected:?}:\n{out}");
+        }
+    }
+}

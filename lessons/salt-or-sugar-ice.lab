@@ -1,0 +1,13 @@
+# Salt or sugar on ice: equal masses are not equal particle counts
+# Salt dissociates; sugar stays molecular. This equilibrium comparison does not
+# model grain size, mixing speed or how quickly a real ice bath melts.
+register lv2
+add v1 water 100mL @ 0C
+add v1 NaCl 20g
+measure v1 thermometer
+look v1
+new beaker
+add v2 water 100mL @ 0C
+add v2 sucrose 20g
+measure v2 thermometer
+look v2

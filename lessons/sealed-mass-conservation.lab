@@ -1,0 +1,14 @@
+# Nothing is lost if nothing escapes: choose the system before weighing
+# Gas stays in the sealed system and leaves the open one. Atoms are conserved in
+# both; the balance differs because the weighed boundary differs.
+register lv2
+add v1 white_vinegar_5_percent 50mL
+seal v1 500mL
+add v1 baking_soda 5g
+measure v1 balance
+inspect v1
+new flask
+add v2 white_vinegar_5_percent 50mL
+add v2 baking_soda 5g
+measure v2 balance
+inspect v2

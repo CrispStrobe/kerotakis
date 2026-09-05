@@ -1,0 +1,11 @@
+# Rubbery bone: what a chalk stand-in can and cannot prove
+# Acid removes carbonate from chalk. Real bone is calcium phosphate in collagen;
+# chalk is not bone, and flexibility is not modeled.
+register lv1
+add v1 water 50mL
+add v1 chalk_stick 2g
+look v1
+new beaker
+add v2 white_vinegar_5_percent 50mL
+add v2 chalk_stick 2g
+look v2

@@ -1,0 +1,13 @@
+# An eggshell in cola: test the acid that is actually represented
+# Cola's phosphoric acid meets carbonate chalk. Membrane, enamel, osmosis,
+# surface texture and a whole egg are not represented.
+register lv1
+add v1 cola 100mL
+measure v1 ph
+add v1 chalk_stick 2g
+look v1
+measure v1 ph
+new beaker
+add v2 water 100mL
+add v2 chalk_stick 2g
+look v2

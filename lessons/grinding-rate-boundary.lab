@@ -1,0 +1,12 @@
+# Powder or lump: surface area is computed before rate is
+# Grinding computes exposed area. This carbonate route has no area-dependent
+# rate, so equal one-step outcomes are a model boundary, not a real prediction.
+register lv2
+add v1 chalk_stick 2g
+grind v1 CaCO3 50um
+add v1 white_vinegar_5_percent 50mL
+look v1
+new beaker
+add v2 chalk_stick 2g
+add v2 white_vinegar_5_percent 50mL
+look v2
