@@ -419,7 +419,10 @@ fn no_flame_colour_is_really_a_dotted_key_from_another_section() {
     let catalogue: toml::Table = include_str!("../i18n/de.toml")
         .parse()
         .expect("de.toml parses");
-    let flame = catalogue["flame"].as_table().expect("[flame] is a table");
+    let flame = catalogue
+        .get("flame")
+        .and_then(toml::Value::as_table)
+        .expect("de.toml has a [flame] section");
     let misfiled: Vec<&String> = flame.keys().filter(|k| k.contains('.')).collect();
     assert!(
         misfiled.is_empty(),
