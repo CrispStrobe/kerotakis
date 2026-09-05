@@ -227,3 +227,226 @@ fn the_meter_on_the_bench_names_the_missing_datum_for_an_uncurated_solid() {
     );
     assert!(!events.iter().any(|e| matches!(e, Event::Measured { .. })));
 }
+
+// ── The other end of the scale: named objects (mat-053, mat-066) ─────────
+//
+// A metal's resistivity is a constant of the metal and rides its species
+// record. An insulator on this shelf is not a substance at all: `porcelain`
+// is a fired object, 68% resolved silica and a conserved remainder, and its
+// resistivity belongs to neither half. Reading the silica's record would be
+// reading quartz sand. So the object carries its own reviewed row, and
+// these tests pin the numbers, the ordering across twenty-four orders of
+// magnitude, and — again the point — the refusals.
+
+use kerotakis_core::material;
+
+fn material_reading(key: &str) -> kerotakis_core::conductivity::SolidConductance {
+    let command = format!("add v1 {key} 2g");
+    dry_solid_conductance(vessel(&run(&[command.as_str()])))
+        .unwrap_or_else(|| panic!("{key} reads"))
+}
+
+/// The whole of mat-053. Porcelain is the material of an overhead-line
+/// insulator, and the number says why: twenty orders of magnitude below
+/// the copper the line is made of.
+#[test]
+fn porcelain_reads_as_an_insulator_and_copper_as_a_conductor() {
+    let porcelain = material_reading("porcelain");
+    assert_eq!(porcelain.resistivity_ohm_m, 1e12);
+    assert!(
+        (porcelain.conductivity_s_per_m - 1e-12).abs() < 1e-24,
+        "porcelain reads about 1e-12 S/m, got {}",
+        porcelain.conductivity_s_per_m
+    );
+    let copper = dry_solid_conductance(vessel(&run(&["add v1 Cu 1g"]))).expect("copper reads");
+    let decades = (copper.conductivity_s_per_m / porcelain.conductivity_s_per_m).log10();
+    assert!(
+        decades > 19.0,
+        "the insulator is twenty orders of magnitude below the wire, got {decades}"
+    );
+}
+
+/// The reading a named object gives carries the same two things a metal's
+/// does — the book, and what the number does not cover — plus one a metal's
+/// cannot: the span. Porcelain has no single resistivity the way copper
+/// has, and a row that quoted one number without saying so would be
+/// claiming a precision the material has not got.
+#[test]
+fn a_named_object_reading_carries_its_span_its_source_and_its_caveat() {
+    let porcelain = material_reading("porcelain");
+    let (lower, upper) = porcelain
+        .span_ohm_m
+        .expect("an insulator row states its span");
+    assert!(lower < porcelain.resistivity_ohm_m && porcelain.resistivity_ohm_m < upper);
+    assert!(porcelain.source.contains("material-resistivity tranche v1"));
+    assert!(
+        porcelain.source.contains("PENDING REVIEW"),
+        "the tranche's provenance lane is not cleared and the reading must say so"
+    );
+    let boundary = porcelain.boundary.clone().expect("a caveat");
+    assert!(
+        boundary.contains("SURFACE"),
+        "the failure mode of a real insulator is its wet surface, not its bulk: {boundary}"
+    );
+    // The span converts to conductances the other way up, which is the
+    // order a meter reads them in.
+    let (low_s, high_s) = porcelain.span_s_per_m().expect("span in S/m");
+    assert!(low_s < high_s);
+    assert!((low_s - 1.0 / upper).abs() < 1e-30);
+}
+
+/// mat-066, and the honest shape of the answer. Doping does not change the
+/// silicon; it changes how many carriers are in it. The bench cannot
+/// compute that, so it holds two reviewed objects and lets the readings
+/// differ — five orders of magnitude between them — while the doped row
+/// states the range it does NOT pin down and names carrier density as the
+/// thing that moved.
+#[test]
+fn doping_moves_silicon_five_orders_of_magnitude() {
+    let intrinsic = material_reading("silicon");
+    let doped = material_reading("doped_silicon");
+    assert_eq!(intrinsic.resistivity_ohm_m, 2300.0);
+    assert_eq!(doped.resistivity_ohm_m, 0.01);
+    let decades = (intrinsic.resistivity_ohm_m / doped.resistivity_ohm_m).log10();
+    assert!(
+        decades > 5.0,
+        "the doped wafer conducts five orders of magnitude better, got {decades}"
+    );
+    // The claim the row does NOT make is as load-bearing as the number.
+    let (lower, upper) = doped.span_ohm_m.expect("the doped row states its range");
+    assert!((lower - 1e-5).abs() < 1e-12 && (upper - 0.1).abs() < 1e-12);
+    let boundary = doped.boundary.clone().expect("a caveat");
+    assert!(
+        boundary.contains("CARRIER DENSITY"),
+        "the row must name what changed: {boundary}"
+    );
+    assert!(
+        boundary.contains("No carrier-density model is computed"),
+        "and must say it computed none of it: {boundary}"
+    );
+    // Silicon sits between the conductors and the insulators, which is the
+    // whole reason the word semiconductor exists.
+    let graphite = dry_solid_conductance(vessel(&run(&["add v1 graphite 1g"]))).expect("reads");
+    let porcelain = material_reading("porcelain");
+    assert!(graphite.resistivity_ohm_m < doped.resistivity_ohm_m);
+    assert!(doped.resistivity_ohm_m < intrinsic.resistivity_ohm_m);
+    assert!(intrinsic.resistivity_ohm_m < porcelain.resistivity_ohm_m);
+}
+
+/// The glasses order the way their alkali content does, because that is
+/// what carries the current: soda-lime worst, borosilicate a decade
+/// better, fused silica four decades better again. An ordering test is
+/// worth more than three separate value assertions, because a value
+/// transcribed into the wrong row still passes on its own.
+#[test]
+fn the_glasses_order_by_how_much_alkali_they_carry() {
+    let soda = material_reading("glass").resistivity_ohm_m;
+    let boro = material_reading("borosilicate_glass").resistivity_ohm_m;
+    let fused = material_reading("silica_glass").resistivity_ohm_m;
+    let glazed = material_reading("glazed_ceramic").resistivity_ohm_m;
+    assert!(glazed < soda, "{glazed} {soda}");
+    assert!(soda < boro && boro < fused, "{soda} {boro} {fused}");
+    assert!(
+        fused / soda > 1e3,
+        "fused silica is orders of magnitude beyond window glass"
+    );
+}
+
+/// A fully resolved object still reads. `silica_glass` and `quartz`
+/// dispense as SiO2 and keep no unresolved remainder, so the reading has
+/// to be found through the LOT the silica arrived in rather than through
+/// an unresolved portion — and the two objects must not collapse onto one
+/// another, because they are the same composition and different materials.
+#[test]
+fn a_fully_resolved_object_is_still_the_object_it_came_from() {
+    let fused = material_reading("silica_glass");
+    let crystal = material_reading("quartz");
+    assert_eq!(fused.species, "silica_glass");
+    assert_eq!(crystal.species, "quartz");
+    assert_ne!(fused.resistivity_ohm_m, crystal.resistivity_ohm_m);
+    // Quartz SAND is the same SiO2 again and carries no reviewed row, so
+    // the meter refuses rather than borrowing a neighbour's number.
+    assert!(dry_solid_conductance(vessel(&run(&["add v1 quartz_sand 2g"]))).is_none());
+}
+
+/// The refusals, restated for objects. Two materials, or a material and a
+/// stray wire, are a circuit with a geometry again.
+#[test]
+fn the_meter_refuses_two_objects_and_a_foreign_wire() {
+    assert!(
+        dry_solid_conductance(vessel(&run(&["add v1 porcelain 2g", "add v1 Cu 1g"]))).is_none()
+    );
+    assert!(
+        dry_solid_conductance(vessel(&run(&["add v1 porcelain 2g", "add v1 glass 2g"]))).is_none()
+    );
+    // And a wet object conducts through the film on it, which is neither
+    // model — the same rule the copper wire already lived under.
+    assert!(
+        dry_solid_conductance(vessel(&run(&["add v1 porcelain 2g", "add v1 water 50mL"])))
+            .is_none()
+    );
+    // A named object with no reviewed row is a missing datum, not a zero.
+    assert!(dry_solid_conductance(vessel(&run(&["add v1 chalk_stick 2g"]))).is_none());
+}
+
+/// Every reviewed row is internally consistent: the value sits inside the
+/// span it declares, and the span is a span. The data validator enforces
+/// this on the source document; this checks the recipes the runtime
+/// actually shipped, which is a different artefact.
+#[test]
+fn every_shipped_resistivity_row_sits_inside_its_own_span() {
+    let mut rows = 0;
+    for recipe in material::all() {
+        for role in &recipe.roles {
+            if let material::MaterialRole::BulkElectricalResistivity {
+                ohm_m,
+                span_lower_ohm_m,
+                span_upper_ohm_m,
+                boundary,
+                source,
+            } = role
+            {
+                rows += 1;
+                assert!(*ohm_m > 0.0, "{}", recipe.id);
+                assert!(span_lower_ohm_m <= ohm_m, "{}", recipe.id);
+                assert!(ohm_m <= span_upper_ohm_m, "{}", recipe.id);
+                assert!(!boundary.is_empty(), "{}", recipe.id);
+                assert!(!source.is_empty(), "{}", recipe.id);
+            }
+        }
+    }
+    assert_eq!(rows, 9, "seven insulators and the two silicon wafers");
+}
+
+// ── The bench arm on a named object ──────────────────────────────────────
+
+#[test]
+fn the_meter_on_the_bench_reads_porcelain_in_siemens_per_metre() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let mut solver = SolverStack::new(vec![
+        Box::new(MixingEquilibrator),
+        Box::new(HonestyEquilibrator),
+    ]);
+    for command in ["add v1 porcelain 2g", "measure v1 conductivity"] {
+        let op = parse_op(command).expect("parse").expect("operator");
+        let events = bench
+            .step_with(op, &mut solver, &PermissiveScreen)
+            .expect("step");
+        if command.starts_with("measure") {
+            let reading = events
+                .iter()
+                .find_map(|e| match e {
+                    Event::Measured { value, unit, .. } => Some((*value, unit.clone())),
+                    _ => None,
+                })
+                .expect("a reading, not a refusal");
+            assert_eq!(reading.1, "S/m");
+            assert!(
+                (reading.0 - 1e-12).abs() < 1e-24,
+                "porcelain reads about 1e-12 S/m, got {}",
+                reading.0
+            );
+        }
+    }
+}

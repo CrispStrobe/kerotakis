@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 a seventh time (two rows, the insulator and
+semiconductor end of the resistivity scale) — see below.
+
 Refreshed 2026-09-05 a sixth time (two rows, BRD-023/BRD-052's two named
 reactions) — see below, and read that entry before quoting it: neither row
 gained a prediction.
@@ -75,6 +78,66 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-05, seventh — two rows at the insulating end of the scale
+
+`mat-053` and `mat-066`, both `missing`, both now `computed` on a typed
+measurement (`typed-engine-event`).
+
+- **`mat-053` "why is porcelain electrically insulating?"** —
+  `missing`/`not-yet-modeled` → `computed`/`typed-engine-event`. PR #413
+  gave the conductivity meter a dry-solid path over the registry's curated
+  species `electrical_resistivity`, and that path refused any vessel
+  holding an unresolved material — which is every named object on the
+  shelf. So a beaker with a porcelain dish in it was told "no aqueous
+  solution has been characterised", which is true and answers nothing. The
+  datum could not have ridden a species record: `porcelain` resolves 68%
+  of itself into `SiO2`, and that record is quartz sand's, so reading it
+  would have answered about a different material. The object now carries
+  its own reviewed row and the meter reads **1e-12 S/m** against copper's
+  5.96e7 — twenty orders of magnitude, which is the question's answer.
+- **`mat-066` "why does silicon conduct differently after doping?"** —
+  `missing`/`unknown-species` → `computed`/`typed-engine-event`, and its
+  `parse_boundary="unknown_species"` is dropped because the name now
+  resolves. A previous agent declined to invent a doping model, correctly.
+  This does not invent one either: it adds TWO reviewed objects,
+  `silicon` (intrinsic, 2.3e3 ohm.m) and `doped_silicon` (an ordinary
+  1 ohm.cm n-type wafer, 1e-2 ohm.m), and lets the two readings differ by
+  five orders of magnitude. The doped row's own boundary states the
+  1e-5 to 1e-1 ohm.m span it does NOT pin down, names the dopant
+  concentration that decides where a wafer sits inside it, says that the
+  CARRIER DENSITY is what changed and the lattice, mobility and band gap
+  are as they were, and says in as many words that no carrier-density
+  model was computed. That is a bounded statement with a boundary, not a
+  model.
+
+Both readings carry a SPAN beside their value, which the metal rows do
+not, and the difference is not decoration: copper's resistivity is a
+constant of copper, while an insulator's moves by orders of magnitude with
+alkali content, temperature and surface condition, and a semiconductor's
+is set by a dopant concentration no recipe states. Quoting one number for
+either without the span would claim a precision the material has not got.
+Seven more rows came with them — soda-lime, coloured, borosilicate and
+fused-silica glass, quartz crystal, porcelain and glazed ceramic — none of
+which moves a corpus row today; they exist so that the shelf answers the
+same question the same way whichever insulator is on it. The tranche's
+provenance lane is PENDING REVIEW and every row's citation says so.
+
+`mat-053` was the smoke set's only `missing` row, and
+`curiosity_smoke_routes_without_crashing` requires the sixteen-prompt
+subset to exhibit every disposition. Flipping it therefore emptied a
+disposition, and the slot goes to **`bio-111`** ("does sunscreen absorb
+ultraviolet light?"), whose refusal is not an accident of coverage but a
+recorded decision: BRD-014.S05 assessed extending the spectral table below
+405 nm and rejected it as neither small nor honest, so this row is the
+corpus's most durably `missing` one. The set keeps sixteen prompts and
+still covers every action family and age band; `materials` now has one
+representative rather than two, because no other `materials` row is
+`missing` for a reason that will outlast the next slice.
+
+Not done here, and named rather than quietly skipped: PVC and rubber have
+no recipe on this shelf to hang a resistivity on, and adding one is a
+material question rather than an electrical one.
 
 ## Refresh 2026-09-05, fifth — eight rows, and three of them are not answers
 

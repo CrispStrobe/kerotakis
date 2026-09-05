@@ -77,6 +77,17 @@ const DISSOLUTION_NOTES: &[(&str, &str)] = &[
 const RESISTIVITY_SOURCE: &str = "kerotakis/electrical-resistivity-v1";
 const RESISTIVITY_CITATION: &str = "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. The CRC Handbook of Chemistry and Physics table 'Electrical Resistivity of Pure Metals' is the intended primary reference and these numbers agree with it to the precision quoted, but this is NOT a transcription from a positively identified copy of any single edition and no edition-level provenance is claimed: every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made, exactly as the phase-transition tranche is. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05";
 const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, provenance lane pending review; the row's own note states what the value does not cover";
+/// The same claim for a named OBJECT rather than a pure substance.
+///
+/// It is a separate tranche and not an extension of the one above,
+/// because it is a different kind of number. A metal's resistivity is a
+/// constant of the metal; a fired porcelain body has no such constant,
+/// and the row that gives it one has to say so. The citation therefore
+/// travels INSIDE the recipe role rather than in a source record, for
+/// the reason `corrosion::Barrier` carries its own source: the meter
+/// prints the number, so it must be able to print the book, and the
+/// runtime holds recipes without holding the source records.
+const MATERIAL_RESISTIVITY_CITATION: &str = "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05";
 /// `(species key, resistivity in ohm.m at 293.15 K, what the row does not claim)`.
 ///
 /// Seven rows, and the gap in them is the point: the registry carries no
@@ -373,6 +384,15 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         uncertainty: Uncertainty::NotReported,
         source_id: SOURCE.to_string(),
         method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
+    };
+    let resistivity = |ohm_m: f64, span_lower_ohm_m: f64, span_upper_ohm_m: f64, boundary: &str| {
+        MaterialRole::BulkElectricalResistivity {
+            ohm_m,
+            span_lower_ohm_m,
+            span_upper_ohm_m,
+            boundary: boundary.to_string(),
+            source: MATERIAL_RESISTIVITY_CITATION.to_string(),
+        }
     };
     let familiar_solid = |id: &str,
                           canonical_key: &str,
@@ -2302,7 +2322,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(1000000000000.0, 10000000000.0, 10000000000000.0, "Ordinary soda-lime window glass at room temperature. Glass does not conduct by electrons at all: what little current it passes is sodium ions creeping through the silicate network, so the resistivity falls by roughly a decade for every 40 to 50 K of heating and hot glass is a far worse insulator than cold glass. The alkali content is what sets it, which is why the borosilicate row sits a decade higher and the fused-silica row four decades higher again. No temperature coefficient is claimed, and neither is the SURFACE resistance, which on damp or dirty glass runs many orders of magnitude below the bulk and is what actually flashes over."),
+            ],
             preparation: Some(
                 "an ordinary soda-lime glass object: 73% resolved silica with a conserved 27% network-modifier remainder"
                     .to_string(),
@@ -2341,7 +2363,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(1e16, 1000000000000000.0, 1e18, "Fused silica, the best insulator on this shelf and one of the best bulk insulators there is: with essentially no alkali there is nothing mobile to carry a current, and what conduction remains is set by defects rather than by composition. The span is wide because a number this large is measurement-limited - leakage across the sample surface and through the apparatus swamps the bulk conduction, so what a laboratory reports is partly a property of its guard ring. No temperature dependence and no particular grade is claimed."),
+            ],
             preparation: Some("fused silica: pure silicon dioxide melted and cooled to a glass, resolved in full".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2377,7 +2401,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(10000000000000.0, 100000000000.0, 1000000000000000.0, "Laboratory borosilicate at room temperature. It is about a decade more resistive than soda-lime glass for the same reason it takes thermal shock better: far less alkali in the network, so far less of the mobile sodium that carries the current. Temperature dependence, surface leakage and the behaviour of any particular commercial composition are not claimed."),
+            ],
             preparation: Some("ordinary laboratory borosilicate: 81% resolved silica with a conserved 19% boria-and-modifier remainder".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2413,7 +2439,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(1000000000000.0, 10000000000.0, 10000000000000.0, "A coloured soda-lime bottle glass, read as its uncoloured parent: the few tenths of a percent of transition-metal oxide that make it brown or green change its colour and not its conduction. The window-glass caveats hold unchanged - ionic conduction by the alkali, a strong temperature dependence, and no claim at all about surface leakage."),
+            ],
             preparation: Some("a coloured soda-lime glass: 72% resolved silica with a conserved 28% modifier-and-colourant remainder".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2449,7 +2477,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(100000000000000.0, 1000000000000.0, 1e16, "Crystalline quartz, and this row carries the sharpest caveat on the shelf: quartz is strongly ANISOTROPIC, and the resistivity measured along the c axis runs roughly two orders of magnitude below the value across it. A single figure for a crystal is therefore a class average and not a measurement of any orientation; impurity level matters as much again. No axis, no grade, and none of the piezoelectric behaviour the crystal is actually used for is claimed here."),
+            ],
             preparation: Some("a single crystal of quartz: silicon dioxide, resolved in full".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2484,7 +2514,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(1000000000000.0, 10000000000.0, 100000000000000.0, "Electrical porcelain at room temperature - the material of an overhead-line insulator, and the reason it is that material. What current such a body does pass is carried by alkali ions in the glassy phase between the mullite crystals, so the number falls sharply on heating and depends on the body's alkali content: a fired ceramic is not a substance with one resistivity the way copper is. And the failure mode of a real insulator is not bulk conduction at all - it is a wet or salted SURFACE, which conducts many orders of magnitude better than anything inside the body. No temperature coefficient, no surface resistance, and no dielectric strength is claimed: the volts per millimetre at which the material breaks down is a different property, and it is the one an insulator is actually specified on."),
+            ],
             preparation: Some("fired porcelain: 68% resolved silica with a conserved 32% alumina-and-flux remainder".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2519,7 +2551,9 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     characteristic_length_m: None,
                 }),
             },
-            roles: Vec::new(),
+            roles: vec![
+                resistivity(100000000000.0, 1000000000.0, 10000000000000.0, "A glazed earthenware body, about a decade below porcelain because the body is more porous and more alkali-rich. Two things this row cannot express: the object is a thin glassy glaze over a porous body and this is one averaged bulk figure for both, and a porous body that has taken up water conducts far better than a dry one - which is why the number is claimed only for the dry object this meter is allowed to touch."),
+            ],
             preparation: Some("a glazed earthenware body: 65% resolved silica with a conserved 35% body-and-glaze remainder".to_string()),
             lot_assumptions: vec![
                 "the silica is reported as the installed SiO2 species so the object's silicon and oxygen are real inventory; sharing one species key with quartz sand carries no claim about polymorph, grain structure or optical quality".to_string(),
@@ -2724,6 +2758,84 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "0.03 g/mL is a BULK density: the polystyrene itself is about 1.05 g/mL and would sink. Almost all of this material's volume is air. The bench's float-and-sink test reads the density of each SPECIES a material resolves into, not the material's own bulk density, and no general material-level buoyancy exists: `bulk_density` is consumed only by the raisin bubble-ride. So this figure is recorded, is right, and does not float or sink anything, and what a run sees is the resolved polystyrene, so a foam cup sinks here".to_string(),
                 "the collapse of a foam cup in acetone is dramatic because the gas escapes and the volume falls by a factor of fifty; the bench can dissolve the polymer but cannot show the collapse, having no cells to empty".to_string(),
                 "cell structure, insulation and the mechanical crush behaviour are physics this recipe does not claim".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "electronics/intrinsic-silicon".to_string(),
+            version: 1,
+            canonical_key: "silicon".to_string(),
+            name: "intrinsic silicon".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Silizium".to_string(), "reines Silizium".to_string(), "undotiertes Silizium".to_string()]),
+                ("en".to_string(), vec!["undoped silicon".to_string(), "pure silicon".to_string(), "semiconductor-grade silicon".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(2.33)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange { lower: 1.0, upper: 1.0 }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a polished wafer chip".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![
+                MaterialRole::ConservedUnresolvedSolid {
+                    srgb: [96, 99, 104],
+                    colour_word: "grey".to_string(),
+                },
+                resistivity(2300.0, 2000.0, 3000.0, "Intrinsic - undoped - silicon at 300 K. The number is not a property of the crystal the way copper's is: it is fixed by how many electrons thermal energy has lifted across the 1.12 eV band gap, about 1e16 per cubic metre at room temperature, and that count roughly doubles for every 8 K of heating. So this row is strongly temperature-dependent by nature and the span here covers only the ordinary spread of tabulated room-temperature values, not that dependence. Real 'undoped' wafers are rarely this resistive either: parts per billion of a dopant is enough to dominate the carriers, which is the whole point of the doped-silicon row beside this one."),
+            ],
+            preparation: Some("a chip of undoped single-crystal silicon, conserved whole because no elemental silicon species is installed".to_string()),
+            lot_assumptions: vec![
+                "no elemental silicon is installed in this registry, so the chip is conserved as named matter rather than dispensed as a species. The SiO2 that the glass and ceramic recipes resolve is silicon DIOXIDE - a different substance with different chemistry - and mapping a silicon wafer onto it would put sand in the beaker".to_string(),
+                "the reason this recipe exists is to stand beside doped_silicon on the conductivity meter. The pair is one reviewed measurement each, and the difference between the two readings is the answer; neither row computes anything about the other".to_string(),
+                "silicon's own reaction chemistry - the oxide skin it grows in air, its dissolution in hot alkali, its attack by hydrofluoric acid - is not modelled and not claimed".to_string(),
+                "band gap, carrier mobility, the temperature dependence of the conductivity, and every optical and mechanical property are physics this recipe does not claim".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "electronics/doped-silicon".to_string(),
+            version: 1,
+            canonical_key: "doped_silicon".to_string(),
+            name: "doped silicon".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["dotiertes Silizium".to_string(), "n-dotiertes Silizium".to_string(), "Siliziumwafer".to_string()]),
+                ("en".to_string(), vec!["n-type silicon".to_string(), "phosphorus-doped silicon".to_string(), "silicon wafer".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(2.33)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange { lower: 1.0, upper: 1.0 }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a polished wafer chip".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![
+                MaterialRole::ConservedUnresolvedSolid {
+                    srgb: [86, 89, 96],
+                    colour_word: "grey".to_string(),
+                },
+                resistivity(0.01, 1e-5, 0.1, "An n-type phosphorus-doped silicon wafer of an ordinary 1 ohm.cm grade. THE VALUE IS ONE POINT IN A RANGE THIS RECIPE DOES NOT PIN DOWN: doped silicon as sold spans about 1e-5 to 1e-1 ohm.m, which end a wafer sits at is set by its dopant concentration - roughly 1e21 to 1e25 atoms per cubic metre - and neither the span nor the reading claims a particular wafer. What changed against the intrinsic-silicon row is the CARRIER DENSITY and nothing else: each dopant atom contributes one mobile electron (phosphorus) or one hole (boron), five to eight orders of magnitude more carriers than the thermal ones, while the lattice, the mobility and the band gap are all essentially as they were. No carrier-density model is computed here and none is claimed - these are two reviewed measurements of two objects, and the sentence between them is the mechanism, not a calculation."),
+            ],
+            preparation: Some("a chip of phosphorus-doped n-type silicon at an ordinary 1 ohm.cm grade, conserved whole because no elemental silicon species is installed".to_string()),
+            lot_assumptions: vec![
+                "the dopant is about one phosphorus atom in a hundred thousand of silicon and is deliberately NOT resolved as a species: at that level it would be a rounding error in the mass balance and a fiction in the chemistry, while being the entire reason the material conducts. It is stated here, and carried by the resistivity row, and nowhere else".to_string(),
+                "this recipe pins ONE grade. Doped silicon as sold spans four orders of magnitude in resistivity, and the resistivity row states that span beside its value so that no run reads the number as a property of doped silicon in general".to_string(),
+                "n-type and p-type are not distinguished anywhere the bench can see: a hole and an electron conduct alike here, so the sign of the Hall voltage, the rectifying junction between the two types, and therefore every semiconductor DEVICE are outside this bench entirely".to_string(),
+                "silicon's own reaction chemistry is not modelled and not claimed, and neither is the temperature dependence that makes a semiconductor conduct better when it is hot while a metal conducts worse".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

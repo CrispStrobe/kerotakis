@@ -640,6 +640,57 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::BulkElectricalResistivity {
+                        ohm_m,
+                        span_lower_ohm_m,
+                        span_upper_ohm_m,
+                        boundary,
+                        source,
+                    } => {
+                        self.nonempty(&format!("{role_path}.boundary"), boundary);
+                        self.nonempty(&format!("{role_path}.source"), source);
+                        for (field, value) in [
+                            ("ohm_m", *ohm_m),
+                            ("span_lower_ohm_m", *span_lower_ohm_m),
+                            ("span_upper_ohm_m", *span_upper_ohm_m),
+                        ] {
+                            if !value.is_finite() || value <= 0.0 {
+                                self.issue(
+                                    format!("{role_path}.{field}"),
+                                    "must be finite and positive",
+                                );
+                            }
+                        }
+                        // The span is the honesty of the row, so it has to
+                        // BE a span and the value has to sit inside it. A
+                        // reading quoted outside the range its own row says
+                        // the class covers is the defect this check exists
+                        // to catch, not a rounding question.
+                        if span_lower_ohm_m > span_upper_ohm_m {
+                            self.issue(
+                                format!("{role_path}.span_lower_ohm_m"),
+                                "must not exceed span_upper_ohm_m",
+                            );
+                        } else if ohm_m < span_lower_ohm_m || ohm_m > span_upper_ohm_m {
+                            self.issue(
+                                format!("{role_path}.ohm_m"),
+                                "must lie within the declared span",
+                            );
+                        }
+                        // A resistivity is a property of a solid object.
+                        // Declaring it on a liquid or a gas would claim a
+                        // reading the dry-solid meter never takes.
+                        if matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                                | MaterialPhysicalForm::GasMixture
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "a bulk electrical resistivity role requires a solid physical form",
+                            );
+                        }
+                    }
                     MaterialRole::ConservedUnresolvedSolid { colour_word, .. } => {
                         self.nonempty(&format!("{role_path}.colour_word"), colour_word);
                         // The role exists to keep a *solid* honest. Declaring

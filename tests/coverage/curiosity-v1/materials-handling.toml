@@ -784,7 +784,6 @@ material_class="electronics"
 owning_task="BRD-060"
 tags=["BRD-060"]
 script=["add v1 doped_silicon 2g", "measure v1 conductivity"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
