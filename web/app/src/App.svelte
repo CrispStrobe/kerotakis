@@ -1505,7 +1505,6 @@
   <BalanceDrill {session} entries={codexEntries} onclose={() => (drillOpen = false)} />
 {/if}
 
-
 {#if capabilityOpen}
   <CapabilityExplorer prompts={capabilityPrompts} {session} initial={capabilityInitial} onclose={() => {
     capabilityOpen = false;
