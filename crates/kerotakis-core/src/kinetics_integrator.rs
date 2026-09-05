@@ -46,6 +46,11 @@ pub struct IntegrationStatistics {
     pub nonlinear_failures: usize,
     pub depletion_events: usize,
     pub constrained_commits: usize,
+    /// Times the implicit solver gave up mid-interval and was restarted
+    /// from its last accepted state with a fresh Jacobian and a fresh
+    /// failure budget. Zero on every well-behaved network; a count here
+    /// is a stiff front the solver crossed in pieces, not a failure.
+    pub solver_restarts: usize,
 }
 
 /// A completed state transition and its numerical diagnostics.
@@ -74,6 +79,44 @@ struct ExtentSystem<'a> {
     vessel: &'a Vessel,
     reactions: &'a [KineticReaction<'a>],
     context: KineticContext,
+    /// Species the network both makes and consumes. See [`intermediate_keys`].
+    intermediates: &'a BTreeSet<(&'a str, Phase)>,
+}
+
+/// The species a network both produces and consumes in its forward
+/// directions — its intermediates.
+///
+/// The depletion machinery exists for REAGENTS: a species that is only
+/// ever consumed must not be driven negative, so its amount is watched by
+/// a root and its reactions switch off when it is gone. An intermediate is
+/// the opposite case. A radical in a chain is made and eaten a million
+/// times over while its population sits at nanomoles or less, and the
+/// threshold that protects a reagent (ten times the depletion floor) is a
+/// wall in the middle of its range: every time the population crossed it
+/// the consuming steps flipped from their full rate to exactly zero — a
+/// discontinuity Newton cannot cross — the solver stopped, restarted, and
+/// crossed it again on the way back. The hydrogen pack spent 128 restarts
+/// and seven minutes that way and never reached ignition.
+///
+/// So an intermediate is neither gated nor watched. Its rate goes to zero
+/// with its concentration, continuously, as the rate law says it should,
+/// and the `.max(0.0)` in `amount` is the only floor it needs. Reversible
+/// steps are classified by their forward direction alone: a reverse
+/// expression makes everything nominally producible, and would make the
+/// word mean nothing.
+fn intermediate_keys<'a>(reactions: &'a [KineticReaction<'a>]) -> BTreeSet<(&'a str, Phase)> {
+    let mut produced = BTreeSet::new();
+    let mut consumed = BTreeSet::new();
+    for reaction in reactions {
+        for term in reaction.stoichiometry {
+            if term.coefficient > 0.0 {
+                produced.insert((term.species, term.phase));
+            } else if term.coefficient < 0.0 {
+                consumed.insert((term.species, term.phase));
+            }
+        }
+    }
+    produced.intersection(&consumed).copied().collect()
 }
 
 impl<'a> ExtentSystem<'a> {
@@ -137,7 +180,9 @@ impl<'a> ExtentSystem<'a> {
             } else {
                 term.coefficient > 0.0
             };
-            !consumed || self.amount(extents, term.species, term.phase) > DEPLETION_EVENT
+            !consumed
+                || self.intermediates.contains(&(term.species, term.phase))
+                || self.amount(extents, term.species, term.phase) > DEPLETION_EVENT
         })
     }
 
@@ -285,6 +330,54 @@ impl<'a> ExtentSystem<'a> {
         values
     }
 
+    /// The finite-difference step along `vector`, sized by the SPECIES the
+    /// probe moves rather than by the extents it moves them through.
+    ///
+    /// The state is reaction extent, and at the start of every interval
+    /// every extent is zero — so a step sized from `(1 + ‖ξ‖∞)` is an
+    /// absolute √ε mol, about 1.5e-8 mol, for every column alike. In a
+    /// radical chain the species span nine orders of magnitude at once: a
+    /// probe of that size is a rounding error to the fuel and a hundred
+    /// times the whole population of a nanomole radical. The column for a
+    /// step that consumes the radical is then a secant across its entire
+    /// range, Newton is handed a Jacobian that is wrong where it matters
+    /// most, and the hydrogen pack exhausted its failure budget 2.7 µs into
+    /// ignition (BRD-041's report).
+    ///
+    /// Sized instead so that no species amount the probe touches moves by
+    /// more than √ε of itself: the tightest-constrained species sets the
+    /// step, which is the classical optimum for that species' derivative,
+    /// and the entries the fuel contributes — smaller by the same ratio —
+    /// carry noise of order √ε relative to the entries that govern the
+    /// Newton iteration. A probe bounded this way also never crosses zero,
+    /// so the `.max(0.0)` clamp in `amount` is never linearised across.
+    /// Depleted species floor at the depletion threshold, where the rate
+    /// gate has already zeroed their reactions.
+    fn probe_step<X, V>(&self, extents: &X, vector: &V) -> Option<f64>
+    where
+        X: Index<usize, Output = f64>,
+        V: Index<usize, Output = f64>,
+    {
+        let mut tightest = f64::INFINITY;
+        for (index, reaction) in self.reactions.iter().enumerate() {
+            let along = vector[index].abs();
+            if along == 0.0 || !along.is_finite() {
+                continue;
+            }
+            for term in reaction.stoichiometry {
+                let coefficient = term.coefficient.abs();
+                if coefficient == 0.0 {
+                    continue;
+                }
+                let amount = self
+                    .amount(extents, term.species, term.phase)
+                    .max(DEPLETION_EVENT);
+                tightest = tightest.min(amount / (along * coefficient));
+            }
+        }
+        tightest.is_finite().then(|| tightest * f64::EPSILON.sqrt())
+    }
+
     fn jacobian_vector<X, V, Y>(&self, extents: &X, vector: &V, output: &mut Y)
     where
         X: Index<usize, Output = f64>,
@@ -292,7 +385,6 @@ impl<'a> ExtentSystem<'a> {
         Y: IndexMut<usize, Output = f64>,
     {
         let n = self.reactions.len();
-        let x_norm = (0..n).map(|i| extents[i].abs()).fold(0.0, f64::max);
         let v_norm = (0..n).map(|i| vector[i].abs()).fold(0.0, f64::max);
         if v_norm == 0.0 || !v_norm.is_finite() {
             for i in 0..n {
@@ -300,7 +392,13 @@ impl<'a> ExtentSystem<'a> {
             }
             return;
         }
-        let epsilon = f64::EPSILON.sqrt() * (1.0 + x_norm) / v_norm;
+        let epsilon = self.probe_step(extents, vector).unwrap_or_else(|| {
+            // A direction touching only reactions with no stoichiometry
+            // has nothing to scale by; the old absolute step is as good
+            // as anything there.
+            let x_norm = (0..n).map(|i| extents[i].abs()).fold(0.0, f64::max);
+            f64::EPSILON.sqrt() * (1.0 + x_norm) / v_norm
+        });
         let perturbed = (0..n)
             .map(|i| extents[i] + epsilon * vector[i])
             .collect::<Vec<_>>();
@@ -312,14 +410,19 @@ impl<'a> ExtentSystem<'a> {
     }
 }
 
-fn consumed_keys<'a>(system: &ExtentSystem<'a>) -> Vec<(&'a str, Phase)> {
+fn consumed_keys<'a>(
+    vessel: &Vessel,
+    reactions: &'a [KineticReaction<'a>],
+    intermediates: &BTreeSet<(&'a str, Phase)>,
+) -> Vec<(&'a str, Phase)> {
     let mut keys = Vec::new();
-    for reaction in system.reactions {
+    for reaction in reactions {
         for term in reaction.stoichiometry {
             let can_be_consumed =
                 term.coefficient < 0.0 || (term.coefficient > 0.0 && reaction.reverse.is_some());
             if can_be_consumed
-                && phase_moles(system.vessel, term.species, term.phase) > DEPLETION_EVENT
+                && !intermediates.contains(&(term.species, term.phase))
+                && phase_moles(vessel, term.species, term.phase) > DEPLETION_EVENT
                 && !keys.contains(&(term.species, term.phase))
             {
                 keys.push((term.species, term.phase));
@@ -380,6 +483,7 @@ pub fn advance_network_with_context_and_options<'a>(
     let mut elapsed = 0.0;
     let mut totals = vec![0.0; network.reactions.len()];
     let mut statistics = IntegrationStatistics::default();
+    let intermediates = intermediate_keys(network.reactions);
     // OPT-5: hoist allocations outside the event-restart loop
     let zero = vec![0.0; network.reactions.len()];
     let mut deltas_buf: Vec<(&str, Phase, f64)> = Vec::new();
@@ -401,6 +505,7 @@ pub fn advance_network_with_context_and_options<'a>(
             vessel,
             reactions: network.reactions,
             context,
+            intermediates: &intermediates,
         };
         if system
             .rhs_values(&zero)
@@ -409,15 +514,15 @@ pub fn advance_network_with_context_and_options<'a>(
         {
             break;
         }
-        let monitored = consumed_keys(&system);
-        if monitored.is_empty() {
-            break;
-        }
+        let monitored = consumed_keys(system.vessel, network.reactions, &intermediates);
 
         let rhs_system = system;
         let jacobian_system = system;
         let root_system = system;
-        let root_count = monitored.len();
+        // A network of nothing but intermediates has no reagent to watch;
+        // diffsol still wants a root function, so it gets one that never
+        // fires.
+        let root_count = monitored.len().max(1);
         let initial_step = options.initial_step_seconds.min(remaining);
         let problem = OdeBuilder::<NalgebraMat<f64>>::new()
             .h0(initial_step)
@@ -434,6 +539,10 @@ pub fn advance_network_with_context_and_options<'a>(
             )
             .root(
                 move |x, _parameters, _time, output| {
+                    if monitored.is_empty() {
+                        output[0] = 1.0;
+                        return;
+                    }
                     for (index, (species, phase)) in monitored.iter().enumerate() {
                         output[index] = root_system.amount(x, species, *phase) - DEPLETION_EVENT;
                     }
@@ -453,6 +562,16 @@ pub fn advance_network_with_context_and_options<'a>(
                 network: network.id.to_string(),
                 detail: error.to_string(),
             })?;
+        // diffsol counts nonlinear-solver failures CUMULATIVELY over one
+        // solve and aborts at fifty by default. A step-size cut after a
+        // Newton failure is the ordinary way an implicit solver walks an
+        // ignition front — hundreds of them across a chain-branching
+        // explosion is a solver working, not a solver failing — so the
+        // hydrogen pack died at 6 µs with every step converging. The
+        // budget is raised to a bound that only a genuinely stuck solve
+        // reaches; a stuck solve still ends, in the restart path below.
+        let mut problem = problem;
+        problem.ode_options.max_nonlinear_solver_failures = 100_000;
         let mut solver =
             problem
                 .bdf::<NalgebraLU<f64>>()
@@ -460,13 +579,17 @@ pub fn advance_network_with_context_and_options<'a>(
                     network: network.id.to_string(),
                     detail: error.to_string(),
                 })?;
-        let (_, _, stop_reason) =
-            solver
-                .solve(remaining)
-                .map_err(|error| IntegrationError::Solver {
-                    network: network.id.to_string(),
-                    detail: error.to_string(),
-                })?;
+        // A solve that dies mid-interval still holds its last ACCEPTED
+        // state. Committing that state and starting a fresh solver from
+        // it — new Jacobian, new failure budget, new step size — is the
+        // same move the depletion events already make, and it turns a
+        // stiff front the solver could not cross in one breath into one
+        // it crosses in several. Only a solve that made no progress at all
+        // is a real failure, and it is reported as one.
+        let (stop_reason, failure) = match solver.solve(remaining) {
+            Ok((_, _, reason)) => (reason, None),
+            Err(error) => (OdeSolverStopReason::InternalTimestep, Some(error)),
+        };
         let solver_statistics = solver.get_statistics();
         statistics.accepted_steps += solver_statistics.number_of_steps;
         statistics.rejected_steps += solver_statistics.number_of_error_test_failures;
@@ -504,6 +627,15 @@ pub fn advance_network_with_context_and_options<'a>(
         if matches!(stop_reason, OdeSolverStopReason::RootFound(_, _)) {
             statistics.depletion_events += 1;
         }
+        if let Some(error) = failure {
+            if advanced <= remaining.max(1.0) * f64::EPSILON {
+                return Err(IntegrationError::Solver {
+                    network: network.id.to_string(),
+                    detail: error.to_string(),
+                });
+            }
+            statistics.solver_restarts += 1;
+        }
         if advanced <= remaining.max(1.0) * f64::EPSILON {
             return Err(IntegrationError::NoProgress {
                 network: network.id.to_string(),
@@ -515,7 +647,9 @@ pub fn advance_network_with_context_and_options<'a>(
         }
     }
 
-    if elapsed < seconds && statistics.depletion_events >= MAX_EVENT_RESTARTS {
+    if elapsed < seconds
+        && statistics.depletion_events + statistics.solver_restarts >= MAX_EVENT_RESTARTS
+    {
         return Err(IntegrationError::TooManyEvents {
             network: network.id.to_string(),
         });
@@ -551,10 +685,12 @@ pub fn extent_rhs(
     extents: &[f64],
     output: &mut [f64],
 ) {
+    let intermediates = intermediate_keys(network.reactions);
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
         context: KineticContext::default(),
+        intermediates: &intermediates,
     };
     let ext_vec: Vec<f64> = extents.to_vec();
     let mut out_vec = output.to_vec();
@@ -569,12 +705,8 @@ pub fn consumable_keys<'a>(
     vessel: &'a Vessel,
     network: &'a ReactionNetwork<'a>,
 ) -> Vec<(&'a str, Phase)> {
-    let system = ExtentSystem {
-        vessel,
-        reactions: network.reactions,
-        context: KineticContext::default(),
-    };
-    consumed_keys(&system)
+    let intermediates = intermediate_keys(network.reactions);
+    consumed_keys(vessel, network.reactions, &intermediates)
 }
 
 /// Compute the amount of a species in a given phase after applying reaction
@@ -586,10 +718,12 @@ pub fn amount_at_extents(
     species: &str,
     phase: Phase,
 ) -> f64 {
+    let intermediates = intermediate_keys(network.reactions);
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
         context: KineticContext::default(),
+        intermediates: &intermediates,
     };
     let ext_vec: Vec<f64> = extents.to_vec();
     system.amount(&ext_vec, species, phase)
