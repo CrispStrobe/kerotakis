@@ -2146,6 +2146,20 @@
   "next in the catalogue": "",
   "choose which equation to balance": "",
   "recommended": "",
-  "already balanced": ""
+  "already balanced": "",
+  "back": "",
+  "catalogue tier": "",
+  "clear the bench, then run": "",
+  "keep my work, run in new vessels": "",
+  "look at the bench": "",
+  "run on this bench as it is": "",
+  "running on the bench": "",
+  "step {step} of {total}": "",
+  "stop the run": "",
+  "the bench is not empty": "",
+  "the bench stopped at {line} — the rest of the script did not run": "",
+  "your bench is not empty": "",
+  "{count} steps, run one at a time on the bench you can see": "",
+  "This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.": ""
  }
 }

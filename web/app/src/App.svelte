@@ -24,9 +24,8 @@
   import HelpDialog from "./lib/components/HelpDialog.svelte";
   import AboutDialog from "./lib/components/AboutDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
-  import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
+  import Catalog from "./lib/components/Catalog.svelte";
   import CapabilityExplorer from "./lib/components/CapabilityExplorer.svelte";
-  import KidsCatalog from "./lib/components/KidsCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
@@ -846,7 +845,12 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (capabilityOpen) capabilityOpen = false;
-      else if (kidsOpen) kidsOpen = false;
+      else if (kidsOpen || catalogOpen) {
+        kidsOpen = false;
+        catalogOpen = false;
+        catalogInitial = null;
+        kidsInitial = null;
+      }
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
@@ -1501,17 +1505,6 @@
   <BalanceDrill {session} entries={codexEntries} onclose={() => (drillOpen = false)} />
 {/if}
 
-{#if catalogOpen}
-  <ExperimentCatalog
-    entries={codexEntries}
-    {session}
-    initial={catalogInitial}
-    onclose={() => {
-      catalogOpen = false;
-      catalogInitial = null;
-    }}
-  />
-{/if}
 
 {#if capabilityOpen}
   <CapabilityExplorer prompts={capabilityPrompts} {session} initial={capabilityInitial} onclose={() => {
@@ -1520,39 +1513,47 @@
   }} />
 {/if}
 
-{#if kidsOpen}
-  <KidsCatalog
-    entries={kidsExperiments}
-    initial={kidsInitial}
+<!-- ONE catalogue. `kidsOpen` and `catalogOpen` stay as the tier selector
+     so every existing door — the home screen, the story map, the periodic
+     table, the concept map — opens the same panel on the tier it meant. -->
+{#if kidsOpen || catalogOpen}
+  <Catalog
+    tier={kidsOpen ? "kids" : "experiments"}
+    entries={codexEntries}
+    kidsEntries={kidsExperiments}
+    {session}
+    kidsInitial={kidsInitial}
     {capabilityIds}
     {codexIds}
-    completedMissions={session.completedMissions}
-    completedExperiments={session.completedExperiments}
+    initial={catalogInitial}
+    ontier={(next) => {
+      kidsOpen = next === "kids";
+      catalogOpen = next === "experiments";
+      catalogInitial = null;
+      kidsInitial = null;
+    }}
     onlesson={(file) => {
       kidsOpen = false;
+      catalogOpen = false;
       void startLesson(file);
     }}
     onquest={(id) => {
       const quest = quests.find((item) => item.id === id);
       if (!quest) return;
       kidsOpen = false;
+      catalogOpen = false;
       void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
     }}
     oncapability={(id) => {
       kidsOpen = false;
+      catalogOpen = false;
       capabilityInitial = id;
       capabilityOpen = true;
-    }}
-    oncodex={(id) => {
-      const entry = codexEntries.find((item) => item.id === id);
-      if (!entry) return;
-      kidsOpen = false;
-      catalogInitial = entry;
-      catalogOpen = true;
     }}
     onsandbox={(entry) => {
       const brief = briefFor(entry);
       kidsOpen = false;
+      catalogOpen = false;
       if (labMode === "sandbox") {
         kidsSandboxBrief = brief;
         catalogScope = "mission";
@@ -1564,7 +1565,12 @@
         enterLab("sandbox");
       }
     }}
-    onclose={() => { kidsOpen = false; kidsInitial = null; }}
+    onclose={() => {
+      kidsOpen = false;
+      catalogOpen = false;
+      catalogInitial = null;
+      kidsInitial = null;
+    }}
   />
 {/if}
 

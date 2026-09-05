@@ -2146,6 +2146,20 @@
   "next in the catalogue": "als Nächstes im Katalog",
   "choose which equation to balance": "wähle, welche Gleichung du ausgleichen willst",
   "recommended": "empfohlen",
-  "already balanced": "schon ausgeglichen"
+  "already balanced": "schon ausgeglichen",
+  "back": "zurück",
+  "catalogue tier": "Katalogbereich",
+  "clear the bench, then run": "Labor abräumen, dann ausführen",
+  "keep my work, run in new vessels": "Arbeit behalten, in neuen Gefäßen ausführen",
+  "look at the bench": "zum Labor",
+  "run on this bench as it is": "im Labor ausführen, so wie es ist",
+  "running on the bench": "läuft im Labor",
+  "step {step} of {total}": "Schritt {step} von {total}",
+  "stop the run": "Ausführung stoppen",
+  "the bench is not empty": "Das Labor ist nicht leer",
+  "the bench stopped at {line} — the rest of the script did not run": "Das Labor hat bei {line} gestoppt – der Rest des Skripts wurde nicht ausgeführt.",
+  "your bench is not empty": "Dein Labor ist nicht leer",
+  "{count} steps, run one at a time on the bench you can see": "{count} Schritte, einer nach dem anderen im sichtbaren Labor",
+  "This script writes into the bench you can see. Clear it first, or keep your work and run the experiment in fresh glassware beside it.": "Dieses Skript arbeitet in dem Labor, das du siehst. Räume es zuerst ab – oder behalte deine Arbeit und führe das Experiment daneben in neuen Gefäßen aus."
  }
 }

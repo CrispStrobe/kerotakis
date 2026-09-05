@@ -3,7 +3,7 @@
  * Two families of label live in `src/locales/*.json` without any component
  * ever writing them down:
  *
- *   - the 105 experiment titles, rendered by `ExperimentCatalog` and
+ *   - the 105 experiment titles, rendered by `Catalog` and
  *     `ConceptMap` as `t(entry.id.replace(/-/g, " "))`;
  *   - the concept slugs each experiment declares, rendered through
  *     `tSlug`, which is the same lookup with the dashes turned to spaces.
