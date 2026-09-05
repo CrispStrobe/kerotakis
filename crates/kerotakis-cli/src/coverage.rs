@@ -631,6 +631,10 @@ fn execute_prompt(
                     // BRD-014.S05: a transmitted fraction is a computed
                     // answer about a material, in the same class.
                     | Event::UvAttenuated { .. }
+                    // CAP-25: a seal that failed at a stated pressure is
+                    // the answer to "can a sealed vessel burst?", with a
+                    // number in it — not a gap beside the safety line.
+                    | Event::Burst { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

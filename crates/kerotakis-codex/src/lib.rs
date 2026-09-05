@@ -50,6 +50,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "bubble_ride",
     "gas_contained",
     "gas_evolved",
+    "headspace_partitioned",
     "gas_produced",
     "hazard_warning",
     "headspace_equilibrated",
@@ -1305,6 +1306,12 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // KID-13: a quest can claim that the mixture went stiff.
         E::Thickened { solid, .. } => ("thickened", Some(solid.0.as_str())),
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),
+        // EXP-25: a quest can claim that a named volatile reached the
+        // headspace — `headspace_partitioned:NH3` — without claiming how
+        // much of it did.
+        E::HeadspacePartitioned { species, .. } => {
+            ("headspace_partitioned", Some(species.0.as_str()))
+        }
         E::GasAbsorbed { species, .. } => ("gas_absorbed", Some(species.0.as_str())),
         E::GasContained { species, .. } => ("gas_contained", Some(species.0.as_str())),
         // BRD-001: the census names its populations, but a quest claiming

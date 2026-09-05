@@ -3198,6 +3198,21 @@ impl PhreeqcEquilibrator {
                         contents.push(p.clone());
                     }
                 }
+                // A headspace share of a solute this problem never took —
+                // the partition step skips gas portions outside its own
+                // gas list, so their moles are in neither the totals nor
+                // `new_gases`. Ammonia that Henry's law moved into the
+                // headspace (`kerotakis_core::volatility`) is the live
+                // case; dropping it here destroyed nitrogen.
+                Some(_)
+                    if p.phase == Phase::Gas
+                        && !problem
+                            .gases
+                            .iter()
+                            .any(|(_, species, _)| species == &p.species.0) =>
+                {
+                    contents.push(p.clone())
+                }
                 Some(_) => {}
             }
         }

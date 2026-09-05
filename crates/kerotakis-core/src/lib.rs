@@ -99,6 +99,7 @@ pub mod transport;
 pub mod units;
 pub mod uv;
 pub mod vessel;
+pub mod volatility;
 
 pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};

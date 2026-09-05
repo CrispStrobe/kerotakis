@@ -1218,6 +1218,49 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        Event::HeadspacePartitioned {
+            vessel,
+            species: sid,
+            to_gas,
+            moles,
+            gas_fraction,
+            partial_pressure_pa,
+            henry_mol_per_l_atm,
+            source,
+        } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let percent = locale.number(format!("{:.1}", gas_fraction * 100.0));
+            let kpa = locale.number(format!("{:.3}", partial_pressure_pa / 1000.0));
+            let moles_s = locale.number(format!("{:.4}", moles.0));
+            match (register.level(), *to_gas) {
+                (1, true) => locale.fill(
+                    "event.headspace-partitioned.lv1",
+                    "Some of the {name} in {vessel} leaves the liquid for the air above it — {percent}% of it is now in the headspace.",
+                    &[("name", name), ("vessel", &vessel.to_string()), ("percent", &percent)],
+                ),
+                (1, false) => locale.fill(
+                    "event.headspace-partitioned.lv1-back",
+                    "Some of the {name} in the air above {vessel} goes back into the liquid — {percent}% of it stays in the headspace.",
+                    &[("name", name), ("vessel", &vessel.to_string()), ("percent", &percent)],
+                ),
+                (2, true) => locale.fill(
+                    "event.headspace-partitioned.lv2",
+                    "{vessel}: {moles} mol {name} liquid → headspace; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_s), ("name", name), ("percent", &percent), ("kpa", &kpa)],
+                ),
+                (2, false) => locale.fill(
+                    "event.headspace-partitioned.lv2-back",
+                    "{vessel}: {moles} mol {name} headspace → liquid; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_s), ("name", name), ("percent", &percent), ("kpa", &kpa)],
+                ),
+                _ => format!(
+                    "{vessel}: {name} {} {:.6} mol; gas fraction {gas_fraction:.4}, p = {partial_pressure_pa:.1} Pa, H = {henry_mol_per_l_atm:.3} mol/(L·atm) — {source}",
+                    if *to_gas { "liquid → headspace" } else { "headspace → liquid" },
+                    moles.0
+                ),
+            }
+        }
         Event::Irradiated {
             vessel,
             wavelength_nm,
