@@ -67,6 +67,7 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, gas_moles: f64) -> Option<Foam
                 | MaterialRole::EnzymeSource { .. }
                 | MaterialRole::BulkElectricalResistivity { .. }
                 | MaterialRole::PolymerHeatResponse { .. }
+                | MaterialRole::UvAttenuation { .. }
                 | MaterialRole::SealedCell { .. } => None,
             })
         })

@@ -1192,6 +1192,32 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
             }
         }
+        Event::UvAttenuated {
+            vessel,
+            material,
+            wavelength_nm,
+            band,
+            transmitted_fraction,
+            mechanism,
+        } => {
+            let percent = locale.number(format!("{:.1}", transmitted_fraction * 100.0));
+            let nm = locale.number(format!("{wavelength_nm:.0}"));
+            match register.level() {
+                1 => locale.fill(
+                    "event.uv-attenuated.lv1",
+                    "The {name} in {vessel} lets only {percent}% of the {band} light through at {nm} nm — the rest is stopped by its filters.",
+                    &[("name", material), ("vessel", &vessel.to_string()), ("percent", &percent), ("band", band), ("nm", &nm)],
+                ),
+                2 => locale.fill(
+                    "event.uv-attenuated.lv2",
+                    "{vessel}: {name} transmits {percent}% at {nm} nm ({band}) — {mechanism}",
+                    &[("vessel", &vessel.to_string()), ("name", material), ("percent", &percent), ("nm", &nm), ("band", band), ("mechanism", mechanism)],
+                ),
+                _ => format!(
+                    "{vessel}: {material} transmits {transmitted_fraction:.4} of {wavelength_nm:.1} nm ({band}); {mechanism}"
+                ),
+            }
+        }
         Event::Irradiated {
             vessel,
             wavelength_nm,

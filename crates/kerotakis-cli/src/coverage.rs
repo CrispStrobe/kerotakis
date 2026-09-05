@@ -628,6 +628,9 @@ fn execute_prompt(
                     // BRD-041: "warm, with oxygen, and not burning" is an
                     // answer about a fuel, in the same class as `Inert`.
                     | Event::BelowAutoignition { .. }
+                    // BRD-014.S05: a transmitted fraction is a computed
+                    // answer about a material, in the same class.
+                    | Event::UvAttenuated { .. }
                     | Event::Inert { .. }
                     | Event::InertInSolvent { .. }
             )

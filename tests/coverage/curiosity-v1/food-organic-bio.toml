@@ -1257,7 +1257,6 @@ material_class = "cosmetic"
 owning_task = "BRD-012"
 tags = ["sunscreen", "ultraviolet"]
 script = ["add v1 sunscreen 1g", "irradiate v1 300nm 10W/m2", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
