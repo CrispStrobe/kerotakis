@@ -845,6 +845,22 @@ pub struct Vessel {
     /// this and falls back to its call-start where a host never sets it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub step_start: Option<StepStart>,
+    /// Free hydroxide the aqueous solver last MEASURED, in moles.
+    ///
+    /// Kept beside `solute_charge` and for the same reason — the heat
+    /// balance needs to know what the beaker was holding at the start of a
+    /// step — but it is not the same quantity and must not be derived from
+    /// it. Net charge is free base only in a vessel of strong electrolytes:
+    /// a bicarbonate solution carries its charge excess as carbonate
+    /// alkalinity, and a beaker handed a bare cation carries it as nothing
+    /// at all. Reading either as hydroxide invents a neutralisation that
+    /// never happened, at 55.81 kJ for every mole of it.
+    ///
+    /// `solution` is cleared at the top of every step as stale, so the
+    /// measurement cannot be recovered from there; this survives because
+    /// the tail writes it on the way out.
+    #[serde(default)]
+    pub free_hydroxide: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -883,6 +899,7 @@ impl Vessel {
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             step_start: None,
+            free_hydroxide: 0.0,
             solution: None,
             lots: Vec::new(),
             resolved: ResolvedState::default(),
