@@ -1554,8 +1554,123 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-041 — Familiar gas/combustion mechanism packs
 
-- [ ] **Status:** open, and now blocked on a sourcing decision rather than on
-  engineering. **Size:** large/data-heavy. **Depends on:** BRD-040 (complete).
+- [ ] **Status:** packs shipped 2026-09-05 (PRs #393, #399); three acceptance
+  items remain, listed in the checkpoint below. **Size:** large/data-heavy.
+  **Depends on:** BRD-040 (complete).
+- **Checkpoint 2026-09-05 — three project-original packs, from primary
+  literature.** BRD-040's route of last resort turned out to be the only one:
+  the networks are written here, reaction by reaction, and every reaction
+  records the recommendation it came from, the page it was read from, the range
+  that recommendation covers, its stated uncertainty, and the date it was read.
+  A test refuses any reaction missing one of those. `data/mechanisms/`:
+
+  | File | Steps | Kind | Source |
+  |---|---|---|---|
+  | `h2-o2-skeletal-v1.yaml` | 16 | skeletal, elementary | Baulch et al., *J. Phys. Chem. Ref. Data* **34**(3), 757–1397 (2005) |
+  | `co-h2-wet-v1.yaml` | 20 | skeletal, elementary | the same evaluation |
+  | `hydrocarbon-global-v1.yaml` | 3 | **global**, not elementary | Westbrook & Dryer, *Combust. Sci. Technol.* **27**(1–2), 31–43 (1981), Table I |
+
+  The two skeletal packs draw every coefficient from **one** evaluation, on
+  purpose: a mechanism assembled from a single self-consistent source is a
+  defensible object, one assembled from whichever paper gave the prettiest
+  curve per step is not. Where that evaluation recommends nothing, the step is
+  absent and the header says which and why. Every value was read from the
+  published pages twice, independently, and cross-checked — 15 expressions, 15
+  exact matches — and three publication errata in the source were identified
+  and are not propagated, most consequentially the `OH + CO` low-pressure
+  coefficients, printed as cm⁶ molecule⁻² s⁻¹ in two places when they are the
+  bimolecular CO₂ + H branch in cm³ molecule⁻¹ s⁻¹. The packs are
+  Kerotakis-authored data, CC BY 4.0, and carry their licence in-file;
+  `provenance/sources.toml` is scoped to vendored external material and
+  correctly has no record for them.
+- **Two BRD-040 guards moved, and one BRD-040 conclusion was wrong.**
+  Negative activation energies are accepted (§7 item 3, as recommended):
+  `OH + OH → H₂O + O` and the slow `HO₂ + HO₂` term both have positive
+  exponentials in the evaluation, and `CO + OH` is barrierless. A NaN `Ea` is
+  still refused by name. Explicit reaction `orders` are accepted too — which
+  §7 had listed as *not* needed. That was written assuming every fuel would be
+  an elementary set; the light hydrocarbons have no licence-clean skeletal
+  mechanism and no evaluation of their elementary steps at the level Baulch
+  reaches for H₂/O₂ and CO, so they are global steps, and a global step's
+  orders are measured separately from its stoichiometry. Methane's fitted fuel
+  order is **negative** and its equation-derived order would be third where the
+  fit is first. `nonreactant-orders` stays refused, which is why the two-step
+  Westbrook–Dryer form is not shipped: its CO step depends on water it neither
+  consumes nor produces. Corrections recorded in
+  `provenance/brd-040-cantera-audit.md`; a `mechanism_yaml` fuzz target was
+  added with the relaxations and is honestly marked *not yet run*.
+- **Corpus evidence, and who actually earned it.** All 36 BRD-041-owned rows
+  are out of `missing`: 29 `computed`, 7 `boundary` with typed reasons (four
+  `weaponization`, `unsafe-toxic-combustion`, `unsafe-thermal-runaway`,
+  `out-of-scope-scale`). The three that were missing — `th-044` methane,
+  `th-045` propane, `th-046` butane — failed at `unknown-species`, a registry
+  identity gap rather than a kinetics gap, and were closed by **PR #388**'s
+  fuel-gas identities, after which CEA's Gibbs minimiser reaches them
+  unaided. This task did not flip them and does not claim to;
+  `tests/coverage/curiosity-v1/baseline.toml` is untouched by #393 and #399.
+  BRD-012.S04's note below says the same thing from the other side and is
+  right: three prompts reaching an equilibrium solver is not twenty-five
+  prompts reaching a reviewed reduced mechanism. `th-047` petrol and `th-048`
+  diesel remain `missing` and belong to BRD-014: they are mixtures, and no
+  mechanism here or anywhere else in the tree names them.
+- **Engine finding: the extent integrator cannot carry a radical chain through
+  ignition.** `kinetics_integrator.rs` hands diffsol a matrix-free Jacobian
+  whose finite-difference probe is one scalar for the whole extent vector,
+  sized from `(1 + ‖x‖∞)`. A radical chain has extents spanning nine orders of
+  magnitude at once, so a probe sized for the millimole extents linearises the
+  nanomole ones across their entire range; the Newton iteration fails and the
+  H₂/O₂ pack exhausts its failure budget at about 2.7 µs, right where the chain
+  runs away. The `.max(0.0)` clamp on reconstructed amounts puts a second
+  corner in the same right-hand side. The skeletal packs are therefore
+  exercised over a bounded half-microsecond early-chain window and their
+  endpoint claims are made against CEA thermodynamics instead of by
+  integrating to one. Two exits for whoever takes it further: a
+  component-scaled Jacobian probe, or the CVODE path that already exists in
+  `kerotakis-sundials` and is API-compatible with
+  `advance_network_with_options`. The three-reaction global pack is unaffected
+  and integrates to exhaustion, which is where the endpoint oracle lives.
+- **Acceptance, item by item.** Element and energy conservation: **met** —
+  balance is enforced by the parser and re-checked on the compiled network, and
+  every global step priced through CEA's formation enthalpies releases
+  400–410 kJ per mole of O₂, the band all hydrocarbon oxidation shares.
+  Equilibrium endpoints: **met** — lean methane ends within 2 % of CEA at
+  1600 K, and where equilibrium is *not* complete combustion (rich methane at
+  2000 K) the global step's inability to make CO is itself a passing test.
+  Rich/lean and temperature/pressure metamorphic cases: **met** — more oxygen
+  burns more hydrogen; doubling the oxygen speeds each global fuel up by
+  exactly its own fitted power; doubling the methane makes it *slower*, by
+  exactly 2⁻⁰·³. Still open: (1) **no Cantera differential oracle** for
+  ignition delay or species traces — blocked behind the integrator finding
+  above, not behind licensing, since running a mechanism outside the repository
+  distributes nothing; (2) **wasm runtime is unbounded/unmeasured**; (3) the
+  "at least 25 curiosity prompts graduate from missing to computed" floor is
+  **not met, and cannot be met as counted** — only three BRD-041 rows were ever
+  `missing`, and BRD-012.S04 closed those through CEA equilibrium. The
+  criterion's real content is the clause after it, *through a reviewed reduced
+  mechanism*, and that is item (4).
+- **(4) Not routed into the bench, and the reason is not laziness.** The packs
+  are reachable through `kero mechanism inspect|rates|simulate` and through the
+  tests; nothing in `ignite`, `heat` or `wait` reaches them. The bench's
+  kinetic route is `wait` over the static curated `REGISTRY`, and `ignite` goes
+  through the equilibrator stack, so wiring a pack in means adding pack loading
+  to the engine and touching `solve.rs` or `bench.rs` — both outside this
+  round's boundary. But the deciding reason is the integrator finding above:
+  a skeletal pack cannot currently be integrated through its own ignition
+  transient, so routing `ignite` to it would replace an answer CEA already
+  gets right with one that fails at 2.7 µs. **Fix the integrator first, then
+  route.** Until then the honest arrangement is the one shipped: the packs are
+  reviewed data with an oracle against them, and `ignite` keeps saying what
+  Gibbs minimisation can prove.
+- **Deliberately absent, and said so in each file.** Alcohol fuel exemplars.
+  Nitrogen chemistry of any kind: N₂ is a diluent and third-body collider, and
+  the absence of NO is not a claim that none forms. Soot, luminosity and flame
+  colour. Falloff — every third-body step is a low-pressure limit, with the
+  evaluation's k∞ and F_c unused. Transport, flame structure and flame speed.
+  `OH + HO₂ → H₂O + O₂` between 400 and 1300 K, where the evaluation declines
+  to recommend anything. And any hydrogen-free route from CO to CO₂, since the
+  evaluation recommends none — a dry vessel does nothing in that pack, which
+  understates a slow reaction rather than inventing a fast one, and must not be
+  read as a claim that dry carbon monoxide cannot burn.
 - **2026-09-05, BRD-012.S04:** the three fuel gases the corpus asks about —
   methane, propane and butane — are now registry species, so th-044, th-045
   and th-046 run instead of failing at the parser. What they run through is
