@@ -525,6 +525,10 @@ impl Bench {
             let vessel = self.vessel_mut(id)?;
             vessel.mark_liquid_contact();
             vessel.solution = None;
+            // The step's own "before": the operator applied, no solver run.
+            // A solver that prices heat over the step reads this rather
+            // than its own call-start (see `Vessel::step_start`).
+            vessel.step_start = Some(crate::vessel::StepStart::capture(vessel));
             // For MIX, try native solver mixing on the target vessel.
             if let Some((mix_into, ref snap_a, frac_a, ref snap_b, frac_b)) = mix_sources {
                 if id == mix_into {
@@ -533,6 +537,7 @@ impl Bench {
                             Ok(mut more) => {
                                 events.append(&mut more);
                                 vessel.refresh_pressure();
+                                vessel.step_start = None;
                                 continue;
                             }
                             Err(_) => {
@@ -552,6 +557,7 @@ impl Bench {
                     }),
                 }
             }
+            vessel.step_start = None;
             vessel.refresh_pressure();
             // CAP-25: sealed glass has a limit, and exceeding it is an
             // event, not a scripted animation. The seal fails, the
