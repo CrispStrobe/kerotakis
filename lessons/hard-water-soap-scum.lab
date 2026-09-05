@@ -1,0 +1,30 @@
+# Why fatty soap makes scum in hard water
+#
+# This uses a declared sodium-stearate-equivalent teaching reagent, not dish
+# detergent and not a claim about any branded soap. Two fatty-carboxylate
+# equivalents bind each calcium or magnesium ion; the visible aggregate mass
+# is reported on a calcium-stearate scale.
+register lv2
+
+# Soft-water control: no Ca2+ or Mg2+, so no aggregate is available.
+add v1 water 100g
+add v1 fatty_soap 1g
+look v1
+
+# Hard-water test: calcium is the limiting reagent and produces conserved
+# soap-scum aggregate plus released sodium ions.
+new beaker
+add v2 water 100g
+add v2 CaCl2 0.001mol
+add v2 fatty_soap 1g
+look v2
+
+# Magnesium follows the same two-equivalents-per-ion rule.
+new beaker
+add v3 water 100g
+add v3 MgSO4 0.001mol
+add v3 fatty_soap 1g
+look v3
+
+# Foam/lather, micelles, chain-length mixtures, builders and carbonate scale
+# are not inferred from this bounded precipitation calculation.

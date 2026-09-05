@@ -499,6 +499,26 @@
       </rect>
     {/each}
 
+    {#each (vessel.material_objects ?? []).slice(0, 3) as object, i (`${object.recipe_id}-${i}`)}
+      {@const objectWidth = Math.min(INNER_W * 0.58, 14 + Math.sqrt(Math.max(0, object.mass_g)) * 2.4)}
+      <ellipse
+        class="prepared-object"
+        cx={INNER_X + INNER_W / 2 + (i - 1) * 9}
+        cy={BOTTOM_Y - 9 - i * 3}
+        rx={objectWidth / 2}
+        ry={6}
+        fill={`color-mix(in srgb, #d7b36a ${Math.round((1 - object.browned_fraction) * 100)}%, #704321)`}
+      >
+        <title>{t(object.material)} · {object.mass_g.toFixed(2)} g · {Math.round(object.browned_fraction * 100)}% {t("browned")}</title>
+      </ellipse>
+    {/each}
+
+    {#if vessel.soap_scum && vessel.soap_scum.aggregate_mass_g > 0}
+      <path class="soap-scum" d={`M ${INNER_X + 5} ${BOTTOM_Y - 3} q 12 -7 23 0 t 23 0`}>
+        <title>{vessel.soap_scum.aggregate_mass_g.toFixed(3)} g {t("soap-scum aggregate")}</title>
+      </path>
+    {/if}
+
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = shownSolidLayers[i]!}
@@ -1299,6 +1319,18 @@
     transform-box: fill-box;
     transform-origin: center;
     animation: object-bob 2.8s ease-in-out infinite alternate;
+  }
+  .prepared-object {
+    stroke: color-mix(in srgb, var(--ink) 55%, transparent);
+    stroke-width: 0.8;
+    filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .soap-scum {
+    fill: none;
+    stroke: #ded8c7;
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.9;
   }
   @keyframes object-bob {
     to { transform: translateY(-1.2px) rotate(1.5deg); }

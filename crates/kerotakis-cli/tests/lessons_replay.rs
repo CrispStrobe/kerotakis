@@ -11,6 +11,23 @@ fn lessons_dir() -> std::path::PathBuf {
     std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../lessons")
 }
 
+#[test]
+fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
+    let cases: &[(&str, &[&str])] = &[
+        ("naked-egg-osmosis.lab", &["naked_egg exchanged", "mol water"]),
+        ("hard-water-soap-scum.lab", &["soap-scum aggregate formed", "mol Ca/Mg"]),
+        ("apple-browning.lab", &["cut_apple surface is", "% browned"]),
+    ];
+    for (name, evidence) in cases {
+        let lesson = lessons_dir().join(name);
+        let (out, err, ok) = run(&["run", lesson.to_str().expect("utf-8 path")]);
+        assert!(ok, "{name} replays: {err}");
+        for expected in *evidence {
+            assert!(out.contains(expected), "{name} lost {expected:?}:\n{out}");
+        }
+    }
+}
+
 fn run(args: &[&str]) -> (String, String, bool) {
     let out = Command::new(env!("CARGO_BIN_EXE_kero"))
         .args(args)

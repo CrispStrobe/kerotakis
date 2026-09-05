@@ -59,3 +59,16 @@ describe("kids catalog", () => {
     expect(kidsText({ ...apple, title_de: undefined }, "title", "de")).toBe(apple.title);
   });
 });
+
+describe("prepared KIDS routes", () => {
+  it("exposes the three computed mechanisms as guided lessons", () => {
+    const rows = parseKidsCatalog({ schema: 1, experiments: [
+      { ...apple, status: "computed", ingredients: ["cut_apple", "ascorbic_acid"], lesson: "apple-browning.lab" },
+      { ...apple, id: "K14", title: "Naked egg", status: "computed", ingredients: ["naked_egg", "water"], lesson: "naked-egg-osmosis.lab" },
+      { ...apple, id: "K39", title: "Soap scum", status: "computed", ingredients: ["fatty_soap", "CaCl2"], lesson: "hard-water-soap-scum.lab" },
+    ] });
+    expect(rows.map((row) => row.lesson)).toEqual([
+      "apple-browning.lab", "naked-egg-osmosis.lab", "hard-water-soap-scum.lab",
+    ]);
+  });
+});

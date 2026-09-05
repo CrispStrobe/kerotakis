@@ -52,6 +52,10 @@ export interface SceneVessel {
   solids: SceneSolid[];
   /** Coherent named objects positioned using whole-object bulk density. */
   bulk_objects?: SceneBulkObject[];
+  /** Prepared coherent objects whose ingredients remain object-owned. */
+  material_objects?: SceneMaterialObject[];
+  /** Conserved hard-water/fatty-soap aggregate. */
+  soap_scum?: SceneSoapScum | null;
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
@@ -67,6 +71,19 @@ export interface SceneVessel {
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+export interface SceneMaterialObject {
+  material: string;
+  recipe_id: string;
+  mass_g: number;
+  exchanged_water_moles: number;
+  browned_fraction: number;
+}
+
+export interface SceneSoapScum {
+  aggregate_mass_g: number;
+  divalent_ion_moles: number;
 }
 
 export interface SceneFoam {

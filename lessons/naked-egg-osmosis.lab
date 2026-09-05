@@ -1,0 +1,24 @@
+# Naked egg: a membrane water-transfer comparison
+#
+# The prepared naked_egg is explicitly an egg-white-composition surrogate
+# behind a semipermeable membrane. It is not a simulated whole egg: shell
+# removal is the separate chalk-and-vinegar route, and yolk, elasticity and
+# final equilibrium size are outside this model.
+register lv2
+
+# In plain water the bath has fewer dissolved particles than the declared
+# interior, so water moves into the coherent object.
+add v1 water 150g
+add v1 naked_egg 50g
+wait 3600s
+look v1
+
+# Sugar raises the bath osmolarity. With the same object and clock, water now
+# moves out. Ordinary decant/filter commands deliberately leave the coherent
+# object behind; there is no invented whole-object pickup command.
+new beaker
+add v2 water 100g
+add v2 sucrose 1mol
+add v2 naked_egg 50g
+wait 3600s
+look v2
