@@ -73,8 +73,9 @@ parsed into a network that answered a different question; these were the bugs.
 | `A` as a unit-bearing string (`A: 1e12 cm^3/mol/s`) | **Was confusing** → refused | had surfaced as serde `invalid type: string` |
 | Negative `Ea` | Refused (2026-08-29) → **accepted (2026-09-05, BRD-041)** | legal and common — 4× in `h2o2.yaml`, 32× in `gri30.yaml`. §7 item 3 recommended dropping the `Ea ≥ 0` guard; BRD-041 needed it for `CO + OH → CO₂ + H` and did. The guard is now a finiteness check, and a NaN `Ea` is still refused by name. |
 | Negative `A` / `negative-A: true` | Refused | value guard already refused `A ≤ 0`; the flag is now refused by name too |
-| `orders` (explicit reaction orders) | **Was silent** → refused | changes the concentration exponents *and* the units of `A` |
-| `negative-orders`, `nonreactant-orders` | **Was silent** → refused | |
+| `orders` (explicit reaction orders) | **Was silent** (2026-08-29) → refused → **accepted (2026-09-05, BRD-041)** | changes the concentration exponents *and* the units of `A`, and both now follow it. Modelled for irreversible elementary reactions only; anywhere else the extra concentration unit in `A` is ambiguous and the file is refused. §7 listed this as *not* needed for BRD-041 — that was wrong, because a Westbrook–Dryer global step is a curve fit to a flame whose orders are measured separately from its stoichiometry, and no global hydrocarbon step can be written honestly without it. |
+| `negative-orders` | **Was silent** → refused → **accepted with `orders` (2026-09-05, BRD-041)** | a negative order says the fuel inhibits its own consumption — real in global fits, a spectacular typo otherwise — so it must be declared, exactly as Cantera requires. The flag alone, with no `orders`, is refused. |
+| `nonreactant-orders` | **Was silent** → refused | still refused, and so is an `orders` entry naming a non-reactant. The two-step hydrocarbon mechanisms need it: their CO step depends on water it neither consumes nor produces. A file that needs it fails loudly rather than losing the dependence. |
 | Troe `A` outside [0, 1] | Refused | legal; `n-heptane-NUIG-2016.yaml` ships A from −73.91 to 2.545 |
 | `duplicate: true` | Supported (ignored) | an assertion, not a rate modifier — Cantera keeps duplicates separate and sums their rates, which compiling each entry independently already does. The subset does not *enforce* the flag, so an unmarked duplicate is accepted where Cantera would error. |
 | Any other reaction key | **Was silent** → refused | catch-all; future Cantera rate modifiers cannot be dropped unnoticed |
@@ -282,8 +283,22 @@ of a rate law the subset already evaluates; not one is a new family.
 
 **Not needed for BRD-041's scope:** PLOG (already supported, and unused by every
 teaching file inspected), Chebyshev, `linear-Burke`, chemically-activated
-reactions, NASA9, explicit reaction orders, negative `A`, sticking coefficients,
-electron-collision or plasma rates, transport blocks, and surface phases.
+reactions, NASA9, ~~explicit reaction orders~~, negative `A`, sticking
+coefficients, electron-collision or plasma rates, transport blocks, and surface
+phases.
+
+**Correction (2026-09-05, BRD-041): explicit reaction orders WERE needed.** The
+list above was written on the assumption that BRD-041 would express every fuel
+as an elementary skeletal set. It cannot: the light hydrocarbons have no
+licence-clean skeletal mechanism and no evaluation of their elementary steps at
+the level Baulch et al. reach for H₂/O₂ and CO, so methane, propane and butane
+are carried as Westbrook–Dryer **global** steps. A global step is a curve fit to
+a flame rather than a molecular event, and its reaction orders are measured
+separately from its stoichiometry — the methane fit is *first order overall*
+while its equation says third, and its fuel order is *negative*. Writing it with
+equation-derived orders would be a different rate law that merely looks like the
+cited one. `orders` and `negative-orders` are therefore modelled, for
+irreversible elementary reactions only; `nonreactant-orders` remains refused.
 
 **Needed only past the teaching set:** Troe `A` outside [0, 1] appears twice in
 `nDodecane_Reitz.yaml` and across `n-heptane-NUIG-2016.yaml`. Widen that guard

@@ -1,0 +1,167 @@
+description: Kerotakis light-hydrocarbon global steps v1
+
+note: >-
+  BRD-041. One-step OVERALL reactions for methane, propane and n-butane,
+  taken from the single-step fits of C. K. Westbrook and F. L. Dryer,
+  "Simplified Reaction Mechanisms for the Oxidation of Hydrocarbon Fuels
+  in Flames", Combustion Science and Technology 27(1-2), 31-43 (1981),
+  DOI 10.1080/00102208108946970, Table I on p. 35.
+  WHAT A GLOBAL STEP IS. It is a curve fit to a flame, not a chemical
+  event. Nothing here happens in a single collision, and the reaction
+  orders are measured separately from the stoichiometry rather than read
+  off it: Westbrook and Dryer's methane fit is FIRST ORDER OVERALL while
+  its equation says third, and its fuel order is NEGATIVE - the fuel
+  inhibits its own consumption, which is a real feature of premixed
+  methane flames and the reason the naive first-order-in-everything
+  global step cannot reproduce the rich flammability limit. The authors
+  chose the orders to reproduce measured flammability limits and the
+  pressure dependence of flame speed, and they say so.
+  LICENCE. This file is Kerotakis-authored curated data, CC BY 4.0,
+  separately from the AGPL-3.0 engine code. Attribute as "Kerotakis
+  gas-phase mechanism packs, CC BY 4.0". Rate parameters are measured and
+  fitted facts and a table of facts is not a copyrightable work; no
+  mechanism file was copied. BRD-040 established that no audited
+  combustion mechanism carries a redistribution grant - see
+  provenance/brd-040-cantera-audit.md.
+  UNITS. Westbrook and Dryer state only "Units are cm-sec-mole-kcal-
+  Kelvins", with the rate written as k = A exp(-Ea/RT) [Fuel]^a
+  [Oxidizer]^b and the temperature exponent taken as zero throughout.
+  Their k IS the rate, not a rate coefficient, so it maps directly onto
+  d[Fuel]/dt = -A exp(-Ea/RT) [Fuel]^a [O2]^b. The pre-exponentials below
+  are theirs unchanged, in the cm/mol units this file declares; the
+  activation energies are theirs in kcal/mol, written out in cal/mol.
+  Because the total order is not an integer, A carries a fractional
+  concentration unit - (mol cm-3)^(1-a-b) s-1, which for methane is
+  exactly s-1 and for propane and butane is (cm3 mol-1)^0.75 s-1. The
+  paper does not write that out; it follows from Eq. (2).
+  WHAT THIS PACK DOES NOT CLAIM. It does not claim an intermediate, a
+  radical or an ignition delay: a one-step mechanism contains none, by
+  construction. It does not claim carbon monoxide - it forces complete
+  conversion to CO2 and H2O and therefore over-predicts heat release,
+  which the authors quantify in their Table III (p. 37): at an
+  equivalence ratio of 1.0 a detailed methane-air mechanism gives
+  CO/CO2 = 0.11 and an adiabatic flame temperature of 2220 K, where the
+  one-step form gives no CO at all and 2320 K. It does not claim soot,
+  luminosity or flame colour. It does not claim NOx. It does not claim
+  flame structure: the abstract states plainly that "none of the
+  simplified mechanisms studied accurately describes the chemical
+  structure of the flame itself". It does not claim the two-step form of
+  the same paper (Table IV, p. 38), whose CO step depends on [H2O]^0.5 -
+  water it neither consumes nor produces - because an order on a
+  non-reactant is a different rate-law shape that this engine's mechanism
+  front end refuses rather than silently drops. And it does not claim
+  branched isomers: the paper covers n-paraffins, and its C4H10 row is
+  n-butane.
+  TRANSFERABILITY, IN THE AUTHORS' OWN WORDS. "For each set of reaction
+  rate parameters, the pre-exponential terms tabulated here should be
+  regarded as approximate values if they are used in other numerical
+  models... The activation energies and concentration exponents derived
+  here should be valid for other models. Therefore, for use in other
+  codes, the parameters presented here should be used as initial
+  estimates, with comparisons between computed and experimental data for
+  some reference condition serving to calibrate the pre-exponential
+  factor A." Kerotakis has NOT recalibrated A against a Kerotakis flame
+  speed - there is no flame-speed model on this bench to calibrate
+  against - so every absolute rate here is the authors' value used as
+  they warn it should not be used without calibration. Ratios and
+  dependences are the chemistry; absolute times are an estimate.
+  VALIDITY. The paper states NO temperature range for these fits. The
+  range declared on each reaction below is the one the paper itself
+  quotes for the flame zone at peak heat release, which "varies with
+  equivalence ratio from 1450 K to approximately 2000 K", and it is a
+  Kerotakis reading of the paper rather than a claim the paper makes.
+  The fits were calibrated at an equivalence ratio of 1 at one
+  atmosphere and target the measured lean and rich flammability limits;
+  the non-integer orders were chosen so that a+b = 1.75 gives the
+  observed flame-speed pressure dependence at or above one atmosphere,
+  and the paper states outright that "it is not possible to reproduce
+  both the higher and lower pressure range with a single rate
+  expression". Methane is the exception: its orders sum to exactly 1.0
+  because methane's flame speed goes as P^-0.5 rather than P^-0.125.
+  METHANE'S NUMERICAL HAZARD, NAMED BY THE AUTHORS. Because the fuel
+  order is negative, "the rate of methane consumption increases without
+  limit as the methane concentration approaches zero". The paper
+  recommends either a reverse reaction that pins an equilibrium fuel
+  level or truncating the rate expression. This pack does NEITHER; it
+  relies on the engine's depletion handling to stop the reaction when the
+  fuel is gone. The exponent is only -0.3, so the growth is mild, but a
+  caller integrating methane to exhaustion should know the last decade of
+  fuel burns faster than it should.
+
+references:
+- >-
+  Westbrook, C. K., and Dryer, F. L. "Simplified Reaction Mechanisms for
+  the Oxidation of Hydrocarbon Fuels in Flames." Combustion Science and
+  Technology 27(1-2), 31-43 (1981). DOI 10.1080/00102208108946970.
+  Table I, p. 35. Retrieved 2026-09-05.
+
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  kinetics: gas
+  species: [CH4, C3H8, C4H10, O2, CO2, H2O, N2]
+
+species:
+- name: CH4
+  composition: {C: 1, H: 4}
+- name: C3H8
+  composition: {C: 3, H: 8}
+- name: C4H10
+  composition: {C: 4, H: 10}
+- name: O2
+  composition: {O: 2}
+- name: CO2
+  composition: {C: 1, O: 2}
+- name: H2O
+  composition: {H: 2, O: 1}
+- name: N2
+  composition: {N: 2}
+
+reactions:
+
+- equation: CH4 + 2 O2 => CO2 + 2 H2O
+  rate-constant: {A: 1.3e+8, b: 0.0, Ea: 48400.0}
+  orders: {CH4: -0.3, O2: 1.3}
+  negative-orders: true
+  note: >-
+    id=global-methane; source=Westbrook and Dryer 1981, Table I p. 35,
+    single-step fit for CH4 with A = 1.3e8, Ea = 48.4 kcal/mol, fuel
+    order a = -0.3 and oxygen order b = 1.3, in cm-sec-mole-kcal-Kelvin
+    units. The same table offers a second methane row at the lower
+    activation energy the flame data average to, A = 8.3e5 with Ea = 30.0
+    kcal/mol and the same orders. They are alternatives, not two
+    reactions, and this pack carries the 48.4 kcal/mol row because it is
+    the value the shock-tube and flow-reactor data support and the one
+    the paper's own two-step and quasi-global tables reuse. Both rows
+    reproduce the measured lean and rich flammability limits of 0.5 and
+    1.6 exactly. The paper quotes no uncertainty; validity=1450-2000 K;
+    retrieved=2026-09-05
+
+- equation: C3H8 + 5 O2 => 3 CO2 + 4 H2O
+  rate-constant: {A: 8.6e+11, b: 0.0, Ea: 30000.0}
+  orders: {C3H8: 0.1, O2: 1.65}
+  note: >-
+    id=global-propane; source=Westbrook and Dryer 1981, Table I p. 35,
+    single-step fit for C3H8 with A = 8.6e11, Ea = 30.0 kcal/mol, fuel
+    order a = 0.1 and oxygen order b = 1.65, in cm-sec-mole-kcal-Kelvin
+    units. The activation energy is the paper's chosen average between
+    the lower values near 26 kcal/mol and the 40 kcal/mol used elsewhere,
+    and varying it across that span "affects only the computed flame
+    thickness". The fit reproduces a lean limit of 0.5 exactly and a rich
+    limit of 3.2 against a measured 2.8. The paper quotes no uncertainty;
+    validity=1450-2000 K; retrieved=2026-09-05
+
+- equation: C4H10 + 6.5 O2 => 4 CO2 + 5 H2O
+  rate-constant: {A: 7.4e+11, b: 0.0, Ea: 30000.0}
+  orders: {C4H10: 0.15, O2: 1.6}
+  note: >-
+    id=global-butane; source=Westbrook and Dryer 1981, Table I p. 35,
+    single-step fit for C4H10 with A = 7.4e11, Ea = 30.0 kcal/mol, fuel
+    order a = 0.15 and oxygen order b = 1.6, in cm-sec-mole-kcal-Kelvin
+    units. The paper covers n-paraffins from methane to n-decane and its
+    C4H10 row is n-butane. It has no branched-C4 entry, so this pack
+    makes no claim about isobutane. The fit reproduces a lean limit of
+    0.5 exactly and a rich limit of 3.4 against a measured 3.3. The paper
+    quotes no uncertainty; validity=1450-2000 K; retrieved=2026-09-05

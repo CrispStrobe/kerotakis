@@ -346,6 +346,19 @@ struct RawReaction {
     default_efficiency: f64,
     #[serde(default, rename = "Troe")]
     troe: Option<RawTroe>,
+    /// BRD-041: explicit reaction orders, replacing the exponents the
+    /// equation would otherwise imply. A global step is a curve fit to a
+    /// flame rather than a molecular event, and its orders are measured
+    /// separately from its stoichiometry — Westbrook and Dryer's methane
+    /// fit is first order overall while the equation says third.
+    #[serde(default)]
+    orders: BTreeMap<String, f64>,
+    /// Cantera's acknowledgement flag for an order below zero. A negative
+    /// order says the fuel INHIBITS its own consumption, which is a real
+    /// and well-documented feature of global hydrocarbon fits and a
+    /// spectacular typo if it was not meant, so it must be declared.
+    #[serde(default)]
+    negative_orders: bool,
     #[serde(flatten)]
     extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
@@ -678,7 +691,26 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                 })
                 .collect::<Vec<_>>()
         };
-        let orders = side_orders(&reactant_totals);
+        let mut orders = side_orders(&reactant_totals);
+        if reaction.negative_orders && reaction.orders.is_empty() {
+            return Err(MechanismError::InvalidReaction {
+                reaction: number,
+                detail: "negative-orders is declared without any orders to relax".to_string(),
+            });
+        }
+        if !reaction.orders.is_empty() && (kind != ReactionKind::Elementary || reversible) {
+            return Err(MechanismError::InvalidReaction {
+                reaction: number,
+                detail: "explicit orders are modelled only for irreversible elementary reactions"
+                    .to_string(),
+            });
+        }
+        apply_explicit_orders(
+            number,
+            &mut orders,
+            &reaction.orders,
+            reaction.negative_orders,
+        )?;
         let reverse_orders = reversible.then(|| side_orders(&product_totals));
         let (equilibrium, validity_temperature_k) = if reversible {
             let mut min_temperature_k: f64 = 0.0;
@@ -1353,6 +1385,54 @@ fn normalize_rate(
         temperature_exponent: raw.b,
         activation_energy,
     })
+}
+
+/// Replace the equation-derived reactant orders with the ones the document
+/// states, and refuse everything the portable subset does not model.
+///
+/// Three refusals, each of which changes an answer rather than a style:
+///
+/// - an order on a species that is not on the reactant side is Cantera's
+///   `nonreactant-orders`, a different rate law shape (the CO step of a
+///   two-step hydrocarbon mechanism depends on water, which it neither
+///   consumes nor produces). It is refused by name rather than dropped;
+/// - an order below zero without `negative-orders: true` is refused,
+///   because Cantera requires the same acknowledgement and because a
+///   stray minus sign turns a fuel into an inhibitor;
+/// - a non-finite order is refused, since every downstream rate would be
+///   NaN.
+fn apply_explicit_orders(
+    reaction: usize,
+    orders: &mut [OwnedOrder],
+    declared: &BTreeMap<String, f64>,
+    negative_allowed: bool,
+) -> Result<(), MechanismError> {
+    for (species, order) in declared {
+        if !order.is_finite() {
+            return Err(MechanismError::InvalidReaction {
+                reaction,
+                detail: format!("order for '{species}' must be finite (got {order})"),
+            });
+        }
+        if *order < 0.0 && !negative_allowed {
+            return Err(MechanismError::InvalidReaction {
+                reaction,
+                detail: format!(
+                    "order for '{species}' is {order}; a negative order must declare negative-orders: true"
+                ),
+            });
+        }
+        let Some(slot) = orders.iter_mut().find(|term| term.species == *species) else {
+            return Err(MechanismError::InvalidReaction {
+                reaction,
+                detail: format!(
+                    "orders names '{species}', which is not a reactant of this equation (nonreactant-orders is not modelled)"
+                ),
+            });
+        };
+        slot.order = *order;
+    }
+    Ok(())
 }
 
 fn default_collider() -> OwnedThirdBody {

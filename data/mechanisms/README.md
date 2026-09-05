@@ -86,6 +86,10 @@ ISO date. A rate constant without a source cannot be merged.
   much. A skeletal mechanism whose steps were all evaluated over exactly
   the same window does not exist; naming the mismatch is the honest
   alternative to pretending it away.
+- **No carbon monoxide from the global steps.** A one-step fuel reaction
+  makes CO₂ and H₂O and nothing else, so it over-predicts heat release
+  wherever real equilibrium would leave CO. The authors measured how
+  much; the test suite checks it against CEA rather than letting it pass.
 - **No dry carbon monoxide chemistry.** The 2005 evaluation recommends
   nothing for `CO + O₂`, `CO + HO₂` or `CO + O (+M)`, so the CO pack
   carries no route from CO to CO₂ that does not pass through a
@@ -128,11 +132,12 @@ exists in `kerotakis-sundials` and is API-compatible with
 |---|---|---|---|
 | `h2-o2-skeletal-v1.yaml` | 16 | skeletal, elementary | hydrogen burning: chain branching, the HO₂ shunt, peroxide decomposition, radical recombination |
 | `co-h2-wet-v1.yaml` | 20 | skeletal, elementary | wet CO oxidation — why a trace of water is a *catalyst* for burning carbon monoxide |
+| `hydrocarbon-global-v1.yaml` | 3 | **global**, not elementary | methane, propane and n-butane as one-step overall reactions |
 
-Both packs draw every rate coefficient from one evaluation — Baulch et
-al., *J. Phys. Chem. Ref. Data* **34**(3), 757–1397 (2005) — because a
-mechanism assembled from a single self-consistent evaluation is a
-defensible object, and one assembled from whichever paper gave the
+The two skeletal packs draw every rate coefficient from one evaluation —
+Baulch et al., *J. Phys. Chem. Ref. Data* **34**(3), 757–1397 (2005) —
+because a mechanism assembled from a single self-consistent evaluation is
+a defensible object, and one assembled from whichever paper gave the
 prettiest curve for each step is not. Where that evaluation gives no
 recommendation, the step is **absent** and the pack's header says which
 steps are missing and why. That is the whole discipline: a reaction with
@@ -146,13 +151,40 @@ by the gas constant. `crates/kerotakis-core/tests/gas_mechanism_packs.rs`
 re-derives both conversions from the file's own `units:` block for every
 reaction, so a mis-scaled number cannot merge.
 
-### A note on what is *not* here yet
+### Global steps are a different kind of object
 
-There is no hydrocarbon pack in this directory. Methane, propane and
-butane need **global** steps — Westbrook & Dryer's one-step fits, whose
-reaction orders are non-integer and, for methane, negative — and the
-mechanism parser derives orders from the equation and does not yet read
-an explicit `orders:` block. That is BRD-041's next piece of work, and
-until the parser can express the orders honestly there is no point
-writing the file: a global step with the wrong orders is not the same
-rate law, it just looks like one.
+`hydrocarbon-global-v1.yaml` comes from somewhere else — Westbrook &
+Dryer, *Combust. Sci. Technol.* **27**(1–2), 31–43 (1981), Table I — and
+it is not a mechanism in the same sense at all. A **global step is a
+curve fit to a flame, not a chemical event.** Nothing in it happens in a
+single collision, and its reaction orders are *measured separately from
+its stoichiometry* rather than read off it:
+
+| Fuel | Equation says | Fitted orders | Overall |
+|---|---|---|---|
+| CH₄ | 3rd order | fuel **−0.3**, O₂ 1.3 | 1st |
+| C₃H₈ | 6th order | fuel 0.1, O₂ 1.65 | 1.75 |
+| n-C₄H₁₀ | 7.5th order | fuel 0.15, O₂ 1.6 | 1.75 |
+
+Methane's fuel order is *negative*: the fuel inhibits its own
+consumption. That is not a typo, it is the whole point — the authors show
+that a first-order-in-everything global step cannot reproduce the rich
+flammability limit, and the negative order is what fixes it. It is also
+why the mechanism parser had to learn Cantera's `orders:` block (BRD-040
+had listed explicit orders as *not* needed; that was wrong, and
+`provenance/brd-040-cantera-audit.md` records the correction).
+
+A global step will give you a fuel consumption rate and a heat release.
+It will not give you an intermediate, a radical, an ignition delay, or
+carbon monoxide — it forces complete conversion to CO₂ and H₂O and so
+over-predicts heat release, which the authors quantify in their own Table
+III and which `crates/kerotakis-cea/tests/gas_mechanism_endpoint.rs`
+tests against CEA as an explicit limitation rather than hiding.
+
+One thing the paper says that a reader of this directory should not skip:
+the authors calibrated each pre-exponential against a measured flame
+speed and warn that "the pre-exponential terms tabulated here should be
+regarded as approximate values if they are used in other numerical
+models". Kerotakis has **not** recalibrated them, because there is no
+flame-speed model on this bench to calibrate against. Ratios and
+dependences are the chemistry here; absolute times are an estimate.

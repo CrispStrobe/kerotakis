@@ -74,22 +74,84 @@ fn field_error(yaml: &str) -> String {
 // Rate-law modifiers that used to be dropped silently
 // ---------------------------------------------------------------------------
 
-/// Cantera's `orders` replaces the stoichiometric exponents *and* changes the
-/// units of `A`. Ignoring it produced a mass-action rate law the file never
-/// asked for.
+/// Cantera's `orders` replaces the stoichiometric exponents *and* changes
+/// the units of `A`. BRD-040 refused it because ignoring it produced a
+/// mass-action rate law the file never asked for; BRD-041 needs it,
+/// because a Westbrook–Dryer global step is a curve fit to a flame whose
+/// orders are measured separately from its stoichiometry. It is accepted
+/// now, and the exponents AND the pre-exponential's units follow it.
 #[test]
-fn explicit_reaction_orders_are_refused_by_name() {
-    let error = field_error(&with_reaction_fields("  orders: {H2: 0.25, O2: 1.5}\n"));
-    assert!(error.contains("reaction 1"), "{error}");
-    assert!(error.contains("orders"), "{error}");
+fn explicit_reaction_orders_replace_the_equations_exponents() {
+    let mechanism = parse_yaml(&with_reaction_fields("  orders: {H2: 0.25, O2: 1.5}\n"))
+        .expect("explicit orders are modelled");
+    let detail = &mechanism.summary().reaction_details[0];
+    assert!(
+        (detail.total_order - 1.75).abs() < 1e-12,
+        "the declared orders are the orders: {}",
+        detail.total_order
+    );
+    // BASE writes `2 H2 + O2 => 2 H2O` in cm/mol units, so the equation
+    // alone would be third order and A would carry two concentration
+    // units. At order 1.75 it carries three quarters of one.
+    let expected = 1.0e12 * 1_000f64.powf(1.0 - 1.75);
+    assert!(
+        (detail.pre_exponential - expected).abs() / expected < 1e-12,
+        "A is rescaled to the declared order: {}",
+        detail.pre_exponential
+    );
 }
 
+/// A negative order says the fuel inhibits its own consumption. That is a
+/// real and documented feature of global hydrocarbon fits — and a
+/// spectacular typo if it was not meant — so Cantera makes you declare
+/// it, and so does this.
 #[test]
-fn reaction_order_relaxation_flags_are_refused_by_name() {
-    for flag in ["negative-orders", "nonreactant-orders"] {
-        let error = field_error(&with_reaction_fields(&format!("  {flag}: true\n")));
-        assert!(error.contains(flag), "{error}");
-    }
+fn a_negative_order_must_be_declared() {
+    let error = field_error(&with_reaction_fields("  orders: {H2: -0.3, O2: 1.3}\n"));
+    assert!(error.contains("negative-orders"), "{error}");
+
+    let mechanism = parse_yaml(&with_reaction_fields(
+        "  orders: {H2: -0.3, O2: 1.3}\n  negative-orders: true\n",
+    ))
+    .expect("a declared negative order is modelled");
+    let detail = &mechanism.summary().reaction_details[0];
+    assert!(
+        (detail.total_order - 1.0).abs() < 1e-12,
+        "Westbrook and Dryer's methane fit is first order overall: {}",
+        detail.total_order
+    );
+}
+
+/// The flag alone relaxes nothing and must not look like it did.
+#[test]
+fn a_relaxation_flag_without_orders_is_refused() {
+    let error = field_error(&with_reaction_fields("  negative-orders: true\n"));
+    assert!(error.contains("negative-orders"), "{error}");
+}
+
+/// An order on a species that is not a reactant is Cantera's
+/// `nonreactant-orders`: a different rate-law shape, not a relaxation.
+/// The two-step hydrocarbon mechanisms need it — their CO step depends on
+/// water it neither consumes nor produces — and it is refused by name
+/// rather than dropped, so a file that needs it fails loudly.
+#[test]
+fn an_order_on_a_non_reactant_is_refused_by_name() {
+    let error = field_error(&with_reaction_fields("  orders: {H2O: 0.5}\n"));
+    assert!(error.contains("H2O"), "{error}");
+    assert!(error.contains("nonreactant-orders"), "{error}");
+
+    let flag = field_error(&with_reaction_fields("  nonreactant-orders: true\n"));
+    assert!(flag.contains("nonreactant-orders"), "{flag}");
+}
+
+/// Explicit orders are modelled for irreversible elementary reactions
+/// only. Anywhere else the meaning of the extra concentration unit in `A`
+/// is ambiguous, so the file is refused rather than guessed at.
+#[test]
+fn explicit_orders_are_refused_outside_irreversible_elementary_reactions() {
+    let reversible = BASE.replace("2 H2 + O2 => 2 H2O", "2 H2 + O2 <=> 2 H2O");
+    let error = field_error(&format!("{reversible}  orders: {{H2: 0.5}}\n"));
+    assert!(error.contains("irreversible elementary"), "{error}");
 }
 
 /// A negative pre-exponential is a fitting artifact that only makes sense
