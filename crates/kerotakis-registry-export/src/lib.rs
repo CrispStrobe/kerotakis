@@ -3792,6 +3792,44 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        // th-048: the other half of the comparison, and it routes the
+        // opposite way. NASA CEA's thermo.inp has no alkane above C10, so
+        // neither of these two reaches the equilibrium solver at all;
+        // `ignite` answers them through the curated combustion table,
+        // whose autoignition temperatures are what make the row's point.
+        MaterialRecipe {
+            id: "fuel/diesel".to_string(),
+            version: 1,
+            canonical_key: "diesel".to_string(),
+            name: "diesel fuel".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Dieselkraftstoff".to_string(), "Dieselöl".to_string()]),
+                ("en".to_string(), vec!["gas oil".to_string(), "automotive gas oil".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.832)),
+            components: vec![
+                component("dodecane", 0.45),
+                component("hexadecane", 0.3),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.25,
+                upper: 0.25,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("diesel as a two-component n-alkane surrogate spanning the C10-C16 cut: 45% resolved n-dodecane and 30% resolved n-hexadecane, with the aromatic and cycloalkane quarter conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "real diesel is a distillation cut spanning roughly C10 to C22 with a quarter of its mass in aromatics and cycloalkanes; two straight-chain alkanes stand for the whole cut. It is NOT a claim that diesel is dodecane and hexadecane".to_string(),
+                "cetane number, and therefore ignition delay in an engine, is a property of the blend that this surrogate cannot express - which matters because it is the usual reason diesel and petrol behave differently in an engine. What the surrogate DOES carry is the direction: n-hexadecane is cetane, the reference fuel the scale is defined against, and its autoignition temperature is below the petrol surrogate's".to_string(),
+                "the flash point is not represented at all. Diesel's flash point is about 325 K against petrol's 230 K, and that - not the autoignition temperature - is why a match dropped into diesel goes out and a match dropped into petrol does not. This bench has no flash-point model and no vapour above a pool, so it cannot show that half of the difference".to_string(),
+                "the conserved 25% is the aromatic and cycloalkane fraction; it contributes no chemistry and no energy here, so this fuel carries less energy than a real litre of diesel".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         // th-060: the water in the log is the part the bench really can
         // do - it is inventory that takes heat. The smoke is not.
         MaterialRecipe {

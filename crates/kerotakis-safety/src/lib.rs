@@ -196,6 +196,18 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "ethyl_acetate" => &[FlammableLiquid],
         "bromoethane" | "tert_butyl_bromide" => &[FlammableLiquid],
         "tert_butanol" => &[FlammableLiquid],
+        // The two diesel-surrogate alkanes. They burn, and on this bench
+        // that is their whole hazard: neither does anything to anything
+        // else in a beaker, which is what the rest of this matrix screens
+        // for. `FlammableLiquid` is a slightly HARSHER reading than the
+        // fuel deserves and it is taken deliberately: by flash point a
+        // real diesel is a combustible liquid rather than a flammable
+        // one — about 325 K against petrol's 230 K — and this matrix has
+        // no combustible-liquid row to make that distinction. Erring
+        // towards the stricter label is the right direction for a shelf
+        // warning; the recipe's own lot assumptions record that the
+        // flash point itself is not modelled.
+        "dodecane" | "hexadecane" => &[FlammableLiquid],
 
         // ── flammable gas ─────────────────────────────────────────
         "H2" => &[FlammableGas],
@@ -205,6 +217,20 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // it burns; none of them does anything to anything else in a
         // beaker, which is what the rest of this matrix screens for.
         "methane" | "propane" | "butane" => &[FlammableGas],
+        // Carbon monoxide burns, and `FlammableGas` is the only row this
+        // matrix has for it. That is NOT the whole truth and the gap is
+        // recorded here rather than papered over: carbon monoxide's real
+        // hazard is acute inhalation toxicity — odourless, and binding
+        // haemoglobin some two hundred times more tightly than oxygen
+        // does — and it does not qualify for `ToxicSoluble`, whose
+        // membership test is free solubility in water, because it is
+        // barely soluble at all (about 0.003 g per 100 mL at 20 °C).
+        // Hydrogen sulfide could take that group honestly; this gas
+        // cannot. Filing it there anyway would break the group's own
+        // stated test, and the matrix has no acute-inhalation row to file
+        // it in instead. So the shelf shows this gas as flammable, that
+        // is less than it deserves, and this comment says so.
+        "CO" => &[FlammableGas],
 
         // ── flammable and acutely toxic ───────────────────────────
         // Hydrogen sulfide is both, and both rows follow from identity.
@@ -444,6 +470,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Br-",
     "C",
     "C6H5O7-3",
+    "CO",
     "CO2",
     "Ca(OH)2",
     "amylase",
@@ -555,6 +582,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "cellulose",
     "citric_acid",
     "dehydroascorbic_acid",
+    "dodecane",
     "diamond",
     "ethanol",
     "ethene",
@@ -563,6 +591,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "fructose",
     "glucose",
     "graphite",
+    "hexadecane",
     "gypsum",
     "hexane",
     "indigo_carmine",

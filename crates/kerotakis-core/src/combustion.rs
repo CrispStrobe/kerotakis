@@ -40,6 +40,27 @@
 //! once; the clock is not modelled. Where NASA data exists, CEA runs
 //! first and this solver never sees the vessel — the table below is only
 //! for fuels the dataset does not carry.
+//!
+//! ## Diesel arrived the same way (th-048)
+//!
+//! The table stopped being three kitchen solids when the corpus asked why
+//! diesel and petrol need different ignition conditions. Petrol's
+//! surrogate is hexane, which `thermo.inp` HAS, so petrol burns through
+//! CEA and never reaches this file. Diesel's surrogate is a C12/C16
+//! n-alkane pair, and `thermo.inp`'s saturated chains stop at n-octane
+//! and the n-decyl radical — so diesel lands here, exactly as the candle
+//! and the paper did, and for exactly the same reason.
+//!
+//! That routing split is not an accident of data coverage; it is the
+//! answer. `burnable` fires the moment a vessel is above a fuel's
+//! autoignition temperature with a boundary to burn against, and the
+//! diesel surrogates' 476 K and 478 K are below the petrol surrogate's
+//! 498 K. Warm a sealed flask of each to 490 K without a spark and the
+//! diesel goes; the petrol is answered by `Event::BelowAutoignition` and
+//! sits there. That is compression ignition, computed rather than
+//! narrated. What this file does NOT carry is the flash point, which is
+//! the other half of the real difference and the half that runs the other
+//! way — see the `fuel/diesel` recipe's own lot assumptions.
 
 use crate::ops::Event;
 use crate::solve::{Equilibrator, SolveError};
@@ -86,11 +107,19 @@ pub struct Fuel {
     pub provenance: &'static str,
 }
 
-/// The curated fuels, each one a solid that NASA CEA cannot name.
+/// The curated fuels, each one a substance NASA CEA cannot name.
 ///
-/// Deliberately three. Every entry has to justify itself against the
-/// alternative of saying nothing, and each of these three is something a
-/// kitchen holds and a child burns: the candle, the paper, the sugar.
+/// The first three are deliberate: every entry has to justify itself
+/// against the alternative of saying nothing, and each of them is
+/// something a kitchen holds and a child burns — the candle, the paper,
+/// the sugar. The last two are the diesel surrogate, and they are here
+/// for the same structural reason rather than a kitchen one: `thermo.inp`
+/// has no n-alkane above C10, so a C12/C16 diesel cut cannot reach the
+/// equilibrium solver at all.
+///
+/// The first three are solids and the last two are liquids, which is why
+/// the burn withdraws its fuel from whatever phase holds it rather than
+/// from `Phase::Solid`.
 pub const FUELS: &[Fuel] = &[
     Fuel {
         species: "paraffin",
@@ -142,6 +171,34 @@ pub const FUELS: &[Fuel] = &[
         autoignition_k: 683.0,
         equation: "C12H22O11 + 12 O2 -> 12 CO2 + 11 H2O",
         provenance: "Complete combustion of sucrose, whose heat of combustion is the same number nutrition labels carry as 3.94 kcal per gram. Editorial judgement (Kerotakis): between melting and burning, sugar caramelises and then chars through a family of reactions this table does not contain, so the model offers only the two ends — unchanged below 683 K, fully burned above it with enough air. The black snake is not in here",
+    },
+    Fuel {
+        species: "dodecane",
+        // C12H26 + 18.5 O2 -> 12 CO2 + 13 H2O
+        oxygen: 18.5,
+        carbon_dioxide: 12.0,
+        water: 13.0,
+        // -ΔH°c from the commonly tabulated standard formation
+        // enthalpies: 12 CO2(g) at -393.51 and 13 H2O(l) at -285.83
+        // against C12H26(l) at -350.9 kJ/mol gives 8087 kJ/mol, which is
+        // 47.5 MJ/kg — the figure a fuel table quotes for diesel.
+        heat_j_per_mol: 8_087_000.0,
+        autoignition_k: 476.0,
+        equation: "C12H26 + 18.5 O2 -> 12 CO2 + 13 H2O",
+        provenance: "Complete combustion of n-dodecane, the light half of the registry's diesel surrogate. Heat of combustion is the difference of the commonly tabulated standard formation enthalpies (12 CO2(g) −393.51, 13 H2O(l) −285.83, C12H26(l) −350.9 kJ/mol → 8087 kJ/mol, 47.5 MJ/kg), so the arithmetic is checkable rather than quoted. Autoignition near 476 K is the commonly tabulated value for n-dodecane, and commercial diesel is tabulated at about 483 K — pending-review lane: the primary sources (Zabetakis, U.S. Bureau of Mines Bulletin 627, 1965; CRC) were not re-read for this row and no page is cited. Editorial judgement (Kerotakis): the products are carbon dioxide and liquid-basis water with no soot, and a real diesel flame is a sooting spray flame whose whole character is the soot",
+    },
+    Fuel {
+        species: "hexadecane",
+        // C16H34 + 24.5 O2 -> 16 CO2 + 17 H2O
+        oxygen: 24.5,
+        carbon_dioxide: 16.0,
+        water: 17.0,
+        // 16 CO2(g) at -393.51 and 17 H2O(l) at -285.83 against
+        // C16H34(l) at -456.1 kJ/mol: 10699 kJ/mol, or 47.2 MJ/kg.
+        heat_j_per_mol: 10_699_000.0,
+        autoignition_k: 478.0,
+        equation: "C16H34 + 24.5 O2 -> 16 CO2 + 17 H2O",
+        provenance: "Complete combustion of n-hexadecane — cetane, the fuel the cetane scale is defined against. Heat of combustion is the difference of the commonly tabulated standard formation enthalpies (16 CO2(g) −393.51, 17 H2O(l) −285.83, C16H34(l) −456.1 kJ/mol → 10699 kJ/mol, 47.2 MJ/kg). Autoignition near 478 K is the commonly tabulated value — pending-review lane: no primary page is cited. Editorial judgement (Kerotakis): this row is what makes th-048's answer computed rather than asserted, because 478 K sits below hexane's 498 K in GAS_AUTOIGNITION and the two tables are compared by a test rather than by prose",
     },
 ];
 
@@ -210,6 +267,16 @@ pub const GAS_AUTOIGNITION: &[GasAutoignition] = &[
         autoignition_k: 738.15,
         provenance: ZABETAKIS,
     },
+    // Hexane is also the registry's petrol surrogate (`fuel/petrol`), so
+    // this row is the number th-048 compares the diesel surrogate against.
+    // No `diesel` row is added beside it, and the absence is deliberate:
+    // `unsparked_fuels` is read only by `kerotakis_cea`'s equilibrator,
+    // which declines any vessel holding a species NASA CEA cannot name —
+    // and it cannot name a C12 or C16 alkane. A diesel row here would
+    // never be reached. The live diesel autoignition temperatures are in
+    // `FUELS` above, where `burnable` reads them, and
+    // `the_diesel_surrogate_self_ignites_below_the_petrol_surrogate` pins
+    // the comparison across the two tables.
     GasAutoignition {
         species: "hexane",
         autoignition_k: 498.15,
@@ -380,7 +447,12 @@ impl Equilibrator for CombustionEquilibrator {
             let carbon_dioxide = extent * fuel.carbon_dioxide;
             let steam = extent * fuel.water;
 
-            vessel.withdraw_phase(&id, Moles(extent), Phase::Solid);
+            // Whatever phase holds it: the three kitchen fuels are solids,
+            // the two diesel surrogates are liquids, and a fuel that
+            // burned has left the vessel either way. Taking it from
+            // `Phase::Solid` alone would have burned the diesel without
+            // consuming it, and the ledger would have carried it forever.
+            vessel.withdraw(&id, Moles(extent));
             let remaining = vessel.moles_of(&id);
             events.push(Event::ReactionOccurred {
                 vessel: vessel.id,
@@ -569,6 +641,48 @@ mod tests {
                 fuel.carbon_dioxide * 2.0 + fuel.water,
                 "oxygen in {}",
                 fuel.species
+            );
+        }
+    }
+
+    /// th-048's answer, pinned across the two tables that hold it.
+    ///
+    /// "Diesel self-ignites at a lower temperature than petrol" is a
+    /// comparison between a `FUELS` row and a `GAS_AUTOIGNITION` row,
+    /// because the two fuels route to different solvers — and a claim
+    /// that lives in two tables is exactly the kind that drifts apart
+    /// silently. Both diesel surrogates must stay below the petrol
+    /// surrogate, or the corpus row is answering with the wrong sign.
+    #[test]
+    fn the_diesel_surrogate_self_ignites_below_the_petrol_surrogate() {
+        let petrol = gas_autoignition("hexane")
+            .expect("hexane is the registry's petrol surrogate and carries an autoignition row");
+        for key in ["dodecane", "hexadecane"] {
+            let diesel = fuel_of(key).unwrap_or_else(|| panic!("{key} is a curated fuel"));
+            assert!(
+                diesel.autoignition_k < petrol.autoignition_k,
+                "{key} autoignites at {} K, which is not below the petrol surrogate's {} K",
+                diesel.autoignition_k,
+                petrol.autoignition_k
+            );
+        }
+    }
+
+    /// A curated fuel must be a species the shelf actually has, in the
+    /// phase the burn withdraws from. The three kitchen fuels are solids
+    /// and the two diesel surrogates are liquids; nothing here may be a
+    /// gas, because a gas fuel with a NASA record would never reach this
+    /// solver and one without a record has no thermochemistry at all.
+    #[test]
+    fn every_curated_fuel_is_a_condensed_registry_species() {
+        for fuel in FUELS {
+            let s = crate::species::lookup(&SpeciesId::new(fuel.species))
+                .unwrap_or_else(|| panic!("{} must be an installed species", fuel.species));
+            assert!(
+                matches!(s.standard_phase, Phase::Solid | Phase::Liquid),
+                "{} is {:?}, not a condensed fuel",
+                fuel.species,
+                s.standard_phase
             );
         }
     }

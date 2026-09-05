@@ -1433,6 +1433,33 @@
       "retrieved": null
     },
     {
+      "id": "legacy/CO",
+      "citation": "carbon monoxide, the product a flame makes when it runs short of air. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(g) 29.1 J/(mol.K) at 298 K: standard reference values. It is here because two engines already named it and neither could weigh it: the gas mechanism packs deposit CO by name, and NASA CEA's equilibrium product pool is exactly the set this registry can name - so a rich flame had no carbon monoxide to make and dissociation above about 2000 K had nowhere to go. Adding the word is therefore a physics change and not only a vocabulary one, and the flames in this repository move because of it. density is the bench's shared gas placeholder of 1.0 g/mL, the same figure O2, N2, H2 and CO2 carry: a gas is added by the mole and its volume comes from the vessel's headspace, so no run reads this number. What is NOT claimed here is the hazard a person meets: carbon monoxide is odourless and binds haemoglobin some two hundred times more tightly than oxygen does, and this bench has no odour entry for it, no inhalation model, and no safety group for a sparingly soluble acutely toxic gas",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/dodecane",
+      "citation": "n-dodecane, the light half of this bench's diesel surrogate and the n-alkane most often used as one in the combustion literature. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(l) 375.8 J/(mol.K) at 298 K and density 0.7495 g/mL at 20 C are the commonly tabulated handbook values, PENDING REVIEW: no positively identified copy of a handbook edition was opened for this row, so no edition-level provenance is claimed. NASA CEA's thermo.inp carries no C12 alkane at all - its saturated chain records stop at n-octane and the n-decyl radical - so this species never reaches the equilibrium flame solver, and `ignite` answers it through the curated combustion table instead, which states its own heat of combustion and its own autoignition temperature",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/hexadecane",
+      "citation": "n-hexadecane - cetane - the heavy half of this bench's diesel surrogate and the substance the cetane number is defined against: it is cetane number 100 by definition, which is why a diesel surrogate is built around it rather than around any other C16. Molar mass from IUPAC/CIAAW 2021 atomic weights; Cp(l) 501.6 J/(mol.K) at 298 K and density 0.77 g/mL at 20 C are the commonly tabulated handbook values, PENDING REVIEW: no positively identified copy of a handbook edition was opened for this row, so no edition-level provenance is claimed. Note the melting point: cetane freezes at 18 C, a few degrees below room temperature, which is the real reason winter diesel is a different blend from summer diesel - the bench holds the number but models no wax precipitation and no cold filter plugging. NASA CEA's thermo.inp carries no C16 alkane, so this species burns through the curated combustion table rather than the equilibrium flame solver",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3962,6 +3989,54 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/uranium",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "CO",
+      "canonical_key": "UGFAIRIUMAVXCW-UHFFFAOYSA-N",
+      "name": "carbon monoxide",
+      "identifiers": {
+        "inchikey": "UGFAIRIUMAVXCW-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dodecane",
+      "canonical_key": "SNRUBQQJIBEYMU-UHFFFAOYSA-N",
+      "name": "n-dodecane",
+      "identifiers": {
+        "inchikey": "SNRUBQQJIBEYMU-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "hexadecane",
+      "canonical_key": "DCAYPVUWAIABOU-UHFFFAOYSA-N",
+      "name": "n-hexadecane",
+      "identifiers": {
+        "inchikey": "DCAYPVUWAIABOU-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/hexadecane",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -20536,6 +20611,282 @@
       },
       "evidence": {
         "source_id": "legacy/uranium",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/CO",
+      "species_id": "CO",
+      "formula": "CO",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/CO",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/dodecane",
+      "species_id": "dodecane",
+      "formula": "C12H26",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/dodecane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 26.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/dodecane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/hexadecane",
+      "species_id": "hexadecane",
+      "formula": "C16H34",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 16.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hexadecane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 34.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/hexadecane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/hexadecane",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -38554,6 +38905,424 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/CO",
+      "species_id": "CO",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 28.01,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/CO",
+      "species_id": "CO",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 29.1,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/CO",
+      "species_id": "CO",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 170.34,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 375.8,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.7495,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 263.55,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 489.45,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 226.448,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 501.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.77,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/hexadecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "melting-point/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "property": "melting_temperature",
+      "quantity": {
+        "value": 291.35,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
+    },
+    {
+      "id": "boiling-point/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "property": "boiling_temperature",
+      "quantity": {
+        "value": 559.95,
+        "unit": {
+          "symbol": "K",
+          "dimension": "temperature"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": {
+            "lower": 101325.0,
+            "upper": 101325.0,
+            "unit": {
+              "symbol": "Pa",
+              "dimension": "pressure"
+            }
+          },
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": "the pure alkane's melting and boiling points at one atmosphere. Real diesel has neither: it is a distillation CUT, boiling across roughly 450 to 630 K, and no single boiling point describes it. These two numbers belong to this molecule, not to the fuel it stands in for"
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/phase-transitions-v1",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
+        }
+      }
     }
   ],
   "transport": [],
@@ -45598,6 +46367,54 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/uranium",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/CO",
+      "species_id": "CO",
+      "phase": "gas",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/dodecane",
+      "species_id": "dodecane",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/hexadecane",
+      "species_id": "hexadecane",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/hexadecane",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -53753,6 +54570,105 @@
           "kind": "exact"
         },
         "source_id": "legacy/uranium",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/CO",
+      "subject": {
+        "kind": "species",
+        "id": "CO"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/CO",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/dodecane",
+      "subject": {
+        "kind": "species",
+        "id": "dodecane"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/dodecane",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/hexadecane",
+      "subject": {
+        "kind": "species",
+        "id": "hexadecane"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/hexadecane",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
@@ -62980,6 +63896,104 @@
         "octane rating, and therefore knock resistance, is a property of the blend that this single-component surrogate cannot express - which matters because it is the usual reason petrol and diesel behave differently in an engine",
         "volatility is likewise not represented: a real puddle of petrol supplies vapour far faster than hexane's own boiling point suggests, and the ignition this bench performs takes a charge rather than a vapour above a pool",
         "the conserved 15% is the aromatic and additive fraction; it contributes no chemistry and no energy"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "fuel/diesel",
+      "version": 1,
+      "canonical_key": "diesel",
+      "name": "diesel fuel",
+      "aliases": {
+        "de": [
+          "Dieselkraftstoff",
+          "Dieselöl"
+        ],
+        "en": [
+          "gas oil",
+          "automotive gas oil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.832,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "dodecane",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "hexadecane",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.25,
+        "upper": 0.25
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "diesel as a two-component n-alkane surrogate spanning the C10-C16 cut: 45% resolved n-dodecane and 30% resolved n-hexadecane, with the aromatic and cycloalkane quarter conserved unresolved",
+      "lot_assumptions": [
+        "real diesel is a distillation cut spanning roughly C10 to C22 with a quarter of its mass in aromatics and cycloalkanes; two straight-chain alkanes stand for the whole cut. It is NOT a claim that diesel is dodecane and hexadecane",
+        "cetane number, and therefore ignition delay in an engine, is a property of the blend that this surrogate cannot express - which matters because it is the usual reason diesel and petrol behave differently in an engine. What the surrogate DOES carry is the direction: n-hexadecane is cetane, the reference fuel the scale is defined against, and its autoignition temperature is below the petrol surrogate's",
+        "the flash point is not represented at all. Diesel's flash point is about 325 K against petrol's 230 K, and that - not the autoignition temperature - is why a match dropped into diesel goes out and a match dropped into petrol does not. This bench has no flash-point model and no vapour above a pool, so it cannot show that half of the difference",
+        "the conserved 25% is the aromatic and cycloalkane fraction; it contributes no chemistry and no energy here, so this fuel carries less energy than a real litre of diesel"
       ],
       "substitutions": [],
       "confidence": "surrogate",

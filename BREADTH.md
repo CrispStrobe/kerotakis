@@ -757,6 +757,41 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     The honest answer to "does sunscreen absorb UV" needs a UV model, not a
     wider table, and until there is one `unknown-species` remains the
     better answer.
+  - `BRD-014.S06` (2026-09-05) — diesel, and the registry identity a rich
+    flame needed. `th-048` ("why does diesel need different ignition
+    conditions from petrol?") failed at the parser, and closing it honestly
+    needed three species rather than a word. Diesel is a C10-C16 cut, and
+    NASA CEA's `thermo.inp` carries **no n-alkane above C10** — its saturated
+    chains stop at n-octane and the n-decyl radical — so unlike petrol, whose
+    hexane surrogate CEA has, diesel cannot reach the equilibrium flame
+    solver at all. It therefore lands in `combustion::FUELS`, the curated
+    table built for exactly this case, beside the candle and the sheet of
+    paper. `fuel/diesel` is 45% n-dodecane and 30% n-hexadecane with the
+    aromatic and cycloalkane quarter conserved unresolved; both alkanes enter
+    the registry with molar mass, heat capacity, density and their melting
+    and boiling points. The row's answer is emergent rather than narrated:
+    the diesel surrogates' 476 K and 478 K sit below the petrol surrogate's
+    498 K in `GAS_AUTOIGNITION`, so a warm unsparked vessel of diesel burns
+    where the same vessel of petrol is answered by `BelowAutoignition`. That
+    is compression ignition, and a test pins the comparison across the two
+    tables. **What is NOT claimed:** the flash point, which runs the other
+    way (diesel about 325 K against petrol's 230 K) and is the reason a match
+    dropped into diesel goes out — this bench has no flash-point model and no
+    vapour above a pool, and the recipe's lot assumptions say so. No soot, no
+    spray, no cetane number, and no ignition delay.
+  - `BRD-014.S06` also added `CO` as a registry identity, which is not a
+    materials row and is recorded here because it shipped with the tranche.
+    The gas mechanism packs deposited carbon monoxide by name and nothing
+    could weigh it, and NASA CEA's equilibrium product pool is exactly the
+    set this registry can name — so no flame in this repository could make
+    carbon monoxide, and CO2 dissociation above about 2000 K had nowhere to
+    go. Naming it is a physics change and not only a vocabulary one. Its
+    safety row is `FlammableGas` and that is **less than the substance
+    deserves**: its real hazard is acute inhalation toxicity, and it does not
+    qualify for `ToxicSoluble`, whose stated membership test is free
+    solubility in water. The matrix has no acute-inhalation row to file it
+    in, and the gap is written down in the arm's own comment rather than
+    hidden behind a group that means something else.
 - **Outcome:** versioned packs for at least 75 familiar named materials, selected
   by BRD-000 demand.
 - **Scope:** begin with air, tap/seawater, vinegar, baking powder/soda, bleach,
@@ -1356,8 +1391,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   BRD-012.S04's note below says the same thing from the other side and is
   right: three prompts reaching an equilibrium solver is not twenty-five
   prompts reaching a reviewed reduced mechanism. `th-047` petrol and `th-048`
-  diesel remain `missing` and belong to BRD-014: they are mixtures, and no
-  mechanism here or anywhere else in the tree names them.
+  diesel belonged to BRD-014 and were closed there: they are mixtures, and no
+  mechanism here or anywhere else in the tree names them, so both are material
+  recipes over surrogate alkanes rather than mechanism rows. BRD-014.S02
+  closed `th-047` and BRD-014.S06 closed `th-048`; neither is a kinetics
+  claim, and the ignition difference between the two fuels is a comparison of
+  two curated autoignition temperatures, not an ignition-delay calculation.
 - **Engine finding: the extent integrator cannot carry a radical chain through
   ignition.** `kinetics_integrator.rs` hands diffsol a matrix-free Jacobian
   whose finite-difference probe is one scalar for the whole extent vector,

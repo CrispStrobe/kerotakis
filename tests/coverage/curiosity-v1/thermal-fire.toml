@@ -555,7 +555,6 @@ material_class = "fuel_mixture"
 owning_task = "BRD-014"
 tags = ["diesel", "ignition"]
 script = ["add v1 diesel 5mL", "add v1 O2 0.5mol", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
