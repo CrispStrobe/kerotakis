@@ -432,6 +432,59 @@ impl<'a> Validator<'a> {
             for (role_index, role) in recipe.roles.iter().enumerate() {
                 let role_path = format!("{path}.roles[{role_index}]");
                 match role {
+                    MaterialRole::CoherentObject => {
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::CompositeObject { .. }
+                        ) {
+                            self.issue(
+                                role_path,
+                                "a coherent object requires composite_object form",
+                            );
+                        }
+                    }
+                    MaterialRole::OsmoticMembrane {
+                        internal_osmolarity_mol_per_litre,
+                    } => {
+                        if !internal_osmolarity_mol_per_litre.is_finite()
+                            || *internal_osmolarity_mol_per_litre <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.internal_osmolarity_mol_per_litre"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !recipe
+                            .roles
+                            .iter()
+                            .any(|r| matches!(r, MaterialRole::CoherentObject))
+                        {
+                            self.issue(
+                                role_path,
+                                "an osmotic membrane requires a coherent object role",
+                            );
+                        }
+                    }
+                    MaterialRole::BrowningSurface => {
+                        if !recipe
+                            .roles
+                            .iter()
+                            .any(|r| matches!(r, MaterialRole::CoherentObject))
+                        {
+                            self.issue(
+                                role_path,
+                                "a browning surface requires a coherent object role",
+                            );
+                        }
+                    }
+                    MaterialRole::FattySoapEquivalent { moles_per_gram } => {
+                        if !moles_per_gram.is_finite() || *moles_per_gram <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.moles_per_gram"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
                     MaterialRole::FoamStabilizer {
                         trapping_efficiency,
                         gas_volume_fraction,

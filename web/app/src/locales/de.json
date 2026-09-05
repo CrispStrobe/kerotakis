@@ -439,7 +439,10 @@
   "naphthalene": "Naphthalin",
   "hydrogen sulfide": "Schwefelwasserstoff",
   "chlorophyll a": "Chlorophyll a",
-  "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)"
+  "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)",
+  "naked egg osmosis": "Osmose beim nackten Ei",
+  "hard water soap scum": "Seifenkalk in hartem Wasser",
+  "apple browning": "Bräunung eines Apfels"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
@@ -2057,6 +2060,14 @@
   "boiling chips": "Siedesteinchen",
   "alkaline battery electrolyte": "Alkalibatterie-Elektrolyt",
   "cake batter": "Kuchenteig",
-  "popcorn kernel": "Puffmaiskorn"
+  "popcorn kernel": "Puffmaiskorn",
+  "browned": "gebräunt",
+  "soap-scum aggregate": "Seifenkalk-Aggregat",
+  "naked_egg": "nacktes Ei",
+  "cut_apple": "frisch geschnittener Apfel",
+  "fatty_soap": "Fettsäureseifen-Reagenz",
+  "freshly cut apple": "frisch geschnittener Apfel",
+  "naked egg membrane surrogate": "Membranmodell eines nackten Eis",
+  "sodium fatty-soap teaching equivalent": "Natrium-Fettsäureseifen-Lehräquivalent"
  }
 }

@@ -545,6 +545,11 @@ naphthalene = "Naphthalin"
 
 # GUI-092: die Nettoionengleichung. Nur die Beschriftung wird übersetzt —
 # die Gleichung selbst ist chemische Notation und in jeder Sprache gleich.
+"object-spill-boundary.lv1" = "{vessel}: {count} zusammenhängende Objekte bleiben im Gefäß; dieses Verschüttungsmodell bewegt nur die Massenphasen"
+"osmosis-changed.lv1" = "{vessel}: {material} tauscht {water} mol Wasser aus ({mass} g)"
+"browning-changed.lv1" = "{vessel}: Die Oberfläche von {material} ist zu {percent} % gebräunt"
+"soap-scum-formed.lv1" = "{vessel}: {mass} g Seifenkalk-Aggregat entstehen aus {moles} mol Ca/Mg"
+
 [ionic]
 net = "Netto-Ionengleichung"
 spectators = "Zuschauerionen"

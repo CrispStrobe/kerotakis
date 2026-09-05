@@ -64061,6 +64061,334 @@
           "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
+    },
+    {
+      "id": "prepared/naked-egg-surrogate",
+      "version": 1,
+      "canonical_key": "naked_egg",
+      "name": "naked egg membrane surrogate",
+      "aliases": {
+        "de": [
+          "Nacktes Ei"
+        ],
+        "en": [
+          "peeled egg"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.04,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.88,
+            "upper": 0.88
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.004,
+            "upper": 0.004
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.116,
+        "upper": 0.116
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": null
+      },
+      "roles": [
+        {
+          "kind": "coherent_object"
+        },
+        {
+          "kind": "osmotic_membrane",
+          "internal_osmolarity_mol_per_litre": 0.3
+        }
+      ],
+      "preparation": "egg-white composition retained behind a semipermeable membrane; shell, yolk and tissue mechanics are outside this bounded surrogate",
+      "lot_assumptions": [
+        "only water transfer from an osmolarity contrast is computed; ion selectivity, elasticity and final equilibrium mass are not"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "prepared/cut-apple",
+      "version": 1,
+      "canonical_key": "cut_apple",
+      "name": "freshly cut apple",
+      "aliases": {
+        "de": [
+          "Apfelscheibe"
+        ],
+        "en": [
+          "apple slice"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.85,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.851,
+            "upper": 0.851
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "fructose",
+          "fraction": {
+            "lower": 0.062,
+            "upper": 0.062
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.024,
+            "upper": 0.024
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.021,
+            "upper": 0.021
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.024,
+            "upper": 0.024
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "citric_acid",
+          "fraction": {
+            "lower": 0.005,
+            "upper": 0.005
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.013,
+        "upper": 0.013
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": null
+      },
+      "roles": [
+        {
+          "kind": "coherent_object"
+        },
+        {
+          "kind": "browning_surface"
+        }
+      ],
+      "preparation": "fresh cut surface exposed when the material is added",
+      "lot_assumptions": [
+        "visible browning is a bounded oxygen/time response with ascorbate inhibition; enzyme turnover, texture, flavour and food safety are not computed"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "prepared/fatty-soap-equivalent",
+      "version": 1,
+      "canonical_key": "fatty_soap",
+      "name": "sodium fatty-soap teaching equivalent",
+      "aliases": {
+        "de": [
+          "Fettsäureseife"
+        ],
+        "en": [
+          "sodium soap equivalent"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "fatty_soap_equivalent",
+          "moles_per_gram": 0.003263068589701756
+        }
+      ],
+      "preparation": "declared sodium-stearate-equivalent reagent for bounded hard-water precipitation; not a commercial detergent formulation",
+      "lot_assumptions": [
+        "two fatty-carboxylate equivalents bind each calcium or magnesium ion; aggregate mass follows the consumed sodium-soap equivalent plus bound Ca/Mg minus sodium returned to solution"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
     }
   ]
 }

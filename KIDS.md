@@ -65,7 +65,7 @@ silent miss teaches the silence.
 | K11 | Dancing raisins | raisins rising and falling | ~~unreachable~~ → computed | the last unreachable row, closed by KID-13 (2026-09-03). A raisin joins the shelf at 1.35 g/mL, and the bench computes what the experiment is actually about: attached bubbles worth **35% of the raisin's own volume** lift it out of water, and only 11% out of sugar syrup |
 | K12 | Red-cabbage rainbow | pink → purple → green | ~~unreachable~~ → computed | no anthocyanin existed, in the materials *or* the indicator table (KID-8, landed 2026-09-02: five computed colours, and `red_cabbage_indicator` — the exact name this row died on — now resolves) |
 | K13 | Invisible ink | brown writing appearing | **wrong** → partial | three of four halves fixed. KID-6 stopped the paper reaching **670 °C with liquid water still in the ledger**; KID-12 made the paper burn as cellulose at 506 K; and 2026-09-04 put **lemon juice on the shelf**, so the experiment can be written at all — it used to fail at `add v1 Zitronensaft`. What is left is the browning itself: the caramelisation between drying and burning, which is chemistry this bench does not have |
-| K14 | Naked egg | the shell vanishing | computed | CaCO₃ + acetic acid to completion, pH 4.60, gas out. No egg material and no membrane, so the osmosis half is out of reach |
+| K14 | Naked egg | membrane water transfer | computed | `naked_egg` keeps its inventory behind a bounded semipermeable membrane; water moves with the osmotic gradient. Shell removal remains the separate chalk/vinegar surrogate, with no yolk, elasticity or final-equilibrium claim |
 | K15 | Rubbery bone | the bone bending | partial | real bone is calcium phosphate; only the chalk stand-in is modelled |
 | K16 | Clean a copper coin | the shine returning | ~~partial~~ → computed | closed 2026-09-04. The acid dissolves the oxide to a blue solution, and with chloride the bench now precipitates **green atacamite** — the mineral that grows on wet copper. There is still no coin: no tarnish layer, no shine returning, and no difference between a second's dip and a night's soak. What the bench has is what the liquid does |
 | K17 | Rusting race | orange rust | ~~**silent miss**~~ → computed | steel wool + brine + oxygen + 24 h left iron untouched, and said only "this part of the lab isn't awake yet" (KID-5, fixed 2026-09-02: the same script now converts all of it to reddish-brown iron(III) oxide) |
@@ -1347,13 +1347,13 @@ or a rate in them.
 | K36 | Turn an iron nail copper | computed | Fe + CuSO₄ → Cu + FeSO₄, +17 K, orange copper at the bottom. Textbook |
 | K37 | Why salt makes ice colder | computed | −3.19 °C from 40 g of salt, freezing-point depression solved |
 | K38 | Baking powder or baking soda? | computed | the heat-activated powder resolves to its starch and carbonate and behaves differently from plain soda in cold water |
-| K39 | Why soap will not lather in hard water | partial | the scale is computed exactly (0.0119 mol chalk precipitates); there is no soap scum, because there is no fatty-acid salt to make it from |
+| K39 | Why soap will not lather in hard water | computed | a declared fatty-soap reagent binds Ca/Mg at 2:1 into a conserved aggregate whose mass follows the consumed soap and actual ion; lather, micelles, builders and commercial formulations remain outside the model |
 | K40 | Grow blue crystals | **wrong** → computed | **the fourth stale row, and the only one closed by nobody.** Its three complaints were answered by three separate tasks and the row was never re-read: KID-6 fixed the 109 °C boil with liquid water in the ledger, KID-7 gave cooling solutions their crystals, KID-20 stopped chalcanthite being drawn white. Verified 2026-09-04 — 0.0884 mol precipitates on cooling with the net ionic equation, and the liquid goes from *black* (too concentrated to see through) to *blue* as the copper leaves it Its three greens — Langite, Antlerite, Brochantite — were added to the registry on the same day and now precipitate rather than being refused |
 | K41 | Powder fizzes faster than a lump | ~~unreachable~~ → partial | **stale verdict, corrected 2026-09-04.** `grind` works when the chalk goes in before the water: "ground to 50.0 µm — about 0.221 m² surface area", and the curated equation then fires. What is still missing is the *contrast*: the acid-carbonate route carries no rate, so powder and lump fizz identically |
 | K42 | Lemonade that changes colour | computed | bromothymol blue, blue → yellow, from the absorption spectrum |
 | K43 | Settle a sour stomach | computed | Mg(OH)₂ neutralises and the excess stays as a solid, which is exactly why the real medicine is a suspension |
 | K44 | An eggshell in cola | computed | cola surrogate reads pH 2, and only the acid it actually carries dissolves shell — an honest partial, and a better lesson than the myth |
-| K45 | Stop an apple going brown | honest miss | no enzymatic browning; the vitamin C sits as a solid and says so |
+| K45 | Stop an apple going brown | computed | a prepared cut surface browns with oxygen and time, while ascorbate inhibits the bounded visible response; enzyme turnover, texture, flavour and food safety are not claimed |
 | K46 | Which metal reacts first? | computed | Mg vigorous (+23 K), Zn slower, Cu refuses with the overpotential explanation. The activity series, computed |
 | K47 | A fire extinguisher in a jar | ~~silent miss~~ → computed | KID-12: the fire exists now, and the extinguisher works the way a real one does — by dilution. The wax is untouched, the oxygen is untouched, and the flame will not start, because 14% of the gas being oxygen is not enough |
 | K48 | Colours climbing a chalk stick | ~~honest miss~~ → computed | same refusal as K26, and fixed with it by KID-9 |
@@ -1370,10 +1370,10 @@ or a rate in them.
 | K59 | A glow stick in warm and cold water | unreachable | no luminol and no chemiluminescence |
 | K60 | One indicator, five jars | computed | phenolphthalein purple → colourless across the neutralisation |
 
-**Tally: computed 12 · partial 5 · honest miss 2 · silent miss 3 · wrong 3 ·
-unreachable 5.** Almost identical to the first thirty, and the failures land
-in the same places — which is the useful result: the corpus is not finding
-thirty separate problems, it is finding the same eight.
+**Current shipped-catalog tally (2026-09-05): computed 47 · partial 8 ·
+boundary 1 · declined 2 · unreachable 2.** K14, K39 and K45 now contribute
+guided GUI lessons backed by the prepared-object and aggregate state described
+above; the older audit labels in this narrative remain as history.
 
 ## What the second thirty added to the register
 

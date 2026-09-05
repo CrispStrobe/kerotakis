@@ -439,7 +439,10 @@
   "naphthalene": "",
   "hydrogen sulfide": "",
   "chlorophyll a": "",
-  "nylon 6,6 (repeat unit)": ""
+  "nylon 6,6 (repeat unit)": "",
+  "naked egg osmosis": "",
+  "hard water soap scum": "",
+  "apple browning": ""
  },
  "messages": {
   "Kids Lab": "",
@@ -2057,6 +2060,14 @@
   "boiling chips": "",
   "alkaline battery electrolyte": "",
   "cake batter": "",
-  "popcorn kernel": ""
+  "popcorn kernel": "",
+  "browned": "",
+  "soap-scum aggregate": "",
+  "naked_egg": "",
+  "cut_apple": "",
+  "fatty_soap": "",
+  "freshly cut apple": "",
+  "naked egg membrane surrogate": "",
+  "sodium fatty-soap teaching equivalent": ""
  }
 }

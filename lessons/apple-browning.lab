@@ -1,0 +1,20 @@
+# Stop a cut apple going brown
+#
+# Browning belongs only to the prepared cut_apple identity: an intact generic
+# apple has no declared fresh surface. The response is a bounded oxygen/time
+# observable, not enzyme turnover, taste, texture or food-safety advice.
+register lv2
+
+# Air control: a fresh surface browns as the shared clock advances.
+add v1 cut_apple 20g
+wait 900s
+look v1
+
+# Vitamin-C comparison: the same mass, air and time with ascorbate nearby.
+# The model computes inhibition of the visible response; it does not claim
+# permanent preservation.
+new beaker
+add v2 ascorbic_acid 0.01mol
+add v2 cut_apple 20g
+wait 900s
+look v2

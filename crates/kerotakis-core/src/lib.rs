@@ -54,6 +54,7 @@ pub mod instrument;
 pub mod intern;
 pub mod ionic;
 pub mod kinetics;
+pub mod kitchen_biology;
 pub mod ledger;
 pub mod material;
 pub mod molecule;

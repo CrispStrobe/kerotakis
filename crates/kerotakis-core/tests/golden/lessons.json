@@ -36,6 +36,44 @@
       }
     ]
   },
+  "apple-browning": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +20.000 g cut_apple (6 known ingredients)",
+      "v1: cut_apple surface is 63% browned",
+      "v1: cut_apple surface is 86% browned",
+      "v1: .",
+      "v2: new vessel",
+      "v2: +0.0100 mol ascorbic acid (vitamin C)",
+      "v2: +20.000 g cut_apple (6 known ingredients)",
+      "v1: cut_apple surface is 95% browned",
+      "v1: cut_apple surface is 98% browned",
+      "v2: cut_apple surface is 2% browned",
+      "v2: cut_apple surface is 3% browned",
+      "v2: There is white ascorbic acid (vitamin C) in the beaker."
+    ],
+    "lesson": "apple-browning.lab",
+    "vessels": [
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ascorbic_acid"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "baking-powder-or-soda": {
     "event_count": 18,
     "events_sample": [
@@ -2233,6 +2271,77 @@
       }
     ]
   },
+  "hard-water-soap-scum": {
+    "event_count": 17,
+    "events_sample": [
+      "v1: +5.5509 mol water",
+      "v1: +1.000 g fatty_soap (0 known ingredients)",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +5.5509 mol water",
+      "v2: +0.0010 mol calcium chloride",
+      "v2: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +1.000 g fatty_soap (0 known ingredients)",
+      "v2: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: The liquid is colourless and cloudy.",
+      "v3: new vessel",
+      "v3: +5.5509 mol water",
+      "v3: +0.0010 mol magnesium sulfate",
+      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +1.000 g fatty_soap (0 known ingredients)",
+      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: The liquid is colourless and cloudy."
+    ],
+    "lesson": "hard-water-soap-scum.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.55092978,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 5.55092978,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "MgSO4"
+          },
+          {
+            "moles": 5.55092978,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "heating-proteins": {
     "event_count": 17,
     "events_sample": [
@@ -3377,6 +3486,68 @@
           },
           {
             "moles": 5.50469054,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "naked-egg-osmosis": {
+    "event_count": 20,
+    "events_sample": [
+      "v1: +8.3264 mol water",
+      "v1: +50.000 g naked_egg (2 known ingredients)",
+      "v1: naked_egg exchanged 0.005981 mol water (+0.108 g)",
+      "v1: naked_egg exchanged 0.005995 mol water (+0.108 g)",
+      "v1: The liquid is colourless and clear.",
+      "v2: new vessel",
+      "v2: +5.5509 mol water",
+      "v2: +1.0000 mol sucrose",
+      "v2: 0.6386 mol sucrose dissolved",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: +50.000 g naked_egg (2 known ingredients)",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: naked_egg exchanged 0.006010 mol water (+0.108 g)",
+      "v1: naked_egg exchanged 0.006025 mol water (+0.109 g)",
+      "v2: 100% of the suspended particles settle in 3600 s",
+      "v2: naked_egg exchanged -0.039870 mol water (-0.718 g)",
+      "v2: naked_egg exchanged -0.039220 mol water (-0.707 g)",
+      "v2: 0.0091 mol sucrose dissolved",
+      "v2: not yet modelled — sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: The liquid is colourless and clear, there is white sucrose at the bottom."
+    ],
+    "lesson": "naked-egg-osmosis.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 8.30238441,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.64770691,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 0.35229309,
+            "phase": "Solid",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.63001976,
             "phase": "Liquid",
             "species": "water"
           }

@@ -664,6 +664,26 @@ pub enum Event {
         components: Vec<MaterialComponentAdded>,
         unresolved_amount: f64,
     },
+    ObjectSpillBoundary {
+        vessel: VesselId,
+        object_count: usize,
+    },
+    OsmosisChanged {
+        vessel: VesselId,
+        material: String,
+        water_moles: f64,
+        mass_change_g: f64,
+    },
+    BrowningChanged {
+        vessel: VesselId,
+        material: String,
+        browned_fraction: f64,
+    },
+    SoapScumFormed {
+        vessel: VesselId,
+        aggregate_mass_g: f64,
+        divalent_ion_moles: f64,
+    },
     TemperatureChanged {
         vessel: VesselId,
         from: Kelvin,
