@@ -433,7 +433,9 @@
   "butane": "",
   "helium": "",
   "naphthalene": "",
-  "hydrogen sulfide": ""
+  "hydrogen sulfide": "",
+  "chlorophyll a": "",
+  "nylon 6,6 (repeat unit)": ""
  },
  "messages": {
   "Kids Lab": "",
@@ -2037,6 +2039,20 @@
   "unleaded petrol": "",
   "damp wood": "",
   "sugar water": "",
-  "dried beans": ""
+  "dried beans": "",
+  "raw meat": "",
+  "bile salts": "",
+  "green leaf": "",
+  "pondweed shoot": "",
+  "dry seed": "",
+  "germinating seed": "",
+  "celery stem": "",
+  "wilted lettuce leaf": "",
+  "onion epidermis": "",
+  "cured thermoset resin": "",
+  "boiling chips": "",
+  "alkaline battery electrolyte": "",
+  "cake batter": "",
+  "popcorn kernel": ""
  }
 }

@@ -237,6 +237,8 @@ butane = "Butan"
 helium = "Helium"
 naphthalene = "Naphthalin"
 "hydrogen sulfide" = "Schwefelwasserstoff"
+"chlorophyll a" = "Chlorophyll a"
+"nylon 6,6 (repeat unit)" = "Nylon 6,6 (Wiederholungseinheit)"
 
 [event]
 "vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."

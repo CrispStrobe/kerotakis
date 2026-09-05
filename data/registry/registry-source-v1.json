@@ -1397,6 +1397,24 @@
       "retrieved": null
     },
     {
+      "id": "legacy/chlorophyll",
+      "citation": "chlorophyll a, the magnesium porphyrin that makes a leaf green. Molar mass from IUPAC/CIAAW 2021 atomic weights over the accepted C55H72MgN4O5 formula; density 1.079 g/mL is a standard reference value and the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No InChIKey is asserted: this record stands for the chlorophyll of a leaf, and chlorophyll b and the several allomers a real extract contains are not distinguished. The colour is RECORDED, not computed: chlorophyll looks green because it absorbs strongly in the blue near 430 nm and in the red near 665 nm and reflects what is left, and this species carries no absorption spectrum, so nothing in a run derives the green from those two bands. Photosynthesis is not modelled anywhere on this bench, so holding the pigment is not holding the process.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/nylon",
+      "citation": "nylon 6,6 as one adipamide repeat unit, the same polymer-as-population convention polyethylene and PET already use. Molar mass from IUPAC/CIAAW 2021 atomic weights over the repeat unit; density 1.14 g/mL is a standard reference value and the molar heat capacity is a Kopp's-rule estimate and an explicit teaching approximation. No InChIKey is asserted, because a chain of indefinite length is not a molecule. NO aqueous solubility is entered either, and that is deliberate: the other polymers on this shelf carry a reviewed zero so the bench can say they do not dissolve, but nylon IS attacked by hot concentrated acid - the amide bond hydrolyses - and no solver here models that. Entering a zero would turn a gap into the claim that the polymer survives, so this record stays silent and the engine says it does not know.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -3852,6 +3870,34 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/hydrogen_sulfide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "chlorophyll",
+      "canonical_key": "legacy:species/chlorophyll",
+      "name": "chlorophyll a",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "nylon",
+      "canonical_key": "legacy:species/nylon",
+      "name": "nylon 6,6 (repeat unit)",
+      "identifiers": {},
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/nylon",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -19923,6 +19969,325 @@
       },
       "evidence": {
         "source_id": "legacy/hydrogen_sulfide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/chlorophyll",
+      "species_id": "chlorophyll",
+      "formula": "C55H72MgN4O5",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 55.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/chlorophyll",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 72.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/chlorophyll",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Mg",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/chlorophyll",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/chlorophyll",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 5.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/chlorophyll",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/nylon",
+      "species_id": "nylon",
+      "formula": "C12H22N2O2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/nylon",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 22.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/nylon",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/nylon",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/nylon",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/nylon",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -37294,6 +37659,186 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/chlorophyll",
+      "species_id": "chlorophyll",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 893.509,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/chlorophyll",
+      "species_id": "chlorophyll",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 1325.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/chlorophyll",
+      "species_id": "chlorophyll",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.079,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/nylon",
+      "species_id": "nylon",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 226.32,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/nylon",
+      "species_id": "nylon",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 363.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/nylon",
+      "species_id": "nylon",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.14,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -44274,6 +44819,38 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/hydrogen_sulfide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/chlorophyll",
+      "species_id": "chlorophyll",
+      "phase": "solid",
+      "appearance": "green",
+      "flame_colour": null,
+      "reflective_srgb": "#2F6E3C",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/nylon",
+      "species_id": "nylon",
+      "phase": "solid",
+      "appearance": "white opaque plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#F5F5F2",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/nylon",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -52234,6 +52811,138 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/chlorophyll",
+      "subject": {
+        "kind": "species",
+        "id": "chlorophyll"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/chlorophyll",
+      "subject": {
+        "kind": "species",
+        "id": "chlorophyll"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/chlorophyll",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/nylon",
+      "subject": {
+        "kind": "species",
+        "id": "nylon"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/nylon",
+      "subject": {
+        "kind": "species",
+        "id": "nylon"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/nylon",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -61777,6 +62486,1559 @@
         "the 21% conserved remainder is the storage protein and the minerals. Beans are a protein food and this bench has no protein species, so the part a cook cares most about is the part that stays unresolved",
         "SOFTENING IS NOT MODELLED. A bean softens because heat and water break down the pectin holding its cell walls together, and nothing here does that. What a sealed pot can show is the pressure and the raised boiling temperature, which is the reason a pressure cooker is faster - so the mechanism is half present and the outcome is absent",
         "the oligosaccharides that make beans famous, and the lectins that make raw ones unsafe, are both in the conserved remainder and neither is claimed"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/meat",
+      "version": 1,
+      "canonical_key": "meat",
+      "name": "raw meat",
+      "aliases": {
+        "de": [
+          "Fleisch",
+          "rohes Fleisch"
+        ],
+        "en": [
+          "muscle meat",
+          "raw beef"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.72,
+            "upper": 0.72
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.28,
+        "upper": 0.28
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "cut of muscle",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a raw cut of lean muscle: the water resolved, and the protein, fat and connective tissue conserved unresolved",
+      "lot_assumptions": [
+        "72% water and a 28% conserved remainder is the ordinary composition of lean muscle. Roughly three quarters of that remainder is protein, and the enzyme profile that goes with this recipe uses that share and nothing else",
+        "TENDERISING IS NOT WHAT IS COMPUTED. What the model reports is how much of a named protein fraction has been hydrolysed; texture, the collagen that actually makes a cut tough, and the difference between cutting myofibrils and cutting connective tissue are all outside it",
+        "no myoglobin, so no colour and no browning; no fat rendering; and nothing at all about whether the result is safe or pleasant to eat"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "laboratory/bile-salts",
+      "version": 1,
+      "canonical_key": "bile_salts",
+      "name": "bile salts",
+      "aliases": {
+        "de": [
+          "Gallensalze",
+          "Gallensäuren"
+        ],
+        "en": [
+          "bile acids",
+          "sodium taurocholate"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.2,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_emulsifier",
+          "saturation_amount": 1.0,
+          "max_dispersed_fraction": 0.7,
+          "half_life_seconds": 3600.0
+        }
+      ],
+      "preparation": "a dry bile-salt powder: wholly unresolved, and carrying the one property digestion uses it for",
+      "lot_assumptions": [
+        "sodium taurocholate and its relatives have no installed species, so the powder is conserved whole and the emulsifying arrives as a declared dose response rather than as a molecule",
+        "this is the one recipe here whose role matches its real mechanism: bile salts emulsify fat because they are amphipathic and sit at the interface, which is what the emulsifier role stands for. It is still a bounded observable - no micelle size, no critical micelle concentration, and no bile-salt-lipase pairing",
+        "the digestion that emulsification exists to enable needs a lipase and a triglyceride, and only the first of those is on this shelf"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/green-leaf",
+      "version": 1,
+      "canonical_key": "leaf",
+      "name": "green leaf",
+      "aliases": {
+        "de": [
+          "Blatt",
+          "grünes Blatt"
+        ],
+        "en": [
+          "plant leaf",
+          "spinach leaf"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.75,
+            "upper": 0.75
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.15,
+            "upper": 0.15
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "chlorophyll",
+          "fraction": {
+            "lower": 0.002,
+            "upper": 0.002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.088,
+        "upper": 0.088
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a single broad leaf",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a fresh green leaf: water, cell-wall fibre, a little sugar and its chlorophyll resolved, with the protein and the rest of the pigments conserved",
+      "lot_assumptions": [
+        "0.2% chlorophyll by fresh mass is the right order for a green leaf and is an explicit teaching figure; a single species stands for chlorophyll a, chlorophyll b and the carotenoids together",
+        "PHOTOSYNTHESIS IS NOT MODELLED AT ALL. Nothing on this bench turns light, water and carbon dioxide into sugar. A leaf under a lamp here absorbs energy and does no chemistry, so the rows that ask what a plant makes get a vessel with a leaf in it and no reaction",
+        "the chlorophyll IS extractable, because the pigment has a reviewed solubility in ethanol and the leaf really does resolve some. Whether the filtrate is then PAINTED green is a separate question and the answer is no: this species carries no absorption spectrum, so the bench knows the pigment has moved and cannot colour the liquid with it",
+        "stomata, veins, turgor and the whole of leaf anatomy are absent; this is a composition, not a leaf"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/pondweed",
+      "version": 1,
+      "canonical_key": "pondweed",
+      "name": "pondweed shoot",
+      "aliases": {
+        "de": [
+          "Wasserpest",
+          "Wasserpflanze"
+        ],
+        "en": [
+          "waterweed",
+          "elodea shoot"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.95,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.88,
+            "upper": 0.88
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.07,
+            "upper": 0.07
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.008,
+            "upper": 0.008
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "chlorophyll",
+          "fraction": {
+            "lower": 0.0015,
+            "upper": 0.0015
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0405,
+        "upper": 0.0405
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a submerged shoot",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a shoot of submerged pondweed: mostly water, with fibre, a little sugar and its chlorophyll resolved",
+      "lot_assumptions": [
+        "the composition is an explicit teaching figure for a soft aquatic shoot and is not a measurement of any species",
+        "THE BUBBLES ARE THE WHOLE POINT OF THIS PRACTICAL AND THEY DO NOT APPEAR. Counting oxygen bubbles from pondweed under a lamp is the classic photosynthesis measurement, and this bench has no photosynthesis, no light-limited rate and no action spectrum. The three rows this material serves - brighter light, green light, oxygen release - are all questions about a curve that does not exist here",
+        "irradiating the vessel deposits energy and does no chemistry, so a run will warm rather than photosynthesise"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/dry-seed",
+      "version": 1,
+      "canonical_key": "seed",
+      "name": "dry seed",
+      "aliases": {
+        "de": [
+          "Samen",
+          "Saatkorn"
+        ],
+        "en": [
+          "plant seed",
+          "sowing seed"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.1,
+            "upper": 0.1
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.55,
+            "upper": 0.55
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.1,
+            "upper": 0.1
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.23,
+        "upper": 0.23
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "a dry seed as it comes from the packet: stored starch, fibre, a little sugar and 10% residual moisture resolved",
+      "lot_assumptions": [
+        "about a tenth water and half starch is the ordinary state of an air-dry seed and is an explicit teaching figure",
+        "GERMINATION IS NOT MODELLED. Nothing here imbibes water, mobilises the starch or grows. A seed in salt water is a solid sitting in a brine whose osmotic potential this bench does not compute, so the row that asks whether salt stops germination gets a correct salt solution and no germination either way",
+        "the storage protein and the oil are the conserved remainder and neither is claimed"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/germinating-seed",
+      "version": 1,
+      "canonical_key": "germinating_seed",
+      "name": "germinating seed",
+      "aliases": {
+        "de": [
+          "keimender Samen",
+          "Keimling"
+        ],
+        "en": [
+          "sprouting seed",
+          "chitted seed"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.32,
+            "upper": 0.32
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.08,
+            "upper": 0.08
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.03,
+            "upper": 0.03
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.12,
+        "upper": 0.12
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a swollen seed with an emerging radicle",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a seed that has taken up water and begun to sprout: nearly half water now, with some of the starch already turned to sugar",
+      "lot_assumptions": [
+        "the shift from the dry seed's 10% water to 45%, and some starch already converted to glucose, is what imbibition and early mobilisation do; the numbers are explicit teaching figures rather than a measurement",
+        "RESPIRATION IS NOT MODELLED. A germinating seed in a sealed jar consumes oxygen and makes carbon dioxide, and nothing on this bench does that. The oxygen weighed into the vessel stays there, so the row that asks whether the seed uses it up gets a sealed jar and an unchanged headspace",
+        "no growth, no heat of respiration and no root"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/celery-stem",
+      "version": 1,
+      "canonical_key": "celery_stem",
+      "name": "celery stem",
+      "aliases": {
+        "de": [
+          "Selleriestange",
+          "Staudensellerie"
+        ],
+        "en": [
+          "celery stalk",
+          "celery petiole"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.95,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.016,
+            "upper": 0.016
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.004,
+            "upper": 0.004
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.03,
+        "upper": 0.03
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a ribbed stalk",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a stalk of celery: 95% water, with its fibre and a little sugar resolved",
+      "lot_assumptions": [
+        "celery is about 95% water and that is the only striking thing about its composition; the figure is an explicit teaching value",
+        "THE DYE DOES NOT RISE. Coloured water climbing a celery stalk is transpiration pulling on a column of water in the xylem, and this bench has no plant, no vessels and no transpiration. What a run holds is a stalk sitting in dyed water, with the dye exactly where it was put",
+        "the fibrous strings a child pulls off a stalk are the vascular bundles the experiment is about, and they are conserved matter here rather than a structure"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/wilted-lettuce",
+      "version": 1,
+      "canonical_key": "wilted_lettuce",
+      "name": "wilted lettuce leaf",
+      "aliases": {
+        "de": [
+          "welker Salat",
+          "welkes Salatblatt"
+        ],
+        "en": [
+          "limp lettuce",
+          "wilted salad leaf"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9,
+            "upper": 0.9
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.014,
+            "upper": 0.014
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "chlorophyll",
+          "fraction": {
+            "lower": 0.0004,
+            "upper": 0.0004
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0796,
+        "upper": 0.0796
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a limp leaf",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "a lettuce leaf that has gone limp: still 90% water, and short of the few percent that would make it crisp",
+      "lot_assumptions": [
+        "a wilted leaf has lost only a small share of its water; the difference between crisp and limp is a few percent of mass and an enormous difference in stiffness, which is the point and is exactly what a composition cannot express",
+        "TURGOR IS NOT MODELLED. A leaf goes crisp because water enters each cell by osmosis until the protoplast presses on a rigid cell wall, and this bench has no cells, no walls and no osmotic potential. Soaking this material in fresh water changes nothing about it",
+        "the chlorophyll is carried so the leaf is green matter rather than anonymous solids, and for no other reason"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "plant/onion-epidermis",
+      "version": 1,
+      "canonical_key": "onion_cells",
+      "name": "onion epidermis",
+      "aliases": {
+        "de": [
+          "Zwiebelhaut",
+          "Zwiebelepidermis"
+        ],
+        "en": [
+          "onion skin cells",
+          "onion epidermal strip"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.89,
+            "upper": 0.89
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "glucose",
+          "fraction": {
+            "lower": 0.04,
+            "upper": 0.04
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.012,
+            "upper": 0.012
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.038,
+        "upper": 0.038
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a peeled epidermal strip",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "the transparent skin peeled from an onion scale: the layer a microscope slide is made from, as a composition",
+      "lot_assumptions": [
+        "this is the epidermal peel rather than the whole bulb, which is why it is a separate material from the onion already on the shelf: one is a thing you eat and the other is a thing you look through",
+        "PLASMOLYSIS IS NOT MODELLED. Strong salt solution pulls water out of a plant cell and the protoplast shrinks away from its wall - the observation this row is about - and there is no cell here to shrink. The salt solution outside it is computed correctly and does nothing to the strip",
+        "microscopy is out of scope generally; nothing on this bench is observed at cell scale"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "polymer/thermoset-resin",
+      "version": 1,
+      "canonical_key": "thermoset_resin",
+      "name": "cured thermoset resin",
+      "aliases": {
+        "de": [
+          "Duroplast",
+          "ausgehärtetes Harz"
+        ],
+        "en": [
+          "cured resin",
+          "thermosetting plastic"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.2,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "a cured moulded block",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [
+        {
+          "kind": "conserved_unresolved_solid",
+          "srgb": [
+            214,
+            198,
+            160
+          ],
+          "colour_word": "off-white"
+        }
+      ],
+      "preparation": "a block of cured thermosetting resin: cross-linked, wholly unresolved, and with nowhere to go when heated",
+      "lot_assumptions": [
+        "an epoxy or phenolic network has no repeat unit that could be dispensed as a species, so the block is conserved whole. That is the honest reading of a material whose identity IS its cross-linking",
+        "the absence of a melting point here happens to be correct: a cured thermoset does not melt, it decomposes, and this bench claims neither a melt nor the decomposition. Heating this block raises its temperature and does nothing else",
+        "the contrast the row is really about - a thermoplastic softens and a thermoset does not - is therefore only half present, because the softening of the thermoplastic is not modelled either",
+        "no char, no smoke and no strength"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "laboratory/boiling-chips",
+      "version": 1,
+      "canonical_key": "boiling_chips",
+      "name": "boiling chips",
+      "aliases": {
+        "de": [
+          "Siedesteinchen",
+          "Siedeperlen"
+        ],
+        "en": [
+          "boiling stones",
+          "anti-bumping granules"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "SiO2",
+          "fraction": {
+            "lower": 0.92,
+            "upper": 0.92
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.08,
+        "upper": 0.08
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "porous silica boiling chips: mostly silica, with the pore structure that matters conserved as nothing at all",
+      "lot_assumptions": [
+        "the composition is the least interesting thing about a boiling chip. What it does is trapped air in its pores giving vapour somewhere to form, and POROSITY IS NOT A PROPERTY THIS BENCH HAS",
+        "BUMPING IS NOT MODELLED either, so there is nothing for the chips to prevent. Superheated water on this bench boils when it is disturbed, which is a separate mechanism the corpus already exercises without chips; adding chips changes no run",
+        "the chips are therefore present, correct in composition, and inert - and the row they close is closed against the parser rather than against the question"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/alkaline-battery-electrolyte",
+      "version": 1,
+      "canonical_key": "battery_electrolyte",
+      "name": "alkaline battery electrolyte",
+      "aliases": {
+        "de": [
+          "Batterieelektrolyt",
+          "Alkalielektrolyt"
+        ],
+        "en": [
+          "potassium hydroxide electrolyte",
+          "cell electrolyte"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.29,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "KOH",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "the electrolyte inside an alkaline cell: 30% potassium hydroxide solution, resolved in full",
+      "lot_assumptions": [
+        "30% w/w potassium hydroxide is the ordinary strength of an alkaline cell's electrolyte and it is resolved completely, so the vessel really does hold a strong base and reports its pH",
+        "IT IS NOT A BATTERY. There is no zinc, no manganese dioxide, no separator and no circuit, so nothing discharges and there is no reaction for cooling to slow. What a run shows is a strong alkali getting colder, which is arithmetic on a heat capacity and not electrochemistry",
+        "this material is deliberately NOT called a battery: naming it for the liquid is what keeps the missing cell visible",
+        "it is corrosive, and the safety screen sees that through the hydroxide it resolves"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/cake-batter",
+      "version": 1,
+      "canonical_key": "cake_batter",
+      "name": "cake batter",
+      "aliases": {
+        "de": [
+          "Kuchenteig",
+          "Rührteig"
+        ],
+        "en": [
+          "sponge batter",
+          "raw cake mixture"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.28,
+            "upper": 0.28
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.24,
+            "upper": 0.24
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 0.2,
+            "upper": 0.2
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.27,
+        "upper": 0.27
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [],
+      "preparation": "a plain sponge batter before baking: water, flour starch, sugar and a little fibre resolved, with the egg, fat and raising agent conserved",
+      "lot_assumptions": [
+        "the proportions are an explicit teaching figure for a simple sponge and not a recipe worth following",
+        "SETTING IS NOT MODELLED. A cake firms because its egg protein coagulates and its starch gelatinises, in that order, and this bench has neither transition. Heating this batter raises its temperature and boils off water; it never becomes a cake",
+        "the raising agent is in the conserved remainder, so no carbon dioxide is released and nothing rises. The baking-powder recipe already on the shelf does release gas, and pointing this batter at it would be a composition claim this recipe is not making"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "food/popcorn-kernel",
+      "version": 1,
+      "canonical_key": "popcorn_kernel",
+      "name": "popcorn kernel",
+      "aliases": {
+        "de": [
+          "Maiskorn",
+          "Puffmaiskorn"
+        ],
+        "en": [
+          "corn kernel",
+          "popping corn"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.85,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.135,
+            "upper": 0.135
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.62,
+            "upper": 0.62
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "cellulose",
+          "fraction": {
+            "lower": 0.03,
+            "upper": 0.03
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.215,
+        "upper": 0.215
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "a whole popping-corn kernel: its starchy endosperm, its hull fibre and the 13.5% moisture that makes it pop, resolved",
+      "lot_assumptions": [
+        "13.5% moisture is the narrow window a kernel has to be in to pop at all - drier and wetter kernels both fail - and getting that number into the vessel is the most this recipe can do for the question",
+        "THE BURSTING IS NOT MODELLED. A kernel pops because its hull holds the steam in until about 180 degC and 9 atmospheres, and then fails. This bench has no hull, no containment and no fracture, so the water simply boils off. The pressure that does the work never builds",
+        "the starch that expands into foam is resolved and the protein is conserved; neither undergoes anything"
       ],
       "substitutions": [],
       "confidence": "surrogate",

@@ -433,7 +433,9 @@
   "butane": "Butan",
   "helium": "Helium",
   "naphthalene": "Naphthalin",
-  "hydrogen sulfide": "Schwefelwasserstoff"
+  "hydrogen sulfide": "Schwefelwasserstoff",
+  "chlorophyll a": "Chlorophyll a",
+  "nylon 6,6 (repeat unit)": "Nylon 6,6 (Wiederholungseinheit)"
  },
  "messages": {
   "Kids Lab": "Kinderlabor",
@@ -2037,6 +2039,20 @@
   "unleaded petrol": "bleifreies Benzin",
   "damp wood": "feuchtes Holz",
   "sugar water": "Zuckerwasser",
-  "dried beans": "getrocknete Bohnen"
+  "dried beans": "getrocknete Bohnen",
+  "raw meat": "rohes Fleisch",
+  "bile salts": "Gallensalze",
+  "green leaf": "grünes Blatt",
+  "pondweed shoot": "Wasserpest-Trieb",
+  "dry seed": "trockener Samen",
+  "germinating seed": "keimender Samen",
+  "celery stem": "Selleriestange",
+  "wilted lettuce leaf": "welkes Salatblatt",
+  "onion epidermis": "Zwiebelepidermis",
+  "cured thermoset resin": "ausgehärtetes Duroplastharz",
+  "boiling chips": "Siedesteinchen",
+  "alkaline battery electrolyte": "Alkalibatterie-Elektrolyt",
+  "cake batter": "Kuchenteig",
+  "popcorn kernel": "Puffmaiskorn"
  }
 }

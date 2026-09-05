@@ -3773,6 +3773,550 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        // bio-051. `food/meat` gains an enzyme_activity profile so the
+        // protease has muscle protein to cut.
+        MaterialRecipe {
+            id: "food/meat".to_string(),
+            version: 1,
+            canonical_key: "meat".to_string(),
+            name: "raw meat".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Fleisch".to_string(), "rohes Fleisch".to_string()]),
+                ("en".to_string(), vec!["muscle meat".to_string(), "raw beef".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.05)),
+            components: vec![
+                component("water", 0.72),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.28,
+                upper: 0.28,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("cut of muscle".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a raw cut of lean muscle: the water resolved, and the protein, fat and connective tissue conserved unresolved".to_string()),
+            lot_assumptions: vec![
+                "72% water and a 28% conserved remainder is the ordinary composition of lean muscle. Roughly three quarters of that remainder is protein, and the enzyme profile that goes with this recipe uses that share and nothing else".to_string(),
+                "TENDERISING IS NOT WHAT IS COMPUTED. What the model reports is how much of a named protein fraction has been hydrolysed; texture, the collagen that actually makes a cut tough, and the difference between cutting myofibrils and cutting connective tissue are all outside it".to_string(),
+                "no myoglobin, so no colour and no browning; no fat rendering; and nothing at all about whether the result is safe or pleasant to eat".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-085. Bile salts really are surfactants, so the bounded
+        // emulsifier role is the right shape for once - the mechanism the
+        // role stands for is the mechanism the question is about.
+        MaterialRecipe {
+            id: "laboratory/bile-salts".to_string(),
+            version: 1,
+            canonical_key: "bile_salts".to_string(),
+            name: "bile salts".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Gallensalze".to_string(), "Gallensäuren".to_string()]),
+                ("en".to_string(), vec!["bile acids".to_string(), "sodium taurocholate".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.2)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: vec![
+                MaterialRole::AqueousEmulsifier {
+                    saturation_amount: 1.0,
+                    max_dispersed_fraction: 0.7,
+                    half_life_seconds: 3600.0,
+                },
+            ],
+            preparation: Some("a dry bile-salt powder: wholly unresolved, and carrying the one property digestion uses it for".to_string()),
+            lot_assumptions: vec![
+                "sodium taurocholate and its relatives have no installed species, so the powder is conserved whole and the emulsifying arrives as a declared dose response rather than as a molecule".to_string(),
+                "this is the one recipe here whose role matches its real mechanism: bile salts emulsify fat because they are amphipathic and sit at the interface, which is what the emulsifier role stands for. It is still a bounded observable - no micelle size, no critical micelle concentration, and no bile-salt-lipase pairing".to_string(),
+                "the digestion that emulsification exists to enable needs a lipase and a triglyceride, and only the first of those is on this shelf".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-086 (a smoke row) and bio-091. Carrying chlorophyll as a
+        // resolved component is what makes the alcohol extraction a real
+        // dissolution rather than a shrug.
+        MaterialRecipe {
+            id: "plant/green-leaf".to_string(),
+            version: 1,
+            canonical_key: "leaf".to_string(),
+            name: "green leaf".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Blatt".to_string(), "grünes Blatt".to_string()]),
+                ("en".to_string(), vec!["plant leaf".to_string(), "spinach leaf".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.9)),
+            components: vec![
+                component("water", 0.75),
+                component("cellulose", 0.15),
+                component("glucose", 0.01),
+                component("chlorophyll", 0.002),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.088,
+                upper: 0.088,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a single broad leaf".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a fresh green leaf: water, cell-wall fibre, a little sugar and its chlorophyll resolved, with the protein and the rest of the pigments conserved".to_string()),
+            lot_assumptions: vec![
+                "0.2% chlorophyll by fresh mass is the right order for a green leaf and is an explicit teaching figure; a single species stands for chlorophyll a, chlorophyll b and the carotenoids together".to_string(),
+                "PHOTOSYNTHESIS IS NOT MODELLED AT ALL. Nothing on this bench turns light, water and carbon dioxide into sugar. A leaf under a lamp here absorbs energy and does no chemistry, so the rows that ask what a plant makes get a vessel with a leaf in it and no reaction".to_string(),
+                "the chlorophyll IS extractable, because the pigment has a reviewed solubility in ethanol and the leaf really does resolve some. Whether the filtrate is then PAINTED green is a separate question and the answer is no: this species carries no absorption spectrum, so the bench knows the pigment has moved and cannot colour the liquid with it".to_string(),
+                "stomata, veins, turgor and the whole of leaf anatomy are absent; this is a composition, not a leaf".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-087, bio-088, bio-089: the oxygen-bubble practical. The
+        // plant can be weighed into a beaker and lit; nothing more.
+        MaterialRecipe {
+            id: "plant/pondweed".to_string(),
+            version: 1,
+            canonical_key: "pondweed".to_string(),
+            name: "pondweed shoot".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Wasserpest".to_string(), "Wasserpflanze".to_string()]),
+                ("en".to_string(), vec!["waterweed".to_string(), "elodea shoot".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.95)),
+            components: vec![
+                component("water", 0.88),
+                component("cellulose", 0.07),
+                component("glucose", 0.008),
+                component("chlorophyll", 0.0015),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.0405,
+                upper: 0.0405,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a submerged shoot".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a shoot of submerged pondweed: mostly water, with fibre, a little sugar and its chlorophyll resolved".to_string()),
+            lot_assumptions: vec![
+                "the composition is an explicit teaching figure for a soft aquatic shoot and is not a measurement of any species".to_string(),
+                "THE BUBBLES ARE THE WHOLE POINT OF THIS PRACTICAL AND THEY DO NOT APPEAR. Counting oxygen bubbles from pondweed under a lamp is the classic photosynthesis measurement, and this bench has no photosynthesis, no light-limited rate and no action spectrum. The three rows this material serves - brighter light, green light, oxygen release - are all questions about a curve that does not exist here".to_string(),
+                "irradiating the vessel deposits energy and does no chemistry, so a run will warm rather than photosynthesise".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-097: salt water and germination. Osmosis is not modelled;
+        // the salt solution is.
+        MaterialRecipe {
+            id: "plant/dry-seed".to_string(),
+            version: 1,
+            canonical_key: "seed".to_string(),
+            name: "dry seed".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Samen".to_string(), "Saatkorn".to_string()]),
+                ("en".to_string(), vec!["plant seed".to_string(), "sowing seed".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.1)),
+            components: vec![
+                component("water", 0.1),
+                component("starch", 0.55),
+                component("cellulose", 0.1),
+                component("sucrose", 0.02),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.23,
+                upper: 0.23,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some("a dry seed as it comes from the packet: stored starch, fibre, a little sugar and 10% residual moisture resolved".to_string()),
+            lot_assumptions: vec![
+                "about a tenth water and half starch is the ordinary state of an air-dry seed and is an explicit teaching figure".to_string(),
+                "GERMINATION IS NOT MODELLED. Nothing here imbibes water, mobilises the starch or grows. A seed in salt water is a solid sitting in a brine whose osmotic potential this bench does not compute, so the row that asks whether salt stops germination gets a correct salt solution and no germination either way".to_string(),
+                "the storage protein and the oil are the conserved remainder and neither is claimed".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-096: a sealed jar and a seed respiring in the dark.
+        // Respiration is not modelled, so the oxygen stays where it is.
+        MaterialRecipe {
+            id: "plant/germinating-seed".to_string(),
+            version: 1,
+            canonical_key: "germinating_seed".to_string(),
+            name: "germinating seed".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["keimender Samen".to_string(), "Keimling".to_string()]),
+                ("en".to_string(), vec!["sprouting seed".to_string(), "chitted seed".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.05)),
+            components: vec![
+                component("water", 0.45),
+                component("starch", 0.32),
+                component("cellulose", 0.08),
+                component("glucose", 0.03),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.12,
+                upper: 0.12,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a swollen seed with an emerging radicle".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a seed that has taken up water and begun to sprout: nearly half water now, with some of the starch already turned to sugar".to_string()),
+            lot_assumptions: vec![
+                "the shift from the dry seed's 10% water to 45%, and some starch already converted to glucose, is what imbibition and early mobilisation do; the numbers are explicit teaching figures rather than a measurement".to_string(),
+                "RESPIRATION IS NOT MODELLED. A germinating seed in a sealed jar consumes oxygen and makes carbon dioxide, and nothing on this bench does that. The oxygen weighed into the vessel stays there, so the row that asks whether the seed uses it up gets a sealed jar and an unchanged headspace".to_string(),
+                "no growth, no heat of respiration and no root".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-098: dye rising up a stalk. Capillary transport through a
+        // plant is not something this bench has.
+        MaterialRecipe {
+            id: "plant/celery-stem".to_string(),
+            version: 1,
+            canonical_key: "celery_stem".to_string(),
+            name: "celery stem".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Selleriestange".to_string(), "Staudensellerie".to_string()]),
+                ("en".to_string(), vec!["celery stalk".to_string(), "celery petiole".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.95)),
+            components: vec![
+                component("water", 0.95),
+                component("cellulose", 0.016),
+                component("glucose", 0.004),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.03,
+                upper: 0.03,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a ribbed stalk".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a stalk of celery: 95% water, with its fibre and a little sugar resolved".to_string()),
+            lot_assumptions: vec![
+                "celery is about 95% water and that is the only striking thing about its composition; the figure is an explicit teaching value".to_string(),
+                "THE DYE DOES NOT RISE. Coloured water climbing a celery stalk is transpiration pulling on a column of water in the xylem, and this bench has no plant, no vessels and no transpiration. What a run holds is a stalk sitting in dyed water, with the dye exactly where it was put".to_string(),
+                "the fibrous strings a child pulls off a stalk are the vascular bundles the experiment is about, and they are conserved matter here rather than a structure".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-099: turgor. There is no cell wall here to press against.
+        MaterialRecipe {
+            id: "plant/wilted-lettuce".to_string(),
+            version: 1,
+            canonical_key: "wilted_lettuce".to_string(),
+            name: "wilted lettuce leaf".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["welker Salat".to_string(), "welkes Salatblatt".to_string()]),
+                ("en".to_string(), vec!["limp lettuce".to_string(), "wilted salad leaf".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.9)),
+            components: vec![
+                component("water", 0.9),
+                component("cellulose", 0.014),
+                component("glucose", 0.006),
+                component("chlorophyll", 0.0004),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.0796,
+                upper: 0.0796,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a limp leaf".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("a lettuce leaf that has gone limp: still 90% water, and short of the few percent that would make it crisp".to_string()),
+            lot_assumptions: vec![
+                "a wilted leaf has lost only a small share of its water; the difference between crisp and limp is a few percent of mass and an enormous difference in stiffness, which is the point and is exactly what a composition cannot express".to_string(),
+                "TURGOR IS NOT MODELLED. A leaf goes crisp because water enters each cell by osmosis until the protoplast presses on a rigid cell wall, and this bench has no cells, no walls and no osmotic potential. Soaking this material in fresh water changes nothing about it".to_string(),
+                "the chlorophyll is carried so the leaf is green matter rather than anonymous solids, and for no other reason".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-100: plasmolysis. Same missing model as the lettuce, seen
+        // from the other side.
+        MaterialRecipe {
+            id: "plant/onion-epidermis".to_string(),
+            version: 1,
+            canonical_key: "onion_cells".to_string(),
+            name: "onion epidermis".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Zwiebelhaut".to_string(), "Zwiebelepidermis".to_string()]),
+                ("en".to_string(), vec!["onion skin cells".to_string(), "onion epidermal strip".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.03)),
+            components: vec![
+                component("water", 0.89),
+                component("glucose", 0.04),
+                component("sucrose", 0.02),
+                component("cellulose", 0.012),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.038,
+                upper: 0.038,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a peeled epidermal strip".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some("the transparent skin peeled from an onion scale: the layer a microscope slide is made from, as a composition".to_string()),
+            lot_assumptions: vec![
+                "this is the epidermal peel rather than the whole bulb, which is why it is a separate material from the onion already on the shelf: one is a thing you eat and the other is a thing you look through".to_string(),
+                "PLASMOLYSIS IS NOT MODELLED. Strong salt solution pulls water out of a plant cell and the protoplast shrinks away from its wall - the observation this row is about - and there is no cell here to shrink. The salt solution outside it is computed correctly and does nothing to the strip".to_string(),
+                "microscopy is out of scope generally; nothing on this bench is observed at cell scale".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // mat-025: the thermoset has no melting point here, and that is
+        // for once the RIGHT reason - a cured thermoset has none in
+        // reality either, because it decomposes instead.
+        MaterialRecipe {
+            id: "polymer/thermoset-resin".to_string(),
+            version: 1,
+            canonical_key: "thermoset_resin".to_string(),
+            name: "cured thermoset resin".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Duroplast".to_string(), "ausgehärtetes Harz".to_string()]),
+                ("en".to_string(), vec!["cured resin".to_string(), "thermosetting plastic".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.2)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("a cured moulded block".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: vec![
+                MaterialRole::ConservedUnresolvedSolid {
+                    srgb: [214, 198, 160],
+                    colour_word: "off-white".to_string(),
+                },
+            ],
+            preparation: Some("a block of cured thermosetting resin: cross-linked, wholly unresolved, and with nowhere to go when heated".to_string()),
+            lot_assumptions: vec![
+                "an epoxy or phenolic network has no repeat unit that could be dispensed as a species, so the block is conserved whole. That is the honest reading of a material whose identity IS its cross-linking".to_string(),
+                "the absence of a melting point here happens to be correct: a cured thermoset does not melt, it decomposes, and this bench claims neither a melt nor the decomposition. Heating this block raises its temperature and does nothing else".to_string(),
+                "the contrast the row is really about - a thermoplastic softens and a thermoset does not - is therefore only half present, because the softening of the thermoplastic is not modelled either".to_string(),
+                "no char, no smoke and no strength".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // th-101. Nucleation is the whole mechanism and there is none.
+        MaterialRecipe {
+            id: "laboratory/boiling-chips".to_string(),
+            version: 1,
+            canonical_key: "boiling_chips".to_string(),
+            name: "boiling chips".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Siedesteinchen".to_string(), "Siedeperlen".to_string()]),
+                ("en".to_string(), vec!["boiling stones".to_string(), "anti-bumping granules".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.6)),
+            components: vec![
+                component("SiO2", 0.92),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.08,
+                upper: 0.08,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some("porous silica boiling chips: mostly silica, with the pore structure that matters conserved as nothing at all".to_string()),
+            lot_assumptions: vec![
+                "the composition is the least interesting thing about a boiling chip. What it does is trapped air in its pores giving vapour somewhere to form, and POROSITY IS NOT A PROPERTY THIS BENCH HAS".to_string(),
+                "BUMPING IS NOT MODELLED either, so there is nothing for the chips to prevent. Superheated water on this bench boils when it is disturbed, which is a separate mechanism the corpus already exercises without chips; adding chips changes no run".to_string(),
+                "the chips are therefore present, correct in composition, and inert - and the row they close is closed against the parser rather than against the question".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // mat-072: the cooling is real; the cell reaction it is supposed
+        // to slow is not here at all.
+        MaterialRecipe {
+            id: "household/alkaline-battery-electrolyte".to_string(),
+            version: 1,
+            canonical_key: "battery_electrolyte".to_string(),
+            name: "alkaline battery electrolyte".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Batterieelektrolyt".to_string(), "Alkalielektrolyt".to_string()]),
+                ("en".to_string(), vec!["potassium hydroxide electrolyte".to_string(), "cell electrolyte".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.29)),
+            components: vec![
+                component("KOH", 0.3),
+                component("water", 0.7),
+            ],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("the electrolyte inside an alkaline cell: 30% potassium hydroxide solution, resolved in full".to_string()),
+            lot_assumptions: vec![
+                "30% w/w potassium hydroxide is the ordinary strength of an alkaline cell's electrolyte and it is resolved completely, so the vessel really does hold a strong base and reports its pH".to_string(),
+                "IT IS NOT A BATTERY. There is no zinc, no manganese dioxide, no separator and no circuit, so nothing discharges and there is no reaction for cooling to slow. What a run shows is a strong alkali getting colder, which is arithmetic on a heat capacity and not electrochemistry".to_string(),
+                "this material is deliberately NOT called a battery: naming it for the liquid is what keeps the missing cell visible".to_string(),
+                "it is corrosive, and the safety screen sees that through the hydroxide it resolves".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-006. Setting is protein coagulation and starch
+        // gelatinisation; the bench has neither.
+        MaterialRecipe {
+            id: "food/cake-batter".to_string(),
+            version: 1,
+            canonical_key: "cake_batter".to_string(),
+            name: "cake batter".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Kuchenteig".to_string(), "Rührteig".to_string()]),
+                ("en".to_string(), vec!["sponge batter".to_string(), "raw cake mixture".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.0)),
+            components: vec![
+                component("water", 0.28),
+                component("starch", 0.24),
+                component("sucrose", 0.2),
+                component("cellulose", 0.01),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.27,
+                upper: 0.27,
+            }),
+            physical_form: MaterialPhysicalForm::Suspension,
+            roles: Vec::new(),
+            preparation: Some("a plain sponge batter before baking: water, flour starch, sugar and a little fibre resolved, with the egg, fat and raising agent conserved".to_string()),
+            lot_assumptions: vec![
+                "the proportions are an explicit teaching figure for a simple sponge and not a recipe worth following".to_string(),
+                "SETTING IS NOT MODELLED. A cake firms because its egg protein coagulates and its starch gelatinises, in that order, and this bench has neither transition. Heating this batter raises its temperature and boils off water; it never becomes a cake".to_string(),
+                "the raising agent is in the conserved remainder, so no carbon dioxide is released and nothing rises. The baking-powder recipe already on the shelf does release gas, and pointing this batter at it would be a composition claim this recipe is not making".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        // bio-022. The water that does the bursting is real inventory;
+        // the hull that contains it is not a thing this bench has.
+        MaterialRecipe {
+            id: "food/popcorn-kernel".to_string(),
+            version: 1,
+            canonical_key: "popcorn_kernel".to_string(),
+            name: "popcorn kernel".to_string(),
+            aliases: BTreeMap::from([
+                ("de".to_string(), vec!["Maiskorn".to_string(), "Puffmaiskorn".to_string()]),
+                ("en".to_string(), vec!["corn kernel".to_string(), "popping corn".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.85)),
+            components: vec![
+                component("water", 0.135),
+                component("starch", 0.62),
+                component("cellulose", 0.03),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.215,
+                upper: 0.215,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some("a whole popping-corn kernel: its starchy endosperm, its hull fibre and the 13.5% moisture that makes it pop, resolved".to_string()),
+            lot_assumptions: vec![
+                "13.5% moisture is the narrow window a kernel has to be in to pop at all - drier and wetter kernels both fail - and getting that number into the vessel is the most this recipe can do for the question".to_string(),
+                "THE BURSTING IS NOT MODELLED. A kernel pops because its hull holds the steam in until about 180 degC and 9 atmospheres, and then fails. This bench has no hull, no containment and no fracture, so the water simply boils off. The pressure that does the work never builds".to_string(),
+                "the starch that expands into foam is resolved and the protein is conserved; neither undergoes anything".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
     ]);
 }
 

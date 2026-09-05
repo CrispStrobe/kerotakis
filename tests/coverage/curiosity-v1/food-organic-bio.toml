@@ -63,7 +63,6 @@ material_class = "batter"
 owning_task = "BRD-052"
 tags = ["baking", "protein_network"]
 script = ["add v1 cake_batter 100g", "heat v1 50kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -243,7 +242,6 @@ material_class = "grain"
 owning_task = "BRD-073"
 tags = ["popcorn", "pressure"]
 script = ["add v1 popcorn_kernel 1g", "heat v1 5kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -574,7 +572,6 @@ material_class = "enzyme"
 owning_task = "BRD-052"
 tags = ["meat", "protease"]
 script = ["add v1 meat 20g", "add v1 protease 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -971,7 +968,6 @@ material_class = "digestion"
 owning_task = "BRD-052"
 tags = ["bile_salts", "emulsion"]
 script = ["add v1 vegetable_oil 20mL", "add v1 water 100mL", "add v1 bile_salts 1g", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -983,7 +979,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["photosynthesis", "plant"]
 script = ["add v1 leaf 1g", "add v1 water 100mL", "add v1 CO2 0.01mol", "irradiate v1 450nm 100W/m2", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -995,7 +990,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["oxygen", "photosynthesis"]
 script = ["add v1 pondweed 1g", "add v1 water 100mL", "add v1 CO2 0.01mol", "irradiate v1 450nm 100W/m2", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1007,7 +1001,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["light_intensity", "photosynthesis"]
 script = ["add v1 pondweed 1g", "add v1 water 100mL", "add v1 CO2 0.01mol", "irradiate v1 450nm 500W/m2", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1019,7 +1012,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["green_light", "photosynthesis"]
 script = ["add v1 pondweed 1g", "add v1 water 100mL", "add v1 CO2 0.01mol", "irradiate v1 550nm 100W/m2", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1031,7 +1023,6 @@ material_class = "plant_pigment"
 owning_task = "BRD-012"
 tags = ["chlorophyll", "spectrum"]
 script = ["add v1 chlorophyll 0.001mol", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1043,7 +1034,6 @@ material_class = "plant_pigment"
 owning_task = "BRD-023"
 tags = ["extraction", "plant_pigment"]
 script = ["add v1 leaf 1g", "add v1 ethanol 20mL", "stir v1", "filter v1 v2", "look v2"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1101,7 +1091,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["germination", "respiration"]
 script = ["add v1 germinating_seed 5g", "add v1 O2 0.01mol", "seal v1 1L", "wait 8h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1113,7 +1102,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["germination", "salinity"]
 script = ["add v1 seed 1g", "add v1 water 50mL", "add v1 NaCl 5g", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1125,7 +1113,6 @@ material_class = "plant"
 owning_task = "BRD-073"
 tags = ["capillary_action", "plant"]
 script = ["add v1 celery_stem 10g", "add v1 water 100mL", "add v1 methyl_orange 0.001mol", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1137,7 +1124,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["osmosis", "plant"]
 script = ["add v1 wilted_lettuce 10g", "add v1 water 100mL", "wait 1h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1149,7 +1135,6 @@ material_class = "plant"
 owning_task = "BRD-052"
 tags = ["osmosis", "plasmolysis"]
 script = ["add v1 onion_cells 1g", "add v1 water 100mL", "add v1 NaCl 20g", "wait 10min", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

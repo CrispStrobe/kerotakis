@@ -195,6 +195,18 @@ pub const ORGANIC_SOLUBILITY: &[OrganicSolubility] = &[
         g_per_100ml: 0.0,
         source: "CRC Handbook, 97th ed.: graphite insoluble in organic solvents ('i')",
     },
+    // bio-091: the leaf-pigment extraction. This is the one row in this
+    // table with no handbook number behind it, and the source line says so
+    // rather than borrowing the CRC's authority for a figure the CRC does
+    // not print. Ethanol is the standard bench solvent for chlorophyll for
+    // exactly this reason, and 2 g/100 mL stands for "freely soluble" at the
+    // right order of magnitude — no more than that.
+    OrganicSolubility {
+        solute: "chlorophyll",
+        solvent: "ethanol",
+        g_per_100ml: 2.0,
+        source: "Editorial judgement (Kerotakis): no general reference tabulates a chlorophyll solubility, because an extract is a mixture of chlorophyll a, chlorophyll b and allomers that degrade in solution. Ethanol is nevertheless the standard solvent for extracting leaf pigment, and 2 g/100 mL is an order-of-magnitude teaching figure standing for 'freely soluble'. The verdict is the claim; the digit is not",
+    },
     // ── hexane ──────────────────────────────────────────────────────
     OrganicSolubility {
         solute: "NaCl",

@@ -296,7 +296,6 @@ material_class="plastics"
 owning_task="BRD-023"
 tags=["BRD-023"]
 script=["add v1 thermoset_resin 2g", "heat v1 5kJ"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -438,7 +437,6 @@ material_class="plastics"
 owning_task="BRD-023"
 tags=["BRD-023"]
 script=["add v1 water 100mL", "add v1 HCl 0.05mol", "add v1 nylon 2g", "heat v1 5kJ"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
@@ -860,7 +858,6 @@ material_class="batteries"
 owning_task="BRD-014"
 tags=["BRD-014", "CAP-16"]
 script=["add v1 battery_electrolyte 20mL", "cool v1 5kJ", "wait 30s"]
-parse_boundary="unknown_species"
 smoke=false
 
 [[prompt]]
