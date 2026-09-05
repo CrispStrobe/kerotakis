@@ -1570,6 +1570,17 @@ impl<'a> KineticReaction<'a> {
         reverse: bool,
         context: KineticContext,
     ) -> f64 {
+        // BRD-023: the galvanic gate, and it has to be HERE. `can_run`
+        // filters `applicable`, which is what the honesty pass consults;
+        // the integrator does not use it at all, because it advances the
+        // whole network and lets each rate speak for itself. Gating only
+        // `can_run` left the iron rusting beside untouched zinc while the
+        // narration said it was protected — a caption over a beaker that
+        // contradicted it. A rate of zero is the same statement made
+        // where the matter moves.
+        if !crate::corrosion::allows_reaction(self.id, vessel) {
+            return 0.0;
+        }
         let litres = reaction_volume_litres(vessel, self.locality);
         if litres <= 0.0 {
             return 0.0;

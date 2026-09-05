@@ -42,11 +42,12 @@
 //! object; this is where the bench keeps the sentence they could not.
 //!
 //! **3. Both rules are enforced where the metal is actually eaten.**
-//! [`allows_reaction`] is consulted by `KineticReaction::can_run`, so a
-//! protected metal does not merely get told it is protected — its
-//! corrosion reaction does not run. `zinc-corrosion` is the companion
-//! entry that makes the sacrifice real: the zinc is consumed while the
-//! iron is not.
+//! [`allows_reaction`] is consulted by `KineticReaction::expression_rate`
+//! — where the rate is computed, not only by `can_run`, because the
+//! integrator advances the whole network and never asks `can_run` — so a
+//! protected metal does not merely get told it is protected: its
+//! corrosion rate is zero. `zinc-corrosion` is the companion entry that
+//! makes the sacrifice real: the zinc is consumed while the iron is not.
 //!
 //! **4. Everything it decides, it says.** [`verdicts`] turns the same
 //! state into one `Event::Corroded` per metal, positive or negative, so
@@ -269,8 +270,10 @@ pub fn is_protected(vessel: &Vessel, metal: &str) -> bool {
 
 /// Whether the galvanic rule lets a kinetic corrosion reaction run.
 ///
-/// Called from `KineticReaction::can_run`. A reaction this module does
-/// not name is always allowed: the gate speaks only for the corrosion
+/// Called from `KineticReaction::expression_rate`, so a blocked reaction
+/// has a rate of zero rather than merely being filtered out of a list,
+/// and from `can_run` so the two agree. A reaction this module does not
+/// name is always allowed: the gate speaks only for the corrosion
 /// entries it lists in [`GATED_REACTIONS`].
 pub fn allows_reaction(reaction_id: &str, vessel: &Vessel) -> bool {
     match GATED_REACTIONS.iter().find(|(id, _)| *id == reaction_id) {
