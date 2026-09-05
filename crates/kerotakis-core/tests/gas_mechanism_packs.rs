@@ -372,6 +372,23 @@ fn an_unbalanced_edit_is_refused() {
     }
 }
 
+/// Integration controls for a stiff radical chain.
+///
+/// The defaults are tuned for the curated aqueous kinetics and start
+/// with a millisecond trial step, which is TEN TIMES the whole interval
+/// these tests advance and a hundred thousand times the timescale of the
+/// branching chain inside it. Handed that, the BDF solver spent its
+/// entire budget of nonlinear failures on the ignition transient and
+/// gave up at 71 microseconds. A nanosecond first step and a slightly
+/// looser relative tolerance let it find its own scale; the absolute
+/// tolerance is tightened to match extents that are nanomoles, not
+/// millimoles.
+const STIFF: IntegrationOptions = IntegrationOptions {
+    relative_tolerance: 1e-6,
+    absolute_tolerance_moles: 1e-14,
+    initial_step_seconds: 1e-9,
+};
+
 /// A gas vessel holding exactly what the caller asked for.
 fn reactor(volume_litres: f64, temperature_k: f64, feeds: &[(&str, f64)]) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "mechanism reactor");
@@ -395,12 +412,15 @@ fn moles(vessel: &Vessel, species: &str) -> f64 {
 /// The integrator is isothermal and has no spark: a vessel of cold H₂ and
 /// O₂ with no radicals in it has, correctly, a rate of exactly zero for
 /// every chain-carrying step, and the network would sit there forever.
-/// One nanomole of each intermediate stands in for the ignition source,
-/// and is seven orders of magnitude below the reactants, so it changes the
-/// products by nothing anyone could measure. It also keeps the solver off
-/// its depletion-event path, which exists to stop a species going
-/// negative and is not a place a stiff radical pool should live.
-const SEED_MOLES: f64 = 1e-9;
+/// A tenth of a micromole of each intermediate stands in for the ignition
+/// source. That is five parts in a hundred thousand of the fuel, so it
+/// changes the products by nothing anyone could measure, and it buys two
+/// things the solver needs: no species starts on the depletion-event
+/// path, which exists to stop an amount going negative and is not a place
+/// a radical pool should live, and the chain has two decades less
+/// exponential growth to climb through, which is two decades less of the
+/// sharpest part of the ignition front.
+const SEED_MOLES: f64 = 1e-7;
 
 #[test]
 fn hydrogen_moves_towards_water_in_bounded_time() {
@@ -424,14 +444,9 @@ fn hydrogen_moves_towards_water_in_bounded_time() {
     let fuel_before = moles(&vessel, "H2");
 
     let mut steps = 0usize;
-    for _ in 0..10 {
-        let report = advance_network_with_options(
-            &mut vessel,
-            1.0e-4,
-            &network,
-            IntegrationOptions::default(),
-        )
-        .expect("a skeletal hydrogen network integrates");
+    for _ in 0..40 {
+        let report = advance_network_with_options(&mut vessel, 1.0e-5, &network, STIFF)
+            .expect("a skeletal hydrogen network integrates");
         steps += report.statistics.accepted_steps + report.statistics.rejected_steps;
     }
 
@@ -483,14 +498,9 @@ fn more_oxygen_consumes_more_hydrogen() {
             feeds.push((radical, SEED_MOLES));
         }
         let mut vessel = reactor(1.0, 1200.0, &feeds);
-        for _ in 0..10 {
-            advance_network_with_options(
-                &mut vessel,
-                1.0e-4,
-                &network,
-                IntegrationOptions::default(),
-            )
-            .expect("a skeletal hydrogen network integrates");
+        for _ in 0..40 {
+            advance_network_with_options(&mut vessel, 1.0e-5, &network, STIFF)
+                .expect("a skeletal hydrogen network integrates");
         }
         consumed.push(2.0e-3 - moles(&vessel, "H2"));
     }
@@ -527,14 +537,9 @@ fn more_water_burns_more_carbon_monoxide() {
             feeds.push((radical, SEED_MOLES));
         }
         let mut vessel = reactor(1.0, 1500.0, &feeds);
-        for _ in 0..10 {
-            advance_network_with_options(
-                &mut vessel,
-                1.0e-4,
-                &network,
-                IntegrationOptions::default(),
-            )
-            .expect("a wet CO network integrates");
+        for _ in 0..40 {
+            advance_network_with_options(&mut vessel, 1.0e-5, &network, STIFF)
+                .expect("a wet CO network integrates");
         }
         burned.push(moles(&vessel, "CO2") - SEED_MOLES);
     }
@@ -569,8 +574,8 @@ fn the_pack_carries_no_hydrogen_free_route_to_carbon_dioxide() {
         ("CO2", SEED_MOLES),
     ];
     let mut vessel = reactor(1.0, 1500.0, &dry);
-    for _ in 0..10 {
-        advance_network_with_options(&mut vessel, 1.0e-4, &network, IntegrationOptions::default())
+    for _ in 0..40 {
+        advance_network_with_options(&mut vessel, 1.0e-5, &network, STIFF)
             .expect("a wet CO network integrates even with nothing to do");
     }
 

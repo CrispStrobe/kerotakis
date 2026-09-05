@@ -40,8 +40,11 @@ const PRESSURE_BAR: f64 = 1.0;
 /// "essentially complete" means for a teaching claim, not by how well
 /// the minimiser converges.
 const COMPLETE_CONVERSION_TOLERANCE: f64 = 1e-2;
-/// See `gas_mechanism_packs.rs`: the isothermal integrator has no spark.
-const SEED_MOLES: f64 = 1e-9;
+/// See `gas_mechanism_packs.rs`: the isothermal integrator has no spark,
+/// so the chain is given one. Five parts in a hundred thousand of the
+/// fuel, which is why the overshoot check below carries a thousandth of
+/// relative slack rather than none.
+const SEED_MOLES: f64 = 1e-7;
 
 fn pack_text(name: &str) -> String {
     let path = Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -61,6 +64,23 @@ fn budget(pairs: &[(&str, f64)]) -> BTreeMap<String, f64> {
         .map(|(key, value)| ((*key).to_string(), *value))
         .collect()
 }
+
+/// Integration controls for a stiff radical chain.
+///
+/// The defaults are tuned for the curated aqueous kinetics and start
+/// with a millisecond trial step, which is TEN TIMES the whole interval
+/// these tests advance and a hundred thousand times the timescale of the
+/// branching chain inside it. Handed that, the BDF solver spent its
+/// entire budget of nonlinear failures on the ignition transient and
+/// gave up at 71 microseconds. A nanosecond first step and a slightly
+/// looser relative tolerance let it find its own scale; the absolute
+/// tolerance is tightened to match extents that are nanomoles, not
+/// millimoles.
+const STIFF: IntegrationOptions = IntegrationOptions {
+    relative_tolerance: 1e-6,
+    absolute_tolerance_moles: 1e-14,
+    initial_step_seconds: 1e-9,
+};
 
 fn reactor(volume_litres: f64, temperature_k: f64, feeds: &[(&str, f64)]) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "mechanism reactor");
@@ -156,8 +176,8 @@ fn the_kinetic_route_approaches_equilibrium_without_overshooting_it() {
     }
     let mut vessel = reactor(1.0, TEMPERATURE_K, &feeds);
 
-    for _ in 0..10 {
-        advance_network_with_options(&mut vessel, 1.0e-4, &network, IntegrationOptions::default())
+    for _ in 0..40 {
+        advance_network_with_options(&mut vessel, 1.0e-5, &network, STIFF)
             .expect("a skeletal hydrogen network integrates");
     }
 
