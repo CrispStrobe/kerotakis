@@ -221,6 +221,43 @@ input {
   }
 }
 
+/* One close affordance, everywhere.
+
+   Panels used to close three different ways — an "×", a text button reading
+   "close", another reading "put away" — so the same gesture had to be
+   relearned per panel and the localized words were three separate strings to
+   scan for. This is the single icon button they all use now: top-right of the
+   panel, always "×", always labelled `close` for a screen reader (a panel with
+   a more specific label keeps it). Global rather than per-component, because
+   the point is that it is the SAME control and not merely a similar one. */
+.icon-close {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--edge);
+  border-radius: 9px;
+  color: var(--dim);
+  background: var(--surface);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.icon-close:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+/* Panels whose heading row is not a flex header park it in the corner. */
+.icon-close.corner {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 3;
+}
+
 /* GUI-023: the one visual encoding of the engine's confidence vocabulary,
    used wherever a number appears. Border style carries the class (never
    colour alone): computed = solid, modeled = dashed, template_match/

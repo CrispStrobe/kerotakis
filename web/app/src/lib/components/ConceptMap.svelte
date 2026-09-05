@@ -138,7 +138,7 @@
       <span class="hint">
         {t("{met} of {total} concepts met — filled means run to a green check here", { met: met.size, total: graph.nodes.length })}
       </span>
-      <button class="close" onclick={onclose}>{t("close")}</button>
+      <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     </header>
     {#if graph.nodes.length === 0}
       <p class="empty">{t("the codex export has not arrived yet — the map draws itself from it")}</p>
@@ -251,16 +251,8 @@
     color: var(--dim);
     font-size: 0.76rem;
   }
-  .close {
+  .icon-close {
     margin-left: auto;
-    background: var(--panel-raised);
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.8rem;
-    padding: 0.25rem 0.7rem;
-    cursor: pointer;
   }
   .empty {
     color: var(--dim);

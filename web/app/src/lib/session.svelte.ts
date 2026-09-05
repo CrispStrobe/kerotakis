@@ -16,6 +16,7 @@
 import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
+import { equationFromRenderedLine } from "./benchEquation";
 import { latestNetIonic, spectatorPhrase, type NetIonic } from "./ionic";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
@@ -678,8 +679,54 @@ export class Session {
     this.persist();
   }
 
+  /**
+   * Bench state the SHELL holds rather than the session — a deployed
+   * apparatus, a clamped burette (App.svelte owns their placement).
+   *
+   * Registered rather than reached for, because the session must not know
+   * what a burette is; it only needs to know that clearing the bench means
+   * clearing all of it. Each entry answers whether it is currently holding
+   * anything, which is also what makes the Clear control's enabled state
+   * honest: a Bunsen burner on the stage with an empty command log is still
+   * something to clear.
+   */
+  private benchExtras: { active: () => boolean; reset: () => void }[] = [];
+
+  /** How many feed entries a just-cleared bench carries — the single
+   * "the bench is empty again" note. Compared by count rather than by
+   * identity because `$state` hands back proxies, so the note the feed
+   * holds is never `===` the object that was put there. */
+  private clearedFeedLength = 0;
+
+  /** Register one shell-held piece of bench state. Returns an unregister. */
+  registerBenchExtra(extra: { active: () => boolean; reset: () => void }): () => void {
+    this.benchExtras.push(extra);
+    return () => {
+      this.benchExtras = this.benchExtras.filter((item) => item !== extra);
+    };
+  }
+
+  /**
+   * Whether there is anything at all to clear.
+   *
+   * The Clear button was disabled on an empty command log alone, so a bench
+   * carrying a deployed burner and a page of notes — reachable without ever
+   * running a command — offered no way to empty it.
+   */
+  get clearable(): boolean {
+    return this.commandLog.length > 0
+      || this.feed.length > this.clearedFeedLength
+      || this.benchExtras.some((extra) => extra.active());
+  }
+
   /** Empty the bench and forget the session — distinct from jumpTo(0),
-   * which keeps the future for redo. */
+   * which keeps the future for redo.
+   *
+   * "Empty" is meant literally: the engine, the log, the journal, the
+   * pinned equations and whatever the shell has standing on the stage. A
+   * clear that left the burner deployed and the old observations in the
+   * feed was not a clear, it was a reset of the engine with the evidence
+   * of the last session still on screen. */
   async clear(): Promise<void> {
     if (this.busy) return;
     this.busy = true;
@@ -692,7 +739,14 @@ export class Session {
       this.scene = await this.host.scene();
       this.inspector = null;
       this.latestResult = null;
-      this.feed.push({ kind: "note", text: t("the bench is empty again") });
+      this.lastEquation = null;
+      this.lastIonic = null;
+      this.benchEquations = [];
+      for (const extra of this.benchExtras) extra.reset();
+      // The single note is the whole journal now: the feed is the record of
+      // a bench that no longer exists.
+      this.feed = [{ kind: "note", text: t("the bench is empty again") }];
+      this.clearedFeedLength = this.feed.length;
     } catch (e) {
       this.feed.push({
         kind: "error",
@@ -827,9 +881,12 @@ export class Session {
           this.feed.push({ kind: "line", text: rendered });
           // The engine writes balanced equations with a real arrow; the
           // latest one is the reaction the bench is showing right now.
-          const eq = rendered.match(/\S[^.:]*(?:→|⇌)[^.]*/);
-          if (eq) {
-            const equation = eq[0].trim();
+          // `benchEquation` takes the chemistry out of the engine's own
+          // framing — the line arrives as `v1: {equation}`, and pinning the
+          // colon with it is what put a title-less ": HCO₃⁻ + …" on the
+          // bench and into the balancing drill's question pool.
+          const equation = equationFromRenderedLine(rendered);
+          if (equation) {
             this.lastEquation = equation;
             this.rememberEquation(equation);
             pinnedEquation = true;

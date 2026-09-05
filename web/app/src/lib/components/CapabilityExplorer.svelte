@@ -46,7 +46,7 @@
         <h2 id="capability-title">{t("What can this bench answer?")}</h2>
         <p>{t("Five hundred reviewed questions, including honest boundaries and missing science.")}</p>
       </div>
-      <button class="close" onclick={onclose}>{t("close")}</button>
+      <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     </header>
 
     <div class="summary" aria-label={t("support levels")}>
@@ -104,8 +104,8 @@
   header { display: flex; justify-content: space-between; gap: 1rem; }
   header h2 { margin: .2rem 0; font-size: 1.45rem; } header p, .result-count, .details p { margin: .2rem 0; color: var(--dim); font-size: .78rem; }
   .eyebrow { color: var(--discovery); font-size: .65rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-  .close, select, input, .summary button { border: 1px solid var(--edge); border-radius: 8px; color: var(--ink); background: var(--panel-raised); font: inherit; }
-  .close { align-self: start; padding: .35rem .7rem; cursor: pointer; }
+  select, input, .summary button { border: 1px solid var(--edge); border-radius: 8px; color: var(--ink); background: var(--panel-raised); font: inherit; }
+  .icon-close { align-self: start; }
   .summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: .35rem; margin: 1rem 0; }
   .summary button { display: grid; padding: .45rem; cursor: pointer; text-align: left; } .summary button.active { outline: 2px solid var(--action); }
   .summary strong { font-size: 1.05rem; } .summary span { color: var(--dim); font-size: .65rem; }

@@ -155,7 +155,10 @@
     flex-direction: column;
     gap: 0.25rem;
   }
-  .journal-view { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border: 1px solid var(--edge); border-radius: 10px; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(10px); }
+  /* Static, not sticky: the tab bar used to float over the log it
+     switches between, covering the newest lines as you scrolled. It is a
+     heading for the segment below it, so it scrolls with it. */
+  .journal-view { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border: 1px solid var(--edge); border-radius: 10px; background: color-mix(in srgb, var(--surface) 94%, transparent); }
   .journal-view button { min-height: 30px; display: flex; align-items: center; justify-content: center; gap: .35rem; border: 0; border-radius: 7px; color: var(--dim); background: transparent; font: inherit; font-size: .66rem; font-weight: 750; cursor: pointer; }
   .journal-view button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised)); }
   .journal-view span { min-width: 1.2rem; padding: .08rem .25rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: .52rem; }

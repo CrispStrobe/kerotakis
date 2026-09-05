@@ -19,7 +19,7 @@
         <small>{t("lab wall reference")}</small>
         <h2 id="safety-title">{t("safety station")}</h2>
       </span>
-      <button class="close" onclick={onclose}>{t("close")}</button>
+      <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     </header>
 
     <p class="lead">{t("The simulation can show hazardous chemistry safely, but the same actions in a real laboratory require supervision, protective equipment, and a risk assessment.")}</p>
@@ -48,7 +48,7 @@
   .mark { width: 42px; height: 42px; display: grid; place-items: center; flex: none; border-radius: 13px; color: var(--on-accent); background: var(--success); font-size: 1.3rem; transform: rotate(-4deg); }
   header small { color: var(--success); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
   h2 { margin: .08rem 0 0; font-size: 1.15rem; }
-  .close { margin-left: auto; padding: .38rem .7rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--surface); font: inherit; cursor: pointer; }
+  .icon-close { margin-left: auto; }
   .lead { margin: 0; padding: 1rem 1.1rem .2rem; color: var(--dim); font-size: .82rem; line-height: 1.5; }
   .station-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; padding: .8rem 1.1rem 1rem; }
   article { display: flex; gap: .7rem; padding: .8rem; border: 1px solid var(--edge); border-radius: 15px; background: linear-gradient(145deg, var(--surface-raised), color-mix(in srgb, var(--success) 5%, var(--surface))); }

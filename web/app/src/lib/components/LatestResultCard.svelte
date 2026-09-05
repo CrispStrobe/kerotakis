@@ -24,7 +24,7 @@
   import type { ResultSummary } from "../resultSummary";
   import { resultCardFilename, resultCardSvg } from "../resultCardImage";
 
-  let { result }: { result: ResultSummary } = $props();
+  let { result, onclose }: { result: ResultSummary; onclose: () => void } = $props();
 
   function format(value: number): string {
     return new Intl.NumberFormat(i18n.locale === "de" ? "de-DE" : "en-GB", {
@@ -105,6 +105,17 @@
         ΔT {result.temperature.deltaK > 0 ? "+" : ""}{format(result.temperature.deltaK)} K
       </b>
     {/if}
+    <!-- The card had no way out: it stayed until the next command replaced
+         it, over the feed it was summarizing. The button is the bench's one
+         close affordance, and it stops the click from also toggling the
+         disclosure it sits inside. -->
+    <button
+      class="icon-close"
+      type="button"
+      aria-label={t("close")}
+      title={t("close")}
+      onclick={(event) => { event.preventDefault(); event.stopPropagation(); onclose(); }}
+    >×</button>
   </summary>
   <div class="result-body">
     {#if result.equation}<p class="equation">{result.equation}</p>{/if}
@@ -152,7 +163,7 @@
 
 <style>
   .result-card { flex: none; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
-  summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
+  summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   summary::-webkit-details-marker { display: none; }
   .result-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; color: var(--on-accent); background: var(--success); font-weight: 900; }
   summary span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }

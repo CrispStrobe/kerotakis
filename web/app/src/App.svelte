@@ -56,6 +56,7 @@
   import { stockLevels } from "./lib/shelfStock";
   import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
   import { loadApparatusInstallation, saveApparatusInstallation } from "./lib/apparatusInstallation";
+  import { dismissesUtilityDrawer, type DrawerNode } from "./lib/overflowMenu";
   import {
     EMPTY_BENCH_LAYOUT,
     benchLayoutFromLab,
@@ -657,6 +658,46 @@
     }
     pane = "bench";
   }
+  // Clearing the bench used to reset the engine and leave the burner
+  // standing on the stage: apparatus placement is the shell's state, not the
+  // session's, so the session could not reach it. It does not have to know
+  // what a burette is — only that this is part of the bench.
+  session.registerBenchExtra({
+    active: () => apparatusOut !== null || buretteOut,
+    reset: () => {
+      closeApparatus();
+      buretteOut = false;
+      buretteTarget = null;
+    },
+  });
+  /** Clearing is destructive and now sits in the toolbar, so it asks once. */
+  let clearArmed = $state(false);
+  let clearTimer: ReturnType<typeof setTimeout> | null = null;
+  function armClear() {
+    clearArmed = true;
+    if (clearTimer) clearTimeout(clearTimer);
+    // Disarms itself: an armed button left on screen becomes a trap.
+    clearTimer = setTimeout(() => (clearArmed = false), 8000);
+  }
+  function disarmClear() {
+    clearArmed = false;
+    if (clearTimer) clearTimeout(clearTimer);
+    clearTimer = null;
+  }
+  function clearBench() {
+    disarmClear();
+    void session.clear();
+  }
+  /** One decision for the whole overflow drawer (see `overflowMenu.ts`). */
+  function utilityDrawerClick(event: MouseEvent) {
+    const path: DrawerNode[] = [];
+    let node = event.target instanceof Element ? event.target : null;
+    while (node && !node.classList.contains("utility-drawer")) {
+      path.push({ tag: node.tagName, keepsDrawer: node.hasAttribute("data-keeps-drawer") });
+      node = node.parentElement;
+    }
+    if (dismissesUtilityDrawer(path)) toolsOpen = false;
+  }
   $effect(() => {
     saveApparatusInstallation(
       modeStorage,
@@ -799,7 +840,8 @@
     } else if (e.key === "?" && !typing) {
       helpOpen = true;
     } else if (e.key === "Escape") {
-      if (inset) inset = null;
+      if (clearArmed) disarmClear();
+      else if (inset) inset = null;
       else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
@@ -859,6 +901,28 @@
       {session.engineReady ? (session.canSolve ? t("live") : t("shipped results")) : t("starting…")}
     </span>
     <LocaleSwitcher />
+    <!-- Clearing was two taps deep inside the "•••" drawer, which is where
+         a bench you want emptied is hardest to empty. It is a toolbar
+         control now, and it asks once before it fires: Story and Sandbox
+         are separate laboratories, so this can only ever empty the one you
+         are standing in. -->
+    {#if clearArmed}
+      <span class="clear-confirm" role="group" aria-label={t("clear the bench?")}>
+        <button class="clear-yes" onclick={clearBench} disabled={session.busy}>{t("clear the bench")}</button>
+        <button class="clear-no" onclick={disarmClear}>{t("keep it")}</button>
+      </span>
+    {:else}
+      <button
+        class="clear-toggle"
+        aria-label={t("clear the bench")}
+        onclick={armClear}
+        disabled={session.busy || !session.clearable}
+        title={t("empty this bench — the other laboratory is untouched")}
+      >
+        <span aria-hidden="true">⌫</span>
+        <span class="clear-label">{t("clear")}</span>
+      </button>
+    {/if}
     <button
       class="utility-toggle"
       aria-expanded={toolsOpen}
@@ -872,13 +936,21 @@
 </header>
 
 {#if toolsOpen}
-  <section class="utility-drawer" aria-label={t("utilities")}>
+  <!-- The listener is delegation, not an affordance: every control inside
+       is already a button, a link or a select, reachable and operable on
+       its own. This only observes which one was used. -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <section class="utility-drawer" aria-label={t("utilities")} onclick={utilityDrawerClick}>
     <div class="utility-group">
       <strong>{t("time and history")}</strong>
       <button class="tool" onclick={() => void session.undo()} disabled={session.commandLog.length === 0 || session.busy}>{t("undo")}</button>
       <button class="tool" onclick={() => void session.submit("wait 30s")} disabled={session.busy} title={t("let 30 seconds of bench time pass")}>{t("wait 30 s")}</button>
-      <button class="tool danger-tool" onclick={() => void session.clear()} disabled={session.busy || session.commandLog.length === 0}>{t("clear")}</button>
-      <Timeline position={session.position} total={session.commandLog.length} busy={session.busy} onjump={(to) => void session.jumpTo(to)} />
+      <button class="tool danger-tool" onclick={armClear} disabled={session.busy || !session.clearable}>{t("clear")}</button>
+      <!-- Scrubbing time is an adjustment, not a destination: the drawer stays. -->
+      <div class="timeline-slot" data-keeps-drawer>
+        <Timeline position={session.position} total={session.commandLog.length} busy={session.busy} onjump={(to) => void session.jumpTo(to)} />
+      </div>
     </div>
     <div class="utility-group">
       <strong>{t("files and notebook")}</strong>
@@ -902,7 +974,7 @@
         <button class="tool" onclick={() => { toolsOpen = false; capabilityOpen = true; }}>{t("capabilities")}</button>
       {/if}
       {#if quests.length > 0 && !session.quest}
-        <label class="quest-picker">
+        <label class="quest-picker" data-keeps-drawer>
           <span>{t("quests")}</span>
           <select
             aria-label={t("start a quest")}
@@ -925,8 +997,8 @@
       {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
       {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
       <button class="tool" onclick={() => (aboutOpen = true)}>{t("about")}</button>
-      <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
-      <div class="theme-choice" role="radiogroup" aria-label={t("appearance")}>
+      <div class="utility-locale" data-keeps-drawer><span>{t("Language")}</span><LocaleSwitcher /></div>
+      <div class="theme-choice" role="radiogroup" aria-label={t("appearance")} data-keeps-drawer>
         <span>{t("appearance")}</span>
         {#each [["light", "light"], ["dark", "dark"], ["contrast", "high contrast"]] as const as [value, label] (value)}
           <button class="theme-button" role="radio" aria-checked={theme === value} class:active={theme === value} onclick={() => setTheme(value as Theme)}>{t(label)}</button>
@@ -1119,7 +1191,10 @@
            only when the engine derived one from the solved speciation. -->
       <p class="equation" aria-label={t("latest reaction equation")}>
         {#if session.lastEquation}
-          <span class="molecular">{session.lastEquation}</span>
+          <span class="molecular">
+            <span class="molecular-tag">{t("reaction")}</span>
+            {session.lastEquation}
+          </span>
         {/if}
         {#if session.lastIonic}
           <span class="ionic">
@@ -1291,7 +1366,7 @@
          rather than shrunk — the feed underneath is complete on its own,
          which is the same reason the card degrades away with JavaScript. -->
     {#if session.latestResult && session.register !== "lv3"}
-      <LatestResultCard result={session.latestResult} />
+      <LatestResultCard result={session.latestResult} onclose={() => (session.latestResult = null)} />
     {/if}
     <Feed
       entries={session.feed}
@@ -1719,12 +1794,19 @@
     font-size: 0.85em;
     color: var(--ink-muted);
   }
+  /* The molecular line is a claim about a named thing too, and read
+     without a label beside the tagged ionic line under it, its leading
+     punctuation looked like a title that had gone missing. */
+  .equation .molecular-tag,
   .equation .ionic-tag {
     margin-right: 0.45rem;
     font-size: 0.78em;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     opacity: 0.75;
+  }
+  .equation .molecular-tag {
+    color: var(--ink-muted);
   }
   .equation .spectators {
     margin-left: 0.7rem;
@@ -1896,6 +1978,39 @@
     color: var(--discovery);
     border-color: color-mix(in srgb, var(--discovery) 35%, var(--edge));
   }
+  .clear-toggle,
+  .clear-confirm button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    background: var(--surface-raised);
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .clear-toggle:hover:not(:disabled) {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  .clear-toggle:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .clear-confirm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .clear-confirm .clear-yes {
+    color: var(--on-accent);
+    border-color: var(--danger);
+    background: var(--danger);
+  }
   .utility-toggle {
     min-height: 40px;
     display: inline-flex;
@@ -1946,7 +2061,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .utility-group > :global(.timeline) {
+  .utility-group > .timeline-slot {
     flex-basis: 100%;
   }
   .theme-choice {
@@ -2244,6 +2359,15 @@
       display: none;
     }
     .utility-toggle {
+      width: 40px;
+      justify-content: center;
+      padding: 0;
+    }
+    /* Same rule the ••• follows: the icon survives, the word does not. */
+    .clear-label {
+      display: none;
+    }
+    .clear-toggle {
       width: 40px;
       justify-content: center;
       padding: 0;

@@ -201,6 +201,37 @@ describe("the expanded card's remaining fields", () => {
     )?.note).toBe("products only; no rate was computed");
   });
 
+  it("adds up the passes that report the same quantity about the same species", () => {
+    // The German bench: the feed read "0,0090 mol CO₂ gebildet" and then
+    // "0,0033 mol CO₂ gebildet" — two solver passes at one gas — while the
+    // card above it showed 0,003284 mol under the label "amount". It had
+    // picked one of the two events. The amount of CO₂ this command made is
+    // the sum, and that is what the label promises.
+    const summary = summarizeResult([
+      { event: "gas_contained", vessel: 0, species: "CO2", moles: 0.008993 },
+      { event: "gas_contained", vessel: 0, species: "CO2", moles: 0.003284 },
+    ], ["CO₂ forms"], null, null);
+    expect(summary?.kind).toBe("gas formation");
+    expect(summary?.quantities[0]?.value).toBeCloseTo(0.012277, 9);
+  });
+
+  it("never adds a different species, or a different vessel, into that total", () => {
+    // Two gases in one step are two answers, not one bigger one.
+    const twoSpecies = summarizeResult([
+      { event: "gas_contained", vessel: 0, species: "CO2", moles: 0.004 },
+      { event: "gas_contained", vessel: 0, species: "H2", moles: 0.5 },
+    ], ["gas forms"], null, null);
+    // The priority list takes the last matching event, so H2 is the subject
+    // here — and its amount is its own.
+    expect(twoSpecies?.quantities[0]?.value).toBeCloseTo(0.5, 9);
+    const twoVessels = summarizeResult([
+      { event: "gas_contained", vessel: 1, species: "CO2", moles: 0.004 },
+      { event: "gas_contained", vessel: 0, species: "CO2", moles: 0.006 },
+    ], ["gas forms"], null, null);
+    expect(twoVessels?.vessel).toBe(0);
+    expect(twoVessels?.quantities[0]?.value).toBeCloseTo(0.006, 9);
+  });
+
   it("leaves every optional field absent rather than empty", () => {
     const summary = summarizeResult(
       [{ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.25 }],

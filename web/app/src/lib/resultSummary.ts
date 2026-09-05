@@ -155,14 +155,53 @@ function eventVessel(event: EngineEvent): number | undefined {
   return undefined;
 }
 
-function quantities(event: EngineEvent): ResultQuantity[] {
+/**
+ * Every event in the step that reports the SAME quantity about the SAME
+ * thing as the winning one.
+ *
+ * The solver runs in passes, and a step that forms one gas commonly emits
+ * `gas_contained` once per pass: the German bench's feed read "0,0090 mol
+ * CO₂ gebildet" and then "0,0033 mol CO₂ gebildet", while the card above it
+ * showed 0,003284 mol — one of the two, presented as the answer. Neither
+ * number was wrong and the card was not either, exactly; it just answered a
+ * different question than the one its label ("amount") asks.
+ *
+ * Same event tag, same species, same vessel is the whole rule. It is
+ * deliberately narrow: two passes at one gas in one vessel are one
+ * quantity, whereas CO₂ in v1 and O₂ in v2 are two and adding them would
+ * be arithmetic about nothing.
+ */
+function sameQuantityEvents(
+  events: EngineEvent[],
+  event: EngineEvent,
+  vessel?: number,
+): EngineEvent[] {
+  const species = event.species;
+  return events.filter((item) =>
+    item.event === event.event
+    && item.species === species
+    && (vessel === undefined || eventVessel(item) === undefined || eventVessel(item) === vessel));
+}
+
+function quantities(
+  event: EngineEvent,
+  events: EngineEvent[] = [event],
+  vessel?: number,
+): ResultQuantity[] {
   const values: ResultQuantity[] = [];
+  const siblings = sameQuantityEvents(events, event, vessel);
   const push = (label: string, key: string, unit: string, scale = 1) => {
     const value = number(event, key);
     if (value !== undefined) values.push({ label, value: value * scale, unit });
   };
-  push("amount", "moles", "mol");
-  push("mass", "grams", "g");
+  /** An extensive quantity: what the step produced in total, over its passes. */
+  const total = (label: string, key: string, unit: string, scale = 1) => {
+    if (number(event, key) === undefined) return;
+    const sum = siblings.reduce((carried, item) => carried + (number(item, key) ?? 0), 0);
+    values.push({ label, value: sum * scale, unit });
+  };
+  total("amount", "moles", "mol");
+  total("mass", "grams", "g");
   push("energy", "delivered_j", "kJ", 0.001);
   if (!values.some((value) => value.label === "energy")) push("energy", "joules", "kJ", 0.001);
   push("speed", "rpm", "rpm");
@@ -406,7 +445,7 @@ export function summarizeResult(
       }
       : undefined,
     temperatureDeltaK: moved ? temperatureDeltaK : undefined,
-    quantities: quantities(event),
+    quantities: quantities(event, typed, vessel),
     boundary: boundary(event),
     provenance: provenance(event),
     note: conceptNote(typed, event),

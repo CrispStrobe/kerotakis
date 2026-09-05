@@ -36,6 +36,7 @@
 </script>
 
 <section class="burette" aria-label={t("burette over v{vessel}", { vessel: vessel + 1 })}>
+  <button class="icon-close corner" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
   <svg viewBox="0 0 24 64" class="glassware" aria-hidden="true">
     <!-- The column, the tap, the tip. -->
     <rect x="9" y="2" width="6" height="42" class="col" />
@@ -76,7 +77,6 @@
       <button class="start" disabled={busy || line === null} onclick={() => line && onstart(line)}>
         {running ? t("dripping…") : t("start the drip")}
       </button>
-      <button class="close" onclick={onclose}>{t("put away")}</button>
     </div>
     {#if line}
       <code>{line}</code>
@@ -86,6 +86,7 @@
 
 <style>
   .burette {
+    position: relative;
     display: flex;
     gap: 0.8rem;
     align-items: flex-start;
@@ -168,17 +169,6 @@
     border: 1px solid var(--hot);
     border-radius: 6px;
     color: var(--ink);
-    font: inherit;
-    font-size: 0.82rem;
-    padding: 0.3rem 0.8rem;
-    cursor: pointer;
-    min-height: 36px;
-  }
-  .close {
-    background: none;
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--dim);
     font: inherit;
     font-size: 0.82rem;
     padding: 0.3rem 0.8rem;
