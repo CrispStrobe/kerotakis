@@ -2537,8 +2537,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-048"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "th-049"
