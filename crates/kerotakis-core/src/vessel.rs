@@ -725,6 +725,40 @@ impl ResolvedState {
     }
 }
 
+/// What a step started from — see [`Vessel::step_start`].
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct StepStart {
+    /// The ledger with the operator applied, before any solver.
+    pub contents: Vec<Portion>,
+    pub solute_charge: f64,
+    pub temperature: Kelvin,
+    /// Gas that has LEFT the vessel so far this step — `GasEvolved` minus
+    /// `GasAbsorbed`, by species — accumulated by `SolverStack` between
+    /// solvers, so a solver that runs late sees what an earlier one gave
+    /// off. Gas kept in a headspace is not here: it is a `Phase::Gas`
+    /// portion in `contents` already, and would be counted twice.
+    pub gas_out: Vec<(SpeciesId, Moles)>,
+}
+
+impl StepStart {
+    pub fn capture(vessel: &Vessel) -> Self {
+        StepStart {
+            contents: vessel.contents.clone(),
+            solute_charge: vessel.solute_charge,
+            temperature: vessel.temperature,
+            gas_out: Vec::new(),
+        }
+    }
+
+    /// Book an outward gas transfer (negative moles for gas taken back in).
+    pub fn note_gas_out(&mut self, species: &SpeciesId, moles: f64) {
+        match self.gas_out.iter_mut().find(|(s, _)| s == species) {
+            Some((_, total)) => total.0 += moles,
+            None => self.gas_out.push((species.clone(), Moles(moles))),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     /// Seconds of bench time this vessel has experienced.
@@ -796,6 +830,21 @@ pub struct Vessel {
     /// from one that was always there.
     #[serde(default)]
     pub solute_charge: f64,
+    /// The vessel as it stood when the current step's operator had been
+    /// applied and no solver had yet run, plus the gas that has left it so
+    /// far this step. `Some` only while the bench is inside `step_with`:
+    /// set right after the operator, cleared once the solver stack
+    /// returns.
+    ///
+    /// Why it exists: an enthalpy balance is a state function over the
+    /// STEP, not over one solver's call. A curated row that runs before the
+    /// aqueous tail consumes the bicarbonate and evolves the carbon dioxide
+    /// itself; a balance that took its "before" from the tail's own
+    /// call-start would price a step in which the bicarbonate had never
+    /// been there and the carbon simply ceased to exist. The tail reads
+    /// this and falls back to its call-start where a host never sets it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub step_start: Option<StepStart>,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -833,6 +882,7 @@ impl Vessel {
             exchanges: Vec::new(),
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
+            step_start: None,
             solution: None,
             lots: Vec::new(),
             resolved: ResolvedState::default(),

@@ -217,6 +217,25 @@ impl Equilibrator for SolverStack {
                             event_count: more.len(),
                         },
                     });
+                    // Gas this solver sent out of the vessel, booked on the
+                    // step's snapshot before the next solver runs: the
+                    // aqueous tail prices the whole step's heat, and the
+                    // carbon dioxide a curated row evolved ahead of it must
+                    // not cease to exist on the way. `GasContained` stays a
+                    // portion and is not an outward transfer.
+                    if let Some(start) = vessel.step_start.as_mut() {
+                        for event in &more {
+                            match event {
+                                Event::GasEvolved { species, moles, .. } => {
+                                    start.note_gas_out(species, moles.0);
+                                }
+                                Event::GasAbsorbed { species, moles, .. } => {
+                                    start.note_gas_out(species, -moles.0);
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
                     events.append(&mut more);
                 }
                 // One solver failing must not silence the rest. The stack is
@@ -1656,6 +1675,88 @@ mod route_trace_tests {
         name: &'static str,
         applies: bool,
         kind: SolverRouteKind,
+    }
+
+    /// A solver that gives off one gas, for the step ledger below.
+    struct GasRoute(&'static str, f64);
+
+    impl Equilibrator for GasRoute {
+        fn name(&self) -> &'static str {
+            "gas-route"
+        }
+
+        fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            Ok(vec![Event::GasEvolved {
+                vessel: vessel.id,
+                species: SpeciesId::new(self.0),
+                moles: Moles(self.1),
+            }])
+        }
+    }
+
+    #[test]
+    fn the_stack_books_each_solvers_gas_on_the_step_before_the_next_runs() {
+        let mut vessel = Vessel::new(crate::vessel::VesselId(0), "v1");
+        vessel.step_start = Some(crate::vessel::StepStart::capture(&vessel));
+        let mut stack = SolverStack::new(vec![
+            Box::new(GasRoute("CO2", 0.01)),
+            Box::new(GasRoute("CO2", 0.02)),
+            Box::new(GasRoute("O2", 0.005)),
+        ]);
+        let events = stack.equilibrate(&mut vessel).expect("equilibrates");
+        assert_eq!(events.len(), 3);
+        let start = vessel
+            .step_start
+            .as_ref()
+            .expect("the stack does not clear the snapshot");
+        assert_eq!(start.gas_out.len(), 2);
+        let co2 = start
+            .gas_out
+            .iter()
+            .find(|(s, _)| s.0 == "CO2")
+            .unwrap()
+            .1
+             .0;
+        assert!((co2 - 0.03).abs() < 1e-12, "{co2}");
+        // Without a snapshot nothing is booked and nothing breaks.
+        let mut bare = Vessel::new(crate::vessel::VesselId(1), "v2");
+        stack.equilibrate(&mut bare).expect("equilibrates");
+        assert!(bare.step_start.is_none());
+    }
+
+    /// A solver whose gas stays in a sealed headspace.
+    struct ContainedRoute;
+
+    impl Equilibrator for ContainedRoute {
+        fn name(&self) -> &'static str {
+            "contained-route"
+        }
+
+        fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            let species = SpeciesId::new("CO2");
+            let kept = vessel.retain_gas(species.clone(), Moles(0.01));
+            assert!(kept, "a sealed headspace keeps its gas");
+            Ok(vec![Event::GasContained {
+                vessel: vessel.id,
+                species,
+                moles: Moles(0.01),
+            }])
+        }
+    }
+
+    #[test]
+    fn gas_kept_in_a_headspace_is_not_booked_as_gas_that_left() {
+        // Booking it would count it twice: once as the `Phase::Gas` portion
+        // the headspace holds, once as an outward transfer.
+        let mut vessel = Vessel::new(crate::vessel::VesselId(0), "sealed");
+        vessel.headspace = crate::vessel::Headspace::Sealed {
+            volume: crate::units::Liters(1.0),
+        };
+        vessel.step_start = Some(crate::vessel::StepStart::capture(&vessel));
+        let mut stack = SolverStack::new(vec![Box::new(ContainedRoute)]);
+        stack.equilibrate(&mut vessel).expect("equilibrates");
+        assert!(vessel.step_start.as_ref().unwrap().gas_out.is_empty());
+        assert!((vessel.moles_of(&SpeciesId::new("CO2")).0 - 0.01).abs() < 1e-12);
     }
 
     impl Equilibrator for TestRoute {
