@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { t } from "../i18n.svelte";
-  import { missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
+  import { missionDistrictId, missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
 
   let {
@@ -28,7 +29,10 @@
   } = $props();
 
   const districts = $derived(storyDistricts(missions, completed));
-  let selectedId = $state("discovery-hall");
+  let selectedId = $state(untrack(() => {
+    const continuation = nextUnlockedMission(missions, completed, active);
+    return missionDistrictId(missions, completed, continuation) ?? "discovery-hall";
+  }));
   const selected = $derived(districts.find((district) => district.id === selectedId) ?? districts[0]);
   const completedCount = $derived(completed.size);
   const nextMission = $derived(nextUnlockedMission(missions, completed, active));

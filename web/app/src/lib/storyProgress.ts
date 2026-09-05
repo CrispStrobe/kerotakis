@@ -107,3 +107,14 @@ export function nextUnlockedMission(
     .filter((mission) => !completedIds.has(missionId(mission.file)));
   return available.find((mission) => missionId(mission.file) === activeId) ?? available[0] ?? null;
 }
+
+/** Locate a mission on the existing map so its district can be selected. */
+export function missionDistrictId(
+  missions: MissionSummary[],
+  completedIds: ReadonlySet<string>,
+  mission: MissionSummary | null,
+): string | null {
+  if (mission === null) return null;
+  return storyDistricts(missions, completedIds)
+    .find((district) => district.missions.some((candidate) => candidate.file === mission.file))?.id ?? null;
+}
