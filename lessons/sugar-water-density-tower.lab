@@ -1,0 +1,21 @@
+# Sugar-water tower: measure the ordering before trying to stack it
+register lv2
+
+# Equal starting water, increasing sugar. The density readings are the
+# computed evidence for which solution belongs at the bottom.
+add v1 water 100mL
+measure v1 density
+
+new cylinder
+add v2 water 100mL
+add v2 table_sugar 25g
+measure v2 density
+
+new cylinder
+add v3 water 100mL
+add v3 table_sugar 50g
+measure v3 density
+
+# The ordering is computed. A real tower also needs a gentle delivery that
+# preserves a vertical concentration gradient. This bench has no slow-pour
+# operation or diffusion state, so it does not draw layers it cannot retain.
