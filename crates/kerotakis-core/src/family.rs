@@ -356,6 +356,21 @@ struct Matched {
     products: Vec<String>,
 }
 
+/// What asking one record about a vessel came to, structurally.
+enum MatchOutcome {
+    Matched(Matched),
+    NoMatch,
+    /// The pattern matched but the oracle could not carry the products
+    /// into the registry — a structure nobody curated, or a template that
+    /// failed its own conservation check. The substrates are kept so the
+    /// gates can still be asked: an unnameable product matters only where
+    /// the family would actually fire.
+    Refused {
+        substrates: Vec<String>,
+        why: String,
+    },
+}
+
 /// A family whose structure matched and whose gates all admitted, with
 /// the extent its outcome model allows.
 #[derive(Debug, Clone)]
@@ -379,9 +394,11 @@ pub struct Evaluation {
     pub ready: Vec<Ready>,
     /// Structural matches a gate refused, each naming the gate.
     pub declined: Vec<Declined>,
-    /// Structural matches the oracle could not carry into the registry —
-    /// a product nobody curated, or a template that failed its own
-    /// conservation check. Spoken as typed refusals, never dropped.
+    /// Structural matches whose gates admit but whose products the oracle
+    /// could not carry into the registry — a product nobody curated, or a
+    /// template that failed its own conservation check. Spoken as typed
+    /// refusals, never dropped; the same match behind a refusing gate is
+    /// a quiet decline instead.
     pub refused: Vec<String>,
 }
 
@@ -419,23 +436,22 @@ impl<O: StructureOracle> FamilyRouter<O> {
         keys
     }
 
-    /// The first candidate tuple the record's pattern matches, in a
-    /// fixed order — so the same vessel always yields the same match
+    /// The first candidate tuple the record's pattern matches cleanly, in
+    /// a fixed order — so the same vessel always yields the same match
     /// regardless of pouring order. Two-slot templates try ordered pairs
     /// of DISTINCT species; a record needing three mapped reactants is
     /// not asked here (none exists yet, and the IR says such a record
-    /// should say which slot is which).
-    fn find_match(
-        &self,
-        record: &FamilyRecord,
-        candidates: &[String],
-    ) -> Result<Option<Matched>, String> {
+    /// should say which slot is which). A tuple whose products the oracle
+    /// cannot name does not end the search — another pair in the same
+    /// vessel may match cleanly — but is remembered and reported if
+    /// nothing does.
+    fn find_match(&self, record: &FamilyRecord, candidates: &[String]) -> MatchOutcome {
         let tuples: Vec<Vec<&str>> = match reactant_slots(&record.smirks) {
             0 => {
-                return Ok(Some(Matched {
+                return MatchOutcome::Matched(Matched {
                     substrates: Vec::new(),
                     products: Vec::new(),
-                }))
+                })
             }
             1 => candidates.iter().map(|k| vec![k.as_str()]).collect(),
             2 => {
@@ -449,17 +465,29 @@ impl<O: StructureOracle> FamilyRouter<O> {
                 }
                 pairs
             }
-            _ => return Ok(None),
+            _ => return MatchOutcome::NoMatch,
         };
+        let mut refused = None;
         for keys in tuples {
-            if let Some(products) = self.oracle.apply(record, &keys)? {
-                return Ok(Some(Matched {
-                    substrates: keys.iter().map(|k| k.to_string()).collect(),
-                    products,
-                }));
+            match self.oracle.apply(record, &keys) {
+                Ok(Some(products)) => {
+                    return MatchOutcome::Matched(Matched {
+                        substrates: keys.iter().map(|k| k.to_string()).collect(),
+                        products,
+                    })
+                }
+                Ok(None) => {}
+                Err(why) => {
+                    if refused.is_none() {
+                        refused = Some(MatchOutcome::Refused {
+                            substrates: keys.iter().map(|k| k.to_string()).collect(),
+                            why,
+                        });
+                    }
+                }
             }
         }
-        Ok(None)
+        refused.unwrap_or(MatchOutcome::NoMatch)
     }
 
     /// Every gate in order; the first refusing gate names itself.
@@ -585,10 +613,18 @@ impl<O: StructureOracle> FamilyRouter<O> {
         let candidates = self.candidates(vessel);
         for record in &self.records {
             let matched = match self.find_match(record, &candidates) {
-                Ok(Some(m)) => m,
-                Ok(None) => continue,
-                Err(why) => {
-                    out.refused.push(why);
+                MatchOutcome::Matched(m) => m,
+                MatchOutcome::NoMatch => continue,
+                // Citric acid beside a sugar's alcohol group matches the
+                // esterification pattern in every glass of lemonade; the
+                // ester nobody curated is worth a word only where the
+                // family would actually run. Cold and uncatalysed, it
+                // declines at its gate like any other match.
+                MatchOutcome::Refused { substrates, why } => {
+                    match self.check_gates(record, vessel, &substrates) {
+                        Ok(_) => out.refused.push(why),
+                        Err(d) => out.declined.push(d),
+                    }
                     continue;
                 }
             };
@@ -1205,6 +1241,19 @@ mod router_tests {
         ));
         // Said once, not once per pass.
         assert!((v.moles_of(&SpeciesId::new("CH3COOH")).0 - 0.1).abs() < 1e-12);
+    }
+
+    #[test]
+    fn an_unnameable_product_behind_a_closed_gate_is_a_quiet_decline() {
+        // Every glass of lemonade holds an acid and an alcohol group; a
+        // refusal spoken there would be noise, not honesty.
+        let v = vessel(&[("CH3COOH", 0.1), ("methanol", 0.1)], 298.15);
+        let r = router();
+        assert!(!r.applies(&v));
+        let e = r.evaluate(&v);
+        assert!(e.refused.is_empty());
+        assert_eq!(e.declined.len(), 1);
+        assert_eq!(e.declined[0].gate, "temperature_k");
     }
 
     #[test]

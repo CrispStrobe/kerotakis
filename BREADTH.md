@@ -1063,7 +1063,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   refusing gate names itself. Gate declines are quiet in the event stream
   (a lesson that never meant to esterify does not gain a line per step) and
   spoken through the solver's capability report; a product the registry
-  cannot name is a typed `NotYetModeled` refusal, never a drop. Outcomes:
+  cannot name is a typed `NotYetModeled` refusal where the gates admit
+  (the vessel would run and the lab cannot name what forms), and a quiet
+  decline behind a closed gate — citric acid beside a sugar's alcohol group
+  matches the esterification pattern in every glass of lemonade, and six
+  corpus rows said so before this rule. Outcomes:
   `to_completion` runs the limiting reagent; `equilibrium` solves the
   mole-basis quotient to K (bidirectional, so a mixture past K runs back —
   and added water pushes esterification back, computed); `kinetic_law`
