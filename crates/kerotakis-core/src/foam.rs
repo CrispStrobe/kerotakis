@@ -62,7 +62,8 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, gas_moles: f64) -> Option<Foam
                 | MaterialRole::CoherentObject
                 | MaterialRole::OsmoticMembrane { .. }
                 | MaterialRole::BrowningSurface
-                | MaterialRole::FattySoapEquivalent { .. } => None,
+                | MaterialRole::FattySoapEquivalent { .. }
+                | MaterialRole::EnzymeSource { .. } => None,
             })
         })
         .max_by(|a, b| a.0.total_cmp(&b.0));
