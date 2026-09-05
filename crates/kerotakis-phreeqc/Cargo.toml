@@ -36,6 +36,9 @@ required-features = []
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
 kerotakis-safety = { path = "../kerotakis-safety" }
+# BRD-020: the family router's own capability report, asked of a vessel the
+# aqueous tail has already characterised (tests/family_aqueous_tail.rs).
+kerotakis-org = { path = "../kerotakis-org" }
 kerotakis-stack = { path = "../kerotakis-stack" }
 
 [[bench]]
