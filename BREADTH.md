@@ -548,8 +548,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     this bench does *not* model. Hydrogen sulfide arrives able to be named
     and weighed and nothing more: there is no sulfide ion on the shelf, so
     it forms no metal sulfide, and the row that asked for silver tarnish is
-    closed as a typed observation rather than as chemistry. Closes six rows
-    (th-028, th-044, th-045, th-046, th-070, th-095) with BRD-041.
+    closed as a typed observation rather than as chemistry. Six rows leave
+    `unknown-species`, and the split matters more than the count: th-044,
+    th-045 and th-046 reach `computed`/`computed-route` through the CEA
+    equilibrium solve, th-095 reaches `qualitative`/`typed-observation` on
+    a real computed pressure, and th-028 and th-070 reach
+    `computed`/`typed-engine-event` — the classifier's weakest evidence,
+    which here means the run happened rather than that the question was
+    answered. Sublimation and metal-sulfide formation remain absent, and
+    those two rows are closed against the parser, not against the science.
 - **Outcome:** at least 300 reviewed identities that a school-age user is likely
   to name, including common gases, acids/bases, salts, metals, minerals, fuels,
   solvents, sugars, fats, monomers, polymers-as-populations, pigments, and
