@@ -651,6 +651,24 @@ naphthalene = "Naphthalin"
 "transition-point.wet.lv2" = "{vessel} {what}: Die Probe ist nicht isoliert — im Gefäß befindet sich neben {subject} noch etwas einer anderen Phase. Trockne oder trenne sie zuerst"
 "transition-point.wet.lv3" = "{vessel} {what}: abgelehnt — {subject} ist zwar der einzige Stoff der gewünschten Phase, es ist aber Materie einer anderen Phase vorhanden; damit ist dies eine feuchte oder gelöste Probe und keine isolierte. {boundary}"
 
+# The melting/boiling apparatus, looked up by value.
+#
+# `render.rs` asks for `transition.{kind}` and `transition.outcome.{word}`
+# and there was no section here to answer either, so a German reader was
+# told "v1 melting point: Saccharose melts bei 185,0 °C". Neither table is
+# walked by `i18n_coverage.rs` — both are value-keyed lookups under a
+# prefix, which is the shape that gate cannot enumerate — so a missing
+# section reported as nothing at all.
+[transition]
+"melting point" = "Schmelzpunkt"
+"boiling point" = "Siedepunkt"
+"outcome.melts" = "schmilzt"
+"outcome.boils" = "siedet"
+"outcome.sublimes" = "sublimiert"
+"outcome.decomposes" = "zersetzt sich"
+"outcome.loses its water of crystallisation" = "verliert sein Kristallwasser"
+"outcome.changes state" = "wechselt den Aggregatzustand"
+
 [ionic]
 net = "Netto-Ionengleichung"
 spectators = "Zuschauerionen"

@@ -427,3 +427,65 @@ fn no_flame_colour_is_really_a_dotted_key_from_another_section() {
          it will never be found under the prefix it names: {misfiled:?}"
     );
 }
+
+/// Every prefix the engine looks a value up under must have a section.
+///
+/// `locale.lookup(&format!("transition.{kind}"))` had no `[transition]`
+/// section at all, so a German reader was told "v1 melting point:
+/// Saccharose melts bei 185,0 °C" — two English words in the middle of a
+/// German line. Nothing reported it: `i18n_coverage.rs` walks the
+/// registries it can enumerate, and a lookup keyed by a value under a
+/// prefix is exactly the shape it cannot; `engine-locale-lint.py` treats
+/// these prefixes as satisfied by definition, so an EMPTY one is
+/// indistinguishable from a full one.
+///
+/// So this reads the prefixes out of the source rather than listing them,
+/// and asks only the question those two gates cannot: does the section
+/// exist and does it hold anything. Coverage within a section stays the
+/// business of the inventory that can enumerate it.
+#[test]
+fn every_prefix_the_engine_looks_up_has_a_german_section() {
+    let source = include_str!("../src/render.rs");
+    let catalogue: toml::Table = include_str!("../i18n/de.toml")
+        .parse()
+        .expect("de.toml parses");
+
+    let mut prefixes: Vec<&str> = source
+        .match_indices(".lookup(&format!(\"")
+        .filter_map(|(at, marker)| {
+            let rest = &source[at + marker.len()..];
+            rest.find(".{").map(|end| &rest[..end])
+        })
+        .collect();
+    prefixes.sort_unstable();
+    prefixes.dedup();
+    assert!(
+        prefixes.len() >= 10,
+        "the lookup shape must have changed — this gate is now checking \
+         almost nothing: {prefixes:?}"
+    );
+
+    let empty: Vec<&str> = prefixes
+        .iter()
+        .copied()
+        .filter(|prefix| {
+            let (section, nested) = prefix
+                .split_once('.')
+                .map_or((*prefix, None), |(s, n)| (s, Some(n)));
+            let Some(table) = catalogue.get(section).and_then(toml::Value::as_table) else {
+                return true;
+            };
+            match nested {
+                // `transition.outcome.{word}` flattens to keys that BEGIN
+                // "outcome." inside `[transition]`.
+                Some(inner) => !table.keys().any(|k| k.starts_with(&format!("{inner}."))),
+                None => table.is_empty(),
+            }
+        })
+        .collect();
+    assert!(
+        empty.is_empty(),
+        "the engine looks words up under these prefixes and de.toml answers \
+         nothing, so each renders its English inside a German sentence: {empty:?}"
+    );
+}
