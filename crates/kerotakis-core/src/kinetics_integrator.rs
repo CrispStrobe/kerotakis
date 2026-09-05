@@ -151,6 +151,17 @@ impl<'a> ExtentSystem<'a> {
     where
         X: Index<usize, Output = f64>,
     {
+        // BRD-023: the galvanic gate. This is the rate the integrator
+        // actually uses — `KineticReaction::expression_rate` is the
+        // vessel-state twin of this function and the slow clock never
+        // calls it — so a protected metal has to be stopped HERE or it
+        // corrodes on every substep while the verdict says it is safe.
+        // The check reads the vessel as the step began: protection lasts
+        // until the anode is gone, and the next `wait` is where that is
+        // noticed.
+        if !crate::corrosion::allows_reaction(reaction.id, self.vessel) {
+            return 0.0;
+        }
         let litres = reaction_volume_litres(self.vessel, reaction.locality);
         if litres <= 0.0 {
             return 0.0;

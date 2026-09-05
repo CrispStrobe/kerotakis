@@ -42,12 +42,16 @@
 //! object; this is where the bench keeps the sentence they could not.
 //!
 //! **3. Both rules are enforced where the metal is actually eaten.**
-//! [`allows_reaction`] is consulted by `KineticReaction::expression_rate`
-//! — where the rate is computed, not only by `can_run`, because the
-//! integrator advances the whole network and never asks `can_run` — so a
-//! protected metal does not merely get told it is protected: its
+//! [`allows_reaction`] is consulted wherever a corrosion rate is
+//! computed — `kinetics_integrator`'s `expression_rate`, which is the one
+//! the slow clock uses, its vessel-state twin in `kinetics`, and
+//! `can_run`, which is what `applicable` and the honesty pass read. A
+//! protected metal does not merely get TOLD it is protected: its
 //! corrosion rate is zero. `zinc-corrosion` is the companion entry that
-//! makes the sacrifice real: the zinc is consumed while the iron is not.
+//! makes the sacrifice real, so the zinc is consumed while the iron is
+//! not — and every protection test is paired with the unprotected
+//! control that rusts under the same script, because a verdict over a
+//! beaker that contradicts it is worse than no verdict.
 //!
 //! **4. Everything it decides, it says.** [`verdicts`] turns the same
 //! state into one `Event::Corroded` per metal, positive or negative, so
