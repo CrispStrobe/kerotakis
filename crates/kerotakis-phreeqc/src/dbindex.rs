@@ -136,6 +136,9 @@ impl DbIndex {
         let mut section = "";
         let mut pending_phase: Option<String> = None;
         let mut pending_species: Option<String> = None;
+        // Enthalpies recovered from log K slopes, used only where the file
+        // states no `delta_h` of its own — an explicit statement always wins.
+        let mut analytic_species: BTreeMap<String, f64> = BTreeMap::new();
         let mut last_inserted: Option<String> = None;
 
         // Activity model: derived from what the file declares about itself.
@@ -227,22 +230,49 @@ impl DbIndex {
                         .or_insert(MasterSpecies { element, species });
                 }
                 "species" => {
-                    // `A + B = C` at column 0 names the species it defines
-                    // (the right-hand side); its `delta_h` follows indented.
-                    if !line.starts_with([' ', '\t']) {
+                    // Indentation cannot be the signal here. minteq.v4
+                    // writes its species equations at column 0; wateq4f
+                    // indents EVERY line, equations included. Keying on
+                    // column 0 parsed wateq4f's species enthalpies as an
+                    // empty set — and an empty set is not an error, it is
+                    // silence: every lookup then fell through to "it must
+                    // be a master species, so it is zero", and every heat
+                    // drawn from that database would have quietly gone to
+                    // zero with no refusal anywhere.
+                    //
+                    // So split on content: a line with an `=` is a
+                    // reaction and names the species it defines (the first
+                    // product); anything else is an attribute of the one
+                    // most recently named.
+                    if line.contains('=') {
                         pending_species = line
                             .split('=')
                             .nth(1)
-                            .map(|rhs| rhs.trim().to_string())
-                            .filter(|rhs| !rhs.is_empty());
+                            .and_then(|rhs| rhs.split_whitespace().next())
+                            .map(|first| first.to_string())
+                            .filter(|first| !first.is_empty());
                     } else if let Some(name) = &pending_species {
                         let tokens: Vec<&str> = line.split_whitespace().collect();
-                        if tokens.first().is_some_and(|t| {
-                            t.trim_start_matches('-').eq_ignore_ascii_case("delta_h")
-                        }) {
-                            if let Some(kj) = parse_delta_h(&tokens) {
-                                idx.species_delta_h_kj.entry(name.clone()).or_insert(kj);
+                        let keyword = tokens
+                            .first()
+                            .map(|t| t.trim_start_matches('-').to_ascii_lowercase());
+                        match keyword.as_deref() {
+                            Some("delta_h") => {
+                                if let Some(kj) = parse_delta_h(&tokens) {
+                                    idx.species_delta_h_kj.entry(name.clone()).or_insert(kj);
+                                }
                             }
+                            // A database may state no enthalpy at all and
+                            // give the temperature dependence of log K
+                            // instead — the enthalpy is then the slope of
+                            // it. Collected apart so an explicit `delta_h`
+                            // always wins over a derived one.
+                            Some(k) if k.starts_with("analytic") => {
+                                if let Some(kj) = delta_h_from_analytic(&tokens) {
+                                    analytic_species.entry(name.clone()).or_insert(kj);
+                                }
+                            }
+                            _ => {}
                         }
                     }
                 }
@@ -289,6 +319,9 @@ impl DbIndex {
                 }
                 _ => {}
             }
+        }
+        for (name, kj) in analytic_species {
+            idx.species_delta_h_kj.entry(name).or_insert(kj);
         }
         // Two or more valence-tagged master lines means the element really
         // has a redox chemistry here; one alone is just a naming choice.
@@ -340,6 +373,54 @@ fn parse_delta_h(tokens: &[&str]) -> Option<f64> {
         // A unit we do not know is not a unit we may guess at.
         Some(_) => return None,
     };
+    kj.is_finite().then_some(kj)
+}
+
+/// ΔH at 25 °C from a PHREEQC `-analytic` log K expression, kJ/mol.
+///
+/// Some databases state no `delta_h` at all and give the temperature
+/// dependence of log K directly — pitzer does this for nearly everything,
+/// including water's own dissociation. The enthalpy is still in there; it
+/// is the slope. Van 't Hoff:
+///
+/// ```text
+///     log K = A1 + A2 T + A3/T + A4 log10(T) + A5/T^2 + A6 T^2
+///     dH    = R T^2 ln(10) [ A2 - A3/T^2 + A4/(T ln10) - 2 A5/T^3 + 2 A6 T ]
+/// ```
+///
+/// Checked against the engine, which is the only honest way to trust it:
+/// pitzer's `OH-` comes out at 56.359 kJ/mol here and PHREEQC's own
+/// `species_delta_h` answers 56.36.
+///
+/// This is what lets the heat balance behave identically in a browser,
+/// where there is no engine to ask. Deriving it from the shipped file
+/// instead of querying a linked library is the difference between a
+/// cache-only replay matching a live run and diverging from it.
+fn delta_h_from_analytic(tokens: &[&str]) -> Option<f64> {
+    let mut a = [0.0f64; 6];
+    let mut seen = 0;
+    for (i, slot) in a.iter_mut().enumerate() {
+        match tokens.get(i + 1) {
+            Some(t) => match t.parse::<f64>() {
+                Ok(v) => {
+                    *slot = v;
+                    seen += 1;
+                }
+                Err(_) => break,
+            },
+            None => break,
+        }
+    }
+    // Fewer than two coefficients cannot express a slope.
+    if seen < 2 {
+        return None;
+    }
+    const R: f64 = 8.314_462_618_153_24;
+    let t = 298.15_f64;
+    let ln10 = std::f64::consts::LN_10;
+    let dlog_k =
+        a[1] - a[2] / (t * t) + a[3] / (t * ln10) - 2.0 * a[4] / (t * t * t) + 2.0 * a[5] * t;
+    let kj = R * t * t * ln10 * dlog_k / 1000.0;
     kj.is_finite().then_some(kj)
 }
 
@@ -529,6 +610,51 @@ mod delta_h_tests {
         assert!((co2 - 4.06).abs() < 1e-9, "{co2}");
         let hco3 = m.species_delta_h_kj["HCO3-"];
         assert!((hco3 + 14.6).abs() < 1e-9, "{hco3}");
+        // Water's dissociation is written with TWO products, `H2O = OH- +
+        // H+`. The species being defined is the first of them.
+        let oh = m.species_delta_h_kj["OH-"];
+        assert!((oh - 55.81).abs() < 1e-9, "{oh}");
+
+        // EVERY shipped database must yield species enthalpies, not just
+        // the one this module's carbonate cycle happens to use. wateq4f
+        // indents its equations where minteq.v4 does not, and keying on
+        // indentation parsed it as an empty set — which is silent, because
+        // every lookup then falls through to "master species, therefore
+        // zero". A corpus proved for one source says nothing about another.
+        for (tag, bytes) in [
+            ("wateq4f", crate::databases::WATEQ4F),
+            ("minteq.v4", crate::databases::MINTEQ_V4),
+        ] {
+            let parsed = DbIndex::parse(bytes);
+            let nonzero = parsed
+                .species_delta_h_kj
+                .values()
+                .filter(|v| **v != 0.0)
+                .count();
+            assert!(
+                nonzero > 50,
+                "{tag}: only {nonzero} non-zero species enthalpies — suspect the parser"
+            );
+            let oh = parsed
+                .species_delta_h_kj
+                .get("OH-")
+                .unwrap_or_else(|| panic!("{tag} defines no hydroxide enthalpy"));
+            assert!(*oh > 40.0 && *oh < 70.0, "{tag}: OH- at {oh} kJ/mol");
+        }
+
+        // pitzer states almost no `delta_h` at all — it gives log K as an
+        // `-analytic` temperature expression instead — and the enthalpy is
+        // recovered from the SLOPE of that expression. The value is pinned
+        // against the engine's own answer, because a derivation nobody
+        // checked against the thing it replaces is just arithmetic:
+        // PHREEQC's `species_delta_h("OH-")` returns 56.36 for pitzer, and
+        // `native_delta_h.rs` asserts the two agree at runtime.
+        let pitzer = DbIndex::parse(crate::databases::PITZER);
+        let oh = pitzer.species_delta_h_kj["OH-"];
+        assert!(
+            (oh - 56.36).abs() < 0.05,
+            "pitzer hydroxide from the log K slope: {oh}"
+        );
 
         // wateq4f writes kcal; the same field must come back in kJ.
         let w = DbIndex::parse(crate::databases::WATEQ4F);

@@ -52,6 +52,28 @@ fn env_readback() -> bool {
 }
 
 use crate::derived::{self, DerivedRole, ATMOSPHERIC};
+use crate::enthalpy;
+
+/// Moles of free hydroxide, from PHREEQC's own species distribution.
+///
+/// `None` speciation means no solve has characterised this vessel yet, and
+/// a beaker nobody has solved holds no measured hydroxide — which is the
+/// right answer for the step that first adds an alkali, because the base
+/// is then still a portion and is priced as one.
+fn free_hydroxide_moles(species: Option<&[SpeciesDetail]>, water_kg: f64) -> f64 {
+    measured_species_moles(species, "OH-", water_kg)
+}
+
+/// Moles of one species, from PHREEQC's own distribution. Absent means the
+/// engine did not report it, which for `H+` or `OH-` means negligible.
+fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_kg: f64) -> f64 {
+    species
+        .unwrap_or(&[])
+        .iter()
+        .find(|s| s.name == name)
+        .map(|s| s.molality * water_kg)
+        .unwrap_or(0.0)
+}
 
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
@@ -1875,6 +1897,20 @@ impl PhreeqcEquilibrator {
             return Ok((Vec::new(), 0.0));
         };
 
+        // The state this step starts from, kept whole for the enthalpy
+        // balance at the bottom. `vessel.contents` is overwritten partway
+        // through, so the snapshot has to be taken before anything moves.
+        let before_contents = vessel.contents.clone();
+        // Free hydroxide as the engine last measured it, in moles — not
+        // inferred from the solutes' net charge. See `enthalpy`.
+        // Free base carried into this step. `vessel.solution` is cleared
+        // at the top of every step as stale, so the engine's last
+        // measurement is gone and the solutes' net charge is the only
+        // persistent record. It is used here — and CHECKED below against
+        // what the engine measures on the state this step produces, which
+        // is the whole reason it can be trusted at all.
+        let before_oh = vessel.free_hydroxide;
+
         let (cached, coupling_failed) =
             self.dispatch_solve(vessel, &problem, db_tag, &input, key)?;
 
@@ -2019,14 +2055,29 @@ impl PhreeqcEquilibrator {
         // the temperature change once rather than iterating solver ↔ T; the
         // shifts at teaching concentrations are small against the ~25–100 °C
         // range of the database.
+        // Reaction heat is one state-function balance over everything that
+        // moved — see `enthalpy`. It is computed at the BOTTOM of this
+        // function, where the full event list exists: gas that has left the
+        // liquid is priced as gas, and the gas events are not assembled
+        // until the readback further down.
+        //
+        // Two separate charges used to live right here: the neutralisation
+        // enthalpy, against an extent derived from how much the solutes'
+        // net charge cancelled, and a dissolution enthalpy per `Dissolved`
+        // and `Precipitated` event. They are now terms of one sum rather
+        // than paths beside it, which is what stops them disagreeing —
+        // `H+ + OH- -> H2O` is a hydroxide going to water in the inventory
+        // and returns the same kJ/mol the engine used to be asked for.
+        //
+        // The charge-cancellation extent is still computed above, because
+        // `Event::Neutralised` is the net ionic equation GUI-092 renders.
+        // It no longer carries any heat.
         let mut q_joules = 0.0; // heat released into the vessel
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
-            && neutralised > kerotakis_core::OBSERVABLE_MOLES
-        {
-            if let Some(dh) = self.neutralisation.get(db_tag) {
-                q_joules -= dh * 1000.0 * neutralised;
-            }
-        }
+
+        // Dissolution stays here, per observed event, exactly as before.
+        // The balance below prices what happens to the IONS; this prices
+        // getting them into solution. Disjoint, so nothing is counted
+        // twice — see `enthalpy`'s note on the solid branch.
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
             for e in &events {
                 match e {
@@ -2102,6 +2153,81 @@ impl PhreeqcEquilibrator {
             mu,
             &mut events,
         );
+
+        // Gas that LEFT the liquid is no longer in `contents` and is
+        // priced as gas on the after side. Gas still held in a headspace is
+        // already a `Phase::Gas` portion, so only outward transfers are
+        // collected here or it would be counted twice.
+        // What the engine actually measured, carried forward for the next
+        // step's balance. `solution` is wiped at the top of every step, so
+        // without this the previous state's hydroxide is unrecoverable and
+        // the only persistent record would be the solutes' net charge —
+        // which is free base ONLY in a vessel of strong electrolytes. A
+        // bicarbonate carries its charge excess as carbonate alkalinity and
+        // a beaker handed a bare cation carries it as nothing; both read as
+        // hydroxide, and both then invent a neutralisation at 55.81 kJ a
+        // mole. One of them reached MINUS 27 K.
+        let measured_oh = free_hydroxide_moles(
+            vessel.solution.as_ref().map(|s| s.species.as_slice()),
+            problem.kgw,
+        );
+        vessel.free_hydroxide = measured_oh;
+        // Written beside it and unused by this balance — H+ is a master
+        // species and carries no enthalpy — but a gate above the tail has
+        // no other way to read it once `solution` has been cleared. See
+        // the field docs for why it is not `unspent_acidity`.
+        vessel.free_proton = measured_species_moles(
+            vessel.solution.as_ref().map(|s| s.species.as_slice()),
+            "H+",
+            problem.kgw,
+        );
+
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            let mut gas_out: Vec<(String, f64)> = Vec::new();
+            for e in &events {
+                let (species, signed) = match e {
+                    Event::GasEvolved { species, moles, .. } => (species, moles.0),
+                    Event::GasAbsorbed { species, moles, .. } => (species, -moles.0),
+                    _ => continue,
+                };
+                match gas_out.iter_mut().find(|(k, _)| *k == species.0) {
+                    Some((_, n)) => *n += signed,
+                    None => gas_out.push((species.0.clone(), signed)),
+                }
+            }
+            match enthalpy::heat_released_j(
+                &before_contents,
+                before_oh,
+                &vessel.contents,
+                measured_oh,
+                &gas_out,
+                db_tag,
+            ) {
+                Ok(j) => q_joules += j,
+                Err(_unpriced) => {
+                    // Nothing charged and nothing guessed.
+                    //
+                    // Deliberately SILENT, and this was measured rather
+                    // than assumed. A `NotYetModeled` here reads "no route
+                    // answered this step", and the curiosity classifier
+                    // takes it at its word ahead of the route branches: it
+                    // moved fifteen corpus rows from `computed` to
+                    // `missing` — rows whose pH, speciation and products
+                    // were all still there and correct. Only the HEAT was
+                    // unpriced, and saying the step was not modelled
+                    // because of that is a false statement about the whole
+                    // step, of exactly the kind this module exists to stop
+                    // making about temperature.
+                    //
+                    // Not charging is also the status quo: an unpriceable
+                    // dissolution was silently uncharged before this
+                    // existed too. The refusal is still real and still
+                    // names its species — `heat_released_j` returns it,
+                    // and `reaction_heat.rs` asserts on it — it just is
+                    // not broadcast as a claim about anything but itself.
+                }
+            }
+        }
 
         Ok((events, q_joules))
     }
