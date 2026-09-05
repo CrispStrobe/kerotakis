@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-05 again (fourteen rows, BRD-014.S02's household
+materials) — see below.
+
 Refreshed 2026-09-05 (six rows, BRD-012.S04's pure substances) — see below.
 
 Refreshed 2026-09-02 again (three rows, EXP-25's gas tests) — see below.
@@ -1159,3 +1162,55 @@ route and a sulfide species with a solid it can precipitate.
 
 No other row moved. The full check reported exactly six drifts, no
 regressions, and the expectation-mismatch count held flat at 85.
+
+
+## 2026-09-05 — fourteen more rows, and two that were left alone on purpose
+
+`BRD-014.S02` added thirteen material recipes and one alias. As with the
+tranche above, no solver changed: every one of these rows had been stopping
+in the parser.
+
+Eleven reached a **computed route** — a real solver claimed the vessel:
+
+- `bio-016` mayonnaise, `bio-017` mustard — the colloid and the emulsifier
+  roles fire, and the aqueous solver speciates the salt and vinegar acid the
+  recipes resolve. The **stability** in bio-016 is still a modelling choice
+  and not a computation; see the recipe's own notes.
+- `bio-040` jam, `bio-066` sugar water, `bio-092` red-cabbage extract,
+  `bio-109` grease and soap, `bio-115` orange peel oil — solutes speciate,
+  the indicator reads a pH, the detergent disperses the fat layer, the oil
+  refuses to mix. All four mechanisms were already installed; the words were
+  not.
+- `th-047` petrol and `th-060` damp wood — combustion. Petrol resolves to
+  hexane and reaches the NASA CEA equilibrium path; damp wood resolves to
+  cellulose, which CEA does not carry, so `combustion.rs`'s curated fuel
+  table burns it instead. The 30% water in the log is real inventory taking
+  real heat, which is half the answer to "why does it burn poorly". The other
+  half is smoke, and there is no pyrolysis here to make any.
+
+Three reached `qualitative`/`typed-observation`: `bio-025` beans in a sealed
+pot, `bio-101` perfume evaporating, `bio-107` hand sanitiser evaporating and
+cooling. The measurement each takes is real — the sealed pressure, the
+thermometer after evaporation — and the classifier files an inspection
+prompt whose events are observations this way.
+
+Two reached `computed`/`typed-engine-event`, which is the weakest evidence
+the classifier accepts and should be read as "the run happened": `bio-065`
+coconut fat beside vegetable oil, and `bio-105` permanent marker ink in
+alcohol. Coconut fat has **no melting point on this bench** — there is no
+triglyceride species — so the solid-versus-liquid difference the question is
+about is a fact in a note rather than a computation.
+
+**Two rows were deliberately not closed, and this is the important part of
+the entry.** `bio-103` (activated charcoal removing a food dye) and `bio-111`
+(sunscreen absorbing ultraviolet) are each one line of recipe away from
+parsing. Both would then answer their question **wrongly**: there is no
+adsorption model, so the charcoal would be filtered out and the dye would
+still be in the beaker; and the spectral bands run 405–705 nm, so nothing can
+absorb the 300 nm light bio-111 shines at it. A confident wrong answer about
+what removes a dye, or about what stops ultraviolet, is worse than
+`unknown-species` — the reason code at least says the bench does not know.
+They stay `missing` until the models exist.
+
+No other row moved. Fourteen drifts, no regressions, and the
+expectation-mismatch count held flat at 85 again.
