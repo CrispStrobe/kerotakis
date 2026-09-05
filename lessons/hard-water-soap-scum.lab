@@ -2,8 +2,9 @@
 #
 # This uses a declared sodium-stearate-equivalent teaching reagent, not dish
 # detergent and not a claim about any branded soap. Two fatty-carboxylate
-# equivalents bind each calcium or magnesium ion; the visible aggregate mass
-# is reported on a calcium-stearate scale.
+# equivalents bind each calcium or magnesium ion; aggregate mass follows the
+# actually consumed sodium soap and Ca/Mg, with released sodium returned to
+# solution.
 register lv2
 
 # Soft-water control: no Ca2+ or Mg2+, so no aggregate is available.
