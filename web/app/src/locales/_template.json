@@ -466,6 +466,16 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
+  "about {name}": "",
+  "physical state": "",
+  "visual appearance": "",
+  "chemical family": "",
+  "what the model computes": "",
+  "safety labels": "",
+  "in the bottle": "",
+  "shelf stock": "",
+  "next instrument installs on": "",
+  "{available} of {total} instruments unlocked": "",
   "Kids Lab": "",
   "{count} curious experiments": "",
   "catalog syncing…": "",

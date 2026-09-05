@@ -466,6 +466,16 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
+  "about {name}": "Über {name}",
+  "physical state": "Aggregatzustand",
+  "visual appearance": "Aussehen",
+  "chemical family": "Stoffgruppe",
+  "what the model computes": "Was das Modell berechnet",
+  "safety labels": "Gefahrenkennzeichnung",
+  "in the bottle": "in der Flasche",
+  "shelf stock": "Regalvorrat",
+  "next instrument installs on": "Nächstes Gerät wird eingebaut an",
+  "{available} of {total} instruments unlocked": "{available} von {total} Geräten freigeschaltet",
   "Kids Lab": "Kinderlabor",
   "{count} curious experiments": "{count} neugierige Experimente",
   "catalog syncing…": "Katalog wird geladen…",

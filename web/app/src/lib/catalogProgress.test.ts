@@ -8,7 +8,15 @@
  * the case that has no answer yet.
  */
 import { describe, expect, it } from "vitest";
-import { access, available, catalogMap, equipmentRewardAt, instrumentId, requirement } from "./catalogProgress";
+import {
+  access,
+  available,
+  catalogMap,
+  equipmentAccess,
+  equipmentRewardAt,
+  instrumentId,
+  requirement,
+} from "./catalogProgress";
 import type { CatalogItem } from "./host/EngineHost";
 
 const item = (
@@ -91,6 +99,40 @@ describe("the client reads the engine's catalog", () => {
   it("addresses instruments the way the catalog does", () => {
     expect(instrumentId("uvvis")).toBe("measure:uvvis");
     expect(available(CATALOG, instrumentId("uvvis"))).toBe(true);
+  });
+});
+
+describe("a verb the engine does not tier is not a verb it refused", () => {
+  // The engine tiers equipment and deliberately leaves bench controls out
+  // of the catalog entirely (`NOT_CABINET`: cool, wait, open, seal…). The
+  // cabinet shows a card for one of them — the cooling bath — and reading
+  // its missing row as "not available" disabled that card in Sandbox, where
+  // the engine derives EVERYTHING as reachable, and made the wall's tally
+  // say 33 of 34 directly above a sentence promising all 34.
+  it("treats an untiered id in a loaded catalog as ungated", () => {
+    const cool = equipmentAccess(CATALOG, "cool");
+    expect(cool.available).toBe(true);
+    expect(cool.minimumCompleted).toBe(0);
+    // Ungated is not the same as given: nothing lent or awarded it, so no
+    // badge claims it did.
+    expect(cool.loaned).toBe(false);
+    expect(cool.granted).toBe(false);
+  });
+
+  it("still reports what the engine did answer, unchanged", () => {
+    expect(equipmentAccess(CATALOG, "distil").available).toBe(false);
+    expect(equipmentAccess(CATALOG, "distil").minimumCompleted).toBe(4);
+    expect(equipmentAccess(CATALOG, "drain").loaned).toBe(true);
+    expect(equipmentAccess(CATALOG, "measure:uvvis").granted).toBe(true);
+  });
+
+  it("does not invent a clearance while the catalog is still empty", () => {
+    // The distinction the whole helper turns on: a catalog with no rows has
+    // not said "ungated", it has not said anything, and answering `true`
+    // there would enable every card in the cabinet for the moment before
+    // the engine loads.
+    expect(equipmentAccess(catalogMap([]), "cool").available).toBe(false);
+    expect(equipmentAccess(catalogMap([]), "filter").available).toBe(false);
   });
 });
 
