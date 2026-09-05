@@ -3,6 +3,9 @@ export type MissionSummary = {
   name: string;
   blurb?: string;
   topic?: string;
+  /** Shelf keys the lesson's own commands use, from `tools/lessons-index.py`.
+   * The `.lab` file stays authoritative; this is rebuilt for every payload. */
+  kit?: string[];
   collection?: string;
   outcome_note?: string;
   boundary_note?: string;

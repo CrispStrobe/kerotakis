@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { i18n, t } from "../i18n.svelte";
   import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsText, type KidsExperiment, type KidsStatus } from "../kidsCatalog";
 
-  let { entries, capabilityIds, codexIds, completedMissions, completedExperiments, onlesson, onquest, oncapability, oncodex, onsandbox, onclose }: {
+  let { entries, initial = null, capabilityIds, codexIds, completedMissions, completedExperiments, onlesson, onquest, oncapability, oncodex, onsandbox, onclose }: {
     entries: KidsExperiment[];
+    /** Open filtered to one task id — the concept map hands tasks over. */
+    initial?: string | null;
     capabilityIds: ReadonlySet<string>;
     codexIds: ReadonlySet<string>;
     completedMissions: ReadonlySet<string>;
@@ -17,7 +20,9 @@
   } = $props();
 
   const statuses: KidsStatus[] = ["computed", "partial", "boundary", "declined", "unreachable"];
-  let query = $state("");
+  // Read once, like ExperimentCatalog's `initial`: a deep link seeds the
+  // search rather than pinning it, so the learner can widen it immediately.
+  let query = $state(untrack(() => initial ?? ""));
   let status = $state<KidsStatus | null>(null);
   let topic = $state("");
   const topics = $derived([...new Set(entries.flatMap((entry) => entry.topics))].sort());
