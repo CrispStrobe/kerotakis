@@ -46,6 +46,13 @@ pub fn standard_solvers(aqueous_tail: Vec<Box<dyn Equilibrator>>) -> Vec<Box<dyn
         // asks what is dissolved, and a solid that has already left as
         // vapour must not be offered to one.
         Box::new(kerotakis_core::phase_route::PhaseRouteEquilibrator),
+        // EXP-25: a dissolved volatile with a reviewed Henry's-law
+        // coefficient reaches an owned headspace here, so the gas tests
+        // that read the headspace can see ammonia poured in as a liquid.
+        // After the phase routes (a vapour that sublimed is already gas)
+        // and before the aqueous tail, which speciates what stays in the
+        // liquid and leaves the headspace share alone.
+        Box::new(kerotakis_core::volatility::HeadspacePartitionEquilibrator),
         Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
         Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
         Box::new(kerotakis_cea::ThermalEquilibrator),

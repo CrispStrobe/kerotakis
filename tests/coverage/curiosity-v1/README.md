@@ -93,6 +93,41 @@ smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
 
+## Refresh 2026-09-05, twelfth — aq-036, the ammonia reaches the litmus
+
+`aq-036` ("Can damp litmus identify ammonia gas?") leaves `missing` for
+`curated`, and the reason is an engine change, not a corpus edit. The row's
+`expected = "curated"` is untouched.
+
+The refusal recorded two refreshes below was true when written: `NH3` is
+*ammonia solution* (standard phase Liquid), nothing moved dissolved ammonia
+into the headspace the gas tests read, and `smell` read the liquid directly
+— one jar, two answers. `kerotakis_core::volatility` closes that with
+Henry's law and nothing more: a dissolved species with a reviewed
+coefficient in `properties::HENRY_COEFFICIENTS` (Sander 2015) is moved to
+its equilibrium share of an owned headspace, in either direction, and the
+pressure refreshed. It runs on the core bench's default stack and in the
+full stack after the phase routes and before the aqueous tail; the tail now
+carries a headspace share of a solute it did not take through its rebuild
+instead of deleting it. Species the registry carries as gases (O₂, N₂, H₂,
+CO₂) are excluded — their dissolution stays PHREEQC's — and no heat is
+booked: the registry's ammonia-solution portion has the mass of the ammonia
+alone, and a desorption enthalpy priced against 0.17 g would cool the jar by
+hundreds of kelvin. The *amount* is robust to that representation (65% of
+0.01 mol in a 500 mL jar as pure NH₃, 16% as a 10% w/w solution — both far
+above the litmus floor); the heat is not, so it is not claimed.
+
+The divergence pin `smell_and_gas_test_disagree_about_dissolved_ammonia`
+was written to fail once a path existed; it did, and it is now
+`smell_and_gas_test_agree_about_dissolved_ammonia`. The narrow refusal in
+`gas_tests.rs` stays as the net under the partition, for a dissolved target
+with no coefficient.
+
+`aq-062` ("Can a sealed vessel burst?") also leaves `missing` in the same
+PR pair, by classification only: `Event::Burst` joined the answering list —
+a seal that failed at a stated pressure is the answer, with a number in it.
+
+
 ## Refresh 2026-09-05, eleventh — the two batteries
 
 `mat-058` "what happens inside an alkaline battery while it discharges?"

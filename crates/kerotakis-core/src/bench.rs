@@ -422,6 +422,11 @@ impl Bench {
     pub fn step(&mut self, op: Operator) -> Result<Vec<Event>, BenchError> {
         let mut default_stack = SolverStack::new(vec![
             Box::new(MixingEquilibrator),
+            // EXP-25: the physics the gas tests read. A dissolved volatile
+            // reaches an owned headspace here, so the path a learner types
+            // — seal, add ammonia, test litmus — works on the core bench
+            // and not only under the full stack.
+            Box::new(crate::volatility::HeadspacePartitionEquilibrator),
             Box::new(crate::nonaqueous::NonAqueousEquilibrator),
             Box::new(crate::hmix::MixingEnthalpyEquilibrator),
             Box::new(HonestyEquilibrator),

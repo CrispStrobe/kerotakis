@@ -879,6 +879,25 @@ pub enum Event {
         transmitted_fraction: f64,
         mechanism: String,
     },
+    /// EXP-25: a dissolved volatile moved between the liquid and an owned
+    /// headspace to its Henry's-law equilibrium (`volatility.rs`). A
+    /// phase distribution, not a reaction: the amount is booked, the heat
+    /// deliberately is not (see the module).
+    HeadspacePartitioned {
+        vessel: VesselId,
+        species: SpeciesId,
+        /// `true`: liquid → headspace; `false`: headspace → liquid.
+        to_gas: bool,
+        moles: Moles,
+        /// Share of the species' whole inventory now in the headspace, 0–1.
+        gas_fraction: f64,
+        /// Equilibrium partial pressure, Pa.
+        partial_pressure_pa: f64,
+        /// Henry's constant at the vessel temperature, mol/(L·atm).
+        henry_mol_per_l_atm: f64,
+        /// Provenance of the coefficient.
+        source: String,
+    },
     /// Tracked particles settled under ordinary gravity while bench time
     /// advanced, using the same Stokes model as the centrifuge at 1 g.
     GravitySettled {
