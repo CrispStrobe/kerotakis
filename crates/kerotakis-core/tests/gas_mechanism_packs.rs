@@ -569,8 +569,9 @@ fn hydrogen_burns_through_ignition_in_one_call() {
     let steps = report.statistics.accepted_steps + report.statistics.rejected_steps;
     assert!(
         steps < 500_000,
-        "ignition should not cost the earth: {steps} solver steps, {} nonlinear failures",
-        report.statistics.nonlinear_failures
+        "ignition should not cost the earth: {steps} solver steps, {} nonlinear failures, {} restarts",
+        report.statistics.nonlinear_failures,
+        report.statistics.solver_restarts
     );
 }
 

@@ -46,6 +46,11 @@ pub struct IntegrationStatistics {
     pub nonlinear_failures: usize,
     pub depletion_events: usize,
     pub constrained_commits: usize,
+    /// Times the implicit solver gave up mid-interval and was restarted
+    /// from its last accepted state with a fresh Jacobian and a fresh
+    /// failure budget. Zero on every well-behaved network; a count here
+    /// is a stiff front the solver crossed in pieces, not a failure.
+    pub solver_restarts: usize,
 }
 
 /// A completed state transition and its numerical diagnostics.
@@ -506,6 +511,16 @@ pub fn advance_network_with_context_and_options<'a>(
                 network: network.id.to_string(),
                 detail: error.to_string(),
             })?;
+        // diffsol counts nonlinear-solver failures CUMULATIVELY over one
+        // solve and aborts at fifty by default. A step-size cut after a
+        // Newton failure is the ordinary way an implicit solver walks an
+        // ignition front — hundreds of them across a chain-branching
+        // explosion is a solver working, not a solver failing — so the
+        // hydrogen pack died at 6 µs with every step converging. The
+        // budget is raised to a bound that only a genuinely stuck solve
+        // reaches; a stuck solve still ends, in the restart path below.
+        let mut problem = problem;
+        problem.ode_options.max_nonlinear_solver_failures = 100_000;
         let mut solver =
             problem
                 .bdf::<NalgebraLU<f64>>()
@@ -513,13 +528,17 @@ pub fn advance_network_with_context_and_options<'a>(
                     network: network.id.to_string(),
                     detail: error.to_string(),
                 })?;
-        let (_, _, stop_reason) =
-            solver
-                .solve(remaining)
-                .map_err(|error| IntegrationError::Solver {
-                    network: network.id.to_string(),
-                    detail: error.to_string(),
-                })?;
+        // A solve that dies mid-interval still holds its last ACCEPTED
+        // state. Committing that state and starting a fresh solver from
+        // it — new Jacobian, new failure budget, new step size — is the
+        // same move the depletion events already make, and it turns a
+        // stiff front the solver could not cross in one breath into one
+        // it crosses in several. Only a solve that made no progress at all
+        // is a real failure, and it is reported as one.
+        let (stop_reason, failure) = match solver.solve(remaining) {
+            Ok((_, _, reason)) => (reason, None),
+            Err(error) => (OdeSolverStopReason::InternalTimestep, Some(error)),
+        };
         let solver_statistics = solver.get_statistics();
         statistics.accepted_steps += solver_statistics.number_of_steps;
         statistics.rejected_steps += solver_statistics.number_of_error_test_failures;
@@ -557,6 +576,15 @@ pub fn advance_network_with_context_and_options<'a>(
         if matches!(stop_reason, OdeSolverStopReason::RootFound(_, _)) {
             statistics.depletion_events += 1;
         }
+        if let Some(error) = failure {
+            if advanced <= remaining.max(1.0) * f64::EPSILON {
+                return Err(IntegrationError::Solver {
+                    network: network.id.to_string(),
+                    detail: error.to_string(),
+                });
+            }
+            statistics.solver_restarts += 1;
+        }
         if advanced <= remaining.max(1.0) * f64::EPSILON {
             return Err(IntegrationError::NoProgress {
                 network: network.id.to_string(),
@@ -568,7 +596,9 @@ pub fn advance_network_with_context_and_options<'a>(
         }
     }
 
-    if elapsed < seconds && statistics.depletion_events >= MAX_EVENT_RESTARTS {
+    if elapsed < seconds
+        && statistics.depletion_events + statistics.solver_restarts >= MAX_EVENT_RESTARTS
+    {
         return Err(IntegrationError::TooManyEvents {
             network: network.id.to_string(),
         });
