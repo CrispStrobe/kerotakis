@@ -24,5 +24,8 @@ kerotakis-phreeqc = { path = "../kerotakis-phreeqc", default-features = false }
 serde = { workspace = true }
 serde_json = { workspace = true }
 postcard = { version = "1", features = ["alloc"] }
-wasm-bindgen = "0.2"
+# The generated Wasm schema must exactly match the CLI pinned in CI. Leaving
+# this as a floating 0.2 range makes a crates.io release break otherwise
+# unrelated PRs between the library release and our next CLI update.
+wasm-bindgen = "=0.2.127"
 js-sys = "0.3"

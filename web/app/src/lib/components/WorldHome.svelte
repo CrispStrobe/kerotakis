@@ -8,10 +8,12 @@
     profile,
     missions,
     experiments,
+    kidsExperiments,
     canclose = true,
     onenter,
     onmissions,
     onresearch,
+    onkids,
     persistenceNotice = null,
     canclone = false,
     sandboxHasBench = false,
@@ -23,10 +25,12 @@
     profile: LabProfile;
     missions: number;
     experiments: number;
+    kidsExperiments: number;
     canclose?: boolean;
     onenter: (mode: LabMode) => void;
     onmissions: () => void;
     onresearch: () => void;
+    onkids: () => void;
     persistenceNotice?: string | null;
     canclone?: boolean;
     sandboxHasBench?: boolean;
@@ -107,6 +111,10 @@
           <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("{count} computed experiments", { count: experiments }) : t("archive syncing…")}</small>
         </button>
 
+        <button class="map-node kids-node" onclick={onkids}>
+          <span aria-hidden="true">★</span><strong>{t("Kids Lab")}</strong><small>{kidsExperiments > 0 ? t("{count} curious experiments", { count: kidsExperiments }) : t("catalog syncing…")}</small>
+        </button>
+
         <article class="destination sandbox-destination" class:current={mode === "sandbox"}>
           <span class="current-flag">{mode === "sandbox" ? t("active now") : t("separate save")}</span>
           <div class="building sandbox-building" aria-hidden="true"><span>∞</span></div>
@@ -165,13 +173,13 @@
   .intro h2 { margin: .3rem 0 .55rem; font-size: clamp(1.6rem, 3.4vw, 2.7rem); line-height: 1; letter-spacing: -.04em; }
   .intro p { margin: 0; color: var(--dim); }
   .intro .save-notice { margin: .75rem auto 0; padding: .55rem .75rem; border: 1px solid var(--edge); border-radius: 10px; color: var(--ink); background: var(--surface-raised); font-size: .75rem; }
-  .campus-map { position: relative; min-height: 29rem; display: grid; grid-template-columns: minmax(15rem, 1fr) minmax(10rem, .65fr) minmax(15rem, 1fr); grid-template-rows: 1fr 1fr; gap: 1rem; align-items: center; }
+  .campus-map { position: relative; min-height: 29rem; display: grid; grid-template-columns: minmax(15rem, 1fr) minmax(10rem, .65fr) minmax(15rem, 1fr); grid-template-rows: repeat(3, 1fr); gap: .7rem 1rem; align-items: center; }
   .routes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .routes path { fill: none; stroke: color-mix(in srgb, var(--primary) 30%, var(--edge)); stroke-width: 3; stroke-dasharray: 9 7; }
   .routes circle { fill: var(--discovery); }
   .destination { position: relative; z-index: 2; min-height: 23rem; display: flex; flex-direction: column; padding: 1.1rem; border: 1px solid var(--edge); border-radius: 22px; background: color-mix(in srgb, var(--surface) 94%, var(--primary) 6%); box-shadow: 0 12px 28px var(--shadow); }
-  .story-destination { grid-row: 1 / 3; }
-  .sandbox-destination { grid-column: 3; grid-row: 1 / 3; background: color-mix(in srgb, var(--surface) 94%, var(--instrument) 6%); }
+  .story-destination { grid-row: 1 / 4; }
+  .sandbox-destination { grid-column: 3; grid-row: 1 / 4; background: color-mix(in srgb, var(--surface) 94%, var(--instrument) 6%); }
   .destination.current { border-color: var(--discovery); box-shadow: 0 0 0 3px color-mix(in srgb, var(--discovery) 13%, transparent), 0 18px 34px var(--shadow); }
   .sandbox-destination.current { border-color: var(--instrument); box-shadow: 0 0 0 3px color-mix(in srgb, var(--instrument) 13%, transparent), 0 18px 34px var(--shadow); }
   .current-flag { align-self: end; color: var(--discovery); }
@@ -192,7 +200,7 @@
   .clone-bench div { display: flex; gap: .4rem; }
   .clone-bench div button:first-child { color: var(--on-accent); background: var(--instrument); }
   .clone-bench div .cancel { border-color: var(--edge); color: var(--ink); }
-  .map-node { position: relative; z-index: 3; min-height: 8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .7rem; border: 1px solid var(--edge); border-radius: 18px; color: var(--ink); background: var(--surface); box-shadow: 0 10px 24px var(--shadow); cursor: pointer; text-align: center; }
+  .map-node { position: relative; z-index: 3; min-height: 5.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: .7rem; border: 1px solid var(--edge); border-radius: 18px; color: var(--ink); background: var(--surface); box-shadow: 0 10px 24px var(--shadow); cursor: pointer; text-align: center; }
   .map-node > span { width: 38px; height: 38px; display: grid; place-items: center; margin-bottom: .35rem; border-radius: 12px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: 1.2rem; }
   .map-node small { color: var(--dim); font-size: .65rem; }
   .map-node:hover, .destination > button:hover { transform: translateY(-2px); filter: brightness(1.04); }

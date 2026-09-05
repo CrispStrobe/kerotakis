@@ -54,6 +54,10 @@ mkdir -p "$OUT/lessons"
 cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
 python3 "$ROOT/tools/lessons-index.py" "$OUT/lessons"
 
+echo "== kids experiment catalog"
+python3 "$ROOT/tools/kids-catalog.py" \
+  "$ROOT/data/kids/experiments-v1.json" "$OUT/kids/index.json"
+
 echo "== reviewed capability index"
 python3 "$ROOT/tools/curiosity-index.py" \
   "$ROOT/tests/coverage/curiosity-v1" "$OUT/capabilities/index.json"
