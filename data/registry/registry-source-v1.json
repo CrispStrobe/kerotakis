@@ -58979,9 +58979,9 @@
       "roles": [
         {
           "kind": "bulk_electrical_resistivity",
-          "ohm_m": 1e16,
+          "ohm_m": 1e+16,
           "span_lower_ohm_m": 1000000000000000.0,
-          "span_upper_ohm_m": 1e18,
+          "span_upper_ohm_m": 1e+18,
           "boundary": "Fused silica, the best insulator on this shelf and one of the best bulk insulators there is: with essentially no alkali there is nothing mobile to carry a current, and what conduction remains is set by defects rather than by composition. The span is wide because a number this large is measurement-limited - leakage across the sample surface and through the apparatus swamps the bulk conduction, so what a laboratory reports is partly a property of its guard ring. No temperature dependence and no particular grade is claimed.",
           "source": "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05"
         }
@@ -59275,7 +59275,7 @@
           "kind": "bulk_electrical_resistivity",
           "ohm_m": 100000000000000.0,
           "span_lower_ohm_m": 1000000000000.0,
-          "span_upper_ohm_m": 1e16,
+          "span_upper_ohm_m": 1e+16,
           "boundary": "Crystalline quartz, and this row carries the sharpest caveat on the shelf: quartz is strongly ANISOTROPIC, and the resistivity measured along the c axis runs roughly two orders of magnitude below the value across it. A single figure for a crystal is therefore a class average and not a measurement of any orientation; impurity level matters as much again. No axis, no grade, and none of the piezoelectric behaviour the crystal is actually used for is claimed here.",
           "source": "Kerotakis curated material-resistivity tranche v1: room-temperature bulk DC volume resistivity of the named object, in ohm.m, with the span its class of material covers. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. General materials-science and electrical-engineering reference tables for insulators and semiconductors are the intended primary reference, this is NOT a transcription from a positively identified copy of any single edition, no edition-level provenance is claimed, and every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made - exactly as the pure-solid electrical-resistivity tranche is. What separates these rows from that one is that an insulator's resistivity is not a constant of the substance the way a metal's is: it moves by orders of magnitude with composition, temperature and surface condition, and a semiconductor's is set by a dopant concentration no recipe here states. Every row therefore carries the span its class covers beside the single value the meter reads, and every row's own boundary states what the number does not cover. Compiled 2026-09-05"
         }
