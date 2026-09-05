@@ -1415,8 +1415,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-111"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-112"
