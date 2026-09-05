@@ -66,8 +66,8 @@
     "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
   const availableCount = $derived(allVerbs.filter((verb) => available(catalog, verb)).length);
-  const visible = (verb: string) => mode === "sandbox" || scope === "all"
-    || (scope === "mission" ? missionVerbs.includes(verb) : available(catalog, verb));
+  const visible = (verb: string) => scope === "all"
+    || (scope === "mission" ? missionVerbs.includes(verb) : mode === "sandbox" || available(catalog, verb));
   const accessOf = (verb: string) => access(catalog, verb) ?? { available: false, loaned: false, granted: false, minimumCompleted: 0 };
   let filter = $state("");
   const matches = (verb: string, title: string, blurb: string) => equipmentMatches(

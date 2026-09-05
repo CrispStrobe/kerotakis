@@ -6,7 +6,7 @@
     entries: KidsExperiment[];
     onlesson: (file: string) => void;
     onquest: (id: string) => void;
-    onsandbox: () => void;
+    onsandbox: (entry: KidsExperiment) => void;
     onclose: () => void;
   } = $props();
 
@@ -47,7 +47,7 @@
             <span>{entry.topics.map((value) => t(value)).join(" · ")}</span>
             {#if entry.lesson}<button onclick={() => onlesson(entry.lesson!)}>{t("start guided lesson")} →</button>{/if}
             {#if entry.quest}<button onclick={() => onquest(entry.quest!)}>{t("start quest")} →</button>{/if}
-            {#if !entry.lesson && !entry.quest && (entry.status === "computed" || entry.status === "partial")}<button class="sandbox" onclick={onsandbox}>{t("explore in Sandbox")} →</button>{/if}
+            {#if !entry.lesson && !entry.quest && (entry.status === "computed" || entry.status === "partial")}<button class="sandbox" onclick={() => onsandbox(entry)}>{t("explore in Sandbox")} →</button>{/if}
             {#if !entry.lesson && !entry.quest && entry.status !== "computed" && entry.status !== "partial"}<span class="no-launch">{t("documented boundary")}</span>{/if}
           </footer>
         </article>
