@@ -246,6 +246,26 @@ pub fn is_condensed_gas(key: &str) -> bool {
     data.standard_phase != Phase::Gas && sublimation_product(key) != key
 }
 
+/// The temperature a condensed gas ARRIVES at when it is poured from its
+/// bottle: its own sublimation or boiling point, K. `None` for everything
+/// else — a reagent that is stable at room temperature arrives at the
+/// room's.
+///
+/// `add` used to deposit every reagent at 298.15 K, and liquid nitrogen at
+/// 298.15 K is a state that cannot exist. The route above discarded that
+/// superheat, at the cost stated on `ledger`: it could not tell it from
+/// heat a `heat` command had honestly put in. Depositing the cryogen cold
+/// in the first place is the fix that cost pointed at — the adiabatic
+/// mix on `add` then cools the flask the way pouring really does, and the
+/// route finds a vessel already at the cryogen's temperature with nothing
+/// impossible to discard.
+pub fn arrives_at_k(key: &str) -> Option<f64> {
+    if !is_condensed_gas(key) {
+        return None;
+    }
+    sublimes_at(&SpeciesId::new(key)).or_else(|| boils_at(key))
+}
+
 fn moles_in_phase(vessel: &Vessel, species: &SpeciesId, phase: Phase) -> f64 {
     vessel
         .contents
@@ -390,11 +410,6 @@ fn spend_pool(vessel: &mut Vessel, pool: &mut f64, events: &mut Vec<Event>) {
     });
 }
 
-/// The molar heat capacity the registry gives a species, J/(mol·K).
-fn molar_cp(key: &str) -> f64 {
-    crate::species::lookup(&SpeciesId::new(key)).map_or(0.0, |d| d.heat_capacity)
-}
-
 /// What a latent-heat transition costs, and what the vessel can spend.
 ///
 /// `budget` is the heat available to the transition, in joules, measured
@@ -417,42 +432,28 @@ struct Ledger {
 /// be free energy — 5 g of "dry ice at 25 °C" carries 553 J of sensible
 /// heat that no real block has.
 ///
-/// So the forward route treats the condensed phase as having arrived AT
-/// its transition temperature: the rest of the vessel supplies the latent
-/// heat, and the sample's own superheat is discarded rather than spent.
-/// The consequence is stated rather than hidden — **this bench cannot
-/// show you a cryogen warming up**, only a cryogen at its transition
-/// temperature and whatever it takes from the beaker around it. A lone
-/// sample with nothing to draw on therefore sits at its own sublimation
-/// point and does not leave, which is what an insulated flask of dry ice
-/// really does and is why the temperature is settled even when no matter
-/// moves.
+/// A condensed gas arrives from its bottle at its own transition
+/// temperature — `add` deposits it there ([`arrives_at_k`]) and the
+/// adiabatic mix on the pour cools the rest of the vessel while nominally
+/// warming the cryogen. That nominal warming is the state a real cryogen
+/// cannot hold: the heat would have boiled (or sublimed) it. So the forward
+/// route spends every joule the vessel shows above the threshold on the
+/// latent change, the cryogen's own share included, and the vessel lands
+/// at the threshold with the inventory the energy allows. A lone sample
+/// with nothing to draw on sits at its own transition point and does not
+/// leave, which is what an insulated flask of dry ice really does.
 ///
-/// **The correction is gated on [`is_condensed_gas`], and the gate is the
-/// principle rather than a convenience.** It exists because `add` can only
-/// hand you a substance in its STANDARD phase, so the only substances that
-/// can arrive in a state they cannot be in are the ones this registry
-/// ships in two phases — dry ice for carbon dioxide, liquid nitrogen for
-/// nitrogen. Frozen ethanol is not one of those: a solid warmed past its
-/// melting point got there by being heated, honestly, and correcting it
-/// would mean a flask of frozen ethanol on a hot plate could never melt.
-///
-/// **What the correction costs, stated rather than hidden.** From inside
-/// this module, superheat a cryogen ARRIVED with and heat a `heat` command
-/// genuinely put into the flask look identical — the vessel carries one
-/// temperature and one heat capacity, and nothing records where either
-/// came from. The correction discards both, so warming a flask that still
-/// holds liquid nitrogen boils away rather less of it than the energy
-/// implies. The temperature is still right (the flask sits at 77 K while
-/// any nitrogen remains) and the inventory errs on the side of keeping
-/// it. The real fix is not here: it is for `add` to deposit a cryogen at
-/// its own temperature instead of the room's, which is `bench.rs`'s.
+/// The one approximation left is stated rather than hidden: between the
+/// pour and this route the cryogen's sensible heat is carried at its
+/// CONDENSED heat capacity (a solid's for dry ice, a liquid's for
+/// nitrogen), where the real substance warms as a gas. For 5 g of dry ice
+/// in 100 g of water that over-counts the cooling by about half a kelvin.
 ///
 /// Deposition needs no such correction: a vapour really is at the vessel
 /// temperature, and the heat it gives back warms everything present.
 fn ledger(
     vessel: &Vessel,
-    condensed: &str,
+    _condensed: &str,
     latent: Option<f64>,
     inventory: f64,
     now: f64,
@@ -467,10 +468,16 @@ fn ledger(
             forward,
         };
     };
-    let budget = if forward && is_condensed_gas(condensed) {
-        let own = inventory * molar_cp(condensed);
-        (vessel.heat_capacity() - own).max(0.0) * (now - threshold)
-    } else if forward {
+    // The whole vessel's heat capacity, the condensed gas's own included.
+    // Since `add` deposits a condensed gas at its own transition
+    // temperature (`arrives_at_k`), any superheat the vessel shows above
+    // that threshold was put there by the rest of the vessel warming the
+    // cryogen in the adiabatic mix — heat a real cryogen would have spent
+    // boiling — and it is this route's to spend. The earlier form excluded
+    // the cryogen's own capacity to discard an arrival superheat that no
+    // longer exists; keeping that exclusion here would lose the heat the
+    // ethanol gave the nitrogen on the pour.
+    let budget = if forward {
         vessel.heat_capacity() * (now - threshold)
     } else {
         vessel.heat_capacity() * (threshold - now)

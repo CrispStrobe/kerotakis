@@ -954,7 +954,13 @@ impl Bench {
                     return Ok(events);
                 }
 
-                let t_in = at.unwrap_or(Kelvin::STANDARD);
+                // A reagent arrives at the room's temperature unless the
+                // learner said otherwise — or unless it is a condensed gas,
+                // which arrives at its own sublimation or boiling point,
+                // because dry ice at 25 °C is not a thing a bottle can hold.
+                let t_in = at.unwrap_or_else(|| {
+                    crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
+                });
                 let cp_in = moles.0 * data.heat_capacity;
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {

@@ -265,6 +265,11 @@ fn dry_ice_cools_the_water_it_is_dropped_into() {
 
     let after = vessel_of(&bench).temperature.0;
     let drop = before - after;
+    // The latent heat alone: the dry ice arrives at 194.65 K, but its
+    // own heat capacity leaves with the gas when the route settles the
+    // vessel from the sublimation point, so the water pays 25.2 kJ/mol
+    // and nothing for warming the sample — the kitchen-thermometer figure
+    // the tranche's own sanity check quotes.
     assert!(
         (drop - 6.85).abs() < 0.15,
         "5 g of dry ice cools 100 g of water by 6.85 K, got {drop:.2} K"
@@ -765,4 +770,42 @@ fn the_honesty_pass_does_not_call_frozen_ethanol_unmodelled() {
         ) || matches!(e, Event::Inert { species, .. } if species.0 == "ethanol")),
         "{events:?}"
     );
+}
+
+/// Pouring a cryogen cools the flask on the pour, not by a correction
+/// afterwards: `add` deposits a condensed gas at its own transition
+/// temperature and the adiabatic mix does the rest.
+#[test]
+fn a_cryogen_arrives_cold_and_a_salt_arrives_at_room_temperature() {
+    use kerotakis_core::*;
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    let add = |bench: &mut Bench, key: &str, moles: f64| {
+        bench
+            .step(Operator::Add {
+                vessel: v,
+                species: SpeciesId::new(key),
+                moles: Moles(moles),
+                at: None,
+            })
+            .expect("add")
+    };
+    add(&mut bench, "ethanol", 0.17);
+    assert!((bench.vessel(v).unwrap().temperature.0 - Kelvin::STANDARD.0).abs() < 1e-9);
+    let events = add(&mut bench, "liquid_nitrogen", 2.9);
+    let after = bench.vessel(v).unwrap().temperature.0;
+    assert!(after < 200.0, "the pour cools the flask: {after} K");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::TemperatureChanged { from, to, .. } if from.0 > to.0
+        )),
+        "{events:?}"
+    );
+    assert!(kerotakis_core::phase_route::arrives_at_k("liquid_nitrogen")
+        .is_some_and(|k| (k - 77.36).abs() < 0.5));
+    assert!(kerotakis_core::phase_route::arrives_at_k("dry_ice")
+        .is_some_and(|k| (k - 194.65).abs() < 0.5));
+    assert!(kerotakis_core::phase_route::arrives_at_k("NaCl").is_none());
+    assert!(kerotakis_core::phase_route::arrives_at_k("ethanol").is_none());
 }
