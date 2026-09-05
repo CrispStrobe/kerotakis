@@ -169,6 +169,11 @@
   });
   const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
   const foamColour = $derived(vessel.foam?.srgb ?? [245, 245, 245] as [number, number, number]);
+  const snowFraction = $derived(vessel.swelling
+    ? Math.min(1, vessel.swelling.swelling_ratio_g_per_g / Math.max(1, vessel.swelling.capacity_g_per_g))
+    : 0);
+  const snowH = $derived(vessel.swelling ? Math.max(7, FULL_H * (0.22 + snowFraction * 0.68)) : 0);
+  const glowStrength = $derived(Math.min(1, (vessel.chemiluminescence?.relative_intensity ?? 0) / 4));
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -335,7 +340,18 @@
         <stop offset="0.3" stop-color="#000000" stop-opacity="0" />
         <stop offset="1" stop-color="#000000" stop-opacity="0.2" />
       </linearGradient>
+      <radialGradient id={`vglow-${vessel.id}`}>
+        <stop offset="0" stop-color="#5de8ff" stop-opacity="0.9" />
+        <stop offset="0.45" stop-color="#28aee9" stop-opacity="0.5" />
+        <stop offset="1" stop-color="#1770d8" stop-opacity="0" />
+      </radialGradient>
     </defs>
+
+    {#if vessel.chemiluminescence && glowStrength > 0.002}
+      <g class="computed-glow" aria-hidden="true" style={`--glow-strength:${glowStrength}`}>
+        <ellipse cx="50" cy={BOTTOM_Y - Math.max(liquidH, 10) / 2} rx="39" ry={Math.max(29, liquidH * 0.8)} fill={`url(#vglow-${vessel.id})`} />
+      </g>
+    {/if}
 
     <g clip-path={`url(#vclip-${vessel.id})`}>
     <!-- The empty glass itself, before any contents. -->
@@ -377,6 +393,19 @@
         height={liquidH}
         fill={`url(#vdepth-${vessel.id})`}
       />
+    {/if}
+
+    {#if vessel.swelling && snowH > 0}
+      <g class="swollen-snow">
+        <title>{t("computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass", {
+          water: vessel.swelling.retained_water_g.toFixed(1),
+          ratio: vessel.swelling.swelling_ratio_g_per_g.toFixed(1),
+        })}</title>
+        <path d={`M ${INNER_X - 2} ${BOTTOM_Y} L ${INNER_X - 2} ${BOTTOM_Y - snowH * 0.48} Q ${INNER_X + INNER_W * 0.16} ${BOTTOM_Y - snowH * 0.68} ${INNER_X + INNER_W * 0.30} ${BOTTOM_Y - snowH * 0.62} Q 50 ${BOTTOM_Y - snowH * 1.02} ${INNER_X + INNER_W * 0.68} ${BOTTOM_Y - snowH * 0.67} Q ${INNER_X + INNER_W * 0.88} ${BOTTOM_Y - snowH * 0.76} ${INNER_X + INNER_W + 2} ${BOTTOM_Y - snowH * 0.46} L ${INNER_X + INNER_W + 2} ${BOTTOM_Y} Z`} />
+        {#each Array.from({ length: 13 }, (_, i) => i) as i (i)}
+          <circle cx={INNER_X + 3 + ((i * 17) % Math.max(7, INNER_W - 6))} cy={BOTTOM_Y - 3 - ((i * 13) % Math.max(5, snowH * 0.55))} r={0.65 + (i % 3) * 0.25} />
+        {/each}
+      </g>
     {/if}
 
     {#if vessel.curds && vessel.liquid && liquidH > 0}
@@ -1440,6 +1469,20 @@
     stroke: var(--cloud);
     stroke-width: 1;
     opacity: 0.3;
+  }
+  .computed-glow {
+    opacity: calc(0.18 + var(--glow-strength) * 0.68);
+    filter: blur(2px);
+    pointer-events: none;
+  }
+  .swollen-snow path {
+    fill: color-mix(in srgb, #f8fbff 86%, #a9dcf0);
+    stroke: color-mix(in srgb, #8fc6db 65%, var(--edge));
+    stroke-width: 0.7;
+  }
+  .swollen-snow circle {
+    fill: #ffffff;
+    opacity: 0.85;
   }
   /* Liquid and deposits move smoothly between computed states — the
      motion is presentation only; every keyframe endpoint is engine data. */

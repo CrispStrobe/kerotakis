@@ -48,7 +48,7 @@ mod tests {
         assert!(!seen.saturated);
         assert_eq!(
             water_before,
-            vessel.contents.iter().map(|p| p.moles.0).sum()
+            vessel.contents.iter().map(|p| p.moles.0).sum::<f64>()
         );
     }
 }

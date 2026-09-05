@@ -100,6 +100,14 @@ pub struct SceneVessel {
     /// Recipe-level aggregate curds separated from a colloidal liquid.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub curds: Option<SceneCurds>,
+    /// Water retained by a declared superabsorbent network. This is a
+    /// projection of conserved vessel matter, not an animation trigger.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub swelling: Option<SceneSwelling>,
+    /// Persistent relative light output of a declared chemiluminescent
+    /// system at this vessel's temperature and elapsed time.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chemiluminescence: Option<SceneChemiluminescence>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -180,6 +188,23 @@ pub struct SceneCurds {
     pub separation_progress: f64,
     pub solids_mass_g: f64,
     pub srgb: [u8; 3],
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSwelling {
+    pub dry_polymer_g: f64,
+    pub retained_water_g: f64,
+    pub swelling_ratio_g_per_g: f64,
+    pub capacity_g_per_g: f64,
+    pub saturated: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneChemiluminescence {
+    pub relative_intensity: f64,
+    pub half_life_s: f64,
+    pub elapsed_s: f64,
+    pub temperature_k: f64,
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -308,6 +333,8 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let material_layers = crate::material::immiscible_liquid_layers(v);
     let emulsion_observation = crate::emulsion::observe(v);
     let curdling_observation = crate::curdling::observe(v);
+    let swelling_observation = crate::swelling::observe(v);
+    let chemiluminescence_observation = crate::chemiluminescence::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
@@ -547,6 +574,18 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         });
     }
     let mut words = seen.words;
+    if let Some(swelling) = &swelling_observation {
+        words.push_str(&format!(
+            " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
+            swelling.retained_water_g, swelling.swelling_ratio_g_per_g,
+        ));
+    }
+    if let Some(glow) = &chemiluminescence_observation {
+        words.push_str(&format!(
+            " The luminol system is glowing blue at relative intensity {:.2}; its estimated half-life here is {:.1} seconds.",
+            glow.relative_intensity, glow.half_life_s,
+        ));
+    }
     if !v.surface_colours.is_empty() {
         let spread = v
             .surface_colours
@@ -651,6 +690,19 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             solids_mass_g: curds.curd_solids_mass_g,
             srgb: curds.curd_srgb,
         }),
+        swelling: swelling_observation.map(|seen| SceneSwelling {
+            dry_polymer_g: seen.dry_polymer_g,
+            retained_water_g: seen.retained_water_g,
+            swelling_ratio_g_per_g: seen.swelling_ratio_g_per_g,
+            capacity_g_per_g: seen.capacity_g_per_g,
+            saturated: seen.saturated,
+        }),
+        chemiluminescence: chemiluminescence_observation.map(|seen| SceneChemiluminescence {
+            relative_intensity: seen.relative_intensity,
+            half_life_s: seen.half_life_s,
+            elapsed_s: seen.elapsed_s,
+            temperature_k: seen.temperature_k,
+        }),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
@@ -664,6 +716,8 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::material::MaterialBasis;
+    use crate::vessel::{MaterialLot, UnresolvedMaterialPortion};
     use crate::{Moles, SpeciesId};
 
     fn vessel_with(items: &[(&str, f64, Phase)]) -> Vessel {
@@ -871,5 +925,65 @@ mod tests {
         // And it round-trips.
         let back: SceneVessel = serde_json::from_value(json).unwrap();
         assert_eq!(back, s);
+    }
+
+    #[test]
+    fn swelling_is_persistent_scene_state_with_accessible_words() {
+        let mut v = vessel_with(&[("water", 50.0 / 18.01528, Phase::Liquid)]);
+        v.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "instant snow".into(),
+            recipe_id: crate::swelling::RECIPE_ID.into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 0.5,
+            enzyme_hydrolysis: None,
+        });
+        let scene = scene_vessel(&v);
+        let swelling = scene.swelling.expect("swelling render target");
+        assert!((swelling.retained_water_g - 50.0).abs() < 0.01);
+        assert!((swelling.swelling_ratio_g_per_g - 100.0).abs() < 0.1);
+        assert!(scene.words.contains("superabsorbent network retains"));
+    }
+
+    #[test]
+    fn chemiluminescence_scene_tracks_temperature_and_elapsed_time() {
+        let mut v = vessel_with(&[("H2O2", 0.002, Phase::Liquid)]);
+        v.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "luminol glow solution".into(),
+            recipe_id: crate::chemiluminescence::RECIPE_ID.into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 20.0,
+            enzyme_hydrolysis: None,
+        });
+        v.lots.push(MaterialLot {
+            species: SpeciesId::new("H2O2"),
+            moles: Moles(0.002),
+            phase: Phase::Liquid,
+            added_at: 0.0,
+            hydrated_at: None,
+            source: None,
+            particle_size_um: None,
+            suspended_fraction: None,
+        });
+        v.temperature = crate::Kelvin(293.15);
+        v.elapsed_seconds = 60.0;
+        let scene = scene_vessel(&v);
+        let glow = scene
+            .chemiluminescence
+            .expect("chemiluminescence render target");
+        assert!((glow.relative_intensity - 0.5).abs() < 1e-9);
+        assert_eq!(glow.elapsed_s, 60.0);
+        assert!(scene.words.contains("glowing blue"));
+    }
+
+    #[test]
+    fn additive_observation_fields_default_when_old_scene_is_read() {
+        let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
+        json.as_object_mut().unwrap().remove("swelling");
+        json.as_object_mut().unwrap().remove("chemiluminescence");
+        let old: SceneVessel = serde_json::from_value(json).unwrap();
+        assert!(old.swelling.is_none());
+        assert!(old.chemiluminescence.is_none());
     }
 }
