@@ -39,6 +39,36 @@ const EPSOMITE_CITATION: &str = "PubChem CID 24843 identity crosswalk for magnes
 const PHASE_TRANSITION_SOURCE: &str = "kerotakis/phase-transitions-v1";
 const PHASE_TRANSITION_CITATION: &str = "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29";
 const CHALCANTHITE_SOURCE: &str = "us-federal/usgs-chalcanthite";
+/// The dissolution enthalpies get their own source record for the same
+/// reason the transition temperatures do: an enthalpy of dissolution is a
+/// different claim with a different origin from a molar mass, and a heat
+/// balance built on it will print it. Three of the seventeen used to ride a
+/// species citation that did not mention them at all.
+const DISSOLUTION_SOURCE: &str = "kerotakis/dissolution-enthalpies-v1";
+const DISSOLUTION_CITATION: &str = "Kerotakis curated dissolution-enthalpy tranche v1: molar enthalpy of dissolution in water at 298.15 K and infinite dilution, in kJ/mol, positive = endothermic. These values used to ride each species' molar-mass citation, which for three of them said nothing about the enthalpy at all; they are separated here for the same reason the phase-transition tranche was, because an enthalpy of dissolution is a different claim with a different origin from a molar mass, and a heat balance built on it will print it. Fourteen of the seventeen values are consistent with the difference of the standard formation enthalpies commonly tabulated for the aqueous ions and the solid; each row's own `notes` field states that arithmetic explicitly so a reviewer can check it rather than take it on trust. Four of those rows already carried their derivation or a CRC Handbook 97th ed. citation in the species' own provenance line (KOH, NH4Cl, Na2SO4, NH4NO3, plus the NBS/Wagman derivations recorded for ZnSO4 and Pb(NO3)2) and are unchanged in substance. TWO ROWS ARE UNRESOLVED AND ARE NOT SILENTLY FIXED HERE: potassium permanganate's +16.2 kJ/mol reproduces from nothing the reviewer could find and is roughly 27 kJ/mol away from the commonly tabulated heat of solution near +43.6, which is not a sign, unit or hydrate difference; sodium bicarbonate's +16.7 matches neither the formation-enthalpy difference (about +18.7) nor the commonly tabulated figure (about +17.5). Both values are LEFT AS THEY STAND, because changing a number is a separate decision from sourcing one, and both are flagged by name for that decision. The vendored PHREEQC databases were checked as a candidate source and are deliberately NOT cited: Halite's delta_h is 3.84 kJ in wateq4f.dat and 3.7 kJ in minteq.v4.dat against this table's 3.88; Thenardite's is -2.39 kJ and -9.12 kJ in the two files, which disagree with each other; Portlandite's dissolution is written with two protons so its delta_h is the enthalpy of a different reaction entirely; and Chalcanthite is the pentahydrate while this table's copper sulfate is anhydrous. Where a database row IS the better source for a future value it should be cited as the file and reaction line, and none of these seventeen is that case. As with the phase-transition tranche, this is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: the CRC Handbook of Chemistry and Physics, 97th ed. and the NBS/Wagman 1982 tables are the intended primary references and every value here is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made. Compiled 2026-09-05";
+const DISSOLUTION_METHOD: &str = "curated dissolution-enthalpy tranche; the row's own note states the arithmetic or the handbook the value is claimed from, and flags it where neither holds";
+/// Per-row provenance: the arithmetic a reviewer can check, or the reason
+/// there is none. Keyed by registry species key; a value without a row here
+/// exports no note, which is a state the tranche does not currently have.
+const DISSOLUTION_NOTES: &[(&str, &str)] = &[
+    ("NaCl", "+3.88 kJ/mol. Consistent with the difference of the commonly tabulated standard formation enthalpies: Na+(aq) about -240.1 and Cl-(aq) about -167.2 against NaCl(s) about -411.2 kJ/mol. Not the vendored Halite delta_h, which is 3.84 kJ in wateq4f.dat and 3.7 kJ in minteq.v4.dat."),
+    ("AgNO3", "+22.6 kJ/mol. Consistent with Ag+(aq) about +105.6 and NO3-(aq) about -207.4 against AgNO3(s) about -124.4 kJ/mol. The species' own citation did not mention this value at all before this tranche."),
+    ("AgCl", "+65.7 kJ/mol, and this is a lattice-to-ion enthalpy rather than anything a beaker measures: silver chloride is insoluble, so no bench observation corresponds to it. Consistent with Ag+(aq) about +105.6 and Cl-(aq) about -167.2 against AgCl(s) about -127.0 kJ/mol. The species' own citation did not mention this value at all before this tranche."),
+    ("Ca(OH)2", "-16.7 kJ/mol. Consistent with Ca+2(aq) about -542.8 and two OH-(aq) at about -230.0 against Ca(OH)2(s) about -986.1 kJ/mol. Deliberately NOT the vendored Portlandite delta_h: PHREEQC writes that dissolution with two protons, so its -31 kcal (wateq4f.dat) / -128.62 kJ (minteq.v4.dat) is the enthalpy of a different reaction."),
+    ("NaOH", "-44.5 kJ/mol, the exotherm a lye solution actually shows. Consistent with Na+(aq) about -240.1 and OH-(aq) about -230.0 against NaOH(s) about -425.6 kJ/mol."),
+    ("NaOAc", "-17.3 kJ/mol. Consistent with Na+(aq) about -240.1 and CH3COO-(aq) about -486.0 against NaOAc(s) about -708.8 kJ/mol."),
+    ("NaHCO3", "+16.7 kJ/mol, UNRESOLVED. The formation-enthalpy difference gives about +18.7 and the commonly tabulated heat of solution is about +17.5, so this value matches neither. It is left as it stands rather than replaced, because sourcing a number and changing it are separate decisions; a reviewer should settle this row."),
+    ("KCl", "+17.2 kJ/mol. Consistent with K+(aq) about -252.4 and Cl-(aq) about -167.2 against KCl(s) about -436.7 kJ/mol."),
+    ("CaCl2", "-82.8 kJ/mol for the ANHYDROUS salt, which is what this registry entry is. Consistent to within the spread of tabulated solid enthalpies with Ca+2(aq) about -542.8 and two Cl-(aq) at about -167.2 against CaCl2(s) about -795 to -796 kJ/mol. The dihydrate and hexahydrate sold as road salt dissolve far less exothermically, and neither is this row."),
+    ("CuSO4", "-73.1 kJ/mol for the ANHYDROUS salt. Consistent with Cu+2(aq) about +64.8 and SO4-2(aq) about -909.3 against CuSO4(s) about -771.4 kJ/mol. The vendored Chalcanthite delta_h is not this number and is not meant to be: that phase is the pentahydrate, which dissolves endothermically."),
+    ("KMnO4", "+16.2 kJ/mol, UNRESOLVED AND PROBABLY WRONG. The formation-enthalpy difference gives about +43 and the commonly tabulated heat of solution is about +43.6 kJ/mol; the gap is not a sign error, a unit error or a hydrate difference. The value is LEFT AS IT STANDS because changing a number is a separate decision from sourcing one, and this row is flagged for that decision as loudly as a data field can flag anything."),
+    ("ZnSO4", "-80.4 kJ/mol, derived in the species' own citation from NBS/Wagman 1982 formation enthalpies: ZnSO4(s) -982.8, Zn+2(aq) -153.9, SO4-2(aq) -909.3 kJ/mol. Unchanged in substance by this tranche; recorded here so the row carries its own source."),
+    ("Pb(NO3)2", "+35.4 kJ/mol, derived in the species' own citation from NBS/Wagman 1982 formation enthalpies: Pb(NO3)2(s) -451.9, Pb+2(aq) -1.7, NO3-(aq) -207.4 kJ/mol. Unchanged in substance by this tranche."),
+    ("KOH", "-57.6 kJ/mol, taken from the CRC Handbook of Chemistry and Physics 97th ed. per the species' own citation, and consistent with K+(aq) about -252.4 and OH-(aq) about -230.0 against KOH(s) about -424.8 kJ/mol."),
+    ("NH4Cl", "+14.78 kJ/mol at infinite dilution, from the CRC Handbook of Chemistry and Physics 97th ed. per the species' own citation. This is the one row here quoted to two decimal places, and the precision is the handbook's rather than an estimate's."),
+    ("Na2SO4", "-2.43 kJ/mol for the anhydrous salt at infinite dilution, from the CRC Handbook of Chemistry and Physics 97th ed. per the species' own citation. The vendored Thenardite delta_h is -2.39 kJ in wateq4f.dat and -9.12 kJ in minteq.v4.dat; the two databases disagree with each other and neither is this row's source."),
+    ("NH4NO3", "+25.7 kJ/mol, the cold-pack number, and one of the most strongly endothermic dissolutions a kitchen can produce. Stated in the species' own citation and recorded here so the row carries its own source."),
+];
 const SILICA_SOURCE: &str = "us-federal/pubchem-silica";
 const SILICA_CITATION: &str = "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27";
 
@@ -204,6 +234,23 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
             revision: Some("v1".to_string()),
             retrieved: Some("2026-08-29".to_string()),
+        });
+    }
+    // Same guard as the transition tranche above: an orphan source record is
+    // a claim nobody made.
+    if document
+        .phase_thermodynamics
+        .iter()
+        .any(|record| record.quantity.source_id == DISSOLUTION_SOURCE)
+    {
+        document.sources.push(SourceRecord {
+            id: DISSOLUTION_SOURCE.to_string(),
+            citation: DISSOLUTION_CITATION.to_string(),
+            licence: "AGPL-3.0-or-later".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
+            revision: Some("v1".to_string()),
+            retrieved: Some("2026-09-05".to_string()),
         });
     }
     export_material_recipes(&mut document);
@@ -4534,13 +4581,24 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                 species_id: species.key.to_string(),
                 phase,
                 property: PhaseProperty::EnthalpyOfDissolution,
-                quantity: imported_number(
+                quantity: NumericRecord {
                     value,
-                    "kJ/mol",
-                    Dimension::MolarEnergy,
-                    phase,
-                    &source_id,
-                ),
+                    unit: Unit {
+                        symbol: "kJ/mol".to_string(),
+                        dimension: Dimension::MolarEnergy,
+                    },
+                    conditions: Applicability {
+                        phase: Some(phase),
+                        notes: DISSOLUTION_NOTES
+                            .iter()
+                            .find(|(key, _)| *key == species.key)
+                            .map(|(_, note)| (*note).to_string()),
+                        ..Applicability::default()
+                    },
+                    uncertainty: Uncertainty::NotReported,
+                    source_id: DISSOLUTION_SOURCE.to_string(),
+                    method: Method::Curated(DISSOLUTION_METHOD.to_string()),
+                },
             });
     }
 
