@@ -85,7 +85,7 @@ fn a_spark_is_above_every_autoignition_temperature() {
     // `ignite` takes a vessel to IGNITION_K; nothing in the table is hotter.
     for row in kerotakis_core::combustion::GAS_AUTOIGNITION {
         assert!(
-            row.autoignition_k < kerotakis_core::IGNITION_K,
+            row.autoignition_k < kerotakis_core::bench::IGNITION_K,
             "{}",
             row.species
         );
