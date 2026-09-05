@@ -1019,6 +1019,36 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   an engine one (see the triage in #389). `engine stood aside` falls 19 -> 5.
   Still open here: the whole organic family pack, which this checkpoint does
   not touch.
+- **Checkpoint 2026-09-05 — peroxide bleaches a pigment, on a clock.**
+  `bio-112` asked why hydrogen peroxide bleaches hair pigments and stopped
+  at the parser. Two species close it — `hair_pigment`, a 5,6-dihydroxyindole
+  repeat unit standing for eumelanin on the same polymer-as-population
+  convention nylon and PET already use, and `hair_pigment_ox`, the colourless
+  product — plus one row in `kinetics::REGISTRY`,
+  `peroxide-melanin-bleach`. **It is a rate law and not a curated reaction,
+  and that is the whole point of the row**: a curated reaction fires inside
+  the solver stack at the end of the step that completes its reactants, so it
+  would have consumed the pigment on the line that ADDS the peroxide and
+  `wait 10min` would have advanced a clock over a finished reaction. The
+  question is about a process taking minutes; only a rate can answer it.
+  **THE RATE IS AN EDITORIAL CLASSROOM TIMESCALE AND NOT A MEASUREMENT** —
+  no citable constant for the oxidation of melanin by peroxide was found, so
+  the pre-exponential is chosen so the colour is mostly gone after ten
+  minutes and plainly there after one, exactly as the peroxide-decomposition
+  and iron-corrosion entries choose theirs, and the entry's uncertainty note
+  says so. The alkali is missing too: salon bleaching is peroxide plus
+  ammonia and there is no pH term in the law, so a developer and a neutral
+  bottle bleach at the same speed here. Both pigments' colours are RECORDED,
+  not computed — neither carries an absorption spectrum — so what changes in
+  `look` is which solid the beaker names.
+  **One defect this exposes and does not fix:** the honesty pass in
+  `solve.rs` asks `curated::consumes` whether anything is eating an
+  insoluble solid, and does not ask the kinetic network, so while the bleach
+  runs the bench prints a true remark about the pigment not dissolving in
+  words that read as though it were untouched. That guard wants the same
+  treatment the starch/amylase case already got; it is recorded in the
+  species' own provenance and in the corpus README, and it is a separate
+  change in a file this lane may not touch.
 - **Checkpoint 2026-09-05 — two more names on the `react` shelf.**
   `curated::ORG_REACTIONS` gains `alcohol-oxidation`
   (C2H5OH + O2 → CH3COOH + H2O) beside the ester pair, so `bio-064` runs
