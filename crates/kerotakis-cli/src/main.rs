@@ -2628,7 +2628,7 @@ fn repl() {
                  \x20                test <v> <splint|limewater|…> · chromatograph <v> · particles [v]\n\
                  electrochemistry cell <v> <v> · electrolyse <v> <A> <t>   (each half-cell wants its metal)\n\
                  analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
-                 named reactions  react <v> <esterification|saponification>\n\
+                 named reactions  react <v> <esterification|saponification|alcohol-oxidation|respiration>\n\
                  the bench        new [beaker|flask|tube|cylinder|crucible] · remove <v> · inspect [v]\n\
                  \x20                register <lv1|lv2|lv3> · explain [v] · quest · quit\n\
                  what is here     species (pure substances) · materials (household bottles) · find <word>"

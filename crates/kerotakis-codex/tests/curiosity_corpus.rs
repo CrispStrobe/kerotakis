@@ -58,16 +58,28 @@ fn curiosity_v1_is_complete_and_structurally_sound() {
     for age_band in AgeBand::LEARNER_BANDS {
         assert!(inventory.by_age_band[&age_band] > 0, "missing {age_band:?}");
     }
-    for parse_kind in [
-        ParseErrorKind::UnknownSpecies,
+    // `UnknownSpecies` still has corpus rows and should: substances this
+    // shelf does not carry are a standing state, not a defect.
+    //
+    // `UnknownReaction` no longer has one. bio-064 and bio-080 were the
+    // only two, and BRD-023/BRD-052 closed both by curating the reactions
+    // they asked for — which is the outcome this corpus exists to produce.
+    // What the assertion was actually protecting is that the `react` verb
+    // still vets its names and still says so in a TYPED way, so that is
+    // asserted against the parser directly. Keeping a row permanently
+    // broken to feed a test would be the corpus serving the test.
+    assert!(
+        corpus
+            .prompts
+            .iter()
+            .any(|prompt| prompt.parse_boundary == Some(ParseErrorKind::UnknownSpecies)),
+        "corpus does not exercise UnknownSpecies"
+    );
+    assert_eq!(
+        kerotakis_core::script::parse_op_typed("react v1 transmutation")
+            .expect_err("an uncurated reaction name must not parse")
+            .kind,
         ParseErrorKind::UnknownReaction,
-    ] {
-        assert!(
-            corpus
-                .prompts
-                .iter()
-                .any(|prompt| prompt.parse_boundary == Some(parse_kind)),
-            "corpus does not exercise {parse_kind:?}"
-        );
-    }
+        "the react verb no longer vets its names typed"
+    );
 }

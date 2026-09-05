@@ -962,6 +962,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   an engine one (see the triage in #389). `engine stood aside` falls 19 -> 5.
   Still open here: the whole organic family pack, which this checkpoint does
   not touch.
+- **Checkpoint 2026-09-05 — two more names on the `react` shelf.**
+  `curated::ORG_REACTIONS` gains `alcohol-oxidation`
+  (C2H5OH + O2 → CH3COOH + H2O) beside the ester pair, so `bio-064` runs
+  instead of failing at the parser. It is deliberately the SAME equation the
+  fermentation lane's `food/acetic-acid-bacteria` culture runs (#412,
+  `CultureMetabolism::Acetic`): two routes to vinegar that disagreed about
+  its stoichiometry would be worse than one route, so this row cites that
+  one rather than restating it. Nothing else moved — no template, no
+  enthalpy, no rate. `bio-064` leaves `unknown-reaction`; what it does NOT
+  gain is a prediction, and the row's boundary says so in the verb's own
+  words: a named reaction is the learner asking for an outcome, not the
+  bench forecasting one. Evidence: `crates/kerotakis-core/src/curated.rs`,
+  and the corpus row's `parse_boundary` is gone.
 
 ## Stage B3 — general thermodynamics and gas kinetics
 
@@ -1603,6 +1616,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   inert flour beside it, and `bio-069`/`bio-070` (yoghurt) run a real lactic
   fermentation and stop at a pH no shipped database can compute. The corpus
   README records all eight row by row rather than counting eight closures.
+- **2026-09-05, respiration is an EQUATION and not a cell.** `bio-080` asked
+  for `react v1 respiration` and stopped at the parser; `curated::ORG_REACTIONS`
+  now carries the row (C6H12O6 + 6 O2 → 6 CO2 + 6 H2O), so the script runs end
+  to end and the row leaves `unknown-reaction`. Read what that is worth
+  carefully. Glycolysis, the citric acid cycle and oxidative phosphorylation
+  are collapsed into one line; there is no cell, no membrane, no enzyme and no
+  ATP; and the standard enthalpy of combustion of glucose, about −2803 kJ/mol
+  as commonly tabulated, is QUOTED IN THE BOUNDARY AND NOT APPLIED, because no
+  row in that table carries a curated reaction enthalpy and the vessel's
+  temperature does not move. Its provenance lane is pending review. The entry
+  above still stands: **respiration as a process is absent**, and what landed
+  is the arrow a textbook draws, on request. Evidence:
+  `crates/kerotakis-core/src/curated.rs`.
 - **Scope:** curate roughly 100 reactions/networks around starch/sugar
   digestion, catalase, lactase/protease exemplars, yeast fermentation, bread
   rising, respiration, photosynthesis as a bounded net model, acidification,

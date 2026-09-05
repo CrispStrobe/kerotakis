@@ -713,10 +713,10 @@ question = "Can alcohol be turned into vinegar by asking for a named oxidation r
 age_band = "age16_to18"
 action = "food_and_life"
 material_class = "organic-reaction"
+expected = "curated"
 owning_task = "BRD-023"
 tags = ["oxidation", "vinegar"]
 script = ["add v1 ethanol 0.1mol", "add v1 O2 0.1mol", "react v1 alcohol-oxidation", "look v1"]
-parse_boundary = "unknown_reaction"
 smoke = false
 
 [[prompt]]
@@ -893,13 +893,14 @@ question = "Can cells release energy by reacting glucose with oxygen?"
 age_band = "age13_to15"
 action = "food_and_life"
 material_class = "metabolism"
+expected = "curated"
 owning_task = "BRD-052"
 tags = ["glucose", "respiration"]
 script = ["add v1 glucose 0.1mol", "add v1 O2 0.6mol", "react v1 respiration", "look v1"]
-# S03 landed glucose, so the boundary moves one word to the right: the
-# species parse and the curated reaction "respiration" is what does not
-# exist yet (BRD-052).
-parse_boundary = "unknown_reaction"
+# S03 landed glucose and BRD-052 landed the reaction: `respiration` is now
+# on the curated shelf, so the script runs end to end and the boundary is
+# no longer at the parser. What it does NOT run is a cell — the row carries
+# the overall equation only, and the reaction's own boundary says so.
 smoke = false
 
 [[prompt]]
