@@ -575,14 +575,23 @@
   .stock-lock { hyphens: auto; overflow-wrap: anywhere; margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {
-    flex: 1;
-    /* "Wasserstoffperoxid" is wider than the 240px pane it lives in. The
-       document carries `lang` (i18n.svelte.ts sets it on every locale
+    /* `flex: 1` means a zero basis, so the name took whatever the rest of
+       the line left it. For a mixture the registry writes out in full —
+       "H2O + NaCl + CH3COOH" beside a lock badge — that was TWO pixels at
+       320px: a row that said everything except the word the reader came
+       for, and a `.name` narrower than one character of it. A floor makes
+       the row wrap instead, which is what `flex-wrap` on it is for: the
+       name keeps a readable column and the formula moves underneath.
+       Measured on the built payload — the narrowest name on a 320px
+       cabinet goes from 2px to 70px, and no page gains a scrollbar.
+
+       "Wasserstoffperoxid" is still wider than the 240px pane it lives in.
+       The document carries `lang` (i18n.svelte.ts sets it on every locale
        change), so `hyphens: auto` can break the compound where German
        allows; `overflow-wrap: anywhere` is the fallback for the names no
-       hyphenation dictionary knows. `min-width: 0` is what lets a flex
-       item narrower than its content actually happen. */
-    min-width: 0;
+       hyphenation dictionary knows. */
+    flex: 1 1 8ch;
+    min-width: 8ch;
     hyphens: auto;
     overflow-wrap: anywhere;
   }
