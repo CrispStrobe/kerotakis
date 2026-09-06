@@ -45,4 +45,18 @@ describe("children's apparatus skins", () => {
     expect(rows[0]?.detail).toBe(KIDS_EQUIPMENT[0]!.parts.map((p) => p.toUpperCase()).join(" · "));
     expect(rows[1]?.detail).toBe(KIDS_EQUIPMENT[0]!.boundary.toUpperCase());
   });
+
+  it("deploys the candle kit as a CANDLE, not as a Bunsen burner", () => {
+    // Both open the same flame panel, and the engine caps a vessel at the
+    // source heating it — so a kit called "candle and wick" that opened on
+    // the burner's default would quietly offer 100 °C the thing it is
+    // named after cannot reach.
+    const candle = KIDS_EQUIPMENT.find((item) => item.id === "candle-kit")!;
+    expect(candle.engineVerb).toBe("bunsen");
+    expect(candle.preset).toEqual({ source: "candle" });
+    // Nothing else claims a source it has no business claiming.
+    for (const item of KIDS_EQUIPMENT) {
+      if (item.id !== "candle-kit") expect(item.preset).toBeUndefined();
+    }
+  });
 });
