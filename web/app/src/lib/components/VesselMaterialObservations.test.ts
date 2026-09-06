@@ -44,4 +44,13 @@ describe("persistent material observations", () => {
     expect(source).toContain("progress.boundary");
     expect(source).not.toContain("Adsorbed");
   });
+
+  it("exposes cumulative modeled osmosis without implying swelling geometry", () => {
+    expect(source).toContain("object.osmosis.mass_change_g");
+    expect(source).toContain("data-osmosis-water-moles");
+    expect(source).toContain("data-osmosis-mass-change-g");
+    expect(source).toContain('class="osmosis-readout"');
+    expect(source).toContain('role="img"');
+    expect(source).toContain('t("not object size or final equilibrium")');
+  });
 });

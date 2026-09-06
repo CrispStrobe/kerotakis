@@ -2382,6 +2382,11 @@
   "still dissolved": "noch gelöst",
   "parameters pending review": "Parameterprüfung ausstehend",
   "equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage": "Gleichgewichtsbeladung relativ zur nominalen Langmuir-Kapazität; schematische Anzeige, keine Poren- oder Oberflächenbedeckung",
-  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": "{percent}% {sorbate} an {sorbent} gebunden; {dissolved} mg noch gelöst; Gleichgewicht, keine Entfernungsgeschwindigkeit"
+  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": "{percent}% {sorbate} an {sorbent} gebunden; {dissolved} mg noch gelöst; Gleichgewicht, keine Entfernungsgeschwindigkeit",
+  "cumulative modeled water transfer": "kumulativer modellierter Wassertransport",
+  "into object": "in das Objekt hinein",
+  "out of object": "aus dem Objekt heraus",
+  "not object size or final equilibrium": "keine Aussage über Objektgröße oder Endgleichgewicht",
+  "cumulative modeled water transfer; not object size, membrane mechanics, or final equilibrium": "kumulativer modellierter Wassertransport; keine Aussage über Objektgröße, Membranmechanik oder Endgleichgewicht"
  }
 }

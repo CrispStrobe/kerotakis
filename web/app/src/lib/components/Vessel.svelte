@@ -882,6 +882,27 @@
       >
         <title>{t(object.material)} · {object.mass_g.toFixed(2)} g · {Math.round(object.browned_fraction * 100)}% {t("browned")}</title>
       </ellipse>
+      {#if object.osmosis && Math.abs(object.osmosis.water_moles) > 1e-15}
+        {@const intoObject = object.osmosis.direction === "into_object"}
+        <g
+          class="osmosis-readout"
+          role="img"
+          aria-label={`${t("cumulative modeled water transfer")} · ${Math.abs(object.osmosis.mass_change_g).toFixed(3)} g · ${t(intoObject ? "into object" : "out of object")} · ${t("not object size or final equilibrium")}`}
+          data-osmosis-water-moles={object.osmosis.water_moles}
+          data-osmosis-mass-change-g={object.osmosis.mass_change_g}
+        >
+          <path
+            class:outward={!intoObject}
+            d={intoObject
+              ? `M ${INNER_X + 7} ${BOTTOM_Y - 18 - i * 3} h 12 l -3 -3 m 3 3 l -3 3`
+              : `M ${INNER_X + 19} ${BOTTOM_Y - 18 - i * 3} h -12 l 3 -3 m -3 3 l 3 3`}
+          />
+          <text x={INNER_X + 4} y={BOTTOM_Y - 22 - i * 3}>
+            {intoObject ? "+" : "−"}{Math.abs(object.osmosis.mass_change_g).toFixed(2)} g H₂O
+          </text>
+          <title>{t("cumulative modeled water transfer")} · {t(object.osmosis.basis)}</title>
+        </g>
+      {/if}
     {/each}
 
     {#if vessel.soap_scum && vessel.soap_scum.aggregate_mass_g > 0}
@@ -2967,6 +2988,18 @@
     stroke: color-mix(in srgb, var(--ink) 55%, transparent);
     stroke-width: 0.8;
     filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .osmosis-readout path {
+    fill: none;
+    stroke: #2576a8;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .osmosis-readout text {
+    fill: var(--ink);
+    font-size: 5px;
+    font-variant-numeric: tabular-nums;
   }
   .gel-body > path:first-of-type {
     fill: #9f8bd7;

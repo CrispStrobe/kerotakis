@@ -131,6 +131,16 @@ export interface SceneMaterialObject {
   mass_g: number;
   exchanged_water_moles: number;
   browned_fraction: number;
+  /** Additive scene-v1 field; absent when talking to an older host. */
+  osmosis?: SceneOsmosis | null;
+}
+
+export interface SceneOsmosis {
+  /** Signed cumulative modeled transfer; positive is into the object. */
+  water_moles: number;
+  mass_change_g: number;
+  direction: "into_object" | "out_of_object" | "balanced";
+  basis: string;
 }
 
 export interface SceneSoapScum {

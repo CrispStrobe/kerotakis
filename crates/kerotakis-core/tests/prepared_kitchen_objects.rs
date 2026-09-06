@@ -19,6 +19,26 @@ fn naked_egg_owns_its_inventory_and_osmosis_conserves_mass() {
         .iter()
         .any(|e| matches!(e, Event::OsmosisChanged { mass_change_g, .. } if *mass_change_g > 0.0)));
     assert!((bench.vessels[0].mass().0 - before).abs() < 1e-8);
+
+    let scene = kerotakis_core::scene::scene(&bench);
+    let object = &scene.vessels[0].material_objects[0];
+    let osmosis = object.osmosis.as_ref().expect("standing osmosis readout");
+    assert_eq!(osmosis.direction, "into_object");
+    assert!(osmosis.water_moles > 0.0);
+    assert!(osmosis.mass_change_g > 0.0);
+    assert!((object.exchanged_water_moles - osmosis.water_moles).abs() < 1e-12);
+    assert!(osmosis.basis.contains("not object size"));
+    assert!(scene.vessels[0]
+        .words
+        .contains("final equilibrium are not modeled"));
+
+    let mut old_wire = serde_json::to_value(&scene).unwrap();
+    old_wire["vessels"][0]["material_objects"][0]
+        .as_object_mut()
+        .unwrap()
+        .remove("osmosis");
+    let restored: kerotakis_core::scene::Scene = serde_json::from_value(old_wire).unwrap();
+    assert!(restored.vessels[0].material_objects[0].osmosis.is_none());
 }
 
 #[test]

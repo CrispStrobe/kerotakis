@@ -2382,6 +2382,11 @@
   "still dissolved": "",
   "parameters pending review": "",
   "equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage": "",
-  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": ""
+  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": "",
+  "cumulative modeled water transfer": "",
+  "into object": "",
+  "out of object": "",
+  "not object size or final equilibrium": "",
+  "cumulative modeled water transfer; not object size, membrane mechanics, or final equilibrium": ""
  }
 }

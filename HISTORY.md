@@ -23,6 +23,11 @@ it had while it was open, which is why a few numbers appear twice below.
   equilibrium loading and an accessible readout survive between events rather
   than only at the instant of the `adsorbed` verdict; the capacity gauge is
   schematic and makes no claim about rate, pores or surface coverage
+- **ANIM-7 (standing half), K14** — projected the prepared object's durable
+  cumulative water exchange into the standing scene and existing vessel as a
+  signed mol/g readout with accessible provenance, so it survives between
+  events; deliberately did not draw swelling geometry, membrane mechanics, or
+  a final equilibrium the model does not compute
 - **ANIM-5** — made gas-production bubble cadence follow the engine's molar
   rate and foam collapse reach half height on the engine's half-life, with
   readable/data-attribute evidence and reduced-motion coverage
