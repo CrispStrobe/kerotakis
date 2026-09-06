@@ -4440,6 +4440,16 @@ fn build_input_at(
     }
     if !problem.gases.is_empty() {
         writeln!(input, "GAS_PHASE 1").unwrap();
+        // The gas is stated as partial pressures computed at the vessel's
+        // temperature, and PHREEQC turns them back into moles at the gas
+        // phase's OWN temperature — which defaults to 25 °C whatever the
+        // SOLUTION block says. Without this line every solve of a sealed
+        // vessel not at 25 °C lost or gained gas by T/298.15: a beaker the
+        // heat balance cooled 14 K handed back 95.2% of its CO₂, 0.88 mmol
+        // of carbon simply gone, and the sealed-mass lesson drifted 0.04 g
+        // away from the conservation it teaches. Invisible for as long as
+        // nothing moved a sealed vessel's temperature.
+        writeln!(input, "    -temperature {temp_c:.4}").unwrap();
         match vessel.headspace {
             Headspace::Sealed { volume } => {
                 writeln!(input, "    -fixed_volume").unwrap();
