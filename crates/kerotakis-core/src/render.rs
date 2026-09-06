@@ -2455,6 +2455,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             species: sid,
             corroding,
             why,
+            ..
         } => {
             let name = species_name(locale, sid);
             match (register.level(), *corroding) {
@@ -3077,8 +3078,60 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             moles,
             grams,
             per_ion,
+            anode_species,
+            anode_moles,
+            ..
         } => {
             let name = species_name(locale, species);
+            // GUI-099: the water-splitting cell says something else. The
+            // sentences below are written for a metal building up on an
+            // electrode, and a hydrogen that "lagert sich ab" is simply
+            // wrong — it bubbles off, and so does the oxygen at the other
+            // end, at half the amount. That ratio IS the experiment, so
+            // where both halves are gases the line names both of them.
+            let gaseous = crate::species::lookup(species)
+                .is_some_and(|data| data.standard_phase == Phase::Gas);
+            if let (true, Some(anode), Some(anode_n)) = (gaseous, anode_species, anode_moles) {
+                let anode_name = species_name(locale, anode);
+                return match register.level() {
+                    1 => locale.fill(
+                        "event.electrolysed.gas.lv1",
+                        "Gas bubbles off both electrodes in {vessel}: {name} at one and {anode_name} at the other.",
+                        &[("vessel", &vessel.to_string()), ("name", name), ("anode_name", anode_name)],
+                    ),
+                    2 => locale.fill(
+                        "event.electrolysed.gas.lv2",
+                        "{vessel}: {amps} A for {seconds} s = {coulombs} C → {electrons} mol e⁻ → {moles} mol {name} at the cathode and {anode_moles} mol {anode_name} at the anode",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("amps", &locale.number(format!("{amps:.3}"))),
+                            ("seconds", &locale.number(format!("{seconds:.0}"))),
+                            ("coulombs", &locale.number(format!("{coulombs:.0}"))),
+                            ("electrons", &locale.number(format!("{:.4}", electrons.0))),
+                            ("moles", &locale.number(format!("{:.4}", moles.0))),
+                            ("name", name),
+                            ("anode_moles", &locale.number(format!("{:.4}", anode_n.0))),
+                            ("anode_name", anode_name),
+                        ],
+                    ),
+                    _ => locale.fill(
+                        "event.electrolysed.gas.lv3",
+                        "{vessel}: I = {amps} A; t = {seconds} s; Q = It = {coulombs} C; n(e⁻) = Q/F = {electrons} mol; cathode n({name}) = n(e⁻)/{per_ion} = {moles} mol; anode n({anode_name}) = {anode_moles} mol. Inert electrodes assumed: no overpotential, gas crossover, membrane or cell efficiency is modelled",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("amps", &locale.number(format!("{amps:.6}"))),
+                            ("seconds", &locale.number(format!("{seconds:.3}"))),
+                            ("coulombs", &locale.number(format!("{coulombs:.1}"))),
+                            ("electrons", &locale.number(format!("{:.6}", electrons.0))),
+                            ("name", name),
+                            ("per_ion", &locale.number(format!("{per_ion:.0}"))),
+                            ("moles", &locale.number(format!("{:.6}", moles.0))),
+                            ("anode_name", anode_name),
+                            ("anode_moles", &locale.number(format!("{:.6}", anode_n.0))),
+                        ],
+                    ),
+                };
+            }
             match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",
@@ -3498,6 +3551,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             to,
             at,
             shifted_by,
+            ..
         } => {
             let name = species_name(locale, species);
             let verb_en = phase_change_verb(*from, *to);

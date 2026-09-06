@@ -10,7 +10,9 @@ import {
   depositParticles,
   dewPointK,
   electrodeBubbles,
+  electrodePairBubbles,
   headspaceVolumeL,
+  phaseKind,
   effectFromEvent,
   incandescence,
   vapourIntensity,
@@ -791,5 +793,85 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     expect(counts.at(-1)).toBeLessThanOrEqual(8);
     expect(electrodeBubbles(0)).toBe(1);
     expect(electrodeBubbles(-5)).toBe(1);
+  });
+
+  // ------------------------------------------------ GUI-099 engine numbers
+
+  it("hydrogen bubbles twice as heavily as oxygen once both halves are on the wire", () => {
+    // The observation the water-splitting cell exists for: 2 H2 per O2. The
+    // ratio is drawn only because the engine now names both electrodes.
+    const split = electrodePairBubbles(900, 0.0023, 0.0047);
+    expect(split.source).toBe("moles");
+    expect(split.cathode).toBeGreaterThan(split.anode);
+    expect(split.cathode / split.anode).toBeCloseTo(2, 0);
+  });
+
+  it("without both halves the two electrodes fall back to the charge they shared", () => {
+    const shared = electrodePairBubbles(900);
+    expect(shared.source).toBe("charge");
+    expect(shared.anode).toBe(shared.cathode);
+    expect(shared.anode).toBe(electrodeBubbles(900));
+    // A half-reaction the engine could not resolve is not half a ratio.
+    expect(electrodePairBubbles(900, 0, 0.0047).source).toBe("charge");
+  });
+
+  it("an electrolysis effect carries both electrodes when the engine names them", () => {
+    const run = effectFromEvent({
+      event: "electrolysed", vessel: 0, species: "H2",
+      amps: 0.5, seconds: 1800, coulombs: 900, electrons: 0.00933,
+      moles: 0.00466, grams: 0.0094, per_ion: 2,
+      anode_species: "O2", anode_moles: 0.00233,
+      cathode_species: "H2", cathode_moles: 0.00466,
+    });
+    expect(run!.electrolysis).toMatchObject({
+      anodeSpecies: "O2", anodeMoles: 0.00233, cathodeSpecies: "H2", cathodeMoles: 0.00466,
+    });
+    // An older log leaves them undefined rather than zero, so the fallback
+    // can tell "no half-reaction" from "no gas".
+    const older = effectFromEvent({
+      event: "electrolysed", vessel: 0, species: "Cu",
+      amps: 0.5, seconds: 120, coulombs: 60, electrons: 0.000622,
+      moles: 0.000311, grams: 0.0198, per_ion: 2,
+    });
+    expect(older!.electrolysis!.anodeMoles).toBeUndefined();
+    expect(older!.electrolysis!.cathodeMoles).toBeUndefined();
+  });
+
+  it("a sublimation is not a boil, and the engine's own name decides", () => {
+    const fog = effectFromEvent({
+      event: "state_changed", vessel: 0, species: "CO2",
+      from: "solid", to: "gas", at: 194.7, shifted_by: 0,
+      kind: "sublimation", moles: 0.08,
+    });
+    expect(fog!.kind).toBe("sublimate");
+    expect(fog!.phase).toMatchObject({ kind: "sublimation", moles: 0.08 });
+    // The amount that moved sizes it now; a bigger sublimation reads bigger.
+    const wisp = effectFromEvent({
+      event: "state_changed", vessel: 0, species: "CO2",
+      from: "solid", to: "gas", at: 194.7, shifted_by: 0,
+      kind: "sublimation", moles: 0.005,
+    });
+    expect(fog!.magnitude).toBeGreaterThan(wisp!.magnitude);
+  });
+
+  it("phaseKind prefers the engine's name and falls back to the phases", () => {
+    expect(phaseKind("liquid", "gas", "boiling")).toBe("boil");
+    expect(phaseKind("solid", "gas", "sublimation")).toBe("sublimate");
+    expect(phaseKind("gas", "solid", "deposition")).toBe("deposit");
+    // An older log carries no name: `from` still separates the two.
+    expect(phaseKind("solid", "gas")).toBe("sublimate");
+    expect(phaseKind("liquid", "gas")).toBe("boil");
+    expect(phaseKind("gas", "liquid")).toBe("condense");
+    expect(phaseKind("solid", "liquid")).toBe("melt");
+  });
+
+  it("a boil still reads as a boil when the log predates the transition name", () => {
+    const legacy = effectFromEvent({
+      event: "state_changed", vessel: 0, species: "H2O",
+      from: "liquid", to: "gas", at: 374.7, shifted_by: 1.55,
+    });
+    expect(legacy!.kind).toBe("boil");
+    expect(legacy!.phase!.kind).toBeUndefined();
+    expect(legacy!.phase!.moles).toBeUndefined();
   });
 });

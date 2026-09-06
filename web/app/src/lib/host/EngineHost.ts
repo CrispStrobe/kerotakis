@@ -74,6 +74,24 @@ export interface SceneVessel {
   enzyme_hydrolysis?: SceneEnzymeHydrolysis[];
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
+  /**
+   * GUI-099. Engine-owned headspace, present only where the vessel owns its
+   * gas (sealed, pressure-controlled). Additive: an older engine omits both
+   * and the stage falls back to `V = nRT/P` off the last event's trapped
+   * moles, then to Boyle's law off the scene pressure.
+   */
+  headspace_volume_l?: number;
+  headspace_moles?: number;
+  /**
+   * GUI-099. The plateau this vessel's liquid is actually held at, K — its
+   * own pressure and its own dissolved particles already in it, so a vessel
+   * SITTING at 350 K under a partial vacuum reads as boiling. Additive: an
+   * older engine omits it and the stage falls back to pure water at one
+   * atmosphere (`NORMAL_BOILING_K`).
+   */
+  boiling_point_k?: number;
+  /** The other end of the same plateau: where that liquid freezes, K. */
+  melting_point_k?: number;
   temperature_k: number;
   pressure_pa: number;
   elapsed_s: number;

@@ -243,6 +243,10 @@ fn electrolysis_operating_point_is_german_and_keeps_numeric_evidence() {
         moles: Moles(0.000311),
         grams: 0.0198,
         per_ion: 2.0,
+        anode_species: Some(SpeciesId("O2".into())),
+        anode_moles: Some(Moles(0.000_155)),
+        cathode_species: Some(SpeciesId("copper".into())),
+        cathode_moles: Some(Moles(0.000311)),
     };
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(line.contains("0,500 A für 120 s"), "{line}");
