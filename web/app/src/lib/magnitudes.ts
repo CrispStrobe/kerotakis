@@ -305,6 +305,73 @@ export interface UvRun {
 }
 
 /**
+ * Engine-computed Henry's-law split of one volatile between the liquid and
+ * an owned headspace. `gasFraction` is the share of the species' whole
+ * inventory now sitting in the gas — the standing state, which is what
+ * tints the band — while `toGas` is only which way this one step went,
+ * which is what points the arrows.
+ */
+export interface HeadspacePartitionRun {
+  species: string;
+  /** `true`: liquid → headspace this step; `false`: headspace → liquid. */
+  toGas: boolean;
+  /** Moles that crossed. */
+  moles: number;
+  /** Share of the species' whole inventory now in the headspace, 0–1. */
+  gasFraction: number;
+  /** Equilibrium partial pressure, Pa. */
+  partialPressurePa: number;
+  /** Henry's constant at the vessel temperature, mol/(L·atm). */
+  henryMolPerLAtm: number;
+  /** Provenance of the coefficient, for the tooltip. */
+  source: string;
+}
+
+/**
+ * The gas/liquid equilibrium a finite headspace settled at: the pressure a
+ * gauge would read and the moles that are holding it there. Two numbers
+ * that have to agree with the piston drawn from the same headspace, which
+ * is the whole point of showing them together.
+ */
+export interface HeadspaceEquilibriumRun {
+  pressurePa: number;
+  totalMoles: number;
+}
+
+/**
+ * How far past its own limit a solution is holding a solid. The engine
+ * refuses to precipitate it — that is what makes rock candy possible — so
+ * the only honest visual is the distance itself, and `ratio` is it.
+ */
+export interface SaturationRun {
+  species: string;
+  /** What is in solution now, mol. */
+  dissolved: number;
+  /** What this much solvent holds at this temperature, mol. */
+  capacity: number;
+  /** `dissolved ÷ capacity`; 1 is saturation, above it is metastable. */
+  ratio: number;
+  /** `dissolved − capacity`, the moles the solvent should not be holding. */
+  excessMoles: number;
+}
+
+/**
+ * The engine's corrosion verdict together with how far it has already got.
+ * The extent is an amount and never a rate — the rate lives in the
+ * kinetics registry and arrives as `Reacted` — so what it can size is a
+ * picture of a nail that is *already* rusted, not one rusting faster.
+ */
+export interface CorrosionRun {
+  species: string;
+  corroding: boolean;
+  why: string;
+  /** Moles of the metal now locked in its oxide, where the engine knew. */
+  corrodedMoles?: number;
+  /** That over all the metal the vessel holds in either form, 0–1. */
+  corrodedFraction?: number;
+}
+
+/**
  * How long an instrument's reading stays on the vessel.
  *
  * 2.5 s, which is what this was, is long enough to notice something
@@ -392,6 +459,14 @@ export interface Effect {
   foam?: FoamRun;
   /** Engine-owned UV transmission, for the beam. */
   uv?: UvRun;
+  /** Engine-owned Henry's-law split, for the headspace tint and arrows. */
+  headspacePartition?: HeadspacePartitionRun;
+  /** Engine-settled headspace pressure and amount, for the gauge. */
+  headspaceEquilibrium?: HeadspaceEquilibriumRun;
+  /** Engine-owned distance past saturation, for the haze. */
+  saturation?: SaturationRun;
+  /** Engine-read corrosion extent, for the bloom on the metal. */
+  corrosion?: CorrosionRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -763,6 +838,50 @@ export function electrodePairBubbles(
 }
 
 /**
+ * How heavy the haze over a solution holding more than it should is.
+ *
+ * Zero at and below saturation, because a saturated solution looks like any
+ * other one and drawing something there would be a picture of the word.
+ * Above it the ratio is the whole quantity: a syrup at twice its limit is
+ * the one that grows rock candy, and it reads far heavier than one a hair
+ * over. Bounded at 1 so a wild ratio cannot white the vessel out.
+ */
+export function supersaturationHaze(dissolved: number, capacity: number): number {
+  if (!Number.isFinite(dissolved) || !Number.isFinite(capacity)) return 0;
+  if (!(capacity > 0) || !(dissolved > capacity)) return 0;
+  return scale(dissolved / capacity, 1, 2.5);
+}
+
+/**
+ * Opacity for the headspace band during a Henry's-law partition, from the
+ * share of the species' whole inventory that is now gas.
+ *
+ * Capped below the band's own pressure tint so a fully partitioned volatile
+ * darkens the headspace without blacking it out — the band still has to
+ * show the piston behind it.
+ */
+export function partitionTint(gasFraction: number): number {
+  if (!Number.isFinite(gasFraction)) return 0;
+  return Math.min(1, Math.max(0, gasFraction)) * 0.45;
+}
+
+/**
+ * The rust bloom on a corroding metal: how many spots, and how strongly
+ * they read, from the fraction of that metal already locked in its oxide.
+ *
+ * An untouched nail gets nothing — the verdict "this will corrode" is not
+ * yet a picture of rust — and a nail entirely gone to oxide gets the full
+ * field. The count is bounded at nine so a fully corroded solid reads as a
+ * texture rather than as a swarm of circles.
+ */
+export function corrosionBloom(fraction: number): { spots: number; strength: number } {
+  if (!Number.isFinite(fraction)) return { spots: 0, strength: 0 };
+  const bounded = Math.min(1, Math.max(0, fraction));
+  if (bounded <= 0) return { spots: 0, strength: 0 };
+  return { spots: Math.max(1, Math.round(bounded * 9)), strength: 0.18 + bounded * 0.62 };
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -800,6 +919,108 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
+    case "gas_absorbed":
+      // The mirror of `gas_evolved`: gas crossing INWARD from a boundary
+      // and staying in the liquid. It changed the vessel and drew nothing.
+      // Same log ramp on the same moles, so a mole in and a mole out read
+      // at one scale rather than at two that happen to look similar.
+      return {
+        kind: "absorb",
+        at: now,
+        durationMs: 2600,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
+    case "headspace_partitioned": {
+      const gasFraction = Math.max(0, Math.min(1, Number(e.gas_fraction ?? 0)));
+      return {
+        kind: "headspace-partition",
+        at: now,
+        durationMs: 4200,
+        // The standing share, not the step: the band shows where the
+        // volatile IS, and the arrows show which way it just went.
+        magnitude: gasFraction,
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+        headspacePartition: {
+          species: String(e.species ?? ""),
+          toGas: Boolean(e.to_gas),
+          moles: Number(e.moles ?? 0),
+          gasFraction,
+          partialPressurePa: Number(e.partial_pressure_pa ?? 0),
+          henryMolPerLAtm: Number(e.henry_mol_per_l_atm ?? 0),
+          source: String(e.source ?? ""),
+        },
+      };
+    }
+    case "headspace_equilibrated": {
+      const pressurePa = Math.max(0, Number(e.pressure ?? 0));
+      return {
+        kind: "headspace-equilibrium",
+        at: now,
+        durationMs: 4200,
+        // A headspace that settled AT one atmosphere is unremarkable and
+        // reads as nothing; the magnitude is how far over that it sits.
+        magnitude: scale(pressurePa, 101_325, 500_000),
+        reading: pressurePa,
+        unit: "Pa",
+        headspaceEquilibrium: {
+          pressurePa,
+          totalMoles: Math.max(0, Number(e.total_moles ?? 0)),
+        },
+      };
+    }
+    case "supersaturated": {
+      const dissolved = Math.max(0, Number(e.dissolved ?? 0));
+      const capacity = Math.max(0, Number(e.capacity ?? 0));
+      return {
+        kind: "supersaturate",
+        at: now,
+        durationMs: 5200,
+        magnitude: supersaturationHaze(dissolved, capacity),
+        species: String(e.species ?? ""),
+        reading: dissolved,
+        unit: "mol",
+        saturation: {
+          species: String(e.species ?? ""),
+          dissolved,
+          capacity,
+          ratio: capacity > 0 ? dissolved / capacity : 0,
+          excessMoles: Math.max(0, dissolved - capacity),
+        },
+      };
+    }
+    case "corroded": {
+      // GUI-099: the verdict has carried an EXTENT since PR 4 and nothing
+      // drew it. The magnitude is that extent and not the verdict, so a
+      // nail the engine says will corrode but has not touched yet draws
+      // no rust — which is what a beaker set up a second ago looks like.
+      const fraction =
+        e.corroded_fraction === undefined
+          ? undefined
+          : Math.max(0, Math.min(1, Number(e.corroded_fraction)));
+      const corrodedMoles =
+        e.corroded_moles === undefined ? undefined : Math.max(0, Number(e.corroded_moles));
+      return {
+        kind: "corrode",
+        at: now,
+        durationMs: 5000,
+        magnitude: fraction ?? 0,
+        species: String(e.species ?? ""),
+        reading: corrodedMoles,
+        unit: corrodedMoles === undefined ? undefined : "mol",
+        corrosion: {
+          species: String(e.species ?? ""),
+          corroding: Boolean(e.corroding),
+          why: String(e.why ?? ""),
+          corrodedMoles,
+          corrodedFraction: fraction,
+        },
+      };
+    }
     case "foam_changed": {
       const rawHalfLife = Number(e.half_life_seconds ?? 0);
       const halfLifeSeconds = Number.isFinite(rawHalfLife) ? Math.max(0, rawHalfLife) : 0;
