@@ -1,21 +1,32 @@
 <script lang="ts">
   /**
-   * The instruments, as one scrolling row rather than a wall of pills.
+   * Quick access, not the catalogue (GUI-101).
    *
-   * Ten instruments with `flex-wrap: wrap` became five stacked rows of
-   * text on a narrow screen, which reads as a menu to work through rather
-   * than a tray to reach into, and pushed the bench itself off-screen.
+   * This row used to be all twelve instruments in one non-wrapping strip.
+   * That was already a compromise — twelve wrapped pills became five stacked
+   * rows and pushed the bench off a narrow screen — but a row that scrolls
+   * sideways only moves the problem: on a phone roughly half the tray sat
+   * past the right edge, so the calorimeter and the Geiger counter were in
+   * the DOM and absent from the product, and the row was still a second full
+   * listing of everything the Geräteschrank already held.
    *
-   * So: one row that scrolls sideways, each instrument carrying a glyph.
-   * The glyph is not decoration — it is what makes the row scannable at a
-   * glance once you know it — but the name stays beside it, because a
-   * learner meeting a calorimeter for the first time cannot be expected to
-   * recognise it from a symbol. Chemistry's own notation does the work
-   * where it has some: pH, mL, λ are already the names of these
-   * measurements, not abbreviations of them.
+   * So it keeps six: the ones this learner reached for most recently, seeded
+   * with the six measurements almost every investigation opens with. Six fit
+   * without scrolling. Everything else — every instrument, every apparatus,
+   * every kit, on shelves, with an (i) each — is one tap away behind the
+   * button at the end of the row, which is why that button sits INSIDE the
+   * row and costs no vertical space.
+   *
+   * The glyph is what makes the row scannable once you know it, but the name
+   * stays beside it: a learner meeting a calorimeter for the first time
+   * cannot be expected to recognise it from a symbol. Chemistry's own
+   * notation does the work where it has some — pH, mL, λ are the names of
+   * these measurements, not abbreviations of them.
    */
   import { t } from "../i18n.svelte";
   import { INSTRUMENTS, instrumentCommand } from "../instruments";
+  import { quickAccessRow } from "../instrumentRecents";
+  import { instrumentSurface } from "../instrumentSurface.svelte";
   let {
     vessel,
     busy,
@@ -27,19 +38,41 @@
   } = $props();
 
   const v = $derived(`v${vessel + 1}`);
+  const tokens = INSTRUMENTS.map((item) => item.token);
+  instrumentSurface.hydrate();
+  const quick = $derived(
+    quickAccessRow(instrumentSurface.recent, tokens)
+      .flatMap((token) => INSTRUMENTS.filter((item) => item.token === token)),
+  );
+
+  function measure(token: string) {
+    instrumentSurface.used(token, tokens);
+    onmeasure(instrumentCommand(vessel, token));
+  }
 </script>
 
 <div class="tray" role="group" aria-label={t("instruments for {vessel}", { vessel: v })}>
-  {#each INSTRUMENTS as inst (inst.token)}
+  {#each quick as inst (inst.token)}
     <button
       disabled={busy}
       title={t(inst.label)}
-      onclick={() => onmeasure(instrumentCommand(vessel, inst.token))}
+      onclick={() => measure(inst.token)}
     >
       <span class="glyph" class:word={inst.glyph.length > 1} aria-hidden="true">{inst.glyph}</span>
       <span class="name">{t(inst.label)}</span>
     </button>
   {/each}
+  <!-- The door to everything else. Sticky, so it stays reachable even if a
+       locale with longer names ever pushes the row past its container. -->
+  <button
+    class="cupboard-door"
+    title={t("Open the equipment cabinet")}
+    aria-label={t("Open the equipment cabinet")}
+    onclick={() => (instrumentSurface.open = true)}
+  >
+    <span class="glyph" aria-hidden="true">▦</span>
+    <span class="name">{t("all equipment")}</span>
+  </button>
 </div>
 
 <style>
@@ -49,12 +82,11 @@
     gap: 0.35rem;
     padding: 0.5rem 1rem;
     border-top: 1px solid var(--edge);
-    /* Sideways instead of downwards: the bench must stay visible. */
+    /* Six pills fit; the overflow rule stays as the guard for a locale
+       whose names are longer than German's. */
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: thin;
-    /* Momentum scrolling that stops on an instrument rather than between two. */
-    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
   }
   button {
@@ -70,11 +102,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    /* Never let a long German name (Leitfähigkeit, Chromatograph) squeeze
-       its neighbours thin — the row scrolls instead. */
+    /* Never let a long German name squeeze its neighbours thin. */
     flex: 0 0 auto;
     white-space: nowrap;
-    scroll-snap-align: start;
   }
   button:hover:not(:disabled) {
     color: var(--ink);
@@ -83,6 +113,17 @@
   button:disabled {
     opacity: 0.5;
     cursor: default;
+  }
+  .cupboard-door {
+    position: sticky;
+    right: 0;
+    margin-left: auto;
+    border-color: color-mix(in srgb, var(--action) 45%, var(--edge));
+    color: var(--ink);
+    background: color-mix(in srgb, var(--action) 12%, var(--panel));
+  }
+  .cupboard-door:hover {
+    border-color: var(--action);
   }
   .glyph {
     font-size: 0.95rem;

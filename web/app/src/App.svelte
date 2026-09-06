@@ -31,6 +31,7 @@
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
+  import InstrumentCupboard from "./lib/components/InstrumentCupboard.svelte";
   import SafetyBoard from "./lib/components/SafetyBoard.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
@@ -42,6 +43,7 @@
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
+  import { instrumentSurface } from "./lib/instrumentSurface.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { parseKidsCatalog, type KidsExperiment } from "./lib/kidsCatalog";
@@ -1332,11 +1334,7 @@
           setPanelCollapsed("journal", false);
           pane = "notes";
         }}
-        onmore={() => {
-          setPanelCollapsed("cabinet", false);
-          cabinetTab = "equipment";
-          pane = "shelf";
-        }}
+        onmore={() => (instrumentSurface.open = true)}
       />
     {/if}
   </div>
@@ -1506,6 +1504,43 @@
 
 {#if toolboxOpen}
   <Toolbox {session} onclose={() => (toolboxOpen = false)} />
+{/if}
+
+<!-- GUI-101: the one cupboard. Every selection is handed to the handler the
+     shelf pane's equipment tab already used, so this adds a way in, not a
+     second way to reach the engine. -->
+{#if instrumentSurface.open}
+  <InstrumentCupboard
+    target={session.selected}
+    targetLabel={selectedVessel?.label ?? "beaker"}
+    catalog={session.catalog}
+    mode={labMode}
+    scope={catalogScope}
+    missionVerbs={missionEquipmentVerbs}
+    reactAvailable={session.reactOptions.length > 0}
+    {apparatusOut}
+    {buretteOut}
+    transferVerb={transfer?.verb ?? null}
+    mixActive={mix !== null}
+    busy={session.busy}
+    onmeasure={(line) => {
+      void session.submit(line);
+      pane = "bench";
+    }}
+    onapparatus={toggleApparatus}
+    ontransfer={(verb) => {
+      transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
+      mix = null;
+      pane = "bench";
+    }}
+    onmix={() => {
+      mix = mix ? null : { fraction: 0.5, a: null, b: null };
+      transfer = null;
+      pane = "bench";
+    }}
+    onburette={toggleBurette}
+    onclose={() => (instrumentSurface.open = false)}
+  />
 {/if}
 
 <!-- GUI-095: practice generated from the catalogue's balanced equations and
