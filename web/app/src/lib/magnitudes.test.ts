@@ -6,6 +6,7 @@ import {
   adsorptionDarkening,
   autoignitionApproach,
   bubbleRideLift,
+  consumptionRemainder,
   INCANDESCENCE_ONSET_K,
   NORMAL_BOILING_K,
   VISIBLE_BUBBLE_MOLES,
@@ -303,10 +304,19 @@ describe("effectFromEvent", () => {
     expect(effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.05 })!.magnitude).toBe(1);
   });
 
-  it("maps plated → plate with magnitude 1", () => {
-    const e = effectFromEvent({ event: "plated", vessel: 0 });
-    expect(e!.kind).toBe("plate");
-    expect(e!.magnitude).toBe(1);
+  it("maps plated → plate with a magnitude that is the moles, not a constant", () => {
+    // This asserted `magnitude === 1` — the hard-coded value ANIM-8
+    // retired, which drew a copper blush on a nail and a nail gone orange
+    // the same way. An event that names no amount is now the honest zero
+    // rather than the loudest possible coating.
+    const bare = effectFromEvent({ event: "plated", vessel: 0 });
+    expect(bare!.kind).toBe("plate");
+    expect(bare!.magnitude).toBe(0);
+    const coating = effectFromEvent({ event: "plated", vessel: 0, species: "Cu", onto: "Fe", moles: 0.02 });
+    expect(coating!.magnitude).toBe(1);
+    const blush = effectFromEvent({ event: "plated", vessel: 0, species: "Cu", onto: "Fe", moles: 0.0005 });
+    expect(blush!.magnitude).toBeGreaterThan(0);
+    expect(blush!.magnitude).toBeLessThan(coating!.magnitude);
   });
 
   it("maps an engine-confirmed transfer to a spatial pour scaled by its fraction", () => {
