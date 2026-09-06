@@ -19,6 +19,7 @@ fn only_a_dry_lemon_mark_browns_on_heating() {
         .step(Operator::Heat {
             vessel: VesselId(0),
             energy: Joules(2000.0),
+            source: None,
         })
         .unwrap();
     assert!(!wet_heat
@@ -30,6 +31,7 @@ fn only_a_dry_lemon_mark_browns_on_heating() {
         .step(Operator::Heat {
             vessel: VesselId(0),
             energy: Joules(2000.0),
+            source: None,
         })
         .unwrap();
     assert!(events.iter().any(|e| matches!(e, Event::LemonPaperBrowned { browned_fraction, .. } if *browned_fraction > 0.0)));

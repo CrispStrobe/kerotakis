@@ -19,6 +19,7 @@ fn heat_reports_the_energy_actually_delivered_and_its_time_boundary() {
             requested_j,
             delivered_j,
             time_coupled: false,
+            ..
         } if (*requested_j - 1000.0).abs() < 1e-9
             && (*delivered_j - 1000.0).abs() < 1e-6
     )));
@@ -56,6 +57,11 @@ fn delivered_energy_is_rendered_by_the_engine_in_german() {
         requested_j: 5000.0,
         delivered_j: 2500.0,
         time_coupled: false,
+        source: None,
+        ceiling_k: None,
+        sensible_j: 2500.0,
+        passes: 1,
+        capped: false,
     };
     let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
     assert!(line.contains("5,00 kJ angefordert"), "{line}");

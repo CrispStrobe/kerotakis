@@ -41,6 +41,7 @@ fn copper_and_lye(heat_joules: f64) -> Bench {
                 Operator::Heat {
                     vessel: v,
                     energy: Joules(heat_joules),
+                    source: None,
                 },
                 &mut s,
                 &PermissiveScreen,

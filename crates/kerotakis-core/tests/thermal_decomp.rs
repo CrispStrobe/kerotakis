@@ -32,6 +32,7 @@ fn heat(bench: &mut Bench, stack: &mut SolverStack, joules: f64) -> Vec<Event> {
             Operator::Heat {
                 vessel: VesselId(0),
                 energy: Joules(joules),
+                source: None,
             },
             stack,
             &PermissiveScreen,

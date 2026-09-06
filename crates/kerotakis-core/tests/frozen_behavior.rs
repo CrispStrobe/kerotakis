@@ -136,11 +136,17 @@ fn lessons_produce_stable_output() {
             fs::write(&actual_path, &current).unwrap();
             let expected_lines = expected.lines().collect::<Vec<_>>();
             let actual_lines = current.lines().collect::<Vec<_>>();
-            let first_difference = (0..expected_lines.len().max(actual_lines.len()))
-                .find(|&index| expected_lines.get(index) != actual_lines.get(index))
+            // Every differing line, not only the first. A golden that
+            // names one line makes the reader run the test again for the
+            // next one; a run on a machine that cannot rebuild the file —
+            // CI, or a bench too small to compile on — then costs one
+            // round trip per line. Bounded so a wholesale reformat cannot
+            // bury the rest of the failure.
+            let differences: Vec<String> = (0..expected_lines.len().max(actual_lines.len()))
+                .filter(|&index| expected_lines.get(index) != actual_lines.get(index))
                 .map(|index| {
                     format!(
-                        "First difference at line {}:\n  expected: {}\n  actual:   {}",
+                        "line {}:\n  expected: {}\n  actual:   {}",
                         index + 1,
                         expected_lines
                             .get(index)
@@ -149,7 +155,22 @@ fn lessons_produce_stable_output() {
                         actual_lines.get(index).copied().unwrap_or("<end of file>"),
                     )
                 })
-                .unwrap_or_else(|| "Difference is outside line-normalized content".to_string());
+                .collect();
+            let shown = differences.len().min(600);
+            let first_difference = if differences.is_empty() {
+                "Difference is outside line-normalized content".to_string()
+            } else {
+                format!(
+                    "{} differing line(s){}:\n{}",
+                    differences.len(),
+                    if shown < differences.len() {
+                        format!(", first {shown} shown")
+                    } else {
+                        String::new()
+                    },
+                    differences[..shown].join("\n"),
+                )
+            };
             panic!(
                 "ARCH-001: lesson behavior changed!\n\
                  {first_difference}\n\
