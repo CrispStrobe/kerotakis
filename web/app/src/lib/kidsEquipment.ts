@@ -10,6 +10,16 @@ export type KidsEquipment = {
   icon: string;
   parts: string[];
   instrument?: string;
+  /**
+   * Form values the kit deploys its apparatus with.
+   *
+   * A kit is a familiar skin over a general instrument, and sometimes the
+   * skin is a real physical claim: "Kerze und Docht" is a CANDLE, and the
+   * engine caps a candle 100 °C below a laboratory burner. Opening the
+   * flame panel on the burner's default would quietly hand the kit a
+   * hotter flame than the thing it is named after.
+   */
+  preset?: Record<string, string | number>;
 };
 
 /** Familiar classroom skins over commands the engine already owns. */
@@ -33,6 +43,7 @@ export const KIDS_EQUIPMENT: KidsEquipment[] = [
     boundary: "uses ignition and heat; wick, melt pool, soot, and flame shape are not modeled",
     icon: "candle",
     parts: ["candle wax", "wick", "ignition flame", "sample vessel"],
+    preset: { source: "candle" },
   },
   {
     id: "paper-chromatography-kit",

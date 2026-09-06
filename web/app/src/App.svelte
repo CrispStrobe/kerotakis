@@ -634,17 +634,19 @@
     apparatusTarget = null;
     apparatusPreview = {};
   }
-  function deployApparatus(verb: string) {
+  function deployApparatus(verb: string, preset: Record<string, string | number> = {}) {
     const changedTool = apparatusOut !== verb;
     apparatusOut = verb;
     apparatusTarget = session.selected;
-    if (changedTool) apparatusPreview = {};
+    // A preset seeds a FRESH deployment only. Reopening the panel the
+    // learner has already dialled in must not silently re-dial it.
+    if (changedTool) apparatusPreview = { ...preset };
     pane = "bench";
   }
-  function toggleApparatus(verb: string) {
+  function toggleApparatus(verb: string, preset?: Record<string, string | number>) {
     const next = deploymentAfterChoice(apparatusOut, apparatusTarget, verb, session.selected);
     if (!next.tool) closeApparatus();
-    else deployApparatus(next.tool);
+    else deployApparatus(next.tool, preset);
   }
   function toggleBurette() {
     const nextTarget = buretteTargetAfterChoice(buretteTarget, session.selected);

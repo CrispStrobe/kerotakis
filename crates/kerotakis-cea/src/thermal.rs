@@ -55,6 +55,97 @@ pub const KINETIC_THRESHOLD_K: f64 = 500.0;
 /// while staying finite.
 const AIR_RATIO: f64 = 8.0;
 
+/// The temperature the exhaust of an open burn is vented at, K.
+///
+/// The Gibbs solve answers the question the flame asks, and it answers it
+/// correctly: at 2769 K a stoichiometric ethanol equilibrium really is
+/// partly dissociated, and about a twelfth of the hydrogen really is loose
+/// H₂ rather than water. That is the truth INSIDE the flame.
+///
+/// It was not the truth about what left the beaker. The products were
+/// vented FROZEN at flame temperature — the transcript beside
+/// `C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)` read "0.4677 mol water ↑,
+/// 0.3425 mol carbon dioxide ↑, **0.0461 mol hydrogen ↑**", so the equation
+/// the lab printed and the moles the lab counted disagreed with each other
+/// by 9 % of the fuel's hydrogen. A plume does not stay at 2500 K on its
+/// way to the ceiling: it cools within centimetres, the radicals recombine
+/// long before anything could be collected, and what a bench catches over a
+/// spirit burner is carbon dioxide and water.
+///
+/// So the gas half of the equilibrium is re-settled at this temperature
+/// before it is vented. 1000 K is a flue temperature of the right order —
+/// combustion exhaust leaves an open flame somewhere between a few hundred
+/// K above ambient and about 1200 K — and, much more usefully, **the answer
+/// does not depend on picking it exactly**: anywhere under about 1400 K a
+/// C/H/O/N exhaust with the flame's own excess air leaves less than a
+/// ten-thousandth of its hydrogen as H₂, so anything in the plausible flue
+/// band gives the complete-combustion composition the printed equation
+/// claims. `the_exhaust_temperature_hardly_matters` in
+/// `tests/vented_products.rs` is that statement as a test rather than as a
+/// promise.
+///
+/// **What this does NOT do** is book the recombination's heat. The energy
+/// and the vessel's own temperature both stay the adiabatic flame's,
+/// because that is what the flame was; the extra enthalpy released as the
+/// exhaust cools leaves with the exhaust, which is exactly where it goes in
+/// a room. A closed vessel would need that heat back, and a closed vessel
+/// is not what this path models — see the module note on the atmosphere as
+/// a reservoir.
+const EXHAUST_K: f64 = 1000.0;
+
+/// The composition the product gas has by the time it has left.
+///
+/// Takes the element budget of the GAS half of the flame equilibrium and
+/// re-minimises it at [`EXHAUST_K`] over the gas half of the same pool. It
+/// is the same solver, the same data and the same conserved elements — the
+/// only thing that changes is the temperature the answer is asked at, so
+/// nothing is created, destroyed or renamed on the way out.
+///
+/// `None` where there is no gas to vent; the caller falls back to the flame
+/// composition where the re-solve does not converge, which keeps a
+/// convergence failure from losing matter.
+fn exhaust_composition(
+    flame: &[(String, f64)],
+    pool: &[&'static Species],
+) -> Option<Vec<(String, f64)>> {
+    let mut budget: BTreeMap<String, f64> = BTreeMap::new();
+    let mut any_gas = false;
+    for (name, moles) in flame {
+        let Some(s) = db().get(name) else { continue };
+        if !s.is_gas() || *moles <= 0.0 {
+            continue;
+        }
+        any_gas = true;
+        for (element, count) in &s.composition {
+            *budget.entry(element.clone()).or_insert(0.0) += count * moles;
+        }
+    }
+    if !any_gas {
+        return None;
+    }
+    let gases: Vec<&'static Species> = pool.iter().copied().filter(|s| s.is_gas()).collect();
+    equilibrate_tp(&budget, &gases, EXHAUST_K, 1.0)
+        .ok()
+        .map(|eq| eq.composition)
+}
+
+/// The registry row that names a CEA species, or a refusal.
+///
+/// The pool is built from nameable species, so a miss cannot normally
+/// happen — but if it ever does, refuse rather than quietly lose matter.
+fn registry_row(name: &str) -> Result<&'static species::SpeciesData, SolveError> {
+    species::REGISTRY
+        .iter()
+        .find(|r| {
+            cea_name(r.key)
+                .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
+        })
+        .ok_or_else(|| SolveError::NotConverged {
+            solver: "cea-thermal".to_string(),
+            detail: format!("the equilibrium contains {name}, which has no name in the registry"),
+        })
+}
+
 /// Registry key → CEA species name, derived by matching chemical formulas.
 fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
     static MAP: OnceLock<BTreeMap<&'static str, &'static str>> = OnceLock::new();
@@ -498,52 +589,51 @@ impl Equilibrator for ThermalEquilibrator {
 
         // Map the result back: condensed species become vessel contents,
         // product gases leave, atmospheric gases return to the reservoir.
+        //
+        // The two halves are read at two different temperatures on purpose.
+        // What STAYS in the vessel is at the flame's own equilibrium,
+        // because that is the state the vessel is in. What LEAVES is read
+        // at [`EXHAUST_K`], because a plume is not a flame and the frozen
+        // dissociation products of one are not what comes off the other.
         let mut events = Vec::new();
         let mut contents: Vec<Portion> = Vec::new();
         for (name, moles) in &eq.composition {
             let Some(s) = db().get(name) else { continue };
-            let Some(reg) = species::REGISTRY.iter().find(|r| {
-                cea_name(r.key)
-                    .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
-            }) else {
-                // The pool is built from nameable species, so this cannot
-                // normally happen — but if it ever does, refuse rather than
-                // quietly lose matter.
-                return Err(SolveError::NotConverged {
-                    solver: "cea-thermal".to_string(),
-                    detail: format!(
-                        "the equilibrium contains {name}, which has no name in the registry"
-                    ),
-                });
-            };
-            if s.is_gas() {
-                // Air that stayed air is the reservoir's business.
-                let atmospheric = AIR.iter().any(|(n, _)| n == name);
-                let produced = if atmospheric {
-                    let consumed_from_air: f64 = charge
-                        .from_air
-                        .get(s.composition.keys().next().unwrap_or(&String::new()))
-                        .copied()
-                        .unwrap_or(0.0);
-                    let _ = consumed_from_air;
-                    0.0
-                } else {
-                    *moles
-                };
-                if produced >= kerotakis_core::OBSERVABLE_MOLES {
-                    events.push(Event::GasEvolved {
-                        vessel: vessel.id,
-                        species: SpeciesId::new(reg.key),
-                        moles: Moles(produced),
-                    });
-                }
-            } else if *moles > 1e-12 {
-                contents.push(Portion {
-                    species: SpeciesId::new(reg.key),
-                    moles: Moles(*moles),
-                    phase: reg.standard_phase,
-                });
+            if s.is_gas() || *moles <= 1e-12 {
+                continue;
             }
+            let reg = registry_row(name)?;
+            contents.push(Portion {
+                species: SpeciesId::new(reg.key),
+                moles: Moles(*moles),
+                phase: reg.standard_phase,
+            });
+        }
+        let vented = exhaust_composition(&eq.composition, &pool).unwrap_or_else(|| {
+            // The re-solve did not converge. Say what the flame said rather
+            // than say nothing; the printed equation and these moles may
+            // then disagree, which is the old behaviour and is at least not
+            // a loss of matter.
+            eq.composition.clone()
+        });
+        for (name, moles) in &vented {
+            let Some(s) = db().get(name) else { continue };
+            if !s.is_gas() {
+                continue;
+            }
+            // Air that stayed air is the reservoir's business.
+            if AIR.iter().any(|(n, _)| n == name) {
+                continue;
+            }
+            if *moles < kerotakis_core::OBSERVABLE_MOLES {
+                continue;
+            }
+            let reg = registry_row(name)?;
+            events.push(Event::GasEvolved {
+                vessel: vessel.id,
+                species: SpeciesId::new(reg.key),
+                moles: Moles(*moles),
+            });
         }
 
         // Report what changed among the solids.
@@ -619,6 +709,9 @@ impl Equilibrator for ThermalEquilibrator {
         }
 
         let changed = !events.is_empty();
+        // Asked before the assignment, because it is a claim about what the
+        // burn LEFT: a vessel that had something in it and now has nothing.
+        let holds_nothing = contents.is_empty() && !vessel.contents.is_empty();
         vessel.contents = contents;
 
         // The temperature the adiabatic solve found.
@@ -637,6 +730,7 @@ impl Equilibrator for ThermalEquilibrator {
                 vessel: vessel.id,
                 temperature: Kelvin(t_final),
                 reaction_energy_j: (reaction_energy_j > 1.0).then_some(reaction_energy_j),
+                holds_nothing,
                 provenance: Provenance {
                     engine: "Gibbs minimisation (Kerotakis)".to_string(),
                     dataset: "NASA CEA thermo.inp".to_string(),

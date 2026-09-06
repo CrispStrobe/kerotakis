@@ -8,13 +8,47 @@
 export interface FormField {
   name: string;
   label: string;
-  /** number | species (a shelf picker) */
-  type: "number" | "species";
+  /** number | species (a shelf picker) | choice (a fixed list) */
+  type: "number" | "species" | "choice";
   unit?: string;
   default: number | string;
   min?: number;
   max?: number;
   step?: number;
+  /** `choice` only: the fixed options, in the order they are offered. */
+  options?: { value: string; label: string }[];
+}
+
+/**
+ * What is under the vessel, and how hot it can get.
+ *
+ * The engine grew a heat SOURCE: `heat v1 40kJ on candle` caps the vessel
+ * at the flame that is heating it, because a candle cannot take anything
+ * to 1500 °C however long it burns. Omitting the clause keeps the old
+ * meaning — the bench default, a laboratory burner — so the panel that
+ * said nothing was silently claiming a burner for every flame, including
+ * the one the kids' kit calls a candle.
+ *
+ * The ceilings mirror `kerotakis-core::apparatus`; they are shown as a
+ * readout so the choice is visible before the run rather than only in the
+ * temperature that comes back. Engine-owned numbers, echoed here.
+ */
+export const HEAT_SOURCES: { value: string; label: string; ceilingC: number }[] = [
+  { value: "burner", label: "Bunsen burner", ceilingC: 1500 },
+  { value: "candle", label: "candle", ceilingC: 1400 },
+  { value: "hotplate", label: "hotplate", ceilingC: 550 },
+];
+
+/**
+ * The named source, or the burner the engine falls back to.
+ *
+ * A restored save from before the picker existed carries no source at all,
+ * and a hand-edited one could carry a word the engine would refuse. Both
+ * land on the default rather than on a command the bench rejects.
+ */
+export function heatSource(value: number | string | undefined): (typeof HEAT_SOURCES)[number] {
+  const found = HEAT_SOURCES.find((source) => source.value === value);
+  return found ?? HEAT_SOURCES[0]!;
 }
 
 export interface ApparatusSpec {
@@ -83,6 +117,19 @@ export const APPARATUS: ApparatusSpec[] = [
       { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5 },
       { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5 },
       { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
+      // Which flame this actually is. The title has always said "candle /
+      // Bunsen flame"; until the engine took a source, that slash was the
+      // only place the difference existed.
+      {
+        name: "source",
+        label: "heat source",
+        type: "choice",
+        default: "burner",
+        options: [
+          { value: "burner", label: "Bunsen burner" },
+          { value: "candle", label: "candle" },
+        ],
+      },
     ],
     build: (v, f) => {
       // Bounded first near-field model: up to 500 W reaches the selected
@@ -90,13 +137,17 @@ export const APPARATUS: ApparatusSpec[] = [
       // efficiency from 55% to 100%; the engine still owns temperature and
       // resulting chemistry. This is not a soot/CO combustion model.
       const energyKj = bunsenEnergyKj(f);
-      return energyKj === null ? null : `heat v${v + 1} ${energyKj}kJ`;
+      // The source is named even when it is the default: a command that
+      // omits it reads as "whatever the bench assumes", and the whole
+      // point of the clause is that the flame is no longer an assumption.
+      return energyKj === null ? null : `heat v${v + 1} ${energyKj}kJ on ${heatSource(f.source).value}`;
     },
     readouts: (f) => {
       const energyKj = bunsenEnergyKj(f);
+      const ceiling = { label: "flame ceiling", value: heatSource(f.source).ceilingC, unit: "°C", digits: 0 };
       return energyKj === null
-        ? []
-        : [{ label: "delivered energy", value: energyKj, unit: "kJ", digits: 3 }];
+        ? [ceiling]
+        : [{ label: "delivered energy", value: energyKj, unit: "kJ", digits: 3 }, ceiling];
     },
     secondary: {
       label: "touch flame to contents",
@@ -138,9 +189,16 @@ export const APPARATUS: ApparatusSpec[] = [
     build: (v, f) => {
       const watts = pos(f.watts);
       const seconds = pos(f.seconds);
-      return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
+      // A hotplate is a hotplate: no picker, but the clause is still
+      // written, because the bench's silent default is a BURNER and a
+      // hotplate that borrows the burner's ceiling reaches 950 °C it does
+      // not have.
+      return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J on hotplate`;
     },
-    readouts: (f) => energyReadout(f.watts, f.seconds),
+    readouts: (f) => [
+      ...energyReadout(f.watts, f.seconds),
+      { label: "plate ceiling", value: heatSource("hotplate").ceilingC, unit: "°C", digits: 0 },
+    ],
   },
   {
     verb: "cool",

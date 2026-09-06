@@ -909,6 +909,25 @@ fn residual_cp(vessel: &Vessel, before: f64) -> f64 {
     }
 }
 
+/// Where this vessel's water freezes and boils, and which model set the
+/// boiling point.
+///
+/// Exactly what [`StateEquilibrator`] asks itself before it decides whether
+/// anything has changed state, and therefore exactly the plateau that
+/// arrives in `state_changed.at` when something does. Public because the
+/// scene has to carry the same number as a STANDING value: a vessel sitting
+/// at 350 K under a partial vacuum is boiling, and a renderer that only
+/// hears about it at the moment of transition has to fall back on pure
+/// water at one atmosphere in between.
+pub fn vessel_transitions(
+    vessel: &Vessel,
+) -> (crate::states::Transitions, crate::states::BoilingRoute) {
+    crate::states::transitions_at(
+        dissolved_particle_molality(vessel),
+        vessel.pressure.0 / 1000.0,
+    )
+}
+
 fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
     let speciated: f64 = vessel.solution.as_ref().map_or(0.0, |info| {
         info.species
@@ -1098,14 +1117,15 @@ impl Equilibrator for StateEquilibrator {
             };
             vessel.temperature = settled;
 
-            events.push(Event::StateChanged {
-                vessel: vessel.id,
-                species: solvent.clone(),
-                from: Phase::Liquid,
-                to: Phase::Solid,
-                at: Kelvin(t.freezing_k),
-                shifted_by: -t.freezing_depression(),
-            });
+            events.push(Event::state_changed(
+                vessel.id,
+                solvent.clone(),
+                Phase::Liquid,
+                Phase::Solid,
+                Kelvin(t.freezing_k),
+                -t.freezing_depression(),
+                Moles(freezing),
+            ));
             // Ice has no pH. Withdraw the aqueous answer rather than
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
@@ -1144,14 +1164,15 @@ impl Equilibrator for StateEquilibrator {
             };
             vessel.temperature = settled;
 
-            events.push(Event::StateChanged {
-                vessel: vessel.id,
-                species: solvent.clone(),
-                from: Phase::Solid,
-                to: Phase::Liquid,
-                at: Kelvin(t.freezing_k),
-                shifted_by: -t.freezing_depression(),
-            });
+            events.push(Event::state_changed(
+                vessel.id,
+                solvent.clone(),
+                Phase::Solid,
+                Phase::Liquid,
+                Kelvin(t.freezing_k),
+                -t.freezing_depression(),
+                Moles(melting),
+            ));
             // The solvent mass changed; molalities and activities describe
             // the old brine until the phase-coupled solver re-runs chemistry.
             vessel.solution = None;
@@ -1232,14 +1253,15 @@ impl Equilibrator for StateEquilibrator {
                         .to_owned(),
                 });
             }
-            events.push(Event::StateChanged {
-                vessel: vessel.id,
-                species: solvent.clone(),
-                from: Phase::Liquid,
-                to: Phase::Gas,
-                at: Kelvin(t.boiling_k),
-                shifted_by: t.boiling_elevation(),
-            });
+            events.push(Event::state_changed(
+                vessel.id,
+                solvent.clone(),
+                Phase::Liquid,
+                Phase::Gas,
+                Kelvin(t.boiling_k),
+                t.boiling_elevation(),
+                Moles(boiling),
+            ));
             // The solvent mass changed, so every molality and activity the
             // aqueous engine solved for describes water that has left.
             vessel.solution = None;

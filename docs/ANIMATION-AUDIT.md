@@ -29,12 +29,25 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 |
-|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 |
-| partial | 18 | 17 | 12 | 11 |
-| missing | 23 | 20 | 20 | 17 |
-| **total rows** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 |
+|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 |
+| partial | 18 | 17 | 12 | 11 | 11 |
+| missing | 23 | 20 | 20 | 17 | 17 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** |
+
+**PR 4 deliberately moves no row, and that is the point.** It is the
+engine-side lane: the list under *What the engine should add* below, put on
+the wire. Every row it touches was already *done* — against a client-side
+reconstruction that this audit's own standard could not distinguish from the
+engine's number, because both moved when the engine moved. What separates
+them is where they are wrong: a reconstruction is right at the instant of
+the event and drifts afterwards, and a constant that only shows between
+events is invisible to a walk that looks at events. So a score that counts
+rows is the wrong instrument here, and inflating it would be the *kind* of
+claim this file exists to refuse. What PR 4 changes is listed in
+**Delivered** below, and it is stated as a change of source rather than as a
+change of score.
 
 Per section, before → after PR 3: thermal and phase 3/2/3 → 7/0/1; gas and
 headspace 2/4/5 → 5/1/5; solids 4/5/3 → 6/3/3; liquids and mixtures 10/3/4 →
@@ -49,7 +62,7 @@ the next lane can pick it up without repeating this walk.
 | `temperature_changed` | `from`, `to` (K) | hotplate glow ellipse + heat waves, opacity from a `(K−310)/300` ramp; thermometer inset; °C badge | plus **incandescence above ~800 K, coloured by K** off the blackbody locus | partial | **done** (PR 1) |
 | `energy_transferred` | `heating`, `requested_j`, `delivered_j`, `time_coupled` | heat/cool magnitude from `delivered_j`; apparatus readout says delivered vs requested | — | done | done |
 | `heat_of_mixing` | `joules` (signed) | heat or cool, magnitude from \|J\| | — | done | done |
-| `state_changed` | `species`, `from`/`to` phase, `at` (K), `shifted_by` | `to: solid` → frost; **everything else → a `phase-change` kind nothing rendered** | boil / melt / condense / freeze, each with the engine's transition temperature | missing | **done** (PR 1) |
+| `state_changed` | `species`, `from`/`to` phase, `at` (K), `shifted_by`, `kind`, `moles` | `to: solid` → frost; **everything else → a `phase-change` kind nothing rendered** | boil / melt / condense / freeze / **sublimate** / deposit, each with the engine's transition temperature and the amount that moved | missing | **done** (PR 1, PR 4) |
 | `boiling_point_routed` | `pressure_kpa`, `boiling` (K), `shifted_by`, `route`, `model` | nothing | the same rolling boil, held at the routed plateau (vacuum, pressure, salted solvent) | missing | **done** (PR 1) |
 | `evaporated` | `moles` | three fixed steam columns, opacity from moles | plume count, reach and opacity from moles; rolling boil in the liquid | partial | **done** (PR 1) |
 | `distilled` | `water`, `ethanol`, `at`, `ended`, `stages`, `energy_kj`, `azeotropic` | still rig, boiling range and column plate count drawn | — | done | done |
@@ -61,6 +74,14 @@ wrong for a salted solvent and wrong for every solvent that is not water. The
 engine already computes the plateau it held the vessel at and reports it in
 `state_changed.at`; the stage now gates on that number.
 
+PR 4 finished it. A transition event only exists at the moment of transition,
+so *between* events the stage still fell back to pure water at one atmosphere
+and a flask **sitting** at 350 K under a partial vacuum drew as still water.
+`SceneVessel.boiling_point_k` is now a standing value from the same call
+`StateEquilibrator` makes, and `melting_point_k` beside it retired the frost
+gate's `< 272 K` — a constant that made brine frost early and every
+non-aqueous liquid frost at water's threshold.
+
 ## Gas and headspace
 
 | Event | What the engine computes | What the stage showed | What it should show | Before | After |
@@ -71,8 +92,8 @@ engine already computes the plateau it held the vessel at and reports it in
 | `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | missing |
 | `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | missing |
 | `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | missing |
-| `vessel_sealed` | `headspace_volume` (L), `trapped_air` (mol) | a static lid rectangle | lid at the height the headspace volume implies | partial | **done** (PR 2) |
-| `vessel_pressure_controlled` | `pressure` (Pa), `initial_volume` (L), `trapped_gas` (mol) | a piston drawn at a **fixed y** (`y=16`), whatever the pressure | piston height from `V = nRT/P` — squeeze the gas and watch it descend | partial | **done** (PR 2) |
+| `vessel_sealed` | `headspace_volume` (L), `trapped_air` (mol) — plus scene `headspace_volume_l`, `headspace_moles` | a static lid rectangle | lid at the height the headspace volume implies | partial | **done** (PR 2 event, PR 4 standing) |
+| `vessel_pressure_controlled` | `pressure` (Pa), `initial_volume` (L), `trapped_gas` (mol) — plus the same scene pair | a piston drawn at a **fixed y** (`y=16`), whatever the pressure | piston height from the engine's own headspace volume, not a client-side `V = nRT/P` that goes stale | partial | **done** (PR 2 event, PR 4 standing) |
 | `vessel_swept` | `pressure` (Pa) | two static arrows | arrow tempo from the sweep pressure | partial | partial |
 | `burst` | `at_pa`, `rating_pa` | star + shock ring, radius from `at_pa / rating_pa` | — | done | done |
 | `bubble_ride` | `object_density`, `liquid_density`, `lift_gas_fraction` | nothing | the object rising once `lift_gas_fraction` of bubbles clings to it | missing | missing |
@@ -81,13 +102,13 @@ engine already computes the plateau it held the vessel at and reports it in
 
 | Event | What the engine computes | What the stage showed | What it should show | Before | After |
 |---|---|---|---|---|---|
-| `precipitated` | `species`, `moles` (+ scene `solids[].volume_l`, `srgb`, `settled_fraction`) | 2–8 grey specks, radius on a linear moles ramp, engine colour ignored; the settled pile *is* scene-driven | particle count from moles, particle size from **molar volume**, colour from the species' `srgb`, pile from `volume_l` | partial | **done** (PR 2) |
-| `dissolved` | `species`, `moles` | one circle, `r=4`, **magnitude hard-coded to 1** | particles shrinking in proportion to the moles that left the solid | partial | **done** (PR 2) |
+| `precipitated` | `species`, `moles` (+ scene `solids[].volume_l`, `srgb`, `settled_fraction`; + shelf `molar_volume_l_per_mol`) | 2–8 grey specks, radius on a linear moles ramp, engine colour ignored; the settled pile *is* scene-driven | particle count from moles, particle size from **molar volume**, colour from the species' `srgb`, pile from `volume_l` | partial | **done** (PR 2, PR 4) |
+| `dissolved` | `species`, `moles` (+ the same shelf molar volume) | one circle, `r=4`, **magnitude hard-coded to 1** | particles shrinking in proportion to the moles that left the solid | partial | **done** (PR 2, PR 4) |
 | `supersaturated` | `dissolved`, `capacity` | nothing | how far past saturation, as haze or seed crystals | missing | missing |
 | `plated` | `species`, `onto`, `moles` | a shimmer rectangle over the deposit; **moles unused** | plating thickness from moles | partial | partial |
 | `adsorbed` | `held`, `loading_mg_per_g`, `still_dissolved` | nothing | the carbon darkening toward its isotherm ceiling | missing | missing |
 | `consumed` | `species`, `moles`, `remaining` | nothing transient; the scene shrinks the solid | a visible ribbon eaten away | partial | partial |
-| `corroded` | `species`, `corroding`, `why` | nothing | pitting/oxide on the metal object | missing | missing |
+| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4) | nothing | pitting/oxide on the metal object, sized by the corroded fraction | missing | missing (the number is on the wire; the visual is the next lane's) |
 | `gravity_settled` | per-population `terminal_speed_m_s`, `distance_m`, `separated_fraction`, `particle_diameter_um` | grains falling; travel from `distance_m`, count and radius from the population | — | done | done |
 | `centrifuged` | `rcf`, `rpm`, `imbalance_g`, populations | rotor blur on a log `rcf` ramp, pellet per population | — | done | done |
 | `ground` | `surface_area_m2` | a magnitude on a log-area ramp, no vessel visual | finer powder in the vessel | partial | partial |
@@ -128,7 +149,7 @@ engine already computes the plateau it held the vessel at and reports it in
 | `reaction_heat_released` | `energy_j` | nothing | the exotherm, as a temperature the thermometer then reads | missing | missing |
 | `fermented` | `sucrose_moles`, `ethanol_moles`, `carbon_dioxide_moles`, `active_yeast_grams`, `seconds` | **nothing** | slow bubbling paced over `seconds`, sized by the CO₂ moles | missing | **done** (PR 3) |
 | `enzyme_hydrolysed` | `converted_fraction`, `seconds` | a caption percentage | the substrate visibly clearing | partial | partial |
-| `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion` | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes got the same count off one product's moles** | both electrodes sized by the **charge** they shared — the honest driver until the counter-electrode's half-reaction is on the wire | partial | **done** (PR 3) |
+| `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion`, **`anode_species`/`anode_moles`, `cathode_species`/`cathode_moles`** (PR 4) | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes got the same count off one product's moles** | each electrode sized by what actually leaves *it* — twice as many bubbles at the cathode as at the anode when water splits | partial | **done** (PR 3 charge, PR 4 ratio) |
 | `cell_voltage` | `volts` | connection arc, magnitude from \|V\| | — | done | done |
 | `decayed` | `parent`, `daughter`, `mode`, `moles`, `half_life_s` | the Geiger comes from a `measured` reading, not from `decayed` | decay drawn from the event, not only when an instrument is held | partial | partial |
 | `nuclide_spiked` | `activity_bq` | nothing | initial activity | missing | missing |
@@ -190,49 +211,94 @@ picture of a vessel.
   opacity *is* `transmitted_fraction`. And electrolysis bubbling at both
   electrodes on the **charge** they shared rather than on one product's moles.
 
+- **PR 4 (scene numbers)** — the engine side. `SceneVessel` now carries
+  `boiling_point_k` and `melting_point_k` as STANDING values, from the same
+  call `StateEquilibrator` makes, so a flask sitting at 350 K under a partial
+  vacuum reads as boiling and brine frosts at the temperature its own solutes
+  bought rather than at a hard `272 K`; `headspace_volume_l` and
+  `headspace_moles` where the vessel owns its gas, retiring the client-side
+  `V = nRT/P` that was right at the event and stale after it.
+  `Event::StateChanged` gained `kind` — one of the six transitions, named by
+  the engine — and `moles`, so dry-ice fog is no longer indistinguishable
+  from a boil at the wire level and a sublimation is sized by what actually
+  left. `Event::Electrolysed` gained `anode_species`/`anode_moles` and
+  `cathode_species`/`cathode_moles`, and the solvent cell now speaks at all
+  when its cathode makes gas — it used to split water in silence, which is
+  the one lesson this bench ships whose entire title is a ratio; each
+  electrode is drawn at the moles that leave *it*, so hydrogen bubbles twice
+  as heavily as oxygen. `Event::Corroded` gained `corroded_moles` and
+  `corroded_fraction`, read off the vessel through the corrosion reaction's
+  own stoichiometry — an extent, never a rate, because the rate belongs to
+  `kinetics::REGISTRY` and travels as `Reacted`. And the species shelf now
+  carries `molar_volume_l_per_mol`, so a solid that precipitates and
+  redissolves in one step — leaving no scene row behind — is still drawn at
+  its own grain size.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
 
 ## What the engine should add
 
-None of these are blocking; each removes a client-side fallback that is
-honest but weaker than the number the engine already has.
+Seven items were listed here after PR 3. **Six are now on the wire (PR 4)**;
+what each closed is recorded below so the reasoning survives the fix, and the
+one that is still open is still open.
 
-1. **`SceneVessel.boiling_point_k`** (and, ideally, `melting_point_k`). The
-   plateau is computed every time a vessel boils and reported in
-   `state_changed.at`, but scene v1 carries no standing value, so between
-   events the stage must fall back to pure water at one atmosphere
-   (`NORMAL_BOILING_K`). A vessel that is *sitting* at 350 K under a partial
-   vacuum is boiling and the bench cannot know it.
-2. **`SceneVessel.headspace_volume_l`** and **`headspace_moles`**. PR 2
-   reconstructs the piston height from `V = nRT/P` using
-   `vessel_pressure_controlled.trapped_gas` plus the scene's `pressure_pa`
-   and `temperature_k`. That is correct for an ideal gas and correct at the
-   moment of the event, but it is client-side physics and it goes stale as
-   soon as anything else changes the headspace. `vessel_sealed` already
-   carries `headspace_volume`; the scene should carry it too.
-3. **Molar volume on `precipitated` / `dissolved`**, or simply
-   `volume_l` alongside `moles`. PR 2 reads it off `SceneVessel.solids[]`
-   after the fact, which works only while the solid is still in the vessel —
-   a species that precipitates and immediately redissolves has no scene row
-   to read.
-4. **Per-electrode product moles on `electrolysed`.** The event carries
-   `per_ion` and one product; drawing 2:1 hydrogen and oxygen correctly needs
-   both half-reactions, or the moles evolved at each electrode. PR 3 sizes
-   both electrodes by the **charge** instead, which is shared by definition
-   and therefore never a guess — but it also cannot show that hydrogen comes
-   off twice as fast as oxygen, which is the observation the experiment is
-   for.
+1. ~~**`SceneVessel.boiling_point_k`** (and, ideally, `melting_point_k`).~~
+   **Done (PR 4).** Both are standing scene fields, computed by
+   `scene::liquid_transitions` — water through `solve::vessel_transitions`,
+   which is the same call `StateEquilibrator` makes, so the standing value
+   and the `state_changed.at` a boil reports are one number rather than two
+   that agree by inspection; any other liquid through the registry's reviewed
+   normal points, shifted for the vessel's pressure by the BRD-031
+   correlation the boiling-point apparatus already uses. The stage reads
+   `boiling_point_k` for the steaming gate and `melting_point_k` for the
+   frost gate.
+2. ~~**`SceneVessel.headspace_volume_l`** and **`headspace_moles`**.~~
+   **Done (PR 4).** Present exactly where the vessel owns its gas (sealed,
+   pressure-controlled) and absent for open and swept, whose headspace is the
+   room. The `V = nRT/P` reconstruction and the Boyle fallback behind it are
+   kept for older logs and now sit below the engine's own figure.
+3. ~~**Molar volume on `precipitated` / `dissolved`**.~~ **Done (PR 4), by a
+   different route than proposed, and the difference is worth stating.** The
+   field belongs on the event, but the two events are constructed inside
+   `kerotakis-phreeqc`, which another lane owns; adding a field to the
+   variant would have edited six literals there. Molar volume is a property
+   of the *substance* and not of any vessel, so it ships as
+   `molar_volume_l_per_mol` on the species shelf instead, derived by
+   `SpeciesData::molar_volume_l_per_mol` from the same registry mass and
+   density the bench uses. That closes the actual defect — a solid that
+   precipitates and redissolves in one step leaves no scene row to read — and
+   closes it for every event that names a species rather than for two of
+   them.
+4. ~~**Per-electrode product moles on `electrolysed`.**~~ **Done (PR 4).**
+   Both half-reactions travel: `anode_species`/`anode_moles` and
+   `cathode_species`/`cathode_moles`. The solvent cell also *speaks* now when
+   its cathode evolves gas, which it did not before — splitting water emitted
+   the two gases and never the run that made them, so the bench had no
+   `electrolysed` event at all for the one lesson whose title is the ratio.
+   The stage draws each electrode at the moles that leave it, and falls back
+   to the shared charge for a log that carries only one product.
 5. **`gas_produced.rate_moles_per_second` is already there** — nothing to
    add; the client simply has not used it yet. Same for
    `foam_changed.half_life_seconds` and `emulsion_changed.half_life_seconds`,
    which would let a head or an emulsion decay on the bench without a further
-   event.
-6. **A `sublimated` distinction.** Dry-ice fog is a `state_changed` from
-   `solid` to `gas`, which is indistinguishable from a boil at the wire
-   level. Either the event or the species phase diagram has to say which,
-   or the fog has to be inferred from the species — the client should not
-   guess.
-7. **`corroded` carries no extent.** `corroding: bool` and a `why` string
-   cannot size a visual; moles of metal lost, or a corroded fraction, would.
+   event. **Still open**, and still a client-side job rather than an engine
+   one.
+6. ~~**A `sublimated` distinction.**~~ **Done (PR 4)**, as a `kind` field on
+   `state_changed` rather than a new event, because `phase_route` already
+   emits `state_changed` for all six transitions and a second event would
+   have split one route in two. `Event::state_changed` is now the only
+   constructor, so the six emitters cannot disagree about which transition a
+   given `from`→`to` is; `moles` travels beside it. The codex names
+   `sublimed`, `deposited` and `condensed` where it used to say
+   `state_changed`.
+7. ~~**`corroded` carries no extent.**~~ **Done (PR 4).** `corroded_moles`
+   and `corroded_fraction`, from `corrosion::corroded_extent`: the metal
+   atoms per formula unit of the product come from the registry's own formula
+   for it, so `4 Fe + 3 O₂ → 2 Fe₂O₃` counts two irons per oxide unit without
+   a table saying so. It is an *extent* and never a rate — the rate is
+   `kinetics::REGISTRY`'s and travels as `Reacted`, and a second opinion
+   about the same nail is exactly what the event's own doc refuses. Nothing
+   draws it yet: the pitting visual is the next lane's, and the row above
+   still reads *missing* for that reason.
