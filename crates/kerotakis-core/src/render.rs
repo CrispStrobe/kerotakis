@@ -3044,6 +3044,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             instrument,
             value,
             unit,
+            note,
         } => {
             let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
@@ -3064,7 +3065,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             } else {
                 format!("{value:.0}")
             };
-            match register.level() {
+            // The boundary the reading carries, where it has one. lv1
+            // never sees it: a nine-year-old reading a dial is not the
+            // audience for a validity range, and the number is not wrong.
+            let reading = match register.level() {
                 1 => locale.fill(
                     "event.measured.lv1",
                     "The {device} on {vessel} reads {value} {unit}.",
@@ -3076,6 +3080,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     &[("vessel", &vessel.to_string()), ("device", device), ("value", &locale.number(format!("{value:.2}"))), ("unit", unit)],
                 ),
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
+            };
+            match (register.level(), note) {
+                (1, _) | (_, None) => reading,
+                (_, Some(boundary)) => locale.fill(
+                    "event.measured.lv2-bounded",
+                    "{reading} — {boundary}",
+                    &[("reading", &reading), ("boundary", boundary)],
+                ),
             }
         }
         Event::Electrolysed {
