@@ -971,8 +971,8 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         real_world: "Any metal above hydrogen in the activity series \
                      gives off hydrogen gas in acid; magnesium ribbon in \
                      hydrochloric acid is the school version, where the \
-                     gas pops with a lit splint. Whichever metal and acid \
-                     make it, the gas is genuinely flammable.",
+                     gas pops with a lit splint. The gas is genuinely \
+                     flammable whichever metal and acid made it.",
     },
     // ── acid + carbonate → CO₂ ────────────────────────────────────
     Incompatibility {
