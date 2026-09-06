@@ -16,12 +16,26 @@ fn localized_milk_recipe_conserves_water_and_unresolved_milk_solids() {
         .expect("localized whole-milk recipe");
     assert_eq!(recipe.canonical_key, "whole_milk");
     let expansion = recipe.expand(103.0, 0).expect("100 mL milk by mass");
+    // Water is still first and still 87% of the mass; the six serum ions
+    // that now sit behind it are 0.61% between them, and the conserved
+    // unresolved balance carries what is left.
     assert!((expansion.components[0].amount - 89.61).abs() < 1e-10);
+    assert_eq!(expansion.components[0].species_id, "water");
     assert!((expansion.unresolved_amount - 12.761803).abs() < 1e-10);
+    // The conservation this test exists for, over EVERY component rather
+    // than over the first one. It read `components[0] + unresolved` while
+    // water was the only component, which was the same sum by accident
+    // and stopped being one the moment milk got its mineral buffer.
+    let resolved: f64 = expansion
+        .components
+        .iter()
+        .map(|component| component.amount)
+        .sum();
     assert!(
-        (expansion.components[0].amount + expansion.unresolved_amount - expansion.total_amount)
-            .abs()
-            < 1e-10
+        (resolved + expansion.unresolved_amount - expansion.total_amount).abs() < 1e-10,
+        "{resolved} g resolved plus {} g unresolved is not {} g",
+        expansion.unresolved_amount,
+        expansion.total_amount
     );
 }
 
