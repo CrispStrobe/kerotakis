@@ -30,7 +30,6 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import BalanceDrill from "./lib/components/BalanceDrill.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
-  import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
   import InstrumentCupboard from "./lib/components/InstrumentCupboard.svelte";
   import SafetyBoard from "./lib/components/SafetyBoard.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
@@ -772,7 +771,6 @@
    * with the bench in the permanent top rail. */
   let toolsOpen = $state(false);
   /** The supply room keeps chemicals and reusable equipment distinct. */
-  let cabinetTab = $state<"reagents" | "equipment">("reagents");
   let kidsSandboxBrief = $state<KidsSandboxBrief | null>(labMode === "sandbox" ? takePendingKidsSandbox(appStorage) : null);
   let catalogScope = $state<CatalogScope>(kidsSandboxBrief ? "mission" : labMode === "sandbox" ? "all" : "unlocked");
   let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
@@ -1099,9 +1097,12 @@
         onclick={() => setPanelCollapsed("cabinet", !cabinetCollapsed)}
       >{cabinetCollapsed ? "›" : "‹"}</button>
     </div>
-    <div class="cabinet-tabs" role="tablist" aria-label={t("supply cabinet")}>
-      <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
-      <button role="tab" aria-selected={cabinetTab === "equipment"} class:active={cabinetTab === "equipment"} onclick={() => (cabinetTab = "equipment")}>{t("equipment")}</button>
+    <!-- GUI-102: equipment is no longer a second view of this pane. This
+         pane IS the reagent shelf, and the equipment button opens the one
+         cupboard — the same modal the MESSEN row and the dock open. -->
+    <div class="cabinet-tabs" role="group" aria-label={t("supply cabinet")}>
+      <button class="active" onclick={() => setPanelCollapsed("cabinet", false)}>{t("reagents")}</button>
+      <button title={t("Open the equipment cabinet")} onclick={() => (instrumentSurface.open = true)}>{t("equipment")}</button>
     </div>
     {#if kidsSandboxBrief}
       <section class="kids-bench-brief" aria-label={t("Kids Lab bench guide")}>
@@ -1122,58 +1123,24 @@
         <button role="radio" aria-checked={catalogScope === "all"} class:active={catalogScope === "all"} onclick={() => (catalogScope = "all")}>{t("catalog all")}</button>
       </div>
     {/if}
-    {#if cabinetTab === "reagents"}
-      <Shelf
-    catalog={session.catalog}
-        items={session.shelf}
-        register={session.register}
-        target={session.selected}
-        targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
-        kit={session.lesson?.kit ?? (kidsSandboxBrief ? kidsShelfKeys(kidsSandboxBrief.ingredients) : null)}
-        scope={catalogScope}
-        mode={labMode}
-        completed={session.completedMissions.size}
-        stockUsed={session.storyStockUsed}
-        bottles={shelfBottles}
-        focusRequest={shelfFocusRequest}
-        onadd={(line) => {
-          void dispense(line);
-          pane = "bench";
-        }}
-      />
-    {:else}
-      <EquipmentCabinet
-        target={session.selected}
-        targetLabel={selectedVessel?.label ?? "beaker"}
-        {buretteOut}
-        {apparatusOut}
-        transferVerb={transfer?.verb ?? null}
-        mixActive={mix !== null}
-        reactAvailable={session.reactOptions.length > 0}
-        mode={labMode}
-        completed={session.completedMissions.size}
-        scope={catalogScope}
-        missionVerbs={missionEquipmentVerbs}
-        catalog={session.catalog}
-        onburette={toggleBurette}
-        onapparatus={toggleApparatus}
-        ontransfer={(verb) => {
-          transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
-          mix = null;
-          pane = "bench";
-        }}
-        onmix={() => {
-          mix = mix ? null : { fraction: 0.5, a: null, b: null };
-          transfer = null;
-          pane = "bench";
-        }}
-        busy={session.busy}
-        onmeasure={(line) => {
-          void session.submit(line);
-          pane = "bench";
-        }}
-      />
-    {/if}
+    <Shelf
+      catalog={session.catalog}
+      items={session.shelf}
+      register={session.register}
+      target={session.selected}
+      targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
+      kit={session.lesson?.kit ?? (kidsSandboxBrief ? kidsShelfKeys(kidsSandboxBrief.ingredients) : null)}
+      scope={catalogScope}
+      mode={labMode}
+      completed={session.completedMissions.size}
+      stockUsed={session.storyStockUsed}
+      bottles={shelfBottles}
+      focusRequest={shelfFocusRequest}
+      onadd={(line) => {
+        void dispense(line);
+        pane = "bench";
+      }}
+    />
   </nav>
   <div class="bench-pane">
     {#if apparatusOut === "react"}
@@ -1259,11 +1226,7 @@
         : 0}
       missionEvidence={Boolean(session.missionOutcome)}
       onopenmission={session.lesson ? () => (missionJournalOpen = true) : undefined}
-      onopencabinet={() => {
-        setPanelCollapsed("cabinet", false);
-        cabinetTab = "equipment";
-        pane = "shelf";
-      }}
+      onopencabinet={() => (instrumentSurface.open = true)}
       ontogglezones={() => {
         workGuides = !workGuides;
         try {
@@ -1480,7 +1443,6 @@
     onclose={() => session.closeMissionDebrief()}
     onplace={(verb) => {
       session.closeMissionDebrief();
-      cabinetTab = "equipment";
       pane = "bench";
       if (verb === "distil") transfer = { verb: "distil", fraction: 0.5, from: null };
       else {
@@ -1600,7 +1562,6 @@
       if (labMode === "sandbox") {
         kidsSandboxBrief = brief;
         catalogScope = "mission";
-        cabinetTab = "reagents";
         pane = "shelf";
         homeOpen = false;
       } else {
@@ -1684,16 +1645,13 @@
       const water = session.shelf.find((item) => item.formula === "H2O" && item.phase === "liquid");
       utilityStationOpen = false;
       setPanelCollapsed("cabinet", false);
-      cabinetTab = "reagents";
       catalogScope = labMode === "story" ? "unlocked" : "all";
       if (water) shelfFocusRequest = { key: water.key, nonce: Date.now() };
       pane = "shelf";
     }}
     onequipment={() => {
       utilityStationOpen = false;
-      setPanelCollapsed("cabinet", false);
-      cabinetTab = "equipment";
-      pane = "shelf";
+      instrumentSurface.open = true;
     }}
     onclose={() => (utilityStationOpen = false)}
   />

@@ -1,8 +1,9 @@
 # One instrument surface
 
-Design note for GUI-100 … GUI-102. The app offers instruments in three places
-with three different mental models. This says what each is, why that hurts,
-what replaces them, and in what order.
+Design note for GUI-100 … GUI-102. The app offered instruments in three places
+with three different mental models. This says what each was, why that hurt,
+what replaced them, and in what order it happened. Sections 1–3 are written in
+the present tense of the design; §4 records what shipped.
 
 ## 1. What exists today
 
@@ -111,8 +112,9 @@ opened from one small button, showing rendered items on shelves grouped by
   and costs no vertical space. `Inspector.svelte` is owned by another lane, so
   the tray raises the request through a tiny `instrumentSurface.svelte.ts`
   state module that `App.svelte` mounts the modal from — no prop-drill through
-  `Inspector`. In the dock, the two buttons *Messgeräte* + *Geräteschrank*
-  become the one cupboard button.
+  `Inspector`. The dock keeps both of its buttons, but *Geräteschrank* now
+  opens the cupboard rather than switching a tab, and *Messgeräte* still opens
+  the inspector — which is where the quick-access row lives.
 - **The MESSEN strip stays, as quick access.** It shows the learner's ~6 most
   recently used instruments, fed from the same model and persisted in
   `localStorage` (`kerotakis.instruments.recent`), seeded with the six most
@@ -125,15 +127,26 @@ opened from one small button, showing rendered items on shelves grouped by
 
 ## 4. Migration
 
-| PR | GUI | Does | Deletes |
+All three shipped on 2026-09-06.
+
+| PR | GUI | Did | Deleted |
 | --- | --- | --- | --- |
 | 1 | GUI-100 | this document, roadmap entries | — |
-| 2 | GUI-101 | `equipmentCatalogue.ts`, `transferTools.ts`, `instrumentRecents.ts`, `InstrumentCupboard.svelte`, the button, quick-access strip; `EquipmentCabinet` stays mounted but renders from the merged model | the in-component `TRANSFER_TOOLS` |
-| 3 | GUI-102 | shelf's *equipment* tab and `UtilityStation`'s *power and apparatus* open the cupboard; dock's observe row fed from quick access; docs + UX-gate selectors updated | `EquipmentCabinet.svelte`, `InstrumentTray.svelte` (replaced by `QuickInstruments.svelte`) |
+| 2 | GUI-101 | `equipmentCatalogue.ts`, `transferTools.ts`, `instrumentRecents.ts`, `instrumentSurface.svelte.ts`, `InstrumentCupboard.svelte`, the button in the MESSEN row, the quick-access strip; `EquipmentCabinet` stayed mounted but rendered from the same model | the in-component `TRANSFER_TOOLS` |
+| 3 | GUI-102 | the shelf pane is the reagent shelf and its *equipment* button opens the cupboard; the bench button, the mission debrief, the utility station and the dock all open the same modal; UX gate and docs updated | `EquipmentCabinet.svelte`, `cabinetTab` |
 
-`tools/test-ux-quality.mjs` currently asserts only pane geometry
-(`nav.shelf-pane`, `.bench-pane`, `main > aside`), so PR 3 adds a cupboard
-assertion rather than repairing a broken one.
+Two things the plan named and the work did not do, both on purpose.
+`InstrumentTray.svelte` was **not** renamed to `QuickInstruments.svelte`: it
+is mounted by `Inspector.svelte`, which belongs to another lane, and a rename
+buys nothing its own documentation does not. And the dock's `look` /
+`temperature` / `pH` were left alone — that is open question 2 below, which is
+the owner's to answer rather than a deletion PR's.
+
+`tools/test-ux-quality.mjs` asserted only pane geometry (`nav.shelf-pane`,
+`.bench-pane`, `main > aside`), so PR 3 added cupboard assertions rather than
+repairing broken ones: it opens on desktop and on a phone, groups its contents
+on shelves, holds the whole catalogue, names every item and gives every item
+an `(i)`.
 
 **Tests pinning the contract** (all in `web/app/src/lib`):
 
