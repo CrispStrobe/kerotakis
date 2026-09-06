@@ -31,6 +31,10 @@
     background: color-mix(in srgb, var(--primary) 6%, transparent);
     font-size: 0.67rem;
     line-height: 1.35;
+    /* German compounds are longer than the 240px pane; the document's
+       `lang` lets the browser hyphenate them rather than widen it. */
+    hyphens: auto;
+    overflow-wrap: anywhere;
   }
   .detail div {
     display: flex;

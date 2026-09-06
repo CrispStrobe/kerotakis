@@ -323,35 +323,45 @@
                 add(item, `${amountValue}${amountUnit}`);
               }}
             >
-              <label>
-                <span>{t("amount")}</span>
-                <div class="stepper">
-                  <button
-                    type="button"
-                    class="step"
-                    aria-label={t("less")}
-                    onclick={() => (amountValue = stepAmount(amountValue, -1))}
-                  >−</button>
-                  <input type="number" min="0.000001" step="any" required bind:value={amountValue} />
-                  <button
-                    type="button"
-                    class="step"
-                    aria-label={t("more")}
-                    onclick={() => (amountValue = stepAmount(amountValue, 1))}
-                  >+</button>
-                </div>
-              </label>
-              <label>
-                <span>{t("unit")}</span>
-                <select bind:value={amountUnit}>
-                  {#each amountUnits(register, item.phase) as unit (unit)}
-                    <option value={unit}>{unit}</option>
-                  {/each}
-                </select>
-              </label>
+              <!-- The captions are gone, not the names: "Stoffmenge" and
+                   "Einheit" each cost a whole row above a control that a
+                   screen reader still hears through `aria-label`, and that
+                   a sighted reader can already tell apart by shape. Tab
+                   order is unchanged: −, value, +, unit, add. -->
+              <div class="stepper">
+                <button
+                  type="button"
+                  class="step"
+                  aria-label={t("less")}
+                  onclick={() => (amountValue = stepAmount(amountValue, -1))}
+                >−</button>
+                <input
+                  type="number"
+                  min="0.000001"
+                  step="any"
+                  required
+                  aria-label={t("amount")}
+                  bind:value={amountValue}
+                />
+                <button
+                  type="button"
+                  class="step"
+                  aria-label={t("more")}
+                  onclick={() => (amountValue = stepAmount(amountValue, 1))}
+                >+</button>
+              </div>
+              <select aria-label={t("unit")} bind:value={amountUnit}>
+                {#each amountUnits(register, item.phase) as unit (unit)}
+                  <option value={unit}>{unit}</option>
+                {/each}
+              </select>
               <button class="add-amount" type="submit">{t("add")}</button>
               {#if item.phase === "liquid"}
-                <small>{t("selected vessel capacity: {capacity} mL", { capacity: targetCapacityMl })}</small>
+                <!-- Short enough to share a line. The sentence it was is
+                     still here, as the tooltip. -->
+                <small title={t("selected vessel capacity: {capacity} mL", { capacity: targetCapacityMl })}>
+                  {t("vessel: {capacity} mL", { capacity: targetCapacityMl })}
+                </small>
               {/if}
             </form>
           {:else if !access.available}
@@ -371,9 +381,7 @@
     {/if}
   </ul>
   <p class="tally">
-    {filtered.length === items.length
-      ? t("{count} substances — every one computed, none painted on", { count: items.length })
-      : t("{shown} of {total} substances", { shown: filtered.length, total: items.length })}
+    {t("{shown} of {total} substances", { shown: filtered.length, total: items.length })}
   </p>
 </section>
 
@@ -473,6 +481,8 @@
      never reads as a chemical family of its own. */
   .roles button[data-role="unsorted"] { --role-color: var(--dim); font-style: italic; }
   .none {
+    hyphens: auto;
+    overflow-wrap: anywhere;
     color: var(--dim);
     font-size: 0.8rem;
     padding: 0.6rem 0.8rem;
@@ -562,36 +572,54 @@
      belongs behind the (i) with the other numbers; an empty one changes
      what the next tap does, so it has to be visible without one. */
   .bottle.out { margin-left: auto; flex: none; padding: .12rem .3rem; border-radius: 6px; color: var(--warning); background: color-mix(in srgb, var(--warning) 13%, transparent); font-size: .54rem; font-weight: 800; line-height: 1.15; white-space: nowrap; }
-  .stock-lock { margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
+  .stock-lock { hyphens: auto; overflow-wrap: anywhere; margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {
     flex: 1;
+    /* "Wasserstoffperoxid" is wider than the 240px pane it lives in. The
+       document carries `lang` (i18n.svelte.ts sets it on every locale
+       change), so `hyphens: auto` can break the compound where German
+       allows; `overflow-wrap: anywhere` is the fallback for the names no
+       hyphenation dictionary knows. `min-width: 0` is what lets a flex
+       item narrower than its content actually happen. */
+    min-width: 0;
+    hyphens: auto;
+    overflow-wrap: anywhere;
   }
   .formula {
     color: var(--dim);
   }
   .amounts {
-    display: grid;
-    /* Two rows, not one. Widening the amount column for the steppers
-       pushed the add button out of the panel entirely — the shelf is
-       ~370px and steppers + number + unit + button do not fit across it.
-       The button spanning its own row is also the easier target. */
-    /* One control per row. Measured: the shelf gives this form 207px, and
-       steppers (88) + number + unit (80) across it left the number 33px
-       wide — too narrow to read the value in, let alone edit it. */
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
+    /* At most two rows at every width this pane is ever given, and the
+       wrapping does the deciding rather than a media query.
+       - Where there is room (a phone's full-width cabinet, ~296px) the
+         stepper, the unit and "add" share row one and only the capacity
+         hint wraps under them.
+       - At the 207px the desktop cabinet gives this form, "add" wraps too
+         and the hint sits beside it. Still two rows.
+       What it replaced was six: one control per row, each under its own
+       caption, plus a sentence about the vessel's capacity. */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
     padding: 0.5rem 0.2rem;
-    align-items: end;
-  }
-  .amounts label,
-  .add-amount,
-  .amounts small {
-    grid-column: 1 / -1;
   }
   .stepper {
+    /* 88px of touch targets plus a number wide enough to read. Below this
+       the number field was measured at 33px — too narrow to edit in. */
+    flex: 1 1 8.5rem;
+    min-width: 8.2rem;
     display: grid;
     grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+  }
+  .amounts select {
+    flex: 0 1 auto;
+    min-width: 3.6rem;
+  }
+  .add-amount {
+    flex: 1 1 4.6rem;
+    min-width: 4.6rem;
   }
   .stepper input {
     border-radius: 0;
@@ -618,7 +646,6 @@
   .step:hover {
     background: var(--panel);
   }
-  .amounts label { display: grid; gap: 0.15rem; color: var(--dim); font-size: 0.62rem; }
   .amounts input,
   .amounts select,
   .add-amount {
@@ -636,5 +663,5 @@
     min-height: 2.75rem;
   }
   .add-amount { color: var(--on-accent); background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
-  .amounts small { grid-column: 1 / -1; color: var(--dim); font-size: 0.6rem; }
+  .amounts small { flex: 1 1 6.5rem; min-width: 6rem; color: var(--dim); font-size: 0.6rem; line-height: 1.2; }
 </style>

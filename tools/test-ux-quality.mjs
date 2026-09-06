@@ -245,6 +245,23 @@ try {
   check("320 px tabs retain 44 px touch targets", narrowTabs.every((tab) => tab.width >= 44 && tab.height >= 44));
   const narrowBench = await chooseMobilePane(0);
   const narrowShelf = await chooseMobilePane(1);
+  // The shelf is where the longest words in the product live:
+  // "Wasserstoffperoxid" is wider than a 320px phone, and a name that
+  // cannot break forces the pane wider than the page. Measured per name
+  // rather than through the page's own overflow, because a shelf row that
+  // clips its own text passes a page-level check while still hiding the
+  // one word the reader needs.
+  const shelfNamed = await waitFor(page,
+    `[...document.querySelectorAll('nav.shelf-pane .name')].some((item) => item.offsetParent)`,
+    { timeout: 60000 });
+  check("320 px cabinet lists its substances", shelfNamed === true);
+  const overflowingNames = JSON.parse(await page.evaluate(`JSON.stringify(
+    [...document.querySelectorAll('nav.shelf-pane .name')].filter((item) => item.offsetParent)
+      .filter((item) => item.scrollWidth - item.clientWidth > 1)
+      .map((item) => item.textContent.trim()).slice(0, 6)
+  )`));
+  check("320 px substance names wrap instead of overflowing their row",
+        overflowingNames.length === 0, overflowingNames.join(", "));
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
   check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);

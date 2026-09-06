@@ -46,6 +46,14 @@ export type FeedEntry = {
   text: string;
   /** ISO timestamp for learner-authored journal notes. */
   createdAt?: string;
+  /**
+   * Session STATUS rather than observation: whether the solver is attached,
+   * and whether a save came back. The journal header renders these four as
+   * one icon each with their sentence as the tooltip, instead of stacking
+   * two paragraphs above every log; the notebook export still writes them
+   * out as the notes they are.
+   */
+  status?: "bench-live" | "bench-shipped" | "restored" | "restore-failed";
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
   hazardText?: string;
@@ -516,6 +524,7 @@ export class Session {
       }
       this.feed.push({
         kind: "note",
+        status: this.canSolve ? "bench-live" : "bench-shipped",
         text: this.canSolve
           ? t("The bench is live: states nobody pre-computed are solved.")
           : t("The bench answers from shipped results only — the live aqueous engine is not attached."),
@@ -633,13 +642,18 @@ export class Session {
       this.position = position;
       this.feed.push({
         kind: "note",
+        status: "restored",
         text: t("restored your last session: {count} step(s) {how}", { count: position, how }),
       });
       this.feed.push(...notes.map((note) => ({ kind: "user-note" as const, ...note })));
     } catch {
       // A corrupt save must never wedge the bench: drop it and start clean.
       this.storage?.removeItem(SAVE_KEY);
-      this.feed.push({ kind: "note", text: t("could not restore the last session — starting fresh") });
+      this.feed.push({
+        kind: "note",
+        status: "restore-failed",
+        text: t("could not restore the last session — starting fresh"),
+      });
     }
   }
 
