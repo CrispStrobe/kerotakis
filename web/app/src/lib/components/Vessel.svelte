@@ -118,6 +118,8 @@
     return effect?.stir ? effect : undefined;
   });
   const gasTestEffect = $derived(latestEffect("gas_test", 4500));
+  const ventEffect = $derived(latestEffect("vent", 4000));
+  const foamEffect = $derived(latestEffect("foam", 3000));
   const waftEffect = $derived(latestEffect("waft", 4200));
   const pressureControlEffect = $derived(latestEffect("regulate", 4500));
   const sweepEffect = $derived(latestEffect("sweep", 3800));
@@ -680,10 +682,16 @@
 
     {#if vessel.foam && foamH > 0}
       {@const foamY = BOTTOM_Y - liquidH - foamH}
+      {@const foamHalfLife = foamEffect?.foam?.halfLifeSeconds}
       <g
         class="foam-state"
         class:rising={active("foam", 3000)}
-        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px;--foam-colour:${rgb(foamColour)}`}
+        class:collapsing={foamHalfLife !== undefined}
+        data-foam-half-life-s={foamHalfLife?.toFixed(2)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px;--foam-colour:${rgb(foamColour)};--foam-half-life:${foamHalfLife ?? 0}s`}
+        aria-label={foamHalfLife === undefined ? undefined : t("modeled foam half-life: {seconds} s", {
+          seconds: formatReading(foamHalfLife, 1),
+        })}
       >
         <rect
           class="foam-fill"
@@ -695,7 +703,7 @@
           <title>{t("modeled {colour} foam: {height} cm high", {
             colour: t(vessel.foam.colour_word ?? "colourless"),
             height: vessel.foam.height_cm.toFixed(1),
-          })}</title>
+          })}{foamHalfLife === undefined ? "" : ` · ${t("half-life {seconds} s", { seconds: formatReading(foamHalfLife, 1) })}`}</title>
         </rect>
         {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
           <circle
@@ -1649,16 +1657,27 @@
       {@const bMag = mag("vent", 4000)}
       {@const bCount = Math.max(3, Math.round(3 + bMag * 11))}
       {@const bRadius = 1.2 + bMag * 1.6}
-      {@const bPeriod = 2.4 - bMag * 1.2}
-      {#each Array.from({length: bCount}, (_, i) => INNER_X + 5 + (i / Math.max(1, bCount - 1)) * (INNER_W - 10)) as x, i (i)}
-        <circle
-          class="bubble"
-          cx={x}
-          cy={BOTTOM_Y - 4 - (i % 3) * 3}
-          r={bRadius * (0.7 + ((i * 7) % 5) * 0.12)}
-          style={`--rise:${liquidH - 8}px; animation-duration:${bPeriod}s; animation-delay:${(i * 0.37) % bPeriod}s`}
-        />
-      {/each}
+      {@const productionRate = ventEffect?.gasProduction?.molesPerSecond}
+      {@const bPeriod = productionRate === undefined ? 2.4 - bMag * 1.2 : bubblePeriodS(productionRate)}
+      <g
+        class="gas-production"
+        data-gas-rate-mol-s={productionRate?.toExponential(3)}
+        data-bubble-period-s={bPeriod.toFixed(2)}
+        aria-label={productionRate === undefined ? undefined : t("gas production: {rate} mol per second, a bubble every {period} s", {
+          rate: formatReading(productionRate, 5),
+          period: formatReading(bPeriod, 2),
+        })}
+      >
+        {#each Array.from({length: bCount}, (_, i) => INNER_X + 5 + (i / Math.max(1, bCount - 1)) * (INNER_W - 10)) as x, i (i)}
+          <circle
+            class="bubble"
+            cx={x}
+            cy={BOTTOM_Y - 4 - (i % 3) * 3}
+            r={bRadius * (0.7 + ((i * 7) % 5) * 0.12)}
+            style={`--rise:${liquidH - 8}px; animation-duration:${bPeriod}s; animation-delay:${(i * 0.37) % bPeriod}s`}
+          />
+        {/each}
+      </g>
     {/if}
 
     {#if vessel.label === "cylinder"}
@@ -2198,6 +2217,9 @@
   .foam-state.rising {
     animation: foam-rise 900ms cubic-bezier(.2, .8, .25, 1) both;
   }
+  .foam-state.collapsing {
+    animation: foam-collapse var(--foam-half-life) linear both;
+  }
   .foam-cell {
     fill: color-mix(in srgb, white 30%, transparent);
     stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 48%, var(--edge));
@@ -2254,6 +2276,7 @@
     from { transform: scaleY(0.05); opacity: 0.35; }
     to { transform: scaleY(1); opacity: 1; }
   }
+  @keyframes foam-collapse { from { transform: scaleY(1); } to { transform: scaleY(.5); } }
   @keyframes foam-spill {
     from { transform: translateY(0); }
     to { transform: translateY(2px); }

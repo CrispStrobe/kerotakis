@@ -29,12 +29,12 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion |
 |---|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 | 46 |
-| partial | 18 | 17 | 12 | 11 | 11 | 11 |
-| missing | 23 | 20 | 20 | 17 | 17 | 16 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** |
+| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -87,7 +87,7 @@ non-aqueous liquid frost at water's threshold.
 | Event | What the engine computes | What the stage showed | What it should show | Before | After |
 |---|---|---|---|---|---|
 | `gas_evolved` | `species`, `moles` | bubble curtain + vent wisps; count, radius and tempo on a log ramp (1 mmol → 0, 100 mmol → 1) | — | done | done |
-| `gas_produced` | `species`, `moles`, `rate_moles_per_second` | same curtain from `moles`; **`rate` unused** | tempo from the rate, amount from the moles | partial | partial |
+| `gas_produced` | `species`, `moles`, `rate_moles_per_second` | bubble count/size from `moles`; cadence from the production rate | — | partial | **done** (computed-motion tranche) |
 | `gas_contained` | `species`, `moles` | **nothing** — a sealed flask boiling was invisible | bubbles, and a headspace that fills | missing | **done** (PR 1 bubbles, PR 2 headspace) |
 | `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | missing |
 | `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | missing |
@@ -122,7 +122,7 @@ non-aqueous liquid frost at water's threshold.
 | `layers_formed` / `material_layers_formed` | `upper`, `lower` (+ scene `layers[].volume_l`, `srgb`) | the stack, each band's height its share of the volume | — | done (scene) | done |
 | `emulsion_changed` | `dispersed_volume_l`, `dispersed_fraction`, `half_life_seconds` | **nothing, anywhere** — `SceneVessel.emulsion` was read by no component | dispersed droplets at `dispersed_fraction`, clearing over `half_life_seconds` | missing | **done** (PR 3) |
 | `curdling_changed` | `to_formed_fraction`, `separation_progress`, `curd_solids_mass_g` | curd ellipses, count from `separation_progress`, colour from the scene | — | done | done |
-| `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from the scene volume, overflow drawn; **`half_life_seconds` unused** | the head collapsing on its own half-life | partial | partial |
+| `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from scene volume, overflow drawn, head reaches half height on the computed half-life | — | partial | **done** (computed-motion tranche) |
 | `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | partial |
 | `thickened` | `strength`, `solid_mass_fraction`, `tip_speed_m_s`, `sheared_hard` | nothing | shear-thickening resisting the stirrer | missing | missing |
 | `polymer_swelled` | `swelling_ratio_g_per_g`, `capacity_g_per_g` | snow height from the ratio against capacity | — | done | done |
@@ -241,6 +241,12 @@ picture of a vessel.
   claims no rate, history, thickness or surface coverage; directly added oxide
   is indistinguishable from oxide formed in the vessel.
 
+- **Computed gas/foam motion** — `gas_produced.rate_moles_per_second` now sets
+  the visible-bubble cadence while total moles continue to set count and size;
+  `foam_changed.half_life_seconds` sets the foam head's collapse to half height.
+  Both raw values and the derived bubble period are readable and exposed as
+  `data-*` evidence; reduced-motion mode keeps the evidence and stops motion.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
@@ -286,12 +292,11 @@ one that is still open is still open.
    `electrolysed` event at all for the one lesson whose title is the ratio.
    The stage draws each electrode at the moles that leave it, and falls back
    to the shared charge for a log that carries only one product.
-5. **`gas_produced.rate_moles_per_second` is already there** — nothing to
-   add; the client simply has not used it yet. Same for
-   `foam_changed.half_life_seconds` and `emulsion_changed.half_life_seconds`,
-   which would let a head or an emulsion decay on the bench without a further
-   event. **Still open**, and still a client-side job rather than an engine
-   one.
+5. ~~**`gas_produced.rate_moles_per_second` is already there**~~ — **done in
+   the computed-motion tranche**, as the visible-bubble cadence. The same
+   tranche uses `foam_changed.half_life_seconds` for collapse to half height.
+   `emulsion_changed.half_life_seconds` was already driving its coalescence
+   animation. No engine addition was needed.
 6. ~~**A `sublimated` distinction.**~~ **Done (PR 4)**, as a `kind` field on
    `state_changed` rather than a new event, because `phase_route` already
    emits `state_changed` for all six transitions and a second event would

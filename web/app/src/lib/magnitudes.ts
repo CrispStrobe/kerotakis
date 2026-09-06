@@ -283,6 +283,17 @@ export interface FermentationRun {
   molesPerSecond: number;
 }
 
+/** Engine-computed production rate for a gas-forming reaction. */
+export interface GasProductionRun {
+  molesPerSecond: number;
+}
+
+/** Engine-computed persistence of a newly formed foam head. */
+export interface FoamRun {
+  /** Seconds in which the modeled foam head falls to half its height. */
+  halfLifeSeconds: number;
+}
+
 /** Engine-computed transmission of one UV band through a sample. */
 export interface UvRun {
   material: string;
@@ -375,6 +386,10 @@ export interface Effect {
   emulsion?: EmulsionRun;
   /** Engine-owned anaerobic run, for the slow bubbling. */
   fermentation?: FermentationRun;
+  /** Engine-owned gas production rate, for bubble cadence. */
+  gasProduction?: GasProductionRun;
+  /** Engine-owned foam half-life, for collapse timing. */
+  foam?: FoamRun;
   /** Engine-owned UV transmission, for the beam. */
   uv?: UvRun;
 }
@@ -758,8 +773,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
   switch (kind) {
     case "gas_evolved":
       return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
-    case "gas_produced":
-      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
+    case "gas_produced": {
+      const rawRate = Number(e.rate_moles_per_second ?? 0);
+      return {
+        kind: "vent",
+        at: now,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+        gasProduction: {
+          molesPerSecond: Number.isFinite(rawRate) ? Math.max(0, rawRate) : 0,
+        },
+      };
+    }
     case "gas_contained":
       // A sealed vessel keeps its gas: the same moles, but they stay in the
       // headspace and raise the pressure instead of leaving through the mouth.
@@ -773,12 +800,17 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
-    case "foam_changed":
+    case "foam_changed": {
+      const rawHalfLife = Number(e.half_life_seconds ?? 0);
+      const halfLifeSeconds = Number.isFinite(rawHalfLife) ? Math.max(0, rawHalfLife) : 0;
       return {
         kind: "foam",
         at: now,
+        durationMs: halfLifeSeconds > 0 ? halfLifeSeconds * 1000 : undefined,
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
+        foam: halfLifeSeconds > 0 ? { halfLifeSeconds } : undefined,
       };
+    }
     case "surface_spread":
       return {
         kind: "surface-spread",
