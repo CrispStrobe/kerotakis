@@ -7,24 +7,160 @@
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Moles, Seconds, Watts};
 use crate::vessel::Vessel;
+use serde::{Deserialize, Serialize};
 
-/// A heat source with explicit power and heat-loss model (APP-001).
-#[derive(Debug, Clone, Copy)]
+/// A heat source with explicit power, heat loss, and a temperature
+/// ceiling (APP-001).
+///
+/// The ceiling is the physics this bench was missing. Energy crosses into
+/// a vessel only while the vessel is colder than the thing heating it, so
+/// nothing on a burner ends up hotter than the burner's own flame. Without
+/// that bound, `heat v1 40kJ` on ten grams of chalk was arithmetic and
+/// nothing else — 40 kJ divided by 8.2 J/K put the crucible at 4913 °C,
+/// three times the hottest laboratory flame and hot enough that the Gibbs
+/// minimiser, correctly, then reported carbon monoxide.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct HeatSource {
+    /// What the source is called, for the log.
+    pub name: String,
     /// Power input in watts (J/s).
     pub power: Watts,
     /// Heat loss coefficient to surroundings, W/K. Loss = h·(T - T_ambient).
+    #[serde(default)]
     pub heat_loss_w_per_k: f64,
     /// Ambient temperature for heat loss calculation.
+    #[serde(default = "ambient_default")]
     pub ambient: Kelvin,
+    /// The hottest this source can drive a vessel, K. Beyond it the source
+    /// is no longer the warmer body and nothing more flows.
+    pub ceiling: Kelvin,
+    /// Where the ceiling and the power come from.
+    pub provenance: String,
 }
 
+fn ambient_default() -> Kelvin {
+    Kelvin::STANDARD
+}
+
+/// Hottest point of a Bunsen flame with the air collar open, K (1500 °C).
+///
+/// Source: A. Agliolo Gallitto, V. Pace, R. Zingales (Dept. of Physics and
+/// Chemistry, University of Palermo), "Multidisciplinary learning at the
+/// University scientific museums: the Bunsen burner", arXiv:1712.08737,
+/// Fig. 3 caption: "the hottest zone of the flame can reach a temperature
+/// of about 1500°C". Corroborated by L. Nichols, "1.4D: Bunsen Burners",
+/// Organic Chemistry Lab Techniques, Chemistry LibreTexts: "they can reach
+/// temperatures of approximately 1500° C", with "the tip of the blue cone"
+/// named as the hottest part.
+///
+/// Published figures do disagree: Arizona State University EHS's burner
+/// safety sheet gives 1200 °C for the same point. 1500 °C is taken as the
+/// ceiling because a ceiling should be the best the equipment can do, and
+/// it stays well under the hard physical bound — the adiabatic flame
+/// temperature of stoichiometric methane in air is 2224 K = 1951 °C
+/// (Marzouk, Eng. Technol. Appl. Sci. Res. 13(4) 2023, 11437–11444,
+/// doi:10.48084/etasr.6132) — as a real burner must, running lean and
+/// losing heat to the room and the tripod.
+pub const BUNSEN_CEILING_K: f64 = 1773.15;
+
+/// Maximum temperature in a paraffin candle flame, K (1400 °C).
+///
+/// Source: A. Hamins, M. Bundy (NIST) and S. E. Dillon, "Characterization
+/// of Candle Flames", Journal of Fire Protection Engineering 15 (2005)
+/// 265–285, Table 1 "Properties of paraffin candle wax from the
+/// literature", row "Maximum flame temperature 1400 °C", citing Gaydon &
+/// Wolfhard, "Flames: Their Structure, Radiation and Temperature", 4th ed.
+/// 1979. The same figure is used as the candle flame temperature by
+/// Sunderland et al., Proc. Combust. Inst. 33 (2011) 2489–2496.
+///
+/// The often-quoted ~1000 °C for the luminous yellow zone — where anything
+/// a learner holds in a candle actually sits — is deliberately NOT used:
+/// no primary source for it could be opened, and a number without one is
+/// not provenance. The maximum is therefore generous to the candle, and
+/// the gap is a known overestimate rather than a hidden one.
+pub const CANDLE_CEILING_K: f64 = 1673.15;
+
+/// Maximum surface set point of a laboratory hot plate, K (550 °C).
+///
+/// Source: published specifications for general-purpose digital laboratory
+/// hotplates and hotplate stirrers, whose top set point runs from 380 °C
+/// (500 W, ceramic-coated top) to 550 °C (1000 W, glass-ceramic top), with
+/// over-temperature cut-outs at 420 °C and 580 °C respectively. Quoted as a
+/// class figure rather than any one product's: 550 °C is the top of the
+/// range a school or teaching laboratory would own.
+pub const HOT_PLATE_CEILING_K: f64 = 823.15;
+
 impl HeatSource {
+    /// A bare power source with no named flame. The ceiling is the
+    /// laboratory burner's, because that is what the bench reaches for
+    /// when a script says `heat` and names nothing.
     pub fn new(power: Watts) -> Self {
         Self {
+            name: "unnamed heat source".to_string(),
             power,
             heat_loss_w_per_k: 0.0,
             ambient: Kelvin::STANDARD,
+            ceiling: Kelvin(BUNSEN_CEILING_K),
+            provenance: "ceiling: laboratory Bunsen burner, air collar open".to_string(),
+        }
+    }
+
+    /// The bench default: a laboratory burner with the collar open.
+    ///
+    /// `heat v1 40kJ` names no apparatus, and a script that names none is
+    /// standing at a school bench, where the thing under the tripod is a
+    /// Bunsen burner. Making the default explicit is the point: the old
+    /// implicit answer was "a source of unbounded temperature", which is
+    /// not equipment anyone owns.
+    pub fn bunsen_burner() -> Self {
+        Self {
+            name: "Bunsen burner".to_string(),
+            // A standard laboratory burner on mains natural gas.
+            power: Watts(1500.0),
+            heat_loss_w_per_k: 0.0,
+            ambient: Kelvin::STANDARD,
+            ceiling: Kelvin(BUNSEN_CEILING_K),
+            provenance: "Agliolo Gallitto, Pace & Zingales, arXiv:1712.08737 — the hottest zone of a Bunsen flame reaches about 1500 °C"
+                .to_string(),
+        }
+    }
+
+    /// A paraffin candle.
+    pub fn candle() -> Self {
+        Self {
+            name: "candle".to_string(),
+            power: Watts(80.0),
+            heat_loss_w_per_k: 0.0,
+            ambient: Kelvin::STANDARD,
+            ceiling: Kelvin(CANDLE_CEILING_K),
+            provenance: "Hamins, Bundy & Dillon, J. Fire Prot. Eng. 15 (2005) 265–285, Table 1 — maximum paraffin candle flame temperature 1400 °C"
+                .to_string(),
+        }
+    }
+
+    /// A laboratory stirring hot plate.
+    pub fn hot_plate() -> Self {
+        Self {
+            name: "hot plate".to_string(),
+            power: Watts(600.0),
+            heat_loss_w_per_k: 0.0,
+            ambient: Kelvin::STANDARD,
+            ceiling: Kelvin(HOT_PLATE_CEILING_K),
+            provenance: "published laboratory hotplate specifications — top set point 380–550 °C for general-purpose digital models"
+                .to_string(),
+        }
+    }
+
+    /// Look a source up by the word a script or a client uses for it.
+    pub fn by_name(word: &str) -> Option<Self> {
+        match word.trim().to_ascii_lowercase().as_str() {
+            "burner" | "bunsen" | "bunsenburner" | "bunsen-burner" | "brenner"
+            | "bunsenbrenner" => Some(Self::bunsen_burner()),
+            "candle" | "kerze" => Some(Self::candle()),
+            "hotplate" | "hot-plate" | "plate" | "heizplatte" | "kochplatte" => {
+                Some(Self::hot_plate())
+            }
+            _ => None,
         }
     }
 
@@ -35,8 +171,25 @@ impl HeatSource {
     }
 
     /// Net power into the vessel at the given temperature.
+    ///
+    /// Zero once the vessel has reached the source: heat does not flow
+    /// from the colder body to the warmer one, so a burner stops
+    /// delivering when the crucible is as hot as its flame.
     pub fn net_power(&self, vessel_temp: Kelvin) -> f64 {
+        if vessel_temp.0 >= self.ceiling.0 {
+            return 0.0;
+        }
         self.power.0 - self.heat_loss_w_per_k * (vessel_temp.0 - self.ambient.0)
+    }
+
+    /// How much energy this source can still put into a vessel of heat
+    /// capacity `cp` sitting at `now` before the vessel is as hot as the
+    /// source, J. Zero when the vessel has already reached the ceiling.
+    pub fn headroom_j(&self, now: Kelvin, cp: f64) -> f64 {
+        if cp <= 0.0 {
+            return 0.0;
+        }
+        ((self.ceiling.0 - now.0) * cp).max(0.0)
     }
 
     /// Apply the heat source to a vessel for a duration.
@@ -67,7 +220,10 @@ impl HeatSource {
             from.0 + p * dt / cp
         };
 
-        let final_temp = final_temp.max(0.0); // can't go below absolute zero
+        // Absolute zero below, the source's own temperature above: a
+        // vessel cannot be driven past the thing heating it however long
+        // the burner is left under it.
+        let final_temp = final_temp.clamp(0.0, self.ceiling.0.max(from.0));
         let energy_in = Joules(p * dt);
         let energy_lost = Joules(energy_in.0 - cp * (final_temp - from.0));
 
@@ -75,6 +231,12 @@ impl HeatSource {
         vessel.refresh_pressure();
 
         (energy_in, energy_lost, Kelvin(final_temp))
+    }
+}
+
+impl Default for HeatSource {
+    fn default() -> Self {
+        Self::bunsen_burner()
     }
 }
 

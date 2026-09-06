@@ -14,12 +14,16 @@ import {
   canUseFreshVessels,
   freshVesselScript,
   highestVesselNumber,
+  loadRunMode,
   runCatalogEntry,
   runGate,
   runnableLines,
   scriptVesselNumbers,
   type BenchVesselLike,
   type RunnerBench,
+  type RunnerFeedLine,
+  type StepReport,
+  type StepVerdict,
   type RunStep,
 } from "./catalogRunner";
 
@@ -40,10 +44,14 @@ class FakeBench implements RunnerBench {
   refuse: string | null = null;
   scene: { vessels?: BenchVesselLike[] } | null = { vessels: [] };
   completedExperiments: ReadonlySet<string> = new Set<string>();
+  /** What a real bench writes down: the command, then what it produced. */
+  feed: RunnerFeedLine[] = [];
 
   async submit(line: string): Promise<boolean> {
     this.submitted.push(line);
+    this.feed.push({ kind: "command", text: line });
     if (line === this.refuse) return false;
+    this.feed.push({ kind: "line", text: `did ${line}` });
     this.capturing?.push(...this.events);
     return true;
   }
@@ -136,6 +144,115 @@ describe("running an entry on the visible bench", () => {
       stopped: () => stop,
     });
     expect(bench.submitted).toEqual(["add v1 water 1000mL"]);
+  });
+});
+
+/**
+ * Step mode: the same walk, paced by the learner instead of by a timer.
+ *
+ * "Run it" and "step through it" have to be the SAME run — same door, same
+ * checks, same recording — or the slow one becomes a second, less honest
+ * implementation of the experiment. So these assert the difference is only
+ * WHO says "next", and that stopping half way is not a completion.
+ */
+describe("walking a script one step at a time", () => {
+  /** A gate that answers from a queue, and remembers what it was shown. */
+  function gate(answers: StepVerdict[]) {
+    const seen: StepReport[] = [];
+    const submittedAt: number[] = [];
+    const bench = new FakeBench();
+    const onstepdone = async (report: StepReport): Promise<StepVerdict> => {
+      seen.push(report);
+      submittedAt.push(bench.submitted.length);
+      return answers[seen.length - 1] ?? "next";
+    };
+    return { bench, seen, submittedAt, onstepdone };
+  }
+
+  it("runs exactly one line per answer, and nothing while it waits", async () => {
+    const { bench, seen, submittedAt, onstepdone } = gate(["next", "next"]);
+    await runCatalogEntry(bench, ENTRY, { pause: instantly, onstepdone });
+
+    // Gated twice for a three-line script: the last line needs no consent,
+    // because there is nothing after it to consent to.
+    expect(seen.map((s) => s.index)).toEqual([0, 1]);
+    // At each gate exactly index+1 lines had gone to the bench — one line
+    // per "next", never two.
+    expect(submittedAt).toEqual([1, 2]);
+    expect(bench.submitted).toEqual([
+      "add v1 water 1000mL",
+      "add v1 HCl 0.01mol",
+      "add v1 NaOH 0.01mol",
+    ]);
+  });
+
+  it("shows the learner what the line produced, not the echo of the line", async () => {
+    const { seen, bench, onstepdone } = gate(["next", "next"]);
+    await runCatalogEntry(bench, ENTRY, { pause: instantly, onstepdone });
+    expect(seen[0]?.produced).toEqual([{ kind: "line", text: "did add v1 water 1000mL" }]);
+    // The command echo is the line the strip already names; repeating it
+    // under "what happened" is noise, not evidence.
+    expect(seen.flatMap((s) => s.produced).some((line) => line.kind === "command")).toBe(false);
+    expect(seen[1]?.produced).toEqual([{ kind: "line", text: "did add v1 HCl 0.01mol" }]);
+    expect(seen.map((s) => s.more)).toEqual([true, true]);
+  });
+
+  it("finishes the rest automatically when the learner stops asking", async () => {
+    const { bench, seen, onstepdone } = gate(["rest"]);
+    const pause = vi.fn(async () => {});
+    const outcome = await runCatalogEntry(bench, { ...ENTRY, id: "rest" }, { pause, onstepdone });
+
+    // One gate, then the runner carried on by itself to the end.
+    expect(seen).toHaveLength(1);
+    expect(bench.submitted).toHaveLength(3);
+    expect(outcome.halted).toBe(false);
+    // The handover step is not paced — the learner already watched it — so
+    // only the gap between the last two lines is paced.
+    expect(pause).toHaveBeenCalledTimes(1);
+  });
+
+  it("records progress for a stepped run exactly as for an automatic one", async () => {
+    const { bench, onstepdone } = gate(["next", "next"]);
+    bench.events = ["neutralised"];
+    const outcome = await runCatalogEntry(bench, ENTRY, { pause: instantly, onstepdone });
+    expect(outcome.result.allOk).toBe(true);
+    expect(outcome.recorded).toBe(true);
+    expect(bench.marked).toEqual(["neutralisation"]);
+  });
+
+  it("records nothing when the learner stops half way, even if the checks pass", async () => {
+    // The trap this closes: the expectations are checked against the bench
+    // whatever happened, and a bench can satisfy them after one line. That
+    // is a green CHECK, not a finished experiment, and crediting it would
+    // hand out the entry for work that was abandoned.
+    const { bench, onstepdone } = gate(["stop"]);
+    bench.events = ["neutralised"];
+    const outcome = await runCatalogEntry(bench, ENTRY, { pause: instantly, onstepdone });
+
+    expect(bench.submitted).toEqual(["add v1 water 1000mL"]);
+    expect(outcome.halted).toBe(true);
+    expect(outcome.result.allOk).toBe(true);
+    expect(outcome.recorded).toBe(false);
+    expect(bench.marked).toEqual([]);
+  });
+
+  it("credits nothing to an automatic run the learner stopped either", async () => {
+    const bench = new FakeBench();
+    bench.events = ["neutralised"];
+    let stop = false;
+    const outcome = await runCatalogEntry(bench, ENTRY, {
+      pause: instantly,
+      onstep: () => (stop = true),
+      stopped: () => stop,
+    });
+    expect(outcome.halted).toBe(true);
+    expect(outcome.recorded).toBe(false);
+  });
+
+  it("defaults to the automatic pace where no choice is stored", () => {
+    // Node has no `window`; a private-mode browser has one whose storage
+    // throws. Both are "no preference", which is not an error.
+    expect(loadRunMode()).toBe("auto");
   });
 });
 

@@ -58,6 +58,7 @@ fn heat(bench: &mut Bench, stack: &mut SolverStack, v: VesselId, joules: f64) ->
             Operator::Heat {
                 vessel: v,
                 energy: Joules(joules),
+                source: None,
             },
             stack,
             &PermissiveScreen,

@@ -76,6 +76,7 @@ fn calorimeter_reads_back_exactly_the_heat_put_in() {
         .step(Operator::Heat {
             vessel: VesselId(1),
             energy: Joules(10_000.0),
+            source: None,
         })
         .unwrap();
     let after = cal.measure(&bench.vessels[1]).expect("reads").value;

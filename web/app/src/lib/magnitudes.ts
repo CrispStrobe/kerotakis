@@ -176,6 +176,97 @@ export interface SpillRun {
   fraction: number;
 }
 
+/**
+ * The engine's own numbers for one solid appearing in or leaving a vessel,
+ * gathered from the event (species, moles) and the scene row that owns the
+ * substance (pure-solid volume, colour). `molarVolumeLPerMol` is what makes
+ * a mole of a fluffy hydroxide draw bigger than a mole of a dense sulfate.
+ */
+export interface SolidYield {
+  species: string;
+  name: string;
+  /** Moles that precipitated or dissolved this step. */
+  moles: number;
+  /** Registry mass ÷ density, litres per mole. */
+  molarVolumeLPerMol: number;
+  /** `moles × molarVolumeLPerMol`, the volume the step actually moved. */
+  volumeL: number;
+  /** The species' own colour, as a CSS value. */
+  colour?: string;
+}
+
+/**
+ * The gas above the liquid: how much room it takes up, and what set that.
+ * `volumeL` is the engine's own figure where an event carried one
+ * (`vessel_sealed.headspace_volume`), and otherwise the ideal-gas volume
+ * the trapped moles occupy at the held pressure and the vessel temperature.
+ */
+export interface HeadspaceRun {
+  volumeL: number;
+  moles: number;
+  /** The held pressure, where the event stated one. */
+  pressurePa?: number;
+  /** The temperature the volume was computed at, where one was stated. */
+  temperatureK?: number;
+  /** "engine" when the event named the volume; "ideal-gas" when derived. */
+  source: "engine" | "ideal-gas";
+}
+
+/**
+ * One engine-computed phase transition. `atK` is the temperature the engine
+ * actually used — a boiling plateau already carrying its pressure and
+ * colligative shifts — so the stage can hold the boil at the engine's
+ * number instead of a hard-coded 373 K.
+ */
+export interface PhaseChangeRun {
+  species: string;
+  /** Phase left, engine wire tag: solid | liquid | gas. */
+  from: string;
+  /** Phase entered, engine wire tag. */
+  to: string;
+  /** Transition temperature used, K. */
+  atK: number;
+  /** K away from the pure solvent's transition; negative when solutes lowered it. */
+  shiftedByK: number;
+  /** Vessel pressure that set the boiling point, kPa — routed boils only. */
+  pressureKpa?: number;
+  /** Which correlation answered, or why none did — routed boils only. */
+  route?: string;
+  /** The saturation model's own name from its pack row — routed boils only. */
+  model?: string;
+}
+
+/** Engine-computed dispersion of one liquid inside another. */
+export interface EmulsionRun {
+  material: string;
+  fromDispersedFraction: number;
+  toDispersedFraction: number;
+  dispersedVolumeL: number;
+  /** Seconds for half the dispersed phase to coalesce back out. */
+  halfLifeSeconds: number;
+}
+
+/** Engine-computed anaerobic run: what the yeast ate, made, and how long for. */
+export interface FermentationRun {
+  sucroseMoles: number;
+  ethanolMoles: number;
+  carbonDioxideMoles: number;
+  activeYeastGrams: number;
+  seconds: number;
+  /** `carbon_dioxide_moles ÷ seconds` — the rate the bubbling follows. */
+  molesPerSecond: number;
+}
+
+/** Engine-computed transmission of one UV band through a sample. */
+export interface UvRun {
+  material: string;
+  wavelengthNm: number;
+  band: string;
+  /** Fraction of the incident light that got through, 0–1. */
+  transmittedFraction: number;
+  mechanism: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -229,6 +320,20 @@ export interface Effect {
   thermal?: ThermalRun;
   /** Presentation metadata only; the engine remains owner of spilled material. */
   spill?: SpillRun;
+  /** Engine-computed transition, including the temperature it happened at. */
+  phase?: PhaseChangeRun;
+  /** The engine's species id, where the event names one substance. */
+  species?: string;
+  /** Engine-owned amount and molar volume of a solid appearing or leaving. */
+  solid?: SolidYield;
+  /** Engine-owned headspace, for the lid and the piston. */
+  headspace?: HeadspaceRun;
+  /** Engine-owned dispersion, for the droplet field. */
+  emulsion?: EmulsionRun;
+  /** Engine-owned anaerobic run, for the slow bubbling. */
+  fermentation?: FermentationRun;
+  /** Engine-owned UV transmission, for the beam. */
+  uv?: UvRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -286,10 +391,11 @@ function precipMag(e: EngineEvent): number {
 }
 
 // event.moles — Evaporated/Distilled: 0.01 mol is gentle, 0.5 mol is
-// a rolling boil.
+// a rolling boil. Shared with the boil so the plume and the bubbles are
+// sized by one number (see `vapourIntensity`).
 function steamMag(e: EngineEvent): number {
   const moles = Number(e.moles ?? 0) + Number(e.water ?? 0) + Number(e.ethanol ?? 0);
-  return scale(moles, 0.01, 0.5);
+  return vapourIntensity(moles);
 }
 
 // event.fraction — Transferred: the visible stream follows the amount
@@ -357,6 +463,203 @@ function flameMag(e: EngineEvent): [number, string | undefined] {
 }
 
 /**
+ * Water's normal boiling point, K. Used only while no engine phase event is
+ * live: `state_changed` carries the plateau the solver actually held the
+ * vessel at (pressure shift and colligative elevation already in it), and
+ * that number wins whenever it is on the bench. Scene v1 has no standing
+ * `boiling_point_k`, so between events the stage falls back to pure water at
+ * one atmosphere rather than inventing a correlation of its own.
+ */
+export const NORMAL_BOILING_K = 373.15;
+
+/** Below this the bench draws no incandescence: a solid is merely hot. */
+export const INCANDESCENCE_ONSET_K = 800;
+
+/**
+ * Vapour intensity from the moles of vapour a step actually made.
+ * A hundredth of a mole (≈0.25 L of steam) is a gentle simmer; half a
+ * mole is a rolling boil. Monotone and bounded in [0, 1].
+ */
+export function vapourIntensity(moles: number): number {
+  return scale(moles, 0.01, 0.5);
+}
+
+/**
+ * Visible incandescence of a body at `temperatureK`, or null when it glows
+ * only in the infrared. `fraction` is how strongly the glow reads (0 at the
+ * onset, 1 by white heat); `rgb` is the colour, from the standard
+ * blackbody-locus approximation to Planck's law — deep red at 800 K,
+ * orange near 1500 K, amber near 2500 K, near-white above 3500 K.
+ */
+export function incandescence(
+  temperatureK: number,
+): { fraction: number; rgb: [number, number, number] } | null {
+  if (!(temperatureK >= INCANDESCENCE_ONSET_K)) return null;
+  const t = Math.min(temperatureK, 6500) / 100;
+  const byte = (value: number) => Math.max(0, Math.min(255, Math.round(value)));
+  const red = t <= 66 ? 255 : byte(329.698_727_446 * Math.pow(t - 60, -0.133_204_759_2));
+  const green = t <= 66
+    ? byte(99.470_802_586_1 * Math.log(t) - 161.119_568_166_1)
+    : byte(288.122_169_528_3 * Math.pow(t - 60, -0.075_514_849_2));
+  const blue = t >= 66 ? 255 : t <= 19 ? 0 : byte(138.517_731_223_1 * Math.log(t - 10) - 305.044_792_730_7);
+  return {
+    fraction: scale(temperatureK, INCANDESCENCE_ONSET_K, 2000),
+    rgb: [byte(red), byte(green), byte(blue)],
+  };
+}
+
+/**
+ * Dew point of air at `ambientK` and `relativeHumidity` (0–1), by the
+ * Magnus–Tetens approximation. Room air at 20 °C and 50 % RH dews at
+ * about 9 °C — which is why a beaker of ice water beads and a beaker of
+ * tap water does not.
+ */
+export function dewPointK(ambientK: number, relativeHumidity: number): number {
+  const a = 17.62;
+  const b = 243.12;
+  const celsius = ambientK - 273.15;
+  const rh = Math.max(0.001, Math.min(1, relativeHumidity));
+  const gamma = Math.log(rh) + (a * celsius) / (b + celsius);
+  return b * gamma / (a - gamma) + 273.15;
+}
+
+/**
+ * How heavily a vessel wall at `surfaceK` beads with condensation, 0–1:
+ * nothing until the glass is below the room's dew point, saturated 15 K
+ * below it. Returns 0 once the wall is below freezing, where the same
+ * water arrives as frost and the frost layer draws it instead.
+ */
+export function condensationFilm(
+  surfaceK: number,
+  ambientK = 293.15,
+  relativeHumidity = 0.5,
+): number {
+  if (surfaceK < 273.15) return 0;
+  return scale(dewPointK(ambientK, relativeHumidity) - surfaceK, 0, 15);
+}
+
+/** event.shifted_by — a fraction of a kelvin is invisible; 20 K is a big shift. */
+function phaseMag(e: EngineEvent): number {
+  return scale(Math.abs(Number(e.shifted_by ?? 0)), 0.05, 20);
+}
+
+/** The visual kind one engine phase transition asks for. */
+function phaseKind(from: string, to: string): string {
+  if (to === "gas") return "boil";
+  if (to === "solid") return "freeze";
+  if (to === "liquid") return from === "gas" ? "condense" : "melt";
+  return "phase-change";
+}
+
+/** Molar gas constant, J/(mol·K). */
+const GAS_CONSTANT_J_PER_MOL_K = 8.314_462_618;
+
+/**
+ * A typical ionic solid's molar volume, L/mol, used only when the scene has
+ * no row for the species — which happens when a solid dissolves completely
+ * in the same step it is reported. Calcite is 0.0369, gypsum 0.0745, halite
+ * 0.0270; 0.030 sits in the middle of that and is never the number a visual
+ * claims when the real one is available.
+ */
+export const FALLBACK_MOLAR_VOLUME_L = 0.03;
+
+/**
+ * The volume `moles` of ideal gas occupies at `pressurePa` and
+ * `temperatureK`, in litres. This is what moves a floating piston: hold the
+ * pressure and add gas and it rises, squeeze the same gas harder and it
+ * falls. Returns 0 for a non-positive pressure or amount.
+ */
+export function headspaceVolumeL(
+  moles: number,
+  temperatureK: number,
+  pressurePa: number,
+): number {
+  if (!(moles > 0) || !(temperatureK > 0) || !(pressurePa > 0)) return 0;
+  return (moles * GAS_CONSTANT_J_PER_MOL_K * temperatureK) / pressurePa * 1000;
+}
+
+/**
+ * Boyle's law: what a gas that filled `volumeAtReferenceL` at
+ * `referencePressurePa` shrinks (or swells) to at `pressurePa`, isothermally.
+ * The standing fallback for a pressure-controlled vessel between events —
+ * the scene carries `pressure_pa` but not the trapped moles, so this is what
+ * keeps the piston in the right place once the event window has closed.
+ */
+export function compressedVolumeL(
+  volumeAtReferenceL: number,
+  pressurePa: number,
+  referencePressurePa = 101_325,
+): number {
+  if (!(volumeAtReferenceL > 0) || !(pressurePa > 0)) return 0;
+  return volumeAtReferenceL * (referencePressurePa / pressurePa);
+}
+
+/** One deposit drawn as grains: how many, and how big each one is. */
+export interface DepositParticles {
+  count: number;
+  /** Volume of a single drawn grain, litres. */
+  particleVolumeL: number;
+  /** Grain radius relative to a 10 µL reference grain; bounded [0.5, 3]. */
+  radiusScale: number;
+}
+
+/**
+ * Grains for `moles` of a solid whose molar volume is `molarVolumeLPerMol`.
+ *
+ * The count follows the amount on a log ramp — a tenth of a millimole is a
+ * few specks, a tenth of a mole is a snowfall — and the SIZE follows the
+ * volume each grain then has to carry. That is the part that was missing:
+ * a mole of a fluffy hydroxide occupies three times a mole of a dense
+ * sulfate, and until now both drew the same 1.2 px circle.
+ */
+export function depositParticles(
+  moles: number,
+  molarVolumeLPerMol = FALLBACK_MOLAR_VOLUME_L,
+): DepositParticles {
+  const amount = Math.max(0, moles);
+  const molar = molarVolumeLPerMol > 0 ? molarVolumeLPerMol : FALLBACK_MOLAR_VOLUME_L;
+  const count = amount > 0
+    ? Math.round(3 + 9 * scale(Math.log10(amount), -4, -1))
+    : 0;
+  const particleVolumeL = count > 0 ? (amount * molar) / count : 0;
+  // A 10 µL grain is the reference; radius goes as the cube root of volume.
+  const radiusScale = particleVolumeL > 0
+    ? Math.max(0.5, Math.min(3, Math.cbrt(particleVolumeL / 1e-5)))
+    : 0.5;
+  return { count, particleVolumeL, radiusScale };
+}
+
+/**
+ * Moles in one bubble a learner can actually see: about a millilitre of gas,
+ * which at room conditions is ~41 µmol. Used to turn a production RATE into
+ * a bubble tempo, so a ferment that makes 3 mmol of CO2 over an hour bubbles
+ * once every few seconds rather than at an invented speed.
+ */
+export const VISIBLE_BUBBLE_MOLES = 4.1e-5;
+
+/**
+ * Seconds between visible bubbles for a gas produced at `molesPerSecond`.
+ * Monotone decreasing in the rate and clamped to [0.25 s, 6 s] — below the
+ * floor the eye reads a stream anyway, and above the ceiling the vessel
+ * would appear inert.
+ */
+export function bubblePeriodS(molesPerSecond: number): number {
+  if (!(molesPerSecond > 0)) return 6;
+  return Math.max(0.25, Math.min(6, VISIBLE_BUBBLE_MOLES / molesPerSecond));
+}
+
+/**
+ * Bubbles drawn at ONE electrode from the charge that passed, 1–8. Charge is
+ * the honest driver: the engine names the moles of only one product, and the
+ * counter-electrode's half-reaction is not on the wire, so both electrodes
+ * are sized by the coulombs they shared rather than by an invented ratio.
+ */
+export function electrodeBubbles(coulombs: number): number {
+  if (!(coulombs > 0)) return 1;
+  return Math.max(1, Math.min(8, Math.round(1 + 7 * scale(Math.log10(coulombs), 0, 3))));
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -366,9 +669,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
 
   switch (kind) {
     case "gas_evolved":
-      return { kind: "vent", at: now, magnitude: gasMag(e) };
+      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
     case "gas_produced":
-      return { kind: "vent", at: now, magnitude: gasMag(e) };
+      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
+    case "gas_contained":
+      // A sealed vessel keeps its gas: the same moles, but they stay in the
+      // headspace and raise the pressure instead of leaving through the mouth.
+      // Unmapped before GUI-099, so a sealed flask boiling showed nothing.
+      return {
+        kind: "contain",
+        at: now,
+        durationMs: 3000,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "foam_changed":
       return {
         kind: "foam",
@@ -394,12 +710,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: scale(Number(e.separation_progress ?? 0), 0.01, 1),
       };
     case "precipitated":
-      return { kind: "precipitate", at: now, magnitude: precipMag(e) };
+      return {
+        kind: "precipitate",
+        at: now,
+        magnitude: precipMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "evaporated":
       return {
         kind: "evaporate",
         at: now,
         magnitude: steamMag(e),
+        species: String(e.species ?? ""),
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
@@ -592,7 +916,14 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "dissolved":
-      return { kind: "dissolve", at: now, magnitude: 1 };
+      return {
+        kind: "dissolve",
+        at: now,
+        magnitude: precipMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "plated":
       return { kind: "plate", at: now, magnitude: 1 };
     case "temperature_changed": {
@@ -630,13 +961,48 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: scale(Math.abs(joules), 5, 5000),
       };
     }
-    case "state_changed":
+    case "state_changed": {
+      const from = String(e.from ?? "");
+      const to = String(e.to ?? "");
+      const atK = Number(e.at ?? 0);
       return {
-        kind: String(e.to ?? "") === "solid" ? "freeze" : "phase-change",
+        kind: phaseKind(from, to),
         at: now,
-        magnitude: scale(Math.abs(Number(e.shifted_by ?? 0)), 0, 20),
-        temperatureK: Number(e.at ?? 0),
+        durationMs: 3200,
+        magnitude: phaseMag(e),
+        temperatureK: atK,
+        phase: {
+          species: String(e.species ?? ""),
+          from,
+          to,
+          atK,
+          shiftedByK: Number(e.shifted_by ?? 0),
+        },
       };
+    }
+    case "boiling_point_routed": {
+      // Emitted only when the boil did NOT use the normal boiling point —
+      // a partial vacuum, a pressurised vessel, a salted solvent. It names
+      // the plateau, so it draws the same rolling boil `state_changed` does.
+      const atK = Number(e.boiling ?? 0);
+      return {
+        kind: "boil",
+        at: now,
+        durationMs: 3200,
+        magnitude: phaseMag(e),
+        temperatureK: atK,
+        phase: {
+          species: String(e.species ?? ""),
+          from: "liquid",
+          to: "gas",
+          atK,
+          shiftedByK: Number(e.shifted_by ?? 0),
+          pressureKpa: Number(e.pressure_kpa ?? 0),
+          route: String(e.route ?? ""),
+          model: String(e.model ?? ""),
+        },
+      };
+    }
     case "burst":
       return {
         kind: "burst",
@@ -670,7 +1036,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);
-      return { kind: kind === "flame_test" ? "flame_test" : "ignite", at: now, magnitude: mag, flameColour: colour };
+      const energyJ = kind === "ignited" && e.energy_j !== undefined ? Number(e.energy_j) : undefined;
+      return {
+        kind: kind === "flame_test" ? "flame_test" : "ignite",
+        at: now,
+        magnitude: mag,
+        flameColour: colour,
+        // The flame's size already followed this; carrying it makes the
+        // driving number readable from the DOM rather than only inferable.
+        ...(energyJ === undefined ? {} : { reading: energyJ, unit: "J" }),
+      };
     }
     case "gas_tested":
       return {
@@ -696,6 +1071,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         durationMs: 4200,
         magnitude: Math.max(.2, Math.min(1, notes.length / 3)),
         waft: { notes },
+      };
+    }
+    case "vessel_sealed": {
+      // The engine names the headspace it just trapped, so the lid can sit
+      // where the gas actually is instead of at a fixed y.
+      const volumeL = Math.max(0, Number(e.headspace_volume ?? 0));
+      return {
+        kind: "seal",
+        at: now,
+        durationMs: 4000,
+        magnitude: scale(volumeL, 0.005, 0.5),
+        headspace: {
+          volumeL,
+          moles: Math.max(0, Number(e.trapped_air ?? 0)),
+          source: "engine",
+        },
       };
     }
     case "vessel_pressure_controlled": {
@@ -733,6 +1124,72 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           wavelengthNm: Number(e.wavelength_nm ?? 0),
           irradianceWM2,
           photolysisCoupled: Boolean(e.photolysis_coupled),
+        },
+      };
+    }
+    case "emulsion_changed": {
+      // GUI-099 ANIM-3: `SceneVessel.emulsion` was read by no component in
+      // the app, so shaking oil into water changed nothing on screen.
+      const toDispersedFraction = Math.max(0, Math.min(1, Number(e.to_dispersed_fraction ?? 0)));
+      const halfLifeSeconds = Math.max(0, Number(e.half_life_seconds ?? 0));
+      return {
+        kind: "emulsify",
+        at: now,
+        // The dispersion is visible for as long as it survives: the engine's
+        // own half-life, clamped to a watchable window.
+        durationMs: Math.min(9000, Math.max(1500, halfLifeSeconds * 1000)),
+        magnitude: scale(toDispersedFraction, 0.02, 1),
+        reading: toDispersedFraction,
+        unit: "fraction",
+        emulsion: {
+          material: String(e.material ?? ""),
+          fromDispersedFraction: Math.max(0, Math.min(1, Number(e.from_dispersed_fraction ?? 0))),
+          toDispersedFraction,
+          dispersedVolumeL: Math.max(0, Number(e.dispersed_volume_l ?? 0)),
+          halfLifeSeconds,
+        },
+      };
+    }
+    case "fermented": {
+      const carbonDioxideMoles = Math.max(0, Number(e.carbon_dioxide_moles ?? 0));
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      const molesPerSecond = seconds > 0 ? carbonDioxideMoles / seconds : 0;
+      return {
+        kind: "ferment",
+        at: now,
+        // Hours of bench time compressed to a watchable window; the TEMPO
+        // stays honest because it comes from the rate, not from this.
+        durationMs: Math.min(12_000, Math.max(2500, 2500 + Math.log10(1 + seconds) * 2500)),
+        magnitude: gasMag({ moles: carbonDioxideMoles }),
+        reading: carbonDioxideMoles,
+        unit: "mol",
+        fermentation: {
+          sucroseMoles: Math.max(0, Number(e.sucrose_moles ?? 0)),
+          ethanolMoles: Math.max(0, Number(e.ethanol_moles ?? 0)),
+          carbonDioxideMoles,
+          activeYeastGrams: Math.max(0, Number(e.active_yeast_grams ?? 0)),
+          seconds,
+          molesPerSecond,
+        },
+      };
+    }
+    case "uv_attenuated": {
+      const transmittedFraction = Math.max(0, Math.min(1, Number(e.transmitted_fraction ?? 1)));
+      return {
+        kind: "uv",
+        at: now,
+        durationMs: 4600,
+        // The magnitude is how much was STOPPED: a sunscreen that works
+        // draws a strong effect, not a faint one.
+        magnitude: 1 - transmittedFraction,
+        reading: transmittedFraction,
+        unit: "fraction",
+        uv: {
+          material: String(e.material ?? ""),
+          wavelengthNm: Number(e.wavelength_nm ?? 0),
+          band: String(e.band ?? ""),
+          transmittedFraction,
+          mechanism: String(e.mechanism ?? ""),
         },
       };
     }

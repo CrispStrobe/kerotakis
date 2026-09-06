@@ -126,13 +126,33 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
             .map(|_| 0.0),
         RandOp::Heat { joules } => {
             let v = pick(0);
-            let had_contents = !bench.vessel(v).unwrap().is_empty();
+            // A burner has a temperature of its own, so what is asked for
+            // and what crosses are two different numbers: a tenth of a mole
+            // of water cannot absorb 50 kJ, because long before that it is
+            // as hot as the flame. Charge the ledger with what the bench
+            // says it delivered — and *that* claim is the one under test,
+            // since the enthalpy on the other side of the balance is
+            // computed from the vessel, not from this event.
             bench
                 .step(Operator::Heat {
                     vessel: v,
                     energy: Joules(*joules),
+                    source: None,
                 })
-                .map(|_| if had_contents { *joules } else { 0.0 })
+                .map(|events| {
+                    events
+                        .iter()
+                        .find_map(|event| match event {
+                            Event::EnergyTransferred {
+                                vessel,
+                                heating: true,
+                                delivered_j,
+                                ..
+                            } if *vessel == v => Some(*delivered_j),
+                            _ => None,
+                        })
+                        .unwrap_or(0.0)
+                })
         }
         RandOp::Cool { joules } => {
             let v = pick(1);

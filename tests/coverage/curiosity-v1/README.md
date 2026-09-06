@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-06 a fifteenth time (one row, mat-054: heating now has a
+source with a temperature of its own, and a Bunsen burner does not melt
+quartz) — see below.
+
 Refreshed 2026-09-06 a fourteenth time (five rows, milk's mineral buffer) —
 see below, and read that entry before quoting it: the yoghurt pair left
 `missing` and did NOT thereby become answered.
@@ -96,6 +100,37 @@ the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
+
+## Refresh 2026-09-06, fifteenth — mat-054, a burner does not melt quartz
+
+One row, and it moves from `computed` to `missing` because the bench
+stopped pretending to have equipment it does not have.
+
+`mat-054` ("Can glass be melted and cooled into a crystal?") runs
+`add v1 silica_glass 2g; heat v1 100kJ; cool v1 100kJ`. Two grams of
+silica is 0.033 mol at 44 J/(mol·K) — 1.5 J/K — and `heat` used to divide
+100 kJ by that and write the answer on the thermometer: about 67 000 K,
+four times the surface of any star a learner has heard of, and then
+`cool` took the same 100 kJ back out of a vessel that now held it. Both
+steps "computed".
+
+`Operator::Heat` now delivers from a source with a temperature of its own,
+and the bench default is a laboratory burner at 1500 °C. Fused silica
+softens around 1600 °C and melts near 1713 °C, so a Bunsen flame does not
+melt it — which is the actual answer to the question, and the reason a
+glassblower working quartz reaches for an oxy-hydrogen torch. The burner
+delivers the 2.2 kJ that takes the glass to the flame and reports the
+other 97.8 kJ as undelivered; the `cool` step then meets the other bound
+that was always there, a vessel asked for 100 kJ of heat content it never
+had, and says so.
+
+So the row is `missing`/`not-yet-modeled`, and what is missing is named:
+this bench models no heat source hot enough to melt quartz, and no
+crystallisation on cooling either. That is a smaller claim than the one it
+replaces and a true one. A hotter source is a `HeatSource` away
+(`apparatus::HeatSource`, which already carries candle, burner and
+hotplate) and would move this row back by adding equipment rather than by
+removing a bound.
 
 ## Refresh 2026-09-06, fourteenth — milk stops being water
 

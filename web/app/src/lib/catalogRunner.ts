@@ -16,6 +16,16 @@
  * drives the same function, because "runs on the bench" should not mean two
  * different things depending on which door the learner came through.
  *
+ * The pause was still a timer, though, and a timer is a guess about how
+ * long the learner needs. So the walk grew a second pacer: hand the runner
+ * an `onstepdone` gate and it submits ONE line, reports what that line
+ * produced, and waits to be told to go on. Same door, same checks, same
+ * recording — the only difference is who says "next". The one thing that
+ * had to change underneath is what counts as done: the expectations are
+ * checked against the bench whatever happened, and a bench can satisfy
+ * them after one line, so a run the learner stopped is no longer allowed
+ * to record progress it did not earn.
+ *
  * Everything here is pure or takes its bench as a structural interface, so
  * the whole flow is testable without a DOM: `Session` satisfies
  * `RunnerBench` by shape, and a fake satisfies it in the tests.
@@ -32,6 +42,23 @@ export interface RunnerBench {
   endEventCapture(): string[];
   finalStateForCheck(): { phValues: number[]; temperaturesC: number[] };
   markExperimentDone(id: string): void;
+  /**
+   * The learner-visible feed, oldest first.
+   *
+   * Step mode has to answer "what did that line just DO?", and the bench
+   * already writes that answer down: the feed is the same account the
+   * learner reads when they type a command themselves. Reading its tail is
+   * therefore not a second rendering of the run, it is the run's own words.
+   * Optional, because a bench without a feed is still a runnable bench —
+   * it simply reports nothing produced.
+   */
+  readonly feed?: readonly RunnerFeedLine[];
+}
+
+/** One line of the feed, as a step report carries it. */
+export interface RunnerFeedLine {
+  kind: string;
+  text: string;
 }
 
 /** Only the fields that answer "is there work on this bench?". */
@@ -61,6 +88,52 @@ export interface RunStep {
   total: number;
 }
 
+/** What the learner asked for after watching one step land. */
+export type StepVerdict = "next" | "rest" | "stop";
+
+/** A step that has already happened, and what the bench said about it. */
+export interface StepReport {
+  line: string;
+  index: number;
+  total: number;
+  /** The feed lines this line wrote, in order. */
+  produced: RunnerFeedLine[];
+  /** True while lines remain after this one. */
+  more: boolean;
+}
+
+/** How the learner wants the script walked. Remembered between runs. */
+export type RunMode = "auto" | "step";
+
+const RUN_MODE_KEY = "kerotakis.catalogRunMode";
+
+/**
+ * The learner's remembered choice of pace, defaulting to "auto".
+ *
+ * Storage is absent in private modes and in the test environment, and a
+ * missing preference is not an error — it is the default. So every path
+ * that cannot read a choice returns the same thing an untouched browser
+ * would.
+ */
+export function loadRunMode(): RunMode {
+  if (typeof window === "undefined") return "auto";
+  try {
+    return window.localStorage.getItem(RUN_MODE_KEY) === "step" ? "step" : "auto";
+  } catch {
+    return "auto";
+  }
+}
+
+/** Remember the pace. A blocked store costs the memory, never the run. */
+export function saveRunMode(mode: RunMode): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(RUN_MODE_KEY, mode);
+  } catch {
+    /* The live choice still works when persistence is blocked. */
+  }
+}
+
 export interface CatalogRunOutcome {
   /** Lines actually submitted, in order. */
   ran: string[];
@@ -70,6 +143,8 @@ export interface CatalogRunOutcome {
   refusedAt: number | null;
   /** True only on the run that first records this entry as completed. */
   recorded: boolean;
+  /** True when the learner ended the run before the script ran out. */
+  halted: boolean;
 }
 
 /** Lines the runner will submit: comments and blanks are not steps. */
@@ -174,6 +249,27 @@ export interface RunOptions {
   decision?: BenchDecision | null;
   /** Polled between steps: a learner who taps stop is obeyed. */
   stopped?: () => boolean;
+  /**
+   * Awaited AFTER each line, which is what makes a run manual.
+   *
+   * Its presence is the mode: with it the runner submits one line and then
+   * hands the learner what that line produced, and waits. "next" runs one
+   * more, "rest" finishes the script at the automatic pace without asking
+   * again, "stop" ends the run here. It is never called after the last
+   * line — there is nothing left to consent to, and the verdict is the
+   * answer to that step.
+   */
+  onstepdone?: (report: StepReport) => Promise<StepVerdict>;
+}
+
+/** The feed a step wrote, minus the echo of the command that wrote it. */
+function producedSince(bench: RunnerBench, from: number): RunnerFeedLine[] {
+  return (bench.feed ?? [])
+    .slice(from)
+    // `command` is the line the learner can already read on the button they
+    // pressed, and `user-note` is their own writing, not the bench's answer.
+    .filter((entry) => entry.kind !== "command" && entry.kind !== "user-note")
+    .map((entry) => ({ kind: entry.kind, text: entry.text }));
 }
 
 const wait = (ms: number): Promise<void> =>
@@ -192,36 +288,66 @@ export async function runCatalogEntry(
   entry: RunnableEntry,
   options: RunOptions = {},
 ): Promise<CatalogRunOutcome> {
-  const { onstep, pause = wait, paceMs = 420, decision = null, stopped } = options;
+  const { onstep, pause = wait, paceMs = 420, decision = null, stopped, onstepdone } = options;
   if (decision === "clear") await bench.clear();
   const script = scriptForDecision(entry.setup.script, decision, bench.scene);
   const lines = runnableLines(script);
 
   const ran: string[] = [];
   let refusedAt: number | null = null;
+  let halted = false;
+  // Manual until the learner says otherwise: "finish the rest" is a
+  // one-way door within a run, and the next run reads the mode afresh.
+  let manual = onstepdone != null;
   bench.beginEventCapture();
   let observed: string[] = [];
   try {
     for (const [index, line] of lines.entries()) {
-      if (stopped?.()) break;
+      if (stopped?.()) {
+        halted = true;
+        break;
+      }
       onstep?.({ line, index, total: lines.length });
+      const feedBefore = bench.feed?.length ?? 0;
       const accepted = await bench.submit(line);
       ran.push(line);
       if (!accepted) {
         refusedAt = index;
         break;
       }
-      if (index < lines.length - 1) await pause(paceMs);
+      const more = index < lines.length - 1;
+      if (onstepdone && manual && more) {
+        const verdict = await onstepdone({
+          line,
+          index,
+          total: lines.length,
+          produced: producedSince(bench, feedBefore),
+          more,
+        });
+        if (verdict === "stop") {
+          halted = true;
+          break;
+        }
+        // A learner who has seen the step does not need the pace that
+        // exists to make an unwatched one visible.
+        if (verdict === "rest") manual = false;
+        continue;
+      }
+      if (more) await pause(paceMs);
     }
   } finally {
     observed = bench.endEventCapture();
   }
 
   const result = checkExpect(entry.expect ?? {}, observed, bench.finalStateForCheck());
-  // Completion is recorded once. Asking first keeps the second green run
-  // from re-writing progress that is already saved, which is what makes
-  // "recorded" answerable at all.
-  const recorded = result.allOk && refusedAt === null && !bench.completedExperiments.has(entry.id);
+  // Completion is recorded once, and only for a script that actually ran
+  // out. A run the learner stopped after one lucky line can satisfy the
+  // expectations by accident; crediting it would be crediting the check,
+  // not the experiment. Asking whether it is already done keeps the second
+  // green run from re-writing progress that is already saved, which is
+  // what makes "recorded" answerable at all.
+  const walked = refusedAt === null && !halted && ran.length === lines.length;
+  const recorded = result.allOk && walked && !bench.completedExperiments.has(entry.id);
   if (recorded) bench.markExperimentDone(entry.id);
-  return { ran, observed, result, refusedAt, recorded };
+  return { ran, observed, result, refusedAt, recorded, halted };
 }

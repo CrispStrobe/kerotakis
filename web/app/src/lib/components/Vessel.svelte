@@ -4,6 +4,17 @@
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
+  import {
+    FALLBACK_MOLAR_VOLUME_L,
+    NORMAL_BOILING_K,
+    bubblePeriodS,
+    compressedVolumeL,
+    condensationFilm,
+    depositParticles,
+    electrodeBubbles,
+    headspaceVolumeL,
+    incandescence,
+  } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
@@ -252,14 +263,120 @@
   // Combustion is event-authoritative; temperature still owns glow/steam.
   const burning = $derived(ignitionEffect !== undefined);
   let ignitionFallbackVisible = $state(true);
-  const steaming = $derived(
-    (vessel.liquid !== null && vessel.temperature_k >= 368) || active("evaporate", 2500),
+  // GUI-099: the boil is held at the temperature the ENGINE computed, not at
+  // a constant. `state_changed` names the plateau it actually used in
+  // `phase.atK` — pressure shift and colligative elevation already in it —
+  // and `boiling_point_routed` repeats it whenever the route was not the
+  // normal boiling point. Between events scene v1 carries no standing
+  // boiling point, so the stage falls back to pure water at one atmosphere
+  // rather than inventing a correlation of its own.
+  const boilEffect = $derived(latestEffect("boil", 3200));
+  const boilingK = $derived(boilEffect?.phase?.atK ?? boilEffect?.temperatureK ?? NORMAL_BOILING_K);
+  const boilSpecies = $derived(boilEffect?.phase?.species ?? "");
+  // Moles of vapour this step actually made. A boil emits them as
+  // `gas_evolved` (open) or `gas_contained` (sealed); the `evaporate` verb
+  // emits them as `evaporated`. Whichever spoke, the plume and the bubbles
+  // are sized by that one number, so a simmer and a flask boiling dry differ.
+  const vapourMag = $derived.by(() => {
+    const clock = effectClock;
+    const gas = effects.filter(
+      (effect) =>
+        (effect.kind === "vent" || effect.kind === "contain") &&
+        effectAlive(effect, 2600, clock) &&
+        (boilSpecies === "" || effect.species === boilSpecies),
+    );
+    const last = gas.length > 0 ? gas[gas.length - 1]!.magnitude : 0;
+    return Math.max(mag("evaporate", 2500), last);
+  });
+  const vapourMoles = $derived.by(() => {
+    const clock = effectClock;
+    const carriers = effects.filter(
+      (effect) =>
+        ["vent", "contain", "evaporate"].includes(effect.kind) &&
+        effectAlive(effect, 2600, clock) &&
+        effect.unit === "mol",
+    );
+    return carriers.length > 0 ? (carriers[carriers.length - 1]!.reading ?? 0) : 0;
+  });
+  const boiling = $derived(
+    vessel.liquid !== null && (vessel.temperature_k >= boilingK - 0.25 || active("boil", 3200)),
   );
+  const steaming = $derived(boiling || active("evaporate", 2500));
+  // Above ~800 K a body glows in the visible, and its colour is a function of
+  // temperature alone: the blackbody locus, deep red through amber to white.
+  const incandescent = $derived(incandescence(vessel.temperature_k));
+  // Condensation beads only once the wall is under the room's dew point —
+  // which is why a beaker of ice water runs and a beaker of tap water does not.
+  const condensation = $derived(condensationFilm(vessel.temperature_k));
+  // GUI-099 ANIM-2: how many grains, and how big. The count is the amount,
+  // the size is the room a mole of THIS substance takes up — so a fluffy
+  // hydroxide and a dense sulfate stop drawing the same 1.2 px circle.
+  const precipitateEffect = $derived(latestEffect("precipitate", 1800));
+  const dissolveEffect = $derived(latestEffect("dissolve", 1400));
+  const precipitateGrains = $derived(
+    depositParticles(
+      precipitateEffect?.solid?.moles ?? precipitateEffect?.reading ?? 0,
+      precipitateEffect?.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L,
+    ),
+  );
+  const dissolveGrains = $derived(
+    depositParticles(
+      dissolveEffect?.solid?.moles ?? dissolveEffect?.reading ?? 0,
+      dissolveEffect?.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L,
+    ),
+  );
+  // GUI-099 ANIM-2: the gas above the liquid, and where the lid that holds
+  // it belongs. Exact where the engine named the trapped moles — V = nRT/P,
+  // at the scene's own pressure and temperature — and Boyle's law off the
+  // free volume and the scene's pressure once that event's window closes.
+  // The piston used to be drawn at y=16 whatever the pressure, so squeezing
+  // a gas moved nothing on screen.
+  const sealEffect = $derived(latestEffect("seal", 4000));
+  const capacityL = $derived(geom.capacity_ml / 1000);
+  const freeVolumeL = $derived(Math.max(0, capacityL - (vessel.liquid?.volume_l ?? 0)));
+  const headspace = $derived.by(() => {
+    const control = pressureControlEffect?.pressureControl;
+    const pressurePa = vessel.pressure_pa > 0 ? vessel.pressure_pa : (control?.pressurePa ?? 0);
+    if (control && control.trappedGasMoles > 0 && pressurePa > 0) {
+      const volumeL = headspaceVolumeL(control.trappedGasMoles, vessel.temperature_k, pressurePa);
+      if (volumeL > 0) return { volumeL, moles: control.trappedGasMoles, pressurePa, source: "ideal-gas" };
+    }
+    const sealed = sealEffect?.headspace;
+    if (sealed && sealed.volumeL > 0) {
+      return { volumeL: sealed.volumeL, moles: sealed.moles, pressurePa, source: "engine" };
+    }
+    if (vessel.boundary !== "open" && pressurePa > 0) {
+      return { volumeL: compressedVolumeL(freeVolumeL, pressurePa), moles: 0, pressurePa, source: "boyle" };
+    }
+    return { volumeL: freeVolumeL, moles: 0, pressurePa, source: "geometry" };
+  });
+  const liquidTopY = $derived(BOTTOM_Y - liquidH);
+  const pistonY = $derived(
+    Math.max(
+      6,
+      Math.min(
+        liquidTopY - 2,
+        BOTTOM_Y - fillHeight(geom, Math.min(capacityL, (vessel.liquid?.volume_l ?? 0) + headspace.volumeL), 0),
+      ),
+    ),
+  );
+  // A gas held above atmospheric reads denser. One atmosphere is invisible.
+  const headspaceTint = $derived(
+    Math.min(0.5, Math.max(0, (headspace.pressurePa - 101_325) / 400_000)),
+  );
+  // GUI-099 ANIM-3: three things the engine has always computed and the
+  // bench has never drawn.
+  const emulsifyEffect = $derived(latestEffect("emulsify", 9000));
+  const fermentEffect = $derived(latestEffect("ferment", 12_000));
+  const uvEffect = $derived(latestEffect("uv", 4600));
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
-  const frostIntensity = $derived(Math.max(cold, mag("cool", 2200), mag("freeze", 2200)));
+  // A melt is the engine saying the ice went: the frost recedes with it.
+  const frostIntensity = $derived(
+    Math.max(cold, mag("cool", 2200), mag("freeze", 2200)) * (1 - mag("melt", 3200)),
+  );
   const apparatusOperating = $derived(
     apparatusWorking ||
       (deployedTool === "stir" && active("swirl", 2200)) ||
@@ -302,6 +419,8 @@
   class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
   data-vessel-id={vessel.id}
+  data-temperature-k={vessel.temperature_k.toFixed(2)}
+  data-boiling-k={boilingK.toFixed(2)}
   style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65};--pour-angle:${9 + mag("pour", 2200) * 23}deg`}
 >
   <button
@@ -408,6 +527,43 @@
         <path d={`M ${INNER_X - 2} ${BOTTOM_Y} L ${INNER_X - 2} ${BOTTOM_Y - snowH * 0.48} Q ${INNER_X + INNER_W * 0.16} ${BOTTOM_Y - snowH * 0.68} ${INNER_X + INNER_W * 0.30} ${BOTTOM_Y - snowH * 0.62} Q 50 ${BOTTOM_Y - snowH * 1.02} ${INNER_X + INNER_W * 0.68} ${BOTTOM_Y - snowH * 0.67} Q ${INNER_X + INNER_W * 0.88} ${BOTTOM_Y - snowH * 0.76} ${INNER_X + INNER_W + 2} ${BOTTOM_Y - snowH * 0.46} L ${INNER_X + INNER_W + 2} ${BOTTOM_Y} Z`} />
         {#each Array.from({ length: 13 }, (_, i) => i) as i (i)}
           <circle cx={INNER_X + 3 + ((i * 17) % Math.max(7, INNER_W - 6))} cy={BOTTOM_Y - 3 - ((i * 13) % Math.max(5, snowH * 0.55))} r={0.65 + (i % 3) * 0.25} />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.emulsion && vessel.emulsion.dispersed_fraction > 0.001 && vessel.liquid && liquidH > 0}
+      <!-- GUI-099 ANIM-3: `SceneVessel.emulsion` was read by no component in
+           the app, so shaking oil into water changed nothing on screen. The
+           droplet count is the dispersed FRACTION, the droplet size is the
+           dispersed VOLUME divided between them, and how fast they drift
+           back together is the engine's own coalescence half-life. -->
+      {@const dispersed = Math.min(1, vessel.emulsion.dispersed_fraction)}
+      {@const dropCount = Math.max(4, Math.round(4 + dispersed * 22))}
+      {@const perDropL = vessel.emulsion.dispersed_volume_l / dropCount}
+      {@const dropR = Math.max(0.6, Math.min(3, Math.cbrt(Math.max(1e-12, perDropL) / 2e-6)))}
+      {@const coalesceS = Math.max(1.2, Math.min(12, vessel.emulsion.half_life_seconds))}
+      <g
+        class="emulsion"
+        class:shaking={emulsifyEffect !== undefined}
+        data-dispersed-fraction={dispersed.toFixed(4)}
+        data-dispersed-volume-l={vessel.emulsion.dispersed_volume_l.toExponential(3)}
+        data-emulsion-half-life-s={vessel.emulsion.half_life_seconds.toFixed(2)}
+        data-drop-count={dropCount}
+        style={`--coalesce:${coalesceS.toFixed(2)}s`}
+        aria-label={t("{percent}% of {material} dispersed as droplets, half of it back in {seconds} s", {
+          percent: Math.round(dispersed * 100),
+          material: t(vessel.emulsion.material),
+          seconds: formatReading(vessel.emulsion.half_life_seconds, 0),
+        })}
+      >
+        {#each Array.from({ length: dropCount }, (_, i) => i) as i (i)}
+          <circle
+            class="emulsion-drop"
+            cx={INNER_X + 3 + ((i * 19) % Math.max(1, INNER_W - 6))}
+            cy={BOTTOM_Y - 3 - ((i * 13) % Math.max(4, Math.round(liquidH - 4)))}
+            r={dropR}
+            style={`animation-delay:${((i * 0.17) % coalesceS).toFixed(2)}s`}
+          />
         {/each}
       </g>
     {/if}
@@ -621,6 +777,29 @@
     {#if fluidLookup}
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
+
+    {#if incandescent}
+      <!-- GUI-099 red heat: above ~800 K the contents glow in the visible,
+           and the colour is a function of temperature alone (the blackbody
+           locus) — dull red at 900 K, amber near 2000 K, near-white above
+           3500 K. Nothing here is a constant: both the colour and the
+           strength come from `vessel.temperature_k`. -->
+      {@const glowRgb = `rgb(${incandescent.rgb[0]} ${incandescent.rgb[1]} ${incandescent.rgb[2]})`}
+      {@const glowH = Math.max(solidH, liquidH, 8)}
+      <rect
+        class="incandescence"
+        x={INNER_X}
+        y={BOTTOM_Y - glowH}
+        width={INNER_W}
+        height={glowH}
+        data-incandescence-k={vessel.temperature_k.toFixed(1)}
+        data-incandescence-fraction={incandescent.fraction.toFixed(3)}
+        data-incandescence-rgb={incandescent.rgb.join(",")}
+        style={`fill:${glowRgb};opacity:${(0.3 + incandescent.fraction * 0.6).toFixed(3)}`}
+      >
+        <title>{t("glowing at {temperature} K", { temperature: Math.round(vessel.temperature_k) })}</title>
+      </rect>
+    {/if}
     </g>
 
     {#if vessel.foam && foamOverflow > 0}
@@ -672,7 +851,13 @@
       {@const flameMagnitude = mag("ignite", 3000)}
       {@const flameScale = 0.42 + flameMagnitude * 0.88}
       {@const flameDuration = 0.48 - flameMagnitude * 0.25}
-      <g class="flame" aria-hidden="true" style={`--flame-duration:${flameDuration}s;transform-origin:50px 20px;transform:scale(${flameScale})`}>
+      <g
+        class="flame"
+        aria-hidden="true"
+        data-flame-energy-j={ignitionEffect?.unit === "J" ? (ignitionEffect.reading ?? 0).toExponential(3) : "unquantified"}
+        data-flame-scale={flameScale.toFixed(3)}
+        style={`--flame-duration:${flameDuration}s;transform-origin:50px 20px;transform:scale(${flameScale})`}
+      >
         <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z"
           style={latestFlameColour ? `fill:${latestFlameColour};stroke:var(--edge-strong);stroke-width:.55;filter:drop-shadow(0 0 3px ${latestFlameColour})` : ""} />
         <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
@@ -764,16 +949,58 @@
         </g>
       </g>
     {/if}
-    {#if steaming}
-      {@const steamMag = mag("evaporate", 2500)}
-      {@const steamOpacity = 0.3 + steamMag * 0.7}
-      {#each [34, 50, 66] as x, i (x)}
+    {#if boiling && liquidH > 0}
+      <!-- GUI-099 rolling boil. The gate is the engine's own plateau
+           (`state_changed.at`), not 368 K; the bubble count, size and tempo
+           follow the moles of vapour that same step actually made. -->
+      {@const boilCount = Math.max(4, Math.round(4 + vapourMag * 14))}
+      {@const boilRadius = 1.3 + vapourMag * 2.1}
+      {@const boilPeriod = Math.max(0.5, 1.5 - vapourMag * 0.95)}
+      <g
+        class="rolling-boil"
+        data-boiling-k={boilingK.toFixed(2)}
+        data-vapour-moles={vapourMoles.toExponential(3)}
+        data-vapour-intensity={vapourMag.toFixed(3)}
+        aria-label={t("rolling boil at {temperature} °C, {moles} mol of vapour", {
+          temperature: formatReading(boilingK - 273.15, 1),
+          moles: formatReading(vapourMoles, 3),
+        })}
+      >
+        {#each Array.from({ length: boilCount }, (_, i) => i) as i (i)}
+          <circle
+            class="boil-bubble"
+            cx={INNER_X + 4 + ((i * 37) % Math.max(1, INNER_W - 8))}
+            cy={BOTTOM_Y - 3}
+            r={boilRadius * (0.6 + ((i * 5) % 7) * 0.09)}
+            style={`--rise:${Math.max(6, liquidH - 4)}px;animation-duration:${boilPeriod}s;animation-delay:${((i * 0.19) % boilPeriod).toFixed(2)}s`}
+          />
+        {/each}
         <path
-          class="steam"
-          d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 -6 0 -12 q -3 -6 0 -12`}
-          style={`animation-delay:${i * 0.5}s;--steam-opacity:${steamOpacity}`}
+          class="boil-surface"
+          d={`M ${INNER_X + 2} ${BOTTOM_Y - liquidH} q ${INNER_W / 4} ${-2 - vapourMag * 3} ${INNER_W / 2} 0 q ${INNER_W / 4} ${2 + vapourMag * 3} ${INNER_W / 2 - 4} 0`}
+          style={`--churn:${Math.max(0.35, 0.9 - vapourMag * 0.5)}s`}
         />
-      {/each}
+      </g>
+    {/if}
+    {#if steaming}
+      <!-- The plume: how many columns there are, how far they climb and how
+           opaque they read all follow the same vapour moles. -->
+      {@const plumeCount = Math.max(2, Math.round(2 + vapourMag * 4))}
+      {@const plumeReach = 12 + vapourMag * 16}
+      <g
+        class="steam-plume"
+        data-vapour-intensity={vapourMag.toFixed(3)}
+        data-vapour-moles={vapourMoles.toExponential(3)}
+        aria-hidden="true"
+      >
+        {#each Array.from({ length: plumeCount }, (_, i) => INNER_X + 6 + (i / Math.max(1, plumeCount - 1)) * (INNER_W - 12)) as x, i (i)}
+          <path
+            class="steam"
+            d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 ${-plumeReach / 2} 0 ${-plumeReach} q -3 ${-plumeReach / 2} 0 ${-plumeReach}`}
+            style={`animation-delay:${(i * 0.42).toFixed(2)}s;--steam-opacity:${(0.3 + vapourMag * 0.7).toFixed(2)}`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if frosty || active("cool", 2200) || active("freeze", 2200)}
       {@const frostPoints = [[18, 40], [80, 60], [22, 90], [78, 105], [30, 55], [68, 78], [40, 100], [60, 42], [50, 68], [28, 112], [72, 116]]}
@@ -784,22 +1011,59 @@
         {/each}
       </g>
     {/if}
+    {#if condensation > 0.02}
+      <!-- GUI-099: the wall is below the ROOM's dew point (Magnus, 20 °C and
+           50 % RH), so room water is coming out of the air onto the glass.
+           Below freezing the frost layer above draws the same water instead. -->
+      {@const dropCount = Math.round(4 + condensation * 12)}
+      <g
+        class="condensation"
+        aria-hidden="true"
+        data-condensation={condensation.toFixed(3)}
+        data-surface-k={vessel.temperature_k.toFixed(1)}
+        style={`opacity:${(0.3 + condensation * 0.6).toFixed(2)}`}
+      >
+        {#each Array.from({ length: dropCount }, (_, i) => i) as i (i)}
+          <ellipse
+            cx={INNER_X + 2 + ((i * 23) % Math.max(1, INNER_W - 4))}
+            cy={26 + ((i * 41) % Math.max(1, BOTTOM_Y - 36))}
+            rx={0.9 + (i % 3) * 0.35 + condensation * 0.6}
+            ry={1.2 + (i % 3) * 0.45 + condensation * 0.8}
+          />
+        {/each}
+      </g>
+    {/if}
 
     <!-- Event-driven transients (GUI-026): each fires only because the
          engine emitted the matching event. -->
-    {#if active("precipitate", 1800) && liquidH > 0}
-      {@const pMag = mag("precipitate", 1800)}
-      {@const pCount = Math.max(2, Math.round(2 + pMag * 6))}
-      {@const pRadius = 1.2 + pMag * 1.2}
-      {#each Array.from({length: pCount}, (_, i) => INNER_X + 4 + (i / (pCount - 1)) * (INNER_W - 8)) as x, i (i)}
-        <circle
-          class="falling"
-          cx={x}
-          cy={BOTTOM_Y - liquidH + 6}
-          r={pRadius}
-          style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.12}s`}
-        />
-      {/each}
+    {#if precipitateEffect && liquidH > 0 && precipitateGrains.count > 0}
+      <!-- GUI-099 ANIM-2: the count is the moles the engine precipitated;
+           the grain radius is the cube root of the volume each grain then
+           carries (`moles × molar volume ÷ count`); the colour is the
+           species' own `srgb` off the scene row, not a generic grey. -->
+      {@const pCount = precipitateGrains.count}
+      {@const pRadius = Math.max(0.7, Math.min(3.4, 1.1 * precipitateGrains.radiusScale))}
+      <g
+        class="precipitating"
+        data-precipitate-moles={(precipitateEffect.solid?.moles ?? precipitateEffect.reading ?? 0).toExponential(3)}
+        data-molar-volume-l={(precipitateEffect.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L).toExponential(3)}
+        data-deposit-volume-l={precipitateGrains.particleVolumeL.toExponential(3)}
+        data-grain-count={pCount}
+        aria-label={t("{moles} mol of {species} coming out of solution", {
+          moles: formatReading(precipitateEffect.solid?.moles ?? precipitateEffect.reading ?? 0, 4),
+          species: t(precipitateEffect.solid?.name ?? precipitateEffect.species ?? "solid"),
+        })}
+      >
+        {#each Array.from({ length: pCount }, (_, i) => INNER_X + 4 + (i / Math.max(1, pCount - 1)) * (INNER_W - 8)) as x, i (i)}
+          <circle
+            class="falling"
+            cx={x}
+            cy={BOTTOM_Y - liquidH + 6}
+            r={pRadius}
+            style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${(i * 0.12).toFixed(2)}s${precipitateEffect.solid?.colour ? `;fill:${precipitateEffect.solid.colour}` : ""}`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if settlingEffect && liquidH > 0}
       {@const strongest = settlingEffect.settling?.populations.reduce((value, population) => Math.max(value, population.separatedFraction), 0) ?? 0}
@@ -834,24 +1098,127 @@
         <ellipse cx="50" cy={BOTTOM_Y - Math.max(liquidH, 4)} rx="11" ry="2.6" style="animation-delay:0.12s" />
       </g>
     {/if}
-    {#if active("dissolve", 1400) && liquidH > 0}
-      <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
-    {/if}
-    {#if active("electrolyse", 8000) && liquidH > 0}
-      {@const eMag = mag("electrolyse", 8000)}
-      {@const eBubbles = Math.max(1, Math.round(1 + eMag * 3))}
-      {@const eRadius = 1.0 + eMag * 1.0}
-      {#each [30, 70] as x (x)}
-        {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
+    {#if dissolveEffect && liquidH > 0}
+      <!-- The mirror of the precipitate: the same grains, shrinking away.
+           A speck and a spoonful of salt used to dissolve as one r=4 circle. -->
+      {@const dCount = Math.max(1, dissolveGrains.count)}
+      {@const dRadius = Math.max(0.9, Math.min(4, 1.3 * dissolveGrains.radiusScale))}
+      <g
+        class="dissolving-grains"
+        data-dissolve-moles={(dissolveEffect.solid?.moles ?? dissolveEffect.reading ?? 0).toExponential(3)}
+        data-molar-volume-l={(dissolveEffect.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L).toExponential(3)}
+        data-grain-count={dCount}
+        aria-label={t("{moles} mol of {species} going into solution", {
+          moles: formatReading(dissolveEffect.solid?.moles ?? dissolveEffect.reading ?? 0, 4),
+          species: t(dissolveEffect.solid?.name ?? dissolveEffect.species ?? "solid"),
+        })}
+      >
+        {#each Array.from({ length: dCount }, (_, i) => i) as i (i)}
           <circle
-            class="bubble"
-            cx={x + (i - Math.floor(eBubbles / 2)) * 2}
-            cy={BOTTOM_Y - 6}
-            r={eRadius}
-            style={`--rise:${liquidH - 10}px; animation-delay:${i * 0.25}s`}
+            class="dissolving"
+            cx={INNER_X + 5 + ((i * 29) % Math.max(1, INNER_W - 10))}
+            cy={BOTTOM_Y - 6 - ((i * 11) % Math.max(3, Math.round(liquidH * 0.3)))}
+            r={dRadius}
+            style={`animation-delay:${(i * 0.09).toFixed(2)}s${dissolveEffect.solid?.colour ? `;fill:${dissolveEffect.solid.colour}` : ""}`}
           />
         {/each}
-      {/each}
+      </g>
+    {/if}
+    {#if active("electrolyse", 8000) && liquidH > 0}
+      <!-- GUI-099 ANIM-3: both electrodes bubble, and both are sized by the
+           CHARGE that passed — the honest driver, because the engine names
+           the moles of one product only and the counter-electrode's
+           half-reaction is not on the wire. Charge is shared by definition,
+           so neither electrode is drawn at an invented ratio. -->
+      {@const eMag = mag("electrolyse", 8000)}
+      {@const eCoulombs = electrolysisEffect?.electrolysis?.coulombs ?? 0}
+      {@const eBubbles = electrodeBubbles(eCoulombs)}
+      {@const eRadius = 1.0 + eMag * 1.0}
+      <g
+        class="electrolysis-bubbles"
+        data-coulombs={eCoulombs.toExponential(3)}
+        data-electron-moles={(electrolysisEffect?.electrolysis?.electronMoles ?? 0).toExponential(3)}
+        data-bubbles-per-electrode={eBubbles}
+        aria-hidden="true"
+      >
+        {#each [30, 70] as x (x)}
+          {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
+            <circle
+              class="bubble"
+              cx={x + (i - Math.floor(eBubbles / 2)) * 2}
+              cy={BOTTOM_Y - 6}
+              r={eRadius}
+              style={`--rise:${liquidH - 10}px; animation-delay:${(i * 0.25).toFixed(2)}s`}
+            />
+          {/each}
+        {/each}
+      </g>
+    {/if}
+    {#if fermentEffect?.fermentation && liquidH > 0}
+      <!-- GUI-099 ANIM-3: fermentation is SLOW, and how slow is a computed
+           number — `carbon_dioxide_moles ÷ seconds`. One visible bubble is
+           about a millilitre of gas, so the tempo is that volume divided by
+           the rate: a lively dough bubbles every second, an overnight brew
+           every few. -->
+      {@const ferment = fermentEffect.fermentation}
+      {@const period = bubblePeriodS(ferment.molesPerSecond)}
+      {@const fCount = Math.max(2, Math.round(2 + fermentEffect.magnitude * 6))}
+      <g
+        class="fermenting"
+        data-co2-moles={ferment.carbonDioxideMoles.toExponential(3)}
+        data-ferment-seconds={ferment.seconds.toFixed(1)}
+        data-co2-moles-per-second={ferment.molesPerSecond.toExponential(3)}
+        data-bubble-period-s={period.toFixed(2)}
+        aria-label={t("fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s", {
+          moles: formatReading(ferment.carbonDioxideMoles, 4),
+          seconds: formatReading(ferment.seconds, 0),
+          period: formatReading(period, 1),
+        })}
+      >
+        {#each Array.from({ length: fCount }, (_, i) => i) as i (i)}
+          <circle
+            class="ferment-bubble"
+            cx={INNER_X + 6 + ((i * 23) % Math.max(1, INNER_W - 12))}
+            cy={BOTTOM_Y - 4}
+            r={1.1 + fermentEffect.magnitude * 0.9}
+            style={`--rise:${Math.max(6, liquidH - 6)}px;animation-duration:${period.toFixed(2)}s;animation-delay:${((i * period) / fCount).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if uvEffect?.uv}
+      <!-- GUI-099 ANIM-3: the beam that goes in, and what is left of it on
+           the far side. The exit band's opacity IS `transmitted_fraction`;
+           a sunscreen that works leaves almost nothing. -->
+      {@const uv = uvEffect.uv}
+      {@const beamY = BOTTOM_Y - Math.max(10, liquidH / 2) - 4}
+      {@const beamColour = wavelengthColour(uv.wavelengthNm > 0 ? uv.wavelengthNm : null)}
+      <g
+        class="uv-beam"
+        data-transmitted-fraction={uv.transmittedFraction.toFixed(4)}
+        data-wavelength-nm={uv.wavelengthNm.toFixed(0)}
+        data-uv-band={uv.band}
+        aria-label={t("{band} at {wavelength} nm: {percent}% through {material}", {
+          band: t(uv.band),
+          wavelength: formatReading(uv.wavelengthNm, 0),
+          percent: Math.round(uv.transmittedFraction * 100),
+          material: t(uv.material),
+        })}
+      >
+        <rect class="uv-in" x="0" y={beamY} width={INNER_X} height="7" style={`fill:${beamColour}`} />
+        <rect
+          class="uv-out"
+          x={INNER_X + INNER_W}
+          y={beamY}
+          width={Math.max(2, 100 - INNER_X - INNER_W)}
+          height="7"
+          style={`fill:${beamColour};opacity:${(0.06 + uv.transmittedFraction * 0.94).toFixed(3)}`}
+        />
+        <text class="uv-readout" x={INNER_X + INNER_W / 2} y={beamY - 3} text-anchor="middle">
+          {Math.round(uv.transmittedFraction * 100)}%
+        </text>
+        <title>{engineText(uv.mechanism)}</title>
+      </g>
     {/if}
     {#if active("vent", 2600) && !sealed}
       <!-- Gas leaving the open mouth: wisps above the rim, not in the liquid. -->
@@ -1195,17 +1562,55 @@
       class="sheen faint"
       d={`M ${INNER_X + INNER_W - 4} 24 Q ${INNER_X + INNER_W - 2} ${BOTTOM_Y / 2} ${INNER_X + INNER_W - 5} ${BOTTOM_Y - 14}`}
     />
+    {#if vessel.boundary !== "open" && headspace.volumeL > 0}
+      <!-- GUI-099 ANIM-2: the gas above the liquid, drawn where it actually
+           is. Held above atmospheric it reads denser; at one atmosphere it
+           is invisible, which is what a headspace at rest should look like. -->
+      {@const bandTop = vessel.boundary === "pressure_controlled" ? pistonY + 4 : 14}
+      {@const bandHeight = Math.max(0, liquidTopY - bandTop)}
+      {#if bandHeight > 1}
+        <rect
+          class="headspace"
+          x={INNER_X + 1}
+          y={bandTop}
+          width={INNER_W - 2}
+          height={bandHeight}
+          data-headspace-l={headspace.volumeL.toExponential(3)}
+          data-headspace-moles={headspace.moles.toExponential(3)}
+          data-headspace-pressure-pa={Math.round(headspace.pressurePa)}
+          data-headspace-source={headspace.source}
+          style={`opacity:${(0.08 + headspaceTint).toFixed(3)}`}
+        >
+          <title>{t("{litres} L of headspace gas at {pressure} kPa", {
+            litres: formatReading(headspace.volumeL, 3),
+            pressure: formatReading(headspace.pressurePa / 1000, 1),
+          })}</title>
+        </rect>
+      {/if}
+    {/if}
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
         <title>{t("sealed")}</title>
       </rect>
     {:else if vessel.boundary === "pressure_controlled"}
-      <!-- A floating piston: the lid that moves to hold the set pressure. -->
-      <rect class="lid" x="14" y="16" width="72" height="4" rx="1">
-        <title>{t("pressure-controlled")}</title>
-      </rect>
-      <line class="piston" x1="50" y1="4" x2="50" y2="16" />
-      <line class="piston" x1="42" y1="4" x2="58" y2="4" />
+      <!-- A floating piston: the lid that moves to hold the set pressure.
+           Its height is the volume the trapped gas occupies at that
+           pressure — squeeze it and the piston comes down. -->
+      <g
+        class="piston-assembly"
+        data-piston-y={pistonY.toFixed(2)}
+        data-headspace-l={headspace.volumeL.toExponential(3)}
+        data-headspace-source={headspace.source}
+      >
+        <rect class="lid" x="14" y={pistonY} width="72" height="4" rx="1">
+          <title>{t("{litres} L of headspace gas at {pressure} kPa", {
+            litres: formatReading(headspace.volumeL, 3),
+            pressure: formatReading(headspace.pressurePa / 1000, 1),
+          })}</title>
+        </rect>
+        <line class="piston" x1="50" y1={Math.max(0, pistonY - 12)} x2="50" y2={pistonY} />
+        <line class="piston" x1="42" y1={Math.max(0, pistonY - 12)} x2="58" y2={Math.max(0, pistonY - 12)} />
+      </g>
     {:else if vessel.boundary === "swept"}
       <!-- Carrier gas in one side, out the other. -->
       <g class="sweep" aria-hidden="true">
@@ -1767,6 +2172,36 @@
     stroke-width: 1;
     opacity: 0.8;
   }
+  .condensation ellipse {
+    fill: color-mix(in srgb, var(--cool) 30%, transparent);
+    stroke: color-mix(in srgb, var(--cool) 55%, transparent);
+    stroke-width: 0.3;
+  }
+  /* Steady, not flickering: a body at one temperature glows at one colour.
+     No animation here keeps a red-hot crucible free of per-frame work. */
+  .incandescence {
+    mix-blend-mode: screen;
+    filter: blur(1.8px);
+  }
+  .rolling-boil .boil-bubble {
+    fill: color-mix(in srgb, var(--surface) 70%, transparent);
+    stroke: color-mix(in srgb, var(--dim) 70%, transparent);
+    stroke-width: 0.4;
+    animation-name: rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .rolling-boil .boil-surface {
+    fill: none;
+    stroke: color-mix(in srgb, var(--surface) 62%, transparent);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    animation: churn var(--churn, 0.7s) ease-in-out infinite alternate;
+  }
+  @keyframes churn {
+    from { transform: translateY(-0.6px) scaleX(1); }
+    to { transform: translateY(0.8px) scaleX(0.97); }
+  }
   .falling {
     fill: var(--cloud);
     animation: fall 1.5s ease-in forwards;
@@ -1790,22 +2225,66 @@
       opacity: 0.2;
     }
   }
+  /* A dissolving grain SHRINKS. The old rule scaled it to 3.5x, which read
+     as a puff rather than a crystal going into solution; each grain now has
+     its own origin so a whole population can shrink where it stands. */
   .dissolving {
     fill: none;
     stroke: var(--ink);
     stroke-width: 1.2;
+    transform-box: fill-box;
+    transform-origin: center;
     animation: dissolve 1.3s ease-out forwards;
-    transform-origin: 50px 112px;
   }
   @keyframes dissolve {
     from {
-      opacity: 0.8;
+      opacity: 0.85;
       transform: scale(1);
     }
     to {
       opacity: 0;
-      transform: scale(3.5);
+      transform: scale(0.06);
     }
+  }
+  .headspace {
+    fill: var(--cool);
+    pointer-events: none;
+  }
+  .emulsion-drop {
+    fill: color-mix(in srgb, var(--surface) 55%, transparent);
+    stroke: color-mix(in srgb, var(--edge-strong) 40%, transparent);
+    stroke-width: 0.3;
+  }
+  /* Coalescence: the droplets drift together on the engine's own half-life,
+     so a stable emulsion sits still and an unstable one visibly gives up. */
+  .emulsion.shaking .emulsion-drop {
+    animation: coalesce var(--coalesce, 4s) ease-in-out infinite alternate;
+  }
+  @keyframes coalesce {
+    from { transform: translate(0, 0); opacity: 0.9; }
+    to { transform: translate(1.5px, -2px); opacity: 0.55; }
+  }
+  .ferment-bubble {
+    fill: none;
+    stroke: var(--dim);
+    stroke-width: 0.7;
+    animation-name: rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .uv-beam .uv-in,
+  .uv-beam .uv-out {
+    opacity: 0.85;
+  }
+  .uv-readout {
+    fill: var(--ink);
+    font: 700 5px system-ui, sans-serif;
+  }
+  .piston-assembly .lid {
+    transition: y 0.45s cubic-bezier(0.3, 0.7, 0.35, 1);
+  }
+  .piston-assembly .piston {
+    transition: y1 0.45s cubic-bezier(0.3, 0.7, 0.35, 1), y2 0.45s cubic-bezier(0.3, 0.7, 0.35, 1);
   }
   .shimmer {
     fill: var(--cloud);
@@ -2047,10 +2526,16 @@
     .test-flame-small, .relit-flame, .pop-wave, .lime-particle { animation: none; }
     .waft-current { animation: none; opacity: .55; }
     .glassbtn.pouring { animation: none; }
-    .burette-fill {
+    .burette-fill,
+    .piston-assembly .lid,
+    .piston-assembly .piston {
       transition: none;
     }
     .bubble,
+    .ferment-bubble,
+    .emulsion.shaking .emulsion-drop,
+    .boil-bubble,
+    .boil-surface,
     .foam-state,
     .foam-overflow,
     .milk-curds.forming ellipse,
