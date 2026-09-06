@@ -2435,6 +2435,21 @@
   "into object": "in das Objekt hinein",
   "out of object": "aus dem Objekt heraus",
   "not object size or final equilibrium": "keine Aussage über Objektgröße oder Endgleichgewicht",
-  "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium": "Gespeicherte kumulative Ausgabe des begrenzten Osmolaritätsgradienten-Lehrmodells (20 % Wasseraustausch pro 1 osmol/L Unterschied über eine exponentielle Zeitskala von 24 h, begrenzt auf 40 % pro Schritt); keine Aussage über Objektgröße, Membranmechanik, Ionenselektivität oder Endgleichgewicht"
+  "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium": "Gespeicherte kumulative Ausgabe des begrenzten Osmolaritätsgradienten-Lehrmodells (20 % Wasseraustausch pro 1 osmol/L Unterschied über eine exponentielle Zeitskala von 24 h, begrenzt auf 40 % pro Schritt); keine Aussage über Objektgröße, Membranmechanik, Ionenselektivität oder Endgleichgewicht",
+  "complete one more mission to unlock": "Noch eine Mission abschließen, um freizuschalten",
+  "complete {count} more missions to unlock": "Noch {count} Missionen abschließen, um freizuschalten",
+  "complete one more mission to enter": "Noch eine Mission abschließen, um einzutreten",
+  "complete {count} more missions to enter": "Noch {count} Missionen abschließen, um einzutreten",
+  "Complete one more mission anywhere in the open districts to unlock this route.": "Noch eine Mission in einem offenen Bezirk abschließen, um diesen Weg freizuschalten.",
+  "Complete {count} more missions anywhere in the open districts to unlock this route.": "Noch {count} Missionen in offenen Bezirken abschließen, um diesen Weg freizuschalten.",
+  "loaned by the current mission": "von der aktuellen Mission ausgeliehen",
+  "available only inside its mission": "nur innerhalb der zugehörigen Mission verfügbar",
+  "readiness": "Durchführbarkeit",
+  "any readiness": "beliebige Durchführbarkeit",
+  "ready now": "jetzt durchführbar",
+  "missing something": "etwas fehlt",
+  "missing now": "fehlt jetzt",
+  "locked equipment": "gesperrtes Gerät",
+  "continue with": "weiter mit"
  }
 }

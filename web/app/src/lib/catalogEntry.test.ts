@@ -16,6 +16,7 @@ import {
   CATALOG_DURATIONS,
   CATALOG_LEVELS,
   CATALOG_TOPICS,
+  authoredRelatedEntries,
   catalogEntries,
   catalogEntryMatches,
   durationBand,
@@ -215,6 +216,31 @@ describe("the filter rail composes", () => {
 
   it("an unfiltered rail hides nothing", () => {
     expect(shown({}).length).toBe(entries.length);
+  });
+
+  it("filters readiness from current shelf plus exact engine answers", () => {
+    const catalog = new Map([
+      ["beaker", { id: "beaker", kind: "apparatus" as const, minimum_completed: 2, available: false,
+        reason: { reason: "locked" as const, minimum_completed: 2 } }],
+    ]);
+    const [entry] = catalogEntries([], [guidedEntry()], context({
+      shelfKeys: new Set(["baking_soda"]), catalog,
+    }));
+    expect(entry?.missingNeeds).toEqual(["white_vinegar_5_percent"]);
+    expect(entry?.readyNow).toBe(false);
+    expect(entry?.access).toContainEqual(expect.objectContaining({ id: "beaker", available: false }));
+    expect(filterCatalogEntries([entry!], { ...NO_CATALOG_FILTERS, readiness: "missing" })).toHaveLength(1);
+    expect(filterCatalogEntries([entry!], { ...NO_CATALOG_FILTERS, readiness: "ready" })).toHaveLength(0);
+  });
+
+  it("relates entries only through authored exact identifiers", () => {
+    const codex = codexEntry({ id: "foam-model" });
+    const entries = catalogEntries([codex], [
+      guidedEntry({ id: "K98", codex: ["foam-model"] }),
+      guidedEntry({ id: "K99", title: "Foam lookalike", codex: [] }),
+    ], context());
+    const script = entries.find((entry) => entry.id === "foam-model")!;
+    expect(authoredRelatedEntries(script, entries).map((entry) => entry.id)).toEqual(["K98"]);
   });
 });
 

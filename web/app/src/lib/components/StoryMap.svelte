@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { t } from "../i18n.svelte";
-  import { continuationLabel, missionDistrictId, missionId, nextUnlockedMission, storyDistricts, type MissionSummary } from "../storyProgress";
+  import { continuationLabel, missionDistrictId, missionId, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "../storyProgress";
   import CaseBoard from "./CaseBoard.svelte";
 
   let {
@@ -83,6 +83,7 @@
       <nav class="campus" aria-label={t("campus districts")}>
         <div class="route" aria-hidden="true"></div>
         {#each districts as district, index (district.id)}
+          {@const remaining = remainingMissions(district.minimumCompleted, completedCount)}
           <button
             class="district"
             class:selected={selected?.id === district.id}
@@ -98,9 +99,9 @@
                 {#if district.unlocked}
                   {t("{done} of {total} complete", { done: district.completed, total: district.missions.length })}
                 {:else}
-                  {district.minimumCompleted === 1
-                    ? t("complete one mission to enter")
-                    : t("complete {count} missions to enter", { count: district.minimumCompleted })}
+                  {remaining === 1
+                    ? t("complete one more mission to enter")
+                    : t("complete {count} more missions to enter", { count: remaining })}
                 {/if}
               </small>
             </span>
@@ -154,12 +155,13 @@
                 {/each}
               </div>
             {:else}
+              {@const remaining = remainingMissions(selected.minimumCompleted, completedCount)}
               <div class="lock-panel">
                 <span aria-hidden="true">⌁</span>
                 <h3>{t("The route is still being surveyed")}</h3>
-                <p>{selected.minimumCompleted === 1
-                  ? t("Complete one mission anywhere in the open districts to unlock this route.")
-                  : t("Complete {count} missions anywhere in the open districts to unlock this route.", { count: selected.minimumCompleted })}</p>
+                <p>{remaining === 1
+                  ? t("Complete one more mission anywhere in the open districts to unlock this route.")
+                  : t("Complete {count} more missions anywhere in the open districts to unlock this route.", { count: remaining })}</p>
               </div>
             {/if}
           {/if}
