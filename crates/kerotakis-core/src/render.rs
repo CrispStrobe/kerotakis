@@ -2212,8 +2212,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::Inert { vessel, species: sid, why } => {
+        Event::Inert { vessel, species: sid, why, spent } => {
             let name = species_name(locale, sid);
+            // The exhausted-couple case gets its own lv1 sentence, because
+            // the generic one says the opposite of what happened. See
+            // `Event::Inert::spent`.
+            if let (1, Some(gone)) = (register.level(), spent.as_ref()) {
+                let other = species_name(locale, gone);
+                return locale.fill(
+                    "event.inert-spent.lv1",
+                    "The {other} is all out of the water in {vessel} now, so the rest of the {name} has nothing left to do.",
+                    &[("other", other), ("vessel", &vessel.to_string()), ("name", name)],
+                );
+            }
             match register.level() {
                 // KID-5: say which question this answers.
                 //

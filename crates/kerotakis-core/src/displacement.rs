@@ -256,6 +256,18 @@ pub const HYDROGEN_OVERPOTENTIAL_SOURCE: &str = "Hydrogen overpotentials at roug
 /// a question the bench cannot answer, and it says so.
 const MARGINAL_VOLTS: f64 = 0.1;
 
+/// How small the leftover ion has to be, measured against the metal that
+/// came out of it, before the beaker reads as "all of it plated".
+///
+/// A displacement that runs to the Nernst root rather than to exhaustion
+/// leaves a trace of the ion behind — iron in copper sulfate settles with
+/// a few parts in ten thousand of the copper still dissolved — and that
+/// trace is above [`crate::OBSERVABLE_MOLES`] while being nothing anyone
+/// would call a blue solution. Five percent is deliberately generous: the
+/// sentence it gates says what happened, and it says so with the number
+/// beside it, so a reader can see how much "all but a trace" was.
+const SPENT_ION_FRACTION: f64 = 0.05;
+
 pub fn hydrogen_overpotential(metal: &str) -> f64 {
     HYDROGEN_OVERPOTENTIAL
         .iter()
@@ -616,6 +628,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                     why: format!(
                         "{name} should dissolve in this acid by the series (driving force {driving:+.2} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta:.2} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery"
                     ),
+                    spent: None,
                 });
                 settled.push((red.reduced, ox.oxidised));
                 continue;
@@ -800,6 +813,17 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
 /// BRD-023 added a third case between them: where the slow clock is
 /// actually corroding the metal, the second sentence is false, so this
 /// function writes neither.
+///
+/// And a fourth, which is the one this function used to get backwards. A
+/// metal can be doing nothing because the couple it would run has already
+/// finished: the iron left over once all the copper has plated out of a
+/// copper sulfate solution. That is still an `Inert` — it is a computed
+/// result about the iron, not a gap — but the reason is the opposite of
+/// silver's, and saying silver's sentence over it ("sits above copper …
+/// the electrons would have to flow uphill") contradicted the plating
+/// event printed one line above it. The two are told apart by the sign of
+/// the potential difference, which is the only thing that ever decided
+/// which way a displacement runs.
 pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
     let mut events = Vec::new();
     if kgw(vessel) <= 0.0 || vessel.solution.is_none() {
@@ -821,11 +845,39 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         let name = species::lookup_key(c.reduced)
             .map(|d| d.name)
             .unwrap_or(c.reduced);
-        // The most noble ion of *another* metal in the glass, if any.
+        // The most noble ion of *another* metal in the glass that this
+        // metal CANNOT take — the negative cell of the series grid.
+        //
+        // The direction filter is the whole of the sentence's truth and it
+        // was missing. `e0_volts` is the couple's standard potential, so
+        // `o.e0_volts < c.e0_volts` is "the other metal's ion sits BELOW
+        // this metal": the electrons would have to flow uphill and nothing
+        // happens. Without it, iron standing in copper sulfate picked
+        // copper as its partner and was told it sits above copper — in the
+        // same step as the event saying it had just displaced it. The
+        // downhill case is a different answer and it is written below.
         let idle_against = SERIES
             .iter()
             .filter(|o| o.reduced_phase == Phase::Solid && o.reduced != c.reduced)
+            .filter(|o| o.e0_volts < c.e0_volts)
             .filter(|o| oxidant_available(vessel, o) > crate::OBSERVABLE_MOLES)
+            .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
+        // The other half of the grid: a couple that runs DOWNHILL and has
+        // already finished. The ion is gone and its metal is sitting in the
+        // beaker, which is where it went. Half a gram of iron beside the
+        // copper it displaced is not inert in any general sense; what is
+        // true is that there is nothing left here for it to displace, and
+        // that is the sentence.
+        let spent_partner = SERIES
+            .iter()
+            .filter(|o| o.reduced_phase == Phase::Solid && o.reduced != c.reduced)
+            .filter(|o| o.e0_volts > c.e0_volts)
+            .filter(|o| moles_in(vessel, o.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES)
+            .filter(|o| {
+                let ion = oxidant_available(vessel, o);
+                ion <= crate::OBSERVABLE_MOLES
+                    || ion <= SPENT_ION_FRACTION * moles_in(vessel, o.reduced, Phase::Solid)
+            })
             .max_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts));
         // Which of the two true sentences is the RESULT, and which is an
         // aside. Both can hold at once: silver in copper sulfate is above
@@ -843,7 +895,36 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         // that made the chemistry more accurate silently switched three
         // displacement results onto the less informative of two true
         // sentences. Same shape as an aside outranking the answer.
-        if let Some(o) = idle_against {
+        if let Some(o) = spent_partner {
+            // Checked before the uphill grid, because it is the answer to
+            // the question the beaker just asked. The two are mutually
+            // exclusive by construction anyway — one wants a partner above
+            // this metal, the other one below it — but a beaker can hold
+            // both at once (copper plated out of silver nitrate, with iron
+            // filings still in it), and then what happened beats what did
+            // not.
+            let other = species::lookup_key(o.reduced)
+                .map(|d| d.name)
+                .unwrap_or(o.reduced);
+            let ion_left = oxidant_available(vessel, o);
+            let why = if ion_left <= crate::OBSERVABLE_MOLES {
+                format!(
+                    "all the {other} has plated out; the remaining {name} has nothing left to displace. The couple still runs downhill (E° {:+.3} V for {name} against {:+.3} V for {other}) — it has simply run out of {other} ions",
+                    c.e0_volts, o.e0_volts
+                )
+            } else {
+                format!(
+                    "all but a trace of the {other} has plated out ({ion_left:.3e} mol of ion left, which is where the Nernst root put the equilibrium); the remaining {name} has nothing left to displace. The couple still runs downhill (E° {:+.3} V for {name} against {:+.3} V for {other})",
+                    c.e0_volts, o.e0_volts
+                )
+            };
+            events.push(Event::Inert {
+                vessel: vessel.id,
+                species: SpeciesId::new(c.reduced),
+                why,
+                spent: Some(SpeciesId::new(o.oxidised)),
+            });
+        } else if let Some(o) = idle_against {
             // The series grid: which metal displaces which. The negative
             // cells are as much the result as the positive ones.
             let other = species::lookup_key(o.reduced)
@@ -856,6 +937,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                     "{name} sits above {other} in the activity series (E° {:+.3} V against {:+.3} V), so the electrons would have to flow uphill: the less reactive metal does not displace the more reactive one",
                     c.e0_volts, o.e0_volts
                 ),
+                spent: None,
             });
         } else if acid && c.e0_volts > 0.0 {
             // No other metal's ion to compare against, so the acid is the
@@ -867,6 +949,7 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
                     "{name} sits above hydrogen in the activity series (E° {:+.3} V against 0.000 V for 2H⁺/H₂), so dilute acid cannot take its electrons. An oxidising acid such as nitric would, by a different couple, and that is not modelled",
                     c.e0_volts
                 ),
+                spent: None,
             });
         } else if !acid
             && c.e0_volts < 0.0

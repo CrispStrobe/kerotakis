@@ -2481,13 +2481,45 @@ impl Bench {
                         }),
                     },
                     Instrument::ConductivityMeter => match &v.solution {
-                        Some(info) => events.push(Event::Measured {
-                            vessel: *vessel,
-                            instrument: *instrument,
-                            value: crate::conductivity::specific_conductance(info)
-                                .microsiemens_per_cm,
-                            unit: "µS/cm".to_string(),
-                        }),
+                        Some(info) => {
+                            let est = crate::conductivity::specific_conductance(info);
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: est.microsiemens_per_cm,
+                                unit: "µS/cm".to_string(),
+                            });
+                            // The number carries a model with a range, and
+                            // the range is the part a reader cannot see. A
+                            // Kohlrausch sum is the infinite-dilution limit;
+                            // above it the reading only means anything
+                            // because of a fitted attenuation, and where
+                            // that fit is doing the work it has to say so.
+                            if !est.within_dilute_limit {
+                                let where_it_stands = if est.within_fitted_range {
+                                    format!(
+                                        "the ion–ion drag is corrected by an empirical factor ({:.2}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {:.0} mol/kgw",
+                                        est.concentration_factor,
+                                        crate::conductivity::FITTED_LIMIT_MOLAL
+                                    )
+                                } else {
+                                    format!(
+                                        "this solution is at I = {:.1} mol/kgw, ABOVE the {:.0} mol/kgw the correction was fitted to, so the factor applied ({:.2}×) is an extrapolation",
+                                        info.ionic_strength,
+                                        crate::conductivity::FITTED_LIMIT_MOLAL,
+                                        est.concentration_factor
+                                    )
+                                };
+                                events.push(Event::NotYetModeled {
+                                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                                    vessel: *vessel,
+                                    what: format!(
+                                        "how accurate this conductivity is: past I = {:.2} mol/kgw the sum of limiting molar conductivities is no longer a calibrated reading — {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+                                        crate::conductivity::DILUTE_LIMIT_MOLAL
+                                    ),
+                                });
+                            }
+                        }
                         // The dry-solid path: one isolated solid with a
                         // curated resistivity reads as a material property
                         // in S/m (copper wire against iron wire). A dry

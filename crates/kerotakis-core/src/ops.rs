@@ -969,6 +969,24 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         why: String,
+        /// The ion this metal has just finished displacing, where THAT is
+        /// the reason nothing more is happening.
+        ///
+        /// The activity series writes an `Inert` for two opposite
+        /// situations and the lv1 sentence has to tell them apart. Silver
+        /// in copper sulfate does nothing because the couple runs uphill:
+        /// nothing here can take its electrons, and "it does not swap
+        /// places with anything dissolved here" is the whole answer. Iron
+        /// left over in a beaker whose copper has all plated out is the
+        /// mirror image — the couple ran downhill and has finished — and
+        /// that sentence read as a claim that iron cannot displace copper,
+        /// two lines under the event saying it just had.
+        ///
+        /// `Some(ion)` names the ion that has been used up. Defaulted so a
+        /// log written before the field existed still reads, and skipped
+        /// when absent so the uphill case serialises exactly as before.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        spent: Option<SpeciesId>,
     },
     /// BRD-023: the corrosion route's verdict on one metal in one vessel.
     ///
