@@ -144,6 +144,10 @@
    *
    * The newest live instrument wins, so measuring pH after temperature
    * replaces the reading rather than stacking a second badge under it.
+   *
+   * The glyphs are the ones `instruments.ts` already gives these tools, so
+   * the badge and the tray call the same instrument the same thing. Where a
+   * glyph IS the unit ("mL", "kJ") the unit is not printed twice.
    */
   type InstrumentReadout = {
     effect: Effect;
@@ -164,7 +168,7 @@
       pressureEffect === undefined ? undefined
         : { effect: pressureEffect, kind: "pressure_gauge", glyph: "◎", digits: 1, unit: "kPa", value: pressureEffect.reading ?? vessel.pressure_pa / 1000 },
       volumeEffect === undefined ? undefined
-        : { effect: volumeEffect, kind: "volume_meter", glyph: "⌷", digits: 1, unit: "mL", value: volumeEffect.reading ?? 0 },
+        : { effect: volumeEffect, kind: "volume_meter", glyph: "mL", digits: 1, unit: "mL", value: volumeEffect.reading ?? 0 },
       conductivityEffect === undefined ? undefined
         : { effect: conductivityEffect, kind: "conductivity_meter", glyph: "⚡", digits: 1, unit: "µS/cm", value: conductivityEffect.reading ?? 0 },
       calorimeterEffect === undefined ? undefined
@@ -1744,7 +1748,9 @@
       >
         <span class="readout-glyph">{instrumentReadout.glyph}</span>
         <strong class="readout-value">{formatReading(instrumentReadout.value, instrumentReadout.digits)}</strong>
-        {#if instrumentReadout.unit}<small class="readout-unit">{instrumentReadout.unit}</small>{/if}
+        {#if instrumentReadout.unit && instrumentReadout.unit !== instrumentReadout.glyph}
+          <small class="readout-unit">{instrumentReadout.unit}</small>
+        {/if}
       </span>
     {/if}
     {#if vessel.gel}
@@ -2732,8 +2738,10 @@
     background: color-mix(in srgb, var(--discovery) 7%, var(--surface));
   }
   /* Sized in px, not em: this is the one place on the bench where the
-     number must survive a 64px-wide vessel on a 390px phone. 24px of glyph
-     and 15px of value are the floor the UX gate measures. */
+     number must survive a 64px-wide vessel on a 390px phone, and an em
+     there is whatever the caption's 0.78rem happens to be. 24px of glyph
+     and 15px of value are the floor VesselInstrumentReadout.test.ts holds
+     this to. */
   .instrument-readout {
     width: 100%;
     /* Bounded and wrappable: the vessel is absolutely placed on the stage,

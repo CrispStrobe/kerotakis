@@ -78,6 +78,7 @@ describe("the reading a phone can actually read", () => {
       ["balance", reading("balance", 104.2, "g"), "104.20"],
       ["pressure_gauge", reading("pressure_gauge", 101.3, "kPa"), "101.3"],
       ["volume_meter", reading("volume_meter", 245, "mL"), "245.0"],
+      // "mL" IS this instrument's glyph, so the unit is not printed twice.
       ["conductivity_meter", reading("conductivity_meter", 1280, "µS/cm"), "1,280.0"],
       ["calorimeter", reading("calorimeter", -1.42, "kJ"), "-1.42"],
       ["uvvis", reading("uvvis", 0.482, "AU"), "0.482"],
@@ -96,6 +97,14 @@ describe("the reading a phone can actually read", () => {
     expect(drawn).toContain('data-instrument="ph_probe"');
     expect(drawn).not.toContain('data-instrument="thermometer"');
     expect(drawn.match(/class="instrument-readout/g)?.length ?? 0).toBe(1);
+  });
+
+  it("does not print a unit that is already the instrument's glyph", () => {
+    const drawn = draw([reading("volume_meter", 245, "mL")]);
+    expect(drawn).toContain('data-instrument="volume_meter"');
+    expect(drawn).not.toContain("readout-unit");
+    // …and does print one that is not.
+    expect(draw([reading("thermometer", 21.81, "°C")])).toContain("readout-unit");
   });
 
   it("draws nothing when no instrument is live", () => {
