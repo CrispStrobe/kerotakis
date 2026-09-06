@@ -76,12 +76,13 @@ const AIR_RATIO: f64 = 8.0;
 /// before it is vented. 1000 K is a flue temperature of the right order —
 /// combustion exhaust leaves an open flame somewhere between a few hundred
 /// K above ambient and about 1200 K — and, much more usefully, **the answer
-/// does not depend on picking it exactly**: the H₂ mole fraction in a
-/// stoichiometric C/H/O/N exhaust falls below one part in a million
-/// anywhere under about 1400 K, so anything in the plausible flue band
-/// gives the complete-combustion composition the printed equation claims.
-/// `exhaust_temperature_hardly_matters` in `tests/vented_products.rs` is
-/// that statement as a test rather than as a promise.
+/// does not depend on picking it exactly**: anywhere under about 1400 K a
+/// C/H/O/N exhaust with the flame's own excess air leaves less than a
+/// ten-thousandth of its hydrogen as H₂, so anything in the plausible flue
+/// band gives the complete-combustion composition the printed equation
+/// claims. `the_exhaust_temperature_hardly_matters` in
+/// `tests/vented_products.rs` is that statement as a test rather than as a
+/// promise.
 ///
 /// **What this does NOT do** is book the recombination's heat. The energy
 /// and the vessel's own temperature both stay the adiabatic flame's,

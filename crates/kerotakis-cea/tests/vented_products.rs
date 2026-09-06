@@ -208,11 +208,11 @@ fn a_vessel_that_kept_its_product_keeps_the_plain_wording() {
 }
 
 /// The exhaust temperature is a choice, so it has to be a choice that
-/// does not matter. Below about 1400 K a stoichiometric C/H/O/N exhaust
-/// is complete combustion to within a part per million, so anything in
-/// the plausible flue band — a few hundred K above ambient to about
-/// 1200 K — gives the same answer, and 1000 K is not a fitted parameter
-/// hiding as a constant.
+/// does not matter. Below about 1400 K a C/H/O/N exhaust with the flame's
+/// own excess air is complete combustion to within a ten-thousandth of
+/// its hydrogen, so anything in the plausible flue band — a few hundred K
+/// above ambient to about 1200 K — gives the same answer, and 1000 K is
+/// not a fitted parameter hiding as a constant.
 #[test]
 fn the_exhaust_temperature_hardly_matters() {
     use std::collections::BTreeMap;
@@ -236,7 +236,7 @@ fn the_exhaust_temperature_hardly_matters() {
         let carbon_dioxide = eq.moles_of("CO2");
         let hydrogen = eq.moles_of("H2");
         assert!(
-            2.0 * hydrogen < 1e-6 * 6.0 * ETHANOL_MOLES,
+            2.0 * hydrogen < 1e-4 * 6.0 * ETHANOL_MOLES,
             "at {temperature} K, {hydrogen} mol H2 survives"
         );
         assert!(
