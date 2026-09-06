@@ -59,27 +59,28 @@ jobs:
       run:
         working-directory: web/app
     steps:
+      # With submodules: aboutNotice.test.ts hashes the USGS notice at its
+      # tracked path inside vendor/iphreeqc to prove the credits screen
+      # states the licence bytes actually shipped. That is a legal claim,
+      # so it is checked rather than skipped when the file is absent —
+      # which means the checkout has to contain it.
       - uses: actions/checkout@v6
+        with:
+          submodules: true
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: web/app/package-lock.json
       - run: npm ci
-      - run: >-
-          npm test -- src/lib/rigidIntent.test.ts src/lib/fluidScene.test.ts
-          src/lib/magnitudes.test.ts src/lib/pour.test.ts
-          src/lib/storyProgress.test.ts src/lib/catalogSearch.test.ts
-          src/lib/kidsCatalog.test.ts src/lib/persistentReadouts.test.ts
-          src/lib/learningAccessibilityIntegration.test.ts
-      # The shell's own state: which laboratory a visit opens in, whether
-      # the command line is on, and that every register the header offers
-      # is one the session accepts. These files were being extended while
-      # nothing in CI ran them, which is a test suite that cannot fail.
-      - name: The shell's entry, console and register contracts hold
-        run: >-
-          npm test -- src/lib/worldState.test.ts src/lib/session.test.ts
-          src/lib/modeIsolation.test.ts src/lib/localeBundles.test.ts
+      # Every vitest file under web/app, not a hand-kept list of them.
+      # The list this replaces named 13 of the 93 files that exist, so 80
+      # files' worth of assertions were being written and never run — a
+      # suite that cannot fail teaches people it is passing. There is no
+      # list to forget to extend now: a new .test.ts is in the gate the
+      # moment it is committed.
+      - name: Every vitest file in the app runs
+        run: npx vitest run --reporter=dot
 
   preflight-gate:
     name: Full preflight gate

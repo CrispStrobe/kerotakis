@@ -105,9 +105,11 @@ describe("the About dialog's third-party list", () => {
       // The USGS notice is hashed at its TRACKED location. The IPhreeqc
       // build copies the same bytes to vendor/iphreeqc/doc/NOTICE (see
       // vendor/iphreeqc/doc/CMakeLists.txt), so at the pinned submodule
-      // commit that copy does not exist until the engine has been built —
-      // and this suite must pass on a fresh checkout that has only run
-      // `npm ci`. Same file, same sha256, no build dependency.
+      // commit that copy does not exist until the engine has been built,
+      // and this suite must pass without building the engine. Same file,
+      // same sha256, no build dependency — but it does live inside the
+      // `vendor/iphreeqc` submodule, so the job running this suite checks
+      // submodules out. `npm ci` alone is not enough.
       ["iphreeqc-notice", "vendor/iphreeqc/phreeqc3-doc/NOTICE.TXT"],
       ["my-basic-license", "vendor/my-basic/LICENSE"],
       ["nasa-cea-notice", "vendor/nasa-cea/NOTICE.txt"],
