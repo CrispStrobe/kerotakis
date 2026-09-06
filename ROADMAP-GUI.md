@@ -632,10 +632,15 @@ been ignoring all of it:
   *Correction 2026-09-06 — the tiers are gone, not merely merged.* One
   card design and one horizontally scrolling filter rail (level, topic,
   duration, "only what is on my shelf", done/not yet, plus concept and
-  curriculum as selects where the old tabs were) now serve all 165
+  curriculum as selects where the old tabs were) now serve all 167
   entries; `lib/catalogEntry.ts` derives the level, age, duration and a
   shared topic vocabulary both corpora map into, so every filter is
   answerable for every entry, and no surface names a reader by age.
+
+  *Update 2026-09-06 — two mechanism-backed entries are promoted.* Activated-
+  charcoal adsorption and the thermoplastic/thermoset heat comparison are
+  searchable, filterable and directly runnable. Their copy states the curated
+  parameter domains and safety limits; neither claims a general-purpose model.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and

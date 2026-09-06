@@ -467,6 +467,14 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
+  "chains slide networks do not": "",
+  "charcoal holds the dye": "",
+  "adsorption": "",
+  "cross linking": "",
+  "material structure": "",
+  "polymer structure": "",
+  "reversible change": "",
+  "thermal softening": "",
   "recipe confidence": "",
   "by mass": "",
   "by amount of substance": "",

@@ -81,3 +81,61 @@ lv3 = "The depression is computed from the solved speciation — the same partic
 [reaction.provenance]
 source = "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis state layer (P3s) over PHREEQC speciation; energy balance pays the latent heat"
+
+[[reaction]]
+id = "chains-slide-networks-do-not"
+spine = ["kunststoffe-langkettige-organische-molekuele"]
+summary = "At the same 150 °C, a polyethylene thermoplastic softens reversibly while a cured thermoset remains cross-linked and rigid"
+concepts = ["polymer-structure", "material-structure", "cross-linking", "thermal-softening", "reversible-change", "model-boundary"]
+requires = ["heat-capacity"]
+apparatus = ["beaker", "hotplate", "thermometer"]
+calculations = ["specific-heat"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Kunststoffe"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium — Struktur-Eigenschafts-Beziehungen und Kunststoffklassen"
+
+[reaction.setup]
+script = """
+add v1 thermoplastic 2g
+heat v1 455J
+new
+add v2 thermoset_resin 2g
+heat v2 375J
+look v1
+look v2
+"""
+
+[reaction.expect]
+events = ["polymer_heated:thermoplastic sheet", "polymer_heated:cured thermoset resin", "observed"]
+
+[reaction.expect.predict]
+question = "Two two-gram plastic objects are heated to about 150 °C. One is polyethylene thermoplastic; the other is cured thermoset resin. What differs?"
+options = [
+  "Both melt alike — plastic is one kind of substance once it is hot enough",
+  "The thermoset softens first because its cross-links conduct heat between chains",
+  "The thermoplastic softens as separate chains slide; the cross-linked thermoset stays rigid because it has no melting point",
+]
+answer = 2
+misconception = "'Plastic' names a use-class, not one molecular architecture. A thermoplastic contains separate chains held together by attractions that heat can overcome. Curing a thermoset joins chains covalently into a network, removing the sliding motion that makes melting and reshaping possible. Its missing melting point is the answer, not an unfilled datum."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "All plastics are treated as one material whose only meaningful difference is how much heat it takes to melt."
+next = "Compare the two engine verdicts at the same temperature. The thermoplastic reports a reversible softened state; the thermoset explicitly reports no softening point. Heat further and the network decomposes rather than crossing a hidden, higher melt threshold."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Cross-linking is heard as stronger heat transport rather than a topological constraint that prevents whole chains from sliding."
+next = "Ask what must move for an object to be reshaped. Heat need not travel differently: separate chains must pass one another. Cross-links fasten those chains into one network, so the required motion no longer exists."
+
+[reaction.registers]
+lv1 = "Warm both pieces equally. The thermoplastic goes soft and could be pressed into a new shape; the cured resin stays hard. Its chains are tied together into one net, so there are no loose chains left to slide."
+lv2 = "At about 150 °C the polyethylene teaching sheet is above its curated 130 °C crystalline melt and reports Softened, reversible on cooling. The cured thermoset reports Rigid: its covalently cross-linked network has no softening point. Above its separate 300 °C decomposition threshold it chars instead of melting."
+lv3 = "Material-owned heat-response rows contribute the unresolved objects' heat capacity and map current temperature to only three states: rigid, softened or charred. The thresholds are curated, not predicted, and remain in a pending-review provenance lane. The thermoplastic row stands only for moulded HDPE; amorphous PS, PVC and acrylic soften at glass transitions this model does not represent. No viscosity, flow rate, degree of cure, moulding geometry or shape change is computed. Charring is persistent state and narration only: no invented char or volatile products enter the ledger."
+
+[reaction.provenance]
+source = "The exact PolymerHeatResponse rows and boundaries curated in the thermoplastic-sheet and cured-thermoset-resin material recipes. Their tranche is PENDING REVIEW and does not claim paper-level provenance. The 130 °C polyethylene melt and 300/400 °C decomposition thresholds are teaching values, not predictions for arbitrary plastics. Virtual school-laboratory comparison only: heating real plastics can burn and release hazardous decomposition products, which this model deliberately does not formulate or render. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06."
+computed_by = "Kerotakis material-owned heat capacity and bounded PolymerHeatResponse projection"
