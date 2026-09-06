@@ -324,6 +324,17 @@ fn corroded_extent_grows_with_the_rust_and_not_otherwise() {
         "0.01 mol locked beside 0.02 mol left is {:.4}, not a third",
         rusted.1
     );
+    let projected = scene(&bench);
+    let iron = projected
+        .corrosion
+        .iter()
+        .find(|progress| progress.metal == "Fe")
+        .expect("iron corrosion is standing scene data");
+    assert!((iron.metal_in_oxide_moles - 0.01).abs() < 1e-6);
+    assert!((iron.metal_in_oxide_fraction - 1.0 / 3.0).abs() < 1e-6);
+    assert!(iron
+        .words
+        .contains("Oxide added directly is indistinguishable"));
 }
 
 #[test]
@@ -336,4 +347,20 @@ fn a_metal_with_no_gated_reaction_claims_no_extent() {
         corroded_extent(bench.vessel(VesselId(0)).expect("vessel"), "Cu").is_none(),
         "nothing here models what copper does in water, so nothing may claim an extent"
     );
+    assert!(scene(&bench).corrosion.is_empty());
+}
+
+#[test]
+fn an_old_scene_without_corrosion_data_still_deserializes() {
+    let mut bench = Bench::new();
+    add(&mut bench, "water", 5.55);
+    add(&mut bench, "Fe", 0.02);
+    let mut value = serde_json::to_value(scene(&bench)).expect("scene serializes");
+    value
+        .as_object_mut()
+        .expect("scene object")
+        .remove("corrosion");
+    let restored: kerotakis_core::scene::SceneVessel =
+        serde_json::from_value(value).expect("legacy scene deserializes");
+    assert!(restored.corrosion.is_empty());
 }

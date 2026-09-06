@@ -1354,8 +1354,9 @@ and presents them well.
   scored done / partial / missing, with the numbers the engine should add
   listed at the end so the engine lane can pick them up.
 
-  Starting score: **32 done, 18 partial, 23 missing.** Finishing score across
-  the three PRs: **45 done, 11 partial, 17 missing.** The worst finding was
+  Starting score: **32 done, 18 partial, 23 missing.** The first three visual
+  PRs reached **45 done, 11 partial, 17 missing**; the persistent corrosion
+  extent tranche then reached **46 done, 11 partial, 16 missing.** The worst finding was
   not an absence but a constant: `steaming` gated on `temperature_k >= 368`, a
   number that is wrong under a partial vacuum, wrong in a pressurised vessel,
   wrong for a salted solvent and wrong for every solvent that is not water —
@@ -1371,7 +1372,8 @@ and presents them well.
   ANIM-1 (thermal truth), ANIM-2 (matter and pressure) and ANIM-3 (the
   three events that drew nothing) shipped across three PRs and took the
   audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
-  `HISTORY.md`. The remaining 11 partial and 17 missing rows are the open
+  `HISTORY.md`. Persistent corrosion extent moved one further missing row to
+  done. The remaining 11 partial and 16 missing rows are the open
   half of this item.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the

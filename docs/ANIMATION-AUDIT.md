@@ -29,12 +29,12 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 |
-|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 |
-| partial | 18 | 17 | 12 | 11 | 11 |
-| missing | 23 | 20 | 20 | 17 | 17 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent |
+|---|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 | 46 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** |
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -108,7 +108,7 @@ non-aqueous liquid frost at water's threshold.
 | `plated` | `species`, `onto`, `moles` | a shimmer rectangle over the deposit; **moles unused** | plating thickness from moles | partial | partial |
 | `adsorbed` | `held`, `loading_mg_per_g`, `still_dissolved` | nothing | the carbon darkening toward its isotherm ceiling | missing | missing |
 | `consumed` | `species`, `moles`, `remaining` | nothing transient; the scene shrinks the solid | a visible ribbon eaten away | partial | partial |
-| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4) | nothing | pitting/oxide on the metal object, sized by the corroded fraction | missing | missing (the number is on the wire; the visual is the next lane's) |
+| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4), plus standing scene corrosion extent | schematic oxide relation marker and “metal in oxide” readout, strength from the core fraction | — | missing | **done** (scene-authoritative corrosion extent) |
 | `gravity_settled` | per-population `terminal_speed_m_s`, `distance_m`, `separated_fraction`, `particle_diameter_um` | grains falling; travel from `distance_m`, count and radius from the population | — | done | done |
 | `centrifuged` | `rcf`, `rpm`, `imbalance_g`, populations | rotor blur on a log `rcf` ramp, pellet per population | — | done | done |
 | `ground` | `surface_area_m2` | a magnitude on a log-area ramp, no vessel visual | finer powder in the vessel | partial | partial |
@@ -233,6 +233,13 @@ picture of a vessel.
   carries `molar_volume_l_per_mol`, so a solid that precipitates and
   redissolves in one step — leaving no scene row behind — is still drawn at
   its own grain size.
+
+- **Corrosion extent** — `SceneVessel.corrosion` projects the current fraction
+  of tracked metal atoms locked in the modeled oxide from
+  `corrosion::corroded_extent`. The vessel keeps a labelled percentage and a
+  restrained schematic marker after the event has passed. It deliberately
+  claims no rate, history, thickness or surface coverage; directly added oxide
+  is indistinguishable from oxide formed in the vessel.
 
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*

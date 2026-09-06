@@ -467,6 +467,10 @@
   "water filter": "",
   "computed superabsorbent snow: {water} g water retained, {ratio} times the dry polymer mass": "",
   "enzyme conversion": "",
+  "metal in oxide": "",
+  "{percent}% of tracked {metal} is locked in modeled oxide; schematic marker, not surface coverage": "",
+  "{percent}% of tracked {metal} is locked in modeled oxide; current contents, not corrosion rate or history": "",
+  "Oxide added directly is indistinguishable from oxide formed here.": "",
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
