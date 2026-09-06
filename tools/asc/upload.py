@@ -25,7 +25,9 @@ Usage: python3 tools/asc/upload.py <artifact.ipa|artifact.pkg> [--validate-only]
 
 from __future__ import annotations
 
+import base64
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -73,6 +75,40 @@ def plist_from_pkg(path: pathlib.Path) -> dict:
         return read_plist(info.read_bytes())
     finally:
         shutil.rmtree(tmp.parent, ignore_errors=True)
+
+
+def staged_api_key() -> pathlib.Path | None:
+    """Put the `.p8` where altool insists on finding it, if it is only in
+    the environment.
+
+    `client.py` is happy with `ASC_API_KEY_P8_BASE64` because it signs its
+    own JWT. altool is not: `--api-key` takes the KEY ID and then hunts a
+    FILE named `AuthKey_<id>.p8` in four fixed directories, and says so
+    only after it has already failed:
+
+        Failed to load AuthKey file. (-43) The file 'AuthKey_XXX.p8'
+        could not be found in any of these locations: ...
+
+    That is why this worked on a laptop, where the key sits in
+    `~/.appstoreconnect/private_keys/`, and failed the first time a tag
+    ran it on a runner that had the key only as a secret. Returns the path
+    it wrote so the caller can remove it, or `None` when a real key file
+    is already there and must be left alone.
+    """
+    blob = os.environ.get("ASC_API_KEY_P8_BASE64")
+    if not blob:
+        return None
+    target_dir = pathlib.Path.home() / ".appstoreconnect" / "private_keys"
+    target = target_dir / f"AuthKey_{client.KEY_ID}.p8"
+    if target.exists():
+        return None
+    target_dir.mkdir(parents=True, exist_ok=True)
+    # 0600 before any bytes land in it, not after.
+    fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(base64.b64decode(blob))
+    print(f"   staged the API key for altool at {target}")
+    return target
 
 
 def altool(args: list[str]) -> tuple[bool, str]:
@@ -147,20 +183,27 @@ def main() -> int:
         "--api-issuer", client.ISSUER_ID,
     ]
 
-    print("\n== validate")
-    ok, message = altool(["--validate-app", "-f", str(artifact), *common])
-    print(message if ok else f"validation FAILED:\n{message}")
-    if not ok:
-        return 1
-    if validate_only:
-        print("\nOK (validated, not uploaded)")
-        return 0
+    staged = staged_api_key()
+    try:
+        print("\n== validate")
+        ok, message = altool(["--validate-app", "-f", str(artifact), *common])
+        print(message if ok else f"validation FAILED:\n{message}")
+        if not ok:
+            return 1
+        if validate_only:
+            print("\nOK (validated, not uploaded)")
+            return 0
 
-    print("\n== upload")
-    ok, message = altool(["--upload-package", str(artifact), *common])
-    print(message if ok else f"upload FAILED:\n{message}")
-    if not ok:
-        return 1
+        print("\n== upload")
+        ok, message = altool(["--upload-package", str(artifact), *common])
+        print(message if ok else f"upload FAILED:\n{message}")
+        if not ok:
+            return 1
+    finally:
+        # A private key does not outlive the command that needed it, even
+        # on a throwaway runner.
+        if staged:
+            staged.unlink(missing_ok=True)
 
     print(f"\nOK: uploaded. Processing takes 15-60 minutes; the build is not "
           f"assignable to any TestFlight group until it reports VALID.")
