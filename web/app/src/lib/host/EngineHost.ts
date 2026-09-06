@@ -355,6 +355,11 @@ export interface StepResult {
 export interface ScriptResult {
   steps: {
     operator: unknown;
+    /** The line as the engine understood it, always in the canonical
+     * English grammar however it was typed (I18N). What the log keeps,
+     * so a session typed in German replays on any bench. Absent from an
+     * older host, in which case the typed line was already canonical. */
+    canonical?: string;
     events: unknown[];
     rendered: string[];
     ionic?: unknown[];
@@ -440,9 +445,9 @@ export interface EngineHost {
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;
   /** Validate one line without executing it (GUI-005). */
-  parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }>;
+  parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string; canonical?: string }>;
   /** The verb inventory with canonical examples (GUI-029). */
-  grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
+  grammar(): Promise<{ verb: string; example: string; typed?: string | null; options?: string[] }[]>;
   /** WORLD-003: the runtime catalog — availability and its stable reason. */
   catalog(request: CatalogRequest): Promise<CatalogResponse>;
 

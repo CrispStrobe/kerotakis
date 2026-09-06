@@ -94,11 +94,11 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("run_script", { script }));
   }
 
-  async parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }> {
+  async parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string; canonical?: string }> {
     return JSON.parse(await this.channel.request("parse", { line }));
   }
 
-  async grammar(): Promise<{ verb: string; example: string; options?: string[] }[]> {
+  async grammar(): Promise<{ verb: string; example: string; typed?: string | null; options?: string[] }[]> {
     return JSON.parse(await this.channel.request("grammar"));
   }
 

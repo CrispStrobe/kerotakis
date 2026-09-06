@@ -419,6 +419,11 @@ export class Session {
   elementCoverage = $state<ElementCoverageReport | null>(null);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
   reactOptions = $state<string[]>([]);
+  /** One example line per verb, as a learner of the CURRENT language would
+   * type it (I18N) — what the command bar offers. English lines wherever
+   * the engine has no localised form, which is also what an older host
+   * without the field gives us. */
+  verbExamples = $state<string[]>([]);
   /** While set, submit() records event keys (tag and tag:species) here —
    * the experiment checker compares them against codex claims. */
   private eventCollector: string[] | null = null;
@@ -576,15 +581,7 @@ export class Session {
         // an honest fallback until the new endpoint is available.
         this.elementCoverage = null;
       }
-      try {
-        const grammar = (await this.host.grammar()) as {
-          verb: string;
-          options?: string[];
-        }[];
-        this.reactOptions = grammar.find((g) => g.verb === "react")?.options ?? [];
-      } catch {
-        // An older host without grammar still runs; the picker just hides.
-      }
+      await this.loadGrammar();
     } catch (e) {
       this.feed.push({
         kind: "error",
@@ -788,6 +785,9 @@ export class Session {
     if (!trimmed || this.busy) return false;
     this.busy = true;
     this.activeCommand = trimmed;
+    // The echo is replaced once the engine says what it understood — see
+    // `canonical` below — so its place in the feed is held from here.
+    const echo = this.feed.length;
     this.feed.push({ kind: "command", text: trimmed });
     try {
       if (trimmed.startsWith("register ")) {
@@ -954,7 +954,16 @@ export class Session {
           if (k > this.position) this.snapshots.delete(k);
         }
       }
-      this.commandLog.push(trimmed);
+      // I18N: what the log keeps is the line the ENGINE understood, always
+      // in the canonical English grammar however it was typed. A session
+      // typed in German therefore saves, replays, exports and pre-warms as
+      // the same script an English learner would have written — the
+      // localisation is at the keyboard, and it stops there. The echo is
+      // rewritten with it, so a learner sees the canonical form of what
+      // they just said rather than having to guess at it.
+      const canonical = result.steps.find((step) => step.canonical)?.canonical ?? trimmed;
+      if (canonical !== trimmed) this.feed[echo] = { kind: "command", text: canonical };
+      this.commandLog.push(canonical);
       this.position = this.commandLog.length;
       if (this.mode === "story" && stockItem && !missionSupply) {
         this.storyStockUsed = {
@@ -1276,6 +1285,30 @@ export class Session {
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch {
       // English is a working fallback; a dead session is not.
+    }
+    // The grammar's hints are in the learner's language, so they follow
+    // the language rather than the session — a learner who switches to
+    // German mid-session must be offered German verbs, not the English
+    // ones the bar was built with.
+    await this.loadGrammar();
+  }
+
+  /** The verb inventory: what `react` accepts, and one example line per
+   * verb in the language the engine is currently speaking. */
+  private async loadGrammar(): Promise<void> {
+    try {
+      const grammar = (await this.host.grammar()) as {
+        verb: string;
+        example?: string;
+        typed?: string | null;
+        options?: string[];
+      }[];
+      this.reactOptions = grammar.find((g) => g.verb === "react")?.options ?? [];
+      this.verbExamples = grammar
+        .map((g) => g.typed ?? g.example ?? "")
+        .filter((line) => line.length > 0);
+    } catch {
+      // An older host without grammar still runs; the picker just hides.
     }
   }
 

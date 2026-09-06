@@ -4,11 +4,15 @@
 //! the CLI, the wasm build, and anything later. A lesson is data, and its
 //! grammar is part of the engine rather than of one front end.
 
+use std::collections::{HashMap, HashSet};
+use std::sync::OnceLock;
+
+use crate::i18n::Locale;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{Compare, Endpoint, Instrument, Operator};
 use crate::species::{self, SpeciesData, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::VesselId;
+use crate::vessel::{VesselId, VESSEL_KINDS};
 
 /// Parse one bench command into an operator. Meta commands (register,
 /// inspect) return `None` — they are session state, not bench state.
@@ -52,6 +56,517 @@ pub const VERBS: &[(&str, &str)] = &[
     ("particles", "particles v1"),
     ("smell", "smell v1"),
 ];
+
+/// The verbs the parser accepts that `VERBS` does not list, because the
+/// inventory keeps one row per idea and each of these is a second word
+/// for a row that is already there — `look` for the eyes, `mix` for a
+/// two-vessel pour, `voltmeter` for touching two half-cells together.
+///
+/// A whole verb to the person typing it, so each needs its own word in
+/// every language: `i18n_coverage` gates them beside `VERBS`.
+pub const VERB_SYNONYMS: &[&str] = &["look", "observe", "waft", "zoom", "mix", "voltmeter"];
+
+/// The same word, spelt the other way. Nothing to translate — a language
+/// that is not English has one spelling of its own word — so these are
+/// kept apart from the synonyms above and gated by neither.
+pub const VERB_SPELLINGS: &[&str] = &["distill", "electrolyze"];
+
+/// The words that ask the SHELL something rather than the bench. They
+/// never become operators, and they are English words this grammar
+/// already spends, so no alias may claim one.
+pub const SESSION_WORDS: &[&str] = &[
+    "register",
+    "inspect",
+    "explain",
+    "species",
+    "help",
+    "structure",
+    "identify",
+    "coverage",
+];
+
+/// Every word `measure` accepts, and the instrument it names.
+///
+/// A table rather than a match arm because two other things now have to
+/// read it: the alias layer, which may not hand a language a word this
+/// list already spends, and the test that walks it. A match arm is
+/// readable and unenumerable, and the second property is the expensive
+/// one.
+pub const INSTRUMENT_WORDS: &[(&str, Instrument)] = &[
+    ("thermometer", Instrument::Thermometer),
+    ("temp", Instrument::Thermometer),
+    ("balance", Instrument::Balance),
+    ("mass", Instrument::Balance),
+    ("ph", Instrument::PhMeter),
+    ("phmeter", Instrument::PhMeter),
+    ("eyes", Instrument::Eyes),
+    ("look", Instrument::Eyes),
+    ("pressure", Instrument::PressureGauge),
+    ("gauge", Instrument::PressureGauge),
+    ("volume", Instrument::VolumeMeter),
+    ("conductivity", Instrument::ConductivityMeter),
+    ("density", Instrument::Densitometer),
+    ("hydrometer", Instrument::Densitometer),
+    ("densitometer", Instrument::Densitometer),
+    ("spectrophotometer", Instrument::Spectrophotometer),
+    ("uvvis", Instrument::Spectrophotometer),
+    ("calorimeter", Instrument::Calorimeter),
+    ("chromatograph", Instrument::Chromatograph),
+    ("column", Instrument::Chromatograph),
+    ("geiger", Instrument::GeigerCounter),
+    // EXP-33. Both spellings, because a learner types the quantity and a
+    // technician types the apparatus.
+    ("melting_point", Instrument::MeltingPointApparatus),
+    ("melting-point", Instrument::MeltingPointApparatus),
+    ("mp", Instrument::MeltingPointApparatus),
+    ("boiling_point", Instrument::BoilingPointApparatus),
+    ("boiling-point", Instrument::BoilingPointApparatus),
+    ("bp", Instrument::BoilingPointApparatus),
+];
+
+/// The instrument a word names, or nothing.
+pub fn instrument_by_word(word: &str) -> Option<Instrument> {
+    INSTRUMENT_WORDS
+        .iter()
+        .find(|(name, _)| *name == word)
+        .map(|(_, instrument)| *instrument)
+}
+
+/// The classical gas tests `test <vessel> <name>` runs. Kept beside the
+/// match that reads them so the alias layer can see the English.
+pub const GAS_TEST_WORDS: &[&str] = &["pop", "splint", "limewater", "litmus"];
+
+/// The flames `heat … on <source>` accepts, as `HeatSource::by_name`
+/// spells them.
+pub const HEAT_SOURCE_WORDS: &[&str] = &[
+    "burner",
+    "bunsen",
+    "bunsenburner",
+    "bunsen-burner",
+    "hotplate",
+    "hot-plate",
+    "plate",
+    "candle",
+];
+
+/// The small words that hold a command together and mean nothing on
+/// their own.
+pub const GRAMMAR_WORDS: &[&str] = &[
+    "until", "into", "from", "to", "steps", "courant", "max", "stages", "persists", "colour",
+    "color", "ph", "pe", "above", "below", "on", "with", "@",
+];
+
+/// Is this word already a verb of the English grammar?
+pub fn is_canonical_verb(word: &str) -> bool {
+    let word = word.to_ascii_lowercase();
+    let word = word.as_str();
+    VERBS.iter().any(|(verb, _)| *verb == word)
+        || VERB_SYNONYMS.contains(&word)
+        || VERB_SPELLINGS.contains(&word)
+        || SESSION_WORDS.contains(&word)
+}
+
+/// Is this word already spent somewhere else in the English grammar —
+/// an instrument, a gas test, a flame, a glassware kind, a joining word,
+/// or the key of a species on the shelf?
+///
+/// Species keys are compared in lower case on purpose. `PE` is
+/// polyethylene and `pe` is the redox endpoint; a language that wanted
+/// `pe` for something of its own would collide with both, and the point
+/// of this check is to catch exactly that before it reaches a learner.
+fn is_canonical_word(word: &str) -> bool {
+    let lower = word.to_ascii_lowercase();
+    let lower = lower.as_str();
+    INSTRUMENT_WORDS.iter().any(|(name, _)| *name == lower)
+        || GAS_TEST_WORDS.contains(&lower)
+        || HEAT_SOURCE_WORDS.contains(&lower)
+        || GRAMMAR_WORDS.contains(&lower)
+        || VESSEL_KINDS.iter().any(|(kind, _)| *kind == lower)
+        || is_canonical_verb(lower)
+        || species::registry()
+            .iter()
+            .any(|data| data.key.eq_ignore_ascii_case(lower))
+}
+
+// ── The alias layer (I18N) ──────────────────────────────────────────
+//
+// The canonical script is English and stays English: a lesson, a saved
+// session, the operator log, the corpus and the replay cache all carry
+// English lines, so a session typed in German replays byte-identically
+// on a machine that has never heard of German. What a language gets is
+// an alias layer READ AT PARSE TIME and rewritten away before anything
+// is stored.
+//
+// Every alias is data. `crates/kerotakis-core/i18n/<code>.toml` carries
+// `[script-verb]`, `[script-instrument]`, `[script-test]`,
+// `[script-source]` and `[script-word]`, keyed by the canonical token
+// with a comma-separated list of that language's words for it; species
+// come from `[species]` read backwards and glassware from `[glassware]`.
+// Adding French is adding `fr.toml`. There is no German in this file,
+// and there must not be — a match arm here is a language the next
+// translator cannot add without a Rust change.
+
+/// One language's rewrite tables: the first word, and every word after
+/// it.
+#[derive(Default)]
+struct AliasIndex {
+    verbs: HashMap<String, String>,
+    words: HashMap<String, String>,
+    /// The other direction, for the words a UI OFFERS rather than the
+    /// words it accepts: canonical verb → the first alias its translator
+    /// listed, and canonical substance or glassware → its name in this
+    /// language. Only those two: a hint is worth having because it is a
+    /// line the learner could have typed, and `until pe > 8` stays
+    /// itself in every language.
+    verb_display: HashMap<String, String>,
+    word_display: HashMap<String, String>,
+}
+
+/// Claim `alias` for `canonical`, honouring the two rules.
+///
+/// English wins: a word this grammar already spends is never taken over
+/// by a translation of something else. And an alias claimed twice is
+/// dropped rather than resolved, because the alternative is a bench that
+/// does one of two things depending on which section was read first.
+fn claim(
+    map: &mut HashMap<String, String>,
+    dropped: &mut HashSet<String>,
+    alias: &str,
+    canonical: &str,
+    already_english: impl Fn(&str) -> bool,
+) {
+    let alias = alias.trim().to_lowercase();
+    if alias.is_empty() || alias.contains(char::is_whitespace) || dropped.contains(&alias) {
+        return;
+    }
+    if already_english(&alias) {
+        return;
+    }
+    match map.get(&alias).cloned() {
+        Some(existing) if existing.as_str() != canonical => {
+            map.remove(&alias);
+            dropped.insert(alias);
+        }
+        Some(_) => {}
+        None => {
+            map.insert(alias, canonical.to_string());
+        }
+    }
+}
+
+fn split_aliases(list: &str) -> impl Iterator<Item = &str> {
+    list.split(',').map(str::trim).filter(|a| !a.is_empty())
+}
+
+fn build_alias_index(locale: Locale) -> AliasIndex {
+    let mut index = AliasIndex::default();
+    let mut dropped_verbs = HashSet::new();
+    let mut dropped_words = HashSet::new();
+    // Every (canonical, alias) pair in the order the catalogue lists it,
+    // so the display pass below can take the FIRST alias that survived —
+    // the one the translator put first — without depending on a map's
+    // iteration order.
+    let mut verb_order: Vec<(String, String)> = Vec::new();
+    let mut name_order: Vec<(String, String)> = Vec::new();
+
+    for (canonical, list) in locale.section("script-verb") {
+        debug_assert!(
+            is_canonical_verb(canonical),
+            "i18n/{}.toml [script-verb] names '{canonical}', which is no verb of this grammar",
+            locale.code()
+        );
+        if !is_canonical_verb(canonical) {
+            continue;
+        }
+        for alias in split_aliases(list) {
+            claim(
+                &mut index.verbs,
+                &mut dropped_verbs,
+                alias,
+                canonical,
+                is_canonical_verb,
+            );
+            verb_order.push((canonical.to_string(), alias.to_string()));
+        }
+    }
+
+    for section in [
+        "script-instrument",
+        "script-test",
+        "script-source",
+        "script-word",
+    ] {
+        for (canonical, list) in locale.section(section) {
+            debug_assert!(
+                is_canonical_word(canonical),
+                "i18n/{}.toml [{section}] names '{canonical}', which this grammar never accepts",
+                locale.code()
+            );
+            for alias in split_aliases(list) {
+                claim(
+                    &mut index.words,
+                    &mut dropped_words,
+                    alias,
+                    canonical,
+                    is_canonical_word,
+                );
+            }
+        }
+    }
+
+    // Glassware and species need no table of their own: the catalogue
+    // already carries both, for the sentences the bench writes. Read
+    // backwards they are the words a learner may type — which is the
+    // whole reason a translator should never have to write a name twice.
+    for (kind, _) in VESSEL_KINDS {
+        if let Some(name) = locale.lookup(&format!("glassware.{kind}")) {
+            claim(
+                &mut index.words,
+                &mut dropped_words,
+                name,
+                kind,
+                is_canonical_word,
+            );
+            name_order.push(((*kind).to_string(), name.to_string()));
+        }
+    }
+    for data in species::registry() {
+        let Some(name) = locale.lookup(&format!("species.{}", data.name)) else {
+            continue;
+        };
+        // The shelf has two halves and German sometimes has one word for
+        // both: `Ammoniumnitrat` is the pure substance `NH4NO3` and also
+        // the bottle `ammonium_nitrate`, which English tells apart by
+        // spelling them differently. Rule 1 applies across the halves as
+        // well — the word is left alone, and the bottle answers it the
+        // way it always has.
+        if material::lookup(name, None).is_some() {
+            dropped_words.insert(name.to_lowercase());
+            index.words.remove(&name.to_lowercase());
+            continue;
+        }
+        claim(
+            &mut index.words,
+            &mut dropped_words,
+            name,
+            data.key,
+            is_canonical_word,
+        );
+        name_order.push((data.key.to_string(), name.to_string()));
+    }
+
+    // The display pass: the first alias that actually survived, which is
+    // never a word that was dropped for colliding with English or with
+    // another canonical token. A hint the parser would refuse is worse
+    // than no hint.
+    for (canonical, alias) in verb_order {
+        if index.verbs.get(&alias.to_lowercase()) == Some(&canonical) {
+            index.verb_display.entry(canonical).or_insert(alias);
+        }
+    }
+    for (canonical, name) in name_order {
+        if index.words.get(&name.to_lowercase()) == Some(&canonical) {
+            index.word_display.entry(canonical).or_insert(name);
+        }
+    }
+    index
+}
+
+/// The rewrite tables for one language, built once.
+fn alias_index(locale: Locale) -> &'static AliasIndex {
+    static INDEXES: OnceLock<HashMap<&'static str, AliasIndex>> = OnceLock::new();
+    static EMPTY: OnceLock<AliasIndex> = OnceLock::new();
+    INDEXES
+        .get_or_init(|| {
+            Locale::available()
+                .into_iter()
+                .filter(|locale| !locale.is_english())
+                .map(|locale| (locale.code(), build_alias_index(locale)))
+                .collect()
+        })
+        .get(locale.code())
+        .unwrap_or_else(|| EMPTY.get_or_init(AliasIndex::default))
+}
+
+/// Rewrite a command line from `locale` into the canonical English
+/// grammar, or `None` when it already is canonical.
+///
+/// Word by word, and never over a word the English grammar itself
+/// spends: a line that parses in English parses to exactly the same
+/// operator in every language, which is what keeps the shipped lessons
+/// and the replay cache out of this entirely.
+///
+/// Materials are looked up rather than tabulated. `material::lookup`
+/// already matches a recipe's `aliases.<lang>` in any language — it is
+/// how `add v1 Milch 100mL` has always worked — so the only thing
+/// missing was the rewrite back to `whole_milk` for the log, and a pack
+/// loaded at runtime gets it for free.
+pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
+    if locale.is_english() {
+        return None;
+    }
+    let trimmed = line.trim();
+    if trimmed.is_empty() || trimmed.starts_with('#') {
+        return None;
+    }
+    let index = alias_index(locale);
+    let mut changed = false;
+    let mut out: Vec<String> = Vec::new();
+    for (position, word) in trimmed.split_whitespace().enumerate() {
+        let lower = word.to_lowercase();
+        let canonical = if position == 0 {
+            if is_canonical_verb(word) {
+                None
+            } else {
+                index.verbs.get(&lower).cloned()
+            }
+        } else if is_canonical_word(word) || species::lookup_key(word).is_some() {
+            None
+        } else {
+            index.words.get(&lower).cloned().or_else(|| {
+                // Not a number, not a vessel: those are most of a line and
+                // none of them is ever a bottle on the shelf.
+                if word.starts_with(|c: char| c.is_ascii_digit()) {
+                    return None;
+                }
+                material::lookup(word, None)
+                    // A bottle the English grammar can already name keeps
+                    // the name that was typed. Rewriting `milk` to
+                    // `whole_milk` because a German is at the keyboard
+                    // would make one lesson two scripts, and the point of
+                    // this layer is that it makes none.
+                    .filter(|recipe| !recipe.matches(word, Some("en")))
+                    .map(|recipe| recipe.canonical_key)
+            })
+        };
+        match canonical {
+            Some(canonical) => {
+                changed = true;
+                out.push(canonical);
+            }
+            None => out.push(word.to_string()),
+        }
+    }
+    changed.then(|| out.join(" "))
+}
+
+/// A canonical example line as a learner of `locale` may type it, or
+/// `None` when it is already the line they would write.
+///
+/// The inverse of [`canonical_line_in`], and only for what a UI OFFERS —
+/// the command bar's hints and its placeholder. The verb and the
+/// substance names change; the numbers, the units and the joining words
+/// do not, because those are the same in every language this grammar has
+/// and because a hint must be a line the parser takes. That last is a
+/// test, not a hope: every hint is fed back through `canonical_line_in`
+/// and must come out as the example it was made from.
+pub fn example_in(line: &str, locale: Locale) -> Option<String> {
+    if locale.is_english() {
+        return None;
+    }
+    let index = alias_index(locale);
+    let mut changed = false;
+    let mut out: Vec<String> = Vec::new();
+    for (position, word) in line.split_whitespace().enumerate() {
+        let display = if position == 0 {
+            index.verb_display.get(word)
+        } else {
+            index.word_display.get(word)
+        };
+        match display {
+            Some(display) => {
+                changed = true;
+                out.push(display.clone());
+            }
+            None => out.push(word.to_string()),
+        }
+    }
+    changed.then(|| out.join(" "))
+}
+
+/// One line as the bench understood it: the canonical English form to
+/// log, and the operator it makes.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Command {
+    /// What to echo, log and save. Always canonical, whatever was typed.
+    pub canonical: String,
+    /// `None` for a blank line, a comment, or a word the shell answers.
+    pub operator: Option<Operator>,
+}
+
+/// Parse one line typed in `locale`.
+///
+/// The alias rewrite is tried first and the raw line second, so an alias
+/// can never take a meaning English already had — a word that collides
+/// is dropped when the index is built, and if a rewritten line does not
+/// parse the untouched one still gets its turn.
+pub fn parse_command(line: &str, locale: Locale) -> Result<Command, ParseError> {
+    let canonical = canonical_line_in(line, locale);
+    let attempt = canonical.as_deref().unwrap_or(line);
+    match parse_op_typed(attempt) {
+        Ok(operator) => Ok(Command {
+            canonical: attempt.trim().to_string(),
+            operator,
+        }),
+        Err(error) if canonical.is_some() => match parse_op_typed(line) {
+            Ok(operator) => Ok(Command {
+                canonical: line.trim().to_string(),
+                operator,
+            }),
+            Err(_) => Err(localised(error, locale)),
+        },
+        Err(error) => Err(localised(error, locale)),
+    }
+}
+
+/// The unknown-verb refusal, in the learner's language.
+///
+/// The English says "try 'help'", and a learner who has just typed a
+/// German word has no reason to expect an English help screen to answer
+/// them — so the German names the verbs themselves. Every other refusal
+/// is left as it is: they are about a number or a name, not about the
+/// vocabulary, and translating a grammar's whole error surface is a
+/// different job from letting a learner type their own words.
+fn localised(error: ParseError, locale: Locale) -> ParseError {
+    if locale.is_english() {
+        return error;
+    }
+    let Some(word) = error
+        .detail
+        .strip_prefix("unknown command '")
+        .and_then(|rest| rest.split('\'').next())
+    else {
+        return error;
+    };
+    // The FIRST alias the catalogue lists for a verb, which is the one
+    // its translator put first — and `Locale::section` sorts, so the
+    // sentence is the same on every run and in every host.
+    let index = alias_index(locale);
+    let rows = locale.section("script-verb");
+    let first_alias = |verb: &str| -> Option<String> {
+        let list: &'static str = rows.iter().find(|(canonical, _)| *canonical == verb)?.1;
+        split_aliases(list)
+            .find(|alias| index.verbs.get(&alias.to_lowercase()).map(String::as_str) == Some(verb))
+            .map(str::to_string)
+    };
+    let mut verbs: Vec<String> = VERBS
+        .iter()
+        .map(|(verb, _)| match first_alias(verb) {
+            Some(alias) => format!("{alias} ({verb})"),
+            None => (*verb).to_string(),
+        })
+        .collect();
+    verbs.sort_unstable();
+    let detail = locale.fill(
+        "script.unknown-verb",
+        "unknown command '{word}' — the bench knows these verbs: {verbs}",
+        &[("word", word), ("verbs", &verbs.join(", "))],
+    );
+    ParseError {
+        kind: error.kind,
+        detail,
+    }
+}
 
 /// The one usage line for `titrate`, kept in one place now that the verb
 /// has three endpoints (EXP-39).
@@ -563,24 +1078,9 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             }
             Operator::Measure {
                 vessel: parse_vessel(words[1])?,
-                instrument: match words[2] {
-                    "thermometer" | "temp" => Instrument::Thermometer,
-                    "balance" | "mass" => Instrument::Balance,
-                    "ph" | "phmeter" => Instrument::PhMeter,
-                    "eyes" | "look" => Instrument::Eyes,
-                    "pressure" | "gauge" => Instrument::PressureGauge,
-                    "volume" => Instrument::VolumeMeter,
-                    "conductivity" => Instrument::ConductivityMeter,
-                    "density" | "hydrometer" | "densitometer" => Instrument::Densitometer,
-                    "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
-                    "calorimeter" => Instrument::Calorimeter,
-                    "chromatograph" | "column" => Instrument::Chromatograph,
-                    "geiger" => Instrument::GeigerCounter,
-                    // EXP-33. Both spellings, because a learner types the
-                    // quantity and a technician types the apparatus.
-                    "melting_point" | "melting-point" | "mp" => Instrument::MeltingPointApparatus,
-                    "boiling_point" | "boiling-point" | "bp" => Instrument::BoilingPointApparatus,
-                    other => return Err(format!("unknown instrument '{other}'")),
+                instrument: match instrument_by_word(words[2]) {
+                    Some(instrument) => instrument,
+                    None => return Err(format!("unknown instrument '{}'", words[2])),
                 },
             }
         }
@@ -1120,6 +1620,235 @@ fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, S
         Some(scale) if value > 0.0 => Ok(value * scale),
         Some(_) => Err(format!("{what} must be positive")),
         None => Err(format!("unknown {what} unit '{suffix}'")),
+    }
+}
+
+#[cfg(test)]
+mod localised_grammar {
+    use super::*;
+
+    fn de() -> Locale {
+        Locale::parse("de")
+    }
+
+    /// A canonical line for every verb an alias table may name — the
+    /// inventory's own example where there is one, and a written line for
+    /// the synonyms the inventory deliberately does not list twice.
+    fn example_for(verb: &str) -> String {
+        if let Some((_, example)) = VERBS.iter().find(|(name, _)| *name == verb) {
+            return (*example).to_string();
+        }
+        match verb {
+            "look" | "observe" | "waft" | "zoom" => format!("{verb} v1"),
+            "mix" => "mix v1 0.5 v2 0.5 into v3".to_string(),
+            "distill" => "distill v1 v2 0.5".to_string(),
+            "electrolyze" => "electrolyze v1 0.5A 30min".to_string(),
+            "voltmeter" => "voltmeter v1 v2".to_string(),
+            other => panic!("no example line for '{other}'"),
+        }
+    }
+
+    /// The property the whole layer rests on: an English line means the
+    /// same thing in every language, byte for byte.
+    ///
+    /// Every shipped lesson, the corpus, the operator log and the replay
+    /// cache are English lines. If a translation could rewrite one of
+    /// them, a German learner would replay a different script from an
+    /// English one — so the rewrite refuses to touch a word this grammar
+    /// already spends, and this walks the inventory to prove it.
+    #[test]
+    fn a_canonical_line_is_never_rewritten() {
+        for locale in Locale::available() {
+            for (_, example) in VERBS {
+                assert_eq!(
+                    canonical_line_in(example, locale),
+                    None,
+                    "{} rewrote the canonical line '{example}'",
+                    locale.code()
+                );
+            }
+        }
+    }
+
+    /// Every alias parses to the operator its canonical verb does, and
+    /// reports the canonical line back.
+    #[test]
+    fn every_german_verb_alias_means_its_canonical_verb() {
+        let de = de();
+        let rows = de.section("script-verb");
+        assert!(!rows.is_empty(), "the German catalogue lists no verbs");
+        for (verb, list) in rows {
+            let example = example_for(verb);
+            let expected = parse_op(&example).expect("the example parses");
+            let mut used = 0;
+            for alias in split_aliases(list) {
+                let mut words: Vec<&str> = example.split_whitespace().collect();
+                words[0] = alias;
+                let line = words.join(" ");
+                let command = parse_command(&line, de)
+                    .unwrap_or_else(|e| panic!("'{line}' did not parse: {e}"));
+                assert_eq!(command.operator, expected, "'{line}' is not '{example}'");
+                assert_eq!(command.canonical, example, "'{line}' logged the wrong line");
+                used += 1;
+            }
+            assert!(used > 0, "[script-verb] {verb} lists no usable alias");
+        }
+    }
+
+    /// An instrument, a gas test, a flame and a glassware kind, each named
+    /// in German after a German verb.
+    #[test]
+    fn german_reaches_past_the_verb() {
+        let de = de();
+        for (typed, canonical) in [
+            ("messen v1 waage", "measure v1 balance"),
+            ("messen v1 ph-wert", "measure v1 ph"),
+            ("prüfen v1 kalkwasser", "test v1 limewater"),
+            ("erhitzen v1 10kJ auf kerze", "heat v1 10kJ on candle"),
+            ("neu reagenzglas", "new tube"),
+        ] {
+            let command =
+                parse_command(typed, de).unwrap_or_else(|e| panic!("'{typed}' did not parse: {e}"));
+            assert_eq!(command.canonical, canonical, "'{typed}'");
+            assert_eq!(
+                command.operator,
+                parse_op(canonical).expect("the canonical line parses"),
+                "'{typed}' is not '{canonical}'"
+            );
+        }
+    }
+
+    /// A species by its German name, and a material by its German alias.
+    /// Both land on the canonical key, so the log is the same script an
+    /// English learner would have written.
+    #[test]
+    fn german_names_resolve_to_the_canonical_key() {
+        let de = de();
+        let water = parse_command("zugeben v1 Wasser 100mL", de).expect("German water");
+        assert_eq!(water.canonical, "add v1 water 100mL");
+        assert_eq!(water.operator, parse_op("add v1 water 100mL").unwrap());
+
+        let salt = parse_command("zugeben v1 Natriumchlorid 1g", de).expect("German salt");
+        assert_eq!(salt.canonical, "add v1 NaCl 1g");
+
+        let milk = parse_command("zugeben v1 Milch 100mL", de).expect("German milk");
+        assert_eq!(milk.canonical, "add v1 whole_milk 100mL");
+        assert_eq!(milk.operator, parse_op("add v1 whole_milk 100mL").unwrap());
+    }
+
+    /// The ambiguity policy, both halves.
+    ///
+    /// `magnet` and `voltmeter` are spelt the same in German, so the
+    /// German spelling never registers — and never has to. A word claimed
+    /// by two canonical tokens is dropped rather than guessed at.
+    #[test]
+    fn english_wins_and_a_word_claimed_twice_is_dropped() {
+        let de = de();
+        assert_eq!(canonical_line_in("magnet v1 v2", de), None);
+        assert_eq!(
+            canonical_line_in("magnetisieren v1 v2", de).as_deref(),
+            Some("magnet v1 v2")
+        );
+
+        let mut index = HashMap::new();
+        let mut dropped = HashSet::new();
+        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
+        claim(&mut index, &mut dropped, "probe", "balance", |_| false);
+        assert_eq!(index.get("probe"), None, "a word claimed twice must go");
+        claim(&mut index, &mut dropped, "probe", "ph", |_| false);
+        assert_eq!(index.get("probe"), None, "and must not come back");
+        claim(&mut index, &mut dropped, "waage", "balance", |_| true);
+        assert_eq!(index.get("waage"), None, "English wins");
+    }
+
+    /// A first word nobody knows is refused in the learner's language,
+    /// naming the verbs rather than an English help screen.
+    #[test]
+    fn the_unknown_verb_refusal_speaks_german() {
+        let error = parse_command("blubbern v1 wasser", de()).unwrap_err();
+        assert!(
+            error.detail.contains("unbekannter Befehl 'blubbern'"),
+            "{}",
+            error.detail
+        );
+        assert!(
+            error.detail.contains("zugeben (add)"),
+            "the German refusal must name the German verbs: {}",
+            error.detail
+        );
+        // English is untouched.
+        assert_eq!(
+            parse_command("blubbern v1 wasser", Locale::EN)
+                .unwrap_err()
+                .detail,
+            "unknown command 'blubbern' (try 'help')"
+        );
+    }
+
+    /// An English line still parses for a German learner: the rewrite is
+    /// tried first, and the raw line still gets its turn.
+    #[test]
+    fn english_still_works_in_a_german_session() {
+        let de = de();
+        for (_, example) in VERBS {
+            let command = parse_command(example, de)
+                .unwrap_or_else(|e| panic!("'{example}' did not parse in German: {e}"));
+            assert_eq!(command.canonical, *example);
+            assert_eq!(command.operator, parse_op(example).unwrap());
+        }
+    }
+
+    /// Every hint a UI may offer is a line the parser takes, and it means
+    /// exactly the example it was made from.
+    ///
+    /// A command bar that suggests `zugeben v1 Wasser 100mL` and then
+    /// refuses it would be worse than one that suggested nothing, so the
+    /// round trip is gated rather than trusted.
+    #[test]
+    fn every_hint_is_a_line_the_parser_takes() {
+        let de = de();
+        let mut localised = 0;
+        for (_, example) in VERBS {
+            let Some(hint) = example_in(example, de) else {
+                continue;
+            };
+            localised += 1;
+            assert_eq!(
+                canonical_line_in(&hint, de).as_deref(),
+                Some(*example),
+                "the hint '{hint}' does not mean '{example}'"
+            );
+            let command =
+                parse_command(&hint, de).unwrap_or_else(|e| panic!("'{hint}' was refused: {e}"));
+            assert_eq!(command.canonical, *example);
+        }
+        assert!(
+            localised > 20,
+            "only {localised} of the inventory's examples have a German form"
+        );
+    }
+
+    /// The tables the alias layer reads the English out of must be the
+    /// English the parser actually accepts.
+    #[test]
+    fn the_english_tables_are_what_the_parser_takes() {
+        for (word, instrument) in INSTRUMENT_WORDS {
+            match parse_op(&format!("measure v1 {word}")) {
+                Ok(Some(Operator::Measure {
+                    instrument: got, ..
+                })) => {
+                    assert_eq!(got, *instrument, "measure v1 {word}");
+                }
+                other => panic!("measure v1 {word}: {other:?}"),
+            }
+        }
+        for word in GAS_TEST_WORDS {
+            parse_op(&format!("test v1 {word}")).unwrap_or_else(|e| panic!("test v1 {word}: {e}"));
+        }
+        for word in HEAT_SOURCE_WORDS {
+            parse_op(&format!("heat v1 1kJ on {word}"))
+                .unwrap_or_else(|e| panic!("heat v1 1kJ on {word}: {e}"));
+        }
     }
 }
 

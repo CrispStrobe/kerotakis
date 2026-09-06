@@ -35,6 +35,15 @@
 //! | flame colours | `SpeciesData.flame_colour` | `flame.*` |
 //! | events | `Event` serde variant names | `event.*` |
 //! | relations | `relations::RELATIONS` | `*_de` fields |
+//! | command verbs | `script::VERBS` + `VERB_SYNONYMS` | `script-verb.*` |
+//!
+//! The last row is the newest and the odd one out: it is not about a word
+//! the engine SAYS but about a word a learner may TYPE. It was excluded on
+//! purpose for as long as the parser accepted English only — a German verb
+//! in the catalogue would have been a word in front of a parser that
+//! refused it. The parser now reads these tables (`script::alias_index`),
+//! so a verb without German is a verb a German learner cannot reach, which
+//! is the same failure this file exists to catch.
 //!
 //! Two more inventories are gated elsewhere and deliberately not repeated
 //! here: hazardous vapours (`senses::ODORS`) and the incompatibility
@@ -55,11 +64,6 @@
 //!   them is a separate job that `tools/engine-locale-lint.py` already
 //!   counts and reports. This gate requires LV1 — the learner-facing
 //!   sentence — of every event.
-//! - **`script::VERBS`.** Command grammar, not prose: the words a user
-//!   TYPES. They reach a screen only as the shell's own affordance
-//!   labels, which `web/app/src/lib/i18n.test.ts` gates against the
-//!   interface bundle. Translating them in the engine catalogue would put
-//!   German in front of a parser that only accepts English.
 //! - **`appearance::observe`'s composed sentence.** `Appearance.words` is
 //!   prose assembled in `appearance.rs`, not a term drawn from a table.
 //!   It needs call-site keys before any catalogue can reach it.
@@ -168,6 +172,78 @@ fn every_species_the_registry_names_has_german() {
     missing.sort_unstable();
     missing.dedup();
     report("species", "species", missing);
+}
+
+/// Every verb a learner may type.
+///
+/// The canonical script stays English — a lesson and a saved session are
+/// English lines wherever they are replayed — and what a language gets is
+/// an alias read at parse time and rewritten away before anything is
+/// stored. A verb with no row here is one a German learner has to know
+/// the English for, and the point of the layer is that they do not.
+///
+/// `VERB_SYNONYMS` is included because a synonym is a whole verb to the
+/// person typing it: `look` is how a young learner meets the bench.
+/// `VERB_SPELLINGS` is not: `distill` is `distil` with another letter in
+/// it, and no language but English has both.
+#[test]
+fn every_verb_the_grammar_accepts_has_german() {
+    let de = de();
+    let mut missing: Vec<String> = kerotakis_core::script::VERBS
+        .iter()
+        .map(|(verb, _)| *verb)
+        .chain(kerotakis_core::script::VERB_SYNONYMS.iter().copied())
+        .filter(|verb| de.lookup(&format!("script-verb.{verb}")).is_none())
+        .map(str::to_string)
+        .collect();
+    missing.sort_unstable();
+    missing.dedup();
+    report("command verbs", "script-verb", missing);
+}
+
+/// Every word `measure` accepts, and every classical gas test.
+///
+/// The instrument tables are two: `[instrument]` is the name the bench
+/// PRINTS in a reading, `[script-instrument]` is the word a learner
+/// TYPES. Both are gated, because having one and not the other is a
+/// bench that reports in German what it will only be asked for in
+/// English.
+#[test]
+fn every_instrument_and_gas_test_word_has_german() {
+    let de = de();
+    let mut missing: Vec<String> = kerotakis_core::script::INSTRUMENT_WORDS
+        .iter()
+        .map(|(word, _)| *word)
+        .chain(kerotakis_core::script::GAS_TEST_WORDS.iter().copied())
+        // Only the first spelling of each is gated: `temp`, `mp` and
+        // `melting-point` are shorthands for a word that is already in
+        // the table, and asking a translator for German for every
+        // abbreviation of the same instrument is asking for noise.
+        .filter(|word| {
+            !matches!(
+                *word,
+                "temp"
+                    | "mass"
+                    | "phmeter"
+                    | "look"
+                    | "gauge"
+                    | "hydrometer"
+                    | "densitometer"
+                    | "uvvis"
+                    | "column"
+                    | "melting-point"
+                    | "mp"
+                    | "boiling-point"
+                    | "bp"
+            )
+        })
+        .filter(|word| de.lookup(&format!("script-instrument.{word}")).is_none())
+        .filter(|word| de.lookup(&format!("script-test.{word}")).is_none())
+        .map(str::to_string)
+        .collect();
+    missing.sort_unstable();
+    missing.dedup();
+    report("instrument and test words", "script-instrument", missing);
 }
 
 /// Every kind of glassware the bench can actually draw.
