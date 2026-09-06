@@ -153,6 +153,7 @@ fn silver_nitrate_plus_salt_precipitates_silver_chloride() {
             vessel: v,
             species: SpeciesId::new("AgCl"),
             moles: Moles(agcl),
+            dry: false,
         },
         Register::LV1,
     );

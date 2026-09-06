@@ -670,6 +670,7 @@ mod tests {
             vessel: VesselId(0),
             species: SpeciesId::new("AgCl"),
             moles: Moles(0.0058),
+            dry: false,
         };
         let net = net_ionic(&event, &v).expect("a precipitate with speciation is derivable");
 
@@ -705,6 +706,7 @@ mod tests {
             vessel: VesselId(0),
             species: SpeciesId::new("Mg(OH)2"),
             moles: Moles(0.01),
+            dry: false,
         };
         let net = net_ionic(&event, &v).expect("hydroxide precipitation is derivable");
         assert_eq!(net.equation, "Mg²⁺(aq) + 2 OH⁻(aq) → Mg(OH)₂(s)");
@@ -756,6 +758,7 @@ mod tests {
             vessel: VesselId(0),
             species: SpeciesId::new("AgCl"),
             moles: Moles(0.0058),
+            dry: false,
         };
         assert_eq!(net_ionic(&event, &v), None);
 
@@ -791,6 +794,7 @@ mod tests {
             vessel: VesselId(0),
             species: SpeciesId::new("AgCl"),
             moles: Moles(1e-12),
+            dry: false,
         }];
         assert!(net_ionic_for(&events, std::slice::from_ref(&v)).is_empty());
     }

@@ -513,6 +513,9 @@ impl Equilibrator for MixingEquilibrator {
                         vessel: vessel.id,
                         species: solute,
                         moles,
+                        // A solubility limit is a property of a solution,
+                        // so this route is wet by construction.
+                        dry: false,
                     });
                     vessel.resolved.invalidate();
                 }
@@ -614,6 +617,9 @@ impl Equilibrator for MixingEquilibrator {
                         vessel: vessel.id,
                         species: solute,
                         moles,
+                        // A solubility limit is a property of a solution,
+                        // so this route is wet by construction.
+                        dry: false,
                     });
                 }
                 SaturationMove::Supersaturated {

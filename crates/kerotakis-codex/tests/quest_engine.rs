@@ -506,6 +506,7 @@ fn produce_reads_what_the_step_made_and_says_how_short_it_fell() {
             vessel: VesselId(0),
             species: SpeciesId::new("AgCl"),
             moles: Moles(moles),
+            dry: false,
         }]
     };
 
@@ -534,6 +535,7 @@ fn produce_reads_what_the_step_made_and_says_how_short_it_fell() {
         vessel: VesselId(0),
         species: SpeciesId::new("CaCO3"),
         moles: Moles(1.0),
+        dry: false,
     }];
     assert_eq!(ask(&spec, &wrong, &bench).unmet, Some(Unmet::NothingYet));
 }

@@ -3353,6 +3353,7 @@ impl PhreeqcEquilibrator {
                         vessel: vessel.id,
                         species: SpeciesId::new(species),
                         moles: Moles(delta),
+                        dry: false,
                     });
                 } else if delta <= -kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::Dissolved {
@@ -3430,6 +3431,7 @@ impl PhreeqcEquilibrator {
                         vessel: vessel.id,
                         species: amount.component.species(),
                         moles: Moles(delta),
+                        dry: false,
                     });
                 } else if delta <= -kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::Dissolved {

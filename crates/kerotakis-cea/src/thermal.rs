@@ -637,6 +637,18 @@ impl Equilibrator for ThermalEquilibrator {
         }
 
         // Report what changed among the solids.
+        //
+        // A solid that appears where there is no liquid is not a
+        // precipitate and did not make anything go cloudy — magnesium
+        // burnt in an empty beaker leaves an ash. The flag travels with
+        // the event so the renderer can say "left behind" rather than
+        // "came out of solution"; the event itself is unchanged, so a
+        // quest claiming `precipitated:MgO` still matches.
+        let dry = vessel.liquid_volume().0 <= 0.0
+            && !contents.iter().any(|p| {
+                matches!(p.phase, Phase::Liquid | Phase::Aqueous)
+                    && p.moles.0 > kerotakis_core::OBSERVABLE_MOLES
+            });
         for portion in &contents {
             let before = vessel.moles_of(&portion.species).0;
             let delta = portion.moles.0 - before;
@@ -645,6 +657,7 @@ impl Equilibrator for ThermalEquilibrator {
                     vessel: vessel.id,
                     species: portion.species.clone(),
                     moles: Moles(delta),
+                    dry,
                 });
             }
         }
