@@ -4242,7 +4242,7 @@ mod quantity_tests {
         ] {
             assert_eq!(moles_amount(en, value), expected, "{value}");
         }
-        assert_eq!(grams_amount(en, 2.5e-4), "250 mg");
+        assert_eq!(grams_amount(en, 2.5e-4), "250 µg");
         assert_eq!(grams_amount(en, 12.5), "12.5000 g");
     }
 
