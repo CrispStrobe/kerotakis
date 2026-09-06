@@ -736,6 +736,118 @@ fn the_bronsted_family_is_a_family_and_not_a_neighbourhood() {
     assert!(!same_bronsted_family("CO2", "HCO3-"));
 }
 
+/// The aqueous tail books a protonation split BY SPECIES KEY, so a
+/// conjugate pair has to exist as two registry keys before any database
+/// can divide a total between them. `(CH3COOH, CH3COO-)` is the pair that
+/// shape was written for; `(lactic_acid, lactate)` is now the second, and
+/// this test is what keeps the two rows agreeing with each other.
+#[test]
+fn lactate_and_lactic_acid_are_one_conjugate_pair() {
+    use kerotakis_core::species::{lookup_key, same_bronsted_family, Phase};
+
+    let acid = lookup_key("lactic_acid").expect("lactic acid is in the registry");
+    let base = lookup_key("lactate").expect("the lactate ion is in the registry");
+    assert!(same_bronsted_family("lactic_acid", "lactate"));
+    assert_eq!(base.formula, "C3H5O3-");
+    assert_eq!(base.standard_phase, Phase::Aqueous);
+    assert!(
+        (base.molar_mass - (acid.molar_mass - 1.008)).abs() < 5e-3,
+        "the anion is the acid less one proton: {} against {}",
+        base.molar_mass,
+        acid.molar_mass
+    );
+
+    // Verified against PubChem CID 91435 (the anion) and CID 612 (the
+    // acid): one skeleton block, one stereo block, and a protonation
+    // character that is the only difference between them — which is
+    // exactly the shape acetate takes against acetic acid.
+    let mut blocks = base.inchikey.split('-');
+    let skeleton = blocks.next().expect("a skeleton block");
+    let stereo = blocks.next().expect("a stereo block");
+    let protonation = blocks.next().expect("a protonation character");
+    assert_eq!(blocks.next(), None, "an InChIKey has three blocks");
+    assert_eq!(skeleton, "JVTAAEKCZFNVCJ");
+    assert_eq!(
+        protonation, "M",
+        "M is the -1 anion; N would be the neutral acid"
+    );
+    let acetate = lookup_key("CH3COO-").expect("acetate is in the registry");
+    assert_eq!(
+        stereo,
+        acetate
+            .inchikey
+            .split('-')
+            .nth(1)
+            .expect("acetate's stereo block"),
+        "the anion's stereo block must assert no stereochemistry, as acetate's does"
+    );
+    assert_eq!(stereo, "UHFFFAOYSA");
+
+    // And the pair may not disagree with itself. The acid deliberately
+    // asserts no InChIKey at all, because fermentation lactic acid is a
+    // mixture of the L-(+) and D-(-) forms; an anion claiming one form
+    // would be a stereochemical claim its own parent declines to make.
+    assert!(
+        acid.inchikey.is_empty(),
+        "lactic acid asserts no stereochemistry, so neither may the anion"
+    );
+}
+
+/// Every gram of milk is still accounted for after the serum minerals came
+/// out of the unresolved balance. This is the invariant the schema
+/// validator enforces on the source document, pinned here on the runtime
+/// recipe and on a real dispensed mass, because the two halves of the
+/// number are edited in different files.
+#[test]
+fn the_milk_recipe_accounts_for_every_gram() {
+    use kerotakis_core::species::{lookup_key, Phase};
+
+    let recipe = kerotakis_core::material::lookup("whole_milk", None).expect("the milk recipe");
+    let resolved: f64 = recipe.components.iter().map(|c| c.fraction.lower).sum();
+    let unresolved = recipe
+        .unresolved_fraction
+        .expect("a declared conserved balance");
+    assert!(
+        (resolved + unresolved.lower - 1.0).abs() < 1e-6,
+        "components {resolved} plus unresolved {} is not one",
+        unresolved.lower
+    );
+    assert!(
+        (resolved + unresolved.upper - 1.0).abs() < 1e-6,
+        "components {resolved} plus unresolved {} is not one",
+        unresolved.upper
+    );
+
+    let expansion = recipe.expand(103.0, 0).expect("100 mL of milk by mass");
+    let total: f64 =
+        expansion.components.iter().map(|c| c.amount).sum::<f64>() + expansion.unresolved_amount;
+    assert!(
+        (total - 103.0).abs() < 1e-6,
+        "103 g of milk expanded to {total} g"
+    );
+
+    // The serum buffer itself: six ions, each present and each aqueous.
+    // Bare ions rather than weighed salts, because milk serum is an ion
+    // mixture and because these are the keys the aqueous tail books its
+    // own solved element totals back into.
+    for key in ["K+", "Na+", "Ca+2", "Cl-", "H2PO4-", "C6H5O7-3"] {
+        let component = recipe
+            .components
+            .iter()
+            .find(|c| c.species_id == key)
+            .unwrap_or_else(|| panic!("milk must carry {key}"));
+        assert!(component.fraction.lower > 0.0, "{key} is a real amount");
+        assert_eq!(
+            lookup_key(key).expect("a registry species").standard_phase,
+            Phase::Aqueous,
+            "{key} is a dissolved ion"
+        );
+    }
+    // Water stays first: two tests in this workspace read the expansion by
+    // index, and the expansion order is the recipe order.
+    assert_eq!(recipe.components[0].species_id, "water");
+}
+
 /// KID-10: the calcium a child actually owns colours a flame.
 ///
 /// `Ca+2` and `Ca(OH)2` carried a flame colour and `CaCl2` did not, so the

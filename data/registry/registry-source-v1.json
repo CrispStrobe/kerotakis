@@ -1505,6 +1505,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/lactate",
+      "citation": "lactate ion, the conjugate base of this registry's `lactic_acid` and the key an aqueous tail needs before it can book a deprotonated lactic fermentation anywhere. IDENTITY VERIFIED against PubChem CID 91435 on 2026-09-05 (PUG REST property record): molecular formula C3H5O3-, molecular weight 89.07, IUPAC name 2-hydroxypropanoate, InChIKey JVTAAEKCZFNVCJ-UHFFFAOYSA-M. The parent acid is CID 612, InChIKey JVTAAEKCZFNVCJ-UHFFFAOYSA-N, fetched in the same call: the two keys share their skeleton block and their stereo block and differ only in the final protonation character - N for the neutral acid, M for the -1 anion - exactly as acetic acid's QTBSBXVTEAMEQO-UHFFFAOYSA-N differs from acetate's QTBSBXVTEAMEQO-UHFFFAOYSA-M, which is the pair this row is modelled on. NO STEREOCHEMISTRY IS CLAIMED, and the silence is deliberate rather than an omission: the stereo block here is UHFFFAOYSA, which asserts none, so this row takes in an identifier the position the parent acid's provenance takes in words - fermentation lactic acid is a mixture of the L-(+) and D-(-) forms in proportions that depend on which organism made it, and a yoghurt culture carries organisms that make each. The L-(+) anion would be JVTAAEKCZFNVCJ-REOHCLBHSA-M and is deliberately not this row. Molar mass 89.07 g/mol, which is PubChem's figure for CID 91435 and is also the parent acid's 90.078 less one proton, from IUPAC/CIAAW 2021 atomic weights. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions (see module docs); the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries, because solution volume is carried by the liquid phase. WHAT THIS ROW DOES NOT DO IS MAKE LACTIC ACID ACIDIC: none of the three databases this lab loads (wateq4f, minteq.v4, pitzer) defines a lactate species, so until one does, the acid's carboxylic proton is still absent from every computed pH and the unspeciated-acid note still says so. This species exists so that the database work has a key to book into and a conjugate pair to split against, and it claims nothing further.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -1533,12 +1542,12 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it; USDA FoodData Central's Foundation Foods whole-milk entry (FDC 746782, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, retrieved 2026-09-05) reports per 100 g the analytical values 88.1 g water, 38.0 mg sodium, 150 mg potassium, 123 mg calcium, 101 mg phosphorus, 11.9 mg magnesium, 0.8 g ash and 4.81 g lactose, and those sodium, potassium, calcium and phosphorus totals are what the whole-milk recipe's diffusible mineral buffer is built from; milk's chloride (about 30 mmol/kg) and its citrate (about 9 to 10 mmol/kg) are absent from that entry and are recorded as commonly tabulated in the dairy-chemistry literature on milk salts, PENDING REVIEW against a positively identified source, while the diffusible share of the calcium is a fitted parameter rather than a transcription - the recipe's own lot assumptions say which of its numbers is which, and say that casein's buffering is modelled by nothing",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "2",
-      "retrieved": "2026-08-29"
+      "revision": "3",
+      "retrieved": "2026-09-05"
     }
   ],
   "identities": [
@@ -4152,6 +4161,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/liquid_nitrogen",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "lactate",
+      "canonical_key": "JVTAAEKCZFNVCJ-UHFFFAOYSA-M",
+      "name": "lactate ion",
+      "identifiers": {
+        "inchikey": "JVTAAEKCZFNVCJ-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/lactate",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -21516,6 +21541,125 @@
       },
       "evidence": {
         "source_id": "legacy/liquid_nitrogen",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/lactate",
+      "species_id": "lactate",
+      "formula": "C3H5O3-",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 5.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/lactate",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/lactate",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/lactate",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -40515,6 +40659,96 @@
           "detail": "EXP-33 curated transition tranche; value corroborated against the handbook literature named in the source citation"
         }
       }
+    },
+    {
+      "id": "molar-mass/lactate",
+      "species_id": "lactate",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 89.07,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/lactate",
+      "species_id": "lactate",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/lactate",
+      "species_id": "lactate",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/lactate",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -56309,6 +56543,39 @@
           "detail": "parsed from the verbatim legacy declaration"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/lactate",
+      "subject": {
+        "kind": "species",
+        "id": "lactate"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/lactate",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -57420,11 +57687,95 @@
               "detail": "fixed teaching-surrogate composition"
             }
           }
+        },
+        {
+          "species_id": "K+",
+          "fraction": {
+            "lower": 0.0015,
+            "upper": 0.0015
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "Na+",
+          "fraction": {
+            "lower": 0.00038,
+            "upper": 0.00038
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "Ca+2",
+          "fraction": {
+            "lower": 0.0003484,
+            "upper": 0.0003484
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "Cl-",
+          "fraction": {
+            "lower": 0.001064,
+            "upper": 0.001064
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "H2PO4-",
+          "fraction": {
+            "lower": 0.0010669,
+            "upper": 0.0010669
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "C6H5O7-3",
+          "fraction": {
+            "lower": 0.0017397,
+            "upper": 0.0017397
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
         }
       ],
       "unresolved_fraction": {
-        "lower": 0.13,
-        "upper": 0.13
+        "lower": 0.123901,
+        "upper": 0.123901
       },
       "physical_form": {
         "kind": "homogeneous_liquid"
@@ -57453,9 +57804,16 @@
           ]
         }
       ],
-      "preparation": "generic unflavoured whole-cow's-milk teaching surrogate",
+      "preparation": "generic unflavoured whole-cow's-milk teaching surrogate: 87% water plus the diffusible mineral buffer of milk serum - potassium, sodium, chloride, the soluble share of the calcium, inorganic phosphate and citrate - with casein, milk fat, lactose and the colloidal calcium phosphate conserved together as unresolved milk solids",
       "lot_assumptions": [
-        "USDA's approximately 87% water is resolved; milk fat, protein, lactose, minerals and natural variation remain together as conserved unresolved milk solids rather than fictional molecules",
+        "the water fraction is unchanged at the previously reviewed 0.87. USDA FoodData Central 746782 (Foundation Foods, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, CC0, retrieved 2026-09-05) reports 88.1 g of water per 100 g; moving the water fraction is a separate decision from resolving the minerals and is deliberately not made here. Milk fat, casein and whey protein, lactose and natural variation remain together as conserved unresolved milk solids rather than fictional molecules",
+        "THE MINERAL BUFFER IS MILK'S DIFFUSIBLE (SERUM) PHASE AND ONLY THAT, because the aqueous solver models a solution and the colloidal phase is not one. Per 100 g of milk: sodium 38.0 mg (1.65 mmol) and potassium 150.0 mg (3.84 mmol) are FDC 746782's analytical values entered whole, both being essentially fully diffusible in milk; chloride is 106.4 mg (3.00 mmol, about 30 mmol/kg), which FoodData Central does not report at all and which comes from the dairy-chemistry literature; citrate is 174.0 mg (0.92 mmol, about 9.2 mmol/kg) entered as the citrate ion C6H5O7-3, which is what nearly nine tenths of milk's citrate actually is at pH 6.7 and is also the key the aqueous tail books dissolved citrate back into; and diffusible inorganic phosphate is 1.10 mmol entered as H2PO4-, which is 34.1 mg of phosphorus out of FDC's 101 mg of total P - the roughly one third of milk's phosphorus that is both inorganic and in the serum, the rest being colloidal or esterified onto casein and therefore not a solute",
+        "THE CHLORIDE AND CITRATE FIGURES RIDE A PENDING-REVIEW PROVENANCE LANE. They are recorded as commonly tabulated in the dairy-chemistry literature for whole cow's milk - roughly 30 and 9 to 10 mmol/kg respectively - and NO positively identified copy of any single paper or edition was opened for either. General dairy-chemistry references on milk salts are the intended primary source and both rows are flagged for reviewer confirmation against one before any stronger claim is made, exactly as the phase-transition and resistivity tranches are. The sodium, potassium, calcium and phosphorus totals are not in this position: those are FDC 746782's own analytical numbers",
+        "SOLUBLE CALCIUM IS THE ONE NUMBER HERE THAT IS FITTED RATHER THAN SOURCED, and it says so rather than hiding among the sourced ones. 34.8 mg per 100 g (0.869 mmol), which is 28% of FDC's 123 mg of total calcium, is the value at which this ion set is electroneutral at fresh milk's pH of about 6.7. The dairy literature puts milk's diffusible calcium at roughly a fifth to a third of the total, so 28% lands inside the measured band - but that band is the CHECK on this number and not its source, and a reviewer should read it as a fitted parameter. The reason one number has to be fitted at all is the assumption below",
+        "CASEIN IS NOT MODELLED AND ITS BUFFERING IS THEREFORE ABSENT, which is the largest single thing this recipe does not claim. In real milk the casein micelle is a polyanion carrying of the order of 10 mmol/kg of negative charge at pH 6.7 and holding a matching share of the serum's cations, and it is also - together with the colloidal calcium phosphate bound to it - the larger part of milk's buffer capacity between pH 6.6 and pH 5.0, which is exactly the interval a yoghurt fermentation crosses. None of that is here. Had every diffusible cation milk actually carries been booked as a free ion with no polyanion to balance it, this recipe would have sat near pH 7.4 rather than 6.7. What is booked instead is the ion set that balances, and the calcium left out is the calcium that in real milk is bound to the casein as colloidal calcium phosphate - so the fit and the chemistry point the same way, which is the only thing that makes the fit defensible",
+        "CONSEQUENCE FOR AN ACIDIFICATION, stated because it is what this buffer will be used for: the phosphate and the citrate here are real and carry real buffer capacity, and having them is the whole difference between milk that models as water and milk that has a pH at all - but casein's share is missing, so the acid dose that takes this recipe to a given pH is smaller than the dose real milk needs. A computed yoghurt pH from this recipe is a LOWER BOUND on the real thing at the same acid rather than a prediction of it, and it should be read as one",
+        "the buffer is booked as BARE IONS rather than as weighed salts, which is a first for a recipe in this registry and is deliberate twice over: milk serum is an ion mixture and not a set of salts anybody dissolved, and these six keys are exactly the ones the aqueous tail books its own solved element totals back into, so a vessel that has been through a solve and a vessel that has just been poured hold the same species. As written the set carries a net +0.37 mmol of charge per 100 g, and that is not a rounding error either: it is the second proton the phosphate gives up on its way to about 30% HPO4-2, which is where a solver puts it at pH 6.7",
+        "magnesium, sulfate and the dissolved carbon dioxide of fresh milk are deliberately not booked. Together they are a few percent of the serum's charge and none of them buffers anywhere near pH 6.7, so leaving them in the unresolved fraction costs nothing the pH meter can see; booking them would have moved the fitted calcium out of its measured band, which is a worse trade than saying they are absent",
         "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications",
         "acid curdling is a bounded dose response calibrated to the familiar milk-and-vinegar classroom ratio; its 28% aggregate-solids ceiling separates estimated curd solids from wet-curd yield and its opacity response is independent",
         "detergent-driven colour motion is a bounded surface-state response; spoilage and fermentation require separate state transitions"

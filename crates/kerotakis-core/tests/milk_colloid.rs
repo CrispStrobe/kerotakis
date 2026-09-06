@@ -17,7 +17,7 @@ fn localized_milk_recipe_conserves_water_and_unresolved_milk_solids() {
     assert_eq!(recipe.canonical_key, "whole_milk");
     let expansion = recipe.expand(103.0, 0).expect("100 mL milk by mass");
     assert!((expansion.components[0].amount - 89.61).abs() < 1e-10);
-    assert!((expansion.unresolved_amount - 13.39).abs() < 1e-10);
+    assert!((expansion.unresolved_amount - 12.761803).abs() < 1e-10);
     assert!(
         (expansion.components[0].amount + expansion.unresolved_amount - expansion.total_amount)
             .abs()
@@ -84,5 +84,5 @@ fn a_half_pour_conserves_milk_and_keeps_its_concentration() {
         .filter(|portion| portion.recipe_id == "household/whole-milk-surrogate")
         .map(|portion| portion.amount)
         .sum();
-    assert!((conserved_unresolved - 13.39).abs() < 1e-10);
+    assert!((conserved_unresolved - 12.761803).abs() < 1e-10);
 }
