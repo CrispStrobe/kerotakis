@@ -1,5 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+import {
+  INCANDESCENCE_ONSET_K,
+  NORMAL_BOILING_K,
+  condensationFilm,
+  dewPointK,
+  effectFromEvent,
+  incandescence,
+  vapourIntensity,
+  vesselOf,
+  type Effect,
+} from "./magnitudes";
 
 describe("effectFromEvent", () => {
   it("maps gas_evolved with moles → vent + magnitude from event.moles", () => {
@@ -252,10 +262,14 @@ describe("effectFromEvent", () => {
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
   });
 
-  it("maps dissolved → dissolve with magnitude 1", () => {
+  it("maps dissolved → dissolve, sized by the moles that went into solution", () => {
+    // GUI-099: this used to be a flat 1, so a speck and a spoonful of salt
+    // dissolved with the same picture. An event without moles now reads as
+    // the smallest visible amount rather than the largest.
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");
-    expect(e!.magnitude).toBe(1);
+    expect(e!.magnitude).toBe(0);
+    expect(effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.05 })!.magnitude).toBe(1);
   });
 
   it("maps plated → plate with magnitude 1", () => {
@@ -471,5 +485,139 @@ describe("vesselOf", () => {
 
   it("defaults to 0", () => {
     expect(vesselOf({ event: "unknown" })).toBe(0);
+  });
+});
+
+
+describe("thermal magnitudes (GUI-099)", () => {
+  it("vapour intensity is monotone in the moles of vapour and bounded", () => {
+    const samples = [0, 0.001, 0.01, 0.05, 0.2, 0.5, 5];
+    const values = samples.map(vapourIntensity);
+    for (const value of values) {
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThanOrEqual(1);
+    }
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    expect(vapourIntensity(0.5)).toBe(1);
+    expect(vapourIntensity(0)).toBe(0);
+  });
+
+  it("a boil carries the engine's own plateau, not a constant", () => {
+    const salted = effectFromEvent({
+      event: "state_changed", vessel: 0, species: "H2O",
+      from: "liquid", to: "gas", at: 374.7, shifted_by: 1.55,
+    });
+    expect(salted).toMatchObject({ kind: "boil", temperatureK: 374.7 });
+    expect(salted!.phase).toMatchObject({ atK: 374.7, shiftedByK: 1.55, to: "gas", species: "H2O" });
+    expect(salted!.temperatureK).not.toBe(NORMAL_BOILING_K);
+  });
+
+  it("a routed boil names the pressure that set it and still draws a boil", () => {
+    const vacuum = effectFromEvent({
+      event: "boiling_point_routed", vessel: 0, species: "H2O",
+      pressure_kpa: 20, boiling: 333.2, shifted_by: -39.95,
+      route: "AntoineWater", model: "Antoine (NIST)",
+    });
+    expect(vacuum).toMatchObject({ kind: "boil", temperatureK: 333.2 });
+    expect(vacuum!.phase).toMatchObject({ pressureKpa: 20, route: "AntoineWater" });
+    expect(vacuum!.magnitude).toBe(1);
+  });
+
+  it("freezing, melting and condensing each get their own kind", () => {
+    const freeze = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "liquid", to: "solid", at: 271.2, shifted_by: -1.95 });
+    const melt = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "solid", to: "liquid", at: 273.15, shifted_by: 0 });
+    const condense = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "gas", to: "liquid", at: 373.15, shifted_by: 0 });
+    expect(freeze!.kind).toBe("freeze");
+    expect(melt!.kind).toBe("melt");
+    expect(condense!.kind).toBe("condense");
+  });
+
+  it("a sealed vessel's contained gas is a visible effect carrying its moles", () => {
+    const small = effectFromEvent({ event: "gas_contained", vessel: 0, species: "H2O", moles: 0.001 });
+    const large = effectFromEvent({ event: "gas_contained", vessel: 0, species: "H2O", moles: 0.1 });
+    expect(small).toMatchObject({ kind: "contain", species: "H2O", unit: "mol", reading: 0.001 });
+    expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
+    expect(large!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("evolved gas names its species so a boil can tell steam from fizz", () => {
+    expect(effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.02 }))
+      .toMatchObject({ kind: "vent", species: "CO2", unit: "mol" });
+  });
+
+  it("precipitation and dissolution both carry their moles", () => {
+    const precipitated = effectFromEvent({ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.02 });
+    const dissolved = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.02 });
+    expect(precipitated).toMatchObject({ species: "AgCl", reading: 0.02, unit: "mol" });
+    expect(dissolved).toMatchObject({ species: "NaCl", reading: 0.02, unit: "mol" });
+    const bigger = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.05 });
+    expect(bigger!.magnitude).toBeGreaterThan(dissolved!.magnitude);
+  });
+});
+
+describe("incandescence", () => {
+  it("nothing glows below the onset", () => {
+    expect(incandescence(INCANDESCENCE_ONSET_K - 1)).toBeNull();
+    expect(incandescence(293.15)).toBeNull();
+    expect(incandescence(773)).toBeNull();
+  });
+
+  it("strength is monotone in temperature and bounded", () => {
+    const values = [800, 1000, 1400, 1800, 2000, 3000, 6000].map((k) => incandescence(k)!.fraction);
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    expect(values[0]).toBe(0);
+    expect(values.at(-1)).toBe(1);
+  });
+
+  it("colour walks the blackbody locus: red, then amber, then white", () => {
+    const dull = incandescence(900)!.rgb;
+    const amber = incandescence(2000)!.rgb;
+    const white = incandescence(4000)!.rgb;
+    expect(dull[0]).toBe(255);
+    expect(dull[1]).toBeLessThan(amber[1]);
+    expect(amber[1]).toBeLessThan(white[1]);
+    expect(dull[2]).toBeLessThanOrEqual(amber[2]);
+    expect(amber[2]).toBeLessThan(white[2]);
+    for (const rgb of [dull, amber, white]) {
+      for (const channel of rgb) {
+        expect(channel).toBeGreaterThanOrEqual(0);
+        expect(channel).toBeLessThanOrEqual(255);
+      }
+    }
+  });
+});
+
+describe("condensation", () => {
+  it("room air at 20 °C and 50 % RH dews near 9 °C", () => {
+    expect(dewPointK(293.15, 0.5) - 273.15).toBeCloseTo(9.3, 1);
+  });
+
+  it("a dew point rises with humidity", () => {
+    expect(dewPointK(293.15, 0.9)).toBeGreaterThan(dewPointK(293.15, 0.3));
+  });
+
+  it("nothing beads on a wall warmer than the dew point", () => {
+    expect(condensationFilm(293.15)).toBe(0);
+    expect(condensationFilm(285)).toBe(0);
+  });
+
+  it("beading is monotone as the wall gets colder, and bounded", () => {
+    const values = [282, 280, 278, 276, 274].map((k) => condensationFilm(k));
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    for (const value of values) {
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("below freezing the frost layer owns the water, not the droplets", () => {
+    expect(condensationFilm(272)).toBe(0);
+    expect(condensationFilm(250)).toBe(0);
   });
 });

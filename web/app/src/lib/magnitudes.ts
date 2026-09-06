@@ -176,6 +176,30 @@ export interface SpillRun {
   fraction: number;
 }
 
+/**
+ * One engine-computed phase transition. `atK` is the temperature the engine
+ * actually used — a boiling plateau already carrying its pressure and
+ * colligative shifts — so the stage can hold the boil at the engine's
+ * number instead of a hard-coded 373 K.
+ */
+export interface PhaseChangeRun {
+  species: string;
+  /** Phase left, engine wire tag: solid | liquid | gas. */
+  from: string;
+  /** Phase entered, engine wire tag. */
+  to: string;
+  /** Transition temperature used, K. */
+  atK: number;
+  /** K away from the pure solvent's transition; negative when solutes lowered it. */
+  shiftedByK: number;
+  /** Vessel pressure that set the boiling point, kPa — routed boils only. */
+  pressureKpa?: number;
+  /** Which correlation answered, or why none did — routed boils only. */
+  route?: string;
+  /** The saturation model's own name from its pack row — routed boils only. */
+  model?: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -229,6 +253,10 @@ export interface Effect {
   thermal?: ThermalRun;
   /** Presentation metadata only; the engine remains owner of spilled material. */
   spill?: SpillRun;
+  /** Engine-computed transition, including the temperature it happened at. */
+  phase?: PhaseChangeRun;
+  /** The engine's species id, where the event names one substance. */
+  species?: string;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -286,10 +314,11 @@ function precipMag(e: EngineEvent): number {
 }
 
 // event.moles — Evaporated/Distilled: 0.01 mol is gentle, 0.5 mol is
-// a rolling boil.
+// a rolling boil. Shared with the boil so the plume and the bubbles are
+// sized by one number (see `vapourIntensity`).
 function steamMag(e: EngineEvent): number {
   const moles = Number(e.moles ?? 0) + Number(e.water ?? 0) + Number(e.ethanol ?? 0);
-  return scale(moles, 0.01, 0.5);
+  return vapourIntensity(moles);
 }
 
 // event.fraction — Transferred: the visible stream follows the amount
@@ -357,6 +386,95 @@ function flameMag(e: EngineEvent): [number, string | undefined] {
 }
 
 /**
+ * Water's normal boiling point, K. Used only while no engine phase event is
+ * live: `state_changed` carries the plateau the solver actually held the
+ * vessel at (pressure shift and colligative elevation already in it), and
+ * that number wins whenever it is on the bench. Scene v1 has no standing
+ * `boiling_point_k`, so between events the stage falls back to pure water at
+ * one atmosphere rather than inventing a correlation of its own.
+ */
+export const NORMAL_BOILING_K = 373.15;
+
+/** Below this the bench draws no incandescence: a solid is merely hot. */
+export const INCANDESCENCE_ONSET_K = 800;
+
+/**
+ * Vapour intensity from the moles of vapour a step actually made.
+ * A hundredth of a mole (≈0.25 L of steam) is a gentle simmer; half a
+ * mole is a rolling boil. Monotone and bounded in [0, 1].
+ */
+export function vapourIntensity(moles: number): number {
+  return scale(moles, 0.01, 0.5);
+}
+
+/**
+ * Visible incandescence of a body at `temperatureK`, or null when it glows
+ * only in the infrared. `fraction` is how strongly the glow reads (0 at the
+ * onset, 1 by white heat); `rgb` is the colour, from the standard
+ * blackbody-locus approximation to Planck's law — deep red at 800 K,
+ * orange near 1500 K, amber near 2500 K, near-white above 3500 K.
+ */
+export function incandescence(
+  temperatureK: number,
+): { fraction: number; rgb: [number, number, number] } | null {
+  if (!(temperatureK >= INCANDESCENCE_ONSET_K)) return null;
+  const t = Math.min(temperatureK, 6500) / 100;
+  const byte = (value: number) => Math.max(0, Math.min(255, Math.round(value)));
+  const red = t <= 66 ? 255 : byte(329.698_727_446 * Math.pow(t - 60, -0.133_204_759_2));
+  const green = t <= 66
+    ? byte(99.470_802_586_1 * Math.log(t) - 161.119_568_166_1)
+    : byte(288.122_169_528_3 * Math.pow(t - 60, -0.075_514_849_2));
+  const blue = t >= 66 ? 255 : t <= 19 ? 0 : byte(138.517_731_223_1 * Math.log(t - 10) - 305.044_792_730_7);
+  return {
+    fraction: scale(temperatureK, INCANDESCENCE_ONSET_K, 2000),
+    rgb: [byte(red), byte(green), byte(blue)],
+  };
+}
+
+/**
+ * Dew point of air at `ambientK` and `relativeHumidity` (0–1), by the
+ * Magnus–Tetens approximation. Room air at 20 °C and 50 % RH dews at
+ * about 9 °C — which is why a beaker of ice water beads and a beaker of
+ * tap water does not.
+ */
+export function dewPointK(ambientK: number, relativeHumidity: number): number {
+  const a = 17.62;
+  const b = 243.12;
+  const celsius = ambientK - 273.15;
+  const rh = Math.max(0.001, Math.min(1, relativeHumidity));
+  const gamma = Math.log(rh) + (a * celsius) / (b + celsius);
+  return b * gamma / (a - gamma) + 273.15;
+}
+
+/**
+ * How heavily a vessel wall at `surfaceK` beads with condensation, 0–1:
+ * nothing until the glass is below the room's dew point, saturated 15 K
+ * below it. Returns 0 once the wall is below freezing, where the same
+ * water arrives as frost and the frost layer draws it instead.
+ */
+export function condensationFilm(
+  surfaceK: number,
+  ambientK = 293.15,
+  relativeHumidity = 0.5,
+): number {
+  if (surfaceK < 273.15) return 0;
+  return scale(dewPointK(ambientK, relativeHumidity) - surfaceK, 0, 15);
+}
+
+/** event.shifted_by — a fraction of a kelvin is invisible; 20 K is a big shift. */
+function phaseMag(e: EngineEvent): number {
+  return scale(Math.abs(Number(e.shifted_by ?? 0)), 0.05, 20);
+}
+
+/** The visual kind one engine phase transition asks for. */
+function phaseKind(from: string, to: string): string {
+  if (to === "gas") return "boil";
+  if (to === "solid") return "freeze";
+  if (to === "liquid") return from === "gas" ? "condense" : "melt";
+  return "phase-change";
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -366,9 +484,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
 
   switch (kind) {
     case "gas_evolved":
-      return { kind: "vent", at: now, magnitude: gasMag(e) };
+      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
     case "gas_produced":
-      return { kind: "vent", at: now, magnitude: gasMag(e) };
+      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
+    case "gas_contained":
+      // A sealed vessel keeps its gas: the same moles, but they stay in the
+      // headspace and raise the pressure instead of leaving through the mouth.
+      // Unmapped before GUI-099, so a sealed flask boiling showed nothing.
+      return {
+        kind: "contain",
+        at: now,
+        durationMs: 3000,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "foam_changed":
       return {
         kind: "foam",
@@ -394,12 +525,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: scale(Number(e.separation_progress ?? 0), 0.01, 1),
       };
     case "precipitated":
-      return { kind: "precipitate", at: now, magnitude: precipMag(e) };
+      return {
+        kind: "precipitate",
+        at: now,
+        magnitude: precipMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "evaporated":
       return {
         kind: "evaporate",
         at: now,
         magnitude: steamMag(e),
+        species: String(e.species ?? ""),
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
@@ -592,7 +731,14 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "dissolved":
-      return { kind: "dissolve", at: now, magnitude: 1 };
+      return {
+        kind: "dissolve",
+        at: now,
+        magnitude: precipMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "plated":
       return { kind: "plate", at: now, magnitude: 1 };
     case "temperature_changed": {
@@ -630,13 +776,48 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: scale(Math.abs(joules), 5, 5000),
       };
     }
-    case "state_changed":
+    case "state_changed": {
+      const from = String(e.from ?? "");
+      const to = String(e.to ?? "");
+      const atK = Number(e.at ?? 0);
       return {
-        kind: String(e.to ?? "") === "solid" ? "freeze" : "phase-change",
+        kind: phaseKind(from, to),
         at: now,
-        magnitude: scale(Math.abs(Number(e.shifted_by ?? 0)), 0, 20),
-        temperatureK: Number(e.at ?? 0),
+        durationMs: 3200,
+        magnitude: phaseMag(e),
+        temperatureK: atK,
+        phase: {
+          species: String(e.species ?? ""),
+          from,
+          to,
+          atK,
+          shiftedByK: Number(e.shifted_by ?? 0),
+        },
       };
+    }
+    case "boiling_point_routed": {
+      // Emitted only when the boil did NOT use the normal boiling point —
+      // a partial vacuum, a pressurised vessel, a salted solvent. It names
+      // the plateau, so it draws the same rolling boil `state_changed` does.
+      const atK = Number(e.boiling ?? 0);
+      return {
+        kind: "boil",
+        at: now,
+        durationMs: 3200,
+        magnitude: phaseMag(e),
+        temperatureK: atK,
+        phase: {
+          species: String(e.species ?? ""),
+          from: "liquid",
+          to: "gas",
+          atK,
+          shiftedByK: Number(e.shifted_by ?? 0),
+          pressureKpa: Number(e.pressure_kpa ?? 0),
+          route: String(e.route ?? ""),
+          model: String(e.model ?? ""),
+        },
+      };
+    }
     case "burst":
       return {
         kind: "burst",

@@ -2197,6 +2197,8 @@
   "End this mission? It will not be recorded as complete, and your bench keeps everything on it.": "",
   "also in this district": "",
   "Open any of these too": "",
-  "no order, no prerequisite": ""
+  "no order, no prerequisite": "",
+  "glowing at {temperature} K": "",
+  "rolling boil at {temperature} °C, {moles} mol of vapour": ""
  }
 }

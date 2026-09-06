@@ -4,6 +4,7 @@
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
+  import { NORMAL_BOILING_K, condensationFilm, incandescence } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
@@ -252,14 +253,59 @@
   // Combustion is event-authoritative; temperature still owns glow/steam.
   const burning = $derived(ignitionEffect !== undefined);
   let ignitionFallbackVisible = $state(true);
-  const steaming = $derived(
-    (vessel.liquid !== null && vessel.temperature_k >= 368) || active("evaporate", 2500),
+  // GUI-099: the boil is held at the temperature the ENGINE computed, not at
+  // a constant. `state_changed` names the plateau it actually used in
+  // `phase.atK` — pressure shift and colligative elevation already in it —
+  // and `boiling_point_routed` repeats it whenever the route was not the
+  // normal boiling point. Between events scene v1 carries no standing
+  // boiling point, so the stage falls back to pure water at one atmosphere
+  // rather than inventing a correlation of its own.
+  const boilEffect = $derived(latestEffect("boil", 3200));
+  const boilingK = $derived(boilEffect?.phase?.atK ?? boilEffect?.temperatureK ?? NORMAL_BOILING_K);
+  const boilSpecies = $derived(boilEffect?.phase?.species ?? "");
+  // Moles of vapour this step actually made. A boil emits them as
+  // `gas_evolved` (open) or `gas_contained` (sealed); the `evaporate` verb
+  // emits them as `evaporated`. Whichever spoke, the plume and the bubbles
+  // are sized by that one number, so a simmer and a flask boiling dry differ.
+  const vapourMag = $derived.by(() => {
+    const clock = effectClock;
+    const gas = effects.filter(
+      (effect) =>
+        (effect.kind === "vent" || effect.kind === "contain") &&
+        effectAlive(effect, 2600, clock) &&
+        (boilSpecies === "" || effect.species === boilSpecies),
+    );
+    const last = gas.length > 0 ? gas[gas.length - 1]!.magnitude : 0;
+    return Math.max(mag("evaporate", 2500), last);
+  });
+  const vapourMoles = $derived.by(() => {
+    const clock = effectClock;
+    const carriers = effects.filter(
+      (effect) =>
+        ["vent", "contain", "evaporate"].includes(effect.kind) &&
+        effectAlive(effect, 2600, clock) &&
+        effect.unit === "mol",
+    );
+    return carriers.length > 0 ? (carriers[carriers.length - 1]!.reading ?? 0) : 0;
+  });
+  const boiling = $derived(
+    vessel.liquid !== null && (vessel.temperature_k >= boilingK - 0.25 || active("boil", 3200)),
   );
+  const steaming = $derived(boiling || active("evaporate", 2500));
+  // Above ~800 K a body glows in the visible, and its colour is a function of
+  // temperature alone: the blackbody locus, deep red through amber to white.
+  const incandescent = $derived(incandescence(vessel.temperature_k));
+  // Condensation beads only once the wall is under the room's dew point —
+  // which is why a beaker of ice water runs and a beaker of tap water does not.
+  const condensation = $derived(condensationFilm(vessel.temperature_k));
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
-  const frostIntensity = $derived(Math.max(cold, mag("cool", 2200), mag("freeze", 2200)));
+  // A melt is the engine saying the ice went: the frost recedes with it.
+  const frostIntensity = $derived(
+    Math.max(cold, mag("cool", 2200), mag("freeze", 2200)) * (1 - mag("melt", 3200)),
+  );
   const apparatusOperating = $derived(
     apparatusWorking ||
       (deployedTool === "stir" && active("swirl", 2200)) ||
@@ -302,6 +348,8 @@
   class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
   data-vessel-id={vessel.id}
+  data-temperature-k={vessel.temperature_k.toFixed(2)}
+  data-boiling-k={boilingK.toFixed(2)}
   style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65};--pour-angle:${9 + mag("pour", 2200) * 23}deg`}
 >
   <button
@@ -621,6 +669,29 @@
     {#if fluidLookup}
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
+
+    {#if incandescent}
+      <!-- GUI-099 red heat: above ~800 K the contents glow in the visible,
+           and the colour is a function of temperature alone (the blackbody
+           locus) — dull red at 900 K, amber near 2000 K, near-white above
+           3500 K. Nothing here is a constant: both the colour and the
+           strength come from `vessel.temperature_k`. -->
+      {@const glowRgb = `rgb(${incandescent.rgb[0]} ${incandescent.rgb[1]} ${incandescent.rgb[2]})`}
+      {@const glowH = Math.max(solidH, liquidH, 8)}
+      <rect
+        class="incandescence"
+        x={INNER_X}
+        y={BOTTOM_Y - glowH}
+        width={INNER_W}
+        height={glowH}
+        data-incandescence-k={vessel.temperature_k.toFixed(1)}
+        data-incandescence-fraction={incandescent.fraction.toFixed(3)}
+        data-incandescence-rgb={incandescent.rgb.join(",")}
+        style={`fill:${glowRgb};opacity:${(0.3 + incandescent.fraction * 0.6).toFixed(3)}`}
+      >
+        <title>{t("glowing at {temperature} K", { temperature: Math.round(vessel.temperature_k) })}</title>
+      </rect>
+    {/if}
     </g>
 
     {#if vessel.foam && foamOverflow > 0}
@@ -764,16 +835,58 @@
         </g>
       </g>
     {/if}
-    {#if steaming}
-      {@const steamMag = mag("evaporate", 2500)}
-      {@const steamOpacity = 0.3 + steamMag * 0.7}
-      {#each [34, 50, 66] as x, i (x)}
+    {#if boiling && liquidH > 0}
+      <!-- GUI-099 rolling boil. The gate is the engine's own plateau
+           (`state_changed.at`), not 368 K; the bubble count, size and tempo
+           follow the moles of vapour that same step actually made. -->
+      {@const boilCount = Math.max(4, Math.round(4 + vapourMag * 14))}
+      {@const boilRadius = 1.3 + vapourMag * 2.1}
+      {@const boilPeriod = Math.max(0.5, 1.5 - vapourMag * 0.95)}
+      <g
+        class="rolling-boil"
+        data-boiling-k={boilingK.toFixed(2)}
+        data-vapour-moles={vapourMoles.toExponential(3)}
+        data-vapour-intensity={vapourMag.toFixed(3)}
+        aria-label={t("rolling boil at {temperature} °C, {moles} mol of vapour", {
+          temperature: formatReading(boilingK - 273.15, 1),
+          moles: formatReading(vapourMoles, 3),
+        })}
+      >
+        {#each Array.from({ length: boilCount }, (_, i) => i) as i (i)}
+          <circle
+            class="boil-bubble"
+            cx={INNER_X + 4 + ((i * 37) % Math.max(1, INNER_W - 8))}
+            cy={BOTTOM_Y - 3}
+            r={boilRadius * (0.6 + ((i * 5) % 7) * 0.09)}
+            style={`--rise:${Math.max(6, liquidH - 4)}px;animation-duration:${boilPeriod}s;animation-delay:${((i * 0.19) % boilPeriod).toFixed(2)}s`}
+          />
+        {/each}
         <path
-          class="steam"
-          d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 -6 0 -12 q -3 -6 0 -12`}
-          style={`animation-delay:${i * 0.5}s;--steam-opacity:${steamOpacity}`}
+          class="boil-surface"
+          d={`M ${INNER_X + 2} ${BOTTOM_Y - liquidH} q ${INNER_W / 4} ${-2 - vapourMag * 3} ${INNER_W / 2} 0 q ${INNER_W / 4} ${2 + vapourMag * 3} ${INNER_W / 2 - 4} 0`}
+          style={`--churn:${Math.max(0.35, 0.9 - vapourMag * 0.5)}s`}
         />
-      {/each}
+      </g>
+    {/if}
+    {#if steaming}
+      <!-- The plume: how many columns there are, how far they climb and how
+           opaque they read all follow the same vapour moles. -->
+      {@const plumeCount = Math.max(2, Math.round(2 + vapourMag * 4))}
+      {@const plumeReach = 12 + vapourMag * 16}
+      <g
+        class="steam-plume"
+        data-vapour-intensity={vapourMag.toFixed(3)}
+        data-vapour-moles={vapourMoles.toExponential(3)}
+        aria-hidden="true"
+      >
+        {#each Array.from({ length: plumeCount }, (_, i) => INNER_X + 6 + (i / Math.max(1, plumeCount - 1)) * (INNER_W - 12)) as x, i (i)}
+          <path
+            class="steam"
+            d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 ${-plumeReach / 2} 0 ${-plumeReach} q -3 ${-plumeReach / 2} 0 ${-plumeReach}`}
+            style={`animation-delay:${(i * 0.42).toFixed(2)}s;--steam-opacity:${(0.3 + vapourMag * 0.7).toFixed(2)}`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if frosty || active("cool", 2200) || active("freeze", 2200)}
       {@const frostPoints = [[18, 40], [80, 60], [22, 90], [78, 105], [30, 55], [68, 78], [40, 100], [60, 42], [50, 68], [28, 112], [72, 116]]}
@@ -781,6 +894,28 @@
       <g class="frost" aria-hidden="true" style={`opacity:${0.35 + frostIntensity * 0.65}`}>
         {#each frostPoints.slice(0, frostCount) as [fx = 0, fy = 0], i (i)}
           <path d={`M ${fx} ${fy} l 4 0 M ${fx + 2} ${fy - 2} l 0 4 M ${fx} ${fy - 2} l 4 4 M ${fx} ${fy + 2} l 4 -4`} />
+        {/each}
+      </g>
+    {/if}
+    {#if condensation > 0.02}
+      <!-- GUI-099: the wall is below the ROOM's dew point (Magnus, 20 °C and
+           50 % RH), so room water is coming out of the air onto the glass.
+           Below freezing the frost layer above draws the same water instead. -->
+      {@const dropCount = Math.round(4 + condensation * 12)}
+      <g
+        class="condensation"
+        aria-hidden="true"
+        data-condensation={condensation.toFixed(3)}
+        data-surface-k={vessel.temperature_k.toFixed(1)}
+        style={`opacity:${(0.3 + condensation * 0.6).toFixed(2)}`}
+      >
+        {#each Array.from({ length: dropCount }, (_, i) => i) as i (i)}
+          <ellipse
+            cx={INNER_X + 2 + ((i * 23) % Math.max(1, INNER_W - 4))}
+            cy={26 + ((i * 41) % Math.max(1, BOTTOM_Y - 36))}
+            rx={0.9 + (i % 3) * 0.35 + condensation * 0.6}
+            ry={1.2 + (i % 3) * 0.45 + condensation * 0.8}
+          />
         {/each}
       </g>
     {/if}
@@ -1767,6 +1902,36 @@
     stroke-width: 1;
     opacity: 0.8;
   }
+  .condensation ellipse {
+    fill: color-mix(in srgb, var(--cool) 30%, transparent);
+    stroke: color-mix(in srgb, var(--cool) 55%, transparent);
+    stroke-width: 0.3;
+  }
+  /* Steady, not flickering: a body at one temperature glows at one colour.
+     No animation here keeps a red-hot crucible free of per-frame work. */
+  .incandescence {
+    mix-blend-mode: screen;
+    filter: blur(1.8px);
+  }
+  .rolling-boil .boil-bubble {
+    fill: color-mix(in srgb, var(--surface) 70%, transparent);
+    stroke: color-mix(in srgb, var(--dim) 70%, transparent);
+    stroke-width: 0.4;
+    animation-name: rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .rolling-boil .boil-surface {
+    fill: none;
+    stroke: color-mix(in srgb, var(--surface) 62%, transparent);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    animation: churn var(--churn, 0.7s) ease-in-out infinite alternate;
+  }
+  @keyframes churn {
+    from { transform: translateY(-0.6px) scaleX(1); }
+    to { transform: translateY(0.8px) scaleX(0.97); }
+  }
   .falling {
     fill: var(--cloud);
     animation: fall 1.5s ease-in forwards;
@@ -2051,6 +2216,8 @@
       transition: none;
     }
     .bubble,
+    .boil-bubble,
+    .boil-surface,
     .foam-state,
     .foam-overflow,
     .milk-curds.forming ellipse,
