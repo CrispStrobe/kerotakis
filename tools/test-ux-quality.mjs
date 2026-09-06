@@ -54,9 +54,13 @@ const cupboardAudit = () => page.evaluate(`(() => {
   // rendered items is not, because a Story learner is shown what they have
   // earned. Asserting the rendered count would have been asserting the
   // fixture's progress.
-  const tally = /(\d+)\s*\/\s*(\d+)/.exec(panel.querySelector('header b')?.textContent || "");
+  //
+  // Split rather than match: this whole function is a template literal, so a
+  // regex written here loses its backslashes on the way to the browser — an
+  // escaped slash arrives as a bare one and closes the literal early.
+  const tally = (panel.querySelector('header b')?.textContent || "").split("/");
   return JSON.stringify({
-    catalogue: tally ? Number(tally[2]) : 0,
+    catalogue: tally.length === 2 ? Number(tally[1].trim()) : 0,
     shelves: panel.querySelectorAll('section.shelf').length,
     items: items.length,
     unnamed: items.filter((item) => !(item.textContent.trim() || item.getAttribute('aria-label'))).length,
