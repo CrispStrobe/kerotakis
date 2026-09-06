@@ -2087,6 +2087,91 @@ and presents them well.
        registry tests and the production build pass. This completes the
        evidence pipeline, not the still-PENDING physical device matrix.
 
+## The stage must render the computation (GUI-099)
+
+- [ ] **GUI-099 — Animations that follow the computed numbers.** The owner's
+  brief, from the German live deploy: *"we need way better and more complete
+  animations for what happens. they must render what actually goes on.
+  rendering must follow actual physical computed parameters where possible."*
+  The standard this sets is narrow and testable: a visual counts only when its
+  size, count, colour, tempo or position is a **function of an
+  engine-computed quantity**. A picture of the verb, drawn at a constant, does
+  not count — however good it looks.
+
+  `docs/ANIMATION-AUDIT.md` is the walk: every event kind that changes a
+  vessel's visible state, what the engine computes for it, what the stage drew,
+  what it should draw, and the source (event, scene, or nothing). 73 rows,
+  scored done / partial / missing, with the numbers the engine should add
+  listed at the end so the engine lane can pick them up.
+
+  Starting score: **32 done, 18 partial, 23 missing.** Finishing score across
+  the three PRs: **45 done, 11 partial, 17 missing.** The worst finding was
+  not an absence but a constant: `steaming` gated on `temperature_k >= 368`, a
+  number that is wrong under a partial vacuum, wrong in a pressurised vessel,
+  wrong for a salted solvent and wrong for every solvent that is not water —
+  while `state_changed.at` has been carrying the plateau the solver actually
+  held the vessel at all along. Two more of the same kind: `dissolved` had its
+  magnitude hard-coded to `1`, so a speck and a spoonful of salt dissolved with
+  the same picture; and the pressure-controlled piston was drawn at a fixed
+  `y`, so squeezing a gas moved nothing. Three events changed a vessel's state
+  with no mapping at all (`state_changed` to anything but solid produced a
+  `phase-change` effect kind that no component rendered), and
+  `SceneVessel.emulsion` is read by no component in the app.
+
+  1. [x] **ANIM-1 — Thermal truth (PR 1).** The boil held at the engine's own
+     plateau (`state_changed.at`, `boiling_point_routed.boiling`) instead of
+     368 K, with the rolling boil and the steam plume both sized by the moles
+     of vapour that step made; incandescence above ~800 K coloured off the
+     blackbody locus by `temperature_k` alone; condensation beading once the
+     wall is under the room's dew point (Magnus), with frost still owning the
+     water below freezing; `gas_contained` mapped at last, so a sealed flask
+     boiling is visible. Every new visual carries a `data-*` attribute naming
+     its driving number. → 36 done, 17 partial, 20 missing.
+  2. [x] **ANIM-2 — Matter and pressure (PR 2).** Precipitate particle count
+     from moles and particle size from molar volume, in the species' own
+     colour; dissolving particles shrinking in proportion; the piston's height
+     from the headspace volume the trapped gas occupies at the held pressure;
+     the flame's driving energy readable from the DOM. → 41 done, 12 partial,
+     20 missing.
+
+     Done 2026-09-06, and two of the four were the same bug wearing different
+     clothes. The dissolving grain scaled *up* to 3.5× and faded — a puff, not
+     a crystal going into solution — and there was only ever one of it, at
+     `r=4`, because `dissolved`'s magnitude was the literal `1`. The
+     pressure-controlled piston was a `<rect y="16">`: the one control on the
+     bench whose entire job is to move in response to a pressure did not move.
+     Both now read engine numbers, and the piston reads two of them —
+     `V = nRT/P` from `vessel_pressure_controlled.trapped_gas` with the
+     scene's live pressure and temperature while the event is on the bench,
+     and Boyle's law off the scene's `pressure_pa` once it has left, so the
+     piston stays where the gas is rather than snapping back. The grains take
+     their size from `SceneSolid.volume_l ÷ moles` — the registry's molar
+     volume — so a mole of a fluffy hydroxide finally draws larger than a mole
+     of a dense sulfate, and their colour from the species' own `srgb`.
+
+  3. [x] **ANIM-3 — The ones that drew nothing (PR 3).** Three events changed
+     a vessel and produced no picture at all. An emulsion now disperses into
+     droplets counted by `dispersed_fraction` and sized by
+     `dispersed_volume_l` split between them, drifting back together on the
+     engine's own coalescence half-life — `SceneVessel.emulsion` had been read
+     by no component in the app, so shaking oil into water changed nothing on
+     screen. Fermentation bubbles at the rate the engine computed rather than
+     at an invented speed: `carbon_dioxide_moles ÷ seconds`, turned into a
+     tempo by the ~41 µmol of gas in one visible millilitre bubble, so an
+     overnight brew ticks every few seconds and a lively dough every one. A UV
+     beam crosses the vessel and leaves with an opacity that *is*
+     `transmitted_fraction`. And electrolysis bubbles at both electrodes on
+     the **charge** they shared — the honest driver, because the engine names
+     the moles of one product only and the counter-electrode's half-reaction
+     is not on the wire, so neither electrode is drawn at an invented ratio.
+     → 45 done, 11 partial, 17 missing.
+
+  DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
+  driving quantity and for bounds; every new visual reachable from the DOM by
+  a `data-*` attribute carrying the number that drives it; `prefers-reduced-
+  motion` still stops the motion; no new per-frame JS loop, and the GPU path
+  untouched except where `visualBackend.ts` already says WebGPU is on.
+
 ## Localisation is not finished (I18N-1 … I18N-4)
 
 The shell is locale-keyed and English and German ship together. The *content*

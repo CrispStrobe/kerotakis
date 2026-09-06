@@ -368,7 +368,31 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             let vessel = parse_vessel(words[1])?;
             let energy = parse_energy(words[2])?;
             if words[0] == "heat" {
-                Operator::Heat { vessel, energy }
+                // `heat v1 40kJ` names no apparatus and keeps its old
+                // meaning exactly: the bench default, a laboratory burner.
+                // `heat v1 40kJ on candle` (or `mit Kerze`) names one, and
+                // what a named source changes is how hot it can get.
+                let named = words.iter().skip(3).find(|word| {
+                    !matches!(
+                        word.to_ascii_lowercase().as_str(),
+                        "on" | "with" | "auf" | "mit" | "über" | "ueber"
+                    )
+                });
+                let source = match named {
+                    Some(word) => {
+                        Some(crate::apparatus::HeatSource::by_name(word).ok_or_else(|| {
+                            format!(
+                                "unknown heat source \"{word}\": try burner, candle or hotplate"
+                            )
+                        })?)
+                    }
+                    None => None,
+                };
+                Operator::Heat {
+                    vessel,
+                    energy,
+                    source,
+                }
             } else {
                 Operator::Cool { vessel, energy }
             }

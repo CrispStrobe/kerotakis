@@ -1,5 +1,22 @@
 import { describe, it, expect } from "vitest";
-import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+import {
+  FALLBACK_MOLAR_VOLUME_L,
+  INCANDESCENCE_ONSET_K,
+  NORMAL_BOILING_K,
+  VISIBLE_BUBBLE_MOLES,
+  bubblePeriodS,
+  compressedVolumeL,
+  condensationFilm,
+  depositParticles,
+  dewPointK,
+  electrodeBubbles,
+  headspaceVolumeL,
+  effectFromEvent,
+  incandescence,
+  vapourIntensity,
+  vesselOf,
+  type Effect,
+} from "./magnitudes";
 
 describe("effectFromEvent", () => {
   it("maps gas_evolved with moles → vent + magnitude from event.moles", () => {
@@ -252,10 +269,14 @@ describe("effectFromEvent", () => {
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
   });
 
-  it("maps dissolved → dissolve with magnitude 1", () => {
+  it("maps dissolved → dissolve, sized by the moles that went into solution", () => {
+    // GUI-099: this used to be a flat 1, so a speck and a spoonful of salt
+    // dissolved with the same picture. An event without moles now reads as
+    // the smallest visible amount rather than the largest.
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");
-    expect(e!.magnitude).toBe(1);
+    expect(e!.magnitude).toBe(0);
+    expect(effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.05 })!.magnitude).toBe(1);
   });
 
   it("maps plated → plate with magnitude 1", () => {
@@ -471,5 +492,304 @@ describe("vesselOf", () => {
 
   it("defaults to 0", () => {
     expect(vesselOf({ event: "unknown" })).toBe(0);
+  });
+});
+
+
+describe("thermal magnitudes (GUI-099)", () => {
+  it("vapour intensity is monotone in the moles of vapour and bounded", () => {
+    const samples = [0, 0.001, 0.01, 0.05, 0.2, 0.5, 5];
+    const values = samples.map(vapourIntensity);
+    for (const value of values) {
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThanOrEqual(1);
+    }
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    expect(vapourIntensity(0.5)).toBe(1);
+    expect(vapourIntensity(0)).toBe(0);
+  });
+
+  it("a boil carries the engine's own plateau, not a constant", () => {
+    const salted = effectFromEvent({
+      event: "state_changed", vessel: 0, species: "H2O",
+      from: "liquid", to: "gas", at: 374.7, shifted_by: 1.55,
+    });
+    expect(salted).toMatchObject({ kind: "boil", temperatureK: 374.7 });
+    expect(salted!.phase).toMatchObject({ atK: 374.7, shiftedByK: 1.55, to: "gas", species: "H2O" });
+    expect(salted!.temperatureK).not.toBe(NORMAL_BOILING_K);
+  });
+
+  it("a routed boil names the pressure that set it and still draws a boil", () => {
+    const vacuum = effectFromEvent({
+      event: "boiling_point_routed", vessel: 0, species: "H2O",
+      pressure_kpa: 20, boiling: 333.2, shifted_by: -39.95,
+      route: "AntoineWater", model: "Antoine (NIST)",
+    });
+    expect(vacuum).toMatchObject({ kind: "boil", temperatureK: 333.2 });
+    expect(vacuum!.phase).toMatchObject({ pressureKpa: 20, route: "AntoineWater" });
+    expect(vacuum!.magnitude).toBe(1);
+  });
+
+  it("freezing, melting and condensing each get their own kind", () => {
+    const freeze = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "liquid", to: "solid", at: 271.2, shifted_by: -1.95 });
+    const melt = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "solid", to: "liquid", at: 273.15, shifted_by: 0 });
+    const condense = effectFromEvent({ event: "state_changed", vessel: 0, species: "H2O", from: "gas", to: "liquid", at: 373.15, shifted_by: 0 });
+    expect(freeze!.kind).toBe("freeze");
+    expect(melt!.kind).toBe("melt");
+    expect(condense!.kind).toBe("condense");
+  });
+
+  it("a sealed vessel's contained gas is a visible effect carrying its moles", () => {
+    const small = effectFromEvent({ event: "gas_contained", vessel: 0, species: "H2O", moles: 0.001 });
+    const large = effectFromEvent({ event: "gas_contained", vessel: 0, species: "H2O", moles: 0.1 });
+    expect(small).toMatchObject({ kind: "contain", species: "H2O", unit: "mol", reading: 0.001 });
+    expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
+    expect(large!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("evolved gas names its species so a boil can tell steam from fizz", () => {
+    expect(effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.02 }))
+      .toMatchObject({ kind: "vent", species: "CO2", unit: "mol" });
+  });
+
+  it("precipitation and dissolution both carry their moles", () => {
+    const precipitated = effectFromEvent({ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.02 });
+    const dissolved = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.02 });
+    expect(precipitated).toMatchObject({ species: "AgCl", reading: 0.02, unit: "mol" });
+    expect(dissolved).toMatchObject({ species: "NaCl", reading: 0.02, unit: "mol" });
+    const bigger = effectFromEvent({ event: "dissolved", vessel: 0, species: "NaCl", moles: 0.05 });
+    expect(bigger!.magnitude).toBeGreaterThan(dissolved!.magnitude);
+  });
+});
+
+describe("incandescence", () => {
+  it("nothing glows below the onset", () => {
+    expect(incandescence(INCANDESCENCE_ONSET_K - 1)).toBeNull();
+    expect(incandescence(293.15)).toBeNull();
+    expect(incandescence(773)).toBeNull();
+  });
+
+  it("strength is monotone in temperature and bounded", () => {
+    const values = [800, 1000, 1400, 1800, 2000, 3000, 6000].map((k) => incandescence(k)!.fraction);
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    expect(values[0]).toBe(0);
+    expect(values.at(-1)).toBe(1);
+  });
+
+  it("colour walks the blackbody locus: red, then amber, then white", () => {
+    const dull = incandescence(900)!.rgb;
+    const amber = incandescence(2000)!.rgb;
+    const white = incandescence(4000)!.rgb;
+    expect(dull[0]).toBe(255);
+    expect(dull[1]).toBeLessThan(amber[1]);
+    expect(amber[1]).toBeLessThan(white[1]);
+    expect(dull[2]).toBeLessThanOrEqual(amber[2]);
+    expect(amber[2]).toBeLessThan(white[2]);
+    for (const rgb of [dull, amber, white]) {
+      for (const channel of rgb) {
+        expect(channel).toBeGreaterThanOrEqual(0);
+        expect(channel).toBeLessThanOrEqual(255);
+      }
+    }
+  });
+});
+
+describe("condensation", () => {
+  it("room air at 20 °C and 50 % RH dews near 9 °C", () => {
+    expect(dewPointK(293.15, 0.5) - 273.15).toBeCloseTo(9.3, 1);
+  });
+
+  it("a dew point rises with humidity", () => {
+    expect(dewPointK(293.15, 0.9)).toBeGreaterThan(dewPointK(293.15, 0.3));
+  });
+
+  it("nothing beads on a wall warmer than the dew point", () => {
+    expect(condensationFilm(293.15)).toBe(0);
+    expect(condensationFilm(285)).toBe(0);
+  });
+
+  it("beading is monotone as the wall gets colder, and bounded", () => {
+    const values = [282, 280, 278, 276, 274].map((k) => condensationFilm(k));
+    for (let i = 1; i < values.length; i += 1) {
+      expect(values[i]!).toBeGreaterThanOrEqual(values[i - 1]!);
+    }
+    for (const value of values) {
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("below freezing the frost layer owns the water, not the droplets", () => {
+    expect(condensationFilm(272)).toBe(0);
+    expect(condensationFilm(250)).toBe(0);
+  });
+});
+
+
+describe("deposits (GUI-099 ANIM-2)", () => {
+  it("more moles means more grains, and never fewer", () => {
+    const counts = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1].map((moles) => depositParticles(moles).count);
+    for (let i = 1; i < counts.length; i += 1) {
+      expect(counts[i]!).toBeGreaterThanOrEqual(counts[i - 1]!);
+    }
+    expect(counts.at(-1)).toBeLessThanOrEqual(12);
+    expect(depositParticles(0).count).toBe(0);
+  });
+
+  it("a bulkier solid draws bigger grains for the same moles", () => {
+    const dense = depositParticles(0.01, 0.027);
+    const fluffy = depositParticles(0.01, 0.09);
+    expect(dense.count).toBe(fluffy.count);
+    expect(fluffy.particleVolumeL).toBeGreaterThan(dense.particleVolumeL);
+    expect(fluffy.radiusScale).toBeGreaterThan(dense.radiusScale);
+  });
+
+  it("grain radius is bounded whatever the amount", () => {
+    for (const moles of [1e-9, 1e-4, 1, 1000]) {
+      const grains = depositParticles(moles);
+      expect(grains.radiusScale).toBeGreaterThanOrEqual(0.5);
+      expect(grains.radiusScale).toBeLessThanOrEqual(3);
+    }
+  });
+
+  it("an unknown molar volume falls back to a documented mid-range solid", () => {
+    expect(depositParticles(0.01).particleVolumeL)
+      .toBeCloseTo(depositParticles(0.01, FALLBACK_MOLAR_VOLUME_L).particleVolumeL, 12);
+    expect(depositParticles(0.01, 0).particleVolumeL)
+      .toBeCloseTo(depositParticles(0.01, FALLBACK_MOLAR_VOLUME_L).particleVolumeL, 12);
+  });
+
+  it("the total volume drawn is the volume the engine's moles carry", () => {
+    const grains = depositParticles(0.02, 0.05);
+    expect(grains.count * grains.particleVolumeL).toBeCloseTo(0.02 * 0.05, 12);
+  });
+});
+
+describe("headspace (GUI-099 ANIM-2)", () => {
+  it("a mole of ideal gas at 273.15 K and one atmosphere is 22.4 L", () => {
+    expect(headspaceVolumeL(1, 273.15, 101_325)).toBeCloseTo(22.4, 1);
+  });
+
+  it("squeezing the same gas harder shrinks it, monotonically", () => {
+    const volumes = [100_000, 200_000, 400_000, 800_000].map((pa) => headspaceVolumeL(0.01, 298.15, pa));
+    for (let i = 1; i < volumes.length; i += 1) {
+      expect(volumes[i]!).toBeLessThan(volumes[i - 1]!);
+      expect(volumes[i]!).toBeGreaterThan(0);
+    }
+  });
+
+  it("more gas, or hotter gas, takes more room", () => {
+    expect(headspaceVolumeL(0.02, 298.15, 101_325)).toBeGreaterThan(headspaceVolumeL(0.01, 298.15, 101_325));
+    expect(headspaceVolumeL(0.01, 400, 101_325)).toBeGreaterThan(headspaceVolumeL(0.01, 298.15, 101_325));
+  });
+
+  it("nonsense inputs give no volume rather than a NaN piston", () => {
+    expect(headspaceVolumeL(0, 298.15, 101_325)).toBe(0);
+    expect(headspaceVolumeL(0.01, 298.15, 0)).toBe(0);
+    expect(headspaceVolumeL(-1, 298.15, 101_325)).toBe(0);
+  });
+
+  it("Boyle's law is the standing fallback and agrees at the reference", () => {
+    expect(compressedVolumeL(0.2, 101_325)).toBeCloseTo(0.2, 9);
+    expect(compressedVolumeL(0.2, 202_650)).toBeCloseTo(0.1, 9);
+    expect(compressedVolumeL(0.2, 50_662.5)).toBeCloseTo(0.4, 9);
+    expect(compressedVolumeL(0, 101_325)).toBe(0);
+    expect(compressedVolumeL(0.2, 0)).toBe(0);
+  });
+
+  it("a sealed vessel reports the headspace the engine named", () => {
+    const sealed = effectFromEvent({ event: "vessel_sealed", vessel: 0, headspace_volume: 0.25, trapped_air: 0.0102 });
+    expect(sealed).toMatchObject({ kind: "seal" });
+    expect(sealed!.headspace).toMatchObject({ volumeL: 0.25, moles: 0.0102, source: "engine" });
+  });
+
+  it("an ignition carries the energy its flame is already sized by", () => {
+    const big = effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow", energy_j: 40_000 });
+    const quiet = effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow", energy_j: 200 });
+    expect(big).toMatchObject({ reading: 40_000, unit: "J" });
+    expect(big!.magnitude).toBeGreaterThan(quiet!.magnitude);
+    // An unquantified ignition must stay a restrained fallback, not a number.
+    expect(effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow" })!.reading).toBeUndefined();
+  });
+});
+
+
+describe("the invisible ones (GUI-099 ANIM-3)", () => {
+  it("an emulsion carries its dispersion and lives for its own half-life", () => {
+    const shaken = effectFromEvent({
+      event: "emulsion_changed", vessel: 0, material: "vinaigrette",
+      from_dispersed_fraction: 0, to_dispersed_fraction: 0.62,
+      dispersed_volume_l: 0.004, half_life_seconds: 45,
+    });
+    expect(shaken).toMatchObject({ kind: "emulsify", unit: "fraction", reading: 0.62 });
+    expect(shaken!.emulsion).toMatchObject({ toDispersedFraction: 0.62, halfLifeSeconds: 45 });
+    // A tight emulsion is watched for longer than one that breaks at once.
+    const fleeting = effectFromEvent({
+      event: "emulsion_changed", vessel: 0, material: "oil",
+      to_dispersed_fraction: 0.62, dispersed_volume_l: 0.004, half_life_seconds: 0.2,
+    });
+    expect(shaken!.durationMs!).toBeGreaterThan(fleeting!.durationMs!);
+    expect(shaken!.durationMs!).toBeLessThanOrEqual(9000);
+  });
+
+  it("more dispersed means a stronger emulsion effect", () => {
+    const thin = effectFromEvent({ event: "emulsion_changed", vessel: 0, to_dispersed_fraction: 0.05, half_life_seconds: 10 });
+    const thick = effectFromEvent({ event: "emulsion_changed", vessel: 0, to_dispersed_fraction: 0.9, half_life_seconds: 10 });
+    expect(thick!.magnitude).toBeGreaterThan(thin!.magnitude);
+    expect(thick!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("a ferment reports the rate its bubbling is paced by", () => {
+    const brew = effectFromEvent({
+      event: "fermented", vessel: 0, sucrose_moles: 0.02, ethanol_moles: 0.04,
+      carbon_dioxide_moles: 0.04, active_yeast_grams: 0.5, seconds: 3600,
+    });
+    expect(brew).toMatchObject({ kind: "ferment", unit: "mol", reading: 0.04 });
+    expect(brew!.fermentation!.molesPerSecond).toBeCloseTo(0.04 / 3600, 12);
+    expect(brew!.durationMs!).toBeGreaterThanOrEqual(2500);
+    expect(brew!.durationMs!).toBeLessThanOrEqual(12_000);
+  });
+
+  it("a faster ferment bubbles more often, and the tempo stays watchable", () => {
+    const slow = bubblePeriodS(0.04 / 3600);
+    const brisk = bubblePeriodS(0.04 / 600);
+    const furious = bubblePeriodS(1);
+    expect(slow).toBeGreaterThan(brisk);
+    expect(brisk).toBeGreaterThan(furious);
+    expect(slow).toBeLessThanOrEqual(6);
+    expect(furious).toBeGreaterThanOrEqual(0.25);
+    expect(bubblePeriodS(0)).toBe(6);
+    // One bubble a second is one visible bubble's worth of gas a second.
+    expect(bubblePeriodS(VISIBLE_BUBBLE_MOLES)).toBeCloseTo(1, 6);
+  });
+
+  it("UV attenuation is strongest when the least gets through", () => {
+    const blocked = effectFromEvent({
+      event: "uv_attenuated", vessel: 0, material: "sunscreen",
+      wavelength_nm: 308, band: "UV-B", transmitted_fraction: 0.02, mechanism: "absorption",
+    });
+    const clear = effectFromEvent({
+      event: "uv_attenuated", vessel: 0, material: "water",
+      wavelength_nm: 308, band: "UV-B", transmitted_fraction: 0.95, mechanism: "none",
+    });
+    expect(blocked).toMatchObject({ kind: "uv", unit: "fraction", reading: 0.02 });
+    expect(blocked!.magnitude).toBeCloseTo(0.98, 6);
+    expect(blocked!.magnitude).toBeGreaterThan(clear!.magnitude);
+    expect(blocked!.uv).toMatchObject({ band: "UV-B", wavelengthNm: 308, transmittedFraction: 0.02 });
+  });
+
+  it("electrode bubbling follows the charge, monotonically and bounded", () => {
+    const counts = [0.5, 1, 10, 100, 1000, 100_000].map(electrodeBubbles);
+    for (let i = 1; i < counts.length; i += 1) {
+      expect(counts[i]!).toBeGreaterThanOrEqual(counts[i - 1]!);
+    }
+    expect(counts[0]).toBeGreaterThanOrEqual(1);
+    expect(counts.at(-1)).toBeLessThanOrEqual(8);
+    expect(electrodeBubbles(0)).toBe(1);
+    expect(electrodeBubbles(-5)).toBe(1);
   });
 });

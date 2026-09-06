@@ -1146,10 +1146,20 @@ impl Vessel {
             .iter()
             .filter_map(|portion| {
                 let data = species::lookup(&portion.species)?;
+                // The registry figure is for the phase the species is
+                // normally added as. A portion that has since frozen or
+                // boiled has its own heat capacity, and spending the wrong
+                // one is how a beaker chilled with 60 kJ came back at
+                // −39 °C instead of −78 °C.
+                let phase_molar = crate::states::heat_capacity_in(
+                    &portion.species,
+                    portion.phase,
+                    data.heat_capacity,
+                );
                 let molar = if portion.phase == Phase::Gas && self.is_sealed() {
-                    (data.heat_capacity - crate::constants::GAS_CONSTANT).max(0.0)
+                    (phase_molar - crate::constants::GAS_CONSTANT).max(0.0)
                 } else {
-                    data.heat_capacity
+                    phase_molar
                 };
                 Some(portion.moles.0 * molar)
             })

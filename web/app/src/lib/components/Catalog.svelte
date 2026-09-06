@@ -30,11 +30,16 @@
   import { experimentHasProgress, experimentMatches, experimentProgressLabel, type ExperimentProgressFilter } from "../catalogSearch";
   import {
     canUseFreshVessels,
+    loadRunMode,
     runCatalogEntry,
     runGate,
     runnableLines,
+    saveRunMode,
     type BenchDecision,
+    type RunMode,
     type RunStep,
+    type StepReport,
+    type StepVerdict,
   } from "../catalogRunner";
   import {
     codexLearningLabel,
@@ -96,6 +101,58 @@
   let asking = $state(false);
   let decision = $state<BenchDecision | null>(null);
   let stopRequested = false;
+
+  /**
+   * Who says "next".
+   *
+   * Automatic is a demonstration; step by step is the experiment. A learner
+   * who wants to watch one line land, read what it did, and only then let
+   * the next one go had no way to ask for that — the run was a single
+   * gesture whatever it contained. The choice is theirs, it is made before
+   * the run rather than during it, and it is remembered, because a learner
+   * who works this way works this way every time.
+   */
+  let runMode = $state<RunMode>(untrack(() => loadRunMode()));
+  /** The step just finished, while the runner waits for an answer. */
+  let stepReport = $state<StepReport | null>(null);
+  let awaiting = $state(false);
+  /**
+   * Whether THIS run is a stepped one.
+   *
+   * Separate from `runMode` so the strip's buttons can stay mounted for
+   * the whole run and merely go inert between steps. Unmounting them on
+   * each answer would throw keyboard focus back to the body every time,
+   * and "next step" is the one control a learner presses over and over.
+   */
+  let stepping = $state(false);
+  /** True after a run the learner ended early: nothing was recorded. */
+  let halted = $state(false);
+  let answerStep: ((verdict: StepVerdict) => void) | null = null;
+
+  function setRunMode(mode: RunMode) {
+    runMode = mode;
+    saveRunMode(mode);
+  }
+
+  /** Hand the runner the learner's answer, exactly once. */
+  function answer(verdict: StepVerdict) {
+    const resolve = answerStep;
+    answerStep = null;
+    awaiting = false;
+    resolve?.(verdict);
+  }
+
+  /**
+   * Stop, whichever mode is running.
+   *
+   * The automatic runner is polled between steps, so a flag reaches it;
+   * a stepped one is parked on a promise, so it has to be answered. Doing
+   * both is what makes one button honest in both modes.
+   */
+  function stopRun() {
+    stopRequested = true;
+    answer("stop");
+  }
 
   /** The catalog's three doors: everything, by concept, by curriculum. */
   let view = $state<"all" | "concepts" | "curriculum">("all");
@@ -223,18 +280,40 @@
     result = null;
     refusedLine = null;
     step = null;
+    stepReport = null;
+    halted = false;
+    stepping = runMode === "step";
     stopRequested = false;
     try {
       const outcome = await runCatalogEntry(session, entry, {
         decision: chosen,
-        onstep: (s) => (step = s),
+        onstep: (s) => {
+          step = s;
+          // The previous step's account belongs to the previous step.
+          stepReport = null;
+        },
         stopped: () => stopRequested,
+        // Presence is the mode: handing the runner a gate is what makes it
+        // wait, so an automatic run passes nothing rather than a flag the
+        // runner would have to interpret.
+        onstepdone: runMode === "step"
+          ? (report) => new Promise<StepVerdict>((resolve) => {
+              stepReport = report;
+              awaiting = true;
+              answerStep = resolve;
+            })
+          : undefined,
       });
       result = outcome.result;
+      halted = outcome.halted;
       refusedLine = outcome.refusedAt === null ? null : (outcome.ran.at(-1) ?? null);
     } finally {
       running = false;
       step = null;
+      stepReport = null;
+      awaiting = false;
+      stepping = false;
+      answerStep = null;
       // Consent is per run, not per entry. A replay of an experiment the
       // learner cleared the bench for must ask again, or the second tap
       // is the silent wipe the first one was written to prevent.
@@ -268,14 +347,36 @@
 >
   <dialog open class="panel" class:running aria-modal={!running} aria-label={tier === "kids" ? t("Kids Lab") : t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if running}
-      <div class="dock" role="status" aria-live="polite">
+      <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
         <div>
-          <span class="dock-kicker">{t("running on the bench")}</span>
+          <span class="dock-kicker">{awaiting ? t("your turn") : t("running on the bench")}</span>
           <strong>{open ? t(open.id.replace(/-/g, " ")) : ""}</strong>
           <code>{step?.line ?? ""}</code>
+          <!-- What that line DID, in the bench's own words. The feed is
+               already the record a learner reads when they type a command
+               themselves, so quoting its tail here is the same account, not
+               a second one written for the catalogue. -->
+          {#if awaiting && stepReport}
+            {#if stepReport.produced.length > 0}
+              <ul class="dock-produced">
+                {#each stepReport.produced as line, i (i)}
+                  <li data-kind={line.kind}>{line.text}</li>
+                {/each}
+              </ul>
+            {:else}
+              <span class="dock-quiet">{t("the bench reported nothing for that step")}</span>
+            {/if}
+          {/if}
         </div>
         <span class="dock-count">{t("step {step} of {total}", { step: (step?.index ?? 0) + 1, total: step?.total ?? stepCount })}</span>
-        <button class="stop" onclick={() => (stopRequested = true)}>{t("stop the run")}</button>
+        {#if stepping}
+          <!-- Mounted for the whole run, inert between steps: a control
+               that disappears after every press takes the keyboard's focus
+               with it, and this is the press a learner repeats. -->
+          <button class="go dock-next" disabled={!awaiting} onclick={() => answer("next")}>{t("next step")}</button>
+          <button class="stop" disabled={!awaiting} onclick={() => answer("rest")}>{t("run the rest for me")}</button>
+        {/if}
+        <button class="stop" onclick={stopRun}>{t("stop the run")}</button>
       </div>
     {:else if !open}
       <header>
@@ -504,14 +605,39 @@
             </div>
           </div>
         {:else}
+          <!-- The pace is chosen BEFORE the run, because during it there is
+               nothing left to decide: a script already halfway through at
+               420ms a line cannot be un-watched. -->
+          <div class="pace" role="group" aria-label={t("how to run it")}>
+            <span class="pace-label">{t("pace")}</span>
+            {#each [["auto", "straight through"], ["step", "step by step"]] as const as [key, label] (key)}
+              <button
+                type="button"
+                class="chip"
+                class:on={runMode === key}
+                aria-pressed={runMode === key}
+                onclick={() => setRunMode(key)}
+              >{t(label)}</button>
+            {/each}
+          </div>
           <button class="go" disabled={running || session.busy || mustPredict} onclick={() => requestRun()}>
             {t("run it on the bench")}
           </button>
-          <p class="meta">{t("{count} steps, run one at a time on the bench you can see", { count: stepCount })}</p>
+          <p class="meta">
+            {runMode === "step"
+              ? t("{count} steps — you decide when each one goes", { count: stepCount })
+              : t("{count} steps, run one at a time on the bench you can see", { count: stepCount })}
+          </p>
         {/if}
 
         {#if refusedLine}
           <p class="meta refused">{t("the bench stopped at {line} — the rest of the script did not run", { line: refusedLine })}</p>
+        {/if}
+        {#if halted}
+          <!-- The checker answers about the bench, and a bench can satisfy
+               it after one line. Saying so is the difference between a
+               verdict and a claim that the experiment was done. -->
+          <p class="meta refused">{t("you stopped the run — the rest did not happen, and nothing was recorded")}</p>
         {/if}
         {#if result}
           <div class="verdict" class:ok={result.allOk}>
@@ -629,6 +755,57 @@
     font-size: 0.74rem;
     white-space: nowrap;
   }
+  /* Waiting is a state, not a pause in the same state: the strip grows to
+     hold the account of the step and says whose turn it is. */
+  .dock.waiting {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .dock-produced {
+    list-style: none;
+    margin: 0.2rem 0 0;
+    padding: 0;
+    max-height: 5.5rem;
+    overflow-y: auto;
+    font-size: 0.76rem;
+  }
+  .dock-produced li {
+    color: var(--ink);
+  }
+  .dock-produced li[data-kind="error"],
+  .dock-produced li[data-kind="refusal"],
+  .dock-produced li[data-kind="hazard"] {
+    color: var(--bad);
+  }
+  .dock-produced li[data-kind="note"],
+  .dock-produced li[data-kind="nudge"] {
+    color: var(--dim);
+  }
+  .dock-quiet {
+    color: var(--dim);
+    font-size: 0.76rem;
+  }
+  .dock-next {
+    min-height: 36px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.78rem;
+  }
+  .pace {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+  .pace-label {
+    color: var(--dim);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .pace .chip {
+    min-height: 36px;
+  }
   .stop {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
@@ -639,6 +816,10 @@
     padding: 0.3rem 0.8rem;
     min-height: 36px;
     cursor: pointer;
+  }
+  .stop:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
   header {
     display: flex;

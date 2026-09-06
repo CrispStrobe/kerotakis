@@ -893,14 +893,75 @@ const SOLVENT: &str = "water";
 /// single liquid phase still undergoes its physical transfer.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
+/// The heat capacity that spends the energy left over once a phase change
+/// has finished, J/K.
+///
+/// Read AFTER the transfer, so it is the heat capacity of the phase the
+/// vessel is now in. `before` is the fallback for a vessel that has nothing
+/// left to warm — an open flask boiled dry — where dividing by what remains
+/// would turn a rounding error into thousands of kelvin.
+fn residual_cp(vessel: &Vessel, before: f64) -> f64 {
+    let after = vessel.heat_capacity();
+    if after > 1e-9 {
+        after
+    } else {
+        before
+    }
+}
+
 fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
-    vessel.solution.as_ref().map_or(0.0, |info| {
+    let speciated: f64 = vessel.solution.as_ref().map_or(0.0, |info| {
         info.species
             .iter()
             .filter(|species| species.name != "H2O")
             .map(|species| species.molality)
             .sum()
-    })
+    });
+    // A colligative property counts particles, and the commonest particle
+    // a kitchen dissolves is one no aqueous engine lists: sucrose is a
+    // non-electrolyte, so there is no PHREEQC species for it and the
+    // speciation that reports the ionic strength cannot report it either.
+    // Reading that silence as "no solute" made 20 g of sugar in 100 mL boil
+    // at exactly 100.0 °C — the one temperature a sugar solution does not
+    // boil at — while the engine already held every constant needed to say
+    // 100.3 °C.
+    //
+    // Only species the registry itself marks as dissolving without
+    // speciation are added, which is the registry's own statement that no
+    // engine has already counted them; a flag left set after an engine
+    // gains the species would double-count it, and belongs fixed in the
+    // data rather than guessed at here.
+    let solvent = SpeciesId::new(SOLVENT);
+    let water_kg = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species == solvent && p.phase == Phase::Liquid)
+        .map(|p| p.moles.0 * 0.018_015)
+        .sum::<f64>();
+    if water_kg <= 0.0 {
+        return speciated;
+    }
+    let liquid_ml = vessel.liquid_volume().0 * 1000.0;
+    let unspeciated: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species != solvent)
+        .filter_map(|p| {
+            let data = species::lookup(&p.species)?;
+            if !data.dissolves_without_speciation {
+                return None;
+            }
+            // Only what actually went into solution counts. Sugar past its
+            // solubility is sitting on the bottom of the beaker, and a
+            // crystal on the bottom raises nothing.
+            let dissolved = match data.aqueous_solubility_at(vessel.temperature.0) {
+                Some(limit) => p.moles.0.min(limit * liquid_ml / 100.0 / data.molar_mass),
+                None => p.moles.0,
+            };
+            Some(dissolved / water_kg)
+        })
+        .sum();
+    speciated + unspeciated
 }
 
 impl Equilibrator for StateEquilibrator {
@@ -1017,15 +1078,25 @@ impl Equilibrator for StateEquilibrator {
             vessel.contents.retain(|p| p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
-            vessel.temperature = if reached_boundary {
+            let settled = if reached_boundary {
                 Kelvin(crate::states::BRINE_MODEL_MIN_K)
             } else if excess_j < latent_total {
                 Kelvin(t.freezing_k) // still freezing: the plateau
             } else {
-                // All of it froze; what is left over chills the ice.
+                // All of it froze; what is left over chills the ICE, at
+                // ice's own heat capacity. The deposit above has already
+                // happened, so re-reading the vessel is re-reading the
+                // phase: 37.7 J/(mol·K) rather than liquid water's 75.3,
+                // which is the difference between −39 °C and −78 °C for a
+                // beaker cooled with 60 kJ.
                 let leftover = excess_j - latent_total;
-                Kelvin(t.freezing_k - leftover / cp)
+                // Absolute zero is still the floor. `cool` clamps there and
+                // says how much it could not remove; re-deriving the deficit
+                // from the clamped temperature can ask for more than the
+                // ice has, and a negative kelvin is not an answer.
+                Kelvin((t.freezing_k - leftover / residual_cp(vessel, cp)).max(0.0))
             };
+            vessel.temperature = settled;
 
             events.push(Event::StateChanged {
                 vessel: vessel.id,
@@ -1064,11 +1135,14 @@ impl Equilibrator for StateEquilibrator {
             vessel.contents.retain(|p| p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
-            vessel.temperature = if available_j < latent_total {
+            let settled = if available_j < latent_total {
                 Kelvin(t.freezing_k)
             } else {
-                Kelvin(t.freezing_k + (available_j - latent_total) / cp)
+                // The same correction as the freezing branch: what is left
+                // once the last of the ice has gone warms LIQUID water.
+                Kelvin(t.freezing_k + (available_j - latent_total) / residual_cp(vessel, cp))
             };
+            vessel.temperature = settled;
 
             events.push(Event::StateChanged {
                 vessel: vessel.id,
@@ -1130,17 +1204,19 @@ impl Equilibrator for StateEquilibrator {
                 });
             }
 
-            // Cp is read before any water leaves, so the sensible heat left
-            // over once the last of it has gone is spread over a heat
-            // capacity that no longer exists. The melting branch above makes
-            // the same approximation in the same place; it under-reports the
-            // final temperature of a vessel boiled dry, and never the
-            // plateau itself, which is the observation the curve is for.
-            vessel.temperature = if available_j < latent_total {
+            // What is left once the last of the water has gone is spread
+            // over whatever the vessel still holds — the steam, if the
+            // flask is sealed, or the solute left behind. A vessel boiled
+            // dry and open holds nothing, and `residual_cp` then falls back
+            // to the pre-transition figure: that under-reports the final
+            // temperature, and never the plateau itself, which is the
+            // observation the curve is for.
+            let settled = if available_j < latent_total {
                 Kelvin(t.boiling_k)
             } else {
-                Kelvin(t.boiling_k + (available_j - latent_total) / cp)
+                Kelvin(t.boiling_k + (available_j - latent_total) / residual_cp(vessel, cp))
             };
+            vessel.temperature = settled;
 
             if boiling_route != crate::states::BoilingRoute::NormalBoilingPoint {
                 events.push(Event::BoilingPointRouted {

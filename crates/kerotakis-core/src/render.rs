@@ -937,10 +937,49 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             requested_j,
             delivered_j,
             time_coupled,
+            source,
+            ceiling_k,
+            sensible_j,
+            passes,
+            capped,
         } => {
             let vessel = vessel.to_string();
             let delivered_kj = locale.number(format!("{:.2}", delivered_j / 1000.0));
             let requested_kj = locale.number(format!("{:.2}", requested_j / 1000.0));
+            // A joule short of the dose is not an observation; a kilojoule
+            // short is the burner telling the learner something.
+            let undelivered_j = (requested_j - delivered_j).max(0.0);
+            let short = undelivered_j > 1.0;
+            let undelivered_kj = locale.number(format!("{:.2}", undelivered_j / 1000.0));
+            let chemistry_j = delivered_j - sensible_j;
+            let sensible_kj = locale.number(format!("{:.2}", sensible_j / 1000.0));
+            let chemistry_kj = locale.number(format!("{:.2}", chemistry_j / 1000.0));
+            let split = chemistry_j.abs() > 0.01 * delivered_j.abs().max(1.0);
+            // The engine names the apparatus in English; the catalogue
+            // gives it its word in the reader's language, under a key
+            // derived from the name rather than a second field on the
+            // event, so a source added later is translatable without a
+            // schema change.
+            let source_name = match source {
+                Some(name) => {
+                    let slug = name.to_ascii_lowercase().replace(' ', "-");
+                    locale
+                        .lookup(&format!("heat-source.{slug}"))
+                        .map(str::to_string)
+                        .unwrap_or_else(|| name.clone())
+                }
+                None => locale
+                    .t("event.energy-transferred.unnamed-source", "heat source")
+                    .to_string(),
+            };
+            let ceiling_c = locale.number(format!("{:.0}", ceiling_k.unwrap_or(0.0) - 273.15));
+            let ceiling_k_text = locale.number(format!("{:.2}", ceiling_k.unwrap_or(0.0)));
+            let passes_text = passes.to_string();
+            let capped_value = if *capped {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
             let transfer = if *heating {
                 locale.t("event.energy-transferred.delivered", "delivered")
             } else {
@@ -962,6 +1001,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 locale.t("event.value.false", "false")
             };
             match register.level() {
+                1 if *heating && short => locale.fill(
+                    "event.energy-transferred.lv1-heating-capped",
+                    "{vessel} takes {delivered} kJ from the {source} and can take no more: {undelivered} kJ of the {requested} kJ asked for never arrived, because a burner cannot heat anything hotter than its own flame — {ceiling} °C.",
+                    &[
+                        ("vessel", &vessel),
+                        ("delivered", &delivered_kj),
+                        ("source", &source_name),
+                        ("undelivered", &undelivered_kj),
+                        ("requested", &requested_kj),
+                        ("ceiling", &ceiling_c),
+                    ],
+                ),
                 1 if *heating => locale.fill(
                     "event.energy-transferred.lv1-heating",
                     "{vessel} receives {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
@@ -972,6 +1023,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{vessel} releases {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
                     &[("vessel", &vessel), ("delivered", &delivered_kj)],
                 ),
+                2 if *heating && (short || split) => locale.fill(
+                    "event.energy-transferred.lv2-heating",
+                    "{vessel}: {requested} kJ requested; {delivered} kJ delivered, {undelivered} kJ undelivered — {source}, ceiling {ceiling} °C; of what arrived, {sensible} kJ is warmth the vessel still holds and {chemistry} kJ went into chemistry or a phase change ({passes} passes) — time model {coupling}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &requested_kj),
+                        ("delivered", &delivered_kj),
+                        ("undelivered", &undelivered_kj),
+                        ("source", &source_name),
+                        ("ceiling", &ceiling_c),
+                        ("sensible", &sensible_kj),
+                        ("chemistry", &chemistry_kj),
+                        ("passes", &passes_text),
+                        ("coupling", coupling),
+                    ],
+                ),
                 2 => locale.fill(
                     "event.energy-transferred.lv2",
                     "{vessel}: {requested} kJ requested; {delivered} kJ {transfer} — time model {coupling}",
@@ -981,6 +1048,23 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         ("delivered", &delivered_kj),
                         ("transfer", transfer),
                         ("coupling", coupling),
+                    ],
+                ),
+                _ if *heating => locale.fill(
+                    "event.energy-transferred.lv3-heating",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, undelivered={undelivered} J; source={source}, ceiling={ceiling} K; sensible={sensible} J, chemistry/phase={chemistry} J; passes={passes}, pass_cap_reached={capped}, time_coupled={time_coupled}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &locale.number(format!("{requested_j:.6}"))),
+                        ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                        ("undelivered", &locale.number(format!("{undelivered_j:.6}"))),
+                        ("source", &source_name),
+                        ("ceiling", &ceiling_k_text),
+                        ("sensible", &locale.number(format!("{sensible_j:.6}"))),
+                        ("chemistry", &locale.number(format!("{chemistry_j:.6}"))),
+                        ("passes", &passes_text),
+                        ("capped", capped_value),
+                        ("time_coupled", time_coupled_value),
                     ],
                 ),
                 _ => locale.fill(

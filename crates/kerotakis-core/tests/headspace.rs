@@ -107,6 +107,7 @@ fn heating_a_sealed_gas_raises_pressure_in_proportion_to_temperature() {
         .step(Operator::Heat {
             vessel,
             energy: Joules(50.0),
+            source: None,
         })
         .unwrap();
     let after = bench.vessel(vessel).unwrap();
@@ -137,6 +138,7 @@ fn a_pressure_controller_expands_the_headspace_when_heated() {
         .step(Operator::Heat {
             vessel,
             energy: Joules(50.0),
+            source: None,
         })
         .unwrap();
     let after = bench.vessel(vessel).unwrap();
@@ -201,6 +203,7 @@ fn trapped_air_takes_part_of_the_heat_that_an_open_liquid_keeps() {
             .step(Operator::Heat {
                 vessel,
                 energy: Joules(1_000.0),
+                source: None,
             })
             .unwrap();
     }
@@ -250,6 +253,7 @@ fn rigid_and_pressure_controlled_gas_spend_the_same_heat_differently() {
             .step(Operator::Heat {
                 vessel,
                 energy: Joules(10.0),
+                source: None,
             })
             .unwrap();
     }

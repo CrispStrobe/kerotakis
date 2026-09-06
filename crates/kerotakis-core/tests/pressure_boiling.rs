@@ -83,6 +83,7 @@ fn an_open_beaker_is_untouched_by_this_change() {
         Operator::Heat {
             vessel: VesselId(0),
             energy: Joules(60_000.0),
+            source: None,
         },
     );
     let boiled = boiled_at_k(&events).expect("60 kJ boils 100 mL of water");
@@ -114,6 +115,7 @@ fn lowering_the_pressure_makes_water_boil_sooner() {
         Operator::Heat {
             vessel: VesselId(0),
             energy: Joules(30_000.0),
+            source: None,
         },
     );
     let boiled = boiled_at_k(&events).expect("30 kJ passes the reduced boiling point");
@@ -151,6 +153,7 @@ fn a_pressure_above_the_cleared_window_is_named_and_not_extrapolated() {
         Operator::Heat {
             vessel: VesselId(0),
             energy: Joules(60_000.0),
+            source: None,
         },
     );
     let boiled = boiled_at_k(&events).expect("60 kJ still passes 100 °C");
@@ -184,6 +187,7 @@ fn the_pressure_shift_does_not_depend_on_how_much_water_there_is() {
             Operator::Heat {
                 vessel: VesselId(0),
                 energy: Joules(joules),
+                source: None,
             },
         );
         let (route, boiling, _) = routing(&events).expect("a routing event");

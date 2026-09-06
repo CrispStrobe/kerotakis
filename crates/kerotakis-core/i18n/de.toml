@@ -378,6 +378,10 @@ naphthalene = "Naphthalin"
 "energy-transferred.lv1-heating" = "{vessel} nimmt {delivered} kJ Wärme auf. Dieser Energieschritt hat noch kein Zeitmodell."
 "energy-transferred.lv1-cooling" = "{vessel} gibt {delivered} kJ Wärme ab. Dieser Energieschritt hat noch kein Zeitmodell."
 "energy-transferred.lv2" = "{vessel}: {requested} kJ angefordert; {delivered} kJ {transfer} — Zeitmodell {coupling}"
+"energy-transferred.unnamed-source" = "Wärmequelle"
+"energy-transferred.lv1-heating-capped" = "{vessel} nimmt {delivered} kJ von {source} auf und kann nicht mehr aufnehmen: {undelivered} kJ der angeforderten {requested} kJ kamen nie an — ein Brenner kann nichts heißer machen als seine eigene Flamme, {ceiling} °C."
+"energy-transferred.lv2-heating" = "{vessel}: {requested} kJ angefordert; {delivered} kJ zugeführt, {undelivered} kJ nicht zugeführt — {source}, Obergrenze {ceiling} °C; vom Zugeführten sind {sensible} kJ Wärme, die das Gefäß noch hält, und {chemistry} kJ gingen in Chemie oder einen Phasenwechsel ({passes} Durchgänge) — Zeitmodell {coupling}"
+"energy-transferred.lv3-heating" = "{vessel}: Wärmeenergie angefordert={requested} J, übertragen={delivered} J, nicht übertragen={undelivered} J; Quelle={source}, Obergrenze={ceiling} K; fühlbar={sensible} J, Chemie/Phase={chemistry} J; Durchgänge={passes}, Durchgangsgrenze erreicht={capped}, Zeitmodell gekoppelt={time_coupled}"
 "energy-transferred.lv3" = "{vessel}: Wärmeenergie angefordert={requested} J, übertragen={delivered} J, Erwärmung={heating}, Zeitmodell gekoppelt={time_coupled}"
 "irradiated.coupled" = "gekoppelt"
 "irradiated.not-yet-coupled" = "noch nicht gekoppelt"
@@ -663,6 +667,14 @@ naphthalene = "Naphthalin"
 # walked by `i18n_coverage.rs` — both are value-keyed lookups under a
 # prefix, which is the shape that gate cannot enumerate — so a missing
 # section reported as nothing at all.
+[heat-source]
+# What the burner, the candle and the hotplate are called. The engine
+# names them in English on the event; this is where they get their word.
+"bunsen-burner" = "Bunsenbrenner"
+"candle" = "Kerze"
+"hot-plate" = "Heizplatte"
+"unnamed-heat-source" = "Wärmequelle"
+
 [transition]
 "melting point" = "Schmelzpunkt"
 "boiling point" = "Siedepunkt"

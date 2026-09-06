@@ -202,6 +202,7 @@ mod tests {
             .step(Operator::Heat {
                 vessel: v,
                 energy: Joules(7530.0),
+                source: None,
             })
             .unwrap();
         let t = bench.vessel(v).unwrap().temperature.0;

@@ -515,6 +515,18 @@ impl Bench {
                 })
             })
             .collect::<Vec<_>>();
+        // The step's starting point for the energy ledger, read before the
+        // operator has touched anything. `deliver_remaining_heat` needs the
+        // temperature to keep offering the dose, and the report at the end
+        // needs the enthalpy to say how much of what was delivered is still
+        // warmth in the flask rather than chemistry that has been paid for.
+        let heat_start = match &op {
+            Operator::Heat { vessel, .. } => self
+                .vessel(*vessel)
+                .ok()
+                .map(|v| (*vessel, v.temperature, v.enthalpy().0)),
+            _ => None,
+        };
         let mut events = self.apply(&op, screen)?;
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
@@ -564,36 +576,50 @@ impl Bench {
             }
             vessel.step_start = None;
             vessel.refresh_pressure();
-            // CAP-25: sealed glass has a limit, and exceeding it is an
-            // event, not a scripted animation. The seal fails, the
-            // gases vent, and the ledger stays exact through the bang.
-            if vessel.is_sealed() && vessel.pressure.0 > crate::senses::GLASS_BURST_PA {
-                let at = vessel.pressure.0;
-                let gases = vent_headspace(vessel);
-                vessel.headspace = Headspace::Open;
-                vessel.refresh_pressure();
-                events.push(Event::Burst {
-                    vessel: id,
-                    at_pa: at,
-                    rating_pa: crate::senses::GLASS_BURST_PA,
-                });
-                events.push(Event::HazardWarning {
-                    severity: crate::solve::Severity::Danger,
-                    rule: "sealed-vessel-burst".to_string(),
-                    hazard: "sealed vessel over-pressurised and burst".to_string(),
-                    real_world: "flying glass and a pressure wave — sealed \
-                                 systems on a heat source are how real labs \
-                                 get hurt; safe only because this lab is \
-                                 virtual"
-                        .to_string(),
-                });
-                for (species, moles) in gases {
-                    events.push(Event::GasEvolved {
-                        vessel: id,
-                        species,
-                        moles,
-                    });
-                }
+            // A dose of heat is offered in passes, and the solver above has
+            // just had the first of them. What happens next depends on
+            // whether the contents did anything with it, which only the
+            // solver can say — so the rest of the delivery lives here,
+            // where the solver is in scope, rather than in `apply`.
+            if heat_start.is_some_and(|(heated, _, _)| heated == id) {
+                self.deliver_remaining_heat(id, solver, &mut events);
+            }
+            self.vent_if_burst(id, &mut events);
+        }
+
+        // A dose offered in passes is one act of heating, not eight. Fold
+        // the repeats back into a single account of the step, then say how
+        // much of what actually crossed is still warmth in the flask.
+        if let Some((heated, _, enthalpy_before)) = heat_start {
+            let passes = events
+                .iter()
+                .find_map(|event| match event {
+                    Event::EnergyTransferred {
+                        vessel,
+                        heating: true,
+                        passes,
+                        ..
+                    } if *vessel == heated => Some(*passes),
+                    _ => None,
+                })
+                .unwrap_or(1);
+            // A dose that fitted under the flame in one go has nothing to
+            // fold, and folding it anyway would quietly rewrite every step
+            // that was already right.
+            if passes > 1 {
+                coalesce_heat_passes(heated, &mut events);
+            }
+            let enthalpy_after = self
+                .vessel(heated)
+                .map(|v| v.enthalpy().0)
+                .unwrap_or(enthalpy_before);
+            if let Some(Event::EnergyTransferred { sensible_j, .. }) =
+                events.iter_mut().find(|event| {
+                    matches!(event, Event::EnergyTransferred { vessel, heating: true, .. }
+                        if *vessel == heated)
+                })
+            {
+                *sensible_j = enthalpy_after - enthalpy_before;
             }
         }
 
@@ -892,6 +918,149 @@ impl Bench {
             events: events.clone(),
         });
         Ok(events)
+    }
+
+    /// Offer what is left of a heat dose, pass by pass, until the vessel
+    /// stops taking it.
+    ///
+    /// A burner has a temperature of its own, so `apply` could only push
+    /// the vessel as far as the flame and no further. Everything beyond
+    /// that has to be bought from chemistry: a solid that decomposes, a
+    /// liquid that boils, a crystal that melts all sit at their own
+    /// temperature and swallow energy without the thermometer moving, and
+    /// when the solver has done that the vessel is below the flame again
+    /// and can take more. That is the loop. It ends when the dose is spent,
+    /// when a pass at the ceiling buys nothing (the remainder is then
+    /// simply undeliverable with this equipment), or at the pass cap —
+    /// which the event reports rather than hiding.
+    fn deliver_remaining_heat(
+        &mut self,
+        id: VesselId,
+        solver: &mut dyn Equilibrator,
+        events: &mut Vec<Event>,
+    ) {
+        let Some((requested, first, ceiling)) = events.iter().rev().find_map(|event| match event {
+            Event::EnergyTransferred {
+                vessel,
+                heating: true,
+                requested_j,
+                delivered_j,
+                ceiling_k: Some(ceiling),
+                ..
+            } if *vessel == id => Some((*requested_j, *delivered_j, *ceiling)),
+            _ => None,
+        }) else {
+            return;
+        };
+
+        let mut delivered = first;
+        let mut passes = 1u32;
+        let mut capped = false;
+        loop {
+            let remaining = requested - delivered;
+            // A joule is not an observation; stopping a millijoule short of
+            // the dose is not a claim worth making.
+            if remaining <= 1e-6 {
+                break;
+            }
+            if passes >= HEAT_DELIVERY_PASSES {
+                capped = true;
+                break;
+            }
+            let chunk = {
+                let Ok(vessel) = self.vessel_mut(id) else {
+                    break;
+                };
+                let cp = vessel.heat_capacity();
+                if cp <= 0.0 {
+                    break;
+                }
+                let now = vessel.temperature;
+                let room = ((ceiling - now.0) * cp).min(remaining);
+                // The vessel is as hot as the flame and the last pass
+                // bought nothing: there is no route left for the rest.
+                if room <= 1e-9 {
+                    break;
+                }
+                vessel.temperature = Kelvin(now.0 + room / cp);
+                vessel.solution = None;
+                vessel.step_start = Some(crate::vessel::StepStart::capture(vessel));
+                room
+            };
+            delivered += chunk;
+            passes += 1;
+            {
+                let Ok(vessel) = self.vessel_mut(id) else {
+                    break;
+                };
+                if solver.applies(vessel) {
+                    match solver.equilibrate(vessel) {
+                        Ok(mut more) => events.append(&mut more),
+                        Err(e) => events.push(Event::SolverFailed {
+                            vessel: id,
+                            solver: solver.name().to_string(),
+                            detail: e.to_string(),
+                        }),
+                    }
+                }
+            }
+            if let Ok(vessel) = self.vessel_mut(id) {
+                vessel.step_start = None;
+                vessel.refresh_pressure();
+            }
+        }
+
+        if let Some(Event::EnergyTransferred {
+            delivered_j,
+            passes: reported,
+            capped: hit_cap,
+            ..
+        }) = events.iter_mut().find(|event| {
+            matches!(event, Event::EnergyTransferred { vessel, heating: true, .. }
+                if *vessel == id)
+        }) {
+            *delivered_j = delivered;
+            *reported = passes;
+            *hit_cap = capped;
+        }
+    }
+
+    /// CAP-25: sealed glass has a limit, and exceeding it is an event, not
+    /// a scripted animation. The seal fails, the gases vent, and the ledger
+    /// stays exact through the bang.
+    fn vent_if_burst(&mut self, id: VesselId, events: &mut Vec<Event>) {
+        let Ok(vessel) = self.vessel_mut(id) else {
+            return;
+        };
+        if !vessel.is_sealed() || vessel.pressure.0 <= crate::senses::GLASS_BURST_PA {
+            return;
+        }
+        let at = vessel.pressure.0;
+        let gases = vent_headspace(vessel);
+        vessel.headspace = Headspace::Open;
+        vessel.refresh_pressure();
+        events.push(Event::Burst {
+            vessel: id,
+            at_pa: at,
+            rating_pa: crate::senses::GLASS_BURST_PA,
+        });
+        events.push(Event::HazardWarning {
+            severity: crate::solve::Severity::Danger,
+            rule: "sealed-vessel-burst".to_string(),
+            hazard: "sealed vessel over-pressurised and burst".to_string(),
+            real_world: "flying glass and a pressure wave — sealed \
+                         systems on a heat source are how real labs \
+                         get hurt; safe only because this lab is \
+                         virtual"
+                .to_string(),
+        });
+        for (species, moles) in gases {
+            events.push(Event::GasEvolved {
+                vessel: id,
+                species,
+                moles,
+            });
+        }
     }
 
     fn apply(
@@ -1207,15 +1376,68 @@ impl Bench {
                 precipitate_declared_soap(v, &recipe, &mut events);
                 recognize_lemon_paper_mark(v, &mut events);
             }
-            Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
+            Operator::Heat {
+                vessel,
+                energy,
+                source,
+            } => {
                 if energy.0 < 0.0 {
                     return Err(BenchError::NonPositiveAmount);
                 }
-                let signed = if matches!(op, Operator::Cool { .. }) {
-                    -energy.0
+                // A script that names no apparatus is standing at a school
+                // bench, and the thing under the tripod there is a burner.
+                let source = source.clone().unwrap_or_default();
+                let v = self.vessel_mut(*vessel)?;
+                let cp = v.heat_capacity();
+                if cp > 0.0 {
+                    let from = v.temperature;
+                    // Only the part of the dose that fits below the flame
+                    // crosses now. Whether the rest can be delivered at all
+                    // is not arithmetic but chemistry: if the contents
+                    // decompose, melt or boil once they reach the ceiling
+                    // they pull the vessel back down and make room for
+                    // more, which is what `deliver_remaining_heat` finds
+                    // out — it has the solver, and `apply` does not.
+                    let head = source.headroom_j(from, cp).min(energy.0);
+                    let to = Kelvin(from.0 + head / cp);
+                    v.temperature = to;
+                    events.push(Event::TemperatureChanged {
+                        vessel: *vessel,
+                        from,
+                        to,
+                    });
+                    // Provisional: `step_with` rewrites the delivered,
+                    // sensible and pass counts once the solver has had its
+                    // say. Pushed here rather than there so that the one
+                    // place that knows the requested dose is the one place
+                    // that reports it.
+                    events.push(Event::EnergyTransferred {
+                        vessel: *vessel,
+                        heating: true,
+                        requested_j: energy.0,
+                        delivered_j: head,
+                        time_coupled: false,
+                        source: Some(source.name.clone()),
+                        ceiling_k: Some(source.ceiling.0),
+                        sensible_j: head,
+                        passes: 1,
+                        capped: false,
+                    });
+                    brown_dry_lemon_mark(v, &mut events);
                 } else {
-                    energy.0
-                };
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolver,
+                        vessel: *vessel,
+                        what: "heating an empty vessel (container heat capacity not modelled)"
+                            .to_string(),
+                    });
+                }
+            }
+            Operator::Cool { vessel, energy } => {
+                if energy.0 < 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let signed = -energy.0;
                 let v = self.vessel_mut(*vessel)?;
                 let cp = v.heat_capacity();
                 if cp > 0.0 {
@@ -1244,10 +1466,20 @@ impl Bench {
                     });
                     events.push(Event::EnergyTransferred {
                         vessel: *vessel,
-                        heating: signed >= 0.0,
+                        heating: false,
                         requested_j: energy.0,
                         delivered_j: (to.0 - from.0).abs() * cp,
                         time_coupled: false,
+                        // No coolant is modelled, so there is no cold body
+                        // to name and no floor of its temperature to quote.
+                        source: None,
+                        ceiling_k: None,
+                        // Cooling here is pure sensible heat by
+                        // construction: this arm moves the thermometer and
+                        // nothing else.
+                        sensible_j: (to.0 - from.0).abs() * cp,
+                        passes: 1,
+                        capped: false,
                     });
                     brown_dry_lemon_mark(v, &mut events);
                     if wanted < 0.0 {
@@ -1271,7 +1503,7 @@ impl Bench {
                     events.push(Event::NotYetModeled {
                         cause: crate::ops::NotModelledCause::NoSolver,
                         vessel: *vessel,
-                        what: "heating an empty vessel (container heat capacity not modelled)"
+                        what: "cooling an empty vessel (container heat capacity not modelled)"
                             .to_string(),
                     });
                 }
@@ -4193,6 +4425,133 @@ fn stock_refusal_event(key: &str, refusal: crate::stock::StockRefusal) -> Event 
         remaining,
         unit,
     }
+}
+
+/// How many times a heat dose may be offered before the bench gives up.
+///
+/// Each pass costs one solver call, and a dose that decomposes a solid
+/// completely needs a handful. The cap is not a physical statement; it is
+/// there so a solver that neither warms nor consumes cannot spin, and when
+/// it is reached the event says so rather than pretending the dose ran out.
+const HEAT_DELIVERY_PASSES: u32 = 32;
+
+/// The quantity a repeated event carries, and what makes two of them the
+/// same claim about the same thing.
+fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
+    match event {
+        Event::GasEvolved {
+            vessel, species, ..
+        } => Some((0, *vessel, species.clone())),
+        Event::GasContained {
+            vessel, species, ..
+        } => Some((1, *vessel, species.clone())),
+        Event::Precipitated {
+            vessel, species, ..
+        } => Some((2, *vessel, species.clone())),
+        Event::Consumed {
+            vessel, species, ..
+        } => Some((3, *vessel, species.clone())),
+        _ => None,
+    }
+}
+
+fn extensive_moles(event: &mut Event) -> Option<&mut Moles> {
+    match event {
+        Event::GasEvolved { moles, .. }
+        | Event::GasContained { moles, .. }
+        | Event::Precipitated { moles, .. }
+        | Event::Consumed { moles, .. } => Some(moles),
+        _ => None,
+    }
+}
+
+/// Fold the repeats a chunked heat delivery leaves behind into one account
+/// of the step.
+///
+/// Offering the dose in passes is a numerical device, not a sequence of
+/// separate experiments. The crucible does not evolve carbon dioxide eight
+/// times; it evolves it once, over the while the burner holds it at the
+/// decomposition temperature. So the extensive quantities are summed into
+/// their first appearance, a qualitative claim made twice is made once,
+/// only the last thermal equilibrium survives (it is the one describing the
+/// vessel as it ended, and it carries the chemical energy of all of them),
+/// and the temperature is left to the reconciliation pass at the end of
+/// `step_with`, which knows where the vessel actually finished. Without
+/// this a learner reads eight temperature swings and eight bubble events
+/// for one turn of the gas tap.
+fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
+    let mut out: Vec<Event> = Vec::with_capacity(events.len());
+    let mut announced_temperature = false;
+    for event in std::mem::take(events) {
+        // Extensive quantities fold into their first appearance.
+        let key = extensive_key(&event);
+        if let Some(key) = key {
+            if let Some(slot) = out
+                .iter_mut()
+                .find(|candidate| extensive_key(candidate).is_some_and(|found| found == key))
+            {
+                let mut event = event;
+                let add = extensive_moles(&mut event).map(|m| m.0).unwrap_or(0.0);
+                // What is left after the LAST pass is what is left.
+                let left = match &event {
+                    Event::Consumed { remaining, .. } => *remaining,
+                    _ => None,
+                };
+                if let Some(total) = extensive_moles(slot) {
+                    total.0 += add;
+                }
+                if let (Event::Consumed { remaining, .. }, Some(left)) = (&mut *slot, left) {
+                    *remaining = Some(left);
+                }
+                continue;
+            }
+        }
+        match &event {
+            // One temperature announcement per heated vessel; the
+            // reconciliation pass rewrites its `to` to the settled value.
+            Event::TemperatureChanged { vessel, .. } if *vessel == id => {
+                if announced_temperature {
+                    continue;
+                }
+                announced_temperature = true;
+            }
+            // One equilibrium, carrying the chemical energy of every pass.
+            Event::ThermalEquilibrium {
+                vessel,
+                temperature,
+                reaction_energy_j,
+                provenance,
+            } if *vessel == id => {
+                if let Some(slot) = out.iter_mut().find(|candidate| {
+                    matches!(candidate, Event::ThermalEquilibrium { vessel: seen, .. }
+                        if *seen == id)
+                }) {
+                    if let Event::ThermalEquilibrium {
+                        temperature: settled,
+                        reaction_energy_j: total,
+                        provenance: source,
+                        ..
+                    } = slot
+                    {
+                        *settled = *temperature;
+                        *total = match (*total, *reaction_energy_j) {
+                            (Some(a), Some(b)) => Some(a + b),
+                            (a, b) => a.or(b),
+                        };
+                        *source = provenance.clone();
+                    }
+                    continue;
+                }
+            }
+            _ => {}
+        }
+        // Anything else said twice in identical words was said once.
+        if out.contains(&event) {
+            continue;
+        }
+        out.push(event);
+    }
+    *events = out;
 }
 
 /// Which vessels an operator touches (for re-equilibration).
