@@ -2172,6 +2172,50 @@ and presents them well.
   motion` still stops the motion; no new per-frame JS loop, and the GPU path
   untouched except where `visualBackend.ts` already says WebGPU is on.
 
+## Three instrument surfaces must become one (GUI-100 … GUI-102)
+
+The owner, from the German live deploy: *"we must consolidate Messgeräte and
+Geräteschrank and Instrumentenwand. we have 2/3 surfaces and need them into
+one."* Design: `docs/INSTRUMENTS-ONE-SURFACE.md`.
+
+The inventory is the argument. Every one of the 12 instruments is listed
+twice — once in the `MESSEN` strip (`InstrumentTray.svelte`, inside the
+inspector) and once in the equipment cabinet (`EquipmentCabinet.svelte`) —
+and `eyes`, `thermometer` and `ph` are listed a third time in the vessel
+dock, whose `stir`/`heat`/`cool` are in turn a second copy of three
+apparatus. `chromatograph` appears three times, because a kids' kit is a
+fourth vocabulary over tools that are already on the wall. The three
+surfaces also teach three different mental models — take a reading now /
+install on the bench / do a thing to this vessel — and which one a tool
+lives in is not predictable from what the tool is.
+
+- [ ] **GUI-100 — The design.** `docs/INSTRUMENTS-ONE-SURFACE.md`: what each
+  of the three surfaces lists, how it is opened, what state it holds, what
+  it emits into the engine grammar; the duplication tally; the target — one
+  cupboard modal, opened from one small button at the right end of the
+  MESSEN row, built from one merged model, with items on shelves grouped by
+  what they do and an `(i)` per item saying what it models and what it does
+  not; the migration in three PRs, and the open questions.
+
+- [ ] **GUI-101 — The cupboard, from one model.** `equipmentCatalogue.ts`
+  merges `INSTRUMENTS`, `APPARATUS`, the transfer verbs (lifted out of
+  `EquipmentCabinet.svelte`, where six verbs live in a component array with
+  no module and no test), `burette`/`mix`/`transport`/`react` and
+  `KIDS_EQUIPMENT` into one list keyed by the catalog id space
+  `equipmentAccess()` already uses. `InstrumentCupboard.svelte` renders it on
+  six shelves; the five action kinds map one to one onto the handlers
+  `App.svelte` already passes down, so no new path into the engine is
+  created. The MESSEN strip becomes the ~6 most recently used instruments,
+  from the same model, so it never scrolls. DoD: every entry appears exactly
+  once with a group and an action; quick-access ordering and its default seed
+  unit-tested; availability answered by the engine's catalog for every entry,
+  including the ungated-verb case.
+
+- [ ] **GUI-102 — Delete the duplicates.** `EquipmentCabinet.svelte` and
+  `InstrumentTray.svelte` go; the shelf's *equipment* tab, the dock's single
+  cupboard button and `UtilityStation`'s *power and apparatus* all open the
+  one cupboard. `tools/test-ux-quality.mjs` gains a cupboard assertion.
+
 ## Localisation is not finished (I18N-1 … I18N-4)
 
 The shell is locale-keyed and English and German ship together. The *content*
