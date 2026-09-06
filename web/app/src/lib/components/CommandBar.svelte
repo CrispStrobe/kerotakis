@@ -236,21 +236,11 @@
   .mic:hover {
     color: var(--ink);
   }
-  /* The console is opt-in, so it carries the one way back out. */
+  /* The console is opt-in, so it carries the one way back out — the same
+     "×" every panel uses (app.css owns its look). Only the room around it
+     belongs to this bar, so the 44px target lives on the padding. */
   .icon-close {
-    min-width: 44px;
-    min-height: 44px;
-    border: 0;
-    border-left: 1px solid var(--edge);
-    color: var(--dim);
-    background: none;
-    font: inherit;
-    font-size: 1.15rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .icon-close:hover {
-    color: var(--ink);
+    margin-right: 0.7rem;
   }
   .mic.listening {
     color: var(--hot);
