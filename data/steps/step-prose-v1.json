@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "scripts": {
+    "a-weak-acid-breaks-the-naive-sum": [
+      "A litre of water, so the arithmetic stays a clean 0.1 mol/L.",
+      "0.1 mol of acetic acid dissolves — the same count of acid molecules a strong acid would bring.",
+      "The meter reads about 2.9: most of that acetic acid is still whole, still holding its proton.",
+      "A second beaker, for the comparison that makes the point.",
+      "The same litre of water, so only the acid differs.",
+      "The same 0.1 mol, this time of hydrochloric acid.",
+      "This meter reads about 1.1. Same count, same water, nearly two pH units apart — the difference is how much of each acid lets go."
+    ],
+    "catalyst-area-and-stirring-change-the-rate": [
+      "100 mL of water in the first flask.",
+      "0.1 mol of peroxide — the amount every flask will get, so only the catalyst and the stirring can differ.",
+      "A pinch of manganese dioxide: 0.1 g, the reference loading.",
+      "A second flask joins the bench, for ten times as much catalyst.",
+      "The same 100 mL of water.",
+      "The same 0.1 mol of peroxide.",
+      "Ten times the catalyst — 1 g — which is ten times the surface the peroxide can meet.",
+      "A third flask, for the reference pinch stirred much faster.",
+      "The same water once more.",
+      "The same peroxide once more.",
+      "The reference 0.1 g of catalyst again, so here only the stirring will change.",
+      "The first flask stirs for one second at 500 rpm: this is the rate the other two are measured against.",
+      "The second stirs identically and decomposes more in the same second — more exposed area, more reaction.",
+      "The third stirs ten times faster on the reference pinch. It does gain, but far less than tenfold: the help from stirring levels off."
+    ],
+    "cold-pack": [
+      "100 mL of water, and the thermometer starts at room temperature.",
+      "The potassium chloride dissolves and the thermometer falls a few degrees. Dissolving can take heat in as readily as it gives it out."
+    ],
+    "crystallising-salt-from-brine": [
+      "A litre of water goes into the beaker.",
+      "117 g of salt — two moles — dissolves completely, well under what a litre can hold.",
+      "Four fifths of the water boils away. The 200 mL left cannot hold two moles, so solid salt appears at the bottom.",
+      "Look at what is there: white crystals under a solution that is now saturated, not a dry beaker."
+    ],
+    "filtering-a-precipitate": [
+      "100 mL of water to work in.",
+      "The sodium chloride dissolves and the beaker stays clear.",
+      "Silver nitrate meets the chloride and the beaker goes cloudy — that solid is silver chloride, and it is no longer dissolved.",
+      "A second vessel is set out to catch whatever runs through.",
+      "Pour it through the paper: the solid stays behind, the liquid runs into v2.",
+      "Look at v1: the silver chloride is held on the paper, which is how a precipitate gets weighed.",
+      "Look at v2: clear, but not pure water — the sodium and nitrate ions ran straight through with it."
+    ],
+    "hot-pack": [
+      "100 mL of water, and the thermometer starts at room temperature.",
+      "The calcium chloride dissolves and the thermometer climbs about 20 °C. Nothing burned — dissolving itself released the heat."
+    ],
+    "ph-is-not-quite-minus-log-c": [
+      "A litre of water, so the arithmetic stays a clean 0.1 mol/L.",
+      "0.1 mol of hydrochloric acid dissolves completely, giving 0.100 mol/L of hydrogen ions by count.",
+      "The meter reads about 1.08, not the 1.00 the formula predicts. The reading repeats, so the gap is the activity correction and not an error."
+    ],
+    "sugar-syrup-by-density": [
+      "100 mL of water goes into the beaker; on its own it weighs 99.70 g.",
+      "25 g of sugar dissolves and disappears from sight — but it has not left the beaker.",
+      "The balance reads 124.70 g, the sum of both. The sugar is still in there, and the syrup is now denser than the water it started as."
+    ],
+    "the-antacid-runs-on-arithmetic": [
+      "100 mL of water to make the mock stomach acid in.",
+      "0.01 mol of hydrochloric acid: the beaker is now sharply acidic, around pH 1.",
+      "One gram of bicarbonate is 0.0119 mol — more than the acid. It fizzes off carbon dioxide, the acid runs out first, and the pH settles near 9."
+    ],
+    "the-series-decides-who-plates": [
+      "100 mL of water for the copper salt to dissolve in.",
+      "Copper sulfate dissolves and the solution turns blue: the colour belongs to the copper ions in it.",
+      "Zinc goes in and trades places with the copper. Copper plates onto the strip, the blue drains out of the solution, and the beaker heats to about 60 °C."
+    ],
+    "three-beakers-of-peroxide": [
+      "The first flask gets 100 mL of water — the control, which will be given nothing else.",
+      "0.1 mol of hydrogen peroxide dissolves in it. It is already unstable, but nothing here hurries it.",
+      "A second flask joins the bench, so the comparison runs side by side rather than one after the other.",
+      "The same 100 mL of water: only one thing may differ between the flasks.",
+      "The same 0.1 mol of peroxide, so any difference later belongs to what comes next.",
+      "Half a gram of manganese dioxide goes in — a catalyst, which lowers the barrier without being used up.",
+      "A third flask, for the catalyst living things use.",
+      "The same water again.",
+      "And the same peroxide, for the third time.",
+      "A thousandth of a gram of catalase is all the third flask gets — a hundred-thousandth of the peroxide's mass.",
+      "One second passes for all three. The plain flask has done nothing the bench will report, the manganese flask has decomposed a little, and the catalase flask has already finished."
+    ],
+    "vinegar-and-baking-soda": [
+      "250 mL of water goes into the beaker — the solvent the powder and the acid will meet in.",
+      "The bicarbonate dissolves and simply waits: nothing bubbles yet, because there is no acid here to hand it a proton.",
+      "Now the acetic acid arrives and the bubbles start — that is carbon dioxide leaving the open beaker, which is why the vessel gets lighter."
+    ]
+  }
+}

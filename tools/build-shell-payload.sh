@@ -32,6 +32,10 @@ echo "== shell payload: kids experiment catalog"
 python3 "$ROOT/tools/kids-catalog.py" \
   "$ROOT/data/kids/experiments-v1.json" "$OUT/kids/index.json"
 
+echo "== shell payload: per-step prose"
+python3 "$ROOT/tools/step-prose.py" \
+  "$ROOT/data/steps/step-prose-v1.json" "$OUT/steps/index.json"
+
 echo "== shell payload: codex"
 # From the repo root: `kero codex export` reads the `codex/` source tree
 # relative to the working directory, and npm runs this from web/app.

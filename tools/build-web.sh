@@ -58,6 +58,10 @@ echo "== kids experiment catalog"
 python3 "$ROOT/tools/kids-catalog.py" \
   "$ROOT/data/kids/experiments-v1.json" "$OUT/kids/index.json"
 
+echo "== per-step prose"
+python3 "$ROOT/tools/step-prose.py" \
+  "$ROOT/data/steps/step-prose-v1.json" "$OUT/steps/index.json"
+
 echo "== reviewed capability index"
 python3 "$ROOT/tools/curiosity-index.py" \
   "$ROOT/tests/coverage/curiosity-v1" "$OUT/capabilities/index.json"

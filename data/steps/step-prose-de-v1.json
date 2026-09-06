@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "locale": "de",
+  "scripts": {
+    "a-weak-acid-breaks-the-naive-sum": [
+      "Ein Liter Wasser, damit die Rechnung glatte 0,1 mol/L ergibt.",
+      "0,1 mol Essigsäure lösen sich — genauso viele Säureteilchen, wie eine starke Säure mitbrächte.",
+      "Das Messgerät zeigt etwa 2,9: Der größte Teil dieser Essigsäure ist noch ganz und hält sein Proton fest.",
+      "Ein zweites Becherglas, für den Vergleich, auf den es ankommt.",
+      "Derselbe Liter Wasser, damit sich nur die Säure unterscheidet.",
+      "Dieselben 0,1 mol, diesmal Salzsäure.",
+      "Dieses Messgerät zeigt etwa 1,1. Gleiche Anzahl, gleiches Wasser, fast zwei pH-Einheiten Abstand — der Unterschied liegt darin, wie viel jede Säure loslässt."
+    ],
+    "catalyst-area-and-stirring-change-the-rate": [
+      "100 mL Wasser in den ersten Kolben.",
+      "0,1 mol Wasserstoffperoxid — die Menge, die jeder Kolben bekommt, damit sich nur Katalysator und Rühren unterscheiden.",
+      "Eine Messerspitze Mangandioxid: 0,1 g, die Bezugsmenge.",
+      "Ein zweiter Kolben kommt dazu, für die zehnfache Katalysatormenge.",
+      "Dieselben 100 mL Wasser.",
+      "Dieselben 0,1 mol Wasserstoffperoxid.",
+      "Die zehnfache Katalysatormenge — 1 g — und damit die zehnfache Oberfläche, auf die das Peroxid treffen kann.",
+      "Ein dritter Kolben, für die Bezugsmenge, aber viel schneller gerührt.",
+      "Noch einmal dasselbe Wasser.",
+      "Noch einmal dasselbe Peroxid.",
+      "Wieder die 0,1 g Katalysator, sodass sich hier allein das Rühren ändert.",
+      "Der erste Kolben rührt eine Sekunde bei 500 U/min: An dieser Rate werden die beiden anderen gemessen.",
+      "Der zweite rührt genauso und zersetzt in derselben Sekunde mehr — mehr freie Oberfläche, mehr Umsatz.",
+      "Der dritte rührt zehnmal schneller auf der Bezugsmenge. Er gewinnt zwar, aber bei Weitem nicht das Zehnfache: Der Nutzen des Rührens läuft in eine Grenze."
+    ],
+    "cold-pack": [
+      "100 mL Wasser, und das Thermometer beginnt bei Raumtemperatur.",
+      "Das Kaliumchlorid löst sich, und das Thermometer fällt um einige Grad. Lösen kann Wärme genauso gut aufnehmen wie abgeben."
+    ],
+    "crystallising-salt-from-brine": [
+      "Ein Liter Wasser kommt in das Becherglas.",
+      "117 g Salz — zwei Mol — lösen sich vollständig, deutlich unter dem, was ein Liter halten kann.",
+      "Vier Fünftel des Wassers kochen weg. Die verbleibenden 200 mL können keine zwei Mol halten, also erscheint festes Salz am Boden.",
+      "Sieh nach, was da ist: weiße Kristalle unter einer nun gesättigten Lösung — kein trockenes Becherglas."
+    ],
+    "filtering-a-precipitate": [
+      "100 mL Wasser als Arbeitsraum.",
+      "Das Natriumchlorid löst sich, das Becherglas bleibt klar.",
+      "Silbernitrat trifft auf das Chlorid, und es wird trüb — dieser Feststoff ist Silberchlorid, und er ist nicht mehr gelöst.",
+      "Ein zweites Gefäß wird bereitgestellt, um aufzufangen, was durchläuft.",
+      "Gieße durch das Filterpapier: Der Feststoff bleibt zurück, die Flüssigkeit läuft in v2.",
+      "Sieh dir v1 an: Das Silberchlorid liegt auf dem Papier — so wird ein Niederschlag gewogen.",
+      "Sieh dir v2 an: klar, aber kein reines Wasser — die Natrium- und Nitrat-Ionen sind mit durchgelaufen."
+    ],
+    "hot-pack": [
+      "100 mL Wasser, und das Thermometer beginnt bei Raumtemperatur.",
+      "Das Calciumchlorid löst sich, und das Thermometer steigt um etwa 20 °C. Nichts hat gebrannt — das Lösen selbst hat die Wärme freigesetzt."
+    ],
+    "ph-is-not-quite-minus-log-c": [
+      "Ein Liter Wasser, damit die Rechnung glatte 0,1 mol/L ergibt.",
+      "0,1 mol Salzsäure lösen sich vollständig und ergeben nach Anzahl 0,100 mol/L Wasserstoff-Ionen.",
+      "Das Messgerät zeigt etwa 1,08 und nicht die 1,00 der Formel. Der Wert ist reproduzierbar, der Abstand also die Aktivitätskorrektur und kein Messfehler."
+    ],
+    "sugar-syrup-by-density": [
+      "100 mL Wasser kommen in das Becherglas; für sich allein wiegen sie 99,70 g.",
+      "25 g Zucker lösen sich und verschwinden aus dem Blick — aus dem Becherglas sind sie damit nicht heraus.",
+      "Die Waage zeigt 124,70 g, die Summe von beidem. Der Zucker ist noch da, und der Sirup ist jetzt dichter als das Wasser, mit dem er begann."
+    ],
+    "the-antacid-runs-on-arithmetic": [
+      "100 mL Wasser, um darin die nachgestellte Magensäure anzusetzen.",
+      "0,01 mol Salzsäure: Das Becherglas ist jetzt stark sauer, etwa bei pH 1.",
+      "Ein Gramm Hydrogencarbonat sind 0,0119 mol — mehr, als die Säure aufwiegt. Es sprudelt Kohlenstoffdioxid ab, die Säure geht zuerst aus, und der pH-Wert bleibt bei etwa 9 stehen."
+    ],
+    "the-series-decides-who-plates": [
+      "100 mL Wasser, in denen sich das Kupfersalz lösen soll.",
+      "Kupfersulfat löst sich, und die Lösung wird blau: Die Farbe gehört den Kupfer-Ionen darin.",
+      "Zink kommt hinzu und tauscht den Platz mit dem Kupfer. Kupfer scheidet sich auf dem Streifen ab, das Blau verschwindet aus der Lösung, und das Becherglas erwärmt sich auf etwa 60 °C."
+    ],
+    "three-beakers-of-peroxide": [
+      "Der erste Kolben bekommt 100 mL Wasser — die Kontrolle, die sonst nichts erhält.",
+      "0,1 mol Wasserstoffperoxid lösen sich darin. Es ist schon jetzt instabil, aber hier treibt es nichts an.",
+      "Ein zweiter Kolben kommt dazu, damit der Vergleich nebeneinander läuft und nicht nacheinander.",
+      "Dieselben 100 mL Wasser: Zwischen den Kolben darf sich nur eines unterscheiden.",
+      "Dieselben 0,1 mol Peroxid, damit jeder spätere Unterschied dem gehört, was jetzt folgt.",
+      "Ein halbes Gramm Mangandioxid kommt hinein — ein Katalysator, der die Barriere senkt, ohne selbst verbraucht zu werden.",
+      "Ein dritter Kolben, für den Katalysator, den Lebewesen benutzen.",
+      "Noch einmal dasselbe Wasser.",
+      "Und zum dritten Mal dasselbe Peroxid.",
+      "Ein tausendstel Gramm Katalase ist alles, was der dritte Kolben bekommt — ein Hunderttausendstel der Peroxidmasse.",
+      "Eine Sekunde vergeht für alle drei. Der schlichte Kolben hat nichts getan, was die Werkbank melden würde, der Mangan-Kolben hat ein wenig zersetzt, und der Katalase-Kolben ist bereits fertig."
+    ],
+    "vinegar-and-baking-soda": [
+      "250 mL Wasser kommen in das Becherglas — das Lösungsmittel, in dem sich Pulver und Säure treffen.",
+      "Das Natriumhydrogencarbonat löst sich und wartet einfach: Noch blubbert nichts, denn hier ist keine Säure, die ihm ein Proton reicht.",
+      "Jetzt kommt die Essigsäure dazu, und die Blasen steigen auf — das ist Kohlenstoffdioxid, das aus dem offenen Becherglas entweicht; deshalb wird das Gefäß leichter."
+    ]
+  }
+}
