@@ -56,7 +56,8 @@
      * cabinet no longer computes this — it asks, and shows the answer. */
     catalog: CatalogMap;
     onburette: () => void;
-    onapparatus: (verb: string) => void;
+    /** `preset` seeds the panel's form — a kit that IS a candle says so. */
+    onapparatus: (verb: string, preset?: Record<string, string | number>) => void;
     ontransfer: (verb: TwoVesselAction) => void;
     onmix: () => void;
     onmeasure: (line: string) => void;
@@ -117,7 +118,7 @@
   let openKit = $state<string | null>(null);
   const kitPanelId = (id: string) => `kit-info-${id}`;
   const useKidsEquipment = (item: KidsEquipment) => {
-    if (item.action === "apparatus") return onapparatus(item.engineVerb);
+    if (item.action === "apparatus") return onapparatus(item.engineVerb, item.preset);
     if (item.action === "instrument" && item.instrument) {
       return onmeasure(instrumentCommand(target, item.instrument));
     }
