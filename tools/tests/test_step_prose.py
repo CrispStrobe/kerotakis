@@ -70,6 +70,25 @@ class StepProseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "missing de prose"):
             MODULE.add_translation(copy.deepcopy(self.document), thin)
 
+    def test_every_script_the_runner_paces_says_what_to_watch_for(self):
+        # The reason to pin this rather than leave prose optional in
+        # practice: a script of three or more lines is one a learner will
+        # step through, and stepping through it in silence is the gap this
+        # data exists to close. A NEW entry with a long script therefore
+        # arrives here as a request to write its sentences — which is a
+        # cheaper reminder than a learner meeting the silence.
+        paced = set(json.loads(SOURCE.read_text())["scripts"])
+        long_scripts = {
+            entry_id for entry_id, lines in self.scripts.items() if len(lines) >= 3
+        }
+        self.assertEqual(
+            sorted(long_scripts - paced),
+            [],
+            "these scripts have three or more steps and no per-step prose; "
+            "add one sentence per runnable line to data/steps/step-prose-v1.json "
+            "and its German sibling",
+        )
+
     def test_the_export_carries_both_languages(self):
         document = MODULE.build(SOURCE)
         row = document["scripts"]["vinegar-and-baking-soda"]

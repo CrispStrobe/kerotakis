@@ -2,6 +2,65 @@
   "schema": 1,
   "locale": "de",
   "scripts": {
+    "a-battery-from-nothing-but-imbalance": [
+      "100 mL Wasser in das erste Glas.",
+      "Ein tausendstel Mol Kupfersulfat: die verdünnte Seite, nur schwach blau.",
+      "Eine Kupferelektrode kommt hinein. Beide Gläser bekommen dasselbe Metall, die Elektrode kann also nicht der Unterschied sein.",
+      "Ein zweites Glas kommt dazu.",
+      "Dieselben 100 mL Wasser.",
+      "Die zehnfache Menge Kupfersulfat — dasselbe Salz, zehnfache Konzentration und sichtbar tieferes Blau.",
+      "Wieder dieselbe Kupferelektrode. Jetzt unterscheidet die beiden Gläser nichts mehr außer der Enge der Lösung.",
+      "Verbinde sie, und das Messgerät zeigt etwa 18 mV. Die Standardspannungen heben sich exakt auf; was übrig bleibt, ist allein der Konzentrationsunterschied."
+    ],
+    "a-catalyst-comes-out-as-it-went-in": [
+      "100 mL Wasser als Arbeitsraum.",
+      "Ein tausendstel Gramm Katalase — der ganze Vorrat, und er wird nie aufgefüllt.",
+      "Die erste Ladung Peroxid: 0,1 mol.",
+      "Eine Sekunde, und sie ist weg.",
+      "Eine zweite Ladung derselben Größe, auf dasselbe Fleckchen Enzym.",
+      "Eine Sekunde, und auch sie ist weg — genauso schnell, und genau darauf kommt es an.",
+      "Eine dritte Ladung.",
+      "Wieder in einer Sekunde verschwunden. Der Bestand zeigt immer noch dieselbe Menge Katalase wie am Anfang, auf jede Stelle genau: Ein Katalysator ist eine Tür, keine Zutat."
+    ],
+    "a-nanomole-is-not-a-cloud": [
+      "100 mL Wasser in das erste Becherglas.",
+      "Eine kaum wägbare Prise Salz — weniger als ein Zehntel Milligramm.",
+      "Und eine ebenso winzige Prise Silbernitrat. Festes Silberchlorid entsteht sehr wohl, aber nur etwa 0,16 µmol davon — weniger, als diese Werkbank meldet, also wird nichts angezeigt.",
+      "Ein zweites Becherglas, für eine Dosis knapp über dieser Schwelle.",
+      "Dieselben 100 mL Wasser.",
+      "Die doppelte Menge Salz — immer noch eine Prise, auf keiner Küchenwaage zu sehen.",
+      "Die doppelte Menge Silbernitrat. Jetzt entstehen etwa 1,7 µmol, die Nachweisschwelle ist überschritten, und der Niederschlag wird gemeldet. An der Chemie hat sich nichts geändert, nur an dem, was sichtbar wurde."
+    ],
+    "a-salt-with-no-database": [
+      "100 mL Wasser in das erste Becherglas.",
+      "Natriumthiosulfat löst sich darin — das Salz, das diese Werkbank halten und umsetzen, aber nicht auf der pH-Skala verorten kann.",
+      "Säure kommt obendrauf. Das Messgerät zeigt pH 1,7485817506.",
+      "Ein zweites Becherglas, für dieselbe Säure ganz ohne Thiosulfat.",
+      "Dieselben 100 mL Wasser.",
+      "Dieselbe Säure, allein. Auch hier zeigt das Messgerät 1,7485817506 — auf zwölf Stellen identisch, denn das Thiosulfat hat zu der Bilanz, die der Löser tatsächlich löst, nichts beigetragen.",
+      "Ein drittes Becherglas, um die Frage direkt zu stellen.",
+      "Wieder Wasser.",
+      "Das Thiosulfat für sich, ohne Reaktionspartner.",
+      "Frage nach dem pH-Wert, und die Werkbank sagt, dass sie ihn nicht bestimmen kann. Eine ausgesprochene Lücke ist eine bessere Antwort als eine selbstsichere Zahl, die niemand geprüft hat."
+    ],
+    "a-spark-that-changes-nothing": [
+      "Fünf Gramm Kaliumchlorid kommen in den Tiegel — kein Wasser, nur das trockene Salz.",
+      "Zuerst wiegen: Die Waage liefert den Wert, an dem der Rest dieses Durchlaufs gemessen wird.",
+      "In die Flamme. Sie brennt lila — diese Farbe weist das Kalium nach und sonst nichts an diesem Salz.",
+      "Noch einmal wiegen: dieselben fünf Gramm. Nichts wurde verbraucht, nichts ist als Gas entwichen.",
+      "Und das Thermometer steht wieder am Ausgangswert. Die Flammenprobe leiht sich die Probe nur aus und gibt sie zurück."
+    ],
+    "a-steeper-barrier-breaks-the-rule-of-thumb": [
+      "Der erste Kolben bekommt 100 mL Wasser bei 25 °C.",
+      "0,1 mol Peroxid bei denselben 25 °C. Das ist der kalte Vergleich.",
+      "Ein zweiter Kolben.",
+      "Dasselbe Wasser, zehn Grad wärmer.",
+      "Dasselbe Peroxid, bei 35 °C.",
+      "Ein dritter Kolben.",
+      "Wieder dasselbe Wasser, noch einmal zehn Grad höher.",
+      "Und dasselbe Peroxid bei 45 °C. Drei gleiche Kolben; allein die Temperatur unterscheidet sie.",
+      "Eine halbe Stunde vergeht. Zersetzt sind etwa 0,0007, 0,0019 und 0,0047 mol — rund das Zweieinhalbfache je zehn Grad, nicht die Verdopplung der Faustregel: Die Barriere dieser Reaktion ist steiler als die, für die jene Regel geschrieben wurde."
+    ],
     "a-weak-acid-breaks-the-naive-sum": [
       "Ein Liter Wasser, damit die Rechnung glatte 0,1 mol/L ergibt.",
       "0,1 mol Essigsäure lösen sich — genauso viele Säureteilchen, wie eine starke Säure mitbrächte.",
@@ -10,6 +69,56 @@
       "Derselbe Liter Wasser, damit sich nur die Säure unterscheidet.",
       "Dieselben 0,1 mol, diesmal Salzsäure.",
       "Dieses Messgerät zeigt etwa 1,1. Gleiche Anzahl, gleiches Wasser, fast zwei pH-Einheiten Abstand — der Unterschied liegt darin, wie viel jede Säure loslässt."
+    ],
+    "acetates-stay-dissolved": [
+      "Ein Liter Wasser.",
+      "Calciumchlorid löst sich. Das Becherglas bleibt klar.",
+      "Auch Natriumacetat löst sich, und es bleibt klar — alle Acetate sind löslich, es gibt hier also keine Paarung, die die Lösung verlassen könnte.",
+      "Sieh es dir an: vier Ionen teilen sich einen Liter, und zu sehen ist nichts. Ein klares Becherglas ist ein Ergebnis, kein misslungener Versuch."
+    ],
+    "any-chloride-precipitates-silver": [
+      "500 mL Wasser.",
+      "Diesmal Kaliumchlorid statt Natriumchlorid — ein anderes Salz, das sich ebenso unsichtbar löst.",
+      "Silbernitrat kommt hinzu, und die Flüssigkeit wird sofort milchig weiß. Kalium und Nitrat bleiben gelöst und machen nicht mit: Nie kam es auf das ganze Salz an, sondern nur auf das Chlorid darin."
+    ],
+    "bicarbonate-plays-both-sides": [
+      "100 mL Wasser in das erste Becherglas.",
+      "Hydrogencarbonat löst sich darin — das Pulver, das gleich zwei verschiedene Rollen spielt.",
+      "Säure kommt hinzu, und es sprudelt: Das Hydrogencarbonat nimmt das Proton auf, und der Kohlenstoff entweicht als Kohlenstoffdioxid.",
+      "Ein zweites Becherglas, für dasselbe Pulver gegenüber dem entgegengesetzten Partner.",
+      "Dieselben 100 mL Wasser.",
+      "Dasselbe Hydrogencarbonat, in derselben Menge.",
+      "Diesmal Natriumhydroxid — und überhaupt keine Blasen. Hier gibt das Hydrogencarbonat ein Proton ab, statt eines aufzunehmen, und der Kohlenstoff bleibt als Carbonat zurück."
+    ],
+    "bleach-and-acid": [
+      "200 mL Wasser in das Becherglas.",
+      "Hypochlorit — der wirksame Teil von Haushaltsbleiche — löst sich darin.",
+      "Säure kommt hinzu, und die Werkbank gibt eine Gefahrenwarnung aus: Etwa 0,1 mol Chlorgas verlassen die Flüssigkeit. Auf einem Bildschirm ist das ein Ereignis; in einem Badezimmer ist es der Grund, warum man diese beiden niemals mischt."
+    ],
+    "buffer": [
+      "Ein Liter Wasser.",
+      "0,1 mol Essigsäure — die schwache Säure des Paares.",
+      "0,1 mol Natriumacetat, also dieselbe Säure, der das Proton schon fehlt. Gleiche Mengen von beidem ergeben einen Puffer.",
+      "Jetzt kommen 0,01 mol starke Säure dazu — genug, um reines Wasser auf pH 2 zu bringen — und das Messgerät rührt sich kaum vom pKs-Wert weg. Das Acetat nimmt die Protonen auf, nicht das Wasser."
+    ],
+    "buffer-capacity-exceeded": [
+      "Ein Liter Wasser.",
+      "0,1 mol Essigsäure.",
+      "0,1 mol Natriumacetat: derselbe Puffer wie zuvor, mit einem Vorrat von 0,1 mol Acetat.",
+      "Diesmal kommen 0,15 mol starke Säure hinzu — die Hälfte mehr, als der Vorrat aufnehmen kann. Das Acetat ist aufgebraucht, der Rest bleibt frei, und der pH-Wert fällt bis auf etwa 1,4. Ein Puffer ist ein Vorrat, und ein Vorrat lässt sich aufbrauchen."
+    ],
+    "burning-makes-it-heavier": [
+      "1,20 g Magnesiumband kommen in den Tiegel.",
+      "Wiege es, bevor etwas geschieht: Mit diesen 1,20 g muss das Ende dieses Durchlaufs verglichen werden.",
+      "Es verbrennt heftig und hinterlässt ein weißes Pulver — Magnesiumoxid, nicht Magnesium.",
+      "Noch einmal wiegen: etwa 1,99 g. Es ist schwerer geworden, und die zusätzlichen 0,79 g kamen aus der Luft."
+    ],
+    "burning-makes-it-lighter": [
+      "1,20 g Holzkohle kommen in den Tiegel — dieselbe Masse eines anderen Elements.",
+      "Zuerst wiegen, genau wie beim Magnesium.",
+      "Sie verbrennt, und das entstehende Kohlenstoffdioxid entweicht direkt aus dem offenen Tiegel.",
+      "Noch einmal wiegen: Es ist nichts mehr zu wiegen da. Das System hat Sauerstoff aufgenommen, und der Tiegel hat alles verloren, weil dieses Produkt ein Gas war.",
+      "Das Thermometer hält fest, wie heiß es dabei wurde. Dieselbe Reaktion mit der Luft wie beim Magnesium; verschieden ist nur der Aggregatzustand des Produkts."
     ],
     "catalyst-area-and-stirring-change-the-rate": [
       "100 mL Wasser in den ersten Kolben.",
@@ -27,15 +136,132 @@
       "Der zweite rührt genauso und zersetzt in derselben Sekunde mehr — mehr freie Oberfläche, mehr Umsatz.",
       "Der dritte rührt zehnmal schneller auf der Bezugsmenge. Er gewinnt zwar, aber bei Weitem nicht das Zehnfache: Der Nutzen des Rührens läuft in eine Grenze."
     ],
+    "chains-slide-networks-do-not": [
+      "Zwei Gramm einer Polyethylenfolie in das erste Gefäß — lange, voneinander getrennte Ketten, die nebeneinanderliegen.",
+      "Genug Wärme, um auf etwa 150 °C zu kommen. Sie wird weich: Die Ketten können gleiten, das Stück ließe sich also in eine neue Form pressen und würde beim Abkühlen wieder fest.",
+      "Ein zweites Gefäß, für das Material, das genau das nicht tut.",
+      "Zwei Gramm eines ausgehärteten Harzes — dieselbe Art langer Moleküle, aber untereinander verknüpft.",
+      "Genug Wärme, um dieselbe Temperatur zu erreichen.",
+      "Sieh dir die Folie an: weich geworden, und zwar umkehrbar.",
+      "Sieh dir das Harz an: bei derselben Temperatur immer noch starr. Es sind keine losen Ketten mehr da, die gleiten könnten, also hat es überhaupt keinen Erweichungspunkt — erhitzt man es weit genug, verkohlt es, statt zu schmelzen."
+    ],
+    "chalk-below-the-kiln": [
+      "Zehn Gramm Kreide kommen in den Tiegel.",
+      "Zuerst wiegen: 10,00 g, der Wert, auf den wir zurückkommen.",
+      "Ein Kilojoule Wärme geht hinein — genug für eine schwere Verbrennung an der Hand.",
+      "Das Thermometer zeigt etwa 147 °C. Heiß, und weit entfernt von den rund 900 °C, die dieses Pulver braucht.",
+      "Noch einmal wiegen: immer noch 10,00 g Kreide. Kein Gas ist entwichen, kein neuer Feststoff entstanden. Wärme ist keine Zutat; es muss genug Wärme sein, und „genug“ ist eine bestimmte Zahl."
+    ],
+    "chalk-in-the-kiln": [
+      "Wieder zehn Gramm Kreide — dasselbe Pulver wie im Tiegel, der Kreide geblieben ist.",
+      "Wiegen: noch einmal 10,00 g, damit sich allein die Wärme unterscheidet.",
+      "Diesmal acht Kilojoule, die es über etwa 1000 °C bringen. Jetzt gibt es nach: Kohlenstoffdioxid entweicht, und Branntkalk bleibt zurück.",
+      "Noch einmal wiegen. Jedes zersetzte Mol hat 44 g Gas abgegeben und 56 g Oxid behalten — ein Verlust von rund 44 %, und es ist die Reaktion, aus der seit der Antike Mörtel gemacht wird."
+    ],
+    "charcoal-holds-the-dye": [
+      "100 mL Wasser in das erste Gefäß.",
+      "Ein Millimol orangener Farbstoff löst sich und färbt das Ganze.",
+      "Ein Gramm Aktivkohle kommt hinzu und nimmt den größten Teil dieses Farbstoffs auf seine Oberfläche — aber eben nur den größten Teil: Ein Gramm hat nur begrenzt Oberfläche zu bieten.",
+      "Ein zweites Gefäß, um das Filtrat aufzufangen.",
+      "Gieße durch das Filterpapier. Die Kohle und alles, was auf ihr sitzt, bleiben zurück.",
+      "Sieh dir v1 an: Der gebundene Farbstoff ist hier, auf der Kohle.",
+      "Sieh dir v2 an: blasser, aber nicht farblos. Was noch gelöst war, ist durchgelaufen — das Festhalten an einer Oberfläche ist ein Teilen, kein Einfangen."
+    ],
+    "charging-fights-the-series": [
+      "100 mL Wasser in die erste Halbzelle.",
+      "Zinksulfat löst sich darin.",
+      "Eine Zinkelektrode kommt hinein. Auf dieser Seite wird die Ladung wieder aufgebaut.",
+      "Ein zweites Gefäß, für die andere Halbzelle.",
+      "Dieselben 100 mL Wasser.",
+      "Diesmal Kupfersulfat.",
+      "Und eine Kupferelektrode.",
+      "Verbinde sie: Die Zelle bietet etwa 1,1 V — die Entladerichtung, die die Spannungsreihe bevorzugt.",
+      "Jetzt 386 Sekunden lang Strom in die Gegenrichtung treiben. Frisches Zink scheidet sich gegen diese Vorliebe wieder ab, und die Abscheidung hält im sauer werdenden Bad, weil die Wasserstoffbildung auf Zink langsam ist — eine kinetische Leine, keine thermodynamische.",
+      "Gib starke Säure hinzu, und die Leine reißt: Das Zink löst sich, Wasserstoff perlt ab, und die gespeicherte Ladung entweicht als Gas."
+    ],
+    "chloride-complexes-redissolve-silver": [
+      "Ein Liter Wasser.",
+      "58,4 g Salz — ein ganzes Mol je Liter, weit mehr Chlorid, als in den Fällungsversuchen im Spiel war.",
+      "Jetzt das Silberchlorid, und es löst sich. Wenig Chlorid hält diesen Feststoff zurück, viel Chlorid hilft ihm hinein: Oberhalb von etwa 0,1 mol/L bindet das Chlorid das Silber zu einem löslichen Komplex, statt sich mit ihm zu paaren."
+    ],
+    "cold-from-baking-soda": [
+      "100 mL Wasser, Ausgangstemperatur 25 °C.",
+      "8,4 g Hydrogencarbonat lösen sich — und müssen sich dafür Energie vom Wasser leihen.",
+      "Das Thermometer zeigt etwa 21 °C. Das Wasser ist kälter, weil es geliehen hat: Nichts wurde gekühlt, das Lösen selbst hat die Wärme genommen."
+    ],
     "cold-pack": [
       "100 mL Wasser, und das Thermometer beginnt bei Raumtemperatur.",
       "Das Kaliumchlorid löst sich, und das Thermometer fällt um einige Grad. Lösen kann Wärme genauso gut aufnehmen wie abgeben."
+    ],
+    "common-ion-effect": [
+      "Ein Liter Wasser.",
+      "Zuerst löst sich etwas Salz — 0,58 g, genug, um Chlorid ins Wasser zu bringen, bevor überhaupt Silber dazukommt.",
+      "Jetzt das Silberchlorid, und diesmal löst sich nichts davon. Chlorid steht schon auf der Produktseite des Gleichgewichts, der Feststoff hat also weniger Grund zu gehen: dasselbe Pulver, dasselbe Wasser, weniger gelöst."
+    ],
+    "concentration-is-a-ratio": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,1 mol Salz lösen sich: auf einen Liter gerechnet ein Mol, also 1,0 mol/L.",
+      "Ein zweites Becherglas, mit doppelt so viel Wasser und derselben Portion.",
+      "Diesmal 200 mL — das Einzige, was sich unterscheiden wird.",
+      "Genau dieselben 0,1 mol Salz. Jetzt sind es 0,5 mol/L: In diesem Glas ist nicht weniger Salz, es verteilt sich nur auf doppelt so viel Wasser. Wie viel und wie stark sind zwei verschiedene Fragen."
+    ],
+    "copper-sulfate-is-blue-and-acidic": [
+      "500 mL Wasser.",
+      "Acht Gramm Kupfersulfat lösen sich. Das Wasser wird tiefblau, und das Becherglas erwärmt sich um ein bis zwei Grad — das Lösen dieses Salzes gibt Wärme ab.",
+      "Sieh es dir an: blau, und außerdem sauer. Die Kupfer-Ionen ziehen Protonen vom Wasser um sie herum ab; die Lösung liegt deshalb bei etwa pH 3,9, ohne dass Säure zugegeben wurde."
     ],
     "crystallising-salt-from-brine": [
       "Ein Liter Wasser kommt in das Becherglas.",
       "117 g Salz — zwei Mol — lösen sich vollständig, deutlich unter dem, was ein Liter halten kann.",
       "Vier Fünftel des Wassers kochen weg. Die verbleibenden 200 mL können keine zwei Mol halten, also erscheint festes Salz am Boden.",
       "Sieh nach, was da ist: weiße Kristalle unter einer nun gesättigten Lösung — kein trockenes Becherglas."
+    ],
+    "descaling-with-acid": [
+      "200 mL Wasser.",
+      "Ein Gramm Kreide kommt hinein — und bleibt liegen. In reinem Wasser löst sie sich nicht.",
+      "Jetzt Säure, und sie verschwindet zischend: Das Carbonat nimmt Protonen auf, Kohlenstoffdioxid entweicht, und das Calcium bleibt gelöst zurück. Genau das tut ein Kalklöser, und genau das höhlt Kalkstein zu Höhlen aus."
+    ],
+    "dilution-buys-less-than-the-slide-rule-says": [
+      "100 mL Wasser für die Zink-Halbzelle.",
+      "Zinksulfat löst sich darin.",
+      "Eine Zinkelektrode. Diese Seite bleibt durchgehend gleich, sie kann also keine Ursache für spätere Änderungen sein.",
+      "Ein zweites Gefäß, für die Kupferseite.",
+      "Dieselben 100 mL Wasser.",
+      "0,01 mol Kupfersulfat.",
+      "Eine Kupferelektrode.",
+      "Verbinde sie: etwa 1,104 V, der Bezugswert.",
+      "Ein drittes Gefäß, für eine zehnfach verdünntere Kupferseite.",
+      "Wieder dasselbe Wasser.",
+      "Ein Zehntel der Kupfersulfatmenge — 0,001 mol.",
+      "Dieselbe Kupferelektrode.",
+      "Verbinde stattdessen diese, und das Messgerät zeigt etwa 1,086 V. Die zehnfache Verdünnung kostet nur 18 mV statt der 30 der Faustregel: Die Gleichung gilt exakt für freies Kupfer, und durch die Sulfatpaarung ist noch weit mehr als ein Zehntel davon frei."
+    ],
+    "dilution-by-ten": [
+      "100 mL Wasser als Ausgangspunkt.",
+      "0,001 mol Salzsäure: 0,01 mol/L, also pH 2.",
+      "Neunhundert weitere Milliliter Wasser kommen dazu. Kein einziges Säuremolekül wurde entfernt — es verteilt sich nur auf das zehnfache Volumen, und das Messgerät steigt um genau eine Einheit auf pH 3."
+    ],
+    "dilution-moves-ph-by-one": [
+      "100 mL Wasser als Ausgangspunkt.",
+      "0,001 mol Salzsäure — 0,01 mol/L.",
+      "Das Messgerät zeigt etwa 2,04. Merke dir den Wert: An ihm wird die Verdünnung gemessen.",
+      "Neunhundert weitere Milliliter Wasser. Die Säure bleibt unangetastet, nur ihr Platz ändert sich.",
+      "Jetzt zeigt das Messgerät etwa 3,01. Zehnmal so viel Wasser, eine pH-Einheit — nicht zehn — denn der pH-Wert ist ein Logarithmus."
+    ],
+    "doubling-the-thiosulfate-doubles-the-rate": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,79 g Thiosulfat lösen sich: die schwächere der beiden Lösungen.",
+      "Die Säure, die es in Gang setzt.",
+      "Ein zweites Becherglas.",
+      "Dieselben 100 mL Wasser.",
+      "Die doppelte Thiosulfatmenge — 1,58 g. Das ist das Einzige, was sich unterscheidet.",
+      "Wieder dieselbe Säure, in derselben Menge — das Einzige, was zwischen beiden konstant bleibt.",
+      "Zehn Sekunden vergehen, auf einer Uhr für beide. Das starke Becherglas hat doppelt so viel gelbe Trübung erzeugt wie das schwache: nicht ein bisschen mehr, sondern doppelt. Drängt man die Teilchen doppelt so eng, treffen sie sich doppelt so oft."
+    ],
+    "ethanol-and-water-mix": [
+      "100 mL Wasser.",
+      "50 mL Ethanol kommen obendrauf.",
+      "Sieh es dir an: eine Flüssigkeit, keine Schicht, keine Grenze, keine Trübung. Anders als Öl kann Ethanol Wasserstoffbrücken zum Wasser bilden, es drängt hier also nichts auseinander."
     ],
     "filtering-a-precipitate": [
       "100 mL Wasser als Arbeitsraum.",
@@ -46,29 +272,343 @@
       "Sieh dir v1 an: Das Silberchlorid liegt auf dem Papier — so wird ein Niederschlag gewogen.",
       "Sieh dir v2 an: klar, aber kein reines Wasser — die Natrium- und Nitrat-Ionen sind mit durchgelaufen."
     ],
+    "first-order-means-a-constant-half-life": [
+      "100 mL Wasser.",
+      "0,1 mol Peroxid, das von allein etwa einen Tag brauchen würde, um zu zerfallen.",
+      "Ein halbes Gramm Mangandioxid macht aus diesem Tag anderthalb Minuten, sodass die ganze Form des Zerfalls in einen Durchlauf passt.",
+      "Neunzig Sekunden: Die Hälfte des Peroxids ist weg.",
+      "Weitere neunzig Sekunden, und die Hälfte des Rests geht — ein Viertel der Ausgangsmenge, nicht noch einmal die Hälfte davon.",
+      "Noch einmal neunzig, und wieder die Hälfte: ein Achtel. Derselbe Anteil in jedem Zeitraum bedeutet erste Ordnung, und genau deshalb ist die Halbwertszeit konstant.",
+      "Eine Stunde später ist nichts Messbares mehr da — die Kurve hat die Null aber nie erreicht, und deshalb ist eine alte Flasche Peroxid schwach und nicht leer."
+    ],
+    "flame-temperature-is-a-balance-not-a-property": [
+      "1,2 g Magnesiumband in den ersten Tiegel.",
+      "Ein Viertel Kilojoule wärmt es zuerst an — das Metall ist schon bei einigen hundert Grad, bevor es überhaupt zündet.",
+      "Das Thermometer hält fest, wohin diese Erwärmung geführt hat. Diesen Vorsprung erbt die Flamme.",
+      "Ein zweiter Tiegel, für ein gleiches Band, das viel heißer gezündet wird.",
+      "Dieselben 1,2 g Magnesium.",
+      "Direkt zünden, bei der Zündtemperatur der Werkbank.",
+      "Das Thermometer zeigt rund sechshundert Grad mehr als beim ersten. Gleiche Reaktion, gleiche freigesetzte Energie; die vorher zugeführte Wärme ist beim Entzünden nicht verschwunden — eine Flammentemperatur ist eine Bilanz und keine Eigenschaft des Metalls."
+    ],
+    "half-neutralised-vinegar": [
+      "Ein Liter Wasser.",
+      "0,1 mol Essigsäure.",
+      "Nur 0,05 mol Hydroxid — die Hälfte dessen, was zum Fertigwerden nötig wäre. Damit liegen Säure und ihr Salz zu gleichen Teilen vor, und das Messgerät bleibt bei etwa 4,7 stehen: dem pKs-Wert dieser Säure. Halb fertig ist die störrischste Stelle der ganzen Kurve."
+    ],
+    "half-oxidised-iron-reads-its-own-potential": [
+      "100 mL Wasser.",
+      "Schwefelsäure, damit das Eisen in Lösung bleibt und nicht als Rost ausfällt.",
+      "0,005 mol Eisen(II)-sulfat — das Eisen, das gleich zur Hälfte umgewandelt wird.",
+      "Gerade so viel Permanganat, dass genau die Hälfte oxidiert wird. Liegen beide Eisenformen zu gleichen Teilen vor, fällt der Konzentrationsterm der Nernst-Gleichung weg, und ein Messgerät zeigt das eigene Formalpotential des Paares — das Redox-Gegenstück zur halb neutralisierten Säure, die ihren pKs-Wert anzeigt."
+    ],
+    "heating-dissolves-more-salt": [
+      "Ein Liter Wasser.",
+      "400 g Salz — weit mehr, als ein Liter halten kann, ein Teil bleibt also einfach am Boden liegen.",
+      "Jetzt hundert Kilojoule Wärme. Die Temperatur steigt kräftig, und kaum mehr Salz geht in Lösung: Die Sättigung verschiebt sich um weniger als zwei Prozent, denn beim Kochsalz kostet das Lösen in beide Richtungen fast keine Energie. Heißes Wasser ist kein Universallösungsmittel."
+    ],
     "hot-pack": [
       "100 mL Wasser, und das Thermometer beginnt bei Raumtemperatur.",
       "Das Calciumchlorid löst sich, und das Thermometer steigt um etwa 20 °C. Nichts hat gebrannt — das Lösen selbst hat die Wärme freigesetzt."
+    ],
+    "hot-pack-arithmetic": [
+      "100 mL Wasser bei 25 °C — 5,53 mol, und das ist die Wärmekapazität, mit der die Rechnung arbeitet.",
+      "11,098 g Calciumchlorid: 0,1 mol, die beim Lösen 8,28 kJ freisetzen.",
+      "8280 J geteilt durch 416,7 J pro Kelvin sind 19,9 K, die Vorhersage lautet also 44,9 °C — und das Thermometer zeigt 44,87. Die Rechnung ist keine Übung neben dem Versuch; sie ist der Messwert."
+    ],
+    "lead-stands-in-its-own-acid": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,1 mol Salzsäure: stark genug, dass sich das Blei nach der Spannungsreihe auflösen müsste.",
+      "Das Blei kommt hinein — und die Werkbank meldet es als reaktionsträge. Kein Gas, keine Auflösung, der pH-Wert unverändert: Wasserstoff auf einer Bleioberfläche zu bilden ist so langsam, dass die vorhergesagte Reaktion gar nicht erst anläuft. Genau auf diesem Nichts stehen die Platten einer Autobatterie in ihrer Säure.",
+      "Ein zweites Becherglas, um zu zeigen, dass die Spannungsreihe sehr wohl gilt, wenn sie nichts aufhält.",
+      "Dieselben 100 mL Wasser.",
+      "Diesmal ein gelöstes Bleisalz.",
+      "Zink kommt hinzu, und jetzt setzt sich die Reihe durch: Das Zink löst sich, und Blei scheidet sich darauf ab."
+    ],
+    "limescale": [
+      "Ein Liter Wasser.",
+      "Hydrogencarbonat löst sich — das ist die Carbonat-Hälfte dessen, was hartes Wasser mit sich führt.",
+      "Calciumchlorid bringt die andere Hälfte, und beide treffen sich: Das Wasser trübt sich, und Calciumcarbonat setzt sich ab. Diese weiße Kruste ist es, die einen Wasserkocher verkalkt."
+    ],
+    "limiting-reagent": [
+      "500 mL Wasser in das erste Becherglas.",
+      "0,01 mol Salz — hier der kleinere Anteil.",
+      "0,02 mol Silbernitrat: doppelt so viel Silber, wie es Chlorid zum Paaren gibt. Es trübt sich, und das überschüssige Silber bleibt schlicht gelöst.",
+      "Ein zweites Becherglas, mit vertauschten Mengen.",
+      "Dieselben 500 mL Wasser.",
+      "Diesmal 0,02 mol Salz — die doppelte Menge.",
+      "Und 0,01 mol Silbernitrat. Beide Bechergläser haben genau gleich viel Feststoff gebildet, denn in beiden endete die Reaktion, als der kleinere Anteil aufgebraucht war. Zähle die Mole, nimm den kleineren, und die Antwort steht vor dem Versuch fest."
+    ],
+    "liquid-nitrogen-freezes-ethanol": [
+      "Etwa 10 mL Ethanol kommen in das offene Gefäß — eine Flüssigkeit, die weit unter dem Gefrierpunkt von Wasser noch flüssig bleibt.",
+      "Der flüssige Stickstoff folgt, und die Werkbank gibt eine Gefahrenwarnung aus: Er siedet, während er dem Ethanol Wärme entzieht, und das Stickstoffgas entweicht durch die offene Öffnung.",
+      "Das Thermometer zeigt etwa −196 °C und bleibt dort. Solange flüssiger Stickstoff da ist, kann das Bad nicht kälter werden — das Sieden selbst hält die Temperatur fest.",
+      "Sieh es dir an: Das Ethanol ist fest gefroren. Zwei Phasenübergänge, eine Energiebilanz und durchgehend ein offenes Gefäß — ein verschlossenes würde durch den abdampfenden Stickstoff Druck aufbauen."
+    ],
+    "mass-in-an-open-vessel": [
+      "250 mL Wasser in ein offenes Becherglas — offen ist hier entscheidend, also merke es dir.",
+      "4,2 g Hydrogencarbonat lösen sich.",
+      "Jetzt wiegen: 252,66 g. Alles Folgende wird mit dieser Zahl verglichen.",
+      "Der Essig kommt hinzu, und es sprudelt. Jede Blase, die entweicht, nimmt Masse mit.",
+      "Noch einmal wiegen: rund 1,4 g leichter — genau das Kohlenstoffdioxid, das die Werkbank als entwichen meldet. Zerstört wurde nichts: Mit Deckel hätte sich die Waage gar nicht bewegt."
+    ],
+    "metals-below-hydrogen-fizz": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,1 mol Salzsäure.",
+      "Magnesium kommt hinein und sprudelt heftig: Es steht in der Spannungsreihe weit unter Wasserstoff, die Säure kann es also angreifen, und beim Auflösen entweicht Wasserstoffgas.",
+      "Ein zweites Becherglas, für ein Metall auf der anderen Seite dieser Grenze.",
+      "Dieselben 100 mL Wasser.",
+      "Dieselben 0,1 mol Säure, damit sich allein das Metall unterscheidet.",
+      "Kupfer kommt hinein, und die Werkbank meldet es als reaktionsträge. Nicht langsam — überhaupt nichts: Kupfer steht über Wasserstoff, hier ist für es nichts zu holen."
+    ],
+    "moles-from-mass": [
+      "Ein Liter Wasser.",
+      "5,844 g Salz — das sind 0,1000 mol, denn ein Mol dieses Salzes wiegt 58,443 g. Über die Waage wird aus einem Gewicht eine Anzahl.",
+      "Alles wiegen: 1002,84 g, das Wasser plus das Salz. Nichts ist entwichen, Anzahl und Masse gehen beide weiterhin auf."
+    ],
+    "neutral-is-a-moving-target": [
+      "100 mL Wasser.",
+      "Eine Spur Salz, damit das Messgerät Ionen zu lesen hat. Natriumchlorid ist weder Säure noch Base — es kann den pH-Wert selbst nicht verschieben.",
+      "Jetzt auf etwa 50 °C erwärmen. Das Messgerät zeigt rund 6,6, und das Wasser ist nicht saurer als zuvor: Erwärmen lässt Wasser sich etwas stärker selbst spalten, Wasserstoff- und Hydroxid-Ionen steigen gemeinsam. Neutral ist dort, wo beide gleich sind — und das sind nur im Becherglas bei Raumtemperatur 7."
+    ],
+    "neutralisation": [
+      "Ein Liter Wasser.",
+      "0,01 mol Salzsäure.",
+      "Genau 0,01 mol Natriumhydroxid — die passende Menge. Wasserstoff- und Hydroxid-Ionen werden zu Wasser, Natrium und Chlorid bleiben unberührt gelöst, und das Messgerät zeigt 7. Zerstört wurde nichts: Auf der Waage ist das Becherglas schwerer als zuvor."
+    ],
+    "only-the-two-is-chemistry": [
+      "100 mL Wasser.",
+      "Kupfersulfat löst sich: Das Blau ist der Kupfervorrat, aus dem der Draht schöpfen wird.",
+      "Eine Kupferelektrode als Abscheidefläche.",
+      "Ein halbes Ampere über 1930 Sekunden sind 965 Coulomb, also 0,01 mol Elektronen. Kupfer nimmt zwei davon je Atom, es wachsen also 0,005 mol — 0,318 g — auf der Elektrode, und an der anderen entweicht Sauerstoff. Doppelt so lange laufen lassen, und es ist genau doppelt so viel Metall: Die Abscheidung zählt die Ladung."
+    ],
+    "past-the-equivalence-point": [
+      "Ein Liter Wasser.",
+      "0,01 mol Salzsäure.",
+      "0,011 mol Base — ein Zehntel mehr, als die Säure aufnehmen kann. Die überschüssigen 0,001 mol finden keinen Reaktionspartner mehr und bestimmen den pH-Wert allein: etwa 11. Genau am Äquivalenzpunkt verläuft die Kurve fast senkrecht — deshalb trägt ein Tropfen zu viel so weit."
+    ],
+    "permanent-hardness-makes-gypsum": [
+      "Ein Liter Wasser.",
+      "Calciumchlorid löst sich, das Becherglas bleibt klar.",
+      "Bittersalz bringt das Sulfat, und ein weißer Feststoff wächst: Gips, dasselbe Material, in dem ein gebrochener Arm ruhiggestellt wird. Das Magnesium bleibt gelöst — Magnesiumsulfat ist löslich, also verlässt nur das Calcium die Lösung."
+    ],
+    "permanganate-counts-in-fives": [
+      "100 mL Wasser.",
+      "Schwefelsäure: Diese Reaktion braucht acht Protonen je Permanganat, die Säure ist hier also Reaktionspartner und nicht bloß Umgebung.",
+      "0,005 mol Eisen(II)-sulfat — das Eisen, das seine Elektronen abgeben wird.",
+      "0,0005 mol Permanganat, ein Zehntel davon. Das Violett verschwindet beim Eintropfen, und genau die Hälfte des Eisens wird oxidiert: Mangan nimmt fünf Elektronen auf, jedes Eisen gibt eines ab — ein Maß Violett verbraucht also stets fünf Maß Eisen. Nie vier, nie sechs."
+    ],
+    "permanganate-is-visible-when-almost-absent": [
+      "Ein Liter Wasser.",
+      "0,016 g Permanganat — ein Zehntel Millimol, weniger als ein Reiskorn.",
+      "Sieh es dir an: Der ganze Liter ist violett. Keines der beiden Ionen rührt den pH-Wert an, er bleibt bei 7; zu sehen ist allein, wie stark manche Stoffe Licht aufnehmen und wie wenig davon dafür nötig ist."
     ],
     "ph-is-not-quite-minus-log-c": [
       "Ein Liter Wasser, damit die Rechnung glatte 0,1 mol/L ergibt.",
       "0,1 mol Salzsäure lösen sich vollständig und ergeben nach Anzahl 0,100 mol/L Wasserstoff-Ionen.",
       "Das Messgerät zeigt etwa 1,08 und nicht die 1,00 der Formel. Der Wert ist reproduzierbar, der Abstand also die Aktivitätskorrektur und kein Messfehler."
     ],
+    "phosphate-buffer": [
+      "Ein Liter Wasser.",
+      "0,1 mol Phosphorsäure — eine Säure mit mehr als einem Proton zu vergeben.",
+      "0,15 mol Base: anderthalb je Säure, was allen das erste Proton nimmt und der Hälfte das zweite. Übrig bleibt ein 1:1-Paar um den pKs₂, und das Messgerät bleibt bei etwa 6,7 stehen — der Puffer des Blutes und der meisten Arbeit mit lebendem Material."
+    ],
+    "salt-holds-the-water-liquid": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,1 mol Salz lösen sich. Da es in zwei Ionen zerfällt, sind das rund zwei Mol gelöster Teilchen je Kilogramm Wasser.",
+      "Ein zweites Becherglas, für reines Wasser ohne Zusatz.",
+      "Dieselben 100 mL und sonst nichts — die Kontrolle.",
+      "Die Salzlösung kühlen. Sie hält bis etwa −4 °C durch, bevor Eis entsteht, denn die gelösten Teilchen stehen der Eisbildung im Weg.",
+      "Das reine Wasser um genau so viel kühlen. Es beginnt bei null zu gefrieren und bildet mehr Eis. Gleiche Kühlung, verschiedener Gefrierpunkt — dieser Abstand ist der Grund, warum auf vereiste Straßen gestreut wird."
+    ],
+    "same-destination-different-journey": [
+      "100 mL Wasser in den ersten Kolben.",
+      "0,1 mol Peroxid, und nichts, was es antreibt.",
+      "Ein zweiter Kolben, für dasselbe Peroxid mit einem Enzym.",
+      "Dieselben 100 mL Wasser.",
+      "Dieselben 0,1 mol Peroxid.",
+      "Ein tausendstel Gramm Katalase — der einzige Unterschied zwischen beiden.",
+      "Eine Sekunde vergeht.",
+      "Sieh dir den schlichten Kolben an: unberührt, soweit die Werkbank es meldet.",
+      "Sieh dir den katalysierten an: fertig, jedes Peroxidmolekül verschwunden.",
+      "Jetzt fünf Tage vergehen lassen.",
+      "Sieh dir den schlichten Kolben erneut an: Er hat von allein fast aufgeholt.",
+      "Und der katalysierte hat sich seit der ersten Sekunde nicht mehr gerührt. Beide enden am selben Punkt; das Enzym hat nie entschieden, was geschieht, sondern nur, wie lange man wartet."
+    ],
+    "silver-chloride-precipitation": [
+      "100 mL Wasser.",
+      "0,58 g Salz lösen sich, und das Becherglas bleibt völlig klar.",
+      "Silbernitrat kommt hinzu, und das Wasser trübt sich sofort weiß. Silberchlorid bleibt nicht gelöst und geht als Feststoff heraus; Natrium- und Nitrat-Ionen bleiben als Zuschauer zurück."
+    ],
+    "silver-does-not-stoop": [
+      "100 mL Wasser.",
+      "Kupfersulfat löst sich, und die Lösung wird blau.",
+      "Metallisches Silber kommt hinzu — und die Werkbank meldet es als reaktionsträge. Dass Zink Kupfer verdrängt, funktioniert, weil Zink unter Kupfer steht; Silber steht darüber, dieser Tausch müsste also bergauf laufen. Das Blau bleibt, das Kupfer bleibt gelöst, und es geschieht überhaupt nichts."
+    ],
+    "softening-with-washing-soda": [
+      "Ein Liter Wasser.",
+      "Waschsoda löst sich — das ist das Carbonat, das die Arbeit übernimmt.",
+      "Calciumchlorid steht für die Härte, und das Wasser trübt sich sofort: Rund 99,8 % des Calciums gehen als festes Carbonat heraus und lassen sich abfiltrieren. Gelöst bleibt gewöhnliches Natriumchlorid — und jetzt schäumt die Seife."
+    ],
+    "stoichiometric-ratio-from-the-equation": [
+      "2,40 g Magnesiumband in den Tiegel — die doppelte Masse des früheren Durchlaufs.",
+      "Vor dem Verbrennen wiegen: Das ist die „Vorher“-Hälfte des Verhältnisses.",
+      "Es verbrennt zu weißem Magnesiumoxid.",
+      "Die Asche wiegen: 3,98 g, und das doppelte Band ergab die doppelte Asche. Das 2:2-Verhältnis der Gleichung und die beiden molaren Massen führen von der einen Wägung zur anderen — eine Gleichung ist ein Umrechnungsfaktor, keine Verzierung."
+    ],
     "sugar-syrup-by-density": [
       "100 mL Wasser kommen in das Becherglas; für sich allein wiegen sie 99,70 g.",
       "25 g Zucker lösen sich und verschwinden aus dem Blick — aus dem Becherglas sind sie damit nicht heraus.",
       "Die Waage zeigt 124,70 g, die Summe von beidem. Der Zucker ist noch da, und der Sirup ist jetzt dichter als das Wasser, mit dem er begann."
+    ],
+    "the-acid-is-never-used-up": [
+      "100 mL Wasser.",
+      "0,79 g Thiosulfat lösen sich.",
+      "Nur 0,002 mol Säure — merke dir diese Zahl, denn die Reaktion wird gleich weit mehr davon brauchen.",
+      "Jetzt den pH-Wert ablesen: 1,74858175066.",
+      "Zehn Minuten vergehen, und das Becherglas wird dick und gelb: Etwa 93 % des Thiosulfats sind zu Schwefel geworden.",
+      "Den pH-Wert erneut ablesen: 1,74858175066, dieselben zwölf Stellen. Nach der angegebenen Gleichung hätte dieser Umsatz rund 9 mmol Protonen gebraucht, im Becherglas waren 2. Ein echtes Becherglas wäre ohne Säure stehengeblieben — das ist eine dokumentierte Grenze des Modells, und sie zu kennen ist besser, als zufällig darauf zu stoßen.",
+      "Sieh dir an, was da ist: Der Schwefel ist echt, die Bilanz dazu ist es nicht."
+    ],
+    "the-acid-term-is-an-activity": [
+      "100 mL Wasser in das erste Gefäß.",
+      "0,79 g Thiosulfat — jedes Gefäß bekommt genau diese Menge, das Thiosulfat kann also nicht der Unterschied sein.",
+      "0,002 mol Säure: die mittlere Dosis und der Bezugswert.",
+      "Ein zweites Gefäß, für die doppelte Säuremenge.",
+      "Dieselben 100 mL Wasser.",
+      "Dasselbe Thiosulfat.",
+      "0,004 mol Säure — das Doppelte.",
+      "Ein drittes Gefäß, für die Hälfte.",
+      "Wieder dasselbe Wasser.",
+      "Wieder dasselbe Thiosulfat.",
+      "0,001 mol Säure — die Hälfte des Bezugswerts.",
+      "Eine Sekunde für alle drei. Die doppelte Säuremenge vervielfacht die Rate um 1,94, die halbe um 0,51 — nicht um 2 und 0,5: Das Geschwindigkeitsgesetz liest die vom Löser berechnete Acidität, und in einer gedrängten Lösung stehen sich Ionen gegenseitig im Weg, doppelt so viele drücken also nicht doppelt so stark."
     ],
     "the-antacid-runs-on-arithmetic": [
       "100 mL Wasser, um darin die nachgestellte Magensäure anzusetzen.",
       "0,01 mol Salzsäure: Das Becherglas ist jetzt stark sauer, etwa bei pH 1.",
       "Ein Gramm Hydrogencarbonat sind 0,0119 mol — mehr, als die Säure aufwiegt. Es sprudelt Kohlenstoffdioxid ab, die Säure geht zuerst aus, und der pH-Wert bleibt bei etwa 9 stehen."
     ],
+    "the-carbon-came-from-the-baking-soda": [
+      "250 mL Wasser.",
+      "4,2 g Hydrogencarbonat — 0,05 mol, und sie tragen 0,05 mol Kohlenstoff. Das ist der gesamte Gasvorrat, den dieser Durchlauf je hergeben kann.",
+      "Zwölf Gramm Essigsäure, das Vierfache dessen, was das Hydrogencarbonat braucht. Es sprudelt heftiger und schneller — und liefert trotzdem genau 0,05 mol Kohlenstoffdioxid, denn jede Blase besteht aus Atomen, die im Pulver saßen. Der Überschuss ändert nur den End-pH-Wert."
+    ],
+    "the-cross-disappears": [
+      "100 mL Wasser in das erste Becherglas.",
+      "0,79 g Thiosulfat — die mittlere Stärke.",
+      "Die Säure startet es. Jedes Becherglas bekommt genau diese Menge, die Säure ist also nicht die Variable.",
+      "Ein zweites Becherglas, für die doppelte Stärke.",
+      "Dieselben 100 mL Wasser.",
+      "Die doppelte Thiosulfatmenge.",
+      "Wieder dieselbe Säure.",
+      "Ein drittes Becherglas, für die halbe Stärke.",
+      "Noch einmal dasselbe Wasser.",
+      "Die halbe Thiosulfatmenge.",
+      "Und zum dritten Mal dieselbe Säure. Drei Bechergläser, ein Unterschied.",
+      "Vierundzwanzig Sekunden vergehen — die Zeit, die das stärkste Becherglas braucht, um ein daruntergelegtes Kreuz zu verdecken.",
+      "Sieh dir das mittlere Becherglas an: trüb, aber noch nicht verdeckend.",
+      "Sieh dir das starke an: trüb genug, um das Kreuz zu verbergen. Vierundzwanzig Sekunden.",
+      "Sieh dir das schwache an: kaum angefangen.",
+      "Weitere fünfundzwanzig Sekunden.",
+      "Jetzt verdeckt auch das mittlere Becherglas sein Kreuz, nach neunundvierzig Sekunden — etwa die doppelte Zeit des starken bei halber Stärke.",
+      "Das starke ist noch weiter gekommen.",
+      "Das schwache wartet noch.",
+      "Weitere vierundsechzig Sekunden.",
+      "Das mittlere Becherglas ist längst verdeckt.",
+      "Das starke ebenso.",
+      "Und das schwache verbirgt sein Kreuz zuletzt, nach hundertdreizehn Sekunden. Die Uhr ist hier das Messinstrument — beachte aber, dass sich die Zeiten nicht genau verdoppeln: Bis zur Ablesung hat jedes Becherglas schon einen Teil seines Thiosulfats verbraucht."
+    ],
+    "the-daniell-cell-offers-its-voltage": [
+      "100 mL Wasser für die Zink-Halbzelle.",
+      "Zinksulfat löst sich darin.",
+      "Eine Zinkelektrode steht darin. Für sich allein tut dieses Glas nichts.",
+      "Ein zweites Gefäß, für die andere Hälfte.",
+      "Dieselben 100 mL Wasser.",
+      "Diesmal Kupfersulfat.",
+      "Und eine Kupferelektrode. Immer noch nichts: zwei Gläser, keine Verbindung.",
+      "Verbinde sie, und das Messgerät zeigt etwa 1,104 V. Das ist die Verdrängungsreaktion mit getrennten Hälften: Die Elektronen müssen durch den Draht wandern, statt im Becherglas überzuspringen — und der Messwert ist der Abstand zweier Sprossen der Spannungsreihe."
+    ],
+    "the-in-between-colour-is-a-mixture": [
+      "100 mL Wasser.",
+      "Eine Spur Salz, damit das Messgerät Ionen zum Arbeiten hat.",
+      "Eine winzige Menge Bromthymolblau. Nahe dem Neutralpunkt sieht das Becherglas grün aus — das ist keine dritte Farbe des Farbstoffs, sondern seine gelbe und seine blaue Form zugleich, vom Auge zusammengezählt.",
+      "Säure kommt hinzu, und die gelbe Form setzt sich durch: Das Becherglas ist gelb.",
+      "Die doppelte Menge Base kippt es in die Gegenrichtung, über den Neutralpunkt hinaus ins Blaue. Ein Farbstoff, zwei Formen, und jeder Ton dazwischen ist ein Mengenverhältnis."
+    ],
+    "the-indicator-is-chosen-for-the-jump": [
+      "100 mL Wasser in den ersten Kolben.",
+      "0,005 mol Essigsäure.",
+      "Genau 0,005 mol Base: Die Säure ist damit aufgebraucht, und dieser Kolben liegt an seinem Äquivalenzpunkt bei etwa pH 8,6.",
+      "Phenolphthalein kommt hinzu, und der Kolben färbt sich rosa. Sein Umschlagsbereich liegt über diesem Endpunkt, sein Farbwechsel heißt also „Stopp“.",
+      "Ein zweiter Kolben, um einen Indikator zu zeigen, der in die Irre geführt hätte.",
+      "Dieselben 100 mL Wasser.",
+      "Dieselben 0,005 mol Essigsäure.",
+      "Diesmal nur die halbe Base — der Kolben ist halb titriert, und es ist reichlich Säure übrig.",
+      "Methylorange kommt hinzu, und es hat bei pH 4,7 längst umgeschlagen, mitten im Pufferbereich. Ein Indikator wird nach dem Sprung ausgewählt, nicht nach seiner Farbe."
+    ],
+    "the-oxidant-is-spent-to-the-last-electron": [
+      "100 mL Wasser.",
+      "Schwefelsäure — 0,005 mol, also 0,010 mol Protonen, und diese Reaktion verbraucht Protonen ebenso wie Elektronen.",
+      "0,005 mol Eisen(II)-sulfat.",
+      "Doppelt so viel Permanganat wie beim halb oxidierten Durchlauf: 0,001 mol, und mit je fünf Elektronen ergibt das genau die 0,005 mol Platz, die das Eisen füllen kann. Restlos alles Eisen wird oxidiert, und der pH-Wert steigt von etwa 1,4 auf 2,1, weil je Permanganat acht Protonen mitgegangen sind."
+    ],
+    "the-oxygen-is-counted-but-never-seen": [
+      "100 mL Wasser.",
+      "0,1 mol Peroxid.",
+      "Ein tausendstel Gramm Katalase, das es binnen einer Sekunde erledigt.",
+      "Eine Sekunde, und das Peroxid ist weg.",
+      "Sieh es dir an: Blasen steigen durch die Flüssigkeit, und etwa 0,05 mol Sauerstoff — rund 1,2 Liter — sind jetzt im Kolben. Die Menge ist exakt, und messen lässt sie sich hier nicht: Eine echte Werkbank würde das Gas in eine Spritze drücken und Milliliter ablesen, und diese Ablesung wäre der Versuch. Zu wissen, welcher Teil einer Antwort die Rechnung ist und welcher die Ausrüstung, lohnt sich bei jeder Simulation."
+    ],
+    "the-plating-bath-turns-acid": [
+      "100 mL Wasser.",
+      "Kupfersulfat löst sich: Das Bad ist zunächst nur schwach sauer, bei etwa pH 4,3.",
+      "Eine Kupferelektrode, auf der das Metall wachsen soll.",
+      "Ein halbes Ampere über 1930 Sekunden. An einem Draht scheidet sich Kupfer ab — und am anderen wird das Wasser selbst zerlegt, um die Ladung zu bezahlen: Sauerstoff perlt ab, Protonen bleiben zurück, und das Bad fällt auf etwa pH 1,8. Das entnommene Kupfer wurde aus dem Wasser bezahlt."
+    ],
+    "the-salt-comes-back-the-ribbon-does-not": [
+      "100 mL Wasser in das erste Becherglas.",
+      "5,844 g Salz lösen sich und verschwinden aus dem Blick.",
+      "Koche 95 % des Wassers weg, und das Salz ist wieder da: weiße, scharfkantige Kristalle. Das Lösen hat es verborgen, nicht verändert.",
+      "Ein zweites Gefäß, für die andere Art von Veränderung.",
+      "1,2 g Magnesiumband.",
+      "Verbrenne es. Übrig bleibt Magnesiumoxid — ein anderer Stoff mit anderen Eigenschaften, und kein Rückwärts-Erhitzen holt das Band zurück. Genau das ist der Unterschied zwischen einer physikalischen und einer chemischen Veränderung."
+    ],
     "the-series-decides-who-plates": [
       "100 mL Wasser, in denen sich das Kupfersalz lösen soll.",
       "Kupfersulfat löst sich, und die Lösung wird blau: Die Farbe gehört den Kupfer-Ionen darin.",
       "Zink kommt hinzu und tauscht den Platz mit dem Kupfer. Kupfer scheidet sich auf dem Streifen ab, das Blau verschwindet aus der Lösung, und das Becherglas erwärmt sich auf etwa 60 °C."
+    ],
+    "the-silver-tree": [
+      "100 mL Wasser.",
+      "0,02 mol Silbernitrat lösen sich — eine klare, farblose Lösung.",
+      "Kupfer kommt hinzu, und darauf wachsen glitzernde Silbernadeln, während sich das Wasser langsam blau färbt. Kupfer steht unter Silber und tauscht sich deshalb weg: Auf jedes gelöste Kupferatom scheiden sich zwei Silberatome ab, denn jedes Kupfer gibt zwei Elektronen ab und jedes Silber braucht eines."
+    ],
+    "the-ten-degree-rule-and-where-it-frays": [
+      "100 mL Wasser bei 25 °C in das erste Becherglas.",
+      "0,79 g Thiosulfat bei derselben Temperatur.",
+      "Die Säure, ebenfalls bei 25 °C. Das ist der kalte Bezugswert.",
+      "Ein zweites Becherglas, zehn Grad wärmer.",
+      "Dasselbe Wasser bei 35 °C.",
+      "Dasselbe Thiosulfat.",
+      "Dieselbe Säure. Nur die Temperatur unterscheidet sich.",
+      "Ein drittes Becherglas, noch einmal zehn Grad höher.",
+      "Dasselbe Wasser bei 45 °C.",
+      "Dasselbe Thiosulfat.",
+      "Dieselbe Säure.",
+      "Ein viertes Becherglas, wieder zehn Grad höher.",
+      "Dasselbe Wasser bei 55 °C.",
+      "Dasselbe Thiosulfat.",
+      "Und zum vierten Mal dieselbe Säure.",
+      "Zehn Sekunden auf einer Uhr für alle vier. Je zehn Grad verdoppeln den entstandenen Schwefel ungefähr — die Faktoren sind aber 1,90, dann 1,80, dann 1,69. Jeder Schritt bringt etwas weniger als der vorige: „Es verdoppelt sich“ ist eine nützliche Regel, kein Versprechen."
+    ],
+    "theoretical-yield-and-what-a-real-lab-loses": [
+      "500 mL Wasser.",
+      "0,01 mol Salz.",
+      "0,01 mol Silbernitrat — genau abgestimmt, sodass 0,01 mol Silberchlorid die vollständige theoretische Ausbeute sind: 1,43 g.",
+      "Ein zweites Gefäß, um das Filtrat aufzunehmen.",
+      "Filtrieren: Der Feststoff bleibt auf dem Papier, die Flüssigkeit läuft durch.",
+      "Den Rückstand wiegen: 1,43 g, die theoretische Ausbeute in voller Höhe.",
+      "Auch das Filtrat wiegen, damit die Bilanz aufgeht. Auf dieser Werkbank liegt die Ausbeute praktisch bei 100 %; jeder Fehlbetrag im echten Versuch ist also Verlust an der Glasware — keine Chemie, die ausgeblieben wäre."
     ],
     "three-beakers-of-peroxide": [
       "Der erste Kolben bekommt 100 mL Wasser — die Kontrolle, die sonst nichts erhält.",
@@ -83,10 +623,82 @@
       "Ein tausendstel Gramm Katalase ist alles, was der dritte Kolben bekommt — ein Hunderttausendstel der Peroxidmasse.",
       "Eine Sekunde vergeht für alle drei. Der schlichte Kolben hat nichts getan, was die Werkbank melden würde, der Mangan-Kolben hat ein wenig zersetzt, und der Katalase-Kolben ist bereits fertig."
     ],
+    "two-beakers-and-one-clock": [
+      "100 mL Wasser bei 25 °C in das erste Becherglas.",
+      "0,79 g Thiosulfat, bei derselben Temperatur.",
+      "Die Säure, ebenfalls bei 25 °C.",
+      "Ein zweites Becherglas, für den warmen Durchlauf.",
+      "Dieselben 100 mL Wasser, bei 35 °C.",
+      "Dasselbe Thiosulfat.",
+      "Dieselbe Säure, in derselben Menge. Alles stimmt überein bis auf die zehn Grad.",
+      "Zwanzig Sekunden vergehen — eine Uhr, beide Bechergläser, gemeinsam gestartet und gestoppt.",
+      "Sieh dir das kalte an: leicht trüb.",
+      "Sieh dir das warme an: deutlich trüb, fast doppelt so viel Schwefel. Sonst war nichts anders, also kann nichts anderes die Ursache sein.",
+      "Weitere zwanzig Sekunden auf derselben Uhr.",
+      "Das kalte Becherglas ist etwas langsamer geworden: Es hat weniger Thiosulfat übrig als am Anfang.",
+      "Und das warme ist stärker langsamer geworden, weil es mehr verbraucht hat. Ändere eines nach dem anderen, und der Vergleich sagt etwas aus; ändere zwei, und er sagt nichts — so sorgfältig man auch gemessen hat."
+    ],
+    "two-paths-one-temperature": [
+      "100 mL Wasser in das erste Becherglas.",
+      "Hier kommt zuerst die Säure hinein.",
+      "Dann das feste Hydroxid, direkt in die Säure: Es löst sich und neutralisiert in einem Zug, und das Thermometer hält die Summe fest.",
+      "Ein zweites Becherglas, für denselben Weg in umgekehrter Reihenfolge.",
+      "Dieselben 100 mL Wasser.",
+      "Diesmal löst sich das Hydroxid zuerst, in reinem Wasser.",
+      "Und die Säure folgt. Beide Bechergläser enden bei derselben Temperatur, etwa 49 °C: Lösungswärme und Neutralisationswärme werden so oder so beide bezahlt, und der Wärme ist nur wichtig, wo man begonnen und wo man aufgehört hat."
+    ],
+    "two-vessels-one-variable": [
+      "100 mL Wasser in den ersten Becher.",
+      "0,1 mol Calciumchlorid, die beim Lösen 8,28 kJ freisetzen.",
+      "Das Thermometer zeigt etwa 44,9 °C — ein Anstieg um 19,9 K.",
+      "Ein zweiter Becher, mit doppelt so viel Wasser und sonst unverändert.",
+      "Diesmal 200 mL: doppelt so viel zu erwärmen, von derselben Ausgangstemperatur.",
+      "Genau dieselben 0,1 mol Calciumchlorid, es wird also genau dieselbe Wärme frei.",
+      "Das Thermometer zeigt etwa 34,9 °C — ein Anstieg um 9,9 K, genau die Hälfte. Geändert hat sich nur der Nenner, deshalb ist die Halbierung exakt und deshalb ist der Vergleich überhaupt etwas wert."
+    ],
     "vinegar-and-baking-soda": [
       "250 mL Wasser kommen in das Becherglas — das Lösungsmittel, in dem sich Pulver und Säure treffen.",
       "Das Natriumhydrogencarbonat löst sich und wartet einfach: Noch blubbert nichts, denn hier ist keine Säure, die ihm ein Proton reicht.",
       "Jetzt kommt die Essigsäure dazu, und die Blasen steigen auf — das ist Kohlenstoffdioxid, das aus dem offenen Becherglas entweicht; deshalb wird das Gefäß leichter."
+    ],
+    "warm-water-climbs-less": [
+      "100 mL Wasser.",
+      "Zuerst das Thermometer ablesen: 25 °C, und bei dieser Temperatur beträgt die Oberflächenspannung etwa 72 mN/m — der Zug, der Wasser rund 29 mm in einem halben Millimeter weiten Röhrchen hochzöge.",
+      "Fünfzehn Kilojoule gehen hinein.",
+      "Das Thermometer zeigt etwa 61 °C, und die Oberflächenspannung ist um rund 8 % gefallen. Erwärmen rüttelt die Wassermoleküle voneinander los, und genau dieser Zug zwischen ihnen — die Haut, auf der ein Insekt stehen kann — hat das Steigen bewirkt."
+    ],
+    "weak-acid-endpoint-is-alkaline": [
+      "Ein Liter Wasser.",
+      "0,1 mol Essigsäure.",
+      "Genau 0,1 mol Base — die Säure ist exakt aufgebraucht, und trotzdem zeigt das Messgerät etwa 8,8 statt 7. Übrig bleibt Natriumacetat, und Acetat ist der Partner einer schwachen Säure: Es nimmt dem Wasser Protonen wieder ab und lässt Hydroxid zurück. Der Endpunkt einer Titration schwacher Säuren ist alkalisch — und deshalb muss der Indikator dazu passen."
+    ],
+    "weigh-before-and-after": [
+      "100 mL Wasser.",
+      "5,844 g Salz lösen sich und verschwinden aus dem Blick.",
+      "Jetzt wiegen: 105,54 g, das Wasser plus das Salz. Diese Zahl macht den nächsten Schritt zu einem Beleg statt zu einer Überzeugung.",
+      "Jeden Tropfen Wasser wegkochen.",
+      "Wiegen, was übrig ist: 5,84 g — das Salz, zurück, auf ein Zehntel Prozent genau. Die fehlenden 99,7 g sind genau das Wasser, und sonst ist nichts irgendwohin gegangen."
+    ],
+    "when-the-lab-says-it-does-not-know": [
+      "50 mL Propanon — ein Lösungsmittel, das kein Wasser ist, und genau dort enden die Datenbestände dieser Werkbank.",
+      "Zwei Gramm Gips kommen hinein, und die Werkbank sagt klar, dass sie für dieses Salz in diesem Lösungsmittel keine Methode hat. Sie rät nicht, und sie gibt das Schweigen nicht als Antwort aus.",
+      "Die Waage funktioniert weiterhin: das Aceton plus das Salz, genau. Die Massenbilanz stand nie infrage — nur die Löslichkeit, und diese Lücke wird ausgesprochen statt gefüllt."
+    ],
+    "why-the-shelf-is-not-on-fire": [
+      "1,2 g Magnesiumband in den ersten Tiegel.",
+      "0,245 kJ Wärme — knapp unter der Schwelle.",
+      "Das Thermometer zeigt etwa 224 °C.",
+      "Wiegen: immer noch 1,20 g Metall. Heiß, und nichts ist geschehen.",
+      "Ein zweiter Tiegel, für dasselbe Band ein paar Grad weiter.",
+      "Dieselben 1,2 g Magnesium.",
+      "Diesmal 0,25 kJ — ein Hauch mehr.",
+      "Das Thermometer ist jetzt über der Schwelle, das Band hat gezündet und läuft auf Tausende Grad.",
+      "Wiegen: 1,99 g Oxid. Am Metall und an der Luft hat sich zwischen den beiden Tiegeln nichts geändert; es gibt eine Grenze, und alles hängt davon ab, auf welcher Seite man steht — und deshalb steht das Magnesium im Schrank auch nicht in Flammen."
+    ],
+    "zinc-guards-iron": [
+      "100 mL Wasser.",
+      "0,02 mol Eisen(II)-sulfat lösen sich.",
+      "Zink kommt hinzu und gibt sich langsam selbst hin: Graues Eisen scheidet sich darauf ab, während das Zink in Lösung geht. Zink steht in der Spannungsreihe unter Eisen und nimmt den Angriff bewusst auf sich — schraubt man einen Zinkblock an einen Schiffsrumpf, frisst das Meer den Block statt des Stahls."
     ]
   }
 }

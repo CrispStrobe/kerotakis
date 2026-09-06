@@ -1,6 +1,65 @@
 {
   "schema": 1,
   "scripts": {
+    "a-battery-from-nothing-but-imbalance": [
+      "100 mL of water in the first jar.",
+      "A thousandth of a mole of copper sulfate: the dilute side, only faintly blue.",
+      "A copper electrode goes in. Both jars will get the same metal, so the electrode cannot be the difference.",
+      "A second jar joins it.",
+      "The same 100 mL of water.",
+      "Ten times the copper sulfate — the same salt, ten times the concentration, and a visibly deeper blue.",
+      "The same copper electrode again. Now nothing differs between the two jars except how crowded the solution is.",
+      "Connect them and the meter reads about 18 mV. The standard voltages cancel exactly, so what is left on the meter is the difference in concentration and nothing else."
+    ],
+    "a-catalyst-comes-out-as-it-went-in": [
+      "100 mL of water to work in.",
+      "A thousandth of a gram of catalase — the whole supply, and it never gets topped up.",
+      "The first charge of peroxide: 0.1 mol.",
+      "One second, and it is gone.",
+      "A second charge, the same size, onto the same speck of enzyme.",
+      "One second, and that is gone too — just as fast, which is the point.",
+      "A third charge.",
+      "Gone again in a second. The bench's inventory still reads the same amount of catalase it started with, to every digit: a catalyst is a doorway, not an ingredient."
+    ],
+    "a-nanomole-is-not-a-cloud": [
+      "100 mL of water in the first beaker.",
+      "An almost unweighable pinch of salt — under a tenth of a milligram.",
+      "And an equally small pinch of silver nitrate. Solid silver chloride does form, but only about 0.16 µmol of it, which is below what this bench will report — so nothing is announced.",
+      "A second beaker, for a dose just above that floor.",
+      "The same 100 mL of water.",
+      "Twice the salt — still a pinch, still invisible on any kitchen scale.",
+      "Twice the silver nitrate. Now about 1.7 µmol forms, the observation floor is cleared, and the precipitate is reported. Nothing changed about the chemistry; only about what could be seen."
+    ],
+    "a-salt-with-no-database": [
+      "100 mL of water in the first beaker.",
+      "Sodium thiosulfate dissolves into it — the salt this bench can hold and react but cannot place on the pH scale.",
+      "Acid goes in on top of it. The meter reads pH 1.7485817506.",
+      "A second beaker, for the same acid with no thiosulfate at all.",
+      "The same 100 mL of water.",
+      "The same acid, alone. This meter reads 1.7485817506 as well — identical to twelve figures, because the thiosulfate contributed nothing to the balance the solver actually solves.",
+      "A third beaker, to ask the question directly.",
+      "Water again.",
+      "The thiosulfate on its own, with nothing to react with.",
+      "Ask for the pH and the bench says it has no way to work it out. A stated gap is a better answer than a confident number nobody checked."
+    ],
+    "a-spark-that-changes-nothing": [
+      "Five grams of potassium chloride go into the crucible — no water, just the dry salt.",
+      "Weigh it first: the balance is the record the rest of this run is measured against.",
+      "Into the flame. It burns lilac — that colour identifies the potassium, and nothing else about the salt.",
+      "Weigh it again: the same five grams. Nothing was consumed and nothing left as gas.",
+      "And the thermometer is back where it started. The flame test borrows the sample and gives it back."
+    ],
+    "a-steeper-barrier-breaks-the-rule-of-thumb": [
+      "The first flask gets 100 mL of water held at 25 °C.",
+      "0.1 mol of peroxide at the same 25 °C. This is the cold comparison.",
+      "A second flask.",
+      "The same water, ten degrees warmer.",
+      "The same peroxide, at 35 °C.",
+      "A third flask.",
+      "The same water again, another ten degrees up.",
+      "And the same peroxide at 45 °C. Three identical flasks; only the temperature differs.",
+      "Half an hour passes. The amounts decomposed are roughly 0.0007, 0.0019 and 0.0047 mol — about two and a half times per ten degrees, not the doubling the rule of thumb promises, because this reaction's barrier is steeper than the one that rule was written for."
+    ],
     "a-weak-acid-breaks-the-naive-sum": [
       "A litre of water, so the arithmetic stays a clean 0.1 mol/L.",
       "0.1 mol of acetic acid dissolves — the same count of acid molecules a strong acid would bring.",
@@ -9,6 +68,56 @@
       "The same litre of water, so only the acid differs.",
       "The same 0.1 mol, this time of hydrochloric acid.",
       "This meter reads about 1.1. Same count, same water, nearly two pH units apart — the difference is how much of each acid lets go."
+    ],
+    "acetates-stay-dissolved": [
+      "A litre of water.",
+      "Calcium chloride dissolves. The beaker stays clear.",
+      "Sodium acetate dissolves too, and it stays clear — every acetate is soluble, so there is no pairing here that could leave the solution.",
+      "Look at it: four ions sharing one litre and nothing to see. A clear beaker is a result, not a failed experiment."
+    ],
+    "any-chloride-precipitates-silver": [
+      "500 mL of water.",
+      "Potassium chloride this time, not sodium — a different salt, dissolving just as invisibly.",
+      "Silver nitrate goes in and the liquid turns milky white at once. The potassium and the nitrate stay dissolved and take no part: it was never the whole salt that mattered, only the chloride in it."
+    ],
+    "bicarbonate-plays-both-sides": [
+      "100 mL of water in the first beaker.",
+      "Bicarbonate dissolves into it — the powder that is about to play two different parts.",
+      "Acid goes in and it fizzes: the bicarbonate takes the proton, and the carbon leaves as carbon dioxide.",
+      "A second beaker, for the same powder against the opposite sort of partner.",
+      "The same 100 mL of water.",
+      "The same bicarbonate, in the same amount.",
+      "Sodium hydroxide this time — and no bubbles at all. Here the bicarbonate gives a proton away instead of taking one, so the carbon stays behind as carbonate."
+    ],
+    "bleach-and-acid": [
+      "200 mL of water in the beaker.",
+      "Hypochlorite — the working part of household bleach — dissolves into it.",
+      "Acid goes in, and the bench raises a hazard warning: about 0.1 mol of chlorine gas leaves the liquid. On a screen it is an event; in a bathroom it is the reason these two are never mixed."
+    ],
+    "buffer": [
+      "A litre of water.",
+      "0.1 mol of acetic acid — the weak acid half of the pair.",
+      "0.1 mol of sodium acetate, which is the same acid with its proton already gone. Equal amounts of both is what makes a buffer.",
+      "Now 0.01 mol of strong acid goes in — enough to take plain water to pH 2 — and the meter barely moves off pKa. The acetate absorbs the protons instead of the water."
+    ],
+    "buffer-capacity-exceeded": [
+      "A litre of water.",
+      "0.1 mol of acetic acid.",
+      "0.1 mol of sodium acetate: the same buffer as before, holding a reserve of 0.1 mol of acetate.",
+      "This time 0.15 mol of strong acid goes in — half again as much as the reserve can take. The acetate is used up and what is left over stays free, so the pH drops all the way to about 1.4. A buffer is a reserve, and a reserve can be spent."
+    ],
+    "burning-makes-it-heavier": [
+      "1.20 g of magnesium ribbon into the crucible.",
+      "Weigh it before anything happens: 1.20 g is the number the end of this run has to be compared against.",
+      "It burns fiercely and leaves a white powder — magnesium oxide, not magnesium.",
+      "Weigh it again: about 1.99 g. It got heavier, and the extra 0.79 g came out of the air."
+    ],
+    "burning-makes-it-lighter": [
+      "1.20 g of charcoal into the crucible — the same mass of a different element.",
+      "Weigh it first, exactly as with the magnesium.",
+      "It burns, and the carbon dioxide it makes floats straight out of the open crucible.",
+      "Weigh it again: nothing left to weigh. The system gained oxygen and the crucible lost everything, because this product was a gas.",
+      "The thermometer records how hot that took it. Same reaction with the air as the magnesium had; only the phase of the product is different."
     ],
     "catalyst-area-and-stirring-change-the-rate": [
       "100 mL of water in the first flask.",
@@ -26,15 +135,132 @@
       "The second stirs identically and decomposes more in the same second — more exposed area, more reaction.",
       "The third stirs ten times faster on the reference pinch. It does gain, but far less than tenfold: the help from stirring levels off."
     ],
+    "chains-slide-networks-do-not": [
+      "Two grams of a polyethylene sheet into the first vessel — long separate chains, lying alongside one another.",
+      "Enough heat to take it to about 150 °C. It softens: the chains can slide, so the piece could be pressed into a new shape and would harden again on cooling.",
+      "A second vessel, for the material that will not do that.",
+      "Two grams of a cured resin — the same long molecules, but tied to each other.",
+      "Enough heat to reach the same temperature.",
+      "Look at the sheet: softened, and reversibly so.",
+      "Look at the resin: still rigid at the same temperature. There are no loose chains left to slide, so it has no softening point at all — heat it far enough and it chars instead of melting."
+    ],
+    "chalk-below-the-kiln": [
+      "Ten grams of chalk into the crucible.",
+      "Weigh it first: 10.00 g, the number to come back to.",
+      "One kilojoule of heat goes in — enough to burn a hand badly.",
+      "The thermometer reads about 147 °C. Hot, and nowhere near the roughly 900 °C this powder needs.",
+      "Weigh it again: still 10.00 g of chalk. No gas left, no new solid appeared. Heat is not an ingredient; it has to be enough heat, and 'enough' is a specific number."
+    ],
+    "chalk-in-the-kiln": [
+      "Ten grams of chalk again — the same powder as the beaker that stayed chalk.",
+      "Weigh it: 10.00 g once more, so only the heat will differ.",
+      "Eight kilojoules this time, which takes it past about 1000 °C. Now it gives way: carbon dioxide leaves and quicklime is left behind.",
+      "Weigh it again. Every mole that decomposed gave up 44 g of gas and kept 56 g of oxide — a loss of some 44 %, and the reaction that has made mortar since antiquity."
+    ],
+    "charcoal-holds-the-dye": [
+      "100 mL of water in the first vessel.",
+      "A millimole of orange dye dissolves and colours the whole thing.",
+      "A gram of activated charcoal goes in and takes most of that dye onto its surface — but only most: one gram has only so much surface to offer.",
+      "A second vessel to catch the filtrate.",
+      "Pour it through the paper. The carbon and everything held on it stay behind.",
+      "Look at v1: the dye that was bound is here, on the charcoal.",
+      "Look at v2: paler, but not colourless. What is still dissolved passed through, because holding dye on a surface is a sharing, not a capture."
+    ],
+    "charging-fights-the-series": [
+      "100 mL of water in the first half-cell.",
+      "Zinc sulfate dissolves into it.",
+      "A zinc electrode goes in. This is the side the charge will be rebuilt on.",
+      "A second vessel, for the other half-cell.",
+      "The same 100 mL of water.",
+      "Copper sulfate this time.",
+      "And a copper electrode.",
+      "Connect them: the cell offers about 1.1 V, which is the discharge direction the activity series prefers.",
+      "Now drive current the other way for 386 seconds. Fresh zinc plates back on against that preference, and the deposit survives in the acidifying bath because making hydrogen on zinc is slow — a kinetic leash, not a thermodynamic one.",
+      "Pour in strong acid and the leash slips: the zinc dissolves, hydrogen bubbles off, and the stored charge leaves as gas."
+    ],
+    "chloride-complexes-redissolve-silver": [
+      "A litre of water.",
+      "58.4 g of salt — a full mole per litre, far more chloride than any of the precipitation experiments used.",
+      "Now the silver chloride, and it dissolves. A little chloride holds this solid back; a lot of it helps the solid go, because above roughly 0.1 mol/L the chloride starts binding the silver into a soluble complex instead of pairing with it."
+    ],
+    "cold-from-baking-soda": [
+      "100 mL of water, starting at 25 °C.",
+      "8.4 g of bicarbonate dissolves — and it has to borrow energy from the water to come apart.",
+      "The thermometer reads about 21 °C. The water is colder for having lent it: nothing was cooled, the dissolving itself took the heat."
+    ],
     "cold-pack": [
       "100 mL of water, and the thermometer starts at room temperature.",
       "The potassium chloride dissolves and the thermometer falls a few degrees. Dissolving can take heat in as readily as it gives it out."
+    ],
+    "common-ion-effect": [
+      "A litre of water.",
+      "A little salt dissolves first — 0.58 g, enough to put chloride into the water before the silver ever arrives.",
+      "Now the silver chloride, and this time none of it dissolves at all. Chloride is already on the product side of the balance, so the solid has less reason to leave: the same powder, the same water, less dissolved."
+    ],
+    "concentration-is-a-ratio": [
+      "100 mL of water in the first beaker.",
+      "0.1 mol of salt dissolves: one mole in a litre's worth of reckoning, so 1.0 mol/L.",
+      "A second beaker, with twice the water and the same spoonful.",
+      "200 mL this time — the only thing that will differ.",
+      "The very same 0.1 mol of salt. Now it is 0.5 mol/L: there is no less salt in this beaker, it is spread through twice as much water. How much and how strong are two different questions."
+    ],
+    "copper-sulfate-is-blue-and-acidic": [
+      "500 mL of water.",
+      "Eight grams of copper sulfate dissolves. The water turns deep blue and the beaker warms by a degree or two — dissolving this salt gives out heat.",
+      "Look at it: blue, and also sour. The copper ions pull protons off the water around them, which leaves the solution at about pH 3.9 without any acid having been added."
     ],
     "crystallising-salt-from-brine": [
       "A litre of water goes into the beaker.",
       "117 g of salt — two moles — dissolves completely, well under what a litre can hold.",
       "Four fifths of the water boils away. The 200 mL left cannot hold two moles, so solid salt appears at the bottom.",
       "Look at what is there: white crystals under a solution that is now saturated, not a dry beaker."
+    ],
+    "descaling-with-acid": [
+      "200 mL of water.",
+      "A gram of chalk goes in — and stays. In plain water it does not dissolve.",
+      "Now acid, and it vanishes with a hiss: the carbonate takes protons, carbon dioxide leaves, and the calcium stays behind dissolved. This is what a limescale remover does, and what carves caves out of limestone."
+    ],
+    "dilution-buys-less-than-the-slide-rule-says": [
+      "100 mL of water for the zinc half-cell.",
+      "Zinc sulfate dissolves into it.",
+      "A zinc electrode. This side stays the same throughout, so it cannot be the cause of anything that changes.",
+      "A second vessel, for the copper side.",
+      "The same 100 mL of water.",
+      "0.01 mol of copper sulfate.",
+      "A copper electrode.",
+      "Connect them: about 1.104 V, the reference reading.",
+      "A third vessel, for a copper side ten times more dilute.",
+      "The same water again.",
+      "A tenth as much copper sulfate — 0.001 mol.",
+      "The same copper electrode.",
+      "Connect this one instead and the meter reads about 1.086 V. Tenfold dilution cost only 18 mV, not the 30 the rule of thumb promises: the equation is exact over free copper, and sulfate pairing means far more than a tenth of it is still free."
+    ],
+    "dilution-by-ten": [
+      "100 mL of water to start in.",
+      "0.001 mol of hydrochloric acid: 0.01 mol/L, which is pH 2.",
+      "Nine hundred more millilitres of water go in. Not one molecule of acid was removed — it is simply spread through ten times the volume, so the meter climbs by exactly one unit to pH 3."
+    ],
+    "dilution-moves-ph-by-one": [
+      "100 mL of water to start in.",
+      "0.001 mol of hydrochloric acid — 0.01 mol/L.",
+      "The meter reads about 2.04. Note it: this is the number the dilution will be measured against.",
+      "Nine hundred more millilitres of water. The acid is untouched; only its room has changed.",
+      "The meter now reads about 3.01. Ten times the water, one pH unit — not ten — because pH is a logarithm."
+    ],
+    "doubling-the-thiosulfate-doubles-the-rate": [
+      "100 mL of water in the first beaker.",
+      "0.79 g of thiosulfate dissolves: the weaker of the two.",
+      "The acid that starts it going.",
+      "A second beaker.",
+      "The same 100 mL of water.",
+      "Twice the thiosulfate — 1.58 g. This is the only thing that differs between the two.",
+      "The same acid again, in the same amount — the one thing held constant between the two.",
+      "Ten seconds pass on one clock for both. The strong beaker has made twice as much yellow cloudiness as the weak one: not a bit more, twice. Crowd the particles twice as tightly and they meet twice as often."
+    ],
+    "ethanol-and-water-mix": [
+      "100 mL of water.",
+      "50 mL of ethanol goes in on top of it.",
+      "Look at it: one liquid, no layer, no line, no cloudiness. Unlike oil, ethanol can hydrogen-bond to water, so nothing here pushes the two apart."
     ],
     "filtering-a-precipitate": [
       "100 mL of water to work in.",
@@ -45,29 +271,343 @@
       "Look at v1: the silver chloride is held on the paper, which is how a precipitate gets weighed.",
       "Look at v2: clear, but not pure water — the sodium and nitrate ions ran straight through with it."
     ],
+    "first-order-means-a-constant-half-life": [
+      "100 mL of water.",
+      "0.1 mol of peroxide, which would fall apart on its own over about a day.",
+      "Half a gram of manganese dioxide brings that day down to a minute and a half, so the whole shape of the decay fits inside one run.",
+      "Ninety seconds: half the peroxide is gone.",
+      "Another ninety seconds, and half of what was left goes — a quarter of the original, not another half of it.",
+      "Ninety more, and half again: an eighth. The same fraction every interval is what first order means, and it is why the half-life is a constant.",
+      "An hour later there is nothing measurable left — but the curve never actually reached zero, which is why an old bottle of peroxide is weak rather than empty."
+    ],
+    "flame-temperature-is-a-balance-not-a-property": [
+      "1.2 g of magnesium ribbon into the first crucible.",
+      "A quarter of a kilojoule warms it first — the metal is at a couple of hundred degrees before it ever catches.",
+      "The thermometer records where that warming left it. This is the head start the flame will inherit.",
+      "A second crucible, for an identical ribbon lit from much hotter.",
+      "The same 1.2 g of magnesium.",
+      "Ignite it directly, from the bench's own ignition temperature.",
+      "The thermometer reads some six hundred degrees higher than the first. Same reaction, same energy released; the heat put in beforehand did not disappear when the fire started, and a flame temperature is a balance, not a property of the metal."
+    ],
+    "half-neutralised-vinegar": [
+      "A litre of water.",
+      "0.1 mol of acetic acid.",
+      "Only 0.05 mol of hydroxide — half of what it would take to finish the job. That leaves equal amounts of the acid and its salt, and the meter settles at about 4.7, which is this acid's own pKa. Half-done is the most stubborn place on the whole curve."
+    ],
+    "half-oxidised-iron-reads-its-own-potential": [
+      "100 mL of water.",
+      "Sulfuric acid, to hold the iron in solution rather than let it drop out as rust.",
+      "0.005 mol of iron(II) sulfate — the iron that is about to be half changed.",
+      "Just enough permanganate to oxidise exactly half of it. With equal amounts of the two iron forms present, the concentration term of the Nernst equation vanishes and a meter reads the couple's own formal potential — the redox twin of a half-neutralised acid reading its pKa."
+    ],
+    "heating-dissolves-more-salt": [
+      "A litre of water.",
+      "400 g of salt — far more than a litre can hold, so some of it just sits on the bottom.",
+      "Now a hundred kilojoules of heat. The temperature climbs a long way and barely any more salt goes in: saturation moves by under two per cent, because for common salt the dissolving costs almost no energy either way. Hot water is not a universal solvent."
+    ],
     "hot-pack": [
       "100 mL of water, and the thermometer starts at room temperature.",
       "The calcium chloride dissolves and the thermometer climbs about 20 °C. Nothing burned — dissolving itself released the heat."
+    ],
+    "hot-pack-arithmetic": [
+      "100 mL of water at 25 °C — 5.53 mol of it, which is the heat capacity the arithmetic will use.",
+      "11.098 g of calcium chloride: 0.1 mol, releasing 8.28 kJ as it dissolves.",
+      "8280 J divided by 416.7 J per kelvin is 19.9 K, so the prediction is 44.9 °C — and the thermometer reads 44.87. The calculation is not an exercise beside the experiment; it is the reading."
+    ],
+    "lead-stands-in-its-own-acid": [
+      "100 mL of water in the first beaker.",
+      "0.1 mol of hydrochloric acid: strong enough that the series says the lead should dissolve.",
+      "The lead goes in — and the bench reports it inert. No gas, no dissolution, the pH unmoved: making hydrogen on a lead surface is so slow that the reaction the series predicts never starts. A car battery's plates stand in acid on exactly this nothing.",
+      "A second beaker, to show the series still works when nothing is holding it back.",
+      "The same 100 mL of water.",
+      "A dissolved lead salt this time.",
+      "Zinc goes in, and now the series has its way: the zinc dissolves and lead plates out onto it."
+    ],
+    "limescale": [
+      "A litre of water.",
+      "Bicarbonate dissolves — this is the carbonate half of what hard water carries.",
+      "Calcium chloride brings the other half, and the two meet: the water clouds and calcium carbonate settles out. That white crust is what furs up a kettle."
+    ],
+    "limiting-reagent": [
+      "500 mL of water in the first beaker.",
+      "0.01 mol of salt — the smaller share here.",
+      "0.02 mol of silver nitrate: twice as much silver as there is chloride to pair with. It clouds, and the extra silver simply stays dissolved.",
+      "A second beaker, with the two amounts swapped over.",
+      "The same 500 mL of water.",
+      "0.02 mol of salt this time — twice as much.",
+      "And 0.01 mol of silver nitrate. Both beakers made exactly the same amount of solid, because in both the reaction stopped when the smaller share ran out. Count the moles, take the smaller, and the answer is known before the run."
+    ],
+    "liquid-nitrogen-freezes-ethanol": [
+      "About 10 mL of ethanol goes into the open vessel — a liquid that stays liquid far below the freezing point of water.",
+      "The liquid nitrogen follows, and the bench raises a hazard warning: it boils as it takes heat out of the ethanol, and the nitrogen gas leaves through the open top.",
+      "The thermometer reads about −196 °C and holds there. While any liquid nitrogen remains, the bath cannot get colder — the boiling itself fixes the temperature.",
+      "Look at it: the ethanol has frozen solid. Two phase changes, one energy balance, and an open vessel throughout — a sealed one would build pressure as the nitrogen boiled off."
+    ],
+    "mass-in-an-open-vessel": [
+      "250 mL of water in an open beaker — open is the whole point, so make a note of it.",
+      "4.2 g of bicarbonate dissolves.",
+      "Weigh it now: 252.66 g. Everything that follows is compared against this number.",
+      "The vinegar goes in and it fizzes. Every bubble that leaves is mass leaving with it.",
+      "Weigh it again: about 1.4 g lighter, which is exactly the carbon dioxide the bench says was evolved. Nothing was destroyed — with a lid on, the balance would not have moved at all."
+    ],
+    "metals-below-hydrogen-fizz": [
+      "100 mL of water in the first beaker.",
+      "0.1 mol of hydrochloric acid.",
+      "Magnesium goes in and fizzes furiously: it sits well below hydrogen in the series, so the acid can take it, and hydrogen gas comes off as it dissolves.",
+      "A second beaker, for a metal on the other side of that line.",
+      "The same 100 mL of water.",
+      "The same 0.1 mol of acid, so only the metal differs.",
+      "Copper goes in and the bench reports it inert. Not slow — nothing at all: copper sits above hydrogen, so there is nothing here for it to gain."
+    ],
+    "moles-from-mass": [
+      "A litre of water.",
+      "5.844 g of salt — which is 0.1000 mol, because one mole of this salt weighs 58.443 g. The balance is how a weight becomes a count.",
+      "Weigh the lot: 1002.84 g, the water plus the salt. Nothing left, so the count and the mass both still add up."
+    ],
+    "neutral-is-a-moving-target": [
+      "100 mL of water.",
+      "A trace of salt, so the meter has ions to read. Sodium chloride is neither acid nor base — it cannot move the pH itself.",
+      "Now heat it to about 50 °C. The meter reads about 6.6, and the water is no more sour than before: warming makes water split itself a little more, so hydrogen and hydroxide both rise together. Neutral is where they are equal, and that is only 7 in a room-temperature beaker."
+    ],
+    "neutralisation": [
+      "A litre of water.",
+      "0.01 mol of hydrochloric acid.",
+      "Exactly 0.01 mol of sodium hydroxide — the matching amount. The hydrogen and hydroxide become water, the sodium and chloride stay dissolved and untouched, and the meter reads 7. Nothing was destroyed: put the beaker on a balance and it is heavier than before."
+    ],
+    "only-the-two-is-chemistry": [
+      "100 mL of water.",
+      "Copper sulfate dissolves: the blue is the store of copper the wire will draw on.",
+      "A copper electrode to plate onto.",
+      "Half an amp for 1930 seconds is 965 coulombs, which is 0.01 mol of electrons. Copper takes two each, so 0.005 mol — 0.318 g — grows on the electrode, and oxygen comes off the other one. Run it twice as long and you get exactly twice the metal: the deposit counts the charge for you."
+    ],
+    "past-the-equivalence-point": [
+      "A litre of water.",
+      "0.01 mol of hydrochloric acid.",
+      "0.011 mol of base — a tenth more than the acid can take. The extra 0.001 mol has nothing left to react with, so it sets the pH by itself: about 11. Right at the balance point the curve is almost vertical, which is why one drop too many goes so far."
+    ],
+    "permanent-hardness-makes-gypsum": [
+      "A litre of water.",
+      "Calcium chloride dissolves and the beaker stays clear.",
+      "Epsom salts bring the sulfate, and a white solid grows: gypsum, the same material a broken arm is set in. The magnesium stays dissolved — magnesium sulfate is soluble, so only the calcium leaves."
+    ],
+    "permanganate-counts-in-fives": [
+      "100 mL of water.",
+      "Sulfuric acid: this reaction needs eight protons per permanganate, so the acid is a reagent here, not a background.",
+      "0.005 mol of iron(II) sulfate — the iron that will give its electrons away.",
+      "0.0005 mol of permanganate, a tenth as much. The purple vanishes as it lands, and exactly half the iron is oxidised: manganese takes five electrons and each iron gives one, so one measure of purple always spends five of iron. Never four, never six."
+    ],
+    "permanganate-is-visible-when-almost-absent": [
+      "A litre of water.",
+      "0.016 g of permanganate — a tenth of a millimole, less than a grain of rice.",
+      "Look at it: the whole litre is purple. Neither ion touches the pH, which stays at 7; what this shows is only how strongly some substances absorb light, and how little of one it can take to see it."
     ],
     "ph-is-not-quite-minus-log-c": [
       "A litre of water, so the arithmetic stays a clean 0.1 mol/L.",
       "0.1 mol of hydrochloric acid dissolves completely, giving 0.100 mol/L of hydrogen ions by count.",
       "The meter reads about 1.08, not the 1.00 the formula predicts. The reading repeats, so the gap is the activity correction and not an error."
     ],
+    "phosphate-buffer": [
+      "A litre of water.",
+      "0.1 mol of phosphoric acid — an acid with more than one proton to give.",
+      "0.15 mol of base: one and a half per acid, which takes away the first proton from all of it and the second from half. That leaves a 1:1 pair around pKa₂ and the meter settles near 6.7 — the buffer of blood and of most work with living material."
+    ],
+    "salt-holds-the-water-liquid": [
+      "100 mL of water in the first beaker.",
+      "0.1 mol of salt dissolves. Because it splits into two ions, that is roughly two moles of dissolved particles per kilogram of water.",
+      "A second beaker, for plain water with nothing in it.",
+      "The same 100 mL, and nothing else — the control.",
+      "Cool the brine. It holds out until about −4 °C before ice starts, because the dissolved particles get in the way of ice forming.",
+      "Cool the plain water by exactly as much. This one starts freezing at zero and makes more ice. Same cooling, different freezing point: that gap is why grit is thrown on icy roads."
+    ],
+    "same-destination-different-journey": [
+      "100 mL of water in the first flask.",
+      "0.1 mol of peroxide, and nothing to hurry it.",
+      "A second flask, for the same peroxide with an enzyme.",
+      "The same 100 mL of water.",
+      "The same 0.1 mol of peroxide.",
+      "A thousandth of a gram of catalase — the only difference between the two.",
+      "One second passes.",
+      "Look at the plain flask: untouched, as far as the bench will report.",
+      "Look at the catalysed one: finished, every molecule of peroxide gone.",
+      "Now let five days pass.",
+      "Look at the plain flask again: it has very nearly caught up on its own.",
+      "And the catalysed one has not moved since the first second. Both end in the same place; the enzyme never decided what would happen, only how long the waiting would be."
+    ],
+    "silver-chloride-precipitation": [
+      "100 mL of water.",
+      "0.58 g of salt dissolves and the beaker stays perfectly clear.",
+      "Silver nitrate goes in and the water clouds white at once. Silver chloride will not stay dissolved, so it leaves as a solid; the sodium and nitrate ions stay behind as spectators."
+    ],
+    "silver-does-not-stoop": [
+      "100 mL of water.",
+      "Copper sulfate dissolves and the solution turns blue.",
+      "Silver metal goes in — and the bench reports it inert. Copper displaced by zinc worked because zinc sits below copper; silver sits above it, so this trade would have to run uphill. The blue stays, the copper stays dissolved, and nothing happens at all."
+    ],
+    "softening-with-washing-soda": [
+      "A litre of water.",
+      "Washing soda dissolves — this is the carbonate that will do the work.",
+      "Calcium chloride stands in for the hardness, and the water clouds at once: about 99.8 % of the calcium leaves as solid carbonate, which can be filtered away. What is left dissolved is ordinary sodium chloride, and now soap will lather."
+    ],
+    "stoichiometric-ratio-from-the-equation": [
+      "2.40 g of magnesium ribbon into the crucible — twice the mass the earlier run used.",
+      "Weigh it before it burns: this is the 'before' half of the ratio.",
+      "It burns to white magnesium oxide.",
+      "Weigh the ash: 3.98 g, and twice the ribbon gave twice the ash. The equation's 2:2 ratio and the two molar masses are what turn one weighing into the other — an equation is a conversion factor, not decoration."
+    ],
     "sugar-syrup-by-density": [
       "100 mL of water goes into the beaker; on its own it weighs 99.70 g.",
       "25 g of sugar dissolves and disappears from sight — but it has not left the beaker.",
       "The balance reads 124.70 g, the sum of both. The sugar is still in there, and the syrup is now denser than the water it started as."
+    ],
+    "the-acid-is-never-used-up": [
+      "100 mL of water.",
+      "0.79 g of thiosulfate dissolves.",
+      "Only 0.002 mol of acid — remember that number, because the reaction is about to need far more than it.",
+      "Read the pH now: 1.74858175066.",
+      "Ten minutes pass, and the beaker turns thick and yellow: about 93 % of the thiosulfate has become sulfur.",
+      "Read the pH again: 1.74858175066, the same twelve digits. By the stated equation that much reaction needed some 9 mmol of protons and the beaker held 2. A real beaker would have run out of acid and stalled — this is a documented corner of the model, and knowing where it is beats finding it by accident.",
+      "Look at what is there: the sulfur is real and the accounting for it is not."
+    ],
+    "the-acid-term-is-an-activity": [
+      "100 mL of water in the first vessel.",
+      "0.79 g of thiosulfate — every vessel gets exactly this, so the thiosulfate cannot be the difference.",
+      "0.002 mol of acid: the middle dose, and the reference.",
+      "A second vessel, for twice the acid.",
+      "The same 100 mL of water.",
+      "The same thiosulfate.",
+      "0.004 mol of acid — double.",
+      "A third vessel, for half.",
+      "The same water again.",
+      "The same thiosulfate again.",
+      "0.001 mol of acid — half the reference.",
+      "One second for all three. Doubling the acid multiplies the rate by 1.94 and halving it by 0.51, not by 2 and 0.5: the rate law reads the acidity the solver computed, and in a crowded solution ions get in each other's way, so twice as many do not push twice as hard."
     ],
     "the-antacid-runs-on-arithmetic": [
       "100 mL of water to make the mock stomach acid in.",
       "0.01 mol of hydrochloric acid: the beaker is now sharply acidic, around pH 1.",
       "One gram of bicarbonate is 0.0119 mol — more than the acid. It fizzes off carbon dioxide, the acid runs out first, and the pH settles near 9."
     ],
+    "the-carbon-came-from-the-baking-soda": [
+      "250 mL of water.",
+      "4.2 g of bicarbonate — 0.05 mol, and it carries 0.05 mol of carbon. That is the whole supply of gas this run can ever make.",
+      "Twelve grams of acetic acid, four times what the bicarbonate needs. It fizzes harder and faster, and it still yields exactly 0.05 mol of carbon dioxide, because every bubble is made of atoms that were sitting in the powder. Only the finishing pH is changed by the excess."
+    ],
+    "the-cross-disappears": [
+      "100 mL of water in the first beaker.",
+      "0.79 g of thiosulfate — the middle strength.",
+      "The acid starts it. Every beaker gets exactly this much, so the acid is not the variable.",
+      "A second beaker, for twice the strength.",
+      "The same 100 mL of water.",
+      "Twice the thiosulfate.",
+      "The same acid again.",
+      "A third beaker, for half the strength.",
+      "The same water once more.",
+      "Half the thiosulfate.",
+      "And the same acid a third time. Three beakers, one difference.",
+      "Twenty-four seconds pass — the time the strongest beaker takes to hide a cross drawn on paper under it.",
+      "Look at the middle beaker: hazy, not yet hidden.",
+      "Look at the strong one: cloudy enough to hide the cross. Twenty-four seconds.",
+      "Look at the weak one: barely started.",
+      "Another twenty-five seconds.",
+      "Now the middle beaker hides its cross too, at forty-nine seconds — about twice the strong one's time for half the strength.",
+      "The strong one has gone further still.",
+      "The weak one is still waiting.",
+      "Another sixty-four seconds.",
+      "The middle beaker has long since gone.",
+      "So has the strong one.",
+      "And the weak one hides its cross at last, at a hundred and thirteen seconds. The clock is the measuring instrument here — but note the times are not exactly doubling, because by the time each beaker is read it has already spent some of its thiosulfate."
+    ],
+    "the-daniell-cell-offers-its-voltage": [
+      "100 mL of water for the zinc half-cell.",
+      "Zinc sulfate dissolves into it.",
+      "A zinc electrode stands in it. On its own this jar does nothing.",
+      "A second vessel, for the other half.",
+      "The same 100 mL of water.",
+      "Copper sulfate this time.",
+      "And a copper electrode. Still nothing: two jars, no connection.",
+      "Connect them and the meter reads about 1.104 V. This is the displacement reaction with its two halves kept apart, so the electrons have to travel through the wire instead of jumping across in the beaker — and the reading is the distance between two rungs of the series."
+    ],
+    "the-in-between-colour-is-a-mixture": [
+      "100 mL of water.",
+      "A trace of salt, so the meter has ions to work with.",
+      "A tiny amount of bromothymol blue. Near neutral the beaker looks green — which is not a third colour of the dye but its yellow form and its blue form present at once, added up by the eye.",
+      "Acid goes in and the yellow form takes over: the beaker is yellow.",
+      "Twice as much base swings it the other way, past neutral and into blue. One dye, two forms, and every shade between them is a ratio."
+    ],
+    "the-indicator-is-chosen-for-the-jump": [
+      "100 mL of water in the first flask.",
+      "0.005 mol of acetic acid.",
+      "Exactly 0.005 mol of base: the acid is now used up, and this flask sits at its equivalence point near pH 8.6.",
+      "Phenolphthalein goes in and the flask turns pink. Its own turning range straddles that endpoint, so its colour change means 'stop'.",
+      "A second flask, to show an indicator that would have lied.",
+      "The same 100 mL of water.",
+      "The same 0.005 mol of acetic acid.",
+      "Only half the base this time — the flask is half-titrated and there is plenty of acid left.",
+      "Methyl orange goes in and it has already changed, at pH 4.7, deep inside the buffer. An indicator is chosen to sit on the jump, not for its colour."
+    ],
+    "the-oxidant-is-spent-to-the-last-electron": [
+      "100 mL of water.",
+      "Sulfuric acid — 0.005 mol, which is 0.010 mol of protons, and this reaction spends protons as well as electrons.",
+      "0.005 mol of iron(II) sulfate.",
+      "Twice as much permanganate as the half-oxidation run: 0.001 mol, and five electrons each makes exactly the 0.005 mol of room the iron can fill. Every last bit of iron is oxidised, and the pH climbs from about 1.4 to 2.1 because eight protons went with each permanganate."
+    ],
+    "the-oxygen-is-counted-but-never-seen": [
+      "100 mL of water.",
+      "0.1 mol of peroxide.",
+      "A thousandth of a gram of catalase, which will finish it inside a second.",
+      "One second, and the peroxide is gone.",
+      "Look at it: bubbles rising through the liquid, and about 0.05 mol of oxygen — some 1.2 litres — now in the flask. The amount is exact and there is no way to measure it here: a real bench would push the gas into a syringe and read millilitres, and that reading would be the experiment. Knowing which part of an answer is the calculation and which is the equipment is worth having about any simulation."
+    ],
+    "the-plating-bath-turns-acid": [
+      "100 mL of water.",
+      "Copper sulfate dissolves: the bath starts only mildly acidic, near pH 4.3.",
+      "A copper electrode for the metal to grow on.",
+      "Half an amp for 1930 seconds. Copper plates out at one wire — and at the other, water itself is torn apart to pay the charge: oxygen bubbles off and protons are left behind, so the bath drops to about pH 1.8. The copper you removed was paid for out of the water."
+    ],
+    "the-salt-comes-back-the-ribbon-does-not": [
+      "100 mL of water in the first beaker.",
+      "5.844 g of salt dissolves and disappears from view.",
+      "Boil away 95 % of the water, and the salt is back: white, sharp-cornered crystals. Dissolving hid it; it did not change it.",
+      "A second vessel, for a change of the other sort.",
+      "1.2 g of magnesium ribbon.",
+      "Burn it. What is left is magnesium oxide — a different substance with different properties, and no amount of un-heating brings the ribbon back. That is the whole difference between a physical change and a chemical one."
+    ],
     "the-series-decides-who-plates": [
       "100 mL of water for the copper salt to dissolve in.",
       "Copper sulfate dissolves and the solution turns blue: the colour belongs to the copper ions in it.",
       "Zinc goes in and trades places with the copper. Copper plates onto the strip, the blue drains out of the solution, and the beaker heats to about 60 °C."
+    ],
+    "the-silver-tree": [
+      "100 mL of water.",
+      "0.02 mol of silver nitrate dissolves — a clear, colourless solution.",
+      "Copper goes in and glittering needles of silver grow on it while the water slowly turns blue. Copper sits below silver, so it trades itself away: two silver atoms plate for every copper atom that dissolves, because each copper gives up two electrons and each silver needs one."
+    ],
+    "the-ten-degree-rule-and-where-it-frays": [
+      "100 mL of water at 25 °C in the first beaker.",
+      "0.79 g of thiosulfate at the same temperature.",
+      "The acid, also at 25 °C. This is the cold reference.",
+      "A second beaker, ten degrees warmer.",
+      "The same water at 35 °C.",
+      "The same thiosulfate.",
+      "The same acid. Only the temperature differs.",
+      "A third beaker, another ten degrees up.",
+      "The same water at 45 °C.",
+      "The same thiosulfate.",
+      "The same acid.",
+      "A fourth beaker, ten degrees higher again.",
+      "The same water at 55 °C.",
+      "The same thiosulfate.",
+      "The same acid, for the fourth time.",
+      "Ten seconds on one clock for all four. Each ten degrees roughly doubles the sulfur made — but the factors are 1.90, then 1.80, then 1.69. Each step buys a little less than the last, so 'it doubles' is a useful rule and not a promise."
+    ],
+    "theoretical-yield-and-what-a-real-lab-loses": [
+      "500 mL of water.",
+      "0.01 mol of salt.",
+      "0.01 mol of silver nitrate — matched exactly, so 0.01 mol of silver chloride is the whole theoretical yield: 1.43 g.",
+      "A second vessel to receive the filtrate.",
+      "Filter it: the solid stays on the paper and the liquid runs through.",
+      "Weigh the residue: 1.43 g, the theoretical yield in full.",
+      "Weigh the filtrate too, so the accounting closes. On this bench the yield is essentially 100 %, which means any shortfall in a real experiment is loss on the glassware — not chemistry that failed to happen."
     ],
     "three-beakers-of-peroxide": [
       "The first flask gets 100 mL of water — the control, which will be given nothing else.",
@@ -82,10 +622,82 @@
       "A thousandth of a gram of catalase is all the third flask gets — a hundred-thousandth of the peroxide's mass.",
       "One second passes for all three. The plain flask has done nothing the bench will report, the manganese flask has decomposed a little, and the catalase flask has already finished."
     ],
+    "two-beakers-and-one-clock": [
+      "100 mL of water at 25 °C in the first beaker.",
+      "0.79 g of thiosulfate, at that same temperature.",
+      "The acid, also at 25 °C.",
+      "A second beaker, for the warm run.",
+      "The same 100 mL of water, at 35 °C.",
+      "The same thiosulfate.",
+      "The same acid, in the same amount. Everything matches except the ten degrees.",
+      "Twenty seconds pass — one clock, both beakers, started and stopped together.",
+      "Look at the cold one: faintly hazy.",
+      "Look at the warm one: properly cloudy, nearly twice as much sulfur. Nothing else was different, so nothing else can have caused it.",
+      "Another twenty seconds on the same clock.",
+      "The cold beaker has slowed a little: it has less thiosulfate left than it started with.",
+      "And the warm one has slowed more, because it has spent more. Change one thing at a time and the comparison means something; change two and it means nothing, however carefully it was measured."
+    ],
+    "two-paths-one-temperature": [
+      "100 mL of water in the first beaker.",
+      "The acid goes in first here.",
+      "Then the solid hydroxide, straight into the acid: it dissolves and neutralises in one go, and the thermometer records the total.",
+      "A second beaker, for the same journey taken the other way round.",
+      "The same 100 mL of water.",
+      "This time the hydroxide dissolves first, into plain water.",
+      "And the acid follows. Both beakers end at the same temperature, about 49 °C: the dissolving heat and the neutralisation heat are both paid either way, and heat cares only about where you started and where you stopped."
+    ],
+    "two-vessels-one-variable": [
+      "100 mL of water in the first cup.",
+      "0.1 mol of calcium chloride, releasing 8.28 kJ as it dissolves.",
+      "The thermometer reads about 44.9 °C — a rise of 19.9 K.",
+      "A second cup, with twice the water and nothing else changed.",
+      "200 mL this time: twice as much to warm, from the same starting temperature.",
+      "The very same 0.1 mol of calcium chloride, so exactly the same heat is released.",
+      "The thermometer reads about 34.9 °C — a rise of 9.9 K, exactly half. Only the denominator changed, which is why the halving is exact and why the comparison is worth anything at all."
+    ],
     "vinegar-and-baking-soda": [
       "250 mL of water goes into the beaker — the solvent the powder and the acid will meet in.",
       "The bicarbonate dissolves and simply waits: nothing bubbles yet, because there is no acid here to hand it a proton.",
       "Now the acetic acid arrives and the bubbles start — that is carbon dioxide leaving the open beaker, which is why the vessel gets lighter."
+    ],
+    "warm-water-climbs-less": [
+      "100 mL of water.",
+      "Read the thermometer first: 25 °C, and at that temperature the surface tension is about 72 mN/m — the pull that would haul water some 29 mm up a half-millimetre tube.",
+      "Fifteen kilojoules go in.",
+      "The thermometer reads about 61 °C, and the surface tension has fallen by some 8 %. Warming shakes the water molecules loose from one another, and it is exactly that pull between them — the skin an insect can stand on — that was doing the climbing."
+    ],
+    "weak-acid-endpoint-is-alkaline": [
+      "A litre of water.",
+      "0.1 mol of acetic acid.",
+      "Exactly 0.1 mol of base — the acid is precisely used up, and yet the meter reads about 8.8, not 7. What is left is sodium acetate, and acetate is the partner of a weak acid: it takes protons back off the water, which leaves hydroxide behind. The endpoint of a weak-acid titration is alkaline, and that is why the indicator has to be chosen for it."
+    ],
+    "weigh-before-and-after": [
+      "100 mL of water.",
+      "5.844 g of salt dissolves and vanishes from sight.",
+      "Weigh it now: 105.54 g, the water plus the salt. This is the number that makes the next step evidence rather than belief.",
+      "Boil every drop of water away.",
+      "Weigh what is left: 5.84 g — the salt, back, to within a tenth of a per cent. The 99.7 g that went missing is exactly the water, and nothing else went anywhere."
+    ],
+    "when-the-lab-says-it-does-not-know": [
+      "50 mL of propanone — a solvent that is not water, which is where this bench's databases end.",
+      "Two grams of gypsum go in, and the bench says plainly that it has no method for this salt in this solvent. It does not guess and it does not pass the silence off as an answer.",
+      "The balance still works: the acetone plus the salt, exactly. Mass bookkeeping was never the thing in doubt — only the solubility was, and that gap is stated rather than filled."
+    ],
+    "why-the-shelf-is-not-on-fire": [
+      "1.2 g of magnesium ribbon into the first crucible.",
+      "0.245 kJ of heat — just short of the threshold.",
+      "The thermometer reads about 224 °C.",
+      "Weigh it: still 1.20 g of metal. Hot, and nothing has happened.",
+      "A second crucible, for the same ribbon a few degrees further.",
+      "The same 1.2 g of magnesium.",
+      "0.25 kJ this time — a whisker more.",
+      "The thermometer is now past the threshold and the ribbon has caught, running to thousands of degrees.",
+      "Weigh it: 1.99 g of oxide. Nothing about the metal or the air changed between the two crucibles; there is a line, and everything depends on which side of it you are — which is also why the shelf of magnesium in the cupboard is not on fire."
+    ],
+    "zinc-guards-iron": [
+      "100 mL of water.",
+      "0.02 mol of iron(II) sulfate dissolves.",
+      "Zinc goes in and slowly gives itself away: grey iron plates onto it while the zinc dissolves. Zinc sits below iron in the series, so it takes the attack on purpose — bolt a lump of it to a ship's hull and the sea eats the lump instead of the steel."
     ]
   }
 }
