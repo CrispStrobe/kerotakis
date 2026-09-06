@@ -490,7 +490,8 @@ KID-18 … KID-21       from Part 2; KID-18 and KID-20 are the cheap ones
 The three shipped claims that do not reproduce — KID-2's curds, KID-18's
 Faraday's law, and T09's ester — share one shape: a model that is present
 and a path to it that is closed. That is what a corpus run by a stranger
-finds and a corpus written by the author cannot (see `HISTORY.md`, LESSON).
+finds and a corpus written by the author cannot; the lesson is recorded in
+`HISTORY.md`.
 
 ### Later findings (2026-09-03 to 2026-09-04)
 
