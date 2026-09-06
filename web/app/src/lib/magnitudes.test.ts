@@ -21,8 +21,10 @@ import {
   exothermGlow,
   electrodePairBubbles,
   flameGutter,
+  gelStep,
   grindGrains,
   headspaceVolumeL,
+  mixThermalBands,
   neutralisationMarks,
   osmoticSwell,
   partitionTint,
@@ -34,6 +36,7 @@ import {
   substrateClearing,
   supersaturationHaze,
   sweepPeriodS,
+  thermalWarmth,
   effectFromEvent,
   incandescence,
   vapourIntensity,
@@ -1346,5 +1349,75 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     });
     expect(decayed!.kind).toBe("decay");
     expect(decayed!.decay).toMatchObject({ parent: "K-40", daughter: "Ar-40", moles: 1e-6 });
+  });
+
+  // ------------------------------------ GUI-099 ANIM-9: the last three
+
+  it("a gel that did not move this step draws no setting", () => {
+    // The standing fraction is the scene's and is already drawn; the
+    // transition visual has to be a function of the STEP, or it claims
+    // something happened that did not.
+    expect(gelStep(0.7, 0.7).step).toBe(0);
+    expect(gelStep(0.1, 0.8).step).toBeCloseTo(0.7, 10);
+    // Both endpoints travel, because the front sweeps between them.
+    expect(gelStep(0.1, 0.8)).toMatchObject({ from: 0.1, to: 0.8 });
+    // A fraction that fell is not a negative setting.
+    expect(gelStep(0.8, 0.2).step).toBe(0);
+    expect(gelStep(-1, 4)).toMatchObject({ from: 0, to: 1, step: 1 });
+    const setting = effectFromEvent({
+      event: "gel_formed", vessel: 0, polymer: "PVA", crosslinker: "B(OH)4-",
+      from_gelled_fraction: 0.1, to_gelled_fraction: 0.8,
+      polymer_grams: 4.2, crosslinker_moles: 0.003,
+    });
+    expect(setting!.kind).toBe("gel-set");
+    expect(setting!.magnitude).toBeCloseTo(0.7, 10);
+    expect(setting!.gelSet).toMatchObject({ polymerGrams: 4.2, crosslinkerMoles: 0.003 });
+  });
+
+  it("the mixture reads between the two that made it, on one shared ramp", () => {
+    // That is the whole content of the adiabatic balance, and it is what
+    // a learner is asked to predict — so the three bands cannot be on
+    // three ramps that happen to look ordered.
+    expect(thermalWarmth(273.15)).toBe(0);
+    expect(thermalWarmth(373.15)).toBe(1);
+    expect(thermalWarmth(323.15)).toBeCloseTo(0.5, 10);
+    const bands = mixThermalBands(293.15, 353.15, 323.15);
+    expect(bands.a).toBeLessThan(bands.into);
+    expect(bands.into).toBeLessThan(bands.b);
+    expect(bands.spreadK).toBeCloseTo(60, 10);
+    expect(bands.between).toBe(true);
+    // A mix whose heat of mixing carried it outside the starting pair is
+    // a real result and is marked, not clamped into looking ordinary.
+    expect(mixThermalBands(293.15, 303.15, 341.15).between).toBe(false);
+    const mixed = effectFromEvent({
+      event: "mixed", a: 0, b: 1, into: 2, fraction_a: 0.5, fraction_b: 0.5,
+      temperature_a: 293.15, temperature_b: 353.15, temperature_into: 323.15,
+    });
+    expect(mixed!.kind).toBe("swirl");
+    expect(mixed!.mixThermal).toMatchObject({ temperatureIntoK: 323.15 });
+  });
+
+  it("a hydrate driven off at 380 K steams by the water it actually lost", () => {
+    const lots = effectFromEvent({
+      event: "dehydrated", vessel: 0, hydrate: "CuSO4:5H2O", anhydrous: "CuSO4",
+      formula_units: 0.04, water: 0.2, at: 380,
+    });
+    expect(lots!.kind).toBe("dehydrate");
+    expect(lots!.hydration).toMatchObject({ waterMoles: 0.2, atK: 380, drivingOff: true });
+    expect(lots!.temperatureK).toBe(380);
+    const drop = effectFromEvent({
+      event: "dehydrated", vessel: 0, hydrate: "CuSO4:5H2O", anhydrous: "CuSO4",
+      formula_units: 0.002, water: 0.01, at: 380,
+    });
+    expect(lots!.magnitude).toBeGreaterThan(drop!.magnitude);
+    // Rehydration is the same numbers going the other way, and carries no
+    // temperature, so nothing may draw one.
+    const back = effectFromEvent({
+      event: "hydrated", vessel: 0, anhydrous: "CuSO4", hydrate: "CuSO4:5H2O",
+      formula_units: 0.04, water: 0.2,
+    });
+    expect(back!.kind).toBe("rehydrate");
+    expect(back!.hydration!.drivingOff).toBe(false);
+    expect(back!.hydration!.atK).toBeUndefined();
   });
 });

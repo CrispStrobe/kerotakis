@@ -2385,6 +2385,10 @@
   "{moles} mol of {species} used up": "{moles} mol {species} verbraucht",
   "ground to {diameter} µm, exposing {area} m²": "auf {diameter} µm zerkleinert, {area} m² freigelegt",
   "{parent} decaying to {daughter} by {mode}, {moles} mol so far": "{parent} zerfällt über {mode} zu {daughter}, bisher {moles} mol",
-  "{percent}% of the substrate is still unconverted": "{percent}% des Substrats sind noch nicht umgesetzt"
+  "{percent}% of the substrate is still unconverted": "{percent}% des Substrats sind noch nicht umgesetzt",
+  "gelling from {from}% to {to}% of the polymer": "geliert von {from}% auf {to}% des Polymers",
+  "{a} °C and {b} °C settled at {into} °C": "{a} °C und {b} °C stellten sich auf {into} °C ein",
+  "{moles} mol of water driven off at {celsius} °C": "{moles} mol Wasser bei {celsius} °C ausgetrieben",
+  "{moles} mol of water taken back into the hydrate": "{moles} mol Wasser wieder in das Hydrat aufgenommen"
  }
 }

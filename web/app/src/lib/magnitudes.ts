@@ -553,6 +553,48 @@ export interface DecayRun {
 }
 
 /**
+ * KID-14: the sol→gel step itself. The standing gel body is the scene's
+ * business; this is the *transition*, which is the thing a learner is
+ * watching for and the thing the stage never drew.
+ */
+export interface GelSetRun {
+  polymer: string;
+  crosslinker: string;
+  fromGelledFraction: number;
+  toGelledFraction: number;
+  polymerGrams: number;
+  crosslinkerMoles: number;
+}
+
+/**
+ * The adiabatic balance behind a pour-together: the two starting
+ * temperatures and the one they settled at. The event carries all three
+ * so a client can explain the outcome without reconstructing pre-step
+ * state — and the stage used none of them.
+ */
+export interface MixThermalRun {
+  temperatureAK: number;
+  temperatureBK: number;
+  temperatureIntoK: number;
+}
+
+/**
+ * EXP-33: water leaving a hydrate, or going back into it. `atK` is the
+ * temperature the engine drove it off at, which is what makes the steam a
+ * claim rather than a decoration.
+ */
+export interface HydrationRun {
+  hydrate: string;
+  anhydrous: string;
+  formulaUnits: number;
+  waterMoles: number;
+  /** Temperature the water left at, K. Absent on rehydration. */
+  atK?: number;
+  /** `true` when the water went OUT. */
+  drivingOff: boolean;
+}
+
+/**
  * How long an instrument's reading stays on the vessel.
  *
  * 2.5 s, which is what this was, is long enough to notice something
@@ -680,6 +722,12 @@ export interface Effect {
   grind?: GrindRun;
   /** Engine-computed decay parcel and half-life, for the ticks. */
   decay?: DecayRun;
+  /** Engine-computed sol→gel step, for the setting front. */
+  gelSet?: GelSetRun;
+  /** Engine-computed adiabatic balance, for the meeting streams. */
+  mixThermal?: MixThermalRun;
+  /** Engine-computed water leaving or returning to a hydrate. */
+  hydration?: HydrationRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -1388,6 +1436,56 @@ export function decayTicks(
 }
 
 /**
+ * The sol→gel STEP, which is what the transition visual has to be a
+ * function of. The standing fraction belongs to the scene and is already
+ * drawn; a gel that was already set and did not move this step must show
+ * no setting, or the picture claims something happened that did not.
+ */
+export function gelStep(
+  fromFraction: number,
+  toFraction: number,
+): { step: number; from: number; to: number } {
+  const from = Number.isFinite(fromFraction) ? Math.min(1, Math.max(0, fromFraction)) : 0;
+  const to = Number.isFinite(toFraction) ? Math.min(1, Math.max(0, toFraction)) : 0;
+  return { step: Math.max(0, to - from), from, to };
+}
+
+/**
+ * Warmth on one shared ramp, so three temperatures drawn with it keep
+ * their real order: ice water reads cold, a hot pour reads hot, and the
+ * mixture reads BETWEEN them, which is the whole content of an adiabatic
+ * balance and the thing a learner is asked to predict.
+ */
+export function thermalWarmth(temperatureK: number): number {
+  if (!Number.isFinite(temperatureK)) return 0;
+  return scale(temperatureK, 273.15, 373.15);
+}
+
+/**
+ * The three bands of a thermal mix, and whether the settled temperature
+ * actually landed between the two that made it.
+ *
+ * `between` is false only for a mix whose enthalpy of mixing carried it
+ * outside the starting pair — which is a real result and is drawn as
+ * such rather than clamped into looking ordinary.
+ */
+export function mixThermalBands(
+  temperatureAK: number,
+  temperatureBK: number,
+  temperatureIntoK: number,
+): { a: number; b: number; into: number; spreadK: number; between: boolean } {
+  const lo = Math.min(temperatureAK, temperatureBK);
+  const hi = Math.max(temperatureAK, temperatureBK);
+  return {
+    a: thermalWarmth(temperatureAK),
+    b: thermalWarmth(temperatureBK),
+    into: thermalWarmth(temperatureIntoK),
+    spreadK: Number.isFinite(hi - lo) ? Math.abs(hi - lo) : 0,
+    between: temperatureIntoK >= lo && temperatureIntoK <= hi,
+  };
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -1780,6 +1878,54 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     }
+    case "gel_formed": {
+      // KID-14. The standing gel body is the scene's; this is the STEP,
+      // so a gel that was already set and did not move draws no setting.
+      const step = gelStep(Number(e.from_gelled_fraction ?? 0), Number(e.to_gelled_fraction ?? 0));
+      return {
+        kind: "gel-set",
+        at: now,
+        durationMs: 3600,
+        magnitude: step.step,
+        reading: step.to,
+        unit: "fraction",
+        gelSet: {
+          polymer: String(e.polymer ?? ""),
+          crosslinker: String(e.crosslinker ?? ""),
+          fromGelledFraction: step.from,
+          toGelledFraction: step.to,
+          polymerGrams: Math.max(0, Number(e.polymer_grams ?? 0)),
+          crosslinkerMoles: Math.max(0, Number(e.crosslinker_moles ?? 0)),
+        },
+      };
+    }
+    case "dehydrated":
+    case "hydrated": {
+      // EXP-33. The colour change arrives through the scene; the WATER
+      // never did, so a hydrate driven off at 380 K steamed as much as
+      // one that lost a drop, which is to say not at all.
+      const drivingOff = kind === "dehydrated";
+      const waterMoles = Math.max(0, Number(e.water ?? 0));
+      const atK = e.at === undefined ? undefined : Number(e.at);
+      return {
+        kind: drivingOff ? "dehydrate" : "rehydrate",
+        at: now,
+        durationMs: 4200,
+        magnitude: vapourIntensity(waterMoles),
+        species: String(e.hydrate ?? ""),
+        temperatureK: atK,
+        reading: waterMoles,
+        unit: "mol",
+        hydration: {
+          hydrate: String(e.hydrate ?? ""),
+          anhydrous: String(e.anhydrous ?? ""),
+          formulaUnits: Math.max(0, Number(e.formula_units ?? 0)),
+          waterMoles,
+          atK,
+          drivingOff,
+        },
+      };
+    }
     case "foam_changed": {
       const rawHalfLife = Number(e.half_life_seconds ?? 0);
       const halfLifeSeconds = Number.isFinite(rawHalfLife) ? Math.max(0, rawHalfLife) : 0;
@@ -1867,12 +2013,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "mixed":
+      // The three temperatures the adiabatic balance used were on the wire
+      // and unused: the swirl said how MUCH poured and nothing said what
+      // happened thermally when the two streams met.
       return {
         kind: "swirl",
         at: now,
         magnitude: mixMag(e),
         source: Number(e.a ?? 0),
         target: Number(e.into ?? 0),
+        mixThermal: {
+          temperatureAK: Number(e.temperature_a ?? 0),
+          temperatureBK: Number(e.temperature_b ?? 0),
+          temperatureIntoK: Number(e.temperature_into ?? 0),
+        },
       };
     case "stirred":
       return {
