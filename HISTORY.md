@@ -94,6 +94,11 @@ it had while it was open, which is why a few numbers appear twice below.
   on the persistent scene: paired layer bars and an accessible lower/upper
   percentage come from current two-layer matter and UNIFAC, without replaying
   an event or claiming a mass-transfer rate
+- **ANIM-11 / K14 standing osmosis** — projected each prepared object's
+  durable cumulative water exchange into the standing scene and existing
+  vessel as a signed mol/g readout with accessible provenance; deliberately
+  did not draw swelling geometry, membrane mechanics, or a final equilibrium
+  the model does not compute
 - **Codex learning progress** — replaced age-derived catalogue levels with a
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,
