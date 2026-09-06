@@ -46,10 +46,17 @@ const openCupboard = async () => {
 
 const cupboardAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.cupboard');
-  if (!panel) return JSON.stringify({ shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0 });
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0 });
   const items = [...panel.querySelectorAll('button.item')];
   const rect = panel.getBoundingClientRect();
+  // The header tally is "reachable/whole catalogue". The denominator is what
+  // the cupboard KNOWS about, which is progression-independent; the number of
+  // rendered items is not, because a Story learner is shown what they have
+  // earned. Asserting the rendered count would have been asserting the
+  // fixture's progress.
+  const tally = /(\d+)\s*\/\s*(\d+)/.exec(panel.querySelector('header b')?.textContent || "");
   return JSON.stringify({
+    catalogue: tally ? Number(tally[2]) : 0,
     shelves: panel.querySelectorAll('section.shelf').length,
     items: items.length,
     unnamed: items.filter((item) => !(item.textContent.trim() || item.getAttribute('aria-label'))).length,
@@ -240,8 +247,10 @@ try {
   // and the kits. A missing shelf means an entry lost its group.
   check("the cupboard groups its equipment on shelves", cupboard.shelves >= 5, `${cupboard.shelves} shelves`);
   // 12 instruments + 12 apparatus + 6 transfer verbs + burette/mixer/column
-  // train + 5 kits, with the reaction studio conditional on the session.
-  check("the cupboard holds the whole catalogue", cupboard.items >= 38, `${cupboard.items} items`);
+  // train, with the reaction studio conditional on the session. The kits are
+  // skins over those and are not counted twice.
+  check("the cupboard knows the whole catalogue", cupboard.catalogue >= 33, `${cupboard.catalogue} tools`);
+  check("the cupboard shows what this learner has", cupboard.items >= 12, `${cupboard.items} items`);
   check("every cupboard item is named", cupboard.unnamed === 0, `${cupboard.unnamed} unnamed`);
   check("every cupboard item can say what it models", cupboard.info === cupboard.items, `${cupboard.info} of ${cupboard.items}`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
