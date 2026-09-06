@@ -1,24 +1,39 @@
 <!--
-  ONE catalogue, two tiers.
+  ONE catalogue. One card. One row of filters.
 
-  There used to be two: `ExperimentCatalog.svelte` for the codex entries and
-  `KidsCatalog.svelte` for the KIDS corpus. Two dialogs, two search boxes,
-  two close affordances, two ideas of what "run this" means — and only one
-  of them actually drove the bench in a way a learner could watch. Folding
-  them together is not tidying: it is how the Kids tier gets the real runner
-  and the experiment tier gets the Kids tier's honesty about what a card is
-  offering, without either of them being reimplemented twice.
+  There used to be two catalogues in two components; then there was one
+  component still drawing two tiers, and a tier is exactly the thing a
+  learner cannot filter by, cannot search across, and did not ask for. The
+  two shapes disagreed about everything a card is: one was a row with an
+  equation, the other a wide card with a phenomenon; one had status chips
+  and a topic menu, the other concept and curriculum tabs and a completion
+  filter; and the second tier wore a name that told a reader it was for
+  younger children, which is a judgement about the READER made by the file
+  the content happened to ship in.
 
-  Tier is presentation. Kids cards are wordier about the phenomenon and
-  quieter about the equation, experiment rows are the reverse; both open the
-  SAME entry panel and both run through `runCatalogEntry`, on the visible
-  bench, one step at a time.
+  So the tiers are gone. `lib/catalogEntry.ts` maps both corpora into one
+  view model — deriving the level, the age, the duration and the topics
+  that only one side carried — and everything below draws exactly one kind
+  of card from it. What used to be the tier is now the LEVEL chip, which is
+  a claim about the experiment rather than about the person reading it, and
+  which composes with every other filter instead of partitioning the
+  library before they are applied.
+
+  The filters are one horizontally scrolling rail (the shelf's pattern),
+  because two rows of chips on a phone pushed the experiments themselves
+  below the fold: the filter must never be taller than the thing it
+  filters. The concept and curriculum doors became two selects in that same
+  rail — the same browsing, minus a mode switch that hid the cards.
+
+  Every card offers the same primary action, and which action it is follows
+  the CONTENT: an entry with a script runs on the visible bench, one whose
+  procedure was written as a guided lesson opens that lesson. Both go
+  through `runCatalogEntry`, one step at a time, on the bench you can see.
 -->
 <script lang="ts">
   import { untrack } from "svelte";
   import {
     conceptIndex,
-    curriculumIndex,
     relatedConcepts,
     scriptKit,
     type CheckResult,
@@ -27,7 +42,25 @@
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
-  import { experimentHasProgress, experimentMatches, experimentProgressLabel, type ExperimentProgressFilter } from "../catalogSearch";
+  import { available } from "../catalogProgress";
+  import {
+    CATALOG_DURATIONS,
+    CATALOG_LEVELS,
+    catalogEntries,
+    durationLabel,
+    filterCatalogEntries,
+    levelCounts,
+    levelLabel,
+    NO_CATALOG_FILTERS,
+    presentPlacements,
+    presentTopics,
+    runTargetLabel,
+    slugWords,
+    topicLabel,
+    type CatalogEntry,
+    type CatalogFilters,
+    type CatalogLevel,
+  } from "../catalogEntry";
   import {
     canUseFreshVessels,
     loadRunMode,
@@ -45,16 +78,10 @@
     codexLearningLabel,
     guidedLearningLabel,
     kidsConnections,
-    kidsExperimentMatches,
-    kidsText,
     type KidsExperiment,
-    type KidsStatus,
   } from "../kidsCatalog";
 
-  type CatalogTier = "kids" | "experiments";
-
   let {
-    tier = "experiments",
     entries,
     kidsEntries = [],
     session,
@@ -62,14 +89,13 @@
     codexIds = new Set<string>(),
     initial = null,
     kidsInitial = null,
-    ontier,
+    initialLevel = null,
     onlesson,
     onquest,
     oncapability,
     onsandbox,
     onclose,
   }: {
-    tier?: CatalogTier;
     entries: CodexEntry[];
     kidsEntries?: KidsExperiment[];
     session: Session;
@@ -77,11 +103,12 @@
     codexIds?: ReadonlySet<string>;
     /** Open directly on one entry (the concept map hands entries over). */
     initial?: CodexEntry | null;
-    /** Open the KIDS tier filtered to one task id — the concept map's
-     * other hand-over. It seeds the shared search rather than pinning it,
-     * so the learner can widen it immediately. */
+    /** Open on one entry by its guided-task id — the concept map's other
+     * hand-over. It seeds the shared search rather than pinning it, so the
+     * learner can widen it immediately. */
     kidsInitial?: string | null;
-    ontier?: (next: CatalogTier) => void;
+    /** A door that used to open a tier now opens the list pre-filtered. */
+    initialLevel?: CatalogLevel | null;
     onlesson?: (file: string) => void;
     onquest?: (id: string) => void;
     oncapability?: (id: string) => void;
@@ -89,11 +116,63 @@
     onclose: () => void;
   } = $props();
 
-  let open = $state<CodexEntry | null>(untrack(() => initial));
+  /** Materials the learner can actually reach right now. */
+  const shelfKeys = $derived(new Set(
+    session.shelf.filter((item) => available(session.catalog, item.key)).map((item) => item.key),
+  ));
+
+  /**
+   * Both corpora as one list.
+   *
+   * Rebuilt when the locale changes, because the titles and the one-line
+   * hooks ARE the search index: a reader typing German has to match the
+   * German they can see, which is the defect `catalogSearch` was written
+   * for and which a cached English index would quietly bring back.
+   */
+  const all = $derived(catalogEntries(entries, kidsEntries, {
+    locale: i18n.locale,
+    translate: t,
+    completed: session.completedExperiments,
+    completedMissions: session.completedMissions,
+    shelfKeys,
+  }));
+  const byId = $derived(new Map(all.map((entry) => [entry.id, entry])));
+
+  let filters = $state<CatalogFilters>({
+    ...NO_CATALOG_FILTERS,
+    level: untrack(() => initialLevel),
+    query: untrack(() => kidsInitial ?? ""),
+  });
+  const shown = $derived(filterCatalogEntries(all, filters));
+  const counts = $derived(levelCounts(all));
+  const topics = $derived(presentTopics(all)
+    .map((topic) => ({ topic, label: t(topicLabel(topic)) }))
+    .sort((a, b) => a.label.localeCompare(b.label, i18n.locale)));
+  const concepts = $derived(conceptIndex(entries));
+  const placements = $derived(presentPlacements(all, i18n.locale));
+  const related = $derived(filters.concept ? relatedConcepts(entries, filters.concept).slice(0, 6) : []);
+
+  /**
+   * The open entry, held by id rather than by value.
+   *
+   * The list is rebuilt whenever the locale or the learner's progress
+   * changes, so a captured object would go stale the moment either did —
+   * the panel would keep showing the German title of an English session,
+   * or a completion that has since been recorded.
+   */
+  let openId = $state<string | null>(untrack(() => initial?.id ?? null));
+  const open = $derived(openId === null ? null : byId.get(openId) ?? null);
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
   let refusedLine = $state<string | null>(null);
+
+  /** Linked learning, for the entries that name any. */
+  const linksById = $derived(new Map(all
+    .filter((entry) => entry.guided !== null)
+    .map((entry) => [entry.id, kidsConnections(
+      entry.guided!, capabilityIds, codexIds, session.completedMissions, session.completedExperiments,
+    )])));
 
   /** Run state: the panel docks while these are live, so the stage shows. */
   let running = $state(false);
@@ -154,56 +233,9 @@
     answer("stop");
   }
 
-  /** The catalog's three doors: everything, by concept, by curriculum. */
-  let view = $state<"all" | "concepts" | "curriculum">("all");
-  /** ONE search box, shared by both tiers — swapping tier keeps the query.
-   * Read once, so a deep link seeds it without pinning it. */
-  let filter = $state(untrack(() => kidsInitial ?? ""));
-  let concept = $state<string | null>(null);
-  let progress = $state<ExperimentProgressFilter>("all");
-  const concepts = $derived(conceptIndex(entries));
-  const curricula = $derived(curriculumIndex(entries));
-  const related = $derived(concept ? relatedConcepts(entries, concept).slice(0, 8) : []);
-  const shown = $derived.by(() => {
-    let list = entries.filter((entry) => experimentHasProgress(entry, session.completedExperiments, progress));
-    if (view === "concepts" && concept) {
-      // i18n-ok: concept slugs are keys; `concept` comes from a chip, not a box.
-      list = list.filter((e) => e.concepts?.includes(concept!));
-    }
-    const q = filter.trim();
-    if (q) {
-      // Match canonical and visible localized text. `t()` reads the reactive
-      // locale, so changing languages also refilters the catalog.
-      list = list.filter((entry) => experimentMatches(entry, q, t));
-    }
-    return list;
-  });
-
-  // ── Kids tier ────────────────────────────────────────────────────────
-  const statuses: KidsStatus[] = ["computed", "partial", "boundary", "declined", "unreachable"];
-  let status = $state<KidsStatus | null>(null);
-  let topic = $state("");
-  const topics = $derived([...new Set(kidsEntries.flatMap((entry) => entry.topics))].sort());
-  const kidsShown = $derived(kidsEntries.filter((entry) =>
-    (!status || entry.status === status) && (!topic || entry.topics.includes(topic))
-      && kidsExperimentMatches(entry, filter, i18n.locale),
-  ));
-  const linksById = $derived(new Map(kidsEntries.map((entry) => [entry.id,
-    kidsConnections(entry, capabilityIds, codexIds, session.completedMissions, session.completedExperiments),
-  ])));
-  const byId = $derived(new Map(entries.map((entry) => [entry.id, entry])));
-  /** The codex entry a KIDS card can actually run, if it names one we have. */
-  function runnableCodex(entry: KidsExperiment): CodexEntry | null {
-    for (const id of entry.codex ?? []) {
-      const found = byId.get(id);
-      if (found) return found;
-    }
-    return null;
-  }
-
-  function openEntry(e: CodexEntry, at: typeof tab = "theory") {
-    open = e;
-    tab = at;
+  function openEntry(entry: CatalogEntry, at: typeof tab = "theory") {
+    openId = entry.id;
+    tab = entry.script ? at : "theory";
     predicted = null;
     result = null;
     refusedLine = null;
@@ -211,16 +243,41 @@
     decision = null;
   }
 
-  function setTier(next: CatalogTier) {
-    if (next === tier) return;
-    open = null;
-    ontier?.(next);
+  /** The card's primary action, which follows the content and not the corpus. */
+  function act(entry: CatalogEntry) {
+    switch (entry.run.kind) {
+      case "script":
+        openEntry(entry, "run");
+        return;
+      case "lesson":
+        onlesson?.(entry.run.file);
+        return;
+      case "quest":
+        onquest?.(entry.run.id);
+        return;
+      case "sandbox":
+        if (entry.guided) onsandbox?.(entry.guided);
+        return;
+      default:
+        openEntry(entry);
+    }
   }
+
+  function clearFilters() {
+    filters = { ...NO_CATALOG_FILTERS };
+  }
+
+  const filtering = $derived(
+    filters.level !== null || filters.topic !== null || filters.duration !== null
+    || filters.shelfOnly || filters.progress !== "all"
+    || filters.concept !== null || filters.curriculum !== null || filters.query.trim() !== "",
+  );
 
   // The register prose at the dial's level, tolerant of key spelling.
   const theory = $derived.by(() => {
-    if (!open) return "";
-    const r = open.registers ?? {};
+    const script = open?.script;
+    if (!script) return "";
+    const r = script.registers ?? {};
     const lv = session.register;
     // German lives INSIDE the key here — `lv2_de` — because registers are
     // a map keyed by level, not a record of named fields. Every fallback
@@ -256,14 +313,14 @@
     return de[i];
   }
 
-  const prediction = $derived(open?.expect?.predict ?? null);
+  const prediction = $derived(open?.script?.expect?.predict ?? null);
   const mustPredict = $derived(prediction !== null && predicted === null);
-  const stepCount = $derived(open ? runnableLines(open.setup.script).length : 0);
-  const canFresh = $derived(open ? canUseFreshVessels(open.setup.script) : false);
+  const stepCount = $derived(open?.script ? runnableLines(open.script.setup.script).length : 0);
+  const canFresh = $derived(open?.script ? canUseFreshVessels(open.script.setup.script) : false);
 
   /** Ask before touching a bench that already has the learner's work on it. */
   function requestRun() {
-    if (!open || running || session.busy) return;
+    if (!open?.script || running || session.busy) return;
     if (runGate(session.scene, decision) === "ask") {
       asking = true;
       return;
@@ -272,8 +329,8 @@
   }
 
   async function go(chosen: BenchDecision | null) {
-    if (!open || running) return;
-    const entry = open;
+    const script = open?.script;
+    if (!script || running) return;
     asking = false;
     decision = chosen;
     running = true;
@@ -285,7 +342,7 @@
     stepping = runMode === "step";
     stopRequested = false;
     try {
-      const outcome = await runCatalogEntry(session, entry, {
+      const outcome = await runCatalogEntry(session, script, {
         decision: chosen,
         onstep: (s) => {
           step = s;
@@ -322,9 +379,9 @@
   }
 
   const kitItems = $derived.by(() => {
-    if (!open) return [];
-    const keys = scriptKit(open.setup.script);
-    return keys
+    const script = open?.script;
+    if (!script) return [];
+    return scriptKit(script.setup.script)
       .map((k) => session.shelf.find((s) => s.key === k))
       .filter((s): s is NonNullable<typeof s> => s != null);
   });
@@ -333,6 +390,10 @@
     if (!prediction || predicted === null || predicted === prediction.answer) return null;
     return prediction.diagnosis?.find((d) => d.option === predicted) ?? null;
   });
+
+  /** Slugs as a card says them, in the reader's language. */
+  const words = (values: readonly string[]) =>
+    values.map((value) => t(slugWords(value))).join(" · ");
 </script>
 
 <!-- While a script runs the scrim goes transparent and stops swallowing
@@ -345,12 +406,12 @@
   onclick={() => !running && onclose()}
   onkeydown={(e) => e.key === "Escape" && !running && onclose()}
 >
-  <dialog open class="panel" class:running aria-modal={!running} aria-label={tier === "kids" ? t("Kids Lab") : t("experiments")} onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" class:running aria-modal={!running} aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if running}
       <div class="dock" class:waiting={awaiting} role="status" aria-live="polite">
         <div>
           <span class="dock-kicker">{awaiting ? t("your turn") : t("running on the bench")}</span>
-          <strong>{open ? t(open.id.replace(/-/g, " ")) : ""}</strong>
+          <strong>{open?.title ?? ""}</strong>
           <code>{step?.line ?? ""}</code>
           <!-- What that line DID, in the bench's own words. The feed is
                already the record a learner reads when they type a command
@@ -380,184 +441,198 @@
       </div>
     {:else if !open}
       <header>
-        <h2 id={tier === "kids" ? "kids-title" : "experiments-title"}>{tier === "kids" ? t("Kids Lab") : t("experiments")}</h2>
-        <span class="hint">
-          {tier === "kids"
-            ? t("sixty experiments for curious kids")
-            : t("{count} from the codex — each one computed, checked, and yours to break", { count: entries.length })}
-        </span>
+        <h2 id="catalog-title">{t("experiments")}</h2>
+        <span class="hint">{t("{shown} of {total} — each one computed, checked, and yours to break", { shown: shown.length, total: all.length })}</span>
         <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
-      <nav class="tiers" role="group" aria-label={t("catalogue tier")}>
-        {#each [["experiments", "experiments"], ["kids", "Kids Lab"]] as const as [key, label] (key)}
-          <button class:on={tier === key} aria-pressed={tier === key} onclick={() => setTier(key)}>{t(label)}</button>
-        {/each}
+
+      <!-- ONE row. The search box keeps its place beside the chips and the
+           chips scroll sideways past it, so no filter ever wraps the list
+           off the screen. -->
+      <div class="filter-row">
         <input
           class="filter"
           type="search"
           placeholder={t("filter…")}
-          bind:value={filter}
+          bind:value={filters.query}
           aria-label={t("filter experiments")}
         />
-      </nav>
-
-      {#if tier === "kids"}
-        <section class="filters">
-          <div class="chips" role="group" aria-label={t("what the bench can compute")}>
-            <button class:on={status === null} aria-pressed={status === null} onclick={() => (status = null)}>{t("all")}</button>
-            {#each statuses as value (value)}<button class:on={status === value} aria-pressed={status === value} data-status={value} onclick={() => (status = status === value ? null : value)}>{t(value)}</button>{/each}
-          </div>
-          <select bind:value={topic} aria-label={t("topic")}><option value="">{t("all topics")}</option>{#each topics as value (value)}<option value={value}>{t(value)}</option>{/each}</select>
-          <strong class="tally">{kidsShown.length}/{kidsEntries.length}</strong>
-        </section>
-        <div class="cards">
-          {#each kidsShown as entry (entry.id)}
-            {@const links = linksById.get(entry.id)!}
-            {@const runnable = runnableCodex(entry)}
-            <article data-status={entry.status}>
-              <div class="card-head"><span class="kid-id">{entry.id}</span><span class="status">{t(entry.status)}</span><span class="safety">{entry.safety === "home" ? t("home-friendly") : t("school supervision")}</span></div>
-              {#if links.linkedLearning > 0}
-                <div class="learning-progress" data-progress={links.progress}>
-                  <span>{t(`${links.progress} linked learning`)}</span>
-                  <strong>{links.completedLearning}/{links.linkedLearning}</strong>
-                </div>
-              {/if}
-              <h2>{kidsText(entry, "title", i18n.locale)}</h2><p>{kidsText(entry, "phenomenon", i18n.locale)}</p>
-              <dl><div><dt>{t("ingredients")}</dt><dd>{entry.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div><div><dt>{t("apparatus")}</dt><dd>{entry.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</dd></div></dl>
-              {#if entry.boundary}<p class="boundary">{kidsText(entry, "boundary", i18n.locale)}</p>{/if}
-              {#if links.capabilities.length || links.codex.length || links.lessonCompleted}
-                <div class="connections" aria-label={t("related learning and saved progress")}>
-                  {#each links.capabilities as id (id)}
-                    <button class="related" onclick={() => oncapability?.(id)}>{t("related question")} <span>{id}</span> →</button>
-                  {/each}
-                  {#each links.codex as id (id)}
-                    <button class="related" onclick={() => { const found = byId.get(id); if (found) openEntry(found); }}>{t(codexLearningLabel(links.codexCompleted.includes(id)))} <span>{id.replaceAll("-", " ")}</span> →</button>
-                  {/each}
-                  {#if links.lessonCompleted}<span class="saved">✓ {t("guided completion saved")}</span>{/if}
-                </div>
-              {/if}
-              <footer>
-                <span>{entry.topics.map((value) => t(value)).join(" · ")}</span>
-                {#if runnable}<button class="run-here" onclick={() => openEntry(runnable, "run")}>{t("run it on the bench")} →</button>{/if}
-                {#if entry.lesson}<button onclick={() => onlesson?.(entry.lesson!)}>{t(guidedLearningLabel(links.lessonCompleted))} →</button>{/if}
-                {#if entry.quest}<button onclick={() => onquest?.(entry.quest!)}>{t("start quest")} →</button>{/if}
-                {#if !runnable && !entry.lesson && !entry.quest && (entry.status === "computed" || entry.status === "partial")}<button class="sandbox" onclick={() => onsandbox?.(entry)}>{t("explore in Sandbox")} →</button>{/if}
-                {#if !runnable && !entry.lesson && !entry.quest && entry.status !== "computed" && entry.status !== "partial"}<span class="no-launch">{t("documented boundary")}</span>{/if}
-              </footer>
-            </article>
-          {:else}<p class="empty">{t("nothing matches that filter")}</p>{/each}
-        </div>
-      {:else}
-        <nav class="tabs">
-          {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as const as [key, label] (key)}
-            <button class:on={view === key} aria-pressed={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
-          {/each}
-          <span class="progress-filters" role="group" aria-label={t("completion status")}>
-            {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}
-              <button class:on={progress === value} aria-pressed={progress === value} onclick={() => (progress = value)}>{t(label)}</button>
-            {/each}
-          </span>
-        </nav>
-
-        {#if view === "concepts"}
-          <div class="chips" role="group" aria-label={t("concepts")}>
-            {#each concepts as c (c.concept)}
+        <div class="filter-rail">
+          <div class="chips levels" role="group" aria-label={t("level")}>
+            <button class:on={filters.level === null} aria-pressed={filters.level === null} onclick={() => (filters.level = null)}>{t("all")}</button>
+            {#each CATALOG_LEVELS as level (level)}
               <button
-                class="chip"
-                class:on={concept === c.concept}
-                onclick={() => (concept = concept === c.concept ? null : c.concept)}
-              >
-                {t(c.concept.replace(/-/g, " "))} <small>{c.count}</small>
-              </button>
+                data-level={level}
+                class:on={filters.level === level}
+                aria-pressed={filters.level === level}
+                onclick={() => (filters.level = filters.level === level ? null : level)}
+              >{t(levelLabel(level))} <small>{counts[level]}</small></button>
             {/each}
-            {#if concepts.length === 0}
-              <p class="empty">{t("these entries name no concepts yet")}</p>
-            {/if}
           </div>
-          {#if concept && related.length > 0}
-            <p class="meta">
-              {t("taught alongside:")}
-              {#each related as r, i (r)}
-                <button class="link" onclick={() => (concept = r)}>{t(r.replace(/-/g, " "))}</button
-                >{i < related.length - 1 ? ", " : ""}
-              {/each}
-            </p>
-          {/if}
-        {/if}
-
-        {#if view === "curriculum"}
-          {#if curricula.length === 0}
-            <p class="empty">{t("no curriculum placements in this export yet")}</p>
-          {/if}
-          {#each curricula as sys (sys.system)}
-            <section class="system">
-              <h3>{t(sys.system.replace(/-/g, " "))}</h3>
-              {#each sys.stages as st (st.stage)}
-                <details>
-                  <summary>
-                    {t(st.stage)} <small>{st.entries.length}</small>
-                  </summary>
-                  <ul class="list">
-                    {#each st.entries as e (e.id)}
-                      {#if experimentHasProgress(e, session.completedExperiments, progress)}
-                      <li>
-                        <button class="entry" onclick={() => openEntry(e)}>
-                          <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                          <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
-                          <span class="completion">{session.completedExperiments.has(e.id) ? "✓ " : ""}{t(experimentProgressLabel(e, session.completedExperiments))}</span>
-                        </button>
-                      </li>
-                      {/if}
-                    {/each}
-                  </ul>
-                  {#if st.sources.length > 0}
-                    <p class="meta">{t("placed per: {sources}", { sources: st.sources.join("; ") })}</p>
-                  {/if}
-                </details>
-              {/each}
-            </section>
-          {/each}
-        {:else}
-          <ul class="list">
-            {#each shown as e (e.id)}
-              <li>
-                <button class="entry" onclick={() => openEntry(e)}>
-                  <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                  <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
-                  <span class="completion">{session.completedExperiments.has(e.id) ? "✓ " : ""}{t(experimentProgressLabel(e, session.completedExperiments))}</span>
-                </button>
-              </li>
+          <select bind:value={filters.topic} aria-label={t("topic")}>
+            <option value={null}>{t("all topics")}</option>
+            {#each topics as item (item.topic)}<option value={item.topic}>{item.label}</option>{/each}
+          </select>
+          <div class="chips durations" role="group" aria-label={t("how long it takes")}>
+            <button class:on={filters.duration === null} aria-pressed={filters.duration === null} onclick={() => (filters.duration = null)}>{t("any length")}</button>
+            {#each CATALOG_DURATIONS as band (band)}
+              <button
+                data-duration={band}
+                class:on={filters.duration === band}
+                aria-pressed={filters.duration === band}
+                onclick={() => (filters.duration = filters.duration === band ? null : band)}
+              >{t(durationLabel(band))}</button>
             {/each}
-            {#if shown.length === 0}
-              <li><p class="empty">{t("nothing matches that filter")}</p></li>
-            {/if}
-          </ul>
-        {/if}
+          </div>
+          <div class="chips shelf-filter" role="group" aria-label={t("what you can reach")}>
+            <button
+              class="shelf-only"
+              class:on={filters.shelfOnly}
+              aria-pressed={filters.shelfOnly}
+              onclick={() => (filters.shelfOnly = !filters.shelfOnly)}
+            >{t("only what is on my shelf")}</button>
+          </div>
+          <div class="chips progress-filters" role="group" aria-label={t("completion status")}>
+            {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}
+              <button class:on={filters.progress === value} aria-pressed={filters.progress === value} onclick={() => (filters.progress = value)}>{t(label)}</button>
+            {/each}
+          </div>
+          <select bind:value={filters.concept} aria-label={t("concept")}>
+            <option value={null}>{t("all concepts")}</option>
+            {#each concepts as item (item.concept)}<option value={item.concept}>{tSlug(item.concept)} ({item.count})</option>{/each}
+          </select>
+          <select bind:value={filters.curriculum} aria-label={t("curriculum")}>
+            <option value={null}>{t("any curriculum")}</option>
+            {#each placements as placement (placement.key)}
+              <option value={placement.key}>{t(slugWords(placement.system))} — {t(placement.stage)}</option>
+            {/each}
+          </select>
+          {#if filtering}
+            <button class="chip clear" onclick={clearFilters}>{t("clear filters")}</button>
+          {/if}
+        </div>
+      </div>
+
+      {#if filters.concept && related.length > 0}
+        <p class="meta">
+          {t("taught alongside:")}
+          {#each related as r, i (r)}
+            <button class="link" onclick={() => (filters.concept = r)}>{tSlug(r)}</button
+            >{i < related.length - 1 ? ", " : ""}
+          {/each}
+        </p>
       {/if}
+
+      <div class="cards">
+        {#each shown as item (item.id)}
+          {@const links = linksById.get(item.id) ?? null}
+          <article data-id={item.id} data-level={item.level} data-status={item.status} data-run={item.run.kind}>
+            <div class="card-head">
+              <span class="level">{t(levelLabel(item.level))}</span>
+              <span class="age">{t("from age {age}", { age: item.ageMin })}</span>
+              <span class="minutes">{t("about {count} min", { count: item.minutes })}</span>
+              <span class="completion">{item.done ? "✓ " : ""}{t(item.done ? "completed" : "not tried")}</span>
+            </div>
+            <h2>{item.title}</h2>
+            <p class="hook">{item.hook}</p>
+            <dl>
+              <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
+              <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
+            </dl>
+            {#if item.boundary}<p class="boundary">{item.boundary}</p>{/if}
+            {#if links && links.linkedLearning > 0}
+              <div class="learning-progress" data-progress={links.progress}>
+                <span>{t(`${links.progress} linked learning`)}</span>
+                <strong>{links.completedLearning}/{links.linkedLearning}</strong>
+              </div>
+            {/if}
+            {#if links && (links.capabilities.length > 0 || links.codex.length > 0 || links.lessonCompleted)}
+              <div class="connections" aria-label={t("related learning and saved progress")}>
+                {#each links.capabilities as id (id)}
+                  <button class="related" onclick={() => oncapability?.(id)}>{t("related question")} <span>{id}</span> →</button>
+                {/each}
+                {#each links.codex as id (id)}
+                  <button class="related" onclick={() => { const found = byId.get(id); if (found) openEntry(found); }}>{t(codexLearningLabel(links.codexCompleted.includes(id)))} <span>{t(slugWords(id))}</span> →</button>
+                {/each}
+                {#if links.lessonCompleted}<span class="saved">✓ {t("guided completion saved")}</span>{/if}
+              </div>
+            {/if}
+            <footer>
+              <span class="topics">{item.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
+              {#if item.run.kind === "boundary"}
+                <span class="no-launch">{t("documented boundary")}</span>
+              {:else}
+                <button class="run-here" onclick={() => act(item)}>{t(runTargetLabel(item.run, item.done))} →</button>
+              {/if}
+              <!-- An entry can offer more than one door — a script AND the
+                   guided lesson written around it. The primary button is
+                   whichever the content makes first; the others stay
+                   reachable rather than being hidden by the choice. -->
+              {#if item.lesson && item.run.kind !== "lesson"}
+                <button class="also" onclick={() => onlesson?.(item.lesson!)}>{t(guidedLearningLabel(links?.lessonCompleted ?? false))} →</button>
+              {/if}
+              {#if item.quest && item.run.kind !== "quest"}
+                <button class="also" onclick={() => onquest?.(item.quest!)}>{t("start quest")} →</button>
+              {/if}
+              <button class="details" aria-label={t("what this experiment covers")} title={t("what this experiment covers")} onclick={() => openEntry(item)}>i</button>
+            </footer>
+          </article>
+        {:else}
+          <p class="empty">{t("nothing matches that filter")}</p>
+        {/each}
+      </div>
     {:else}
       <header>
-        <button class="back" aria-label={t("back")} onclick={() => (open = null)}>←</button>
-        <h2>{t(open.id.replace(/-/g, " "))}</h2>
+        <button class="back" aria-label={t("back")} onclick={() => (openId = null)}>←</button>
+        <h2>{open.title}</h2>
         <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
       </header>
-      <nav class="tabs">
-        {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as const as [key, label] (key)}
-          <button class:on={tab === key} aria-pressed={tab === key} onclick={() => (tab = key as typeof tab)}>{t(label)}</button>
-        {/each}
-      </nav>
+      <p class="entry-meta">
+        <span>{t(levelLabel(open.level))}</span>
+        <span>{t("from age {age}", { age: open.ageMin })}</span>
+        <span>{t("about {count} min", { count: open.minutes })}</span>
+        <!-- Only where the content actually declares them. The codex export
+             carries no supervision note and no computability verdict, and
+             deriving one from an age band would be inventing a claim the
+             entry never made. -->
+        {#if open.guided}
+          <span>{t(open.status)}</span>
+          <span>{t(open.safety === "home" ? "home-friendly" : "school supervision")}</span>
+        {/if}
+        <span>{open.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
+      </p>
 
-      {#if tab === "theory"}
+      {#if open.script}
+        <nav class="tabs">
+          {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as const as [key, label] (key)}
+            <button class:on={tab === key} aria-pressed={tab === key} onclick={() => (tab = key as typeof tab)}>{t(label)}</button>
+          {/each}
+        </nav>
+      {/if}
+
+      {#if !open.script}
+        <!-- No script of its own: the honest page is what it is about, what
+             it needs, where the model stops, and the door that does exist. -->
+        <p class="prose">{open.hook}</p>
+        {#if open.boundary}<p class="boundary">{open.boundary}</p>{/if}
+        <p class="meta">{t("you will need: {apparatus}", { apparatus: [...open.needs, ...open.apparatus].map((value) => t(slugWords(value))).join(", ") })}</p>
+        {#if open.run.kind !== "boundary"}
+          <button class="go" onclick={() => act(open)}>{t(runTargetLabel(open.run, open.done))}</button>
+        {:else}
+          <p class="meta">{t("documented boundary")}</p>
+        {/if}
+      {:else if tab === "theory"}
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
         <p class="prose">{theory}</p>
-        {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
-          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(tSlug).join(", ") })}</p>
+        {#if session.register !== "lv1" && open.concepts.length > 0}
+          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts.map(tSlug).join(", ") })}</p>
         {/if}
-        {#if session.register === "lv3" && (open.models?.length ?? 0) > 0}
-          <p class="meta">{t("models: {models}", { models: open.models!.map(tSlug).join(", ") })}</p>
+        {#if session.register === "lv3" && (open.script.models?.length ?? 0) > 0}
+          <p class="meta">{t("models: {models}", { models: open.script.models!.map(tSlug).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
-        {#if (open.apparatus?.length ?? 0) > 0}
-          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(tSlug).join(", ") })}</p>
+        {#if open.apparatus.length > 0}
+          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus.map(tSlug).join(", ") })}</p>
         {/if}
         {#if kitItems.length > 0}
           <KitStrip
@@ -570,7 +645,7 @@
             }}
           />
         {/if}
-        <pre class="script">{open.setup.script}</pre>
+        <pre class="script">{open.script.setup.script}</pre>
       {:else}
         {#if prediction}
           <div class="predict">
@@ -714,7 +789,7 @@
     border: 1px solid var(--edge);
     border-radius: 12px;
     padding: 1rem;
-    width: min(94vw, 720px);
+    width: min(94vw, 860px);
     max-height: 90vh;
     overflow-y: auto;
   }
@@ -848,48 +923,23 @@
   header :global(.icon-close) {
     margin-left: auto;
   }
-  .list {
-    list-style: none;
-    margin: 0.7rem 0 0;
-    padding: 0;
-  }
-  .entry {
-    width: 100%;
-    text-align: left;
+  .entry-meta {
     display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    background: none;
-    border: 0;
-    border-bottom: 1px solid var(--edge);
-    color: var(--ink);
-    font: inherit;
-    padding: 0.5rem 0.2rem;
-    cursor: pointer;
-  }
-  .entry:hover strong {
-    color: var(--hot);
-  }
-  .eq {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.4rem 0 0;
     color: var(--dim);
-    font-size: 0.78rem;
+    font-size: 0.7rem;
   }
-  .tabs,
-  .tiers {
+  .tabs {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.3rem;
     margin: 0.7rem 0;
   }
-  .tiers {
-    border-bottom: 1px solid var(--edge);
-    padding-bottom: 0.6rem;
-  }
-  .progress-filters { display: flex; gap: .3rem; padding-left: .3rem; border-left: 1px solid var(--edge); }
   .completion { color: var(--dim); font-size: .68rem; }
-  .tabs button,
-  .tiers button {
+  .tabs button {
     background: none;
     border: 1px solid var(--edge);
     border-radius: 999px;
@@ -899,8 +949,7 @@
     padding: 0.25rem 0.8rem;
     cursor: pointer;
   }
-  .tabs button.on,
-  .tiers button.on {
+  .tabs button.on {
     color: var(--ink);
     border-color: var(--hot);
   }
@@ -1013,8 +1062,22 @@
   .verdict li.ok {
     color: var(--good);
   }
+
+  /* ── One row of filters ────────────────────────────────────────────── */
+  .filter-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    /* The overflow has to happen in the rail, so nothing here may report a
+       min-content width up to the dialog. */
+    min-width: 0;
+    margin: 0.6rem 0 0.2rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--edge);
+  }
   .filter {
-    margin-left: auto;
+    flex: none;
     background: var(--panel);
     border: 1px solid var(--edge);
     border-radius: 999px;
@@ -1022,14 +1085,36 @@
     font: inherit;
     font-size: 0.8rem;
     padding: 0.25rem 0.8rem;
-    min-width: 8rem;
+    width: 9rem;
     min-height: 36px;
+  }
+  /* The rail scrolls; the groups inside it never wrap. `flex: none` on the
+     chips matters as much as `nowrap` — without it they shrink to fit and
+     a long German label becomes an ellipsis instead of scrolling. */
+  .filter-rail {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    flex-wrap: nowrap;
+    min-width: 0;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    padding-bottom: 0.2rem;
+  }
+  .filter-rail > * {
+    flex: none;
+  }
+  .filter-rail button {
+    flex: none;
+    white-space: nowrap;
   }
   .chips {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin: 0.5rem 0;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    margin: 0;
   }
   .chip,
   .chips button {
@@ -1038,16 +1123,28 @@
     border-radius: 999px;
     color: var(--ink);
     font: inherit;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     padding: 0.2rem 0.7rem;
+    min-height: 36px;
     cursor: pointer;
   }
   .chip.on,
   .chips button.on {
     border-color: var(--hot);
   }
-  .chip small {
+  .chips small {
     color: var(--dim);
+  }
+  .filter-rail select {
+    min-height: 36px;
+    max-width: 12rem;
+    padding: 0 0.55rem;
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--panel);
+    font: inherit;
+    font-size: 0.75rem;
   }
   .link {
     background: none;
@@ -1063,44 +1160,8 @@
     color: var(--dim);
     font-size: 0.8rem;
   }
-  .system h3 {
-    font-size: 0.85rem;
-    margin: 0.7rem 0 0.2rem;
-    text-transform: capitalize;
-  }
-  details {
-    border-bottom: 1px solid var(--edge);
-    padding: 0.25rem 0;
-  }
-  summary {
-    cursor: pointer;
-    font-size: 0.85rem;
-  }
-  summary small {
-    color: var(--dim);
-  }
 
-  /* ── Kids tier: bigger targets, fewer words, same runner ───────────── */
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .filters select {
-    min-height: 40px;
-    padding: 0 0.65rem;
-    border: 1px solid var(--edge);
-    border-radius: 10px;
-    color: var(--ink);
-    background: var(--panel);
-    font: inherit;
-  }
-  .tally {
-    margin-left: auto;
-    color: var(--hot);
-    font-size: 0.8rem;
-  }
+  /* ── One card, whatever the entry is ───────────────────────────────── */
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
@@ -1116,29 +1177,30 @@
     border-radius: 16px;
     background: var(--panel);
   }
-  .cards article[data-status="boundary"],
-  .cards article[data-status="declined"],
-  .cards article[data-status="unreachable"] {
+  /* The only visual difference between cards is a claim about the
+     CONTENT: a documented boundary is not an experiment you can run, and
+     saying so with a dashed edge is cheaper than a paragraph. */
+  .cards article[data-run="boundary"] {
     border-style: dashed;
   }
-  .card-head { display: flex; align-items: center; gap: 0.35rem; }
-  .kid-id, .status, .safety, .no-launch {
+  .card-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; }
+  .level, .age, .minutes, .no-launch {
     padding: 0.18rem 0.4rem;
     border-radius: 999px;
     font-size: 0.55rem;
     font-weight: 850;
     text-transform: uppercase;
   }
-  .kid-id { color: var(--bg); background: var(--hot); }
-  .status { color: var(--cool); background: var(--panel-raised); }
-  .safety { margin-left: auto; color: var(--dim); }
+  .level { color: var(--bg); background: var(--hot); }
+  .age, .minutes { color: var(--cool); background: var(--panel-raised); }
+  .card-head .completion { margin-left: auto; }
   .cards h2 { margin: 0.55rem 0 0.25rem; font-size: 1rem; }
-  .cards article > p { margin: 0; color: var(--dim); font-size: 0.74rem; line-height: 1.45; }
+  .hook { margin: 0; color: var(--dim); font-size: 0.74rem; line-height: 1.45; }
   dl { display: grid; gap: 0.35rem; margin: 0.7rem 0; }
   dl div { display: grid; grid-template-columns: 5rem 1fr; gap: 0.35rem; }
   dt { color: var(--dim); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; }
   dd { margin: 0; font-size: 0.66rem; }
-  .boundary { padding: 0.5rem; border-left: 3px solid var(--bad); }
+  .boundary { padding: 0.5rem; border-left: 3px solid var(--bad); font-size: 0.7rem; line-height: 1.45; }
   .connections { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.35rem; }
   .connections .related {
     padding: 0.3rem 0.45rem;
@@ -1160,7 +1222,7 @@
     font-weight: 800;
   }
   .cards article footer { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.65rem; }
-  .cards article footer > span:first-child { flex: 1; color: var(--dim); font-size: 0.6rem; }
+  .topics { flex: 1; color: var(--dim); font-size: 0.6rem; }
   .cards article footer button {
     min-height: 40px;
     border: 1px solid var(--hot);
@@ -1173,6 +1235,16 @@
     cursor: pointer;
     font-weight: 700;
   }
+  .cards article footer button.also {
+    border-color: var(--edge);
+    font-weight: 600;
+    font-size: 0.74rem;
+  }
+  .cards article footer button.details {
+    min-width: 40px;
+    border-color: var(--edge);
+    font-style: italic;
+  }
   .no-launch { color: var(--dim); }
   .learning-progress { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem; color: var(--dim); font-size: 0.62rem; }
   .learning-progress strong { margin-left: auto; }
@@ -1181,5 +1253,6 @@
 
   @media (max-width: 760px) {
     .cards { grid-template-columns: 1fr; }
+    .filter { width: 6.5rem; }
   }
 </style>

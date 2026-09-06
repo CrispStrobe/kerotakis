@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { catalogEntries, catalogEntryMatches } from "./catalogEntry";
 import { equipmentMatches, experimentHasProgress, experimentMatches, experimentProgressLabel, normalizeCatalogText, reagentMatches } from "./catalogSearch";
 
 const water = { key: "water", name: "water", formula: "H2O" };
@@ -93,5 +94,50 @@ describe("equipmentMatches", () => {
   it("keeps canonical apparatus vocabulary searchable in every locale", () => {
     expect(equipmentMatches(centrifuge, "centrifuge", "Mini-Zentrifuge", "Trennen")).toBe(true);
     expect(equipmentMatches(centrifuge, "balanced tube", "Mini-Zentrifuge", "Trennen")).toBe(true);
+  });
+});
+
+/**
+ * ONE box over the whole library.
+ *
+ * `experimentMatches` and `kidsExperimentMatches` each answered for one
+ * corpus, which is fine while there are two lists and fatal once there is
+ * one: a learner typing into a single box would silently be searching half
+ * the shelf. The unified index is built with the entries themselves, so a
+ * query reaches both, in whichever language is on screen.
+ */
+describe("the unified catalogue index", () => {
+  const de = (value: string) => ({
+    "vinegar and baking soda": "Essig und Natron",
+  })[value] ?? value;
+  const entries = catalogEntries(
+    [{
+      id: "vinegar-and-baking-soda", equation: "NaHCO3 + CH3COOH -> CO2",
+      concepts: ["acid-carbonate"], apparatus: ["beaker"],
+      setup: { script: "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 5g\n" },
+      expect: {}, registers: { lv2: "Gas leaves the beaker." },
+    }],
+    [{
+      id: "K06", title: "Magic milk", phenomenon: "Soap spreads colour",
+      title_de: "Zaubermilch", phenomenon_de: "Seife verteilt Farbe",
+      status: "computed", topics: ["surfaces"], ingredients: ["milk", "dish_soap"],
+      apparatus: ["beaker"], safety: "home",
+    }],
+    { locale: "de", translate: de, completed: new Set() },
+  );
+  const found = (query: string) => entries.filter((entry) => catalogEntryMatches(entry, query)).map((e) => e.id);
+
+  it("reaches both corpora from the same query", () => {
+    expect(found("beaker").sort()).toEqual(["K06", "vinegar-and-baking-soda"]);
+    expect(found("")).toHaveLength(2);
+  });
+
+  it("matches what is on screen and what is underneath it", () => {
+    expect(found("Zaubermilch")).toEqual(["K06"]);
+    expect(found("magic milk")).toEqual(["K06"]);
+    expect(found("Essig")).toEqual(["vinegar-and-baking-soda"]);
+    expect(found("acid carbonate")).toEqual(["vinegar-and-baking-soda"]);
+    // The shelf key the entry will actually use, hyphen or underscore.
+    expect(found("baking soda")).toEqual(["vinegar-and-baking-soda"]);
   });
 });

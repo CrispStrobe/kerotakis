@@ -628,6 +628,14 @@ been ignoring all of it:
   `kidsOpen`/`catalogOpen` survive as the tier selector so every existing
   door (home screen, story map, periodic table, concept map) still opens
   the panel on the tier it meant.
+
+  *Correction 2026-09-06 — the tiers are gone, not merely merged.* One
+  card design and one horizontally scrolling filter rail (level, topic,
+  duration, "only what is on my shelf", done/not yet, plus concept and
+  curriculum as selects where the old tabs were) now serve all 165
+  entries; `lib/catalogEntry.ts` derives the level, age, duration and a
+  shared topic vocabulary both corpora map into, so every filter is
+  answerable for every entry, and no surface names a reader by age.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and

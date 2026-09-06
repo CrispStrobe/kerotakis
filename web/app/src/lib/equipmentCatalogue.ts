@@ -54,7 +54,7 @@ export const GROUP_LABELS: Record<EquipmentGroup, string> = {
   contain: "contain and connect",
   separate: "transfer and separation",
   drive: "drive and power",
-  sets: "children's activity kits",
+  sets: "activity kits",
 };
 
 export type EquipmentAction =

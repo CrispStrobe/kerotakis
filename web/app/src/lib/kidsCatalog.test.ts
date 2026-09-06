@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { catalogEntries } from "./catalogEntry";
 import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimentMatches, kidsText, parseKidsCatalog, type KidsExperiment } from "./kidsCatalog";
 
 const apple: KidsExperiment = {
@@ -88,5 +89,42 @@ describe("prepared KIDS routes", () => {
     expect(rows.map((row) => row.lesson)).toEqual([
       "apple-browning.lab", "naked-egg-osmosis.lab", "hard-water-soap-scum.lab",
     ]);
+  });
+});
+
+/**
+ * A guided task is a catalogue card like any other.
+ *
+ * The corpus keeps its own shape on disk — a phenomenon, a safety note, a
+ * cross-reference — but nothing downstream of `catalogEntries` may still be
+ * able to tell it apart from a codex entry, because that is exactly the
+ * distinction the two-tier catalogue kept showing the learner.
+ */
+describe("a guided task as one catalogue card", () => {
+  const script = {
+    id: "vitamin-c", setup: { script: "add v1 water 100mL\nadd v1 ascorbic_acid 1g\n" },
+    expect: {}, registers: {}, concepts: ["redox-reactions"],
+    curriculum: [{ system: "england-national-curriculum", stage: "KS4", ages: { min: 14 }, source: "DfE" }],
+  };
+
+  it("carries a title, a level, a duration and a run door", () => {
+    const [card] = catalogEntries([script], [{ ...apple, codex: ["vitamin-c"] }], {
+      locale: "en", translate: (value) => value, completed: new Set(),
+    }).filter((entry) => entry.source === "guided");
+    expect(card?.title).toBe(apple.title);
+    // Supervision-free means the youngest band; the level is a claim about
+    // the experiment, not about which file it shipped in.
+    expect(card?.level).toBe("starter");
+    expect(card?.minutes).toBeGreaterThan(0);
+    expect(card?.run).toEqual({ kind: "script", entry: script });
+    expect(card?.topics.length).toBeGreaterThan(0);
+  });
+
+  it("keeps its documented boundary rather than hiding it behind a tier", () => {
+    const [card] = catalogEntries([], [apple], {
+      locale: "de", translate: (value) => value, completed: new Set(),
+    });
+    expect(card?.boundary).toBe(apple.boundary_de);
+    expect(card?.topics).toContain("boundaries");
   });
 });
