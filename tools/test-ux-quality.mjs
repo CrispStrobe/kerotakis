@@ -44,26 +44,64 @@ const openCupboard = async () => {
 
 const cupboardAudit = () => page.evaluate(`(() => {
   const panel = document.querySelector('dialog.cupboard');
-  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0 });
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0, locked: 0, tally: 0, kitNames: 0, unexplainedShelves: 1 });
   const items = [...panel.querySelectorAll('button.item')];
   const rect = panel.getBoundingClientRect();
-  // The header tally is "reachable/whole catalogue". The denominator is what
-  // the cupboard KNOWS about, which is progression-independent; the number of
-  // rendered items is not, because a Story learner is shown what they have
-  // earned. Asserting the rendered count would have been asserting the
-  // fixture's progress.
+  // The catalogue size is on the dialog rather than read out of the header
+  // fraction, because since GUI-103 the fraction is printed only while
+  // something is still locked — in Sandbox every tool is reachable and
+  // "34/34" would be a fact rather than progress. The denominator itself is
+  // progression-independent: it counts what a learner can EVER have, which
+  // is why it can be asserted at all. The number of RENDERED items is not,
+  // because a Story learner is shown what they have earned.
   //
   // Split rather than match: this whole function is a template literal, so a
   // regex written here loses its backslashes on the way to the browser — an
   // escaped slash arrives as a bare one and closes the literal early.
-  const tally = (panel.querySelector('header b')?.textContent || "").split("/");
+  const shelves = [...panel.querySelectorAll('section.shelf')];
   return JSON.stringify({
-    catalogue: tally.length === 2 ? Number(tally[1].trim()) : 0,
-    shelves: panel.querySelectorAll('section.shelf').length,
+    catalogue: Number(panel.getAttribute('data-catalogue') || 0),
+    shelves: shelves.length,
+    unexplainedShelves: shelves.filter((shelf) => !(shelf.querySelector('h3')?.getAttribute('title') || '').trim()).length,
     items: items.length,
     unnamed: items.filter((item) => !(item.textContent.trim() || item.getAttribute('aria-label'))).length,
     info: panel.querySelectorAll('button.info-toggle').length,
+    locked: items.filter((item) => item.classList.contains('locked')).length,
+    tally: panel.querySelector('header b') ? 1 : 0,
+    // The candle: one slot in both states, named for the kit in one of them.
+    kitNames: items.filter((item) => /candle and wick|Kerze und Docht/.test(item.textContent)).length,
     viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
+  });
+})()`);
+
+/** GUI-103: the sets are a chip in the cupboard header, not a shelf. */
+const toggleSets = async () => {
+  await page.evaluate(`document.querySelector('dialog.cupboard button.sets-chip')?.click()`);
+  return JSON.parse(await cupboardAudit());
+};
+
+/** GUI-103: the MESSEN strip is four recents plus the cupboard door, and it
+ * never repeats the three readings the vessel dock carries. */
+const openStrip = async () => {
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button')].find((item) =>
+      /Messgeräte|measurement tools/i.test(
+        [item.textContent, item.getAttribute('title'), item.getAttribute('aria-label')]
+          .filter(Boolean).join(' ')));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelector('.tray button')`, { timeout: 20000 });
+};
+
+const stripAudit = () => page.evaluate(`(() => {
+  const tray = document.querySelector('.tray');
+  if (!tray) return JSON.stringify({ instruments: 0, doors: 0, repeated: 1 });
+  const buttons = [...tray.querySelectorAll('button')];
+  const tokens = buttons.map((item) => item.getAttribute('data-token')).filter(Boolean);
+  return JSON.stringify({
+    instruments: tokens.length,
+    doors: buttons.filter((item) => item.classList.contains('cupboard-door')).length,
+    repeated: tokens.filter((token) => ['eyes', 'thermometer', 'ph'].includes(token)).length,
   });
 })()`);
 
@@ -387,17 +425,39 @@ try {
 
   check("the equipment cupboard opens from the bench", await openCupboard());
   const cupboard = JSON.parse(await cupboardAudit());
-  // Six shelves: measure, heat & cool, contain & connect, separate, drive,
-  // and the kits. A missing shelf means an entry lost its group.
-  check("the cupboard groups its equipment on shelves", cupboard.shelves >= 5, `${cupboard.shelves} shelves`);
-  // 12 instruments + 12 apparatus + 6 transfer verbs + burette/mixer/column
-  // train, with the reaction studio conditional on the session. The kits are
-  // skins over those and are not counted twice.
-  check("the cupboard knows the whole catalogue", cupboard.catalogue >= 33, `${cupboard.catalogue} tools`);
+  // Five shelves since GUI-103: measure, heat & cool, prepare & convert,
+  // contain & connect, separate. `drive` was folded into its neighbours and
+  // the kits stopped being a shelf. A missing one means an entry lost its
+  // group; a sixth means one was added without a decision.
+  check("the cupboard groups its equipment on five shelves", cupboard.shelves === 5, `${cupboard.shelves} shelves`);
+  check("every shelf says what lives on it", cupboard.unexplainedShelves === 0, `${cupboard.unexplainedShelves} unexplained`);
+  // 12 instruments + 12 apparatus + 6 transfer verbs + burette, mixer,
+  // column train and the reaction studio. The reaction studio is counted
+  // whether or not this session offers one, so the denominator cannot move
+  // mid-session; the kits are names for these and are not counted twice.
+  check("the cupboard knows the whole catalogue", cupboard.catalogue === 34, `${cupboard.catalogue} tools`);
   check("the cupboard shows what this learner has", cupboard.items >= 12, `${cupboard.items} items`);
   check("every cupboard item is named", cupboard.unnamed === 0, `${cupboard.unnamed} unnamed`);
   check("every cupboard item can say what it models", cupboard.info === cupboard.items, `${cupboard.info} of ${cupboard.items}`);
+  // The tally is printed only while it carries information. In Sandbox
+  // nothing is locked, so a fraction there would read "34/34".
+  check("the cupboard shows its tally only while something is locked",
+        (cupboard.locked > 0) === (cupboard.tally === 1),
+        `${cupboard.locked} locked, tally ${cupboard.tally}`);
+  check("the cupboard opens under laboratory names", cupboard.kitNames === 0, `${cupboard.kitNames} kit names`);
+  const setsOn = await toggleSets();
+  // The chip renames slots; it never adds or removes one. As a shelf, the
+  // kits put the candle on the wall twice.
+  check("the kits chip renames a tool rather than adding a second one",
+        setsOn.items === cupboard.items && setsOn.kitNames === 1,
+        `${setsOn.items} items, ${setsOn.kitNames} kit names`);
+  check("the kits chip is not a mode: the shelves keep their tools", setsOn.shelves === cupboard.shelves,
+        `${setsOn.shelves} shelves`);
+  const setsOff = await toggleSets();
+  check("the kits chip turns back off", setsOff.kitNames === 0 && setsOff.items === cupboard.items,
+        `${setsOff.items} items, ${setsOff.kitNames} kit names`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
+
 
   const dockTargets = JSON.parse(await page.evaluate(`JSON.stringify(
     [...document.querySelectorAll('.actions button')].filter((button) => button.offsetParent)
@@ -406,6 +466,17 @@ try {
   const smallDockTargets = dockTargets.filter((target) => target.width < 48 || target.height < 48);
   check("primary vessel actions have 48 px targets", smallDockTargets.length === 0,
     smallDockTargets.map((target) => `${target.name}:${target.width}×${target.height}`).join(", "));
+
+  // Opened last of the desktop checks: the inspector's own gas-test row is
+  // also `.actions`, and mounting it would put four small buttons into the
+  // dock's 48 px measurement above.
+  check("the MESSEN strip opens with the measurement tools", await openStrip());
+  const strip = JSON.parse(await stripAudit());
+  check("the quick strip holds four instruments and the cupboard door",
+        strip.instruments > 0 && strip.instruments <= 4 && strip.doors === 1,
+        `${strip.instruments} instruments, ${strip.doors} doors`);
+  check("the quick strip never repeats the dock's three readings", strip.repeated === 0,
+        `${strip.repeated} repeated`);
 
   await page.evaluate(`localStorage.setItem("kerotakis.locale", "de")`);
   await page.goto(`${origin}/app/`);

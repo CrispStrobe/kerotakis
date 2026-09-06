@@ -1,4 +1,19 @@
+import { heatSource } from "./apparatus";
+
 export type QuickActionTone = "primary" | "instrument" | "action" | "discovery";
+
+/**
+ * The three readings the vessel dock carries, as instrument tokens.
+ *
+ * They are landmarks: the same three buttons in the same place on every
+ * vessel, which is what makes them worth hard-coding at all. Because they
+ * never move, the quick-access strip must never offer them — a learner who
+ * measures pH from the dock does not want pH to also appear in MESSEN and
+ * push something they cannot otherwise reach out of a four-slot row. This
+ * constant is what `instrumentRecents.ts` excludes, so the two lists cannot
+ * drift apart.
+ */
+export const DOCK_INSTRUMENTS: readonly string[] = ["eyes", "thermometer", "ph"];
 
 export interface QuickAction {
   id: string;
@@ -14,7 +29,15 @@ export function vesselQuickActions(vessel: number, boundary: string): QuickActio
   const v = `v${vessel + 1}`;
   return [
     { id: "stir", icon: "↻", label: "stir", line: `stir ${v} 500rpm 10s`, tone: "instrument" },
-    { id: "heat", icon: "↑", label: "heat", line: `heat ${v} 10kJ`, tone: "action" },
+    // The source is named even when it is the bench default. The engine
+    // caps a vessel at the flame heating it, and a `heat` line with no
+    // `on <source>` clause claims a laboratory burner by omission — which
+    // is the one thing a candle is not. `ApparatusForm` states it for the
+    // same reason; this states it from the same table rather than from a
+    // second copy of the word "burner".
+    { id: "heat", icon: "↑", label: "heat", line: `heat ${v} 10kJ on ${heatSource(undefined).value}`, tone: "action" },
+    // `cool` takes no source: the cooling bath is the only one there is,
+    // and the engine's grammar has no clause to name it with.
     { id: "cool", icon: "❄", label: "cool", line: `cool ${v} 10kJ`, tone: "instrument" },
     { id: "look", icon: "◉", label: "look", line: `measure ${v} eyes`, tone: "primary" },
     { id: "temperature", icon: "°", label: "temperature", line: `measure ${v} thermometer`, tone: "primary" },

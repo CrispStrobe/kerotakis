@@ -23,17 +23,23 @@
   import type { LabMode } from "../worldState";
   import type { TwoVesselAction } from "../directActions";
   import {
-    EQUIPMENT_CATALOGUE,
     EQUIPMENT_GROUPS,
+    GATED_IDS,
+    GROUP_BLURBS,
     GROUP_LABELS,
+    SHELF_ENTRIES,
     accessId,
+    asShown,
+    cupboardTally,
     deployedLabel,
+    equipmentById,
     equipmentInfoRows,
-    gatedIds,
     runEquipment,
+    setSkinOf,
     type EquipmentEntry,
     type EquipmentGroup,
   } from "../equipmentCatalogue";
+  import { instrumentSurface } from "../instrumentSurface.svelte";
 
   let {
     target,
@@ -76,6 +82,10 @@
     onclose: () => void;
   } = $props();
 
+  // The sets chip is remembered per browser; read it before the first paint
+  // so the cupboard opens in the state the learner left it in.
+  instrumentSurface.hydrate();
+
   let filter = $state("");
   /** One explanation at a time: several open panels is the wall of text the
    * (i) exists to prevent. */
@@ -112,8 +122,16 @@
   }
   $effect(() => () => clearTimeout(pinned));
 
-  const ids = $derived(gatedIds(reactAvailable));
-  const availableCount = $derived(ids.filter((id) => equipmentAccess(catalog, id).available).length);
+  /**
+   * The header fraction.
+   *
+   * Over every tool the learner can EVER have, `react` included whether or
+   * not this session has a curated reaction to offer — a denominator that
+   * changed when the engine's answer changed made the fraction unreadable.
+   * And it is printed only while something is still locked: in Sandbox,
+   * where everything is reachable, "34/34" is a fact rather than progress.
+   */
+  const tally = $derived(cupboardTally((id) => equipmentAccess(catalog, id).available));
   const accessOf = (entry: EquipmentEntry) => equipmentAccess(catalog, accessId(entry));
   const inScope = (entry: EquipmentEntry) => {
     const id = accessId(entry);
@@ -121,15 +139,28 @@
     if (scope === "mission") return missionVerbs.includes(id);
     return mode === "sandbox" || equipmentAccess(catalog, id).available;
   };
+  /**
+   * One slot per tool, wearing the set's name when the chip is on.
+   *
+   * The filter searches BOTH names whichever is showing, so a learner who
+   * knows the cupboard by one vocabulary can still type the other: typing
+   * "Bunsenbrenner" in the sets view finds the candle, and typing "Kerze"
+   * outside it finds the burner.
+   */
+  const displayed = $derived(SHELF_ENTRIES.map((entry) => asShown(entry, instrumentSurface.sets)));
+  const alsoKnownAs = (entry: EquipmentEntry): string => {
+    const other = entry.aliasOf === undefined ? setSkinOf(entry.id) : equipmentById(entry.aliasOf);
+    return other ? `${t(other.name)} ${t(other.blurb)}` : "";
+  };
   const shown = $derived(
-    EQUIPMENT_CATALOGUE.filter((entry) =>
-      (entry.id !== "react" || reactAvailable)
+    displayed.filter((entry) =>
+      (accessId(entry) !== "react" || reactAvailable)
       && inScope(entry)
       && equipmentMatches(
-        { verb: entry.id, title: entry.name, blurb: entry.blurb },
+        { verb: accessId(entry), title: entry.name, blurb: entry.blurb },
         filter,
         t(entry.name),
-        `${t(entry.blurb)} ${t(entry.boundary)}`,
+        `${t(entry.blurb)} ${t(entry.boundary)} ${alsoKnownAs(entry)}`,
       )),
   );
   const inGroup = (group: EquipmentGroup) => shown.filter((entry) => entry.group === group);
@@ -162,6 +193,7 @@
     class="cupboard"
     aria-modal="true"
     aria-labelledby="cupboard-title"
+    data-catalogue={tally.total}
     onclick={(event) => event.stopPropagation()}
   >
     <header>
@@ -170,7 +202,9 @@
         <small>{t("lab wall utility")}</small>
         <h2 id="cupboard-title">{t("equipment cabinet")}</h2>
       </span>
-      <b title={t("{available} of {total} instruments unlocked", { available: availableCount, total: ids.length })}>{availableCount}/{ids.length}</b>
+      {#if tally.show}
+        <b title={t("{available} of {total} instruments unlocked", { available: tally.available, total: tally.total })}>{tally.available}/{tally.total}</b>
+      {/if}
       <button class="icon-close" aria-label={t("close")} title={t("close")} onclick={onclose}>×</button>
     </header>
 
@@ -181,6 +215,19 @@
           <span><small>{t("next instrument installs on")}</small><strong>v{target + 1} · {t(targetLabel)}</strong></span>
         </p>
       {/if}
+      <!-- The sets are a chip, not a shelf and not a mode: it renames the
+           tools the kits stand for and hides nothing, so the cupboard holds
+           the same slots in both states. -->
+      <button
+        type="button"
+        class="sets-chip"
+        class:on={instrumentSurface.sets}
+        aria-pressed={instrumentSurface.sets}
+        title={t("Show the tools under the names of the activity kits.")}
+        onclick={() => instrumentSurface.showSets(!instrumentSurface.sets)}
+      >
+        <span aria-hidden="true">◆</span>{t("activity kits")}
+      </button>
       <label class="equipment-search">
         <span aria-hidden="true">⌕</span>
         <input bind:value={filter} placeholder={t("filter…")} aria-label={`${t("filter…")} ${t("equipment")}`} />
@@ -195,8 +242,16 @@
       {#each EQUIPMENT_GROUPS as group (group)}
         {@const entries = inGroup(group)}
         {#if entries.length > 0}
-          <section class="shelf" class:sets={group === "sets"} aria-label={t(GROUP_LABELS[group])}>
-            <h3><span>{t(GROUP_LABELS[group])}</span><small>{entries.length}</small></h3>
+          <section class="shelf" aria-label={`${t(GROUP_LABELS[group])} — ${t(GROUP_BLURBS[group])}`}>
+            <!-- A two-word heading is a label, not an answer to "what is on
+                 this shelf". The sentence reaches a pointer here and a touch
+                 screen through the same pinned tip the items use. -->
+            <h3
+              title={t(GROUP_BLURBS[group])}
+              onpointerenter={() => hint(t(GROUP_BLURBS[group]))}
+              onpointerleave={() => hint(null)}
+              onpointerdown={() => pin(t(GROUP_BLURBS[group]))}
+            ><span>{t(GROUP_LABELS[group])}</span><small>{entries.length}</small></h3>
             <div class="shelf-items">
               {#each entries as entry (entry.id)}
                 {@const entryAccess = accessOf(entry)}
@@ -292,7 +347,9 @@
   .shelf h3 small { min-width: 1.35rem; padding: .12rem .3rem; border-radius: 999px; background: var(--surface-raised); text-align: center; }
   .shelf-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); gap: .4rem; align-items: end; }
   .board { display: block; height: 6px; margin-top: .2rem; border-radius: 3px; background: linear-gradient(180deg, color-mix(in srgb, var(--action) 26%, var(--surface-raised)), var(--surface-raised)); box-shadow: 0 3px 7px var(--shadow); }
-  .sets { padding: .5rem; border: 1px solid color-mix(in srgb, var(--discovery) 25%, var(--edge)); border-radius: 14px; background: color-mix(in srgb, var(--discovery) 5%, transparent); }
+  .sets-chip { min-height: 34px; display: inline-flex; align-items: center; gap: .35rem; justify-self: start; padding: .2rem .7rem; border: 1px solid var(--edge); border-radius: 999px; color: var(--dim); background: var(--surface-raised); cursor: pointer; font: inherit; font-size: .68rem; font-weight: 700; }
+  .sets-chip:hover { color: var(--ink); border-color: var(--discovery); }
+  .sets-chip.on { border-color: var(--discovery); color: var(--ink); background: color-mix(in srgb, var(--discovery) 14%, var(--surface)); }
   .slot { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: .1rem; }
   .item { position: relative; width: 100%; min-height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .5rem .35rem; overflow: hidden; border: 1px solid var(--edge); border-radius: 12px; color: var(--ink); background: linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-raised) 78%, var(--surface))); cursor: pointer; font: inherit; text-align: center; }
   .item:hover:not(:disabled) { border-color: var(--action); transform: translateY(-2px); box-shadow: 0 7px 16px var(--shadow); }

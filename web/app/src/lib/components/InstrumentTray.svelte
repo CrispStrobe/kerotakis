@@ -10,12 +10,19 @@
    * the DOM and absent from the product, and the row was still a second full
    * listing of everything the Geräteschrank already held.
    *
-   * So it keeps six: the ones this learner reached for most recently, seeded
-   * with the six measurements almost every investigation opens with. Six fit
-   * without scrolling. Everything else — every instrument, every apparatus,
-   * every kit, on shelves, with an (i) each — is one tap away behind the
-   * button at the end of the row, which is why that button sits INSIDE the
-   * row and costs no vertical space.
+   * So it keeps four: the ones this learner reached for most recently,
+   * seeded with the four commonest measurements the vessel dock does not
+   * already carry. Four pills and the cupboard door fit without scrolling,
+   * where five push the door off a 320 px screen — and the door is what the
+   * row exists to lead to. Everything else — every instrument, every
+   * apparatus, every kit, on shelves, with an (i) each — is one tap away
+   * behind that button, which is why it sits INSIDE the row and costs no
+   * vertical space.
+   *
+   * `look`, `thermometer` and `pH` are never offered here (GUI-103): the
+   * dock carries those three on every vessel as fixed landmarks, and a row
+   * of four that spent three slots repeating them would have left one slot
+   * for the nine instruments that have nowhere else to be.
    *
    * The glyph is what makes the row scannable once you know it, but the name
    * stays beside it: a learner meeting a calorimeter for the first time
@@ -55,6 +62,7 @@
   {#each quick as inst (inst.token)}
     <button
       disabled={busy}
+      data-token={inst.token}
       title={t(inst.label)}
       onclick={() => measure(inst.token)}
     >
@@ -82,8 +90,8 @@
     gap: 0.35rem;
     padding: 0.5rem 1rem;
     border-top: 1px solid var(--edge);
-    /* Six pills fit; the overflow rule stays as the guard for a locale
-       whose names are longer than German's. */
+    /* Four pills and the door fit; the overflow rule stays as the guard for
+       a locale whose names are longer than German's. */
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: thin;

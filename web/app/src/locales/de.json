@@ -2212,7 +2212,6 @@
   "fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s": "Gärung: {moles} mol CO₂ in {seconds} s, alle {period} s eine Blase",
   "{band} at {wavelength} nm: {percent}% through {material}": "{band} bei {wavelength} nm: {percent} % gehen durch {material}",
   "contain and connect": "Einschließen und Verbinden",
-  "drive and power": "Antreiben und Versorgen",
   "all equipment": "Alle Geräte",
   "reports the computed headspace; odour thresholds and adaptation are not modeled": "gibt den berechneten Gasraum wieder; Geruchsschwellen und Gewöhnung werden nicht modelliert",
   "reads the vessel's computed temperature; probe heat capacity and response time are not modeled": "liest die berechnete Temperatur des Gefäßes; Wärmekapazität und Ansprechzeit der Sonde werden nicht modelliert",
@@ -2295,6 +2294,13 @@
   "type commands at a kero> prompt — everything it does has a control on the bench too": "Befehle an einer kero>-Eingabe tippen — alles, was sie kann, hat auch einen Schalter auf dem Labortisch",
   "world map": "Weltkarte",
   "{verb}…": "{verb}…",
-  "export the result card": "Ergebniskarte exportieren"
+  "export the result card": "Ergebniskarte exportieren",
+  "prepare and convert": "Vorbereiten und Umsetzen",
+  "Ask the selected vessel a question. Every one of these reads a value and changes nothing.": "Stelle dem gewählten Gefäß eine Frage. Alle diese Geräte lesen einen Wert ab und verändern nichts.",
+  "Put energy in or take it out as heat: flame, hotplate, cooling bath, evaporating dish.": "Energie als Wärme zuführen oder entziehen: Flamme, Heizplatte, Kühlbad, Abdampfschale.",
+  "Get the contents ready, or drive a change in them: stir, grind, dilute, spin, irradiate, react.": "Den Inhalt vorbereiten oder verändern: rühren, mörsern, verdünnen, zentrifugieren, bestrahlen, reagieren lassen.",
+  "Hold a boundary or join vessels: balloon, gas line, burette, mixer, tubing, electrodes, half-cell.": "Eine Grenze halten oder Gefäße verbinden: Ballon, Gasleitung, Bürette, Mischer, Schläuche, Elektroden, Halbzelle.",
+  "Move one part of a vessel into another and leave the rest behind.": "Einen Teil eines Gefäßes in ein anderes überführen und den Rest zurücklassen.",
+  "Show the tools under the names of the activity kits.": "Die Geräte unter den Namen der Experimentierkästen anzeigen."
  }
 }

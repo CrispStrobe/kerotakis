@@ -2212,7 +2212,6 @@
   "fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s": "",
   "{band} at {wavelength} nm: {percent}% through {material}": "",
   "contain and connect": "",
-  "drive and power": "",
   "all equipment": "",
   "reports the computed headspace; odour thresholds and adaptation are not modeled": "",
   "reads the vessel's computed temperature; probe heat capacity and response time are not modeled": "",
@@ -2295,6 +2294,13 @@
   "type commands at a kero> prompt — everything it does has a control on the bench too": "",
   "world map": "",
   "{verb}…": "",
-  "export the result card": ""
+  "export the result card": "",
+  "prepare and convert": "",
+  "Ask the selected vessel a question. Every one of these reads a value and changes nothing.": "",
+  "Put energy in or take it out as heat: flame, hotplate, cooling bath, evaporating dish.": "",
+  "Get the contents ready, or drive a change in them: stir, grind, dilute, spin, irradiate, react.": "",
+  "Hold a boundary or join vessels: balloon, gas line, burette, mixer, tubing, electrodes, half-cell.": "",
+  "Move one part of a vessel into another and leave the rest behind.": "",
+  "Show the tools under the names of the activity kits.": ""
  }
 }

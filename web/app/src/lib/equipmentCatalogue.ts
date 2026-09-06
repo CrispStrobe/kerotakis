@@ -25,7 +25,9 @@
  *
  * A kit is not a parallel list. It is an `aliasOf` entry over a tool that is
  * already here, so its availability and its action come from the tool it is
- * a skin over and only the name, the picture and the preset differ.
+ * a skin over and only the name, the picture and the preset differ. Since
+ * GUI-103 it is not a shelf either: the sets are a header chip that renames
+ * the tools they stand for, so the candle has one slot in both states.
  */
 import { APPARATUS } from "./apparatus";
 import type { TwoVesselAction } from "./directActions";
@@ -34,27 +36,54 @@ import { INSTRUMENTS, instrumentCommand, instrumentVerb } from "./instruments";
 import { KIDS_EQUIPMENT } from "./kidsEquipment";
 import { TRANSFER_TOOLS } from "./transferTools";
 
-/** What the thing does — the shelf it stands on. */
-export type EquipmentGroup = "measure" | "thermal" | "contain" | "separate" | "drive" | "sets";
+/**
+ * What the thing does — the shelf it stands on.
+ *
+ * Five shelves, not six (GUI-103). *antreiben* ("drive and power") was the
+ * one heading that did not answer "what do I want to do": a stirrer, a
+ * centrifuge, a lamp, a pair of electrodes and the reaction studio share a
+ * word, not a purpose. Its members went to the two neighbours that already
+ * described them — the stirrer, the centrifuge and the mortar to
+ * *vorbereiten*, the electrodes and the half-cell to *verbinden*, beside
+ * the tubing and the gas line they are wired to.
+ *
+ * The kits' shelf is gone too, and for a different reason: a kit is not a
+ * kind of tool, it is a NAME for one. It is a header chip now, not a shelf.
+ */
+export type EquipmentGroup = "measure" | "thermal" | "prepare" | "contain" | "separate";
 
 /** The shelves, in the order the cupboard shows them. */
 export const EQUIPMENT_GROUPS: readonly EquipmentGroup[] = [
   "measure",
   "thermal",
+  "prepare",
   "contain",
   "separate",
-  "drive",
-  "sets",
 ];
 
 /** Shelf headings. Literals, so the translation scan can see them. */
 export const GROUP_LABELS: Record<EquipmentGroup, string> = {
   measure: "observe and measure",
   thermal: "heat and cool",
+  prepare: "prepare and convert",
   contain: "contain and connect",
   separate: "transfer and separation",
-  drive: "drive and power",
-  sets: "activity kits",
+};
+
+/**
+ * One sentence per shelf: what lives here, in the learner's own terms.
+ *
+ * A heading of two words is a label, not an explanation, and "vorbereiten"
+ * does not by itself say that the mortar is on that shelf. The cupboard
+ * shows these on the shelf heading — on hover and focus, and in the tip
+ * strip a touch screen can reach.
+ */
+export const GROUP_BLURBS: Record<EquipmentGroup, string> = {
+  measure: "Ask the selected vessel a question. Every one of these reads a value and changes nothing.",
+  thermal: "Put energy in or take it out as heat: flame, hotplate, cooling bath, evaporating dish.",
+  prepare: "Get the contents ready, or drive a change in them: stir, grind, dilute, spin, irradiate, react.",
+  contain: "Hold a boundary or join vessels: balloon, gas line, burette, mixer, tubing, electrodes, half-cell.",
+  separate: "Move one part of a vessel into another and leave the rest behind.",
 };
 
 export type EquipmentAction =
@@ -90,32 +119,42 @@ export interface EquipmentEntry {
  * Which shelf each verb stands on.
  *
  * Written out rather than derived, because the grouping is a teaching
- * decision and a derivation would hide it. `grind` is filed under separation
- * because grain size is what a learner changes in order to separate or
- * dissolve something, not because a mortar separates anything by itself.
+ * decision and a derivation would hide it. The mortar is filed under
+ * *prepare* rather than under separation: grinding is what a learner does
+ * BEFORE the separation, and a mortar separates nothing by itself.
+ * Electrolysis sits under *connect* because the thing a learner has to get
+ * right is the wiring — two electrodes in one vessel, like the half-cell
+ * beside it.
  */
 const APPARATUS_GROUPS: Record<string, EquipmentGroup> = {
   bunsen: "thermal",
   heat: "thermal",
   cool: "thermal",
   evaporate: "thermal",
-  dilute: "contain",
+  dilute: "prepare",
+  grind: "prepare",
+  stir: "prepare",
+  centrifuge: "prepare",
+  irradiate: "prepare",
   regulate: "contain",
   sweep: "contain",
-  grind: "separate",
-  centrifuge: "drive",
-  electrolyse: "drive",
-  irradiate: "drive",
-  stir: "drive",
+  electrolyse: "contain",
 };
 
+/**
+ * The two-vessel verbs are the separation shelf, with one exception.
+ *
+ * `cell` moves nothing: it wires two half-cells together and reads what is
+ * between them, which is the connection shelf's question, not the
+ * separation shelf's.
+ */
 const TRANSFER_GROUPS: Record<TwoVesselAction, EquipmentGroup> = {
   filter: "separate",
   decant: "separate",
   drain: "separate",
   magnet: "separate",
   distil: "separate",
-  cell: "drive",
+  cell: "contain",
 };
 
 /**
@@ -179,7 +218,7 @@ const instrumentEntries = (): EquipmentEntry[] =>
 const apparatusEntries = (): EquipmentEntry[] =>
   APPARATUS.map((item) => ({
     id: item.verb,
-    group: APPARATUS_GROUPS[item.verb] ?? "drive",
+    group: APPARATUS_GROUPS[item.verb] ?? "prepare",
     name: item.title,
     blurb: item.blurb,
     boundary: boundaryOf(item.verb),
@@ -219,8 +258,10 @@ const SPECIAL_ENTRIES: EquipmentEntry[] = [
     action: { kind: "mix" },
   },
   {
+    // The tubing, filed with what it connects rather than with what it is
+    // used for: a column train is a joined rig before it is a separation.
     id: "transport",
-    group: "separate",
+    group: "contain",
     name: "column train",
     blurb: "move solution through connected cells",
     boundary: boundaryOf("transport"),
@@ -229,7 +270,7 @@ const SPECIAL_ENTRIES: EquipmentEntry[] = [
   },
   {
     id: "react",
-    group: "drive",
+    group: "prepare",
     name: "curated reaction",
     blurb: "choose a verified reaction family",
     boundary: boundaryOf("react"),
@@ -252,10 +293,26 @@ const kitAction = (verb: string, preset?: Record<string, string | number>): Equi
   return { kind: "install", verb, preset };
 };
 
+/** The tools themselves: one slot each, and the only things on a shelf. */
+const TOOL_ENTRIES: EquipmentEntry[] = [
+  ...instrumentEntries(),
+  ...apparatusEntries(),
+  ...transferEntries(),
+  ...SPECIAL_ENTRIES,
+];
+
+/**
+ * A kit stands on the shelf of the tool it skins.
+ *
+ * It is never DRAWN there — the shelves render tools, and a set replaces
+ * the name on one of them — but a catalogue entry with no shelf would be an
+ * entry that cannot answer "where is this". The group is read from the tool
+ * rather than restated, so a tool that moves shelf takes its set with it.
+ */
 const kitEntries = (): EquipmentEntry[] =>
   KIDS_EQUIPMENT.map((item) => ({
     id: item.id,
-    group: "sets" as const,
+    group: TOOL_ENTRIES.find((tool) => tool.id === item.engineVerb)?.group ?? "prepare",
     name: item.title,
     blurb: item.blurb,
     boundary: item.boundary,
@@ -266,13 +323,7 @@ const kitEntries = (): EquipmentEntry[] =>
   }));
 
 /** Everything, once. The order within a shelf is the order it is declared. */
-export const EQUIPMENT_CATALOGUE: EquipmentEntry[] = [
-  ...instrumentEntries(),
-  ...apparatusEntries(),
-  ...transferEntries(),
-  ...SPECIAL_ENTRIES,
-  ...kitEntries(),
-];
+export const EQUIPMENT_CATALOGUE: EquipmentEntry[] = [...TOOL_ENTRIES, ...kitEntries()];
 
 /** The id availability is read for: a kit borrows its skinned tool's. */
 export const accessId = (entry: EquipmentEntry): string => entry.aliasOf ?? entry.id;
@@ -283,11 +334,84 @@ export const equipmentIn = (group: EquipmentGroup): EquipmentEntry[] =>
 export const equipmentById = (id: string): EquipmentEntry | undefined =>
   EQUIPMENT_CATALOGUE.find((entry) => entry.id === id);
 
-/** The ids the wall tallies. Kits are skins, not extra equipment to unlock. */
-export const gatedIds = (reactAvailable: boolean): string[] =>
-  EQUIPMENT_CATALOGUE
-    .filter((entry) => entry.group !== "sets" && (reactAvailable || entry.id !== "react"))
-    .map((entry) => entry.id);
+/**
+ * The slots the shelves draw: every tool, and no set.
+ *
+ * A set used to be a sixth shelf, which put the candle on the wall twice —
+ * once as *Kerze und Docht* and once as *Kerze / Bunsenbrenner*. It is a
+ * naming of the same slot, so it is drawn INTO that slot instead.
+ */
+export const SHELF_ENTRIES: EquipmentEntry[] = EQUIPMENT_CATALOGUE.filter(
+  (entry) => entry.aliasOf === undefined,
+);
+
+/** The set that names this tool, if a set does. */
+export const setSkinOf = (id: string): EquipmentEntry | undefined =>
+  EQUIPMENT_CATALOGUE.find((entry) => entry.aliasOf === id);
+
+/**
+ * One slot, as it is drawn.
+ *
+ * With the *Experimentierkästen* chip off, a tool is itself. With it on, a
+ * tool a set names is drawn as that set — its name, its picture, its parts
+ * and its purpose, and its `preset` too, because "Kerze und Docht" that
+ * opened the flame panel on a laboratory burner's 1500 °C default would be
+ * a candle in name only. A tool no set names is untouched: the chip renames
+ * what it can and hides nothing.
+ */
+export const asShown = (entry: EquipmentEntry, sets: boolean): EquipmentEntry =>
+  (sets ? setSkinOf(entry.id) ?? entry : entry);
+
+/**
+ * The ids the tally counts: every tool the learner can EVER have.
+ *
+ * A constant, deliberately. The old denominator dropped `react` whenever
+ * this session had no curated reaction to offer, so the wall read "31/33"
+ * and then "32/34" a command later — a fraction whose bottom half moved is
+ * a fraction that measures nothing. Kits are excluded because they are
+ * names for these ids, not extra things to unlock.
+ */
+export const GATED_IDS: readonly string[] = SHELF_ENTRIES.map((entry) => entry.id);
+
+export interface CupboardTally {
+  available: number;
+  total: number;
+  /** False when everything is reachable: "34/34" is a fact, not information. */
+  show: boolean;
+}
+
+/** The header fraction, and whether it is worth printing. */
+export function cupboardTally(isAvailable: (id: string) => boolean): CupboardTally {
+  const available = GATED_IDS.filter((id) => isAvailable(id)).length;
+  return { available, total: GATED_IDS.length, show: available < GATED_IDS.length };
+}
+
+/** Whether the cupboard opens showing set names. Remembered per browser. */
+export const SETS_VIEW_KEY = "kerotakis.equipment.sets";
+
+/** Off unless this browser says otherwise; anything unreadable is off. */
+export function loadSetsView(storage: { getItem(key: string): string | null } | null, key: string): boolean {
+  if (!storage) return false;
+  try {
+    return storage.getItem(key) === "on";
+  } catch {
+    // A private window throws on the property itself.
+    return false;
+  }
+}
+
+export function saveSetsView(
+  storage: { setItem(key: string, value: string): void } | null,
+  key: string,
+  on: boolean,
+): void {
+  if (!storage) return;
+  try {
+    storage.setItem(key, on ? "on" : "off");
+  } catch {
+    // The chip still works for this visit when persistence is unavailable.
+  }
+}
 
 export interface EquipmentHandlers {
   onmeasure: (line: string) => void;

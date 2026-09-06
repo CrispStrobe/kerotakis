@@ -7,13 +7,21 @@ import { hasGermanTranslation, i18n } from "./i18n.svelte";
 import {
   EQUIPMENT_CATALOGUE,
   EQUIPMENT_GROUPS,
+  GATED_IDS,
+  GROUP_BLURBS,
   GROUP_LABELS,
+  SETS_VIEW_KEY,
+  SHELF_ENTRIES,
   accessId,
+  asShown,
+  cupboardTally,
   deployedLabel,
   equipmentById,
   equipmentInfoRows,
   equipmentIn,
-  gatedIds,
+  loadSetsView,
+  saveSetsView,
+  setSkinOf,
   runEquipment,
   type EquipmentEntry,
 } from "./equipmentCatalogue";
@@ -59,12 +67,44 @@ describe("the merged equipment catalogue", () => {
 
   it("fills every shelf, so no group heading is ever an empty promise", () => {
     for (const group of EQUIPMENT_GROUPS) expect(equipmentIn(group).length).toBeGreaterThan(0);
-    expect(equipmentIn("measure").length).toBe(INSTRUMENTS.length);
-    expect(equipmentIn("sets").length).toBe(KIDS_EQUIPMENT.length);
+    // `equipmentIn` answers over the whole catalogue, kits included, and a
+    // kit stands on the shelf of the tool it names — so the twelve
+    // instruments are the twelve SLOTS on the measure shelf, beside which
+    // the paper-chromatography set is a name for one of them.
+    expect(SHELF_ENTRIES.filter((entry) => entry.group === "measure").length).toBe(INSTRUMENTS.length);
+  });
+
+  it("stands on five shelves, each of which says what it holds", () => {
+    // GUI-103: `antreiben` was the heading that did not answer "what do I
+    // want to do", and the kits were a shelf for a naming rather than for a
+    // kind of tool. Five headings, each with a sentence — a two-word label
+    // does not by itself tell a learner that the mortar is on this one.
+    expect(EQUIPMENT_GROUPS.length).toBe(5);
+    expect([...EQUIPMENT_GROUPS]).not.toContain("drive");
+    for (const group of EQUIPMENT_GROUPS) {
+      expect(GROUP_LABELS[group].length).toBeGreaterThan(0);
+      expect(GROUP_BLURBS[group].length).toBeGreaterThan(20);
+    }
+    // The verbs the owner moved off `antreiben`, at their new addresses.
+    for (const id of ["stir", "centrifuge", "grind"]) expect(equipmentById(id)?.group).toBe("prepare");
+    for (const id of ["electrolyse", "cell", "transport"]) expect(equipmentById(id)?.group).toBe("contain");
+  });
+
+  it("gives a kit the shelf of the tool it names, rather than a shelf of its own", () => {
+    // A kit is drawn INTO a tool's slot, never beside it — but an entry
+    // with no shelf could not answer "where is this", so it borrows one.
+    for (const kit of KIDS_EQUIPMENT) {
+      const entry = equipmentById(kit.id) as EquipmentEntry;
+      expect(entry.group).toBe(equipmentById(kit.engineVerb)?.group);
+    }
+    expect(SHELF_ENTRIES.length).toBe(EQUIPMENT_CATALOGUE.length - KIDS_EQUIPMENT.length);
+    expect(SHELF_ENTRIES.every((entry) => entry.aliasOf === undefined)).toBe(true);
   });
 
   it("makes a kit a skin over a tool that is already here, not a second listing", () => {
-    for (const entry of EQUIPMENT_CATALOGUE.filter((item) => item.group === "sets")) {
+    const kits = EQUIPMENT_CATALOGUE.filter((item) => item.aliasOf !== undefined);
+    expect(kits.length).toBe(KIDS_EQUIPMENT.length);
+    for (const entry of kits) {
       expect(entry.aliasOf).toBeTruthy();
       // Availability is READ from the tool the kit stands for. A candle kit
       // that could be earned separately from the flame it opens would be a
@@ -78,12 +118,27 @@ describe("the merged equipment catalogue", () => {
   });
 
   it("tallies the tools the engine gates, and not the skins over them", () => {
-    // The wall's own count used to be over a list whose length changed when
-    // `react` arrived, so the denominator moved mid-session.
-    expect(gatedIds(true).length).toBe(EQUIPMENT_CATALOGUE.length - KIDS_EQUIPMENT.length);
-    expect(gatedIds(false)).not.toContain("react");
-    expect(gatedIds(false).length).toBe(gatedIds(true).length - 1);
-    for (const id of gatedIds(true)) expect(id.startsWith("measure:") || !id.endsWith("-kit")).toBe(true);
+    expect(GATED_IDS.length).toBe(EQUIPMENT_CATALOGUE.length - KIDS_EQUIPMENT.length);
+    for (const id of GATED_IDS) expect(id.startsWith("measure:") || !id.endsWith("-kit")).toBe(true);
+  });
+
+  it("counts a denominator that cannot move mid-session", () => {
+    // The defect: the list the wall counted dropped `react` while the
+    // session had no curated reaction to offer, so the fraction read
+    // "31/33" and then "32/34" one command later. A denominator that grows
+    // when the numerator does is not a measure of anything. `react` is a
+    // tool this learner can EVER have, so it is always in the bottom half.
+    expect(GATED_IDS).toContain("react");
+    const everything = cupboardTally(() => true);
+    expect(everything.total).toBe(GATED_IDS.length);
+    expect(everything.available).toBe(GATED_IDS.length);
+    // "34/34" is a fact, not progress: Sandbox prints no fraction at all.
+    expect(everything.show).toBe(false);
+    const withoutReact = cupboardTally((id) => id !== "react");
+    expect(withoutReact.total).toBe(everything.total);
+    expect(withoutReact.available).toBe(everything.available - 1);
+    expect(withoutReact.show).toBe(true);
+    expect(cupboardTally(() => false)).toEqual({ available: 0, total: GATED_IDS.length, show: true });
   });
 
   it("routes each action to the handler that already existed for it", () => {
@@ -137,6 +192,65 @@ describe("the merged equipment catalogue", () => {
   });
 });
 
+describe("the activity sets, as a chip rather than a shelf", () => {
+  it("shows the candle exactly once in either state", () => {
+    // As a shelf, the kits put the candle on the wall twice — once as
+    // "Kerze und Docht" and once as "Kerze / Bunsenbrenner". The chip
+    // renames one slot instead of adding a second.
+    for (const sets of [false, true]) {
+      const drawn = SHELF_ENTRIES.map((entry) => asShown(entry, sets));
+      expect(drawn.length).toBe(SHELF_ENTRIES.length);
+      expect(new Set(drawn.map((entry) => entry.id)).size).toBe(drawn.length);
+      const candles = drawn.filter((entry) => accessId(entry) === "bunsen");
+      expect(candles.length).toBe(1);
+      const balloons = drawn.filter((entry) => accessId(entry) === "regulate");
+      expect(balloons.length).toBe(1);
+    }
+  });
+
+  it("wears the set's name, picture, parts and preset when the chip is on", () => {
+    const burner = equipmentById("bunsen") as EquipmentEntry;
+    expect(asShown(burner, false)).toBe(burner);
+    const candle = asShown(burner, true);
+    expect(candle.id).toBe("candle-kit");
+    expect(candle.name).toBe("candle and wick");
+    expect(candle.parts?.length).toBeGreaterThan(0);
+    // The preset comes with the name: a candle that opened the flame panel
+    // on a laboratory burner's default would be a candle in name only.
+    expect(candle.action).toEqual({ kind: "install", verb: "bunsen", preset: { source: "candle" } });
+    // Availability and the shelf are still the tool's own.
+    expect(accessId(candle)).toBe("bunsen");
+    expect(candle.group).toBe(burner.group);
+  });
+
+  it("leaves a tool no set names exactly as it is, rather than hiding it", () => {
+    // The chip is not a mode: turning it on must not empty the shelves of
+    // everything the five kits do not happen to cover.
+    const unnamed = SHELF_ENTRIES.filter((entry) => setSkinOf(entry.id) === undefined);
+    expect(unnamed.length).toBe(SHELF_ENTRIES.length - KIDS_EQUIPMENT.length);
+    for (const entry of unnamed) expect(asShown(entry, true)).toBe(entry);
+    expect(setSkinOf("bunsen")?.id).toBe("candle-kit");
+    expect(setSkinOf("measure:geiger")).toBeUndefined();
+  });
+
+  it("remembers the chip per browser, and treats unreadable storage as off", () => {
+    const store = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => void store.set(key, value),
+    };
+    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(false);
+    saveSetsView(storage, SETS_VIEW_KEY, true);
+    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(true);
+    saveSetsView(storage, SETS_VIEW_KEY, false);
+    expect(loadSetsView(storage, SETS_VIEW_KEY)).toBe(false);
+    expect(loadSetsView(null, SETS_VIEW_KEY)).toBe(false);
+    expect(loadSetsView({ getItem: () => { throw new Error("blocked"); } }, SETS_VIEW_KEY)).toBe(false);
+    expect(() => saveSetsView({ setItem: () => { throw new Error("full"); } }, SETS_VIEW_KEY, true)).not.toThrow();
+    expect(() => saveSetsView(null, SETS_VIEW_KEY, true)).not.toThrow();
+  });
+});
+
 describe("the catalogue's own vocabulary", () => {
   afterEach(() => {
     i18n.locale = "en";
@@ -147,7 +261,7 @@ describe("the catalogue's own vocabulary", () => {
     // i18n.test.ts cannot see them: an English sentence would sit inside a
     // German cupboard and fail nothing at all.
     const missing = new Set<string>();
-    for (const label of Object.values(GROUP_LABELS)) {
+    for (const label of [...Object.values(GROUP_LABELS), ...Object.values(GROUP_BLURBS)]) {
       if (!hasGermanTranslation(label)) missing.add(label);
     }
     for (const entry of EQUIPMENT_CATALOGUE) {

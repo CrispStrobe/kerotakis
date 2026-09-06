@@ -1370,7 +1370,7 @@ and presents them well.
   motion` still stops the motion; no new per-frame JS loop, and the GPU path
   untouched except where `visualBackend.ts` already says WebGPU is on.
 
-## Three instrument surfaces must become one (GUI-100 … GUI-102)
+## Three instrument surfaces must become one (GUI-100 … GUI-103)
 
 The owner, from the German live deploy: *"we must consolidate Messgeräte and
 Geräteschrank and Instrumentenwand. we have 2/3 surfaces and need them into
@@ -1429,6 +1429,23 @@ lives in is not predictable from what the tool is.
   three of the quick-access row is open question 2 in
   `docs/INSTRUMENTS-ONE-SURFACE.md` — a question for the owner, not a thing
   to decide inside a deletion PR.
+
+- [x] **GUI-103 — The owner's five answers.** All five open questions in
+  `docs/INSTRUMENTS-ONE-SURFACE.md` §5, in one PR: the MESSEN strip survives
+  at **four** recents plus the cupboard door and excludes the dock's
+  `look`/`thermometer`/`pH` (`DOCK_INSTRUMENTS`), so nothing is offered twice
+  on one screen; the dock keeps those three as fixed landmarks; the kits
+  become a **header chip** that renames the tools they stand for rather than a
+  sixth shelf that showed the candle twice; **five shelves** — *antreiben*
+  folded into *vorbereiten* (stirrer, mortar, centrifuge, lamp, dilute,
+  curated reaction) and *verbinden* (electrodes, half-cell, tubing, gas line,
+  burette, mixer) — each with one sentence saying what lives on it; and both
+  defects fixed: `directActions.ts` names the heat source explicitly
+  (`heat v1 10kJ on burner`) and the cupboard's denominator is a constant over
+  every tool a learner can ever have, printed only while something is locked.
+  Done 2026-09-06; §5 of the design note is now *Decisions* and carries the
+  reason for each. Per the convention at the top of this file, the detail and
+  the lessons live in `HISTORY.md`.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 
