@@ -73,6 +73,67 @@ fn quantity(value: f64, decimals: usize) -> String {
     }
 }
 
+/// An amount and its unit, in a form that never shows a real quantity as
+/// zero.
+///
+/// Four decimals is the right resolution for a classroom amount and the
+/// wrong one for a trace. Electrolysing for a few seconds makes 3.9e-5 mol
+/// of oxygen and the bench printed "0.0000 mol oxygen ↑" — a measurement
+/// of nothing, in the same breath as the bubbles it is counting; a sealed
+/// vessel reported "0.0000 mol carbon dioxide formed" while its pressure
+/// rose. `quantity` already refuses to print a real amount as zero, but
+/// its answer is scientific notation, which is the register of a lab book
+/// rather than of the two levels a learner reads.
+///
+/// So below a hundredth of the base unit the amount moves to the largest
+/// SI prefix that puts it at 1 or above, and is shown to three significant
+/// figures — 39.0 µmol, 4.71 mmol, 812 nmol — which is how a chemist says
+/// it out loud. At or above a hundredth nothing changes: the four decimals
+/// the lessons are pinned to.
+///
+/// The unit travels WITH the number rather than being a literal in the
+/// sentence, because the prefix is part of it; every template that used to
+/// write `{moles} mol` now writes `{moles}`, in English and in German.
+fn si_amount(locale: Locale, value: f64, unit: &str) -> String {
+    let magnitude = value.abs();
+    if magnitude == 0.0 || magnitude >= 0.01 {
+        return format!("{} {unit}", locale.number(format!("{value:.4}")));
+    }
+    // The prefix that lands the number in [1, 1000). Picometres of
+    // substance is the floor: below that the amount is not a quantity a
+    // bench has any business naming, and it still reads rather than
+    // vanishing.
+    let (scale, prefix) = if magnitude >= 1e-3 {
+        (1e3, "m")
+    } else if magnitude >= 1e-6 {
+        (1e6, "µ")
+    } else if magnitude >= 1e-9 {
+        (1e9, "n")
+    } else {
+        (1e12, "p")
+    };
+    let scaled = value * scale;
+    let decimals = match scaled.abs() {
+        s if s >= 100.0 => 0,
+        s if s >= 10.0 => 1,
+        _ => 2,
+    };
+    format!(
+        "{} {prefix}{unit}",
+        locale.number(format!("{scaled:.decimals$}"))
+    )
+}
+
+/// A mole amount, unit included. See [`si_amount`].
+fn moles_amount(locale: Locale, value: f64) -> String {
+    si_amount(locale, value, "mol")
+}
+
+/// A mass in grams, unit included. See [`si_amount`].
+fn grams_amount(locale: Locale, value: f64) -> String {
+    si_amount(locale, value, "g")
+}
+
 // ── The tables a coverage gate can walk ──────────────────────────────
 //
 // Four vocabularies below were written inline as `match` arms, which is
@@ -579,20 +640,20 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 2 => match total_after {
                     Some(total) if (total.0 - moles.0).abs() > 1e-12 => locale.fill(
                         "event.added.lv2-total",
-                        "{vessel}: +{amount} mol {what} — {total} mol now in vessel",
+                        "{vessel}: +{amount} {what} — {total} now in vessel",
                         &[
                             ("vessel", &vessel.to_string()),
-                            ("amount", &locale.number(format!("{:.4}", moles.0))),
+                            ("amount", &moles_amount(locale, moles.0)),
                             ("what", name),
-                            ("total", &locale.number(format!("{:.4}", total.0))),
+                            ("total", &moles_amount(locale, total.0)),
                         ],
                     ),
                     _ => locale.fill(
                         "event.added.lv2",
-                        "{vessel}: +{amount} mol {what}",
+                        "{vessel}: +{amount} {what}",
                         &[
                             ("vessel", &vessel.to_string()),
-                            ("amount", &locale.number(format!("{:.4}", moles.0))),
+                            ("amount", &moles_amount(locale, moles.0)),
                             ("what", name),
                         ],
                     ),
@@ -725,14 +786,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.hydrolysed.lv2",
-                "{vessel}: {family} hydrolysed {mass} g of {substrate} in {seconds} s ({percent}% converted)",
+                "{vessel}: {family} hydrolysed {mass} of {substrate} in {seconds} s ({percent}% converted)",
                 &[
                     ("vessel", &vessel.to_string()),
                     // lv1 lower-cases this; lv2 never did, and changing
                     // the English here would be a rewording rather than a
                     // translation fix.
                     ("family", &format!("{family:?}")),
-                    ("mass", &locale.number(format!("{hydrolysed_mass_g:.4}"))),
+                    ("mass", &grams_amount(locale, hydrolysed_mass_g)),
                     ("substrate", substrate),
                     ("seconds", &locale.number(format!("{seconds:.0}"))),
                     ("percent", &locale.number(format!("{:.1}", converted_fraction * 100.0))),
@@ -1278,7 +1339,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = species_name(locale, sid);
             let percent = locale.number(format!("{:.1}", gas_fraction * 100.0));
             let kpa = locale.number(format!("{:.3}", partial_pressure_pa / 1000.0));
-            let moles_s = locale.number(format!("{:.4}", moles.0));
+            let moles_s = moles_amount(locale, moles.0);
             match (register.level(), *to_gas) {
                 (1, true) => locale.fill(
                     "event.headspace-partitioned.lv1",
@@ -1292,12 +1353,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 (2, true) => locale.fill(
                     "event.headspace-partitioned.lv2",
-                    "{vessel}: {moles} mol {name} liquid → headspace; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
+                    "{vessel}: {moles} {name} liquid → headspace; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
                     &[("vessel", &vessel.to_string()), ("moles", &moles_s), ("name", name), ("percent", &percent), ("kpa", &kpa)],
                 ),
                 (2, false) => locale.fill(
                     "event.headspace-partitioned.lv2-back",
-                    "{vessel}: {moles} mol {name} headspace → liquid; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
+                    "{vessel}: {moles} {name} headspace → liquid; {percent}% in the gas at {kpa} kPa partial pressure (Henry's law)",
                     &[("vessel", &vessel.to_string()), ("moles", &moles_s), ("name", name), ("percent", &percent), ("kpa", &kpa)],
                 ),
                 _ => format!(
@@ -1530,13 +1591,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
                 2 => locale.fill(
                     "event.dissolved-in-solvent.lv2",
-                    "{vessel}: {what} in {solvent} — {dissolved} mol dissolved (handbook limit), {solid} mol left as solid",
+                    "{vessel}: {what} in {solvent} — {dissolved} dissolved (handbook limit), {solid} left as solid",
                     &[
                         ("vessel", &vessel.to_string()),
                         ("what", name),
                         ("solvent", solv),
-                        ("dissolved", &locale.number(format!("{:.4}", dissolved.0))),
-                        ("solid", &locale.number(format!("{:.4}", undissolved.0))),
+                        ("dissolved", &moles_amount(locale, dissolved.0)),
+                        ("solid", &moles_amount(locale, undissolved.0)),
                     ],
                 ),
                 _ => locale.fill(
@@ -2094,10 +2155,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.dissolved.lv2",
-                    "{vessel}: {moles} mol {name} dissolved",
+                    "{vessel}: {moles} {name} dissolved",
                     &[
                         ("vessel", &vessel.to_string()),
-                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("moles", &moles_amount(locale, moles.0)),
                         ("name", name),
                     ],
                 ),
@@ -2112,8 +2173,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.neutralised.lv2",
-                "{vessel}: {moles} mol neutralised",
-                &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 4)))],
+                "{vessel}: {moles} neutralised",
+                &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0))],
             ),
             _ => locale.fill(
                 "event.neutralised.lv3",
@@ -2125,10 +2186,23 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             vessel,
             species: sid,
             moles,
+            dry,
         } => {
             let data = species::lookup(sid);
             let name = species_name(locale, sid);
             match register.level() {
+                // "Cloudy" and "precipitate" are wet-chemistry words and
+                // they are the two this sentence exists to teach, so they
+                // are not spent on a dry beaker. Magnesium burnt in an
+                // empty one leaves an ash; nothing came out of anything.
+                1 if *dry => {
+                    let colour = appearance_word(data.and_then(|d| d.appearance), locale);
+                    locale.fill(
+                        "event.precipitated.lv1-dry",
+                        "A {colour} powder is left behind in {vessel} — that's the {name}.",
+                        &[("colour", colour), ("vessel", &vessel.to_string()), ("name", name)],
+                    )
+                }
                 1 => {
                     let colour = appearance_word(data.and_then(|d| d.appearance), locale);
                     locale.fill(
@@ -2137,15 +2211,30 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("vessel", &vessel.to_string()), ("colour", colour)],
                     )
                 }
-                2 => locale.fill(
-                    "event.precipitated.lv2",
-                    "{vessel}: {moles} mol {name} precipitated ↓",
+                2 if *dry => locale.fill(
+                    "event.precipitated.lv2-dry",
+                    "{vessel}: {moles} {name} left as a solid product — no liquid in the vessel, so not a precipitate",
                     &[
                         ("vessel", &vessel.to_string()),
-                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("moles", &moles_amount(locale, moles.0)),
                         ("name", name),
                     ],
                 ),
+                2 => locale.fill(
+                    "event.precipitated.lv2",
+                    "{vessel}: {moles} {name} precipitated ↓",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("moles", &moles_amount(locale, moles.0)),
+                        ("name", name),
+                    ],
+                ),
+                _ if *dry => {
+                    format!(
+                        "{vessel}: {} mol {name} formed as a condensed product (dry vessel)",
+                        quantity(moles.0, 6)
+                    )
+                }
                 _ => {
                     format!("{vessel}: {} mol {name} precipitated", quantity(moles.0, 6))
                 }
@@ -2172,8 +2261,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.supersaturated.lv2",
-                    "{vessel}: supersaturated — {dissolved} mol {name} dissolved against a limit of {capacity} mol at this temperature ({times}× saturation); it stays in solution until something seeds it",
-                    &[("vessel", &vessel.to_string()), ("dissolved", &locale.number(format!("{:.4}", dissolved.0))), ("name", name), ("capacity", &locale.number(format!("{:.4}", capacity.0))), ("times", &locale.number(format!("{times:.2}")))],
+                    "{vessel}: supersaturated — {dissolved} {name} dissolved against a limit of {capacity} at this temperature ({times}× saturation); it stays in solution until something seeds it",
+                    &[("vessel", &vessel.to_string()), ("dissolved", &moles_amount(locale, dissolved.0)), ("name", name), ("capacity", &moles_amount(locale, capacity.0)), ("times", &locale.number(format!("{times:.2}")))],
                 ),
                 _ => locale.fill(
                     "event.supersaturated.lv3",
@@ -2202,8 +2291,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 }
                 2 => locale.fill(
                     "event.plated.lv2",
-                    "{vessel}: {moles} mol {name} plated out onto {host}",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(quantity(moles.0, 4))), ("name", name), ("host", host)],
+                    "{vessel}: {moles} {name} plated out onto {host}",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0)), ("name", name), ("host", host)],
                 ),
                 _ => locale.fill(
                     "event.plated.lv3",
@@ -2489,10 +2578,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 },
                 2 => locale.fill(
                     "event.consumed.lv2",
-                    "{vessel}: {moles} mol {name} consumed",
+                    "{vessel}: {moles} {name} consumed",
                     &[
                         ("vessel", &vessel.to_string()),
-                        ("moles", &locale.number(quantity(moles.0, 4))),
+                        ("moles", &moles_amount(locale, moles.0)),
                         ("name", name),
                     ],
                 ),
@@ -3014,14 +3103,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.electrolysed.lv2",
-                    "{vessel}: {amps} A for {seconds} s = {coulombs} C → {electrons} mol e⁻ → {moles} mol {name} = {grams} g",
+                    "{vessel}: {amps} A for {seconds} s = {coulombs} C → {electrons} e⁻ → {moles} {name} = {grams} g",
                     &[
                         ("vessel", &vessel.to_string()),
                         ("amps", &locale.number(format!("{amps:.3}"))),
                         ("seconds", &locale.number(format!("{seconds:.0}"))),
                         ("coulombs", &locale.number(format!("{coulombs:.0}"))),
-                        ("electrons", &locale.number(format!("{:.4}", electrons.0))),
-                        ("moles", &locale.number(format!("{:.4}", moles.0))),
+                        ("electrons", &moles_amount(locale, electrons.0)),
+                        ("moles", &moles_amount(locale, moles.0)),
                         ("name", name),
                         ("grams", &locale.number(format!("{grams:.3}"))),
                     ],
@@ -3216,8 +3305,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 2 => {
                     locale.fill(
                         "event.gas-evolved.lv2",
-                        "{vessel}: {moles} mol {name} ↑ (gas escapes the open vessel)",
-                        &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0))), ("name", name)],
+                        "{vessel}: {moles} {name} ↑ (gas escapes the open vessel)",
+                        &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0)), ("name", name)],
                     )
                 }
                 _ => {
@@ -3243,8 +3332,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.gas-absorbed.lv2",
-                    "{vessel}: {moles} mol {name} absorbed from the gas boundary",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0))), ("name", name)],
+                    "{vessel}: {moles} {name} absorbed from the gas boundary",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0)), ("name", name)],
                 ),
                 _ => locale.fill(
                     "event.gas-absorbed.lv3",
@@ -3267,8 +3356,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
                 2 => locale.fill(
                     "event.gas-contained.lv2",
-                    "{vessel}: {moles} mol {name} formed and remains in the closed headspace",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0))), ("name", name)],
+                    "{vessel}: {moles} {name} formed and remains in the closed headspace",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0)), ("name", name)],
                 ),
                 _ => locale.fill(
                     "event.gas-contained.lv3",
@@ -3289,8 +3378,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.vessel-sealed.lv2",
-                "{vessel}: sealed over {headspace_volume} L of headspace, trapping {trapped_air} mol of room air",
-                &[("vessel", &vessel.to_string()), ("headspace_volume", &locale.number(format!("{:.3}", headspace_volume.0))), ("trapped_air", &locale.number(format!("{:.4}", trapped_air.0)))],
+                "{vessel}: sealed over {headspace_volume} L of headspace, trapping {trapped_air} of room air",
+                &[("vessel", &vessel.to_string()), ("headspace_volume", &locale.number(format!("{:.3}", headspace_volume.0))), ("trapped_air", &moles_amount(locale, trapped_air.0))],
             ),
             _ => locale.fill(
                 "event.vessel-sealed.lv3",
@@ -3361,8 +3450,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.headspace-equilibrated.lv2",
-                "{vessel}: headspace settled at {pressure} bar with {total_moles} mol gas",
-                &[("vessel", &vessel.to_string()), ("pressure", &locale.number(format!("{:.3}", pressure.0 / 100_000.0))), ("total_moles", &locale.number(format!("{:.4}", total_moles.0)))],
+                "{vessel}: headspace settled at {pressure} bar with {total_moles} gas",
+                &[("vessel", &vessel.to_string()), ("pressure", &locale.number(format!("{:.3}", pressure.0 / 100_000.0))), ("total_moles", &moles_amount(locale, total_moles.0))],
             ),
             _ => locale.fill(
                 "event.headspace-equilibrated.lv3",
@@ -3511,8 +3600,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 };
                 locale.fill(
                     "event.reacted.lv2-mol-reacted",
-                    "{vessel}: {moles} mol reacted in {seconds} s{with}  —  {equation}",
-                    &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.4}", moles.0))), ("seconds", &locale.number(format!("{seconds:.0}"))), ("with", &with.to_string()), ("equation", &equation.to_string())],
+                    "{vessel}: {moles} reacted in {seconds} s{with}  —  {equation}",
+                    &[("vessel", &vessel.to_string()), ("moles", &moles_amount(locale, moles.0)), ("seconds", &locale.number(format!("{seconds:.0}"))), ("with", &with.to_string()), ("equation", &equation.to_string())],
                 )
             }
             _ => {
@@ -3583,8 +3672,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ),
             2 => locale.fill(
                 "event.diluted.lv2",
-                "{vessel}: diluted with {volume} mL water ({moles} mol)",
-                &[("vessel", &vessel.to_string()), ("volume", &locale.number(format!("{:.1}", volume.0 * 1000.0))), ("moles", &locale.number(format!("{:.4}", moles.0)))],
+                "{vessel}: diluted with {volume} mL water ({moles})",
+                &[("vessel", &vessel.to_string()), ("volume", &locale.number(format!("{:.1}", volume.0 * 1000.0))), ("moles", &moles_amount(locale, moles.0))],
             ),
             _ => locale.fill(
                 "event.diluted.lv3",
@@ -3708,9 +3797,9 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .map(|(s, m)| {
                             locale.fill(
                                 "event.transported.lv2-portion",
-                                "{moles} mol {name}",
+                                "{moles} {name}",
                                 &[
-                                    ("moles", &locale.number(format!("{:.4}", m.0))),
+                                    ("moles", &moles_amount(locale, m.0)),
                                     ("name", species_name(locale, s)),
                                 ],
                             )
@@ -3954,10 +4043,59 @@ mod quantity_tests {
         };
         assert_eq!(
             render_event(&event, Register::LV2),
-            "v1: 4.200e-7 mol chalk (calcium carbonate) dissolved"
+            "v1: 420 nmol chalk (calcium carbonate) dissolved"
         );
         assert_eq!(quantity(0.0, 4), "0.0000");
         assert_eq!(quantity(0.01234, 4), "0.0123");
+    }
+
+    /// The amount formatter, at the two boundaries and either side of
+    /// them. `0.0000 mol oxygen ↑` for 3.9e-5 mol was the defect; every
+    /// row below the hundredth is one a bench really produced.
+    #[test]
+    fn small_amounts_read_in_the_unit_that_fits_them() {
+        let en = Locale::EN;
+        for (value, expected) in [
+            (0.0, "0.0000 mol"),
+            (5.55, "5.5500 mol"),
+            (0.01, "0.0100 mol"),
+            // Just under the boundary: milli, three significant figures.
+            (0.009_99, "9.99 mmol"),
+            (0.004_712, "4.71 mmol"),
+            // electrolysis.lab: this printed as 0.0000 mol.
+            (3.9e-5, "39.0 µmol"),
+            // sealed-gas.lab.
+            (8.12e-7, "812 nmol"),
+            (4.2e-13, "0.42 pmol"),
+            (-0.003, "-3.00 mmol"),
+        ] {
+            assert_eq!(moles_amount(en, value), expected, "{value}");
+        }
+        assert_eq!(grams_amount(en, 2.5e-4), "250 mg");
+        assert_eq!(grams_amount(en, 12.5), "12.5000 g");
+    }
+
+    /// The unit is part of the number now, so a German sentence must not
+    /// end up with two of them or with none.
+    #[test]
+    fn the_unit_travels_with_the_number_in_every_locale() {
+        let event = Event::GasEvolved {
+            vessel: VesselId(0),
+            species: SpeciesId::new("O2"),
+            moles: Moles(3.9e-5),
+        };
+        for locale in [Locale::EN, Locale::parse("de")] {
+            let text = render_event_in(&event, Register::LV2, locale);
+            assert!(
+                text.contains("39,0 µmol") || text.contains("39.0 µmol"),
+                "{text}"
+            );
+            assert!(!text.contains("µmol mol"), "unit written twice: {text}");
+            assert!(
+                !text.contains("0,0000") && !text.contains("0.0000"),
+                "{text}"
+            );
+        }
     }
 }
 

@@ -53,6 +53,7 @@ fn precipitation() -> Event {
         vessel: VesselId(0),
         species: SpeciesId::new("AgCl"),
         moles: Moles(0.0058),
+        dry: false,
     }
 }
 

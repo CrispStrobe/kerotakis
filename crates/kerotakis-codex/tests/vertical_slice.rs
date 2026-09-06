@@ -139,6 +139,7 @@ fn the_three_leads_progress_concurrently_from_one_bench() {
         vessel: VesselId(0),
         species: SpeciesId::new("AgCl"),
         moles: Moles(0.01),
+        dry: false,
     }];
     quest::observe(&specs, &mut states, &precipitate, &bench);
     assert!(states["trace-the-contamination"]
@@ -160,6 +161,7 @@ fn the_sealed_unknown_closes_the_lead_only_when_it_is_named() {
             vessel: VesselId(0),
             species: SpeciesId::new("AgCl"),
             moles: Moles(0.01),
+            dry: false,
         }],
         &bench,
     );

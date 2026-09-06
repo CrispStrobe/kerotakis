@@ -10,6 +10,12 @@ use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
+/// `skip_serializing_if` for a boolean whose `false` is the old shape of
+/// the record. Serde has no built-in for it and wants a `&bool`.
+fn is_false(flag: &bool) -> bool {
+    !*flag
+}
+
 fn one_molar() -> f64 {
     1.0
 }
@@ -1087,6 +1093,25 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        /// Whether the vessel held no liquid when the solid appeared.
+        ///
+        /// "Precipitate" and "it went cloudy" are wet-chemistry words: a
+        /// precipitate is something that comes OUT of a solution, and the
+        /// cloudiness is the suspension before it settles. Magnesium burnt
+        /// in an empty beaker leaves magnesium oxide, and the bench
+        /// reported it as "It went cloudy in v1! A brilliant white solid
+        /// appears at the bottom — that's called a precipitate", which
+        /// teaches the word wrong at exactly the moment it is being
+        /// learnt. The event stays one event — a quest claiming
+        /// `precipitated:MgO` is claiming that the solid formed, and that
+        /// is still what happened — and the renderer picks the vocabulary.
+        ///
+        /// Only the combustion route can set it. Every other emitter is a
+        /// solution crystallising, which is a precipitate by definition.
+        /// Defaulted, and skipped when false, so a log written before the
+        /// field existed reads exactly as it did.
+        #[serde(default, skip_serializing_if = "is_false")]
+        dry: bool,
     },
     /// KID-7: more is dissolved than the water can hold, and nothing has
     /// come out.
