@@ -2104,7 +2104,8 @@ and presents them well.
   scored done / partial / missing, with the numbers the engine should add
   listed at the end so the engine lane can pick them up.
 
-  Starting score: **32 done, 18 partial, 23 missing.** The worst finding was
+  Starting score: **32 done, 18 partial, 23 missing.** Finishing score across
+  the three PRs: **45 done, 11 partial, 17 missing.** The worst finding was
   not an absence but a constant: `steaming` gated on `temperature_k >= 368`, a
   number that is wrong under a partial vacuum, wrong in a pressurised vessel,
   wrong for a salted solvent and wrong for every solvent that is not water —
@@ -2147,6 +2148,23 @@ and presents them well.
      their size from `SceneSolid.volume_l ÷ moles` — the registry's molar
      volume — so a mole of a fluffy hydroxide finally draws larger than a mole
      of a dense sulfate, and their colour from the species' own `srgb`.
+
+  3. [x] **ANIM-3 — The ones that drew nothing (PR 3).** Three events changed
+     a vessel and produced no picture at all. An emulsion now disperses into
+     droplets counted by `dispersed_fraction` and sized by
+     `dispersed_volume_l` split between them, drifting back together on the
+     engine's own coalescence half-life — `SceneVessel.emulsion` had been read
+     by no component in the app, so shaking oil into water changed nothing on
+     screen. Fermentation bubbles at the rate the engine computed rather than
+     at an invented speed: `carbon_dioxide_moles ÷ seconds`, turned into a
+     tempo by the ~41 µmol of gas in one visible millilitre bubble, so an
+     overnight brew ticks every few seconds and a lively dough every one. A UV
+     beam crosses the vessel and leaves with an opacity that *is*
+     `transmitted_fraction`. And electrolysis bubbles at both electrodes on
+     the **charge** they shared — the honest driver, because the engine names
+     the moles of one product only and the counter-electrode's half-reaction
+     is not on the wire, so neither electrode is drawn at an invented ratio.
+     → 45 done, 11 partial, 17 missing.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
   driving quantity and for bounds; every new visual reachable from the DOM by

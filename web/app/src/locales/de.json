@@ -2212,6 +2212,9 @@
   "rolling boil at {temperature} °C, {moles} mol of vapour": "kochend bei {temperature} °C, {moles} mol Dampf",
   "{moles} mol of {species} coming out of solution": "{moles} mol {species} fallen aus der Lösung aus",
   "{moles} mol of {species} going into solution": "{moles} mol {species} gehen in Lösung",
-  "{litres} L of headspace gas at {pressure} kPa": "{litres} L Gasraum bei {pressure} kPa"
+  "{litres} L of headspace gas at {pressure} kPa": "{litres} L Gasraum bei {pressure} kPa",
+  "{percent}% of {material} dispersed as droplets, half of it back in {seconds} s": "{percent} % {material} als Tröpfchen verteilt, die Hälfte davon nach {seconds} s wieder zusammen",
+  "fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s": "Gärung: {moles} mol CO₂ in {seconds} s, alle {period} s eine Blase",
+  "{band} at {wavelength} nm: {percent}% through {material}": "{band} bei {wavelength} nm: {percent} % gehen durch {material}"
  }
 }

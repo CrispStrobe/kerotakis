@@ -236,6 +236,37 @@ export interface PhaseChangeRun {
   model?: string;
 }
 
+/** Engine-computed dispersion of one liquid inside another. */
+export interface EmulsionRun {
+  material: string;
+  fromDispersedFraction: number;
+  toDispersedFraction: number;
+  dispersedVolumeL: number;
+  /** Seconds for half the dispersed phase to coalesce back out. */
+  halfLifeSeconds: number;
+}
+
+/** Engine-computed anaerobic run: what the yeast ate, made, and how long for. */
+export interface FermentationRun {
+  sucroseMoles: number;
+  ethanolMoles: number;
+  carbonDioxideMoles: number;
+  activeYeastGrams: number;
+  seconds: number;
+  /** `carbon_dioxide_moles ÷ seconds` — the rate the bubbling follows. */
+  molesPerSecond: number;
+}
+
+/** Engine-computed transmission of one UV band through a sample. */
+export interface UvRun {
+  material: string;
+  wavelengthNm: number;
+  band: string;
+  /** Fraction of the incident light that got through, 0–1. */
+  transmittedFraction: number;
+  mechanism: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -297,6 +328,12 @@ export interface Effect {
   solid?: SolidYield;
   /** Engine-owned headspace, for the lid and the piston. */
   headspace?: HeadspaceRun;
+  /** Engine-owned dispersion, for the droplet field. */
+  emulsion?: EmulsionRun;
+  /** Engine-owned anaerobic run, for the slow bubbling. */
+  fermentation?: FermentationRun;
+  /** Engine-owned UV transmission, for the beam. */
+  uv?: UvRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -590,6 +627,36 @@ export function depositParticles(
     ? Math.max(0.5, Math.min(3, Math.cbrt(particleVolumeL / 1e-5)))
     : 0.5;
   return { count, particleVolumeL, radiusScale };
+}
+
+/**
+ * Moles in one bubble a learner can actually see: about a millilitre of gas,
+ * which at room conditions is ~41 µmol. Used to turn a production RATE into
+ * a bubble tempo, so a ferment that makes 3 mmol of CO2 over an hour bubbles
+ * once every few seconds rather than at an invented speed.
+ */
+export const VISIBLE_BUBBLE_MOLES = 4.1e-5;
+
+/**
+ * Seconds between visible bubbles for a gas produced at `molesPerSecond`.
+ * Monotone decreasing in the rate and clamped to [0.25 s, 6 s] — below the
+ * floor the eye reads a stream anyway, and above the ceiling the vessel
+ * would appear inert.
+ */
+export function bubblePeriodS(molesPerSecond: number): number {
+  if (!(molesPerSecond > 0)) return 6;
+  return Math.max(0.25, Math.min(6, VISIBLE_BUBBLE_MOLES / molesPerSecond));
+}
+
+/**
+ * Bubbles drawn at ONE electrode from the charge that passed, 1–8. Charge is
+ * the honest driver: the engine names the moles of only one product, and the
+ * counter-electrode's half-reaction is not on the wire, so both electrodes
+ * are sized by the coulombs they shared rather than by an invented ratio.
+ */
+export function electrodeBubbles(coulombs: number): number {
+  if (!(coulombs > 0)) return 1;
+  return Math.max(1, Math.min(8, Math.round(1 + 7 * scale(Math.log10(coulombs), 0, 3))));
 }
 
 /**
@@ -1057,6 +1124,72 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           wavelengthNm: Number(e.wavelength_nm ?? 0),
           irradianceWM2,
           photolysisCoupled: Boolean(e.photolysis_coupled),
+        },
+      };
+    }
+    case "emulsion_changed": {
+      // GUI-099 ANIM-3: `SceneVessel.emulsion` was read by no component in
+      // the app, so shaking oil into water changed nothing on screen.
+      const toDispersedFraction = Math.max(0, Math.min(1, Number(e.to_dispersed_fraction ?? 0)));
+      const halfLifeSeconds = Math.max(0, Number(e.half_life_seconds ?? 0));
+      return {
+        kind: "emulsify",
+        at: now,
+        // The dispersion is visible for as long as it survives: the engine's
+        // own half-life, clamped to a watchable window.
+        durationMs: Math.min(9000, Math.max(1500, halfLifeSeconds * 1000)),
+        magnitude: scale(toDispersedFraction, 0.02, 1),
+        reading: toDispersedFraction,
+        unit: "fraction",
+        emulsion: {
+          material: String(e.material ?? ""),
+          fromDispersedFraction: Math.max(0, Math.min(1, Number(e.from_dispersed_fraction ?? 0))),
+          toDispersedFraction,
+          dispersedVolumeL: Math.max(0, Number(e.dispersed_volume_l ?? 0)),
+          halfLifeSeconds,
+        },
+      };
+    }
+    case "fermented": {
+      const carbonDioxideMoles = Math.max(0, Number(e.carbon_dioxide_moles ?? 0));
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      const molesPerSecond = seconds > 0 ? carbonDioxideMoles / seconds : 0;
+      return {
+        kind: "ferment",
+        at: now,
+        // Hours of bench time compressed to a watchable window; the TEMPO
+        // stays honest because it comes from the rate, not from this.
+        durationMs: Math.min(12_000, Math.max(2500, 2500 + Math.log10(1 + seconds) * 2500)),
+        magnitude: gasMag({ moles: carbonDioxideMoles }),
+        reading: carbonDioxideMoles,
+        unit: "mol",
+        fermentation: {
+          sucroseMoles: Math.max(0, Number(e.sucrose_moles ?? 0)),
+          ethanolMoles: Math.max(0, Number(e.ethanol_moles ?? 0)),
+          carbonDioxideMoles,
+          activeYeastGrams: Math.max(0, Number(e.active_yeast_grams ?? 0)),
+          seconds,
+          molesPerSecond,
+        },
+      };
+    }
+    case "uv_attenuated": {
+      const transmittedFraction = Math.max(0, Math.min(1, Number(e.transmitted_fraction ?? 1)));
+      return {
+        kind: "uv",
+        at: now,
+        durationMs: 4600,
+        // The magnitude is how much was STOPPED: a sunscreen that works
+        // draws a strong effect, not a faint one.
+        magnitude: 1 - transmittedFraction,
+        reading: transmittedFraction,
+        unit: "fraction",
+        uv: {
+          material: String(e.material ?? ""),
+          wavelengthNm: Number(e.wavelength_nm ?? 0),
+          band: String(e.band ?? ""),
+          transmittedFraction,
+          mechanism: String(e.mechanism ?? ""),
         },
       };
     }

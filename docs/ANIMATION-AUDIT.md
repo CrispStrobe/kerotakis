@@ -29,20 +29,18 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 |
-|---|---|---|---|
-| done | 32 | 36 | 41 |
-| partial | 18 | 17 | 12 |
-| missing | 23 | 20 | 20 |
-| **total rows** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 |
+|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 |
+| partial | 18 | 17 | 12 | 11 |
+| missing | 23 | 20 | 20 | 17 |
+| **total rows** | **73** | **73** | **73** | **73** |
 
-Per section, before → after PR 2: thermal and phase 3/2/3 → 7/0/1; gas and
+Per section, before → after PR 3: thermal and phase 3/2/3 → 7/0/1; gas and
 headspace 2/4/5 → 5/1/5; solids 4/5/3 → 6/3/3; liquids and mixtures 10/3/4 →
-10/3/4; reaction, combustion and light 5/4/8 → 5/4/8; bench-level 8/0/0
-unchanged. The two PRs deliberately spend themselves on the first three
-sections, where the engine's numbers were richest and the stage's use of them
-thinnest. Everything still *missing* is listed with its driving number, so the
-next lane can pick it up without repeating this walk.
+11/3/3; reaction, combustion and light 5/4/8 → 8/3/6; bench-level 8/0/0
+unchanged. Everything still *missing* is listed with its driving number, so
+the next lane can pick it up without repeating this walk.
 
 ## Thermal and phase
 
@@ -101,7 +99,7 @@ engine already computes the plateau it held the vessel at and reports it in
 | Event | What the engine computes | What the stage showed | What it should show | Before | After |
 |---|---|---|---|---|---|
 | `layers_formed` / `material_layers_formed` | `upper`, `lower` (+ scene `layers[].volume_l`, `srgb`) | the stack, each band's height its share of the volume | — | done (scene) | done |
-| `emulsion_changed` | `dispersed_volume_l`, `dispersed_fraction`, `half_life_seconds` | **nothing, anywhere** — `SceneVessel.emulsion` is read by no component | dispersed droplets at `dispersed_fraction`, clearing over `half_life_seconds` | missing | missing |
+| `emulsion_changed` | `dispersed_volume_l`, `dispersed_fraction`, `half_life_seconds` | **nothing, anywhere** — `SceneVessel.emulsion` was read by no component | dispersed droplets at `dispersed_fraction`, clearing over `half_life_seconds` | missing | **done** (PR 3) |
 | `curdling_changed` | `to_formed_fraction`, `separation_progress`, `curd_solids_mass_g` | curd ellipses, count from `separation_progress`, colour from the scene | — | done | done |
 | `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from the scene volume, overflow drawn; **`half_life_seconds` unused** | the head collapsing on its own half-life | partial | partial |
 | `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | partial |
@@ -128,14 +126,14 @@ engine already computes the plateau it held the vessel at and reports it in
 | `below_autoignition` | the gap to the autoignition temperature | nothing | — | missing | missing |
 | `reacted` | `moles`, `seconds`, `catalyst`, `activation_energy` | nothing in the vessel | reaction extent over the elapsed bench seconds | missing | missing |
 | `reaction_heat_released` | `energy_j` | nothing | the exotherm, as a temperature the thermometer then reads | missing | missing |
-| `fermented` | `sucrose_moles`, `ethanol_moles`, `carbon_dioxide_moles`, `active_yeast_grams`, `seconds` | **nothing** | slow bubbling paced over `seconds`, sized by the CO₂ moles | missing | missing |
+| `fermented` | `sucrose_moles`, `ethanol_moles`, `carbon_dioxide_moles`, `active_yeast_grams`, `seconds` | **nothing** | slow bubbling paced over `seconds`, sized by the CO₂ moles | missing | **done** (PR 3) |
 | `enzyme_hydrolysed` | `converted_fraction`, `seconds` | a caption percentage | the substrate visibly clearing | partial | partial |
-| `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion` | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes get the same count** | 2:1 at the electrodes, from `per_ion` | partial | partial |
+| `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion` | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes got the same count off one product's moles** | both electrodes sized by the **charge** they shared — the honest driver until the counter-electrode's half-reaction is on the wire | partial | **done** (PR 3) |
 | `cell_voltage` | `volts` | connection arc, magnitude from \|V\| | — | done | done |
 | `decayed` | `parent`, `daughter`, `mode`, `moles`, `half_life_s` | the Geiger comes from a `measured` reading, not from `decayed` | decay drawn from the event, not only when an instrument is held | partial | partial |
 | `nuclide_spiked` | `activity_bq` | nothing | initial activity | missing | missing |
 | `irradiated` | `wavelength_nm`, `irradiance_w_m2` | lamp, magnitude from the irradiance | — | done | done |
-| `uv_attenuated` | `wavelength_nm`, `band`, `transmitted_fraction`, `mechanism` | **nothing** | the beam dimming to `transmitted_fraction` through the sunscreen | missing | missing |
+| `uv_attenuated` | `wavelength_nm`, `band`, `transmitted_fraction`, `mechanism` | **nothing** | the beam dimming to `transmitted_fraction` through the sunscreen | missing | **done** (PR 3) |
 | `chemiluminescence_observed` | `relative_intensity`, `half_life_s` | the scene's glow, strength from the intensity | — | done | done |
 | `hydrated` / `dehydrated` | `formula_units`, `water`, `at` (K) | nothing transient; the colour change arrives through the scene | the water leaving as steam at `at` | partial | partial |
 | `neutralised` | `moles` of acidity cancelled | nothing | — | missing | missing |
@@ -182,6 +180,16 @@ picture of a vessel.
   finally moves something; a headspace band whose density follows the pressure
   over atmospheric; the flame's `energy_j` readable from the DOM.
 
+- **PR 3 (ANIM-3)** — the three events that changed a vessel and drew nothing
+  at all. An emulsion's droplet count from `dispersed_fraction`, droplet size
+  from `dispersed_volume_l` split between them, and their drift back together
+  on the engine's coalescence half-life. Fermentation bubbling at the rate the
+  engine computed — `carbon_dioxide_moles ÷ seconds`, turned into a tempo by
+  the ~41 µmol in one visible millilitre bubble — so an overnight brew ticks
+  every few seconds and a lively dough every one. A UV beam whose exit band's
+  opacity *is* `transmitted_fraction`. And electrolysis bubbling at both
+  electrodes on the **charge** they shared rather than on one product's moles.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
@@ -211,7 +219,11 @@ honest but weaker than the number the engine already has.
    to read.
 4. **Per-electrode product moles on `electrolysed`.** The event carries
    `per_ion` and one product; drawing 2:1 hydrogen and oxygen correctly needs
-   both half-reactions, or the moles evolved at each electrode.
+   both half-reactions, or the moles evolved at each electrode. PR 3 sizes
+   both electrodes by the **charge** instead, which is shared by definition
+   and therefore never a guess — but it also cannot show that hydrogen comes
+   off twice as fast as oxygen, which is the observation the experiment is
+   for.
 5. **`gas_produced.rate_moles_per_second` is already there** — nothing to
    add; the client simply has not used it yet. Same for
    `foam_changed.half_life_seconds` and `emulsion_changed.half_life_seconds`,
