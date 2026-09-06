@@ -109,7 +109,7 @@ describe("prepared KIDS routes", () => {
  */
 describe("a guided task as one catalogue card", () => {
   const script = {
-    id: "vitamin-c", setup: { script: "add v1 water 100mL\nadd v1 ascorbic_acid 1g\n" },
+    id: "vitamin-c", progress: "starter" as const, setup: { script: "add v1 water 100mL\nadd v1 ascorbic_acid 1g\n" },
     expect: {}, registers: {}, concepts: ["redox-reactions"],
     curriculum: [{ system: "england-national-curriculum", stage: "KS4", ages: { min: 14 }, source: "DfE" }],
   };

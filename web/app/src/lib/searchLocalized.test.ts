@@ -22,6 +22,7 @@ const en = (text: string) => text;
 
 const ENTRY = {
   id: "acid-base-titration",
+  progress: "starter",
   equation: "HCl + NaOH -> NaCl + H2O",
   summary: "A strong acid neutralises a strong base.",
   concepts: ["strong-acids"],
@@ -67,7 +68,7 @@ describe("experimentMatches", () => {
   });
 
   it("survives an entry with no summary, equation or concepts", () => {
-    const bare = { id: "bare-entry", setup: { script: "" } } as CodexEntry;
+    const bare = { id: "bare-entry", progress: "starter", setup: { script: "" } } as CodexEntry;
     expect(experimentMatches(bare, "bare", de)).toBe(true);
     expect(experimentMatches(bare, "Säure", de)).toBe(false);
   });

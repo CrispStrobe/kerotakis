@@ -40,7 +40,9 @@ describe("the codex checker compares, never computes", () => {
 
   it("the index parser tolerates both shapes and drops malformed rows", () => {
     const entries = [
-      { id: "a", setup: { script: "add v1 water 100mL" }, expect: {}, registers: {} },
+      { id: "a", progress: "starter", setup: { script: "add v1 water 100mL" }, expect: {}, registers: {} },
+      { id: "missing-progress", setup: { script: "new" }, expect: {}, registers: {} },
+      { id: "unknown-progress", progress: "expert", setup: { script: "new" }, expect: {}, registers: {} },
       { id: 42, setup: {} },
     ];
     expect(parseCodexIndex(entries)).toHaveLength(1);
@@ -113,7 +115,7 @@ describe("codex grouping for the browsers", () => {
     const { parseCodexIndex } = await import("./codex");
     const doc = {
       reactions: [
-        { id: "a", setup: { script: "new" }, expect: {}, registers: {} },
+        { id: "a", progress: "starter", setup: { script: "new" }, expect: {}, registers: {} },
         { id: "broken", setup: {} },
       ],
       models: [{ id: "m" }],

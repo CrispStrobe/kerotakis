@@ -112,11 +112,25 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
 use kerotakis_core::{Phase, Register};
 use serde::{Deserialize, Serialize};
 
+/// Authored learning progress for catalogue discovery.
+///
+/// This is about the prerequisite structure and reasoning demanded by the
+/// entry. Curriculum ages and handling hazards are deliberately unrelated.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LearningProgress {
+    Starter,
+    Intermediate,
+    Advanced,
+}
+
 /// One curated reaction.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Entry {
     /// Stable slug, used by lessons and the concept graph.
     pub id: String,
+    /// Required and authored: omission is a schema error, never a default.
+    pub progress: LearningProgress,
     /// A **balanced chemical equation**, and nothing else.
     ///
     /// If this is present it is a claim, and the lint enforces it: the
@@ -1049,6 +1063,13 @@ impl Codex {
                         "{}: requires '{need}', which no entry teaches",
                         r.id
                     ));
+                } else if !self.reactions.iter().any(|provider| {
+                    provider.concepts.contains(need) && provider.progress <= r.progress
+                }) {
+                    problems.push(format!(
+                        "{}: progress {:?} requires '{need}', but every teaching entry is later",
+                        r.id, r.progress
+                    ));
                 }
             }
         }
@@ -1495,6 +1516,7 @@ mod tests {
     const SAMPLE: &str = r#"
 [[reaction]]
 id = "test"
+progress = "starter"
 summary = "a placeholder, deliberately not a chemical equation"
 concepts = ["thing"]
 
@@ -1608,6 +1630,7 @@ source = "Dalton, A New System of Chemical Philosophy (1808)"
         let toml = r#"
 [[reaction]]
 id = "wrong"
+progress = "starter"
 equation = "Mg + O₂ → MgO"
 concepts = ["thing"]
 
@@ -1638,6 +1661,7 @@ source = "test"
         let toml = r#"
 [[reaction]]
 id = "charged"
+progress = "starter"
 equation = "Fe²⁺ → Fe³⁺"
 concepts = ["thing"]
 
@@ -1668,6 +1692,7 @@ source = "test"
         let toml = r#"
 [[reaction]]
 id = "prose"
+progress = "starter"
 summary = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["thing"]
 
@@ -1719,6 +1744,7 @@ source = "test"
         let toml = r#"
 [[reaction]]
 id = "confused"
+progress = "starter"
 equation = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["thing"]
 
@@ -1749,6 +1775,7 @@ source = "test"
         let toml = r#"
 [[reaction]]
 id = "silent"
+progress = "starter"
 concepts = ["thing"]
 
 [reaction.setup]
@@ -1777,6 +1804,7 @@ source = "test"
             r#"
 [[reaction]]
 id = "p"
+progress = "starter"
 summary = "a test"
 concepts = ["thing"]
 
@@ -1846,5 +1874,54 @@ source = "test"
         assert_eq!(a.predictions, 1);
         assert_eq!(a.distractors, 2, "three options, one of them right");
         assert_eq!(a.diagnosed, 1);
+    }
+
+    #[test]
+    fn learning_progress_is_required_and_rejects_unknown_values() {
+        assert!(Codex::parse("[[reaction]]\nid = \"missing\"").is_err());
+        assert!(Codex::parse("[[reaction]]\nid = \"wrong\"\nprogress = \"expert\"").is_err());
+    }
+
+    #[test]
+    fn a_prerequisite_must_have_a_provider_no_later_than_its_consumer() {
+        let text = r#"
+[[reaction]]
+id = "late-provider"
+progress = "advanced"
+summary = "provider"
+concepts = ["foundation"]
+[reaction.setup]
+script = "add v1 water 1mL"
+[reaction.expect]
+events = ["added:water"]
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+[reaction.provenance]
+source = "test"
+
+[[reaction]]
+id = "early-consumer"
+progress = "starter"
+summary = "consumer"
+concepts = ["next"]
+requires = ["foundation"]
+[reaction.setup]
+script = "add v1 water 1mL"
+[reaction.expect]
+events = ["added:water"]
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+[reaction.provenance]
+source = "test"
+"#;
+        let codex = Codex::parse(text).expect("schema parses");
+        assert!(codex
+            .structural_problems()
+            .iter()
+            .any(|problem| problem.contains("every teaching entry is later")));
     }
 }

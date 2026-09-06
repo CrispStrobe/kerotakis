@@ -22,7 +22,7 @@ const entry = (
   concepts: string[],
   script: string,
   events: string[] = [],
-): CodexEntry => ({ id, concepts, setup: { script }, expect: { events }, registers: {} });
+): CodexEntry => ({ id, progress: "starter", concepts, setup: { script }, expect: { events }, registers: {} });
 
 const entries: CodexEntry[] = [
   entry("silver-chloride-precipitation", ["precipitation"], "add v1 water 100mL\nadd v1 AgNO3 1mmol\nadd v1 NaCl 1mmol\n", ["precipitated:AgCl"]),

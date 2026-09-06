@@ -15,6 +15,7 @@ use kerotakis_codex::Codex;
 const INLINE: &str = r#"
 [[reaction]]
 id = "salt-in-water"
+progress = "starter"
 summary = "Salt dissolves."
 summary_de = "Salz löst sich."
 system = "aqueous"
@@ -48,6 +49,7 @@ answer = 0
 const ENGLISH_ONLY: &str = r#"
 [[reaction]]
 id = "salt-in-water"
+progress = "starter"
 summary = "Salt dissolves."
 system = "aqueous"
 stage = "solutions"
