@@ -59,7 +59,14 @@ jobs:
       run:
         working-directory: web/app
     steps:
+      # With submodules: aboutNotice.test.ts hashes the USGS notice at its
+      # tracked path inside vendor/iphreeqc to prove the credits screen
+      # states the licence bytes actually shipped. That is a legal claim,
+      # so it is checked rather than skipped when the file is absent —
+      # which means the checkout has to contain it.
       - uses: actions/checkout@v6
+        with:
+          submodules: true
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
