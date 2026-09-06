@@ -590,7 +590,7 @@ impl Bench {
         // A dose offered in passes is one act of heating, not eight. Fold
         // the repeats back into a single account of the step, then say how
         // much of what actually crossed is still warmth in the flask.
-        if let Some((heated, _, enthalpy_before)) = heat_start {
+        if let Some((heated, temperature_before, enthalpy_before)) = heat_start {
             let passes = events
                 .iter()
                 .find_map(|event| match event {
@@ -609,17 +609,40 @@ impl Bench {
             if passes > 1 {
                 coalesce_heat_passes(heated, &mut events);
             }
-            let enthalpy_after = self
+            // "Warmth the vessel still holds" is Cp·ΔT over the step on the
+            // contents as they END. An enthalpy difference said −6.95 kJ of
+            // warmth for a beaker that boiled at 100 °C throughout: the
+            // water that left as steam took its heat capacity with it, and
+            // the difference booked that as the vessel cooling.
+            let (sensible, final_temperature) = self
                 .vessel(heated)
-                .map(|v| v.enthalpy().0)
-                .unwrap_or(enthalpy_before);
+                .map(|v| {
+                    (
+                        v.heat_capacity() * (v.temperature.0 - temperature_before.0),
+                        v.temperature,
+                    )
+                })
+                .unwrap_or((0.0, temperature_before));
+            let _ = enthalpy_before;
             if let Some(Event::EnergyTransferred { sensible_j, .. }) =
                 events.iter_mut().find(|event| {
                     matches!(event, Event::EnergyTransferred { vessel, heating: true, .. }
                         if *vessel == heated)
                 })
             {
-                *sensible_j = enthalpy_after - enthalpy_before;
+                *sensible_j = sensible;
+            }
+            // The equilibrium the step reports is where the vessel ENDS.
+            // Folding the passes kept the last pass that had chemistry to
+            // report, and a final pass that merely re-warmed the products
+            // to the flame said nothing — so the line read 1057 °C over a
+            // crucible standing at 1500.
+            if let Some(Event::ThermalEquilibrium { temperature, .. }) =
+                events.iter_mut().find(|event| {
+                    matches!(event, Event::ThermalEquilibrium { vessel, .. } if *vessel == heated)
+                })
+            {
+                *temperature = final_temperature;
             }
         }
 
@@ -1048,10 +1071,9 @@ impl Bench {
             severity: crate::solve::Severity::Danger,
             rule: "sealed-vessel-burst".to_string(),
             hazard: "sealed vessel over-pressurised and burst".to_string(),
-            real_world: "flying glass and a pressure wave — sealed \
-                         systems on a heat source are how real labs \
-                         get hurt; safe only because this lab is \
-                         virtual"
+            real_world: "flying glass and a pressure wave — a sealed \
+                         vessel that makes gas or warms up is how real \
+                         labs get hurt"
                 .to_string(),
         });
         for (species, moles) in gases {
