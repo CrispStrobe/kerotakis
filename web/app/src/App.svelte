@@ -306,6 +306,54 @@
   const selftest = selftestMode !== null;
   let selftestReported = false;
   const WORLD_SELFTEST_PHASE = "kero.selftest.world002.phase";
+  const GUI003_LESSONS = [
+    "cabbage-rainbow.lab",
+    "boiling-curve.lab",
+    "water-filter.lab",
+    "slime.lab",
+    "rusting.lab",
+  ] as const;
+
+  /** Stable semantic evidence from the rendered bench, not brittle HTML. */
+  function gui003DomFrame(file: string) {
+    const attributes = (element: Element) => Object.fromEntries(
+      [...element.attributes]
+        .filter(({ name }) => name.startsWith("data-"))
+        .map(({ name, value }): [string, string] => [name.slice(5), value])
+        .sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0),
+    );
+    return {
+      lesson: file.replace(/\.lab$/, ""),
+      vessels: [...document.querySelectorAll<HTMLElement>(".vessel")].map((vessel) => ({
+        ...attributes(vessel),
+        label: vessel.querySelector(".glassbtn")?.getAttribute("aria-label") ?? "",
+        liquids: [...vessel.querySelectorAll(".scene-liquid-layer")].map(attributes),
+        solids: [...vessel.querySelectorAll(".scene-solid")].map(attributes),
+        facts: [...vessel.querySelectorAll(".gel-status, .corrosion-readout")].map((fact) => ({
+          kind: [...fact.classList]
+            .filter((name) => !name.startsWith("svelte-"))
+            .sort()
+            .join(" "),
+          text: fact.textContent?.replace(/\s+/g, " ").trim() ?? "",
+          ...attributes(fact),
+        })),
+      })),
+    };
+  }
+
+  async function gui003Selftest() {
+    const frames: ReturnType<typeof gui003DomFrame>[] = [];
+    for (const file of GUI003_LESSONS) {
+      await session.clear();
+      const response = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
+      if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+      await session.runExperiment(await response.text());
+      await tick();
+      frames.push(gui003DomFrame(file));
+    }
+    return frames;
+  }
+
   async function worldIsolationSelftest(): Promise<Record<string, boolean> | null> {
     if (!appStorage || !appSaveRepository) return { world_storage_ready: false };
     const phase = appStorage.getItem(WORLD_SELFTEST_PHASE);
@@ -411,6 +459,7 @@
     let unsupportedKiWarning = false;
     let scenarioError: string | null = null;
     let worldReport: Record<string, boolean> = {};
+    let gui003Dom: unknown[] = [];
     if (ready && selftestMode === "world-isolation") {
       const result = await worldIsolationSelftest();
       if (result === null) return;
@@ -450,6 +499,13 @@
         scenarioError = error instanceof Error ? error.message : String(error);
       }
     }
+    if (ready && selftestMode === "gui003") {
+      try {
+        gui003Dom = await gui003Selftest();
+      } catch (error) {
+        scenarioError = error instanceof Error ? error.message : String(error);
+      }
+    }
     void fetch("/selftest", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -465,6 +521,7 @@
         dose_ordered: doseOrdered,
         unsupported_ki_warning: unsupportedKiWarning,
         scenario_error: scenarioError,
+        gui003_dom: gui003Dom,
         ...worldReport,
       }),
     });

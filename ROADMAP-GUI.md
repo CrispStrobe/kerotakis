@@ -441,7 +441,8 @@ longer because their duration conveys computed magnitude.
   both sides of the boundary during migration.
 - **Determinism is a test asset**: scene JSON over replayed `.lab` scripts
   gives golden-file UI tests (DOM snapshot per step per register) with no
-  flakiness; Playwright drives the five canonical lessons per release.
+  flakiness; dependency-free headless Chrome drives the five canonical
+  lessons per release through the same DevTools harness as the PWA gate.
 
 ## Performance budgets (CI-gated, per the backend roadmap's low-end mandate)
 
@@ -472,15 +473,17 @@ every new dependency before its first import.
   CI over the lesson corpus), and Tauri's native dispatch
   (`web/app/src-tauri/src/lib.rs`) — one shape, drift fails before a client
   sees it. The versioned `hello` identity fields are shipped.*
-- [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
+- [x] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
-  *Status 2026-09-06: structurally implemented — `kerotakis-core/src/scene.rs` (liquid
+  *Status 2026-09-06: complete — `kerotakis-core/src/scene.rs` (liquid
   colour+word, solids with metallic/precipitate split, headspace, badges,
   lv1 words), shape-pinning + behaviour tests in-module, wired into the
-  wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
-  checkbox: numeric/behavioural scene goldens over replayed lessons and
-  browser/DOM snapshots for the representative five-lesson suite. The
-  landed whole-corpus contract checks pin structure, not those answers.*
+  wasm `step`/`run_script` responses and `Lab::scene()`. The representative
+  cabbage, boiling, filtration, polymer and corrosion lessons now have a
+  normalized numeric scene golden after every executable line, plus a
+  semantic real-browser DOM golden that pins the quantities and accessible
+  words actually rendered. Whole-corpus host conformance continues to pin
+  the protocol structure independently.*
 - [x] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.

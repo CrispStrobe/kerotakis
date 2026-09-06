@@ -358,6 +358,8 @@ jobs:
       # ArrayBuffer, which Node does not reproduce at all.
       - name: Run the page headlessly
         run: node tools/test-web-demo.mjs "$RUNNER_TEMP/site"
+      - name: Five lesson scenes match their semantic DOM goldens
+        run: node tools/test-gui003-dom.mjs "$RUNNER_TEMP/site"
       # The 2026-08 gap days proved a type gate nothing runs will drift:
       # main accumulated 32 svelte-check errors invisibly because no npm
       # script, and no workflow, ever invoked it. It runs here, inside a
