@@ -278,6 +278,10 @@
   .purpose { margin: .3rem .2rem .1rem; color: var(--dim); font-size: .68rem; line-height: 1.35; }
   .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }
   @media (max-width: 30rem) {
+    /* Full-bleed on a phone — and the scrim loses its padding with it, or a
+       100vw dialog centred inside a padded grid hangs 1rem off each edge and
+       widens the page it is sitting on. */
+    .scrim { padding: 0; }
     .cupboard { width: 100vw; max-height: 100vh; border-radius: 0; }
     .shelf-items { grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr)); }
   }
