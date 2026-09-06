@@ -1614,7 +1614,6 @@
   "set cooling power and time": "",
   "cooling power": "",
   "configure {apparatus}": "",
-  "set…": "",
   "{parameter} slider": "",
   "journal view": "",
   "observations": "",
@@ -2297,6 +2296,8 @@
   "command line": "",
   "hide the command line": "",
   "type commands at a kero> prompt — everything it does has a control on the bench too": "",
-  "world map": ""
+  "world map": "",
+  "{verb}…": "",
+  "export the result card": ""
  }
 }

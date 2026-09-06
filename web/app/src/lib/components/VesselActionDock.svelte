@@ -43,6 +43,17 @@
 
   // i18n-ok: action ids are wire keys matched against literals below.
   const changeActions = $derived(actions.filter((action) => ["stir", "heat", "cool", "seal", "open"].includes(action.id)));
+  /**
+   * The three verbs that open a form rather than running immediately.
+   *
+   * They used to carry a "set…" caption under the label — "rühren
+   * einstellen…", "erwärmen einstellen…" — which is a whole extra line of
+   * type on a 54px button to say what the ellipsis already says. The
+   * ellipsis is the convention for "this opens something"; it is on the
+   * label now, and the caption is gone.
+   */
+  // i18n-ok: action ids are wire keys matched against literals below.
+  const opensAForm = (id: string) => ["stir", "heat", "cool"].includes(id);
   // i18n-ok: action ids are wire keys matched against literals below.
   const observeActions = $derived(actions.filter((action) => ["look", "temperature", "ph"].includes(action.id)));
 </script>
@@ -61,22 +72,23 @@
     <div class="action-group">
       <small>{t("change vessel")}</small>
       <div>
+        <!-- A pouring glyph, so "pour" reads as one of the row rather than
+             as the odd button out beside ↻, ↑ and ❄. -->
         <button class="pour" disabled={busy} onclick={onpour} title={t("pour from {vessel}", { vessel: v })}>
-          <span class="icon" aria-hidden="true">↗</span>
+          <span class="icon" aria-hidden="true">⤵</span>
           <span>{t("pour")}</span>
         </button>
         {#each changeActions as action (action.label)}
           <button
             class={action.tone}
             disabled={busy}
-            onclick={() => ["stir", "heat", "cool"].includes(action.id) ? onconfigure(action.id) : onaction(action.line)}
-            title={["stir", "heat", "cool"].includes(action.id)
+            onclick={() => opensAForm(action.id) ? onconfigure(action.id) : onaction(action.line)}
+            title={opensAForm(action.id)
               ? t("configure {apparatus}", { apparatus: t(action.label) })
               : t("run {action} on {vessel}", { action: t(action.label), vessel: v })}
           >
             <span class="icon" aria-hidden="true">{action.icon}</span>
-            <span>{t(action.label)}</span>
-            {#if ["stir", "heat", "cool"].includes(action.id)}<small>{t("set…")}</small>{/if}
+            <span>{opensAForm(action.id) ? t("{verb}…", { verb: t(action.label) }) : t(action.label)}</span>
           </button>
         {/each}
       </div>
@@ -197,7 +209,6 @@
     font-size: 0.66rem;
     font-weight: 650;
   }
-  .actions button small { color: var(--dim); font-size: .48rem; font-weight: 650; }
   .pour {
     color: var(--on-accent);
     border-color: var(--action);

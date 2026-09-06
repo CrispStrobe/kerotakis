@@ -6,6 +6,7 @@
   import type { Effect } from "../magnitudes";
   import {
     FALLBACK_MOLAR_VOLUME_L,
+    INSTRUMENT_READING_MS,
     NORMAL_BOILING_K,
     bubblePeriodS,
     compressedVolumeL,
@@ -91,17 +92,21 @@
     const recent = effects.filter((effect) => effect.kind === kind && effectAlive(effect, withinMs, effectClock));
     return recent.length > 0 ? recent[recent.length - 1] : undefined;
   };
-  const thermometerEffect = $derived(latestEffect("thermometer", 2500));
-  const phProbeEffect = $derived(latestEffect("ph_probe", 2500));
-  const balanceEffect = $derived(latestEffect("balance", 2500));
-  const pressureEffect = $derived(latestEffect("pressure_gauge", 2500));
-  const volumeEffect = $derived(latestEffect("volume_meter", 2500));
-  const conductivityEffect = $derived(latestEffect("conductivity_meter", 2500));
-  const uvvisEffect = $derived(latestEffect("uvvis", 2500));
-  const calorimeterEffect = $derived(latestEffect("calorimeter", 2500));
+  // Instruments stay up for INSTRUMENT_READING_MS — the same value the
+  // session stamps on the effect, so the drawing window and the effect's
+  // lifetime cannot disagree. At 2500 ms the reading was gone before it
+  // could be read.
+  const thermometerEffect = $derived(latestEffect("thermometer", INSTRUMENT_READING_MS));
+  const phProbeEffect = $derived(latestEffect("ph_probe", INSTRUMENT_READING_MS));
+  const balanceEffect = $derived(latestEffect("balance", INSTRUMENT_READING_MS));
+  const pressureEffect = $derived(latestEffect("pressure_gauge", INSTRUMENT_READING_MS));
+  const volumeEffect = $derived(latestEffect("volume_meter", INSTRUMENT_READING_MS));
+  const conductivityEffect = $derived(latestEffect("conductivity_meter", INSTRUMENT_READING_MS));
+  const uvvisEffect = $derived(latestEffect("uvvis", INSTRUMENT_READING_MS));
+  const calorimeterEffect = $derived(latestEffect("calorimeter", INSTRUMENT_READING_MS));
   const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
   const inspectionEffect = $derived(latestEffect("inspect", 4500));
-  const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
+  const geigerEffect = $derived(latestEffect("geiger_counter", INSTRUMENT_READING_MS));
   const flameTestEffect = $derived(latestEffect("flame_test", 3000));
   const ignitionEffect = $derived(liveIgnitionEffect(effects, effectClock));
   const settlingEffect = $derived(latestEffect("settle", 8000));
@@ -124,6 +129,57 @@
     return species ? vessel.solids.find((solid) => solid.species === species) : undefined;
   });
   const latestFlameColour = $derived(ignitionEffect?.flameColour);
+
+  /**
+   * The instrument's reading, in the page's own type.
+   *
+   * The drawn instruments live inside a 100-unit viewBox that a phone gives
+   * 64 px (`clamp(64px, 14vw, …)`), so their 4.5-unit screen type lands at
+   * under 3 real pixels — the owner's "too tiny", and not fixable by making
+   * the SVG type bigger, because at that scale a legible number would be a
+   * sixth of the vessel. The drawing stays: it is what makes the probe look
+   * like it is IN the liquid. The NUMBER it shows is repeated here as HTML,
+   * where 24 px of glyph and 15 px of value are 24 px and 15 px at every
+   * width.
+   *
+   * The newest live instrument wins, so measuring pH after temperature
+   * replaces the reading rather than stacking a second badge under it.
+   */
+  type InstrumentReadout = {
+    effect: Effect;
+    kind: string;
+    glyph: string;
+    digits: number;
+    unit: string;
+    value: number | undefined;
+  };
+  const instrumentReadout = $derived.by(() => {
+    const candidates: (InstrumentReadout | undefined)[] = [
+      thermometerEffect === undefined ? undefined
+        : { effect: thermometerEffect, kind: "thermometer", glyph: "🌡", digits: 1, unit: "°C", value: thermometerEffect.reading ?? tempC },
+      phProbeEffect === undefined ? undefined
+        : { effect: phProbeEffect, kind: "ph_probe", glyph: "pH", digits: 2, unit: "", value: phProbeEffect.reading ?? phReading },
+      balanceEffect === undefined ? undefined
+        : { effect: balanceEffect, kind: "balance", glyph: "⚖", digits: 2, unit: "g", value: balanceEffect.reading ?? vessel.mass_g },
+      pressureEffect === undefined ? undefined
+        : { effect: pressureEffect, kind: "pressure_gauge", glyph: "◎", digits: 1, unit: "kPa", value: pressureEffect.reading ?? vessel.pressure_pa / 1000 },
+      volumeEffect === undefined ? undefined
+        : { effect: volumeEffect, kind: "volume_meter", glyph: "⌷", digits: 1, unit: "mL", value: volumeEffect.reading ?? 0 },
+      conductivityEffect === undefined ? undefined
+        : { effect: conductivityEffect, kind: "conductivity_meter", glyph: "⚡", digits: 1, unit: "µS/cm", value: conductivityEffect.reading ?? 0 },
+      calorimeterEffect === undefined ? undefined
+        : { effect: calorimeterEffect, kind: "calorimeter", glyph: "kJ", digits: 2, unit: "kJ", value: calorimeterEffect.reading ?? 0 },
+      uvvisEffect === undefined ? undefined
+        : { effect: uvvisEffect, kind: "uvvis", glyph: "λ", digits: 3, unit: "AU", value: uvvisEffect.reading ?? 0 },
+    ];
+    let newest: (InstrumentReadout & { value: number }) | undefined;
+    for (const candidate of candidates) {
+      if (!candidate || candidate.value === undefined) continue;
+      const live = { ...candidate, value: candidate.value };
+      if (!newest || live.effect.at >= newest.effect.at) newest = live;
+    }
+    return newest;
+  });
 
   function surfaceParticleX(index: number, count: number, cleared: number): number {
     const gap = Math.max(0, Math.min(0.94, cleared));
@@ -1673,6 +1729,24 @@
 
   <figcaption class="caption">
     <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
+    {#if instrumentReadout}
+      <!-- Decorative to a screen reader on purpose: the same reading is
+           already a line in the journal, which is a live region, and the
+           instrument's own aria-label sits on the drawing above. A third
+           announcement of one number is noise. -->
+      <span
+        class="instrument-readout"
+        data-instrument={instrumentReadout.kind}
+        data-reading={instrumentReadout.value.toFixed(4)}
+        data-reading-unit={instrumentReadout.unit}
+        data-reading-ms={INSTRUMENT_READING_MS}
+        aria-hidden="true"
+      >
+        <span class="readout-glyph">{instrumentReadout.glyph}</span>
+        <strong class="readout-value">{formatReading(instrumentReadout.value, instrumentReadout.digits)}</strong>
+        {#if instrumentReadout.unit}<small class="readout-unit">{instrumentReadout.unit}</small>{/if}
+      </span>
+    {/if}
     {#if vessel.gel}
       <small class="gel-status">{Math.round(vessel.gel.gelled_fraction * 100)}% {t("of polymer gelled")}</small>
     {/if}
@@ -2546,6 +2620,9 @@
       animation: none;
       opacity: 1;
     }
+    /* The readout still appears and still stays its full six seconds; it
+       just stops sliding in. Duration is information, not motion. */
+    .instrument-readout { animation: none; }
     .balance-inst { animation: none; }
     .gauge-needle { transition: none; }
     .syringe-gas, .syringe-piston, .syringe-rod { transition: none; }
@@ -2653,6 +2730,36 @@
     border-radius: 8px;
     color: var(--discovery);
     background: color-mix(in srgb, var(--discovery) 7%, var(--surface));
+  }
+  /* Sized in px, not em: this is the one place on the bench where the
+     number must survive a 64px-wide vessel on a 390px phone. 24px of glyph
+     and 15px of value are the floor the UX gate measures. */
+  .instrument-readout {
+    width: 100%;
+    /* Bounded and wrappable: the vessel is absolutely placed on the stage,
+       so a badge wider than the glass is free to be — but "1.280,0 µS/cm"
+       should wrap inside the chip rather than stretch the figure past its
+       neighbours. */
+    max-width: 9rem;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .18rem .4rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 45%, var(--edge));
+    border-radius: 10px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--instrument) 10%, var(--surface));
+    white-space: nowrap;
+    animation: readout-in 200ms ease-out;
+  }
+  .readout-glyph { font-size: 24px; line-height: 1; }
+  .readout-value { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .readout-unit { color: var(--dim); font-size: 11px; font-weight: 700; }
+  @keyframes readout-in {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .persistent-readout small { color: var(--dim); font-size: .55rem; }
   .persistent-readout strong { font-variant-numeric: tabular-nums; }

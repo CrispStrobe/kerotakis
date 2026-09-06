@@ -369,6 +369,38 @@ function temperatureConfidence(events: EngineEvent[], vessel?: number): ResultCo
   return "computed";
 }
 
+/**
+ * The events that only ever REPORT a number the feed has already printed.
+ *
+ * A `measure v2 thermometer` writes one line — "v2 Thermometer: 21,81 °C" —
+ * and that line is the record. The card above it used to repeat the same
+ * number under a MESSWERT label, add a sentence about where it came from,
+ * and hang two export buttons off it, for every reading a learner ever
+ * takes. Three tellings of one number is not a summary of it.
+ */
+const READING_ONLY_EVENTS = new Set(["measured", "observed"]);
+
+/**
+ * Whether the summary says anything the reading itself does not.
+ *
+ * Deliberately a positive list of things worth a card rather than a guess
+ * at "interesting": a reaction the engine classified, an equation it wrote,
+ * a temperature that moved, a hazard it raised, a boundary it declared, a
+ * concept note it attached, or a quantity that is not the reading — a
+ * titration that reports a volume AND a pH has computed something beyond
+ * what it read off the probe, and keeps its card.
+ */
+function saysMoreThanTheReading(summary: ResultSummary): boolean {
+  return Boolean(
+    summary.reactionClass
+    || summary.equation
+    || summary.temperature
+    || summary.safety
+    || summary.boundary
+    || summary.note,
+  ) || summary.quantities.some((quantity) => quantity.label !== "reading");
+}
+
 function significantEvent(events: EngineEvent[]): EngineEvent | undefined {
   for (const kind of PRIORITY) {
     for (let index = events.length - 1; index >= 0; index -= 1) {
@@ -429,7 +461,7 @@ export function summarizeResult(
     : undefined;
   const moved = temperatureDeltaK !== undefined && Math.abs(temperatureDeltaK) >= 0.05;
 
-  return {
+  const summary: ResultSummary = {
     kind: CLASSIFICATIONS[event.event] ?? event.event.replaceAll("_", " "),
     reactionClass: REACTION_CLASSES[event.event],
     vessel,
@@ -451,4 +483,12 @@ export function summarizeResult(
     note: conceptNote(typed, event),
     safety: safetyNote(typed),
   };
+
+  // A plain reading gets no card. The feed line IS the record of it, and a
+  // summary that can only restate it is noise sitting on top of the log it
+  // is summarizing. Everything else — anything the engine computed BESIDE
+  // the number it read — still earns one.
+  if (READING_ONLY_EVENTS.has(event.event) && !saysMoreThanTheReading(summary)) return null;
+
+  return summary;
 }

@@ -1581,7 +1581,6 @@
   "set cooling power and time": "Kühlleistung und Dauer einstellen",
   "cooling power": "Kühlleistung",
   "configure {apparatus}": "{apparatus} einstellen",
-  "set…": "einstellen…",
   "{parameter} slider": "Regler für {parameter}",
   "journal view": "Ansicht des Laborbuchs",
   "observations": "Beobachtungen",
@@ -2297,6 +2296,8 @@
   "command line": "Befehlszeile",
   "hide the command line": "Befehlszeile ausblenden",
   "type commands at a kero> prompt — everything it does has a control on the bench too": "Befehle an einer kero>-Eingabe tippen — alles, was sie kann, hat auch einen Schalter auf dem Labortisch",
-  "world map": "Weltkarte"
+  "world map": "Weltkarte",
+  "{verb}…": "{verb}…",
+  "export the result card": "Ergebniskarte exportieren"
  }
 }
