@@ -14,20 +14,25 @@ import {
   condensationFilm,
   corrosionBloom,
   depositParticles,
+  decayTicks,
   dewPointK,
   electrodeBubbles,
   exothermGlow,
   electrodePairBubbles,
   flameGutter,
+  grindGrains,
   headspaceVolumeL,
   neutralisationMarks,
   osmoticSwell,
   partitionTint,
   phaseKind,
+  platingThickness,
   reactionExtent,
   shearResistance,
   soluteSplit,
+  substrateClearing,
   supersaturationHaze,
+  sweepPeriodS,
   effectFromEvent,
   incandescence,
   vapourIntensity,
@@ -1244,5 +1249,92 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     // No thermochemical claim is not a zero claim about one.
     expect(settled!.thermalEquilibrium!.reactionEnergyJ).toBeUndefined();
     expect(settled!.magnitude).toBe(0);
+  });
+
+  // ------------------------------------ GUI-099 ANIM-8: the constants left
+
+  it("a copper blush and a nail gone orange no longer draw the same shimmer", () => {
+    // The `plated` magnitude was a literal 1, whatever the moles.
+    const blush = platingThickness(0.0002);
+    const coating = platingThickness(0.01);
+    expect(coating).toBeGreaterThan(blush);
+    expect(platingThickness(0)).toBe(0);
+    expect(platingThickness(5)).toBe(1);
+    const plated = effectFromEvent({ event: "plated", vessel: 0, species: "Cu", onto: "Fe", moles: 0.01 });
+    expect(plated!.magnitude).toBeCloseTo(coating, 10);
+    expect(plated!.plating).toMatchObject({ species: "Cu", onto: "Fe", moles: 0.01 });
+    // The old mapping's fixed 1 is not what a small plating gets now.
+    expect(effectFromEvent({ event: "plated", vessel: 0, species: "Cu", onto: "Fe", moles: 0.0002 })!.magnitude)
+      .toBeLessThan(1);
+  });
+
+  it("an unknown remainder is not a claim that nothing is left", () => {
+    // The event carries `remaining` optionally because "is used up" once
+    // reported half a magnesium ribbon gone.
+    const known = consumptionRemainder(0.004, 0.006);
+    expect(known.knownRemainder).toBe(true);
+    expect(known.remainingFraction).toBeCloseTo(0.6, 10);
+    const unknown = consumptionRemainder(0.004);
+    expect(unknown.knownRemainder).toBe(false);
+    // No remainder stated is drawn as no shrink claimed, not as zero left.
+    expect(unknown.remainingFraction).toBe(1);
+    expect(consumptionRemainder(0.01, 0).remainingFraction).toBe(0);
+    const eaten = effectFromEvent({ event: "consumed", vessel: 0, species: "Mg", moles: 0.004, remaining: 0.006 });
+    expect(eaten!.kind).toBe("consume");
+    expect(eaten!.consumption!.remainingMoles).toBe(0.006);
+    expect(effectFromEvent({ event: "consumed", vessel: 0, species: "Mg", moles: 0.004 })!
+      .consumption!.remainingMoles).toBeUndefined();
+  });
+
+  it("grinding twice draws visibly finer powder, not the same specks", () => {
+    const coarse = grindGrains(2000, 0.002);
+    const fine = grindGrains(20, 0.2);
+    expect(fine.radius).toBeLessThan(coarse.radius);
+    expect(fine.count).toBeGreaterThan(coarse.count);
+    // Bounded at both ends so a dust and a chip stay drawable.
+    expect(grindGrains(1_000_000, 100).radius).toBeLessThanOrEqual(2.8);
+    expect(grindGrains(0, 0).radius).toBeGreaterThan(0);
+    const ground = effectFromEvent({
+      event: "ground", vessel: 0, species: "CaCO3", diameter_um: 20,
+      solid_moles: 0.05, surface_area_m2: 0.2, rate_coupled: false,
+    });
+    expect(ground!.grind).toMatchObject({ diameterUm: 20, surfaceAreaM2: 0.2, rateCoupled: false });
+  });
+
+  it("a harder sweep runs faster, and neither end is a strobe or a stall", () => {
+    const gentle = sweepPeriodS(50_000);
+    const hard = sweepPeriodS(500_000);
+    expect(hard).toBeLessThan(gentle);
+    expect(sweepPeriodS(0)).toBe(gentle);
+    expect(sweepPeriodS(5_000_000)).toBe(hard);
+    expect(hard).toBeGreaterThan(0.3);
+    expect(gentle).toBeLessThan(6);
+  });
+
+  it("the substrate haze IS the fraction still unconverted", () => {
+    expect(substrateClearing(0)).toBe(1);
+    expect(substrateClearing(1)).toBe(0);
+    expect(substrateClearing(0.25)).toBeCloseTo(0.75, 10);
+    expect(substrateClearing(0.9)).toBeLessThan(substrateClearing(0.1));
+    expect(substrateClearing(4)).toBe(0);
+  });
+
+  it("decay ticks at the activity, so a long-lived tracer ticks slowly", () => {
+    // ln2 / half-life x moles is the same activity the Geiger reads.
+    const brisk = decayTicks(1e-6, 60);
+    const patient = decayTicks(1e-6, 1e9);
+    expect(brisk.molesPerSecond).toBeGreaterThan(patient.molesPerSecond);
+    expect(brisk.ticks).toBeGreaterThanOrEqual(patient.ticks);
+    expect(brisk.periodS).toBeLessThanOrEqual(patient.periodS);
+    expect(brisk.ticks).toBeLessThanOrEqual(8);
+    // No parcel and no half-life are not an infinite rate.
+    expect(decayTicks(0, 60)).toEqual({ ticks: 0, periodS: 6, molesPerSecond: 0 });
+    expect(decayTicks(1e-6, 0).molesPerSecond).toBe(0);
+    const decayed = effectFromEvent({
+      event: "decayed", vessel: 0, parent: "K-40", daughter: "Ar-40",
+      mode: "electron capture", moles: 1e-6, half_life_s: 3.9e16, equation: "…",
+    });
+    expect(decayed!.kind).toBe("decay");
+    expect(decayed!.decay).toMatchObject({ parent: "K-40", daughter: "Ar-40", moles: 1e-6 });
   });
 });

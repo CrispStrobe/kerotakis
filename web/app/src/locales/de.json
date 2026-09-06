@@ -2378,6 +2378,13 @@
   "{nuclide} spiked at {activity} Bq": "{nuclide} mit {activity} Bq zugegeben",
   "settled at {celsius} °C": "eingestellt bei {celsius} °C",
   "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "eingestellt bei {celsius} °C — die Temperatur der Abgase; das Gefäß enthält nichts",
-  "exhaust, not the glass": "Abgas, nicht das Glas"
+  "exhaust, not the glass": "Abgas, nicht das Glas",
+  "{moles} mol of {species} plated onto {onto}": "{moles} mol {species} auf {onto} abgeschieden",
+  "swept with carrier gas at {pressure} kPa": "mit Trägergas bei {pressure} kPa gespült",
+  "{moles} mol of {species} used up, {remaining} mol left": "{moles} mol {species} verbraucht, {remaining} mol übrig",
+  "{moles} mol of {species} used up": "{moles} mol {species} verbraucht",
+  "ground to {diameter} µm, exposing {area} m²": "auf {diameter} µm zerkleinert, {area} m² freigelegt",
+  "{parent} decaying to {daughter} by {mode}, {moles} mol so far": "{parent} zerfällt über {mode} zu {daughter}, bisher {moles} mol",
+  "{percent}% of the substrate is still unconverted": "{percent}% des Substrats sind noch nicht umgesetzt"
  }
 }

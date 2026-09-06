@@ -511,6 +511,47 @@ export interface ThermalEquilibriumRun {
   holdsNothing: boolean;
 }
 
+/** A metal coming out of solution onto a more reactive one. */
+export interface PlatingRun {
+  species: string;
+  onto: string;
+  moles: number;
+}
+
+/**
+ * What went, and what is left. The remainder is optional on purpose: the
+ * event used to carry only what went, and "is used up" claimed a
+ * completeness it could not see — half a magnesium ribbon beside its
+ * plated copper was reported gone. Absent means the emitter did not say,
+ * and the visual must then claim no remainder either.
+ */
+export interface ConsumptionRun {
+  species: string;
+  moles: number;
+  remainingMoles?: number;
+}
+
+/** A solid ground finer: the size of the grains and the area they expose. */
+export interface GrindRun {
+  species: string;
+  diameterUm: number;
+  solidMoles: number;
+  surfaceAreaM2: number;
+  /** False until a heterogeneous kinetic law actually consumes this area. */
+  rateCoupled: boolean;
+}
+
+/** One parcel of parent that became daughter while bench time ran. */
+export interface DecayRun {
+  parent: string;
+  daughter: string;
+  mode: string;
+  moles: number;
+  halfLifeS: number;
+  /** `ln2 ÷ half-life × moles`, the decay rate the ticks follow. */
+  molesPerSecond: number;
+}
+
 /**
  * How long an instrument's reading stays on the vessel.
  *
@@ -631,6 +672,14 @@ export interface Effect {
   osmosis?: OsmosisRun;
   /** Engine-settled temperature, for the equilibrium badge. */
   thermalEquilibrium?: ThermalEquilibriumRun;
+  /** Engine-computed deposit, for the plating's thickness. */
+  plating?: PlatingRun;
+  /** Engine-computed amount gone and, where known, what is left. */
+  consumption?: ConsumptionRun;
+  /** Engine-computed grain size and exposed area, for the powder. */
+  grind?: GrindRun;
+  /** Engine-computed decay parcel and half-life, for the ticks. */
+  decay?: DecayRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -1238,6 +1287,107 @@ export function osmoticSwell(massChangeG: number): { direction: "in" | "out" | "
 }
 
 /**
+ * How thick a plated coating reads, from the moles that came out.
+ *
+ * The event's magnitude was a hard-coded `1`, so a copper blush on a nail
+ * and a nail gone orange drew the same shimmer. Logarithmic, because a
+ * displacement demonstration runs a tenth of a millimole and a plating
+ * cell runs a hundredth of a mole.
+ */
+export function platingThickness(moles: number): number {
+  if (!Number.isFinite(moles) || !(moles > 0)) return 0;
+  return scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.02));
+}
+
+/**
+ * What is left of a ribbon being eaten, where the engine said.
+ *
+ * `remaining` is optional on the wire and the difference matters: absent
+ * means the emitter did not know, and a visual that shrank the ribbon
+ * anyway would repeat the "is used up" claim that reported half a
+ * magnesium ribbon gone. So an unknown remainder draws the ribbon being
+ * eaten without asserting how much of it is left.
+ */
+export function consumptionRemainder(
+  moles: number,
+  remaining?: number,
+): { knownRemainder: boolean; remainingFraction: number } {
+  const gone = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  if (remaining === undefined || !Number.isFinite(remaining)) {
+    return { knownRemainder: false, remainingFraction: 1 };
+  }
+  const left = Math.max(0, remaining);
+  const total = gone + left;
+  return { knownRemainder: true, remainingFraction: total > 0 ? left / total : 0 };
+}
+
+/**
+ * The powder a grind leaves: how big each grain is and how many are drawn.
+ *
+ * The grain radius comes from `diameter_um`, which is the actual size the
+ * engine ground to — so grinding twice draws visibly finer powder rather
+ * than the same specks with a different caption. The count follows the
+ * area that exposed, on a log ramp, because that is what a rate would
+ * later see.
+ */
+export function grindGrains(
+  diameterUm: number,
+  surfaceAreaM2: number,
+): { count: number; radius: number } {
+  const diameter = Number.isFinite(diameterUm) ? Math.max(0, diameterUm) : 0;
+  const area = Number.isFinite(surfaceAreaM2) ? Math.max(0, surfaceAreaM2) : 0;
+  const count = area > 0 ? Math.max(3, Math.round(3 + scale(Math.log10(area), -4, 1) * 15)) : 3;
+  // 1 µm reads as the smallest speck the stage can draw, 2 mm as a chip.
+  const radius = 0.35 + scale(Math.log10(Math.max(1, diameter)), 0, Math.log10(2000)) * 2.4;
+  return { count, radius };
+}
+
+/**
+ * Seconds for one sweep-arrow cycle, from the carrier gas pressure.
+ *
+ * The two arrows were static whatever the sweep, which drew a purge at
+ * half an atmosphere and one at five the same way. Faster at higher
+ * pressure, and bounded at both ends so neither becomes a strobe nor
+ * appears stopped.
+ */
+export function sweepPeriodS(pressurePa: number): number {
+  const pressure = Number.isFinite(pressurePa) ? Math.max(0, pressurePa) : 0;
+  return 2.6 - scale(pressure, 50_000, 500_000) * 2;
+}
+
+/**
+ * How turbid the substrate still is, from the fraction the enzyme has
+ * converted. Milk clouded with undigested lactose clears as lactase
+ * works, and the clearing IS the fraction — a caption percentage beside
+ * an unchanged liquid was a number nothing on the stage agreed with.
+ */
+export function substrateClearing(convertedFraction: number): number {
+  if (!Number.isFinite(convertedFraction)) return 1;
+  return 1 - Math.min(1, Math.max(0, convertedFraction));
+}
+
+/**
+ * Decay ticks for a parcel that actually decayed, from the parent amount
+ * and its half-life.
+ *
+ * `ln2 ÷ half-life × moles` is the activity — the same physics the Geiger
+ * reads — so a long-lived tracer ticks slowly and a large parcel ticks
+ * often, and the bench stops needing an instrument in hand before decay
+ * is visible at all.
+ */
+export function decayTicks(
+  moles: number,
+  halfLifeS: number,
+): { ticks: number; periodS: number; molesPerSecond: number } {
+  const parcel = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  const halfLife = Number.isFinite(halfLifeS) ? Math.max(0, halfLifeS) : 0;
+  const molesPerSecond = halfLife > 0 && parcel > 0 ? (Math.LN2 / halfLife) * parcel : 0;
+  if (!(molesPerSecond > 0)) return { ticks: 0, periodS: 6, molesPerSecond: 0 };
+  const busy = scale(Math.log10(molesPerSecond), -12, -3);
+  return { ticks: Math.max(1, Math.round(1 + busy * 7)), periodS: 3.2 - busy * 2.8, molesPerSecond };
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -1591,6 +1741,45 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     }
+    case "consumed": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const remainingMoles = e.remaining === undefined || e.remaining === null
+        ? undefined
+        : Math.max(0, Number(e.remaining));
+      return {
+        kind: "consume",
+        at: now,
+        durationMs: 4200,
+        magnitude: moles > 0 ? scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1)) : 0,
+        species: String(e.species ?? ""),
+        reading: moles,
+        unit: "mol",
+        consumption: { species: String(e.species ?? ""), moles, remainingMoles },
+      };
+    }
+    case "decayed": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const halfLifeS = Math.max(0, Number(e.half_life_s ?? 0));
+      const ticking = decayTicks(moles, halfLifeS);
+      return {
+        kind: "decay",
+        at: now,
+        durationMs: 6000,
+        // The activity, not the parcel: a long-lived tracer that barely
+        // moved should not read like a hot source that did.
+        magnitude: ticking.ticks > 0 ? Math.min(1, ticking.ticks / 8) : 0,
+        reading: moles,
+        unit: "mol",
+        decay: {
+          parent: String(e.parent ?? ""),
+          daughter: String(e.daughter ?? ""),
+          mode: String(e.mode ?? ""),
+          moles,
+          halfLifeS,
+          molesPerSecond: ticking.molesPerSecond,
+        },
+      };
+    }
     case "foam_changed": {
       const rawHalfLife = Number(e.half_life_seconds ?? 0);
       const halfLifeSeconds = Number.isFinite(rawHalfLife) ? Math.max(0, rawHalfLife) : 0;
@@ -1702,7 +1891,25 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "ground":
-      return { kind: "grind", at: now, magnitude: grindMag(e) };
+      // The magnitude on the log-area ramp was all there was; the grain
+      // SIZE the engine ground to never reached the vessel, so grinding
+      // twice drew the same specks with a different caption.
+      return {
+        kind: "grind",
+        at: now,
+        durationMs: 4600,
+        magnitude: grindMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.surface_area_m2 ?? 0),
+        unit: "m2",
+        grind: {
+          species: String(e.species ?? ""),
+          diameterUm: Math.max(0, Number(e.diameter_um ?? 0)),
+          solidMoles: Math.max(0, Number(e.solid_moles ?? 0)),
+          surfaceAreaM2: Math.max(0, Number(e.surface_area_m2 ?? 0)),
+          rateCoupled: Boolean(e.rate_coupled),
+        },
+      };
     case "centrifuged":
       return {
         kind: "centrifuge",
@@ -1839,8 +2046,21 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
-    case "plated":
-      return { kind: "plate", at: now, magnitude: 1 };
+    case "plated": {
+      // The magnitude was a hard-coded 1: a copper blush on a nail and a
+      // nail gone orange drew the same shimmer.
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      return {
+        kind: "plate",
+        at: now,
+        durationMs: 4200,
+        magnitude: platingThickness(moles),
+        species: String(e.species ?? ""),
+        reading: moles,
+        unit: "mol",
+        plating: { species: String(e.species ?? ""), onto: String(e.onto ?? ""), moles },
+      };
+    }
     case "temperature_changed": {
       const to = Number(e.to ?? 0);
       return {
