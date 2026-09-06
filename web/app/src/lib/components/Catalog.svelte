@@ -116,6 +116,15 @@
   /** The step just finished, while the runner waits for an answer. */
   let stepReport = $state<StepReport | null>(null);
   let awaiting = $state(false);
+  /**
+   * Whether THIS run is a stepped one.
+   *
+   * Separate from `runMode` so the strip's buttons can stay mounted for
+   * the whole run and merely go inert between steps. Unmounting them on
+   * each answer would throw keyboard focus back to the body every time,
+   * and "next step" is the one control a learner presses over and over.
+   */
+  let stepping = $state(false);
   /** True after a run the learner ended early: nothing was recorded. */
   let halted = $state(false);
   let answerStep: ((verdict: StepVerdict) => void) | null = null;
@@ -273,6 +282,7 @@
     step = null;
     stepReport = null;
     halted = false;
+    stepping = runMode === "step";
     stopRequested = false;
     try {
       const outcome = await runCatalogEntry(session, entry, {
@@ -302,6 +312,7 @@
       step = null;
       stepReport = null;
       awaiting = false;
+      stepping = false;
       answerStep = null;
       // Consent is per run, not per entry. A replay of an experiment the
       // learner cleared the bench for must ask again, or the second tap
@@ -358,9 +369,12 @@
           {/if}
         </div>
         <span class="dock-count">{t("step {step} of {total}", { step: (step?.index ?? 0) + 1, total: step?.total ?? stepCount })}</span>
-        {#if awaiting}
-          <button class="go dock-next" onclick={() => answer("next")}>{t("next step")}</button>
-          <button class="stop" onclick={() => answer("rest")}>{t("run the rest for me")}</button>
+        {#if stepping}
+          <!-- Mounted for the whole run, inert between steps: a control
+               that disappears after every press takes the keyboard's focus
+               with it, and this is the press a learner repeats. -->
+          <button class="go dock-next" disabled={!awaiting} onclick={() => answer("next")}>{t("next step")}</button>
+          <button class="stop" disabled={!awaiting} onclick={() => answer("rest")}>{t("run the rest for me")}</button>
         {/if}
         <button class="stop" onclick={stopRun}>{t("stop the run")}</button>
       </div>
@@ -802,6 +816,10 @@
     padding: 0.3rem 0.8rem;
     min-height: 36px;
     cursor: pointer;
+  }
+  .stop:disabled {
+    opacity: 0.5;
+    cursor: default;
   }
   header {
     display: flex;
