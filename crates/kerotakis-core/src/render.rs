@@ -793,7 +793,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     // the English here would be a rewording rather than a
                     // translation fix.
                     ("family", &format!("{family:?}")),
-                    ("mass", &grams_amount(locale, hydrolysed_mass_g)),
+                    ("mass", &grams_amount(locale, *hydrolysed_mass_g)),
                     ("substrate", substrate),
                     ("seconds", &locale.number(format!("{seconds:.0}"))),
                     ("percent", &locale.number(format!("{:.1}", converted_fraction * 100.0))),
