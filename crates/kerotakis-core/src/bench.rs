@@ -3171,12 +3171,22 @@ impl Bench {
                         if run.moles > crate::OBSERVABLE_MOLES {
                             let (species, moles) = (run.species.clone(), Moles(run.moles));
                             let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
+                            // The counter-electrode's half-reaction, named
+                            // before the event rather than only booked after
+                            // it: an inert anode splits water,
+                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, so a quarter of an
+                            // electron's worth of oxygen leaves for every
+                            // electron the cathode spends. Carried on the
+                            // event so a renderer can size each end of the
+                            // cell by what actually comes off it.
+                            let oxygen = Moles(run.electrons / 4.0);
+                            let anode_evolves = oxygen.0 > crate::OBSERVABLE_MOLES;
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
                             v.withdraw(&taken.0, taken.1);
                             events.push(Event::Electrolysed {
                                 vessel: *vessel,
-                                species,
+                                species: species.clone(),
                                 amps: *amps,
                                 seconds: *seconds,
                                 coulombs: run.coulombs,
@@ -3184,6 +3194,10 @@ impl Bench {
                                 moles,
                                 grams: run.grams,
                                 per_ion: run.per_ion,
+                                anode_species: anode_evolves.then(|| SpeciesId::new("O2")),
+                                anode_moles: anode_evolves.then_some(oxygen),
+                                cathode_species: Some(species),
+                                cathode_moles: Some(moles),
                             });
                             // The other electrode has to be somewhere.
                             //
@@ -3201,8 +3215,7 @@ impl Bench {
                             // plates out, holds Cu²⁺ constant and makes no
                             // acid at all; that is electrorefining and it
                             // is a different cell, which the register says.
-                            let oxygen = Moles(run.electrons / 4.0);
-                            if oxygen.0 > crate::OBSERVABLE_MOLES {
+                            if anode_evolves {
                                 let v = self.vessel_mut(*vessel)?;
                                 v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
                                 let oxygen_id = SpeciesId::new("O2");
@@ -3264,22 +3277,19 @@ impl Bench {
                                     if let Some((ion, taken)) = &run.cathode_ion {
                                         v.withdraw(ion, Moles(*taken));
                                     }
-                                    events.push(Event::Electrolysed {
-                                        vessel: *vessel,
-                                        species: run.cathode.clone(),
-                                        amps: *amps,
-                                        seconds: *seconds,
-                                        coulombs: run.coulombs,
-                                        electrons: Moles(run.electrons),
-                                        moles: Moles(run.cathode_moles),
-                                        grams: crate::species::lookup(&run.cathode)
-                                            .map(|d| run.cathode_moles * d.molar_mass)
-                                            .unwrap_or(0.0),
-                                        per_ion: run.electrons
-                                            / run.cathode_moles.max(f64::MIN_POSITIVE),
-                                    });
+                                    events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
                                 } else {
                                     let m = Moles(run.cathode_moles);
+                                    // The cell that splits water reported
+                                    // nothing at all before this: the two
+                                    // gases left as `gas_evolved` and the
+                                    // run that made them — the charge, the
+                                    // electrons, Faraday's chain — was
+                                    // never spoken. The lesson this bench
+                                    // ships for it is called "two gases, in
+                                    // a two-to-one ratio", and the ratio
+                                    // was the one thing not on the wire.
+                                    events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
                                     if v.retain_gas(run.cathode.clone(), m) {
                                         events.push(Event::GasContained {
                                             vessel: *vessel,
@@ -4450,6 +4460,41 @@ fn stock_refusal_event(key: &str, refusal: crate::stock::StockRefusal) -> Event 
 /// it is reached the event says so rather than pretending the dose ran out.
 const HEAT_DELIVERY_PASSES: u32 = 32;
 
+/// One `Electrolysed` for a solvent-electrolysis run, with BOTH electrodes
+/// named.
+///
+/// The top-level fields describe the CATHODE, because that is the product
+/// the register's Faraday chain walks; `anode_*` and `cathode_*` carry the
+/// two half-reactions the run actually resolved. Electrolysing water
+/// evolves twice as much hydrogen as oxygen — the whole point of the
+/// experiment — and a wire carrying one product's moles cannot say so.
+fn electrolysed_run(
+    vessel: VesselId,
+    amps: f64,
+    seconds: f64,
+    run: &crate::displacement::SolventElectrolysis,
+) -> Event {
+    let cathode_moles = Moles(run.cathode_moles);
+    let anode_evolves = run.anode_moles > crate::OBSERVABLE_MOLES;
+    Event::Electrolysed {
+        vessel,
+        species: run.cathode.clone(),
+        amps,
+        seconds,
+        coulombs: run.coulombs,
+        electrons: Moles(run.electrons),
+        moles: cathode_moles,
+        grams: crate::species::lookup(&run.cathode)
+            .map(|d| run.cathode_moles * d.molar_mass)
+            .unwrap_or(0.0),
+        per_ion: run.electrons / run.cathode_moles.max(f64::MIN_POSITIVE),
+        anode_species: anode_evolves.then(|| run.anode.clone()),
+        anode_moles: anode_evolves.then_some(Moles(run.anode_moles)),
+        cathode_species: Some(run.cathode.clone()),
+        cathode_moles: Some(cathode_moles),
+    }
+}
+
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
 fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
@@ -4535,6 +4580,7 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                 vessel,
                 temperature,
                 reaction_energy_j,
+                holds_nothing,
                 provenance,
             } if *vessel == id => {
                 if let Some(slot) = out.iter_mut().find(|candidate| {
@@ -4544,6 +4590,7 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                     if let Event::ThermalEquilibrium {
                         temperature: settled,
                         reaction_energy_j: total,
+                        holds_nothing: emptied,
                         provenance: source,
                         ..
                     } = slot
@@ -4553,6 +4600,13 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                             (Some(a), Some(b)) => Some(a + b),
                             (a, b) => a.or(b),
                         };
+                        // Whether the vessel is empty is a fact about how
+                        // it ENDS, like the temperature beside it, so the
+                        // last pass's answer is the step's: a dose that
+                        // burned the last of the fuel on its fourth pass
+                        // leaves an empty vessel however full it was on
+                        // the first.
+                        *emptied = *holds_nothing;
                         *source = provenance.clone();
                     }
                     continue;

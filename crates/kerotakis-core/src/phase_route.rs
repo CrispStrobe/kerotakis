@@ -636,14 +636,15 @@ impl PhaseRouteEquilibrator {
             }
             withdraw_phase(vessel, &species, Phase::Liquid, n);
             vessel.deposit(species.clone(), Moles(n), Phase::Solid);
-            events.push(Event::StateChanged {
-                vessel: vessel.id,
+            events.push(Event::state_changed(
+                vessel.id,
                 species,
-                from: Phase::Liquid,
-                to: Phase::Solid,
-                at: crate::units::Kelvin(melting),
-                shifted_by: 0.0,
-            });
+                Phase::Liquid,
+                Phase::Solid,
+                crate::units::Kelvin(melting),
+                0.0,
+                Moles(n),
+            ));
             *pool += n * latent;
             moved = true;
         }
@@ -673,14 +674,15 @@ impl PhaseRouteEquilibrator {
             withdraw_phase(vessel, &gas, Phase::Gas, n);
             vessel.deposit(SpeciesId::new(liquid), Moles(n), Phase::Liquid);
             vessel.refresh_pressure();
-            events.push(Event::StateChanged {
-                vessel: vessel.id,
-                species: gas,
-                from: Phase::Gas,
-                to: Phase::Liquid,
-                at: crate::units::Kelvin(boiling),
-                shifted_by: 0.0,
-            });
+            events.push(Event::state_changed(
+                vessel.id,
+                gas,
+                Phase::Gas,
+                Phase::Liquid,
+                crate::units::Kelvin(boiling),
+                0.0,
+                Moles(n),
+            ));
             *pool += n * latent;
             moved = true;
         }
@@ -723,14 +725,15 @@ impl PhaseRouteEquilibrator {
             if l.moles > TRACE {
                 withdraw_phase(vessel, &species, Phase::Solid, l.moles);
                 vessel.deposit(species.clone(), Moles(l.moles), Phase::Liquid);
-                events.push(Event::StateChanged {
-                    vessel: vessel.id,
-                    species: species.clone(),
-                    from: Phase::Solid,
-                    to: Phase::Liquid,
-                    at: crate::units::Kelvin(point),
-                    shifted_by: 0.0,
-                });
+                events.push(Event::state_changed(
+                    vessel.id,
+                    species.clone(),
+                    Phase::Solid,
+                    Phase::Liquid,
+                    crate::units::Kelvin(point),
+                    0.0,
+                    Moles(l.moles),
+                ));
                 moved = true;
             }
             settle(vessel, &l, l.moles, point, events);
@@ -765,14 +768,15 @@ impl PhaseRouteEquilibrator {
             if l.moles > TRACE {
                 let vapour = SpeciesId::new(sublimation_product(&species.0));
                 withdraw_phase(vessel, &species, Phase::Liquid, l.moles);
-                events.push(Event::StateChanged {
-                    vessel: vessel.id,
-                    species: species.clone(),
-                    from: Phase::Liquid,
-                    to: Phase::Gas,
-                    at: crate::units::Kelvin(point),
-                    shifted_by: 0.0,
-                });
+                events.push(Event::state_changed(
+                    vessel.id,
+                    species.clone(),
+                    Phase::Liquid,
+                    Phase::Gas,
+                    crate::units::Kelvin(point),
+                    0.0,
+                    Moles(l.moles),
+                ));
                 release_gas(vessel, vapour, Moles(l.moles), events);
                 moved = true;
             }
@@ -821,14 +825,15 @@ impl PhaseRouteEquilibrator {
                     if l.moles > TRACE {
                         let vapour = SpeciesId::new(sublimation_product(&species.0));
                         withdraw_phase(vessel, &species, Phase::Solid, l.moles);
-                        events.push(Event::StateChanged {
-                            vessel: vessel.id,
-                            species: species.clone(),
-                            from: Phase::Solid,
-                            to: Phase::Gas,
-                            at: crate::units::Kelvin(threshold),
-                            shifted_by: 0.0,
-                        });
+                        events.push(Event::state_changed(
+                            vessel.id,
+                            species.clone(),
+                            Phase::Solid,
+                            Phase::Gas,
+                            crate::units::Kelvin(threshold),
+                            0.0,
+                            Moles(l.moles),
+                        ));
                         release_gas(vessel, vapour, Moles(l.moles), events);
                         moved = true;
                     }
@@ -857,14 +862,15 @@ impl PhaseRouteEquilibrator {
                         withdraw_phase(vessel, &species, Phase::Gas, l.moles);
                         vessel.deposit(solid.clone(), Moles(l.moles), Phase::Solid);
                         vessel.refresh_pressure();
-                        events.push(Event::StateChanged {
-                            vessel: vessel.id,
+                        events.push(Event::state_changed(
+                            vessel.id,
                             species,
-                            from: Phase::Gas,
-                            to: Phase::Solid,
-                            at: crate::units::Kelvin(threshold),
-                            shifted_by: 0.0,
-                        });
+                            Phase::Gas,
+                            Phase::Solid,
+                            crate::units::Kelvin(threshold),
+                            0.0,
+                            Moles(l.moles),
+                        ));
                         moved = true;
                     }
                     settle(vessel, &l, l.moles, threshold, events);

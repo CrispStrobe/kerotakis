@@ -128,6 +128,45 @@ pub struct SceneVessel {
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
     pub headspace: Headspace,
+    /// Litres of gas space above the liquid, where the vessel OWNS its gas
+    /// — sealed and pressure-controlled. `None` for an open or swept
+    /// vessel, whose headspace is the room.
+    ///
+    /// A renderer could reconstruct it from `V = nRT/P` at the moment a
+    /// `vessel_pressure_controlled` event named the trapped moles, and
+    /// that reconstruction is correct for an ideal gas and stale the
+    /// instant anything else changes the headspace. This is the engine's
+    /// own figure, standing for as long as it is true.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub headspace_volume_l: Option<f64>,
+    /// Moles of gas the vessel holds in that headspace. `None` on the same
+    /// vessels `headspace_volume_l` is `None` on, and for the same reason:
+    /// an open vessel's gas belongs to the room, not to it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub headspace_moles: Option<f64>,
+    /// The temperature this vessel's liquid would boil at, K — its own
+    /// pressure and its own dissolved particles already in it.
+    ///
+    /// The bench computes this every time something boils and reports it in
+    /// `state_changed.at`, but a transition event only exists at the moment
+    /// of transition. Between events a renderer had to fall back on pure
+    /// water at one atmosphere, which is wrong under a partial vacuum,
+    /// wrong in a pressure cooker, wrong for a salted solvent and wrong for
+    /// every solvent that is not water — so a vessel SITTING at 350 K under
+    /// vacuum could not be drawn boiling. `None` where the vessel holds no
+    /// liquid, or where the registry has no transition for the liquid it
+    /// holds.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub boiling_point_k: Option<f64>,
+    /// The temperature the same liquid would freeze at, K — the other end
+    /// of the same plateau, depressed by the same dissolved particles.
+    ///
+    /// Pressure is deliberately not applied: the pressure dependence of a
+    /// melting point is about −0.0074 K per atmosphere for water and this
+    /// bench has no model for it, so `states` leaves freezing unmoved and
+    /// so does this.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub melting_point_k: Option<f64>,
     pub temperature_k: f64,
     pub pressure_pa: f64,
     /// Bench time this vessel has experienced, seconds.
@@ -380,9 +419,69 @@ pub fn scene_of(vessels: &[Vessel]) -> Scene {
     }
 }
 
+/// The plateau this vessel would be held at, and the one its liquid would
+/// freeze at — `(boiling_k, melting_k)`, either or both `None`.
+///
+/// Water first, and deliberately: it is the solvent the whole phase model
+/// in `states` is written around, and where there is liquid water its
+/// transitions are the vessel's, colligative elevation and pressure shift
+/// already in them. That is the same call `StateEquilibrator` makes, so the
+/// standing scene value and the `state_changed.at` a boil reports are one
+/// number rather than two that agree by inspection.
+///
+/// Any other liquid takes the registry's own reviewed normal transition
+/// temperatures, with the boiling point shifted for the vessel's pressure
+/// by the same cleared correlation the boiling-point apparatus uses
+/// (BRD-031/BRD-032), anchored on the curated value so an open flask reads
+/// exactly what the book says. Where several non-aqueous liquids share a
+/// vessel the most abundant one answers: this is one vessel's plateau, not
+/// a phase diagram of a mixture, and a mixture's real boiling range is
+/// distillation's question rather than the stage's.
+fn liquid_transitions(v: &Vessel) -> (Option<f64>, Option<f64>) {
+    const SOLVENT: &str = "water";
+    let liquid = |key: &str| -> f64 {
+        v.contents
+            .iter()
+            .filter(|portion| {
+                portion.species.0 == key && portion.phase == crate::species::Phase::Liquid
+            })
+            .map(|portion| portion.moles.0)
+            .sum()
+    };
+    if liquid(SOLVENT) > 0.0 {
+        let (transitions, _) = crate::solve::vessel_transitions(v);
+        return (Some(transitions.boiling_k), Some(transitions.freezing_k));
+    }
+    let Some(principal) = v
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == crate::species::Phase::Liquid && portion.moles.0 > 0.0)
+        .max_by(|a, b| a.moles.0.total_cmp(&b.moles.0))
+    else {
+        return (None, None);
+    };
+    let Some(data) = crate::species::lookup(&principal.species) else {
+        return (None, None);
+    };
+    let Some(transitions) = data.transitions else {
+        return (None, None);
+    };
+    let boiling = transitions.boiling_k.map(|normal| {
+        let (shift, route) =
+            crate::states::boiling_shift_for_k(data.inchikey, v.pressure.0 / 1000.0);
+        if route.routed() {
+            normal + shift
+        } else {
+            normal
+        }
+    });
+    (boiling, transitions.melting_k)
+}
+
 /// One vessel's render model.
 pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
+    let (boiling, melting) = liquid_transitions(v);
     let material_layers = crate::material::immiscible_liquid_layers(v);
     let emulsion_observation = crate::emulsion::observe(v);
     let curdling_observation = crate::curdling::observe(v);
@@ -834,6 +933,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             })
             .collect(),
         headspace: v.headspace,
+        headspace_volume_l: v.headspace_volume().map(|litres| litres.0),
+        headspace_moles: v.headspace_volume().map(|_| v.gas_moles().0),
+        boiling_point_k: boiling,
+        melting_point_k: melting,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,

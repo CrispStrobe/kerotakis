@@ -657,6 +657,14 @@ impl Lab {
                     "solution_srgb": solution_srgb,
                     "flame": s.flame_colour,
                         "density": s.density,
+                    // GUI-099: the room one mole of the substance takes up,
+                    // derived here from the same registry mass and density
+                    // the bench uses rather than recomputed in TypeScript,
+                    // so a deposit can be sized by molar volume even after
+                    // the solid has left the vessel and its scene row with
+                    // it. Additive: an older bridge omits it and the client
+                    // keeps its typical-ionic-solid fallback.
+                    "molar_volume_l_per_mol": s.molar_volume_l_per_mol(),
                     "provenance": s.provenance,
                     "hazards": hazards,
                     "hazard_assessed": assessed,

@@ -76,6 +76,15 @@
               <option value={s.key}>{t(s.name)}</option>
             {/each}
           </select>
+        {:else if f.type === "choice"}
+          <!-- A fixed list the spec owns, not a shelf lookup: the values
+               are grammar tokens the engine parses, so only the label is
+               translated. -->
+          <select bind:value={values[f.name]}>
+            {#each f.options ?? [] as option (option.value)}
+              <option value={option.value}>{t(option.label)}</option>
+            {/each}
+          </select>
         {:else}
           <span class="parameter-control">
             {#if f.min !== undefined && f.max !== undefined}

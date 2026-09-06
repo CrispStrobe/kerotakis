@@ -355,6 +355,26 @@ impl SpeciesData {
         Grams(n.0 * self.molar_mass)
     }
 
+    /// Litres one mole of this substance occupies as the pure condensed
+    /// phase: molar mass over density.
+    ///
+    /// It is what makes a mole of a fluffy hydroxide draw bigger than a
+    /// mole of a dense sulfate — calcite 0.037 L/mol, gypsum 0.075,
+    /// halite 0.027 — and it is a property of the substance, not of any
+    /// vessel. A renderer that reads it off a scene row can only size a
+    /// deposit while the deposit is still there; a species that
+    /// precipitates and redissolves in the same step has no row left to
+    /// read, and read the wrong grain size for it.
+    ///
+    /// `None` where the registry has no usable density, so a caller can
+    /// say "unknown" rather than draw a guess as though it were the
+    /// number.
+    pub fn molar_volume_l_per_mol(&self) -> Option<f64> {
+        (self.density.is_finite() && self.density > 0.0)
+            .then(|| self.liters_from_moles(Moles(1.0)).0)
+            .filter(|litres| litres.is_finite() && *litres > 0.0)
+    }
+
     pub fn liters_from_moles(&self, n: Moles) -> Liters {
         // g / (g/mL) = mL
         Liters(self.grams_from_moles(n).0 / self.density / 1000.0)

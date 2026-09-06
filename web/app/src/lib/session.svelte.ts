@@ -73,6 +73,15 @@ export type ShelfItem = {
   hazard_assessed?: boolean;
   /** Density in g/mL (engine registry) — the fluid overlay's buoyancy. */
   density?: number;
+  /**
+   * Litres one mole of the pure substance occupies (GUI-099), derived by the
+   * engine from the same registry mass and density rather than recomputed
+   * here. It is what sizes a precipitate's grains, and unlike the scene's
+   * `solids[].volume_l` it is still there after the solid has left the
+   * vessel — a species that precipitates and redissolves in one step leaves
+   * no scene row to read.
+   */
+  molar_volume_l_per_mol?: number;
   /** A versioned named mixture/object rather than a pure species. */
   material?: boolean;
   /**
@@ -548,6 +557,7 @@ export class Session {
         hazards: s.hazards ?? [],
         hazard_assessed: s.hazard_assessed,
         density: s.density,
+        molar_volume_l_per_mol: s.molar_volume_l_per_mol,
         material: s.material === true,
       }));
       try {
@@ -1078,10 +1088,21 @@ export class Session {
       const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
       const solid = vessel?.solids.find((candidate) => candidate.species === effect!.species);
       const moles = Math.max(0, effect.reading ?? 0);
+      // GUI-099: the shelf carries the engine's own molar volume for every
+      // species, so a solid that precipitated and redissolved in the same
+      // step — leaving no scene row behind — is still drawn at its own grain
+      // size rather than at a typical ionic solid's. The scene row stays
+      // first: it is the same registry number reached through this vessel's
+      // actual contents.
+      const shelfMolarVolume = this.shelf.find(
+        (candidate) => candidate.key === effect!.species,
+      )?.molar_volume_l_per_mol;
       const molarVolumeLPerMol =
         solid && solid.volume_l !== undefined && solid.moles > 0
           ? solid.volume_l / solid.moles
-          : FALLBACK_MOLAR_VOLUME_L;
+          : shelfMolarVolume !== undefined && shelfMolarVolume > 0
+            ? shelfMolarVolume
+            : FALLBACK_MOLAR_VOLUME_L;
       effect = {
         ...effect,
         solid: {

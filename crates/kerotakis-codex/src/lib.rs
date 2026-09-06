@@ -1457,6 +1457,14 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
                 (Phase::Liquid, Phase::Solid) => "froze",
                 (Phase::Solid, Phase::Liquid) => "melted",
                 (Phase::Liquid, Phase::Gas) => "boiled",
+                (Phase::Gas, Phase::Liquid) => "condensed",
+                // GUI-099: dry ice going straight to fog is not a boil, and
+                // collapsing it into `state_changed` was the only reason a
+                // quest could not tell the two apart. The event now names
+                // its own transition; this is the same distinction in the
+                // codex's vocabulary.
+                (Phase::Solid, Phase::Gas) => "sublimed",
+                (Phase::Gas, Phase::Solid) => "deposited",
                 _ => "state_changed",
             },
             Some(species.0.as_str()),
