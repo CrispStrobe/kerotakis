@@ -221,11 +221,25 @@ fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
             .collect();
         format!("{header}\n{}", body.join("\n"))
     };
+    // Inventory rows carry their amount in the best SI prefix ("2.77 mmol",
+    // "135 µmol"), so an amount is read WITH its unit: comparing a mmol
+    // row against a mol row as bare numbers would be off by a thousand.
+    let moles_in = |line: &str| -> f64 {
+        let mut words = line.split_whitespace();
+        let value: f64 = words.next().and_then(|w| w.parse().ok()).unwrap_or(0.0);
+        match words.next() {
+            Some("mol") => value,
+            Some("mmol") => value * 1e-3,
+            Some("µmol") => value * 1e-6,
+            Some("nmol") => value * 1e-9,
+            _ => 0.0,
+        }
+    };
     let rust_in = |vessel: &str| -> f64 {
         arm(vessel)
             .lines()
             .find(|line| line.contains("iron(III) oxide"))
-            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .map(moles_in)
             .unwrap_or(0.0)
     };
 
@@ -252,9 +266,14 @@ fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
 
     // The oxygen is consumed, which is why a sealed tin does not rust from
     // the inside — and it is what makes the water rise in the real tube.
+    let oxygen_left = arm("v4")
+        .lines()
+        .find(|line| line.contains("  oxygen"))
+        .map(moles_in)
+        .unwrap_or(0.0);
     assert!(
-        arm("v4").contains("0.0001 mol  oxygen"),
-        "the salt arm should run its trapped oxygen down:\n{}",
+        oxygen_left > 0.0 && oxygen_left < 2e-4,
+        "the salt arm should run its trapped oxygen down to a tenth of a millimole: {oxygen_left} mol\n{}",
         arm("v4")
     );
 }
