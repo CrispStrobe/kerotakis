@@ -14,6 +14,10 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **KIDS GUI reachability / tranche 1** — replaced safety-derived guided
+  levels with authored learning-progress bands, made mixed lesson/Codex
+  completion route-accurate, and put localized actionable safety guidance for
+  K03, K19, K35, K41 and K54 on the unified cards before launch
 - **Planning reconciliation** — aligned the roadmaps with shipped reality:
   closed GUI-001, GUI-004 and GUI-017 with source-backed evidence, recorded
   BRD-042's terminal no-go, removed the retired catalogue fixture claim, and

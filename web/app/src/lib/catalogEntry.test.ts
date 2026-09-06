@@ -61,7 +61,7 @@ const codexEntry = (over: Partial<CodexEntry> = {}): CodexEntry => ({
 const guidedEntry = (over: Partial<KidsExperiment> = {}): KidsExperiment => ({
   id: "K99", title: "Volcano", phenomenon: "Soap traps gas as foam",
   title_de: "Vulkan", phenomenon_de: "Seife fängt Gas als Schaum",
-  status: "computed", topics: ["gases", "acids"],
+  status: "computed", progress: "starter", topics: ["gases", "acids"],
   ingredients: ["baking_soda", "white_vinegar_5_percent"], apparatus: ["beaker"],
   safety: "home", ...over,
 });
@@ -96,6 +96,17 @@ describe("one entry model", () => {
     expect(durationBand(3)).toBe("short");
     expect(durationBand(15)).toBe("medium");
     expect(durationBand(16)).toBe("long");
+  });
+
+  it("uses authored guided progress without inferring it from supervision", () => {
+    const entries = catalogEntries([], [
+      guidedEntry({ id: "K97", progress: "advanced", safety: "home" }),
+      guidedEntry({ id: "K98", progress: "starter", safety: "school" }),
+    ], context());
+    expect(Object.fromEntries(entries.map((entry) => [entry.id, entry.level]))).toEqual({
+      K97: "advanced",
+      K98: "starter",
+    });
   });
 
   it("gives a guided task with a shipped codex entry the same run as the codex card", () => {
@@ -136,6 +147,17 @@ describe("one entry model", () => {
     expect(entries.find((e) => e.id === "K99")?.done).toBe(true);
     // No codex link: the guided lesson's own completion is the record.
     expect(entries.find((e) => e.id === "K98")?.done).toBe(true);
+  });
+
+  it("marks a mixed-route experiment done when either its lesson or primary Codex run is complete", () => {
+    const script = codexEntry({ id: "hot-pack" });
+    const guided = guidedEntry({ codex: ["hot-pack"], lesson: "kitchen-hot-and-cold-packs.lab" });
+    const lessonDone = catalogEntries([script], [guided], context({
+      completedMissions: new Set(["kitchen-hot-and-cold-packs"]),
+    }))[1];
+    const codexDone = catalogEntries([script], [guided], context({ completed: new Set(["hot-pack"]) }))[1];
+    expect(lessonDone?.done).toBe(true);
+    expect(codexDone?.done).toBe(true);
   });
 
   it("answers the shelf question only when every material is reachable", () => {

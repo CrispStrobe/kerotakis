@@ -394,7 +394,7 @@ describe("both corpora reach the runner through one door", () => {
   const guided = {
     id: "K01", title: "Volcano", phenomenon: "Soap traps gas",
     title_de: "Vulkan", phenomenon_de: "Seife fängt Gas",
-    status: "computed" as const, topics: ["gases"],
+    status: "computed" as const, progress: "starter" as const, topics: ["gases"],
     ingredients: ["baking_soda"], apparatus: ["beaker"],
     safety: "home" as const, codex: ["vinegar-and-baking-soda"],
   };

@@ -140,7 +140,7 @@ describe("the unified catalogue index", () => {
     [{
       id: "K06", title: "Magic milk", phenomenon: "Soap spreads colour",
       title_de: "Zaubermilch", phenomenon_de: "Seife verteilt Farbe",
-      status: "computed", topics: ["surfaces"], ingredients: ["milk", "dish_soap"],
+      status: "computed", progress: "starter", topics: ["surfaces"], ingredients: ["milk", "dish_soap"],
       apparatus: ["beaker"], safety: "home",
     }],
     { locale: "de", translate: de, completed: new Set() },

@@ -16,8 +16,8 @@
  * lacks, the missing value is DERIVED from what the entry actually says
  * rather than left as a hole the card has to hide:
  *
- *   - level and age come from the curriculum placements where an entry has
- *     them, and from whether it needs supervision where it does not;
+ *   - Codex level comes from curriculum placement; guided level is authored
+ *     directly as learning progress, never inferred from age or supervision;
  *   - duration comes from the number of lines the bench will actually run
  *     (or, for an entry whose procedure is a guided lesson, from how much
  *     it puts on the bench), at one pace shared by both;
@@ -79,8 +79,8 @@ export interface CatalogEntry {
   /** One line on what happens. Never empty. */
   hook: string;
   level: CatalogLevel;
-  /** The youngest age any source claims for it. */
-  ageMin: number;
+  /** Curriculum metadata for Codex placement only; guided rows never invent it. */
+  ageMin: number | null;
   /** Lines the bench would run, or the work an entry puts on it. */
   steps: number;
   minutes: number;
@@ -109,6 +109,9 @@ export interface CatalogEntry {
   equation: string | null;
   status: KidsStatus;
   safety: KidsSafety;
+  /** Localized safety explanation and action, independent of progress. */
+  safetyRationale: string | null;
+  safetyGuidance: string | null;
   /** The guided task behind this entry, for the sandbox hand-over. */
   guided: KidsExperiment | null;
   done: boolean;
@@ -414,6 +417,8 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     equation: entry.equation ?? null,
     status: "computed",
     safety: ageMin < 12 ? "home" : "school",
+    safetyRationale: null,
+    safetyGuidance: null,
     guided: null,
     done: context.completed.has(entry.id),
     onShelf: onShelf(needs, context.shelfKeys),
@@ -441,10 +446,8 @@ function fromGuided(
   const title = kidsText(entry, "title", context.locale);
   const hook = kidsText(entry, "phenomenon", context.locale);
   const boundary = entry.boundary ? kidsText(entry, "boundary", context.locale) : null;
-  // Supervision is the only age signal the guided corpus carries, and it
-  // is a real one: a task written to be done at a kitchen table is a task
-  // written for the youngest readers in the library.
-  const ageMin = entry.safety === "home" ? 8 : 12;
+  // Guided learning progress is authored. Supervision answers a different
+  // question and must never move an experiment between learning bands.
   const script = (entry.codex ?? []).map((id) => byId.get(id)).find((found) => found != null) ?? null;
   const needs = kidsShelfKeys(entry.ingredients);
   const steps = script
@@ -453,16 +456,19 @@ function fromGuided(
   const minutes = minutesForSteps(steps);
   const codexLinks = (entry.codex ?? []).filter((id) => byId.has(id));
   const lessonId = entry.lesson?.replace(/\.lab$/, "") ?? null;
-  const done = codexLinks.length > 0
-    ? codexLinks.every((id) => context.completed.has(id))
-    : lessonId !== null && (context.completedMissions?.has(lessonId) ?? false);
+  const lessonDone = lessonId !== null && (context.completedMissions?.has(lessonId) ?? false);
+  const primaryCodexDone = script !== null && context.completed.has(script.id);
+  // A guided experiment may offer several legitimate routes. Completing its
+  // lesson OR its primary runnable Codex route means the experiment was done;
+  // the linked-learning counter still reports each optional connection.
+  const done = lessonDone || primaryCodexDone;
   return {
     id: entry.id,
     source: "guided",
     title: title || entry.title,
     hook: hook || entry.phenomenon,
-    level: levelForAge(ageMin),
-    ageMin,
+    level: entry.progress,
+    ageMin: null,
     steps,
     minutes,
     duration: durationBand(minutes),
@@ -482,6 +488,8 @@ function fromGuided(
     equation: script?.equation ?? null,
     status: entry.status,
     safety: entry.safety,
+    safetyRationale: entry.safety_rationale ? kidsText(entry, "safety_rationale", context.locale) : null,
+    safetyGuidance: entry.safety_guidance ? kidsText(entry, "safety_guidance", context.locale) : null,
     guided: entry,
     done,
     onShelf: onShelf(needs, context.shelfKeys),
