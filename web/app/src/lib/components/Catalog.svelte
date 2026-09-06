@@ -559,6 +559,8 @@
             {#if item.guided}
               <p class="safety-summary">{t(item.safety === "home" ? "home-friendly" : "school supervision")}{item.safetyRationale ? ` — ${item.safetyRationale}` : ""}</p>
             {/if}
+            {#if item.observations[0]}<p class="preview"><strong>{t("look for")}</strong> {item.observations[0]}</p>{/if}
+            {#if item.kits.length > 0}<p class="preview"><strong>{t("apparatus")}</strong> {item.kits.map((kit) => t(kit.title)).join(" · ")}</p>{/if}
             <dl>
               <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
               <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
@@ -624,6 +626,29 @@
         {/if}
         <span>{open.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
       </p>
+
+      {#if open.recipe.length > 0 || open.procedure.length > 0 || open.observations.length > 0 || open.kits.length > 0}
+        <section class="structured-preview" aria-label={t("procedure preview")}>
+          {#if open.recipe.length > 0}
+            <h3>{t("recipe")}</h3>
+            <ul>{#each open.recipe as line (line.ingredient)}<li><strong>{tSlug(line.ingredient)}</strong> — {line.quantity}{line.preparation ? ` · ${line.preparation}` : ""}</li>{/each}</ul>
+          {/if}
+          {#if open.kits.length > 0}
+            <h3>{t("apparatus parts")}</h3>
+            {#each open.kits as kit (kit.id)}
+              <p><strong>{t(kit.title)}</strong>: {kit.parts.map((part) => t(part)).join(" · ")}</p>
+            {/each}
+          {/if}
+          {#if open.procedure.length > 0}
+            <h3>{t("steps")}</h3>
+            <ol>{#each open.procedure as line}<li>{line}</li>{/each}</ol>
+          {/if}
+          {#if open.observations.length > 0}
+            <h3>{t("look for")}</h3>
+            <ul>{#each open.observations as line}<li>{line}</li>{/each}</ul>
+          {/if}
+        </section>
+      {/if}
 
       {#if open.script}
         <nav class="tabs">
@@ -1240,6 +1265,12 @@
   .boundary { padding: 0.5rem; border-left: 3px solid var(--bad); font-size: 0.7rem; line-height: 1.45; }
   .safety-summary { margin: .35rem 0; color: var(--dim); font-size: .68rem; line-height: 1.4; }
   .safety-guidance { padding: .55rem; border-left: 3px solid var(--warn, var(--hot)); background: var(--panel-raised); font-size: .76rem; line-height: 1.45; }
+  .preview { margin: .35rem 0; color: var(--dim); font-size: .68rem; line-height: 1.4; }
+  .structured-preview { margin: .7rem 0; padding: .65rem .75rem; border: 1px solid var(--edge); border-radius: 9px; background: var(--panel-raised); }
+  .structured-preview h3 { margin: .45rem 0 .25rem; color: var(--dim); font-size: .62rem; text-transform: uppercase; }
+  .structured-preview h3:first-child { margin-top: 0; }
+  .structured-preview ul, .structured-preview ol { margin: .2rem 0 .45rem; padding-left: 1.25rem; font-size: .74rem; line-height: 1.5; }
+  .structured-preview p { margin: .2rem 0 .45rem; font-size: .74rem; line-height: 1.5; }
   .connections { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.35rem; }
   .connections .related {
     padding: 0.3rem 0.45rem;

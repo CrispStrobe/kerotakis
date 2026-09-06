@@ -24,6 +24,10 @@ it had while it was open, which is why a few numbers appear twice below.
 - **GUI-003** — closed Scene JSON v1 with normalized per-step engine goldens
   and dependency-free real-browser semantic DOM goldens for five contrasting
   release lessons: solution colour, boiling, filtration, gelation and corrosion
+- **KIDS GUI reachability / tranche 2** — gave K02, K04, K26, K31 and K33
+  bilingual structured recipes, preparation, procedures and expected
+  observations, then connected them by exact id to all five familiar kit part
+  lists inside the existing unified catalogue
 - **Codex learning progress** — replaced age-derived catalogue levels with a
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,
