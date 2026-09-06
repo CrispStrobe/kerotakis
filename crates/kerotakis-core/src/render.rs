@@ -2296,8 +2296,19 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
-        Event::Inert { vessel, species: sid, why } => {
+        Event::Inert { vessel, species: sid, why, spent } => {
             let name = species_name(locale, sid);
+            // The exhausted-couple case gets its own lv1 sentence, because
+            // the generic one says the opposite of what happened. See
+            // `Event::Inert::spent`.
+            if let (1, Some(gone)) = (register.level(), spent.as_ref()) {
+                let other = species_name(locale, gone);
+                return locale.fill(
+                    "event.inert-spent.lv1",
+                    "The {other} is all out of the water in {vessel} now, so the rest of the {name} has nothing left to do.",
+                    &[("other", other), ("vessel", &vessel.to_string()), ("name", name)],
+                );
+            }
             match register.level() {
                 // KID-5: say which question this answers.
                 //
@@ -3055,6 +3066,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             instrument,
             value,
             unit,
+            note,
         } => {
             let device = instrument_name(*instrument);
             // The English name is the source text and the fallback; German
@@ -3075,7 +3087,10 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             } else {
                 format!("{value:.0}")
             };
-            match register.level() {
+            // The boundary the reading carries, where it has one. lv1
+            // never sees it: a nine-year-old reading a dial is not the
+            // audience for a validity range, and the number is not wrong.
+            let reading = match register.level() {
                 1 => locale.fill(
                     "event.measured.lv1",
                     "The {device} on {vessel} reads {value} {unit}.",
@@ -3087,6 +3102,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     &[("vessel", &vessel.to_string()), ("device", device), ("value", &locale.number(format!("{value:.2}"))), ("unit", unit)],
                 ),
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
+            };
+            match (register.level(), note) {
+                (1, _) | (_, None) => reading,
+                (_, Some(boundary)) => locale.fill(
+                    "event.measured.lv2-bounded",
+                    "{reading} — {boundary}",
+                    &[("reading", &reading), ("boundary", boundary)],
+                ),
             }
         }
         Event::Electrolysed {

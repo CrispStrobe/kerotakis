@@ -15,13 +15,36 @@
 //!
 //! Honesty boundary, stated rather than hidden:
 //!
-//! * **Dilute solutions only.** Independent migration is the c → 0 limit;
-//!   ion–ion drag (relaxation and electrophoresis) lowers real
-//!   conductivities below the sum as concentration grows. At the 0.01 M
-//!   KCl calibration standard the sum overestimates by ~6%; past
-//!   I ≈ 0.1 mol/kgw the estimate is no longer trustworthy and the
-//!   result says so (`within_dilute_limit = false`, and the meter
-//!   reports the reading as out of its calibrated range).
+//! Independent migration is the c → 0 limit, and the sum alone is only
+//! that limit. Ion–ion drag — the relaxation and electrophoretic effects
+//! Debye, Hückel and Onsager named — lowers a real conductivity further
+//! and further below the sum as concentration grows, and the bare sum has
+//! no term for it. Ten grams of table salt in 100 mL is 1.71 mol/kgw, and
+//! the sum read 21.7 S/m against a measured 13 to 14: not a percent-level
+//! approximation but a number sixty percent too big, printed as a
+//! measurement. So the sum is scaled by [`concentration_factor`]:
+//!
+//! ```text
+//! κ = (Σᵢ λ°ᵢ · cᵢ) · 1 / (1 + a√I + b·I)
+//! ```
+//!
+//! `a` and `b` are fitted, not derived, and [`FIT_SOURCE`] says to what.
+//!
+//! Honesty boundary, stated rather than hidden:
+//!
+//! * **The correction is an alkali-halide fit.** It is one function of
+//!   ionic strength applied to every ion, so it carries no charge type and
+//!   no ion size: it reproduces sodium and potassium halides across the
+//!   bench's whole range and is a weaker claim for anything else. Where a
+//!   2:2 salt is mostly ion-paired the speciation has already removed the
+//!   pairs — a neutral complex carries no current — so what is left for
+//!   this factor is the atmosphere effect on the free ions, which is what
+//!   it is fitted to. Above [`FITTED_LIMIT_MOLAL`] it is an extrapolation
+//!   and the result says so (`within_fitted_range = false`).
+//! * **Dilute is still where it is trustworthy.** Past
+//!   I ≈ 0.1 mol/kgw the estimate is out of its calibrated range and the
+//!   result says so (`within_dilute_limit = false`), correction or no
+//!   correction: a fitted factor makes the number closer, not measured.
 //! * **Coverage is accounted, not assumed.** Charged species with no
 //!   tabulated λ° are left out of the sum and reported by name, with the
 //!   fraction of the total charge the sum did cover. Neutral aqueous
@@ -104,6 +127,53 @@ pub const LIMITING_CONDUCTIVITY: &[(&str, f64)] = &[
 /// from percent-level to tens of percent.
 pub const DILUTE_LIMIT_MOLAL: f64 = 0.1;
 
+/// Where the concentration correction's two coefficients come from.
+pub const FIT_SOURCE: &str = "Concentration correction: a two-parameter \
+    empirical attenuation of the Kohlrausch sum, κ = Σ λ°ᵢcᵢ / (1 + a√I + bI), \
+    fitted by hand to the measured specific conductance of aqueous sodium \
+    chloride and potassium chloride at 25 °C as tabulated in the CRC Handbook \
+    of Chemistry and Physics, 'Concentrative Properties of Aqueous Solutions: \
+    Conversion Tables' and 'Electrical Conductivity of Aqueous Solutions' — \
+    1413 µS/cm for the 0.01 mol/kg KCl calibration standard (the IUPAC/OIML \
+    reference value), and roughly 8.5 S/m at 1 mol/L and 15.5 S/m at 2 mol/L \
+    for NaCl. The FORM is Kohlrausch's √c law with a linear term added \
+    because the √c law alone is valid only to about 0.1 mol/L; it is an \
+    empirical fit in the spirit of the Casteel–Amis equation, not that \
+    equation, and NO edition of any handbook was opened for a per-salt \
+    parameter set. Reproduces the four fitted points to better than 2% and \
+    is an extrapolation above 2 mol/kgw";
+
+/// Coefficient of the √I term. Kohlrausch's law of the square root is the
+/// leading behaviour of ion–ion drag and this is its size; it is fitted
+/// rather than the Onsager coefficient, because the Onsager coefficient is
+/// the c → 0 slope and this function has to hold at 2 mol/kgw as well.
+const FIT_SQRT: f64 = 0.5324;
+
+/// Coefficient of the linear term. Negative: past the first half-molal the
+/// square-root law over-corrects, which is exactly why Kohlrausch's law
+/// alone is quoted only to about 0.1 mol/L. The denominator is monotone in
+/// I up to I ≈ 19 mol/kgw, far above saturated brine, so the function never
+/// turns around inside anything a bench can hold.
+const FIT_LINEAR: f64 = -0.0608;
+
+/// Ionic strength above which the concentration correction is an
+/// extrapolation past what it was fitted to (mol/kgw). Ten grams of table
+/// salt in 100 mL of water — about the most concentrated thing a school
+/// bench makes on purpose — is 1.71, and sits inside it.
+pub const FITTED_LIMIT_MOLAL: f64 = 2.0;
+
+/// How much of the infinite-dilution sum survives the ion atmosphere at
+/// this ionic strength: 1.0 at infinite dilution, 0.95 at the 0.01 mol/kg
+/// calibration standard, 0.63 at 1.7 mol/kgw.
+///
+/// See [`FIT_SOURCE`]. Clamped at 1.0 from above so a negative ionic
+/// strength — which cannot happen, but the type permits — can never make
+/// a solution conduct better than its own ions could.
+pub fn concentration_factor(ionic_strength: f64) -> f64 {
+    let i = ionic_strength.max(0.0);
+    (1.0 / (1.0 + FIT_SQRT * i.sqrt() + FIT_LINEAR * i)).clamp(0.0, 1.0)
+}
+
 /// What backed the number — the two paths must stay distinguishable all
 /// the way to the reader.
 #[derive(Debug, Clone, PartialEq)]
@@ -128,6 +198,13 @@ pub struct Estimate {
     /// False above [`DILUTE_LIMIT_MOLAL`]: the number is then an
     /// extrapolation past the model's validity, not a measurement.
     pub within_dilute_limit: bool,
+    /// What [`concentration_factor`] took off the infinite-dilution sum.
+    /// 1.0 on the mean-mobility path, which is a different approximation
+    /// with its own error and would only be double-counted by this one.
+    pub concentration_factor: f64,
+    /// False above [`FITTED_LIMIT_MOLAL`]: the correction itself is then
+    /// outside the data it was fitted to.
+    pub within_fitted_range: bool,
 }
 
 impl Estimate {
@@ -176,13 +253,17 @@ pub fn ion_charge(name: &str) -> i32 {
 /// Specific conductance of a solved solution, honestly labelled.
 pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
     let within_dilute_limit = info.ionic_strength <= DILUTE_LIMIT_MOLAL;
+    let within_fitted_range = info.ionic_strength <= FITTED_LIMIT_MOLAL;
     if info.species.is_empty() {
         return Estimate {
             microsiemens_per_cm: info.ionic_strength * 100_000.0,
             basis: Basis::MeanMobility,
             within_dilute_limit,
+            concentration_factor: 1.0,
+            within_fitted_range,
         };
     }
+    let attenuation = concentration_factor(info.ionic_strength);
     let lambda = |name: &str| -> Option<f64> {
         LIMITING_CONDUCTIVITY
             .iter()
@@ -216,12 +297,14 @@ pub fn specific_conductance(info: &SolutionInfo) -> Estimate {
         1.0 // nothing charged in solution: κ = 0 covers everything there is
     };
     Estimate {
-        microsiemens_per_cm: kappa_us_cm,
+        microsiemens_per_cm: kappa_us_cm * attenuation,
         basis: Basis::Kohlrausch {
             covered_charge_fraction,
             omitted,
         },
         within_dilute_limit,
+        concentration_factor: attenuation,
+        within_fitted_range,
     }
 }
 
@@ -480,10 +563,12 @@ mod tests {
     }
 
     /// The 0.01 mol/kg KCl calibration standard reads 1413 µS/cm. The
-    /// infinite-dilution sum must land close — and must land HIGH,
-    /// because the neglected ion–ion drag only ever lowers the real
-    /// value. A result below the standard would mean the model or the
-    /// data is wrong, not that the approximation improved.
+    /// model must land close — and must land HIGH, because the
+    /// concentration correction is fitted to hold across two decades and
+    /// is deliberately gentler than the truth at the dilute end. A result
+    /// below the standard would mean the correction had started
+    /// over-correcting where the drag is still percent-level, which is
+    /// the failure mode a fitted factor has and the bare sum did not.
     #[test]
     fn kcl_calibration_standard_within_model_error() {
         let info = solved(0.01, vec![ion("K+", 0.01), ion("Cl-", 0.01)]);
@@ -564,6 +649,64 @@ mod tests {
             Basis::MeanMobility => panic!("speciation was present"),
         }
         assert!(!est.trustworthy(), "a fifth of the charge is unaccounted");
+    }
+
+    /// Ten grams of table salt in 100 mL of water: 1.71 mol/kgw, and a
+    /// measured 13 to 14 S/m. The bare Kohlrausch sum reads 21.7 — the
+    /// defect this correction exists for — and the corrected model has to
+    /// land in the measured window, not merely nearer it.
+    #[test]
+    fn kitchen_brine_matches_the_measured_conductivity() {
+        let info = solved(1.711, vec![ion("Na+", 1.711), ion("Cl-", 1.711)]);
+        let est = specific_conductance(&info);
+        let s_per_m = est.microsiemens_per_cm / 10_000.0;
+        assert!(
+            (13.0..14.0).contains(&s_per_m),
+            "CRC gives 1 mol/L NaCl 8.5 S/m and 2 mol/L about 15.5, so 1.71 \
+             mol/kgw is 13 to 14: got {s_per_m:.2} S/m"
+        );
+        let uncorrected = est.microsiemens_per_cm / est.concentration_factor / 10_000.0;
+        assert!(
+            uncorrected > 21.0,
+            "and the uncorrected sum is what it used to print: {uncorrected:.1} S/m"
+        );
+        assert!(est.within_fitted_range, "1.71 is inside the fit");
+        assert!(!est.within_dilute_limit, "and far outside the dilute limit");
+    }
+
+    /// The correction is a curve, not a switch: it must be gentle where
+    /// the drag is gentle, and it must never make a solution conduct
+    /// better than its own ions could at infinite dilution.
+    #[test]
+    fn the_concentration_correction_is_monotone_over_the_bench_range() {
+        assert_eq!(concentration_factor(0.0), 1.0);
+        let mut previous = 1.0;
+        let mut i = 0.0;
+        while i <= 6.0 {
+            let f = concentration_factor(i);
+            assert!(f <= 1.0, "never above the infinite-dilution sum at I={i}");
+            assert!(f <= previous + 1e-12, "monotone falling at I={i}: {f}");
+            previous = f;
+            i += 0.05;
+        }
+        // Two decades of CRC data, reproduced to better than 2%.
+        for (ionic_strength, measured) in [(0.01, 0.9433), (1.0, 0.6725), (2.0, 0.6131)] {
+            let modelled = concentration_factor(ionic_strength);
+            assert!(
+                (modelled / measured - 1.0).abs() < 0.02,
+                "I={ionic_strength}: modelled {modelled:.4} against {measured:.4}"
+            );
+        }
+    }
+
+    /// Saturated brine is past what the two coefficients were fitted to,
+    /// and the estimate says so rather than quietly extrapolating.
+    #[test]
+    fn past_the_fitted_range_the_estimate_admits_it() {
+        let info = solved(5.0, vec![ion("Na+", 5.0), ion("Cl-", 5.0)]);
+        let est = specific_conductance(&info);
+        assert!(!est.within_fitted_range);
+        assert!(!est.trustworthy());
     }
 
     #[test]

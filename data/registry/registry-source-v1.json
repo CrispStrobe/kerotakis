@@ -534,7 +534,7 @@
     },
     {
       "id": "legacy/Fe+2",
-      "citation": "M from IUPAC/CIAAW 2021 atomic weights. The reduced half of the couple school electrochemistry is built on",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights. The reduced half of the couple school electrochemistry is built on. COLOUR: the aqua ion is pale green, as every standard inorganic text records for iron(II) in water and as iron(II) sulfate heptahydrate solutions show at bench concentrations (Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed., the iron chapter; CRC Handbook of Chemistry and Physics, the iron(II) sulfate entry, which gives the salt and its solutions as pale green). The sixteen band values are a CURATED TEACHING SPECTRUM, not a transcribed measurement: what is sourced is the colour and its mechanism - a weakly absorbing high-spin d6 aqua ion whose 5T2g to 5Eg band lies in the near infrared and reaches the visible only as a tail, with the ultraviolet edge rising into the violet, so the window that is left is the green - and the epsilon values were chosen to reproduce that window at a Beer-Lambert path a beaker presents. They are of the right order (under 1 L/mol/cm across the visible, which is what a Laporte-forbidden d-d transition permits) and the right SHAPE; no edition of any handbook was opened for a per-wavelength epsilon and none is claimed. Before this the ion carried no spectrum at all and 0.2 mol/L iron(II) read as colourless and clear, which is a confident wrong answer where this is a labelled approximate one",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
       "origin": "crates/kerotakis-core/src/species.rs",
@@ -42377,7 +42377,808 @@
       "appearance": "pale green",
       "flame_colour": null,
       "reflective_srgb": null,
-      "spectrum": [],
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.55,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.4,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.29,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.22,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.17,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.14,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.13,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.14,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.17,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.22,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.29,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.38,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.5,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.64,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.8,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.98,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/Fe+2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
       "evidence": {
         "source_id": "legacy/Fe+2",
         "method": {

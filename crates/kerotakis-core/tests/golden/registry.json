@@ -1411,8 +1411,25 @@
     "magnetic": false,
     "molar_mass": 55.845,
     "name": "iron(II) ion",
-    "provenance": "M from IUPAC/CIAAW 2021 atomic weights. The reduced half of the couple school electrochemistry is built on",
-    "spectrum_bands": null,
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights. The reduced half of the couple school electrochemistry is built on. COLOUR: the aqua ion is pale green, as every standard inorganic text records for iron(II) in water and as iron(II) sulfate heptahydrate solutions show at bench concentrations (Greenwood and Earnshaw, Chemistry of the Elements, 2nd ed., the iron chapter; CRC Handbook of Chemistry and Physics, the iron(II) sulfate entry, which gives the salt and its solutions as pale green). The sixteen band values are a CURATED TEACHING SPECTRUM, not a transcribed measurement: what is sourced is the colour and its mechanism - a weakly absorbing high-spin d6 aqua ion whose 5T2g to 5Eg band lies in the near infrared and reaches the visible only as a tail, with the ultraviolet edge rising into the violet, so the window that is left is the green - and the epsilon values were chosen to reproduce that window at a Beer-Lambert path a beaker presents. They are of the right order (under 1 L/mol/cm across the visible, which is what a Laporte-forbidden d-d transition permits) and the right SHAPE; no edition of any handbook was opened for a per-wavelength epsilon and none is claimed. Before this the ion carried no spectrum at all and 0.2 mol/L iron(II) read as colourless and clear, which is a confident wrong answer where this is a labelled approximate one",
+    "spectrum_bands": [
+      0.55,
+      0.4,
+      0.29,
+      0.22,
+      0.17,
+      0.14,
+      0.13,
+      0.14,
+      0.17,
+      0.22,
+      0.29,
+      0.38,
+      0.5,
+      0.64,
+      0.8,
+      0.98
+    ],
     "standard_phase": "aqueous"
   },
   {

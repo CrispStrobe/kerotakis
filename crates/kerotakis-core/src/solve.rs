@@ -1632,6 +1632,7 @@ impl Equilibrator for HonestyEquilibrator {
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
+                        spent: None,
                     });
                         continue;
                     }
@@ -1746,6 +1747,7 @@ impl Equilibrator for HonestyEquilibrator {
                         why: format!(
                             "{name} does not dissolve in water: its reviewed solubility is {limit:.4} g per 100 mL, which is below anything a beaker would show. It is still all there"
                         ),
+                        spent: None,
                     });
                         continue;
                     }

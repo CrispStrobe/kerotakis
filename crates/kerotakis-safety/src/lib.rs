@@ -684,6 +684,17 @@ pub const COVERED_KEYS: &[&str] = &[
     "activated_charcoal",
 ];
 
+/// The pH at or below which a solved vessel counts as strongly acidic.
+///
+/// A strong acid at any concentration a school bench dispenses is below
+/// this: 0.01 mol/L hydrochloric acid reads pH 2, and the 0.1 mol/L the
+/// lessons use reads 1. Above it a solution may still be acidic — a
+/// copper sulfate solution sits near 3.7 by hydrolysis, vinegar near 2.4
+/// — and neither is a bottle of acid. The gate only ever fires on a
+/// vessel a solver has characterised, so it is the measurement talking
+/// and not a guess.
+const STRONG_ACID_PH: f64 = 2.0;
+
 struct Incompatibility {
     a: ReactiveGroup,
     b: ReactiveGroup,
@@ -771,10 +782,29 @@ pub fn assess_exposures<'a>(
             // list: a strong acid is one that has essentially all come
             // apart. Hydrochloric acid reads 1.0 here and vinegar reads
             // about 0.06, so the two are nowhere near the line.
+            //
+            // The dissociated FRACTION is not the whole test, though, and
+            // taking it for the whole test is what put a strong-acid
+            // warning on a beaker of copper sulfate. `solute_charge` is a
+            // charge imbalance over the solved portions, and a solution
+            // whose cation has partly hydrolysed or partly plated out
+            // carries one: 0.2 mol/L copper sulfate with iron in it read a
+            // 2 mmol deficit, called it wholly dissociated, and warned
+            // that "strong acid dissolves this metal" at pH 3.7. So where
+            // a solver has actually characterised the solution, the pH has
+            // the last word — a strong acid in water is strongly acidic,
+            // and if it is not then whatever the ledger is carrying is not
+            // a bottle of hydrochloric acid. An uncharacterised vessel
+            // keeps the fraction test alone, because the alternative there
+            // is silence about a real hazard.
+            let strongly_acidic = vessel
+                .solution
+                .as_ref()
+                .is_none_or(|solved| solved.ph <= STRONG_ACID_PH);
             present.push(PresentSpecies {
                 key: "H+",
                 location,
-                groups: if dissociated > 0.5 * titratable {
+                groups: if dissociated > 0.5 * titratable && strongly_acidic {
                     &[ReactiveGroup::AcidStrong]
                 } else {
                     &[ReactiveGroup::AcidTitratable]
@@ -929,10 +959,20 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         rule: "acid-metal-hydrogen",
         hazard: "strong acid dissolves this metal, releasing hydrogen \
                  gas which is flammable",
-        real_world: "Magnesium ribbon in hydrochloric acid produces \
-                     enough hydrogen to pop with a lit splint — a \
-                     familiar school demo, but the gas is genuinely \
-                     flammable.",
+        // The anecdote used to be magnesium ribbon in hydrochloric acid,
+        // named as though that were what the beaker held. It was printed
+        // over iron in copper sulfate, which is neither reagent, and a
+        // learner reading a warning that names two substances not in front
+        // of them learns to skip warnings. Neither string can carry the
+        // actual pair — both are looked up by their exact English to be
+        // translated, so a template would break every locale — so the
+        // sentence says what is true of every acid-and-metal pair and
+        // gives the school demo as the example it is.
+        real_world: "Any metal above hydrogen in the activity series \
+                     gives off hydrogen gas in acid; magnesium ribbon in \
+                     hydrochloric acid is the school version, where the \
+                     gas pops with a lit splint. The gas is genuinely \
+                     flammable whichever metal and acid made it.",
     },
     // ── acid + carbonate → CO₂ ────────────────────────────────────
     Incompatibility {
