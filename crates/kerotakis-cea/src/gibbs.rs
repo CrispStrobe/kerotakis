@@ -818,6 +818,114 @@ mod tests {
         (b, pool)
     }
 
+    /// The atmosphere `chalk_in_air` puts in that budget, by name.
+    fn admitted_air() -> BTreeMap<String, f64> {
+        budget(&[("N2", 0.624), ("O2", 0.168)])
+    }
+
+    /// Enthalpy of a composition at `t`, less whatever of it is still the
+    /// room's own air: what the VESSEL is holding, in J.
+    fn own_enthalpy(eq: &Equilibrium, t: f64) -> f64 {
+        let db = crate::db();
+        let air = admitted_air();
+        eq.composition
+            .iter()
+            .filter_map(|(name, moles)| {
+                let s = db.get(name)?;
+                let mine = moles - air.get(name).copied().unwrap_or(0.0).min(*moles);
+                Some(s.h(t)? * mine)
+            })
+            .sum()
+    }
+
+    #[test]
+    fn the_room_a_vessel_stands_in_may_be_warmed_and_may_never_pay() {
+        // 0.1 mol of chalk at burner temperature, charged the way
+        // `thermal.rs` charges it: with eight times its own moles of air in
+        // the budget, because the gas phase needs to exist.
+        //
+        // That air is 0.792 mol of N2 and O2 at 1773 K. Let it into the
+        // energy balance and it is a 26 J/K flywheel against the chalk's
+        // own 10 — so a calcination that costs 17.9 kJ barely moves the
+        // thermometer, and most of the bill is paid by room air cooling
+        // down. It cannot be: room air is at 298 K, and a crucible standing
+        // in it is not a bomb calorimeter.
+        let (b, pool) = chalk_in_air();
+        let t = 1773.15;
+        let db = crate::db();
+        let chalk = 0.0999 * db.get("CaCO3(cr)").unwrap().h(t).unwrap();
+        let air: f64 = admitted_air()
+            .iter()
+            .map(|(name, moles)| db.get(name).unwrap().h(t).unwrap() * moles)
+            .sum();
+
+        let as_inventory = equilibrate_hp(&b, &pool, chalk + air, 1.0).expect("closed answer");
+        let atmosphere = OpenAtmosphere {
+            admitted: admitted_air(),
+            inlet_k: t,
+        };
+        let as_a_room = equilibrate_hp_open(&b, &pool, chalk + air, 1.0, Some(&atmosphere))
+            .expect("open answer");
+
+        assert!(
+            as_a_room.temperature < as_inventory.temperature - 100.0,
+            "treating the room as a thermal store holds the crucible up at {:.0} K              where its own enthalpy only reaches {:.0} K",
+            as_inventory.temperature,
+            as_a_room.temperature
+        );
+        assert_conserved(&as_a_room, &b, "chalk in a room");
+
+        // And the open answer BALANCES on the vessel alone: what the chalk
+        // was worth at 1773 K is what the crucible's own matter is worth
+        // where the solve lands, to a few joules out of 17 900.
+        let before = chalk;
+        let after = own_enthalpy(&as_a_room, as_a_room.temperature);
+        assert!(
+            (after - before).abs() < 100.0,
+            "the vessel's own energy balance must close: {before:.1} J of chalk went in              and {after:.1} J came out, a gap of {:.1} J against a 17 880 J calcination",
+            after - before
+        );
+        // The same balance on the old answer is the size of the defect.
+        let inventory_after = own_enthalpy(&as_inventory, as_inventory.temperature);
+        assert!(
+            inventory_after - before > 5_000.0,
+            "the closed reading should be the one that invents energy, but it is out              by only {:.1} J",
+            inventory_after - before
+        );
+    }
+
+    #[test]
+    fn declaring_the_room_does_not_move_a_flame() {
+        // The rule is one-sided on purpose. A flame really does entrain the
+        // room and really does heat it, and the nitrogen it drags through
+        // the front is the diluent that keeps the adiabatic temperature
+        // finite — so every solve that ends HOTTER than it started is the
+        // number it was before this existed.
+        let species = pool_of(&[
+            "CH4", "O2", "N2", "CO2", "H2O", "CO", "H2", "OH", "O", "H", "NO",
+        ]);
+        let reactants = [("CH4", 1.0), ("O2", 2.0), ("N2", 7.52)];
+        let h_cold: f64 = reactants
+            .iter()
+            .map(|(n, m)| crate::db().get(n).unwrap().h(298.15).unwrap() * m)
+            .sum();
+        let b = budget(&[("C", 1.0), ("H", 4.0), ("O", 4.0), ("N", 15.04)]);
+
+        let plain = equilibrate_hp(&b, &species, h_cold, 1.0).expect("flame");
+        let atmosphere = OpenAtmosphere {
+            admitted: budget(&[("N2", 7.52), ("O2", 2.0)]),
+            inlet_k: 298.15,
+        };
+        let open = equilibrate_hp_open(&b, &species, h_cold, 1.0, Some(&atmosphere))
+            .expect("flame in a room");
+        assert!(
+            (plain.temperature - open.temperature).abs() < 1e-9,
+            "an exothermic solve may not move: {:.1} K became {:.1} K",
+            plain.temperature,
+            open.temperature
+        );
+    }
+
     #[test]
     fn calcining_chalk_conserves_every_element() {
         // The case that exposed the bug: 0.1 mol of chalk heated in air

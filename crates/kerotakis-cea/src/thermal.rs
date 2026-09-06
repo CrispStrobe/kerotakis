@@ -11,7 +11,10 @@
 //!   in air: oxygen is available without being weighed in, and product
 //!   gases leave. This mirrors the aqueous solver's escaping-gas phases,
 //!   and it is what makes the problem well-posed — with no atmosphere,
-//!   calcite below its decomposition point has no gas phase at all.
+//!   calcite below its decomposition point has no gas phase at all. Being a
+//!   reservoir cuts one way only: the room may be warmed by what happens in
+//!   the vessel, and may never pay for it. See
+//!   [`crate::gibbs::OpenAtmosphere`].
 //! * **Species map by composition, not by a hand-written table.** A solid
 //!   `CaCO3` in the registry finds CEA's `CaCO3(cr)` because their formulas
 //!   agree; nothing lists the pair.
@@ -53,6 +56,19 @@ pub const KINETIC_THRESHOLD_K: f64 = 500.0;
 /// the vessel. A beaker's headspace is small but never zero; this keeps the
 /// oxygen supply generous enough not to be the limiting reagent by accident
 /// while staying finite.
+///
+/// **This is a chemical control volume and nothing else.** It sizes two
+/// things: how much oxygen a burn may draw on, and how much nitrogen is
+/// there to dilute the gas phase — the second is why a carbonate gives way
+/// below its one-bar decomposition temperature, since what the equilibrium
+/// answers to is CO₂'s partial pressure and not its amount.
+///
+/// It is **not** a thermal mass the vessel owns. It used to act as one in
+/// the adiabatic solve, which is how eight times the vessel's own moles of
+/// air came to pay part of a calcination; [`crate::gibbs::OpenAtmosphere`]
+/// is the rule that stops it. Enlarging or shrinking this number therefore
+/// changes what the chemistry can reach and what the flame is diluted by,
+/// and no longer changes who pays for an endothermic step.
 const AIR_RATIO: f64 = 8.0;
 
 /// The temperature the exhaust of an open burn is vented at, K.
