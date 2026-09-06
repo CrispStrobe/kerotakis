@@ -412,6 +412,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // acid, filed with acetic and ascorbic rather than given a strong-
         // acid row whose incompatibility rules would overstate it.
         | "lactic_acid"
+        // The lactate ion reads exactly as acetate does, two rows above:
+        // the conjugate base of a weak carboxylic acid is a spectator in
+        // a mixture screen. It gets its own line rather than riding the
+        // acid's, because the acid and its anion are separate keys and
+        // this matrix is keyed by species — and because a solve rewrites
+        // one into the other, so an absent row here would have appeared
+        // only after a pH was measured.
+        | "lactate"
         | "citric_acid"
         | "C6H5O7-3"
         | "glucose"
@@ -647,6 +655,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "indigo_carmine_ox",
     "isobutylene",
     "isopropanol",
+    "lactate",
     "lactic_acid",
     "langite",
     "malic_acid",

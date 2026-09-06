@@ -3025,12 +3025,12 @@
   "lactase-and-milk": {
     "event_count": 11,
     "events_sample": [
-      "v1: +20.000 g whole_milk (1 known ingredients)",
+      "v1: +20.000 g whole_milk (7 known ingredients)",
       "v1: +0.0000 mol lactase",
       "v2: new vessel",
-      "v2: +20.000 g whole_milk (1 known ingredients)",
+      "v2: +20.000 g whole_milk (7 known ingredients)",
       "v3: new vessel",
-      "v3: +20.000 g whole_milk (1 known ingredients)",
+      "v3: +20.000 g whole_milk (7 known ingredients)",
       "v3: +0.0000 mol lipase",
       "v1: Lactase hydrolysed 0.9034 g of lactose in milk in 3600 s (94.1% converted)",
       "v1: The liquid is white and so cloudy you cannot see through it.",
@@ -3041,6 +3041,36 @@
     "vessels": [
       {
         "contents": [
+          {
+            "moles": 0.000184,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.00017386,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00060023,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00022001,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.0007673,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00033058,
+            "phase": "Aqueous",
+            "species": "Na+"
+          },
           {
             "moles": 8.3e-7,
             "phase": "Aqueous",
@@ -3059,6 +3089,36 @@
       {
         "contents": [
           {
+            "moles": 0.000184,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.00017386,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00060023,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00022001,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.0007673,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00033058,
+            "phase": "Aqueous",
+            "species": "Na+"
+          },
+          {
             "moles": 0.96586178,
             "phase": "Liquid",
             "species": "water"
@@ -3070,6 +3130,36 @@
       },
       {
         "contents": [
+          {
+            "moles": 0.000184,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.00017386,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00060023,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00022001,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.0007673,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00033058,
+            "phase": "Aqueous",
+            "species": "Na+"
+          },
           {
             "moles": 3.03e-6,
             "phase": "Aqueous",
@@ -3453,14 +3543,14 @@
   "magic-milk": {
     "event_count": 14,
     "events_sample": [
-      "v1: +103.000 g whole_milk (1 known ingredients)",
+      "v1: +103.000 g whole_milk (7 known ingredients)",
       "v1: +0.200 g food_colour_red (2 known ingredients)",
       "v1: +0.200 g food_colour_yellow (2 known ingredients)",
       "v1: +0.200 g food_colour_blue (2 known ingredients)",
       "v1: +0.515 g dish_soap (1 known ingredients)",
       "v1: 3 surface colour spot(s) spread from 0% to 90%",
       "v2: new vessel",
-      "v2: +103.000 g whole_milk (1 known ingredients)",
+      "v2: +103.000 g whole_milk (7 known ingredients)",
       "v2: +0.200 g food_colour_red (2 known ingredients)",
       "v2: +0.200 g food_colour_yellow (2 known ingredients)",
       "v2: +0.200 g food_colour_blue (2 known ingredients)",
@@ -3472,6 +3562,36 @@
     "vessels": [
       {
         "contents": [
+          {
+            "moles": 0.00094759,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.00089538,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00309119,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00113305,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.00395161,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00170248,
+            "phase": "Aqueous",
+            "species": "Na+"
+          },
           {
             "moles": 3.6e-7,
             "phase": "Aqueous",
@@ -3499,6 +3619,36 @@
       },
       {
         "contents": [
+          {
+            "moles": 0.00094759,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
+            "moles": 0.00089538,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00309119,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00113305,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.00395161,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00170248,
+            "phase": "Aqueous",
+            "species": "Na+"
+          },
           {
             "moles": 3.6e-7,
             "phase": "Aqueous",
@@ -3623,21 +3773,51 @@
   "milk-curds": {
     "event_count": 6,
     "events_sample": [
-      "v1: +103.000 g whole_milk (1 known ingredients)",
+      "v1: +103.000 g whole_milk (7 known ingredients)",
       "v1: +1.006 g white_vinegar_5_percent (2 known ingredients)",
       "v2: new vessel",
-      "v2: +103.000 g whole_milk (1 known ingredients)",
+      "v2: +103.000 g whole_milk (7 known ingredients)",
       "v2: +10.060 g white_vinegar_5_percent (2 known ingredients)",
-      "v2: whole milk surrogate curd solids 0% → 28% (3.75 g aggregate solids in visible curds)"
+      "v2: whole milk surrogate curd solids 0% → 28% (3.57 g aggregate solids in visible curds)"
     ],
     "lesson": "milk-curds.lab",
     "vessels": [
       {
         "contents": [
           {
+            "moles": 0.00094759,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
             "moles": 0.00083761,
             "phase": "Liquid",
             "species": "CH3COOH"
+          },
+          {
+            "moles": 0.00089538,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00309119,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00113305,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.00395161,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00170248,
+            "phase": "Aqueous",
+            "species": "Na+"
           },
           {
             "moles": 5.02723841,
@@ -3652,9 +3832,39 @@
       {
         "contents": [
           {
+            "moles": 0.00094759,
+            "phase": "Aqueous",
+            "species": "C6H5O7-3"
+          },
+          {
             "moles": 0.00837607,
             "phase": "Liquid",
             "species": "CH3COOH"
+          },
+          {
+            "moles": 0.00089538,
+            "phase": "Aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": 0.00309119,
+            "phase": "Aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": 0.00113305,
+            "phase": "Aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": 0.00395161,
+            "phase": "Aqueous",
+            "species": "K+"
+          },
+          {
+            "moles": 0.00170248,
+            "phase": "Aqueous",
+            "species": "Na+"
           },
           {
             "moles": 5.50469054,

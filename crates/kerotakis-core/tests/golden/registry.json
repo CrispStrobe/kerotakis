@@ -3947,5 +3947,24 @@
       "melting_k": 63.15,
       "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
     }
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 1.0,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C3H5O3-",
+    "heat_capacity": 0.0,
+    "inchikey": "JVTAAEKCZFNVCJ-UHFFFAOYSA-M",
+    "key": "lactate",
+    "magnetic": false,
+    "molar_mass": 89.07,
+    "name": "lactate ion",
+    "provenance": "lactate ion, the conjugate base of this registry's `lactic_acid` and the key an aqueous tail needs before it can book a deprotonated lactic fermentation anywhere. IDENTITY VERIFIED against PubChem CID 91435 on 2026-09-05 (PUG REST property record): molecular formula C3H5O3-, molecular weight 89.07, IUPAC name 2-hydroxypropanoate, InChIKey JVTAAEKCZFNVCJ-UHFFFAOYSA-M. The parent acid is CID 612, InChIKey JVTAAEKCZFNVCJ-UHFFFAOYSA-N, fetched in the same call: the two keys share their skeleton block and their stereo block and differ only in the final protonation character - N for the neutral acid, M for the -1 anion - exactly as acetic acid's QTBSBXVTEAMEQO-UHFFFAOYSA-N differs from acetate's QTBSBXVTEAMEQO-UHFFFAOYSA-M, which is the pair this row is modelled on. NO STEREOCHEMISTRY IS CLAIMED, and the silence is deliberate rather than an omission: the stereo block here is UHFFFAOYSA, which asserts none, so this row takes in an identifier the position the parent acid's provenance takes in words - fermentation lactic acid is a mixture of the L-(+) and D-(-) forms in proportions that depend on which organism made it, and a yoghurt culture carries organisms that make each. The L-(+) anion would be JVTAAEKCZFNVCJ-REOHCLBHSA-M and is deliberately not this row. Molar mass 89.07 g/mol, which is PubChem's figure for CID 91435 and is also the parent acid's 90.078 less one proton, from IUPAC/CIAAW 2021 atomic weights. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions (see module docs); the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries, because solution volume is carried by the liquid phase. WHAT THIS ROW DOES NOT DO IS MAKE LACTIC ACID ACIDIC: none of the three databases this lab loads (wateq4f, minteq.v4, pitzer) defines a lactate species, so until one does, the acid's carboxylic proton is still absent from every computed pH and the unspeciated-acid note still says so. This species exists so that the database work has a key to book into and a conjugate pair to split against, and it claims nothing further.",
+    "spectrum_bands": null,
+    "standard_phase": "aqueous"
   }
 ]

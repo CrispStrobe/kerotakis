@@ -44,8 +44,14 @@ const PROFILES: &[SubstrateProfile] = &[
         recipe_id: "household/whole-milk-surrogate",
         class: SubstrateClass::Lactose,
         substrate: "lactose in milk",
-        // Representative 4.8% lactose inside the recipe's 13% unresolved solids.
-        substrate_share: 0.048 / 0.13,
+        // Representative 4.8% lactose per gram of MILK, expressed as its
+        // share of the recipe's unresolved solids — so this denominator
+        // is the recipe's `unresolved_fraction` and has to move with it.
+        // It fell from 0.13 to 0.123901 when the serum mineral buffer was
+        // resolved out of the unresolved balance; the lactose per gram of
+        // milk is unchanged, which is the point of writing the ratio out
+        // rather than the quotient.
+        substrate_share: 0.048 / 0.123_901,
     },
     SubstrateProfile {
         recipe_id: "food/gelatin",

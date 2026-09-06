@@ -41,7 +41,7 @@ fn household_vinegar_separates_milk_into_computed_curds_and_whey() {
         .expect("curdling event");
     assert!(event.0.abs() < 1e-12);
     assert!((event.1 - 0.28).abs() < 1e-12);
-    assert!((event.2 - 3.7492).abs() < 1e-4);
+    assert!((event.2 - 3.5733).abs() < 1e-4);
     assert!((event.3 - 0.008376).abs() < 2e-6);
 
     let picture = scene(&bench);
@@ -49,7 +49,7 @@ fn household_vinegar_separates_milk_into_computed_curds_and_whey() {
     let curds = vessel.curds.as_ref().expect("drawable curds");
     assert!((curds.formed_fraction - 0.28).abs() < 1e-12);
     assert!((curds.separation_progress - 1.0).abs() < 1e-12);
-    assert!((curds.solids_mass_g - 3.7492).abs() < 1e-4);
+    assert!((curds.solids_mass_g - 3.5733).abs() < 1e-4);
     assert_eq!(curds.srgb, [250, 248, 230]);
     assert!(vessel.words.contains("Soft curds"), "{}", vessel.words);
     assert!(vessel.words.contains("cloudy whey"), "{}", vessel.words);
