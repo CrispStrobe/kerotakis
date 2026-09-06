@@ -5,6 +5,12 @@
 
 ## GUI reachability follow-up (2026-09-06)
 
+The discovery tranche makes those authored links navigable in both directions:
+a guided row points to its exact Codex/capability/lesson ids, and a Codex row
+can point back to the guided investigation that explicitly names it. It also
+shows exact missing shelf items and engine-owned access reasons on the same
+Catalog card; no similarity search or separate children’s surface was added.
+
 The first follow-up tranche removes the last age-shaped shortcut from the
 guided catalogue. Every K01–K60 row now authors its own learning-progress
 band (`starter`, `intermediate`, or `advanced`); the independent `home` or

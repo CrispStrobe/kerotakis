@@ -43,9 +43,11 @@
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
   import { available } from "../catalogProgress";
+  import type { CatalogItem } from "../host/EngineHost";
   import {
     CATALOG_DURATIONS,
     CATALOG_LEVELS,
+    authoredRelatedEntries,
     catalogEntries,
     durationLabel,
     filterCatalogEntries,
@@ -139,6 +141,7 @@
     completed: session.completedExperiments,
     completedMissions: session.completedMissions,
     shelfKeys,
+    catalog: session.catalog,
   }));
   const byId = $derived(new Map(all.map((entry) => [entry.id, entry])));
 
@@ -155,6 +158,24 @@
   const concepts = $derived(conceptIndex(entries));
   const placements = $derived(presentPlacements(all, i18n.locale));
   const related = $derived(filters.concept ? relatedConcepts(entries, filters.concept).slice(0, 6) : []);
+
+  /** Exact authored relations only: direct Codex ids, lesson ids, or capability ids. */
+  function authoredRelated(entry: CatalogEntry): CatalogEntry[] {
+    return authoredRelatedEntries(entry, all).slice(0, 4);
+  }
+
+  function accessNote(item: CatalogItem): string | null {
+    const reason = item.reason.reason;
+    if (reason === "loaned") return t("loaned by the current mission");
+    if (reason === "mission_only") return t("available only inside its mission");
+    if (reason === "locked") {
+      const remaining = Math.max(0, item.reason.minimum_completed - session.completedMissions.size);
+      return remaining === 1
+        ? t("complete one more mission to unlock")
+        : t("complete {count} more missions to unlock", { count: remaining });
+    }
+    return null;
+  }
 
   /**
    * The open entry, held by id rather than by value.
@@ -273,7 +294,7 @@
 
   const filtering = $derived(
     filters.level !== null || filters.topic !== null || filters.duration !== null
-    || filters.shelfOnly || filters.progress !== "all"
+    || filters.shelfOnly || filters.readiness !== "all" || filters.progress !== "all"
     || filters.concept !== null || filters.curriculum !== null || filters.query.trim() !== "",
   );
 
@@ -514,6 +535,11 @@
               onclick={() => (filters.shelfOnly = !filters.shelfOnly)}
             >{t("only what is on my shelf")}</button>
           </div>
+          <div class="chips readiness-filter" role="group" aria-label={t("readiness")}>
+            {#each [["all", "any readiness"], ["ready", "ready now"], ["missing", "missing something"]] as const as [value, label] (value)}
+              <button class:on={filters.readiness === value} aria-pressed={filters.readiness === value} onclick={() => (filters.readiness = value)}>{t(label)}</button>
+            {/each}
+          </div>
           <div class="chips progress-filters" role="group" aria-label={t("completion status")}>
             {#each [["all", "all"], ["not-tried", "not tried"], ["completed", "completed"]] as const as [value, label] (value)}
               <button class:on={filters.progress === value} aria-pressed={filters.progress === value} onclick={() => (filters.progress = value)}>{t(label)}</button>
@@ -563,6 +589,13 @@
               <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
               <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
             </dl>
+            <p class:ready={item.readyNow} class="readiness" data-ready-now={item.readyNow}>
+              {item.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${item.missingNeeds.length > 0 ? words(item.missingNeeds) : t("locked equipment")}`}
+            </p>
+            {#each item.access as catalogItem (catalogItem.id)}
+              {@const note = accessNote(catalogItem)}
+              {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{t(slugWords(catalogItem.id))}: {note}</p>{/if}
+            {/each}
             {#if item.boundary}<p class="boundary">{item.boundary}</p>{/if}
             {#if links && links.linkedLearning > 0}
               <div class="learning-progress" data-progress={links.progress}>
@@ -579,6 +612,13 @@
                   <button class="related" onclick={() => { const found = byId.get(id); if (found) openEntry(found); }}>{t(codexLearningLabel(links.codexCompleted.includes(id)))} <span>{t(slugWords(id))}</span> →</button>
                 {/each}
                 {#if links.lessonCompleted}<span class="saved">✓ {t("guided completion saved")}</span>{/if}
+              </div>
+            {/if}
+            {#if item.source === "codex" && authoredRelated(item).length > 0}
+              <div class="connections" aria-label={t("continue with")}>
+                {#each authoredRelated(item) as next (next.id)}
+                  <button class="related" onclick={() => openEntry(next)}>{t("continue with")} <span>{next.title}</span> →</button>
+                {/each}
               </div>
             {/if}
             <footer>
@@ -624,6 +664,20 @@
         {/if}
         <span>{open.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
       </p>
+      <p class:ready={open.readyNow} class="readiness" data-ready-now={open.readyNow}>
+        {open.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${open.missingNeeds.length > 0 ? words(open.missingNeeds) : t("locked equipment")}`}
+      </p>
+      {#each open.access as catalogItem (catalogItem.id)}
+        {@const note = accessNote(catalogItem)}
+        {#if note}<p class="access-reason" data-catalog-reason={catalogItem.reason.reason}>{t(slugWords(catalogItem.id))}: {note}</p>{/if}
+      {/each}
+      {#if authoredRelated(open).length > 0}
+        <div class="connections" aria-label={t("continue with")}>
+          {#each authoredRelated(open) as next (next.id)}
+            <button class="related" onclick={() => openEntry(next)}>{t("continue with")} <span>{next.title}</span> →</button>
+          {/each}
+        </div>
+      {/if}
 
       {#if open.script}
         <nav class="tabs">
@@ -1241,6 +1295,9 @@
   .safety-summary { margin: .35rem 0; color: var(--dim); font-size: .68rem; line-height: 1.4; }
   .safety-guidance { padding: .55rem; border-left: 3px solid var(--warn, var(--hot)); background: var(--panel-raised); font-size: .76rem; line-height: 1.45; }
   .connections { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.35rem; }
+  .readiness { margin: .35rem 0; color: var(--warning); font-size: .72rem; font-weight: 750; }
+  .readiness.ready { color: var(--success); }
+  .access-reason { margin: .2rem 0; color: var(--dim); font-size: .68rem; }
   .connections .related {
     padding: 0.3rem 0.45rem;
     border: 1px solid var(--edge);

@@ -39,6 +39,7 @@ import { normalizeCatalogText, type ExperimentProgressFilter } from "./catalogSe
 import { scriptKit, type CodexEntry } from "./codex";
 import { guidedLearningLabel, kidsText, type KidsExperiment, type KidsSafety, type KidsStatus } from "./kidsCatalog";
 import { kidsShelfKeys } from "./kidsSandbox";
+import type { CatalogItem } from "./host/EngineHost";
 
 /** Which corpus an entry came from. An INTERNAL identifier: never displayed. */
 export type CatalogSourceKind = "codex" | "guided";
@@ -116,6 +117,12 @@ export interface CatalogEntry {
   done: boolean;
   /** Everything it needs is on the learner's shelf right now. */
   onShelf: boolean;
+  /** Exact reagent ids absent from the currently reachable shelf. */
+  missingNeeds: string[];
+  /** Exact engine catalog answers for requirements it knows. */
+  access: CatalogItem[];
+  /** Shelf requirements plus engine-known apparatus refusals. */
+  readyNow: boolean;
   /** Every string worth matching a query against, localized and canonical. */
   search: string[];
 }
@@ -330,6 +337,8 @@ export interface CatalogViewContext {
   completedMissions?: ReadonlySet<string>;
   /** Shelf keys the learner can reach right now. */
   shelfKeys?: ReadonlySet<string>;
+  /** Engine-owned availability answers, when they have arrived. */
+  catalog?: ReadonlyMap<string, CatalogItem>;
 }
 
 /** A slug as a card says it: hyphens are not a word separator on screen. */
@@ -348,6 +357,21 @@ function expectations(entry: Pick<CodexEntry, "expect">): string[] {
 function onShelf(needs: readonly string[], shelfKeys: ReadonlySet<string> | undefined): boolean {
   if (!shelfKeys || shelfKeys.size === 0) return false;
   return needs.length > 0 && needs.every((key) => shelfKeys.has(key));
+}
+
+function availability(
+  needs: readonly string[],
+  apparatus: readonly string[],
+  context: Pick<CatalogViewContext, "shelfKeys" | "catalog">,
+): Pick<CatalogEntry, "missingNeeds" | "access" | "readyNow"> {
+  const missingNeeds = needs.filter((key) => !context.shelfKeys?.has(key));
+  const access = [...new Set([...needs, ...apparatus])]
+    .flatMap((id) => context.catalog?.get(id) ?? []);
+  return {
+    missingNeeds,
+    access,
+    readyNow: missingNeeds.length === 0 && access.every((item) => item.available),
+  };
 }
 
 function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry {
@@ -392,6 +416,7 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     guided: null,
     done: context.completed.has(entry.id),
     onShelf: onShelf(needs, context.shelfKeys),
+    ...availability(needs, apparatus, context),
     search: [
       entry.id,
       words,
@@ -462,6 +487,7 @@ function fromGuided(
     guided: entry,
     done,
     onShelf: onShelf(needs, context.shelfKeys),
+    ...availability(needs, entry.apparatus, context),
     search: [
       entry.id,
       title,
@@ -541,6 +567,7 @@ export interface CatalogFilters {
   duration: CatalogDurationBand | null;
   /** Only entries whose materials are all on the shelf right now. */
   shelfOnly: boolean;
+  readiness: "all" | "ready" | "missing";
   progress: CatalogProgressFilter;
   /** `system` and `stage` joined by a tab, which no stage name contains. */
   curriculum: string | null;
@@ -553,6 +580,7 @@ export const NO_CATALOG_FILTERS: CatalogFilters = {
   topic: null,
   duration: null,
   shelfOnly: false,
+  readiness: "all",
   progress: "all",
   curriculum: null,
   concept: null,
@@ -573,6 +601,8 @@ export function catalogEntryPasses(entry: CatalogEntry, filters: CatalogFilters)
   if (filters.topic && !entry.topics.includes(filters.topic)) return false;
   if (filters.duration && entry.duration !== filters.duration) return false;
   if (filters.shelfOnly && !entry.onShelf) return false;
+  if (filters.readiness === "ready" && !entry.readyNow) return false;
+  if (filters.readiness === "missing" && entry.readyNow) return false;
   if (filters.progress === "completed" && !entry.done) return false;
   if (filters.progress === "not-tried" && entry.done) return false;
   if (filters.concept && !entry.concepts.includes(filters.concept)) return false;
@@ -602,6 +632,19 @@ export function filterCatalogEntries(
   filters: CatalogFilters,
 ): CatalogEntry[] {
   return entries.filter((entry) => catalogEntryPasses(entry, filters));
+}
+
+/** Exact authored relations only; never similarity or title matching. */
+export function authoredRelatedEntries(
+  entry: CatalogEntry,
+  entries: readonly CatalogEntry[],
+): CatalogEntry[] {
+  return entries.filter((candidate) => {
+    if (candidate.id === entry.id) return false;
+    if (entry.codexLinks.includes(candidate.id) || candidate.codexLinks.includes(entry.id)) return true;
+    if (entry.lesson && candidate.lesson === entry.lesson) return true;
+    return entry.capabilities.some((id) => candidate.capabilities.includes(id));
+  });
 }
 
 /** How many entries sit at each level, for the chip counts. */

@@ -2376,6 +2376,21 @@
   "gelling from {from}% to {to}% of the polymer": "",
   "{a} °C and {b} °C settled at {into} °C": "",
   "{moles} mol of water driven off at {celsius} °C": "",
-  "{moles} mol of water taken back into the hydrate": ""
+  "{moles} mol of water taken back into the hydrate": "",
+  "complete one more mission to unlock": "",
+  "complete {count} more missions to unlock": "",
+  "complete one more mission to enter": "",
+  "complete {count} more missions to enter": "",
+  "Complete one more mission anywhere in the open districts to unlock this route.": "",
+  "Complete {count} more missions anywhere in the open districts to unlock this route.": "",
+  "loaned by the current mission": "",
+  "available only inside its mission": "",
+  "readiness": "",
+  "any readiness": "",
+  "ready now": "",
+  "missing something": "",
+  "missing now": "",
+  "locked equipment": "",
+  "continue with": ""
  }
 }
