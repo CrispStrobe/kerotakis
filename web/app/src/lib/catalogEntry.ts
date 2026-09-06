@@ -121,7 +121,11 @@ export interface CatalogEntry {
 // ── Level ─────────────────────────────────────────────────────────────
 
 /**
- * Age bands, and why these boundaries.
+ * Where the three levels divide, and why there.
+ *
+ * The boundaries come from the curriculum placements the content carries,
+ * which are stated in school years; the learner sees only the level name
+ * these produce.
  *
  * Twelve is where the two corpora actually meet: the youngest curriculum
  * placement in the codex is KS3 at eleven, and the guided tasks that need
@@ -137,9 +141,13 @@ export function levelForAge(ageMin: number): CatalogLevel {
 /**
  * The label a level wears.
  *
- * A NAME plus the age it starts at, because neither alone is enough: an
- * age band alone reads as a restriction ("not for me"), and a name alone
- * hides the one fact a parent or teacher is actually filtering on.
+ * A NAME, and only a name. The card used to print the age band beside it
+ * ("ab 8 Jahren"), and that is the one thing this catalogue must not say:
+ * every person is addressed here, an adult is welcome in "first steps",
+ * and an age band beside a title reads as a permission slip ("not for
+ * me"). The bands below are still how the CONTENT is sorted — they are
+ * the curriculum's own placements — but they are an implementation
+ * detail of the ordering, never a label a learner is shown.
  */
 export function levelLabel(level: CatalogLevel): string {
   if (level === "starter") return "first steps";

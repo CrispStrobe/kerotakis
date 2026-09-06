@@ -8,30 +8,34 @@
   let query = $state(untrack(() => initial ?? ""));
   let support = $state<CapabilitySupport | "all">("all");
   let topic = $state("all");
-  let age = $state("all");
+  let band = $state("all");
   let open = $state<string | null>(untrack(() => initial));
   let running = $state<string | null>(null);
 
   const topics = $derived([...new Set(prompts.map((prompt) => prompt.topic))].sort());
-  const ages = $derived([...new Set(prompts.map((prompt) => prompt.age_band))].sort());
+  const bands = $derived([...new Set(prompts.map((prompt) => prompt.age_band))].sort());
   const shown = $derived(prompts.filter((prompt) =>
     (support === "all" || prompt.support === support) &&
     (topic === "all" || prompt.topic === topic) &&
-    (age === "all" || prompt.age_band === age) &&
+    (band === "all" || prompt.age_band === band) &&
     capabilityMatches(prompt, query),
   ));
   /**
-   * The corpus bands ages as identifiers. `age9_to12` de-underscored is
-   * "age9 to12", which is not a phrase any translator would be given; these
-   * are the words the dictionary is actually keyed by.
+   * The corpus bands its prompts by school age. The learner never sees that.
+   *
+   * We address every person, and an adult reading the same question is not
+   * reading a task "for 9-to-12-year-olds" — so the band is shown as the
+   * LEVEL it stands for, the same three words the catalogue's level chip
+   * uses (`levelLabel` in `catalogEntry.ts`). The identifier stays as the
+   * corpus writes it; only the wording is the interface's own.
    */
-  const AGE_LABELS: Record<string, string> = {
-    all: "all ages",
-    age9_to12: "ages 9–12",
-    age13_to15: "ages 13–15",
-    age16_to18: "ages 16–18",
+  const BAND_LABELS: Record<string, string> = {
+    all: "all levels",
+    age9_to12: "first steps",
+    age13_to15: "going further",
+    age16_to18: "in depth",
   };
-  const ageLabel = (band: string) => t(AGE_LABELS[band] ?? band.replaceAll("_", " "));
+  const bandLabel = (value: string) => t(BAND_LABELS[value] ?? value.replaceAll("_", " "));
 
   const counts = $derived(Object.fromEntries(
     ["computed", "curated", "qualitative", "boundary", "missing"].map((key) =>
@@ -76,9 +80,9 @@
         <option value="all">{t("all topics")}</option>
         {#each topics as value (value)}<option value={value}>{t(value.replaceAll("_", " "))}</option>{/each}
       </select>
-      <select bind:value={age} aria-label={t("filter by age")}>
-        <option value="all">{t("all ages")}</option>
-        {#each ages as value (value)}<option value={value}>{ageLabel(value)}</option>{/each}
+      <select bind:value={band} aria-label={t("filter by level")}>
+        <option value="all">{t("all levels")}</option>
+        {#each bands as value (value)}<option value={value}>{bandLabel(value)}</option>{/each}
       </select>
     </div>
 
@@ -93,7 +97,7 @@
           </button>
           {#if open === prompt.id}
             <div class="details">
-              <p>{t(prompt.topic.replaceAll("_", " "))} · {ageLabel(prompt.age_band)} · {t(prompt.material_class.replaceAll("_", " ").replaceAll("-", " "))}</p>
+              <p>{t(prompt.topic.replaceAll("_", " "))} · {bandLabel(prompt.age_band)} · {t(prompt.material_class.replaceAll("_", " ").replaceAll("-", " "))}</p>
               <div class="tags">{#each prompt.tags as tag (tag)}<span>{t(tag.replaceAll("_", " "))}</span>{/each}</div>
               <p class="script-label">{t("bench script")}</p>
               <pre>{prompt.script.join("\n")}</pre>
