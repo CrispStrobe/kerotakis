@@ -170,8 +170,11 @@
     }
     const hazards = hazardLine(item);
     if (hazards) rows.push({ term: t("safety labels"), detail: hazards, tone: "danger" });
-    const bottle = bottles[item.key];
-    if (bottle) rows.push({ term: t("in the bottle"), detail: stockBadge(bottle, t) });
+    // `stockBadge` answers null for a level it has nothing to say about,
+    // and a row whose value is empty is worse than no row: it teaches the
+    // reader that the panel sometimes has nothing in it.
+    const badge = stockBadge(bottles[item.key], t);
+    if (badge) rows.push({ term: t("in the bottle"), detail: badge });
     const itemAccess = access_(item.key);
     if (mode === "story" && itemAccess.available && !itemAccess.loaned) {
       rows.push({ term: t("shelf stock"), detail: stockLabel(stockRemaining(item, stockUsed)) });
