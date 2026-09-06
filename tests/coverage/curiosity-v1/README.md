@@ -30,6 +30,10 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-06 a fourteenth time (five rows, milk's mineral buffer) —
+see below, and read that entry before quoting it: the yoghurt pair left
+`missing` and did NOT thereby become answered.
+
 Refreshed 2026-09-05 an eleventh time (two rows, the two batteries) — see
 below.
 
@@ -91,6 +95,71 @@ BRD-014 (#237), `methanol` last moved by EXP-33 (#288), `PE` in EXP-12 — so
 the engine had genuinely improved and only the record was stale. Note the
 smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
+
+
+## Refresh 2026-09-06, fourteenth — milk stops being water
+
+Five rows, and the change under them is a data change: `whole_milk` was
+`[water 0.87]` with everything else conserved as unresolved solids, so a
+beaker of milk held exactly one species and that species was the solvent.
+`partition` saw no solutes, the aqueous tail characterised no solution, and
+`measure ph` on milk emitted "the pH meter reads nothing". The recipe now
+resolves milk's diffusible mineral buffer — potassium, sodium, the soluble
+share of the calcium, chloride, inorganic phosphate and citrate, from USDA
+FoodData Central 746782 and from Gaucheron 2005 — so a beaker of milk is a
+real solution near pH 6.7 and the meter reads it.
+
+Three of the five move only their reason code, and the disposition they
+already had is unchanged:
+
+- `bio-012` (milk forms a skin when heated), `bio-054` and `bio-055`
+  (lactase, and lactase after boiling) → `computed`/`typed-engine-event`
+  becomes `computed`/`computed-route`. Nothing about the answer changed.
+  What changed is which route produced it: there is now an aqueous
+  chemistry route that succeeds on a beaker of milk, where before the
+  only thing on the transcript was the typed event the enzyme or the
+  colloid emitted. Neither skin formation nor sweetness is modelled, then
+  or now.
+
+The other two are the yoghurt pair, and they need reading before they are
+quoted:
+
+- `bio-069`, `bio-070` (yoghurt, and yoghurt in a refrigerator) →
+  `missing`/`not-yet-modeled` becomes `computed`/`computed-route`.
+  **THIS DOES NOT MEAN THE ROWS ARE ANSWERED, AND THE NUMBER THE METER
+  PRINTS IS NOT YOGHURT'S.** It is fresh milk's, near 6.7, because the
+  lactic acid the culture just made is still speciated by no database this
+  lab loads, so its carboxylic proton is in no computed pH. The
+  unspeciated-acid note still fires and still says so, in the words "the
+  real solution is more acidic than it says" — but it fires on the
+  fermentation step, and this gate reads the disposition off the LAST
+  step, which is now a pH meter that succeeds instead of one that
+  refuses. So the disposition records, truthfully, that a computed
+  chemistry route ran; it does not record that the question was answered,
+  and the classifier's own comment says that is not what a disposition is
+  for.
+
+  What actually improved is worth stating plainly, because it is half the
+  job rather than none of it: the fermentation was always real, and now it
+  runs into something that can hold a pH. What is still missing is a
+  lactate species in a loaded database — `llnl-organics` has one and is
+  not among wateq4f, minteq.v4 and pitzer — and that is the other half,
+  which is not in this change. The registry now carries the `lactate`
+  ion so that half has a key to book into.
+
+  Two things will still be wrong when it lands, and neither is a database
+  problem. Casein is not modelled, so it carries none of milk's protein
+  buffer capacity — which, between pH 6.6 and pH 5.0, is the larger part
+  of it. A yoghurt pH computed against this buffer is therefore a LOWER
+  bound on the real one at the same acid dose, not a prediction of it; the
+  recipe's own lot assumptions say so in those words. And the lactic route
+  still emits no typed event of its own.
+
+The entry five refreshes below, under "Two run a real fermentation and
+still cannot answer", is now stale in one clause: it says milk resolves
+only water. It no longer does. Its other clause — that lactic acid cannot
+be speciated — is still true, and is still what these two rows are
+waiting on.
 
 
 ## Refresh 2026-09-05, thirteenth — th-060, a fizz is not a fire

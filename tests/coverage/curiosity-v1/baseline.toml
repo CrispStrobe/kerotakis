@@ -822,7 +822,7 @@ reason_code = "computed-route"
 id = "bio-012"
 owning_task = "BRD-014"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-013"
@@ -1074,13 +1074,13 @@ reason_code = "computed-route"
 id = "bio-054"
 owning_task = "BRD-052"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-055"
 owning_task = "BRD-050"
 outcome = "computed"
-reason_code = "typed-engine-event"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-056"
@@ -1163,14 +1163,14 @@ reason_code = "computed-route"
 [[observation]]
 id = "bio-069"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-070"
 owning_task = "BRD-052"
-outcome = "missing"
-reason_code = "not-yet-modeled"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-071"
