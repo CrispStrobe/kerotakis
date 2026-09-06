@@ -39,12 +39,15 @@
   {/each}
   {#each assembly.parts as item (item.id)}
     <g class="marker" class:attention={item.state === "attention"}>
+      <!-- First child, which is where SVG says a <title> belongs: a
+           browser reads it as the tooltip and the accessible name for
+           the group it is in. -->
+      <title>{t(item.label)}</title>
       {#if item.state === "attention"}
         <circle class="halo" cx={item.at[0]} cy={item.at[1]} r="6" />
       {/if}
       <circle class="ring" cx={item.at[0]} cy={item.at[1]} r="3.4" />
       <circle class="pip" cx={item.at[0]} cy={item.at[1]} r="1.3" />
-      <title>{t(item.label)}</title>
     </g>
   {/each}
 </g>
