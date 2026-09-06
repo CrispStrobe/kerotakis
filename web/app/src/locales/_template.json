@@ -784,7 +784,6 @@
   "choose a verified reaction family": "",
   "choose an investigation": "",
   "choose more equipment…": "",
-  "choose what goes on the bench": "",
   "choose…": "",
   "chromatograph": "",
   "clamp the burette over the selected vessel": "",
@@ -1178,7 +1177,6 @@
   "nothing matches that filter": "",
   "nothing on the shelf contains {symbol} yet — the registry grows by provenance-carrying tranches, not by wishful entries.": "",
   "nothing on the shelf matches": "",
-  "observations and evidence": "",
   "observe and measure": "",
   "occurred": "",
   "off the script by {count} step": "",
@@ -2295,6 +2293,10 @@
   "Start here": "",
   "hands-on experiments to begin with": "",
   "experiment bench guide": "",
-  "activity kits": ""
+  "activity kits": "",
+  "command line": "",
+  "hide the command line": "",
+  "type commands at a kero> prompt — everything it does has a control on the bench too": "",
+  "world map": ""
  }
 }

@@ -5,6 +5,7 @@
     busy,
     onvalidate,
     examples = [],
+    onclose,
   }: {
     onsubmit: (line: string) => void;
     busy: boolean;
@@ -13,6 +14,8 @@
      * (I18N): the engine's own inventory, so the bar can never offer a
      * verb the parser does not have. */
     examples?: string[];
+    /** Absent where the console is not dismissible (the desktop shell). */
+    onclose?: () => void;
   } = $props();
 
   let line = $state("");
@@ -167,6 +170,9 @@
         </svg>
       </button>
     {/if}
+    {#if onclose}
+      <button type="button" class="icon-close" onclick={onclose} aria-label={t("hide the command line")} title={t("hide the command line")}>×</button>
+    {/if}
   </form>
 </div>
 
@@ -229,6 +235,12 @@
   }
   .mic:hover {
     color: var(--ink);
+  }
+  /* The console is opt-in, so it carries the one way back out — the same
+     "×" every panel uses (app.css owns its look). Only the room around it
+     belongs to this bar, so the 44px target lives on the padding. */
+  .icon-close {
+    margin-right: 0.7rem;
   }
   .mic.listening {
     color: var(--hot);

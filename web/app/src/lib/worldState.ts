@@ -17,6 +17,15 @@ export const PROFILE_KEY = "kerotakis.lab-profile.v1";
 export const HOME_SEEN_KEY = "kerotakis.home-seen.v1";
 export const PENDING_MISSION_KEY = "kerotakis.pending-mission.v1";
 export const CONTAMINATED_SAMPLE_BRIEFED_KEY = "kero.case.contaminated-sample.briefed.v1";
+/**
+ * Whether the text console is on screen.
+ *
+ * Shared across both laboratories deliberately: it is a preference about
+ * how this reader drives the bench, not a fact about a save. Absent means
+ * off — the deployment opens on the bench, and the `kero>` line is a tool
+ * you ask for from the utilities menu, not the first thing you meet.
+ */
+export const CONSOLE_KEY = "kerotakis.console.v1";
 
 const LEGACY_SESSION_KEYS = ["kero.session.v1", "kero.codex.done.v1"];
 const SANDBOX_MIGRATION_KEY = "kero.mode.sandbox.migrated-v1";
@@ -26,6 +35,22 @@ export function readLabMode(storage: KeyValueStorage | null): LabMode {
     return storage?.getItem(MODE_KEY) === "story" ? "story" : "sandbox";
   } catch {
     return "sandbox";
+  }
+}
+
+export function readConsoleVisible(storage: KeyValueStorage | null): boolean {
+  try {
+    return storage?.getItem(CONSOLE_KEY) === "shown";
+  } catch {
+    return false;
+  }
+}
+
+export function writeConsoleVisible(storage: KeyValueStorage | null, visible: boolean): void {
+  try {
+    storage?.setItem(CONSOLE_KEY, visible ? "shown" : "hidden");
+  } catch {
+    // The console still opens for this visit when persistence is blocked.
   }
 }
 

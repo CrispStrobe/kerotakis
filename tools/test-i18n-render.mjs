@@ -59,13 +59,39 @@ try {
   await page.evaluate(`window.localStorage.setItem("kerotakis.locale", "de")`);
   await page.goto(`${origin}/app/`);
 
-  const ready = await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
-  if (!ready) throw new Error("the command bar never appeared");
+  const ready = await waitFor(page, `document.querySelector('main .bench-pane')`, { timeout: 60000 });
+  if (!ready) throw new Error("the bench never appeared");
 
   check(
     "the document declares German",
     (await page.evaluate(`document.documentElement.lang`)) === "de",
   );
+
+  // The shell chrome the owner reads first: the register dropdown, the
+  // language code, and the collapse controls on both side panels. Each
+  // asks the dictionary under a key that a rename would silently break.
+  const chrome = JSON.parse(await page.evaluate(`(() => {
+    const dial = document.querySelector('.dial select');
+    const locale = document.querySelector('.locale select');
+    return JSON.stringify({
+      levels: [...(dial?.options ?? [])].map((option) => option.textContent.trim()),
+      dialName: dial?.getAttribute('aria-label') ?? "",
+      localeShows: locale?.options[locale.selectedIndex]?.textContent?.trim() ?? "",
+      localeName: locale?.getAttribute('aria-label') ?? "",
+      collapse: [...document.querySelectorAll('.panel-collapse')]
+        .map((button) => button.getAttribute('aria-label')),
+    });
+  })()`));
+  check("the register dropdown offers its three levels in German",
+    chrome.levels.length === 3 && /Ansehen|Messen|Modellieren/.test(chrome.levels.join(" ")),
+    chrome.levels.join(" / "));
+  check("the register dropdown is named in German", /Detailstufe/.test(chrome.dialName), chrome.dialName);
+  check("the language switcher shows the code and names the language in German",
+    chrome.localeShows === "DE" && /^Sprache/.test(chrome.localeName),
+    `${chrome.localeShows} — ${chrome.localeName}`);
+  check("both side panels offer a German collapse control",
+    chrome.collapse.length === 2 && chrome.collapse.every((name) => /einklappen/.test(name || "")),
+    chrome.collapse.join(" / "));
 
   // ---- the map -------------------------------------------------------
   // Its node labels are the case that motivated this file: they come from
@@ -115,7 +141,7 @@ try {
   // which is how the first version of this test reported seven relations
   // while the toolbox had never opened.
   await page.goto(`${origin}/app/`);
-  await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
+  await waitFor(page, `document.querySelector('main .bench-pane')`, { timeout: 60000 });
   await openUtilities();
   check("the toolbox opens", (await clickByText("/^Werkzeugkasten$/")) === true);
 
@@ -148,7 +174,11 @@ try {
   // the JSON the codex crate exports, through typed structs that dropped
   // every `_de` field they were not told about.
   await page.goto(`${origin}/app/`);
-  await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
+  await waitFor(page, `document.querySelector('main .bench-pane')`, { timeout: 60000 });
+  // The library is a stop on the world map, and the map is a destination
+  // now rather than the doorway — the brand mark is the way there.
+  await page.evaluate(`document.querySelector('button.brand')?.click()`);
+  await waitFor(page, `document.querySelector('dialog.world')`, { timeout: 10000 });
   check("the research library opens", (await clickByText("/Forschungsbibliothek/")) === true);
 
   const grouped = await waitFor(page,
@@ -205,9 +235,12 @@ try {
   // only place the DECIMAL is checked end to end — the engine writes
   // 11,0686 because it knows the locale while the number is still a
   // float, and no layer downstream of it could.
+  // The `kero>` line is off by default and remembered in localStorage, so
+  // ask for it the way the utilities menu does and reload into it. The
+  // bench is entered directly; there is no chooser left to click through.
+  await page.evaluate(`window.localStorage.setItem("kerotakis.console.v1", "shown")`);
   await page.goto(`${origin}/app/`);
-  await waitFor(page, `document.querySelectorAll('button').length > 3`, { timeout: 60000 });
-  await clickByText("/Sandbox betreten|enter Sandbox/");
+  await waitFor(page, `document.querySelector('main .bench-pane')`, { timeout: 60000 });
   const barReady = await waitFor(page,
     `!!document.querySelector('form.bar input') &&
      !document.querySelector('form.bar input').disabled`, { timeout: 60000 });

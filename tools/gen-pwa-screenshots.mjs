@@ -70,23 +70,18 @@ try {
     }, page.sessionId);
 
     await page.goto(`${origin}/app/`);
-    const ready = await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
-    if (!ready) throw new Error("the command bar never appeared");
-    // The campus chooser stands in front of the bench, and the bench's DOM
-    // is mounted behind it — so every readiness check here passes while the
-    // chooser is still the visible screen. Walk through it, then confirm it
-    // is gone by something the chooser itself would falsify.
-    await page.evaluate(`(() => {
-      const b = [...document.querySelectorAll('button')]
-        .find((el) => /enter Sandbox|Sandbox betreten/i.test(el.textContent || ""));
-      b?.click();
-    })()`);
+    // The bench is entered directly now, and the `kero>` line is opt-in and
+    // remembered — so ask for it before the app boots, the same way a
+    // reader who turned it on in the utilities menu arrives.
+    await page.evaluate(`localStorage.setItem("kerotakis.console.v1", "shown")`);
+    await page.goto(`${origin}/app/`);
     const entered = await waitFor(page, `(() => {
       const chooser = [...document.querySelectorAll('h1, h2')]
         .some((h) => /Where do you want to work|Wo m\u00f6chtest du/i.test(h.textContent || ""));
-      return !chooser && !!document.querySelector('form.bar input');
-    })()`, { timeout: 30000 });
-    if (!entered) throw new Error("the campus chooser never gave way to the bench");
+      return !chooser && !!document.querySelector('main .bench-pane')
+        && !!document.querySelector('form.bar input');
+    })()`, { timeout: 60000 });
+    if (!entered) throw new Error("the bench never appeared");
     // The engine attaches after the shell paints; running before it does
     // would photograph a refusal.
     await waitFor(page, `(() => {

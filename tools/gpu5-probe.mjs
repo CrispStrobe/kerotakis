@@ -140,11 +140,11 @@ let exitCode = 0;
 try {
   await page.cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: injection }, page.sessionId);
   await page.goto(`${origin}/app/`);
+  // The probe drives the bench through the command line, which is opt-in
+  // and remembered; ask for it, then reload into a bench that has it.
+  await page.evaluate(`localStorage.setItem("kerotakis.console.v1", "shown")`);
+  await page.goto(`${origin}/app/`);
   await waitFor(page, `document.querySelector("form.bar input")`, { timeout: 60000 });
-  await page.evaluate(`(() => {
-    const button = [...document.querySelectorAll("button")].find((item) => /enter Sandbox|Sandbox betreten/i.test(item.textContent || ""));
-    button?.click();
-  })()`);
   await waitFor(page, `document.querySelector(".bench")`, { timeout: 20000 });
   for (const command of setupCommands) {
     if (!(await submitCommand(page, command))) throw new Error(`cannot submit setup command: ${command}`);
