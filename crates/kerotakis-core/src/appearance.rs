@@ -208,9 +208,12 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         // measure of it — a tracked suspension makes that term zero and the
         // plastic would be named nowhere at all, which is the silent miss
         // K32 recorded. What floats is all of it.
-        if rises && p.moles.0 > 1e-12 {
+        // Below the observable floor nothing is "at the bottom": a decant
+        // that carried 11 µmol of antlerite across was told there was green
+        // solid in the receiving beaker.
+        if rises && p.moles.0 >= crate::OBSERVABLE_MOLES {
             floating.push((name, p.moles.0, colour));
-        } else if settled_moles > 1e-12 {
+        } else if settled_moles >= crate::OBSERVABLE_MOLES {
             {
                 settled.push((name, settled_moles, colour));
                 if biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {

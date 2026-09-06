@@ -847,6 +847,33 @@ fn coalesce_substep_events(scratch: Vec<Event>, events: &mut Vec<Event>) {
                     continue;
                 }
             }
+            // A block of dry ice sublimes across every sub-step of a wait,
+            // and the amount differs each time, so identical-words folding
+            // let one wait say "changed state" five times. One transition,
+            // one line, the moles summed.
+            Event::StateChanged {
+                vessel,
+                species,
+                from,
+                to,
+                kind,
+                moles,
+                ..
+            } => {
+                let (id, key, f, t, k, m) = (*vessel, species.clone(), *from, *to, *kind, *moles);
+                if let Some(Event::StateChanged { moles: total, .. }) =
+                    out.iter_mut().find(|candidate| {
+                        matches!(candidate, Event::StateChanged { vessel: v, species: s, from: cf, to: ct, kind: ck, .. }
+                            if *v == id && *s == key && *cf == f && *ct == t && *ck == k)
+                    })
+                {
+                    *total = match (*total, m) {
+                        (Some(a), Some(b)) => Some(crate::units::Moles(a.0 + b.0)),
+                        (a, b) => a.or(b),
+                    };
+                    continue;
+                }
+            }
             other => {
                 if out.contains(other) {
                     continue;
