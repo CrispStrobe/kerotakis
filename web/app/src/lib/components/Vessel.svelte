@@ -18,7 +18,9 @@
   } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
+  import ApparatusAssembly from "./ApparatusAssembly.svelte";
   import { APPARATUS } from "../apparatus";
+  import { drawnOnStage } from "../apparatusAssembly";
   import { engineText } from "../engineText";
   import { liveIgnitionEffect } from "../ignitionPresentation";
   import type { WebGpuEnvironmentSnapshot } from "../webGpuLifecycle";
@@ -920,6 +922,12 @@
                   : undefined}
         surfaceY={BOTTOM_Y - Math.max(liquidH, 4)}
       />
+      <!-- The naming of what is drawn above, on top of the drawing. The
+           panel used to print it as a row of chips in a column beside the
+           stage; the parts are here, so the labels are too. -->
+      {#if drawnOnStage(deployedTool)}
+        <ApparatusAssembly tool={deployedTool} values={apparatusValues} />
+      {/if}
     {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->

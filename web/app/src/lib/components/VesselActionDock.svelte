@@ -81,6 +81,7 @@
         {#each changeActions as action (action.label)}
           <button
             class={action.tone}
+            data-action={action.id}
             disabled={busy}
             onclick={() => opensAForm(action.id) ? onconfigure(action.id) : onaction(action.line)}
             title={opensAForm(action.id)
