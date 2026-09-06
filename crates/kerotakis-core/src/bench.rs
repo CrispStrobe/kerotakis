@@ -4488,6 +4488,7 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                 vessel,
                 temperature,
                 reaction_energy_j,
+                holds_nothing,
                 provenance,
             } if *vessel == id => {
                 if let Some(slot) = out.iter_mut().find(|candidate| {
@@ -4497,6 +4498,7 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                     if let Event::ThermalEquilibrium {
                         temperature: settled,
                         reaction_energy_j: total,
+                        holds_nothing: emptied,
                         provenance: source,
                         ..
                     } = slot
@@ -4506,6 +4508,13 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
                             (Some(a), Some(b)) => Some(a + b),
                             (a, b) => a.or(b),
                         };
+                        // Whether the vessel is empty is a fact about how
+                        // it ENDS, like the temperature beside it, so the
+                        // last pass's answer is the step's: a dose that
+                        // burned the last of the fuel on its fourth pass
+                        // leaves an empty vessel however full it was on
+                        // the first.
+                        *emptied = *holds_nothing;
                         *source = provenance.clone();
                     }
                     continue;
