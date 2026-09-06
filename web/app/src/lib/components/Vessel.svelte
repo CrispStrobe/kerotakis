@@ -146,8 +146,11 @@
    * replaces the reading rather than stacking a second badge under it.
    *
    * The glyphs are the ones `instruments.ts` already gives these tools, so
-   * the badge and the tray call the same instrument the same thing. Where a
-   * glyph IS the unit ("mL", "kJ") the unit is not printed twice.
+   * the badge and the tray call the same instrument the same thing — with
+   * ONE deliberate exception: the tray's pressure glyph is "bar" and this
+   * badge prints kPa, and a badge reading "bar 101,3 kPa" names two units
+   * for one number. Where a glyph IS the unit ("mL", "kJ") the unit is not
+   * printed twice.
    */
   type InstrumentReadout = {
     effect: Effect;
