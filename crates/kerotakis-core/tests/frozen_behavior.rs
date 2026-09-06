@@ -126,6 +126,24 @@ fn lessons_produce_stable_output() {
     // Keep the checked-in snapshot a conventional newline-terminated text file.
     let current = format!("{}\n", serde_json::to_string_pretty(&results).unwrap());
 
+    // A reviewer who has decided the change is right needs the new file,
+    // and on CI there is no working tree to read `lessons.actual.json`
+    // out of afterwards. `KEROTAKIS_BLESS_GOLDEN=1` writes it; `=print`
+    // puts it on stderr between markers so it can be lifted out of a log.
+    // Neither is set in CI, so the gate is exactly as strict as it was.
+    let bless: String = std::env::var("KEROTAKIS_BLESS_GOLDEN").unwrap_or_default();
+    match bless.as_str() {
+        "1" => {
+            fs::write(&snapshot_path, &current).unwrap();
+            eprintln!("ARCH-001: blessed {} lessons", results.len());
+            return;
+        }
+        "print" => {
+            eprintln!("ARCH-001-GOLDEN-BEGIN\n{current}ARCH-001-GOLDEN-END");
+        }
+        _ => {}
+    }
+
     if snapshot_path.exists() {
         let expected = fs::read_to_string(&snapshot_path).unwrap();
         // Snapshot behavior is JSON content; an editor-added terminal newline

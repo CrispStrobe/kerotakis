@@ -1206,25 +1206,25 @@ reason_code = "computed-route"
 id = "bio-076"
 owning_task = "EXP-14"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-077"
 owning_task = "BRD-050"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-078"
 owning_task = "EXP-14"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-079"
 owning_task = "EXP-14"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-080"
@@ -2694,13 +2694,13 @@ reason_code = "typed-engine-event"
 id = "th-074"
 owning_task = "EXP-14"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-075"
 owning_task = "EXP-14"
 outcome = "computed"
-reason_code = "computed-route"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "th-076"

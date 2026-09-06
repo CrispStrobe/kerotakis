@@ -30,6 +30,9 @@ cargo run -p kerotakis-cli -- coverage curiosity --emit-baseline
 Review the diff prompt by prompt, update the applicable `CAP-*`, `EXP-*`, or
 `BRD-*` task, and only then replace the checked-in baseline.
 
+Refreshed 2026-09-06 a sixteenth time (six rows, the room the bench stands
+in) — see below.
+
 Refreshed 2026-09-06 a fifteenth time (one row, mat-054: heating now has a
 source with a temperature of its own, and a Bunsen burner does not melt
 quartz) — see below.
@@ -1968,3 +1971,32 @@ It is the same argument: the remark is about the carbon's solubility and the
 answer is about the dye's.
 
 One drift, no regressions.
+
+## Refresh 2026-09-06, sixteenth time — the room the bench stands in
+
+`clock::AmbientClock` gives every vessel Newton's law of cooling toward
+298.15 K, so a beaker no longer keeps whatever temperature the last operator
+left it at for ever.
+
+Six rows move, all of them `computed` before and `computed` after. Only the
+reason code changes, and it changes in the direction of more evidence
+rather than less: `computed-route` → `typed-engine-event`.
+
+    bio-076  Can catalase in potato make hydrogen peroxide foam?
+    bio-077  Does heating catalase stop it decomposing hydrogen peroxide?
+    bio-078  Does more catalase make oxygen appear faster?
+    bio-079  Can an enzyme be used without being consumed by the reaction?
+    th-074   Does catalase make hydrogen peroxide release oxygen faster?
+    th-075   Does manganese dioxide catalyse hydrogen peroxide decomposition?
+
+Every one of them is a catalysed peroxide decomposition followed by
+`wait 1min`. The decomposition releases 98.2 kJ per mole of extent and warms
+the beaker; over the same minute the room begins taking it back, and the
+clock now says so with a typed `TemperatureChanged`. The route that answers
+the question is the one that always answered it — what is new is that the
+bench names an engine event as its evidence instead of only having taken a
+computed route.
+
+This is not a new or a weaker code for this family: `th-076`, the
+neighbouring peroxide prompt, already carried `typed-engine-event` in the
+baseline. These six have joined it.
