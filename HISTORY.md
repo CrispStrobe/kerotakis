@@ -14,6 +14,10 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **Planning reconciliation** — aligned the roadmaps with shipped reality:
+  closed GUI-001, GUI-004 and GUI-017 with source-backed evidence, recorded
+  BRD-042's terminal no-go, removed the retired catalogue fixture claim, and
+  kept GUI-003 honestly open for numeric/browser goldens
 - **ANIM-4** — put corrosion extent on the standing scene and existing vessel:
   a labelled “metal in oxide” fraction and restrained schematic marker follow
   the core's current oxide bookkeeping without claiming rate, history,
