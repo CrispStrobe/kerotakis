@@ -37,7 +37,7 @@ fn native_delta_h_matches_the_basic_callback_for_embedded_databases() {
     let cases = [
         ("phreeqc", databases::PHREEQC),
         ("wateq4f", databases::WATEQ4F),
-        ("minteq.v4", databases::MINTEQ_V4),
+        ("minteq.v4", databases::minteq_v4()),
         ("pitzer", databases::PITZER),
     ];
 

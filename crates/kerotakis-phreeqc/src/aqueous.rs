@@ -75,6 +75,20 @@ fn measured_species_moles(species: Option<&[SpeciesDetail]>, name: &str, water_k
         .unwrap_or(0.0)
 }
 
+/// What to call the dataset a solve ran on.
+///
+/// Not simply `{tag}.dat`, because minteq.v4 is not run as vendored: this
+/// lab adds one reviewed lactate definition to it (see
+/// `databases::minteq_v4`). Reporting the bare filename would name a
+/// database we are not running, in the field whose entire job is to let a
+/// reader trace where a number came from.
+fn dataset_name(db_tag: &str) -> String {
+    match db_tag {
+        "minteq.v4" => "minteq.v4.dat plus one reviewed lactate definition".to_string(),
+        other => format!("{other}.dat"),
+    }
+}
+
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
 const UNTRACKED_EXCHANGE_ELEMENTS: &[&str] = &[
@@ -316,7 +330,7 @@ impl PhreeqcEquilibrator {
     fn engine_for(&mut self, db_tag: &str, input: &str) -> Result<&mut Phreeqc, SolveError> {
         if input.contains("SOLUTION_SPECIES") {
             let (slot, database): (&mut Option<Phreeqc>, &[u8]) = match db_tag {
-                "minteq.v4" => (&mut self.pinned_organic, databases::MINTEQ_V4),
+                "minteq.v4" => (&mut self.pinned_organic, databases::minteq_v4()),
                 "pitzer" => (&mut self.pinned_brine, databases::PITZER),
                 _ => (&mut self.pinned_inorganic, databases::WATEQ4F),
             };
@@ -622,7 +636,7 @@ impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
         let mut inorganic = Phreeqc::with_database(databases::WATEQ4F)?;
-        let mut organic = Phreeqc::with_database(databases::MINTEQ_V4)?;
+        let mut organic = Phreeqc::with_database(databases::minteq_v4())?;
         let mut brine = Phreeqc::with_database(databases::PITZER)?;
         // Asked once, of each dataset, rather than written down by us. A
         // dataset that declines to answer simply contributes no
@@ -787,7 +801,7 @@ impl PhreeqcEquilibrator {
                 .collect();
             if !missing.is_empty() {
                 out.push(PathResult {
-                    dataset: format!("{db_tag}.dat"),
+                    dataset: dataset_name(db_tag),
                     model: idx.activity_model.describe().to_string(),
                     outcome: PathOutcome::CannotExpress {
                         missing_elements: missing,
@@ -802,7 +816,7 @@ impl PhreeqcEquilibrator {
                 Ok(engine) => engine,
                 Err(e) => {
                     out.push(PathResult {
-                        dataset: format!("{db_tag}.dat"),
+                        dataset: dataset_name(db_tag),
                         model: idx.activity_model.describe().to_string(),
                         outcome: PathOutcome::Failed {
                             detail: e.to_string(),
@@ -841,7 +855,7 @@ impl PhreeqcEquilibrator {
                 }
             };
             out.push(PathResult {
-                dataset: format!("{db_tag}.dat"),
+                dataset: dataset_name(db_tag),
                 model: idx.activity_model.describe().to_string(),
                 outcome,
             });
@@ -1608,6 +1622,8 @@ impl Equilibrator for PhreeqcEquilibrator {
         *vessel = solved;
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
+        let ph_now = vessel.solution.as_ref().map(|s| s.ph);
+        events.extend(milk_buffer_notes(vessel, ph_now));
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && (t_final - t0).abs() > 0.01 {
             // From where the vessel actually started, not from the last
             // trial temperature the iteration happened to stop on.
@@ -1845,7 +1861,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             species: cached.speciation.clone(),
             provenance: Some(Provenance {
                 engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
-                dataset: format!("{db_tag}.dat"),
+                dataset: dataset_name(db_tag),
                 model: derived::index_for(db_tag)
                     .activity_model
                     .describe()
@@ -3571,7 +3587,7 @@ impl PhreeqcEquilibrator {
             species: speciation,
             provenance: Some(Provenance {
                 engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
-                dataset: format!("{db_tag}.dat"),
+                dataset: dataset_name(db_tag),
                 model: idx.activity_model.describe().to_string(),
                 dataset_sources: idx.citations.iter().take(3).cloned().collect(),
                 routing: if redox_note.is_empty() {
@@ -3785,6 +3801,64 @@ fn unspeciated_acid_notes(vessel: &Vessel) -> Vec<Event> {
             ),
         })
         .collect()
+}
+
+/// The buffer a milk vessel is missing, in the recipe's own words.
+///
+/// Milk's serum minerals are in the recipe — citrate, phosphate, and the
+/// diffusible K/Na/Ca/Cl — and they do real work: an unbuffered lactic
+/// fermentation of this size would sit near pH 2.6 and with them it reads
+/// 3.8. But casein is conserved as unresolved solids, and the recipe is
+/// explicit that its buffering is "the larger part of milk's buffer
+/// capacity between pH 6.6 and pH 5.0, which is exactly the interval a
+/// yoghurt fermentation crosses". So an acidified milk reads LOW, by a
+/// knowable amount, and the beaker says so.
+///
+/// The sentence is QUOTED from the recipe's own `lot_assumptions` rather
+/// than written again here. Two copies of a caveat drift, and the one in
+/// the recipe is the one a reader can check against its sources.
+fn milk_buffer_notes(vessel: &Vessel, ph: Option<f64>) -> Vec<Event> {
+    // Only where the missing buffer actually bites, and BELOW the pH this
+    // recipe's own fresh milk sits at. The recipe names 6.6 to 5.0 as the
+    // interval casein's buffering dominates, but its fresh milk reads 6.56
+    // — so a 6.6 threshold fires on a glass of ordinary milk that nobody
+    // has acidified and that is not being under-read. 6.0 is clear of it
+    // and still well inside the interval that matters.
+    let Some(ph) = ph.filter(|p| *p < 6.0) else {
+        return Vec::new();
+    };
+    let holds_milk = vessel
+        .unresolved_materials
+        .iter()
+        .any(|portion| portion.recipe_id == "household/whole-milk-surrogate");
+    if !holds_milk {
+        return Vec::new();
+    }
+    let Some(recipe) = kerotakis_core::material::lookup("whole_milk", None) else {
+        return Vec::new();
+    };
+    // The first SENTENCE of the assumption, not the paragraph. The whole
+    // of it is four hundred words of sourcing that belongs where a reader
+    // can go and check it — `explain material` prints it in full — and
+    // repeating it on every solve of every milk vessel would bury the
+    // number it is a caveat about.
+    let Some(sentence) = recipe
+        .lot_assumptions
+        .iter()
+        .find(|a| a.contains("CASEIN IS NOT MODELLED"))
+        .and_then(|a| a.split_once(", which").map(|(head, _)| head.to_string()))
+    else {
+        return Vec::new();
+    };
+    vec![Event::NotYetModeled {
+        cause: kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
+        vessel: vessel.id,
+        what: format!(
+            "this milk has been acidified to pH {ph:.2} and the number is a \
+             LOWER BOUND — the real beaker is milder. {sentence} \
+             (the recipe's full assumption is in `explain material whole_milk`)"
+        ),
+    }]
 }
 
 fn missing(column: &str) -> SolveError {

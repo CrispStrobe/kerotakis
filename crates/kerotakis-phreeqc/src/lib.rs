@@ -63,10 +63,106 @@ pub mod databases {
     pub const PHREEQC: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/phreeqc.dat");
     /// Extended natural-water species (incl. Ag, trace metals).
     pub const WATEQ4F: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/wateq4f.dat");
-    /// Metals, complexation, sorption.
-    pub const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
+    /// Metals, complexation, sorption. PRIVATE on purpose: everything
+    /// goes through [`minteq_v4()`], which adds the reviewed lactate
+    /// definition. Reading these bytes directly would give a caller a
+    /// database the engine is not running.
+    const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
+
+    /// One reviewed species added to minteq.v4: lactate.
+    ///
+    /// A lactic fermentation is the commonest acid a kitchen makes, and
+    /// none of the three databases this lab loads defines its anion — so
+    /// the carboxylic proton of the acid the yoghurt just made was absent
+    /// from the pH, and the vessel was refused a characterisation
+    /// altogether rather than report a pH missing its only acid.
+    ///
+    /// The constant is llnl-organics' own — that file writes the
+    /// dissociation `C3H6O3 = C3H5O3- + H+` at `log_k -3.8629`, which is
+    /// pKa 3.86 and is lactic acid's measured value — sign-flipped into
+    /// the association direction minteq.v4 writes its acids in. Alkalinity
+    /// and formula weight follow minteq's own `Acetate  Acetate-  1
+    /// 59.045` line; lactate is likewise monoprotic, at 89.07 g/mol.
+    ///
+    /// **No enthalpy, deliberately.** llnl-organics states `-delta_h
+    /// +164.070 kcal/mol` for this reaction, which is 686 kJ/mol where
+    /// minteq's acetate dissociation is 0.41 — that column is LLNL's
+    /// formation-from-basis convention, not a dissociation enthalpy, and
+    /// carrying it across would have handed the heat balance a number
+    /// three orders of magnitude wrong. A step that moves lactate declines
+    /// its heat by name instead, which is the honest answer while nobody
+    /// has reviewed one.
+    ///
+    /// This is the same trade `derived::FOREIGN_POSABLE` already makes for
+    /// phases: take the log K, leave the enthalpy, and say so.
+    const LACTATE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Lactate   Lactate-  1   89.07   89.07
+SOLUTION_SPECIES
+    Lactate- = Lactate-
+        log_k 0
+    H+ + Lactate- = H(Lactate)
+        log_k 3.8629
+";
+
+    /// Byte offset of the final `END` line, which is where a database
+    /// stops being read. `None` when the file has none, in which case the
+    /// end of the file is the right place after all.
+    fn find_last_end(text: &[u8]) -> Option<usize> {
+        let mut at = None;
+        let mut line_start = 0usize;
+        for (i, byte) in text.iter().enumerate() {
+            if *byte == b'\n' {
+                let line = &text[line_start..i];
+                let trimmed: &[u8] = {
+                    let s = line
+                        .iter()
+                        .position(|c| !c.is_ascii_whitespace())
+                        .unwrap_or(line.len());
+                    let e = line
+                        .iter()
+                        .rposition(|c| !c.is_ascii_whitespace())
+                        .map(|p| p + 1)
+                        .unwrap_or(s);
+                    &line[s..e]
+                };
+                if trimmed.eq_ignore_ascii_case(b"END") {
+                    at = Some(line_start);
+                }
+                line_start = i + 1;
+            }
+        }
+        at
+    }
+
+    /// minteq.v4 as this lab runs it: the vendored file plus
+    /// [`LACTATE_EXTENSION`].
+    ///
+    /// Everything that loads or PARSES the database goes through here, so
+    /// the engine, the derived index, the element bookings and the
+    /// provenance string all describe the same database. Reading the
+    /// vendored bytes anywhere else would give the ledger an element the
+    /// engine has and it does not.
+    pub fn minteq_v4() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
+        EXTENDED.get_or_init(|| {
+            // BEFORE the file's trailing `END`, not after it. PHREEQC stops
+            // reading a database at `END`, so an appended block is not a
+            // block the engine ignores loudly — it is one it never sees.
+            // The element went in as a 0.0038 mol total and came back as
+            // exactly 0.0, and the acid's mass left the ledger with it.
+            let text = MINTEQ_V4;
+            let insert_at = find_last_end(text).unwrap_or(text.len());
+            let mut bytes = Vec::with_capacity(text.len() + LACTATE_EXTENSION.len());
+            bytes.extend_from_slice(&text[..insert_at]);
+            bytes.extend_from_slice(LACTATE_EXTENSION);
+            bytes.extend_from_slice(&text[insert_at..]);
+            bytes
+        })
+    }
 }
 
 #[derive(Debug, thiserror::Error)]

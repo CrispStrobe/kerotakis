@@ -34,7 +34,7 @@ fn the_file_derived_basis_agrees_with_the_engine() {
         ),
         (
             "minteq.v4",
-            kerotakis_phreeqc::databases::MINTEQ_V4,
+            kerotakis_phreeqc::databases::minteq_v4(),
             &["OH-", "HCO3-", "H2CO3"],
         ),
         // pitzer states almost no `delta_h` at all: these come from the
