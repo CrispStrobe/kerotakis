@@ -58,8 +58,18 @@
   .pip { fill: var(--instrument); }
   .marker.attention .ring { stroke: var(--warning); }
   .marker.attention .pip { fill: var(--warning); }
-  .halo { fill: var(--warning); opacity: .18; animation: assembly-attention 1.4s ease-in-out infinite alternate; }
-  @keyframes assembly-attention { to { opacity: .38; transform-box: fill-box; transform-origin: center; transform: scale(1.18); } }
+  /* `transform-box` and `transform-origin` belong on the element, not in
+     the keyframe: a scale on an SVG circle otherwise pivots on the SVG's
+     own origin and the halo slides off the marker instead of pulsing on
+     it. */
+  .halo {
+    fill: var(--warning);
+    opacity: .18;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: assembly-attention 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes assembly-attention { to { opacity: .38; transform: scale(1.18); } }
   @media (prefers-reduced-motion: reduce) {
     .halo { animation: none; opacity: .34; }
   }
