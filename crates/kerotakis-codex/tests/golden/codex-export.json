@@ -3478,6 +3478,108 @@
       }
     },
     {
+      "id": "charcoal-holds-the-dye",
+      "equation": null,
+      "summary": "Activated charcoal holds most of a dissolved dye on its surface; filtration retains that bound share while the remainder passes through",
+      "summary_de": "Aktivkohle hält den größten Teil eines gelösten Farbstoffs an ihrer Oberfläche fest; beim Filtrieren bleibt dieser gebundene Anteil zurück, während der Rest hindurchfließt",
+      "concepts": [
+        "adsorption",
+        "surface-area",
+        "filtration",
+        "separation",
+        "model-boundary"
+      ],
+      "requires": [
+        "solutions",
+        "filtration"
+      ],
+      "spine": [
+        "filtration"
+      ],
+      "curriculum": [
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — separation techniques",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+        }
+      ],
+      "apparatus": [
+        "beaker",
+        "filter-funnel",
+        "filter-paper"
+      ],
+      "calculations": [
+        "percentage-removal",
+        "adsorption-capacity"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 water 100mL\nadd v1 methyl_orange 0.001mol\nadd v1 activated_charcoal 1g\nnew\nfilter v1 v2\nlook v1\nlook v2\n"
+      },
+      "expect": {
+        "events": [
+          "adsorbed:methyl_orange",
+          "filtered",
+          "observed"
+        ],
+        "absent": [],
+        "predict": {
+          "question": "One gram of activated charcoal meets 327 mg of dissolved methyl orange before the mixture is filtered. What should the filtrate contain?",
+          "question_de": "Ein Gramm Aktivkohle trifft vor dem Filtrieren auf 327 mg gelöstes Methylorange. Was sollte das Filtrat enthalten?",
+          "options": [
+            "Pure water — charcoal is a universal purifier and removes every dissolved substance",
+            "Less dye, but still some dye: the charcoal has a finite surface capacity, and only the unbound share passes through the filter",
+            "All 327 mg of dye — filter paper retains the charcoal, so anything it held must be squeezed back into the water"
+          ],
+          "options_de": [
+            "Reines Wasser — Aktivkohle ist ein Universalreiniger und entfernt jeden gelösten Stoff",
+            "Weniger Farbstoff, aber noch etwas davon: Die Kohle hat eine endliche Oberflächenkapazität, und nur der ungebundene Anteil passiert den Filter",
+            "Alle 327 mg Farbstoff — das Filterpapier hält die Kohle zurück, also muss alles Festgehaltene ins Wasser zurückgepresst werden"
+          ],
+          "answer": 1,
+          "misconception": "Adsorption is easily mistaken for destruction or perfect purification. The dye is conserved: this one curated surface equilibrium divides it between charcoal and water. Filter paper then separates phases, retaining the charcoal and its bound dye while the still-dissolved share follows the water. A finite surface capacity makes 'most' and 'all' chemically different answers.",
+          "misconception_de": "Adsorption wird leicht mit Zerstörung oder vollkommener Reinigung verwechselt. Der Farbstoff bleibt erhalten: Dieses eine kuratierte Oberflächengleichgewicht verteilt ihn zwischen Kohle und Wasser. Das Filterpapier trennt anschließend die Phasen; es hält die Kohle samt gebundenem Farbstoff zurück, während der noch gelöste Anteil dem Wasser folgt. Bei endlicher Oberflächenkapazität sind ‚der größte Teil‘ und ‚alles‘ chemisch verschiedene Antworten.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Black powder is treated as a universal sink: if the colour fades, every contaminant must have vanished and the water must be safe.",
+              "reveals_de": "Schwarzes Pulver gilt als universelle Senke: Verblasst die Farbe, müssen alle Verunreinigungen verschwunden und das Wasser sicher sein.",
+              "next": "Inspect both vessels after filtering. The retained carbon carries dye, but v2 still reports dissolved methyl orange. Filtration plus one adsorption isotherm is not a drinking-water certificate, and this bench makes no claim about microbes, toxins, taste, or any second solute.",
+              "next_de": "Untersuche nach dem Filtrieren beide Gefäße. Die zurückgehaltene Kohle trägt Farbstoff, aber v2 meldet weiterhin gelöstes Methylorange. Filtration plus eine Adsorptionsisotherme ist kein Trinkwasserzertifikat; dieses Labor macht keine Aussage über Mikroben, Giftstoffe, Geschmack oder einen zweiten gelösten Stoff.",
+              "source": null
+            },
+            {
+              "option": 2,
+              "reveals": "Filtration is imagined to reverse adsorption, as though holding back the solid forces its surface cargo through the paper.",
+              "reveals_de": "Filtration wird als Umkehr der Adsorption vorgestellt, als würde das Zurückhalten des Feststoffs seine Oberflächenfracht durch das Papier zwingen.",
+              "next": "Follow the matter rather than the colour: bound dye belongs to the retained solid ledger; free dye belongs to the liquid ledger. Filtering moves the liquid phase and leaves the solid phase behind, so each share goes where its phase goes.",
+              "next_de": "Verfolge die Materie statt der Farbe: Gebundener Farbstoff gehört zur zurückgehaltenen Feststoffbilanz, freier Farbstoff zur Flüssigkeitsbilanz. Beim Filtrieren bewegt sich die Flüssigphase und die Festphase bleibt zurück; jeder Anteil geht dorthin, wohin seine Phase geht.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "The black charcoal grabs most of the orange dye and keeps hold of it when the water passes through the paper. The water underneath is less coloured, but not clean: some dye is still dissolved, because one gram of charcoal has only so much surface to offer.",
+        "lv1_de": "Die schwarze Aktivkohle schnappt sich den größten Teil des orangefarbenen Farbstoffs und hält ihn fest, während das Wasser durch das Papier läuft. Das Wasser darunter ist weniger gefärbt, aber nicht sauber: Etwas Farbstoff ist noch gelöst, denn ein Gramm Kohle bietet nur eine begrenzte Oberfläche.",
+        "lv2": "A Langmuir equilibrium partitions 0.001 mol (327 mg) of methyl orange between 1 g of activated charcoal and 100 mL of water. The curated 200 mg/g monolayer capacity is smaller than the dose, so adsorption is substantial but incomplete; filtration retains the carbon and its adsorbed share, while the remaining dissolved dye enters v2.",
+        "lv2_de": "Ein Langmuir-Gleichgewicht verteilt 0,001 mol (327 mg) Methylorange zwischen 1 g Aktivkohle und 100 mL Wasser. Die kuratierte Monolagenkapazität von 200 mg/g ist kleiner als die Dosis, daher ist die Adsorption stark, aber unvollständig; die Filtration hält Kohle und adsorbierten Anteil zurück, während der gelöste Rest in v2 gelangt.",
+        "lv3": "The vessel carries adsorbed moles as conserved matter owned by the sorbent, separate from dissolved inventory. The one installed isotherm has qmax = 200 mg/g and K = 0.05 L/mg, both commonly tabulated estimates in a provenance lane still pending review. It is an instantaneous equilibrium projection, not uptake kinetics: `wait` changes nothing. Carbon grade, pore-size distribution, activation, specific area, pH dependence and competitive adsorption are absent, so this result speaks only for methyl orange on the nominal activated carbon row.",
+        "lv3_de": "Das Gefäß führt adsorbierte Mole als erhaltene, dem Adsorbens zugeordnete Materie getrennt vom gelösten Inventar. Die einzige installierte Isotherme besitzt qmax = 200 mg/g und K = 0,05 L/mg; beide sind allgemein tabellierte Schätzwerte in einer noch ausstehenden Provenienzprüfung. Sie ist eine sofortige Gleichgewichtsprojektion, keine Aufnahmekinetik: `wait` ändert nichts. Kohlesorte, Porengrößenverteilung, Aktivierung, spezifische Oberfläche, pH-Abhängigkeit und konkurrierende Adsorption fehlen; das Ergebnis gilt daher nur für Methylorange und die nominelle Aktivkohlezeile."
+      },
+      "provenance": {
+        "source": "Langmuir monolayer adsorption of methyl orange on powdered activated carbon, using the exact curated isotherm and boundary in kerotakis-core::adsorption. Both parameters are recorded there as commonly tabulated estimates and their provenance lane is PENDING REVIEW; no paper-level transcription is claimed. Powdered activated carbon is used only as a virtual school-laboratory material here: carbon dust can be explosible, and spent carbon loaded with oxidisers can self-heat. This is not a home purification procedure and the filtrate is not claimed potable. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06.",
+        "licence": null,
+        "computed_by": "Kerotakis bounded Langmuir adsorption equilibrium and conserved adsorbed ledger; phase separation by the Kerotakis filter operation"
+      }
+    },
+    {
       "id": "salt-dissolves",
       "equation": "NaCl(s) → Na⁺(aq) + Cl⁻(aq)",
       "summary": null,
@@ -10829,6 +10931,107 @@
         "source": "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
         "computed_by": "Kerotakis state layer (P3s) over PHREEQC speciation; energy balance pays the latent heat"
+      }
+    },
+    {
+      "id": "chains-slide-networks-do-not",
+      "equation": null,
+      "summary": "At the same 150 °C, a polyethylene thermoplastic softens reversibly while a cured thermoset remains cross-linked and rigid",
+      "summary_de": "Bei denselben 150 °C erweicht ein Polyethylen-Thermoplast reversibel, während ein ausgehärteter Duroplast vernetzt und starr bleibt",
+      "concepts": [
+        "polymer-structure",
+        "material-structure",
+        "cross-linking",
+        "thermal-softening",
+        "reversible-change",
+        "model-boundary"
+      ],
+      "requires": [
+        "heat-capacity"
+      ],
+      "spine": [
+        "kunststoffe-langkettige-organische-molekuele"
+      ],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Kunststoffe",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium — Struktur-Eigenschafts-Beziehungen und Kunststoffklassen"
+        }
+      ],
+      "apparatus": [
+        "beaker",
+        "hotplate",
+        "thermometer"
+      ],
+      "calculations": [
+        "specific-heat"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 thermoplastic 2g\nheat v1 455J\nnew\nadd v2 thermoset_resin 2g\nheat v2 375J\nlook v1\nlook v2\n"
+      },
+      "expect": {
+        "events": [
+          "polymer_heated:thermoplastic sheet",
+          "polymer_heated:cured thermoset resin",
+          "observed"
+        ],
+        "absent": [],
+        "predict": {
+          "question": "Two two-gram plastic objects are heated to about 150 °C. One is polyethylene thermoplastic; the other is cured thermoset resin. What differs?",
+          "question_de": "Zwei je zwei Gramm schwere Kunststoffkörper werden auf etwa 150 °C erhitzt. Einer ist ein Polyethylen-Thermoplast, der andere ausgehärtetes Duroplastharz. Was unterscheidet sich?",
+          "options": [
+            "Both melt alike — plastic is one kind of substance once it is hot enough",
+            "The thermoset softens first because its cross-links conduct heat between chains",
+            "The thermoplastic softens as separate chains slide; the cross-linked thermoset stays rigid because it has no melting point"
+          ],
+          "options_de": [
+            "Beide schmelzen gleich — Kunststoff ist bei genügend Wärme eine einzige Stoffart",
+            "Der Duroplast erweicht zuerst, weil seine Vernetzungen Wärme zwischen den Ketten leiten",
+            "Der Thermoplast erweicht, weil getrennte Ketten gleiten; der vernetzte Duroplast bleibt starr, weil er keinen Schmelzpunkt besitzt"
+          ],
+          "answer": 2,
+          "misconception": "'Plastic' names a use-class, not one molecular architecture. A thermoplastic contains separate chains held together by attractions that heat can overcome. Curing a thermoset joins chains covalently into a network, removing the sliding motion that makes melting and reshaping possible. Its missing melting point is the answer, not an unfilled datum.",
+          "misconception_de": "‚Kunststoff‘ bezeichnet eine Verwendungsklasse, nicht eine einzige molekulare Architektur. Ein Thermoplast enthält getrennte Ketten, deren zwischenmolekulare Anziehung Wärme überwinden kann. Beim Aushärten eines Duroplasts werden die Ketten kovalent zu einem Netzwerk verbunden; damit verschwindet genau die Gleitbewegung, die Schmelzen und Umformen ermöglicht. Der fehlende Schmelzpunkt ist die Antwort, keine Datenlücke.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "All plastics are treated as one material whose only meaningful difference is how much heat it takes to melt.",
+              "reveals_de": "Alle Kunststoffe gelten als ein Stoff, der sich nur darin unterscheidet, wie viel Wärme zum Schmelzen nötig ist.",
+              "next": "Compare the two engine verdicts at the same temperature. The thermoplastic reports a reversible softened state; the thermoset explicitly reports no softening point. Heat further and the network decomposes rather than crossing a hidden, higher melt threshold.",
+              "next_de": "Vergleiche die beiden Urteile der Engine bei derselben Temperatur. Der Thermoplast meldet einen reversiblen erweichten Zustand; der Duroplast ausdrücklich keinen Erweichungspunkt. Bei weiterer Erwärmung zersetzt sich das Netzwerk, statt eine verborgene, höhere Schmelzschwelle zu überschreiten.",
+              "source": null
+            },
+            {
+              "option": 1,
+              "reveals": "Cross-linking is heard as stronger heat transport rather than a topological constraint that prevents whole chains from sliding.",
+              "reveals_de": "Vernetzung wird als bessere Wärmeleitung verstanden statt als topologische Fessel, die ganze Ketten am Gleiten hindert.",
+              "next": "Ask what must move for an object to be reshaped. Heat need not travel differently: separate chains must pass one another. Cross-links fasten those chains into one network, so the required motion no longer exists.",
+              "next_de": "Frage, was sich bewegen muss, damit der Körper umgeformt werden kann. Wärme muss nicht anders fließen: Getrennte Ketten müssen aneinander vorbeikommen. Vernetzungen heften sie zu einem Netzwerk zusammen; die nötige Bewegung existiert dann nicht mehr.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "Warm both pieces equally. The thermoplastic goes soft and could be pressed into a new shape; the cured resin stays hard. Its chains are tied together into one net, so there are no loose chains left to slide.",
+        "lv1_de": "Erwärme beide Stücke gleich. Der Thermoplast wird weich und könnte in eine neue Form gedrückt werden; das ausgehärtete Harz bleibt hart. Seine Ketten sind zu einem einzigen Netz verbunden, daher gibt es keine losen Ketten mehr, die gleiten könnten.",
+        "lv2": "At about 150 °C the polyethylene teaching sheet is above its curated 130 °C crystalline melt and reports Softened, reversible on cooling. The cured thermoset reports Rigid: its covalently cross-linked network has no softening point. Above its separate 300 °C decomposition threshold it chars instead of melting.",
+        "lv2_de": "Bei etwa 150 °C liegt die Polyethylen-Lehrfolie über ihrer kuratierten kristallinen Schmelze von 130 °C und meldet Erweicht, beim Abkühlen reversibel. Der Duroplast meldet Starr: Sein kovalent vernetztes Netzwerk besitzt keinen Erweichungspunkt. Oberhalb seiner getrennten Zersetzungsschwelle von 300 °C verkohlt er, statt zu schmelzen.",
+        "lv3": "Material-owned heat-response rows contribute the unresolved objects' heat capacity and map current temperature to only three states: rigid, softened or charred. The thresholds are curated, not predicted, and remain in a pending-review provenance lane. The thermoplastic row stands only for moulded HDPE; amorphous PS, PVC and acrylic soften at glass transitions this model does not represent. No viscosity, flow rate, degree of cure, moulding geometry or shape change is computed. Charring is persistent state and narration only: no invented char or volatile products enter the ledger.",
+        "lv3_de": "Materialeigene Wärmeantwortzeilen liefern die Wärmekapazität der unaufgelösten Körper und bilden die aktuelle Temperatur auf nur drei Zustände ab: starr, erweicht oder verkohlt. Die Schwellen sind kuratiert, nicht vorhergesagt, und ihre Provenienzprüfung steht noch aus. Die Thermoplastzeile steht nur für geformtes HDPE; amorphes PS, PVC und Acryl erweichen an Glasübergängen, die dieses Modell nicht abbildet. Viskosität, Fließgeschwindigkeit, Aushärtungsgrad, Formwerkzeug und Formänderung werden nicht berechnet. Verkohlung ist nur persistenter Zustand und Beschreibung: Keine erfundene Kohle oder flüchtigen Produkte gelangen in die Bilanz."
+      },
+      "provenance": {
+        "source": "The exact PolymerHeatResponse rows and boundaries curated in the thermoplastic-sheet and cured-thermoset-resin material recipes. Their tranche is PENDING REVIEW and does not claim paper-level provenance. The 130 °C polyethylene melt and 300/400 °C decomposition thresholds are teaching values, not predictions for arbitrary plastics. Virtual school-laboratory comparison only: heating real plastics can burn and release hazardous decomposition products, which this model deliberately does not formulate or render. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06.",
+        "licence": null,
+        "computed_by": "Kerotakis material-owned heat capacity and bounded PolymerHeatResponse projection"
       }
     }
   ],

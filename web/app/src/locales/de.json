@@ -467,6 +467,14 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
+  "chains slide networks do not": "Ketten gleiten, Netzwerke nicht",
+  "charcoal holds the dye": "Aktivkohle hält den Farbstoff fest",
+  "adsorption": "Adsorption",
+  "cross linking": "Vernetzung",
+  "material structure": "Materialstruktur",
+  "polymer structure": "Polymerstruktur",
+  "reversible change": "reversible Veränderung",
+  "thermal softening": "thermisches Erweichen",
   "recipe confidence": "Verlässlichkeit des Rezepts",
   "by mass": "nach Masse",
   "by amount of substance": "nach Stoffmenge",

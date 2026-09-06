@@ -15,6 +15,8 @@ it had while it was open, which is why a few numbers appear twice below.
 ## 2026-09-06
 
 - **ANIM-2** — matter and pressure: precipitate count from moles, grain size from molar volume, piston height from V=nRT/P (PR 2 of GUI-099)
+- **BRD-023** — promoted the bounded thermoplastic/thermoset heat comparison into the unified catalogue with a runnable script and complete German learner copy
+- **BRD-032** — promoted methyl-orange adsorption on activated charcoal into the unified catalogue with a runnable filtration script and explicit parameter/safety boundaries
 
 ### Lessons
 

@@ -319,7 +319,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-023 — Familiar organic reaction-family pack v1
 
 - [ ] **Status:** open (BRD-023.S01 and the galvanic-corrosion, peroxide-bleach
-  and alcohol-oxidation checkpoints shipped 2026-09-05 — recorded in
+  and alcohol-oxidation checkpoints shipped 2026-09-05; the bounded
+  thermoplastic/thermoset comparison became directly runnable in the unified
+  catalogue 2026-09-06 — recorded in
   `HISTORY.md`). **Size:** large/data-heavy. **Depends on:** BRD-014 and
   BRD-022.
 - **Scope:** curate a first useful set driven by `EXP-36/41/42/46/50` and the
@@ -375,7 +377,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-032 — feos-backed bench routing
 
 - [ ] **Status:** first slice shipped 2026-09-05 (adsorption, pressure-dependent
-  boiling, dry-ice and liquid-nitrogen phase routes — recorded in
+  boiling, dry-ice and liquid-nitrogen phase routes; the methyl-orange on
+  activated-charcoal case became directly runnable in the unified catalogue
+  2026-09-06 — recorded in
   `HISTORY.md`); the residual-EOS half remains blocked on BRD-031's uncleared
   parameter pack. **Size:** large. **Depends on:** BRD-031.
 - **Scope:** route pressure-dependent boiling/condensation, flash, phase split,

@@ -2008,3 +2008,63 @@ lv3 = "The green never exists as a curated colour anywhere in the data: the engi
 [reaction.provenance]
 source = "Standard curriculum indicator behaviour; bromothymol blue pKa and both-form spectra as curated in kerotakis-core::indicator with their own provenance. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson–Hasselbalch; colour by additive Beer–Lambert over the CIE 1931 observer (Kerotakis L6)"
+
+# ------------------------------------------------ adsorption and filtration
+
+[[reaction]]
+id = "charcoal-holds-the-dye"
+spine = ["filtration"]
+summary = "Activated charcoal holds most of a dissolved dye on its surface; filtration retains that bound share while the remainder passes through"
+concepts = ["adsorption", "surface-area", "filtration", "separation", "model-boundary"]
+requires = ["solutions", "filtration"]
+apparatus = ["beaker", "filter-funnel", "filter-paper"]
+calculations = ["percentage-removal", "adsorption-capacity"]
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — separation techniques"
+ages = { min = 12.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 methyl_orange 0.001mol
+add v1 activated_charcoal 1g
+new
+filter v1 v2
+look v1
+look v2
+"""
+
+[reaction.expect]
+events = ["adsorbed:methyl_orange", "filtered", "observed"]
+
+[reaction.expect.predict]
+question = "One gram of activated charcoal meets 327 mg of dissolved methyl orange before the mixture is filtered. What should the filtrate contain?"
+options = [
+  "Pure water — charcoal is a universal purifier and removes every dissolved substance",
+  "Less dye, but still some dye: the charcoal has a finite surface capacity, and only the unbound share passes through the filter",
+  "All 327 mg of dye — filter paper retains the charcoal, so anything it held must be squeezed back into the water",
+]
+answer = 1
+misconception = "Adsorption is easily mistaken for destruction or perfect purification. The dye is conserved: this one curated surface equilibrium divides it between charcoal and water. Filter paper then separates phases, retaining the charcoal and its bound dye while the still-dissolved share follows the water. A finite surface capacity makes 'most' and 'all' chemically different answers."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Black powder is treated as a universal sink: if the colour fades, every contaminant must have vanished and the water must be safe."
+next = "Inspect both vessels after filtering. The retained carbon carries dye, but v2 still reports dissolved methyl orange. Filtration plus one adsorption isotherm is not a drinking-water certificate, and this bench makes no claim about microbes, toxins, taste, or any second solute."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Filtration is imagined to reverse adsorption, as though holding back the solid forces its surface cargo through the paper."
+next = "Follow the matter rather than the colour: bound dye belongs to the retained solid ledger; free dye belongs to the liquid ledger. Filtering moves the liquid phase and leaves the solid phase behind, so each share goes where its phase goes."
+
+[reaction.registers]
+lv1 = "The black charcoal grabs most of the orange dye and keeps hold of it when the water passes through the paper. The water underneath is less coloured, but not clean: some dye is still dissolved, because one gram of charcoal has only so much surface to offer."
+lv2 = "A Langmuir equilibrium partitions 0.001 mol (327 mg) of methyl orange between 1 g of activated charcoal and 100 mL of water. The curated 200 mg/g monolayer capacity is smaller than the dose, so adsorption is substantial but incomplete; filtration retains the carbon and its adsorbed share, while the remaining dissolved dye enters v2."
+lv3 = "The vessel carries adsorbed moles as conserved matter owned by the sorbent, separate from dissolved inventory. The one installed isotherm has qmax = 200 mg/g and K = 0.05 L/mg, both commonly tabulated estimates in a provenance lane still pending review. It is an instantaneous equilibrium projection, not uptake kinetics: `wait` changes nothing. Carbon grade, pore-size distribution, activation, specific area, pH dependence and competitive adsorption are absent, so this result speaks only for methyl orange on the nominal activated carbon row."
+
+[reaction.provenance]
+source = "Langmuir monolayer adsorption of methyl orange on powdered activated carbon, using the exact curated isotherm and boundary in kerotakis-core::adsorption. Both parameters are recorded there as commonly tabulated estimates and their provenance lane is PENDING REVIEW; no paper-level transcription is claimed. Powdered activated carbon is used only as a virtual school-laboratory material here: carbon dust can be explosible, and spent carbon loaded with oxidisers can self-heat. This is not a home purification procedure and the filtrate is not claimed potable. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06."
+computed_by = "Kerotakis bounded Langmuir adsorption equilibrium and conserved adsorbed ledger; phase separation by the Kerotakis filter operation"

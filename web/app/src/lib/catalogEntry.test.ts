@@ -207,10 +207,33 @@ describe("the shipped library", () => {
   const entries = catalogEntries(codex, guided, context());
 
   it("is one list of both corpora", () => {
-    expect(codex.length).toBeGreaterThan(100);
-    expect(guided.length).toBeGreaterThan(50);
+    expect(codex).toHaveLength(107);
+    expect(guided).toHaveLength(60);
+    expect(entries).toHaveLength(167);
     expect(entries).toHaveLength(codex.length + guided.length);
     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
+  });
+
+  it("makes adsorption and polymer heat response runnable and searchable", () => {
+    const charcoal = entries.find((entry) => entry.id === "charcoal-holds-the-dye");
+    const polymers = entries.find((entry) => entry.id === "chains-slide-networks-do-not");
+
+    expect(charcoal?.run.kind).toBe("script");
+    expect(charcoal?.needs).toEqual(expect.arrayContaining(["activated_charcoal", "methyl_orange", "water"]));
+    expect(charcoal?.expectations).toEqual(expect.arrayContaining(["adsorbed:methyl_orange", "filtered"]));
+    expect(charcoal?.topics).toEqual(["boundaries", "materials", "rates", "separations"]);
+    expect(catalogEntryMatches(charcoal!, "activated charcoal")).toBe(true);
+    expect(catalogEntryMatches(charcoal!, "adsorption")).toBe(true);
+
+    expect(polymers?.run.kind).toBe("script");
+    expect(polymers?.needs).toEqual(expect.arrayContaining(["thermoplastic", "thermoset_resin"]));
+    expect(polymers?.expectations).toEqual(expect.arrayContaining([
+      "polymer_heated:thermoplastic sheet",
+      "polymer_heated:cured thermoset resin",
+    ]));
+    expect(polymers?.topics).toEqual(["boundaries", "heat", "materials"]);
+    expect(catalogEntryMatches(polymers!, "thermoplastic")).toBe(true);
+    expect(catalogEntryMatches(polymers!, "thermoset")).toBe(true);
   });
 
   it("leaves no entry without a title, a level, a hook or a run target", () => {
