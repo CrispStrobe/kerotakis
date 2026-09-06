@@ -2775,25 +2775,46 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ),
             }
         }
+        // The temperature is the same number either way; what changes is
+        // whose temperature it is. A burn that consumed everything leaves
+        // an EMPTY vessel, and "thermal equilibrium at 2496 °C" over an
+        // empty beaker reads as a claim about the glass. It is a claim
+        // about the flame that has just left it.
         Event::ThermalEquilibrium {
             vessel,
             temperature,
             reaction_energy_j: _,
+            holds_nothing,
             provenance,
-        } => match register.level() {
-            1 => locale.fill(
+        } => match (register.level(), *holds_nothing) {
+            (1, false) => locale.fill(
                 "event.thermal-equilibrium.lv1",
                 "Everything in {vessel} settles into what it wants to be at this heat.",
                 &[("vessel", &vessel.to_string())],
             ),
-            2 => locale.fill(
+            (1, true) => locale.fill(
+                "event.thermal-equilibrium.lv1-empty",
+                "{vessel} holds nothing now — all of it went up as hot gas. That temperature belongs to the flame, not to the empty glass, and the glass is already cooling.",
+                &[("vessel", &vessel.to_string())],
+            ),
+            (2, false) => locale.fill(
                 "event.thermal-equilibrium.lv2",
                 "{vessel}: thermal equilibrium at {temperature} °C",
                 &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.0}", temperature.to_celsius())))],
             ),
-            _ => locale.fill(
+            (2, true) => locale.fill(
+                "event.thermal-equilibrium.lv2-empty",
+                "{vessel}: nothing left in the vessel; {temperature} °C is the flame's temperature, which is the exhaust's",
+                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.0}", temperature.to_celsius())))],
+            ),
+            (_, false) => locale.fill(
                 "event.thermal-equilibrium.lv3",
                 "{vessel}: Gibbs minimum at {temperature} K · {provenance} · {provenance2}",
+                &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset.to_string()), ("provenance2", &provenance.model.to_string())],
+            ),
+            (_, true) => locale.fill(
+                "event.thermal-equilibrium.lv3-empty",
+                "{vessel}: Gibbs minimum at {temperature} K, adiabatic flame over an empty vessel · {provenance} · {provenance2}",
                 &[("vessel", &vessel.to_string()), ("temperature", &locale.number(format!("{:.2}", temperature.0))), ("provenance", &provenance.dataset.to_string()), ("provenance2", &provenance.model.to_string())],
             ),
         },

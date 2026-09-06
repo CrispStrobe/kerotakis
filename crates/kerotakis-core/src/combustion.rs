@@ -569,6 +569,7 @@ impl Equilibrator for CombustionEquilibrator {
             vessel: vessel.id,
             temperature: vessel.temperature,
             reaction_energy_j: Some(released_j),
+            holds_nothing: vessel.contents.is_empty(),
             provenance: Provenance {
                 engine: "curated combustion (Kerotakis)".to_string(),
                 dataset: "kerotakis:combustion:curated-fuels-v1".to_string(),

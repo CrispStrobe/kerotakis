@@ -1565,6 +1565,16 @@ pub enum Event {
         /// absent where the solver cannot make that thermochemical claim.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         reaction_energy_j: Option<f64>,
+        /// The burn consumed everything: the vessel ends the step holding
+        /// nothing at all, and the temperature beside this event is the
+        /// flame's — which is to say the exhaust's, not the glass's.
+        ///
+        /// It reached a reader as "thermal equilibrium at 2496 °C" over an
+        /// EMPTY beaker, which is a true number attached to a sentence that
+        /// invites the wrong reading. Defaulted and omitted when false, so
+        /// no existing saved log changes shape.
+        #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+        holds_nothing: bool,
         provenance: crate::vessel::Provenance,
     },
     /// The state is one no wired solver models yet. State is unchanged
