@@ -39,7 +39,12 @@ fn print_a_dozen_transcripts() {
     let inline: &[(&str, &[&str])] = &[
         (
             "chalk-40kJ",
-            &["add v1 CaCO3 0.1mol", "heat v1 40kJ", "inspect v1", "measure v1 thermometer"],
+            &[
+                "add v1 CaCO3 0.1mol",
+                "heat v1 40kJ",
+                "inspect v1",
+                "measure v1 thermometer",
+            ],
         ),
         (
             "neutralisation",
@@ -79,7 +84,12 @@ fn print_a_dozen_transcripts() {
         ),
         (
             "freeze-water",
-            &["add v1 water 100mL", "cool v1 60kJ", "measure v1 thermometer", "inspect v1"],
+            &[
+                "add v1 water 100mL",
+                "cool v1 60kJ",
+                "measure v1 thermometer",
+                "inspect v1",
+            ],
         ),
         (
             "boil-sugar-water",
@@ -93,15 +103,33 @@ fn print_a_dozen_transcripts() {
         ),
         (
             "permanganate",
-            &["add v1 water 100mL", "add v1 KMnO4 0.001mol", "look v1", "measure v1 ph", "inspect v1"],
+            &[
+                "add v1 water 100mL",
+                "add v1 KMnO4 0.001mol",
+                "look v1",
+                "measure v1 ph",
+                "inspect v1",
+            ],
         ),
         (
             "dry-ice",
-            &["add v1 dry_ice 10g", "measure v1 thermometer", "inspect v1", "wait 10min", "inspect v1"],
+            &[
+                "add v1 dry_ice 10g",
+                "measure v1 thermometer",
+                "inspect v1",
+                "wait 10min",
+                "inspect v1",
+            ],
         ),
         (
             "candle-burn-ethanol",
-            &["add v1 ethanol 10mL", "measure v1 balance", "ignite v1", "measure v1 balance", "inspect v1"],
+            &[
+                "add v1 ethanol 10mL",
+                "measure v1 balance",
+                "ignite v1",
+                "measure v1 balance",
+                "inspect v1",
+            ],
         ),
         (
             "salt-water-heat",
@@ -117,7 +145,10 @@ fn print_a_dozen_transcripts() {
         ),
     ];
     for (name, lines) in inline {
-        report.push_str(&format!("\n===== {name} =====\n{}\n", run_script(name, lines)));
+        report.push_str(&format!(
+            "\n===== {name} =====\n{}\n",
+            run_script(name, lines)
+        ));
     }
     for lesson in [
         "fizz.lab",
