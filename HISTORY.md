@@ -14,6 +14,9 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **GUI-003** — closed Scene JSON v1 with normalized per-step engine goldens
+  and dependency-free real-browser semantic DOM goldens for five contrasting
+  release lessons: solution colour, boiling, filtration, gelation and corrosion
 - **Codex learning progress** — replaced age-derived catalogue levels with a
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,

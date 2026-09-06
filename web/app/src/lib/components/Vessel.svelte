@@ -617,12 +617,16 @@
            A mixed solution is one layer and renders exactly as before. -->
       {#each stackedLayers as layer (layer.species + layer.y)}
         <rect
+          class="scene-liquid-layer"
           x={INNER_X}
           y={layer.y}
           width={INNER_W}
           height={layer.h}
           fill={rgb(layer.srgb)}
           opacity={liquidOpacity(layer.srgb)}
+          data-species={layer.species}
+          data-volume-l={layer.volume_l.toFixed(6)}
+          data-srgb={layer.srgb.join(",")}
         >
           <title>{t(layer.colour_word)} {t(layer.name)}</title>
         </rect>
@@ -879,12 +883,16 @@
         {@const layer = shownSolidLayers[i]!}
         {@const oxide = persistentCorrosionReadouts.find((progress) => progress.metal === solid.species)}
         <rect
+          class="scene-solid"
           x={INNER_X}
           y={layer.y}
           width={INNER_W}
           height={layer.h}
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
+          data-species={solid.species}
+          data-moles={solid.moles.toFixed(6)}
+          data-srgb={solid.srgb.join(",")}
         >
           <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {(solidVolume(solid) * 1000).toPrecision(3)} mL</title>
         </rect>

@@ -1,0 +1,406 @@
+[
+  {
+    "lesson": "cabbage-rainbow",
+    "vessels": [
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "0",
+        "label": "beaker v1: The liquid is colourless and clear.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.110679"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "1",
+        "label": "beaker v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.109726"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "2",
+        "label": "beaker v3: The liquid is white and so cloudy you cannot see through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.110026"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.023808",
+            "species": "NaHCO3",
+            "srgb": "220,220,220"
+          }
+        ],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "3",
+        "label": "beaker v4: The liquid is white and so cloudy you cannot see through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.110026"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.037740",
+            "species": "Na2CO3",
+            "srgb": "220,220,220"
+          }
+        ],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "4",
+        "label": "beaker v5: The liquid is white and so cloudy you cannot see through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.110026"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.100000",
+            "species": "NaOH",
+            "srgb": "220,220,220"
+          }
+        ],
+        "facts": []
+      }
+    ]
+  },
+  {
+    "lesson": "boiling-curve",
+    "vessels": [
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "370.14",
+        "vessel-id": "0",
+        "label": "beaker v1: The liquid is colourless and clear.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "442.13",
+        "vessel-id": "1",
+        "label": "beaker v2: The liquid is colourless and clear.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "874.06",
+        "vessel-id": "2",
+        "label": "beaker v3: The liquid is colourless and clear.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "436.39",
+        "vessel-id": "3",
+        "label": "beaker v4: The liquid is white and so cloudy you cannot see through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.342214",
+            "species": "NaCl",
+            "srgb": "250,250,250"
+          }
+        ],
+        "facts": []
+      }
+    ]
+  },
+  {
+    "lesson": "water-filter",
+    "vessels": [
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "0",
+        "label": "beaker v1: .",
+        "liquids": [],
+        "solids": [
+          {
+            "moles": "0.079036",
+            "species": "SiO2",
+            "srgb": "220,220,220"
+          }
+        ],
+        "facts": []
+      },
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "1",
+        "label": "beaker v2: The liquid is colourless and clear.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [],
+        "facts": []
+      }
+    ]
+  },
+  {
+    "lesson": "slime",
+    "vessels": [
+      {
+        "boiling-k": "374.13",
+        "temperature-k": "298.15",
+        "vessel-id": "0",
+        "label": "beaker v1: The liquid is white and so cloudy you cannot see through it.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.140914"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.262184",
+            "species": "PVA",
+            "srgb": "242,242,238"
+          }
+        ],
+        "facts": []
+      },
+      {
+        "boiling-k": "374.13",
+        "temperature-k": "298.15",
+        "vessel-id": "1",
+        "label": "beaker v2: The liquid is white and so cloudy you cannot see through it. A translucent cohesive gel contains 15% of the PVA polymer.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.140914"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.262184",
+            "species": "PVA",
+            "srgb": "242,242,238"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "gel-status",
+            "text": "15% of polymer gelled"
+          }
+        ]
+      },
+      {
+        "boiling-k": "374.15",
+        "temperature-k": "298.15",
+        "vessel-id": "2",
+        "label": "beaker v3: The liquid is white and so cloudy you cannot see through it. A translucent cohesive gel contains 95% of the PVA polymer.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.140914"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.262184",
+            "species": "PVA",
+            "srgb": "242,242,238"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "gel-status",
+            "text": "95% of polymer gelled"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "lesson": "rusting",
+    "vessels": [
+      {
+        "boiling-k": "373.15",
+        "temperature-k": "298.15",
+        "vessel-id": "0",
+        "label": "beaker v1: There is grey iron in the beaker. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+        "liquids": [],
+        "solids": [
+          {
+            "moles": "0.017907",
+            "species": "Fe",
+            "srgb": "120,120,125"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "corrosion-readout persistent-readout",
+          "text": "Fe · metal in oxide 0%",
+            "corroded-fraction": "0.0000"
+          }
+        ]
+      },
+      {
+        "boiling-k": "372.78",
+        "temperature-k": "298.15",
+        "vessel-id": "1",
+        "label": "beaker v2: The liquid is colourless and clear, bubbles of gas are rising through it, there is grey iron at the bottom. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.017907",
+            "species": "Fe",
+            "srgb": "120,120,125"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "corrosion-readout persistent-readout",
+          "text": "Fe · metal in oxide 0%",
+            "corroded-fraction": "0.0000"
+          }
+        ]
+      },
+      {
+        "boiling-k": "369.72",
+        "temperature-k": "298.15",
+        "vessel-id": "2",
+        "label": "beaker v3: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is grey iron and reddish brown iron(III) oxide (hematite) at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.014719",
+            "species": "Fe",
+            "srgb": "120,120,125"
+          },
+          {
+            "moles": "0.001594",
+            "species": "Fe2O3",
+            "srgb": "145,66,54"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "corrosion-readout persistent-readout",
+          "text": "Fe · metal in oxide 18%",
+            "corroded-fraction": "0.1780"
+          }
+        ]
+      },
+      {
+        "boiling-k": "369.72",
+        "temperature-k": "298.15",
+        "vessel-id": "3",
+        "label": "beaker v4: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white sodium chloride and grey iron at the bottom. 18% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+        "liquids": [
+          {
+            "species": "solution",
+            "srgb": "255,255,255",
+            "volume-l": "0.100000"
+          }
+        ],
+        "solids": [
+          {
+            "moles": "0.051332",
+            "species": "NaCl",
+            "srgb": "250,250,250"
+          },
+          {
+            "moles": "0.014719",
+            "species": "Fe",
+            "srgb": "120,120,125"
+          },
+          {
+            "moles": "0.001594",
+            "species": "Fe2O3",
+            "srgb": "145,66,54"
+          }
+        ],
+        "facts": [
+          {
+            "kind": "corrosion-readout persistent-readout",
+          "text": "Fe · metal in oxide 18%",
+            "corroded-fraction": "0.1780"
+          }
+        ]
+      }
+    ]
+  }
+]

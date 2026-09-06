@@ -34,4 +34,11 @@ describe("persistent material observations", () => {
     expect(source).toContain('class="persistent-coating"');
     expect(source).toContain("t(coating.words)");
   });
+
+  it("exposes engine-owned liquid and solid quantities to semantic DOM goldens", () => {
+    expect(source).toContain('class="scene-liquid-layer"');
+    expect(source).toContain("data-volume-l={layer.volume_l.toFixed(6)}");
+    expect(source).toContain('class="scene-solid"');
+    expect(source).toContain("data-moles={solid.moles.toFixed(6)}");
+  });
 });
