@@ -11,7 +11,7 @@
     compressedVolumeL,
     condensationFilm,
     depositParticles,
-    electrodeBubbles,
+    electrodePairBubbles,
     headspaceVolumeL,
     incandescence,
   } from "../magnitudes";
@@ -271,7 +271,16 @@
   // boiling point, so the stage falls back to pure water at one atmosphere
   // rather than inventing a correlation of its own.
   const boilEffect = $derived(latestEffect("boil", 3200));
-  const boilingK = $derived(boilEffect?.phase?.atK ?? boilEffect?.temperatureK ?? NORMAL_BOILING_K);
+  // GUI-099 scene numbers: the scene now carries `boiling_point_k` as a
+  // STANDING value — the vessel's own pressure and its own dissolved
+  // particles already in it — so a flask sitting at 350 K under a partial
+  // vacuum reads as boiling without waiting for a transition event. The live
+  // event still wins while it is on the bench (it is the same number, from
+  // the same call), and pure water at one atmosphere remains the fallback
+  // for an older engine that carries neither.
+  const boilingK = $derived(
+    boilEffect?.phase?.atK ?? boilEffect?.temperatureK ?? vessel.boiling_point_k ?? NORMAL_BOILING_K,
+  );
   const boilSpecies = $derived(boilEffect?.phase?.species ?? "");
   // Moles of vapour this step actually made. A boil emits them as
   // `gas_evolved` (open) or `gas_contained` (sealed); the `evaporate` verb
@@ -301,7 +310,10 @@
   const boiling = $derived(
     vessel.liquid !== null && (vessel.temperature_k >= boilingK - 0.25 || active("boil", 3200)),
   );
-  const steaming = $derived(boiling || active("evaporate", 2500));
+  // A sublimation is vapour leaving without a boil: dry ice fogs with no
+  // liquid in the vessel at all, so the rolling-boil gate above (which needs
+  // a liquid) can never fire for it and it used to draw nothing.
+  const steaming = $derived(boiling || active("evaporate", 2500) || active("sublimate", 3200));
   // Above ~800 K a body glows in the visible, and its colour is a function of
   // temperature alone: the blackbody locus, deep red through amber to white.
   const incandescent = $derived(incandescence(vessel.temperature_k));
@@ -337,6 +349,14 @@
   const headspace = $derived.by(() => {
     const control = pressureControlEffect?.pressureControl;
     const pressurePa = vessel.pressure_pa > 0 ? vessel.pressure_pa : (control?.pressurePa ?? 0);
+    // GUI-099 scene numbers: the engine's own standing headspace, where it
+    // owns the gas. Everything below this is the reconstruction it replaces
+    // — correct for an ideal gas at the moment of the event, and stale as
+    // soon as anything else changed the headspace — kept for older logs.
+    const scene = vessel.headspace_volume_l;
+    if (scene !== undefined && scene > 0) {
+      return { volumeL: scene, moles: vessel.headspace_moles ?? 0, pressurePa, source: "scene" };
+    }
     if (control && control.trappedGasMoles > 0 && pressurePa > 0) {
       const volumeL = headspaceVolumeL(control.trappedGasMoles, vessel.temperature_k, pressurePa);
       if (volumeL > 0) return { volumeL, moles: control.trappedGasMoles, pressurePa, source: "ideal-gas" };
@@ -369,7 +389,11 @@
   const emulsifyEffect = $derived(latestEffect("emulsify", 9000));
   const fermentEffect = $derived(latestEffect("ferment", 12_000));
   const uvEffect = $derived(latestEffect("uv", 4600));
-  const frosty = $derived(vessel.temperature_k < 272);
+  // GUI-099 scene numbers: frost forms below the temperature THIS liquid
+  // freezes at, which the engine computes with the colligative depression
+  // its solutes bought. 272 K was a constant that made brine frost early and
+  // every non-aqueous liquid frost at water's threshold.
+  const frosty = $derived(vessel.temperature_k < (vessel.melting_point_k ?? 272));
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
@@ -1125,27 +1149,33 @@
       </g>
     {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
-      <!-- GUI-099 ANIM-3: both electrodes bubble, and both are sized by the
-           CHARGE that passed — the honest driver, because the engine names
-           the moles of one product only and the counter-electrode's
-           half-reaction is not on the wire. Charge is shared by definition,
-           so neither electrode is drawn at an invented ratio. -->
+      <!-- GUI-099: each electrode is sized by what actually comes off IT.
+           The engine now names both half-reactions, so splitting water draws
+           twice as many bubbles at the cathode as at the anode — the one
+           observation the experiment is run to make. Where a log carries
+           only one product, both fall back to the CHARGE the electrodes
+           shared: equal by definition, so never an invented ratio. -->
       {@const eMag = mag("electrolyse", 8000)}
-      {@const eCoulombs = electrolysisEffect?.electrolysis?.coulombs ?? 0}
-      {@const eBubbles = electrodeBubbles(eCoulombs)}
+      {@const eRun = electrolysisEffect?.electrolysis}
+      {@const eCoulombs = eRun?.coulombs ?? 0}
+      {@const ePair = electrodePairBubbles(eCoulombs, eRun?.anodeMoles, eRun?.cathodeMoles)}
       {@const eRadius = 1.0 + eMag * 1.0}
       <g
         class="electrolysis-bubbles"
         data-coulombs={eCoulombs.toExponential(3)}
-        data-electron-moles={(electrolysisEffect?.electrolysis?.electronMoles ?? 0).toExponential(3)}
-        data-bubbles-per-electrode={eBubbles}
+        data-electron-moles={(eRun?.electronMoles ?? 0).toExponential(3)}
+        data-electrode-driver={ePair.source}
+        data-anode-bubbles={ePair.anode}
+        data-cathode-bubbles={ePair.cathode}
+        data-anode-moles={(eRun?.anodeMoles ?? 0).toExponential(3)}
+        data-cathode-moles={(eRun?.cathodeMoles ?? 0).toExponential(3)}
         aria-hidden="true"
       >
-        {#each [30, 70] as x (x)}
-          {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
+        {#each [{ x: 30, n: ePair.anode }, { x: 70, n: ePair.cathode }] as pole (pole.x)}
+          {#each Array.from({length: pole.n}, (_, i) => i) as i (i)}
             <circle
               class="bubble"
-              cx={x + (i - Math.floor(eBubbles / 2)) * 2}
+              cx={pole.x + (i - Math.floor(pole.n / 2)) * 2}
               cy={BOTTOM_Y - 6}
               r={eRadius}
               style={`--rise:${liquidH - 10}px; animation-delay:${(i * 0.25).toFixed(2)}s`}

@@ -547,6 +547,75 @@ pub fn kinetics_corrodes(vessel: &Vessel, metal: &str) -> bool {
     })
 }
 
+/// How far the corrosion has already got: moles of `metal` now locked in
+/// the oxide its own gated reaction makes, and that as a fraction of all
+/// the metal the vessel holds in either form.
+///
+/// The doc on [`Event::Corroded`] refuses to carry a *rate*, and this is
+/// not one. A rate would be a second opinion about a number
+/// `kinetics::REGISTRY` already owns and `Reacted` already reports; an
+/// extent is a standing property of the beaker, read off its contents, and
+/// it is the only quantity a picture of a rusting nail can be sized by. A
+/// verdict without one could say "this is the metal that corrodes" and not
+/// whether it had been in the water for a minute or a month.
+///
+/// The stoichiometry is nobody's table: the metal atoms per formula unit
+/// of the product come from the registry's own formula for it, so
+/// `4 Fe + 3 O₂ → 2 Fe₂O₃` counts two irons per oxide unit and
+/// `2 Zn + O₂ + 2 H₂O → 2 Zn(OH)₂` counts one zinc, without either number
+/// being written down here.
+///
+/// Boundary: the oxide is counted wherever it came from. A vessel handed
+/// iron(III) oxide directly reads as partly corroded iron, because from
+/// the contents alone it is indistinguishable from rust — and this is a
+/// projection of the contents, not a history of them.
+///
+/// `None` where no gated reaction names this metal, so nothing here knows
+/// what its oxide would be, or where the vessel holds neither the metal
+/// nor its oxide.
+pub fn corroded_extent(vessel: &Vessel, metal: &str) -> Option<(crate::units::Moles, f64)> {
+    let reaction = crate::kinetics::REGISTRY.iter().find(|reaction| {
+        GATED_REACTIONS
+            .iter()
+            .any(|(id, gated)| *id == reaction.id && *gated == metal)
+    })?;
+    let element = species::lookup(&SpeciesId::new(metal))?.formula;
+    let held = |key: &str, phase: Phase| -> f64 {
+        vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == key && portion.phase == phase)
+            .map(|portion| portion.moles.0)
+            .sum()
+    };
+    let mut locked = 0.0;
+    for term in reaction
+        .stoichiometry
+        .iter()
+        .filter(|term| term.coefficient > 0.0)
+    {
+        let Some(product) = species::lookup(&SpeciesId::new(term.species)) else {
+            continue;
+        };
+        let Ok(formula) = crate::stoich::parse_formula(product.formula) else {
+            continue;
+        };
+        let per_unit = formula.counts.get(element).copied().unwrap_or(0.0);
+        if per_unit <= 0.0 {
+            continue;
+        }
+        locked += per_unit * held(term.species, term.phase);
+    }
+    let left = held(metal, Phase::Solid);
+    let total = locked + left;
+    (total > 0.0).then(|| {
+        (
+            crate::units::Moles(locked),
+            (locked / total).clamp(0.0, 1.0),
+        )
+    })
+}
+
 /// Corrosion as a solver: it decides and it narrates, and the slow clock
 /// is what moves the matter.
 ///
@@ -575,11 +644,16 @@ impl Equilibrator for CorrosionEquilibrator {
         let id = vessel.id;
         let mut events: Vec<Event> = verdicts(vessel)
             .into_iter()
-            .map(|v| Event::Corroded {
-                vessel: id,
-                species: SpeciesId::new(v.metal),
-                corroding: v.corroding,
-                why: v.why,
+            .map(|v| {
+                let extent = corroded_extent(vessel, v.metal);
+                Event::Corroded {
+                    vessel: id,
+                    species: SpeciesId::new(v.metal),
+                    corroding: v.corroding,
+                    why: v.why,
+                    corroded_moles: extent.map(|(moles, _)| moles),
+                    corroded_fraction: extent.map(|(_, fraction)| fraction),
+                }
             })
             .collect();
         events.extend(sealed_cells(vessel));

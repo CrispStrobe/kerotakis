@@ -644,6 +644,63 @@ fn one_pass() -> u32 {
     1
 }
 
+/// Which of the six phase transitions a [`Event::StateChanged`] is.
+///
+/// It is a function of `from` and `to`, and it is on the wire anyway. The
+/// reason is a real defect rather than convenience: a renderer reading
+/// `to: gas` drew a rolling boil, and dry ice going straight to fog is a
+/// `to: gas` that has no liquid, no bubbles and no plateau to hold. Naming
+/// the route makes "solid to gas" impossible to mistake for a boil without
+/// asking every client to reimplement the same two-line table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PhaseTransition {
+    /// Solid to liquid.
+    Melting,
+    /// Liquid to solid.
+    Freezing,
+    /// Liquid to gas.
+    Boiling,
+    /// Gas to liquid.
+    Condensation,
+    /// Solid straight to gas — dry ice, ammonium chloride, iodine.
+    Sublimation,
+    /// Gas straight to solid: the crust on the cool end of the tube.
+    Deposition,
+}
+
+impl PhaseTransition {
+    /// The transition between two phases, or `None` where they are the
+    /// same phase or the pair is not a transition this bench names.
+    /// `Aqueous` is read as the liquid it is dissolved in.
+    pub fn between(from: Phase, to: Phase) -> Option<Self> {
+        let settle = |p: Phase| match p {
+            Phase::Aqueous => Phase::Liquid,
+            other => other,
+        };
+        match (settle(from), settle(to)) {
+            (Phase::Solid, Phase::Liquid) => Some(Self::Melting),
+            (Phase::Liquid, Phase::Solid) => Some(Self::Freezing),
+            (Phase::Liquid, Phase::Gas) => Some(Self::Boiling),
+            (Phase::Gas, Phase::Liquid) => Some(Self::Condensation),
+            (Phase::Solid, Phase::Gas) => Some(Self::Sublimation),
+            (Phase::Gas, Phase::Solid) => Some(Self::Deposition),
+            _ => None,
+        }
+    }
+
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Melting => "melting",
+            Self::Freezing => "freezing",
+            Self::Boiling => "boiling",
+            Self::Condensation => "condensation",
+            Self::Sublimation => "sublimation",
+            Self::Deposition => "deposition",
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -1037,6 +1094,23 @@ pub enum Event {
         species: SpeciesId,
         corroding: bool,
         why: String,
+        /// How much of the metal is already gone: moles of it now locked in
+        /// the oxide its corrosion reaction makes, read off the vessel.
+        ///
+        /// This is not the second opinion about the rate the paragraph
+        /// above refuses. A rate would say how fast the nail is going and
+        /// would disagree with the kinetics; this says how far it has
+        /// *got*, which is a standing quantity of the beaker and is the
+        /// only number that can size a picture of a rusting nail. `None`
+        /// where no gated reaction names this metal, so nothing here knows
+        /// what its oxide would be.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        corroded_moles: Option<Moles>,
+        /// [`Self::Corroded::corroded_moles`] over all the metal the vessel
+        /// holds in either form — 0 for an untouched nail, 1 for one
+        /// entirely rust.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        corroded_fraction: Option<f64>,
     },
     /// BRD-032: a sorbent solid is holding some of a dissolved species on
     /// its surface, and the beaker's own solution is what is left.
@@ -1185,6 +1259,27 @@ pub enum Event {
         /// Electrons per ion, the `z` that makes the division a chemistry
         /// question rather than an arithmetic one.
         per_ion: f64,
+        /// What comes off the ANODE, and how much of it.
+        ///
+        /// The fields above describe one product — the one the cell was
+        /// asked about — and a cell always has two ends. Electrolysing
+        /// water makes twice as much hydrogen as oxygen, which is the
+        /// observation the experiment exists for, and a wire carrying one
+        /// product's moles cannot show it. Both halves travel here so a
+        /// renderer can size each electrode by what actually leaves it
+        /// rather than by the charge they share.
+        ///
+        /// `None` where the emitter did not resolve that half-reaction,
+        /// and absent from logs written before the fields existed.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        anode_species: Option<SpeciesId>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        anode_moles: Option<Moles>,
+        /// What comes off — or plates onto — the CATHODE, and how much.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        cathode_species: Option<SpeciesId>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        cathode_moles: Option<Moles>,
     },
     CellVoltage {
         anode: VesselId,
@@ -1610,6 +1705,21 @@ pub enum Event {
         /// K away from the pure solvent's transition. Negative when
         /// dissolved particles have lowered it.
         shifted_by: f64,
+        /// Which of the six transitions this is, named rather than left to
+        /// be inferred. `from`/`to` do determine it, and every renderer
+        /// that mapped `to: gas` to "boiling" drew dry-ice fog as a rolling
+        /// boil anyway — so the engine says which, and a client that reads
+        /// the name cannot make that mistake. Absent from logs written
+        /// before the field existed.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        kind: Option<PhaseTransition>,
+        /// How much of the species changed phase in this step, moles.
+        ///
+        /// The event named the temperature and not the amount, so a
+        /// sublimation and a whole flask boiling dry were the same size on
+        /// the wire. `None` in a log written before the field existed.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        moles: Option<Moles>,
     },
     /// BRD-032: which model set the boiling temperature, and at what
     /// pressure.
@@ -1809,6 +1919,33 @@ pub struct LogEntry {
 }
 
 impl Event {
+    /// A phase transition, with the route named and the extent carried.
+    ///
+    /// Every emitter of [`Event::StateChanged`] goes through here so that
+    /// the six of them cannot disagree about which transition a given
+    /// `from`→`to` is, and so that none of them can forget to say how much
+    /// moved.
+    pub fn state_changed(
+        vessel: VesselId,
+        species: SpeciesId,
+        from: Phase,
+        to: Phase,
+        at: Kelvin,
+        shifted_by: f64,
+        moles: Moles,
+    ) -> Self {
+        Event::StateChanged {
+            vessel,
+            species,
+            from,
+            to,
+            at,
+            shifted_by,
+            kind: PhaseTransition::between(from, to),
+            moles: Some(moles),
+        }
+    }
+
     /// Whether a person would notice this.
     ///
     /// The event stream is the *ledger*: it has to account for everything

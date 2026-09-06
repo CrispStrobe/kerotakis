@@ -160,6 +160,18 @@ export interface ElectrolysisRun {
   productMoles: number;
   grams: number;
   electronsPerIon: number;
+  /**
+   * GUI-099: what actually comes off each end of the cell, from the engine's
+   * own half-reactions. Hydrogen leaves the cathode twice as fast as oxygen
+   * leaves the anode, and until the engine carried both halves the bench had
+   * to size both electrodes by the charge they shared — correct, but blind
+   * to the one ratio the experiment exists to show. Undefined for a log
+   * written before the fields existed.
+   */
+  anodeSpecies?: string;
+  anodeMoles?: number;
+  cathodeSpecies?: string;
+  cathodeMoles?: number;
 }
 
 export interface ThermalRun {
@@ -208,8 +220,12 @@ export interface HeadspaceRun {
   pressurePa?: number;
   /** The temperature the volume was computed at, where one was stated. */
   temperatureK?: number;
-  /** "engine" when the event named the volume; "ideal-gas" when derived. */
-  source: "engine" | "ideal-gas";
+  /**
+   * Where the volume came from: `"scene"` is the engine's standing
+   * `headspace_volume_l`, `"engine"` a volume an event named at the moment
+   * it happened, `"ideal-gas"` the client's own `V = nRT/P`.
+   */
+  source: "scene" | "engine" | "ideal-gas";
 }
 
 /**
@@ -234,6 +250,16 @@ export interface PhaseChangeRun {
   route?: string;
   /** The saturation model's own name from its pack row — routed boils only. */
   model?: string;
+  /**
+   * GUI-099: which of the six transitions the ENGINE says this is —
+   * `melting`, `freezing`, `boiling`, `condensation`, `sublimation`,
+   * `deposition`. Dry ice going straight to fog is a `to: gas` with no
+   * liquid, no bubbles and no plateau, and a client reading `to` alone drew
+   * it as a rolling boil. Undefined in a log written before the field.
+   */
+  kind?: string;
+  /** Moles that changed phase in this step, where the engine said. */
+  moles?: number;
 }
 
 /** Engine-computed dispersion of one liquid inside another. */
@@ -543,10 +569,31 @@ function phaseMag(e: EngineEvent): number {
   return scale(Math.abs(Number(e.shifted_by ?? 0)), 0.05, 20);
 }
 
-/** The visual kind one engine phase transition asks for. */
-function phaseKind(from: string, to: string): string {
-  if (to === "gas") return "boil";
-  if (to === "solid") return "freeze";
+/**
+ * The visual kind one engine phase transition asks for.
+ *
+ * The engine's own `kind` wins where it is on the wire: `to: "gas"` alone
+ * cannot tell dry-ice fog from a rolling boil, and reading it as a boil is
+ * exactly what the bench did. `from`/`to` remain the fallback for a log
+ * written before the engine named its transitions.
+ */
+export function phaseKind(from: string, to: string, kind?: string): string {
+  switch (kind) {
+    case "boiling":
+      return "boil";
+    case "freezing":
+      return "freeze";
+    case "melting":
+      return "melt";
+    case "condensation":
+      return "condense";
+    case "sublimation":
+      return "sublimate";
+    case "deposition":
+      return "deposit";
+  }
+  if (to === "gas") return from === "solid" ? "sublimate" : "boil";
+  if (to === "solid") return from === "gas" ? "deposit" : "freeze";
   if (to === "liquid") return from === "gas" ? "condense" : "melt";
   return "phase-change";
 }
@@ -660,6 +707,30 @@ export function electrodeBubbles(coulombs: number): number {
 }
 
 /**
+ * Bubbles at each electrode, and what drove the split.
+ *
+ * With both half-reactions on the wire the COUNT IS THE RATIO: water
+ * splitting evolves two moles of hydrogen at the cathode for every mole of
+ * oxygen at the anode, so the cathode draws twice the bubbles — which is the
+ * one observation the experiment is run to make. Without them, both fall
+ * back to the charge the electrodes shared: equal by definition, therefore
+ * never a guess, and equally never the ratio.
+ */
+export function electrodePairBubbles(
+  coulombs: number,
+  anodeMoles?: number,
+  cathodeMoles?: number,
+): { anode: number; cathode: number; source: "moles" | "charge" } {
+  const shared = electrodeBubbles(coulombs);
+  const a = Number(anodeMoles);
+  const c = Number(cathodeMoles);
+  if (!(a > 0) || !(c > 0)) return { anode: shared, cathode: shared, source: "charge" };
+  const larger = Math.max(a, c);
+  const scaled = (n: number) => Math.max(1, Math.min(8, Math.round(shared * (n / larger))));
+  return { anode: scaled(a), cathode: scaled(c), source: "moles" };
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -760,6 +831,10 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           productMoles: Number(e.moles ?? 0),
           grams: Number(e.grams ?? 0),
           electronsPerIon: Number(e.per_ion ?? 0),
+          anodeSpecies: e.anode_species === undefined ? undefined : String(e.anode_species),
+          anodeMoles: e.anode_moles === undefined ? undefined : Number(e.anode_moles),
+          cathodeSpecies: e.cathode_species === undefined ? undefined : String(e.cathode_species),
+          cathodeMoles: e.cathode_moles === undefined ? undefined : Number(e.cathode_moles),
         },
       };
     case "mixed":
@@ -965,18 +1040,26 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       const from = String(e.from ?? "");
       const to = String(e.to ?? "");
       const atK = Number(e.at ?? 0);
+      const transition = e.kind === undefined ? undefined : String(e.kind);
+      const moles = e.moles === undefined ? undefined : Number(e.moles);
       return {
-        kind: phaseKind(from, to),
+        kind: phaseKind(from, to, transition),
         at: now,
         durationMs: 3200,
-        magnitude: phaseMag(e),
+        // A transition that says how much moved is sized by the amount; the
+        // colligative shift is the fallback for logs that carry only it.
+        magnitude: moles !== undefined && moles > 0 ? vapourIntensity(moles) : phaseMag(e),
         temperatureK: atK,
+        reading: moles,
+        unit: moles === undefined ? undefined : "mol",
         phase: {
           species: String(e.species ?? ""),
           from,
           to,
           atK,
           shiftedByK: Number(e.shifted_by ?? 0),
+          kind: transition,
+          moles,
         },
       };
     }
