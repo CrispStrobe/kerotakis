@@ -191,6 +191,7 @@ fn a_vessel_that_kept_its_product_keeps_the_plain_wording() {
             Operator::Heat {
                 vessel: VesselId(0),
                 energy: Joules(1_000.0),
+                source: None,
             },
             &mut stack,
             &PermissiveScreen,
