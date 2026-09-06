@@ -562,6 +562,11 @@ every new dependency before its first import.
 
 ### The sandbox completeness invariant
 
+*Liquid-nitrogen learning slice (2026-09-06):* the existing lesson and mission
+surfaces carry the coupled phase-change investigation. Story reach follows
+completed investigations through Energy Yard, never learner age; the mission
+temporarily loans the cryogen and declares no permanent reagent reward.
+
 **Every registry species, every apparatus, every engine verb is reachable
 from the GUI — in sandbox mode, without the command bar.** The engine
 already exposes ~25 verbs and the full registry; the gap is graphical
@@ -632,7 +637,7 @@ been ignoring all of it:
   *Correction 2026-09-06 — the tiers are gone, not merely merged.* One
   card design and one horizontally scrolling filter rail (level, topic,
   duration, "only what is on my shelf", done/not yet, plus concept and
-  curriculum as selects where the old tabs were) now serve all 167
+  curriculum as selects where the old tabs were) now serve all 168
   entries; `lib/catalogEntry.ts` derives the level, age, duration and a
   shared topic vocabulary both corpora map into, so every filter is
   answerable for every entry, and no surface names a reader by age.

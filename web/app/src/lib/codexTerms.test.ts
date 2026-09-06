@@ -3,7 +3,7 @@
  * Two families of label live in `src/locales/*.json` without any component
  * ever writing them down:
  *
- *   - the 107 experiment titles, rendered by `Catalog` and
+ *   - the 108 experiment titles, rendered by `Catalog` and
  *     `ConceptMap` as `t(entry.id.replace(/-/g, " "))`;
  *   - the concept slugs each experiment declares, rendered through
  *     `tSlug`, which is the same lookup with the dashes turned to spaces.
@@ -54,7 +54,7 @@ describe("codex labels are translated", () => {
   it("finds the catalogue, so the walk is not vacuous", () => {
     // Every count below is asserted rather than derived, because a test
     // that walks an empty list passes loudly and means nothing.
-    expect(experiments).toHaveLength(107);
+    expect(experiments).toHaveLength(108);
     expect(concepts.length).toBeGreaterThanOrEqual(153);
   });
 

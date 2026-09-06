@@ -1,0 +1,59 @@
+id = "liquid-nitrogen-freezes-ethanol"
+
+[title]
+lv1 = "Cold enough to freeze alcohol"
+lv2 = "Liquid nitrogen freezes ethanol"
+lv3 = "Coupled latent-heat balance: ethanol freezing and nitrogen boiling"
+
+[goal]
+lv1 = "In this virtual open vessel, use the cold liquid to freeze ethanol, then measure and look."
+lv2 = "Investigate how boiling liquid nitrogen removes enough energy to freeze ethanol in an open, ventilated virtual setup."
+lv3 = "Observe the coupled phase transitions and audit the open-boundary nitrogen loss. No heat-transfer rate, Leidenfrost layer, glass thermal shock or room oxygen concentration is modeled."
+
+[[nudges]]
+id = "handling-warning"
+when = "hazard_warning"
+[nudges.say]
+lv1 = "This is virtual-only: the real liquid can burn skin and its gas can push breathable air away. Keep a real cryogen open, ventilated, and under trained supervision."
+lv2 = "The warning is part of the evidence: cryogenic PPE, trained supervision, ventilation and pressure relief are required in reality."
+lv3 = "The handling warning is separate from chemical incompatibility. Contact burns and oxygen displacement are not ReactiveGroup chemistry."
+
+[[claims]]
+id = "warning-seen"
+matches = "hazard_warning"
+[claims.title]
+lv1 = "Read the safety boundary"
+lv2 = "Acknowledge cryogen and asphyxiation hazards"
+lv3 = "Handling-hazard warning precedes vessel mutation"
+
+[[claims]]
+id = "ethanol-froze"
+matches = "froze:ethanol"
+[claims.title]
+lv1 = "Freeze the ethanol"
+lv2 = "Observe ethanol change from liquid to solid"
+lv3 = "StateChanged: ethanol liquid → solid"
+
+[[claims]]
+id = "nitrogen-boiled"
+matches = "boiled:liquid_nitrogen"
+[claims.title]
+lv1 = "Watch nitrogen boil"
+lv2 = "Observe liquid nitrogen boil"
+lv3 = "StateChanged: liquid nitrogen liquid → gas"
+
+[[claims]]
+id = "open-boundary-gas"
+matches = "gas_evolved:N2"
+[claims.title]
+lv1 = "See where the gas goes"
+lv2 = "Track nitrogen leaving the open vessel"
+lv3 = "GasEvolved:N2 proves mass crossing the open boundary"
+
+[[claims]]
+id = "temperature-read"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the cold bath"
+lv2 = "Read the final temperature"
+lv3 = "Thermometer measurement near nitrogen's normal boiling point"

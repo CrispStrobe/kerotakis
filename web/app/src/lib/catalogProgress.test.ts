@@ -55,6 +55,12 @@ const CATALOG = catalogMap([
     available: false,
     reason: { reason: "locked", minimum_completed: 3 },
   }),
+  item("liquid_nitrogen", {
+    kind: "reagent",
+    minimum_completed: 4,
+    available: false,
+    reason: { reason: "mission_only" },
+  }),
 ]);
 
 describe("the client reads the engine's catalog", () => {
@@ -82,6 +88,14 @@ describe("the client reads the engine's catalog", () => {
   it("carries the milestone through for the 'after N missions' label", () => {
     expect(requirement(CATALOG, "distil")).toBe(4);
     expect(access(CATALOG, "HCl")!.minimumCompleted).toBe(3);
+  });
+
+  it("preserves mission-only access instead of presenting it as progress stock", () => {
+    const nitrogen = access(CATALOG, "liquid_nitrogen")!;
+    expect(nitrogen.available).toBe(false);
+    expect(nitrogen.missionOnly).toBe(true);
+    expect(nitrogen.loaned).toBe(false);
+    expect(nitrogen.granted).toBe(false);
   });
 
   it("says nothing rather than guessing about an id the engine did not mention", () => {

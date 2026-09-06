@@ -62,6 +62,8 @@ pub enum CatalogReason {
     Awarded,
     /// The active mission supplies it for the duration of the mission.
     Loaned,
+    /// Available only in Sandbox or while an authored mission supplies it.
+    MissionOnly,
     /// Not yet: this many completed missions would earn it.
     Locked { minimum_completed: u32 },
 }
@@ -122,6 +124,10 @@ pub struct ReagentFacts<'a> {
 const STARTER_STOCK: &[&str] = &[
     "water", "NaCl", "CH3COOH", "NaHCO3", "CaCO3", "MgSO4", "CaCl2",
 ];
+
+/// Materials which must never become permanent Story stock. Progress is a
+/// learning gate, not a licence to handle a cryogen without supervision.
+const MISSION_ONLY_STOCK: &[&str] = &["liquid_nitrogen"];
 
 /// Apparatus verbs and the progress that earns them. A verb absent here is
 /// deliberately last (4): a new verb should be unreachable until someone
@@ -233,6 +239,9 @@ pub fn reagent_requirement(facts: &ReagentFacts) -> u32 {
         return LAST_TIER;
     }
     let has = |label: &str| facts.hazards.contains(&label);
+    if has("cryogen") || has("asphyxiant") {
+        return LAST_TIER;
+    }
     if has("toxic") || has("corrosive") {
         return 3;
     }
@@ -282,35 +291,63 @@ pub fn catalog(
     let kit: Vec<&str> = request.mission_kit.iter().map(String::as_str).collect();
 
     let mut items = Vec::new();
-    let mut push = |id: String, kind: CatalogKind, minimum: u32| {
-        let (available, reason) = decide(
-            mode,
-            request.completed,
-            minimum,
-            awarded.contains(&id.as_str()),
-            kit.contains(&id.as_str()),
-        );
-        items.push(CatalogItem {
-            id,
-            kind,
-            minimum_completed: minimum,
-            available,
-            reason,
-        });
-    };
+    {
+        let mut push = |id: String, kind: CatalogKind, minimum: u32| {
+            let (available, reason) = decide(
+                mode,
+                request.completed,
+                minimum,
+                awarded.contains(&id.as_str()),
+                kit.contains(&id.as_str()),
+            );
+            items.push(CatalogItem {
+                id,
+                kind,
+                minimum_completed: minimum,
+                available,
+                reason,
+            });
+        };
 
-    for (verb, tier) in APPARATUS_MILESTONES {
-        push((*verb).to_string(), CatalogKind::Apparatus, *tier);
-    }
-    for (id, tier) in INSTRUMENT_MILESTONES {
-        push((*id).to_string(), CatalogKind::Instrument, *tier);
+        for (verb, tier) in APPARATUS_MILESTONES {
+            push((*verb).to_string(), CatalogKind::Apparatus, *tier);
+        }
+        for (id, tier) in INSTRUMENT_MILESTONES {
+            push((*id).to_string(), CatalogKind::Instrument, *tier);
+        }
     }
     for facts in reagents {
-        push(
-            facts.key.to_string(),
-            CatalogKind::Reagent,
-            reagent_requirement(facts),
-        );
+        let minimum = reagent_requirement(facts);
+        if MISSION_ONLY_STOCK.contains(&facts.key) && mode != CatalogMode::Sandbox {
+            let loaned = kit.contains(&facts.key);
+            items.push(CatalogItem {
+                id: facts.key.to_string(),
+                kind: CatalogKind::Reagent,
+                minimum_completed: minimum,
+                available: loaned,
+                reason: if loaned {
+                    CatalogReason::Loaned
+                } else {
+                    CatalogReason::MissionOnly
+                },
+            });
+        } else {
+            let id = facts.key.to_string();
+            let (available, reason) = decide(
+                mode,
+                request.completed,
+                minimum,
+                awarded.contains(&id.as_str()),
+                kit.contains(&id.as_str()),
+            );
+            items.push(CatalogItem {
+                id,
+                kind: CatalogKind::Reagent,
+                minimum_completed: minimum,
+                available,
+                reason,
+            });
+        }
     }
 
     CatalogResponse {
@@ -428,8 +465,55 @@ mod tests {
         assert_eq!(reagent_requirement(&facts("AgNO3", &none, true)), 1);
         assert_eq!(reagent_requirement(&facts("ethanol", &flammable, true)), 2);
         assert_eq!(reagent_requirement(&facts("HCl", &toxic, true)), 3);
+        assert_eq!(
+            reagent_requirement(&facts("liquid_nitrogen", &["cryogen", "asphyxiant"], true)),
+            LAST_TIER
+        );
         // Unassessed is not safe. It is unknown, and unknown sits last.
         assert_eq!(reagent_requirement(&facts("mystery", &none, false)), 4);
+    }
+
+    #[test]
+    fn liquid_nitrogen_is_loaned_by_a_mission_but_never_earned_or_awarded() {
+        let hazards = vec!["cryogen", "asphyxiant"];
+        let reagents = vec![facts("liquid_nitrogen", &hazards, true)];
+        for awarded in [Vec::new(), vec!["liquid_nitrogen".to_string()]] {
+            let response = catalog(
+                &CatalogRequest {
+                    mode: Some(CatalogMode::Story),
+                    completed: u32::MAX,
+                    awarded,
+                    ..Default::default()
+                },
+                &reagents,
+                &[],
+            );
+            let nitrogen = response
+                .items
+                .iter()
+                .find(|item| item.id == "liquid_nitrogen")
+                .unwrap();
+            assert!(!nitrogen.available);
+            assert_eq!(nitrogen.reason, CatalogReason::MissionOnly);
+        }
+
+        let response = catalog(
+            &CatalogRequest {
+                mode: Some(CatalogMode::Story),
+                completed: 1,
+                mission_kit: vec!["liquid_nitrogen".to_string()],
+                ..Default::default()
+            },
+            &reagents,
+            &[],
+        );
+        let nitrogen = response
+            .items
+            .iter()
+            .find(|item| item.id == "liquid_nitrogen")
+            .unwrap();
+        assert!(nitrogen.available);
+        assert_eq!(nitrogen.reason, CatalogReason::Loaned);
     }
 
     #[test]

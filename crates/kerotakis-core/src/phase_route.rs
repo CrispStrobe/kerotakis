@@ -317,7 +317,7 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
     species: "ethanol",
     // 4.93 kJ/mol at the 159.01 K melting point already in the registry.
     kj_per_mol: 4.93,
-    provenance: "Enthalpy of fusion of ethanol at its normal melting point, 4.93 kJ/mol, as commonly tabulated. PENDING REVIEW: no positively identified page was opened for this row and no edition-level provenance is claimed. It is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth of it per gram, which is the reason a small pour of liquid nitrogen freezes a beaker of ethanol solid and would barely dent the same beaker of water",
+    provenance: "Ethanol enthalpy of fusion 4.93 kJ/mol at its normal melting point: NIST Chemistry WebBook, SRD 69, ethanol (CAS 64-17-5), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4. The value is roughly a fifth of water's 6.01 kJ/mol per mole and about a ninth per gram, which is why a small pour of liquid nitrogen can freeze ethanol but would barely dent the same mass of water",
 }];
 
 /// Enthalpies of vaporisation at the normal boiling point.
@@ -333,9 +333,9 @@ pub const FUSION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
 /// and is otherwise a gas the registry already ships.
 pub const VAPORISATION_ENTHALPIES: &[LatentHeat] = &[LatentHeat {
     species: "liquid_nitrogen",
-    // 5.57 kJ/mol at 77.36 K.
-    kj_per_mol: 5.57,
-    provenance: "Enthalpy of vaporisation of nitrogen at its 77.36 K normal boiling point, 5.57 kJ/mol, as commonly tabulated from NIST/CODATA-class evaluated data. PENDING REVIEW: no positively identified page was opened for this row and no edition-level provenance is claimed. The sanity check a reviewer can run without a book is that it is very small — a fourteenth of an equal amount of water's 40.65 kJ/mol — which is why liquid nitrogen boils away so fast in a warm room and why 100 mL of it is not, in energy terms, the enormous cold reservoir it looks like",
+    // 5.6 kJ/mol at 77 K, at the precision displayed by NIST SRD 69.
+    kj_per_mol: 5.6,
+    provenance: "Nitrogen enthalpy of vaporisation 5.6 kJ/mol at 77 K: NIST Chemistry WebBook, SRD 69, nitrogen (CAS 7727-37-9), phase-change data, https://webbook.nist.gov/cgi/cbook.cgi?ID=C7727379&Mask=4. It is about a fourteenth of water's 40.65 kJ/mol per mole, which is why liquid nitrogen boils away rapidly",
 }];
 
 /// The enthalpy of fusion of a substance, J/mol, or `None` where this

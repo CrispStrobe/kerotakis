@@ -764,6 +764,7 @@ boiled = "siedete"
 "nothing to evaporate — no water in the vessel" = "nichts zu verdampfen — kein Wasser im Gefäß"
 "no aqueous solution for spectrophotometer" = "keine wässrige Lösung für das Spektralphotometer"
 "radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
+"liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "Flüssiger Stickstoff ist ein Kryogen; sein verdampfendes Gas verdrängt Atemluft"
 "a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
 "no solid particles are present" = "es sind keine festen Teilchen vorhanden"
 "the pH meter reads nothing — no aqueous solution has been characterised in this vessel" = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
@@ -808,6 +809,7 @@ Danger = "Gefahr"
 "flying glass and a pressure wave — sealed systems on a heat source are how real labs get hurt; safe only because this lab is virtual" = "Glassplitter und eine Druckwelle — verschlossene Systeme auf einer Wärmequelle sind der Grund, warum in echten Laboren Menschen verletzt werden; ungefährlich nur, weil dieses Labor virtuell ist"
 "on a real bench this one is never smelled directly — fume hood, waft only, and some not even then" = "an einer echten Laborbank riecht man daran nie direkt — Abzug, nur zufächeln, und an manchem nicht einmal das"
 "on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual" = "an einer echten Laborbank braucht das Abschirmung, Dosimetrie und eine Genehmigung; ungefährlich nur, weil dieses Labor virtuell ist"
+"Virtual investigation only. Real liquid nitrogen requires trained supervision, eye and face protection, cryogenic gloves, ventilation, and an open pressure-relief path; never seal it in glass or handle it in an unventilated room." = "Nur virtuelle Untersuchung. Echter flüssiger Stickstoff erfordert geschulte Aufsicht, Augen- und Gesichtsschutz, Kryohandschuhe, Belüftung und einen offenen Druckentlastungsweg; niemals in Glas einschließen oder in einem unbelüfteten Raum handhaben."
 
 # Each hazardous vapour by name. Not a template: German hyphenates a
 # formula onto the noun (NH3-Dampf, never NH3dampf), and Cl2, SO2 and

@@ -10818,6 +10818,67 @@
       }
     },
     {
+      "id": "liquid-nitrogen-freezes-ethanol",
+      "equation": null,
+      "summary": "In an open virtual vessel, liquid nitrogen boils while ethanol freezes; the two phase changes share one latent-heat balance",
+      "summary_de": "In einem offenen virtuellen Gefäß siedet flüssiger Stickstoff, während Ethanol gefriert — eine gekoppelte Bilanz zweier Phasenübergänge mit einer ausdrücklich offenen Stoffgrenze",
+      "concepts": [
+        "phase-change",
+        "latent-heat",
+        "energy-conservation",
+        "model-boundary"
+      ],
+      "requires": [],
+      "spine": [
+        "aggregatzustaende"
+      ],
+      "curriculum": [],
+      "apparatus": [
+        "open-dewar",
+        "beaker",
+        "thermometer"
+      ],
+      "calculations": [
+        "sensible-heat",
+        "enthalpy-of-fusion",
+        "enthalpy-of-vaporisation"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 ethanol 0.17126484mol\nadd v1 liquid_nitrogen 2.88070251mol\nmeasure v1 thermometer\nlook v1\n"
+      },
+      "expect": {
+        "events": [
+          "hazard_warning",
+          "froze:ethanol",
+          "boiled:liquid_nitrogen",
+          "gas_evolved:N2",
+          "measured",
+          "observed"
+        ],
+        "absent": [],
+        "predict": null,
+        "ph": null,
+        "temperature_c": {
+          "min": -196.0,
+          "max": -195.0
+        }
+      },
+      "registers": {
+        "lv1": "The liquid nitrogen boils as it takes heat away. The ethanol freezes, and the cold bath stays near −196 °C while liquid nitrogen remains. This is a virtual investigation: real liquid nitrogen needs trained supervision, face and eye protection, cryogenic gloves, strong ventilation, and an open container.",
+        "lv1_de": "Das ist nur ein virtuelles Experiment. Der eiskalte Stickstoff bringt das Ethanol zum Gefrieren und wird dabei selbst zu Gas. In Wirklichkeit kann flüssiger Stickstoff schwere Kälteverbrennungen verursachen, und sein unsichtbares Gas verdrängt Atemluft: nur offen, sehr gut belüftet, mit Augen-/Gesichtsschutz, Kälteschutzhandschuhen und geschulter Aufsicht — niemals verschließen.",
+        "lv2": "The open vessel couples two phase changes: cooling and freezing 10 mL ethanol supplies energy that vaporises part of 100 mL liquid nitrogen. Nitrogen gas crosses the open boundary. Never seal a cryogen; boil-off can build dangerous pressure, and in a poorly ventilated room it displaces oxygen.",
+        "lv2_de": "Die Energiebilanz koppelt zwei Phasenwechsel: Verdampfender Stickstoff nimmt latente Wärme auf, Ethanol gibt beim Gefrieren latente Wärme ab. Der Stickstoff verlässt als N₂ die offene Gefäßgrenze. Das Modell berechnet weder Wärmeübertragungsrate noch Leidenfrost-Schicht, Glas-Thermoschock oder Sauerstoffgehalt des Raums; die Handhabungswarnung bleibt daher eine reale Grenze, keine simulierte Freigabe.",
+        "lv3": "The engine conserves energy with ethanol sensible cooling plus ΔHfus feeding nitrogen ΔHvap, and conserves mass by emitting GasEvolved:N2 at the open boundary. It assumes instantaneous adiabatic equilibration and omits Leidenfrost-limited transfer, glass thermal shock, ethanol slush morphology, room heat leak and room oxygen concentration. The safety warning is handling metadata, not reactive-mixture chemistry.",
+        "lv3_de": "Der Phasenweg verwendet kuratierte Stoffwerte mit NIST-Provenienz und bilanziert die endliche Verdampfungsenthalpie des Stickstoffs gegen Abkühlung und Erstarrung des Ethanols. Die Wärmekapazitätsquelle für flüssigen Stickstoff berichtet Cv/Cσ; die Labor gibt sie nicht als präzises Cp aus. Das Gefäß ist offen, deshalb erscheint N₂ als abgegebene Gasmenge statt als berechneter Druck. Reale Druckbildung, Sauerstoffverdrängung, Strömung, Filmkochen und Gefäßversagen liegen außerhalb des Modells; echte Durchführung erfordert Lüftung, Druckentlastung, geeignete PSA und geschulte Aufsicht."
+      },
+      "provenance": {
+        "source": "Liquid-nitrogen normal boiling point and enthalpy of vaporisation (5.6 kJ/mol at 77 K): NIST Chemistry WebBook, SRD 69, nitrogen phase-change data. Ethanol enthalpy of fusion: NIST Chemistry WebBook, SRD 69, ethanol phase-change data. Liquid-nitrogen heat capacity: NIST Journal of Research 96(6), thermophysical properties paper reporting 57.2 J mol−1 K−1. Liquid density: Particle Data Group/Lawrence Berkeley National Laboratory Atomic and Nuclear Properties table, NIST-derived liquid-nitrogen density near its normal boiling point. Safety boundaries: standard cryogenic handling principles; this software is not a real-laboratory procedure.",
+        "licence": null,
+        "computed_by": "Kerotakis coupled phase-route energy ledger"
+      }
+    },
+    {
       "id": "salt-holds-the-water-liquid",
       "equation": null,
       "summary": "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water",

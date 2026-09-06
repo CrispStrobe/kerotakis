@@ -74,6 +74,28 @@ pub enum ReactiveGroup {
     ToxicSoluble,
 }
 
+/// Intrinsic handling hazards that are not chemical incompatibility groups.
+/// They affect storage, supervision and warnings without participating in the
+/// NOAA-derived reactive-group matrix.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum HandlingHazard {
+    Cryogen,
+    Asphyxiant,
+}
+
+pub fn handling_hazards(species_key: &str) -> &'static [HandlingHazard] {
+    use HandlingHazard::*;
+    match species_key {
+        // This first slice is deliberately narrow: the authored investigation
+        // handles liquid nitrogen. Dry ice and compressed inert gases need
+        // their own quantity/container policy before this metadata should
+        // change their Story availability.
+        "liquid_nitrogen" => &[Cryogen, Asphyxiant],
+        _ => &[],
+    }
+}
+
 pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
     let (labels, _) = hazard_assessment(species_key);
     labels
@@ -87,7 +109,7 @@ pub struct HazardInfo {
 
 pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
     let assessed = COVERED_KEYS.contains(&species_key);
-    let labels: Vec<&'static str> = groups(species_key)
+    let mut labels: Vec<&'static str> = groups(species_key)
         .iter()
         .map(|g| match g {
             ReactiveGroup::AcidStrong => "corrosive",
@@ -111,6 +133,14 @@ pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
             ReactiveGroup::ToxicSoluble => "toxic",
         })
         .collect();
+    labels.extend(
+        handling_hazards(species_key)
+            .iter()
+            .map(|hazard| match hazard {
+                HandlingHazard::Cryogen => "cryogen",
+                HandlingHazard::Asphyxiant => "asphyxiant",
+            }),
+    );
     (labels, assessed)
 }
 
@@ -1009,6 +1039,20 @@ pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
+        if vessel
+            .contents
+            .iter()
+            .any(|portion| portion.species.0 == "liquid_nitrogen" && portion.moles.0 > 1e-12)
+        {
+            return SafetyVerdict::Warn {
+                severity: Severity::Danger,
+                rule: "liquid-nitrogen-handling".to_string(),
+                hazard: "liquid nitrogen is a cryogen and its boil-off displaces breathable air"
+                    .to_string(),
+                real_world: "Virtual investigation only. Real liquid nitrogen requires trained supervision, eye and face protection, cryogenic gloves, ventilation, and an open pressure-relief path; never seal it in glass or handle it in an unventilated room."
+                    .to_string(),
+            };
+        }
         if let Some(finding) = assess_exposures([("vessel", vessel)]).into_iter().next() {
             return SafetyVerdict::Warn {
                 severity: finding.severity,
@@ -1381,6 +1425,57 @@ mod tests {
     fn all_inert_species_allow() {
         let v = vessel_with(&["water", "NaCl", "KCl", "CaCl2", "phenolphthalein", "N2"]);
         assert_eq!(ReactiveGroupScreen.assess(&v), SafetyVerdict::Allow);
+    }
+
+    #[test]
+    fn liquid_nitrogen_has_separate_handling_hazards_and_warns() {
+        assert!(groups("liquid_nitrogen").is_empty());
+        let (labels, assessed) = hazard_assessment("liquid_nitrogen");
+        assert!(assessed);
+        assert_eq!(labels, vec!["cryogen", "asphyxiant"]);
+        let v = vessel_with(&["liquid_nitrogen"]);
+        assert!(matches!(
+            ReactiveGroupScreen.assess(&v),
+            SafetyVerdict::Warn { rule, .. } if rule == "liquid-nitrogen-handling"
+        ));
+    }
+
+    #[test]
+    fn liquid_nitrogen_warning_precedes_bench_mutation_events() {
+        use kerotakis_core::{
+            Bench, CuratedEquilibrator, Event, MixingEquilibrator, Moles, Operator,
+            PhaseRouteEquilibrator, SolverStack, SpeciesId, VesselId,
+        };
+
+        let mut bench = Bench::new();
+        let mut solvers = SolverStack::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(CuratedEquilibrator),
+            Box::new(PhaseRouteEquilibrator),
+        ]);
+        let events = bench
+            .step_with(
+                Operator::Add {
+                    vessel: VesselId(0),
+                    species: SpeciesId::new("liquid_nitrogen"),
+                    moles: Moles(1.0),
+                    at: None,
+                },
+                &mut solvers,
+                &ReactiveGroupScreen,
+            )
+            .expect("virtual cryogen addition proceeds after warning");
+
+        assert!(matches!(
+            events.first(),
+            Some(Event::HazardWarning { rule, .. }) if rule == "liquid-nitrogen-handling"
+        ));
+        assert!(bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .contents
+            .iter()
+            .any(|portion| portion.species.0 == "liquid_nitrogen" && portion.moles.0 > 0.0));
     }
 
     // ── BRD-012.S02: the barium gate ──────────────────────────────

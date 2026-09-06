@@ -99,6 +99,14 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "smelled",
     "burst",
     "heat_of_mixing",
+    "boiling_point_routed",
+    "froze",
+    "melted",
+    "boiled",
+    "condensed",
+    "sublimed",
+    "deposited",
+    "state_changed",
 ];
 
 use kerotakis_core::{Phase, Register};
