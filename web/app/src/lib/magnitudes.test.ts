@@ -3,10 +3,13 @@ import {
   FALLBACK_MOLAR_VOLUME_L,
   INCANDESCENCE_ONSET_K,
   NORMAL_BOILING_K,
+  VISIBLE_BUBBLE_MOLES,
+  bubblePeriodS,
   compressedVolumeL,
   condensationFilm,
   depositParticles,
   dewPointK,
+  electrodeBubbles,
   headspaceVolumeL,
   effectFromEvent,
   incandescence,
@@ -711,5 +714,82 @@ describe("headspace (GUI-099 ANIM-2)", () => {
     expect(big!.magnitude).toBeGreaterThan(quiet!.magnitude);
     // An unquantified ignition must stay a restrained fallback, not a number.
     expect(effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow" })!.reading).toBeUndefined();
+  });
+});
+
+
+describe("the invisible ones (GUI-099 ANIM-3)", () => {
+  it("an emulsion carries its dispersion and lives for its own half-life", () => {
+    const shaken = effectFromEvent({
+      event: "emulsion_changed", vessel: 0, material: "vinaigrette",
+      from_dispersed_fraction: 0, to_dispersed_fraction: 0.62,
+      dispersed_volume_l: 0.004, half_life_seconds: 45,
+    });
+    expect(shaken).toMatchObject({ kind: "emulsify", unit: "fraction", reading: 0.62 });
+    expect(shaken!.emulsion).toMatchObject({ toDispersedFraction: 0.62, halfLifeSeconds: 45 });
+    // A tight emulsion is watched for longer than one that breaks at once.
+    const fleeting = effectFromEvent({
+      event: "emulsion_changed", vessel: 0, material: "oil",
+      to_dispersed_fraction: 0.62, dispersed_volume_l: 0.004, half_life_seconds: 0.2,
+    });
+    expect(shaken!.durationMs!).toBeGreaterThan(fleeting!.durationMs!);
+    expect(shaken!.durationMs!).toBeLessThanOrEqual(9000);
+  });
+
+  it("more dispersed means a stronger emulsion effect", () => {
+    const thin = effectFromEvent({ event: "emulsion_changed", vessel: 0, to_dispersed_fraction: 0.05, half_life_seconds: 10 });
+    const thick = effectFromEvent({ event: "emulsion_changed", vessel: 0, to_dispersed_fraction: 0.9, half_life_seconds: 10 });
+    expect(thick!.magnitude).toBeGreaterThan(thin!.magnitude);
+    expect(thick!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("a ferment reports the rate its bubbling is paced by", () => {
+    const brew = effectFromEvent({
+      event: "fermented", vessel: 0, sucrose_moles: 0.02, ethanol_moles: 0.04,
+      carbon_dioxide_moles: 0.04, active_yeast_grams: 0.5, seconds: 3600,
+    });
+    expect(brew).toMatchObject({ kind: "ferment", unit: "mol", reading: 0.04 });
+    expect(brew!.fermentation!.molesPerSecond).toBeCloseTo(0.04 / 3600, 12);
+    expect(brew!.durationMs!).toBeGreaterThanOrEqual(2500);
+    expect(brew!.durationMs!).toBeLessThanOrEqual(12_000);
+  });
+
+  it("a faster ferment bubbles more often, and the tempo stays watchable", () => {
+    const slow = bubblePeriodS(0.04 / 3600);
+    const brisk = bubblePeriodS(0.04 / 600);
+    const furious = bubblePeriodS(1);
+    expect(slow).toBeGreaterThan(brisk);
+    expect(brisk).toBeGreaterThan(furious);
+    expect(slow).toBeLessThanOrEqual(6);
+    expect(furious).toBeGreaterThanOrEqual(0.25);
+    expect(bubblePeriodS(0)).toBe(6);
+    // One bubble a second is one visible bubble's worth of gas a second.
+    expect(bubblePeriodS(VISIBLE_BUBBLE_MOLES)).toBeCloseTo(1, 6);
+  });
+
+  it("UV attenuation is strongest when the least gets through", () => {
+    const blocked = effectFromEvent({
+      event: "uv_attenuated", vessel: 0, material: "sunscreen",
+      wavelength_nm: 308, band: "UV-B", transmitted_fraction: 0.02, mechanism: "absorption",
+    });
+    const clear = effectFromEvent({
+      event: "uv_attenuated", vessel: 0, material: "water",
+      wavelength_nm: 308, band: "UV-B", transmitted_fraction: 0.95, mechanism: "none",
+    });
+    expect(blocked).toMatchObject({ kind: "uv", unit: "fraction", reading: 0.02 });
+    expect(blocked!.magnitude).toBeCloseTo(0.98, 6);
+    expect(blocked!.magnitude).toBeGreaterThan(clear!.magnitude);
+    expect(blocked!.uv).toMatchObject({ band: "UV-B", wavelengthNm: 308, transmittedFraction: 0.02 });
+  });
+
+  it("electrode bubbling follows the charge, monotonically and bounded", () => {
+    const counts = [0.5, 1, 10, 100, 1000, 100_000].map(electrodeBubbles);
+    for (let i = 1; i < counts.length; i += 1) {
+      expect(counts[i]!).toBeGreaterThanOrEqual(counts[i - 1]!);
+    }
+    expect(counts[0]).toBeGreaterThanOrEqual(1);
+    expect(counts.at(-1)).toBeLessThanOrEqual(8);
+    expect(electrodeBubbles(0)).toBe(1);
+    expect(electrodeBubbles(-5)).toBe(1);
   });
 });

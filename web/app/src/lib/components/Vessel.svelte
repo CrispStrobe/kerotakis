@@ -7,9 +7,11 @@
   import {
     FALLBACK_MOLAR_VOLUME_L,
     NORMAL_BOILING_K,
+    bubblePeriodS,
     compressedVolumeL,
     condensationFilm,
     depositParticles,
+    electrodeBubbles,
     headspaceVolumeL,
     incandescence,
   } from "../magnitudes";
@@ -362,6 +364,11 @@
   const headspaceTint = $derived(
     Math.min(0.5, Math.max(0, (headspace.pressurePa - 101_325) / 400_000)),
   );
+  // GUI-099 ANIM-3: three things the engine has always computed and the
+  // bench has never drawn.
+  const emulsifyEffect = $derived(latestEffect("emulsify", 9000));
+  const fermentEffect = $derived(latestEffect("ferment", 12_000));
+  const uvEffect = $derived(latestEffect("uv", 4600));
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
@@ -520,6 +527,43 @@
         <path d={`M ${INNER_X - 2} ${BOTTOM_Y} L ${INNER_X - 2} ${BOTTOM_Y - snowH * 0.48} Q ${INNER_X + INNER_W * 0.16} ${BOTTOM_Y - snowH * 0.68} ${INNER_X + INNER_W * 0.30} ${BOTTOM_Y - snowH * 0.62} Q 50 ${BOTTOM_Y - snowH * 1.02} ${INNER_X + INNER_W * 0.68} ${BOTTOM_Y - snowH * 0.67} Q ${INNER_X + INNER_W * 0.88} ${BOTTOM_Y - snowH * 0.76} ${INNER_X + INNER_W + 2} ${BOTTOM_Y - snowH * 0.46} L ${INNER_X + INNER_W + 2} ${BOTTOM_Y} Z`} />
         {#each Array.from({ length: 13 }, (_, i) => i) as i (i)}
           <circle cx={INNER_X + 3 + ((i * 17) % Math.max(7, INNER_W - 6))} cy={BOTTOM_Y - 3 - ((i * 13) % Math.max(5, snowH * 0.55))} r={0.65 + (i % 3) * 0.25} />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.emulsion && vessel.emulsion.dispersed_fraction > 0.001 && vessel.liquid && liquidH > 0}
+      <!-- GUI-099 ANIM-3: `SceneVessel.emulsion` was read by no component in
+           the app, so shaking oil into water changed nothing on screen. The
+           droplet count is the dispersed FRACTION, the droplet size is the
+           dispersed VOLUME divided between them, and how fast they drift
+           back together is the engine's own coalescence half-life. -->
+      {@const dispersed = Math.min(1, vessel.emulsion.dispersed_fraction)}
+      {@const dropCount = Math.max(4, Math.round(4 + dispersed * 22))}
+      {@const perDropL = vessel.emulsion.dispersed_volume_l / dropCount}
+      {@const dropR = Math.max(0.6, Math.min(3, Math.cbrt(Math.max(1e-12, perDropL) / 2e-6)))}
+      {@const coalesceS = Math.max(1.2, Math.min(12, vessel.emulsion.half_life_seconds))}
+      <g
+        class="emulsion"
+        class:shaking={emulsifyEffect !== undefined}
+        data-dispersed-fraction={dispersed.toFixed(4)}
+        data-dispersed-volume-l={vessel.emulsion.dispersed_volume_l.toExponential(3)}
+        data-emulsion-half-life-s={vessel.emulsion.half_life_seconds.toFixed(2)}
+        data-drop-count={dropCount}
+        style={`--coalesce:${coalesceS.toFixed(2)}s`}
+        aria-label={t("{percent}% of {material} dispersed as droplets, half of it back in {seconds} s", {
+          percent: Math.round(dispersed * 100),
+          material: t(vessel.emulsion.material),
+          seconds: formatReading(vessel.emulsion.half_life_seconds, 0),
+        })}
+      >
+        {#each Array.from({ length: dropCount }, (_, i) => i) as i (i)}
+          <circle
+            class="emulsion-drop"
+            cx={INNER_X + 3 + ((i * 19) % Math.max(1, INNER_W - 6))}
+            cy={BOTTOM_Y - 3 - ((i * 13) % Math.max(4, Math.round(liquidH - 4)))}
+            r={dropR}
+            style={`animation-delay:${((i * 0.17) % coalesceS).toFixed(2)}s`}
+          />
         {/each}
       </g>
     {/if}
@@ -1081,20 +1125,100 @@
       </g>
     {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
+      <!-- GUI-099 ANIM-3: both electrodes bubble, and both are sized by the
+           CHARGE that passed — the honest driver, because the engine names
+           the moles of one product only and the counter-electrode's
+           half-reaction is not on the wire. Charge is shared by definition,
+           so neither electrode is drawn at an invented ratio. -->
       {@const eMag = mag("electrolyse", 8000)}
-      {@const eBubbles = Math.max(1, Math.round(1 + eMag * 3))}
+      {@const eCoulombs = electrolysisEffect?.electrolysis?.coulombs ?? 0}
+      {@const eBubbles = electrodeBubbles(eCoulombs)}
       {@const eRadius = 1.0 + eMag * 1.0}
-      {#each [30, 70] as x (x)}
-        {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
+      <g
+        class="electrolysis-bubbles"
+        data-coulombs={eCoulombs.toExponential(3)}
+        data-electron-moles={(electrolysisEffect?.electrolysis?.electronMoles ?? 0).toExponential(3)}
+        data-bubbles-per-electrode={eBubbles}
+        aria-hidden="true"
+      >
+        {#each [30, 70] as x (x)}
+          {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
+            <circle
+              class="bubble"
+              cx={x + (i - Math.floor(eBubbles / 2)) * 2}
+              cy={BOTTOM_Y - 6}
+              r={eRadius}
+              style={`--rise:${liquidH - 10}px; animation-delay:${(i * 0.25).toFixed(2)}s`}
+            />
+          {/each}
+        {/each}
+      </g>
+    {/if}
+    {#if fermentEffect?.fermentation && liquidH > 0}
+      <!-- GUI-099 ANIM-3: fermentation is SLOW, and how slow is a computed
+           number — `carbon_dioxide_moles ÷ seconds`. One visible bubble is
+           about a millilitre of gas, so the tempo is that volume divided by
+           the rate: a lively dough bubbles every second, an overnight brew
+           every few. -->
+      {@const ferment = fermentEffect.fermentation}
+      {@const period = bubblePeriodS(ferment.molesPerSecond)}
+      {@const fCount = Math.max(2, Math.round(2 + fermentEffect.magnitude * 6))}
+      <g
+        class="fermenting"
+        data-co2-moles={ferment.carbonDioxideMoles.toExponential(3)}
+        data-ferment-seconds={ferment.seconds.toFixed(1)}
+        data-co2-moles-per-second={ferment.molesPerSecond.toExponential(3)}
+        data-bubble-period-s={period.toFixed(2)}
+        aria-label={t("fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s", {
+          moles: formatReading(ferment.carbonDioxideMoles, 4),
+          seconds: formatReading(ferment.seconds, 0),
+          period: formatReading(period, 1),
+        })}
+      >
+        {#each Array.from({ length: fCount }, (_, i) => i) as i (i)}
           <circle
-            class="bubble"
-            cx={x + (i - Math.floor(eBubbles / 2)) * 2}
-            cy={BOTTOM_Y - 6}
-            r={eRadius}
-            style={`--rise:${liquidH - 10}px; animation-delay:${i * 0.25}s`}
+            class="ferment-bubble"
+            cx={INNER_X + 6 + ((i * 23) % Math.max(1, INNER_W - 12))}
+            cy={BOTTOM_Y - 4}
+            r={1.1 + fermentEffect.magnitude * 0.9}
+            style={`--rise:${Math.max(6, liquidH - 6)}px;animation-duration:${period.toFixed(2)}s;animation-delay:${((i * period) / fCount).toFixed(2)}s`}
           />
         {/each}
-      {/each}
+      </g>
+    {/if}
+    {#if uvEffect?.uv}
+      <!-- GUI-099 ANIM-3: the beam that goes in, and what is left of it on
+           the far side. The exit band's opacity IS `transmitted_fraction`;
+           a sunscreen that works leaves almost nothing. -->
+      {@const uv = uvEffect.uv}
+      {@const beamY = BOTTOM_Y - Math.max(10, liquidH / 2) - 4}
+      {@const beamColour = wavelengthColour(uv.wavelengthNm > 0 ? uv.wavelengthNm : null)}
+      <g
+        class="uv-beam"
+        data-transmitted-fraction={uv.transmittedFraction.toFixed(4)}
+        data-wavelength-nm={uv.wavelengthNm.toFixed(0)}
+        data-uv-band={uv.band}
+        aria-label={t("{band} at {wavelength} nm: {percent}% through {material}", {
+          band: t(uv.band),
+          wavelength: formatReading(uv.wavelengthNm, 0),
+          percent: Math.round(uv.transmittedFraction * 100),
+          material: t(uv.material),
+        })}
+      >
+        <rect class="uv-in" x="0" y={beamY} width={INNER_X} height="7" style={`fill:${beamColour}`} />
+        <rect
+          class="uv-out"
+          x={INNER_X + INNER_W}
+          y={beamY}
+          width={Math.max(2, 100 - INNER_X - INNER_W)}
+          height="7"
+          style={`fill:${beamColour};opacity:${(0.06 + uv.transmittedFraction * 0.94).toFixed(3)}`}
+        />
+        <text class="uv-readout" x={INNER_X + INNER_W / 2} y={beamY - 3} text-anchor="middle">
+          {Math.round(uv.transmittedFraction * 100)}%
+        </text>
+        <title>{engineText(uv.mechanism)}</title>
+      </g>
     {/if}
     {#if active("vent", 2600) && !sealed}
       <!-- Gas leaving the open mouth: wisps above the rim, not in the liquid. -->
@@ -2126,6 +2250,36 @@
     fill: var(--cool);
     pointer-events: none;
   }
+  .emulsion-drop {
+    fill: color-mix(in srgb, var(--surface) 55%, transparent);
+    stroke: color-mix(in srgb, var(--edge-strong) 40%, transparent);
+    stroke-width: 0.3;
+  }
+  /* Coalescence: the droplets drift together on the engine's own half-life,
+     so a stable emulsion sits still and an unstable one visibly gives up. */
+  .emulsion.shaking .emulsion-drop {
+    animation: coalesce var(--coalesce, 4s) ease-in-out infinite alternate;
+  }
+  @keyframes coalesce {
+    from { transform: translate(0, 0); opacity: 0.9; }
+    to { transform: translate(1.5px, -2px); opacity: 0.55; }
+  }
+  .ferment-bubble {
+    fill: none;
+    stroke: var(--dim);
+    stroke-width: 0.7;
+    animation-name: rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .uv-beam .uv-in,
+  .uv-beam .uv-out {
+    opacity: 0.85;
+  }
+  .uv-readout {
+    fill: var(--ink);
+    font: 700 5px system-ui, sans-serif;
+  }
   .piston-assembly .lid {
     transition: y 0.45s cubic-bezier(0.3, 0.7, 0.35, 1);
   }
@@ -2378,6 +2532,8 @@
       transition: none;
     }
     .bubble,
+    .ferment-bubble,
+    .emulsion.shaking .emulsion-drop,
     .boil-bubble,
     .boil-surface,
     .foam-state,

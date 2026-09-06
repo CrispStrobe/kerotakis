@@ -2212,6 +2212,9 @@
   "rolling boil at {temperature} °C, {moles} mol of vapour": "",
   "{moles} mol of {species} coming out of solution": "",
   "{moles} mol of {species} going into solution": "",
-  "{litres} L of headspace gas at {pressure} kPa": ""
+  "{litres} L of headspace gas at {pressure} kPa": "",
+  "{percent}% of {material} dispersed as droplets, half of it back in {seconds} s": "",
+  "fermenting: {moles} mol CO₂ over {seconds} s, a bubble every {period} s": "",
+  "{band} at {wavelength} nm: {percent}% through {material}": ""
  }
 }
