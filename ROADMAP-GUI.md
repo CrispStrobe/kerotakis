@@ -461,29 +461,33 @@ every new dependency before its first import.
 
 ### Phase G0 — Contracts (no visible UI change)
 
-- [ ] **GUI-001 — `EngineHost` protocol v1.** Specify the JSON contract
+- [x] **GUI-001 — `EngineHost` protocol v1.** Specify the JSON contract
   (step/runScript/state/scene/events/species/parse/chart) as a versioned
   document + conformance test that both hosts must pass. The current wasm
   API is the seed.
-  *Status 2026-08-24 (2nd pass): spec written — [PROTOCOL.md](PROTOCOL.md).
-  Conformance runs against BOTH shipping hosts: the CLI/MCP surface
+  *Status 2026-09-06: complete — spec written in [PROTOCOL.md](PROTOCOL.md).
+  Conformance runs against the CLI/MCP surface
   (`crates/kerotakis-cli/tests/protocol_conformance.rs`, in the test
-  suite) and the wasm host (`tools/test-protocol-conformance.mjs`,
-  919 structural checks over the lesson corpus, wired into the CI wasm
-  job) — one shape, drift fails before a client sees it. Open for the
-  checkbox: the same suite against TauriHost once the shell builds
-  (GUI-030), and hello's remaining fields.*
+  suite), the wasm host (`tools/test-protocol-conformance.mjs`, wired into
+  CI over the lesson corpus), and Tauri's native dispatch
+  (`web/app/src-tauri/src/lib.rs`) — one shape, drift fails before a client
+  sees it. The versioned `hello` identity fields are shipped.*
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
-  *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
+  *Status 2026-09-06: structurally implemented — `kerotakis-core/src/scene.rs` (liquid
   colour+word, solids with metallic/precipitate split, headspace, badges,
   lv1 words), shape-pinning + behaviour tests in-module, wired into the
   wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
-  checkbox: goldens over the replayed lesson corpus (folds into GUI-001's
-  conformance suite).*
-- [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
+  checkbox: numeric/behavioural scene goldens over replayed lessons and
+  browser/DOM snapshots for the representative five-lesson suite. The
+  landed whole-corpus contract checks pin structure, not those answers.*
+- [x] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
+  *Status 2026-09-06: complete — `WorkerHost.ts` owns transport and
+  `engineWorker.ts` loads the bench wasm and IPhreeQC together off-thread.
+  OPT-11 measured the crossings; OPT-9 recorded the evidence-based no-build
+  decision for additional marshalling work.*
 
 ### Phase G1 — The bench, on the web
 
@@ -521,9 +525,9 @@ every new dependency before its first import.
   reaches parity (end of G1) the surfaces swap places: app at `/`, console
   at `/console/`. Blocked only on a local `wasm-bindgen-cli 0.2.127`
   install + emsdk sourcing after the cargo lock frees.
-- [ ] **GUI-017 — Continuous deploy.** `.github/workflows/pages.yml`
-  (added: builds the payload with the same recipe ci.yml already uses and
-  deploys to Pages on web-affecting pushes + manual dispatch); the Vercel
+- [x] **GUI-017 — Continuous deploy.** `.github/workflows/ci.yml` builds and
+  browser-tests the complete payload on pull requests and pushes, then deploys
+  that artifact to GitHub Pages after the demo job on `main`; the Vercel
   production deploy stays a deliberate manual step until the register dial
   UX is demo-ready. The service worker now precaches the app's hashed
   assets (stamped by build-web.sh), so both surfaces are offline-first

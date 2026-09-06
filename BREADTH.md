@@ -433,7 +433,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-042 — Full Cantera C-API shipping gate
 
-- [ ] **Status:** parked — BRD-040 recorded a **no-go** on 2026-08-29. **Size:**
+- [x] **Status:** closed no-go — BRD-040 recorded the terminal decision on
+  2026-08-29. Re-open only for a newly demonstrated capability gap. **Size:**
   extra large. **Depends on:** BRD-040 (complete) and a stable upstream C API on
   all targets.
 - **BRD-040 finding:** no BRD-041 need requires the C API. The portable parser,
@@ -793,6 +794,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **BRD-011** — ChEBI identity and ontology adapter. Complete. See `HISTORY.md`.
 - **BRD-030** — direct feos integration spike. Closed `go` (scoped). See `HISTORY.md`.
 - **BRD-040** — Cantera mechanism and API audit. Complete. See `HISTORY.md`.
+- **BRD-042** — full Cantera C-API shipping gate. Closed no-go; no required
+  capability justifies the cross-target C++ dependency. See `HISTORY.md`.
 - **BRD-070** — scene/chemistry authority contract. Complete. See `HISTORY.md`.
 - **BRD-071** — Rapier rigid-body integration. Complete; go with optional Rapier 2-D. See `HISTORY.md`.
 - **BRD-072** — Salva fluid-visual integration. Complete/no-go; kept `fluidScene`. See `HISTORY.md`.
