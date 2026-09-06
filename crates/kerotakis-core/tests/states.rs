@@ -131,6 +131,7 @@ fn ice_melts_again_when_warmed() {
             Operator::Heat {
                 vessel: VesselId(0),
                 energy: Joules(200_000.0),
+                source: None,
             },
             &mut stack(),
             &PermissiveScreen,

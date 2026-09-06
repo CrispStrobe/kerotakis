@@ -151,7 +151,18 @@ pub enum Operator {
     StockShelf { key: String, amount: f64 },
     /// Put energy into a vessel (burner, heating mantle). Negative energy is
     /// expressed with `Cool`.
-    Heat { vessel: VesselId, energy: Joules },
+    ///
+    /// `source` names the thing doing the heating, and above all how hot
+    /// that thing is. Absent means the bench default, a laboratory burner
+    /// with the collar open — so every script written before sources
+    /// existed replays unchanged, and `heat v1 40kJ` still parses to this
+    /// operator with `source: None`.
+    Heat {
+        vessel: VesselId,
+        energy: Joules,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        source: Option<crate::apparatus::HeatSource>,
+    },
     /// Remove energy from a vessel (ice bath).
     Cool { vessel: VesselId, energy: Joules },
     /// Run a magnetic stirrer. The operation owns the mechanical conditions;
@@ -626,6 +637,13 @@ impl PolymerState {
     }
 }
 
+/// A step that never needed to chunk its delivery took one pass. Logs
+/// written before chunked heating existed carry no `passes` field at all,
+/// and one is what they meant.
+fn one_pass() -> u32 {
+    1
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -729,15 +747,43 @@ pub enum Event {
         from: Kelvin,
         to: Kelvin,
     },
-    /// Sensible heat actually accepted by or removed from a vessel. The core
+    /// Heat actually accepted by or removed from a vessel. The core
     /// currently applies energy instantaneously; no power or elapsed-time
     /// claim is made here.
+    ///
+    /// `requested_j` minus `delivered_j` is the part of the dose that had
+    /// nowhere to go. On heating that is the honest consequence of a
+    /// source having a temperature of its own: once the vessel is as hot
+    /// as the flame, the only route left for more energy is chemistry that
+    /// consumes heat at that temperature, and when that is exhausted the
+    /// remainder is simply not delivered.
     EnergyTransferred {
         vessel: VesselId,
         heating: bool,
         requested_j: f64,
         delivered_j: f64,
         time_coupled: bool,
+        /// What was doing the heating, and how hot it is. Absent on
+        /// cooling, which has no modelled coolant, and on logs written
+        /// before heat sources existed.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        source: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        ceiling_k: Option<f64>,
+        /// Of the delivered energy, how much is warmth the vessel still
+        /// holds: Cp·ΔT over the step, measured on the contents as they
+        /// ended. The rest went into chemistry, into a phase change, or
+        /// left with a gas.
+        #[serde(default)]
+        sensible_j: f64,
+        /// How many delivery passes the step needed. One means the dose
+        /// fitted below the ceiling and nothing had to be chunked.
+        #[serde(default = "one_pass")]
+        passes: u32,
+        /// Whether delivery stopped at the pass cap rather than because
+        /// the dose ran out or the vessel reached the source.
+        #[serde(default)]
+        capped: bool,
     },
     /// Mechanical mixing conditions actually delivered by a magnetic
     /// stirrer. Tip speed follows π·bar_length·rpm/60.
