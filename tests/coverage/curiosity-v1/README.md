@@ -155,6 +155,21 @@ quoted:
   recipe's own lot assumptions say so in those words. And the lactic route
   still emits no typed event of its own.
 
+One consequence for the SMOKE SET, which is a corpus edit and not a
+baseline one. `bio-069` was the smoke set's only `missing` row, and
+`curiosity_smoke_routes_without_crashing` asserts that all five
+dispositions appear in the smoke report — an assertion worth keeping,
+because a smoke set that exercises four of five stops noticing the fifth.
+So `aq-091` is swapped out of the sixteen and `aq-085` ("can repeated
+small hexane extractions remove more iodine than one tiny extraction?")
+swapped in. It is the same action family, `separate`, so the pair keeps
+its shape; it moves the pair's second age band from `age9_to12` to
+`age16_to18`, which the set has room for; and it is `missing`, so the
+gate keeps seeing one. The set is still sixteen, still covers every
+action family and every age band, and now carries `computed` 10,
+`qualitative` 2, `boundary` 2, `curated` 1 and `missing` 1. No prompt was
+added, removed or renumbered.
+
 The entry five refreshes below, under "Two run a real fermentation and
 still cannot answer", is now stale in one clause: it says milk resolves
 only water. It no longer does. Its other clause — that lactic acid cannot
