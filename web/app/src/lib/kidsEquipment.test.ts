@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { KIDS_EQUIPMENT } from "./kidsEquipment";
+import { KIDS_EQUIPMENT, kitInfoRows } from "./kidsEquipment";
 
 describe("children's apparatus skins", () => {
   it("maps every familiar object to an existing GUI action", () => {
@@ -19,5 +19,30 @@ describe("children's apparatus skins", () => {
     }
     expect(KIDS_EQUIPMENT.find((item) => item.id === "paper-chromatography-kit")?.parts)
       .toContain("spotting tile");
+  });
+
+  it("keeps the parts list and the boundary, behind the (i) rather than on the card", () => {
+    // The cabinet printed four blocks per kit and became a wall of text.
+    // Nothing was deleted to fix that — it moved — so the check is that
+    // every part and the whole boundary sentence are still reachable.
+    const identity = (key: string) => key;
+    for (const item of KIDS_EQUIPMENT) {
+      const rows = kitInfoRows(item, identity);
+      expect(rows.map((row) => row.term)).toEqual(["parts", "what the model computes"]);
+      for (const part of item.parts) expect(rows[0]?.detail).toContain(part);
+      expect(rows[1]?.detail).toBe(item.boundary);
+      // A sentence is set under its label, not opposite it.
+      expect(rows[1]?.block).toBe(true);
+    }
+  });
+
+  it("localizes every piece it shows, rather than only the labels", () => {
+    // `translate` reaches the part names and the boundary too. Passing it
+    // and only using it on the row labels is the silent half-translation
+    // this asserts against.
+    const shout = (key: string) => key.toUpperCase();
+    const rows = kitInfoRows(KIDS_EQUIPMENT[0]!, shout);
+    expect(rows[0]?.detail).toBe(KIDS_EQUIPMENT[0]!.parts.map((p) => p.toUpperCase()).join(" · "));
+    expect(rows[1]?.detail).toBe(KIDS_EQUIPMENT[0]!.boundary.toUpperCase());
   });
 });
