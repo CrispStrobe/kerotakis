@@ -18,6 +18,10 @@ it had while it was open, which is why a few numbers appear twice below.
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,
   and removed invented Codex safety classifications
+- **KIDS GUI reachability / tranche 2** — gave K02, K04, K26, K31 and K33
+  bilingual structured recipes, preparation, procedures and expected
+  observations, then connected them by exact id to all five familiar kit part
+  lists inside the existing unified catalogue
 - **ANIM-5** — made gas-production bubble cadence follow the engine's molar
   rate and foam collapse reach half height on the engine's half-life, with
   readable/data-attribute evidence and reduced-motion coverage

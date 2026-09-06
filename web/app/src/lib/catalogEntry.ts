@@ -37,8 +37,9 @@
 import { runnableLines } from "./catalogRunner";
 import { normalizeCatalogText, type ExperimentProgressFilter } from "./catalogSearch";
 import { scriptKit, type CodexEntry } from "./codex";
-import { guidedLearningLabel, kidsText, type KidsExperiment, type KidsSafety, type KidsStatus } from "./kidsCatalog";
+import { guidedLearningLabel, kidsList, kidsRecipe, kidsText, type KidsExperiment, type KidsRecipeLine, type KidsSafety, type KidsStatus } from "./kidsCatalog";
 import { kidsShelfKeys } from "./kidsSandbox";
+import { KIDS_EQUIPMENT, type KidsEquipment } from "./kidsEquipment";
 
 /** Which corpus an entry came from. An INTERNAL identifier: never displayed. */
 export type CatalogSourceKind = "codex" | "guided";
@@ -111,6 +112,10 @@ export interface CatalogEntry {
   /** Localized safety explanation and action, independent of progress. */
   safetyRationale: string | null;
   safetyGuidance: string | null;
+  recipe: KidsRecipeLine[];
+  procedure: string[];
+  observations: string[];
+  kits: KidsEquipment[];
   /** The guided task behind this entry, for the sandbox hand-over. */
   guided: KidsExperiment | null;
   done: boolean;
@@ -389,6 +394,10 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     safety: null,
     safetyRationale: null,
     safetyGuidance: null,
+    recipe: [],
+    procedure: [],
+    observations: [],
+    kits: [],
     guided: null,
     done: context.completed.has(entry.id),
     onShelf: onShelf(needs, context.shelfKeys),
@@ -459,6 +468,13 @@ function fromGuided(
     safety: entry.safety,
     safetyRationale: entry.safety_rationale ? kidsText(entry, "safety_rationale", context.locale) : null,
     safetyGuidance: entry.safety_guidance ? kidsText(entry, "safety_guidance", context.locale) : null,
+    recipe: kidsRecipe(entry, context.locale),
+    procedure: kidsList(entry, "procedure", context.locale),
+    observations: kidsList(entry, "observations", context.locale),
+    kits: (entry.kits ?? []).flatMap((id) => {
+      const kit = KIDS_EQUIPMENT.find((candidate) => candidate.id === id);
+      return kit ? [kit] : [];
+    }),
     guided: entry,
     done,
     onShelf: onShelf(needs, context.shelfKeys),
@@ -474,6 +490,9 @@ function fromGuided(
       ...entry.ingredients,
       ...needs,
       ...entry.apparatus,
+      ...(entry.procedure ?? []),
+      ...(entry.observations ?? []),
+      ...(entry.kits ?? []),
       ...(entry.capabilities ?? []),
       ...(entry.codex ?? []),
     ],

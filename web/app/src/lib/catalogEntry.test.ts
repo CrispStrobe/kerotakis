@@ -97,6 +97,17 @@ describe("one entry model", () => {
     });
   });
 
+  it("connects a structured preview to the exact familiar kit", () => {
+    const [entry] = catalogEntries([], [guidedEntry({
+      recipe: [{ ingredient: "baking_soda", quantity: "5 g" }],
+      procedure: ["Add the powder."], observations: ["Gas forms."], kits: ["balloon-kit"],
+    })], context());
+    expect(entry?.recipe[0]?.quantity).toBe("5 g");
+    expect(entry?.procedure).toEqual(["Add the powder."]);
+    expect(entry?.observations).toEqual(["Gas forms."]);
+    expect(entry?.kits[0]?.parts).toEqual(["balloon or gas bag", "sealed connection", "sample vessel"]);
+  });
+
   it("gives a guided task with a shipped codex entry the same run as the codex card", () => {
     const script = codexEntry({ id: "vinegar-and-baking-soda" });
     const [entry] = catalogEntries([script], [guidedEntry({ codex: ["vinegar-and-baking-soda"] })], context())
