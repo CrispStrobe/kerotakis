@@ -1,5 +1,8 @@
 # Kerotakis — Capability extension tasks
 
+> Finished work is not listed here. What landed, and what it taught us, is in
+> [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
+
 Where the product stands against its computational neighbours, and the
 scoped tasks that close the gaps worth closing. Companion to
 [OPTIMIZATION.md](OPTIMIZATION.md); **its Ground rules apply verbatim to
@@ -52,80 +55,38 @@ it does not (see *Declined* at the bottom). What neither neighbour has
 — and we do — is the bench itself: operators, conservation ledgers,
 three registers, provenance on every number, a replayed codex.
 
-## Where we stand today (inventory, 2026-08-23)
+## Where we stand today
 
 19 bench operators; a REPL, `.lab` replay, MCP server and a wasm PWA
 over the same JSON contract; PHREEQC wired for speciation,
 amount-limited equilibrium phases, sealed gas phase, Hfo surfaces,
 saturation indices and redox splits; CEA Gibbs minimisation for TP and
-HP (adiabatic flame); own Nernst electrochemistry (7 couples, galvanic
-cell + electrolysis); 74 registry species, 4 embedded databases, 103
-codex reactions / 189 concepts, 17 lessons. Notable holes the tasks
-below attack:
+HP (adiabatic flame); own Nernst electrochemistry; 142+ registry
+species, 4 embedded databases, 100+ codex reactions, 17+ lessons. Most
+of the 2026-08-23 inventory's "notable holes" (no plotting, `kero
+sweep` self-check only, no uncertainty propagation, 4-species safety
+stub, no titrate/dilute/mix verb, `kerotakis-thermo` unreachable) are
+now closed by the completed CAP tasks — see `## Completed CAP tasks`
+below and `HISTORY.md`. Still open in the PHREEQC vocabulary:
+`EXCHANGE` (CAP-10, remaining half); `KINETICS`/`RATES`,
+`SOLID_SOLUTIONS`, `TRANSPORT`, `INVERSE_MODELING` (ROADMAP R1, beyond
+CAP-10's slice — see `Already scheduled elsewhere` below).
 
-- **`kerotakis-thermo` is dead weight**: VLE, azeotrope and UNIFAC code
-  exists and is tested, but *no crate depends on it* — no operator, CLI
-  command or wasm call can reach it. ~~Four groups, twelve interactions~~
-  **(CAP-18 done)** — six main groups, 30 interactions, five golden
-  γ∞ binaries.
-- **No plotting anywhere**, though the PHREEQC `USER_GRAPH` parsing
-  plumbing already exists unused (`kerotakis-phreeqc/src/lib.rs:94`).
-- **`kero sweep` is a self-check harness** (1536 fixed cases, 8
-  invariants), not a user-facing parameter study.
-- **No uncertainty propagation**; uncertainty lives only in provenance
-  prose.
-- **~~Safety is a 4-species, 2-rule stub~~ (CAP-11 done)** — 129 species
-  (77 at CAP-11; the rest arrived with the registry batches since),
-  11 groups, 7+1 rules; totality enforced in CI. The totality test is what
-  keeps that number honest: a species added to the registry without a
-  safety row fails the build rather than screening as harmless.
-- PHREEQC vocabulary not yet wired: `EXCHANGE`, `MIX`,
-  `KINETICS`/`RATES`, `SOLID_SOLUTIONS`, `TRANSPORT`,
-  `INVERSE_MODELING`.
-- No `titrate`, `dilute` or `mix` verb — titration is hand-rolled
-  repeated `add`.
+**Post-merge note (2026-08-23).** The instrument lines of the original
+inventory were stale even at the time: gas pressure/volume,
+conductivity, spectrophotometer, calorimeter, chromatography and
+qualitative analysis had landed (INST-003–008). New crates since the
+inventory: `kerotakis-data`, `kerotakis-org` (`chematic` adopted off
+the watch list), `kerotakis-sundials`, `kerotakis-registry-export`.
+Cross-check every remaining task against the tree before starting it.
 
-**Post-merge status (2026-08-23, after the R-stage execution sprint
-landed on main).** The inventory above predates that sprint; verified
-against the merged tree the same day: **CAP-10's `EXCHANGE` half is
-done upstream** (typed cation-exchange ledgers plus 1-D transport,
-AQ-007/011–014) — the task re-scopes to the `MIX` routing and the
-softening lesson; **CAP-14 is half done** (`deny.toml` and `about.toml`
-exist via LIC-006/007) — what remains is wiring `cargo deny` into
-`tools/preflight.sh` and CI plus the synthetic-failure proof;
-**CAP-1 stands undiminished** — `kerotakis-thermo` grew EOS, LLE,
-fluid-model and flash modules and *still* has no dependent crate;
-CAP-11 done (77 species, 11 groups, 7+1 rules); CAP-12 done (titrate
-and dilute verbs landed); CAP-18 done (UNIFAC: 6 main groups, 30
-interactions, 5 golden γ∞ binaries, OH↔CH2CO parameter bug fixed). The instrument lines of the old inventory are stale:
-gas pressure/volume, conductivity, spectrophotometer, calorimeter,
-chromatography and qualitative analysis landed (INST-003–008). New
-crates since the inventory: `kerotakis-data`, `kerotakis-org`
-(`chematic` adopted off the watch list), `kerotakis-sundials`,
-`kerotakis-registry-export`. Cross-check every remaining task against
-the tree before starting it.
-
-**Canonicality and the claim audit (2026-08-23, evening).** This file is
-the canonical task list; task numbers are stable identifiers and are
-never re-bound. A 96-line replacement landed the same day redefining
-every CAP number as an adopted-library checkmark and was restored from
-history — the adoption facts it carried are folded into the tasks
-below. A completion checkbox requires the task's Acceptance evidence in
-the marking commit; a checkbox without it is a claim, not a status.
-Audit of the day's completion claims, each verified against the tree:
-
-- **True:** CAP-1 (distil landed — see its status line), CAP-10's
-  `EXCHANGE` half, CAP-14's `deny.toml` + preflight wiring, OPT-4's
-  lookup index (`species.rs` `OnceLock` + `HashMap`).
-- **False as user capability, types/deps only:** CAP-2 (rayon adopted,
-  no `kero study`), CAP-3 (no chart contract or renderer), CAP-4
-  (`phase_diagram.rs` is library-only; no grid solve, no CLI), CAP-5
-  (no relations module, no `kero calc`), CAP-6 (no properties module),
-  CAP-8 (`statistics.rs` types, no `--mc` surface), CAP-13
-  (`vendor/inchi/` holds one README —
-  a scaffold is not a vendored library).
-  **Now true (2026-08-23 evening):** CAP-11 (77-species safety matrix),
-  CAP-12 (titrate and dilute verbs).
+**Canonicality (2026-08-23).** This file is the canonical task list;
+task numbers are stable identifiers and are never re-bound. A
+completion checkbox requires the task's Acceptance evidence in the
+marking commit; a checkbox without it is a claim, not a status. (A
+same-day 96-line replacement mis-stated several tasks' status and was
+restored from history — see `HISTORY.md` for the record if it matters
+again.)
 
 ## Parity matrix
 
@@ -172,1068 +133,128 @@ CAP-26 (breadth programme) ──► BREADTH.md BRD-000…BRD-100
 Library choices below were licence-verified 2026-08-23 and are listed in
 PLAN.md's "Queued by the 2026-08-23 review"; all shipped dependencies must
 clear the shipping bar there (MIT/Apache-2.0/BSD/Zlib/Unlicense/public
-domain — no GPL family, LGPL included). CAP-14 turns that bar into CI.
+domain — no GPL family, LGPL included). CAP-14 turns that bar into CI
+(done — see `HISTORY.md`).
 
 OPT-7 (OPTIMIZATION.md) multiplies CAP-2/-4/-8: grid studies and
-Monte Carlo are thousands of engine calls, and today each one can cost
-hundreds of solves.
-
----
-
-## CAP-1 — Wire `kerotakis-thermo` into the bench
-
-- [x] Status: **done 2026-08-23.** The `distil` operator is the crate's
-      first dependent: bubble point with full UNIFAC γ(T) at the
-      vessel's pressure, all three registers, conservation proptests,
-      four integration tests, the `spirit-still` lesson, and the
-      checked-in ethanol–water azeotrope acceptance test
-      (x = 0.894, 78.1 °C, 95.9 wt% vs literature 0.894/78.17/95.6).
-      Follow-ups spun out as CAP-15…CAP-19 below.
-
-**Why.** The VLE crate (Antoine, bubble point, azeotrope, UNIFAC γ) is
-written, tested — and unreachable: no crate in the workspace depends on
-it. The chemistry it answers ("what boils when, what mixes") is a whole
-row of the PLAN.md thesis table, currently undelivered. This is P3p's
-first concrete slice.
-
-**Scope.**
-
-- Add `kerotakis-thermo` as a dependency where the router lives; route
-  boiling-point questions for aqueous mixtures with a volatile
-  component through `bubble_point` instead of pure-water assumptions.
-- New verb `distil <from> <to> <fraction>` (parser + `Operator` +
-  `apply` + render in all three registers): take overhead vapour of
-  bubble-point composition into the receiver, honestly — one
-  equilibrium stage, said so in lv2/lv3.
-- Grow the Antoine data from 2 datasets (water, ethanol) to the obvious
-  school set (methanol, propanone, ethanoic acid, …) — **each constant
-  from primary literature with a provenance record**; the avoid-list
-  applies. Golden fixtures via the build-time `thermo` (Python) oracle
-  per PLAN.md.
-- One lesson: ethanol–water distillation that *fails to pass the
-  azeotrope*, because that is the true result.
-- New grammar ⇒ extend the `.lab` fuzz target.
-
-**Acceptance.** `kerotakis-thermo` has a dependent; the lesson replays
-in CI; conservation proptests extended to `distil`; preflight green.
-**Size.** Medium. **Depends on:** nothing.
-
----
-
-## CAP-2 — A user-facing study runner (`kero study`)
-
-- [x] Status: **done 2026-08-24** (Fable). `kero study <lab> --vary
-      add:<v>:<species>=<from>..<to>[:steps] --collect <probe>[,…]
-      [--csv]` — one varied parameter (v1, as scoped; the two-parameter
-      grid did not fall out free and is not pretended), probes `ph`,
-      `temp`, `mass`, `titrant_volume` addressed `@vN`, NDJSON default
-      and CSV, every row carrying the varied value and provenance.
-      Rayon-parallel with one engine instance per thread; rows emitted
-      strictly in run order — `a_study_is_byte_deterministic` pins
-      byte-equality of two full runs. An ambiguous selector refuses
-      with the matching line numbers and the `line:<N>` escape hatch.
-      Acceptance met literally: the titration study over
-      `lessons/titration.lab` reproduces the codex's equivalence claim
-      — delivered base moles equal acid moles within one burette step
-      across four acid amounts (`tests/study.rs`). Finding the study
-      surfaced: the titrate verb was delivering *pure* NaOH by volume
-      (~0.053 mol/mL), leaping the whole curve in one step; the burette
-      now holds a standard solution (`titrate v1 NaOH 0.1M 1mL …`,
-      default 1 mol/L) delivering concentration × step moles plus the
-      carrier water, and the engine test walks the curve to
-      equivalence at 10 mL — CAP-12's semantics corrected in place.
-
-**Why.** The workbench class's core workflow is "run the model many
-times, varied over a parameter, and look at the result" — and it is
-also what half the curriculum's practicals *are* (titration curves,
-rate vs temperature, solubility vs pH). We have every ingredient
-(deterministic replay, JSON contract, prewarm-style batch driving) and
-no command.
-
-**Scope.**
-
-- `kero study <lesson.lab> --vary <selector>=<from>..<to>[:steps] --collect <probe>[,…] [--json|--csv]`
-  where the selector addresses an operator argument in the script
-  (e.g. the amount in a marked `add` line) and probes are the existing
-  instrument reads (`ph`, `thermometer`, `balance`) plus solved
-  quantities already in `json_inspect`.
-- One varied parameter in v1; two (grid) only if it falls out free —
-  say which in the commit.
-- Output is NDJSON (one object per run) and CSV; every row carries the
-  varied value and the provenance of the collected quantities.
-- Reuse the replay path `prewarm` uses; no new solver code.
-- Parallelize native runs with `rayon` (MIT OR Apache-2.0) — one engine
-  instance per thread (IPhreeqc instances are per-object); wasm stays
-  serial. Determinism must survive parallelism: results ordered by run
-  index, never by completion.
-
-**Out of scope.** Plotting (CAP-3), distributions (CAP-8),
-optimization (CAP-9).
-
-**Acceptance.** A titration study over `lessons/titration.lab`
-reproduces the equivalence point the codex entry states; runs are
-byte-deterministic; preflight green. **Size.** Medium.
-**Depends on:** nothing (much faster after OPT-7).
-
----
-
-## CAP-3 — Charts: one JSON contract, one renderer
-
-- [x] Status: **done 2026-08-23** (Fable). `kerotakis-core::chart` is
-      the contract (title, axes with units, line/scatter series,
-      mandatory provenance — a chart is a claim); the CLI's
-      `chart_svg` renders it hand-rolled (axes, ticks, legend, clamped
-      provenance caption); `kero chart <json>` is the universal outlet
-      any producer can feed — the study runner and the titration curve
-      plug in the day they exist. First real producer shipped with it:
-      `kero diagram txy`, the ethanol–water T–x–y envelope at 121
-      computed points per curve, bubble and dew pinching shut at the
-      azeotrope because the thermodynamics says so. The Pourbaix
-      region grid remains a sibling shape, noted in the contract for a
-      `Regions` kind when its second producer appears. Renderer held
-      by a binary-path test (every series drawn and named, provenance
-      present).
-
-**Why.** No plot reaches a user anywhere in the product, while the
-`USER_GRAPH` parsing already exists unused
-(`kerotakis-phreeqc/src/lib.rs:94-107`) and CAP-2 produces exactly the
-data a chart wants. A titration curve you computed yourself is worth a
-chapter of prose.
-
-**Scope.**
-
-- Define a chart JSON contract (series, axes with units, title,
-  provenance line) in `kerotakis-core`, emitted by: `kero study`
-  (`--chart` flag), the `USER_GRAPH` plumbing, and the wasm `Lab` (new
-  method returning chart JSON).
-- Render it twice: (a) CLI — a modest SVG file written next to the
-  output (no terminal graphics heroics); (b) web — a small hand-rolled
-  SVG line/scatter renderer in `web/` (the PWA is deliberately
-  framework-free and must stay that way; no chart library, no CDN).
-  Prototype both hand-rolled from the one contract; reach for `poloto`
-  or `plotters` (MIT — re-verify at adoption) only if that genuinely
-  drags, and say so in the commit.
-- Every chart displays its provenance line. A chart is a claim.
-
-**Acceptance.** `kero study … --chart` writes an SVG titration curve;
-the PWA renders the same JSON; both name the engine and dataset;
-preflight green (wasm build included). **Size.** Medium.
-**Depends on:** CAP-2.
-
----
-
-## CAP-4 — Predominance (Pourbaix) diagrams
-
-- [x] Status: **done 2026-08-23** (Fable). `kero diagram pourbaix <El>
-      [--grid NxM] [--out F.svg] [--json]` computes the pe–pH grid cell
-      by cell (one plain engine solve each — pe is the axis, not an
-      unknown), classifies dominance as majority-precipitate else
-      top element-bearing species from the engine's own distribution,
-      and renders SVG with computed water-stability lines, region
-      boundaries, legend and provenance caption. Refusals outside the
-      water-stability field render as the pale wash physics predicts;
-      in-field refusals render dark so a hole can never pass for a
-      region. Curated systems: Fe, Cu (`pourbaix.rs::SYSTEMS` — growing
-      it is data work). Topology pinned by
-      `tests/pourbaix.rs` (ferric/ferrous/hydroxide fields + in-field
-      refusals rare); `--json` emits the CAP-3 chart-contract seed.
-      Fe at 48×40: 1,920 solves, 8 regions.
-
-**Why.** The single most recognisable artefact of the workbench class,
-and pure pedagogy: *computed* pe–pH predominance regions for iron make
-rust, corrosion and redox chemistry visible. All the machinery is a
-grid of PHREEQC solves we already know how to run.
-
-**Scope.**
-
-- `kero diagram pourbaix <element> [--grid NxM] [--databases …]`: solve
-  an N×M pe–pH grid, record the dominant aqueous species or stable
-  phase per cell, emit region polygons in the CAP-3 chart contract
-  (region/heatmap series type — extend the contract, don't fork it).
-  Region boundaries via the `contour` crate (Apache-2.0, marching
-  squares). Its sibling `contour-isobands` is AGPL-3.0 — barred by the
-  shipping bar; do not substitute it.
-- Start with Fe and Cu (both in the registry and the displacement
-  series); water-stability lines drawn from the same thermodynamics,
-  not hardcoded.
-- Diagram carries database provenance; cells where the engine failed
-  render as explicitly unknown, never interpolated over — declining to
-  model something must be loud (PLAN.md).
-- Cache-friendliness: a grid is thousands of near-identical solves —
-  run after OPT-7 or accept the wait.
-
-**Acceptance.** Fe diagram at 25 °C reproduces the textbook topology
-(Fe²⁺ / Fe³⁺ / Fe(OH)₃ / Fe fields) against a golden fixture; renders
-in CLI SVG and PWA; preflight green. **Size.** Medium-large.
-**Depends on:** CAP-2, CAP-3; wants OPT-7.
-
----
-
-## CAP-5 — The named-relations layer (ChemPy's core, our registers)
-
-- [x] Status: **done** (f0af26a). `relations.rs` with Arrhenius,
-      Eyring, Nernst, Henderson-Hasselbalch, ionic strength,
-      Debye-Hückel limiting law, van 't Hoff — each with typed inputs,
-      `Provenance`, lv1/lv2/lv3 register text. `kero calc` CLI command.
-      ChemPy differential oracle (`tools/check-relations-vs-chempy.py`)
-      with 28-case fixture; in-solver Nernst/Arrhenius/H-H call sites
-      refactored to the shared implementations with bit-identical results.
-
-**Why.** ChemPy's most-used surface is not a solver — it is named
-equations you can *ask*: Debye-Hückel, Arrhenius, Eyring, Nernst,
-ionic strength, Einstein-Smoluchowski. We compute several of these
-inside solvers (Nernst in `displacement.rs`, Arrhenius in
-`kinetics.rs`, Henderson-Hasselbalch in `indicator.rs`) but a learner
-cannot invoke one, vary one, or see one explained. The codex has 189
-concepts; the relations are the executable half of many of them.
-
-**Scope.**
-
-- `kerotakis-core/src/relations.rs`: each relation is a struct with
-  typed inputs (existing `units.rs` newtypes — extend them where a
-  relation needs a unit we lack), a `compute()` returning value +
-  `Provenance`, and register text at lv1/lv2/lv3. **Refactor the
-  existing in-solver implementations to call these as the single
-  source of truth — do not fork the formulas.**
-- v1 set: Arrhenius, Eyring (new), Nernst, Henderson-Hasselbalch,
-  ionic strength, Debye-Hückel limiting law (new — labelled with its
-  validity window, ≲0.01 M, and *contrasted* against PHREEQC's real
-  activity model when both are available: that disagreement is a
-  lesson, not a bug), van 't Hoff.
-- `kero calc <relation> <arg>=<value>… [--vary <arg>=a..b]` — the
-  `--vary` form emits the CAP-3 chart contract.
-- Differential oracle: a `tools/` script checks every relation against
-  ChemPy (build-time, per the PLAN.md oracle pattern); fixtures
-  checked in.
-- Codex: each relation `embodied_by` the concept it teaches.
-
-**Acceptance.** ChemPy differential fixtures agree to documented
-precision; in-solver call sites now route through the shared
-implementations with bit-identical test results; preflight green.
-**Size.** Medium. **Depends on:** nothing (charts optional until
-CAP-3).
-
----
-
-## CAP-6 — Property correlations with provenance
-
-- [x] Status: **done** (3e79ed2). `properties.rs` with water ρ(T),
-      η(T), ε(T) from IAPWS formulations plus Henry coefficients for
-      CO₂, O₂, N₂, H₂, Cl₂, NH₃ from primary literature. Validity
-      ranges enforced with loud refusal. `kero properties` CLI command.
-      ChemPy differential oracle (`tools/check-properties-vs-chempy.py`)
-      with 43-case fixture. CODATA 2018 R constant unified across
-      `heat_capacity()` and tests.
-
-**Why.** ChemPy ships temperature-dependent water density,
-permittivity, viscosity and diffusivity, and Henry coefficients — the
-numbers every quantitative exercise leans on. Our registry has
-point constants; `evaporate` and the energy balance would both be more
-honest with ρ(T) and real ΔvapH(T).
-
-**Scope.**
-
-- `kerotakis-core/src/properties.rs`: water ρ(T), η(T), ε(T) from the
-  IAPWS formulations (freely published releases — cite the specific
-  release document in provenance; the avoid-list still applies to
-  *compilations*); Henry coefficients for the gases we ship (CO₂, O₂,
-  N₂, H₂, Cl₂, NH₃) from primary literature. Fundamental constants may
-  come via the `physical_constants` crate (MIT OR Apache-2.0, CODATA) —
-  provenance still recorded per value.
-- Each correlation: validity range enforced (outside it, return the
-  refusal, loudly), provenance record, golden tests at tabulated
-  points.
-- Wire ρ(T) into `evaporate`/volume accounting where the current
-  constant sits; report the before/after on the sweep invariants.
-- `kero properties <species> [--at 25C]` prints the table with
-  provenance.
-- Oracle: ChemPy's parametrizations as the build-time second opinion.
-
-**Acceptance.** Golden tests at reference points; sweep (1536 cases)
-still green — any invariant that moves is investigated, not widened;
-preflight green. **Size.** Small-medium. **Depends on:** nothing.
-
----
-
-## CAP-7 — Balancer parity: underdetermined systems
-
-- [x] Status: **done** (94bbdb7). Replaced f64 Gaussian elimination
-      with exact `Rational64` arithmetic. Underdetermined systems return
-      `BalanceResult::Family` with particular solution + basis vectors.
-      CLI displays parametric families with usage guidance. 21 stoich
-      tests including two textbook underdetermined cases (C+O₂→CO+CO₂
-      and MnO₄⁻+H₂O₂+H⁺→Mn²⁺+O₂+H₂O); `verify_balances` helper
-      confirms element and charge conservation for every solution.
-
-**Why.** ChemPy balances underdetermined reactions and returns the
-parametric family. Our null-space balancer (`stoich.rs`) already
-computes the right object — the null space — but presents only the
-one-dimensional case.
-
-**Scope.**
-
-- When the null space has dimension > 1, present the family: a
-  smallest-integer particular solution plus basis vectors, with lv2
-  text explaining *why* the equation is underdetermined (the classic
-  case: parallel oxidation products). Do the arithmetic exactly —
-  `num-rational`/`num-bigint` (MIT OR Apache-2.0) — so integer families
-  never pass through floating point.
-- Charge-balanced ionic equations (electrons as a pseudo-element if
-  not already).
-- Extend the existing `stoich` fuzz target and unit tests.
-
-**Acceptance.** The textbook underdetermined cases return families,
-not errors; fuzz clean; preflight green. **Size.** Small.
-**Depends on:** nothing.
-
----
-
-## CAP-8 — Monte Carlo uncertainty over studies
-
-- [x] Status: **done 2026-08-24** (Fable). `kero study … --vary
-      <sel>=normal(μ,σ)|uniform(a,b) --mc N --seed S`: samples drawn
-      by the existing seeded `statistics::Experiment` (ChaCha20), rows
-      emitted in run order as before, and a summary carrying
-      p5/p50/p95 + mean/sd per probe (NDJSON object, CSV comments).
-      Percentiles are a sort and an interpolation in `statistics.rs` —
-      one formula did not earn the `statrs` dependency the scope
-      offered, and the code says so. The flag contract refuses out
-      loud: a distribution without `--mc`, `--mc` without `--seed`
-      (the seed is spoken, never invented), `--mc` over a linear
-      range. Acceptance met: the titration-endpoint distribution
-      under a 1 % acid-amount uncertainty on a 0.1 mL burette
-      reproduces the linear-case analytic expectation — mean at
-      equivalence plus the half-step overshoot, σ carrying the input
-      1e-4 through, p95−p5 against 2·1.645σ on the step grid
-      (`tests/study_mc.rs`); same seed twice is byte-identical, a
-      different seed is not. The CAP-3 chart contract gained
-      `Series::Band` (lower/upper envelopes) rendered as a shaded
-      polygon with legend entry.
-
-**Why.** The workbench class propagates input uncertainty by sampling;
-we propagate nothing, while our provenance strings admit "good to
-about a significant figure" in prose. Computed error bars on a
-titration endpoint are honesty made quantitative — squarely this
-project's brand.
-
-**Scope.**
-
-- `kero study … --mc N --seed S` with per-input distributions
-  (`normal(μ,σ)`, `uniform(a,b)`) on varied quantities; output
-  percentiles (p5/p50/p95) per collected probe, plus the raw NDJSON.
-- Deterministic: seed required, PRNG named and pinned (`rand_chacha`);
-  distributions from `rand_distr`, percentiles via `statrs` (all
-  MIT/Apache-2.0); two runs with the same seed are byte-identical.
-- CAP-3 chart contract extension: shaded uncertainty band.
-
-**Out of scope.** Sampling *curated constants* (that touches the codex
-contract — file separately if wanted).
-
-**Acceptance.** Titration-endpoint distribution under a ±0.5 % burette
-uncertainty reproduces analytic expectation on a linear test case;
-determinism test; preflight green. **Size.** Small-medium.
-**Depends on:** CAP-2.
-
----
-
-## CAP-9 — Fit a constant to measured data
-
-- [x] Status: **done 2026-08-30.** `kero fit` fits one curated forward
-      pre-exponential factor in log space against a strict learner
-      `t,observation` CSV. The observation, positive search bounds, and SSE
-      loss are explicit; every prediction starts from a fresh lesson replay,
-      and embedded waits are refused so time cannot be counted twice. The
-      report places the fitted and curated values, source ids, validity,
-      uncertainty note, and a CAP-3 residual chart together. Acceptance is
-      held by `crates/kerotakis-cli/tests/fit.rs`: deterministic noisy data
-      generated at A = 8.4e7 recovers A within 3% through the real WAIT
-      kinetics path, while malformed data and selectors refuse. Scoped core
-      tests prove nested and unwinding overrides restore the immutable
-      curated network.
-
-**Why.** The workbench class fits model parameters to observations.
-Our one honest use case today: a learner's own (t, observation) CSV
-from a rates practical, fitted to a curated rate law — closing the
-loop between the virtual bench and a real one.
-
-**Scope.**
-
-- `kero fit <lesson.lab> --param <selector> --data <csv> --loss sse`
-  — **one scalar parameter, v1**; a local, bounded golden-section search
-  on the replay loss keeps this one-dimensional case deterministic and
-  avoids adding `argmin`'s general optimizer surface. Data is read with the
-  `csv` crate (Unlicense OR MIT). No derivative machinery —
-  rust-cv's `levenberg-marquardt` only if multi-parameter fitting is
-  ever actually asked for.
-- Report the fitted value with a residual plot (CAP-3) and — pointedly
-  — the curated value with its provenance next to it.
-
-**Acceptance.** Recovers a known constant from synthetic noisy data
-within tolerance; preflight green. **Size.** Small-medium.
-**Depends on:** CAP-2 (CAP-3 for the plot).
+Monte Carlo are thousands of engine calls — done, see `HISTORY.md`
+(OPT-7: 272 → 20 engine calls on the worst coupled case).
+
+Note: essentially all CAP tasks above the matrix references (CAP-1
+through CAP-9, CAP-11, CAP-12, CAP-14 through CAP-21) are now done —
+see `## Completed CAP tasks` below. The matrix and dependency graph are
+kept as originally written for parity-comparison context.
 
 ---
 
 ## CAP-10 — First slice of the unwired PHREEQC vocabulary: `EXCHANGE` and `MIX`
 
-- [x] Status: **MIX half done 2026-08-24.** `Operator::Mix` wired
-      through full CAP-1 pattern: parser (`mix v1 0.5 v2 0.5 into v3`),
-      `apply()` with three-body adiabatic temperature balance, `mix()`
-      trait method on `Equilibrator` delegated through `SolverStack` →
-      `PhreeqcEquilibrator`. Native PHREEQC `MIX`
-      input: two SOLUTION blocks + MIX keyword with fractions +
-      EQUILIBRIUM_PHASES + SELECTED_OUTPUT, with fallback to normal
-      `equilibrate()`. `Event::Mixed` rendered at lv1/lv2. Hard-water
-      softening lesson (`lessons/hard-water.lab`) replays. 6 core + 3
-      engine integration tests (mass conservation, acid+base→neutral pH,
-      lesson replay, adiabatic temperature, parser, rejection guards).
-      EXCHANGE half landed upstream. Preflight green.
+- [x] **MIX done 2026-08-24** (see `HISTORY.md`, CAP-10): `Operator::Mix`
+      wired through the full CAP-1 pattern (parser, `apply()` with
+      three-body adiabatic temperature balance, `mix()` trait method,
+      native PHREEQC `MIX` input with fallback), `Event::Mixed` at
+      lv1/lv2, hard-water softening lesson (`lessons/hard-water.lab`),
+      6 core + 3 engine tests, preflight green.
+- [ ] **EXCHANGE remains open.**
 
-**Why.** ROADMAP R1 ("unlock the rest of PHREEQC") owns the whole
-vocabulary; this is its highest-value slice, pulled forward. Ion
-exchange is water softening — a curriculum staple that today has
-nowhere to live — and `MIX` is what our `decant`-based mixing
-approximates by hand.
+**Why.** Ion exchange (water softening) is a curriculum staple with
+nowhere to live. `MIX` (now done) is what `decant`-based mixing used to
+approximate by hand.
 
-**Scope.**
-
-- Wire `EXCHANGE` (input generation + read-back in `aqueous.rs`,
-  behind the same routing discipline as `SURFACE`); a `resin`/
-  exchanger species in the registry with provenance.
-- Route two-solution mixing through `MIX` where both vessels hold
-  solved solutions (keep the current path as fallback; the routing
-  decision is explained in `explain`).
-- One lesson: hard water through an exchange column vessel, Ca²⁺ out,
-  Na⁺ in, hardness measured before and after.
-- Coordinate with OPT-6/OPT-7: this edits the same file — sequence, do
-  not interleave (check OPTIMIZATION.md task status first).
+**Scope (remaining).** Wire `EXCHANGE` (input generation + read-back in
+`aqueous.rs`, behind the same routing discipline as `SURFACE`); a
+`resin`/exchanger species in the registry with provenance. One lesson:
+hard water through an exchange column vessel, Ca²⁺ out, Na⁺ in,
+hardness measured before and after. (Note: typed cation-exchange
+ledgers plus 1-D transport landed upstream via AQ-007/011–014 before
+this task was scoped — re-verify against the current tree whether that
+already satisfies this line before doing the work twice.)
 
 **Acceptance.** Softening lesson replays with element conservation
 across the exchanger; differential-oracle spot checks against the
 Reaktoro fixtures where expressible; preflight green. **Size.**
-Medium. **Depends on:** coordinate with OPT-6/7.
-
----
-
-## CAP-11 — Safety matrix: from stub to methodology
-
-- [x] Status: **done 2026-08-23.** Expanded from 4 species / 4 groups /
-      2 rules to (as of 2026-09-04, counted from the source rather than
-      remembered) **142 species / 14 reactive groups / 10 incompatibility
-      rules** plus the water-reactive special case. Every registry species
-      has an explicit group assignment (totality test
-      `totality_of_covered_keys` enforced in CI). Groups: AcidStrong,
-      AcidTitratable, BaseStrong, OxidizerStrong, OxidizerHypochlorite,
-      ReducingAgent, ActiveMetal, FlammableLiquid, FlammableGas,
-      WaterReactive, AmmoniaAmines, Carbonate, AcidicSalt, ToxicSoluble.
-      Rules: hypochlorite+ammonia (Danger),
-      hypochlorite+acid (Danger), hypochlorite+WEAK acid (Danger — bleach
-      and vinegar is the commonest household poisoning there is, and the
-      strong-acid group correctly excludes vinegar, so the hypochlorite
-      rule takes a second group and nothing else does),
-      oxidizer+flammable liquid (Danger),
-      oxidizer+flammable gas (Danger), oxidizer+reducing agent (Danger),
-      acid+metal (Caution), acid+carbonate (Caution), water-reactive+water
-      (Caution). `never-mix.lab` exercises 4 rules (1 existing + 3 new:
-      oxidizer+flammable, acid+metal, acid+carbonate). 13 unit tests,
-      preflight green.
-
-**Why.** PLAN.md's thesis table lists "is this mixture dangerous —
-solved by database (reactive-group matrix reimplemented from NOAA's
-published methodology)". What ships is 4 species, 4 groups, 2 rules.
-The L0 gate runs on every step; it should know more than chlorine and
-chloramine.
-
-**Scope.**
-
-- First tranche: assign reactive groups to **all 74 registry species**
-  (hand-curated table, provenance per assignment — the published
-  methodology paper, not the database exports on the avoid-list);
-  grow the incompatibility rules to cover the groups those species
-  actually populate (acids, bases, oxidizers, reducing agents, active
-  metals, peroxide formers…).
-- Keep warn-and-proceed as default policy; wire the existing unused
-  `Veto` for the small set where proceeding is pedagogically
-  indefensible — list them in the commit message and the codex
-  (`never-mix` lesson grows with the matrix).
-- Property test: group assignment is total over the registry (a new
-  species without a safety row fails CI).
-
-**Acceptance.** Totality test in CI; the `never-mix` lesson exercises
-at least three new rules; preflight green. **Size.** Medium (curation-
-heavy). **Depends on:** nothing.
-
----
-
-## CAP-12 — `titrate` and `dilute` as first-class verbs
-
-- [x] Status: **done.** `Operator::Dilute` and `Operator::Titrate`
-      wired through the full pattern: parser (`dilute v1 100mL`,
-      `titrate v1 NaOH 1mL until ph 7`), `apply()` for dilute with
-      adiabatic mixing, `titrate_loop()` in `step_with()` with
-      per-step add → equilibrate → read pH → crossing detection,
-      `Event::Diluted` and `Event::Titrated` (carrying the full
-      (mL, pH) curve), three-register rendering, codex event mapping,
-      conservation proptest `RandOp::Dilute` arm (mass + energy
-      conserved, 256 cases green), 6 integration tests
-      (`tests/dilute.rs`), `lessons/titration.lab` rewritten with
-      `titrate`, old spelling preserved as `lessons/titration-manual.lab`,
-      golden regenerated with both lessons, help text completed for
-      all verbs. Titrate reports `NotYetModeled` when no aqueous
-      solver is wired — the verb is honest.
-      **EXP-39 (2026-08-30) completed the endpoint half of the scope
-      line below**: `until <ph OP value | endpoint <indicator>>` is now
-      `until <ph <target> | pe <op> <value> | colour persists>`. The
-      pH endpoint is byte-for-byte what it was; the two redox endpoints
-      read the aqueous engine's own pe and the bench's own computed
-      colour, and refuse politely with the reason when the endpoint is
-      unreachable. The named-indicator spelling remains open — the
-      indicator machinery in `indicator.rs` is still not wired to
-      `titrate`.
-
-**Why.** Titration — the quantitative heart of school chemistry — is
-currently spelled as a dozen hand-written `add` lines, and there is no
-`dilute`. A first-class `titrate` also gives CAP-3 its signature
-artefact: the auto-generated titration curve.
-
-**Scope.**
-
-- `dilute <v> <amount><mL|L>`: add solvent, with the dilution-
-  monotonicity metamorphic invariant attached.
-- `titrate <from> into <to> step <mL> until <ph OP value | endpoint <indicator>>`:
-  an auto-stepper over the existing `add` + solve path — no new solver
-  code — recording (volume, pH) per step; emits the CAP-3 chart
-  contract; refuses politely when no endpoint is reachable and says
-  why.
-- All three registers narrate it; parser + fuzz target extended;
-  `lessons/titration.lab` rewritten to use it (keep the old spelling
-  as a second lesson proving they agree).
-
-**Acceptance.** Old and new titration lessons agree on the endpoint to
-solver precision; grammar fuzz clean; preflight green. **Size.**
-Small-medium. **Depends on:** CAP-3 for the curve (verb itself:
-nothing).
+Medium. **Depends on:** OPT-6/OPT-7 coordination no longer applies —
+both are done (see `HISTORY.md`).
 
 ---
 
 ## CAP-13 — Adopt the official InChI library (MIT since 1.07.1)
 
-- [x] Status: **done 2026-08-24** (Fable), with one scoping deviation
-      stated: the official sources are vendored *inside the
-      checksummed `inchi-sys` 0.1.4 crate* (IUPAC InChI v1.07.5
-      bundled, MIT, statically linked, no network at build) rather
-      than as a git submodule — the Cargo.lock checksum is the pin,
-      and a submodule would duplicate the same tree. The
-      `native-inchi` feature now actually compiles (its previous call
-      site named a function that did not exist — the feature had
-      never been built): SMILES → chematic molecule → V2000 molfile →
-      official library → standard InChIKey
-      (`native_inchikey_from_smiles`). The identity contract:
-      `CURATED_STRUCTURES` pins a SMILES for 23 registry species, and
-      `tests/native_identity.rs` recomputes each key and requires it
-      to equal the registry's `canonical_key` — all 23 matched on
-      first run, and the check is a preflight step ("inchi
-      identity"), so a curation bug now fails the gate. `kero
-      species` marks verified identities with ✓ and names the
-      library version. Cross-validation semantics corrected:
-      chematic's canonical key is a different algorithm, so
-      chematic-vs-native Mismatch is expected and documented, not
-      asserted away. Remaining (not claimed): the Emscripten/wasm
-      InChI build, and growing the tranche to species without simple
-      SMILES (minerals, enzymes, aromatic dyes).
-- [x] Tranche growth: **23 → 65** (2026-08-24, Opus). Added 42 species:
-      monatomic ions (Na+ K+ Cl- Ca+2 Mg+2 Sr+2 Ag+ Cu+2 Cu+1 Fe+2
-      Fe+3 Zn+2 Mn+2), polyatomic ions (NO3- SO4-2 HCO3- H2PO4-),
-      metals (Cu Zn Ag Fe), oxides (CaO MgO CuO MnO2), hydroxide
-      Ca(OH)2, salts (AgCl NaOCl NaHCO3 Na2CO3 Na2SO3 Na2S2O3 AgNO3
-      CaCl2 CaCO3 MgSO4 gypsum CuSO4 KMnO4 FeSO4 ZnSO4), and
-      chloramine NH2Cl. Eleven species were deferred as `write_mol`
-      limitations; **that diagnosis is superseded — see the spike
-      below.**
-- [x] **The chematic molfile spike** (2026-08-30, Opus). Full evidence:
-      [`provenance/cap-13-chematic-molfile-spike.md`](provenance/cap-13-chematic-molfile-spike.md).
+- [x] **Core adoption, tranche growth (23→102) and the chematic molfile
+      spike are all done** (see `HISTORY.md`, CAP-13, and
+      [`provenance/cap-13-chematic-molfile-spike.md`](provenance/cap-13-chematic-molfile-spike.md)
+      for full evidence). Key facts kept: the identity bridge in
+      `crates/kerotakis-org/src/native_inchi.rs` builds the InChI
+      reference implementation's own 0D input structure directly —
+      bypassing the V2000 molfile format entirely, which cannot express
+      stereochemistry or isotopes regardless of chematic's version. Six
+      species remain deferred pending BRD-010's external identity
+      source (Cu(OH)2, MnO4-, Pb+2, Pb(NO3)2, methyl orange,
+      bromothymol blue — both routes agree on these, so it is a
+      curation disagreement, not a writer bug). `Al`'s registry key was
+      corrected to `XAGFODPZIPBFFR-UHFFFAOYSA-N` (PubChem CID 5359268)
+      after the old value was found certified only by two independently
+      wrong computations agreeing (it was alumane, AlH3).
 
-      **What was actually wrong.** The bridge went SMILES → chematic
-      `Molecule` → **V2000 molfile** → official library. That middle
-      step is a narrows: a molecule parsed from SMILES has no
-      coordinates, and chematic 0.18's V2000 writer emits zeros in every
-      field except symbol, charge and bond order. So it cannot say "this
-      bracket atom has no hydrogens" (the valence field is hardcoded 0,
-      and 0 means *use the default valence*), cannot say "this is
-      deuterium" (no mass field, no `M  ISO`), cannot carry a
-      stereocentre at all, and re-spells a SMILES `/` `\` E/Z direction
-      as a **tetrahedral wedge**. That code is byte-identical at
-      upstream `v0.18.0`, `v0.23.0` and `HEAD` — no version bump fixes
-      it.
+- [ ] **Dependency routing decision — open, needs the owner's call.**
 
-      **The fix needs no dependency change.** `inchi` 0.1.4 already
-      exposes the reference implementation's own **0D input structure**
-      (`inchi::Molecule` + `Atom::isotope`/`charge`/
-      `implicit_hydrogens(Exactly(n))` + `add_stereo`), which is
-      precisely the API for a coordinate-less structure. The bridge now
-      builds that directly — `crates/kerotakis-org/src/native_inchi.rs`,
-      no molfile in the path, no Cargo change, no fork, no `[patch]`.
+      **(a) Upstream PR to chematic's V2000 writer** (valence field from
+      explicit H count, `M  ISO` isotope tag) is prepared in-branch
+      (`provenance/chematic/0001-mol2000-*.patch`) but not sent —
+      patching a third party's project under our name needs sign-off.
+      **(b) Vendoring/forking chematic — recommended against.**
+      `deny.toml`'s `unknown-git = "deny"` blocks a
+      `[patch.crates-io]` fork until licence policy is amended (an
+      owner decision), and vendoring costs ~28 kLOC across chematic's
+      dependency tree plus re-basing at every bump. **(c) Recommendation:**
+      keep the pinned crates.io `chematic 0.18` unchanged and use the
+      0D-structure route (already landed) — even a fixed V2000 writer
+      cannot express E/Z geometry without 2D coordinates, so there is no
+      version of this where forking chematic is the answer.
 
-      **Result.** Five of the eleven deferred species now recompute to
-      their registry keys (Mg, Pb, C, S — the bracket-atom class; and
-      phenolphthalein, whose deferral was a wrong curated SMILES, not
-      kekulisation) and joined `CURATED_STRUCTURES`, pinned at 102. On
-      BRD-010's 100-record PubChem fixture the molfile route agrees on
-      **73/100** and the direct route on **100/100**, closing the
-      `UHFFFAOYSA` stereo/isotope signature BRD-010 reported; 19 of
-      those cases are checked in as `tests/stereo_isotope_identity.rs`.
+**Why.** The registry carries an InChIKey per species but nothing could
+*compute or verify* one; identity was a hand-curated string. The L1
+identity crosswalk (UniChem, keyed on Standard InChI) assumes exactly
+this capability.
 
-      **The six still deferred are not writer bugs.** Cu(OH)2, MnO4-,
-      Pb+2, Pb(NO3)2, methyl orange and bromothymol blue compute the
-      *same* key on both routes — which is the proof: a writer defect
-      would show as a difference between the two. They are curation
-      disagreements (four look like the stored key, two like the curated
-      SMILES) and cannot be settled from inside the tree. They wait on
-      BRD-010's external identity source. The 2026-08-24 per-species
-      diagnosis is retired.
-
-      **And one the gate had been certifying wrong.** `Al` was already
-      in the tranche and green, because the registry key
-      `AZDRQVAHHNSJOQ-UHFFFAOYSA-N` is **alumane (AlH3)** and the
-      molfile bridge recomputed AlH3 from `[Al]` — two wrong answers
-      agreeing. Corrected here to `XAGFODPZIPBFFR-UHFFFAOYSA-N`
-      (PubChem CID 5359268), with both keys pinned in
-      `tests/native_identity.rs` so the retired one stays on record as
-      the hydride's.
-
-- [ ] **Dependency routing decision (needs the owner's call).**
-
-      **(a) Upstream PR — prepared, not sent.** The V2000 writer gaps are
-      real for anyone else round-tripping chematic through a molfile, and
-      PLAN.md's rule is "upstream patches where the project is alive"
-      — chematic plainly is (v0.24.0 while this was written). A patch
-      against `v0.18.0` is ready: emit the atom line's valence field
-      from the bracket atom's explicit H count (15 = zero valence), and
-      emit `M  ISO` for isotopic labels, in both the 2D and 3D-conformer
-      writers, with five tests. It is in the branch as
-      `provenance/chematic/0001-mol2000-*.patch`. **Opening it upstream
-      needs the owner's say-so** — it is a patch to a third party's
-      project under our name. Two things belong in the PR text if it
-      goes: the reader skips every `M  ` property line (so `M  ISO` /
-      `M  CHG` do not round-trip back), and `encode_charge` silently
-      writes 0 for any charge outside ±3. Neither is on our path.
-
-      **(b) Vendoring / a git-pinned fork — recommended against, with a
-      cost.** `deny.toml` sets `unknown-git = "deny"` with an empty
-      `allow-git`, so a `[patch.crates-io]` pointing at a fork fails
-      `cargo deny`, i.e. fails preflight, until the licence policy is
-      amended — an owner decision. Vendoring instead means carrying
-      `chematic-mol` *and* its `-core`/`-perception`/`-rxn`/`-smiles`
-      dependencies (≈28 kLOC in `mol` alone) plus NOTICE and
-      `about.toml` attribution, and re-basing it at every chematic bump.
-      Licence is not the obstacle (MIT OR Apache-2.0, inside the
-      shipping bar); maintenance is.
-
-      **(c) What the tree should do now — the recommendation.** Keep the
-      pinned crates.io `chematic 0.18`, unchanged, and take the 0D
-      structure route. It costs one new module, removes a whole format
-      from the identity path, and is strictly better than the fixed
-      molfile would be: even a perfect V2000 writer cannot express E/Z
-      geometry without 2D coordinates, so the stereo half of BRD-010's
-      finding is **not** reachable through a molfile at all. There is
-      therefore no version of this where forking chematic is the answer
-      for us. The upstream patch is a courtesy to other users, not our
-      dependency plan.
-
-**Why.** The IUPAC InChI reference implementation was relicensed to
-plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
-demonstrates its own Emscripten/wasm build. The registry already
-carries an InChIKey per species, but nothing can *compute or verify*
-one — identity is currently a hand-curated string. The L1 identity
-crosswalk (UniChem, keyed on Standard InChI) assumes exactly this
-capability.
-
-**Scope.**
-
-- Vendor the official `IUPAC-InChI/InChI` source on the IPhreeqc
-  pattern (submodule + build.rs behind a feature; Emscripten side for
-  the web, following upstream's own wasm recipe).
-- CI check: every registry entry's stored InChIKey is recomputed from
-  its structure input and must match — a mismatch is a curation bug
-  and fails the build (totality, like the CAP-11 safety rows).
-- `kero species` gains a verified-identity marker; provenance names
-  the InChI version.
-- Keep it feature-gated so the engine-less and minimal wasm builds do
-  not grow unless they use it.
-- **Relation to the Indigo plan.** PLAN.md's L1/L4 design reaches InChI
-  through Indigo's bundled plugin once `kerotakis-indigo` exists.
-  CAP-13 deliberately takes the standalone route *first* — the official
-  library is small, MIT, and needed years before template chemistry is.
-  When the Indigo FFI lands, decide once: keep the standalone build as
-  the single InChI source (Indigo's copy feature-gated off if its build
-  allows) or switch to Indigo's bundled copy and retire this one — but
-  never link two InChI implementations into one artifact. Record the
-  decision here.
-
-**Acceptance.** All 74 registry InChIKeys recompute and match (or the
+**Acceptance.** All registry InChIKeys recompute and match (or the
 curation is fixed); native + wasm builds green in preflight/CI;
-`cargo-deny` (CAP-14) passes with the vendored code declared.
-**Size.** Medium (FFI + build plumbing). **Depends on:** nothing;
-CAP-14 first is tidier.
+`cargo-deny` (CAP-14, done) passes with the vendored code declared.
+**Size.** Medium. **Depends on:** the owner's call on (a)/(b)/(c) above;
+nothing else blocks continued use of the already-landed 0D route.
 
 ---
-
-## CAP-14 — Turn the licence policy into a CI lint
-
-- [x] Status: **done 2026-08-23** — `deny.toml` passes all four
-      checks; `cargo deny` wired into `tools/preflight.sh`; `cargo-about`
-      generates `THIRD_PARTY_LICENSES.html` from `about.hbs` template
-      (164 KB, 81 licences); synthetic copyleft proof: adding
-      `gpl-session = "2.0.0"` as a dependency triggers
-      `error[rejected]: GPL-3.0 ... license is not explicitly allowed`
-      (tested and reverted 2026-08-23).
-
-**Why.** PLAN.md's shipping bar (hardened 2026-08-23) says shipped code
-is MIT/Apache-2.0/BSD/Zlib/Unlicense/public-domain only — no GPL
-family, LGPL included. PLAN queued `cargo-deny` for exactly this; no
-`deny.toml` exists yet. Until the bar is a lint, it is reviewer memory,
-and reviewer memory is how an AGPL transitive dependency arrives
-quietly.
-
-**Scope.**
-
-- `deny.toml` at the workspace root: licence allowlist per the
-  shipping bar; explicit documented exceptions for the vendored
-  public-domain USGS code (IPhreeqc) and any crate with a nonstandard
-  but permissive declaration (each exception carries a comment saying
-  who verified what, when).
-- `cargo deny check licenses bans` wired into `tools/preflight.sh`
-  **and** CI; duplicate-version and yanked-crate checks on, advisories
-  optional (decide and say).
-- `cargo-about` generating the shipped attribution inventory (the
-  NOTICE-adjacent list app stores want) as a build artifact.
-
-**Acceptance.** CI fails on a synthetic copyleft dev-branch dependency
-(prove it once, then revert); current tree passes; preflight includes
-the check. **Size.** Small. **Depends on:** nothing.
-
----
-
-## CAP-15 — Re-source and grow the Antoine data
-
-- [x] Status: **done 2026-08-23** (kero-basic, 8e7e461; audited by
-      Fable 2026-08-23). Every `source` string now cites Stull 1947
-      (Ind. Eng. Chem. 39(4), 517-540, Table I) directly, carrying its
-      own mmHg→kPa conversion arithmetic; a tree-wide grep finds no
-      avoid-list citation. The school set landed with it — methanol,
-      propanone, ethanoic acid — each constant with a golden
-      bubble-point test at its tabulated boiling point (64.7, 56.1,
-      117.9 °C; `pure_*_bubble_point` in vle.rs). Preflight green on
-      the pushes that carried and followed it.
-
-**Why.** Both shipped Antoine sets cite "Stull 1947 *via the NIST
-WebBook*" in their `source` fields; the WebBook is on PLAN.md's
-avoid-list as a legal constraint. **Scope.** Re-derive/verify the
-water and ethanol constants against Stull 1947 (Ind. Eng. Chem.) or
-another primary source and rewrite the two `source` strings; then add
-the school set (methanol, propanone, ethanoic acid, …), each from
-primary literature with provenance, each with a golden test at a
-tabulated boiling point. **Acceptance.** No `source` string cites an
-avoid-list entry; new compounds distil or refuse honestly; preflight
-green. **Size.** Small-medium, curation-heavy. **Depends on:** nothing.
-
-## CAP-16 — γ(T) for the flash paths
-
-- [x] Status: **done 2026-08-23** (Fable). dew_point, tp_flash and
-      hp_flash gained _with variants taking γ as a function of the
-      *liquid composition* and kelvin — the honest signature, because
-      dew and flash solve for the very liquid their γ belongs to. The
-      γ–φ successive-substitution loop wraps the existing bisections
-      (measured contraction ~0.6 per pass on the worst mid-range case;
-      eighty passes clear 1e-9 with margin, and non-convergence refuses
-      rather than publishing a drifting split). The fixed-γ functions
-      are now delegating wrappers, so the formulas cannot fork, and the
-      old suites pass unchanged. Proven by thermodynamic *consistency*,
-      not self-consistency: bubble↔dew roundtrips recover T within
-      0.05 °C and x within 5e-3 at three compositions (two of them to
-      eleven decimals), azeotropic vapour condenses to itself, and a
-      mid-boil flash brackets its feed with the first bubble matching
-      the bubble-point vapour (tests/flash_gamma.rs).
-
-**Why.** `bubble_point_with` couples γ to temperature inside the
-bisection; `dew_point`, `tp_flash` and `hp_flash` still take a fixed
-`gamma` per component, which is wrong by the same few per cent the
-bubble path used to be. **Scope.** `_with` variants taking
-`gammas: FnMut(kelvin) -> Vec<f64>` for all three, fixed-γ wrappers
-preserved; UNIFAC-coupled tests mirroring the azeotrope acceptance
-test at the dew and flash boundaries. **Acceptance.** Ethanol–water
-dew point and TP flash agree with the bubble-path thermodynamics;
-existing fixed-γ tests unchanged; preflight green. **Size.** Medium.
-**Depends on:** nothing.
-
-## CAP-17 — Batch distillation and the column
-
-- [x] Status: **done 2026-08-23** (Fable). (a) Rayleigh integration:
-      `ethanol_water_still` walks 256 steps with the vapour composition
-      following the pot, so long cuts deplete honestly and the boil
-      climbs — the spirit-still lesson now reads "boiled at 88.4 °C and
-      climbed to 92.2 °C as the light component left". (b) The column:
-      `distil … stages N` runs an N-stage cascade at total reflux (the
-      stated upper bound a real column cannot beat); a 40-stage column
-      from wine lands on the azeotrope at x = 0.894 ± 0.02 and reports
-      the wall. (c) Energy: `distil … <E>kJ` boils exactly what that
-      latent-heat budget lifts (ΔHvap: water 40.657 IAPWS-95, ethanol
-      38.56 Majer & Svoboda 1985), and every Distilled event now bills
-      the latent heat the burner paid and the condenser dumped —
-      quantified on the event, deliberately outside the vessel ledger;
-      full coupling through `hp_flash` remains for the feed-flash case.
-      Tests: `thermo/tests/still.rs` (drift, azeotrope wall, exact
-      energy meter) + extended bench suites.
-
-**Why.** `distil` is one equilibrium stage with y frozen at the
-starting composition, stated as such in lv3; `IdealStage` still has no
-methods and the still is externally powered. **Scope.** (a) Rayleigh
-integration so long boils drift honestly; (b) a stage-count parameter
-(`distil … stages N`) built on `IdealStage`, giving fractional
-distillation that walks to — and stops at — the azeotrope; (c) energy
-coupling through `hp_flash` so the still stops being the second
-externally-powered apparatus (the evaporate caveat then has one owner,
-not two). **Acceptance.** N-stage separation of wine reaches
-azeotropic strength where one stage cannot; energy proptest still
-green with the latent term in the ledger. **Size.** Medium-large.
-**Depends on:** CAP-16 for the flash half.
-
-## CAP-18 — Grow the UNIFAC table, provenance per parameter
-
-- [x] Status: **done 2026-08-23.** Expanded from 4 main groups (CH2,
-      OH, H2O, CH2CO) / 8 subgroups / 12 interactions to 6 main groups /
-      10 subgroups / 30 interactions. Added CH3OH (main 6, Fredenslund
-      1975) for methanol, COOH (main 20, Gmehling 1982) for acetic acid.
-      Fixed pre-existing OH↔CH2CO parameter swap (a(5,9) was 164.5,
-      should be 84.0; a(9,5) was −150.0, should be 164.5 — invisible
-      before because no computed binary used both groups). Source
-      citations split: `SOURCE_1975` (groups 1–9 interactions) vs
-      `SOURCE_1982` (group 20 interactions). Five golden γ∞ tests
-      validated against Python `thermo` oracle: methanol–water (2.25),
-      propanone–water (11.47), acetic acid–water (3.51),
-      methanol–propanone (1.96), acetic acid–ethanol (0.96). All
-      existing thermo oracle and LLE tests still pass.
-
-**Why.** Eight groups and twelve interactions cover
-alkane/OH/H₂O/ketone — enough for the ethanol–water proof, far short
-of the school's solvent list. **Scope.** Extend `approved_table()`
-from the original open-literature publications (Fredenslund 1975/1977,
-Gmehling revisions — never the Consortium tables, per PLAN.md's UNIFAC
-note), with `source` per group and per interaction, and a golden γ∞
-test per new binary. **Acceptance.** Each new binary reproduces a
-literature activity coefficient at stated conditions; provenance lint
-green. **Size.** Small per binary, curation-heavy. **Depends on:**
-nothing.
-
-## CAP-19 — The thermo differential oracle
-
-- [x] Status: **done 2026-08-23** (Fable). tools/gen-thermo-fixtures.py
-      generates a 36-point γ grid from Python `thermo`'s own UNIFAC
-      (same published parameters, independent implementation — the
-      check that would have caught the combinatorial bug on day one)
-      plus seven bubble points solved in Python against the same cited
-      Antoine constants; fixtures checked in, replayed by
-      tests/thermo_oracle.rs at 1e-4 relative on γ, 0.05 °C and 5e-4
-      on bubble T and y. At generation time the two implementations
-      agreed to a part in a million on every point, azeotrope included
-      (oracle: 78.074 °C, y = 0.89440). Disagreements are investigated,
-      never tolerated away.
-
-**Why.** PLAN.md's P3p requires golden fixtures generated by the
-Python `thermo` package; nothing in `kerotakis-thermo` is
-oracle-checked yet — the UNIFAC divergence bug survived precisely
-because only self-consistency tests existed. **Scope.** A `tools/`
-build-time script generating flash/VLE/γ fixtures from `thermo`
-(MIT, Python), checked in; a test that replays them against
-`bubble_point_with`/`dew_point`/`tp_flash`/UNIFAC within documented
-tolerances. **Acceptance.** Fixtures cover every shipped Antoine pair
-and UNIFAC binary; disagreements are investigated, not tolerated away.
-**Size.** Medium. **Depends on:** nothing; richer after CAP-15/18.
-
-## CAP-20 — Give the orphaned physics its verbs
-
-- [x] Status: **done 2026-08-24** (multiple sessions). All verb slots
-      filled: extract/drain/chromatograph/react (Fable), transport (Opus).
-      See prose below for per-verb details.
-
-**Why.** The tree's own admission ("types implemented but awaiting
-grammar"): working transport, extraction, photochemistry, reaction
-templates and instruments that no user sentence can reach. The
-grammar, not the physics, is the product bottleneck. **Scope.** One
-verb per landed subsystem, each with the full CAP-1 wiring pattern
-(parser → operator → apply → three registers → conservation arm →
-tests → lesson): `extract` (on `apparatus::extract`, upgraded to use
-`lle.rs` instead of a supplied K), `transport` (the 1-D chain in
-`transport.rs`), `chromatograph` and `calorimeter` (instrument enum
-entries plus grammar), `react` (the two `kerotakis-org` templates —
-the crate's first dependent). Refusals stay loud where data is
-missing.
-
-**First slice done 2026-08-23** (Fable): computed liquid–liquid
-demixing reaches the bench. `lle_binary` was rebuilt as a real
-solver — spinodal scan then the equal-activity tie line by nested
-bisection with an activity-overlap-trimmed bracket (the old ±0.005
-alternating walk stalled a quarter of the composition axis from the
-answer); hexane entered the registry as pure data through the CAP-21
-pipeline (#77, CIAAW/CRC provenance); and water+hexane in a vessel
-now emits a computed `LayersFormed` event (hexane floating, three
-registers, lv3 stating the alkane–water γ∞ honesty bound) while
-water+ethanol provably does not — same machinery, opposite verdict,
-which is the lesson. The `drain` verb followed the same
-day: the separating funnel's stopcock, gated on the computed layers —
-the lower layer runs out with everything dissolved in it (engine test:
-brine drains from under hexane, salt travelling with its water, the
-organic layer left alone), a settled solid stays (a stopcock passes
-liquid; filtration is a different question, and lv3 says so), and
-draining a computed single phase is refused out loud. `layered_pair`
-is the one source of truth the solver's report and the bench's verb
-both consult. Computed partitioning followed the same day: at
-the stopcock a curated neutral solute splits on K = γ∞(upper)/γ∞(lower)
-from the same UNIFAC (ethanol 88% with the water at 2:1 layers,
-methanol 96% — the hydrophilicity ordering emerging from group counts
-alone), a `Partitioned` event says so in three registers, ions still
-travel entirely with their water, and the engine test pins the split
-window and exact solute conservation. The `chromatograph` verb landed
-2026-08-24 (Fable): `Instrument::Chromatograph` on the school column
-(the CAP-22 oracle's own N = 10⁴, t₀ = 60 s, β = 0.5, as
-`ChromatographyColumn::school()`), K per solute computed as
-γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on —
-so column and funnel cannot disagree about hydrophobicity — and a
-`Chromatographed` event carrying the peak table (retention, width,
-area, K) in three registers. Propanone entered the registry as the
-78th species, data-only through the CAP-21 pipeline (CIAAW/CRC
-provenance; the golden diff was one added record, 77 untouched), so
-the demo separation is methanol 63 s, ethanol 68 s, propanone 115 s —
-the ketone retained by its groups alone, Rs > 1 between neighbours.
-Ions are named `outside_method`, never silently dropped (engine test);
-a settled solid was never injected and says so (core test); a
-solute-free or dry sample refuses out loud; the injection provably
-moves no ledger. Lesson: `one-thing-at-a-time.lab`. The calorimeter
-half of the remainder was already served: `Instrument::Calorimeter`,
-its grammar, and `calorimetry.lab` predate this task. The `react` verb landed
-2026-08-24 (Fable): `react v1 esterification` applies a curated
-`OrgReaction` on command — deliberately NOT auto-fired by
-`CuratedEquilibrator`, because vinegar and spirit standing in one
-beaker do not visibly esterify; the verb *is* the conditions. Two
-rows: Fischer esterification (CH3COOH + ethanol ⇌ ethyl acetate +
-water, boundary stating the equilibrium it drives past) and
-saponification (ester + NaOH → NaOAc + ethanol). Ethyl acetate became
-species #79 through the CAP-21 pipeline (CRC/CIAAW; golden diff one
-added record) with its safety row. `kerotakis-org` is now
-load-bearing twice over: the wasm structure panel consumed it already,
-and its SMIRKS templates are the oracle for the curated table —
-`tests/template_oracle.rs` applies each template to reference
-molecules and requires molecule-level identity (chematic canonical
-keys + formulas; standard-InChIKey anchoring is CAP-13's upgrade)
-with the acetate-anion→NaOAc ledger bridge stated. Engine tests pin
-exact mass conservation, limiting-reagent extents, the there-and-back
-round trip (ester made then unmade, the alcohol returns), loud
-refusal naming the missing reactant, and a parse-time shelf listing
-for unknown reactions. Lesson: `there-and-back.lab`.
-
-**Transport verb done 2026-08-24** (Opus): the existing 1-D upwind
-`CellChain` in `transport.rs` now has the full bench wiring.
-`transport v1 v2 v3 from v4 to v5 steps N [courant F]` parses,
-builds an `Operator::Transport`, runs N `CellChain::advance()`
-steps with the inlet as a non-consumed template, deposits
-accumulated effluent into the receiver with adiabatic temperature
-mixing, and emits `Event::Transported` rendered at three register
-levels.  Six integration tests (`transport_verb.rs`) verify the
-binomial dispersion profile, mass conservation, empty-chain and
-zero-steps refusal, water-volume invariance across chain cells,
-and effluent collection.  `transport-column.lab` is the lesson
-(salt pulse through a 3-cell water column at Cf = 0.5).
-CAP-20 done — all verb slots filled (extract's upgrade to lle.rs
-folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
-`kerotakis-org` gains a dependent; preflight green. **Size.** Medium
-per verb — they are independent; take them one per branch.
-**Depends on:** nothing.
-
-## CAP-21 — Make the data pipeline load-bearing
-
-- [x] Status: **done 2026-08-23** (Fable). The registry table is now
-      generated at build time from
-      `data/registry/registry-source-v1.json` — `species.rs` shrank
-      from 1,563 lines to 179, the table stays `static` with
-      `&'static str` fields at zero runtime cost (completing OPT-4's
-      binary-size half on the way), and wasm ships unchanged.
-      Faithfulness proven, not assumed: `tests/registry_snapshot.rs`
-      pins every field and every evaluated spectrum band against a
-      golden captured from the hand-written table before the switch —
-      the migration surfaced and fixed three placeholder InChIKeys and
-      two sub-ulp export-rounding deltas, and nothing else moved. The
-      ceiling itself is demonstrably gone: methanol became the 76th
-      species through a JSON-only commit (identity, composition,
-      three thermodynamic records, provenance citing CIAAW + CRC), and
-      `kero species` lists it with no `.rs` edit anywhere.
-
-**Why.** The pack compiler, resolution ladder and 238-record registry
-JSON exist, and the runtime still reads 77 hand-written Rust literals
-in `species.rs` — the exact ceiling ROADMAP names ("every new species
-is code work"). **Scope.** Generate the runtime registry from the
-compiled pack (build-time codegen or load-behind-the-API, decide and
-say); the parity test already in `kerotakis-data` becomes the gate;
-new species arrive as data, proven by adding one species with no
-`.rs` edit. **Acceptance.** `species.rs`'s table is generated or
-bypassed; a data-only species addition ships end-to-end; preflight
-green. **Size.** Medium-large. **Depends on:** nothing.
 
 ## CAP-22 — Oracle coverage for the sprint's new surfaces
 
-- [ ] Status: **in progress 2026-08-23** (Fable) — and already paying:
-      the first oracle caught a real curation error. The
-      spectrophotometer is now anchored to the literature through the
-      full pipeline (bench → engine → registry spectrum → instrument):
-      permanganate's ε(525) had been curated at 4363 L/(mol·cm), 1.8×
-      the classic ~2455 — every permanganate solution rendered nearly
-      twice too intense. Rescaled to 2400 through the pack pipeline
-      with the correction's provenance on the record. Landed:
-      spectrophotometer literature anchor + Beer–Lambert linearity as
-      a metamorphic invariant; chromatography vs a hand-worked
-      plate-theory example plus limiting identities (void-time,
-      √N-scaling); calorimeter vs the closed-form energy ledger.
-      Remaining: nuclide/photochem oracles wait until those
-      subsystems are wired to anything. Conductivity graduated from
-      this list on 2026-08-30: the ionic-strength stub (which the
-      oracle would rightly have failed) was replaced by a Kohlrausch
-      sum over the solved speciation (`kerotakis-core::conductivity`,
-      λ° from the CRC Handbook/Vanýsek), anchored to the literature
-      the same way the spectrophotometer is — the 0.01 mol/kg KCl
-      calibration standard (1413 µS/cm) is a unit-test invariant,
-      with the model's own overestimate direction and dilute-limit
-      boundary asserted rather than hidden. Above I ≈ 0.1 mol/kgw, or
-      when an ion has no tabulated λ°, the reading declares itself
-      out of calibration instead of pretending.
-      2026-09-05: the meter gained the *other* kind of conductor.
-      A dry solid with no characterised solution now reads the
-      registry's curated `electrical_resistivity` (seven species,
-      one source record, provenance lane pending review) as S/m
-      via `conductivity::dry_solid_conductance`, with the
-      Kohlrausch path untouched for anything aqueous. The two are
-      deliberately separate models in separate units, because
-      ions moving through water and electrons moving through a
-      lattice are not the same physics and a shared scale would
-      invite a comparison that means nothing. Acceptance:
-      `crates/kerotakis-core/tests/resistivity.rs` — six tests
-      pinning the values (Cu 1.678e-8 Ω·m, Fe 9.71e-8, ratio
-      5.79), the handbook ordering, the per-kilogram aluminium
-      trade computed from the density rows rather than asserted,
-      and four refusals. NOT yet reachable from the bench: the
-      `measure` verb's dispatch lives in `bench.rs`, and wiring
-      that one arm is the remaining step.
+- [ ] Status: **in progress** (Fable and others). Landed increments
+      (see `HISTORY.md`, CAP-22, for full detail): spectrophotometer
+      literature anchor + Beer–Lambert linearity invariant (caught a
+      real curation bug: permanganate ε(525) was 1.8× the literature
+      value, 4363 → 2400); chromatography vs plate-theory + √N-scaling;
+      calorimeter vs closed-form energy ledger; conductivity graduated
+      2026-08-30 (Kohlrausch sum over solved speciation, KCl 1413 µS/cm
+      calibration pinned, declares itself out-of-calibration above
+      I≈0.1 mol/kgw); dry-solid conductance 2026-09-05
+      (`electrical_resistivity` registry column, six pinned tests).
+- [ ] **Remaining:** nuclide/photochem oracles wait until those
+      subsystems are wired to anything; the `measure` verb's dispatch
+      in `bench.rs` does not yet reach the dry-solid conductance path.
 
-**Why.** The differential-oracle discipline that makes the PHREEQC
-core trustworthy stops at that crate's border: instruments, apparatus,
-photochemistry, polymers and nuclides carry only self-consistency
-unit tests — the pattern that let a divergent UNIFAC pass. **Scope.**
-Per subsystem, one independent second opinion: spectrophotometer vs
-hand-integrated Beer–Lambert; calorimeter vs closed-form enthalpy;
-chromatography formulas vs a textbook worked example; decay chains vs
-analytic Bateman; CEA already has Cantera. Build-time oracles per the
-PLAN pattern, fixtures checked in. **Acceptance.** Every shipped
-instrument and apparatus number is either oracle-checked or carries a
-written statement of why it cannot be. **Size.** Medium, spread
-across subsystems. **Depends on:** nothing.
+**Why.** The differential-oracle discipline that makes the PHREEQC core
+trustworthy stops at that crate's border: instruments, apparatus,
+photochemistry, polymers and nuclides carry only self-consistency unit
+tests — the pattern that once let a divergent UNIFAC pass unnoticed.
+
+**Scope.** Per subsystem, one independent second opinion (build-time
+oracles, fixtures checked in). Decay chains vs analytic Bateman is
+still open; CEA already has Cantera.
+
+**Acceptance.** Every shipped instrument and apparatus number is either
+oracle-checked or carries a written statement of why it cannot be.
+**Size.** Medium, spread across subsystems. **Depends on:** nothing.
+
+---
 
 ## Already scheduled elsewhere — pointers, not tasks
 
@@ -1250,185 +271,67 @@ across subsystems. **Depends on:** nothing.
 
 ## CAP-23 — The single-solvent organic bench answers with chemistry
 
-- [x] Rung 1: **done 2026-08-24** (Fable). A REPL transcript motivated
-      this task: salts and a metal in a beaker of ethanol drew a wall
-      of "not yet modelled" — but "NaCl is practically insoluble in
-      ethanol (0.065 g/100 mL, CRC)" is an answer, and "zinc does not
-      react with dry ethanol at bench conditions" is knowledge.
-      `nonaqueous::NonAqueousEquilibrator` (wired into all three
-      stacks between the curated reactions and the aqueous engine)
-      applies curated per-(solute, solvent) handbook solubilities —
-      dissolution to the limit as undissociated solute, remainder
-      solid — and curated metal-inertness verdicts with the reason a
-      learner can check. The honesty pass stands aside exactly where a
-      verdict exists and keeps apologising everywhere else; KMnO4 in
-      ethanol is deliberately NOT tabled, because it reacts (rung 2's
-      job) and tabulating it as soluble would be a lie. Model boundary
-      carried in every lv3 line: no speciation, no activity model, no
-      conductivity claim in an organic phase. Acceptance: the
-      motivating transcript replays with numbered verdicts and zero
-      apologies for covered pairs (`tests/nonaqueous.rs`); settled
-      species are not re-verdicted every step; water present means the
-      rung stands aside.
+- [x] **Rungs 1, 2, 2b done** (see `HISTORY.md`, CAP-23): curated
+      per-(solute, solvent) solubility + metal-inertness verdicts
+      (`NonAqueousEquilibrator`, standing aside exactly where a verdict
+      exists); permanganate–ethanol oxidation curated reaction
+      (`4 KMnO4 + 3 C2H5OH → 4 MnO2↓ + 3 CH3COOH + 4 KOH + H2O`, MnO2
+      deposits as a solid); silver metathesis
+      (`AgNO3 + NaCl/KCl → AgCl↓ + NaNO3/KNO3`) gated on the dissolved
+      fraction only. Rung 1 data growth (kero-basic): `ORGANIC_SOLUBILITY`
+      grown 8 → 65 rows, `INERT_IN_SOLVENT` 6 → 24, across
+      ethanol/hexane/propanone/ethyl_acetate, every row CRC Handbook
+      97th ed. sourced. Reactive pairs (e.g. KMnO4/ethanol) excluded by
+      rule, not silently tabled.
 
-- [x] Rung 2: **done 2026-08-24** (kero1). The permanganate–ethanol
-      oxidation the safety screen warns about is now a curated reaction:
-      `4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O`
-      (organic solvent case) and the ionic form for aqueous MnO₄⁻.
-      Both balanced and atom-conserving; MnO₂ deposits as a dark solid.
-      KOH and OH⁻ added to the species registry for product
-      bookkeeping. Honesty pass extended to stand aside for curated
-      solid products (the water byproduct of the reaction had broken
-      `single_organic_solvent`). MnO₂ added to `INERT_IN_SOLVENT`.
-      Acceptance: 10 tests in `tests/permanganate.rs` — stoich balance,
-      mass conservation (both routes), reaction event fires, no
-      NotYetModeled, MnO₂ solid deposited, three registers, limiting
-      reagent; safety screen warning unchanged.
-
-- [x] Rung 2b: **done 2026-08-24** (kero1). Silver metathesis in
-      ethanol: `AgNO₃ + NaCl → AgCl↓ + NaNO₃` and `AgNO₃ + KCl →
-      AgCl↓ + KNO₃`. Fires only in single-organic-solvent bench (no
-      water — PHREEQC handles aqueous). Solvent-gated reactions draw
-      from the dissolved fraction only: undissolved NaCl on the bottom
-      does not participate. NaNO₃ and KNO₃ added to the species
-      registry (with safety rows, golden regen, SMILES in
-      CURATED_STRUCTURES, and exporter canonicalization). CuratedReaction
-      gains an optional `solvent` gate with `available_dissolved()`
-      computing the would-dissolve solid up to the handbook limit.
-      Solvent-gated reactions fire at most once per equilibration step.
-      Acceptance: 10 tests in `tests/silver_metathesis.rs` — stoich
-      balance, AgCl precipitates as solid, dissolved-fractions-only
-      constraint, element conservation, water suppression, no
-      NotYetModeled, three registers.
-
-**Remaining rungs.** Rung 1 data growth (kero-basic, in flight):
-the solubility table toward every registry solid × four solvents,
-handbook-sourced, reactive pairs excluded by rule. Rung 3 (open):
-mixed water/organic solvents — route to PHREEQC above a stated water
-mole-fraction threshold with the co-solvent named as unmodelled for
-activity; refuse below it with the dielectric reason; Born-corrected
-mixed-solvent log K is **declined** until someone brings data worth
-trusting. Bare dissolved ions in an organic phase (MnO4-, HCO3- typed
-straight into ethanol) remain outside every rung and keep their
+**Remaining rungs (open).** Rung 1 data growth continues toward every
+registry solid × four solvents (kero-basic, in flight). **Rung 3
+(open):** mixed water/organic solvents — route to PHREEQC above a
+stated water mole-fraction threshold, with the co-solvent named as
+unmodelled for activity; refuse below it with the dielectric reason.
+Born-corrected mixed-solvent log K is **declined** until data worth
+trusting exists. Bare dissolved ions in an organic phase (MnO4-, HCO3-
+typed straight into ethanol) remain outside every rung and keep their
 honest refusal.
 
-### Rung 1 data growth — 2026-08-24 (kero-basic)
-
-`ORGANIC_SOLUBILITY` grown from 8 to 65 rows across all four solvents
-(ethanol, hexane, propanone, ethyl_acetate). `INERT_IN_SOLVENT` grown
-from 6 to 24 entries (6 metals × 4 solvents). Every row carries a CRC
-Handbook 97th ed. source string. Coverage summary:
-
-- **Ethanol** (26 solubility + 6 inert = 32 species): all 33 registry
-  solids covered (KMnO4 deliberately excluded — reactive pair). Soluble
-  highlights: CaCl2 25.8, NaOH 13.9, NaOAc 5.3, AgNO3 2.1, MgSO4 1.2,
-  S 0.066, NaCl 0.065, KCl 0.03 g/100 mL. All others 'i'.
-- **Hexane** (23 solubility + 6 inert = 29 species): all ionic 'i';
-  sulfur slightly soluble at 0.05 g/100 mL; graphite 'i'.
-- **Propanone** (10 solubility + 6 inert = 16 species): CaCl2 33.3,
-  AgNO3 0.44 g/100 mL; NaCl, KCl, CaCO3, NaOH, MgSO4, CuSO4, S, C
-  all 'i'. Remaining solids uncovered (gypsum/propanone serves the
-  honesty test).
-- **Ethyl acetate** (6 solubility + 6 inert = 12 species): S 1.8
-  g/100 mL; NaCl, CaCO3, CuSO4, NaOH, C 'i'. Remaining solids
-  uncovered.
-
-Reactive exclusions: KMnO4/ethanol (already documented). All other
-KMnO4/solvent pairs left uncovered pending rung 2 scope review.
-
-Tests extended to 9 (was 5): CaCl2/ethanol (soluble, dissolves
-completely), Na2CO3/ethanol (insoluble, all stays solid),
-S/ethyl_acetate (soluble, dissolves completely), Zn/hexane (inert).
-Honesty test updated: gypsum/propanone (uncovered) still draws the
-honest apology.
+**Depends on:** nothing new; Rung 3 wants a stated water mole-fraction
+threshold decision.
 
 ## CAP-24 — Sixteen experiments, one open world
 
-- [ ] Status: scoped 2026-08-24 — the full audit, verdict matrix,
-      quest design, and ownership live in **EXPERIMENTS.md** (kept
-      separate because it is a product map, not a single task).
-      Summary: 4 experiments runnable on today's chemistry (quest
-      authoring only), 7 within curated-data reach, 4 need one small
-      physics model each, 2 are declared boundaries (photovoltaics,
-      acoustics) with codex model-boundary notes. The load-bearing
-      new piece is the quest engine: goal + free bench + event-driven
-      nudges + any-order completion claims — corridors are what the
-      lessons already are; this is deliberately the opposite.
-      **Part 2 added same day:** a ~40-problem aqueous virtual-lab
-      corpus audited in EXPERIMENTS.md (capability classes only — no
-      external content is ever copied, and the source is deliberately
-      not named). Verdict: ~18
-      problem-classes NOW, the rest NEAR/HARDER, zero out of scope.
-      The two cross-cutting enablers are quantitative quest claims
-      (value ± tolerance read from the solved state) and sealed
-      "unknown" reagents (identity hidden by the UI, computed
-      truthfully underneath) — both land in the quest engine.
-- **EXP-2 Backpulver (thermal decomposition):** curated reaction
-      `2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑` with temperature threshold
-      353 K (80 °C; CRC Handbook 97th ed., Merck Index 15th ed.).
-      `CuratedReaction` gains `min_temp_k: Option<f64>` — the reaction
-      fires only when the vessel temperature reaches the threshold.
-      11 tests: equation balance, temperature gating (fires above,
-      silent below), CO₂ gas evolution (open + sealed headspace),
-      Na₂CO₃ solid product, stoichiometry, element conservation,
-      honesty silence, three-register rendering. No new species
-      required (NaHCO₃, Na₂CO₃, CO₂, water already in registry).
-- **EXP-13 Vitamin C (iodine decolorisation):** curated reaction
-      `C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI`. Five new registry species:
-      ascorbic_acid, I₂, dehydroascorbic_acid, HI, starch (indicator).
-      Safety: I₂ as OxidizerStrong, HI as AcidStrong,
-      ascorbic_acid as ReducingAgent, dehydroascorbic_acid + starch
-      inert. 10 tests: equation balance, fires when both present,
-      silent without vitamin C, titration endpoint (I₂ consumed
-      while vitamin C remains, persists past endpoint), product
-      stoichiometry, element conservation, juice-vs-water contrast,
-      three-register rendering. SMILES for 4 molecular species.
-- **EXP-14 Amylase (enzymatic hydrolysis):** curated reaction
-      `2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁`. `CuratedReaction`
-      gains `catalyst: Option<&'static str>` — the reaction fires only
-      when the named catalyst species is present; catalyst is not
-      consumed. Two new registry species: amylase (enzyme, formula "C"
-      placeholder following catalase convention, 55 kDa), maltose
-      (C₁₂H₂₂O₁₁, 342.3 g/mol). Safety: amylase + maltose inert.
-      10 tests: equation balance, enzyme gating (fires with, silent
-      without), catalyst not consumed, product stoichiometry, starch
-      consumed, element conservation, Lugol assay contrast
-      (starch-positive without enzyme, starch-negative after),
-      three-register rendering. SMILES for maltose.
-- **EXP-43 Clock kinetics (iodine-clock class):** two curated kinetic
-      rate laws joining the landed thiosulfate clock: iodide–peroxide
-      `H₂O₂ + 2 KI → I₂ + 2 KOH` (acid-catalysed, first order in
-      each, Ea 56 kJ/mol) and iodate–bisulfite Landolt
-      `KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄` (first order in each,
-      Ea 48 kJ/mol). Four new registry species: KI, KIO₃, NaHSO₃,
-      NaHSO₄. Safety: KI as ReducingAgent, KIO₃ as OxidizerStrong,
-      NaHSO₃ as ReducingAgent, NaHSO₄ as AcidStrong. SMILES for all
-      four. 12 tests: registry lookup, I₂ production, concentration
-      doubling, temperature acceleration, clock time in practical
-      range, product formation, bisulfite consumption, network
-      conservation lint.
+- [ ] Status: **scoped 2026-08-24** — the full audit, verdict matrix,
+      quest design and ownership live in **EXPERIMENTS.md** (kept
+      separate: it is a product map, not a single task). Summary: 4
+      experiments runnable on today's chemistry (quest authoring only),
+      7 within curated-data reach, 4 need one small physics model each,
+      2 are declared boundaries (photovoltaics, acoustics). The
+      load-bearing new piece is the quest engine: goal + free bench +
+      event-driven nudges + any-order completion claims. **Part 2:** a
+      ~40-problem aqueous virtual-lab corpus audited in EXPERIMENTS.md
+      (capability classes only, source deliberately not named) —
+      ~18 problem-classes NOW, the rest NEAR/HARDER, zero out of scope.
+- [x] **EXP-2, EXP-13, EXP-14, EXP-43 landed 2026-08-24** (see
+      `HISTORY.md`, CAP-24): thermal decomposition of NaHCO3
+      (temperature-gated at 353 K); iodine decolorisation by vitamin C
+      (titration endpoint persists past I2 consumption); enzymatic
+      hydrolysis of starch by amylase (catalyst-gated, not consumed);
+      clock kinetics (iodide–peroxide and iodate–bisulfite Landolt rate
+      laws).
 
 ## CAP-25 — The senses of the bench (the visuals' honest sources)
 
-- [x] Slice 1: **done 2026-08-24** (Fable). The GUI's effects layer
-      renders only what the engine emits — so the engine grew the two
-      sources the ask needed most: **smell** (`smell`/`waft` verb;
-      curated odour rows in `senses.rs` with the qualitative-analysis
-      vocabulary; hazardous vapours warn the way a real bench would;
-      an empty answer is spoken because "odourless" is data — CO2
-      teaches why a nose is not a gas detector) and **Burst** (sealed
-      glassware has a teaching limit, ~4 atm editorial constant; a
-      sealed gas-maker now fails as an event with Danger severity,
-      the seal gone, every vented gas an event, the ledger exact
-      through the bang — the GUI explosion is THIS, never a script).
-      Acceptance: tests/senses.rs.
-      **The apparatus catalog** (user-supplied ~70-item palette)
-      lives in APPARATUS.md, each item classed SKIN / PROP /
-      BEHAVIOR(task): ~45 are drawable today over landed verbs; the
-      remainder map to EXP-8/18/30/31/32/33/34 plus three new small
-      behaviours (reduced-pressure boiling, programmed dosing,
-      accelerated settling). GUI workline: the catalog is the
-      requirements list; visuals are our own.
+- [x] **Slice 1 done 2026-08-24** (Fable; see `HISTORY.md`, CAP-25):
+      smell (`smell`/`waft` verb, curated odour rows in `senses.rs`,
+      an empty answer is spoken because "odourless" is data) and Burst
+      (sealed glassware has a teaching overpressure limit, ~4 atm
+      editorial constant; a sealed gas-maker fails as a Danger event,
+      ledger exact through the bang).
+- [ ] **Remaining:** the apparatus catalog (APPARATUS.md, ~70 items) —
+      ~45 are drawable today over landed verbs; the rest map to
+      EXP-8/18/30/31/32/33/34 plus three new small behaviours
+      (reduced-pressure boiling, programmed dosing, accelerated
+      settling). GUI workline: the catalog is the requirements list;
+      visuals are our own.
 
 ## CAP-26 — Breadth: familiar matter, reusable reactions, honest reach
 
@@ -1467,6 +370,67 @@ Coverage floors are set from the measured `BRD-001` baseline, not invented in
 advance. **Out of scope:** claiming universality, bulk-importing unreviewed
 databases, unrestricted synthesis prediction, or letting scene physics become
 a second chemistry ledger.
+
+---
+
+## Completed CAP tasks
+
+- **CAP-1** — wired `kerotakis-thermo` via the `distil` operator with full
+  UNIFAC bubble point and a checked-in ethanol–water azeotrope acceptance
+  test. Done 2026-08-23. See `HISTORY.md`.
+- **CAP-2** — shipped `kero study`, a one-parameter sweep runner,
+  rayon-parallel and byte-deterministic. Done 2026-08-24. (Fable) See
+  `HISTORY.md`.
+- **CAP-3** — defined the chart JSON contract and shipped a hand-rolled
+  CLI/PWA SVG renderer plus `kero diagram txy`. Done 2026-08-23. (Fable)
+  See `HISTORY.md`.
+- **CAP-4** — computed Pourbaix pe–pH predominance diagrams for Fe and
+  Cu with water-stability lines. Done 2026-08-23. (Fable) See
+  `HISTORY.md`.
+- **CAP-5** — added the named-relations layer (Arrhenius, Eyring,
+  Nernst, Henderson-Hasselbalch, Debye-Hückel, van 't Hoff) with `kero
+  calc`. Done. `f0af26a`. See `HISTORY.md`.
+- **CAP-6** — added water/gas property correlations with provenance and
+  `kero properties`. Done. `3e79ed2`. See `HISTORY.md`.
+- **CAP-7** — replaced f64 Gaussian elimination with exact
+  `Rational64` arithmetic for underdetermined balance families. Done.
+  `94bbdb7`. See `HISTORY.md`.
+- **CAP-8** — added Monte Carlo sampling to `kero study` with seeded
+  percentiles and a chart band series. Done 2026-08-24. (Fable) See
+  `HISTORY.md`.
+- **CAP-9** — shipped `kero fit`, a bounded golden-section parameter fit
+  recovering a rate constant within 3%. Done 2026-08-30. See
+  `HISTORY.md`.
+- **CAP-11** — expanded the reactive-hazard safety matrix from 4 to 142
+  species with a totality test enforced in CI. Done 2026-08-23. See
+  `HISTORY.md`.
+- **CAP-12** — added `titrate` and `dilute` as first-class verbs with an
+  auto-stepped titration curve; endpoint grammar extended to pe and
+  colour-persists in EXP-39 (2026-08-30). Done 2026-08-23 (named-indicator
+  spelling still unwired to `titrate`, tracked informally, not a
+  numbered task). See `HISTORY.md`.
+- **CAP-14** — turned the licence policy into a `cargo-deny` CI lint
+  with a synthetic copyleft proof. Done 2026-08-23. See `HISTORY.md`.
+- **CAP-15** — resourced Antoine constants to Stull 1947 and added
+  methanol/propanone/acetic-acid data. Done 2026-08-23. `8e7e461`
+  (kero-basic; audited by Fable). See `HISTORY.md`.
+- **CAP-16** — added temperature-coupled γ to the dew-point and flash
+  solvers, proven by bubble↔dew consistency. Done 2026-08-23. (Fable)
+  See `HISTORY.md`.
+- **CAP-17** — added Rayleigh batch distillation and an N-stage column
+  with energy coupling through `hp_flash`. Done 2026-08-23. (Fable)
+  See `HISTORY.md`.
+- **CAP-18** — grew the UNIFAC table to 6 main groups / 30 interactions
+  and fixed the OH↔CH2CO parameter swap. Done 2026-08-23. See
+  `HISTORY.md`.
+- **CAP-19** — built the Python-`thermo` differential oracle for
+  UNIFAC γ and bubble points. Done 2026-08-23. (Fable) See `HISTORY.md`.
+- **CAP-20** — wired extract/drain/chromatograph/react/transport verbs
+  onto existing but ungrammared physics. Done 2026-08-24. (Fable;
+  transport by Opus) See `HISTORY.md`.
+- **CAP-21** — generated the species registry at build time from JSON,
+  shrinking `species.rs` from 1,563 to 179 lines. Done 2026-08-23.
+  (Fable) See `HISTORY.md`.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 

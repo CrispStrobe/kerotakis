@@ -24,6 +24,26 @@ appearances or changes scientific behavior.
 > Items marked **wasm ✓** were compile-tested locally against
 > `wasm32-unknown-unknown` on that date, not read off a README.
 
+## How these files are used
+
+- **PLAN.md** — intent and open work: the thesis, the architecture, the build
+  order, and what is still to do. Finished items live in `HISTORY.md`.
+- **ROADMAP-GUI.md / ROADMAP-Webapp.md** — numbered open tasks per area (the
+  GUI, and the broader chemistry emulator). Task numbers
+  (GUI-xxx, BRD-xxx, EXP-xxx, CAP-xxx, KID-xx, ARCH-xxx) are **never
+  renumbered and never reused**; a completed item keeps its number and date.
+- **HISTORY.md** — what landed and what was learned, newest first.
+- **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
+  test artefact, not a planning file; leave it alone.
+
+## Localisation is modular by design
+
+A new language (French, Chinese, Japanese) is added in one go by dropping one
+`crates/kerotakis-core/i18n/<lang>.toml` and one
+`web/app/src/locales/<lang>.json` (copied from `_template.json`), with no code
+change. Anything that would require code for a new language is a defect.
+`I18N.md` carries the full file list and the rule behind it.
+
 ---
 
 ## The thesis
@@ -1582,192 +1602,36 @@ Genuinely sequential — each phase is shippable on its own, each depends on the
 state model the previous one hardened, and **from P1 on, the CLI is each
 phase's acceptance demo**.
 
-### P0 — Feasibility spike
+### P0 — Feasibility spike — done 2026-08-19
 
-The single highest-information task. Everything else is downstream of it.
-
-- [x] Build IPhreeqc natively (macOS) and drive it through
-      `LoadDatabaseString` / `RunString` from Rust FFI with no filesystem
-      (`kerotakis-phreeqc`, vendored submodule + cmake build.rs; 4/4 tests)
-- [x] Build IPhreeqc with **Emscripten** (`tools/build-iphreeqc-wasm.sh`,
-      1.2 MB wasm module; needs `-fexceptions` at compile *and* link, plus
-      `-sSTACK_SIZE=8MB` — found the hard way). wasi-sdk single-module attempt
-      remains a time-boxed stretch, never on the critical path
-- [x] Embed all four databases (`include_bytes!` — pitzer.dat has Latin-1
-      comment bytes, so not `include_str!`)
-- [x] One end-to-end case: AgNO₃ + NaCl → SI(cerargyrite) = 0 at equilibrium,
-      0.0099848 mol AgCl precipitated — identical result native (Rust FFI) and
-      wasm (Node, `tools/test-iphreeqc-wasm.mjs`), both in CI
-- [x] Engine quirk, documented in the wrapper: **loading a database resets the
-      selected-output string flag** — `SetSelectedOutputStringOn` must be
-      called after `LoadDatabaseString` (and is re-asserted before every run)
-- [x] Fuzz it: four libFuzzer targets in `fuzz/` (2026-08-20) — the `.lab`
-      grammar (4.4M runs clean), `dbindex` on corrupted database bytes
-      (2.3M clean), arbitrary operator sequences through the bench with
-      non-finite floats (3.2M clean), and the stoichiometry parser, which
-      paid for the whole exercise in its first two minutes: a negation
-      overflow when a balancing coefficient saturates to i64::MIN,
-      reachable from `kero balance` (reported engine-side with minimised
-      artifacts; regression test lands with the fix). Continuous fuzzing
-      (OSS-Fuzz) remains open
-- [x] **Gate passed 2026-08-19:** the offline premise holds. Web ✓ (Emscripten
-      wasm, AgCl case green in Node, CI-enforced) · mobile ✓
-      (`cargo build -p kerotakis-phreeqc --target aarch64-apple-ios` clean) ·
-      native ✓ (macOS, 4/4 tests)
+The single highest-information task; everything else was downstream of it.
+The offline premise holds on web, mobile and native. See `HISTORY.md`.
 
 ### P1 — Bench state machine + energy balance + L0 + CLI
 
-- [x] `Bench`/`Vessel`, mutating + measuring operators (thermometer, balance,
-      pH meter), operator log, solver stack (physics → chemistry → honesty),
-      re-equilibration between steps
-- [x] Enthalpy bookkeeping: thermal mixing on add/decant; curated dissolution
-      enthalpies feed ΔT (NaOH warms the beaker ~+10.6 K, NaCl cools
-      slightly — computed, tested). Solver↔T iteration still single-pass
-- [x] `kerotakis-cli`: REPL + batch (`kero run x.lab`) + `--json` with a
-      contract test pinning the JSON shape
-- [x] L0 wired before any chemistry, on the *prospective* state, for `add`
-      **and** `decant` (`kerotakis-safety`), with graded verdicts:
-      Allow / **Warn-then-show** (the pedagogical default — warning always
-      precedes the chemistry, tested) / Veto (reserved, product-safety
-      boundary). Seed matrix: bleach×ammonia, bleach×acid — both with
-      curated outcomes that actually run (chloramine/chlorine gas evolves,
-      mass measurably leaves the open vessel, NaOH byproduct turns the
-      solution basic)
+The bench state machine, enthalpy bookkeeping, the CLI and the 256-case
+conservation proptest are done; see `HISTORY.md`. Open:
+
 - [ ] Grow the seed matrix to the full published NOAA group set with
       SMARTS-driven group assignment (needs Indigo; legal sourcing per the
       L0 note)
-- [x] Conservation-invariant property tests from the first operator (256-case
-      proptest: mass and energy)
 
 ### P2 — PHREEQC, shippable on its own
 
-- [x] `kerotakis-phreeqc` FFI surface (string-in/value-out, ~15 functions)
-- [x] `PhreeqcEquilibrator`: vessel → element totals + amount-limited
-      `EQUILIBRIUM_PHASES` → back to inventory. Precipitation (AgCl marquee),
-      **computed solubility limits** (8 mol NaCl/kgw leaves ~1.9 mol solid),
-      acid–base via charge balance (0.001 m HCl → pH 3.0), **titration to
-      equivalence** (pH 1.75 → 6.99 → 11.53), 200-seed fuzz with element
-      conservation
-- [x] Weak acids and buffers from the database's own equilibria: 0.1 m
-      acetic acid pH 2.88, equimolar acetate buffer at pKa (4.63), buffer
-      absorbs 0.01 mol HCl with Δ0.08 while plain water crashes to pH 2.0,
-      half-neutralisation midpoint reads pKa — Henderson–Hasselbalch without
-      ever writing it down
-- [x] **Database routing by validity domain** (found the hard way: minteq.v4
-      gives halite solubility 3.7 instead of ~6.1 mol/kgw — its activity
-      model fails in brines): wateq4f for inorganic problems, minteq.v4 only
-      when organics (acetate) are involved; pitzer.dat is the eventual right
-      tool for real brines
-- [x] Content-addressed result cache (keyed by database + canonical input,
-      which is a deterministic function of species set, amounts and T);
-      identical replays served bit-identically with zero engine calls
-- [x] Carbonate chemistry with an **open vessel**: escaping gas phases
-      (CO2(g) equilibrium phase pinned at atmospheric pCO2, one-way) —
-      vinegar + baking soda fizzes ~77% of its carbonate out, plain
-      bicarbonate degasses modestly and drifts basic (thermodynamic truth;
-      bubble-vs-seep is L5 kinetics), the balance sees the mass leave, and
-      the H2O co-product of HCO3- + H+ → CO2↑ + H2O keeps the ledger
-      chemical. NaHCO3 endothermic dissolution cools the beaker
-      (lessons/fizz.lab)
-- [x] True speciation in the expert register: SolutionInfo carries the
-      full equilibrium distribution (molality, activity → γ) parsed from
-      the engine's own report — γ(Ag⁺)=0.78 at I=0.1 m, the AgCl(aq)
-      neutral complex, dissolved O₂/N₂ from redox; deduplicated, cached
-      with the result
-- [x] Phosphate (minteq routing — wateq4f lacks free H3PO4): 0.1 m
-      phosphoric acid pH 1.6, titration reads the *conditional* pKa2
-      (~6.65 at I≈0.25, γ(HPO4²⁻)≈0.4) — textbook-constant vs pH-meter
-      reality, an expert lesson in itself
-- [x] pitzer.dat routing for concentrated major-ion brines: halite
-      saturates at the textbook 6.13 mol/kgw (wateq4f: 6.50, minteq: 3.7 —
-      three databases, three validity domains, routed honestly)
-- [x] Hard-water chemistry (K, Ca, Mg, sulfate; Calcite/Gypsum/Sylvite
-      phases with per-database availability): chalk barely dissolves and
-      fizzes away in acid, hard water deposits limescale, gypsum's two
-      waters of crystallisation move between liquid and crystal in the
-      ledger (exact), CaCl2 is a +20 K hot pack and KCl a −4 K cold pack.
-      Fixed en route: phase-delta baseline is the phase's input amount, not
-      vessel solids (freely-soluble solids double-counted their heat)
-- [x] **Derivation over tables**: the equilibrator's hand-maintained
-      mapping tables are gone. `dbindex` parses the embedded databases
-      (master species, phase dissolution equations → stoichiometry, hydrate
-      waters, log K, element coverage); `derived` computes each registry
-      species' aqueous role from its *formula* by oxyanion-group
-      decomposition, matches mineral phases by composition, picks the
-      stable polymorph by lowest log K, and derives routing capability and
-      per-database phase availability. All 18 suites pass unchanged — the
-      derivation reproduces the tables' chemistry exactly. What stays
-      curated is documented and small: ~6 oxyanion groups, 3 booking
-      overrides (protonation state at teaching pH), atmospheric partial
-      pressures, and the safety layer
+The PHREEQC equilibrator, weak acids and buffers, database routing by
+validity domain, the result cache, carbonate chemistry with an open vessel,
+expert-register speciation, phosphate, brines, hard water and `kero prewarm`
+are done; see `HISTORY.md`. Open:
+
 - [ ] Registry breadth continues with L1 (PubChem/Wikidata export)
-- [x] Cache pre-warming: `kero prewarm lessons/*.lab -o cache.postcard`
-      replays every lesson through the real engine and exports the results
-      (9 lessons, 73 steps → 26 unique solver results, 20 KB). A cold
-      engine that imports it serves the same lessons bit-identically with
-      zero engine calls — tested end to end through the postcard
-      round-trip. The `.lab` grammar is now one shared parser across REPL,
-      batch runner and pre-warmer
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
 ### P2g — Heat and fire
 
-- [x] NASA-9 thermochemistry from CEA's `thermo.inp` (Apache-2.0, vendored
-      with NASA's own LICENSE/NOTICE): Cp(T), H(T), S(T), G(T), formation
-      enthalpies, composition, phase — CO₂ reproduces ΔHf = −393.51 kJ/mol,
-      Cp(298) = 37.13, S° = 213.8 from the coefficients. Species citations
-      kept as provenance. (Found en route: CEA writes element symbols
-      upper-case, "CA" — normalised, or every two-letter element breaks.)
-- [x] **Gibbs minimiser** (Gordon & McBride formulation, Lagrange
-      multipliers per element, damped Newton on ln n, condensed phases
-      admitted/dropped by chemical potential): methane burns to CO₂ + H₂O
-      with elements conserved to 1e-6; products visibly dissociate to
-      CO/OH/H at 3000 K; **CH₄/air adiabatic flame temperature ≈ 2225 K**
-      by bisection on enthalpy; chalk stable at 800 K and fully calcined by
-      1400 K, with the **decomposition temperature computed** (~1170 K
-      textbook window) rather than assumed
-- [x] Two design notes worth keeping: convergence is measured on each
-      species' *contribution*, not its log step (a trace radical doubling
-      every iteration must not hold the mixture hostage — RP-1311 eq 3.14);
-      and an element with no gaseous carrier (calcium) must enter through a
-      condensed phase from the start or its balance row is all zeros. A
-      vessel's **atmosphere is part of the problem**: with CO₂ as the only
-      possible gas, calcite below its decomposition point has no gas phase
-      at all — true, and numerically degenerate. Real beakers contain air
-- [x] **L2g wired into the bench** (`ThermalEquilibrator`): heating chalk
-      calcines it (quicklime left, CO₂ gone), burning magnesium consumes
-      the ribbon into brilliant-white oxide and releases its enormous
-      exotherm into the vessel temperature. Registry species map to CEA
-      species **by composition** — nothing lists the pairs.
-- [x] Three design decisions the wiring forced, all now explicit:
-      **the atmosphere is a reservoir, not inventory** (a vessel stands
-      open in air: oxygen is available without being weighed in, product
-      gases leave — the same one-way exchange as the aqueous fizz);
-      **the species pool is exactly what the registry can name**, so the
-      minimiser can never reach for an exotic carbide we would have to drop
-      (mass loss) or show without a story — widening what the lab can
-      discover is a deliberate act of naming; and a **kinetic threshold**
-      (500 K) below which the solver stands down, because equilibrium would
-      otherwise oxidise every metal on the bench and only kinetics explains
-      why the world is not like that. That gap is L5's, and it is stated
-      rather than hidden.
-- [x] `ignite` operator: a spark that brings the vessel to flame
-      temperature and lets the solvers decide. Magnesium burns with a
-      blinding white light, is consumed into brilliant-white oxide,
-      reaches ~3040 K, and **gains mass** (1 g → 2 g) — the result that
-      surprises every student, because the oxygen came from the air.
-      A spark held to salt leaves *no trace*: the vessel goes back to
-      where it was, and instead of burning it gives the **flame test**
-      (sodium's bright yellow) — chemically right and better pedagogy
-      than either burning it or saying nothing happened.
-- [x] **Observation has a detection limit.** Bookkeeping stays exact, but
-      user-visible events need `OBSERVABLE_MOLES` (1e-6): equilibrium put
-      1.7 nanomoles of chlorine over the salt and the lab announced a
-      poisonous gas cloud. Instruments have detection limits and so does
-      this one; reporting a nanomole as a cloud is a lie of scale.
-- [x] Adiabatic vessels solve **enthalpy-conserving**, not ΔH ÷ Cp: a gram
-      of burning magnesium heats the air around it, not just the speck of
-      oxide it leaves behind (the naive version hit the 6000 K clamp)
+NASA-9 thermochemistry, the Gibbs minimiser, `ThermalEquilibrator`, the
+`ignite` operator and enthalpy-conserving adiabatic vessels are done; see
+`HISTORY.md`. Open:
+
 - [ ] Validate a wider set against build-time Cantera oracle runs
 
 ### P3 — Reordered by curriculum weight, 2026-08-19
@@ -1830,225 +1694,12 @@ Two mechanics matter, both learned the hard way:
 
 So the build order is:
 
-- [x] **Surface pe and Eh**, which we computed and discarded.
-- [x] **Report the redox distribution per element** — `redox — all Fe as
-      Fe(II); all Mn as Mn(VII)`. PHREEQC will split an element across its
-      oxidation states if you name them (`-totals Fe(2) Fe(3)`), and the
-      states themselves are read from the database's master-species block
-      rather than a list of ours. Iron enters the registry for it, since a
-      redox couple with nothing to reduce is not a demonstration.
-- [x] **Couple the elements, so an oxidant and a reductant actually react.**
-      This is the substantive remainder and it is a design change, not a
-      switch. Naming an oxidation state in a `SOLUTION` block *decouples*
-      that element in PHREEQC: it gets its own mass balance and exchanges
-      electrons with nothing. So the bench will currently show permanganate
-      and iron(II) in one beaker — each state correct, their coexistence
-      impossible — and it now *says so* in the routing rather than
-      presenting it as an answer.
-
-      Two routes, both real work:
-
-      * **Reagents as `REACTION` blocks.** What the experiment proved:
-        `SOLUTION` with `Fe 5e-3` (no valence) plus `REACTION … KMnO4`
-        gives pe 12.674 and the exact 50/50 split. But it needs the vessel
-        to remember *what was added* rather than only its element totals,
-        which the bench does not currently do.
-      * **Bisect pe on the electron balance.** The electrons that went in
-        are fixed by what was added and its oxidation state; ask PHREEQC
-        for the distribution at a trial pe, count the electrons, and
-        bisect until it matches. Structurally the same move as
-        `equilibrate_hp` bisecting temperature on enthalpy, and it needs
-        no new state on the vessel.
-
-      The second is the better fit for this engine and is the one that was
-      built. `redox_coupling` computes Σ(oxidation state × moles) as added
-      — conserved by any real redox reaction — and `solve_coupled` bisects
-      pe until the distribution PHREEQC reports reproduces it. Permanganate
-      into iron(II) sulfate now gives the 1:5 ratio the half-equations
-      demand, as an answer rather than a rule: a fifth of an equivalent
-      oxidises a fifth of the iron, and the manganese comes back as Mn(II).
-
-      **Its boundary, which is the interesting part.** A narrowed bracket
-      is not a struck balance. Past the equivalence point no pe in the
-      stability field of water balances the books, because the excess
-      oxidant would have to take its remaining electrons from the water or
-      the chloride. PHREEQC will do exactly that if asked; the bench does
-      not carry the oxygen it makes, so the ledger came out 12% short while
-      the beaker reported every last manganese as Mn(II) — a colourless
-      answer to the one titration whose entire point is that the excess
-      stays purple. The balance is now checked rather than assumed, and an
-      unbalanceable beaker is refused: the stack carries on, the elements
-      are shown in the states they were added in, and the routing says so.
-
-      **What the refusal is not.** It looked like the textbook reason
-      permanganate titrations are run in sulfuric acid rather than
-      hydrochloric — that the chloride gets oxidised. It is not: H₂SO₄ went
-      into the registry to check, and the same beaker made up with sulfuric
-      acid is refused with an identical 2.500e-3 residual. The electrons
-      are owed by the *solvent*, and swapping the acid changes nothing.
-      Chloride oxidation is real chemistry, but this bench does not model
-      it either — Cl is not in `FAST_REDOX`, which is a curated claim about
-      rates — so the HCl/H₂SO₄ distinction cannot be demonstrated here at
-      all, in either direction. Worth stating because the plausible
-      pedagogical story survived being written down and died on the first
-      experiment that could have confirmed it.
-- [x] **Nernst over computed activities; the standard-potential ordering
-      (activity series), displacement, why zinc protects iron.** Built
-      2026-08-20 as `kerotakis-core/src/displacement.rs`, a wrapper around
-      the aqueous solver: solve → let the series move electrons over the
-      activities that solve reported → solve the products again → pin the
-      potential to whatever electrode is left standing.
-
-      **The architecture question, and the experiment that decided it.**
-      Two candidates were on the table: native-metal phases through
-      `EQUILIBRIUM_PHASES`, or an own E° module. The first check was a
-      grep of the shipped datasets for metal phases, and its first answer
-      was wrong: searching for "Silver", "Copper" and bare element names
-      found nothing and the design was nearly written on "no shipped
-      dataset has them, only llnl.dat does". The truth, found by the
-      engine session's conservation fuzz test going red the moment
-      elemental silver entered the registry (silver precipitating out of
-      silver nitrate with no reductant in the beaker — the phase matcher
-      had paired the new solid with a database phase and PHREEQC walked
-      down the redox path at whatever pe it was holding):
-
-      ```text
-      wateq4f.dat   AgMetal  Ag = Ag+  + e-    log_k -13.51
-                    CuMetal  Cu = Cu+  + e-    log_k  -8.76   (the Cu⁺ couple)
-                    ZnMetal  Zn = Zn+2 + 2e-   log_k  25.757
-                    PbMetal, CdMetal; no Fe, no Mg
-      minteq.v4, pitzer, phreeqc.dat:  no metal phase at all
-      ```
-
-      So `EQUILIBRIUM_PHASES` could carry three metals on one routing
-      path, and not the magnesium ribbon the flagship reaction is made
-      of, nor the iron that zinc protects; it would also need the
-      electron balance in `solve_coupled` to count phase moles. The own
-      module covers the whole series on every route and *states its
-      model*. The database's metal phases then became the check on it
-      rather than its engine: `−log_k · (RT ln10/F) / n` from wateq4f
-      gives E°(Zn) = −0.7619 V and E°(Ag) = +0.7993 V against the CRC
-      values the module carries, −0.7618 and +0.7996 — agreement to
-      within a millivolt, pinned by a test. (llnl.dat, not shipped, gives
-      the same ordering with values 40–70 mV lower on its own O₂
-      convention.) Both `AgMetal`-class phases and the metals' cation
-      booking are now excluded in `derived`, so a metal is inert to
-      PHREEQC and only the series moves its electrons.
-
-      **What it computes.** Couples carry E° (CRC) and ΔfH° of the ion
-      (NBS); the extent is found by bisection on the cell potential, so a
-      pair that sits close together stops at a real Nernst root and the
-      school pairs run to the last ion (Mg/Cu²⁺ is 2.7 V apart, K ≈ 10⁹²;
-      copper into silver nitrate leaves 6e-10 mol of Ag⁺, written with →
-      because a learner cannot see it and ⇌ would teach a hesitation the
-      beaker does not show). Heat is the difference of formation
-      enthalpies, balanced as enthalpy across the inventory change rather
-      than as `t0 + q/cp`. Engine-read, 100 mL of water:
-
-      ```text
-      CuSO4 0.01 + Mg 0.02    0.0100 mol Cu plated, 0.0100 mol Mg left, pH 6.56,
-                              26.8 → 39.5 °C; identical either order
-      CuSO4 0.05 + Zn 0.05    +26.2 K  (ΔH −218.7 kJ/mol from ΔfH°, textbook −217),
-                              59.9 °C either order; T agrees to 1.7e-7 K, pH to 7e-10
-      HCl 0.1 + Mg 0.02       0.02 mol H2 up, pH 0.23, +22.4 K, and NO neutralisation
-                              heat — the acid the metal consumed is removed from
-                              the charge ledger before the next solve sees it
-      HCl 0.1 + Cu 0.02       "inert", with the reason (E° +0.342 V above 0.000 V)
-      AgNO3 0.02 + Cu 0.05    0.02 mol Ag plated, the solution turns blue, +3.5 K
-      AgNO3 0.01 + CuSO4 0.01 + Zn 0.005   all the silver, none of the copper
-      ```
-
-      **Its boundary, stated in the beaker.** Three different silences
-      were distinguished because conflating them is the silent-filter
-      fault in a new coat: copper in dilute acid is `Inert` — a computed
-      result about copper, with the potentials; magnesium in brine is
-      `NotYetModeled` — nothing to displace, and its slow reaction with
-      water itself is a *rate* this lab does not compute; a metal plated
-      out this step says nothing further. Kinetics, oxidising acids,
-      overpotentials and air oxidising a metal that merely stands in
-      solution are not modelled, and E° is used at the vessel temperature
-      without dE°/dT.
-
-      **The potential.** A metal in contact with its own ion is an
-      electrode, and the reported pe is that electrode's by Nernst, with
-      the provenance saying so — and saying, where the value lies below
-      water's hydrogen line (magnesium at −2.43 V), that the metal is not
-      at equilibrium with the water it stands in and a voltmeter would
-      read a mixed potential. It is pinned only when both members are
-      present in observable amounts: at exact Zn/Cu²⁺ equivalence the
-      pin keyed on a 2e-10 mol trace of copper one way round and on
-      nothing the other, and the answer depended on addition order
-      (+0.02 V against the open-air +0.77 V). Same rule as the titration
-      endpoint: no couple left, no potential published. Open follow-up:
-      the speciation itself is still solved at the open-air pe, and
-      feeding the electrode's pe into the solve is the next step — which
-      waits on the initial-speciation-versus-air-equilibrium question the
-      engine session opened the same day (the two disagree by 2.2 pH
-      units on an iron beaker, and which side is right wants an oracle).
-
-      **The cell.** `cell v1 v2` wires two vessels as a galvanic cell and
-      reads the voltmeter: E = E(cathode) − E(anode) over each vessel's
-      electrode (`displacement::electrode`, the accessor the electrolysis
-      layer builds on), open circuit — no current, no internal resistance,
-      ideal salt bridge, and the event says so, because a learner's next
-      question after "1.10 V" is how long the torch runs, and that is
-      Faraday's question with a different answer. Zinc in zinc sulfate
-      against copper in copper sulfate, 1 mol/kgw each: **1.104 V**, zinc
-      the anode whichever side it is wired to, nothing in either beaker
-      changed. Copper against silver: 0.483 V against an E° of 0.458 —
-      above it, because at 1 mol/kgw most copper is paired with sulfate
-      and the free-ion activity is what Nernst sees. Diluting the copper
-      side tenfold costs 17.6 mV, not the ideal 29.6, for the same reason;
-      the test asserts that it is *less* than ideal, since exactly 29.6 mV
-      would mean concentrations had reached the equation instead of
-      activities. A copper strip in brine is refused as a half-cell with
-      the reason (`NoCell`), not as a modelling gap.
-
-      **The hydrogen overpotential** (proposed by the engine session when
-      the user asked why real batteries exist; built 2026-08-20). Hydrogen
-      has to *form* on the metal, and that costs an overpotential the
-      thermodynamics knows nothing about — platinum ~0.02 V, iron 0.40,
-      copper 0.60, zinc 0.72, lead 0.88 at a bench-scale current density.
-      It enters `displace` as a gate on one pair only, the H⁺/H₂ couple:
-      driving force = E_H(pH) − E(metal), Nernst as the beaker stands, and
-      if it is under the barrier the reaction is refused *kinetically*, in
-      a different sentence from copper's thermodynamic refusal, because a
-      learner needs to know which. Under 0.1 V of margin it runs and the
-      bench says the rate is not computed. Curated like `FAST_REDOX`, for
-      the same reason: a claim about rates. Its limit: overpotential is
-      current-density dependent and the bench has none, so one number per
-      metal can say "blocked on the timescale of a lesson" and "marginal",
-      never "four hours". The table is *uncited and says so*: the values
-      are electrochemistry-text folklore that neither session verified
-      against a primary table, they spread 0.1–0.2 V between compilations,
-      and magnesium's is an estimate (it corrodes too fast to hold a
-      Tafel line). Nothing computed is sensitive to 0.1 V except lead,
-      where the margin is sevenfold. A worse-looking provenance line than
-      a citation, and the true one.
-
-      Checked before building that it changes no outcome for the metals
-      already on the bench, which is the point — the model earns its
-      place by predicting the observed five and getting the margins
-      right. Engine-read, 0.02 mol metal in 100 mL:
-
-      ```text
-      HCl 0.1 (pH −0.04)      Zn  reacts, margin 0.04 V  (marginal, said)
-                              Fe  reacts, margin 0.05 V  (marginal, said)
-      CH3COOH 0.1 (pH 2.38)   Zn  driving 0.62 V < 0.72: kinetically blocked
-                              Fe  driving 0.31 V < 0.40: kinetically blocked
-                              Mg  reacts; pH 2.38 → 4.27
-      ```
-
-      Zinc in vinegar really is an overnight job and zinc and iron really
-      do fizz far less eagerly than magnesium; both were previously
-      reported as plain reactions. Where it becomes decisive is lead:
-      Pb²⁺/Pb at −0.126 V against 0.88 V of overpotential is blocked by a
-      factor of seven, which is why a lead-acid accumulator can sit in a
-      car full of sulfuric acid for years — and now computed: with lead
-      in the registry (83ec2fb), `Pb` in molar hydrochloric acid is
-      refused kinetically with the 0.88 V barrier named, while zinc
-      plates lead out of lead nitrate without any such trouble, because
-      no gas has to form for that.
+- [x] Surface pe and Eh; report the redox distribution per element; couple
+      the elements through `redox_coupling` + `solve_coupled` (pe bisected
+      on the electron balance); Nernst over computed activities, the
+      activity series, displacement, the galvanic `cell` and the hydrogen
+      overpotential (`displacement.rs`, 2026-08-20). Details and the
+      boundaries each one established are in `HISTORY.md`.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**
@@ -2085,35 +1736,8 @@ the same treatment as above — let the thermodynamics decide.
 
 #### P3k — Rates, the cheap sliver  ← **built**
 
-- [x] `kerotakis-core/src/kinetics.rs`: rate = k·Π[Xᵢ]^nᵢ with k from
-      Arrhenius, orders and activation energies curated with provenance,
-      integrated by a bench clock. `wait 20s` in the `.lab` grammar.
-- [x] **Time is a state dimension**, and shared: `wait` advances *every*
-      vessel, because time is not something one beaker has more of than
-      another. That is the only way a fair test means anything, and the
-      disappearing-cross lesson is exactly two beakers, one variable and
-      one clock.
-- [x] Catalysis is modelled as **a lower activation energy**, not a factor
-      on the rate — which is what a catalyst is. Manganese dioxide and
-      catalase sit side by side on the same reaction so the enzyme's
-      advantage is a computed consequence.
-- [x] The ten-degree rule *falls out* rather than being applied: an
-      activation energy near 50 kJ/mol gives a factor of about two per ten
-      degrees at room temperature, and a steeper barrier visibly breaks the
-      rule of thumb.
-- [x] Codex entries for the practicals: `codex/rates.toml`, 14 entries —
-      order by initial rates, the temperature series *and where the
-      ten-degree rule frays* (×1.90, ×1.80, ×1.69 over successive steps),
-      the three-beaker catalyst comparison, constant half-life, the fair
-      test, and four entries that exist to state a limit rather than a
-      result.
-- [x] **pe and Eh surfaced** (P3e's first step): reported only when the
-      beaker holds a redox couple the user put there, never when it is
-      PHREEQC's default dressed as a measurement. Known limitation written
-      into the source — the test is necessary but not sufficient, and the
-      engine's own "Adjusted to redox equilibrium" marker turned out to fire
-      on the water couple in plain brine, so it is parsed and cached against
-      a better understanding rather than trusted now.
+`kinetics.rs`, time as a shared state dimension, catalysis as a lower Ea,
+`codex/rates.toml` and the pe/Eh surfacing are done; see `HISTORY.md`.
 
 **Integration accuracy is checked against a closed form, not against
 another guess.** A first-order decay has an exact solution, so the
@@ -2133,7 +1757,6 @@ Four bugs that only a rate model could have exposed, all fixed:
   audits every entry in the registry, and a second that checks the declared
   equation string against the modelled stoichiometry, because when those
   two disagree it is usually the code that is lying.
-
 
 - **One unknown species disabled the whole aqueous engine.** `partition`
   returned `None` if *any* species lacked a derived role, so adding
@@ -2335,58 +1958,14 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 
 ### P4 — Codex + curated reaction library + appearance
 
-- [x] Codex schema and content: TOML (a chemistry editor must be able to
-      write it without a build step). Entries span `inorganic`, `aqueous`,
-      `quantitative`, `rates`, `redox` and `states` — dissolving and
-      saturation, precipitation and the common-ion effect, strong, weak and
-      polyprotic acids, buffers and titration, salt hydrolysis, the fizz,
-      hot and cold packs, limescale and hardness, separations, calcination,
-      combustion and the flame tests, redox titration, autoprotolysis,
-      freezing-point depression and Hess's law — resting on a concept
-      graph with prerequisite edges. Every entry carries register copy at
-      all three levels and its own provenance (source, licence, and what
-      computed the numbers), and every prediction's wrong answers carry
-      diagnoses. Live counts belong to `codex lint` and README (whose
-      copies are pinned by tests); this document stopped carrying them
-      after watching its own copies go stale.
-- [x] **Model entries** (`codex/models.toml`) in eight supersession
-      chains: particle → Dalton → Kern-Hülle → shell → charge-cloud →
-      orbital; Arrhenius → Brønsted → Lewis; ionic/covalent/metallic →
-      bond triangle. Every one names what it *lets you predict* and where
-      it *breaks* — Bohr fails at helium, Lewis predicts a diamagnetic O₂
-      that a magnet contradicts, the photoelectron spectrum of methane
-      shows two valence ionisations rather than four equivalent bonds. Lint
-      rejects a model with an empty `fails_at`, because a model shown
-      without its boundary is shown as truth.
-- [x] **Curriculum spine wired in**: `codex/concepts.toml` holds the 189
-      CC0 topics; entries anchor to them with `spine = [...]`; lint rejects
-      an anchor that is not a real topic; and **`kero codex gaps`** prints
-      what the spine says a chemistry curriculum contains that we do not
-      teach yet, grouped by area. The covered count is `gaps`'s to print
-      and README's to quote (pinned by test) — the remainder is the
-      extension work list, and it comes from somebody else's published
-      taxonomy rather than from our imagination
-- [x] `kero codex lint` — **the check that makes the format worth having**:
-      each entry's setup is a `.lab` script, so lint replays it through the
-      real solvers and verifies the claimed observations, pH and
-      temperature actually occur. Claiming a strong acid is neutral fails
-      with "claims pH 6.8–7.2, computed 3.01". CI-enforced, so a curation
-      error cannot merge and a solver change that breaks a lesson is caught
-      at once. Also checks structure: duplicate ids, empty registers,
-      missing provenance, dangling prerequisites, and entries that claim
-      nothing checkable ("a story, not chemistry")
+Codex schema and content, `codex/models.toml`, the 189-concept curriculum
+spine, `kero codex lint` and `kero serve --mcp` are done; see `HISTORY.md`.
+Open:
+
 - [ ] **TOML schema served through `taplo`** (MIT, verified 2026-08-19):
       "a chemistry editor must write it without a build step" gets teeth —
       a JSON Schema in the taplo language server puts red squiggles in the
       editor *before* lint runs
-- [x] `kero serve --mcp` — the bench as an MCP server over the `--json`
-      contract, so drafting agents run their own claims before a human
-      reads them (see "Curation is verifiable, so drafting can be
-      assisted"). Built 2026-08-19: JSON-RPC over stdio; bench tools emit
-      the contract through the *same* builders as the CLI's `--json` mode,
-      and the integration test requires the two answers to be identical,
-      not merely close; `codex_lint` spawns the same `kero codex lint` the
-      CI runs
 - [ ] Indigo template application over homologues; RDKit as build-time
       cross-validator; our SMARTS incompatibility rules
 - [ ] Colour data: species/precipitate/flame colours, indicator ε(λ) sets;
@@ -2399,360 +1978,11 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
 
-**Completed session — `codex-kin` (2026-08-21).** This session delivered the
-first generic-kinetics slice: a reaction-network IR, both current rate laws
-compiled through it without changing lesson or JSON output, and
-element/charge/site/electron conservation lint. Its implementation worktree is
-`/Users/christianstrobele/code/kerotakis-codex-kin` on branch
-`codex-kin/reaction-network`; its code boundary is
-`crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
-tests. The slice also executes reversible, consecutive, and competing reactions
-with atomic, availability-scaled coupled extents. It did not modify the PHREEQC
-BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
-`32481885344` passed native Ubuntu/macOS, Wasm, browser, and combined-solver
-checks. Stiff integration, mechanism-file parsing, and external mechanism data
-remain later, separately reviewed work.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-004/005).** This session
-audited and added the approved implicit-solver dependency, then replaced the
-explicit midpoint loop with adaptive BDF integration over reaction extents,
-including positivity protection, step rejection/retry, depletion events,
-diagnostics, propagated solver errors, and exact-solution tests. Work is isolated
-in `/Users/christianstrobele/code/kerotakis-codex-kin-integrator` on branch
-`codex-kin/adaptive-integrator`. It may modify kinetics modules, focused tests,
-and dependency/audit metadata. It will not modify equilibrium coupling,
-mechanism parsing or data, the PHREEQC BASIC replacement, vendored sources, or
-compatibility fixtures.
-
-KIN-004 audit checkpoint: `diffsol = =0.16.2` is MIT and is selected with
-`default-features = false` plus `nalgebra`. Upstream 0.16.2 still enables its
-pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
-resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
-SUNDIALS, bindgen, and native C compilation are absent from the portable
-runtime graph. The optional `kerotakis-sundials` crate (Track B, native-only)
-does pull SUNDIALS/bindgen/cmake but is never a dependency of the wasm or iOS
-targets.
-The Wasm CI gate remains part of KIN-004 acceptance.
-The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
-target therefore selects its supported `wasm_js` backend explicitly. This is a
-target adapter, not solver randomness, and native targets remain unchanged.
-CI run `32484407871` passed strict lint, all native tests and claims on Ubuntu
-and macOS, core and full-bench Wasm, browser, and combined-solver checks.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-006).** This session
-delivered the first mechanism-file front-end slice: strict parsing and
-validation of portable Cantera-YAML species composition plus elementary
-Arrhenius reactions, lowering them into the existing reaction-network IR, and a
-CLI inspection path with machine-readable output. Work is isolated on branch
-`codex-kin/mechanism-yaml` in a fresh worktree. Its code boundary is new
-kinetics-mechanism modules, focused CLI wiring/tests, and narrowly required
-pure-Rust parsing dependencies. It will not modify equilibrium or surface
-coupling, vessel state, VLE, the PHREEQC BASIC replacement, vendored sources,
-or compatibility fixtures. Three-body and falloff/Troe evaluation remain a
-separate follow-on slice after this schema and diagnostic boundary is proven.
-KIN-006 dependency checkpoint: `serde_yaml_ng = =0.10.0` is MIT and resolves to
-the MIT `unsafe-libyaml` Rust translation (no system libyaml link); `bumpalo`
-`=3.20.3` is MIT OR Apache-2.0 with no default features. The arena gives runtime-owned
-mechanisms a borrowed IR without leaking allocations. Native and Wasm CI gates
-passed in run `32489657046`, including strict lint and all tests/claims on
-Ubuntu and macOS, core and full-bench Wasm, browser, and combined-solver checks.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-007).** This session added
-third-body concentrations and species efficiencies, Lindemann/Troe falloff
-parsing and exact rate evaluation, and gas-network execution through the
-implicit integrator using finite headspace volume. Mechanism inspection now
-reports each rate model and normalized low-pressure prefactor. Exact tests cover
-third-body efficiencies, closed-form Lindemann/Troe rates, schema failures,
-finite-headspace advancement with pressure refresh, and the CLI JSON contract.
-Native, WebAssembly, browser, and combined-solver CI gates passed in run
-`32492646325`. Pressure-log interpolation and external mechanism data remain
-future work.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
-CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
-explicit finite sealed headspace, temperature, duration, repeatable species
-feeds, and implicit reaction-network advancement. Stable JSON reports complete
-initial/final mechanism composition, initial/final pressure, reaction extents,
-and solver diagnostics; human output exposes the same run. Exact CLI tests cover
-the analytic first-order solution, pressure increase, JSON fields, and refusal
-of undeclared feed species. All native, WebAssembly, browser, and combined
-solver CI gates passed in run `32494325781`.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-009).** This session added
-bounded sampled gas-mechanism trajectories to the CLI. The stable JSON contract
-preserves all KIN-008 endpoint fields and adds the initial state plus exact
-evenly spaced requested times, composition and pressure at every point,
-cumulative reaction extents, and aggregate implicit-solver diagnostics. Exact
-tests compare every sampled point with the analytic first-order solution, prove
-monotonic depletion and pressure growth, and reject zero intervals. All native,
-WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-010).** This session added
-strict one- and two-region NASA7 thermochemistry, per-species reference-pressure
-parsing, ideal-gas concentration equilibrium constants, and elementary
-reversible detailed-balance execution in both direct and implicit evaluators.
-Product-side reverse orders and shared thermochemistry validity ranges are
-enforced. CLI inspection/simulation plus exact standard-state equilibrium,
-direct-rate, equilibrium-convergence, out-of-range, and schema tests are
-included. All native, WebAssembly, browser, and combined-solver CI gates passed
-in run `32496871088`. Pressure-dependent reverse reactions remain future work.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-011).** This session added
-instantaneous mechanism-rate diagnostics for university-level multi-step
-analysis: per-reaction forward/reverse/net progress, net species production,
-pressure, and an explicitly defined instantaneous rate-determining candidate in
-stable human and JSON output. Reversible equilibrium reports equal directional
-fluxes with no false limiting candidate; multistep tests prove stoichiometric
-production accounting and step selection. All native, WebAssembly, browser, and
-combined-solver CI gates passed in run `32498166044`.
-
-**Completed session — `codex-kin` (2026-08-21, KIN-012).** This session added
-pressure-dependent Arrhenius gas kinetics with pressure-unit parsing, strict
-pressure-grid validation, same-pressure rate summation, logarithmic pressure
-interpolation, and nearest-endpoint extrapolation shared by direct and implicit
-evaluation. CLI inspection exposes normalized pressure points; CLI rates and
-simulation tests exercise the same evaluator. Closed-form, analytic-decay, and
-invalid-grid tests are included. All native, WebAssembly, browser, combined
-solver, and BASIC transition CI gates passed in run `32499420214`.
-
-**Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
-AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
-reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
-accounting and open/sealed/pressure-controlled checks reached DoD: core and
-strict-lint checks are green, and hosted Ubuntu/macOS native, IPhreeQC, Wasm
-runtime, browser, and combined solver checks passed in CI run `32481206425`.
-
-**Completed concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This
-session added typed finite-capacity HFO surface interfaces, strong/weak site
-ownership, zinc/sulfate occupancy and ligand-exchange water ledgers, PHREEQC
-`SURFACE` compilation/readback, explicit refusal for untracked sorbates, and
-focused conservation/re-equilibration/live-engine tests. It did not modify
-kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
-VLE work. Hosted Ubuntu/macOS native, IPhreeqc, Wasm runtime, browser, and
-combined-solver gates passed in CI run `32491444035`.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-006).** Work was isolated in
-`/private/var/folders/53/8b_q74j10mv9xq84_j44tm1w0000gn/T/kerotakis-aq006.TwawJ86yJn.worktree`
-on branch `codex-aq/aq-006-oracle`. It owned the pH-dependent HFO adsorption
-benchmark, its PHREEQC-facing comparison test, and a development-only oracle
-runner. Reaktoro remains an external `oracle-only` tool: it must not enter any
-crate, app bundle, Wasm artifact, vendored directory, or required CI path. The
-repository may persist only reviewed scalar benchmark facts and aggregate error
-metrics with tool version, input/database identity, retrieval date, and an
-explicit distributability decision. This session did not modify kinetics,
-the BASIC runtime/vendor, VLE, exchange sites, or runtime dependency metadata.
-
-AQ-006 checkpoint: the live engine now exercises three ordered acid-side
-points while checking zinc conservation and finite site capacity. Reaktoro's
-documented PHREEQC database loader was investigated, but its still-open surface
-complexation gap makes it incapable of this benchmark. `tools/surface-oracle.py`
-therefore independently solves the intrinsic acid/base, zinc, sulfate and
-finite-site mass-action balances from the approved USGS `wateq4f.dat`
-constants. It explicitly omits diffuse-layer electrostatics and full aqueous
-side speciation. The live test can export per-case values only when given an
-explicit path and revision/date environment variables; that ephemeral file is
-fed to the tool, whose output contains aggregate errors and monotonic verdicts
-only. The tool and its four stdlib unit checks do not enter any crate, app,
-Wasm artifact or required CI path. Hosted audit run `32494550891` reviewed
-three cases and recorded only the approved aggregate result: strict monotonic
-agreement, mean absolute bound-fraction error 0.07210 and maximum error
-0.21626. Those pass the executable limits of 0.10 mean and 0.25 maximum for
-this deliberately reduced oracle. Native Ubuntu/macOS, strict lint, IPhreeqc
-Wasm, core/full/combined Wasm and the real-browser demo all passed in the same
-run; follow-up run `32495027486` executed and passed those now-enforced limits.
-The temporary hosted audit hook was then removed; the development-only export
-remains explicit and opt-in.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-007).** This session owned the
-first finite-capacity cation-exchange slice in isolated worktree
-`/tmp/kerotakis-aq007.XXXXXXXX.worktree` on branch
-`codex-aq/aq-007-exchange`. Its boundary was typed exchanger state in
-`kerotakis-core`, PHREEQC `EXCHANGE` compilation/readback in
-`kerotakis-phreeqc`, and focused core/live batch-softening tests. The first
-reviewed ledger supports the unavoidable proton balance plus sodium, calcium
-and magnesium; every other exchangeable ion must fail explicitly rather than
-disappear. Tests prove charge-equivalent site capacity, Na/Ca/Mg material
-conservation, measurable hard-water softening, stable repeated equilibration,
-mass stability, legacy-state deserialization, and an explicit refusal event
-for potassium rather than silent loss. Hosted Ubuntu/macOS native, strict
-lint, IPhreeqc Wasm, core/full/combined Wasm and real-browser gates all passed
-in CI run `32498332301`. Hosted diagnostics also exposed a pre-existing
-sub-observable magnesium displacement at 3.16e-11 mol; the generic displacement
-router now ignores changes below the project's observable-moles threshold,
-and its full 19-case suite passed on both native platforms. This session did
-not modify kinetics/mechanism work, MY-BASIC or vendored sources, VLE,
-licensing/dependency metadata, the web UI, or compatibility fixtures.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-008).** This session owned the
-first typed mineral solid-solution slice in isolated worktree
-`/tmp/kerotakis-aq008.worktree.iy7TjZ` on branch
-`codex-aq/aq-008-solid-solutions`. Its boundary is explicit solid-solution
-component state in `kerotakis-core`, PHREEQC `SOLID_SOLUTIONS`
-compilation/readback in `kerotakis-phreeqc`, and focused unit/live tests for
-the non-ideal aragonite-strontianite pair already present in the approved USGS
-database. Typed state owns both end-member inventories and mass; the adapter
-uses the documented example-10 Guggenheim parameters and closes Ca, Sr, and C
-across solution, finite headspace, and mixed crystal. Live checks prove both
-end members co-precipitate, acid dissolves both, and a repeated equilibrium is
-stable without ledger drift; core checks cover invalid states, rendering, and
-legacy deserialization. A hosted diagnostic also caught and fixed two generic
-ownership leaks: exchanger reconciliation no longer caps calcium when no
-exchanger exists, and solid-solution reconciliation is inactive for ordinary
-aqueous vessels, preserving the limewater gas-dose contract. CI run
-`32501821856` passed Ubuntu/macOS native and strict lint, both MY-BASIC preview
-gates, core/full/combined Wasm, IPhreeqc Wasm, and the real-browser demo. This
-session did not modify reaction-network/kinetics work, MY-BASIC or vendored
-sources, VLE, transport, licensing/dependency metadata, or the web UI.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-009).** Work was isolated in
-`/tmp/kerotakis-aq009.worktree.ddVJwWRg` on branch
-`codex-aq/aq-009-phreeqc-kinetics`. This session added one evidence-producing
-mineral-dissolution trajectory comparison between PHREEQC `KINETICS` and the
-already-merged Kerotakis reaction-network integrator. Five ordered points from
-a project-authored first-order calcite-dissolution case are checked against the
-analytic solution, against each other within `5e-5` relative error, and against
-independent solid/Ca/C ledgers. The evidence selects Kerotakis as owner of time
-integration and the vessel clock: its integrator is portable core state and
-already composes reaction networks, whereas PHREEQC `KINETICS` requires the
-opt-in BASIC path. PHREEQC remains the aqueous equilibrium/speciation engine
-and a development comparator behind `my-basic`; production no-BASIC
-behavior is unchanged. No external kinetics corpus, new runtime data,
-vendored-source change, or physical calcite-rate claim was introduced. Local
-native compilation was skipped after the required one-minute load sample stayed
-at 5.30–6.58 (threshold below 4); hosted run `32503082107` passed native
-Ubuntu/macOS, strict lint, both MY-BASIC preview gates, core/full/combined Wasm,
-IPhreeqc Wasm, and the real-browser demo.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-010).** Work was isolated in
-`/tmp/kerotakis-aq010.worktree.JvxKka5a` on branch
-`codex-aq/aq-010-partial-freezing`. Conservative partial freezing now moves
-pure water into the existing solid phase while retaining solutes in the liquid
-compartment; native and browser stacks re-run aqueous speciation after solvent
-mass changes and settle liquidus/temperature within the aqueous engine's
-declared `0.05 K` resolution. PHREEQC counts only liquid water as solvent and
-preserves solid ice outside its solution reconstruction. Core checks cover
-bounded convergence, repeated stability, conservation, and the explicit
-`252 K` model boundary; a live NaCl check covers pure-ice exclusion, residual
-brine concentration, water/sodium ledgers, common liquidus temperature, and
-repeat stability. The boundary refuses further extrapolation because salt
-solids and a solute-specific phase diagram are then required. No transport
-cells (AQ-011), general compartment redesign, kinetics/MY-BASIC changes, data
-imports, dependencies, or vendored-source changes were added. Local native
-compilation was skipped because the required load samples remained above 4;
-CI run `32506920952` passed native Ubuntu/macOS, strict codex lint, both
-MY-BASIC preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser
-demo.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-011).** Work was isolated in
-`/tmp/kerotakis-aq011.mKxoxd/worktree` on branch
-`codex-aq/aq-011-cell-chain`. `kerotakis-core` now owns a project-authored,
-uniform 1-D finite-volume chain over existing `Vessel` cells. A transport step
-snapshots every outflow before mutation, applies first-order upwind transfer to
-liquid/aqueous portions, and reports explicit injected and effluent parcels so
-open-system ledgers close. Solids, surfaces, exchange sites, solid solutions,
-and headspaces remain with their cell; moved cells lose stale solution
-metadata. Typed validation covers empty/non-uniform geometry, invalid Courant
-fractions, incompatible inlet volume, invalid mobile state, and thermostatted
-cells whose bath would add an unreported energy term. The passive-tracer test
-pins repeated binomial profiles, constant cell water, stationary inventory,
-and per-step species, analytical-charge, and sensible-energy conservation. No
-exchange/surface reaction coupling, PHREEQC `TRANSPORT`, public scripting/UI,
-kinetics or MY-BASIC change, data import, dependency, or vendored-source change
-was added. Local native compilation was skipped under the load policy; CI run
-`32508147378` passed native Ubuntu/macOS, strict codex lint, both MY-BASIC
-preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser demo.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-012).** Work was isolated in
-`/tmp/kerotakis-aq012.7mpydZ/worktree` on branch
-`codex-aq/aq-012-exchange-transport`. The core cell chain now supports atomic
-first-order operator splitting: conservative transport, then inlet-to-outlet
-local equilibrium with indexed event results. A failed cell solve restores the
-complete pre-step chain; a deliberate second-cell failure test pins that
-contract. The live acceptance case drives a four-cell sodium-form resin column
-through the existing typed PHREEQC `EXCHANGE` adapter for 12 pore volumes.
-Calcium effluent starts below `1e-8` of feed, exceeds 80% by pore volume 12,
-and rises by more than 25 percentage points from its midpoint. Per-step
-calcium and sodium inventories close across dissolved, exchanger-bound, inlet,
-and effluent ledgers within `2e-8 mol`, and every exchanger retains valid finite
-capacity. The hydraulic geometry comparison now admits one part per million,
-consistent with the app's documented water-only additive-volume proxy and the
-observed reactive solvent readback, while still rejecting material geometry
-changes. No surface transport, PHREEQC `TRANSPORT`, public scripting/UI,
-database/species expansion, kinetics or MY-BASIC change, data import,
-dependency, or vendored-source change was added. Local native compilation was
-skipped under the load policy; CI run `32509744496` passed native
-Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
-core/IPhreeqc/full/combined Wasm, and the real-browser demo.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-013).** Work was isolated in
-`/tmp/kerotakis-aq013.JrJDuc/worktree` on branch
-`codex-aq/aq-013-surface-transport`. A live four-cell HFO column now advances
-20 full-cell shifts over the AQ-012 reactive chain with finite stationary
-strong/weak sites. Per-step zinc and sulfate ledgers close across dissolved,
-surface-bound, inlet, and effluent inventory within `2e-8 mol`. Against a
-separate raw PHREEQC `TRANSPORT` calculation, the normalized outlet front
-agrees within one shift at half-breakthrough, 2.5% mean absolute curve error,
-and 25% at every individual grid sample. Solver reuse is isolated between
-vessels, typed surface readback is capped by analytical inventory, and the
-hydraulic allowance for surface reference water is bounded by finite site
-capacity. Raw `TRANSPORT` remains an engine-gated development oracle only;
-the app path is project-authored transport plus the existing typed `SURFACE`
-adapter. No surface-species/database expansion, public scripting/UI,
-exchange-transport change, kinetics or MY-BASIC change, imported data, new
-dependency, or vendored-source change was added. Local native compilation was
-skipped under the load policy; CI run `32514634767` passed native
-Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
-core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo.
-
-**Completed session — `codex-AQ` (2026-08-21, AQ-014).** Work was isolated in
-`/tmp/kerotakis-aq014.R1worktree` on branch
-`codex-aq/aq-014-r1-acceptance`. One typed R1 runner now verifies limewater, a
-carbonated bottle, HFO surface release, four-cell softener breakthrough, and
-partial brine freezing through any supplied `Equilibrator`, without a second
-chemistry implementation. Native CI runs it live, then imports the resulting
-cache into a fresh engine and proves exact replay without any new cache entry.
-The CLI prewarms the same states into the shipped postcard; cache-only Wasm
-runs all five without a solver hook, combined Wasm runs them through live
-Emscripten IPhreeqc, and the real page repeats them after its HTTP server has
-been stopped. A missing state is a named failure, never a guessed answer. The
-web build and service worker now ship/cache the result pack used by the
-offline path. No external source, dataset, dependency, database/species,
-kinetics, MY-BASIC, or vendored-source change was added. Local native
-compilation was skipped under the load policy; CI run `32516261610` passed
-native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
-IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
-
-**Completed session — `codex-DATA` (2026-08-21, DATA-001).** Work was isolated in
-`/tmp/kerotakis-data001-schema` on branch `codex-data/data-001-schema`. This
-session delivered the typed source-registry contract: independently versioned
-identity, composition, phase-thermodynamic, transport, optical, safety,
-microstate, and model-parameter records, plus their validation tests. Every
-numeric record must state units, applicability conditions, uncertainty,
-source id, and derivation method. Only reviewed runtime-lane records can enter
-a future distributed pack; build and external oracles remain outside it. The
-work did not export or change the existing 75 runtime species (DATA-002),
-compile a runtime pack (DATA-003), import external data, add third-party
-dependencies, or touch kinetics, MY-BASIC, PHREEQC, or vendored sources. Local
-native builds were skipped under the load policy; CI run `32518836256` passed
-strict Clippy and native tests on Ubuntu/macOS, the data schema's `wasm32`
-compile gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
-bench, and the real-browser demo.
-
-**Completed session — `codex-DATA` (2026-08-21, DATA-002).** Work continued in
-`/tmp/kerotakis-data001-schema` on branch `codex-data/data-002-export`, based
-on remote-main merge `8c5ce090`. The live seed registry contains 75 entries
-(the roadmap's earlier count of 74 predated a later addition). This slice owns
-only the generated, human-reviewable source export of those existing
-declarations and exhaustive field-diff tests proving the export cannot drift.
-All 75 sources remain build oracles with a review-required license reference;
-none can enter an app pack. The work did not change registry lookup or
-simulation behavior, compile/load the runtime pack (DATA-003/004), import
-external data, add third-party dependencies, or touch kinetics, MY-BASIC,
-PHREEQC, or vendored sources. Local native builds were skipped under the load
-policy; CI run `32520759936` passed the exporter/diff and byte-regeneration
-gates, strict Clippy and native tests on Ubuntu/macOS, both MY-BASIC previews,
-core/data/IPhreeqc/cache/combined Wasm, the Wasm bench, and the real-browser
-demo.
+The `codex-kin`, `codex-AQ` and `codex-DATA` sessions of 2026-08-21 delivered
+KIN-001…012, AQ-004…014 and DATA-001/002 — the reaction-network IR, adaptive
+BDF integration, the Cantera-YAML front end, surface complexation, cation
+exchange, solid solutions, the cell chain and the seed registry. Each is
+recorded in `HISTORY.md` with its branch and CI run. Open:
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
@@ -2888,6 +2118,7 @@ Outstanding:
 - [ ] File classes 9 / 41 / 42 through an attorney nearer launch, once the
       goods-and-services wording is settled. What was done is a screen, not a
       clearance opinion.
+
 # Current product directive — core laboratory UX first (2026-08-27)
 
 Before adding or restructuring missions, examples, or progression, make the
