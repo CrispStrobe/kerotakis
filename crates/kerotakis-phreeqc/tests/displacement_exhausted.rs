@@ -149,7 +149,9 @@ fn the_uphill_verdict_is_unchanged_where_it_was_right() {
     assert!(
         events.iter().any(|e| matches!(
             e,
-            Event::Inert { species, why, spent }
+            Event::Inert {
+                species, why, spent, ..
+            }
                 if species.0 == "Ag"
                     && why.contains("above copper")
                     && why.contains("uphill")
@@ -173,6 +175,7 @@ fn spare_magnesium_over_stripped_copper_sulfate_says_the_copper_is_gone() {
                 species,
                 why,
                 spent,
+                ..
             } if species.0 == "Mg" => Some((why, spent)),
             _ => None,
         })
