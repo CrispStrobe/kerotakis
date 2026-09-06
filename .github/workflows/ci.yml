@@ -72,6 +72,14 @@ jobs:
           src/lib/storyProgress.test.ts src/lib/catalogSearch.test.ts
           src/lib/kidsCatalog.test.ts src/lib/persistentReadouts.test.ts
           src/lib/learningAccessibilityIntegration.test.ts
+      # The shell's own state: which laboratory a visit opens in, whether
+      # the command line is on, and that every register the header offers
+      # is one the session accepts. These files were being extended while
+      # nothing in CI ran them, which is a test suite that cannot fail.
+      - name: The shell's entry, console and register contracts hold
+        run: >-
+          npm test -- src/lib/worldState.test.ts src/lib/session.test.ts
+          src/lib/modeIsolation.test.ts src/lib/localeBundles.test.ts
 
   preflight-gate:
     name: Full preflight gate

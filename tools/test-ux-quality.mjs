@@ -20,13 +20,11 @@ const viewport = (width, height) => page.cdp.send("Emulation.setDeviceMetricsOve
   width, height, deviceScaleFactor: 1, mobile: width < 700,
 }, page.sessionId);
 
-const openSandbox = async () => {
-  await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
-  await page.evaluate(`(() => {
-    const button = [...document.querySelectorAll('button')].find((item) =>
-      /enter Sandbox|Sandbox betreten/i.test(item.textContent || ""));
-    button?.click();
-  })()`);
+/** The deployment enters the bench directly, so there is nothing to press:
+ * waiting for the stage IS the entry. The mode is whichever laboratory was
+ * last stood in, which is why callers set `kerotakis.mode.v1` first. */
+const openBench = async () => {
+  await waitFor(page, `document.querySelector('main .bench-pane')`, { timeout: 60000 });
   return waitFor(page, `document.querySelector('main')`, { timeout: 20000 });
 };
 
@@ -143,6 +141,10 @@ const learningProgressJourney = async () => {
     localStorage.setItem("kero.mode.story.kero.codex.done.v1", JSON.stringify(["hot-pack", "cold-pack"]));
   })()`);
   await page.goto(`${origin}/app/`);
+  // The world map is a destination now, not a doorway: the brand mark is
+  // the route a reader takes to it, so the journey takes the same one.
+  await waitFor(page, `document.querySelector('button.brand')`, { timeout: 60000 });
+  await page.evaluate(`document.querySelector('button.brand')?.click()`);
   await waitFor(page, `document.querySelector('.story-destination .destination-meta')?.textContent.includes('missions') && !document.querySelector('.story-destination .destination-meta')?.textContent.includes('arriving')`, { timeout: 60000 });
 
   check("the Mission Board opens with seeded progress", await clickButtonContaining("Mission Board")
@@ -227,8 +229,39 @@ const periodicAudit = () => page.evaluate(`(() => {
 try {
   await viewport(1440, 900);
   await learningProgressJourney();
+  // The journey above left this browser in Story; the rest of the audit is
+  // the unlocked bench, chosen the way the shell itself remembers it.
+  await page.evaluate(`localStorage.setItem("kerotakis.mode.v1", "sandbox")`);
   await page.goto(`${origin}/app/`);
-  check("the desktop bench opens", await openSandbox());
+  check("the desktop bench opens", await openBench());
+  const entry = JSON.parse(await page.evaluate(`JSON.stringify({
+    chooser: Boolean(document.querySelector('dialog.world')),
+    console: Boolean(document.querySelector('form.bar')),
+    mapRoute: Boolean(document.querySelector('button.brand')),
+  })`));
+  check("the deployment lands on the bench, not on a chooser", entry.chooser === false);
+  check("the command line is off until it is asked for", entry.console === false);
+  check("the world map stays one press away", entry.mapRoute === true);
+  const header = JSON.parse(await page.evaluate(`(() => {
+    const dial = document.querySelector('.dial select');
+    const locale = document.querySelector('.locale select');
+    const selected = (element) => element?.options[element.selectedIndex]?.textContent?.trim() ?? "";
+    return JSON.stringify({
+      levels: dial?.options.length ?? 0,
+      dialButtons: document.querySelectorAll('.dial button').length,
+      dialWidth: dial?.getBoundingClientRect().width ?? 0,
+      dialShows: selected(dial),
+      localeShows: selected(locale),
+      localeName: locale?.getAttribute('aria-label') ?? "",
+    });
+  })()`));
+  check("the register is one compact control holding all three levels",
+    header.levels === 3 && header.dialButtons === 0 && header.dialWidth <= 180,
+    `${header.levels} levels, ${Math.round(header.dialWidth)}px`);
+  check("the register names only the level it is on", /^lv[123]/.test(header.dialShows), header.dialShows);
+  check("the language switcher shows a code and still names the language",
+    /^[A-Z]{2}$/.test(header.localeShows) && /English|Deutsch/.test(header.localeName),
+    `${header.localeShows} — ${header.localeName}`);
   await waitFor(page, `document.querySelector('.observation-status')?.textContent?.trim().length > 0`, { timeout: 60000 });
   const observationStatus = JSON.parse(await page.evaluate(`(() => {
     const status = document.querySelector('.observation-status');
@@ -243,6 +276,49 @@ try {
   }
   check("visible buttons have an accessible name", desktop.unnamed === 0, `${desktop.unnamed} unnamed`);
   check("the rendered page has no duplicate ids", desktop.duplicateIds.length === 0, desktop.duplicateIds.join(", "));
+
+  // A collapsed side panel used to keep a 44 px column open to say nothing.
+  // Collapsed is a rail at the screen edge; the stage takes the rest, and
+  // the panel comes back over it on focus and pins on press.
+  await page.evaluate(`(() => {
+    document.querySelector('nav.shelf-pane .panel-collapse')?.click();
+    document.querySelector('main > aside .panel-collapse')?.click();
+  })()`);
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  const collapsed = JSON.parse(await layoutAudit());
+  check("a collapsed panel is a slim rail, not a column",
+    Boolean(collapsed.cabinet && collapsed.journal)
+      && collapsed.cabinet.width <= 24 && collapsed.journal.width <= 24,
+    `${Math.round(collapsed.cabinet?.width ?? -1)}px / ${Math.round(collapsed.journal?.width ?? -1)}px`);
+  check("the bench stage takes the freed width",
+    collapsed.bench.width > desktop.bench.width + 150,
+    `${Math.round(desktop.bench.width)}px → ${Math.round(collapsed.bench.width)}px`);
+  check("collapsing keeps every control named and the page unscrolled",
+    collapsed.unnamed === 0 && collapsed.bodyOverflow <= 1, `${collapsed.unnamed} unnamed`);
+  const revealed = JSON.parse(await page.evaluate(`(() => {
+    const rail = document.querySelector('nav.shelf-pane button.pane-rail');
+    rail?.focus();
+    const body = document.querySelector('nav.shelf-pane .pane-body');
+    return JSON.stringify({
+      rail: Boolean(rail),
+      named: Boolean(rail?.getAttribute('aria-label')),
+      focused: document.activeElement === rail,
+      shown: body ? getComputedStyle(body).visibility === "visible" : false,
+      width: body?.getBoundingClientRect().width ?? 0,
+    });
+  })()`));
+  check("the rail is a named, focusable control", revealed.rail && revealed.named && revealed.focused);
+  check("focusing the rail reveals the panel over the stage",
+    revealed.shown && revealed.width > 120, `${Math.round(revealed.width)}px`);
+  await page.evaluate(`(() => {
+    document.querySelector('nav.shelf-pane button.pane-rail')?.click();
+    document.querySelector('main > aside button.pane-rail')?.click();
+  })()`);
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  const pinned = JSON.parse(await layoutAudit());
+  check("pressing the rail pins the panel back into the layout",
+    pinned.cabinet.width > 100 && pinned.journal.width > 100,
+    `${Math.round(pinned.cabinet.width)}px / ${Math.round(pinned.journal.width)}px`);
 
   check("the periodic table opens from the bench", await openPeriodicTable());
   const labTable = JSON.parse(await periodicAudit());
@@ -279,13 +355,13 @@ try {
 
   await page.evaluate(`localStorage.setItem("kerotakis.locale", "de")`);
   await page.goto(`${origin}/app/`);
-  await openSandbox();
+  await openBench();
   const german = JSON.parse(await layoutAudit());
   check("German desktop copy does not widen the page", german.bodyOverflow <= 1, `${german.bodyOverflow}px`);
 
   await viewport(390, 844);
   await page.goto(`${origin}/app/`);
-  await openSandbox();
+  await openBench();
   const mobile = JSON.parse(await layoutAudit());
   check("phone layout has no page-level horizontal overflow", mobile.bodyOverflow <= 1, `${mobile.bodyOverflow}px`);
   const tabs = JSON.parse(await mobileTabs());
@@ -305,7 +381,7 @@ try {
   // because the inactive drawers are deliberately absent from layout.
   await viewport(320, 700);
   await page.goto(`${origin}/app/`);
-  await openSandbox();
+  await openBench();
   const narrowTabs = JSON.parse(await mobileTabs());
   check("320 px navigation exposes all three destinations", narrowTabs.length === 3,
     narrowTabs.map((tab) => tab.name).join(", "));
@@ -338,8 +414,13 @@ try {
   // shrink, but inherited type and rem-sized controls double. This catches
   // rigid chrome that a narrow-viewport test alone cannot see.
   await viewport(1440, 900);
+  // The console is opt-in, so the sections below that drive it turn it on
+  // the way a reader does — from the utilities menu, remembered on reload.
+  await page.evaluate(`localStorage.setItem("kerotakis.console.v1", "shown")`);
   await page.goto(`${origin}/app/`);
-  await openSandbox();
+  await openBench();
+  check("the command line comes back when it is asked for",
+    Boolean(await page.evaluate(`Boolean(document.querySelector('form.bar input'))`)));
   await page.evaluate(`(() => {
     const style = document.createElement("style");
     style.id = "ux-text-zoom";

@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { CONTAMINATED_SAMPLE_BRIEFED_KEY, ModeStorage, loadLabProfile, readLabMode, saveLabProfile, writeLabMode } from "./worldState";
+import {
+  CONSOLE_KEY,
+  CONTAMINATED_SAMPLE_BRIEFED_KEY,
+  ModeStorage,
+  loadLabProfile,
+  readConsoleVisible,
+  readLabMode,
+  saveLabProfile,
+  writeConsoleVisible,
+  writeLabMode,
+} from "./worldState";
 
 class MemoryStorage {
   values = new Map<string, string>();
@@ -44,5 +54,50 @@ describe("world and mode persistence", () => {
     expect(profile.name).toBe("My Chemistry Lab");
     saveLabProfile(root, { ...profile, name: `  ${"x".repeat(80)}  ` });
     expect(loadLabProfile(root).name).toHaveLength(48);
+  });
+
+  /** The shell opens on the bench, in the laboratory last stood in. There
+   * is no first-run question to answer, so an empty store has to be a
+   * complete answer on its own — Sandbox, and no world map. */
+  it("answers Sandbox for a reader who has never chosen a laboratory", () => {
+    expect(readLabMode(new MemoryStorage())).toBe("sandbox");
+    expect(readLabMode(null)).toBe("sandbox");
+    const returning = new MemoryStorage();
+    writeLabMode(returning, "story");
+    expect(readLabMode(returning)).toBe("story");
+  });
+
+  it("remembers the command line across visits, and hides it by default", () => {
+    const root = new MemoryStorage();
+    expect(readConsoleVisible(root)).toBe(false);
+    writeConsoleVisible(root, true);
+    expect(root.getItem(CONSOLE_KEY)).toBe("shown");
+    expect(readConsoleVisible(root)).toBe(true);
+    writeConsoleVisible(root, false);
+    expect(readConsoleVisible(root)).toBe(false);
+    // A stored value from some other version is not a reason to open it.
+    root.setItem(CONSOLE_KEY, "yes");
+    expect(readConsoleVisible(root)).toBe(false);
+  });
+
+  it("keeps the console preference outside both laboratories", () => {
+    // It is a fact about how this reader drives the bench, not about a
+    // save: switching mode must not silently close the console.
+    const root = new MemoryStorage();
+    writeConsoleVisible(root, true);
+    expect(new ModeStorage(root, "story").getItem(CONSOLE_KEY)).toBeNull();
+    expect(new ModeStorage(root, "sandbox").getItem(CONSOLE_KEY)).toBeNull();
+    expect(readConsoleVisible(root)).toBe(true);
+  });
+
+  it("survives storage that throws on every access", () => {
+    const blocked = {
+      getItem() { throw new Error("blocked"); },
+      setItem() { throw new Error("blocked"); },
+      removeItem() { throw new Error("blocked"); },
+    };
+    expect(readConsoleVisible(blocked)).toBe(false);
+    expect(() => writeConsoleVisible(blocked, true)).not.toThrow();
+    expect(readLabMode(blocked)).toBe("sandbox");
   });
 });

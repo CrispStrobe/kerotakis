@@ -70,7 +70,9 @@
     CONTAMINATED_SAMPLE_BRIEFED_KEY,
     PENDING_MISSION_KEY,
     loadLabProfile,
+    readConsoleVisible,
     readLabMode,
+    writeConsoleVisible,
     writeLabMode,
     type KeyValueStorage,
     type LabMode,
@@ -126,13 +128,17 @@
         }
       })
     : undefined);
-  function hasSeenHome(): boolean {
-    try {
-      return appStorage?.getItem(HOME_SEEN_KEY) === "yes";
-    } catch {
-      return false;
-    }
-  }
+  /**
+   * The deployment enters the bench.
+   *
+   * The world map used to be a gate: a first visit met a Story/Sandbox
+   * chooser before it ever met a beaker, and the reader had to answer a
+   * question about save architecture to see the product. `readLabMode`
+   * already remembers the laboratory last stood in and answers Sandbox
+   * when there is nothing to remember, so entry needs no question at all.
+   * The map keeps every route it had — the brand mark, the mode pill and
+   * the utilities menu — it just no longer opens itself.
+   */
   const labMode = readLabMode(appStorage);
   const modeStorage = appSaveRepository
     ? new AppSaveModeStorage(appSaveRepository, labMode, () => {
@@ -143,6 +149,20 @@
   const sandboxHasBench = sandboxStorage?.getItem("kero.session.v1") !== null
     || sandboxStorage?.getItem(MODE_LAYOUT_KEY) !== null
     || sandboxStorage?.getItem(MODE_APPARATUS_KEY) !== null;
+  /**
+   * The `kero>` line, off until asked for.
+   *
+   * Every command it can carry has a control on the bench, so a text
+   * console at the bottom of a first visit reads as the real interface
+   * and the glassware above it as decoration. It is a power tool now:
+   * named in the utilities menu, remembered across visits, and still the
+   * thing ⌘K opens.
+   */
+  let consoleOpen = $state(readConsoleVisible(appStorage));
+  function setConsoleOpen(next: boolean) {
+    consoleOpen = next;
+    writeConsoleVisible(appStorage, next);
+  }
   let cabinetCollapsed = $state(modeStorage?.getItem(MODE_CABINET_PANEL_KEY) === "yes");
   let journalCollapsed = $state(modeStorage?.getItem(MODE_JOURNAL_PANEL_KEY) === "yes");
   const session = new Session(
@@ -170,7 +190,7 @@
     return created;
   }
   let labProfile = $state<LabProfile>(appSaveProfile());
-  let homeOpen = $state(!hasSeenHome());
+  let homeOpen = $state(false);
   let missionJournalOpen = $state(false);
   let roomOpen = $state(false);
   let roomStyle = $state<RoomStyle>((() => {
@@ -229,6 +249,16 @@
     } catch {
       // The focus choice still works for this visit.
     }
+    // The control that was pressed is the control that just went away, so
+    // a keyboard reader would be dropped back to the top of the document.
+    // Hand focus to the control that now stands in its place: the rail
+    // when collapsing, the heading's chevron when pinning back open.
+    void tick().then(() => {
+      if (typeof document === "undefined") return;
+      const pane = panel === "cabinet" ? "nav.shelf-pane" : "main > aside";
+      const control = collapsed ? "button.pane-rail" : ".pane-heading button.panel-collapse";
+      document.querySelector<HTMLElement>(`${pane} ${control}`)?.focus();
+    });
   }
 
   /**
@@ -837,14 +867,17 @@
       void (e.shiftKey ? session.redo() : session.undo());
     } else if (mod && e.key.toLowerCase() === "k") {
       e.preventDefault();
-      document.querySelector<HTMLInputElement>(".bar input")?.focus();
+      // Focusing a control that is not on screen is a shortcut that does
+      // nothing; the console the reader asked for opens first.
+      if (!consoleOpen) setConsoleOpen(true);
+      void tick().then(() => document.querySelector<HTMLInputElement>(".bar input")?.focus());
     } else if (e.key === "?" && !typing) {
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (clearArmed) disarmClear();
       else if (inset) inset = null;
       else if (removeRequest !== null) removeRequest = null;
-      else if (homeOpen && hasSeenHome()) homeOpen = false;
+      else if (homeOpen) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (capabilityOpen) capabilityOpen = false;
       else if (kidsOpen || catalogOpen) {
@@ -870,7 +903,7 @@
 <svelte:window {onkeydown} />
 
 <header class="topbar">
-  <button class="brand" aria-label={t("open world map")} onclick={() => (homeOpen = true)}>
+  <button class="brand" aria-label={t("open world map")} title={t("a chemistry bench that computes")} onclick={() => (homeOpen = true)}>
     <span class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 40 40">
         <path d="M14 5h12M17 5v10L8 31c-1 2 1 4 3 4h18c2 0 4-2 3-4l-9-16V5" />
@@ -952,6 +985,16 @@
       <strong>{t("time and history")}</strong>
       <button class="tool" onclick={() => void session.undo()} disabled={session.commandLog.length === 0 || session.busy}>{t("undo")}</button>
       <button class="tool" onclick={() => void session.submit("wait 30s")} disabled={session.busy} title={t("let 30 seconds of bench time pass")}>{t("wait 30 s")}</button>
+      <!-- A toggle reports its own state, so the drawer stays open to show
+           it flip rather than reporting the change by disappearing. -->
+      <button
+        class="tool console-toggle"
+        class:active={consoleOpen}
+        data-keeps-drawer
+        aria-pressed={consoleOpen}
+        title={t("type commands at a kero> prompt — everything it does has a control on the bench too")}
+        onclick={() => setConsoleOpen(!consoleOpen)}
+      >{t("command line")}</button>
       <button class="tool danger-tool" onclick={armClear} disabled={session.busy || !session.clearable}>{t("clear")}</button>
       <!-- Scrubbing time is an adjustment, not a destination: the drawer stays. -->
       <div class="timeline-slot" data-keeps-drawer>
@@ -968,6 +1011,7 @@
     </div>
     <div class="utility-group">
       <strong>{t("explore and study")}</strong>
+      <button class="tool" onclick={() => { toolsOpen = false; homeOpen = true; }}>{t("world map")}</button>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
       <button class="tool" onclick={() => (drillOpen = true)}>{t("balance it")}</button>
@@ -1085,62 +1129,85 @@
 <QuestBar {session} />
 
 <main data-pane={pane}>
+  <!-- Collapsed, a side panel is a 20 px rail at the screen edge and the
+       bench takes every pixel it gave up. Hover or focus the rail to read
+       the panel over the stage; press it to pin the panel back into the
+       layout. Touch has no hover, so the press is the whole interaction
+       there — which is why the reveal is never the only way in. -->
   <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>
-    <div class="pane-heading">
-      <span class="pane-icon" aria-hidden="true">▦</span>
-      <span><strong>{t("supply cabinet")}</strong><small>{t("choose what goes on the bench")}</small></span>
+    {#if cabinetCollapsed}
       <button
-        class="panel-collapse"
-        aria-expanded={!cabinetCollapsed}
-        aria-label={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
-        title={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
-        onclick={() => setPanelCollapsed("cabinet", !cabinetCollapsed)}
-      >{cabinetCollapsed ? "›" : "‹"}</button>
-    </div>
-    <!-- GUI-102: equipment is no longer a second view of this pane. This
-         pane IS the reagent shelf, and the equipment button opens the one
-         cupboard — the same modal the MESSEN row and the dock open. -->
-    <div class="cabinet-tabs" role="group" aria-label={t("supply cabinet")}>
-      <button class="active" onclick={() => setPanelCollapsed("cabinet", false)}>{t("reagents")}</button>
-      <button title={t("Open the equipment cabinet")} onclick={() => (instrumentSurface.open = true)}>{t("equipment")}</button>
-    </div>
-    {#if kidsSandboxBrief}
-      <section class="kids-bench-brief" aria-label={t("experiment bench guide")}>
-        <span>{kidsSandboxBrief.id}</span><strong>{t(kidsSandboxBrief.title)}</strong>
-        <small>{t("ingredients")}: {kidsSandboxBrief.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
-        <small>{t("apparatus")}: {kidsSandboxBrief.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
-        {#if kidsSandboxBrief.boundary}<p>{t(kidsSandboxBrief.boundary)}</p>{/if}
-        <div>
-          <button onclick={() => { catalogScope = catalogScope === "mission" ? "all" : "mission"; }}>{catalogScope === "mission" ? t("show entire cabinet") : t("show experiment kit")}</button>
-          <button onclick={() => { kidsSandboxBrief = null; catalogScope = "all"; }}>{t("dismiss guide")}</button>
-        </div>
-      </section>
+        class="pane-rail"
+        aria-expanded={false}
+        aria-label={t("open supply cabinet")}
+        title={t("open supply cabinet")}
+        onclick={() => setPanelCollapsed("cabinet", false)}
+      ><span aria-hidden="true">›</span></button>
     {/if}
-    {#if labMode === "story"}
-      <div class="catalog-scope" role="radiogroup" aria-label={t("cabinet contents")}>
-        <button role="radio" aria-checked={catalogScope === "mission"} class:active={catalogScope === "mission"} disabled={!session.lesson} onclick={() => (catalogScope = "mission")}>{t("mission set")}</button>
-        <button role="radio" aria-checked={catalogScope === "unlocked"} class:active={catalogScope === "unlocked"} onclick={() => (catalogScope = "unlocked")}>{t("unlocked")}</button>
-        <button role="radio" aria-checked={catalogScope === "all"} class:active={catalogScope === "all"} onclick={() => (catalogScope = "all")}>{t("catalog all")}</button>
+    <div class="pane-body">
+      <div class="pane-heading">
+        <span class="pane-icon" aria-hidden="true">▦</span>
+        <span><strong>{t("supply cabinet")}</strong></span>
+        <button
+          class="panel-collapse"
+          aria-expanded={!cabinetCollapsed}
+          aria-label={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+          title={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+          onclick={() => setPanelCollapsed("cabinet", !cabinetCollapsed)}
+        >{cabinetCollapsed ? "›" : "‹"}</button>
       </div>
-    {/if}
-    <Shelf
-      catalog={session.catalog}
-      items={session.shelf}
-      register={session.register}
-      target={session.selected}
-      targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
-      kit={session.lesson?.kit ?? (kidsSandboxBrief ? kidsShelfKeys(kidsSandboxBrief.ingredients) : null)}
-      scope={catalogScope}
-      mode={labMode}
-      completed={session.completedMissions.size}
-      stockUsed={session.storyStockUsed}
-      bottles={shelfBottles}
-      focusRequest={shelfFocusRequest}
-      onadd={(line) => {
-        void dispense(line);
-        pane = "bench";
-      }}
-    />
+      <!-- One rail, not two rows. GUI-102's pair (this pane, and the door
+           to the one cupboard) and Story's scope chips answer the same
+           question — what the cabinet is showing — and stacked they cost
+           the shelf two rows of chrome before a single bottle. They scroll
+           sideways rather than wrap, so the longest German word costs room
+           inside the rail and never a second line of it. The group and the
+           radiogroup stay separate elements: they are different questions
+           to a screen reader even when they share a row. -->
+      <div class="cabinet-rail">
+        <div class="cabinet-tabs" role="group" aria-label={t("supply cabinet")}>
+          <button class="active" onclick={() => setPanelCollapsed("cabinet", false)}>{t("reagents")}</button>
+          <button title={t("Open the equipment cabinet")} onclick={() => (instrumentSurface.open = true)}>{t("equipment")}</button>
+        </div>
+        {#if labMode === "story"}
+          <div class="catalog-scope" role="radiogroup" aria-label={t("cabinet contents")}>
+            <button role="radio" aria-checked={catalogScope === "mission"} class:active={catalogScope === "mission"} disabled={!session.lesson} onclick={() => (catalogScope = "mission")}>{t("mission set")}</button>
+            <button role="radio" aria-checked={catalogScope === "unlocked"} class:active={catalogScope === "unlocked"} onclick={() => (catalogScope = "unlocked")}>{t("unlocked")}</button>
+            <button role="radio" aria-checked={catalogScope === "all"} class:active={catalogScope === "all"} onclick={() => (catalogScope = "all")}>{t("catalog all")}</button>
+          </div>
+        {/if}
+      </div>
+      {#if kidsSandboxBrief}
+        <section class="kids-bench-brief" aria-label={t("experiment bench guide")}>
+          <span>{kidsSandboxBrief.id}</span><strong>{t(kidsSandboxBrief.title)}</strong>
+          <small>{t("ingredients")}: {kidsSandboxBrief.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
+          <small>{t("apparatus")}: {kidsSandboxBrief.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
+          {#if kidsSandboxBrief.boundary}<p>{t(kidsSandboxBrief.boundary)}</p>{/if}
+          <div>
+            <button onclick={() => { catalogScope = catalogScope === "mission" ? "all" : "mission"; }}>{catalogScope === "mission" ? t("show entire cabinet") : t("show experiment kit")}</button>
+            <button onclick={() => { kidsSandboxBrief = null; catalogScope = "all"; }}>{t("dismiss guide")}</button>
+          </div>
+        </section>
+      {/if}
+      <Shelf
+        catalog={session.catalog}
+        items={session.shelf}
+        register={session.register}
+        target={session.selected}
+        targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
+        kit={session.lesson?.kit ?? (kidsSandboxBrief ? kidsShelfKeys(kidsSandboxBrief.ingredients) : null)}
+        scope={catalogScope}
+        mode={labMode}
+        completed={session.completedMissions.size}
+        stockUsed={session.storyStockUsed}
+        bottles={shelfBottles}
+        focusRequest={shelfFocusRequest}
+        onadd={(line) => {
+          void dispense(line);
+          pane = "bench";
+        }}
+      />
+    </div>
   </nav>
   <div class="bench-pane">
     {#if apparatusOut === "react"}
@@ -1302,55 +1369,69 @@
     {/if}
   </div>
   <aside class:collapsed={journalCollapsed}>
-    <div class="pane-heading journal-heading">
-      <span class="pane-icon" aria-hidden="true">≡</span>
-      <span><strong>{t("lab journal")}</strong><small>{t("observations and evidence")}</small></span>
-      <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
+    {#if journalCollapsed}
       <button
-        class="panel-collapse"
-        aria-expanded={!journalCollapsed}
-        aria-label={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
-        title={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
-        onclick={() => setPanelCollapsed("journal", !journalCollapsed)}
-      >{journalCollapsed ? "‹" : "›"}</button>
-    </div>
-    {#if session.inspector}
-      <Inspector
-        vessel={session.inspector.vessel}
-        lines={session.inspector.lines}
-        particles={session.inspector.particles}
-        boundary={session.scene?.vessels.find((v) => v.id === session.inspector?.vessel)
-          ?.boundary ?? "open"}
-        busy={session.busy}
-        onparticles={() => void session.particles()}
-        onclose={() => session.closeInspector()}
-        onaction={(line) => void session.submit(line)}
+        class="pane-rail"
+        aria-expanded={false}
+        aria-label={t("open lab journal")}
+        title={t("open lab journal")}
+        onclick={() => setPanelCollapsed("journal", false)}
+      ><span aria-hidden="true">‹</span></button>
+    {/if}
+    <div class="pane-body">
+      <div class="pane-heading journal-heading">
+        <span class="pane-icon" aria-hidden="true">≡</span>
+        <span><strong>{t("lab journal")}</strong></span>
+        <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
+        <button
+          class="panel-collapse"
+          aria-expanded={!journalCollapsed}
+          aria-label={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+          title={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+          onclick={() => setPanelCollapsed("journal", !journalCollapsed)}
+        >{journalCollapsed ? "‹" : "›"}</button>
+      </div>
+      {#if session.inspector}
+        <Inspector
+          vessel={session.inspector.vessel}
+          lines={session.inspector.lines}
+          particles={session.inspector.particles}
+          boundary={session.scene?.vessels.find((v) => v.id === session.inspector?.vessel)
+            ?.boundary ?? "open"}
+          busy={session.busy}
+          onparticles={() => void session.particles()}
+          onclose={() => session.closeInspector()}
+          onaction={(line) => void session.submit(line)}
+        />
+      {/if}
+      <!-- GUI-090's register rule: lv3 is the machine view, where the feed IS
+           the answer and a summary above it is a second, softer telling of
+           what the transcript already says exactly. The card is dropped
+           rather than shrunk — the feed underneath is complete on its own,
+           which is the same reason the card degrades away with JavaScript. -->
+      {#if session.latestResult && session.register !== "lv3"}
+        <LatestResultCard result={session.latestResult} onclose={() => (session.latestResult = null)} />
+      {/if}
+      <Feed
+        entries={session.feed}
+        selectedVessel={session.selected}
+        onaddnote={(text) => session.addUserNote(text)}
+        oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
+        onremovenote={(createdAt) => session.removeUserNote(createdAt)}
       />
-    {/if}
-    <!-- GUI-090's register rule: lv3 is the machine view, where the feed IS
-         the answer and a summary above it is a second, softer telling of
-         what the transcript already says exactly. The card is dropped
-         rather than shrunk — the feed underneath is complete on its own,
-         which is the same reason the card degrades away with JavaScript. -->
-    {#if session.latestResult && session.register !== "lv3"}
-      <LatestResultCard result={session.latestResult} onclose={() => (session.latestResult = null)} />
-    {/if}
-    <Feed
-      entries={session.feed}
-      selectedVessel={session.selected}
-      onaddnote={(text) => session.addUserNote(text)}
-      oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
-      onremovenote={(createdAt) => session.removeUserNote(createdAt)}
-    />
+    </div>
   </aside>
 </main>
 
-<CommandBar
-  onsubmit={(line) => void session.submit(line)}
-  busy={session.busy}
-  onvalidate={(line) => session.parse(line)}
-  examples={session.verbExamples}
-/>
+{#if consoleOpen}
+  <CommandBar
+    onsubmit={(line) => void session.submit(line)}
+    busy={session.busy}
+    onvalidate={(line) => session.parse(line)}
+    examples={session.verbExamples}
+    onclose={() => setConsoleOpen(false)}
+  />
+{/if}
 
 <nav class="tabs" aria-label={t("panes")}>
   {#each [["bench", "workspace"], ["shelf", "cabinet"], ["notes", "journal"]] as const as [key, label] (key)}
@@ -1375,7 +1456,6 @@
     missions={lessons.length}
     experiments={codexEntries.length + kidsExperiments.length}
     kidsExperiments={kidsExperiments.length}
-    canclose={hasSeenHome()}
     {persistenceNotice}
     canclone={labMode === "story" && appSaveRepository !== null}
     {sandboxHasBench}
@@ -1753,7 +1833,14 @@
     flex-direction: column;
     min-height: 0;
   }
-  .shelf-pane > :global(.shelf) {
+  .pane-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+  .pane-body > :global(.shelf) {
     flex: 1;
   }
   aside {
@@ -1764,7 +1851,7 @@
     flex-direction: column;
     min-height: 0;
   }
-  aside > :global(.feed) {
+  .pane-body > :global(.feed) {
     flex: 1;
     min-height: 0;
   }
@@ -1828,7 +1915,10 @@
      the migration remains reviewable while every child component retains its
      semantic token aliases. */
   .topbar {
-    min-height: 68px;
+    /* Every row of chrome is a row the bench does not get. The tagline
+       moved to the brand's title, which took the header from two lines of
+       type to one and 68 px to 52. */
+    min-height: 52px;
     display: flex;
     /* At 200% text size the rail may need a second line. Keeping this rigid
        forced the utility controls beyond the viewport even though the bench
@@ -1836,8 +1926,8 @@
        one line; wrapping is only the pressure-release path. */
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-    padding: 0.65rem 1rem;
+    gap: 0.6rem;
+    padding: 0.4rem 0.85rem;
     border-bottom: 1px solid color-mix(in srgb, var(--edge) 82%, transparent);
     background: color-mix(in srgb, var(--surface) 94%, transparent);
     box-shadow: 0 8px 26px var(--shadow);
@@ -1846,8 +1936,8 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    min-width: 12rem;
+    gap: 0.5rem;
+    min-width: 0;
     padding: 0;
     border: 0;
     color: var(--ink);
@@ -1858,8 +1948,8 @@
   }
   .brand:hover .brand-mark { transform: translateY(-1px); box-shadow: 0 7px 16px var(--shadow); }
   .brand-mark {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
     display: grid;
     place-items: center;
     flex: none;
@@ -1868,8 +1958,8 @@
     background: color-mix(in srgb, var(--primary) 12%, var(--surface));
   }
   .brand-mark svg {
-    width: 34px;
-    height: 34px;
+    width: 27px;
+    height: 27px;
   }
   .brand-mark path,
   .brand-mark circle {
@@ -1889,19 +1979,20 @@
     line-height: 1.15;
   }
   .brand-copy strong {
-    font-size: 1.08rem;
+    font-size: 1rem;
     letter-spacing: 0.01em;
   }
+  /* The tagline is the brand's own second line — a label-only row in the
+     one strip that has to stay short. It survives as the button's title
+     and on the world map, where there is room to read it. */
   .brand-copy small {
-    margin-top: 0.22rem;
-    color: var(--dim);
-    font-size: 0.69rem;
+    display: none;
   }
   .mode-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    min-height: 46px;
+    min-height: 40px;
     padding: 0.35rem 0.45rem 0.35rem 0.55rem;
     border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
     border-radius: 999px;
@@ -1923,8 +2014,8 @@
     background: linear-gradient(135deg, var(--discovery), color-mix(in srgb, var(--discovery) 65%, var(--primary)));
   }
   .mode-signal {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     display: grid;
     place-items: center;
     border-radius: 9px;
@@ -1961,7 +2052,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.65rem;
+    gap: 0.45rem;
     min-width: 0;
   }
   .tool {
@@ -1977,6 +2068,11 @@
   .danger-tool:hover:not(:disabled) {
     color: var(--danger);
     border-color: var(--danger);
+  }
+  .console-toggle.active {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
   }
   .mission-tool {
     color: var(--discovery);
@@ -2035,7 +2131,7 @@
   }
   .utility-drawer {
     position: fixed;
-    top: calc(env(safe-area-inset-top) + 74px);
+    top: calc(env(safe-area-inset-top) + 58px);
     right: calc(env(safe-area-inset-right) + 1rem);
     width: min(52rem, calc(100vw - 2rem));
     display: grid;
@@ -2068,10 +2164,12 @@
   .utility-group > .timeline-slot {
     flex-basis: 100%;
   }
+  /* Was a label on its own row above three buttons; the label now sits
+     in the row it names. */
   .theme-choice {
     flex-basis: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    align-items: center;
     gap: 0.3rem;
     margin-top: 0.3rem;
     padding-top: 0.55rem;
@@ -2088,11 +2186,13 @@
     font-size: 0.7rem;
   }
   .theme-choice > span {
-    grid-column: 1 / -1;
+    flex: none;
+    margin-right: auto;
     color: var(--dim);
     font-size: 0.68rem;
   }
   .theme-button {
+    min-width: 4.5rem;
     min-height: 34px;
     border: 1px solid var(--edge);
     border-radius: 8px;
@@ -2126,6 +2226,7 @@
     padding: 0.4rem;
   }
   main {
+    position: relative;
     gap: 0.75rem;
     padding: 0.75rem;
   }
@@ -2152,12 +2253,16 @@
     background: var(--surface);
     box-shadow: 0 10px 32px var(--shadow);
   }
+  /* One line. The second was a restatement — "choose what goes on the
+     bench" under a cabinet full of bottles, and "observations and
+     evidence" under a journal of observations — and it cost 18 px of
+     stage on both sides of every session. */
   .pane-heading {
-    min-height: 62px;
+    min-height: 44px;
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.7rem 0.85rem;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
     border-bottom: 1px solid var(--edge);
   }
   .pane-heading > span:nth-child(2) {
@@ -2170,21 +2275,16 @@
   .pane-heading strong {
     font-size: 0.86rem;
   }
-  .pane-heading small {
-    margin-top: 0.2rem;
-    color: var(--dim);
-    font-size: 0.67rem;
-  }
   .pane-icon {
-    width: 34px;
-    height: 34px;
+    width: 26px;
+    height: 26px;
     display: grid;
     place-items: center;
     flex: none;
     border-radius: 10px;
     color: var(--primary);
     background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised));
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     font-weight: 800;
   }
   .journal-heading .pane-icon {
@@ -2281,17 +2381,67 @@
     background: var(--surface);
   }
 
+  /* The rail exists only where a panel can be collapsed out of the
+     layout; the phone gives each pane the whole screen by tab instead. */
+  .pane-rail {
+    display: none;
+  }
+
   @media (min-width: 981px) {
     .shelf-pane,
     aside { transition: width 180ms ease, box-shadow 180ms ease; }
+    /* 20 px of edge, and the bench keeps the rest. The old collapsed
+       panel still held a 44 px column open to say nothing. */
     .shelf-pane.collapsed,
-    aside.collapsed { width: 2.75rem; box-shadow: 0 5px 16px var(--shadow); }
-    .shelf-pane.collapsed > :not(.pane-heading),
-    aside.collapsed > :not(.pane-heading) { display: none; }
-    .shelf-pane.collapsed .pane-heading,
-    aside.collapsed .pane-heading { min-height: 0; justify-content: flex-start; padding: 0.45rem; border-bottom: 0; }
-    .shelf-pane.collapsed .pane-heading > :not(.panel-collapse),
-    aside.collapsed .pane-heading > :not(.panel-collapse) { display: none; }
+    aside.collapsed {
+      width: 20px;
+      overflow: visible;
+      box-shadow: none;
+      background: var(--surface-raised);
+    }
+    .pane-rail {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      color: var(--dim);
+      background: none;
+      font: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .shelf-pane.collapsed:hover .pane-rail,
+    aside.collapsed:hover .pane-rail { color: var(--primary); }
+    .pane-rail:focus-visible {
+      color: var(--primary);
+      outline: 2px solid var(--primary);
+      outline-offset: -2px;
+    }
+    /* Revealed over the stage, not beside it: peeking must not move the
+       bench, or every hover would reflow the experiment underneath. */
+    .shelf-pane.collapsed .pane-body,
+    aside.collapsed .pane-body {
+      position: absolute;
+      top: 0.75rem;
+      bottom: 0.75rem;
+      z-index: 15;
+      width: min(15rem, 20vw);
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: 0 18px 55px var(--shadow-strong);
+      overflow: hidden;
+      visibility: hidden;
+    }
+    .shelf-pane.collapsed .pane-body { left: 0.75rem; }
+    aside.collapsed .pane-body { right: 0.75rem; width: min(18rem, 23vw); }
+    .shelf-pane.collapsed:hover .pane-body,
+    .shelf-pane.collapsed:focus-within .pane-body,
+    aside.collapsed:hover .pane-body,
+    aside.collapsed:focus-within .pane-body { visibility: visible; }
   }
 
   @media (max-width: 980px) {
@@ -2312,6 +2462,12 @@
       flex: 1;
       border: 1px solid var(--edge);
       border-radius: var(--radius-md);
+    }
+    /* A tab already gives each pane the whole screen here, so the rail and
+       the collapse chevron are both controls that cannot do anything —
+       and the collapsed state a desktop left behind is simply ignored. */
+    .panel-collapse {
+      display: none;
     }
     .tabs {
       display: flex;
@@ -2336,19 +2492,18 @@
   }
   @media (max-width: 760px) {
     .topbar {
-      min-height: 60px;
-      gap: 0.45rem;
-      padding: 0.45rem 0.55rem;
+      min-height: 48px;
+      gap: 0.35rem;
+      padding: 0.3rem 0.5rem;
     }
     .brand {
       min-width: 0;
     }
     .brand-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
     }
-    .brand-copy small,
     .mode-pill,
     .utility-label {
       display: none;
@@ -2377,7 +2532,7 @@
       padding: 0;
     }
     .utility-drawer {
-      top: calc(env(safe-area-inset-top) + 64px);
+      top: calc(env(safe-area-inset-top) + 54px);
       left: calc(env(safe-area-inset-left) + 0.5rem);
       right: calc(env(safe-area-inset-right) + 0.5rem);
       width: auto;
@@ -2386,11 +2541,8 @@
       overflow-y: auto;
       border-radius: var(--radius-md);
     }
-    .top-controls :global(.dial button) {
-      padding-inline: 0.45rem;
-    }
-    .top-controls :global(.dial button:not(.active)) {
-      display: none;
+    .top-controls :global(.dial select) {
+      max-width: 6.5rem;
     }
   }
   @media (max-width: 430px) {

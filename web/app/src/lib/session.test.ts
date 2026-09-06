@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { EngineHost, Scene, ScriptResult } from "./host/EngineHost";
-import { Session, type StorageLike } from "./session.svelte";
+import { REGISTERS, Session, type StorageLike } from "./session.svelte";
 
 class FakeStorage implements StorageLike {
   map = new Map<string, string>();
@@ -227,6 +227,25 @@ describe("Session", () => {
     expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
     expect(s.register).toBe("lv3");
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
+  });
+
+  /** The register control emits `reg.level` verbatim — as three buttons
+   * once did and as the header dropdown's <option> values do now. A level
+   * in this list that the session does not accept is a choice that reads
+   * as available and silently does nothing, and no type catches it. */
+  it("accepts every level the register control offers", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    expect(REGISTERS.map((entry) => entry.level)).toEqual(["lv1", "lv2", "lv3"]);
+    for (const entry of REGISTERS) {
+      await s.setRegister(entry.level);
+      expect(s.register).toBe(entry.level);
+      expect(host.calls).toContain(`register:${entry.level}`);
+      // The label is what the dropdown shows; an empty one is a blank row.
+      expect(entry.label.trim()).not.toBe("");
+    }
+    // Switching detail is not chemistry, so it never joins the replay log.
+    expect(s.commandLog).toEqual([]);
   });
 
   it("consumes finite Story stock transactionally while mission supplies prevent deadlocks", async () => {

@@ -2295,6 +2295,10 @@
   "Start here": "Hier anfangen",
   "hands-on experiments to begin with": "Experimente zum Loslegen",
   "experiment bench guide": "Begleiter für den Labortisch",
-  "activity kits": "Experimentierkästen"
+  "activity kits": "Experimentierkästen",
+  "command line": "Befehlszeile",
+  "hide the command line": "Befehlszeile ausblenden",
+  "type commands at a kero> prompt — everything it does has a control on the bench too": "Befehle an einer kero>-Eingabe tippen — alles, was sie kann, hat auch einen Schalter auf dem Labortisch",
+  "world map": "Weltkarte"
  }
 }

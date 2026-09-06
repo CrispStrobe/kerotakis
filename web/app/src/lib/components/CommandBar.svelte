@@ -5,6 +5,7 @@
     busy,
     onvalidate,
     examples = [],
+    onclose,
   }: {
     onsubmit: (line: string) => void;
     busy: boolean;
@@ -13,6 +14,8 @@
      * (I18N): the engine's own inventory, so the bar can never offer a
      * verb the parser does not have. */
     examples?: string[];
+    /** Absent where the console is not dismissible (the desktop shell). */
+    onclose?: () => void;
   } = $props();
 
   let line = $state("");
@@ -167,6 +170,9 @@
         </svg>
       </button>
     {/if}
+    {#if onclose}
+      <button type="button" class="icon-close" onclick={onclose} aria-label={t("hide the command line")} title={t("hide the command line")}>×</button>
+    {/if}
   </form>
 </div>
 
@@ -228,6 +234,22 @@
     stroke-linecap: round;
   }
   .mic:hover {
+    color: var(--ink);
+  }
+  /* The console is opt-in, so it carries the one way back out. */
+  .icon-close {
+    min-width: 44px;
+    min-height: 44px;
+    border: 0;
+    border-left: 1px solid var(--edge);
+    color: var(--dim);
+    background: none;
+    font: inherit;
+    font-size: 1.15rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .icon-close:hover {
     color: var(--ink);
   }
   .mic.listening {

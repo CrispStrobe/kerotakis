@@ -55,6 +55,8 @@ try {
 
   await page.goto(`${origin}/app/`);
   await page.evaluate(`localStorage.setItem("kerotakis.locale", ${JSON.stringify(locale)})`);
+  // --steps types at the `kero>` prompt, which is off unless asked for.
+  if (steps) await page.evaluate(`localStorage.setItem("kerotakis.console.v1", "shown")`);
   // A second load so the locale is in place before the app boots, the same
   // way a returning reader arrives.
   await page.goto(`${origin}/app/`);
