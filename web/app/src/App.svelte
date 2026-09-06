@@ -2316,50 +2316,49 @@
     cursor: pointer;
   }
   .panel-collapse:hover { color: var(--primary); border-color: var(--primary); }
-  .cabinet-tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.3rem;
-    padding: 0.55rem 0.65rem 0;
+  /* Scroll, do not wrap. Wrapping is how one long word turns a control
+     row into two, which is the thing being removed. */
+  .cabinet-rail {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+    margin: 0.45rem 0.55rem 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
   }
-  .cabinet-tabs button {
-    min-height: 38px;
-    border: 0;
-    border-radius: 10px;
-    color: var(--dim);
-    background: transparent;
-    cursor: pointer;
-    font-size: 0.78rem;
-    font-weight: 650;
-  }
-  .cabinet-tabs button.active {
-    color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
-  }
+  .cabinet-tabs,
   .catalog-scope {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 0.55rem 0.65rem 0;
+    display: flex;
+    flex: none;
     overflow: hidden;
     border: 1px solid var(--edge);
     border-radius: 999px;
     background: var(--surface);
   }
+  .cabinet-tabs button,
   .catalog-scope button {
-    min-width: 0;
+    flex: none;
+    white-space: nowrap;
     /* 34px and 0.62rem (~10px) put three German words across a 370px
        panel and the report could not read them. 44px is the touch
        minimum; the larger type is what makes the words legible. */
     min-height: 2.75rem;
-    padding: 0.3rem 0.2rem;
+    padding: 0.3rem 0.7rem;
     border: 0;
     color: var(--dim);
     background: transparent;
     font: inherit;
-    font-size: 0.72rem;
-    font-weight: 750;
+    font-size: 0.74rem;
+    font-weight: 700;
     line-height: 1.15;
     cursor: pointer;
+  }
+  .cabinet-tabs button.active {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
   }
   .catalog-scope button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised)); }
   .catalog-scope button:disabled { opacity: .38; cursor: not-allowed; }

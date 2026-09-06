@@ -405,6 +405,26 @@ try {
   )`));
   check("320 px substance names wrap instead of overflowing their row",
         overflowingNames.length === 0, overflowingNames.join(", "));
+  // The cabinet's two filter groups share one rail. Two stacked rows of
+  // chrome above the bottles is what this replaced, so the assertion is
+  // about rows: the rail scrolls sideways rather than growing downwards,
+  // and the chips stay big enough to hit at the width that forces it.
+  const rail = JSON.parse(await page.evaluate(`(() => {
+    const rail = document.querySelector('nav.shelf-pane .cabinet-rail');
+    const chips = [...(rail?.querySelectorAll('button') ?? [])].filter((chip) => chip.offsetParent);
+    const rows = new Set(chips.map((chip) => Math.round(chip.getBoundingClientRect().top)));
+    return JSON.stringify({
+      present: Boolean(rail),
+      chips: chips.length,
+      rows: rows.size,
+      touchable: chips.every((chip) => chip.getBoundingClientRect().height >= 44),
+      scrolls: rail ? getComputedStyle(rail).overflowX !== "visible" : false,
+    });
+  })()`));
+  check("320 px cabinet filters share one row", rail.present && rail.chips >= 2 && rail.rows === 1,
+        `${rail.chips} chips on ${rail.rows} row(s)`);
+  check("320 px cabinet filters scroll rather than wrap", rail.scrolls);
+  check("320 px cabinet filter chips keep 44 px touch targets", rail.touchable);
   const narrowJournal = await chooseMobilePane(2);
   check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
   check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);
