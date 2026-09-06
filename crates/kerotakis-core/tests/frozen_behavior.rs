@@ -136,11 +136,18 @@ fn lessons_produce_stable_output() {
             fs::write(&actual_path, &current).unwrap();
             let expected_lines = expected.lines().collect::<Vec<_>>();
             let actual_lines = current.lines().collect::<Vec<_>>();
-            let first_difference = (0..expected_lines.len().max(actual_lines.len()))
-                .find(|&index| expected_lines.get(index) != actual_lines.get(index))
+            // EVERY difference, not the first. A deliberate change to a
+            // rendered sentence moves dozens of these lines at once, and a
+            // report that names one of them turns updating the golden into
+            // as many CI rounds as there are lines — the actual file is
+            // written beside it, but nobody reading a CI log has it. The
+            // cap is there so a genuinely broken run cannot bury the log.
+            const MAX_REPORTED: usize = 400;
+            let differences: Vec<String> = (0..expected_lines.len().max(actual_lines.len()))
+                .filter(|&index| expected_lines.get(index) != actual_lines.get(index))
                 .map(|index| {
                     format!(
-                        "First difference at line {}:\n  expected: {}\n  actual:   {}",
+                        "line {}:\n  expected: {}\n  actual:   {}",
                         index + 1,
                         expected_lines
                             .get(index)
@@ -149,7 +156,22 @@ fn lessons_produce_stable_output() {
                         actual_lines.get(index).copied().unwrap_or("<end of file>"),
                     )
                 })
-                .unwrap_or_else(|| "Difference is outside line-normalized content".to_string());
+                .collect();
+            let total = differences.len();
+            let first_difference = if differences.is_empty() {
+                "Difference is outside line-normalized content".to_string()
+            } else {
+                let shown = differences.len().min(MAX_REPORTED);
+                format!(
+                    "{total} line(s) differ; showing {shown}:\n{}{}",
+                    differences[..shown].join("\n"),
+                    if total > shown {
+                        format!("\n… and {} more", total - shown)
+                    } else {
+                        String::new()
+                    }
+                )
+            };
             panic!(
                 "ARCH-001: lesson behavior changed!\n\
                  {first_difference}\n\
