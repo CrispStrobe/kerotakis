@@ -104,19 +104,37 @@ fn leftover_iron_is_told_the_copper_ran_out_not_that_it_cannot_displace_it() {
         !iron_verdicts.is_empty(),
         "a verdict about the iron: {events:?}"
     );
-    let Event::Inert { why, spent, .. } = iron_verdicts[0] else {
-        unreachable!()
-    };
 
     // The defect, named: never the uphill sentence when E° says downhill.
+    // Asserted over EVERY verdict about the iron, not one of them — the
+    // point is that the sentence cannot be written, not that some other
+    // sentence was written too.
     assert!(
         e0("Fe") < e0("Cu"),
         "the premise: iron is the more reactive metal"
     );
-    assert!(
-        !why.contains("uphill") && !why.contains("sits above copper"),
-        "iron does not sit above copper: {why}"
-    );
+    for verdict in &iron_verdicts {
+        let Event::Inert { why, .. } = verdict else {
+            unreachable!()
+        };
+        assert!(
+            !why.contains("uphill") && !why.contains("sits above copper"),
+            "iron does not sit above copper: {why}"
+        );
+    }
+
+    // The beaker also has an acid in it, and iron in a weak acid is
+    // kinetically blocked — a true sentence about a different question,
+    // and the one the displacement solver writes first. The verdict this
+    // test is about is the one that names the ion that ran out.
+    let spent_verdict = iron_verdicts
+        .iter()
+        .copied()
+        .find(|e| matches!(e, Event::Inert { spent: Some(_), .. }))
+        .unwrap_or_else(|| panic!("a verdict about the copper running out: {events:?}"));
+    let Event::Inert { why, spent, .. } = spent_verdict else {
+        unreachable!()
+    };
     assert!(
         why.contains("plated out") && why.contains("nothing left to displace"),
         "the reason is that the copper ran out: {why}"
@@ -130,7 +148,7 @@ fn leftover_iron_is_told_the_copper_ran_out_not_that_it_cannot_displace_it() {
     // What a nine-year-old is told, which is where the contradiction was
     // loudest: the lv1 sentence used to be "the iron does not swap places
     // with anything dissolved here".
-    let lv1 = render_event(iron_verdicts[0], Register::LV1);
+    let lv1 = render_event(spent_verdict, Register::LV1);
     assert!(
         lv1.contains("copper") && lv1.contains("nothing left to do"),
         "lv1: {lv1}"
