@@ -1379,7 +1379,7 @@ surfaces also teach three different mental models — take a reading now /
 install on the bench / do a thing to this vessel — and which one a tool
 lives in is not predictable from what the tool is.
 
-- [ ] **GUI-100 — The design.** `docs/INSTRUMENTS-ONE-SURFACE.md`: what each
+- [x] **GUI-100 — The design.** `docs/INSTRUMENTS-ONE-SURFACE.md`: what each
   of the three surfaces lists, how it is opened, what state it holds, what
   it emits into the engine grammar; the duplication tally; the target — one
   cupboard modal, opened from one small button at the right end of the
@@ -1387,7 +1387,7 @@ lives in is not predictable from what the tool is.
   what they do and an `(i)` per item saying what it models and what it does
   not; the migration in three PRs, and the open questions.
 
-- [ ] **GUI-101 — The cupboard, from one model.** `equipmentCatalogue.ts`
+- [x] **GUI-101 — The cupboard, from one model.** `equipmentCatalogue.ts`
   merges `INSTRUMENTS`, `APPARATUS`, the transfer verbs (lifted out of
   `EquipmentCabinet.svelte`, where six verbs live in a component array with
   no module and no test), `burette`/`mix`/`transport`/`react` and
@@ -1401,10 +1401,26 @@ lives in is not predictable from what the tool is.
   unit-tested; availability answered by the engine's catalog for every entry,
   including the ungated-verb case.
 
-- [ ] **GUI-102 — Delete the duplicates.** `EquipmentCabinet.svelte` and
+- [x] **GUI-102 — Delete the duplicates.** `EquipmentCabinet.svelte` and
   `InstrumentTray.svelte` go; the shelf's *equipment* tab, the dock's single
   cupboard button and `UtilityStation`'s *power and apparatus* all open the
   one cupboard. `tools/test-ux-quality.mjs` gains a cupboard assertion.
+
+  Done 2026-09-06. The shelf pane's *equipment* tab is gone rather than
+  rewired: it was a second view of one pane, and the pane it competed with
+  is the reagent shelf. The tab row keeps two buttons — the pane you are in,
+  and the door to the cupboard — so nothing is now reachable in two shapes.
+  `cabinetTab` is deleted, and with it five places that switched a tab in
+  order to show equipment: the bench's cabinet button, the mission debrief's
+  *place it on the bench*, the Kids Lab brief, the water supply and the
+  utility station.
+
+  What did NOT change, deliberately: the vessel dock still offers `look`,
+  `temperature` and `pH` from `directActions.ts`. Those three are the last
+  hard-coded instrument list in the app, and whether they become the first
+  three of the quick-access row is open question 2 in
+  `docs/INSTRUMENTS-ONE-SURFACE.md` — a question for the owner, not a thing
+  to decide inside a deletion PR.
 
 ## Localisation is not finished (I18N-1 … I18N-4)
 

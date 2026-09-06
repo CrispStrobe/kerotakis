@@ -30,6 +30,45 @@ const openSandbox = async () => {
   return waitFor(page, `document.querySelector('main')`, { timeout: 20000 });
 };
 
+/** GUI-102: one cupboard, reached from the dock, the MESSEN row and the shelf
+ * pane. Three surfaces used to list overlapping equipment; this asserts the
+ * survivor exists, groups what it holds, and names every item. */
+const openCupboard = async () => {
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button')].find((item) =>
+      /Geräteschrank|equipment cabinet/i.test(
+        [item.textContent, item.getAttribute('title'), item.getAttribute('aria-label')]
+          .filter(Boolean).join(' ')));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelector('dialog.cupboard')`, { timeout: 20000 });
+};
+
+const cupboardAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.cupboard');
+  if (!panel) return JSON.stringify({ catalogue: 0, shelves: 0, items: 0, unnamed: 1, info: 0, viewportOverflow: 0 });
+  const items = [...panel.querySelectorAll('button.item')];
+  const rect = panel.getBoundingClientRect();
+  // The header tally is "reachable/whole catalogue". The denominator is what
+  // the cupboard KNOWS about, which is progression-independent; the number of
+  // rendered items is not, because a Story learner is shown what they have
+  // earned. Asserting the rendered count would have been asserting the
+  // fixture's progress.
+  //
+  // Split rather than match: this whole function is a template literal, so a
+  // regex written here loses its backslashes on the way to the browser — an
+  // escaped slash arrives as a bare one and closes the literal early.
+  const tally = (panel.querySelector('header b')?.textContent || "").split("/");
+  return JSON.stringify({
+    catalogue: tally.length === 2 ? Number(tally[1].trim()) : 0,
+    shelves: panel.querySelectorAll('section.shelf').length,
+    items: items.length,
+    unnamed: items.filter((item) => !(item.textContent.trim() || item.getAttribute('aria-label'))).length,
+    info: panel.querySelectorAll('button.info-toggle').length,
+    viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
+  });
+})()`);
+
 const layoutAudit = () => page.evaluate(`(() => {
   const visible = (element) => {
     const style = getComputedStyle(element);
@@ -206,6 +245,20 @@ try {
   check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);
   await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
 
+  check("the equipment cupboard opens from the bench", await openCupboard());
+  const cupboard = JSON.parse(await cupboardAudit());
+  // Six shelves: measure, heat & cool, contain & connect, separate, drive,
+  // and the kits. A missing shelf means an entry lost its group.
+  check("the cupboard groups its equipment on shelves", cupboard.shelves >= 5, `${cupboard.shelves} shelves`);
+  // 12 instruments + 12 apparatus + 6 transfer verbs + burette/mixer/column
+  // train, with the reaction studio conditional on the session. The kits are
+  // skins over those and are not counted twice.
+  check("the cupboard knows the whole catalogue", cupboard.catalogue >= 33, `${cupboard.catalogue} tools`);
+  check("the cupboard shows what this learner has", cupboard.items >= 12, `${cupboard.items} items`);
+  check("every cupboard item is named", cupboard.unnamed === 0, `${cupboard.unnamed} unnamed`);
+  check("every cupboard item can say what it models", cupboard.info === cupboard.items, `${cupboard.info} of ${cupboard.items}`);
+  await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
+
   const dockTargets = JSON.parse(await page.evaluate(`JSON.stringify(
     [...document.querySelectorAll('.actions button')].filter((button) => button.offsetParent)
       .map((button) => ({ name: button.textContent.trim(), width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height }))
@@ -232,6 +285,10 @@ try {
   const phoneTable = JSON.parse(await periodicAudit());
   check("the phone periodic table stays inside the viewport", phoneTable.viewportOverflow <= 1, `${phoneTable.viewportOverflow}px`);
   await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
+  check("the equipment cupboard opens on a phone", await openCupboard());
+  const phoneCupboard = JSON.parse(await cupboardAudit());
+  check("the phone cupboard stays inside the viewport", phoneCupboard.viewportOverflow <= 1, `${phoneCupboard.viewportOverflow}px`);
+  await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
 
   // 320 CSS pixels remains a real supported width: compact phones, split
   // views and a 640px browser at 200% zoom all reach it. Audit every pane,
