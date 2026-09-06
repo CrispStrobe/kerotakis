@@ -82,6 +82,36 @@
   let openInfo = $state<string | null>(null);
   const panelId = (id: string) => `cupboard-info-${id}`;
 
+  /**
+   * The purpose line, as a tooltip rather than a third line on the tile.
+   *
+   * A kit row printed three things — picture, name, and the sentence that
+   * says what the kit is FOR — in a 6 rem column, which is a name and then
+   * four two-word lines of prose under it. The sentence is worth keeping;
+   * it is just an answer to "what is this one", not part of picking the
+   * magnet out of a shelf of six.
+   *
+   * So the row is picture + name, and the purpose reaches the learner
+   * twice: here on pointer and focus, and as the first line of the (i)
+   * panel. `title=` alone would cover a mouse and nothing else, so this
+   * follows the journal's tooltip — a tap PINS it, because a tap is the
+   * only "hover" a touch screen has, and the pin times out so it can
+   * never sit over the shelves.
+   */
+  let tip = $state<string | null>(null);
+  let pinned: ReturnType<typeof setTimeout> | undefined;
+  function hint(text: string | null): void {
+    clearTimeout(pinned);
+    tip = text;
+  }
+  function pin(text: string): void {
+    hint(text);
+    pinned = setTimeout(() => {
+      if (tip === text) tip = null;
+    }, 2600);
+  }
+  $effect(() => () => clearTimeout(pinned));
+
   const ids = $derived(gatedIds(reactAvailable));
   const availableCount = $derived(ids.filter((id) => equipmentAccess(catalog, id).available).length);
   const accessOf = (entry: EquipmentEntry) => equipmentAccess(catalog, accessId(entry));
@@ -178,6 +208,12 @@
                     class:deployed={badge !== null}
                     aria-pressed={badge !== null}
                     disabled={busy || !entryAccess.available}
+                    title={t(entry.blurb)}
+                    onpointerenter={() => hint(t(entry.blurb))}
+                    onpointerleave={() => hint(null)}
+                    onfocus={() => hint(t(entry.blurb))}
+                    onblur={() => hint(null)}
+                    onpointerdown={() => pin(t(entry.blurb))}
                     onclick={() => choose(entry)}
                   >
                     <span class="item-render">
@@ -221,12 +257,13 @@
         </p>
       {/if}
     </div>
+    {#if tip}<p class="tip" aria-hidden="true">{tip}</p>{/if}
   </dialog>
 </div>
 
 <style>
   .scrim { position: fixed; inset: 0; z-index: 84; display: grid; place-items: center; padding: 1rem; background: var(--scrim); backdrop-filter: blur(10px) saturate(1.12); }
-  .cupboard { position: static; width: min(56rem, 96vw); max-height: 92vh; margin: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid color-mix(in srgb, var(--action) 40%, var(--edge)); border-radius: 23px; color: var(--ink); background: var(--surface); box-shadow: 0 28px 80px var(--overlay-shadow); }
+  .cupboard { position: relative; width: min(56rem, 96vw); max-height: 92vh; margin: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid color-mix(in srgb, var(--action) 40%, var(--edge)); border-radius: 23px; color: var(--ink); background: var(--surface); box-shadow: 0 28px 80px var(--overlay-shadow); }
   header { display: flex; align-items: center; gap: .75rem; padding: .9rem 1rem; background: linear-gradient(110deg, color-mix(in srgb, var(--action) 15%, var(--surface)), color-mix(in srgb, var(--instrument) 10%, var(--surface))); }
   .mark { width: 40px; height: 40px; display: grid; place-items: center; flex: none; border-radius: 12px; color: var(--on-accent); background: linear-gradient(145deg, var(--action), var(--instrument)); font-size: 1.2rem; }
   .titles { min-width: 0; display: grid; gap: .05rem; }
@@ -277,6 +314,11 @@
   .slot-info { grid-column: 1 / -1; }
   .purpose { margin: .3rem .2rem .1rem; color: var(--dim); font-size: .68rem; line-height: 1.35; }
   .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }
+  /* Anchored to the dialog's foot and inset on both sides, so a purpose
+     sentence can never widen the cupboard: it wraps inside the tooltip.
+     Below the shelves rather than beside the tile, because a tile is 6 rem
+     wide and the sentence is not. */
+  .tip { position: absolute; left: .6rem; right: .6rem; bottom: .5rem; z-index: 6; margin: 0; padding: .4rem .55rem; border: 1px solid color-mix(in srgb, var(--action) 30%, var(--edge)); border-radius: 10px; color: var(--ink); background: color-mix(in srgb, var(--surface-raised) 94%, var(--action)); box-shadow: 0 6px 18px var(--shadow); font-size: .68rem; line-height: 1.35; }
   @media (max-width: 30rem) {
     /* Full-bleed on a phone — and the scrim loses its padding with it, or a
        100vw dialog centred inside a padded grid hangs 1rem off each edge and

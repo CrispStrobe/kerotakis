@@ -529,7 +529,6 @@
           <article data-id={item.id} data-level={item.level} data-status={item.status} data-run={item.run.kind}>
             <div class="card-head">
               <span class="level">{t(levelLabel(item.level))}</span>
-              <span class="age">{t("from age {age}", { age: item.ageMin })}</span>
               <span class="minutes">{t("about {count} min", { count: item.minutes })}</span>
               <span class="completion">{item.done ? "✓ " : ""}{t(item.done ? "completed" : "not tried")}</span>
             </div>
@@ -589,7 +588,6 @@
       </header>
       <p class="entry-meta">
         <span>{t(levelLabel(open.level))}</span>
-        <span>{t("from age {age}", { age: open.ageMin })}</span>
         <span>{t("about {count} min", { count: open.minutes })}</span>
         <!-- Only where the content actually declares them. The codex export
              carries no supervision note and no computability verdict, and
@@ -1184,7 +1182,7 @@
     border-style: dashed;
   }
   .card-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; }
-  .level, .age, .minutes, .no-launch {
+  .level, .minutes, .no-launch {
     padding: 0.18rem 0.4rem;
     border-radius: 999px;
     font-size: 0.55rem;
@@ -1192,7 +1190,7 @@
     text-transform: uppercase;
   }
   .level { color: var(--bg); background: var(--hot); }
-  .age, .minutes { color: var(--cool); background: var(--panel-raised); }
+  .minutes { color: var(--cool); background: var(--panel-raised); }
   .card-head .completion { margin-left: auto; }
   .cards h2 { margin: 0.55rem 0 0.25rem; font-size: 1rem; }
   .hook { margin: 0; color: var(--dim); font-size: 0.74rem; line-height: 1.45; }

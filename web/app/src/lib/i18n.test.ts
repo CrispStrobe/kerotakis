@@ -153,9 +153,9 @@ describe("i18n", () => {
       expect(source).not.toContain("t(vessel.boundary)");
     });
 
-    it("every capability support level and age band has German", () => {
+    it("every capability support level and corpus band has German", () => {
       const source = read("components/CapabilityExplorer.svelte");
-      const bands = /const AGE_LABELS[^=]*=\s*\{([^}]*)\}/.exec(source);
+      const bands = /const BAND_LABELS[^=]*=\s*\{([^}]*)\}/.exec(source);
       expect(bands).not.toBeNull();
       const labels = [...bands![1]!.matchAll(/:\s*"([^"]+)"/g)].map((m) => m[1]!);
       expect(labels.length).toBe(4);
