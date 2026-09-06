@@ -153,9 +153,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   conserved rather than discarded; English/German aliases resolve.
 - **Out of scope:** reverse-engineering branded proprietary formulations or
   treating a nutrient panel as complete molecular composition.
-- **Remaining work:** cabinet search/`explain` integration for recipes (shipped
-  slices — the schema, runtime `add`, and the finite stockroom ledger — are
-  recorded in `HISTORY.md`).
+- **Browser explanation slice (PR #433):** the existing shelf `(i)` receives
+  engine-owned recipe confidence, basis, component ranges, unresolved matter,
+  preparation, lot assumptions, and source id. Component names also join shelf
+  search in both the canonical and displayed locale; every wire field is
+  additive so older hosts remain usable.
+- **Remaining work:** close the CLI/browser `explain` parity audit and record
+  the landed slice in `HISTORY.md` after the PR is green and merged. The
+  schema, runtime `add`, and finite stockroom ledger are already recorded
+  there.
 
 ## Stage B1 — the everyday shelf
 

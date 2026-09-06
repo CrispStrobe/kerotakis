@@ -763,6 +763,30 @@ impl Lab {
                 "hazards": hazards,
                 "hazard_assessed": assessed,
                 "material": true,
+                // BRD-002: keep the browser's explanation on the same
+                // registry authority as expansion. These are structured
+                // values rather than pre-rendered CLI prose so the client
+                // can localise labels without translating evidence.
+                "material_details": {
+                    "basis": recipe.basis,
+                    "confidence": recipe.confidence,
+                    "components": recipe.components.iter().map(|component| {
+                        serde_json::json!({
+                            "key": component.species_id,
+                            "lower": component.fraction.lower,
+                            "upper": component.fraction.upper,
+                        })
+                    }).collect::<Vec<_>>(),
+                    "unresolved": recipe.unresolved_fraction.map(|fraction| {
+                        serde_json::json!({
+                            "lower": fraction.lower,
+                            "upper": fraction.upper,
+                        })
+                    }),
+                    "preparation": recipe.preparation,
+                    "lot_assumptions": recipe.lot_assumptions,
+                    "source_id": recipe.evidence.source_id,
+                },
                 // A mixture has no formula of its own to parse, so it
                 // carries the keys of what is in it and the shelf takes
                 // the roles of those. Component keys, not a second

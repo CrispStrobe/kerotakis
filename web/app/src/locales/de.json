@@ -467,6 +467,17 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
+  "recipe confidence": "Verlässlichkeit des Rezepts",
+  "by mass": "nach Masse",
+  "by amount of substance": "nach Stoffmenge",
+  "by volume": "nach Volumen",
+  "measured": "gemessen",
+  "estimated": "geschätzt",
+  "surrogate": "Ersatzmodell",
+  "unresolved matter": "nicht aufgelöster Anteil",
+  "preparation": "Zubereitung",
+  "lot assumptions": "Annahmen zur Charge",
+  "recipe source": "Rezeptquelle",
   "about {name}": "Über {name}",
   "physical state": "Aggregatzustand",
   "visual appearance": "Aussehen",
