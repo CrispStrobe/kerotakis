@@ -2209,6 +2209,9 @@
   "Open any of these too": "Öffne auch eine davon",
   "no order, no prerequisite": "keine Reihenfolge, keine Voraussetzung",
   "glowing at {temperature} K": "glüht bei {temperature} K",
-  "rolling boil at {temperature} °C, {moles} mol of vapour": "kochend bei {temperature} °C, {moles} mol Dampf"
+  "rolling boil at {temperature} °C, {moles} mol of vapour": "kochend bei {temperature} °C, {moles} mol Dampf",
+  "{moles} mol of {species} coming out of solution": "{moles} mol {species} fallen aus der Lösung aus",
+  "{moles} mol of {species} going into solution": "{moles} mol {species} gehen in Lösung",
+  "{litres} L of headspace gas at {pressure} kPa": "{litres} L Gasraum bei {pressure} kPa"
  }
 }

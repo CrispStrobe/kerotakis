@@ -2209,6 +2209,9 @@
   "Open any of these too": "",
   "no order, no prerequisite": "",
   "glowing at {temperature} K": "",
-  "rolling boil at {temperature} °C, {moles} mol of vapour": ""
+  "rolling boil at {temperature} °C, {moles} mol of vapour": "",
+  "{moles} mol of {species} coming out of solution": "",
+  "{moles} mol of {species} going into solution": "",
+  "{litres} L of headspace gas at {pressure} kPa": ""
  }
 }

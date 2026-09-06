@@ -4,7 +4,15 @@
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
-  import { NORMAL_BOILING_K, condensationFilm, incandescence } from "../magnitudes";
+  import {
+    FALLBACK_MOLAR_VOLUME_L,
+    NORMAL_BOILING_K,
+    compressedVolumeL,
+    condensationFilm,
+    depositParticles,
+    headspaceVolumeL,
+    incandescence,
+  } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
@@ -298,6 +306,62 @@
   // Condensation beads only once the wall is under the room's dew point —
   // which is why a beaker of ice water runs and a beaker of tap water does not.
   const condensation = $derived(condensationFilm(vessel.temperature_k));
+  // GUI-099 ANIM-2: how many grains, and how big. The count is the amount,
+  // the size is the room a mole of THIS substance takes up — so a fluffy
+  // hydroxide and a dense sulfate stop drawing the same 1.2 px circle.
+  const precipitateEffect = $derived(latestEffect("precipitate", 1800));
+  const dissolveEffect = $derived(latestEffect("dissolve", 1400));
+  const precipitateGrains = $derived(
+    depositParticles(
+      precipitateEffect?.solid?.moles ?? precipitateEffect?.reading ?? 0,
+      precipitateEffect?.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L,
+    ),
+  );
+  const dissolveGrains = $derived(
+    depositParticles(
+      dissolveEffect?.solid?.moles ?? dissolveEffect?.reading ?? 0,
+      dissolveEffect?.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L,
+    ),
+  );
+  // GUI-099 ANIM-2: the gas above the liquid, and where the lid that holds
+  // it belongs. Exact where the engine named the trapped moles — V = nRT/P,
+  // at the scene's own pressure and temperature — and Boyle's law off the
+  // free volume and the scene's pressure once that event's window closes.
+  // The piston used to be drawn at y=16 whatever the pressure, so squeezing
+  // a gas moved nothing on screen.
+  const sealEffect = $derived(latestEffect("seal", 4000));
+  const capacityL = $derived(geom.capacity_ml / 1000);
+  const freeVolumeL = $derived(Math.max(0, capacityL - (vessel.liquid?.volume_l ?? 0)));
+  const headspace = $derived.by(() => {
+    const control = pressureControlEffect?.pressureControl;
+    const pressurePa = vessel.pressure_pa > 0 ? vessel.pressure_pa : (control?.pressurePa ?? 0);
+    if (control && control.trappedGasMoles > 0 && pressurePa > 0) {
+      const volumeL = headspaceVolumeL(control.trappedGasMoles, vessel.temperature_k, pressurePa);
+      if (volumeL > 0) return { volumeL, moles: control.trappedGasMoles, pressurePa, source: "ideal-gas" };
+    }
+    const sealed = sealEffect?.headspace;
+    if (sealed && sealed.volumeL > 0) {
+      return { volumeL: sealed.volumeL, moles: sealed.moles, pressurePa, source: "engine" };
+    }
+    if (vessel.boundary !== "open" && pressurePa > 0) {
+      return { volumeL: compressedVolumeL(freeVolumeL, pressurePa), moles: 0, pressurePa, source: "boyle" };
+    }
+    return { volumeL: freeVolumeL, moles: 0, pressurePa, source: "geometry" };
+  });
+  const liquidTopY = $derived(BOTTOM_Y - liquidH);
+  const pistonY = $derived(
+    Math.max(
+      6,
+      Math.min(
+        liquidTopY - 2,
+        BOTTOM_Y - fillHeight(geom, Math.min(capacityL, (vessel.liquid?.volume_l ?? 0) + headspace.volumeL), 0),
+      ),
+    ),
+  );
+  // A gas held above atmospheric reads denser. One atmosphere is invisible.
+  const headspaceTint = $derived(
+    Math.min(0.5, Math.max(0, (headspace.pressurePa - 101_325) / 400_000)),
+  );
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
@@ -743,7 +807,13 @@
       {@const flameMagnitude = mag("ignite", 3000)}
       {@const flameScale = 0.42 + flameMagnitude * 0.88}
       {@const flameDuration = 0.48 - flameMagnitude * 0.25}
-      <g class="flame" aria-hidden="true" style={`--flame-duration:${flameDuration}s;transform-origin:50px 20px;transform:scale(${flameScale})`}>
+      <g
+        class="flame"
+        aria-hidden="true"
+        data-flame-energy-j={ignitionEffect?.unit === "J" ? (ignitionEffect.reading ?? 0).toExponential(3) : "unquantified"}
+        data-flame-scale={flameScale.toFixed(3)}
+        style={`--flame-duration:${flameDuration}s;transform-origin:50px 20px;transform:scale(${flameScale})`}
+      >
         <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z"
           style={latestFlameColour ? `fill:${latestFlameColour};stroke:var(--edge-strong);stroke-width:.55;filter:drop-shadow(0 0 3px ${latestFlameColour})` : ""} />
         <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
@@ -922,19 +992,34 @@
 
     <!-- Event-driven transients (GUI-026): each fires only because the
          engine emitted the matching event. -->
-    {#if active("precipitate", 1800) && liquidH > 0}
-      {@const pMag = mag("precipitate", 1800)}
-      {@const pCount = Math.max(2, Math.round(2 + pMag * 6))}
-      {@const pRadius = 1.2 + pMag * 1.2}
-      {#each Array.from({length: pCount}, (_, i) => INNER_X + 4 + (i / (pCount - 1)) * (INNER_W - 8)) as x, i (i)}
-        <circle
-          class="falling"
-          cx={x}
-          cy={BOTTOM_Y - liquidH + 6}
-          r={pRadius}
-          style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.12}s`}
-        />
-      {/each}
+    {#if precipitateEffect && liquidH > 0 && precipitateGrains.count > 0}
+      <!-- GUI-099 ANIM-2: the count is the moles the engine precipitated;
+           the grain radius is the cube root of the volume each grain then
+           carries (`moles × molar volume ÷ count`); the colour is the
+           species' own `srgb` off the scene row, not a generic grey. -->
+      {@const pCount = precipitateGrains.count}
+      {@const pRadius = Math.max(0.7, Math.min(3.4, 1.1 * precipitateGrains.radiusScale))}
+      <g
+        class="precipitating"
+        data-precipitate-moles={(precipitateEffect.solid?.moles ?? precipitateEffect.reading ?? 0).toExponential(3)}
+        data-molar-volume-l={(precipitateEffect.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L).toExponential(3)}
+        data-deposit-volume-l={precipitateGrains.particleVolumeL.toExponential(3)}
+        data-grain-count={pCount}
+        aria-label={t("{moles} mol of {species} coming out of solution", {
+          moles: formatReading(precipitateEffect.solid?.moles ?? precipitateEffect.reading ?? 0, 4),
+          species: t(precipitateEffect.solid?.name ?? precipitateEffect.species ?? "solid"),
+        })}
+      >
+        {#each Array.from({ length: pCount }, (_, i) => INNER_X + 4 + (i / Math.max(1, pCount - 1)) * (INNER_W - 8)) as x, i (i)}
+          <circle
+            class="falling"
+            cx={x}
+            cy={BOTTOM_Y - liquidH + 6}
+            r={pRadius}
+            style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${(i * 0.12).toFixed(2)}s${precipitateEffect.solid?.colour ? `;fill:${precipitateEffect.solid.colour}` : ""}`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if settlingEffect && liquidH > 0}
       {@const strongest = settlingEffect.settling?.populations.reduce((value, population) => Math.max(value, population.separatedFraction), 0) ?? 0}
@@ -969,8 +1054,31 @@
         <ellipse cx="50" cy={BOTTOM_Y - Math.max(liquidH, 4)} rx="11" ry="2.6" style="animation-delay:0.12s" />
       </g>
     {/if}
-    {#if active("dissolve", 1400) && liquidH > 0}
-      <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
+    {#if dissolveEffect && liquidH > 0}
+      <!-- The mirror of the precipitate: the same grains, shrinking away.
+           A speck and a spoonful of salt used to dissolve as one r=4 circle. -->
+      {@const dCount = Math.max(1, dissolveGrains.count)}
+      {@const dRadius = Math.max(0.9, Math.min(4, 1.3 * dissolveGrains.radiusScale))}
+      <g
+        class="dissolving-grains"
+        data-dissolve-moles={(dissolveEffect.solid?.moles ?? dissolveEffect.reading ?? 0).toExponential(3)}
+        data-molar-volume-l={(dissolveEffect.solid?.molarVolumeLPerMol ?? FALLBACK_MOLAR_VOLUME_L).toExponential(3)}
+        data-grain-count={dCount}
+        aria-label={t("{moles} mol of {species} going into solution", {
+          moles: formatReading(dissolveEffect.solid?.moles ?? dissolveEffect.reading ?? 0, 4),
+          species: t(dissolveEffect.solid?.name ?? dissolveEffect.species ?? "solid"),
+        })}
+      >
+        {#each Array.from({ length: dCount }, (_, i) => i) as i (i)}
+          <circle
+            class="dissolving"
+            cx={INNER_X + 5 + ((i * 29) % Math.max(1, INNER_W - 10))}
+            cy={BOTTOM_Y - 6 - ((i * 11) % Math.max(3, Math.round(liquidH * 0.3)))}
+            r={dRadius}
+            style={`animation-delay:${(i * 0.09).toFixed(2)}s${dissolveEffect.solid?.colour ? `;fill:${dissolveEffect.solid.colour}` : ""}`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
       {@const eMag = mag("electrolyse", 8000)}
@@ -1330,17 +1438,55 @@
       class="sheen faint"
       d={`M ${INNER_X + INNER_W - 4} 24 Q ${INNER_X + INNER_W - 2} ${BOTTOM_Y / 2} ${INNER_X + INNER_W - 5} ${BOTTOM_Y - 14}`}
     />
+    {#if vessel.boundary !== "open" && headspace.volumeL > 0}
+      <!-- GUI-099 ANIM-2: the gas above the liquid, drawn where it actually
+           is. Held above atmospheric it reads denser; at one atmosphere it
+           is invisible, which is what a headspace at rest should look like. -->
+      {@const bandTop = vessel.boundary === "pressure_controlled" ? pistonY + 4 : 14}
+      {@const bandHeight = Math.max(0, liquidTopY - bandTop)}
+      {#if bandHeight > 1}
+        <rect
+          class="headspace"
+          x={INNER_X + 1}
+          y={bandTop}
+          width={INNER_W - 2}
+          height={bandHeight}
+          data-headspace-l={headspace.volumeL.toExponential(3)}
+          data-headspace-moles={headspace.moles.toExponential(3)}
+          data-headspace-pressure-pa={Math.round(headspace.pressurePa)}
+          data-headspace-source={headspace.source}
+          style={`opacity:${(0.08 + headspaceTint).toFixed(3)}`}
+        >
+          <title>{t("{litres} L of headspace gas at {pressure} kPa", {
+            litres: formatReading(headspace.volumeL, 3),
+            pressure: formatReading(headspace.pressurePa / 1000, 1),
+          })}</title>
+        </rect>
+      {/if}
+    {/if}
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
         <title>{t("sealed")}</title>
       </rect>
     {:else if vessel.boundary === "pressure_controlled"}
-      <!-- A floating piston: the lid that moves to hold the set pressure. -->
-      <rect class="lid" x="14" y="16" width="72" height="4" rx="1">
-        <title>{t("pressure-controlled")}</title>
-      </rect>
-      <line class="piston" x1="50" y1="4" x2="50" y2="16" />
-      <line class="piston" x1="42" y1="4" x2="58" y2="4" />
+      <!-- A floating piston: the lid that moves to hold the set pressure.
+           Its height is the volume the trapped gas occupies at that
+           pressure — squeeze it and the piston comes down. -->
+      <g
+        class="piston-assembly"
+        data-piston-y={pistonY.toFixed(2)}
+        data-headspace-l={headspace.volumeL.toExponential(3)}
+        data-headspace-source={headspace.source}
+      >
+        <rect class="lid" x="14" y={pistonY} width="72" height="4" rx="1">
+          <title>{t("{litres} L of headspace gas at {pressure} kPa", {
+            litres: formatReading(headspace.volumeL, 3),
+            pressure: formatReading(headspace.pressurePa / 1000, 1),
+          })}</title>
+        </rect>
+        <line class="piston" x1="50" y1={Math.max(0, pistonY - 12)} x2="50" y2={pistonY} />
+        <line class="piston" x1="42" y1={Math.max(0, pistonY - 12)} x2="58" y2={Math.max(0, pistonY - 12)} />
+      </g>
     {:else if vessel.boundary === "swept"}
       <!-- Carrier gas in one side, out the other. -->
       <g class="sweep" aria-hidden="true">
@@ -1955,22 +2101,36 @@
       opacity: 0.2;
     }
   }
+  /* A dissolving grain SHRINKS. The old rule scaled it to 3.5x, which read
+     as a puff rather than a crystal going into solution; each grain now has
+     its own origin so a whole population can shrink where it stands. */
   .dissolving {
     fill: none;
     stroke: var(--ink);
     stroke-width: 1.2;
+    transform-box: fill-box;
+    transform-origin: center;
     animation: dissolve 1.3s ease-out forwards;
-    transform-origin: 50px 112px;
   }
   @keyframes dissolve {
     from {
-      opacity: 0.8;
+      opacity: 0.85;
       transform: scale(1);
     }
     to {
       opacity: 0;
-      transform: scale(3.5);
+      transform: scale(0.06);
     }
+  }
+  .headspace {
+    fill: var(--cool);
+    pointer-events: none;
+  }
+  .piston-assembly .lid {
+    transition: y 0.45s cubic-bezier(0.3, 0.7, 0.35, 1);
+  }
+  .piston-assembly .piston {
+    transition: y1 0.45s cubic-bezier(0.3, 0.7, 0.35, 1), y2 0.45s cubic-bezier(0.3, 0.7, 0.35, 1);
   }
   .shimmer {
     fill: var(--cloud);
@@ -2212,7 +2372,9 @@
     .test-flame-small, .relit-flame, .pop-wave, .lime-particle { animation: none; }
     .waft-current { animation: none; opacity: .55; }
     .glassbtn.pouring { animation: none; }
-    .burette-fill {
+    .burette-fill,
+    .piston-assembly .lid,
+    .piston-assembly .piston {
       transition: none;
     }
     .bubble,
