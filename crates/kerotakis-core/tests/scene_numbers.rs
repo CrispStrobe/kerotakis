@@ -169,9 +169,12 @@ fn only_a_vessel_that_owns_its_gas_reports_a_headspace() {
 
 #[test]
 fn the_pistons_volume_follows_the_pressure_it_is_held_at() {
-    // Squeeze the gas harder and the number the piston is drawn from has to
-    // fall; a headspace that does not move with the pressure is exactly the
-    // fixed `y=16` the audit found.
+    // Squeeze the SAME gas harder and the number the piston is drawn from
+    // has to fall. It has to be the same gas: regulating an open vessel
+    // fills the new boundary from the room at the target pressure, so the
+    // piston lands where it was asked to. Sealing first traps a fixed
+    // inventory, and putting a piston on that is Boyle's law with something
+    // to move.
     let volume_at = |pressure_pa: f64| {
         let mut bench = Bench::new();
         step(
@@ -185,10 +188,17 @@ fn the_pistons_volume_follows_the_pressure_it_is_held_at() {
         );
         step(
             &mut bench,
+            Operator::Seal {
+                vessel: VesselId(0),
+                headspace_volume: Liters(0.6),
+            },
+        );
+        step(
+            &mut bench,
             Operator::Regulate {
                 vessel: VesselId(0),
                 pressure: Pascal(pressure_pa),
-                initial_volume: Liters(0.5),
+                initial_volume: Liters(0.6),
             },
         );
         scene(&bench)
@@ -200,6 +210,11 @@ fn the_pistons_volume_follows_the_pressure_it_is_held_at() {
     assert!(
         squeezed < loose,
         "three atmospheres held {squeezed} L against {loose} L at one"
+    );
+    // Boyle: three times the pressure, a third of the volume.
+    assert!(
+        (squeezed * 3.0 - loose).abs() < 1e-6,
+        "{squeezed} L at three atmospheres is not a third of {loose} L at one"
     );
 }
 
