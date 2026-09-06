@@ -14,6 +14,9 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **ANIM-5** — made gas-production bubble cadence follow the engine's molar
+  rate and foam collapse reach half height on the engine's half-life, with
+  readable/data-attribute evidence and reduced-motion coverage
 - **KIDS GUI reachability / tranche 1** — replaced safety-derived guided
   levels with authored learning-progress bands, made mixed lesson/Codex
   completion route-accurate, and put localized actionable safety guidance for

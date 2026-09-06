@@ -1377,7 +1377,9 @@ and presents them well.
   three events that drew nothing) shipped across three PRs and took the
   audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
   `HISTORY.md`. Persistent corrosion extent moved one further missing row to
-  done. The remaining 11 partial and 16 missing rows are the open
+  done. The computed-motion tranche then made gas production cadence follow
+  `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
+  two partial rows to done. The remaining 9 partial and 16 missing rows are the open
   half of this item.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the

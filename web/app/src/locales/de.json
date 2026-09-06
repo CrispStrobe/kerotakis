@@ -2357,6 +2357,9 @@
   "Get the contents ready, or drive a change in them: stir, grind, dilute, spin, irradiate, react.": "Den Inhalt vorbereiten oder verändern: rühren, mörsern, verdünnen, zentrifugieren, bestrahlen, reagieren lassen.",
   "Hold a boundary or join vessels: balloon, gas line, burette, mixer, tubing, electrodes, half-cell.": "Eine Grenze halten oder Gefäße verbinden: Ballon, Gasleitung, Bürette, Mischer, Schläuche, Elektroden, Halbzelle.",
   "Move one part of a vessel into another and leave the rest behind.": "Einen Teil eines Gefäßes in ein anderes überführen und den Rest zurücklassen.",
-  "Show the tools under the names of the activity kits.": "Die Geräte unter den Namen der Experimentierkästen anzeigen."
+  "Show the tools under the names of the activity kits.": "Die Geräte unter den Namen der Experimentierkästen anzeigen.",
+  "modeled foam half-life: {seconds} s": "modellierte Schaum-Halbwertszeit: {seconds} s",
+  "half-life {seconds} s": "Halbwertszeit {seconds} s",
+  "gas production: {rate} mol per second, a bubble every {period} s": "Gasbildung: {rate} mol pro Sekunde, eine Blase alle {period} s"
  }
 }

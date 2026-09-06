@@ -41,12 +41,14 @@ describe("effectFromEvent", () => {
 
   it("maps produced oxygen and computed foam height to visible effects", () => {
     expect(
-      effectFromEvent({ event: "gas_produced", vessel: 0, species: "O2", moles: 0.05 })
-    ).toMatchObject({ kind: "vent" });
-    const low = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 3 });
-    const high = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 20 });
+      effectFromEvent({ event: "gas_produced", vessel: 0, species: "O2", moles: 0.05, rate_moles_per_second: 0.002 })
+    ).toMatchObject({ kind: "vent", gasProduction: { molesPerSecond: 0.002 } });
+    const low = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 3, half_life_seconds: 12 });
+    const high = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 20, half_life_seconds: 40 });
     expect(low!.kind).toBe("foam");
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
+    expect(low).toMatchObject({ durationMs: 12_000, foam: { halfLifeSeconds: 12 } });
+    expect(high).toMatchObject({ durationMs: 40_000, foam: { halfLifeSeconds: 40 } });
   });
 
   it("maps computed pepper clearing to a surface-spread effect", () => {

@@ -2357,6 +2357,9 @@
   "Get the contents ready, or drive a change in them: stir, grind, dilute, spin, irradiate, react.": "",
   "Hold a boundary or join vessels: balloon, gas line, burette, mixer, tubing, electrodes, half-cell.": "",
   "Move one part of a vessel into another and leave the rest behind.": "",
-  "Show the tools under the names of the activity kits.": ""
+  "Show the tools under the names of the activity kits.": "",
+  "modeled foam half-life: {seconds} s": "",
+  "half-life {seconds} s": "",
+  "gas production: {rate} mol per second, a bubble every {period} s": ""
  }
 }
