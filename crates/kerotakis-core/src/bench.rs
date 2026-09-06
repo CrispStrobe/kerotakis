@@ -5010,7 +5010,9 @@ fn is_ionic(species: &SpeciesId) -> bool {
         .unwrap_or(false)
 }
 
-fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
+pub(crate) fn partition_groups(
+    species: &SpeciesId,
+) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     match species.0.as_str() {
         "ethanol" => {
@@ -5031,13 +5033,13 @@ fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::Gro
     Some(g)
 }
 
-fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+pub(crate) fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     g.insert(16, 1);
     g
 }
 
-fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
     g.insert(1, 2);
     g.insert(2, 4);

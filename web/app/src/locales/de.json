@@ -2423,6 +2423,9 @@
   "no curated row for this, and the general case is not derivable": "keine kuratierte Zeile dafür, und der allgemeine Fall ist nicht ableitbar",
   "no shipped thermodynamic database defines this at all": "keine mitgelieferte thermodynamische Datenbank definiert dies überhaupt",
   "recorded before the bench classified its refusals": "aufgezeichnet, bevor das Labor seine Ablehnungen einordnete",
-  "unclassified reason": "nicht eingeordneter Grund"
+  "unclassified reason": "nicht eingeordneter Grund",
+  "computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation": "Berechnete Gleichgewichtsanteile in der unteren und oberen Schicht; die Balken sind keine Stofftransportanimation",
+  "equilibrium split": "Gleichgewichtsverteilung",
+  "At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}": "Im Gleichgewicht sind {lower}% {species} im unteren {lowerSolvent} und {upper}% im oberen {upperSolvent}"
  }
 }

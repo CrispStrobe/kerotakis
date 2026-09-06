@@ -1412,6 +1412,13 @@ and presents them well.
   balance had computed. Every one of the 73 rows is now a function of an
   engine number carrying a `data-*` attribute that names it.
 
+  ANIM-10 adds a standing counterpart to the already-complete transient
+  partition row. While water and hexane coexist, the scene recomputes each
+  supported neutral solute's lower/upper equilibrium share from current matter
+  and the same UNIFAC calculation used by `drain`; the accessible bars survive
+  between events and disappear when the layers separate. This improves
+  persistence without changing the closed 73-row event score.
+
   **This item is closed and the question it asks is not.** One gap outlives
   the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
   carrying nothing but a vessel id, is now closed: the event names *which*

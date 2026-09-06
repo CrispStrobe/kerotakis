@@ -370,6 +370,14 @@ picture of a vessel.
   Both raw values and the derived bubble period are readable and exposed as
   `data-*` evidence; reduced-motion mode keeps the evidence and stops motion.
 
+- **ANIM-10 (standing partition)** — the transient `partitioned` dots remain
+  complete, and now current coexisting water/hexane matter also projects the
+  same supported neutral-solute UNIFAC split into the standing scene. Paired
+  layer bars and an accessible percentage survive between events and vanish
+  after separation; they explicitly do not claim mass-transfer kinetics,
+  interface geometry, emulsions, ions, or general solvent support. This is a
+  persistence improvement and does not inflate the closed event-row score.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.

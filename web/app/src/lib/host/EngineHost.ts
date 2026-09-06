@@ -58,6 +58,8 @@ export interface SceneVessel {
   corrosion?: SceneCorrosion[];
   /** Stored sorbent/sorbate equilibrium split; absent on older scenes. */
   adsorption?: SceneAdsorption[];
+  /** Standing neutral-solute split while two immiscible layers coexist. */
+  partition?: ScenePartition[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -121,6 +123,18 @@ export interface SceneAdsorption {
   held_fraction: number;
   loading_mg_per_g?: number | null;
   loading_fraction?: number | null;
+  boundary: string;
+  provenance: string;
+}
+
+export interface ScenePartition {
+  species: string;
+  lower_solvent: string;
+  upper_solvent: string;
+  total_moles: number;
+  lower_moles: number;
+  upper_moles: number;
+  fraction_lower: number;
   boundary: string;
   provenance: string;
 }

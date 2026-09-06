@@ -2423,6 +2423,9 @@
   "no curated row for this, and the general case is not derivable": "",
   "no shipped thermodynamic database defines this at all": "",
   "recorded before the bench classified its refusals": "",
-  "unclassified reason": ""
+  "unclassified reason": "",
+  "computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation": "",
+  "equilibrium split": "",
+  "At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}": ""
  }
 }
