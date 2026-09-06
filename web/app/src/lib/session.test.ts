@@ -1674,4 +1674,43 @@ describe("clearing the bench clears the whole bench", () => {
     expect(s.lastEquation).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
     expect(s.benchEquations[0]).toBe("HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑");
   });
+
+  /**
+   * I18N: a command may be typed in the learner's own language, and what
+   * the log keeps is the canonical English the engine reports back. A
+   * German session must therefore export, save and replay the same script
+   * an English one would — the localisation stops at the keyboard.
+   */
+  it("logs the canonical line the engine understood, not the one that was typed", async () => {
+    class GermanHost extends FakeHost {
+      async runScript(script: string) {
+        this.calls.push(`run:${script}`);
+        return {
+          steps: [{
+            operator: {},
+            canonical: "add v1 water 100mL",
+            events: [],
+            rendered: ["did: add v1 water 100mL"],
+          }],
+          scene: { scene: 1, vessels: [] } as Scene,
+        };
+      }
+    }
+    const s = new Session(new GermanHost(), new FakeStorage());
+    await s.submit("zugeben v1 Wasser 100mL");
+    expect(s.commandLog).toEqual(["add v1 water 100mL"]);
+    expect(s.exportLab()).toBe("add v1 water 100mL\n");
+    // And the echo says what the bench heard, so the canonical form is
+    // learnable rather than hidden.
+    expect(s.feed.filter((f) => f.kind === "command").map((f) => f.text)).toEqual([
+      "add v1 water 100mL",
+    ]);
+  });
+
+  /** An older host that reports no canonical line logs what was typed. */
+  it("falls back to the typed line when the host does not report one", async () => {
+    const s = new Session(new FakeHost(), new FakeStorage());
+    await s.submit("add v1 water 100mL");
+    expect(s.commandLog).toEqual(["add v1 water 100mL"]);
+  });
 });

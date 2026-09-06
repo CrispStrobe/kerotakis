@@ -195,12 +195,19 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                         .ok_or_else(|| format!("unknown level {reg:?}"))?;
                     continue;
                 }
-                match kerotakis_core::script::parse_op(line) {
-                    Ok(None) => {}
-                    Ok(Some(op)) => {
+                // I18N: a line typed in the session's language is
+                // rewritten to canonical English before it runs, and the
+                // canonical form travels back for the shell to log.
+                match kerotakis_core::script::parse_command(line, lab.locale) {
+                    Ok(kerotakis_core::script::Command { operator: None, .. }) => {}
+                    Ok(kerotakis_core::script::Command {
+                        canonical,
+                        operator: Some(op),
+                    }) => {
                         let events = localize_events(&lab.run(op.clone())?, lab.locale);
                         let quest = lab.quest_observe(&events);
                         steps.push(json!({
+                            "canonical": canonical,
                             "operator": op,
                             "events": events,
                             "rendered": render_events_in(&events, lab.register, lab.locale),
@@ -222,26 +229,37 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
         "grammar" => {
             let list: Vec<Value> = kerotakis_core::script::VERBS
                 .iter()
+                // I18N: `typed` is the same line as a learner of this
+                // session's language would write it, for a command bar to
+                // offer. Null where the line already is what they would
+                // type.
                 .map(|(verb, example)| {
+                    let typed = |line: &str| kerotakis_core::script::example_in(line, lab.locale);
                     if *verb == "react" {
                         let mut names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
                             .iter()
                             .map(|r| r.name)
                             .collect();
                         names.push(kerotakis_core::selectivity::VERB_NAME);
-                        json!({ "verb": verb, "example": example, "options": names })
+                        json!({ "verb": verb, "example": example, "options": names, "typed": typed(example) })
                     } else {
-                        json!({ "verb": verb, "example": example })
+                        json!({ "verb": verb, "example": example, "typed": typed(example) })
                     }
                 })
                 .collect();
             Ok(Value::Array(list).to_string())
         }
-        "parse" => Ok(match kerotakis_core::script::parse_op(field("line")?) {
-            Ok(None) => json!({ "ok": true }).to_string(),
-            Ok(Some(op)) => json!({ "ok": true, "operator": op }).to_string(),
-            Err(e) => json!({ "ok": false, "error": e }).to_string(),
-        }),
+        "parse" => Ok(
+            match kerotakis_core::script::parse_command(field("line")?, lab.locale) {
+                Ok(kerotakis_core::script::Command {
+                    canonical,
+                    operator,
+                }) => {
+                    json!({ "ok": true, "operator": operator, "canonical": canonical }).to_string()
+                }
+                Err(e) => json!({ "ok": false, "error": e.to_string() }).to_string(),
+            },
+        ),
         // The shell has sent this since the engine learned German. The
         // dispatch refused it by name, correctly, and `Session.connect`
         // swallowed the refusal — so the native app rendered English while
@@ -634,6 +652,27 @@ mod protocol_conformance {
             dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
             before
         );
+    }
+
+    /// The App Store binding must accept a German line and hand back the
+    /// English one to log.
+    ///
+    /// Both bindings are gated because both have been the one that was
+    /// forgotten: the engine spoke German to the browser for months while
+    /// the native host — every iPhone and every Mac — had no `set_locale`
+    /// at all.
+    #[test]
+    fn a_german_line_runs_and_reports_its_canonical_form() {
+        let mut lab = NativeLab::new();
+        ask(&mut lab, json!({"cmd": "set_locale", "code": "de"}));
+        let doc = ask(
+            &mut lab,
+            json!({"cmd": "run_script", "script": "zugeben v1 Wasser 100mL"}),
+        );
+        assert_eq!(doc["steps"][0]["canonical"], "add v1 water 100mL");
+        let parsed = ask(&mut lab, json!({"cmd": "parse", "line": "messen v1 waage"}));
+        assert_eq!(parsed["ok"], true);
+        assert_eq!(parsed["canonical"], "measure v1 balance");
     }
 
     #[test]

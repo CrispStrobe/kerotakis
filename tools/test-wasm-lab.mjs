@@ -184,4 +184,59 @@ if (cachePath) {
     );
 }
 
+// --- the grammar in the learner's own language (I18N) --------------------
+// The alias layer lives in the engine and its tables are compiled into the
+// wasm binary, so the browser must accept exactly what the native bench
+// accepts — and hand back exactly the same canonical line to log. A
+// German session that replayed as German text would be a session no
+// English bench could open.
+{
+    const german = new Lab();
+    german.setLocale("de");
+    const typed = JSON.parse(german.runScript("zugeben v1 Wasser 100mL\nmessen v1 waage"));
+    check(
+        "a German command line runs in WebAssembly",
+        typed.steps.length === 2,
+        JSON.stringify(typed.steps.map((s) => s.rendered)),
+    );
+    check(
+        "and is logged as the canonical English",
+        typed.steps.map((s) => s.canonical).join(" | ") === "add v1 water 100mL | measure v1 balance",
+        JSON.stringify(typed.steps.map((s) => s.canonical)),
+    );
+    const parsed = JSON.parse(german.parse("erhitzen v1 10kJ auf kerze"));
+    check(
+        "the live validator canonicalises too",
+        parsed.ok === true && parsed.canonical === "heat v1 10kJ on candle",
+        JSON.stringify(parsed),
+    );
+    const refused = JSON.parse(german.parse("blubbern v1"));
+    check(
+        "and an unknown verb is refused in German, naming the German verbs",
+        refused.ok === false && /unbekannter Befehl/.test(refused.error) &&
+            /zugeben \(add\)/.test(refused.error),
+        JSON.stringify(refused),
+    );
+    const hints = JSON.parse(german.grammar());
+    check(
+        "the verb inventory offers a German line to type",
+        hints.find((row) => row.verb === "add")?.typed === "zugeben v1 Wasser 100mL",
+        JSON.stringify(hints.slice(0, 3)),
+    );
+
+    // English is untouched by any of it: the canonical script is the same
+    // script in every language, which is what makes a lesson portable.
+    const english = new Lab();
+    const plain = JSON.parse(english.runScript("add v1 water 100mL"));
+    check(
+        "an English session logs the line it was given",
+        plain.steps[0].canonical === "add v1 water 100mL",
+        JSON.stringify(plain.steps[0].canonical),
+    );
+    check(
+        "and an English bench still refuses a German verb it was never told about",
+        JSON.parse(english.parse("zugeben v1 Wasser 100mL")).ok === false,
+    );
+}
+
 console.log("\nThe bench runs in WebAssembly.");

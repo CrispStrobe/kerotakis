@@ -4,10 +4,15 @@
     onsubmit,
     busy,
     onvalidate,
+    examples = [],
   }: {
     onsubmit: (line: string) => void;
     busy: boolean;
     onvalidate?: (line: string) => Promise<{ ok: boolean; error?: string }>;
+    /** One example line per verb, already in the learner's language
+     * (I18N): the engine's own inventory, so the bar can never offer a
+     * verb the parser does not have. */
+    examples?: string[];
   } = $props();
 
   let line = $state("");
@@ -132,8 +137,20 @@
       autocomplete="off"
       autocapitalize="off"
       spellcheck="false"
+      list={examples.length > 0 ? "kero-verbs" : undefined}
       disabled={busy}
     />
+    <!-- The grammar, offered rather than remembered. In German these are
+         German lines, because the engine composed them from the same
+         alias tables its parser reads — a suggestion here is always a
+         line the bench will take. -->
+    {#if examples.length > 0}
+      <datalist id="kero-verbs">
+        {#each examples as example}
+          <option value={example}></option>
+        {/each}
+      </datalist>
+    {/if}
     {#if RecognitionCtor}
       <button
         type="button"

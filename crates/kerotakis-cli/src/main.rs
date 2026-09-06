@@ -55,6 +55,13 @@ struct Session {
     /// The vessels a sealed unknown has touched: sealed on `add`, and
     /// spread by every `Transferred` event out of a sealed vessel.
     sealed_vessels: std::collections::HashSet<VesselId>,
+    /// The language the person at the keyboard TYPES in (`kero repl
+    /// --lang de`, or `KERO_LANG`). It reaches the parser and nothing
+    /// else: this shell still prints English, and a `.lab` file it runs is
+    /// canonical English by definition, so a language here would be a
+    /// language in the wrong half of the conversation. What it buys is a
+    /// learner who may type `erhitzen v1 10kJ` at a terminal.
+    locale: kerotakis_core::Locale,
 }
 
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
@@ -103,6 +110,8 @@ fn main() {
                 masks: Vec::new(),
                 cover_masks: Vec::new(),
                 sealed_vessels: Default::default(),
+                // A lesson file is canonical English wherever it is run.
+                locale: kerotakis_core::Locale::EN,
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -631,6 +640,9 @@ fn main() {
                 .unwrap_or_else(|| "codex".to_string());
             mcp::serve(dir);
         }
+        // `kero` alone still opens the bench; `kero repl` names it, which
+        // is what gives `--lang` somewhere to be written.
+        Some("repl") => repl(),
         Some("help") | Some("--help") | Some("-h") => {
             usage();
         }
@@ -1896,7 +1908,8 @@ fn usage() -> ! {
         "kerotakis — a virtual laboratory that computes real chemistry\n\
          \n\
          usage:\n\
-         \x20 kero                       interactive bench\n\
+         \x20 kero [repl] [--lang de]    interactive bench; --lang lets you TYPE\n\
+         \x20                            in that language (the bench answers in English)\n\
          \x20 kero run FILE.lab [--json] replay a command script\n\
          \x20 kero study FILE.lab --vary add:v1:HCl=0.005..0.02:4\n\
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
@@ -2579,6 +2592,28 @@ fn simulate_mechanism(args: &[String]) -> ! {
     std::process::exit(0);
 }
 
+/// What language the person at the keyboard types in.
+///
+/// `--lang de` on the command line, else `KERO_LANG`, else English.
+/// Anything unknown is English rather than an error: someone whose shell
+/// is set to a language nobody has translated should get the bench they
+/// had, not a refusal where the bench used to be.
+fn typing_language() -> kerotakis_core::Locale {
+    let args: Vec<String> = std::env::args().collect();
+    let flag = args
+        .iter()
+        .position(|a| a == "--lang")
+        .and_then(|i| args.get(i + 1).cloned())
+        .or_else(|| {
+            args.iter()
+                .find_map(|a| a.strip_prefix("--lang=").map(str::to_string))
+        })
+        .or_else(|| std::env::var("KERO_LANG").ok());
+    flag.map_or(kerotakis_core::Locale::EN, |tag| {
+        kerotakis_core::Locale::parse(&tag)
+    })
+}
+
 fn repl() {
     println!("kerotakis 0.0.1 — the bench is ready. 'help' lists commands.");
     let mut session = Session {
@@ -2593,6 +2628,7 @@ fn repl() {
         masks: Vec::new(),
         cover_masks: Vec::new(),
         sealed_vessels: Default::default(),
+        locale: typing_language(),
     };
     let stdin = std::io::stdin();
     loop {
@@ -2631,7 +2667,8 @@ fn repl() {
                  named reactions  react <v> <esterification|saponification|alcohol-oxidation|respiration>\n\
                  the bench        new [beaker|flask|tube|cylinder|crucible] · remove <v> · inspect [v]\n\
                  \x20                register <lv1|lv2|lv3> · explain [v] · quest · quit\n\
-                 what is here     species (pure substances) · materials (household bottles) · find <word>"
+                 what is here     species (pure substances) · materials (household bottles) · find <word>\n\
+                 your own words   kero repl --lang de · zugeben/erhitzen/messen — the bench logs the English"
             );
             continue;
         }
@@ -2781,7 +2818,9 @@ impl Session {
                         .collect::<Vec<_>>()
                         .join(" ")
                 };
-                match parse_op(&unmasked)? {
+                let command = kerotakis_core::script::parse_command(&unmasked, self.locale)
+                    .map_err(|e| e.detail)?;
+                match command.operator {
                     Some(op) => {
                         // Sealing keys on the alias being typed, not on the
                         // species: `add v2 NaCl` from the learner's own

@@ -181,6 +181,41 @@ impl Locale {
             .map(String::as_str)
     }
 
+    /// Every entry of one catalogue section, as (key, value) pairs sorted
+    /// by key.
+    ///
+    /// [`Locale::t`] and [`Locale::lookup`] answer about ONE key, which is
+    /// all prose ever needs: the engine has a sentence in hand and wants it
+    /// in another language. The command grammar asks the opposite question
+    /// — *what German words may a learner type?* — and that is a whole
+    /// section at once, read backwards. Sorted, because the grammar's alias
+    /// index resolves a collision by dropping it and a HashMap's order
+    /// would make which one collided depend on the run.
+    ///
+    /// English has no catalogue, so it has no sections: its words are the
+    /// canonical ones and the grammar already holds them.
+    pub fn section(self, section: &str) -> Vec<(&'static str, &'static str)> {
+        if self.is_english() {
+            return Vec::new();
+        }
+        let prefix = format!("{section}.");
+        let mut rows: Vec<(&'static str, &'static str)> = catalogue(self.0)
+            .map(|c| {
+                c.iter()
+                    // `catalogue` hands back a `&'static HashMap`, so
+                    // every borrow taken out of it is already 'static —
+                    // the `OnceLock` holds the parsed file for the life of
+                    // the process.
+                    .filter_map(|(key, value)| {
+                        key.strip_prefix(&prefix).map(|tail| (tail, value.as_str()))
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        rows.sort_unstable();
+        rows
+    }
+
     /// German writes 1,5 where English writes 1.5.
     ///
     /// Prose only. Identifiers keep the point — `v1.2` is a vessel's NAME,

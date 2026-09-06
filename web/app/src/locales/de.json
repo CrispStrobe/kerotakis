@@ -1540,7 +1540,7 @@
   "yellow food colouring": "Gelbe Lebensmittelfarbe",
   "free-positioned laboratory bench": "Labortisch mit frei platzierbaren Gefäßen",
   "measure": "messen",
-  "add v1 water 100mL": "add v1 H2O 100mL",
+  "add v1 water 100mL": "zugeben v1 Wasser 100mL",
   "{drawn} of {label}": "{drawn} von {label}",
   "particle view: {populations}": "Teilchenansicht: {populations}",
   "one shape ≈ {amount} mol": "ein Symbol ≈ {amount} mol",

@@ -1388,6 +1388,7 @@
   onsubmit={(line) => void session.submit(line)}
   busy={session.busy}
   onvalidate={(line) => session.parse(line)}
+  examples={session.verbExamples}
 />
 
 <nav class="tabs" aria-label={t("panes")}>

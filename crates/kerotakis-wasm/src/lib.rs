@@ -305,9 +305,16 @@ impl Lab {
                 self.set_register(reg.trim())?;
                 continue;
             }
-            match kerotakis_core::script::parse_op(line) {
-                Ok(None) => {}
-                Ok(Some(op)) => {
+            // I18N: the line may be typed in the session's language, and
+            // what comes back is the canonical English the shell must log
+            // — a session typed in German has to replay on a bench that
+            // never heard of German.
+            match kerotakis_core::script::parse_command(line, self.locale) {
+                Ok(kerotakis_core::script::Command { operator: None, .. }) => {}
+                Ok(kerotakis_core::script::Command {
+                    canonical,
+                    operator: Some(op),
+                }) => {
                     // Localised here too — see `run_operator`. Two call
                     // sites, and a hazard note that reached the reader
                     // through only one of them would be worse than neither.
@@ -317,6 +324,7 @@ impl Lab {
                     let ionic = kerotakis_core::ionic::net_ionic_for(&events, &self.bench.vessels);
                     let quest = self.quest_observe(&events);
                     steps.push(serde_json::json!({
+                        "canonical": canonical,
                         "operator": op,
                         "events": events,
                         "rendered": rendered,
@@ -403,10 +411,17 @@ impl Lab {
     /// Returns `{ ok, operator?, error? }` — the same grammar `runScript`
     /// parses, but the bench is never touched.
     pub fn parse(&self, line: &str) -> String {
-        match kerotakis_core::script::parse_op(line) {
-            Ok(None) => serde_json::json!({ "ok": true }).to_string(),
-            Ok(Some(op)) => serde_json::json!({ "ok": true, "operator": op }).to_string(),
-            Err(e) => serde_json::json!({ "ok": false, "error": e }).to_string(),
+        match kerotakis_core::script::parse_command(line, self.locale) {
+            Ok(kerotakis_core::script::Command {
+                canonical,
+                operator,
+            }) => serde_json::json!({
+                "ok": true,
+                "operator": operator,
+                "canonical": canonical,
+            })
+            .to_string(),
+            Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
         }
     }
 
@@ -415,16 +430,20 @@ impl Lab {
     pub fn grammar(&self) -> String {
         let list: Vec<serde_json::Value> = kerotakis_core::script::VERBS
             .iter()
+            // I18N: `typed` is the same line as a learner of this session's
+            // language would write it, for a command bar to offer. Null
+            // where the line already is what they would type.
             .map(|(verb, example)| {
+                let typed = |line: &str| kerotakis_core::script::example_in(line, self.locale);
                 if *verb == "react" {
                     let mut names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
                         .iter()
                         .map(|r| r.name)
                         .collect();
                     names.push(kerotakis_core::selectivity::VERB_NAME);
-                    serde_json::json!({ "verb": verb, "example": example, "options": names })
+                    serde_json::json!({ "verb": verb, "example": example, "options": names, "typed": typed(example) })
                 } else {
-                    serde_json::json!({ "verb": verb, "example": example })
+                    serde_json::json!({ "verb": verb, "example": example, "typed": typed(example) })
                 }
             })
             .collect();

@@ -904,3 +904,133 @@ white = "weiß"
 "lilac" = "lila"
 "orange-red" = "orangerot"
 "violet" = "violett"
+
+# ── The command grammar, in German ──────────────────────────────────
+#
+# Everything above translates what the bench SAYS. What follows is the
+# other direction: the words a learner may TYPE. The canonical script
+# stays English — a lesson, a saved session, the operator log and the
+# replay cache all carry English lines — so these are an alias layer read
+# at parse time, and the bench echoes back the canonical line it
+# understood.
+#
+# The key is the canonical token; the value is a comma-separated list of
+# words in this language that mean it. Adding a language adds these
+# sections to that language's file and nothing else: the parser reads
+# whatever the active locale's catalogue holds and knows no German.
+#
+# Three rules, enforced by `script::alias_index` and its tests:
+#
+#   1. An alias maps to exactly ONE canonical token. A word claimed twice
+#      is dropped rather than guessed at.
+#   2. English wins. A German word that is already an English token of
+#      this grammar is dropped — `magnet` and `voltmeter` are spelt the
+#      same in both languages, so the German spelling never registers and
+#      never has to.
+#   3. One word only. An alias with a space in it can never be one token
+#      of a command line, so it is skipped.
+
+[script-verb]
+new = "neu, neues"
+remove = "entfernen, entsorgen"
+add = "zugeben, hinzufügen, hinzufuegen, dazugeben, zufügen, zufuegen"
+stock = "bevorraten, vorrat"
+heat = "erhitzen, erwärmen, erwaermen, heizen"
+cool = "kühlen, kuehlen, abkühlen, abkuehlen"
+wait = "warten, abwarten"
+ignite = "entzünden, entzuenden, anzünden, anzuenden, zünden, zuenden"
+stir = "rühren, ruehren, umrühren, umruehren"
+seal = "verschließen, verschliessen, abdichten"
+regulate = "regeln, regulieren"
+sweep = "spülen, spuelen, durchspülen, durchspuelen"
+open = "öffnen, oeffnen, aufmachen"
+filter = "filtern, filtrieren"
+evaporate = "verdampfen, eindampfen, abdampfen"
+decant = "dekantieren, abgießen, abgiessen"
+drain = "ablassen, entleeren"
+distil = "destillieren"
+measure = "messen, bestimmen"
+chromatograph = "chromatographieren, chromatografieren"
+electrolyse = "elektrolysieren"
+cell = "zelle, halbzelle"
+grind = "mahlen, zermahlen, zerkleinern"
+centrifuge = "zentrifugieren, schleudern"
+irradiate = "bestrahlen, belichten"
+dilute = "verdünnen, verduennen"
+titrate = "titrieren"
+magnet = "magnetisieren"
+transport = "transportieren"
+react = "reagieren, umsetzen"
+test = "prüfen, pruefen, testen, nachweisen"
+particles = "teilchen, teilchenansicht"
+smell = "riechen, schnuppern"
+# The verbs the parser accepts without listing them in `VERBS`, because
+# each is a second spelling of a row that is already there.
+look = "ansehen, betrachten, anschauen, schauen, hinsehen"
+observe = "beobachten"
+waft = "wedeln, zufächeln, zufaecheln"
+mix = "mischen, vermischen"
+zoom = "vergrößern, vergroessern, heranzoomen"
+# `voltmeter` is the same word in German, so rule 2 drops it and
+# `Spannungsmesser` is what actually registers.
+voltmeter = "spannungsmesser, voltmeter"
+
+# What `measure` may be pointed at. The keys are the parser's own tokens,
+# not the instrument's display name — `[instrument]` above translates the
+# name the bench PRINTS, this translates the word a learner TYPES, and the
+# two are different jobs on the same object.
+[script-instrument]
+thermometer = "temperatur, temperaturfühler, temperaturfuehler"
+balance = "waage, masse, wägen, waegen"
+ph = "ph-meter, ph-wert, phwert, säuregrad, saeuregrad"
+eyes = "augen, auge, blick"
+pressure = "druck, manometer, druckmesser"
+volume = "volumen, füllstand, fuellstand"
+conductivity = "leitfähigkeit, leitfaehigkeit, leitfähigkeitsmessgerät, leitfaehigkeitsmessgeraet"
+density = "dichte, aräometer, araeometer, dichtemesser"
+spectrophotometer = "spektralphotometer, spektrometer, photometer"
+calorimeter = "kalorimeter"
+chromatograph = "säule, saeule, chromatographie, chromatografie"
+geiger = "geigerzähler, geigerzaehler, zählrohr, zaehlrohr"
+melting_point = "schmelzpunkt, schmelztemperatur"
+boiling_point = "siedepunkt, siedetemperatur"
+
+# The classical gas tests, as `test v1 <name>` takes them.
+[script-test]
+pop = "knallgasprobe, knallgas"
+splint = "glimmspanprobe, glimmspan"
+limewater = "kalkwasser"
+litmus = "lackmus, lackmuspapier"
+
+# What a flame may be. `heat v1 40kJ auf Kerze`.
+[script-source]
+burner = "brenner, bunsenbrenner"
+candle = "kerze"
+hotplate = "heizplatte, kochplatte"
+
+# The small words that hold a command together.
+#
+# `above` and `below` are deliberately absent: their German is `über` and
+# `unter`, and `über` is already the preposition in `heat v1 40kJ über
+# Kerze`. One word, two canonical meanings, is exactly the ambiguity rule
+# 1 refuses — so a redox endpoint is written with the symbol every
+# language shares, `until pe > 8`.
+[script-word]
+until = "bis"
+into = "in"
+from = "von, aus"
+to = "nach"
+steps = "schritte"
+stages = "stufen, böden, boeden"
+max = "maximal, höchstens, hoechstens"
+persists = "bleibt, standhält, standhaelt"
+colour = "farbe, farbumschlag"
+on = "auf"
+with = "mit"
+
+# What the bench says when a first word is no verb it knows. The English
+# original names `help`; this one names the verbs themselves, because a
+# learner who has just typed a German word the parser refused has no
+# reason to believe an English help screen will answer them.
+[script]
+unknown-verb = "unbekannter Befehl '{word}' — die Bank kennt diese Verben: {verbs}"

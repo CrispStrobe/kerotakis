@@ -35,6 +35,10 @@ import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RENDER = ROOT / "crates/kerotakis-core/src/render.rs"
+# The grammar reads whole catalogue SECTIONS backwards, to learn what a
+# learner may type. Those keys reach no call site in render.rs and are not
+# orphans; this is where they are used.
+SCRIPT = ROOT / "crates/kerotakis-core/src/script.rs"
 CATALOGUES = ROOT / "crates/kerotakis-core/i18n"
 
 # `locale.t("vessel.open", ", open to atmosphere")` and the fill() form.
@@ -51,6 +55,15 @@ LITERAL = re.compile(r'"((?:[^"\\\n]|\\.){6,})"')
 # being wrong about a legitimate pattern, and a lint that cries wolf on a
 # legitimate pattern is one people learn to ignore.
 DYNAMIC = re.compile(r'locale\s*\.\s*lookup\s*\(\s*&?\s*format!\s*\(\s*"([\w.-]+)\.\{')
+
+# `locale.section("script-verb")` — the whole section, read backwards by
+# the command grammar. Every key under such a prefix is used by
+# definition, and none of them is ever named at a call site.
+SECTION = re.compile(r'\.\s*section\s*\(\s*"([\w.-]+)"')
+# …and the sections it reads from a list rather than one at a time. Every
+# section the grammar owns is named `script-*`, which is the convention
+# that makes this answerable at all.
+SECTION_LITERAL = re.compile(r'"(script-[\w-]+)"')
 
 # A dotted key named anywhere in the file, which covers the case where the
 # key is chosen by a match arm rather than passed literally:
@@ -87,8 +100,13 @@ def main() -> int:
     if cut != -1:
         src = src[:cut]
     used = {m.group(1): m.group(2) for m in CALL.finditer(src)}
+    grammar = SCRIPT.read_text()
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
+    dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
+    dynamic |= {m.group(1) for m in SECTION.finditer(grammar)}
+    dynamic |= {m.group(1) for m in SECTION_LITERAL.finditer(grammar)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
+    mentioned |= {m.group(1) for m in MENTIONED.finditer(grammar)}
 
     # Everything that looks like prose, minus what already goes through a
     # call. Rough by design: it over-reports rather than under-reports,
