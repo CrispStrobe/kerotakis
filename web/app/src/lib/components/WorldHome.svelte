@@ -108,7 +108,7 @@
         </button>
 
         <button class="map-node research-node" onclick={onresearch}>
-          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("{count} experiments, one shelf", { count: experiments }) : t("archive syncing…")}</small>
+          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("all {count} experiments in one place", { count: experiments }) : t("archive syncing…")}</small>
         </button>
 
         <button class="map-node kids-node" onclick={onkids}>
