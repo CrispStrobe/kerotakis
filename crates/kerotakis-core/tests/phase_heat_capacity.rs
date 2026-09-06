@@ -88,10 +88,15 @@ fn the_leftover_energy_chills_ice_at_ices_own_heat_capacity() {
 
     // 10.4 kJ to 0 °C, 33.4 kJ to freeze it, 16.2 kJ into 209 J/K of ice.
     let celsius = vessel.temperature.to_celsius();
+    // 49.55 kJ short of 0 °C at liquid water's 418 J/K, 33.36 kJ of that
+    // spent freezing 5.5508 mol, and the remaining 16.19 kJ over 209.3 J/K
+    // of ice: −77.4 °C. Pinned tightly, because the number this replaces
+    // (−39.2 °C) is exactly a factor of two away and a loose band would
+    // not have caught it.
     assert!(
-        (celsius + 78.0).abs() < 3.0,
-        "60 kJ out of 100 mL of water leaves ice at about −78 °C, not \
-         {celsius:.1} °C\n{seen}"
+        (celsius + 77.4).abs() < 1.5,
+        "60 kJ out of 100 mL of water leaves ice at about −77.4 °C, not \
+         {celsius:.2} °C\n{seen}"
     );
 
     // The plateau it passed through is still announced, at 0 °C.
@@ -152,7 +157,7 @@ fn sugar_water_boils_at_the_temperature_it_actually_boils_at() {
 
     let celsius = vessel.temperature.to_celsius();
     assert!(
-        (celsius - 100.30).abs() < 0.1,
+        (celsius - 100.30).abs() < 0.05,
         "sugar water holds at its own boiling point, about 100.30 °C, not \
          {celsius:.2} °C\n{seen}"
     );
@@ -172,9 +177,10 @@ fn sugar_water_boils_at_the_temperature_it_actually_boils_at() {
             _ => None,
         })
         .sum();
+    // 60 kJ, less 446.3 J/K × 75.30 K of warming, at 40.65 kJ/mol.
     assert!(
-        (steam - 0.65).abs() < 0.05,
-        "about 0.65 mol of steam expected, got {steam:.4}\n{seen}"
+        (steam - 0.649).abs() < 0.02,
+        "about 0.649 mol of steam expected, got {steam:.4}\n{seen}"
     );
 }
 
