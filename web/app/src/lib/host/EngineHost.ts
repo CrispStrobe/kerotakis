@@ -54,6 +54,8 @@ export interface SceneVessel {
   bulk_objects?: SceneBulkObject[];
   /** Persistent, source-backed protective films on coherent objects. */
   coatings?: SceneCoating[];
+  /** Current core-owned oxide bookkeeping; absent on older scene payloads. */
+  corrosion?: SceneCorrosion[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -99,6 +101,14 @@ export interface SceneVessel {
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+export interface SceneCorrosion {
+  metal: string;
+  corroding: boolean;
+  metal_in_oxide_moles: number;
+  metal_in_oxide_fraction: number;
+  words: string;
 }
 
 export interface SceneMaterialObject {

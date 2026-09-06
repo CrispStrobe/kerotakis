@@ -14,6 +14,10 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **ANIM-4** — put corrosion extent on the standing scene and existing vessel:
+  a labelled “metal in oxide” fraction and restrained schematic marker follow
+  the core's current oxide bookkeeping without claiming rate, history,
+  thickness or surface coverage
 - **BRD-032 / learning slice** — made the liquid-nitrogen/ethanol phase-change
   model an Energy Yard investigation, with source-backed cryogen/asphyxiant
   handling warnings, last-tier Story stock and mission-only loan access

@@ -80,6 +80,11 @@ pub struct SceneVessel {
     /// never a reconstruction from transient events.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub coatings: Vec<SceneCoating>,
+    /// Current fraction of a tracked metal inventory locked in the oxide
+    /// named by its corrosion route. This is a projection of current contents,
+    /// not event history, a rate, coating thickness, or surface coverage.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub corrosion: Vec<SceneCorrosion>,
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
@@ -378,6 +383,18 @@ pub struct SceneCoating {
     pub words: String,
 }
 
+/// Standing corrosion bookkeeping for one metal whose route the engine knows.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneCorrosion {
+    pub metal: String,
+    pub corroding: bool,
+    pub metal_in_oxide_moles: f64,
+    pub metal_in_oxide_fraction: f64,
+    /// Accessible boundary statement. Oxide added directly is intentionally
+    /// indistinguishable from oxide made in this vessel.
+    pub words: String,
+}
+
 fn fully_settled() -> f64 {
     1.0
 }
@@ -629,6 +646,30 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             }
         })
         .collect();
+    let corrosion_verdicts = crate::corrosion::verdicts(v);
+    let corrosion: Vec<SceneCorrosion> = crate::corrosion::GATED_REACTIONS
+        .iter()
+        .filter_map(|(_, metal)| {
+            let (locked, fraction) = crate::corrosion::corroded_extent(v, metal)?;
+            let corroding = corrosion_verdicts
+                .iter()
+                .find(|verdict| verdict.metal == *metal)
+                .is_some_and(|verdict| verdict.corroding);
+            Some(SceneCorrosion {
+                metal: (*metal).to_string(),
+                corroding,
+                metal_in_oxide_moles: locked.0,
+                metal_in_oxide_fraction: fraction,
+                words: format!(
+                    "{:.0}% of the tracked {} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                    fraction * 100.0,
+                    species::lookup(&crate::SpeciesId::new(metal))
+                        .map(|data| data.name)
+                        .unwrap_or(*metal),
+                ),
+            })
+        })
+        .collect();
     let bulk_component_keys: std::collections::BTreeSet<String> = bulk_observations
         .iter()
         .flat_map(|object| {
@@ -774,6 +815,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         words.push(' ');
         words.push_str(&coating.words);
     }
+    for progress in &corrosion {
+        words.push(' ');
+        words.push_str(&progress.words);
+    }
     if let Some(swelling) = &swelling_observation {
         words.push_str(&format!(
             " The superabsorbent network retains {:.1} g of water ({:.1} times its dry mass).",
@@ -844,6 +889,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         solids,
         bulk_objects,
         coatings,
+        corrosion,
         material_objects: v
             .material_objects
             .iter()

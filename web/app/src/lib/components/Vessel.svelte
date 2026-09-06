@@ -27,6 +27,7 @@
   import IgnitionFlameCanvas from "./IgnitionFlameCanvas.svelte";
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
   import { enzymeReadouts } from "../persistentReadouts";
+  import { corrosionReadouts } from "../corrosionReadouts";
 
   let {
     vessel,
@@ -292,6 +293,7 @@
     ),
   );
   const shownSolidLayers = $derived(solidLayers(shownSolids.map(solidVolume), solidH, BOTTOM_Y));
+  const persistentCorrosionReadouts = $derived(corrosionReadouts(vessel.corrosion));
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
   // The engine's srgb is TRANSMITTED light: pure water transmits white,
   // and painting that as an opaque white block is the wrong physics on
@@ -828,6 +830,7 @@
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = shownSolidLayers[i]!}
+        {@const oxide = persistentCorrosionReadouts.find((progress) => progress.metal === solid.species)}
         <rect
           x={INNER_X}
           y={layer.y}
@@ -838,6 +841,22 @@
         >
           <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {(solidVolume(solid) * 1000).toPrecision(3)} mL</title>
         </rect>
+        {#if oxide && oxide.fraction > 0}
+          <!-- Schematic relation marker only: opacity follows the core-owned
+               fraction of tracked metal in oxide, never physical coverage. -->
+          <rect
+            class="corrosion-marker"
+            x={INNER_X + 1}
+            y={layer.y + 1}
+            width={INNER_W - 2}
+            height={Math.max(1, layer.h - 2)}
+            rx="1"
+            style={`--corrosion-strength:${oxide.visualStrength}`}
+            data-corroded-fraction={oxide.fraction.toFixed(4)}
+          >
+            <title>{t("{percent}% of tracked {metal} is locked in modeled oxide; schematic marker, not surface coverage", { percent: oxide.percent, metal: t(oxide.metal) })}</title>
+          </rect>
+        {/if}
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
            with a surface rather than a painted band. -->
@@ -1781,6 +1800,20 @@
         <strong>{progress.percent}%</strong>
       </span>
     {/each}
+    {#each persistentCorrosionReadouts as progress (progress.metal)}
+      <span
+        class="persistent-readout corrosion-readout"
+        data-corroded-fraction={progress.fraction.toFixed(4)}
+        aria-label={t("{percent}% of tracked {metal} is locked in modeled oxide; current contents, not corrosion rate or history", {
+          percent: progress.percent,
+          metal: t(progress.metal),
+        })}
+        title={t("Oxide added directly is indistinguishable from oxide formed here.")}
+      >
+        <small>{t(progress.metal)} · {t("metal in oxide")}</small>
+        <strong>{progress.percent}%</strong>
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -1933,6 +1966,14 @@
   .solid-rim {
     stroke: rgb(255 255 255 / 30%);
     stroke-width: 1;
+  }
+  .corrosion-marker {
+    pointer-events: none;
+    fill: #a84f28;
+    fill-opacity: var(--corrosion-strength);
+    stroke: #71341d;
+    stroke-width: 1;
+    stroke-dasharray: 1.5 2.5;
   }
   .bulk-object {
     stroke: color-mix(in srgb, var(--ink) 58%, transparent);
@@ -2747,6 +2788,11 @@
     border-radius: 8px;
     color: var(--discovery);
     background: color-mix(in srgb, var(--discovery) 7%, var(--surface));
+  }
+  .corrosion-readout {
+    color: #9a4827;
+    border-color: color-mix(in srgb, #a84f28 42%, var(--edge));
+    background: color-mix(in srgb, #a84f28 7%, var(--surface));
   }
   /* Sized in px, not em: this is the one place on the bench where the
      number must survive a 64px-wide vessel on a 390px phone, and an em
