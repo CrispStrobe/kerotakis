@@ -1105,7 +1105,7 @@
       <button title={t("Open the equipment cabinet")} onclick={() => (instrumentSurface.open = true)}>{t("equipment")}</button>
     </div>
     {#if kidsSandboxBrief}
-      <section class="kids-bench-brief" aria-label={t("Kids Lab bench guide")}>
+      <section class="kids-bench-brief" aria-label={t("experiment bench guide")}>
         <span>{kidsSandboxBrief.id}</span><strong>{t(kidsSandboxBrief.title)}</strong>
         <small>{t("ingredients")}: {kidsSandboxBrief.ingredients.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
         <small>{t("apparatus")}: {kidsSandboxBrief.apparatus.map((value) => t(value.replaceAll("_", " "))).join(" · ")}</small>
@@ -1373,7 +1373,7 @@
     mode={labMode}
     profile={labProfile}
     missions={lessons.length}
-    experiments={codexEntries.length}
+    experiments={codexEntries.length + kidsExperiments.length}
     kidsExperiments={kidsExperiments.length}
     canclose={hasSeenHome()}
     {persistenceNotice}
@@ -1519,12 +1519,14 @@
   }} />
 {/if}
 
-<!-- ONE catalogue. `kidsOpen` and `catalogOpen` stay as the tier selector
-     so every existing door — the home screen, the story map, the periodic
-     table, the concept map — opens the same panel on the tier it meant. -->
+<!-- ONE catalogue, one surface. `kidsOpen` and `catalogOpen` survive only
+     as two doors into the SAME list: one opens it whole, the other opens it
+     pre-filtered to the first level, so every existing entry point — the
+     home screen, the story map, the periodic table, the concept map — lands
+     on the same cards. -->
 {#if kidsOpen || catalogOpen}
   <Catalog
-    tier={kidsOpen ? "kids" : "experiments"}
+    initialLevel={kidsOpen && kidsInitial === null ? "starter" : null}
     entries={codexEntries}
     kidsEntries={kidsExperiments}
     {session}
@@ -1532,12 +1534,6 @@
     {capabilityIds}
     {codexIds}
     initial={catalogInitial}
-    ontier={(next) => {
-      kidsOpen = next === "kids";
-      catalogOpen = next === "experiments";
-      catalogInitial = null;
-      kidsInitial = null;
-    }}
     onlesson={(file) => {
       kidsOpen = false;
       catalogOpen = false;

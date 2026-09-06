@@ -38,7 +38,7 @@
     missions?: MissionSummary[];
     /** Hand the tapped entry to the experiment page. */
     onopenentry: (e: CodexEntry) => void;
-    /** Open the Kids Lab on one task. */
+    /** Open the catalogue on one guided task. */
     onopenkids?: (id: string) => void;
     /** Start a guided mission by its `.lab` file. */
     onopenmission?: (file: string) => void;
@@ -198,7 +198,7 @@
                   onclick={() => (link.kind === "kids" ? onopenkids?.(link.id) : onopenmission?.(link.id))}
                   disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined}
                 >
-                  <span class="ready kind">{link.kind === "kids" ? t("kids task") : t("mission")}</span>
+                  <span class="ready kind">{link.kind === "kids" ? t("experiment") : t("mission")}</span>
                   {linkTitle(link)}
                   {#if link.done}<span class="done">✓</span>{/if}
                 </button>

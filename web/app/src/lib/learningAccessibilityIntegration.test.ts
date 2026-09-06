@@ -14,26 +14,33 @@ describe("learning navigation accessibility wiring", () => {
     expect(story).toContain("onstart(nextMission.file)");
   });
 
-  // Both tiers live in one component now (the unified catalogue), so both
-  // sets of assertions read the same file. They are kept separate because
-  // they are separate promises: the experiment tier's filters and the KIDS
-  // tier's progress cards can regress independently.
-  it("exposes a named, pressed-state experiment completion filter", () => {
+  // One catalogue, one card, one rail. Both promises now read the same
+  // file and the same card, and they are kept separate because they still
+  // regress independently: the rail's accessible pressed state and the
+  // card's linked-learning report are different pieces of wiring.
+  it("exposes named, pressed-state filters in one rail", () => {
     const catalog = source("Catalog.svelte");
     expect(catalog).toContain('role="group" aria-label={t("completion status")}');
-    expect(catalog).toContain("aria-pressed={progress === value}");
-    expect(catalog).toContain("aria-pressed={view === key}");
-    expect(catalog).toContain("experimentProgressLabel(e, session.completedExperiments)");
+    expect(catalog).toContain("aria-pressed={filters.progress === value}");
+    expect(catalog).toContain('role="group" aria-label={t("level")}');
+    expect(catalog).toContain("aria-pressed={filters.level === level}");
+    expect(catalog).toContain("aria-pressed={filters.duration === band}");
+    expect(catalog).toContain("aria-pressed={filters.shelfOnly}");
+    // One row: the search box and the scrolling rail, never a second line
+    // of chips pushing the experiments below the fold.
+    expect(catalog).toContain('class="filter-row"');
+    expect(catalog).toContain('class="filter-rail"');
   });
 
-  it("keeps KIDS progress and Continue/Replay actions in the catalog cards", () => {
-    const kids = source("Catalog.svelte");
-    expect(kids).toContain('data-progress={links.progress}');
-    expect(kids).toContain("aria-pressed={status === null}");
-    expect(kids).toContain("aria-pressed={status === value}");
-    expect(kids).toContain("{links.completedLearning}/{links.linkedLearning}");
-    expect(kids).toContain("guidedLearningLabel(links.lessonCompleted)");
-    expect(kids).toContain("codexLearningLabel(links.codexCompleted.includes(id))");
+  it("keeps linked-learning progress and Continue/Replay actions on the card", () => {
+    const catalog = source("Catalog.svelte");
+    expect(catalog).toContain("data-progress={links.progress}");
+    expect(catalog).toContain("{links.completedLearning}/{links.linkedLearning}");
+    expect(catalog).toContain("runTargetLabel(item.run, item.done)");
+    expect(catalog).toContain("codexLearningLabel(links.codexCompleted.includes(id))");
+    // Every card carries the same completion word, whichever corpus it came
+    // from — the headless gate reads exactly this.
+    expect(catalog).toContain('class="completion"');
   });
 });
 

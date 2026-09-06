@@ -160,17 +160,23 @@ const learningProgressJourney = async () => {
     button?.click(); return Boolean(button);
   })()`)
     && await waitFor(page, `document.querySelector('dialog.panel .progress-filters')`, { timeout: 5000 }));
-  await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length > 0`, { timeout: 5000 });
+  await waitFor(page, `document.querySelectorAll('dialog.panel article .completion').length > 0`, { timeout: 5000 });
   const experimentInitial = JSON.parse(await page.evaluate(`(() => {
     const group = document.querySelector('dialog.panel .progress-filters');
     return JSON.stringify({ name: group?.getAttribute('aria-label'), selected: group?.querySelectorAll('button[aria-pressed="true"]').length });
   })()`));
   check("Experiment completion filters expose one accessible selected state", Boolean(experimentInitial.name) && experimentInitial.selected === 1);
   await page.evaluate(`document.querySelector('dialog.panel .progress-filters button:last-child')?.click()`);
-  await waitFor(page, `document.querySelectorAll('dialog.panel .entry .completion').length >= 2`, { timeout: 5000 });
+  // Wait for the list to have actually narrowed, not merely to be long
+  // enough: with one surface the unfiltered list is every entry, so a
+  // count alone is satisfied before the filter has been applied at all.
+  await waitFor(page, `(() => {
+    const rows = [...document.querySelectorAll('dialog.panel article .completion')];
+    return rows.length >= 2 && rows.every((row) => /completed/i.test(row.textContent || ""));
+  })()`, { timeout: 5000 });
   const experiments = JSON.parse(await page.evaluate(`(() => {
     const group = document.querySelector('dialog.panel .progress-filters');
-    const rows = [...document.querySelectorAll('dialog.panel .entry .completion')].filter((item) => item.offsetParent);
+    const rows = [...document.querySelectorAll('dialog.panel article .completion')].filter((item) => item.offsetParent);
     return JSON.stringify({ pressed: group?.querySelector('button[aria-pressed="true"]')?.textContent?.trim(), rows: rows.length, allComplete: rows.every((row) => /completed/i.test(row.textContent || "")) });
   })()`));
   check("Experiment completed filter shows only completed rows", /completed/i.test(experiments.pressed || "") && experiments.rows >= 2 && experiments.allComplete, `${experiments.rows} rows`);
@@ -180,13 +186,17 @@ const learningProgressJourney = async () => {
   await page.evaluate(`document.querySelector('button.brand')?.click()`);
   await waitFor(page, `document.querySelector('button.kids-node')`, { timeout: 5000 });
   await waitFor(page, `!document.querySelector('button.kids-node small')?.textContent.includes('syncing')`, { timeout: 60000 });
-  check("the KIDS catalog opens", await page.evaluate(`(() => { const button = document.querySelector('button.kids-node'); button?.click(); return Boolean(button); })()`)
-    && await waitFor(page, `document.querySelector('dialog #kids-title')`, { timeout: 5000 }));
+  // The second home-screen door opens the SAME catalogue pre-filtered to
+  // the first level, so the walk widens it back to everything before
+  // looking for a card that sits at another level. One surface, one list.
+  check("the catalogue opens from the second home door", await page.evaluate(`(() => { const button = document.querySelector('button.kids-node'); button?.click(); return Boolean(button); })()`)
+    && await waitFor(page, `document.querySelector('dialog #catalog-title')`, { timeout: 5000 }));
+  await page.evaluate(`document.querySelector('dialog .chips.levels button')?.click()`);
   await waitFor(page, `[...document.querySelectorAll('dialog article h2')].some((item) => /Hot pack and cold pack/i.test(item.textContent || ""))`, { timeout: 5000 });
   const kids = JSON.parse(await page.evaluate(`(() => {
     const cards = [...document.querySelectorAll('dialog article')];
     const card = cards.find((item) => /Hot pack and cold pack/i.test(item.querySelector('h2')?.textContent || ""));
-    const chips = document.querySelector('dialog .chips');
+    const chips = document.querySelector('dialog .chips.levels');
     return JSON.stringify({
       progress: card?.querySelector('.learning-progress')?.getAttribute('data-progress'),
       count: card?.querySelector('.learning-progress strong')?.textContent?.trim(),
@@ -195,8 +205,8 @@ const learningProgressJourney = async () => {
       selected: chips?.querySelectorAll('button[aria-pressed="true"]').length,
     });
   })()`));
-  check("KIDS reports all linked learning and Replay actions", kids.progress === "all" && kids.count === "3/3" && kids.replayLesson && kids.replayCodex === 2, `${kids.progress} ${kids.count}`);
-  check("KIDS status chips expose one accessible selected state", kids.selected === 1, `${kids.selected} selected`);
+  check("the card reports all linked learning and Replay actions", kids.progress === "all" && kids.count === "3/3" && kids.replayLesson && kids.replayCodex === 2, `${kids.progress} ${kids.count}`);
+  check("level chips expose one accessible selected state", kids.selected === 1, `${kids.selected} selected`);
   await page.evaluate(`document.querySelector('dialog header button[aria-label="close"]')?.click()`);
 };
 

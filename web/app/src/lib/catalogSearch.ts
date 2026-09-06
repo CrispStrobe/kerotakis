@@ -1,3 +1,13 @@
+/**
+ * Search and progress predicates, one per record.
+ *
+ * The catalogue itself now matches through `catalogEntry.ts`, which builds
+ * ONE index over both corpora — a single box cannot be allowed to search
+ * half the shelf. These stay because they are the per-record predicates the
+ * shelf and the instrument wall use, and because `searchLocalized.test.ts`
+ * pins the defect they were written for: a surface that displayed German
+ * and filtered on English, so typing the word on screen returned nothing.
+ */
 import type { ShelfItem } from "./session.svelte";
 import type { CodexEntry } from "./codex";
 

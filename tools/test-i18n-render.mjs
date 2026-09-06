@@ -152,18 +152,24 @@ try {
   check("the research library opens", (await clickByText("/Forschungsbibliothek/")) === true);
 
   const grouped = await waitFor(page,
-    `document.querySelectorAll('button.entry').length > 0 ||
-     document.querySelectorAll('details').length > 0`, { timeout: 20000 });
+    `document.querySelectorAll('dialog.panel article').length > 0`, { timeout: 20000 });
   // A section that quietly skips is a section that reports success without
   // testing anything, which is how the catalogue stayed English through a
   // green run of this very file. Not finding the list is a failure.
   check("the catalogue renders its list", grouped === true);
   if (grouped) {
-    await page.evaluate(`document.querySelectorAll('details').forEach((d) => (d.open = true))`);
-    const entries = await page.evaluate(`document.querySelectorAll('button.entry').length`);
+    const entries = await page.evaluate(`document.querySelectorAll('dialog.panel article').length`);
     check("the catalogue lists its experiments", entries > 50, `${entries} entries`);
 
-    await page.evaluate(`document.querySelectorAll('button.entry')[0]?.click()`);
+    // A card that actually carries a script: the register prose and the
+    // prediction below only exist for those, and which card sorts first
+    // depends on the reader's language.
+    await page.evaluate(`(() => {
+      const panel = document.querySelector('dialog.panel');
+      const card = panel?.querySelector('article[data-id="strong-base"]')
+        || panel?.querySelector('article[data-run="script"]');
+      card?.querySelector('button.details')?.click();
+    })()`);
     await waitFor(page, `document.querySelector('.prose')`, { timeout: 20000 });
 
     const title = await page.evaluate(`document.querySelector('h2')?.textContent?.trim() ?? ""`);

@@ -108,11 +108,11 @@
         </button>
 
         <button class="map-node research-node" onclick={onresearch}>
-          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("{count} computed experiments", { count: experiments }) : t("archive syncing…")}</small>
+          <span aria-hidden="true">⌬</span><strong>{t("Research Library")}</strong><small>{experiments > 0 ? t("all {count} experiments in one place", { count: experiments }) : t("archive syncing…")}</small>
         </button>
 
         <button class="map-node kids-node" onclick={onkids}>
-          <span aria-hidden="true">★</span><strong>{t("Kids Lab")}</strong><small>{kidsExperiments > 0 ? t("{count} curious experiments", { count: kidsExperiments }) : t("catalog syncing…")}</small>
+          <span aria-hidden="true">★</span><strong>{t("Start here")}</strong><small>{kidsExperiments > 0 ? t("hands-on experiments to begin with") : t("catalog syncing…")}</small>
         </button>
 
         <article class="destination sandbox-destination" class:current={mode === "sandbox"}>

@@ -26,6 +26,7 @@ import {
   type StepVerdict,
   type RunStep,
 } from "./catalogRunner";
+import { catalogEntries } from "./catalogEntry";
 
 const ENTRY = {
   id: "neutralisation",
@@ -370,5 +371,48 @@ describe("running beside the learner's work", () => {
       "add v2 HCl 0.01mol",
       "add v2 NaOH 0.01mol",
     ]);
+  });
+});
+
+/**
+ * One runner, reached the same way from either corpus.
+ *
+ * The guided half of the catalogue used to offer a different meaning of
+ * "run this" — a card that launched a lesson where the other tier launched
+ * the bench. Now the view model resolves the door, and the point of this
+ * test is that what comes out of that resolution is the SAME script object
+ * the codex card would have run, walked by the same function, recorded
+ * against the same id. If those ever diverge, two runners are back.
+ */
+describe("both corpora reach the runner through one door", () => {
+  const script = {
+    id: "vinegar-and-baking-soda",
+    setup: { script: "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 5g\n" },
+    expect: { events: ["gas_evolved"] },
+    registers: {},
+  };
+  const guided = {
+    id: "K01", title: "Volcano", phenomenon: "Soap traps gas",
+    title_de: "Vulkan", phenomenon_de: "Seife fängt Gas",
+    status: "computed" as const, topics: ["gases"],
+    ingredients: ["baking_soda"], apparatus: ["beaker"],
+    safety: "home" as const, codex: ["vinegar-and-baking-soda"],
+  };
+
+  it("runs the guided card's own script, and records the codex id", async () => {
+    const [card] = catalogEntries([script], [guided], {
+      locale: "en", translate: (value) => value, completed: new Set(),
+    }).filter((entry) => entry.source === "guided");
+    expect(card?.run.kind).toBe("script");
+    const target = card?.run.kind === "script" ? card.run.entry : null;
+    expect(target).toBe(script);
+
+    const bench = new FakeBench();
+    bench.events = ["gas_evolved"];
+    const outcome = await runCatalogEntry(bench, target!, { pause: async () => {} });
+    expect(bench.submitted).toEqual(runnableLines(script.setup.script));
+    expect(outcome.result.allOk).toBe(true);
+    // Progress is the codex id, not the guided task's — one record.
+    expect(bench.marked).toEqual(["vinegar-and-baking-soda"]);
   });
 });
