@@ -2197,6 +2197,8 @@
   "End this mission? It will not be recorded as complete, and your bench keeps everything on it.": "Diese Mission beenden? Sie wird nicht als abgeschlossen gespeichert, und deine Werkbank behält alles.",
   "also in this district": "ebenfalls in diesem Viertel",
   "Open any of these too": "Öffne auch eine davon",
-  "no order, no prerequisite": "keine Reihenfolge, keine Voraussetzung"
+  "no order, no prerequisite": "keine Reihenfolge, keine Voraussetzung",
+  "glowing at {temperature} K": "glüht bei {temperature} K",
+  "rolling boil at {temperature} °C, {moles} mol of vapour": "kochend bei {temperature} °C, {moles} mol Dampf"
  }
 }
