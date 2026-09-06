@@ -32,6 +32,7 @@
 //! 0.512. So the only curated inputs are two enthalpies, and the numbers a
 //! learner is normally told to memorise come out of them.
 
+use crate::species::{Phase, SpeciesId};
 use serde::{Deserialize, Serialize};
 
 const R: f64 = crate::constants::GAS_CONSTANT;
@@ -46,6 +47,51 @@ const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
 pub const WATER_H_FUS: f64 = 6010.0;
 /// Enthalpy of vaporisation of water at the boiling point, J/mol (CRC).
 pub const WATER_H_VAP: f64 = 40650.0;
+/// Molar heat capacity of ice, J/(mol·K).
+///
+/// 2.09 J/(g·K) × 18.015 g/mol at the melting point (CRC Handbook of
+/// Chemistry and Physics, specific heat of ice at 0 °C; NIST Chemistry
+/// WebBook gives the same figure for H₂O(cr) at 273 K).
+pub const ICE_HEAT_CAPACITY: f64 = 37.7;
+
+/// Molar heat capacity of steam, J/(mol·K).
+///
+/// 33.6 J/(mol·K) — NIST Chemistry WebBook, Cp° of H₂O(g); the Shomate
+/// value at 298 K and at the normal boiling point agree to within 0.2.
+pub const STEAM_HEAT_CAPACITY: f64 = 33.6;
+
+/// Molar heat capacity of liquid water, J/(mol·K), for the phases table.
+///
+/// The registry's own figure, restated here so the three phases read as one
+/// set rather than two constants and a lookup.
+pub const LIQUID_WATER_HEAT_CAPACITY: f64 = 75.3;
+
+/// Heat capacity of a species in the phase it is actually in, J/(mol·K).
+///
+/// `SpeciesData::heat_capacity` is the figure for the phase a species is
+/// normally added as — liquid, for water — and the bench spent it whatever
+/// phase the portion had since become. Cooling 100 mL of water with 60 kJ
+/// therefore chilled ICE at liquid water's 75.3 J/(mol·K) and reported
+/// −39 °C; ice's own 37.7 puts the same experiment at −78 °C, which is
+/// where a freezing-mixture demonstration actually lands. The plateau at
+/// 0 °C was right either way, which is why the error survived: the
+/// observation the curve is drawn for was never the one that was wrong.
+///
+/// Water only, deliberately. Every phase transition this bench models is
+/// water's (`solve::SOLVENT`), and inventing per-phase figures for species
+/// whose transitions are not modelled would be data with nothing to check
+/// it. Anything else keeps its registry value.
+pub fn heat_capacity_in(species: &SpeciesId, phase: Phase, registry: f64) -> f64 {
+    if species.0 != "water" {
+        return registry;
+    }
+    match phase {
+        Phase::Solid => ICE_HEAT_CAPACITY,
+        Phase::Gas => STEAM_HEAT_CAPACITY,
+        Phase::Liquid | Phase::Aqueous => registry,
+    }
+}
+
 /// Lowest temperature at which the linear colligative partial-freezing model
 /// is allowed to claim a liquid/ice split.
 ///
