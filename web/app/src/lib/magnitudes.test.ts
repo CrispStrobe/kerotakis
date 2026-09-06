@@ -391,8 +391,16 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBeGreaterThan(0);
   });
 
-  it("returns null for unknown events", () => {
-    expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
+  it("returns null for the events that have no vessel visual by design", () => {
+    // `thermal_equilibrium` was this test's stand-in for "unknown", and
+    // ANIM-7 draws it — so the assertion moved rather than went away. The
+    // four below are on the audit's own by-design list: they change the
+    // feed, the shelf, the safety board or a panel, never the picture of
+    // a vessel, so this stays a real assertion instead of a vacuous pass.
+    expect(effectFromEvent({ event: "not_yet_modelled", vessel: 0, what: "x" })).toBeNull();
+    expect(effectFromEvent({ event: "vessel_created", vessel: 0 })).toBeNull();
+    expect(effectFromEvent({ event: "shelf_stocked", species: "NaCl" })).toBeNull();
+    expect(effectFromEvent({ event: "reaction_occurred", vessel: 0, equation: "A -> B" })).toBeNull();
   });
 
   it("more gas is more fizz, on a logarithmic ramp", () => {
