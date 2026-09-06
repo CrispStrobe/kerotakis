@@ -1,9 +1,11 @@
 # One instrument surface
 
-Design note for GUI-100 … GUI-102. The app offered instruments in three places
+Design note for GUI-100 … GUI-103. The app offered instruments in three places
 with three different mental models. This says what each was, why that hurt,
 what replaced them, and in what order it happened. Sections 1–3 are written in
-the present tense of the design; §4 records what shipped.
+the present tense of the design; §4 records what shipped, and **§5 is where
+the owner's answers superseded parts of §3** — the shelf list, the size of the
+quick-access row and the kits' sixth shelf are all decided there, not here.
 
 ## 1. What exists today
 
@@ -161,23 +163,84 @@ an `(i)`.
   including the ungated-verb case (`cool` reachable in Sandbox) that
   `catalogProgress.ts` documents.
 
-## 5. Open questions for the owner
+## 5. Decisions (2026-09-06)
 
-1. **Does the MESSEN strip survive at all?** Quick access is a real
-   convenience, but it is also the last remnant of surface (a). The
-   alternative is one cupboard button and nothing else, which is simpler and
-   costs one extra tap per measurement.
-2. **Should the dock's `look` / `temperature` / `pH` buttons be replaced by
-   the same quick-access three?** It removes the last hard-coded instrument
-   list, but the dock's three are stable landmarks and quick access moves.
-3. **Do the kits stay a shelf, or become a *mode*?** As a shelf they sit
-   beside the tools they alias, which is honest but shows the candle twice
-   (once as *Kerze und Docht*, once as *Kerze / Bunsenbrenner*). As a mode
-   ("Kids-Ansicht") the cupboard would show kit names *instead of* lab names.
-4. **Six shelves or five?** *antreiben* is the least self-evident grouping;
-   the mortar and the centrifuge could equally sit under *vorbereiten*.
-5. **Two small defects found, fix here or separately?** `directActions.ts`
-   still builds `heat v1 10kJ` and `cool v1 10kJ` with no `on <source>`
-   clause — dead lines today, since the dock routes those three to the form,
-   but they claim the bench default burner if ever used. And the cabinet's
-   `N/34` denominator grows by one when `react` becomes available.
+The owner answered all five. GUI-103 implemented them in one PR; each answer
+is followed by the reason it was given, and the code carries the same reason
+at the place it constrains.
+
+1. **The MESSEN strip survives, at four, and the dock's three are not
+   candidates for it.** Quick access is worth one row when the row is quick:
+   membership by recency, position by catalogue order (unchanged), but four
+   pills rather than six, because the row also carries the cupboard door and
+   a fifth pill pushes that door off a 320 px screen — and the door is what
+   the row exists to lead to. `DOCK_INSTRUMENTS` (`look`, `thermometer`,
+   `pH`) are excluded from the candidates entirely, so a strip of four
+   carries strictly more than the old six did: nine instruments compete for
+   four slots instead of six slots of which three restated the dock. The
+   seed became `balance` · `volume` · `conductivity` · `pressure`.
+
+2. **The dock keeps its fixed `look` / `temperature` / `pH`.** They were the
+   obvious thing to replace with quick access, which is exactly why they
+   stay: a landmark that moves is not a landmark. These three sit in the same
+   place on every vessel in every session whatever was measured last, and the
+   strip's whole contract is that its membership changes with use. The
+   duplication that argument would otherwise leave is answered by decision 1
+   — the strip excludes them, so nothing is offered twice on one screen.
+
+3. **The kits are a filter chip in the cupboard header — not a shelf, not a
+   mode.** As a shelf they showed the candle twice, which is the bug this
+   whole document is about. As a mode they would hide every tool no kit
+   happens to name. The chip (default off, remembered in `localStorage` under
+   `kerotakis.equipment.sets`) renames the slots the sets stand for — name,
+   picture, parts, purpose and `preset`, because "Kerze und Docht" opening
+   the flame panel on a laboratory burner's default would be a candle in name
+   only — and leaves every other tool exactly as it is. The `aliasOf` entries
+   stay the data source; they are simply drawn INTO a tool's slot rather than
+   beside it, so the candle and the balloon have one slot in either state.
+
+4. **Five shelves.** *antreiben* was the heading that did not answer "what do
+   I want to do": a stirrer, a centrifuge, a lamp, a pair of electrodes and
+   the reaction studio share a word, not a purpose. Its members went to the
+   neighbours that already described them, and each shelf now carries one
+   sentence saying what lives on it, on the heading's tooltip and in the tip
+   strip a touch screen can reach.
+
+   | Shelf | German | What stands on it |
+   | --- | --- | --- |
+   | observe and measure | Beobachten und messen | the 12 instruments |
+   | heat and cool | Erhitzen und Kühlen | bunsen, heat, cool, evaporate |
+   | prepare and convert | Vorbereiten und Umsetzen | dilute, grind, stir, centrifuge, irradiate, react |
+   | contain and connect | Einschließen und Verbinden | regulate, sweep, electrolyse, cell, burette, mix, transport |
+   | transfer and separation | Überführen und Trennen | filter, decant, drain, magnet, distil |
+
+   The mortar moved off separation because grinding is what a learner does
+   *before* a separation; electrolysis and the half-cell sit with the tubing
+   and the gas line because the thing to get right about them is the wiring;
+   and the separation shelf is now exactly the two-vessel verbs, minus `cell`
+   — which moves nothing and only reads what is between two half-cells.
+
+5. **Both defects are fixed here.** `directActions.ts` names the heat source
+   even when it is the bench default (`heat v1 10kJ on burner`, from the same
+   `heatSource()` table `ApparatusForm` builds its line from) rather than
+   claiming a burner by omission; `cool` keeps a bare line, because the
+   grammar has no clause to name a cooling bath with. And the cupboard's
+   denominator is a constant `GATED_IDS` over every tool a learner can ever
+   have, `react` included whether or not this session offers a curated
+   reaction — the old list dropped it, so the fraction read "31/33" and then
+   "32/34" one command later. The fraction is now printed only while
+   something is still locked: in Sandbox everything is reachable and "34/34"
+   is a fact rather than progress.
+
+**Tests added with the decisions.** `instrumentRecents.test.ts` — four, the
+dock's three excluded from candidates, seed and row order, and the dock's
+rendered `measure` lines pinned to `DOCK_INSTRUMENTS` so the two hand-written
+lists cannot drift. `equipmentCatalogue.test.ts` — five shelves each with a
+sentence, the moved verbs at their new addresses, a kit standing on its
+tool's shelf, the candle exactly once in both chip states, a tool no set
+names untouched by the chip, and the denominator's independence from `react`.
+`directActions.test.ts` — the `on burner` clause and the bare `cool` line.
+`tools/test-ux-quality.mjs` — five shelves, every shelf explained, a
+catalogue of 34, the tally shown only while something is locked, the chip
+renaming rather than adding a slot, and a MESSEN strip of at most four with
+the cupboard door and none of the dock's three.

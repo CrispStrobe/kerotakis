@@ -54,6 +54,17 @@
    */
   // i18n-ok: action ids are wire keys matched against literals below.
   const opensAForm = (id: string) => ["stir", "heat", "cool"].includes(id);
+  /**
+   * The dock keeps its own three readings (GUI-103, decision 2).
+   *
+   * They were the last hard-coded instrument list in the app and the
+   * obvious thing to replace with the quick-access row — which is exactly
+   * why they stay. A landmark that moves is not a landmark: these three sit
+   * in the same place on every vessel, in every session, whatever the
+   * learner measured last, and the strip's whole contract is that its
+   * membership changes with use. The strip is what excludes THEM
+   * (`DOCK_INSTRUMENTS`), so nothing is offered twice on one screen.
+   */
   // i18n-ok: action ids are wire keys matched against literals below.
   const observeActions = $derived(actions.filter((action) => ["look", "temperature", "ph"].includes(action.id)));
 </script>
