@@ -22,7 +22,13 @@ import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
-import { FALLBACK_MOLAR_VOLUME_L, effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+import {
+  FALLBACK_MOLAR_VOLUME_L,
+  INSTRUMENT_READING_MS,
+  effectFromEvent,
+  vesselOf,
+  type Effect,
+} from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
@@ -1049,6 +1055,9 @@ export class Session {
         effect = {
           kind,
           at: Date.now(),
+          // Long enough to READ. Without it the effect is dropped from the
+          // array on the 4 s default, whatever window the vessel draws it in.
+          durationMs: INSTRUMENT_READING_MS,
           magnitude: kind === "geiger_counter"
             ? Math.min(1, Math.max(0, Math.log10(Math.max(1, reading)) / 8))
             : 0.6,

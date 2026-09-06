@@ -243,3 +243,63 @@ describe("the expanded card's remaining fields", () => {
     expect(summary?.reactants).toEqual([]);
   });
 });
+
+/**
+ * Which steps earn a card at all.
+ *
+ * Owner, from the German deploy: reading a thermometer produced the feed
+ * line "v2 Thermometer: 21,81 °C" AND a card repeating 21,81 °C under a
+ * MESSWERT label, with a sentence about provenance and two export buttons
+ * under that. "It shows redundantly the values." A card that can only
+ * restate the line beneath it is not a summary of the step; it is a second
+ * copy of it, sitting on top of the log.
+ */
+describe("which steps earn a result card", () => {
+  it("gives a plain thermometer reading no card at all", () => {
+    expect(summarizeResult(
+      [{ event: "measured", vessel: 1, instrument: "thermometer", value: 21.81, unit: "°C" }],
+      ["v2: Thermometer: 21.81 °C"], null, null,
+    )).toBeNull();
+  });
+
+  it("gives a plain look, and a plain balance reading, no card either", () => {
+    expect(summarizeResult(
+      [{ event: "observed", vessel: 0 }], ["v1: a colourless liquid"], null, null,
+    )).toBeNull();
+    expect(summarizeResult(
+      [{ event: "measured", vessel: 0, instrument: "balance", value: 104.2, unit: "g" }],
+      ["v1: Balance: 104.2 g"], null, null,
+    )).toBeNull();
+  });
+
+  it("keeps the card when the step computed something beside the reading", () => {
+    // A calorimeter reads a number AND the scenes say the vessel cooled.
+    // The card is then telling the learner something the line does not.
+    const cooled = summarizeResult(
+      [{ event: "measured", vessel: 0, instrument: "calorimeter", value: -1.4, unit: "kJ" }],
+      ["v1: Calorimeter: -1.4 kJ"], scene(298.15), scene(295.15),
+    );
+    expect(cooled?.temperature?.deltaK).toBe(-3);
+    // A reading taken while L0 raised a hazard must not swallow the hazard.
+    expect(summarizeResult([
+      { event: "hazard_warning", severity: "danger", hazard: "corrosive", real_world: "wear gloves" },
+      { event: "measured", vessel: 0, instrument: "ph_meter", value: 0.4, unit: "" },
+    ], ["v1: pH 0.4"], null, null)?.safety?.severity).toBe("danger");
+  });
+
+  it("keeps the card for every step that is not a bare reading", () => {
+    for (const tag of ["precipitated", "gas_evolved", "dissolved", "stirred", "transferred", "added"]) {
+      expect([tag, summarizeResult([{ event: tag, vessel: 0, moles: 0.1 }], ["x"], null, null) === null])
+        .toEqual([tag, false]);
+    }
+  });
+
+  it("does not let a reading suppress the reaction it was taken during", () => {
+    // The priority list puts `precipitated` above `measured`, so the winner
+    // is the chemistry and the rule never even applies.
+    expect(summarizeResult([
+      { event: "measured", vessel: 0, instrument: "ph_meter", value: 7.2, unit: "" },
+      { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
+    ], ["a white solid forms"], null, null)?.kind).toBe("precipitation");
+  });
+});

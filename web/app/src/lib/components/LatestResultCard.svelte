@@ -24,7 +24,49 @@
   import type { ResultSummary } from "../resultSummary";
   import { resultCardFilename, resultCardSvg } from "../resultCardImage";
 
-  let { result, onclose }: { result: ResultSummary; onclose: () => void } = $props();
+  let {
+    result,
+    onclose,
+    onexport,
+  }: {
+    result: ResultSummary;
+    onclose: () => void;
+    /**
+     * The card's exporter, handed UP to the shell.
+     *
+     * The two big "save SVG" / "save PNG" buttons used to sit in the card
+     * body, on every result, for the one session in a hundred that hands a
+     * card in. They are one icon in the header now — but the shell may want
+     * to offer the same thing from its own overflow menu, and it cannot
+     * reach a function inside a component. So the card passes its exporter
+     * out while it is mounted, and passes `null` when it goes away, which
+     * is what stops a shell menu item from ever calling a stale card.
+     */
+    onexport?: (run: ((format: "svg" | "png") => void) | null) => void;
+  } = $props();
+
+  /** The export menu is closed until asked for, and closes behind itself. */
+  let exporting = $state(false);
+  // A new result is a new card. Leaving the menu open across one would hang
+  // it over a card whose numbers it no longer belongs to.
+  $effect(() => {
+    void result;
+    exporting = false;
+  });
+  // Escape closes it, because a small menu with no way out but a second
+  // exact tap is a trap on a phone.
+  $effect(() => {
+    if (!exporting) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") exporting = false;
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  });
+
+  const provenanceText = $derived(
+    result.provenance ? engineText(result.provenance) : t("from this operation's computed events"),
+  );
 
   function format(value: number): string {
     return new Intl.NumberFormat(i18n.locale === "de" ? "de-DE" : "en-GB", {
@@ -44,9 +86,8 @@
       equation: t("latest reaction equation"),
       observation: t("observation"),
       results: t("latest computed result"),
-      provenance: result.provenance
-        ? engineText(result.provenance)
-        : t("from this operation's computed events"),
+      // The image keeps the provenance sentence the card stopped printing.
+      provenance: provenanceText,
       emptyEquation: "—",
       emptyObservation: "—",
     }, format);
@@ -58,6 +99,18 @@
     anchor.download = resultCardFilename(result, extension);
     anchor.click();
   }
+
+  /** One entry point, so the header menu and the shell run the same code. */
+  function exportCard(format: "svg" | "png"): void {
+    exporting = false;
+    if (format === "svg") exportSvg();
+    else exportPng();
+  }
+
+  $effect(() => {
+    onexport?.(exportCard);
+    return () => onexport?.(null);
+  });
 
   function exportSvg() {
     const url = URL.createObjectURL(new Blob([cardSvg()], { type: "image/svg+xml;charset=utf-8" }));
@@ -90,7 +143,11 @@
   <summary>
     <span class="result-mark" aria-hidden="true">✓</span>
     <span>
-      <small>{t("latest computed result")}{result.vessel === undefined ? "" : ` · v${result.vessel + 1}`}</small>
+      <!-- The provenance sentence was a visible line of its own under every
+           card, saying the same thing every time. It is the tooltip on the
+           claim it backs now, and the exported image still writes it out in
+           full — the card stops repeating it, nobody loses it. -->
+      <small title={provenanceText}>{t("latest computed result")}{result.vessel === undefined ? "" : ` · v${result.vessel + 1}`}</small>
       {#if result.reactionClass}
         <strong class="badge" data-confidence="computed">{t(result.reactionClass)}</strong>
       {:else}
@@ -109,13 +166,31 @@
          it, over the feed it was summarizing. The button is the bench's one
          close affordance, and it stops the click from also toggling the
          disclosure it sits inside. -->
-    <button
-      class="icon-close"
-      type="button"
-      aria-label={t("close")}
-      title={t("close")}
-      onclick={(event) => { event.preventDefault(); event.stopPropagation(); onclose(); }}
-    >×</button>
+    <span class="header-actions">
+      <button
+        class="icon-export"
+        type="button"
+        aria-expanded={exporting}
+        aria-haspopup="true"
+        aria-controls="result-card-export"
+        aria-label={t("export the result card")}
+        title={t("export the result card")}
+        onclick={(event) => { event.preventDefault(); event.stopPropagation(); exporting = !exporting; }}
+      >⤓</button>
+      <button
+        class="icon-close"
+        type="button"
+        aria-label={t("close")}
+        title={t("close")}
+        onclick={(event) => { event.preventDefault(); event.stopPropagation(); onclose(); }}
+      >×</button>
+      {#if exporting}
+        <span id="result-card-export" class="export-menu" role="group" aria-label={t("export the result card")}>
+          <button type="button" onclick={(event) => { event.preventDefault(); event.stopPropagation(); exportCard("svg"); }}>{t("save SVG")}</button>
+          <button type="button" onclick={(event) => { event.preventDefault(); event.stopPropagation(); exportCard("png"); }}>{t("save PNG")}</button>
+        </span>
+      {/if}
+    </span>
   </summary>
   <div class="result-body">
     {#if result.equation}<p class="equation">{result.equation}</p>{/if}
@@ -153,17 +228,49 @@
         {engineText(result.safety.hazard)}{result.safety.realWorld ? ` — ${engineText(result.safety.realWorld)}` : ""}
       </p>
     {/if}
-    <small class="provenance">{result.provenance ? engineText(result.provenance) : t("from this operation's computed events")}</small>
-    <div class="share-actions" aria-label={t("latest computed result")}>
-      <button type="button" onclick={exportSvg}>{t("save SVG")}</button>
-      <button type="button" onclick={exportPng}>{t("save PNG")}</button>
-    </div>
   </div>
 </details>
 
 <style>
   .result-card { flex: none; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
+  /* Anchored so the menu hangs off the icon rather than widening the card. */
+  .header-actions { position: relative; display: flex; align-items: center; gap: .2rem; }
+  .icon-export {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
+    color: var(--dim);
+    background: var(--surface);
+    font: inherit;
+    font-size: .95rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .icon-export:hover,
+  .icon-export[aria-expanded="true"] { color: var(--primary); border-color: var(--primary); }
+  .export-menu {
+    position: absolute;
+    top: calc(100% + .25rem);
+    right: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    padding: .2rem;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
+    background: var(--surface-raised);
+    box-shadow: 0 8px 22px var(--shadow);
+  }
+  .export-menu button { min-height: 32px; padding: .25rem .55rem; border: 0; border-radius: 7px; color: var(--ink); background: transparent; font: inherit; font-size: .68rem; font-weight: 700; white-space: nowrap; cursor: pointer; }
+  .export-menu button:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); }
   summary::-webkit-details-marker { display: none; }
   .result-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; color: var(--on-accent); background: var(--success); font-weight: 900; }
   summary span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
@@ -197,7 +304,4 @@
   dl div { padding: .25rem .4rem; border: 1px solid var(--edge); border-radius: 8px; background: var(--surface); }
   dt { color: var(--dim); font-size: .58rem; font-weight: 750; text-transform: uppercase; }
   dd { margin: 0; font-size: .7rem; font-weight: 750; }
-  .provenance { color: var(--dim); font-size: .6rem; }
-  .share-actions { display: flex; gap: .35rem; }
-  .share-actions button { padding: .25rem .5rem; border: 1px solid var(--edge); border-radius: 7px; color: var(--ink); background: var(--surface); font: inherit; font-size: .65rem; cursor: pointer; }
 </style>

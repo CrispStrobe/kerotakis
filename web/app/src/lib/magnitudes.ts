@@ -293,6 +293,23 @@ export interface UvRun {
   mechanism: string;
 }
 
+/**
+ * How long an instrument's reading stays on the vessel.
+ *
+ * 2.5 s, which is what this was, is long enough to notice something
+ * flickered and not long enough to read it — the owner's words from the
+ * German deploy were "too shortly and too tiny". Six seconds is a reading
+ * you can look up from your phone and back at; the next command replaces
+ * it either way, because a newer reading of the same instrument wins.
+ *
+ * ONE value, imported by both halves: `session.svelte.ts` stamps it on the
+ * effect (which is what decides when the effect is dropped from the array)
+ * and `Vessel.svelte` uses it as the drawing window. Split, they disagree
+ * and the shorter one silently governs — which is exactly what happened
+ * here: the drawing window was 2.5 s and the effect lived 4 s.
+ */
+export const INSTRUMENT_READING_MS = 6000;
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
