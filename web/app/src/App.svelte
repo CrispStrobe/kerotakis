@@ -1066,24 +1066,6 @@
   </div>
 {/if}
 
-{#if transfer}
-  <div class="transfer-banner" role="status">
-    <strong>{t(transfer.verb)}</strong>
-    {#if transfer.verb === "decant" || transfer.verb === "distil"}
-      — {t("pour")}
-      {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
-        <button class:on={transfer.fraction === f} onclick={() => (transfer = { ...transfer!, fraction: f })}>
-          {f * 100}%
-        </button>
-      {/each}
-    {/if}
-    {transfer.from === null
-      ? ` · ${t("tap the source vessel")}`
-      : ` · ${t("from v{vessel} — now tap the target", { vessel: transfer.from + 1 })}`}
-    <button class="cancel" onclick={() => (transfer = null)}>{t("cancel")}</button>
-  </div>
-{/if}
-
 {#if mix}
   <div class="transfer-banner mix-banner" role="status">
     <strong>{t("mixer")}</strong>
@@ -1271,6 +1253,9 @@
         };
       }}
       transferFrom={transfer?.from ?? null}
+      transferDraft={transfer}
+      ontransferfraction={(fraction) => (transfer = transfer && { ...transfer, fraction })}
+      ontransfercancel={() => (transfer = null)}
       deployedTool={buretteOut ? "burette" : apparatusSpec?.verb ?? null}
       deployedTarget={buretteOut ? buretteTarget : apparatusSpec ? apparatusTarget : null}
       apparatusWorking={apparatusRunsCommand(

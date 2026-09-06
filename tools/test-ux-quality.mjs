@@ -67,6 +67,60 @@ const cupboardAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+/** GUI-472: the workstation strip is an overlay ON the stage, so it has to
+ * stay inside the viewport at every width it is offered at. The panel it
+ * replaced was a three-column grid whose middle column held the assembly;
+ * the assembly now annotates the vessel and the strip is one row, but a
+ * strip that hangs off a 390 px screen is the same bug wearing less. */
+const openApparatus = async (action) => {
+  // The dock button is disabled while the session is busy, and a click on a
+  // disabled button is a silent no-op — so wait for it to be clickable
+  // rather than clicking once and asking why nothing opened.
+  const ready = await waitFor(page,
+    `(() => { const b = document.querySelector('.actions button[data-action="${action}"]'); return Boolean(b) && !b.disabled; })()`,
+    { timeout: 30000 });
+  if (!ready) return false;
+  await page.evaluate(`document.querySelector('.actions button[data-action="${action}"]')?.click()`);
+  return waitFor(page, `document.querySelector('section.apparatus')`, { timeout: 20000 });
+};
+
+/** GUI-473: the pour chooser stands with the vessel it pours out of. It was
+ * a banner between the top bar and the stage, which is the one place it
+ * could not be: it named two vessels drawn below it and pushed them down by
+ * its own height to do it. */
+const pourAudit = () => page.evaluate(`(() => {
+  const overlay = document.querySelector('.pour-overlay');
+  if (!overlay) return JSON.stringify({ present: false });
+  const rect = overlay.getBoundingClientRect();
+  const surface = document.querySelector('.work-surface')?.getBoundingClientRect() ?? null;
+  return JSON.stringify({
+    present: true,
+    banner: Boolean(document.querySelector('.transfer-banner:not(.mix-banner)')),
+    onStage: Boolean(surface)
+      && rect.top >= surface.top - 1 && rect.bottom <= surface.bottom + 1
+      && rect.left >= surface.left - 1 && rect.right <= surface.right + 1,
+    fractions: overlay.querySelectorAll('.fractions button').length,
+    highlighted: document.querySelectorAll('.vessel.transfer-target').length,
+    viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
+  });
+})()`);
+
+const apparatusAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('section.apparatus');
+  if (!panel) return JSON.stringify({ present: false });
+  const rect = panel.getBoundingClientRect();
+  return JSON.stringify({
+    present: true,
+    strip: Boolean(panel.querySelector('.strip')),
+    info: Boolean(panel.querySelector('button.info-toggle')),
+    close: Boolean(panel.querySelector('button.icon-close')),
+    run: Boolean(panel.querySelector('button.run')),
+    viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
+    below: Math.max(0, rect.bottom - document.documentElement.clientHeight),
+    height: rect.height,
+  });
+})()`);
+
 const layoutAudit = () => page.evaluate(`(() => {
   const visible = (element) => {
     const style = getComputedStyle(element);
@@ -375,6 +429,37 @@ try {
   const phoneCupboard = JSON.parse(await cupboardAudit());
   check("the phone cupboard stays inside the viewport", phoneCupboard.viewportOverflow <= 1, `${phoneCupboard.viewportOverflow}px`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
+
+  // The workstation, on a phone. It is deployed from the vessel dock rather
+  // than the cupboard because the dock is the surface a learner reaches it
+  // from, and `data-action` is a wire key, not a translated label.
+  if (await openApparatus("heat")) {
+    const strip = JSON.parse(await apparatusAudit());
+    check("the workstation strip opens over the stage on a phone", strip.present === true);
+    check("the workstation strip stays inside the viewport at 390 px",
+          strip.viewportOverflow <= 1 && strip.below <= 1,
+          `${strip.viewportOverflow}px right, ${strip.below}px below`);
+    // One row of chrome, and the sentence behind the (i). A strip taller
+    // than half the screen is the three-column panel again.
+    check("the workstation strip leaves the stage visible", strip.height <= 844 * 0.62, `${Math.round(strip.height)}px`);
+    check("the workstation strip carries its name, its (i), its run and its close",
+          strip.strip && strip.info && strip.run && strip.close);
+    await page.evaluate(`document.querySelector('section.apparatus button.icon-close')?.click()`);
+  } else {
+    check("the workstation strip opens over the stage on a phone", false, "no section.apparatus");
+  }
+
+  // The pour chooser, on the same phone. `.pour` sets the source to the
+  // selected vessel, so the chooser opens anchored rather than waiting.
+  await page.evaluate(`document.querySelector('.actions button.pour')?.click()`);
+  if (await waitFor(page, `document.querySelector('.pour-overlay')`, { timeout: 20000 })) {
+    const pour = JSON.parse(await pourAudit());
+    check("the pour chooser opens on the stage, not above it", pour.onStage === true && pour.banner === false);
+    check("the pour chooser offers the four fractions", pour.fractions === 4, `${pour.fractions} chips`);
+    await page.evaluate(`document.querySelector('.pour-overlay .cancel')?.click()`);
+  } else {
+    check("the pour chooser opens on the stage, not above it", false, "no .pour-overlay");
+  }
 
   // 320 CSS pixels remains a real supported width: compact phones, split
   // views and a 640px browser at 200% zoom all reach it. Audit every pane,

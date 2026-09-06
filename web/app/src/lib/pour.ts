@@ -157,3 +157,121 @@ export function stepPour(
 export function inFlight(p: PourState): number {
   return p.droplets.reduce((s, d) => s + d.mass, 0);
 }
+
+// ── The pour a learner is composing ───────────────────────────────────
+//
+// Everything above is the pour once it is happening: droplets, flight,
+// the handoff into the grid. This is the pour before it happens — which
+// vessel it comes out of, how much of it, and which vessel may receive
+// it — and it lives beside that for one reason: they are the same act,
+// and a learner who has just chosen "75%" is looking at the stream that
+// number produces.
+//
+// It used to live as a `{#if transfer}` banner between the top bar and
+// the stage: "dekantieren — gieße 25% 50% 75% 100% · von v1 — jetzt das
+// Ziel antippen". Every word of that is about two vessels that are drawn
+// on the stage, and none of it was near them. The banner also pushed the
+// stage down by its own height at the exact moment a learner needed to
+// see the stage.
+//
+// So this is pure: the questions a chooser has to answer, with no view
+// attached, so `PourOverlay.svelte` can be moved or replaced without the
+// rules moving with it.
+
+import type { TwoVesselAction } from "./directActions";
+
+/** What a learner may pour: quarters, because a slider over a beaker is
+ * a precision claim the operator does not honour. */
+export const POUR_FRACTIONS: readonly number[] = [0.25, 0.5, 0.75, 1];
+
+export interface TransferDraft {
+  verb: TwoVesselAction;
+  fraction: number;
+  /** The source, once tapped. `null` while the chooser is still asking. */
+  from: number | null;
+}
+
+/**
+ * Whether this verb takes a fraction at all.
+ *
+ * `filter`, `drain`, `magnet` and `cell` move what they move — the whole
+ * residue, the whole magnetic solid — so offering "25%" beside them would
+ * be offering a control that changes nothing. Only decanting and
+ * distilling read the number.
+ */
+export function choosesFraction(verb: TwoVesselAction): boolean {
+  return verb === "decant" || verb === "distil";
+}
+
+/** Which vessel the chooser is anchored to, or `null` for none yet. */
+export function anchorVessel(draft: TransferDraft | null): number | null {
+  return draft?.from ?? null;
+}
+
+/**
+ * Keep the chooser inside the bench it is standing on.
+ *
+ * A vessel may be placed at x = 0.97, and an overlay centred on it would
+ * hang half its width over the edge of a work surface that clips its
+ * children — the fraction chips would simply not be there. So the anchor
+ * is clamped by the overlay's own half-width as a fraction of the
+ * surface: the chooser stops travelling before it reaches the edge and
+ * the vessel keeps its outline as the thing that says which one it is.
+ *
+ * The default is the narrowest the bench ever gets: the surface has a
+ * `min-width` of 42rem and the chooser a `max-width` of 14rem, so half of
+ * it is a sixth of the surface. On a wider bench the clamp is generous
+ * rather than wrong — it holds the chooser a little further from the edge
+ * than it needs to be, which no learner can see.
+ */
+export function clampAnchor(x: number, halfWidth = 1 / 6): number {
+  if (!Number.isFinite(x)) return 0.5;
+  return Math.min(1 - halfWidth, Math.max(halfWidth, x));
+}
+
+/**
+ * Which side of the vessel the chooser stands on.
+ *
+ * Above, normally — a pour comes out of the top of the glass and the
+ * label belongs where the learner is already looking. But a vessel in the
+ * top half of the bench has nothing above it, and an overlay pushed off
+ * the surface is clipped away entirely, so the chooser goes below it
+ * instead. Half the bench each way, because that is the only boundary
+ * that cannot itself be off the surface.
+ */
+export function anchorSide(y: number): "above" | "below" {
+  return Number.isFinite(y) && y < 0.5 ? "below" : "above";
+}
+
+/**
+ * Which vessels may be tapped next.
+ *
+ * Before a source is chosen, every vessel is a candidate; after, every
+ * vessel except the source. Returned as ids rather than as a predicate so
+ * a caller can count them: zero eligible targets means the learner is
+ * being asked to tap something that does not exist, and the chooser says
+ * so instead of waiting for a tap that can never come.
+ */
+export function eligibleVessels(
+  draft: TransferDraft | null,
+  vessels: readonly { id: number }[],
+): number[] {
+  if (!draft) return [];
+  return vessels.map((vessel) => vessel.id).filter((id) => id !== draft.from);
+}
+
+/**
+ * The one line the chooser says, as a translation key.
+ *
+ * A key rather than a sentence, because the chooser is a component and
+ * the dictionary is the shell's — and because a test can assert on a key
+ * without asserting on German.
+ */
+export function transferPrompt(draft: TransferDraft, eligible: number): string {
+  if (draft.from === null) return "tap the source vessel";
+  if (eligible === 0) return "add a second vessel to pour into";
+  // Not "from v1 — now tap the target": the chooser IS on v1, and a label
+  // naming the thing it is attached to is the banner's habit, not a
+  // sentence a learner needs twice.
+  return "now tap the target";
+}

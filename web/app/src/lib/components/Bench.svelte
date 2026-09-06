@@ -7,6 +7,8 @@
   import BenchIncident from "./BenchIncident.svelte";
   import { incidentEffects } from "../incidents";
   import StandaloneApparatus from "./StandaloneApparatus.svelte";
+  import PourOverlay from "./PourOverlay.svelte";
+  import { eligibleVessels, type TransferDraft } from "../pour";
   import { t } from "../i18n.svelte";
   import { benchIgnitionApproved } from "../ignitionBenchApproval";
   import { browserGpuEnvironment } from "../browserGpuEnvironment";
@@ -51,6 +53,9 @@
     onbadge,
     fluidLookup = null,
     transferFrom = null,
+    transferDraft = null,
+    ontransferfraction,
+    ontransfercancel,
     deployedTool = null,
     deployedTarget = null,
     apparatusWorking = false,
@@ -84,6 +89,10 @@
     onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
     fluidLookup?: ((key: string) => import("../fluidScene").FluidSpecies) | null;
     transferFrom?: number | null;
+    /** The pour being composed, so its chooser can stand on the stage. */
+    transferDraft?: TransferDraft | null;
+    ontransferfraction?: (fraction: number) => void;
+    ontransfercancel?: () => void;
     deployedTool?: string | null;
     deployedTarget?: number | null;
     apparatusWorking?: boolean;
@@ -582,6 +591,22 @@
           {/if}
         </section>
       {/each}
+      <!-- The pour chooser stands with the vessel it pours out of, not in a
+           bar above the stage. Outside `.vessel-position` on purpose: that
+           element owns the drag pointer handlers, and a tap on "75%" is not
+           the start of a drag. -->
+      {#if transferDraft}
+        {@const source = transferDraft.from}
+        {@const anchor = source === null ? null : placement(source)}
+        <PourOverlay
+          draft={transferDraft}
+          eligible={eligibleVessels(transferDraft, scene.vessels).length}
+          x={anchor?.x ?? null}
+          y={anchor?.y ?? null}
+          onfraction={(fraction) => ontransferfraction?.(fraction)}
+          oncancel={() => ontransfercancel?.()}
+        />
+      {/if}
       {#if deployedTarget !== null && deployedTool && FREESTANDING_TOOLS.includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}

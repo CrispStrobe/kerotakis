@@ -68,6 +68,7 @@
         {#each changeActions as action (action.label)}
           <button
             class={action.tone}
+            data-action={action.id}
             disabled={busy}
             onclick={() => ["stir", "heat", "cool"].includes(action.id) ? onconfigure(action.id) : onaction(action.line)}
             title={["stir", "heat", "cool"].includes(action.id)
