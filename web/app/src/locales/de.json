@@ -2349,6 +2349,14 @@
   "{ratio}× saturation: {dissolved} mol dissolved against a limit of {capacity} mol": "{ratio}× Sättigung: {dissolved} mol gelöst bei einer Grenze von {capacity} mol",
   "{percent}% of the {species} is in the headspace at {pressure} kPa": "{percent}% des {species} befinden sich im Gasraum bei {pressure} kPa",
   "headspace settled at {pressure} kPa holding {moles} mol": "Gasraum eingestellt bei {pressure} kPa mit {moles} mol",
-  "{percent}% of the {metal} has gone to oxide: {moles} mol": "{percent}% des {metal} sind zu Oxid geworden: {moles} mol"
+  "{percent}% of the {metal} has gone to oxide: {moles} mol": "{percent}% des {metal} sind zu Oxid geworden: {moles} mol",
+  "{moles} mol reacted in {seconds} s": "{moles} mol in {seconds} s umgesetzt",
+  "catalyst": "Katalysator",
+  "{joules} J released by the reaction": "{joules} J durch die Reaktion freigesetzt",
+  "{moles} mol of acidity cancelled": "{moles} mol Säure neutralisiert",
+  "{object} needs {percent}% of its own volume in clinging gas to rise": "{object} braucht {percent}% des eigenen Volumens an anhaftendem Gas zum Aufsteigen",
+  "{percent}% of the {sorbate} is on the {sorbent}; {remaining} mol still in solution": "{percent}% des {sorbate} sitzen auf dem {sorbent}; {remaining} mol noch in Lösung",
+  "still in solution": "noch in Lösung",
+  "shear-thickened to {percent}% at {speed} m/s": "scherverdickt auf {percent}% bei {speed} m/s"
  }
 }

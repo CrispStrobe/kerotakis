@@ -372,6 +372,81 @@ export interface CorrosionRun {
 }
 
 /**
+ * One kinetic interval: how far a curated reaction ran, and over how much
+ * bench time. The pair is the point — the same tenth of a mole in one
+ * second and in one hour are different observations.
+ */
+export interface ReactionRun {
+  reaction: string;
+  equation: string;
+  moles: number;
+  seconds: number;
+  /** `moles ÷ seconds`, the extent rate the tempo follows. */
+  molesPerSecond: number;
+  /** The catalyst in force, where one was. */
+  catalyst?: string;
+  /** Activation energy actually used, J/mol. */
+  activationEnergyJPerMol: number;
+}
+
+/** Heat a curated kinetic reaction let go during one interval. */
+export interface ExothermRun {
+  reaction: string;
+  energyJ: number;
+}
+
+/**
+ * KID-13, the dancing raisin. `liftGasFraction` is the attached gas volume,
+ * as a fraction of the object's own volume, needed before it goes up —
+ * zero meaning it floats unaided, which is the case the visual must not
+ * draw bubbles for.
+ */
+export interface BubbleRideRun {
+  object: string;
+  objectDensityGPerMl: number;
+  liquidDensityGPerMl: number;
+  liftGasFraction: number;
+}
+
+/**
+ * BRD-032: what the sorbent took and what the beaker still holds. Both
+ * halves travel because neither can be read without the other — "the
+ * charcoal adsorbed the dye" is exactly the sentence that misleads.
+ */
+export interface AdsorptionRun {
+  sorbate: string;
+  sorbent: string;
+  /** Moles now held on the surface. */
+  heldMoles: number;
+  /** Moles still in solution, which is what a filtration would pour. */
+  stillDissolvedMoles: number;
+  /** The isotherm's own unit, mg of sorbate per g of sorbent. */
+  loadingMgPerG: number;
+  /** What the curated isotherm does not claim. */
+  boundary: string;
+}
+
+/**
+ * A shear-thickening mixture pushed. Nothing reacts and no mole moves:
+ * this is how the mixture *responds*, which is why the only honest visual
+ * is resistance to the thing doing the pushing.
+ */
+export interface ThickeningRun {
+  solid: string;
+  /** 0 at the onset mixture, 1 at the full one. */
+  strength: number;
+  solidMassFraction: number;
+  tipSpeedMS: number;
+  /** Sheared hard enough to thicken, rather than merely stirred. */
+  shearedHard: boolean;
+}
+
+/** Moles of acidity cancelled — the commonest reaction in a school lab. */
+export interface NeutralisationRun {
+  moles: number;
+}
+
+/**
  * How long an instrument's reading stays on the vessel.
  *
  * 2.5 s, which is what this was, is long enough to notice something
@@ -467,6 +542,18 @@ export interface Effect {
   saturation?: SaturationRun;
   /** Engine-read corrosion extent, for the bloom on the metal. */
   corrosion?: CorrosionRun;
+  /** Engine-computed kinetic interval, for the extent readout and tempo. */
+  reaction?: ReactionRun;
+  /** Engine-computed heat let go, for the exotherm halo. */
+  exotherm?: ExothermRun;
+  /** Engine-computed lift threshold, for the riding object. */
+  bubbleRide?: BubbleRideRun;
+  /** Engine-computed sorbent loading and remainder, for the darkening. */
+  adsorption?: AdsorptionRun;
+  /** Engine-computed shear response, for the resisting stirrer. */
+  thickening?: ThickeningRun;
+  /** Engine-computed acidity cancelled, for the neutralisation marks. */
+  neutralisation?: NeutralisationRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -882,6 +969,117 @@ export function corrosionBloom(fraction: number): { spots: number; strength: num
 }
 
 /**
+ * How strongly a kinetic interval reads, and how fast it ran.
+ *
+ * Logarithmic on the extent for the same reason the gas ramp is: a school
+ * bench reaction runs a hundredth of a mole and a demonstration runs a
+ * tenth, and a linear ramp draws both as nothing. The rate is the honest
+ * companion — the same tenth of a mole in a second and over an hour are
+ * different observations, and only the pair separates them.
+ */
+export function reactionExtent(
+  moles: number,
+  seconds: number,
+): { intensity: number; molesPerSecond: number } {
+  const amount = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  const elapsed = Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
+  const intensity = amount > 0 ? scale(Math.log10(amount), Math.log10(0.0001), Math.log10(0.1)) : 0;
+  return { intensity, molesPerSecond: elapsed > 0 ? amount / elapsed : 0 };
+}
+
+/**
+ * The exotherm's halo, from the joules a curated reaction let go.
+ *
+ * Same ramp as the heat of mixing, deliberately: dissolving a spoon of
+ * lye and a self-heating hand warmer are the same kind of claim about the
+ * same quantity, and drawing them on two scales would say they were not.
+ */
+export function exothermGlow(energyJ: number): number {
+  if (!Number.isFinite(energyJ)) return 0;
+  return scale(Math.max(0, energyJ), 5, 5000);
+}
+
+/**
+ * How many cancellation marks an acid meeting a base draws.
+ *
+ * `H⁺ + OH⁻ → H₂O` is the commonest reaction a school bench runs and the
+ * only one that used to happen with nothing at all against it. Bounded at
+ * nine so a titration's last drop and a beaker of drain cleaner differ in
+ * how many marks they draw rather than in how long the browser takes.
+ */
+export function neutralisationMarks(moles: number): number {
+  if (!Number.isFinite(moles) || !(moles > 0)) return 0;
+  const ramp = scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1));
+  return Math.max(1, Math.round(1 + ramp * 8));
+}
+
+/**
+ * KID-13: what has to cling to a raisin before it goes up.
+ *
+ * `liftGasFraction` is the engine's threshold — attached gas volume as a
+ * fraction of the object's own volume — so an object that floats unaided
+ * reports zero and must draw NO clinging bubbles, because the bubbles are
+ * not why it is up there. The count is that threshold: the more gas the
+ * object needs, the more of it has to be visibly stuck on. Time follows
+ * the same number, because gathering more gas takes longer.
+ */
+export function bubbleRideLift(
+  objectDensityGPerMl: number,
+  liquidDensityGPerMl: number,
+  liftGasFraction: number,
+): { needsGas: boolean; clingingBubbles: number; densityRatio: number; riseSeconds: number } {
+  const object = Number.isFinite(objectDensityGPerMl) ? Math.max(0, objectDensityGPerMl) : 0;
+  const liquid = Number.isFinite(liquidDensityGPerMl) ? Math.max(0, liquidDensityGPerMl) : 0;
+  const need = Number.isFinite(liftGasFraction) ? Math.max(0, liftGasFraction) : 0;
+  const densityRatio = liquid > 0 ? object / liquid : 0;
+  if (!(need > 0)) {
+    return { needsGas: false, clingingBubbles: 0, densityRatio, riseSeconds: 1.2 };
+  }
+  const bounded = Math.min(1, need);
+  return {
+    needsGas: true,
+    clingingBubbles: Math.max(1, Math.round(1 + bounded * 7)),
+    densityRatio,
+    riseSeconds: 1.2 + bounded * 8,
+  };
+}
+
+/**
+ * How dark the sorbent goes, and how much of the dye actually left.
+ *
+ * Driven by the two amounts the event insists on carrying together —
+ * `held` and `still_dissolved` — because their ratio is the answer to
+ * "can charcoal take a food dye out of water" and the loading alone is
+ * not. No isotherm ceiling is claimed here: the wire does not carry the
+ * capacity, so the darkening is the fraction removed and the loading
+ * travels beside it as a readout rather than as a fraction of something
+ * nobody stated.
+ */
+export function adsorptionDarkening(
+  heldMoles: number,
+  stillDissolvedMoles: number,
+): { removedFraction: number; darkening: number } {
+  const held = Number.isFinite(heldMoles) ? Math.max(0, heldMoles) : 0;
+  const left = Number.isFinite(stillDissolvedMoles) ? Math.max(0, stillDissolvedMoles) : 0;
+  const total = held + left;
+  const removedFraction = total > 0 ? held / total : 0;
+  return { removedFraction, darkening: 0.15 + removedFraction * 0.6 };
+}
+
+/**
+ * How hard a shear-thickening mixture pushes back.
+ *
+ * Zero unless the engine says it was sheared HARD: oobleck stirred slowly
+ * is a liquid, and drawing resistance there would be a picture of the
+ * recipe rather than of what happened. Above that it is `strength`, which
+ * the engine already normalises from the onset mixture to the full one.
+ */
+export function shearResistance(strength: number, shearedHard: boolean): number {
+  if (!shearedHard || !Number.isFinite(strength)) return 0;
+  return Math.min(1, Math.max(0, strength));
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -1018,6 +1216,115 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           why: String(e.why ?? ""),
           corrodedMoles,
           corrodedFraction: fraction,
+        },
+      };
+    }
+    case "reacted": {
+      // Time passed and this is what it did. The extent and the seconds
+      // travel together because the same tenth of a mole in a second and
+      // over an hour are different observations, and the bench drew
+      // neither of them.
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      const extent = reactionExtent(moles, seconds);
+      const catalyst = e.catalyst === undefined || e.catalyst === null ? undefined : String(e.catalyst);
+      return {
+        kind: "react",
+        at: now,
+        durationMs: 5200,
+        magnitude: extent.intensity,
+        reading: moles,
+        unit: "mol",
+        reaction: {
+          reaction: String(e.reaction ?? ""),
+          equation: String(e.equation ?? ""),
+          moles,
+          seconds,
+          molesPerSecond: extent.molesPerSecond,
+          catalyst,
+          activationEnergyJPerMol: Number(e.activation_energy ?? 0),
+        },
+      };
+    }
+    case "reaction_heat_released": {
+      const energyJ = Math.max(0, Number(e.energy_j ?? 0));
+      return {
+        kind: "exotherm",
+        at: now,
+        durationMs: 4200,
+        magnitude: exothermGlow(energyJ),
+        reading: energyJ,
+        unit: "J",
+        exotherm: { reaction: String(e.reaction ?? ""), energyJ },
+      };
+    }
+    case "neutralised": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      return {
+        kind: "neutralise",
+        at: now,
+        durationMs: 3000,
+        magnitude: moles > 0 ? scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1)) : 0,
+        reading: moles,
+        unit: "mol",
+        neutralisation: { moles },
+      };
+    }
+    case "bubble_ride": {
+      const liftGasFraction = Math.max(0, Number(e.lift_gas_fraction ?? 0));
+      return {
+        kind: "bubble-ride",
+        at: now,
+        durationMs: 9000,
+        // How much gas it NEEDS is the whole observation: a raisin that
+        // wants half its own volume in bubbles is the striking one.
+        magnitude: Math.min(1, liftGasFraction),
+        reading: liftGasFraction,
+        unit: "fraction",
+        bubbleRide: {
+          object: String(e.object ?? ""),
+          objectDensityGPerMl: Number(e.object_density_g_per_ml ?? 0),
+          liquidDensityGPerMl: Number(e.liquid_density_g_per_ml ?? 0),
+          liftGasFraction,
+        },
+      };
+    }
+    case "adsorbed": {
+      const heldMoles = Math.max(0, Number(e.held ?? 0));
+      const stillDissolvedMoles = Math.max(0, Number(e.still_dissolved ?? 0));
+      const removed = adsorptionDarkening(heldMoles, stillDissolvedMoles);
+      return {
+        kind: "adsorb",
+        at: now,
+        durationMs: 5200,
+        magnitude: removed.removedFraction,
+        species: String(e.sorbate ?? ""),
+        reading: heldMoles,
+        unit: "mol",
+        adsorption: {
+          sorbate: String(e.sorbate ?? ""),
+          sorbent: String(e.sorbent ?? ""),
+          heldMoles,
+          stillDissolvedMoles,
+          loadingMgPerG: Number(e.loading_mg_per_g ?? 0),
+          boundary: String(e.boundary ?? ""),
+        },
+      };
+    }
+    case "thickened": {
+      const strength = Number(e.strength ?? 0);
+      const shearedHard = Boolean(e.sheared_hard);
+      return {
+        kind: "thicken",
+        at: now,
+        durationMs: 3600,
+        magnitude: shearResistance(strength, shearedHard),
+        thickening: {
+          solid: String(e.solid ?? ""),
+          strength: Math.min(1, Math.max(0, Number.isFinite(strength) ? strength : 0)),
+          solidMassFraction: Number(e.solid_mass_fraction ?? 0),
+          tipSpeedMS: Number(e.tip_speed_m_s ?? 0),
+          shearedHard,
         },
       };
     }
