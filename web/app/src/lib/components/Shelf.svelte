@@ -51,7 +51,7 @@
 
   // Named apart from the markup's own `access` const, which shadows it.
   const access_ = (key: string) =>
-    access(catalog, key) ?? { available: false, loaned: false, granted: false, minimumCompleted: 0 };
+    access(catalog, key) ?? { available: false, loaned: false, granted: false, missionOnly: false, minimumCompleted: 0 };
 
   let query = $state("");
   const visible = $derived(items.filter((item) => {
@@ -399,7 +399,9 @@
               {/if}
             </form>
           {:else if !access.available}
-            <p class="stock-lock">{access.minimumCompleted === 1
+            <p class="stock-lock">{access.missionOnly
+              ? t("Supervised mission kit only — this material never becomes permanent Story stock.")
+              : access.minimumCompleted === 1
               ? t("Permanent stock unlocks after one completed mission. Mission kits loan required materials.")
               : t("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", { count: access.minimumCompleted })}</p>
           {:else if emptyBottle}

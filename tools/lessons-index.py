@@ -22,7 +22,7 @@ TOPICS = {
     "acids & bases": ["fizz", "chalk-vinegar", "neutral-moves", "three-protons", "buffer",
                       "titration", "titration-manual", "two-roads",
                       "there-and-back"],
-    "heat & fire": ["calorimetry", "fire", "grit"],
+    "heat & fire": ["calorimetry", "fire", "grit", "liquid-nitrogen-freezes-ethanol"],
     "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
                             "lemon-cell", "water-electrolysis", "counting-in-fives",
                             "permanganate-standardisation"],

@@ -394,6 +394,7 @@ export type CatalogReason =
   | { reason: "earned"; minimum_completed: number }
   | { reason: "awarded" }
   | { reason: "loaned" }
+  | { reason: "mission_only" }
   | { reason: "locked"; minimum_completed: number };
 
 export type CatalogItem = {

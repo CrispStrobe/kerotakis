@@ -391,10 +391,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** conservation and scale invariance; pressure monotonicity for
   boiling where valid; azeotrope/phase-split goldens; identical host results;
   BRD-000 phase-change coverage increases without weakening honest refusals.
-- **Remaining work:** wire `measure <vessel> boiling_point` to the pack API in
-  `bench.rs` for the five cleared fluids not yet reached that way; the
-  residual-EOS route (density, saturation pressure for CO2/N2/O2/hexane/ethyl
-  acetate) stays refused until BRD-031e clears parameters.
+- **Liquid-nitrogen investigation checkpoint (2026-09-06):** the coupled
+  ethanol-freezing/nitrogen-boiling route is reachable through an Energy Yard
+  lesson and mission. Handling hazards remain separate from reactive groups;
+  Story loans liquid nitrogen only inside the mission and never awards it.
+- **Remaining work:** the residual-EOS route (density, saturation pressure for
+  CO2/N2/O2/hexane/ethyl acetate) stays refused until BRD-031e clears parameters.
 
 ### BRD-041 — Familiar gas/combustion mechanism packs
 

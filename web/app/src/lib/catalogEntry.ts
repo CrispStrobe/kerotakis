@@ -27,7 +27,7 @@
  *     search and for the entry panel.
  *
  * The point of the derivation is that a filter must be answerable for
- * every one of the ~167 entries. A filter that only half the library can
+ * every one of the ~168 entries. A filter that only half the library can
  * answer re-creates the tier split inside the filter bar.
  *
  * Nothing here renders. It takes a translator and a locale so the strings

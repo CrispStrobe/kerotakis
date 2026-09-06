@@ -3473,6 +3473,36 @@
       }
     ]
   },
+  "liquid-nitrogen-freezes-ethanol": {
+    "event_count": 5,
+    "events_sample": [
+      "v1: +0.1713 mol ethanol",
+      "v1: 25.0 °C → -172.7 °C",
+      "v1: +2.8807 mol liquid nitrogen",
+      "v1 thermometer: -172.71 °C",
+      "v1: The liquid is colourless and clear."
+    ],
+    "lesson": "liquid-nitrogen-freezes-ethanol.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.17126484,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 2.88070251,
+            "phase": "Liquid",
+            "species": "liquid_nitrogen"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 100.4374
+      }
+    ]
+  },
   "luminol-temperature": {
     "event_count": 29,
     "events_sample": [
