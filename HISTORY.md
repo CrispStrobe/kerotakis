@@ -18,6 +18,11 @@ it had while it was open, which is why a few numbers appear twice below.
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,
   and removed invented Codex safety classifications
+- **ANIM-6 (standing half)** — projected the stored charcoal/dye adsorption
+  split into the *persistent* scene, so held and still-dissolved masses,
+  equilibrium loading and an accessible readout survive between events rather
+  than only at the instant of the `adsorbed` verdict; the capacity gauge is
+  schematic and makes no claim about rate, pores or surface coverage
 - **ANIM-5** — made gas-production bubble cadence follow the engine's molar
   rate and foam collapse reach half height on the engine's half-life, with
   readable/data-attribute evidence and reduced-motion coverage

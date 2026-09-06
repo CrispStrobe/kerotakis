@@ -10,6 +10,7 @@
 
 use kerotakis_core::adsorption::{self, ISOTHERMS};
 use kerotakis_core::ops::Event;
+use kerotakis_core::scene::scene_vessel;
 use kerotakis_core::species::{self, Phase, SpeciesId};
 use kerotakis_core::units::Moles;
 use kerotakis_core::vessel::{Vessel, VesselId};
@@ -107,6 +108,34 @@ fn the_carbon_takes_most_of_the_dye_and_not_all_of_it() {
     );
 }
 
+#[test]
+fn the_scene_projects_the_stored_split_without_event_history() {
+    let mut v = beaker(1.0);
+    let event = adsorption::equilibrate(&mut v)
+        .into_iter()
+        .find_map(|event| match event {
+            Event::Adsorbed {
+                held,
+                loading_mg_per_g,
+                ..
+            } => Some((held.0, loading_mg_per_g)),
+            _ => None,
+        })
+        .expect("adsorption event");
+    let row = scene_vessel(&v).adsorption.remove(0);
+    let dye = species::lookup(&SpeciesId::new(DYE)).expect("registry dye");
+    assert!((row.held_mg - event.0 * dye.molar_mass * 1_000.0).abs() < 1e-9);
+    assert!((row.loading_mg_per_g.unwrap() - event.1).abs() < 1e-9);
+    assert!(row.still_dissolved_mg > 0.0, "the remainder is not hidden");
+    assert!(row.held_fraction > 0.5 && row.held_fraction < 1.0);
+    assert!(row.boundary.contains("not a rate"));
+    assert!(row.provenance.contains("PENDING REVIEW"));
+
+    // No event is retained on Vessel. A second projection is consequently
+    // identical because both are reads of the stored contents + ledger.
+    assert_eq!(scene_vessel(&v).adsorption, vec![row]);
+}
+
 /// The claim that matters, and the one a recipe alone would get wrong.
 #[test]
 fn the_filtrate_carries_only_what_was_still_dissolved() {
@@ -143,6 +172,14 @@ fn the_filtrate_carries_only_what_was_still_dissolved() {
         "which is still on the carbon in the first beaker"
     );
     assert!(dissolved(&v) < 1e-12, "whose liquid has been poured off");
+    let retained = scene_vessel(&v).adsorption.remove(0);
+    assert!((retained.still_dissolved_mg).abs() < 1e-12);
+    assert!(
+        (retained.held_mg
+            - bound * species::lookup(&SpeciesId::new(DYE)).unwrap().molar_mass * 1_000.0)
+            .abs()
+            < 1e-9
+    );
 }
 
 /// More carbon holds more dye. Without this the row would pass on a

@@ -2376,6 +2376,12 @@
   "gelling from {from}% to {to}% of the polymer": "geliert von {from}% auf {to}% des Polymers",
   "{a} °C and {b} °C settled at {into} °C": "{a} °C und {b} °C stellten sich auf {into} °C ein",
   "{moles} mol of water driven off at {celsius} °C": "{moles} mol Wasser bei {celsius} °C ausgetrieben",
-  "{moles} mol of water taken back into the hydrate": "{moles} mol Wasser wieder in das Hydrat aufgenommen"
+  "{moles} mol of water taken back into the hydrate": "{moles} mol Wasser wieder in das Hydrat aufgenommen",
+  "dye held at equilibrium": "Farbstoff im Gleichgewicht gebunden",
+  "held": "gebunden",
+  "still dissolved": "noch gelöst",
+  "parameters pending review": "Parameterprüfung ausstehend",
+  "equilibrium loading toward the nominal Langmuir capacity; schematic gauge, not pore or surface coverage": "Gleichgewichtsbeladung relativ zur nominalen Langmuir-Kapazität; schematische Anzeige, keine Poren- oder Oberflächenbedeckung",
+  "{percent}% of {sorbate} held on {sorbent}; {dissolved} mg still dissolved; equilibrium, not removal rate": "{percent}% {sorbate} an {sorbent} gebunden; {dissolved} mg noch gelöst; Gleichgewicht, keine Entfernungsgeschwindigkeit"
  }
 }

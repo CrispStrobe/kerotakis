@@ -34,4 +34,14 @@ describe("persistent material observations", () => {
     expect(source).toContain('class="persistent-coating"');
     expect(source).toContain("t(coating.words)");
   });
+
+  it("draws adsorption only from the standing scene ledger", () => {
+    expect(source).toContain("adsorptionReadouts(vessel.adsorption)");
+    expect(source).toContain('class="adsorption-marker"');
+    expect(source).toContain("data-loading-fraction={adsorption.loadingFraction.toFixed(4)}");
+    expect(source).toContain('class="persistent-readout adsorption-readout"');
+    expect(source).toContain("progress.still_dissolved_mg.toFixed(1)");
+    expect(source).toContain("progress.boundary");
+    expect(source).not.toContain("Adsorbed");
+  });
 });
