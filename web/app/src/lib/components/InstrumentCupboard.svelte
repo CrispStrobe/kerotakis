@@ -80,7 +80,7 @@
   /** One explanation at a time: several open panels is the wall of text the
    * (i) exists to prevent. */
   let openInfo = $state<string | null>(null);
-  const panelId = (id: string) => `equipment-info-${id}`;
+  const panelId = (id: string) => `cupboard-info-${id}`;
 
   const ids = $derived(gatedIds(reactAvailable));
   const availableCount = $derived(ids.filter((id) => equipmentAccess(catalog, id).available).length);
