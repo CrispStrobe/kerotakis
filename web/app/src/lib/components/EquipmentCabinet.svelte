@@ -8,7 +8,9 @@
   import type { CatalogScope } from "../catalogScope";
   import { equipmentMatches } from "../catalogSearch";
   import { INSTRUMENTS, instrumentCommand, instrumentVerb } from "../instruments";
-  import { KIDS_EQUIPMENT, type KidsEquipment } from "../kidsEquipment";
+  import { KIDS_EQUIPMENT, kitInfoRows, type KidsEquipment } from "../kidsEquipment";
+  import InfoPanel from "./InfoPanel.svelte";
+  import InfoToggle from "./InfoToggle.svelte";
 
   const TRANSFER_TOOLS: { verb: TwoVesselAction; title: string; blurb: string }[] = [
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
@@ -107,6 +109,13 @@
    * next thing goes, so the card would be a wrong answer rather than a
    * quiet one. */
   const namesNextTarget = $derived(transferVerb === null && !mixActive);
+  /**
+   * Which kit has its explanation open. One at a time, like the shelf: the
+   * cabinet is a pane a learner scans, and several open panels at once is
+   * the wall of text this moved the copy out of.
+   */
+  let openKit = $state<string | null>(null);
+  const kitPanelId = (id: string) => `kit-info-${id}`;
   const useKidsEquipment = (item: KidsEquipment) => {
     if (item.action === "apparatus") return onapparatus(item.engineVerb);
     if (item.action === "instrument" && item.instrument) {
@@ -145,20 +154,33 @@
     <div class="equipment-grid">
       {#each visibleKidsEquipment as item (item.id)}
         {@const itemAccess = accessOf(item.engineVerb)}
-        <button
-          class="equipment-card kids-card"
-          class:locked={!itemAccess.available}
-          class:deployed={item.action === "apparatus" && apparatusOut === item.engineVerb}
-          disabled={busy || !itemAccess.available}
-          onclick={() => useKidsEquipment(item)}
-        >
-          <span class="equipment-icon"><ToolIcon name={item.icon} /></span>
-          <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
-          <span class="kit-parts">{item.parts.map((part) => t(part)).join(" · ")}</span>
-          <span class="skin-boundary">{t(item.boundary)}</span>
-          {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
-          {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.engineVerb)}</span>{/if}
-        </button>
+        <!-- Row, not card: icon, name, one line of purpose, and an (i) —
+             the same shape the reagent shelf settled on, for the same
+             reason. The inventory and the modelling caveat are behind the
+             (i), which is why this fits in one line instead of four. -->
+        <div class="kit-row">
+          <button
+            class="equipment-card kids-card"
+            class:locked={!itemAccess.available}
+            class:deployed={item.action === "apparatus" && apparatusOut === item.engineVerb}
+            disabled={busy || !itemAccess.available}
+            onclick={() => useKidsEquipment(item)}
+          >
+            <span class="equipment-icon"><ToolIcon name={item.icon} /></span>
+            <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
+            {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+            {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.engineVerb)}</span>{/if}
+          </button>
+          <InfoToggle
+            expanded={openKit === item.id}
+            controls={kitPanelId(item.id)}
+            label={t("about {name}", { name: t(item.title) })}
+            onclick={() => (openKit = openKit === item.id ? null : item.id)}
+          />
+        </div>
+        {#if openKit === item.id}
+          <InfoPanel id={kitPanelId(item.id)} rows={kitInfoRows(item, t)} />
+        {/if}
       {/each}
     </div>
   </div>{/if}
@@ -290,7 +312,14 @@
   .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }
   .equipment-card.wide .locked-label { margin: 0 0 0 auto; }
   .kids-equipment { padding: .55rem; border: 1px solid color-mix(in srgb, var(--discovery) 25%, var(--edge)); border-radius: 14px; background: color-mix(in srgb, var(--discovery) 5%, transparent); }
-  .kids-card { min-height: 170px; }
-  .kit-parts { color: var(--instrument); font-size: .55rem; font-weight: 750; line-height: 1.3; }
-  .skin-boundary { color: var(--dim); font-size: .53rem; line-height: 1.3; }
+  /* One kit per line rather than two per line and four lines tall: the
+     card is now short enough that the pane shows all of them at once, and
+     an opened panel needs the full width to set a sentence in. */
+  .kids-equipment .equipment-grid { grid-template-columns: 1fr; }
+  .kit-row { display: flex; align-items: stretch; gap: .3rem; min-width: 0; }
+  .kids-card.equipment-card { flex: 1; min-width: 0; min-height: 52px; flex-direction: row; align-items: center; gap: .5rem; }
+  .kids-card .equipment-copy { flex: 1; }
+  /* `margin-top: auto` bottom-aligns a badge in a column card; in a row it
+     would drop it below the words it belongs to. */
+  .kids-card .loaned-label, .kids-card .locked-label { margin-top: 0; }
 </style>

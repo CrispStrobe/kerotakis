@@ -1,3 +1,5 @@
+import type { InfoRow } from "./infoPanel";
+
 export type KidsEquipment = {
   id: string;
   engineVerb: string;
@@ -64,3 +66,31 @@ export const KIDS_EQUIPMENT: KidsEquipment[] = [
     parts: ["horseshoe magnet", "sample vessel", "receiver vessel"],
   },
 ];
+
+/**
+ * The two things a kit card no longer says out loud.
+ *
+ * A kit used to print four blocks on every card — title, purpose, a
+ * three-part inventory and a full sentence of modelling caveat — in a
+ * half-width column of the cabinet. Five of those is a wall of text where
+ * a learner is trying to find a tool. The parts list and the caveat are
+ * both true and both worth keeping; they are just answers to "tell me
+ * more", not to "which one is the magnet". So they move behind the (i),
+ * in the same panel the reagent shelf opens.
+ *
+ * `translate` is passed in rather than imported so this stays a pure
+ * function of the data — the row labels are literals here, which is what
+ * lets the translation scan see them.
+ */
+export function kitInfoRows(item: KidsEquipment, translate: (key: string) => string): InfoRow[] {
+  return [
+    { term: translate("parts"), detail: item.parts.map((part) => translate(part)).join(" · ") },
+    {
+      term: translate("what the model computes"),
+      detail: translate(item.boundary),
+      // The boundary is a sentence, and a sentence set opposite its label
+      // starts in a different place on every card.
+      block: true,
+    },
+  ];
+}

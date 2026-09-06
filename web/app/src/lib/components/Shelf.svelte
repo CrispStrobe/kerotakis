@@ -11,6 +11,9 @@
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { deriveShelfRoles, ROLE_LABELS, REAGENT_ROLES, type ReagentRole } from "../reagentRoles";
+  import InfoPanel from "./InfoPanel.svelte";
+  import InfoToggle from "./InfoToggle.svelte";
+  import type { InfoRow } from "../infoPanel";
 
   let {
     items,
@@ -136,6 +139,49 @@
     return hazards.length > 0 ? hazards.map((hazard) => t(hazard)).join(" · ") : null;
   };
 
+  /**
+   * Everything the row no longer says, as `<dl>` rows.
+   *
+   * A fact with no answer is left out rather than shown empty: an
+   * appearance nobody recorded and a hazard row that is genuinely blank are
+   * both silence, and a panel of "—" teaches a learner to stop reading it.
+   */
+  function speciesRows(item: ShelfItem): InfoRow[] {
+    const rows: InfoRow[] = [{ term: t("physical state"), detail: t(item.phase) }];
+    if (item.appearance) rows.push({ term: t("visual appearance"), detail: t(item.appearance) });
+    const families = rolesOf(item.key);
+    if (families.length > 0) {
+      rows.push({
+        term: t("chemical family"),
+        detail: families.map((family) => t(ROLE_LABELS[family])).join(" · "),
+      });
+    }
+    const computes = capabilityLabel(item.capability);
+    if (computes) {
+      rows.push({
+        term: t("what the model computes"),
+        detail: computes,
+        // The two capabilities that are a LIMIT keep their colour; a fully
+        // modeled species says so in plain ink.
+        tone: item.capability === "modeled_activity"
+          ? "info"
+          : item.capability === "identity_only" ? "warn" : undefined,
+      });
+    }
+    const hazards = hazardLine(item);
+    if (hazards) rows.push({ term: t("safety labels"), detail: hazards, tone: "danger" });
+    // `stockBadge` answers null for a level it has nothing to say about,
+    // and a row whose value is empty is worse than no row: it teaches the
+    // reader that the panel sometimes has nothing in it.
+    const badge = stockBadge(bottles[item.key], t);
+    if (badge) rows.push({ term: t("in the bottle"), detail: badge });
+    const itemAccess = access_(item.key);
+    if (mode === "story" && itemAccess.available && !itemAccess.loaned) {
+      rows.push({ term: t("shelf stock"), detail: stockLabel(stockRemaining(item, stockUsed)) });
+    }
+    return rows;
+  }
+
   function toggle(item: ShelfItem) {
     if (open === item.key) {
       open = null;
@@ -257,45 +303,15 @@
             {#if emptyBottle}<span class="bottle out">{t("empty")}</span>{/if}
             {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
           </button>
-          <button
-            type="button"
-            class="info-toggle"
-            class:on={info === item.key}
-            aria-expanded={info === item.key}
-            aria-controls={infoPanelId(item.key)}
-            aria-label={t("about {name}", { name: t(item.name) })}
+          <InfoToggle
+            expanded={info === item.key}
+            controls={infoPanelId(item.key)}
+            label={t("about {name}", { name: t(item.name) })}
             onclick={() => (info = info === item.key ? null : item.key)}
-          >i</button>
+          />
         </div>
         {#if info === item.key}
-          <!-- Bound once each: narrowing a `string | null` through a
-               `{#if}` and reading it again inside is the kind of thing that
-               type-checks by luck. -->
-          {@const appearance = item.appearance}
-          {@const families = rolesOf(item.key)}
-          {@const computes = capabilityLabel(item.capability)}
-          {@const hazards = hazardLine(item)}
-          <dl class="detail" id={infoPanelId(item.key)}>
-            <div><dt>{t("physical state")}</dt><dd>{t(item.phase)}</dd></div>
-            {#if appearance}
-              <div><dt>{t("visual appearance")}</dt><dd>{t(appearance)}</dd></div>
-            {/if}
-            {#if families.length > 0}
-              <div><dt>{t("chemical family")}</dt><dd>{families.map((family) => t(ROLE_LABELS[family])).join(" · ")}</dd></div>
-            {/if}
-            {#if computes}
-              <div><dt>{t("what the model computes")}</dt><dd data-capability={item.capability}>{computes}</dd></div>
-            {/if}
-            {#if hazards}
-              <div class="danger"><dt>{t("safety labels")}</dt><dd>{hazards}</dd></div>
-            {/if}
-            {#if bottle}
-              <div><dt>{t("in the bottle")}</dt><dd>{stockBadge(bottle, t)}</dd></div>
-            {/if}
-            {#if mode === "story" && access.available && !access.loaned}
-              <div><dt>{t("shelf stock")}</dt><dd>{stockLabel(remaining)}</dd></div>
-            {/if}
-          </dl>
+          <InfoPanel id={infoPanelId(item.key)} rows={speciesRows(item)} />
         {/if}
         {#if open === item.key}
           {#if usable}
@@ -496,47 +512,6 @@
     gap: 0.3rem;
     margin-bottom: 0.32rem;
   }
-  .info-toggle {
-    flex: none;
-    width: 2.15rem;
-    min-height: 40px;
-    border: 1px solid var(--edge);
-    border-radius: 11px;
-    color: var(--dim);
-    background: var(--surface-raised);
-    font: inherit;
-    font-size: 0.85rem;
-    font-weight: 800;
-    font-style: italic;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .info-toggle:hover,
-  .info-toggle.on {
-    color: var(--primary);
-    border-color: color-mix(in srgb, var(--primary) 55%, var(--edge));
-    background: color-mix(in srgb, var(--primary) 12%, var(--surface-raised));
-  }
-  .detail {
-    margin: 0 0.2rem 0.5rem;
-    padding: 0.5rem 0.55rem;
-    border-left: 3px solid var(--primary);
-    border-radius: 7px;
-    background: color-mix(in srgb, var(--primary) 6%, transparent);
-    font-size: 0.67rem;
-    line-height: 1.35;
-  }
-  .detail div {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.6rem;
-  }
-  .detail div + div { margin-top: 0.22rem; }
-  .detail dt { color: var(--dim); }
-  .detail dd { margin: 0; text-align: right; }
-  .detail dd[data-capability="modeled_activity"] { color: var(--instrument); }
-  .detail dd[data-capability="identity_only"] { color: var(--warning); }
-  .detail .danger dd { color: var(--warning); font-weight: 700; }
   .species {
     --phase-color: var(--primary);
     width: 100%;
