@@ -1892,13 +1892,24 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
     parameters, not the composable representation this task names. No
     Michaelis–Menten, no cofactors, no inhibition, no compartments, no
     directionality. `bio-069`/`bio-070` (yoghurt) run a real fermentation and
-    still cannot answer, because lactic acid cannot be speciated by any
-    database this lab loads and milk resolves only water, so no solution is
-    characterised and the pH meter reads nothing. And the lactic and acetic
+    still cannot answer, but TWO OF THE THREE THINGS THEY NEEDED ARE NOW
+    DONE. `whole_milk` resolves its diffusible mineral buffer — potassium,
+    sodium, soluble calcium, chloride, inorganic phosphate and citrate — so
+    a beaker of milk is a characterised solution near pH 6.7 instead of a
+    beaker of water with nothing to measure; and `lactate` exists as a
+    registry species, which is the conjugate base a protonation split has to
+    be booked against. The third is still missing: no database this lab
+    loads defines a lactate species, so the acid's carboxylic proton stays
+    out of the computed pH and the unspeciated-acid note still says so. And
+    the lactic and acetic
     routes emit no typed event of their own: the clock arm builds `Fermented`
     from the sucrose/ethanol/CO2 fields, so they report through the vessel
-    inventory. Closing those needs a lactate species in a loaded database (or
-    milk's minerals resolved) and one more arm in `clock.rs`.
+    inventory. Closing those needs lactate in a loaded database and one more
+    arm in `clock.rs`. What the milk buffer does NOT close on its own:
+    casein is still unresolved and carries none of milk's protein buffer
+    capacity, so a yoghurt pH computed against this buffer is a lower bound
+    on the real one rather than a prediction of it — the recipe's own lot
+    assumptions say so in those words.
 - **Outcome:** familiar biochemical reactions can be represented without
   pretending PHREEQC or the organic family router models a living cell.
 - **Scope:** extend/compose the reaction-family IR with enzyme identity,
