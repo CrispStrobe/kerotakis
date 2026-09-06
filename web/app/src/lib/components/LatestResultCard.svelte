@@ -53,6 +53,16 @@
     void result;
     exporting = false;
   });
+  // Escape closes it, because a small menu with no way out but a second
+  // exact tap is a trap on a phone.
+  $effect(() => {
+    if (!exporting) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") exporting = false;
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  });
 
   const provenanceText = $derived(
     result.provenance ? engineText(result.provenance) : t("from this operation's computed events"),
@@ -161,6 +171,8 @@
         class="icon-export"
         type="button"
         aria-expanded={exporting}
+        aria-haspopup="true"
+        aria-controls="result-card-export"
         aria-label={t("export the result card")}
         title={t("export the result card")}
         onclick={(event) => { event.preventDefault(); event.stopPropagation(); exporting = !exporting; }}
@@ -173,7 +185,7 @@
         onclick={(event) => { event.preventDefault(); event.stopPropagation(); onclose(); }}
       >×</button>
       {#if exporting}
-        <span class="export-menu" role="group" aria-label={t("export the result card")}>
+        <span id="result-card-export" class="export-menu" role="group" aria-label={t("export the result card")}>
           <button type="button" onclick={(event) => { event.preventDefault(); event.stopPropagation(); exportCard("svg"); }}>{t("save SVG")}</button>
           <button type="button" onclick={(event) => { event.preventDefault(); event.stopPropagation(); exportCard("png"); }}>{t("save PNG")}</button>
         </span>
