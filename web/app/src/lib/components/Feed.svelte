@@ -3,6 +3,13 @@
   import type { FeedEntry } from "../session.svelte";
   import Chart from "./Chart.svelte";
   import { engineText } from "../engineText";
+  import {
+    JOURNAL_WINDOW,
+    displayText,
+    entryVessel,
+    journalEntries,
+    statusIcon,
+  } from "../journalFeed";
 
   let {
     entries,
@@ -19,7 +26,6 @@
   } = $props();
   let note = $state("");
   let showTrace = $state(false);
-  let scope = $state<"all" | "selected">("all");
   let editing = $state<string | null>(null);
   let editText = $state("");
   /**
@@ -55,44 +61,10 @@
   }
   $effect(() => () => clearTimeout(pinned));
 
-  /**
-   * The session notes that are STATUS rather than observation: whether the
-   * solver is attached, and whether a save came back. They were two full
-   * sentences at the top of every journal; here they are one icon each,
-   * and their sentence is the tooltip. The exports still carry them as
-   * notes — `notebookMarkdown` reads the feed, not this component.
-   */
-  const STATUS_ICONS: Record<string, string> = {
-    "bench-live": "◉",
-    "bench-shipped": "◌",
-    restored: "⟳",
-    "restore-failed": "⚠",
-  };
-  const statusIcon = (entry: FeedEntry): string | undefined =>
-    entry.status ? STATUS_ICONS[entry.status] : undefined;
-  const statusNotes = $derived(entries.filter((entry) => statusIcon(entry) !== undefined));
-
-  // Render only the tail of a very long session: the exports keep every
-  // entry, the DOM does not have to (low-end budget). 400 entries is far
-  // beyond what a screen shows and well within what a Chromebook lays out.
-  const WINDOW = 400;
-  function entryVessel(entry: FeedEntry): number | null {
-    if (!["command", "line", "error", "refusal"].includes(entry.kind)) return null;
-    const match = entry.text.match(entry.kind === "command" ? /\bv(\d+)\b/i : /^\s*v(\d+)\s*:/i);
-    return match ? Number(match[1]) - 1 : null;
-  }
-  function displayText(entry: FeedEntry): string {
-    return entry.kind === "line" ? entry.text.replace(/^\s*v\d+\s*:\s*/i, "") : entry.text;
-  }
-  const visibleEntries = $derived(
-    entries.filter((entry) => {
-      if (statusIcon(entry) !== undefined) return false;
-      if (!showTrace && entry.kind === "command") return false;
-      const vessel = entryVessel(entry);
-      return scope === "all" || vessel === null || vessel === selectedVessel;
-    }),
+  const visibleEntries = $derived(journalEntries(entries, { showTrace }));
+  const shown = $derived(
+    visibleEntries.length > JOURNAL_WINDOW ? visibleEntries.slice(-JOURNAL_WINDOW) : visibleEntries,
   );
-  const shown = $derived(visibleEntries.length > WINDOW ? visibleEntries.slice(-WINDOW) : visibleEntries);
   const trimmed = $derived(visibleEntries.length - shown.length);
   const hiddenCommands = $derived(entries.filter((entry) => entry.kind === "command").length);
 
@@ -107,14 +79,22 @@
 <!-- The feed is the notebook and the screen-reader surface: everything the
      bench does is a legible line here, announced as it happens. -->
 <section class="feed" aria-label={t("lab notebook")} aria-live="polite" bind:this={list}>
-  <!-- Two rows of chrome, and never more. The view toggle and the vessel
-       scope are icon buttons on one line; the session's status is one line
-       of icons under it. Every caption this used to stack — "show entries
-       for", "the bench is live: …", "restored your last session: …" — is
-       now a tooltip, so the journal starts at the top of the pane instead
-       of five rows down it. -->
+  <!-- One row of chrome, and never more: the view toggle and the note
+       chevron. Every caption this used to stack is a tooltip, so the
+       journal starts at the top of the pane instead of five rows down it.
+       What is deliberately NOT here any more:
+
+       * the vessel scope. It filtered the log to one vessel, and the
+         journal is the record of the whole bench — a bench where the
+         interesting lines are precisely the ones about the OTHER vessel
+         you just poured into. A filter whose best case is hiding evidence
+         is not worth the row it sits on.
+       * the session's status as an icon row. Those notes belong in the
+         log, and they went to the header instead — which emptied the
+         logbook outright for anyone who had not yet run a command, since
+         on a fresh or restored bench they are the only entries there are.
+  -->
   <header class="journal-head">
-    <div class="journal-controls">
       <div class="journal-view" role="group" aria-label={t("journal view")}>
         <button
           type="button"
@@ -152,60 +132,6 @@
           {#if hiddenCommands > 0}<span class="count" aria-hidden="true">{hiddenCommands}</span>{/if}
         </button>
       </div>
-      <div class="journal-scope" role="group" aria-label={t("journal scope")}>
-        <button
-          type="button"
-          class="icon-btn"
-          aria-pressed={scope === "all"}
-          class:active={scope === "all"}
-          aria-label={t("whole lab")}
-          title={t("whole lab")}
-          onpointerenter={() => hint(t("whole lab"))}
-          onpointerleave={() => hint(null)}
-          onfocus={() => hint(t("whole lab"))}
-          onblur={() => hint(null)}
-          onclick={() => {
-            scope = "all";
-            pin(t("whole lab"));
-          }}
-        ><span aria-hidden="true">▦</span></button>
-        <button
-          type="button"
-          class="icon-btn"
-          aria-pressed={scope === "selected"}
-          class:active={scope === "selected"}
-          aria-label={t("selected v{vessel}", { vessel: selectedVessel + 1 })}
-          title={t("selected v{vessel}", { vessel: selectedVessel + 1 })}
-          onpointerenter={() => hint(t("selected v{vessel}", { vessel: selectedVessel + 1 }))}
-          onpointerleave={() => hint(null)}
-          onfocus={() => hint(t("selected v{vessel}", { vessel: selectedVessel + 1 }))}
-          onblur={() => hint(null)}
-          onclick={() => {
-            scope = "selected";
-            pin(t("selected v{vessel}", { vessel: selectedVessel + 1 }));
-          }}
-        ><span class="v" aria-hidden="true">v{selectedVessel + 1}</span></button>
-      </div>
-    </div>
-    {#if statusNotes.length > 0}
-      <div class="journal-status" role="group" aria-label={t("bench status")}>
-        {#each statusNotes as entry, i (i)}
-          {@const text = engineText(entry.text)}
-          <button
-            type="button"
-            class="icon-btn status"
-            data-status={entry.status}
-            aria-label={text}
-            title={text}
-            onpointerenter={() => hint(text)}
-            onpointerleave={() => hint(null)}
-            onfocus={() => hint(text)}
-            onblur={() => hint(null)}
-            onclick={() => pin(text)}
-          ><span aria-hidden="true">{statusIcon(entry)}</span></button>
-        {/each}
-      </div>
-    {/if}
     {#if onaddnote}
       <div class="note-composer">
         <button
@@ -292,9 +218,14 @@
       </article>
     {:else}
       {@const vesselId = entryVessel(entry)}
-      <p class={entry.kind}>
+      {@const status = statusIcon(entry)}
+      <p class={entry.kind} class:status-note={status !== undefined} data-status={entry.status}>
         {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}
-        {#if vesselId !== null}<span class="vessel-chip">v{vesselId + 1}</span>{/if}
+        {#if status}<span class="status-mark" aria-hidden="true">{status}</span>{/if}
+        <!-- The chip is a marker, not a filter: the vessel you have
+             selected is marked so its lines are findable in a long log,
+             and every other vessel's lines stay exactly where they are. -->
+        {#if vesselId !== null}<span class="vessel-chip" class:current={vesselId === selectedVessel}>v{vesselId + 1}</span>{/if}
         {engineText(displayText(entry))}
       </p>
     {/if}
@@ -320,9 +251,8 @@
     gap: 0.22rem;
     margin-bottom: 0.35rem;
   }
-  .journal-controls { display: flex; align-items: center; gap: 0.35rem; }
-  .journal-view,
-  .journal-scope {
+  .journal-view {
+    align-self: flex-start;
     display: flex;
     gap: 2px;
     padding: 3px;
@@ -330,7 +260,6 @@
     border-radius: 10px;
     background: color-mix(in srgb, var(--surface) 94%, transparent);
   }
-  .journal-scope { margin-left: auto; }
   .icon-btn {
     position: relative;
     min-width: 2.1rem;
@@ -352,15 +281,16 @@
   }
   .icon-btn:hover { color: var(--ink); }
   .journal-view .icon-btn.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised)); }
-  .journal-scope .icon-btn.active { color: var(--instrument); background: color-mix(in srgb, var(--instrument) 12%, var(--surface-raised)); }
-  .journal-scope .v { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.68rem; font-weight: 850; }
   .count { min-width: 1.1rem; padding: 0.04rem 0.22rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: 0.52rem; }
-  .journal-status { display: flex; align-items: center; gap: 0.15rem; }
-  .journal-status .icon-btn { min-width: 1.7rem; min-height: 24px; font-size: 0.82rem; }
-  .journal-status .icon-btn[data-status="bench-live"] { color: var(--good); }
-  .journal-status .icon-btn[data-status="bench-shipped"] { color: var(--warn); }
-  .journal-status .icon-btn[data-status="restored"] { color: var(--instrument); }
-  .journal-status .icon-btn[data-status="restore-failed"] { color: var(--bad); }
+  /* Session bookkeeping, in the log where it belongs but dressed so it
+     does not read as chemistry: the icon carries the kind, the sentence
+     carries the rest. */
+  .status-note { color: var(--dim); font-size: 0.82em; }
+  .status-mark { margin-right: 0.35rem; font-weight: 850; }
+  .status-note[data-status="bench-live"] .status-mark { color: var(--good); }
+  .status-note[data-status="bench-shipped"] .status-mark { color: var(--warn); }
+  .status-note[data-status="restored"] .status-mark { color: var(--instrument); }
+  .status-note[data-status="restore-failed"] .status-mark { color: var(--bad); }
   /* Anchored to the header and inset on both sides, so a long sentence can
      never widen the pane: it wraps inside the tooltip instead. */
   .tip {
@@ -410,6 +340,7 @@
     hyphens: auto;
     overflow-wrap: anywhere;
   }
+  .vessel-chip.current { border-color: var(--instrument); background: color-mix(in srgb, var(--instrument) 18%, var(--surface)); font-weight: 900; }
   .vessel-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 1.65rem; margin-right: .35rem; padding: .06rem .3rem; border: 1px solid color-mix(in srgb, var(--instrument) 34%, var(--edge)); border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 8%, var(--surface)); font-size: .62rem; font-weight: 850; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   .prompt {
     color: var(--hot);
