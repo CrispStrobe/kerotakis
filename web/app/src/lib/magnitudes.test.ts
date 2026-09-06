@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
   FALLBACK_MOLAR_VOLUME_L,
+  adsorptionDarkening,
+  bubbleRideLift,
   INCANDESCENCE_ONSET_K,
   NORMAL_BOILING_K,
   VISIBLE_BUBBLE_MOLES,
@@ -11,10 +13,14 @@ import {
   depositParticles,
   dewPointK,
   electrodeBubbles,
+  exothermGlow,
   electrodePairBubbles,
   headspaceVolumeL,
+  neutralisationMarks,
   partitionTint,
   phaseKind,
+  reactionExtent,
+  shearResistance,
   supersaturationHaze,
   effectFromEvent,
   incandescence,
@@ -996,5 +1002,126 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     expect(legacy!.corrosion!.corrodedMoles).toBeUndefined();
     // No extent is no rust, which is what an untouched nail looks like.
     expect(legacy!.magnitude).toBe(0);
+  });
+
+  // -------------------------------------------------- GUI-099 ANIM-6 rows
+
+  it("a kinetic interval is an extent AND a rate, and neither alone is it", () => {
+    const slow = reactionExtent(0.01, 3600);
+    const fast = reactionExtent(0.01, 1);
+    // The same extent: the ring is drawn at the same strength.
+    expect(slow.intensity).toBe(fast.intensity);
+    // Different rate: the tempo is what separates an overnight run from a
+    // demonstration, and it is the only thing that does.
+    expect(fast.molesPerSecond).toBeGreaterThan(slow.molesPerSecond);
+    // Monotone and bounded in the extent.
+    expect(reactionExtent(0.1, 1).intensity).toBeGreaterThan(reactionExtent(0.001, 1).intensity);
+    expect(reactionExtent(10, 1).intensity).toBe(1);
+    expect(reactionExtent(0, 1).intensity).toBe(0);
+    // Zero seconds is not an infinite rate.
+    expect(reactionExtent(0.01, 0).molesPerSecond).toBe(0);
+  });
+
+  it("reacted carries the interval and the catalyst the engine actually used", () => {
+    const run = effectFromEvent({
+      event: "reacted", vessel: 0, reaction: "h2o2_decomposition",
+      equation: "2 H2O2 -> 2 H2O + O2", moles: 0.024, seconds: 60,
+      catalyst: "manganese dioxide", activation_energy: 58_000,
+    });
+    expect(run!.kind).toBe("react");
+    expect(run!.reaction).toMatchObject({ moles: 0.024, seconds: 60, catalyst: "manganese dioxide" });
+    expect(run!.reaction!.molesPerSecond).toBeCloseTo(0.0004, 10);
+    // An uncatalysed run reports none rather than an empty string, so the
+    // caption can tell "no catalyst" from "a catalyst with no name".
+    const bare = effectFromEvent({
+      event: "reacted", vessel: 0, reaction: "h2o2_decomposition",
+      equation: "2 H2O2 -> 2 H2O + O2", moles: 0.001, seconds: 60,
+      activation_energy: 75_000,
+    });
+    expect(bare!.reaction!.catalyst).toBeUndefined();
+  });
+
+  it("the exotherm is drawn on the same ramp as the heat of mixing", () => {
+    // Dissolving lye and a hand warmer are the same claim about the same
+    // quantity; two ramps would say they were not.
+    const released = effectFromEvent({
+      event: "reaction_heat_released", vessel: 0, reaction: "neutralisation", energy_j: 900,
+    });
+    const mixed = effectFromEvent({ event: "heat_of_mixing", vessel: 0, joules: 900 });
+    expect(released!.magnitude).toBe(mixed!.magnitude);
+    expect(exothermGlow(0)).toBe(0);
+    expect(exothermGlow(50_000)).toBe(1);
+    expect(exothermGlow(500)).toBeGreaterThan(exothermGlow(100));
+    // An endothermic number is not a glow.
+    expect(exothermGlow(-900)).toBe(0);
+  });
+
+  it("neutralisation draws marks for the moles cancelled, and none for none", () => {
+    expect(neutralisationMarks(0)).toBe(0);
+    expect(neutralisationMarks(-1)).toBe(0);
+    const drop = neutralisationMarks(0.0002);
+    const beaker = neutralisationMarks(0.05);
+    expect(drop).toBeGreaterThan(0);
+    expect(beaker).toBeGreaterThan(drop);
+    expect(neutralisationMarks(100)).toBeLessThanOrEqual(9);
+    const cancelled = effectFromEvent({ event: "neutralised", vessel: 0, moles: 0.05 });
+    expect(cancelled!.kind).toBe("neutralise");
+    expect(cancelled!.reading).toBe(0.05);
+  });
+
+  it("an object that floats unaided gets no clinging bubbles", () => {
+    // The bubbles are not why it is up there, and drawing them would say
+    // they were — which is the whole misconception KID-13 exists against.
+    const cork = bubbleRideLift(0.24, 1.0, 0);
+    expect(cork.needsGas).toBe(false);
+    expect(cork.clingingBubbles).toBe(0);
+    const raisin = bubbleRideLift(1.35, 1.0, 0.35);
+    expect(raisin.needsGas).toBe(true);
+    expect(raisin.clingingBubbles).toBeGreaterThan(0);
+    expect(raisin.densityRatio).toBeCloseTo(1.35, 10);
+    // More gas needed is more bubbles and a longer wait, both bounded.
+    const heavy = bubbleRideLift(1.9, 1.0, 0.9);
+    expect(heavy.clingingBubbles).toBeGreaterThan(raisin.clingingBubbles);
+    expect(heavy.riseSeconds).toBeGreaterThan(raisin.riseSeconds);
+    expect(bubbleRideLift(1.9, 1.0, 40).clingingBubbles).toBeLessThanOrEqual(8);
+  });
+
+  it("adsorption darkens by the share that actually left the water", () => {
+    // Loading alone cannot answer "can charcoal take this dye out"; the
+    // remainder is the other half, and the ratio of the two is the answer.
+    const most = adsorptionDarkening(0.009, 0.001);
+    const little = adsorptionDarkening(0.001, 0.009);
+    expect(most.removedFraction).toBeCloseTo(0.9, 10);
+    expect(little.removedFraction).toBeCloseTo(0.1, 10);
+    expect(most.darkening).toBeGreaterThan(little.darkening);
+    expect(most.darkening).toBeLessThanOrEqual(1);
+    expect(adsorptionDarkening(0, 0).removedFraction).toBe(0);
+    const held = effectFromEvent({
+      event: "adsorbed", vessel: 0, sorbate: "Dye", sorbent: "C",
+      held: 0.009, loading_mg_per_g: 42, still_dissolved: 0.001, boundary: "curated isotherm",
+    });
+    expect(held!.kind).toBe("adsorb");
+    expect(held!.adsorption).toMatchObject({ heldMoles: 0.009, stillDissolvedMoles: 0.001, loadingMgPerG: 42 });
+    expect(held!.magnitude).toBeCloseTo(0.9, 10);
+  });
+
+  it("oobleck stirred slowly is a liquid, and draws no resistance", () => {
+    expect(shearResistance(0.8, false)).toBe(0);
+    expect(shearResistance(0.8, true)).toBeCloseTo(0.8, 10);
+    expect(shearResistance(4, true)).toBe(1);
+    expect(shearResistance(-1, true)).toBe(0);
+    const gentle = effectFromEvent({
+      event: "thickened", vessel: 0, solid: "Starch", strength: 0.7,
+      solid_mass_fraction: 0.55, tip_speed_m_s: 0.04, sheared_hard: false,
+    });
+    expect(gentle!.magnitude).toBe(0);
+    // The engine's own numbers still travel: the caption can say what the
+    // mixture WOULD do, it just does not draw it pushing back.
+    expect(gentle!.thickening).toMatchObject({ strength: 0.7, shearedHard: false });
+    const shoved = effectFromEvent({
+      event: "thickened", vessel: 0, solid: "Starch", strength: 0.7,
+      solid_mass_fraction: 0.55, tip_speed_m_s: 1.4, sheared_hard: true,
+    });
+    expect(shoved!.magnitude).toBeGreaterThan(0);
   });
 });

@@ -11,11 +11,14 @@
     bubblePeriodS,
     compressedVolumeL,
     condensationFilm,
+    adsorptionDarkening,
+    bubbleRideLift,
     corrosionBloom,
     depositParticles,
     electrodePairBubbles,
     headspaceVolumeL,
     incandescence,
+    neutralisationMarks,
     partitionTint,
   } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
@@ -473,6 +476,15 @@
   const headspaceSettledEffect = $derived(latestEffect("headspace-equilibrium", 4200));
   const supersaturateEffect = $derived(latestEffect("supersaturate", 5200));
   const corrodeEffect = $derived(latestEffect("corrode", 5000));
+  // GUI-099 ANIM-6: six more. `reacted` is the commonest event on the
+  // bench and drew nothing in the vessel at all; `neutralised` is the
+  // commonest reaction a school lab runs and had nothing against it.
+  const reactEffect = $derived(latestEffect("react", 5200));
+  const exothermEffect = $derived(latestEffect("exotherm", 4200));
+  const neutraliseEffect = $derived(latestEffect("neutralise", 3000));
+  const bubbleRideEffect = $derived(latestEffect("bubble-ride", 9000));
+  const adsorbEffect = $derived(latestEffect("adsorb", 5200));
+  const thickenEffect = $derived(latestEffect("thicken", 3600));
   // GUI-099 scene numbers: frost forms below the temperature THIS liquid
   // freezes at, which the engine computes with the colligative depression
   // its solutes bought. 272 K was a constant that made brine frost early and
@@ -1353,6 +1365,134 @@
         <text x={INNER_X + 15} y={BOTTOM_Y - liquidH + 8.4} text-anchor="middle">{formatReading(sat.ratio, 2)}×</text>
       </g>
     {/if}
+    {#if reactEffect?.reaction && reactEffect.reaction.moles > 0}
+      <!-- GUI-099 ANIM-6: the commonest event on the bench, and it drew
+           nothing in the vessel. The extent and the elapsed seconds are
+           both here because neither alone is the observation: a tenth of
+           a mole in one second and over an hour are different results,
+           and the ring's tempo is the rate that separates them. -->
+      {@const run = reactEffect.reaction}
+      {@const period = Math.max(0.5, Math.min(6, 1 / Math.max(0.0001, run.molesPerSecond * 400)))}
+      {@const readoutY = liquidH > 14 ? BOTTOM_Y - liquidH + 2 : Math.max(2, BOTTOM_Y - liquidH - 12)}
+      <g
+        class="reacting"
+        data-reaction-moles={run.moles.toExponential(3)}
+        data-reaction-seconds={run.seconds.toFixed(2)}
+        data-reaction-moles-per-second={run.molesPerSecond.toExponential(3)}
+        data-reaction-intensity={reactEffect.magnitude.toFixed(3)}
+        data-activation-energy-j-per-mol={run.activationEnergyJPerMol.toExponential(3)}
+        data-catalyst={run.catalyst ?? ""}
+        aria-label={t("{moles} mol reacted in {seconds} s", {
+          moles: formatReading(run.moles, 4),
+          seconds: formatReading(run.seconds, 1),
+        })}
+      >
+        <ellipse
+          class="reaction-front"
+          cx={INNER_X + INNER_W / 2}
+          cy={BOTTOM_Y - Math.max(4, liquidH / 2)}
+          rx={(INNER_W / 2 - 4) * (0.3 + reactEffect.magnitude * 0.7)}
+          ry={Math.max(2, Math.min(9, liquidH / 3)) * (0.3 + reactEffect.magnitude * 0.7)}
+          style={`animation-duration:${period.toFixed(2)}s`}
+        />
+        <rect class="reaction-readout" x={INNER_X + 2} y={readoutY} width={INNER_W - 4} height={run.catalyst ? 13 : 9} rx="3" />
+        <text x={INNER_X + INNER_W / 2} y={readoutY + 6.2} text-anchor="middle">
+          {formatReading(run.moles, 4)} mol · {formatReading(run.seconds, 1)} s
+        </text>
+        {#if run.catalyst}
+          <text class="reaction-catalyst" x={INNER_X + INNER_W / 2} y={readoutY + 11.2} text-anchor="middle">
+            {t("catalyst")}: {t(run.catalyst ?? "")}
+          </text>
+        {/if}
+      </g>
+    {/if}
+    {#if exothermEffect?.exotherm && exothermEffect.magnitude > 0}
+      <!-- GUI-099 ANIM-6: the heat a curated reaction let go. The same
+           ramp the heat of mixing uses, because dissolving lye and a
+           hand warmer are the same claim about the same quantity. -->
+      {@const heat = exothermEffect.exotherm}
+      <g
+        class="exotherm"
+        data-reaction-energy-j={heat.energyJ.toExponential(3)}
+        data-exotherm-glow={exothermEffect.magnitude.toFixed(3)}
+        aria-label={t("{joules} J released by the reaction", {
+          joules: formatReading(heat.energyJ, 0),
+        })}
+      >
+        <rect
+          class="exotherm-halo"
+          x={INNER_X + 1}
+          y={BOTTOM_Y - Math.max(4, liquidH)}
+          width={INNER_W - 2}
+          height={Math.max(4, liquidH)}
+          style={`opacity:${(0.08 + exothermEffect.magnitude * 0.42).toFixed(3)}`}
+        />
+      </g>
+    {/if}
+    {#if neutraliseEffect?.neutralisation && liquidH > 0}
+      <!-- GUI-099 ANIM-6: acid met base. The commonest reaction a school
+           bench runs, and the only one that used to happen with nothing
+           at all against it. The marks are the moles of acidity that
+           cancelled, on the same log ramp the gas curtain uses. -->
+      {@const cancelled = neutraliseEffect.neutralisation.moles}
+      {@const marks = neutralisationMarks(cancelled)}
+      {#if marks > 0}
+        <g
+          class="neutralising"
+          data-neutralised-moles={cancelled.toExponential(3)}
+          data-neutralisation-marks={marks}
+          aria-label={t("{moles} mol of acidity cancelled", { moles: formatReading(cancelled, 4) })}
+        >
+          {#each Array.from({ length: marks }, (_, i) => i) as i (i)}
+            {@const mx = INNER_X + 5 + ((i * 23) % Math.max(1, INNER_W - 10))}
+            {@const my = BOTTOM_Y - 5 - ((i * 13) % Math.max(3, Math.round(liquidH * 0.7)))}
+            <path
+              class="neutralise-mark"
+              d={`M ${mx - 2} ${my} L ${mx + 2} ${my} M ${mx} ${my - 2} L ${mx} ${my + 2}`}
+              style={`animation-delay:${(i * 0.11).toFixed(2)}s`}
+            />
+          {/each}
+        </g>
+      {/if}
+    {/if}
+    {#if bubbleRideEffect?.bubbleRide && liquidH > 0}
+      <!-- GUI-099 ANIM-6, KID-13: the dancing raisin. The engine says how
+           much gas has to CLING before the thing goes up, and that number
+           is both how many bubbles are drawn on it and how long it takes
+           to gather them. An object that floats unaided reports zero and
+           draws no bubbles at all, because they are not why it is up. -->
+      {@const ride = bubbleRideEffect.bubbleRide}
+      {@const lift = bubbleRideLift(ride.objectDensityGPerMl, ride.liquidDensityGPerMl, ride.liftGasFraction)}
+      {@const objY = BOTTOM_Y - 8}
+      <g
+        class="bubble-ride"
+        data-lift-gas-fraction={ride.liftGasFraction.toFixed(4)}
+        data-object-density-g-per-ml={ride.objectDensityGPerMl.toFixed(4)}
+        data-liquid-density-g-per-ml={ride.liquidDensityGPerMl.toFixed(4)}
+        data-density-ratio={lift.densityRatio.toFixed(4)}
+        data-clinging-bubbles={lift.clingingBubbles}
+        data-rise-seconds={lift.riseSeconds.toFixed(2)}
+        aria-label={t("{object} needs {percent}% of its own volume in clinging gas to rise", {
+          object: t(ride.object),
+          percent: Math.round(ride.liftGasFraction * 100),
+        })}
+      >
+        <g
+          class="rider"
+          style={`--ride-rise:${Math.max(6, liquidH - 12)}px;animation-duration:${lift.riseSeconds.toFixed(2)}s`}
+        >
+          <ellipse class="rider-body" cx={INNER_X + INNER_W / 2} cy={objY} rx="3.4" ry="2.4" />
+          {#each Array.from({ length: lift.clingingBubbles }, (_, i) => i) as i (i)}
+            <circle
+              class="rider-bubble"
+              cx={INNER_X + INNER_W / 2 - 3.2 + ((i * 1.7) % 6.6)}
+              cy={objY - 2.6 + ((i * 1.3) % 5.2)}
+              r="0.9"
+            />
+          {/each}
+        </g>
+      </g>
+    {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
       <!-- GUI-099: each electrode is sized by what actually comes off IT.
            The engine now names both half-reactions, so splitting water draws
@@ -1833,6 +1973,81 @@
           })}</title>
         </rect>
       {/if}
+    {/if}
+    {#if adsorbEffect?.adsorption}
+      <!-- GUI-099 ANIM-6, BRD-032: the sorbent, and what the beaker still
+           holds. The darkening is `held ÷ (held + still_dissolved)` — the
+           share that actually left the water, which is the answer to "can
+           charcoal take a dye out of this" — and the loading travels
+           beside it as the isotherm's own number. No ceiling is claimed:
+           the wire does not carry the capacity, so nothing here draws a
+           fraction of a limit nobody stated. -->
+      {@const sorb = adsorbEffect.adsorption}
+      {@const load = adsorptionDarkening(sorb.heldMoles, sorb.stillDissolvedMoles)}
+      {@const bedY = BOTTOM_Y - Math.max(3, solidH) - 2}
+      <g
+        class="adsorbing"
+        data-held-moles={sorb.heldMoles.toExponential(3)}
+        data-still-dissolved-moles={sorb.stillDissolvedMoles.toExponential(3)}
+        data-removed-fraction={load.removedFraction.toFixed(4)}
+        data-loading-mg-per-g={sorb.loadingMgPerG.toExponential(3)}
+        aria-label={t("{percent}% of the {sorbate} is on the {sorbent}; {remaining} mol still in solution", {
+          percent: Math.round(load.removedFraction * 100),
+          sorbate: t(sorb.sorbate),
+          sorbent: t(sorb.sorbent),
+          remaining: formatReading(sorb.stillDissolvedMoles, 4),
+        })}
+      >
+        <rect
+          class="sorbent-bed"
+          x={INNER_X + 2}
+          y={bedY}
+          width={INNER_W - 4}
+          height="5"
+          rx="1"
+          style={`opacity:${load.darkening.toFixed(3)}`}
+        />
+        <rect class="adsorb-readout" x={INNER_X + 2} y={Math.max(2, bedY - 15)} width={INNER_W - 4} height="13" rx="3" />
+        <text x={INNER_X + INNER_W / 2} y={Math.max(2, bedY - 15) + 5.6} text-anchor="middle">
+          {Math.round(load.removedFraction * 100)}% · {formatReading(sorb.loadingMgPerG, 1)} mg/g
+        </text>
+        <text class="adsorb-remainder" x={INNER_X + INNER_W / 2} y={Math.max(2, bedY - 15) + 10.6} text-anchor="middle">
+          {formatReading(sorb.stillDissolvedMoles, 4)} mol {t("still in solution")}
+        </text>
+        {#if sorb.boundary}<title>{engineText(sorb.boundary)}</title>{/if}
+      </g>
+    {/if}
+    {#if thickenEffect?.thickening && thickenEffect.magnitude > 0 && liquidH > 0}
+      <!-- GUI-099 ANIM-6: nothing reacts and no mole moves — this is how
+           the mixture RESPONDS to being pushed, so the only honest visual
+           is resistance to the thing pushing it. Oobleck stirred slowly
+           is a liquid and draws none of this; the engine's `sheared_hard`
+           is the gate and `strength` is the amount. -->
+      {@const shear = thickenEffect.thickening}
+      {@const stiff = thickenEffect.magnitude}
+      <g
+        class="thickening"
+        data-shear-strength={shear.strength.toFixed(4)}
+        data-solid-mass-fraction={shear.solidMassFraction.toFixed(4)}
+        data-tip-speed-m-s={shear.tipSpeedMS.toFixed(4)}
+        data-sheared-hard={shear.shearedHard ? "true" : "false"}
+        aria-label={t("shear-thickened to {percent}% at {speed} m/s", {
+          percent: Math.round(shear.strength * 100),
+          speed: formatReading(shear.tipSpeedMS, 3),
+        })}
+      >
+        <!-- The stirrer's path, blunted: the harder the mixture pushes
+             back, the shorter the arc it manages to sweep. -->
+        <path
+          class="shear-arc"
+          d={`M ${INNER_X + INNER_W / 2 - (INNER_W / 2 - 6) * (1 - stiff * 0.75)} ${BOTTOM_Y - Math.max(4, liquidH / 2)} a ${(INNER_W / 2 - 6)} ${Math.max(2, liquidH / 4)} 0 0 1 ${2 * (INNER_W / 2 - 6) * (1 - stiff * 0.75)} 0`}
+          style={`stroke-width:${(0.8 + stiff * 1.8).toFixed(2)}`}
+        />
+        <rect class="shear-readout" x={INNER_X + 2} y={BOTTOM_Y - liquidH + 2} width={INNER_W - 4} height="9" rx="3" />
+        <text x={INNER_X + INNER_W / 2} y={BOTTOM_Y - liquidH + 8.4} text-anchor="middle">
+          {Math.round(shear.strength * 100)}% · {formatReading(shear.tipSpeedMS, 2)} m/s
+        </text>
+      </g>
     {/if}
     {#if partitionEffect?.headspacePartition}
       <!-- GUI-099 ANIM-5: a volatile moving between the liquid and the gas
@@ -2592,6 +2807,27 @@
      the spots slide across the vessel instead of growing where they are. */
   .corrosion-bloom circle { fill: #a84f28; stroke: #71341d; stroke-width: .35; pointer-events: none; transform-box: fill-box; transform-origin: center; animation: corrosion-bloom-in .8s ease-out both; }
   @keyframes corrosion-bloom-in { from { transform: scale(.2); } to { transform: scale(1); } }
+  /* GUI-099 ANIM-6. Radius, opacity, arc length, stroke width, count and
+     tempo are all set inline from an engine number; these rules only say
+     what the shapes are made of. */
+  .reaction-front { fill: none; stroke: var(--instrument); stroke-width: .9; stroke-dasharray: 3 2.5; transform-box: fill-box; transform-origin: center; animation: reaction-pulse 2s ease-in-out infinite; }
+  @keyframes reaction-pulse { 0%, 100% { opacity: .25; transform: scale(.9); } 50% { opacity: .85; transform: scale(1.05); } }
+  .reaction-readout, .adsorb-readout, .shear-readout { fill: color-mix(in srgb, var(--surface) 84%, transparent); stroke: var(--instrument); stroke-width: .5; }
+  .reacting text, .adsorbing text, .thickening text { fill: var(--ink); font: 700 4.2px system-ui, sans-serif; }
+  .reacting .reaction-catalyst, .adsorbing .adsorb-remainder { fill: var(--dim); font-size: 3.7px; }
+  .exotherm-halo { fill: var(--danger); pointer-events: none; }
+  .neutralise-mark { fill: none; stroke: var(--instrument); stroke-width: .9; stroke-linecap: round; animation: neutralise-cancel 1.4s ease-out infinite; }
+  @keyframes neutralise-cancel { from { opacity: .95; } to { opacity: 0; } }
+  .rider { transform-box: fill-box; transform-origin: center; animation: bubble-ride-cycle 4s ease-in-out infinite; }
+  @keyframes bubble-ride-cycle {
+    0%, 15% { transform: translateY(0); }
+    50% { transform: translateY(calc(-1 * var(--ride-rise, 20px))); }
+    85%, 100% { transform: translateY(0); }
+  }
+  .rider-body { fill: color-mix(in srgb, #5a3a2a 76%, var(--surface)); stroke: var(--edge-strong); stroke-width: .4; }
+  .rider-bubble { fill: none; stroke: var(--dim); stroke-width: .5; }
+  .sorbent-bed { fill: #241f1c; pointer-events: none; }
+  .shear-arc { fill: none; stroke: var(--instrument); stroke-linecap: round; }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -2910,6 +3146,9 @@
     .absorb-bubble { animation: none; opacity: .7; }
     .partition-arrow { animation: none; opacity: .8; }
     .corrosion-bloom circle { animation: none; }
+    .reaction-front { animation: none; opacity: .6; }
+    .neutralise-mark { animation: none; opacity: .8; }
+    .rider { animation: none; }
     .glassbtn.pouring { animation: none; }
     .burette-fill,
     .piston-assembly .lid,

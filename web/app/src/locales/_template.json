@@ -2362,6 +2362,14 @@
   "{ratio}× saturation: {dissolved} mol dissolved against a limit of {capacity} mol": "",
   "{percent}% of the {species} is in the headspace at {pressure} kPa": "",
   "headspace settled at {pressure} kPa holding {moles} mol": "",
-  "{percent}% of the {metal} has gone to oxide: {moles} mol": ""
+  "{percent}% of the {metal} has gone to oxide: {moles} mol": "",
+  "{moles} mol reacted in {seconds} s": "",
+  "catalyst": "",
+  "{joules} J released by the reaction": "",
+  "{moles} mol of acidity cancelled": "",
+  "{object} needs {percent}% of its own volume in clinging gas to rise": "",
+  "{percent}% of the {sorbate} is on the {sorbent}; {remaining} mol still in solution": "",
+  "still in solution": "",
+  "shear-thickened to {percent}% at {speed} m/s": ""
  }
 }
