@@ -177,6 +177,42 @@ export interface SpillRun {
 }
 
 /**
+ * The engine's own numbers for one solid appearing in or leaving a vessel,
+ * gathered from the event (species, moles) and the scene row that owns the
+ * substance (pure-solid volume, colour). `molarVolumeLPerMol` is what makes
+ * a mole of a fluffy hydroxide draw bigger than a mole of a dense sulfate.
+ */
+export interface SolidYield {
+  species: string;
+  name: string;
+  /** Moles that precipitated or dissolved this step. */
+  moles: number;
+  /** Registry mass ÷ density, litres per mole. */
+  molarVolumeLPerMol: number;
+  /** `moles × molarVolumeLPerMol`, the volume the step actually moved. */
+  volumeL: number;
+  /** The species' own colour, as a CSS value. */
+  colour?: string;
+}
+
+/**
+ * The gas above the liquid: how much room it takes up, and what set that.
+ * `volumeL` is the engine's own figure where an event carried one
+ * (`vessel_sealed.headspace_volume`), and otherwise the ideal-gas volume
+ * the trapped moles occupy at the held pressure and the vessel temperature.
+ */
+export interface HeadspaceRun {
+  volumeL: number;
+  moles: number;
+  /** The held pressure, where the event stated one. */
+  pressurePa?: number;
+  /** The temperature the volume was computed at, where one was stated. */
+  temperatureK?: number;
+  /** "engine" when the event named the volume; "ideal-gas" when derived. */
+  source: "engine" | "ideal-gas";
+}
+
+/**
  * One engine-computed phase transition. `atK` is the temperature the engine
  * actually used — a boiling plateau already carrying its pressure and
  * colligative shifts — so the stage can hold the boil at the engine's
@@ -257,6 +293,10 @@ export interface Effect {
   phase?: PhaseChangeRun;
   /** The engine's species id, where the event names one substance. */
   species?: string;
+  /** Engine-owned amount and molar volume of a solid appearing or leaving. */
+  solid?: SolidYield;
+  /** Engine-owned headspace, for the lid and the piston. */
+  headspace?: HeadspaceRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -472,6 +512,84 @@ function phaseKind(from: string, to: string): string {
   if (to === "solid") return "freeze";
   if (to === "liquid") return from === "gas" ? "condense" : "melt";
   return "phase-change";
+}
+
+/** Molar gas constant, J/(mol·K). */
+const GAS_CONSTANT_J_PER_MOL_K = 8.314_462_618;
+
+/**
+ * A typical ionic solid's molar volume, L/mol, used only when the scene has
+ * no row for the species — which happens when a solid dissolves completely
+ * in the same step it is reported. Calcite is 0.0369, gypsum 0.0745, halite
+ * 0.0270; 0.030 sits in the middle of that and is never the number a visual
+ * claims when the real one is available.
+ */
+export const FALLBACK_MOLAR_VOLUME_L = 0.03;
+
+/**
+ * The volume `moles` of ideal gas occupies at `pressurePa` and
+ * `temperatureK`, in litres. This is what moves a floating piston: hold the
+ * pressure and add gas and it rises, squeeze the same gas harder and it
+ * falls. Returns 0 for a non-positive pressure or amount.
+ */
+export function headspaceVolumeL(
+  moles: number,
+  temperatureK: number,
+  pressurePa: number,
+): number {
+  if (!(moles > 0) || !(temperatureK > 0) || !(pressurePa > 0)) return 0;
+  return (moles * GAS_CONSTANT_J_PER_MOL_K * temperatureK) / pressurePa * 1000;
+}
+
+/**
+ * Boyle's law: what a gas that filled `volumeAtReferenceL` at
+ * `referencePressurePa` shrinks (or swells) to at `pressurePa`, isothermally.
+ * The standing fallback for a pressure-controlled vessel between events —
+ * the scene carries `pressure_pa` but not the trapped moles, so this is what
+ * keeps the piston in the right place once the event window has closed.
+ */
+export function compressedVolumeL(
+  volumeAtReferenceL: number,
+  pressurePa: number,
+  referencePressurePa = 101_325,
+): number {
+  if (!(volumeAtReferenceL > 0) || !(pressurePa > 0)) return 0;
+  return volumeAtReferenceL * (referencePressurePa / pressurePa);
+}
+
+/** One deposit drawn as grains: how many, and how big each one is. */
+export interface DepositParticles {
+  count: number;
+  /** Volume of a single drawn grain, litres. */
+  particleVolumeL: number;
+  /** Grain radius relative to a 10 µL reference grain; bounded [0.5, 3]. */
+  radiusScale: number;
+}
+
+/**
+ * Grains for `moles` of a solid whose molar volume is `molarVolumeLPerMol`.
+ *
+ * The count follows the amount on a log ramp — a tenth of a millimole is a
+ * few specks, a tenth of a mole is a snowfall — and the SIZE follows the
+ * volume each grain then has to carry. That is the part that was missing:
+ * a mole of a fluffy hydroxide occupies three times a mole of a dense
+ * sulfate, and until now both drew the same 1.2 px circle.
+ */
+export function depositParticles(
+  moles: number,
+  molarVolumeLPerMol = FALLBACK_MOLAR_VOLUME_L,
+): DepositParticles {
+  const amount = Math.max(0, moles);
+  const molar = molarVolumeLPerMol > 0 ? molarVolumeLPerMol : FALLBACK_MOLAR_VOLUME_L;
+  const count = amount > 0
+    ? Math.round(3 + 9 * scale(Math.log10(amount), -4, -1))
+    : 0;
+  const particleVolumeL = count > 0 ? (amount * molar) / count : 0;
+  // A 10 µL grain is the reference; radius goes as the cube root of volume.
+  const radiusScale = particleVolumeL > 0
+    ? Math.max(0.5, Math.min(3, Math.cbrt(particleVolumeL / 1e-5)))
+    : 0.5;
+  return { count, particleVolumeL, radiusScale };
 }
 
 /**
@@ -851,7 +969,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);
-      return { kind: kind === "flame_test" ? "flame_test" : "ignite", at: now, magnitude: mag, flameColour: colour };
+      const energyJ = kind === "ignited" && e.energy_j !== undefined ? Number(e.energy_j) : undefined;
+      return {
+        kind: kind === "flame_test" ? "flame_test" : "ignite",
+        at: now,
+        magnitude: mag,
+        flameColour: colour,
+        // The flame's size already followed this; carrying it makes the
+        // driving number readable from the DOM rather than only inferable.
+        ...(energyJ === undefined ? {} : { reading: energyJ, unit: "J" }),
+      };
     }
     case "gas_tested":
       return {
@@ -877,6 +1004,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         durationMs: 4200,
         magnitude: Math.max(.2, Math.min(1, notes.length / 3)),
         waft: { notes },
+      };
+    }
+    case "vessel_sealed": {
+      // The engine names the headspace it just trapped, so the lid can sit
+      // where the gas actually is instead of at a fixed y.
+      const volumeL = Math.max(0, Number(e.headspace_volume ?? 0));
+      return {
+        kind: "seal",
+        at: now,
+        durationMs: 4000,
+        magnitude: scale(volumeL, 0.005, 0.5),
+        headspace: {
+          volumeL,
+          moles: Math.max(0, Number(e.trapped_air ?? 0)),
+          source: "engine",
+        },
       };
     }
     case "vessel_pressure_controlled": {

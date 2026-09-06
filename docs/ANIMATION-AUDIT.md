@@ -69,7 +69,7 @@ engine already computes the plateau it held the vessel at and reports it in
 |---|---|---|---|---|---|
 | `gas_evolved` | `species`, `moles` | bubble curtain + vent wisps; count, radius and tempo on a log ramp (1 mmol → 0, 100 mmol → 1) | — | done | done |
 | `gas_produced` | `species`, `moles`, `rate_moles_per_second` | same curtain from `moles`; **`rate` unused** | tempo from the rate, amount from the moles | partial | partial |
-| `gas_contained` | `species`, `moles` | **nothing** — a sealed flask boiling was invisible | bubbles and a headspace that fills | missing | **done** (PR 1 bubbles, PR 2 headspace) |
+| `gas_contained` | `species`, `moles` | **nothing** — a sealed flask boiling was invisible | bubbles, and a headspace that fills | missing | **done** (PR 1 bubbles, PR 2 headspace) |
 | `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | missing |
 | `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | missing |
 | `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | missing |
@@ -162,6 +162,29 @@ Events with no vessel visual **by design** — `added`, `material_added`,
 `transition_point`, `particles_counted`, `org_reacted` — are not counted
 above. They change the feed, the shelf, the safety board or a panel, not the
 picture of a vessel.
+
+## Delivered
+
+- **PR 1 (ANIM-1)** — the boil held at `state_changed.at` /
+  `boiling_point_routed.boiling` instead of 368 K, with the rolling boil and
+  the steam plume both sized by the moles of vapour the step made and matched
+  by species so a fizz is not mistaken for steam; incandescence above ~800 K
+  coloured off the blackbody locus by `temperature_k` alone; condensation
+  beading under the room's Magnus dew point, with frost still owning the water
+  below freezing; `gas_contained`, `boiling_point_routed` and the non-solid
+  half of `state_changed` mapped at last.
+- **PR 2 (ANIM-2)** — precipitate grain count from moles and grain size from
+  the registry's molar volume (`SceneSolid.volume_l ÷ moles`), in the species'
+  own `srgb`; dissolving grains shrinking rather than puffing outward, and
+  there being more than one of them; the piston's height from the volume the
+  trapped gas occupies at the held pressure (`V = nRT/P` while the event is
+  live, Boyle off the scene's `pressure_pa` afterwards), so squeezing a gas
+  finally moves something; a headspace band whose density follows the pressure
+  over atmospheric; the flame's `energy_j` readable from the DOM.
+
+Every one of those carries a `data-*` attribute naming the number that drives
+it, so the browser UX gate and any later test can assert on the *quantity*
+rather than on the presence of a shape.
 
 ## What the engine should add
 

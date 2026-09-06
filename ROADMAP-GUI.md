@@ -2117,7 +2117,7 @@ and presents them well.
   `phase-change` effect kind that no component rendered), and
   `SceneVessel.emulsion` is read by no component in the app.
 
-  1. [ ] **ANIM-1 — Thermal truth (PR 1).** The boil held at the engine's own
+  1. [x] **ANIM-1 — Thermal truth (PR 1).** The boil held at the engine's own
      plateau (`state_changed.at`, `boiling_point_routed.boiling`) instead of
      368 K, with the rolling boil and the steam plume both sized by the moles
      of vapour that step made; incandescence above ~800 K coloured off the
@@ -2126,12 +2126,27 @@ and presents them well.
      water below freezing; `gas_contained` mapped at last, so a sealed flask
      boiling is visible. Every new visual carries a `data-*` attribute naming
      its driving number. → 36 done, 17 partial, 20 missing.
-  2. [ ] **ANIM-2 — Matter and pressure (PR 2).** Precipitate particle count
+  2. [x] **ANIM-2 — Matter and pressure (PR 2).** Precipitate particle count
      from moles and particle size from molar volume, in the species' own
      colour; dissolving particles shrinking in proportion; the piston's height
      from the headspace volume the trapped gas occupies at the held pressure;
      the flame's driving energy readable from the DOM. → 41 done, 12 partial,
      20 missing.
+
+     Done 2026-09-06, and two of the four were the same bug wearing different
+     clothes. The dissolving grain scaled *up* to 3.5× and faded — a puff, not
+     a crystal going into solution — and there was only ever one of it, at
+     `r=4`, because `dissolved`'s magnitude was the literal `1`. The
+     pressure-controlled piston was a `<rect y="16">`: the one control on the
+     bench whose entire job is to move in response to a pressure did not move.
+     Both now read engine numbers, and the piston reads two of them —
+     `V = nRT/P` from `vessel_pressure_controlled.trapped_gas` with the
+     scene's live pressure and temperature while the event is on the bench,
+     and Boyle's law off the scene's `pressure_pa` once it has left, so the
+     piston stays where the gas is rather than snapping back. The grains take
+     their size from `SceneSolid.volume_l ÷ moles` — the registry's molar
+     volume — so a mole of a fluffy hydroxide finally draws larger than a mole
+     of a dense sulfate, and their colour from the species' own `srgb`.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
   driving quantity and for bounds; every new visual reachable from the DOM by

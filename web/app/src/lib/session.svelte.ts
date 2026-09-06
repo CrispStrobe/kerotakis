@@ -22,7 +22,7 @@ import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import type { AnswerRefusal, QuestOutput } from "./host/EngineHost";
-import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+import { FALLBACK_MOLAR_VOLUME_L, effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
 import { caseAwardedTools, contaminatedSampleComplete } from "./storyChapter";
@@ -1067,6 +1067,30 @@ export class Session {
             ? { species: String(deposit[0]), rgb: colour(deposit[1])! }
             : undefined,
           bubbling: Boolean(appearance.bubbling),
+        },
+      };
+    }
+    if ((effect?.kind === "precipitate" || effect?.kind === "dissolve") && effect.species) {
+      // The event says how MUCH; the scene row for the same species says how
+      // much room a mole of it takes and what colour it is. Together they
+      // size the grains: a mole of a fluffy hydroxide is a bigger pile than
+      // a mole of a dense sulfate, and neither of them is grey.
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      const solid = vessel?.solids.find((candidate) => candidate.species === effect!.species);
+      const moles = Math.max(0, effect.reading ?? 0);
+      const molarVolumeLPerMol =
+        solid && solid.volume_l !== undefined && solid.moles > 0
+          ? solid.volume_l / solid.moles
+          : FALLBACK_MOLAR_VOLUME_L;
+      effect = {
+        ...effect,
+        solid: {
+          species: effect.species,
+          name: solid?.name ?? effect.species,
+          moles,
+          molarVolumeLPerMol,
+          volumeL: moles * molarVolumeLPerMol,
+          colour: solid ? `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})` : undefined,
         },
       };
     }

@@ -1,9 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
+  FALLBACK_MOLAR_VOLUME_L,
   INCANDESCENCE_ONSET_K,
   NORMAL_BOILING_K,
+  compressedVolumeL,
   condensationFilm,
+  depositParticles,
   dewPointK,
+  headspaceVolumeL,
   effectFromEvent,
   incandescence,
   vapourIntensity,
@@ -619,5 +623,93 @@ describe("condensation", () => {
   it("below freezing the frost layer owns the water, not the droplets", () => {
     expect(condensationFilm(272)).toBe(0);
     expect(condensationFilm(250)).toBe(0);
+  });
+});
+
+
+describe("deposits (GUI-099 ANIM-2)", () => {
+  it("more moles means more grains, and never fewer", () => {
+    const counts = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1].map((moles) => depositParticles(moles).count);
+    for (let i = 1; i < counts.length; i += 1) {
+      expect(counts[i]!).toBeGreaterThanOrEqual(counts[i - 1]!);
+    }
+    expect(counts.at(-1)).toBeLessThanOrEqual(12);
+    expect(depositParticles(0).count).toBe(0);
+  });
+
+  it("a bulkier solid draws bigger grains for the same moles", () => {
+    const dense = depositParticles(0.01, 0.027);
+    const fluffy = depositParticles(0.01, 0.09);
+    expect(dense.count).toBe(fluffy.count);
+    expect(fluffy.particleVolumeL).toBeGreaterThan(dense.particleVolumeL);
+    expect(fluffy.radiusScale).toBeGreaterThan(dense.radiusScale);
+  });
+
+  it("grain radius is bounded whatever the amount", () => {
+    for (const moles of [1e-9, 1e-4, 1, 1000]) {
+      const grains = depositParticles(moles);
+      expect(grains.radiusScale).toBeGreaterThanOrEqual(0.5);
+      expect(grains.radiusScale).toBeLessThanOrEqual(3);
+    }
+  });
+
+  it("an unknown molar volume falls back to a documented mid-range solid", () => {
+    expect(depositParticles(0.01).particleVolumeL)
+      .toBeCloseTo(depositParticles(0.01, FALLBACK_MOLAR_VOLUME_L).particleVolumeL, 12);
+    expect(depositParticles(0.01, 0).particleVolumeL)
+      .toBeCloseTo(depositParticles(0.01, FALLBACK_MOLAR_VOLUME_L).particleVolumeL, 12);
+  });
+
+  it("the total volume drawn is the volume the engine's moles carry", () => {
+    const grains = depositParticles(0.02, 0.05);
+    expect(grains.count * grains.particleVolumeL).toBeCloseTo(0.02 * 0.05, 12);
+  });
+});
+
+describe("headspace (GUI-099 ANIM-2)", () => {
+  it("a mole of ideal gas at 273.15 K and one atmosphere is 22.4 L", () => {
+    expect(headspaceVolumeL(1, 273.15, 101_325)).toBeCloseTo(22.4, 1);
+  });
+
+  it("squeezing the same gas harder shrinks it, monotonically", () => {
+    const volumes = [100_000, 200_000, 400_000, 800_000].map((pa) => headspaceVolumeL(0.01, 298.15, pa));
+    for (let i = 1; i < volumes.length; i += 1) {
+      expect(volumes[i]!).toBeLessThan(volumes[i - 1]!);
+      expect(volumes[i]!).toBeGreaterThan(0);
+    }
+  });
+
+  it("more gas, or hotter gas, takes more room", () => {
+    expect(headspaceVolumeL(0.02, 298.15, 101_325)).toBeGreaterThan(headspaceVolumeL(0.01, 298.15, 101_325));
+    expect(headspaceVolumeL(0.01, 400, 101_325)).toBeGreaterThan(headspaceVolumeL(0.01, 298.15, 101_325));
+  });
+
+  it("nonsense inputs give no volume rather than a NaN piston", () => {
+    expect(headspaceVolumeL(0, 298.15, 101_325)).toBe(0);
+    expect(headspaceVolumeL(0.01, 298.15, 0)).toBe(0);
+    expect(headspaceVolumeL(-1, 298.15, 101_325)).toBe(0);
+  });
+
+  it("Boyle's law is the standing fallback and agrees at the reference", () => {
+    expect(compressedVolumeL(0.2, 101_325)).toBeCloseTo(0.2, 9);
+    expect(compressedVolumeL(0.2, 202_650)).toBeCloseTo(0.1, 9);
+    expect(compressedVolumeL(0.2, 50_662.5)).toBeCloseTo(0.4, 9);
+    expect(compressedVolumeL(0, 101_325)).toBe(0);
+    expect(compressedVolumeL(0.2, 0)).toBe(0);
+  });
+
+  it("a sealed vessel reports the headspace the engine named", () => {
+    const sealed = effectFromEvent({ event: "vessel_sealed", vessel: 0, headspace_volume: 0.25, trapped_air: 0.0102 });
+    expect(sealed).toMatchObject({ kind: "seal" });
+    expect(sealed!.headspace).toMatchObject({ volumeL: 0.25, moles: 0.0102, source: "engine" });
+  });
+
+  it("an ignition carries the energy its flame is already sized by", () => {
+    const big = effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow", energy_j: 40_000 });
+    const quiet = effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow", energy_j: 200 });
+    expect(big).toMatchObject({ reading: 40_000, unit: "J" });
+    expect(big!.magnitude).toBeGreaterThan(quiet!.magnitude);
+    // An unquantified ignition must stay a restrained fallback, not a number.
+    expect(effectFromEvent({ event: "ignited", vessel: 0, flame: "yellow" })!.reading).toBeUndefined();
   });
 });
