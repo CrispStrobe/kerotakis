@@ -23,6 +23,21 @@ class KidsCatalogTests(unittest.TestCase):
         rows = MODULE.validate(self.document)
         self.assertTrue(all(row.get("boundary") for row in rows if row["status"] != "computed"))
 
+    def test_progress_is_authored_independently_of_supervision(self):
+        rows = MODULE.validate(self.document)
+        self.assertTrue(all(row["progress"] in MODULE.ALLOWED_PROGRESS for row in rows))
+        self.assertTrue(any(row["safety"] == "home" and row["progress"] == "intermediate" for row in rows))
+        self.assertTrue(any(row["safety"] == "school" and row["progress"] == "advanced" for row in rows))
+
+    def test_audited_school_gaps_have_localized_actionable_safety(self):
+        rows = {row["id"]: row for row in MODULE.validate(self.document)}
+        translated = {row["id"]: row for row in self.german["experiments"]}
+        for kid in MODULE.SAFETY_DETAIL_REQUIRED:
+            self.assertTrue(rows[kid]["safety_rationale"].strip())
+            self.assertTrue(rows[kid]["safety_guidance"].strip())
+            self.assertTrue(translated[kid]["safety_rationale"].strip())
+            self.assertTrue(translated[kid]["safety_guidance"].strip())
+
     def test_every_launch_link_exists(self):
         rows = MODULE.validate(self.document)
         self.assertTrue(all((ROOT / "lessons" / row["lesson"]).is_file() for row in rows if row.get("lesson")))

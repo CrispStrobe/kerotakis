@@ -4,7 +4,7 @@ import { codexLearningLabel, guidedLearningLabel, kidsConnections, kidsExperimen
 
 const apple: KidsExperiment = {
   id: "K45", title: "Stop an apple going brown", phenomenon: "Enzymatic browning",
-  status: "boundary", topics: ["food", "enzymes"], ingredients: ["ascorbic_acid", "apple"],
+  status: "boundary", progress: "starter", topics: ["food", "enzymes"], ingredients: ["ascorbic_acid", "apple"],
   apparatus: ["look"], safety: "home", boundary: "Browning is not modeled.",
   title_de: "Verhindern, dass ein Apfel braun wird", phenomenon_de: "Enzymatische Bräunung",
   boundary_de: "Bräunung wird nicht modelliert.",
@@ -16,10 +16,17 @@ describe("kids catalog", () => {
     expect(parseKidsCatalog({ schema: 1, experiments: [{ id: "K45" }] })).toEqual([]);
     expect(parseKidsCatalog({ schema: 2, experiments: [apple] })).toEqual([]);
     expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, safety: "unknown" }] })).toEqual([]);
+    expect(parseKidsCatalog({ schema: 1, experiments: [{ ...apple, progress: "unknown" }] })).toEqual([]);
   });
 
   it("accepts the current schema", () => {
     expect(parseKidsCatalog({ schema: 1, experiments: [apple] })).toEqual([apple]);
+  });
+
+  it("localizes structured safety guidance independently of the safety class", () => {
+    const safe = { ...apple, safety_rationale: "Dust can reach eyes.", safety_rationale_de: "Staub kann in die Augen gelangen." };
+    expect(kidsText(safe, "safety_rationale", "de")).toBe("Staub kann in die Augen gelangen.");
+    expect(kidsText(safe, "safety_rationale", "en")).toBe("Dust can reach eyes.");
   });
 
   it("rejects malformed optional cross-references", () => {
@@ -112,8 +119,8 @@ describe("a guided task as one catalogue card", () => {
       locale: "en", translate: (value) => value, completed: new Set(),
     }).filter((entry) => entry.source === "guided");
     expect(card?.title).toBe(apple.title);
-    // Supervision-free means the youngest band; the level is a claim about
-    // the experiment, not about which file it shipped in.
+    // The authored progress band survives even when a linked Codex entry has
+    // an unrelated curriculum age placement or supervision classification.
     expect(card?.level).toBe("starter");
     expect(card?.minutes).toBeGreaterThan(0);
     expect(card?.run).toEqual({ kind: "script", entry: script });

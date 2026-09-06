@@ -534,6 +534,9 @@
             </div>
             <h2>{item.title}</h2>
             <p class="hook">{item.hook}</p>
+            {#if item.guided}
+              <p class="safety-summary">{t(item.safety === "home" ? "home-friendly" : "school supervision")}{item.safetyRationale ? ` — ${item.safetyRationale}` : ""}</p>
+            {/if}
             <dl>
               <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
               <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
@@ -613,6 +616,7 @@
              it needs, where the model stops, and the door that does exist. -->
         <p class="prose">{open.hook}</p>
         {#if open.boundary}<p class="boundary">{open.boundary}</p>{/if}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         <p class="meta">{t("you will need: {apparatus}", { apparatus: [...open.needs, ...open.apparatus].map((value) => t(slugWords(value))).join(", ") })}</p>
         {#if open.run.kind !== "boundary"}
           <button class="go" onclick={() => act(open)}>{t(runTargetLabel(open.run, open.done))}</button>
@@ -629,6 +633,7 @@
           <p class="meta">{t("models: {models}", { models: open.script.models!.map(tSlug).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         {#if open.apparatus.length > 0}
           <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus.map(tSlug).join(", ") })}</p>
         {/if}
@@ -645,6 +650,7 @@
         {/if}
         <pre class="script">{open.script.setup.script}</pre>
       {:else}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         {#if prediction}
           <div class="predict">
             <p class="question">{tEngine(prediction, "question")}</p>
@@ -1199,6 +1205,8 @@
   dt { color: var(--dim); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; }
   dd { margin: 0; font-size: 0.66rem; }
   .boundary { padding: 0.5rem; border-left: 3px solid var(--bad); font-size: 0.7rem; line-height: 1.45; }
+  .safety-summary { margin: .35rem 0; color: var(--dim); font-size: .68rem; line-height: 1.4; }
+  .safety-guidance { padding: .55rem; border-left: 3px solid var(--warn, var(--hot)); background: var(--panel-raised); font-size: .76rem; line-height: 1.45; }
   .connections { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.35rem; }
   .connections .related {
     padding: 0.3rem 0.45rem;
