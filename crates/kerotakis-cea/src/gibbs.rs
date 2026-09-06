@@ -528,6 +528,74 @@ fn finish(pool: &[&Species], n: &[f64], t: f64, pressure_bar: f64) -> Equilibriu
     }
 }
 
+/// The part of an adiabatic charge that is the room the vessel stands in
+/// rather than anything the vessel holds.
+///
+/// A closed bomb's contents are all inventory: everything in the charge is
+/// there because it was weighed in, and an adiabatic solve may move heat
+/// freely between any two parts of it. An OPEN vessel is not that problem.
+/// Its atmosphere has to be in the element budget — a crucible with no air
+/// above it has no gas phase at all, and nothing could burn — but it is
+/// **not a thermal store the vessel owns**. It is room air, and room air is
+/// at 298 K.
+///
+/// So the atmosphere gets one asymmetric rule, and this type is what
+/// carries it into the temperature search:
+///
+/// > The air a vessel stands in may carry heat AWAY from the charge. It may
+/// > never pay FOR it.
+///
+/// The upward half is the flame: a burn really does entrain the room and
+/// really does heat it, and the nitrogen it drags through the flame front
+/// is the diluent that keeps an adiabatic flame temperature finite. The
+/// downward half is what this exists to forbid. An endothermic
+/// decomposition — calcining chalk in a crucible — would otherwise be part
+/// paid for by the sensible heat of eight times the vessel's own moles of
+/// air cooling from kiln temperature back down, heat that no burner ever
+/// delivered and that `Vessel::heat_capacity()` has never contained.
+#[derive(Debug, Clone)]
+pub struct OpenAtmosphere {
+    /// Species name → moles of it admitted to the charge.
+    pub admitted: BTreeMap<String, f64>,
+    /// The temperature the admitted gas was valued at when the reactants'
+    /// enthalpy was totalled.
+    pub inlet_k: f64,
+}
+
+/// Heat the atmosphere would be HANDING the charge at this temperature, J,
+/// as a negative number; zero when it is taking heat instead.
+///
+/// Only the admitted gas that is still atmosphere counts — oxygen that a
+/// burn has bound into a product is no longer the room's, and its enthalpy
+/// of formation is the reaction's business. Everything else enters at
+/// `inlet_k` and leaves at `t`, so its sensible change is what the charge
+/// gained or lost by having it there.
+fn atmosphere_credit(atmosphere: Option<&OpenAtmosphere>, eq: &Equilibrium) -> f64 {
+    let Some(atmosphere) = atmosphere else {
+        return 0.0;
+    };
+    let db = crate::nasa9::db();
+    let mut sensible = 0.0;
+    for (name, admitted) in &atmosphere.admitted {
+        let Some(species) = db.get(name) else {
+            continue;
+        };
+        let still_air = eq.moles_of(name).min(*admitted);
+        if still_air <= 0.0 {
+            continue;
+        }
+        let (Some(out), Some(in_)) = (species.h(eq.temperature), species.h(atmosphere.inlet_k))
+        else {
+            continue;
+        };
+        sensible += still_air * (out - in_);
+    }
+    // Positive: the atmosphere absorbed heat, which is allowed and already
+    // in the products' enthalpy. Negative: it is trying to pay, and this is
+    // the amount that must be taken back out of the balance.
+    sensible.min(0.0)
+}
+
 /// Find the adiabatic temperature: the temperature at which the products'
 /// enthalpy equals the reactants' — the flame temperature of a burning
 /// mixture, computed rather than tabulated.
@@ -536,6 +604,22 @@ pub fn equilibrate_hp(
     candidates: &[&Species],
     enthalpy: f64,
     pressure_bar: f64,
+) -> Result<Equilibrium, CeaError> {
+    equilibrate_hp_open(budget, candidates, enthalpy, pressure_bar, None)
+}
+
+/// [`equilibrate_hp`] for a vessel that stands open in a room.
+///
+/// Identical to it wherever the charge ends up hotter than it started —
+/// every flame temperature in this crate is the same number it always was —
+/// and different only where the answer would have been bought with the
+/// atmosphere's own sensible heat. See [`OpenAtmosphere`].
+pub fn equilibrate_hp_open(
+    budget: &BTreeMap<String, f64>,
+    candidates: &[&Species],
+    enthalpy: f64,
+    pressure_bar: f64,
+    atmosphere: Option<&OpenAtmosphere>,
 ) -> Result<Equilibrium, CeaError> {
     // Bisection on T: H(T) rises monotonically, so this is robust where a
     // Newton step on a stiff flame problem is not.
@@ -574,7 +658,10 @@ pub fn equilibrate_hp(
             Err(e) => return Err(e),
         }
     };
-    if last.enthalpy > enthalpy {
+    // What the charge's own matter has to account for. The atmosphere's
+    // sensible heat is subtracted back out wherever it would be a credit,
+    // so the balance the search closes is the vessel's, not the room's.
+    if last.enthalpy - atmosphere_credit(atmosphere, &last) > enthalpy {
         return Ok(last); // colder than the data supports; honest floor
     }
     let mut failed_mids = 0u8;
@@ -586,7 +673,7 @@ pub fn equilibrate_hp(
                     eprintln!("HP mid {mid:.0} K ok, H={:.3e}", eq.enthalpy);
                 }
                 last = eq;
-                if last.enthalpy < enthalpy {
+                if last.enthalpy - atmosphere_credit(atmosphere, &last) < enthalpy {
                     lo = mid;
                 } else {
                     hi = mid;

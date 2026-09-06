@@ -153,6 +153,25 @@ fn measure_the_open_air_reservoir() {
             v,
             &events,
         );
+        let delivered = events
+            .iter()
+            .find_map(|e| match e {
+                Event::EnergyTransferred {
+                    heating: true,
+                    delivered_j,
+                    ..
+                } => Some(*delivered_j),
+                _ => None,
+            })
+            .unwrap_or(f64::NAN);
+        let warming = bench.vessel(v).expect("vessel").enthalpy().0;
+        let chemistry = 0.1 * 178_800.0;
+        let _ = writeln!(
+            &mut out,
+            "  -- CLOSURE delivered {delivered:.1} J vs warming {warming:.1} + chemistry              {chemistry:.1} = {:.1} J  ->  {:.1} %",
+            warming + chemistry,
+            100.0 * delivered / (warming + chemistry)
+        );
     }
 
     // B. chalk, 5 kJ
