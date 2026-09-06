@@ -1487,7 +1487,7 @@
     ]
   },
   "elephant-toothpaste": {
-    "event_count": 27,
+    "event_count": 31,
     "events_sample": [
       "v1: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
       "v1: +10.300 g dish_soap (1 known ingredients)",
@@ -1504,11 +1504,11 @@
       "v1: peroxide-decomposition released 4374.39 J",
       "v1: 26.6 °C → 34.7 °C",
       "v1: 0.0445 mol reacted in 10 s, sped up by catalase  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: 34.7 °C → 34.7 °C",
       "v2: 25.0 °C → 26.7 °C",
       "v2: +1.1069 mol water — 6.5451 mol now in vessel",
       "v2: +1.000 g dry_yeast (1 known ingredients)",
-      "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
-      "v2: 0.044546 mol O2 produced (4.455e-3 mol/s)"
+      "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension"
     ],
     "lesson": "elephant-toothpaste.lab",
     "vessels": [
@@ -1537,7 +1537,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 307.879
+        "temperature_k": 307.296
       },
       {
         "contents": [
@@ -1564,7 +1564,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 308.548
+        "temperature_k": 307.8835
       }
     ]
   },
@@ -1583,7 +1583,7 @@
       "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
       "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
       "v1: peroxide-decomposition released 203.91 J",
-      "v1: 25.0 °C → 25.5 °C",
+      "v1: 25.0 °C → 25.4 °C",
       "v1: 2.08 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
       "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L",
@@ -1618,7 +1618,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.6012
+        "temperature_k": 298.5994
       },
       {
         "contents": [
@@ -1645,7 +1645,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 299.8314
+        "temperature_k": 299.825
       }
     ]
   },
@@ -3474,7 +3474,7 @@
     ]
   },
   "luminol-temperature": {
-    "event_count": 23,
+    "event_count": 29,
     "events_sample": [
       "v1: +20.000 g luminol_glow_solution (0 known ingredients)",
       "v1: +5.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
@@ -3491,11 +3491,11 @@
       "v2: relative blue-light intensity 4.00; estimated half-life 10.7s at 333.1 K",
       "v1: The liquid is colourless and clear.",
       "v2: The liquid is colourless and clear.",
+      "v1: water froze at 0.0 °C",
+      "v1: water melted at 0.0 °C",
+      "v1: -71.8 °C → 0.0 °C",
       "v2: 0.000734 mol O2 produced (2.445e-5 mol/s)",
-      "v2: peroxide-decomposition released 72.03 J",
-      "v2: 121.8 °C → 125.3 °C",
-      "v2: 734 µmol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v1: relative blue-light intensity 0.31; estimated half-life 171.7s at 273.1 K"
+      "v2: peroxide-decomposition released 72.03 J"
     ],
     "lesson": "luminol-temperature.lab",
     "vessels": [
@@ -3507,14 +3507,19 @@
             "species": "H2O2"
           },
           {
-            "moles": 0.26922009,
+            "moles": 0.07504069,
             "phase": "Liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.1941794,
+            "phase": "Solid",
             "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 201.3692
+        "temperature_k": 273.15
       },
       {
         "contents": [
@@ -3529,14 +3534,14 @@
             "species": "O2"
           },
           {
-            "moles": 0.27068716,
+            "moles": 0.26424913,
             "phase": "Liquid",
             "species": "water"
           }
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 398.4163
+        "temperature_k": 363.4964
       }
     ]
   },
@@ -4401,7 +4406,7 @@
     ]
   },
   "rates": {
-    "event_count": 24,
+    "event_count": 26,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +5.00 mmol sodium thiosulfate",
@@ -4419,10 +4424,10 @@
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 100% of the suspended particles settle in 20 s",
       "v2: 100% of the suspended particles settle in 20 s",
+      "v2: 44.2 °C → 44.0 °C",
       "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
-      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
+      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
     ],
     "lesson": "rates.lab",
     "vessels": [
@@ -4468,7 +4473,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 317.3068
+        "temperature_k": 316.836
       }
     ]
   },
