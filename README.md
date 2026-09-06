@@ -350,7 +350,8 @@ See [PLAN.md](PLAN.md) for the architecture, verified engine and licence audit,
 [CAPABILITIES.md](CAPABILITIES.md) for solver capability tasks, and
 [BREADTH.md](BREADTH.md) for the dependency-ordered programme that grows
 familiar substances, materials, reaction families, biochemistry, crystals and
-tactile/scientific views.
+tactile/scientific views. [HISTORY.md](HISTORY.md) records what has already
+landed and what it taught us; the planning files carry only open work.
 
 ## Licence
 

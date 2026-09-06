@@ -1,5 +1,8 @@
 # Kerotakis — GUI roadmap: one bench, one dial, five platforms
 
+> Finished work is not listed here. What landed, and what it taught us, is in
+> [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
+
 Status: 2026-08-27. Companion to `ROADMAP-Webapp.md` (backend/science),
 `CAPABILITIES.md` (CAP tasks), and `BREADTH.md` (`BRD-*` data, physics and
 scientific-view prerequisites). This document decides the client architecture
@@ -470,13 +473,6 @@ every new dependency before its first import.
   job) — one shape, drift fails before a client sees it. Open for the
   checkbox: the same suite against TauriHost once the shell builds
   (GUI-030), and hello's remaining fields.*
-- [x] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
-  enum over the boundary with stable ids + params; decide engine-side vs
-  client-side register rendering and the locale-pack shape.
-  *Shipped:* Rust's tagged `Event` enum crosses every host as structured JSON;
-  effects, mission outcomes, apparatus playback and measurements consume its
-  typed fields. Register prose is rendered in the engine through per-language
-  sidecars, while the web shell owns only interface copy.
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
   *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
@@ -488,10 +484,6 @@ every new dependency before its first import.
 - [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
-- [x] **GUI-005 — Parse-only endpoint.** Validate a command without
-  executing (for live input validation and drag-legality preview).
-  *Shipped:* `parse` is implemented by the core/wasm protocol and both client
-  hosts; `CommandBar` validates asynchronously without changing bench state.
 
 ### Phase G1 — The bench, on the web
 
@@ -504,52 +496,23 @@ every new dependency before its first import.
   CommandBar, RegisterDial; npm licence lint (73 packages allowlisted);
   production build 19 KB gzip. Open for the checkbox: PWA/service-worker
   carry-over, build-web.sh integration, and the console view.*
-- [x] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
-  precipitate layers, headspace, temperature badges; scene-JSON-driven;
-  register dial wired end to end.
-  *Shipped:* the SVG bench consumes Scene JSON for geometry, true-volume
-  liquid/layer fills, computed solids, headspace, temperature, pressure and
-  register-dependent accessible presentation.
 - [ ] **GUI-012 — Shelf v1.** Registry-driven, searchable, drag/tap-to-add,
   register-aware amount picker (pinch/cup ↔ g/mol/mL).
-  *Status 2026-08-24 (2nd pass): tap-to-add and drag-to-vessel landed —
-  registry-fed via `species`, search over name/formula/key, register-aware
-  quick amounts. Open: hazard chips, appearance swatches — and SCALE: the
-  shelf is structurally complete (it lists whatever the registry serves,
-  79 today) but its flat list stops working past ~150 species. As the
-  generated-registry tranches (CAP-21/CAP-23 pipeline, 23→65 landed
-  2026-08-24) climb toward the hundreds, the shelf needs grouping
-  (phase/family sections, codex-topic cross-links) with search staying
-  primary. The species COUNT is data-side work and is deliberately
-  tranche-gated: every entry arrives with molar wiring, appearance,
-  safety row, provenance, and InChI identity — a shelf of hundreds of
-  unverified names is the lookup-table failure this project exists to
-  avoid.*
+  *Status 2026-08-24: tap-to-add, drag-to-vessel, registry-fed search and
+  register-aware quick amounts landed. Open: hazard chips, appearance
+  swatches, and SCALE — the flat list stops working past ~150 species and
+  needs phase/family grouping with search staying primary. The species
+  COUNT is tranche-gated data work: every entry arrives with molar wiring,
+  appearance, safety row, provenance and InChI identity, because a shelf of
+  hundreds of unverified names is the lookup-table failure this project
+  exists to avoid.*
 - [ ] **GUI-013 — Feed v1.** Event stream at current register with command
   echo; this is also the a11y acceptance gate: run a full lesson from
   keyboard + screen reader.
 - [ ] **GUI-014 — Inspector v1 + command bar.** Register-dependent detail;
   ⌘K bar with completion from the grammar + parse-only validation.
-  *Status 2026-08-24: Inspector v1 landed — tap a vessel (vessels are
-  buttons, keyboard-operable) for `inspect` detail at the current
-  register, refreshed after every step and register switch, with a
-  particles append. Open: completion + parse-only validation in the bar
-  (waits on GUI-005).*
-- [x] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
-  cache; timeline scrubber; session autosave/restore; `.lab` import/export.
-  *Status 2026-08-24 (2nd pass): undo/redo/scrubber are one cursor over
-  the replayed log (jumpTo = reset + prefix replay; range-input timeline
-  in the header; mid-history commands truncate the future); autosave to
-  localStorage with replay-based restore, corrupt saves dropped; `.lab`
-  export AND import (import composes onto the current bench, stops at
-  the first rejected line naming file:line, fully undoable); `clear`
-  distinct from jumpTo(0). All vitest-pinned.*
-  *3rd pass (same day): snapshot cache landed — `snapshot`/`restore`
-  protocol commands (opaque token, `Bench` serde round-trip; conformance
-  proves restore ≡ replay and that garbage refuses cleanly), Session
-  keeps one per log position (cap 40, truncation/clear invalidate) so
-  undo/scrub is O(1); replay stays the fallback and the semantics.*
-
+  *Status 2026-08-24: Inspector v1 landed (see `HISTORY.md`). Open:
+  completion + parse-only validation in the bar.*
 - [ ] **GUI-016 — Test deploy.** One payload from `tools/build-web.sh` —
   console at `/`, app at `/app/`, cross-linked, one shared engine — pushed
   to a Vercel preview (token + team scope per the machine's
@@ -569,13 +532,6 @@ every new dependency before its first import.
 
 ### Phase G2 — Learning surfaces
 
-- [x] **GUI-020 — Lesson player.** *Done 2026-08-24:* lessons walk as
-  guided overlays (LessonBar; free commands never move the cursor);
-  deviation is counted and NAMED ("off the script by N — exploring is
-  allowed"), and "return to the script" rewinds it as an undo to the
-  state after the lesson's last own step (snapshot-fast, never an
-  erasure — the wandering stays in the undone future). The map screen
-  is GUI-053's. Vitest-pinned.
 - [ ] **GUI-021 — Charts.** CAP-3 contract renderer (d3 primitives); first
   chart is the live titration curve (with CAP-12); SVG/PNG export.
   *Status 2026-08-24: renderer half done, dependency-free (hand-rolled
@@ -604,34 +560,6 @@ every new dependency before its first import.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer
   hold; engine-marked.
 
-- [x] **GUI-025 — The equation strip.** Reactions as balanced equations
-  pinned beside the bench at lv2+, live as they happen. We already
-  compute them; today they are buried in the feed.
-  *Shipped:* the session retains the latest engine-rendered balanced equation
-  and pins it above the live bench in Measure and Model registers.
-- [x] **GUI-026 — Pour and stir.** *Shipped 2026-08-24 (SVG, not
-  Canvas2D — the vessels' own layer was enough):* drop-to-add splashes a
-  ripple at the surface; `gas_evolved` vents wisps from an open mouth
-  (sealed vessels honestly show nothing); `titrated` drips from above;
-  `mixed`/`diluted` swirl a dashed eddy one revolution; `flame_test`
-  reuses the flame. Every one fires only on its typed engine event
-  (session map is unit-tested). Decorative in style, never in fact.
-- [x] **GUI-027 — Utilities drawer.** *Toolbox shipped 2026-08-24:*
-  `relations`/`calc` are protocol commands on all three hosts (PROTOCOL.md;
-  conformance checks the catalogue shape, one known-good evaluation, and
-  an honest refusal). The drawer builds its forms from the engine's own
-  arg-spec strings (`relationArgs.ts`, tested) and shows the
-  RelationResult verbatim — value, unit, provenance, and the explanation
-  at the bench's current register, so the dial reaches the calculator
-  too. Remaining for this item: property correlations (CAP-6) and unit
-  conversion join the same drawer when their engine surfaces exist.
-- [x] **GUI-028 — Voice input.** *Shipped 2026-08-24:* a microphone
-  button on the command bar (drawn only where the Web Speech API
-  exists). The transcript lands IN the input — read it, correct it,
-  then run it; nothing executes straight from the microphone, and the
-  live parse validation judges spoken lines exactly like typed ones.
-  Speaker's locale, lowercased into the grammar's case.
-
 ### The sandbox completeness invariant
 
 **Every registry species, every apparatus, every engine verb is reachable
@@ -639,42 +567,6 @@ from the GUI — in sandbox mode, without the command bar.** The engine
 already exposes ~25 verbs and the full registry; the gap is graphical
 affordance, and it is checkable, so it becomes an invariant with a test
 rather than an aspiration:
-
-- [x] **GUI-029 — The affordance manifest.** A `grammar` protocol command
-  (engine-side: the verb list with argument shapes, from the one parser)
-  plus a client-side manifest mapping every verb to the component that
-  invokes it; a conformance test fails when a verb lacks an affordance or
-  an affordance invents a verb. Registry coverage is already structural
-  (the shelf lists the registry); this makes verb coverage structural too.
-  *Shipped:* `affordances.json` maps every public grammar verb to a graphical
-  surface, and protocol conformance rejects both missing and invented verbs.
-- [x] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
-  for the rest of the verb set, driven by the codex's own apparatus
-  vocabulary: hotplate/bunsen (heat, ignite), fridge coil (cool), clock
-  (wait), lids (seal/regulate/sweep/open), funnel+paper (filter),
-  separating funnel (drain), still (distil), burette (titrate), column
-  (chromatograph, transport), lamp (irradiate), mortar (grind), electrodes
-  + supply (cell, wire, electrolyze), and an instrument tray for the eight
-  measure targets. Vessel context ring for per-vessel actions; everything
-  emits the same command lines.
-  *Shipped:* every manifest verb has a cabinet, vessel action, instrument tray
-  or two-vessel interaction; parameterised machines compile through the shared
-  apparatus specification rather than component-private command strings.
-  *Physical chromatography slice shipped 2026-08-27:* the column now
-  appears at the vessel after a run and animates the engine's typed peaks
-  from injection to positions normalised from computed retention times;
-  band thickness and opacity follow computed peak width and relative area.
-  The palette is deliberately categorical (not a claim about molecular
-  colour), while the chromatogram remains the quantitative record.
-  *Physical inspection slice shipped 2026-08-27:* “look closely” now
-  raises a magnifying lens over the vessel. Its enlarged liquid colour,
-  turbidity, deposit and bubbles come directly from the typed `Observed`
-  appearance event, rather than replaying the prose description.
-  *Geiger counter slice shipped 2026-08-27:* the engine's existing
-  radioactivity measurement is now reachable from the graphical cabinet.
-  A counter and probe appear at the sample; its visual count cadence scales
-  logarithmically from the emitted Bq value so eight useful orders of
-  magnitude remain legible.
 
 ### The codex is the content engine (apply it, then expand it)
 
@@ -684,16 +576,6 @@ puts on the bench"), concept/prerequisite edges into 189 defined concepts,
 calculation and model taxonomies, and curriculum placements. The GUI has
 been ignoring all of it:
 
-- [x] **GUI-053 — The concept map.** *Shipped 2026-08-24, armed on the
-  export:* the map screen draws the concept DAG layered by longest
-  prerequisite chain (edges = each entry's `requires` → its `concepts`;
-  pure, tested layering in codex.ts with a cycle guard). Below lv3 it
-  reads as a skill tree — edges only for the concept in hand; at lv3 the
-  full DAG shows. A concept fills when the learner ran an entry teaching
-  it to a green check on this device (progress in localStorage, separate
-  from the bench save; nothing is met by reading). Tapping a concept
-  lists its entries ready-first with the missing prerequisites named,
-  and hands an entry straight to the experiment page.
 - [ ] **GUI-054 — The experiment page.** Every codex entry as a one-tap
   experiment rendered in the shape the national school-lab platforms
   proved on millions of students — one experiment, tabbed:
@@ -746,14 +628,6 @@ been ignoring all of it:
   `kidsOpen`/`catalogOpen` survive as the tier selector so every existing
   door (home screen, story map, periodic table, concept map) still opens
   the panel on the tier it meant.
-- [x] **GUI-055 — The curriculum browser.** *Client shipped 2026-08-24,
-  armed on the codex export:* the experiments dialog gained three doors —
-  all (with a filter), by concept (chips with counts; a selected concept
-  filters the list and names its co-occurring neighbours, the GUI-053
-  down payment), by curriculum (system → stage ordered by age band,
-  placement citations shown, entries launch straight into the tabbed
-  page). Grouping is pure, tested code in codex.ts; the export must
-  carry `concepts` and `curriculum` per entry for the doors to light up.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
@@ -1244,158 +1118,20 @@ hide them completely.
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
   drawer/gesture discovery, mode comprehension, and register usage. Fix P0/P1
   findings and document the resulting interaction changes before GUI-076.
-- [x] **GUI-076 — World/home shell and separated saves.** Add the start screen,
-  Story/Sandbox doors, persistent lab identity, mode badge, safe switching, and
-  versioned independent saves. DoD: starting or resetting Sandbox cannot mutate
-  Story progress, and a newly installed catalog item appears immediately in
-  Sandbox.
-  *Shipped 2026-08-26: the first-run Research Campus is now the game's home,
-  with distinct Discovery Wing (Story), Open Bench (Sandbox), Mission Board,
-  and Research Library destinations plus a renameable persistent lab identity.
-  Story and Sandbox scope their command log, snapshots, Codex progress, and
-  bench arrangement independently; a one-time, non-destructive migration puts
-  pre-mode installs into Sandbox. The live mode badge opens the campus, mission
-  launches cross the Story door safely, and all new visible/ARIA copy ships in
-  English and German.*
 - [ ] **GUI-077 — Story progression and research map.** Render locations,
   contacts, lab areas, and equipment families as an explorable map—not a linear
   level list. Unlocks are previewable with understandable prerequisites; at
   least three useful missions are available whenever the chapter permits.
-  *Progression-map slice shipped 2026-08-26: the flat mission grid is now a
-  five-district campus map. The opening Discovery Hall offers four real shipped
-  investigations; one completed mission opens both Matter Gardens and Energy
-  Yard, so the story branches instead of becoming a corridor. Finishing the
-  final engine-backed lesson command persists its stable file id, completed
-  missions and districts are visibly marked, and every locked district states
-  its exact requirement. Progress uses the existing Story-scoped storage;
-  leaving a mission does not complete it and Sandbox progress cannot unlock the
-  campus. The Electron Works, Systems Dock, contacts, equipment-family rewards,
-  and engine-evaluated outcome transactions remain in this item.*
+  *Progression-map slice shipped 2026-08-26 (see `HISTORY.md`). Open: the
+  Electron Works, Systems Dock, contacts, equipment-family rewards, and
+  engine-evaluated outcome transactions.*
 - [ ] **GUI-078 — Mission journal and in-world delivery.** Evolve QuestBar into
   active-mission cards, evidence ledger, optional hints, messages, and result
   debriefs. Dialogue pauses only itself, never silently the chemistry. All copy,
   including generated parameters and ARIA text, ships in English and German.
-  *Journal slice shipped 2026-08-26: the active overlay now states a human
-  objective beside the exact operator instruction, offers optional procedural
-  hints for every verb used by the 27 shipped lessons, and expands into a
-  mission-only ledger of engine-rendered observations, measurements, hazards,
-  and charts. Successful completion leaves a non-blocking debrief over the live
-  bench with evidence review, persistent completion totals, and newly opened
-  campus routes; replay and first-discovery outcomes are distinct. A rejected
-  operator cannot advance the objective or trigger the debrief. In-world
-  contacts/messages and typed multi-objective evidence remain in this item.
-  Copy direction is Mission Control: case files, briefings, observations, and
-  evidence—not teacher-facing “showpiece experiment” language.*
-- [x] **GUI-079 — Progression-aware catalog.** Story availability and quantity
-  constraints decorate the shared apparatus/reagent catalog; Sandbox bypasses
-  them. Rewards animate once, explain what changed, and offer "place on bench."
-  No mystery currencies, daily streaks, loot boxes, or real-money storefront.
-  *Access-policy slice shipped 2026-08-26: Story now previews instrument and
-  reagent availability in the existing cabinet rather than a separate shop.
-  Permanent apparatus families unlock at investigation milestones; locked cards
-  state the exact completed-mission requirement, while Sandbox bypasses every
-  gate. The stockroom starts with common materials, expands according to hazard
-  handling progression, and temporarily loans any otherwise-locked substance
-  required by the active mission kit. First completions reveal one permanent
-  instrument reward in the debrief and can place it directly on the live bench.
-  This has no currency, streak, purchase, or randomized reward. The same
-  persistent Mission set / Unlocked / All scope selector now controls both
-  reagent and equipment tabs; mission equipment is loaned under the same rule
-  as mission reagents, and All previews locks instead of bypassing them.*
-  *Finite-stock slice shipped 2026-08-26: unlocked Story substances now expose
-  a persistent count of labelled dispenses. Only an engine-accepted `add` or
-  `titrate` transaction consumes one; rejection consumes nothing, and bench
-  undo/reset does not pretend used material returned to its bottle. The exact
-  physical amount remains visible in the engine command and notebook, avoiding
-  invented cross-unit mass/volume conversions. Active investigations supply
-  their entire reagent kit independently of permanent stock, and each first
-  discovery replenishes the permanent cabinet with an explicit debrief notice.
-  Sandbox remains unlimited. This closes GUI-079.*
-- [x] **GUI-080 — First vertical slice: the contaminated sample.** Ship one
-  compact district/lab with onboarding, free bench time, three concurrent
-  missions, one optional discovery, a material cabinet, a permanent instrument
-  unlock, and a debrief. At least one mission must accept two materially
-  different valid solutions. Completion is engine-evaluated; closing/reopening,
-  switching register, switching locale, and visiting Sandbox all preserve the
-  right state.
-  *Case-board slice shipped 2026-08-26: Discovery Hall is now presented as
-  "The contaminated sample," with a one-time persisted briefing from a campus
-  chemist, an animated physical sample, three engine-backed core leads available
-  concurrently in any order, and the existing safety investigation called out
-  as an optional discovery. Core and optional completion derive from the stable
-  mission ids already stored in the Story save; returning to the board shows
-  secured evidence, an active lead, and 0/3–3/3 case progress without touching
-  Sandbox. The desktop and mobile board, onboarding, statuses, actions, and ARIA
-  labels ship in English and German.*
-  *Outcome-contract slice shipped 2026-08-26: “Trace the mineral
-  contamination” now states a result rather than exposing the `.lab` recipe.
-  Its evidence check is secured only by the engine's typed `precipitated:AgCl`
-  event at or above the observable-moles threshold; direct AgCl placement, a
-  different precipitate, and sub-visible traces do not pass. Both NaCl and KCl
-  routes are supplied and complete the same contract, the board identifies the
-  lead as solver-assessed, and the live goal, hint, evidence state, debrief,
-  ARIA copy, and German translations share the existing mission UI. The other
-  two core leads and optional safety audit remain procedural, so GUI-080 stays
-  open until their outcomes and case-level transaction are typed.*
-  *Thermal-outcome slice shipped 2026-08-26: “Establish the thermal baseline”
-  is now an open investigation with no exposed recipe. A new graphical mixer
-  turns three vessel taps into the public `mix` operation, with selectable
-  source fractions and English/German guidance. The engine's typed `mixed`
-  event now records both source temperatures and the computed receiver
-  temperature. Assessment requires two materially different source
-  temperatures, meaningful contributions from both streams, and a result
-  strictly between them; heating alone, isothermal mixing, endpoint results,
-  and trace contributions cannot pass. One core separation lead and the
-  optional safety audit remain procedural, so GUI-080 stays open.*
-  *Typed-leads slice shipped 2026-08-30: the last two procedural leads now
-  carry outcome contracts. "Separate the unknown mixture" is secured by the
-  engine's `chromatographed` peak table — at least three components at
-  chromatographic resolution ≥ 1, so co-eluting peaks honestly count as one
-  and a failed separation cannot pass on peak count. "Audit the abandoned
-  workbench" is secured by the safety layer's own warnings, recognised by a
-  new stable `rule` id carried on `HazardWarning` (additive protocol field,
-  untranslated across locales; prose matching is impossible by
-  construction) — four classic incompatibilities, each a separate criterion
-  that accumulates one experiment at a time. All four case leads are now
-  solver-assessed; what keeps GUI-080 open is the case-level transaction
-  (permanent instrument unlock + debrief) and the mission that accepts two
-  materially different valid solutions beyond silver-and-salt.*
-  *CLOSED 2026-09-02 by the case transaction and the second valid solution.
-  (1) The separation lead now has TWO routes and neither is the intended one:
-  the column, or a separating funnel. A route is an AND of its criteria and a
-  mission is an OR of its routes — the smallest combinator that can express
-  "two valid solutions", and the one WORLD-005's objective evaluator inherits.
-  The funnel route is secured by the engine's own `partitioned` events: the
-  spread between the most- and least-aqueous solute must reach 0.15, which is
-  measured rather than chosen (against the lesson's own sample the engine
-  gives 0.024 at 10 mL of extracting solvent, 0.107 at 50, 0.190 at 100,
-  0.504 at 500), so a solvent that carried the whole sample across — which
-  separates nothing — cannot pass. Mission progress counts against the route
-  the learner is CLOSEST to finishing, so an alternative they did not take
-  never reads as work outstanding.
-  (2) The case-level transaction: a completed mission now records its
-  completion and replenishes its stockroom in ONE AppSave envelope promotion
-  (`AppSaveModeStorage.setItems`), so an interrupted write can no longer leave
-  a learner with a spent stockroom and no completion. The permanent
-  instrument — the UV/Vis spectrophotometer, earned by closing the case — is
-  DERIVED from the completed leads rather than stored as an entitlement, which
-  is what makes a double claim impossible by construction: a retried commit
-  and a replayed mission both compute the same single award. The debrief names
-  the route the learner took and the award the case earned, on the one run
-  that earned it.*
-  *Whole-district follow-up 2026-09-05: the board drew its four named leads
-  while Discovery Hall ships seven missions, so the district header counted
-  "0 of 7 complete" beside a board on which three of them could not be
-  opened at all. Nothing had locked them — they were simply not rendered,
-  which is worse than a lock, because a lock at least states its
-  requirement. The board now lists the rest of the district beneath the
-  case, openable in any order, without promoting them into the case, whose
-  evidence bar stays three core leads. An active mission can also be
-  abandoned, from the field journal or from the campus map, behind one
-  in-place confirmation: it ends without being recorded, the bench keeps
-  everything, and the map stays open, because abandoning a mission is how a
-  learner gets to choose another one. Both surfaces ship in English and
-  German.*
+  *Journal slice shipped 2026-08-26 (see `HISTORY.md`). Open: in-world
+  contacts/messages and typed multi-objective evidence. Copy direction is
+  Mission Control — case files, briefings, observations, evidence.*
 
 ### Phase G3 — Desktop
 
@@ -1454,16 +1190,6 @@ those platforms are theatrical: every visual quantity below traces to a
 computed number — realism here means *rendering the simulation*, never
 decorating it.
 
-- [x] **GUI-058 — Liquid layers in the Scene (engine + client).** *Shipped 2026-08-25 (PR #30).* The
-  engine already computes liquid–liquid equilibrium (water–hexane LLE,
-  `solve::layered_pair`) but Scene JSON collapses everything into one
-  liquid block. Additive `layers: [SceneLayer]` on SceneVessel — per
-  layer: species, name, volume_l (from moles × molar volume via the
-  registry's density), srgb, colour_word, stacking order by density.
-  Client draws stacked fills with distinct menisci. One layer = today's
-  render, so the change is invisible until chemistry splits. DoD:
-  hexane-on-water renders two layers with correct proportions; scene
-  conformance checks the layer shape; single-phase vessels byte-identical.
 - [ ] **GUI-059 — Effect magnitudes.** Events carry amounts; visuals must
   scale by them: bubble count/rate from moles of gas evolved, flame size
   from energy/rate and COLOUR from the FlameTest event's computed colour
@@ -1471,258 +1197,21 @@ decorating it.
   moles. DoD: doubling the chemistry visibly doubles the effect; every
   scale factor names its event field in a comment.
   *Status 2026-08-26: the typed-event mapper now covers gas, precipitate,
+  *Status 2026-08-26: the typed-event mapper covers gas, precipitate,
   evaporation/distillation, electrolysis, mixing/dilution, transfer, thermal
-  change, phase change, heat of mixing, plating, flame tests, and glass burst.
-  Transfer fraction sets stream width/speed; mixing fractions set vortex size
-  and stir speed; temperature/delta-T set heat shimmer and frost coverage;
-  distilled/evolved/precipitated/electrolysed moles set effect density; flame
-  colour is the engine's named result; `burst.at_pa / burst.rating_pa` sets the
-  pressure-wave and shard distance. A hazard warning alone never explodes.
-  Reaction energy from the CEA/NASA enthalpy solve now travels on ignition
-  events and linearly controls flame size and flicker speed; an unquantified
-  ignition uses a restrained fallback rather than maximum drama. Remaining
-  DoD: screenshot regression cases.*
-  *Computed transfer-colour slice shipped 2026-08-27:* pour, filter and
-  drain paths capture the source vessel's engine-computed pre-transfer sRGB
-  before the returned scene replaces it. Stream, glow and landing ripple now
-  carry that colour; distillation stays separate because vapour colour cannot
-  honestly be inferred from the bulk source liquid.
-  *Direct-pour motion shipped 2026-08-27:* a source vessel now lifts and
-  tilts while its computed transfer path runs. Tilt magnitude follows the
-  engine-emitted transfer fraction; reduced-motion keeps the state change and
-  settled colour while skipping the gesture.
-  *Physical-filtration slice shipped 2026-08-27:* the transient separator now
-  reads the source vessel before the engine replaces the scene. Its filter
-  paper retains every engine-scene solid with its computed sRGB and amount,
-  shows the retained total in mmol, and scales residue loading from total
-  retained moles; only the computed liquid colour continues to the receiver.
-  A ring stand makes the funnel a bench apparatus rather than a decorative
-  glyph on a generic transfer line.
-  *Computed-still slice shipped 2026-08-27:* distillation retains the VLE
-  solver's water/ethanol cut, starting and ending boiling temperatures,
-  theoretical-stage count, latent-energy bill, and azeotrope limit in the
-  visual effect. The bench rig renders a thermometer, staged column, jacketed
-  condenser with moving coolant and condensate, temperature range and energy;
-  animation intensity derives from the total computed distillate instead of a
-  missing generic `moles` field.
-  *Separatory-funnel slice shipped 2026-08-27:* drain operations now assemble
-  a stopcock funnel and stand between the real source and receiver. The funnel
-  reads the source's bottom-first engine layers before scene replacement,
-  renders both computed layer colours, labels the engine-selected solvent and
-  transferred mmol, and sends the lower layer's colour through the outlet.
-  The former aggregate-liquid colour could visibly drain the wrong phase and
-  is no longer used when layer data exists.
-  *Magnetic-separation slice shipped 2026-08-27:* the instrument wall now
-  exposes the existing `magnet from to` grammar as a two-vessel interaction.
-  An engine-confirmed separation places a horseshoe magnet over the transfer
-  path and moves only species named in `MagnetSeparated.attracted`; particle
-  colour and visual loading come from those solids' pre-transfer Scene sRGB
-  and moles. The receiver is never shown receiving solids classified by the
-  engine as remaining, and a negative result visibly reports an empty pickup.
-  *Gravity-settling slice shipped 2026-08-27:* `GravitySettled` events retain
-  each Stokes-law population's particle diameter, terminal speed, travel
-  distance, separated fraction, direction, and elapsed time. The vessel now
-  animates those populations toward the deposit using the computed travel and
-  fraction, colours them from the matching pre-wait Scene solid, and displays
-  the strongest computed percentage beside elapsed seconds. Reduced-motion
-  keeps the final engine state while suppressing particle travel.
-  *Centrifuge-result slice shipped 2026-08-27:* the moving mini centrifuge now
-  replaces requested form values with the returned run: RPM, radius, elapsed
-  time, relative centrifugal force, measured imbalance, fluid density and
-  viscosity, and every species' Stokes separation. Coloured pellets derive
-  from pre-run Scene solids and scale with computed separated fraction. The
-  machine explicitly labels `state_coupled: false` as a visual forecast with
-  unchanged vessel state instead of presenting predicted separation as an
-  applied ledger mutation; requested settings still preview their calculated
-  RCF before a run.
-  *Computed-stirring slice shipped 2026-08-27:* the magnetic stirrer retains
-  returned RPM, duration, bar length, tip speed, resuspended fraction and
-  rate-coupling status. Non-metal Scene solids visibly rise from the deposit
-  in their computed colours and in proportion to the engine's resuspension;
-  elemental metal excluded by the engine rule is not animated. The vessel and
-  hotplate show tip speed and resuspension, while the boundary label says
-  plainly when mixing changed suspension state but did not change kinetic
-  rates.
-  *Physical gas-test slice shipped 2026-08-27:* the four inspector headspace
-  tests no longer end as notebook prose. Typed `GasTested` results deploy the
-  appropriate setup at the vessel: lit splint and pressure ring for hydrogen,
-  glowing/relit splint for oxygen, delivery tube and clear/milky limewater for
-  carbon dioxide, or damp red/blue litmus for ammonia. Positive and negative
-  presentations come only from the engine boolean, retain its explanatory
-  notes as accessible detail, and suppress repeated motion under the system
-  reduced-motion preference.
-  *Safe-waft slice shipped 2026-08-27:* the previously command-only `smell`
-  verb now has an instrument-tray affordance explicitly named Safe waft. It
-  compiles to the public operator and renders a hand fanning headspace vapour
-  sideways, never a face or direct inhalation. `Smelled.notes` determines the
-  detected species list and visual strength; an empty list is shown as a real
-  negative observation. Curated prose remains in the notebook while the
-  compact physical result uses localized species names and repeats the
-  real-lab safety rule.
-  *Pressure-control slice shipped 2026-08-27:* the piston lid now retains the
-  applied `VesselPressureControlled` pressure, initial headspace volume and
-  trapped gas. The physical piston height follows returned volume, its gauge
-  needle and bar readout follow returned pressure, and the chamber labels the
-  trapped mmol. Before execution the same apparatus previews requested values;
-  after execution it replaces them with engine-owned state rather than
-  implying that the form itself is a measurement.
-  *Freestanding-evaporation slice shipped 2026-08-27:* the evaporating dish is
-  no longer painted inside the selected glassware. It occupies a draggable,
-  collision-checked station with porcelain dish, heater, target-vessel link
-  and reduced-motion behavior. The dish fill captures the pre-operation Scene
-  liquid colour, steam density follows `Evaporated.moles`, and its display
-  reports the actual removed mmol. This retains one engine vessel ledger while
-  making the physical transfer into the working dish explicit on the bench.
-  *Freestanding-dilution slice shipped 2026-08-27:* the wash bottle no longer
-  occupies the selected vessel's SVG. It is a draggable, collision-aware bench
-  object with bottle, water inventory, nozzle and transient jet linked to its
-  target. The returned `Diluted.volume` and water moles drive its display while
-  the target vessel independently keeps the engine-derived swirl and final
-  state. Requested volume remains a control; the station readout is the
-  confirmed operation result.
-  *Computed-gas-sweep slice shipped 2026-08-27:* the carrier-gas line now
-  retains applied `VesselSwept.pressure` rather than stopping when form
-  submission returns. Its inlet and outlet pulses remain active for the typed
-  effect window, cadence scales with applied pressure, and the physical
-  readout reports returned bar. Gas displaced from the vessel remains a
-  separate `GasEvolved.moles` effect, so line pressure never pretends to be a
-  measured purge amount.
-- [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
-  GUI-060's scripted plume).** Owner question answered 2026-08-25:
-  SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
-  never touching the chemistry.
-  **065a, Eulerian (first):** a per-active-vessel stable-fluids grid
-  (~64×96; semi-Lagrangian advection, Jacobi pressure projection,
-  SDF boundary from the glass `inner` path) advecting per-species
-  CONCENTRATION fields — dye plumes, stirring vortices, miscible
-  diffusion, and density-buoyant layer separation all emerge; full
-  VOF/PLIC rejected as overkill because the REST interface truth is
-  GUI-058's static layer render, cross-faded to on settle.
-  **065b, Lagrangian (second):** particles only above/at the surface —
-  pour stream breaking into droplets, burette drips, splash ejecta —
-  handing mass+momentum into the grid on entry (mini-FLIP handoff).
-  Ground rules: plain TypeScript + typed arrays (no deps; wasm only if
-  profiling demands, and never inside the engine module); sim runs in
-  activity windows then freezes to the static render;
-  prefers-reduced-motion skips straight to settled. THE HONESTY GATE,
-  unit-tested: settled concentrations must converge to the engine's
-  layer volumes and colours — the sim animates TOWARD the solver's
-  answer, never past it. DoD 065a: KMnO4 into water shows violet
-  tendrils dispersing to exactly the scene srgb; hexane onto water
-  visibly separates into GUI-058's two layers; stir drives a vortex
-  that decays; all kernels/projection/settle covered by vitest.
-  BRD-070 now types this boundary in `kerotakis_core::authority`: animations
-  propose cumulative endpoints with replay seeds, `Transferred` receipts alone
-  commit them, and reduced-motion/headless/background execution changes no
-  chemistry. Typed collision and spill destinations remain non-mutating until
-  BRD-073 supplies the chemistry-owned break/spill operators and events.
-- [x] **GUI-061 — Volume-true fills.** *Shipped 2026-08-25 (kero-basic, PR #36).* Fill height must come from the
-  vessel kind's real capacity and geometry (a conical flask's height vs
-  volume is not linear). Per-kind capacity_ml + a volume→height profile;
-  additions raise the level by exactly what was added. DoD: 50 mL into a
-  100 mL beaker reads half; the same 50 mL in the flask reads correctly
-  non-linear; cylinder graduations line up with real volumes.
-- [x] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
-  vessel on the bench (drawn, with stopcock and falling drops during
-  titration), thermometer and pH probe render in-vessel when measuring,
-  the still connects two vessels visibly. Portraits (ToolIcon) grow into
-  bench-scale drawings as each tool earns it.
-  *Status 2026-08-26: the cabinet's burette, wash bottle, evaporating dish and
-  hotplate, electrodes and supply, mortar and pestle, wavelength lamp, piston
-  lid/gauge, and carrier-gas line now deploy as SVG apparatus around the active
-  vessel. Live form values drive wavelength colour, current pulse rate, and
-  pressure gauge position; running state drives tool motion. Filter, still,
-  drain, and cell events connect the actual source/receiver pair across the
-  bench through visible vessel ports. Vessel work-zone arrangement persists
-  across reload. The mortar and mini-centrifuge are now freestanding,
-  target-labelled workstation cards placed in the clearest nearby bench space;
-  they no longer render as contents inside the selected vessel. Remaining:
-  user-positionable instrument stations and bench-scale analytical instruments
-  beyond thermometer/pH.*
-  *Closed 2026-08-28:* freestanding stations are now user-positionable and
-  collision checked. Balance, pressure, gas-volume, conductivity, calorimetry,
-  UV-Vis, chromatography, Geiger, magnified observation and gas-test setups all
-  render at bench scale from typed engine evidence; further instruments are
-  catalog growth, not a missing interaction foundation.
-- [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
-  experiments present their kit as a RENDERED shelf strip (SpeciesChip
-  visuals, tap-to-add) directly in the LessonBar / experiment page —
-  the pick-what-you-need surface the reference platforms open with.
-- [x] **GUI-064 — Animation of running tasks.** *Shipped 2026-08-25: chart self-draw (#35), titration playback (#37), distillation + transport pacing (#45) — one clamped, cancellable, reduced-motion-honest scheduler.* Multi-step operations
-  (titrate, distil, electrolyse, transport) animate over their duration
-  instead of jumping to the result: the burette's meniscus falls per
-  increment, the still's receiver fills, electrode gas accumulates.
-  Driven by the per-step data the engine already returns (titration
-  curve points, transported fractions).
-
-- [x] **GUI-074 — Bench focus controls.** *Shipped 2026-08-27.* On wide
-  screens, the material cabinet and laboratory journal collapse independently
-  to narrow edge rails; opening tools, details, or a target panel expands the
-  relevant rail automatically. Choices persist separately in Story and
-  Sandbox. The existing three-pane tab bar remains the touch-first navigation
-  on narrow screens.
-
-- [x] **GUI-075 — Unobstructed vessel controls.** *Shipped 2026-08-27.*
-  Free-placement nudge and removal controls sit as one compact, readable row
-  on the selected card's upper corner. They no longer cover the vessel name,
-  liquid, or action dock; direct pointer/touch dragging remains the primary
-  spatial interaction.
-
-- [x] **GUI-077 — Explicit action target.** *Shipped 2026-08-27.* The action
-  dock identifies its target by glassware and vessel id, and keeps the target's
-  current volume, temperature, and first material names visible beside every
-  action. This makes cross-vessel mistakes legible before heating, stirring,
-  pouring, or measuring.
-
-- [x] **GUI-078 — Phase-colour cabinet.** *Shipped 2026-08-27.* Aqueous,
-  liquid, gas, and solid filters and reagent cards use consistent blue, teal,
-  violet, and orange accents. Icons and text remain the primary encoding, so
-  the livelier cabinet adds rapid scientific scanning without relying on
-  colour alone or weakening the professional/contrast themes.
-
-- [x] **GUI-079 — Clear first-run callout.** *Shipped 2026-08-27.* The
-  empty-session guidance is anchored inside the lower-right work surface,
-  above the counter edge. It no longer enters document flow beneath the bench
-  or becomes hidden by the persistent vessel action dock.
-
-- [x] **GUI-080 — Honest apparatus motion.** *Shipped 2026-08-27.* A
-  configured stirrer, hotplate, or cooling bath remains visibly installed but
-  stationary. Rotation, rising heat, and pulsing frost begin only while the
-  engine is running the operation or its computed effect is playing back;
-  configured rpm/power still sets the animation rate.
-
-- [x] **GUI-083a — Freely positioned instrument stations.** *Shipped
-  2026-08-27.* Freestanding mortar and mini-centrifuge stations can be dragged
-  with mouse, pen, or touch and nudged with arrow keys. Explicit positions are
-  stored per lab mode beside vessel coordinates; untouched tools continue to
-  follow a safe, target-aligned default lane.
-
-- [x] **GUI-083b — Legible apparatus targets.** *Shipped 2026-08-27.* A
-  freestanding instrument has a visible drag grip, focus treatment, and a
-  subtle dotted sample route to the vessel it operates on. The route follows
-  both ends while either is moved and pulses only while that operation runs;
-  reduced-motion users get the same relationship without motion.
-
-Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
-GUI-061 + 063 are self-contained client work (kero-basic);
-GUI-059 + 062 are client work gated on no engine change (kero1, after
-the KLU fix). Magnitude scaling rules (GUI-059) and layer rendering
-(GUI-058) meet in Vessel.svelte — coordinate before touching it in
-parallel.
-
-
-### Shipped addendum (2026-08-25, realism + depth day)
-- GUI-065a/b/c complete: MAC stable-fluids core (emergent Rayleigh-
-  Taylor pinned), pour with a ledger-exact splash handoff, true-glass
-  wall masks (canvas-free rasterizer) + frame governor. The honesty
-  gate throughout: sims relax to exactly the engine's layers.
-- GUI-066 quests: engine-evaluated (observe/answer in the protocol),
-  17 quests exported beside the payload, QuestBar + nudge/claim cards.
-- GUI-067: instant restore (snapshot-token autosave, triple-fallback).
-- DATA-010: load_pack end to end — the registry is open-ended; a
-  hash-verified .pack adds species to shelf AND chemistry at runtime;
-  drift-pinned runtime join; packs/ shipped with hashed manifest.
-- WEB-003 inventory in hello; PROTOCOL load_pack row done.
+  change, phase change, heat of mixing, plating, flame tests and glass burst;
+  every scale factor names its event field. A hazard warning alone never
+  explodes, and an unquantified ignition uses a restrained fallback rather
+  than maximum drama.*
+  *Fourteen apparatus slices shipped 2026-08-27 — computed transfer colour,
+  direct-pour motion, physical filtration, the computed still, the separatory
+  funnel, magnetic separation, gravity settling, the centrifuge, computed
+  stirring, the four gas tests, safe waft, pressure control, freestanding
+  evaporation and dilution, and the computed gas sweep — are recorded in
+  `HISTORY.md`. Remaining DoD: screenshot regression cases.*
+Split: GUI-059 (magnitude scaling rules) is the remaining client work in
+this group and meets layer rendering in Vessel.svelte — coordinate before
+touching it in parallel.
 
 ## Making a computed result legible (GUI-090 … GUI-097)
 
@@ -1745,57 +1234,11 @@ and presents them well.
   new engine call, and the card is a `<details>`-shaped disclosure that
   degrades to the current feed when JavaScript is off or the register is at
   lv3 machine view.
-  *Structured-card slice in progress 2026-08-28:* the journal now pins a
-  compact `<details>` result above its transcript. Its badge, equation,
-  observation, quantities and temperature delta are projected from the
-  accepted command's typed events and before/after scenes without another
-  engine call. The richer reactant, ionic-equation and concept/safety detail
-  remains.
-  *Second slice 2026-08-30:* reactant chips, the concept and safety notes,
-  and the lv3 rule land, leaving only the ionic equation — which is GUI-092's
-  work and is deliberately not faked here. The chips are the left-hand side
-  of the engine's own balanced equation, split rather than looked up, so they
-  cannot disagree with the equation printed above them. The safety note is
-  the `hazard_warning` this same command raised (most severe wins); the
-  concept note is `inert.why` or `org_reacted.boundary` — the two events that
-  *explain* rather than report — and is absent when neither is there. The
-  equation itself now comes from anywhere in the accepted command rather than
-  from the one event that won the priority list, which is why a curated
-  precipitation showed none: `reaction_occurred` carries the equation and
-  `precipitated` wins the list. At lv3 the card is dropped entirely rather
-  than shrunk, because the machine view's feed already says exactly what the
-  card would say approximately. Still no second engine call. Five vitest
-  cases for the added fields.
-
-- [x] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
-  Two labels the engine can already justify. A **class badge** — displacement,
-  neutralisation, precipitation, combustion, decomposition — derived from the
-  event stream, never authored per reaction, and absent rather than guessed
-  when the classification is not clean. And **before → after temperature with
-  a delta chip**: `25 °C → 90 °C` with `+65 K`, because a computed ΔH·n/ΣCp is
-  the most teachable number we produce and it currently reads as punctuation.
-  Both carry the GUI-023 confidence encoding.
-  *Strict-classification slice in progress 2026-08-28:* exact event tags now
-  supply conservative result labels (for example precipitation, gas evolution
-  and electrolysis); unknown tags are not promoted to named reaction classes.
-  A computed scene delta is shown when the target vessel's temperature really
-  changed. Before/after temperature and confidence presentation remain.*
-  *Done 2026-08-30:* the card reads `25 °C → 90 °C` with a `+65 K` chip, from
-  `temperature_changed`'s own `from`/`to` where the engine reports the pair
-  and from the two scenes the command was computed between otherwise. Both
-  temperature carries GUI-023's encoding through `data-confidence`. The
-  class badge is drawn from a SECOND, smaller table than the operation
-  labels, which is where "absent rather than guessed" became enforced rather
-  than merely intended: most of what a bench does is not a reaction, so
-  stirring is honestly "mixing" and gets no class badge at all rather than
-  being promoted into a classification the engine never made. The first
-  attempt marked such tags `unknown`, and a test caught that the branch was
-  unreachable — every tag the priority list can return was already
-  classified, so the strictness existed only in the comment. A heat of
-  mixing is `modeled`, not `computed`, because
-  UNIFAC-derived hᴱ is a fitted model verified pair by pair (`hmix.rs`), and
-  a dashed border is the difference between the two claims. Nine vitest
-  cases, including one that fails if a confidence word ships without German.
+  *Slices shipped 2026-08-28 and 2026-08-30 (see `HISTORY.md`): the
+  `<details>` card, badge, equation, observation, quantities, temperature
+  delta, reactant chips, concept and safety notes and the lv3 drop rule
+  all land without a second engine call. Only the ionic equation remains,
+  and it is GUI-092's work — deliberately not faked here.*
 
 - [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
@@ -1835,66 +1278,6 @@ and presents them well.
   every experiment needs — water, heat, and the reagent last used — so the
   common path does not cross the whole screen.
 
-- [x] **GUI-095 — Balancing as a generated exercise.** We balance by the null
-  space of the element-count matrix including charge, so we can *generate*
-  practice rather than author it: take any equation the codex or a session
-  produced, strip the coefficients, and mark the learner's answer against the
-  solver — including telling them when their answer is a correct multiple but
-  not the simplest whole-number ratio, which is the actual lesson. Unlimited,
-  never wrong, and free of a hand-maintained question bank.
-  *Done 2026-08-30:* `balance` is a protocol command on both bindings
-  (PROTOCOL.md row; wasm `Lab::balance`, the native dispatch arm, both TS
-  hosts, and the conformance suite). It returns the solver's coefficients
-  **and the composition matrix they are the null space of**, which is the
-  design decision the whole item turns on: comparing a learner's numbers to
-  the solver's would mark `4 Mg + 2 O₂ → 4 MgO` wrong, and it is not wrong,
-  it is twice the answer. So the mark is arithmetic over the learner's own
-  vector — every entry a positive integer, `matrix · v = 0`, `gcd(v) = 1` —
-  which also names the element that is out and by how much, and which makes
-  the under-determined family fall out for free: `C + O₂ → CO + CO₂` has no
-  single right answer, and any primitive positive vector in its null space is
-  a correct balancing of a real reaction, marked correct and told it is one
-  of several. Coefficients on the input are stripped, so the codex's own
-  balanced equations set the question without leaking it, and the drill
-  prefers equations this session's bench actually produced. 19 vitest cases
-  on the marker and the question source, five Rust tests on the report, one
-  native-host test, eleven conformance assertions.
-
-- [x] **GUI-096 — The toolbox tools say what they are for.** *Done
-  2026-08-29:* all seven relations carry `purpose`, `validity` and `source`
-  on `RelationInfo`, English and German, served by BOTH bindings (wasm and
-  the native one the App Store builds run) so no host has to write the
-  prose itself. GUI-087 landed purpose and validity; this closes it with
-  the citation, which is the half a learner can actually go and check.
-  `source` is the leading clause of the same provenance line `calc`
-  returns, not a second citation written beside it —
-  `sources_are_the_provenance_they_came_from` evaluates every catalogue
-  entry and asserts the containment, so the drawer cannot credit Henderson
-  while the answer credits somebody else. The drawer shows all three before
-  anything is computed, since a validity range that only appears after the
-  number has already let the mistake happen. Pinned at every layer it
-  crosses: two Rust tests, the native binding's catalogue test, the wasm
-  conformance suite (every field, every shipped locale, derived from the
-  row so a new language extends the check by itself), vitest for the
-  localization selection, and the browser i18n gate for the rendered
-  German. Three validity sentences also gained the window they were
-  missing: the Nernst slope is 59 mV/decade at 25 °C only, Arrhenius holds
-  Ea and A constant across the fitted range, and Debye–Hückel's
-  A = 0.5091 is water at 25 °C.
-
-- [x] **GUI-097 — One shareable card per result.** The expanded report as a
-  single image a learner can hand in or send: equation, observation, the
-  numbers, the provenance line. We have notebook export and print, which are
-  documents; this is one result, self-contained. Uses the existing chart
-  export path, adds no new dependency.
-  *Done 2026-08-30:* the expanded latest-result disclosure exports one
-  deterministic, self-contained SVG or 2× PNG with the localized reaction
-  class and quantity labels, equation, observation, numeric results and the
-  event's provenance (or an explicit computed-event fallback). The SVG is
-  dependency-free, XML-escaped, bounded for long prose, and carries a title
-  and description for assistive technology. Vitest pins deterministic content,
-  escaping, bounds and safe filenames; the full Vite production build passes.*
-
 - [ ] **GUI-098 — Optional WebGPU presentation tier (BRD-094).** Keep the
   authoritative engine and the shipped deterministic `fluidScene` unchanged.
   Add a renderer-local capability boundary that may select a project-owned
@@ -1913,107 +1296,8 @@ and presents them well.
   **Owned execution tasklist (estimated 7–10 focused hours; each tranche is
   independently mergeable):**
 
-  1. [x] **GPU-1 — Lifecycle and fail-closed fallback (2–3 h).** Add an
-     injected, framework-neutral adapter/device lifecycle with idempotent
-     start/stop, concurrent-start coalescing, stale-promise generations,
-     adapter/device rejection handling and immediate `device.lost` fallback.
-     **DoD:** no rejected promise escapes; late work cannot mutate stopped or
-     restarted state; each acquired device is destroyed at most once; SSR and
-     missing/malformed `navigator.gpu` are safe; focused lifecycle tests and
-     the production build pass.
-     *Done 2026-08-30:* structural (ambient-type-free) provider, adapter and
-     device interfaces; deterministic fallback for missing/rejected adapter or
-     device; coalesced starts; generation-guarded stop/restart; immediate
-     device-loss fallback and destroy-once cleanup. Fourteen focused GPU policy
-     and lifecycle tests plus the production Vite build pass.
-  2. [x] **GPU-2 — Dynamic environment policy (1–1.5 h).** Observe
-     `prefers-reduced-motion` and document visibility through injected,
-     disposable listeners. Stop GPU work on either constraint and permit a
-     restart only when the named effect remains approved. **DoD:** listener
-     cleanup is idempotent; background/reduced-motion transitions never alter
-     Scene/Event state; fake-media/document tests pin ordering and disposal.
-     *Done 2026-08-30:* an injected environment policy now observes reduced
-     motion and document visibility, gates restart on explicit effect approval,
-     and reconciles through the generation-safe GPU lifecycle. Tests pin
-     fallback-first ordering, background and approval transitions, duplicate
-     listener prevention, idempotent disposal and destruction of a device that
-     arrives after disposal. Seventeen focused lifecycle/policy tests and the
-     production Vite build pass.
-  3. [x] **GPU-3 — Ignition flame uniform plan (1–1.5 h).** Map only a live
-     authoritative `ignite` effect, its bounded magnitude, curated flame
-     colour and vessel identity to clamped visual uniforms and a deterministic
-     seed. Do not infer flame from temperature alone. **DoD:** absent ignite is
-     inactive; magnitude is monotone and bounded; known colours map exactly;
-     unknown colour falls back safely; reduced motion is inactive; no engine
-     schema, chemistry state, IPC or GPU readback changes.
-     *Done 2026-08-30:* a pure renderer-local projection activates only for a
-     live `ignite` effect, clamps non-finite/out-of-range magnitude, maps all
-     eleven emitted curated flame colours to bounded sRGB, and derives a stable
-     presentation-only seed from vessel identity. Unknown colours use a fixed
-     safe fallback and reduced motion disables the effect. Thirty-one focused
-     uniform tests and the production Vite build pass.
-  4. [x] **GPU-4a — Shader ABI and fail-closed renderer core (2–3 h).** Define
-     one canonical 32-byte WGSL uniform layout and a renderer adapter that keeps
-     SVG visible through acquisition, configuration and first presentation.
-     **DoD:** project-owned source carries an auditable Nguyen/Fedkiw/Jensen DOI
-     and explicit independent-implementation notice; dimensions, animation
-     time, intensity, colour and seed are finite and bounded; inactive effects
-     schedule nothing; device replacement, canceled-but-delivered frames,
-     presentation failure and exceptions cannot hide SVG or fork render loops;
-     partial GPU resources are destroyed; deterministic ABI snapshots pass;
-     no app-owned hot-path buffer/callback/submission allocation, IPC or
-     readback.
-     *Done 2026-08-30:* the analytic flame shader, canonical buffer writer,
-     generation-guarded adapter and structural canvas surface are implemented.
-     Independent reviews found and integration fixed an ABI mismatch, stale-RAF
-     race, hidden-fallback failure, unbounded time/dimensions and partial-build
-     leak. Focused tests exercise compilation-info rejection, pipeline
-     submission, stale asynchronous configuration, resource cleanup and every
-     fallback edge. GPU-4 remains open pending the real browser compiler gate.
-  5. [x] **GPU-4b — Browser compiler and bounded canvas host (2–3 h).** Add one
-     concrete, SSR-safe browser host around the surface with an injected
-     preferred-format seam and fixed 48×56 logical target. Cap DPR/pixel size,
-     set `aria-hidden` and `pointer-events:none`, and expose an atomic policy +
-     lifecycle snapshot so one bench-owned device can serve presentation.
-     **DoD:** a real WebGPU shader-module compilation-info check runs where an
-     adapter exists; missing context/format/compiler, resize, setup rejection,
-     device loss, reduced motion and backgrounding all retain SVG; canvas and
-     resources are bounded and cleanup is idempotent; SSR and fake-browser
-     component tests plus full frontend/build gates pass.
-     *Done 2026-08-30:* the single policy-owned lifecycle now publishes atomic
-     lifecycle/decision/format snapshots to disposable subscribers; format
-     resolution is allowlisted, exception-safe and never guessed. The surface
-     refuses to allocate a pipeline when browser compilation information is
-     absent or reports an error. An SSR-safe 48×56 ignition canvas host caps DPR
-     at 2×, owns no pointer or accessibility interaction, and derives uniforms
-     only from the authoritative effect. Tests cover snapshot ordering,
-     subscription disposal, hostile observers/destructors, format failures,
-     compiler rejection, canvas bounds and fallback-first markup. Ninety-three
-     focused GPU tests, all 411 frontend tests, production build and the licence
-     gate pass. Physical browser/device measurements remain GPU-5b work.
-  6. [x] **GPU-5a — Authoritative vessel integration (2–3 h).** Mount a
-     fallback-first ignition overlay at the existing vessel flame endpoint.
-     A live `ignite` effect is the sole GPU and SVG combustion authority;
-     temperature retains separate glow/steam visuals and `flame_test` remains
-     separate.
-     **DoD:** exactly one bench device acquisition, independent per-vessel
-     surfaces, SVG retained until each surface's first successful frame,
-     inactive/expired effects cancel all frames, no pointer/tab/a11y ownership,
-     simultaneous-vessel and hot-without-ignite regressions, no Scene/Event,
-     chemistry, IPC or readback changes; merge as its own checkpoint.
-     *Done 2026-08-30:* Bench owns one fail-closed browser environment policy
-     and publishes the same atomic device snapshot to every vessel. Acquisition
-     begins only while at least one authoritative ignite effect is live, stays
-     shared across simultaneous vessels, and is revoked at the final exact
-     expiry through one bounded bench clock. Each vessel owns an independent 48×56
-     surface and retains its SVG until that surface submits its first frame;
-     expiry, loss or presentation failure restores SVG without affecting the
-     separate thermal presentation. Headless, incomplete-browser, flame-test and
-     heat-only cases acquire no GPU. Pure authority, shared-device, source-
-     ownership and endpoint regressions accompany the full frontend/build and
-     licence gates. Preliminary production-bundle delta versus GPU-4b is
-     +14.7 kB minified / +5.7 kB gzip; physical frame and host measurements
-     remain GPU-5b work.
+  GPU-1 through GPU-5a are done (2026-08-30); see `HISTORY.md`. Open:
+
   7. [ ] **GPU-5b — Release instrumentation and host matrix (2–3 h plus device
      lab).** Measure payload, startup, first-frame time and p95 frame time
      against BRD-072's 9 ms governor. **DoD:** full Vitest/Vite/preflight gates;
@@ -2021,10 +1305,8 @@ and presents them well.
      reduced-motion cases retain the SVG endpoint; web/Android/iOS/macOS/Windows
      results recorded; shader similarity/provenance review complete. GUI-098
      remains open until this cross-host matrix passes.
-     - [x] Code checkpoint: bounded allocation-free renderer telemetry, strict
-       five-host release evaluator, deterministic asset measurement, physical-
-       evidence schema/audit and repeatable browser probe are implemented with
-       unit coverage. No physical result is inferred from CI or headless runs.
+     - [x] Code checkpoint: telemetry, evaluator, asset measurement,
+       evidence schema and browser probe are implemented (see `HISTORY.md`).
      - [ ] Lab checkpoint: collect and independently review physical web,
        Android, iOS, macOS and Windows artifacts; the committed template and
        matrix deliberately remain PENDING until those runs exist.
@@ -2032,60 +1314,10 @@ and presents them well.
      gap between the renderer's bounded telemetry and the physical release
      artifacts. This is four independently mergeable checkpoints; none may
      turn CI, a simulator or an unavailable adapter into physical evidence.
-     - [x] **GPU-6a — Runtime metrics ownership (2–3 h).** Inject a real
-       collector into every active flame renderer and expose one bounded,
-       renderer-local report seam. **DoD:** simultaneous vessels remain
-       bounded; disposal removes sessions; SSR and hostile observers are safe;
-       no per-frame IPC/readback/allocation or Scene/Event authority changes;
-       focused and full frontend/build gates pass.
-       *Done 2026-08-31:* one bench-owned, injectable registry opens a bounded
-       session for each mounted vessel flame and passes its preallocated
-       collector into the real renderer. The 32-session cap evicts only
-       diagnostics, never presentation; unmount and bench disposal reset and
-       remove sessions. Snapshots aggregate detached scalar reports, and
-       hostile factories, snapshot/reset hooks and report observers are
-       contained. Forty-six focused tests and the production build pass;
-       candidate JavaScript is 599.48 kB minified / 199.66 kB gzip. The
-       physical probe/export handshake remains GPU-6d.
-     - [x] **GPU-6b — Probe contract hardening (2–3 h).** Validate raw startup,
-       warmup, CPU submission, rAF and unavailable-adapter artifacts before
-       evaluation. **DoD:** malformed versions/modes/counts/non-finite samples
-       and incomplete reports fail closed with deterministic CLI exit codes;
-       a single host can never claim matrix passage; Node contract tests pass.
-       *Done 2026-08-31:* the evaluator now validates the raw v1 artifact
-       instead of trusting its summaries. Exact ten-run startup arrays, three
-       60+600-frame CPU/rAF runs, explicit mode/availability, SVG-before-GPU
-       proof and pass/outcome consistency are required. Lightweight evidence
-       cannot claim GPU availability; unavailable/headless evidence is valid
-       but exits non-zero and cannot pass. Missing/malformed CLI modes are
-       usage errors. Twenty-six offline release-tool tests pass.
-     - [x] **GPU-6c — Offline release-tool CI gate (1.5–2 h).** Give asset,
-       probe, evaluator and provenance self-tests one dependency-free command
-       and run it in CI/preflight. **DoD:** no browser, GPU, network or physical
-       claim is required; a failing self-test blocks CI; local and CI commands
-       are identical.
-       *Done 2026-08-31:* `tools/test-gpu-release-tools.sh` is the single local,
-       preflight and CI entrypoint for deterministic asset, probe, evaluator
-       and provenance tests. The dedicated CI job pins Node 22 and explicitly
-       excludes physical measurement and matrix claims. Twenty-six offline
-       tests pass through the exact command CI invokes.
-     - [x] **GPU-6d — End-to-end evidence manifest (2–3 h).** Join app metrics,
-       paired baseline/candidate probes, asset reports and provenance hashes in
-       one versioned manifest. **DoD:** executable fixtures prove schema and
-       hash consistency, bounded runtime aggregation and five unique physical
-       rows; payload/startup/frame thresholds remain explicit; full repository
-       gates and protected-main delivery pass.
-       *Done 2026-08-31 (code; lab remains pending):* a synchronous request-only
-       browser handshake returns the bench registry's detached v1 snapshot and
-       is removed on teardown. Available-GPU artifacts must cross-check at
-       least one successful app-owned presentation, internally consistent
-       aggregate/session counts, at most 32 sessions and 120 retained samples
-       per session. The version-2 matrix requires five explicit physical rows,
-       reviewer/time metadata and SHA-256 descriptors for every paired probe,
-       asset report and the reviewed WGSL source; path escapes, tampering and
-       provenance failures block passage. Twenty-eight offline tests, seven
-       registry tests and the production build pass. This completes the
-       evidence pipeline, not the still-PENDING physical device matrix.
+     GPU-6a (runtime metrics ownership), GPU-6b (probe contract hardening),
+     GPU-6c (offline release-tool CI gate) and GPU-6d (end-to-end evidence
+     manifest) are done 2026-08-31; see `HISTORY.md`. What remains is the
+     still-PENDING physical device matrix, not the pipeline.
 
 ## The stage must render the computation (GUI-099)
 
@@ -2118,53 +1350,11 @@ and presents them well.
   `phase-change` effect kind that no component rendered), and
   `SceneVessel.emulsion` is read by no component in the app.
 
-  1. [x] **ANIM-1 — Thermal truth (PR 1).** The boil held at the engine's own
-     plateau (`state_changed.at`, `boiling_point_routed.boiling`) instead of
-     368 K, with the rolling boil and the steam plume both sized by the moles
-     of vapour that step made; incandescence above ~800 K coloured off the
-     blackbody locus by `temperature_k` alone; condensation beading once the
-     wall is under the room's dew point (Magnus), with frost still owning the
-     water below freezing; `gas_contained` mapped at last, so a sealed flask
-     boiling is visible. Every new visual carries a `data-*` attribute naming
-     its driving number. → 36 done, 17 partial, 20 missing.
-  2. [x] **ANIM-2 — Matter and pressure (PR 2).** Precipitate particle count
-     from moles and particle size from molar volume, in the species' own
-     colour; dissolving particles shrinking in proportion; the piston's height
-     from the headspace volume the trapped gas occupies at the held pressure;
-     the flame's driving energy readable from the DOM. → 41 done, 12 partial,
-     20 missing.
-
-     Done 2026-09-06, and two of the four were the same bug wearing different
-     clothes. The dissolving grain scaled *up* to 3.5× and faded — a puff, not
-     a crystal going into solution — and there was only ever one of it, at
-     `r=4`, because `dissolved`'s magnitude was the literal `1`. The
-     pressure-controlled piston was a `<rect y="16">`: the one control on the
-     bench whose entire job is to move in response to a pressure did not move.
-     Both now read engine numbers, and the piston reads two of them —
-     `V = nRT/P` from `vessel_pressure_controlled.trapped_gas` with the
-     scene's live pressure and temperature while the event is on the bench,
-     and Boyle's law off the scene's `pressure_pa` once it has left, so the
-     piston stays where the gas is rather than snapping back. The grains take
-     their size from `SceneSolid.volume_l ÷ moles` — the registry's molar
-     volume — so a mole of a fluffy hydroxide finally draws larger than a mole
-     of a dense sulfate, and their colour from the species' own `srgb`.
-
-  3. [x] **ANIM-3 — The ones that drew nothing (PR 3).** Three events changed
-     a vessel and produced no picture at all. An emulsion now disperses into
-     droplets counted by `dispersed_fraction` and sized by
-     `dispersed_volume_l` split between them, drifting back together on the
-     engine's own coalescence half-life — `SceneVessel.emulsion` had been read
-     by no component in the app, so shaking oil into water changed nothing on
-     screen. Fermentation bubbles at the rate the engine computed rather than
-     at an invented speed: `carbon_dioxide_moles ÷ seconds`, turned into a
-     tempo by the ~41 µmol of gas in one visible millilitre bubble, so an
-     overnight brew ticks every few seconds and a lively dough every one. A UV
-     beam crosses the vessel and leaves with an opacity that *is*
-     `transmitted_fraction`. And electrolysis bubbles at both electrodes on
-     the **charge** they shared — the honest driver, because the engine names
-     the moles of one product only and the counter-electrode's half-reaction
-     is not on the wire, so neither electrode is drawn at an invented ratio.
-     → 45 done, 11 partial, 17 missing.
+  ANIM-1 (thermal truth), ANIM-2 (matter and pressure) and ANIM-3 (the
+  three events that drew nothing) shipped across three PRs and took the
+  audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
+  `HISTORY.md`. The remaining 11 partial and 17 missing rows are the open
+  half of this item.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
   driving quantity and for bounds; every new visual reachable from the DOM by
@@ -2237,58 +1427,28 @@ in a German classroom — which is the audience the curriculum mapping in
   misconception diagnosis that misstates the misconception is worse than an
   English one.
 
-- [x] **I18N-2 — The map screen's own vocabulary.** The reason it was hard is
-  structural: neither a concept nor an entry has a label field. The component
-  de-slugs an identifier and asks the dictionary — `t("activation energy")` —
-  so the German has to land in the dictionary, keyed exactly as the component
-  asks.
-
-  `codex/concepts.toml` does not help, despite carrying `label_de`: it is the
-  oeh curriculum spine, whose ids are German slugs
-  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 157** concept slugs
-  the entries use appears in it. The two vocabularies were never the same one.
-
-  Concept labels are terminology and want the established German term over a
-  paraphrase; experiment names are written as small provocations ("why the
-  shelf is not on fire") and want that voice carried rather than flattened
-  into textbook headings. Different jobs, done separately.
-
-  **2026-08-30.** Done, and the interesting part is what "done" turned out to
-  mean. Measured mechanically rather than read off this entry, 256 of the 260
-  keys were already in `de.json` — the vocabulary had shipped inside the big
-  literal map before the bundles were split, and this entry had been counting
-  a screen nobody had re-measured. Four were missing: `heterogeneous
-  catalysis`, `mass transfer`, `surface area` and the experiment name
-  `catalyst area and stirring change the rate`, all of them arriving with one
-  `rates.toml` entry, none of them noticed, because `t()` falls back to its
-  argument and an English node inside a German map fails nothing. That is the
-  failure mode this file names five times over.
-
-  The other direction found two. Walking every slug the codex has ever
-  carried against the slugs it carries now, `unmodelled-variable` and
-  `more-catalyst-and-a-good-stir-change-nothing` were retired by that same
-  entry and their German stayed behind — still asserting that stirring
-  changes nothing, months after the engine learned that it does. Removed:
-  a key translating nothing is an error, not a spare.
-
-  So the durable half is `tools/i18n-slug-lint.py`, in `preflight.sh`: it
-  derives the key set from the codex fields the components actually read
-  (`id`, `concepts`, `requires`, `apparatus`, `models` — never
-  `calculations`, which nothing renders), and fails when German has no word
-  for one, or answers with the English key. It pins its own assumption to
-  `tSlug`'s source, so changing the de-slugging fails the lint rather than
-  silently invalidating it. 308 slugs, 308 answered.
-
-- [x] **I18N-3 — Engine vocabulary coverage.** The `terms` map in
-  `web/app/src/locales/de.json` translates species, colours, hazards and lesson
-  names through the locale-bundle loader. Done 2026-08-30: the preflight
-  vocabulary gate derives all 267 substitutable terms from the registry,
-  colour emitter, safety labels, lesson files, and the renderer's value-lookup
-  tables; no duplicate allow-list exists. Its self-test injects a new registry
-  species and proves the audit fails, pins the SpeciesChip/Vessel/lesson
-  substitution call sites, and the complete current tree passes with zero
-  uncovered terms.
+- I18N-2 (map-screen vocabulary, 2026-08-30) and I18N-3 (engine
+  vocabulary coverage, 2026-08-30) are done; see `HISTORY.md`. The
+  durable half of I18N-2 is `tools/i18n-slug-lint.py`, in `preflight.sh`.
 
 - [ ] **I18N-4 — Locale-complete store presence.** German App Store and Play
   listings, German "what to test", and the German privacy policy already at
   `privacy.de.html` wired into both manifests.
+
+## Completed GUI tasks
+
+Numbers are never renumbered and never reused. Each of these landed; the detail
+and the lessons are in `HISTORY.md`.
+
+GUI-002, GUI-005 · GUI-011, GUI-015 · GUI-020, GUI-025, GUI-026, GUI-027,
+GUI-028, GUI-029, GUI-033, GUI-053, GUI-055 · GUI-076, GUI-079, GUI-080
+(Phase G2.5 numbering) · GUI-058, GUI-061, GUI-062, GUI-063, GUI-064, GUI-065,
+GUI-066, GUI-067, GUI-074, GUI-075, GUI-077, GUI-078, GUI-079, GUI-080,
+GUI-083a, GUI-083b (realism-bar numbering) · GUI-087, GUI-091, GUI-095,
+GUI-096, GUI-097 · GPU-1 … GPU-5a, GPU-6a … GPU-6d · ANIM-1, ANIM-2,
+ANIM-3 · I18N-2, I18N-3 · DATA-010, WEB-003. GUI-060 was superseded by
+GUI-065 rather than built; its number stays retired.
+
+Note the deliberate collision: GUI-074/075/077/078/079/080 were issued twice,
+once in Phase G2.5 and once in the 2026-08-25 realism-bar addendum. Both sets
+are recorded under their own dates in `HISTORY.md`; neither is renumbered.
