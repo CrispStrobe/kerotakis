@@ -868,10 +868,20 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
         // copper it displaced is not inert in any general sense; what is
         // true is that there is nothing left here for it to displace, and
         // that is the sentence.
+        //
+        // It is gated on `just_plated` — the metals this very step took OUT
+        // of solution — and not merely on "a nobler metal is present and
+        // its ion is not". The looser test is true of a galvanised nail
+        // sitting in brine: zinc and iron are both there and there is no
+        // iron(II) to speak of, and it would have told the zinc that all
+        // the iron had plated out, which never happened. The sentence is
+        // about a displacement that finished, so the evidence it needs is
+        // the displacement.
         let spent_partner = SERIES
             .iter()
             .filter(|o| o.reduced_phase == Phase::Solid && o.reduced != c.reduced)
             .filter(|o| o.e0_volts > c.e0_volts)
+            .filter(|o| just_plated.contains(&o.reduced))
             .filter(|o| moles_in(vessel, o.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES)
             .filter(|o| {
                 let ion = oxidant_available(vessel, o);

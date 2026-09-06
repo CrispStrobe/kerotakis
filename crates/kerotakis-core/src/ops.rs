@@ -1202,6 +1202,25 @@ pub enum Event {
         instrument: Instrument,
         value: f64,
         unit: String,
+        /// The boundary the number carries with it, where it has one.
+        ///
+        /// A reading with a model behind it has a range the model is good
+        /// over, and that range is the part a reader cannot see. The
+        /// conductivity meter is the case that wanted it: a sum of
+        /// limiting molar conductivities is the infinite-dilution limit,
+        /// and above about 0.1 mol/kgw the number only means anything
+        /// because of a fitted correction.
+        ///
+        /// It rides the reading rather than arriving as a separate
+        /// `NotYetModeled`, because it is not a gap: the instrument
+        /// answered, and a caveat filed as an unmodelled thing makes the
+        /// coverage census read the row as unanswered. A boundary on an
+        /// answer is not the absence of one.
+        ///
+        /// Defaulted and skipped when absent, so every other instrument's
+        /// event serialises exactly as before.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        note: Option<String>,
     },
     /// The open-circuit voltage between two half-cells, and which way the
     /// electrons would go. Open circuit means: no current drawn, no
