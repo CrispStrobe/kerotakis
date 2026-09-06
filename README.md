@@ -259,7 +259,8 @@ white_vinegar_5_percent        liquid     g   5% white vinegar
       → CH3COOH 5.0%, water 95%
       also: Essig[de], Haushaltsessig_5%[de], household_vinegar[en]
 whole_milk                     liquid     g   whole milk surrogate
-      → water 87%, 13% conserved but unresolved
+      → water 87%, K+ 0.150%, Na+ 0.038%, Ca+2 0.035%, Cl- 0.106%,
+        H2PO4- 0.107%, C6H5O7-3 0.174%, 12% conserved but unresolved
       also: Milch[de], Vollmilch[de], whole_milk[en], cow's_milk[en]
 ```
 
