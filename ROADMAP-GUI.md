@@ -1343,7 +1343,7 @@ and presents them well.
 
 ## The stage must render the computation (GUI-099)
 
-- [ ] **GUI-099 — Animations that follow the computed numbers.** The owner's
+- [x] **GUI-099 — Animations that follow the computed numbers.** The owner's
   brief, from the German live deploy: *"we need way better and more complete
   animations for what happens. they must render what actually goes on.
   rendering must follow actual physical computed parameters where possible."*
@@ -1379,8 +1379,28 @@ and presents them well.
   `HISTORY.md`. Persistent corrosion extent moved one further missing row to
   done. The computed-motion tranche then made gas production cadence follow
   `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
-  two partial rows to done. The remaining 9 partial and 16 missing rows are the open
-  half of this item.
+  two partial rows to done, reaching **48 done, 9 partial, 16 missing**.
+
+  ANIM-5 through ANIM-9 then closed the rest, five slices of at most six
+  rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
+  partial, 0 missing.** The last two slices are the ones worth naming here,
+  because they were not absences but *constants*: `plated`'s magnitude was a
+  literal `1`, so a copper blush and a nail gone orange drew the same
+  shimmer; `vessel_swept` drew two static arrows whatever the sweep;
+  `enzyme_hydrolysed` had a caption percentage beside a liquid that never
+  changed; `mixed` threw away all three of the temperatures its adiabatic
+  balance had computed. Every one of the 73 rows is now a function of an
+  engine number carrying a `data-*` attribute that names it.
+
+  **This item is closed and the question it asks is not.** Two gaps outlive
+  the row count, both recorded in the audit. One event carries no quantity
+  at all — `Event::DidNotIgnite` has nothing but a vessel id, so nothing can
+  be drawn for it that is not a picture of the word, and its sibling
+  `FlameStarved` carries the three numbers instead. And a row score cannot
+  see the difference between a visual that is right *at the instant of its
+  event* and one that stays right *between* events; that was the whole
+  subject of the scene-numbers PR, and it is the standing risk in every
+  transient effect this item shipped.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
   driving quantity and for bounds; every new visual reachable from the DOM by
