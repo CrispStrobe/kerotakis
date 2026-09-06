@@ -2376,6 +2376,9 @@
   "gelling from {from}% to {to}% of the polymer": "",
   "{a} °C and {b} °C settled at {into} °C": "",
   "{moles} mol of water driven off at {celsius} °C": "",
-  "{moles} mol of water taken back into the hydrate": ""
+  "{moles} mol of water taken back into the hydrate": "",
+  "computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation": "",
+  "equilibrium split": "",
+  "At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}": ""
  }
 }

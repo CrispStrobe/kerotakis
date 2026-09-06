@@ -2376,6 +2376,9 @@
   "gelling from {from}% to {to}% of the polymer": "geliert von {from}% auf {to}% des Polymers",
   "{a} °C and {b} °C settled at {into} °C": "{a} °C und {b} °C stellten sich auf {into} °C ein",
   "{moles} mol of water driven off at {celsius} °C": "{moles} mol Wasser bei {celsius} °C ausgetrieben",
-  "{moles} mol of water taken back into the hydrate": "{moles} mol Wasser wieder in das Hydrat aufgenommen"
+  "{moles} mol of water taken back into the hydrate": "{moles} mol Wasser wieder in das Hydrat aufgenommen",
+  "computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation": "Berechnete Gleichgewichtsanteile in der unteren und oberen Schicht; die Balken sind keine Stofftransportanimation",
+  "equilibrium split": "Gleichgewichtsverteilung",
+  "At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}": "Im Gleichgewicht sind {lower}% {species} im unteren {lowerSolvent} und {upper}% im oberen {upperSolvent}"
  }
 }

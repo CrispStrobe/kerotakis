@@ -44,6 +44,7 @@
   import type { WebGpuMetricsRegistry } from "../webGpuMetricsRegistry";
   import { enzymeReadouts } from "../persistentReadouts";
   import { corrosionReadouts } from "../corrosionReadouts";
+  import { partitionReadouts } from "../partitionReadouts";
 
   let {
     vessel,
@@ -312,6 +313,7 @@
   );
   const shownSolidLayers = $derived(solidLayers(shownSolids.map(solidVolume), solidH, BOTTOM_Y));
   const persistentCorrosionReadouts = $derived(corrosionReadouts(vessel.corrosion));
+  const persistentPartitionReadouts = $derived(partitionReadouts(vessel.partition));
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
   // The engine's srgb is TRANSMITTED light: pure water transmits white,
   // and painting that as an opaque white block is the wrong physics on
@@ -657,6 +659,23 @@
           class="meniscus"
           d={`M ${INNER_X + 1} ${layer.y + 1.5} Q 50 ${layer.y - 1.5} ${INNER_X + INNER_W - 1} ${layer.y + 1.5}`}
         />
+      {/each}
+      {#each persistentPartitionReadouts as split (split.species)}
+        {@const lower = stackedLayers.find((layer) => layer.species === split.lower_solvent)}
+        {@const upper = stackedLayers.find((layer) => layer.species === split.upper_solvent)}
+        {#if lower && upper}
+          <!-- Two magnitude bars at the layers they describe. They show an
+               equilibrium share, never travel, mixing speed, or molecules. -->
+          <g
+            class="partition-marker"
+            data-species={split.species}
+            data-fraction-lower={split.fractionLower.toFixed(4)}
+          >
+            <rect x={INNER_X + 5} y={lower.y + lower.h / 2 - 1.5} width={Math.max(1, 22 * split.fractionLower)} height="3" rx="1" />
+            <rect x={INNER_X + 5} y={upper.y + upper.h / 2 - 1.5} width={Math.max(1, 22 * split.fractionUpper)} height="3" rx="1" />
+            <title>{t("computed equilibrium shares in the lower and upper layers; bars are not a mass-transfer animation")}</title>
+          </g>
+        {/if}
       {/each}
       {#if vessel.liquid.cloudiness > 0.01}
         <rect
@@ -2734,6 +2753,24 @@
         <strong>{progress.percent}%</strong>
       </span>
     {/each}
+    {#each persistentPartitionReadouts as split (split.species)}
+      <span
+        class="persistent-readout partition-readout"
+        data-fraction-lower={split.fractionLower.toFixed(4)}
+        aria-label={t("At equilibrium, {lower}% of {species} is in lower {lowerSolvent}; {upper}% is in upper {upperSolvent}", {
+          lower: split.lowerPercent,
+          species: t(split.species),
+          lowerSolvent: t(split.lower_solvent),
+          upper: split.upperPercent,
+          upperSolvent: t(split.upper_solvent),
+        })}
+        title={`${split.boundary} · ${split.provenance}`}
+      >
+        <small>{t(split.species)} · {t("equilibrium split")}</small>
+        <strong>{split.lowerPercent}% ↓ / {split.upperPercent}% ↑</strong>
+        <span>{t(split.lower_solvent)} / {t(split.upper_solvent)}</span>
+      </span>
+    {/each}
     {#if apparatusTitle}
       <span
         class="apparatus-status"
@@ -2894,6 +2931,13 @@
     stroke: #71341d;
     stroke-width: 1;
     stroke-dasharray: 1.5 2.5;
+  }
+  .partition-marker {
+    pointer-events: none;
+    fill: var(--discovery);
+    stroke: color-mix(in srgb, var(--discovery) 62%, var(--ink));
+    stroke-width: .4;
+    opacity: .82;
   }
   .bulk-object {
     stroke: color-mix(in srgb, var(--ink) 58%, transparent);
@@ -3822,6 +3866,12 @@
     color: #9a4827;
     border-color: color-mix(in srgb, #a84f28 42%, var(--edge));
     background: color-mix(in srgb, #a84f28 7%, var(--surface));
+  }
+  .partition-readout {
+    flex-wrap: wrap;
+  }
+  .partition-readout span {
+    font-size: .72rem;
   }
   /* Sized in px, not em: this is the one place on the bench where the
      number must survive a 64px-wide vessel on a 390px phone, and an em

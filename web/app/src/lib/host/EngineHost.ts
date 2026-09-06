@@ -56,6 +56,8 @@ export interface SceneVessel {
   coatings?: SceneCoating[];
   /** Current core-owned oxide bookkeeping; absent on older scene payloads. */
   corrosion?: SceneCorrosion[];
+  /** Standing neutral-solute split while two immiscible layers coexist. */
+  partition?: ScenePartition[];
   /** Prepared coherent objects whose ingredients remain object-owned. */
   material_objects?: SceneMaterialObject[];
   /** Conserved hard-water/fatty-soap aggregate. */
@@ -109,6 +111,18 @@ export interface SceneCorrosion {
   metal_in_oxide_moles: number;
   metal_in_oxide_fraction: number;
   words: string;
+}
+
+export interface ScenePartition {
+  species: string;
+  lower_solvent: string;
+  upper_solvent: string;
+  total_moles: number;
+  lower_moles: number;
+  upper_moles: number;
+  fraction_lower: number;
+  boundary: string;
+  provenance: string;
 }
 
 export interface SceneMaterialObject {
