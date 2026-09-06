@@ -662,6 +662,13 @@ been ignoring all of it:
   charcoal adsorption and the thermoplastic/thermoset heat comparison are
   searchable, filterable and directly runnable. Their copy states the curated
   parameter domains and safety limits; neither claims a general-purpose model.
+
+  *Discovery tranche 2026-09-06:* cards and details now say whether the
+  current shelf and the engine's catalog answer make an experiment ready,
+  name exact missing reagent ids, and render engine-owned locked, loaned and
+  mission-only reasons. A ready/missing facet composes with the existing rail.
+  Continue-with links use only authored Codex, lesson and capability ids;
+  titles are never treated as relations.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
@@ -1167,6 +1174,11 @@ hide them completely.
   *Progression-map slice shipped 2026-08-26 (see `HISTORY.md`). Open: the
   Electron Works, Systems Dock, contacts, equipment-family rewards, and
   engine-evaluated outcome transactions.*
+  *Discovery tranche 2026-09-06:* the live Story Map now states the exact
+  number of further completed investigations each locked district needs,
+  both on its map node and in its lock panel. The retired, unmounted
+  `MissionControl.svelte` is deliberately not treated as a product surface;
+  the larger open map work above remains.
 - [ ] **GUI-078 — Mission journal and in-world delivery.** Evolve QuestBar into
   active-mission cards, evidence ledger, optional hints, messages, and result
   debriefs. Dialogue pauses only itself, never silently the chemistry. All copy,
