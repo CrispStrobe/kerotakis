@@ -18,7 +18,7 @@ fn corpus() -> Vec<String> {
     for db in [
         databases::PHREEQC,
         databases::WATEQ4F,
-        databases::MINTEQ_V4,
+        databases::minteq_v4(),
         databases::PITZER,
     ] {
         let text = String::from_utf8_lossy(db);

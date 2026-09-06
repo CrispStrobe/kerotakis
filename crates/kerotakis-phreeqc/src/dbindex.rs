@@ -566,7 +566,7 @@ mod tests {
     #[test]
     fn parses_the_three_databases() {
         let wateq = DbIndex::parse(databases::WATEQ4F);
-        let minteq = DbIndex::parse(databases::MINTEQ_V4);
+        let minteq = DbIndex::parse(databases::minteq_v4());
         let pitzer = DbIndex::parse(databases::PITZER);
 
         // Element coverage drives routing — derived, not listed.
@@ -628,7 +628,7 @@ mod delta_h_tests {
     use super::*;
 
     fn minteq() -> DbIndex {
-        DbIndex::parse(crate::databases::MINTEQ_V4)
+        DbIndex::parse(crate::databases::minteq_v4())
     }
 
     /// The unit is optional and the two databases disagree about it, so
@@ -666,7 +666,7 @@ mod delta_h_tests {
         // zero". A corpus proved for one source says nothing about another.
         for (tag, bytes) in [
             ("wateq4f", crate::databases::WATEQ4F),
-            ("minteq.v4", crate::databases::MINTEQ_V4),
+            ("minteq.v4", crate::databases::minteq_v4()),
         ] {
             let parsed = DbIndex::parse(bytes);
             let nonzero = parsed
@@ -722,7 +722,7 @@ mod delta_h_tests {
     /// different reaction — so pin the shapes here and fail loudly.
     #[test]
     fn carbonate_rows_are_the_shape_the_algebra_assumes() {
-        let text = String::from_utf8_lossy(crate::databases::MINTEQ_V4);
+        let text = String::from_utf8_lossy(crate::databases::minteq_v4());
         assert!(
             text.contains("H+ + CO3-2 = HCO3-"),
             "minteq.v4 no longer defines HCO3- by protonating the carbonate master species"

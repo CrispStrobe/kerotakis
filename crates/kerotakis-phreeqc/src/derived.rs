@@ -88,6 +88,12 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         // 14.285 — pKa 3.13, 4.76, 6.40), so this row is what lets a
         // citric-acid solution compute its own pH instead of refusing.
         ("C6H5O7", "Citrate"),
+        // Lactate before acetate, same "most specific first" rule: lactic
+        // acid is C3H6O3 and an acetate unit is C2H3O2, which fits inside
+        // it by arithmetic and leaves CH3O — not a residue any database
+        // can place, so the extraction would refuse rather than mis-book.
+        // The order makes that a non-question instead of a near miss.
+        ("C3H5O3", "Lactate"),
         ("C2H3O2", "Acetate"), // CH3COO
         ("HCO3", "C"),
         ("CO3", "C"),
@@ -148,18 +154,6 @@ pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[
         "malic_acid",
         "no shipped database defines a malate species, so its two carboxylic protons are not in this pH",
     ),
-    // Lactic acid is the second row, and unlike malate it names the file
-    // that WOULD fix it: llnl-organics defines Lactate, and it is not one
-    // of the three databases this lab loads. That is a boundary of this
-    // lab's wiring rather than of the shipped thermodynamics, and saying
-    // which is which is the point of separating this table from
-    // `UNSPECIATED_SOLUTES`.
-    (
-        "lactic_acid",
-        "none of the three databases this lab loads (wateq4f, minteq.v4, pitzer) defines a \
-         lactate species, so the carboxylic proton of the acid a lactic fermentation just \
-         made is not in this pH",
-    ),
 ];
 
 /// Substances no shipped database can speciate AT ALL.
@@ -207,6 +201,13 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     ("C", "HCO3-"),
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
+    // Lactate's master species is `Lactate-`, which is not a registry key;
+    // the registry pairs the ion with its acid as `lactate` / `lactic_acid`,
+    // word keys rather than formulae, which is how that pair was already
+    // named. Frozen with kerotakis-59 before the registry row was written,
+    // because `PROTONATION_SPLITS` below hard-codes the string and a later
+    // rename would be a silent mis-book rather than a compile error.
+    ("Lactate", "lactate"),
     // minteq.v4's citrate master species is `Citrate-3`, which is not a
     // registry key; the registry books the fully deprotonated ion under
     // its formula, exactly as acetate books as CH3COO-. Without this the
@@ -375,6 +376,15 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
         "Acetate",
         &[("H(Acetate)", "CH3COOH"), ("Acetate-", "CH3COO-")],
     ),
+    // Lactate, for the same reason acetate is here: booking the whole
+    // element total as the anion would drop the undissociated acid out of
+    // the ledger, and a lactic fermentation makes nothing else. The
+    // database spelling is on the left and the registry's on the right,
+    // and as with acetate they are not the same word.
+    (
+        "Lactate",
+        &[("H(Lactate)", "lactic_acid"), ("Lactate-", "lactate")],
+    ),
 ];
 
 /// The protonation split for an element state, if it has one.
@@ -461,7 +471,7 @@ pub fn index_for(db_tag: &str) -> &'static DbIndex {
 impl Derived {
     fn build() -> Derived {
         let wateq4f = DbIndex::parse(databases::WATEQ4F);
-        let minteq = DbIndex::parse(databases::MINTEQ_V4);
+        let minteq = DbIndex::parse(databases::minteq_v4());
         let pitzer = DbIndex::parse(databases::PITZER);
         let indexes = [&wateq4f, &minteq, &pitzer];
 
@@ -1212,7 +1222,17 @@ mod tests {
         //                              the arithmetic cannot even reach for
         //                              the salt — and the residue rules
         //                              reject the leftover carbon anyway.
-        for key in ["glucose", "fructose", "malic_acid", "lactic_acid"] {
+        // Lactic acid is NOT in this list any more, and the distinction is
+        // the point of the guard rather than an exception to it. The guard
+        // rejects a molecule that would enter as SEVERAL anion skeletons —
+        // glucose as three acetates, malic acid as two — because a free
+        // acid carries one. Lactic acid carries exactly one lactate, so it
+        // was never the arithmetic-dressed-as-speciation case; it was
+        // simply an anion no loaded database defined. Now that
+        // `databases::minteq_v4()` defines it, the honest answer is one
+        // lactate, and `lactate_is_defined_in_exactly_one_loaded_database`
+        // asserts it.
+        for key in ["glucose", "fructose", "malic_acid"] {
             assert!(
                 role(key).is_none(),
                 "{key} must have no derived aqueous role, got {:?}",
@@ -1229,6 +1249,9 @@ mod tests {
             dissolves("NaOAc"),
             vec![("Acetate".into(), 1.0), ("Na".into(), 1.0)]
         );
+        // And lactic acid enters as ONE lactate, not as an acetate unit
+        // plus a leftover the residue rules would have to swallow.
+        assert_eq!(dissolves("lactic_acid"), vec![("Lactate".into(), 1.0)]);
     }
 
     #[test]
@@ -1247,19 +1270,37 @@ mod tests {
     }
 
     #[test]
-    fn lactate_is_in_none_of_the_databases_this_lab_loads() {
-        // Same premise, one step weaker than malate's: llnl-organics IS
-        // vendored with iphreeqc and DOES define Lactate, and this lab does
-        // not load it. So the refusal names a wiring boundary rather than a
-        // gap in the world's thermodynamics, and if a loaded database ever
-        // gains the species this test says the refusal must go.
-        for tag in DB_TAGS {
+    fn lactate_is_defined_in_exactly_one_loaded_database() {
+        // This test used to assert the opposite, and said so: "if a loaded
+        // database ever gains the species this test says the refusal must
+        // go." It has, so it did.
+        //
+        // The species is not in the vendored file. `databases::minteq_v4()`
+        // is minteq.v4 plus one reviewed lactate definition, taken from
+        // llnl-organics' own log K — see that constant for why the
+        // enthalpy is deliberately left behind. So the assertion is
+        // narrow on purpose: exactly one database has it, because that is
+        // the one this lab extended, and the other two must not silently
+        // acquire it.
+        assert!(
+            index_for("minteq.v4").has_element("Lactate"),
+            "the lactate extension is not reaching the parsed index — a \
+             species the engine has and the ledger does not is worse than \
+             one neither has"
+        );
+        for tag in ["wateq4f", "pitzer"] {
             assert!(
                 !index_for(tag).has_element("Lactate"),
-                "{tag} now defines Lactate — lactic acid can be speciated, so \
-                 UNSPECIATED_ACIDS should lose its row"
+                "{tag} now defines Lactate; the extension is meant for minteq.v4 alone"
             );
         }
-        assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "lactic_acid"));
+        // And the refusal is gone, because the acidity is modelled now.
+        assert!(
+            !UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "lactic_acid"),
+            "lactic acid can be speciated; its UNSPECIATED_ACIDS row is a \
+             false statement about what this bench cannot do"
+        );
+        // Malate's row stays: nothing has been added for it.
+        assert!(UNSPECIATED_ACIDS.iter().any(|(k, _)| *k == "malic_acid"));
     }
 }

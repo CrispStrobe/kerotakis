@@ -108,7 +108,7 @@ fn all_embedded_databases_load() {
     for (name, db) in [
         ("phreeqc.dat", databases::PHREEQC),
         ("wateq4f.dat", databases::WATEQ4F),
-        ("minteq.v4.dat", databases::MINTEQ_V4),
+        ("minteq.v4.dat", databases::minteq_v4()),
         ("pitzer.dat", databases::PITZER),
     ] {
         Phreeqc::with_database(db).unwrap_or_else(|e| panic!("{name} failed to load: {e}"));
