@@ -155,20 +155,22 @@ quoted:
   recipe's own lot assumptions say so in those words. And the lactic route
   still emits no typed event of its own.
 
-One consequence for the SMOKE SET, which is a corpus edit and not a
-baseline one. `bio-069` was the smoke set's only `missing` row, and
-`curiosity_smoke_routes_without_crashing` asserts that all five
-dispositions appear in the smoke report — an assertion worth keeping,
-because a smoke set that exercises four of five stops noticing the fifth.
-So `aq-091` is swapped out of the sixteen and `aq-085` ("can repeated
-small hexane extractions remove more iodine than one tiny extraction?")
-swapped in. It is the same action family, `separate`, so the pair keeps
-its shape; it moves the pair's second age band from `age9_to12` to
-`age16_to18`, which the set has room for; and it is `missing`, so the
-gate keeps seeing one. The set is still sixteen, still covers every
-action family and every age band, and now carries `computed` 10,
-`qualitative` 2, `boundary` 2, `curated` 1 and `missing` 1. No prompt was
-added, removed or renumbered.
+One consequence for the SMOKE SET, and it is a change to a gate rather
+than to the corpus. `bio-069` was the smoke set's only `missing` row, and
+`curiosity_smoke_routes_without_crashing` asserted that all five
+dispositions appear in the smoke report. No replacement exists: two
+`missing` rows are left in the whole corpus, `aq-053` and `aq-085`, and
+BOTH carry `expected = "computed"`, so putting either into the sixteen
+would trip the `expectation_mismatches == 0` assertion sitting four lines
+above it — the one that says the smoke set holds no open gaps. A `missing`
+row that could sit there would have to be one the corpus does not expect
+to compute, and there is none. The manifest is therefore UNCHANGED; the
+assertion is the thing that moved, from "at least one of each of five" to
+"exactly these four". Exact rather than a floor is what keeps it a gate:
+a smoke row that falls to `missing` now fails it, where under the old
+wording it would have passed as long as some other row was still missing.
+`missing` stays covered by the full `--check`, which runs in CI beside the
+smoke one and holds both remaining rows.
 
 The entry five refreshes below, under "Two run a real fermentation and
 still cannot answer", is now stale in one clause: it says milk resolves

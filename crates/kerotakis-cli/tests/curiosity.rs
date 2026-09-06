@@ -1,3 +1,4 @@
+use std::collections::BTreeSet;
 use std::process::Command;
 
 #[test]
@@ -28,14 +29,43 @@ fn curiosity_smoke_routes_without_crashing() {
         "baseline drift:\n{}",
         serde_json::to_string_pretty(drift).unwrap_or_default()
     );
-    for disposition in ["computed", "curated", "qualitative", "boundary", "missing"] {
-        assert!(
-            report["by_observed"][disposition]
-                .as_u64()
-                .is_some_and(|count| count > 0),
-            "smoke report omitted {disposition}"
-        );
-    }
+    // The dispositions the smoke set exercises, as an EXACT set rather
+    // than a floor.
+    //
+    // It used to be all five, and the fifth was `missing`, carried by
+    // `bio-069` (yoghurt). That row stopped being `missing` when
+    // `whole_milk` resolved its diffusible mineral buffer: milk became a
+    // characterised solution, so the pH meter at the end of that script
+    // succeeds instead of refusing. See the fourteenth refresh note in
+    // tests/coverage/curiosity-v1/README.md — the row is NOT thereby
+    // answered, and the note says so at length.
+    //
+    // No replacement exists. Two `missing` rows are left in the whole
+    // corpus, `aq-053` and `aq-085`, and BOTH carry `expected =
+    // "computed"` — so putting either into the smoke set would trip the
+    // `expectation_mismatches == 0` assertion above, which is the
+    // assertion that says the smoke set holds no open gaps. A `missing`
+    // row that could sit here would have to be one the corpus does not
+    // expect to compute, and there is none.
+    //
+    // Making the set EXACT is what keeps this a gate rather than a
+    // weakened one: a smoke row that falls to `missing` now fails here,
+    // where under "at least one of each" it would have passed as long as
+    // some other row was still missing. `missing` itself stays covered by
+    // the full `coverage curiosity --check`, which runs in CI beside this
+    // and holds `aq-053` and `aq-085`.
+    let exercised: BTreeSet<&str> = report["by_observed"]
+        .as_object()
+        .expect("the report counts its dispositions")
+        .iter()
+        .filter(|(_, count)| count.as_u64().is_some_and(|count| count > 0))
+        .map(|(disposition, _)| disposition.as_str())
+        .collect();
+    assert_eq!(
+        exercised,
+        BTreeSet::from(["boundary", "computed", "curated", "qualitative"]),
+        "the smoke set's dispositions moved"
+    );
 
     let repeated = Command::new(env!("CARGO_BIN_EXE_kero"))
         .args(["coverage", "curiosity", "--smoke", "--check", "--json"])

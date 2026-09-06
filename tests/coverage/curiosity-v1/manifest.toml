@@ -5,7 +5,7 @@ target_prompts = 500
 smoke_prompts = [
   "aq-018", "aq-003",
   "aq-046", "aq-051",
-  "aq-085", "mat-002",
+  "aq-091", "mat-002",
   "aq-100", "th-001",
   "aq-118", "mat-012",
   "bio-001", "bio-009",
