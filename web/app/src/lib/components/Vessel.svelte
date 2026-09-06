@@ -11,10 +11,12 @@
     bubblePeriodS,
     compressedVolumeL,
     condensationFilm,
+    corrosionBloom,
     depositParticles,
     electrodePairBubbles,
     headspaceVolumeL,
     incandescence,
+    partitionTint,
   } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
@@ -364,13 +366,18 @@
         (boilSpecies === "" || effect.species === boilSpecies),
     );
     const last = gas.length > 0 ? gas[gas.length - 1]!.magnitude : 0;
-    return Math.max(mag("evaporate", 2500), last);
+    // GUI-099 ANIM-5: dry ice fogs with no liquid and, in an open beaker,
+    // often with no gas event either — the transition IS the whole report.
+    // `state_changed` now carries the moles that left, so the fog is sized
+    // by them instead of falling back to the two-column minimum, which was
+    // a constant wearing the shape of a plume.
+    return Math.max(mag("evaporate", 2500), mag("sublimate", 3200), last);
   });
   const vapourMoles = $derived.by(() => {
     const clock = effectClock;
     const carriers = effects.filter(
       (effect) =>
-        ["vent", "contain", "evaporate"].includes(effect.kind) &&
+        ["vent", "contain", "evaporate", "sublimate"].includes(effect.kind) &&
         effectAlive(effect, 2600, clock) &&
         effect.unit === "mol",
     );
@@ -458,6 +465,14 @@
   const emulsifyEffect = $derived(latestEffect("emulsify", 9000));
   const fermentEffect = $derived(latestEffect("ferment", 12_000));
   const uvEffect = $derived(latestEffect("uv", 4600));
+  // GUI-099 ANIM-5: four more events that moved a real quantity and drew
+  // nothing at all, plus the corrosion extent PR 4 put on the wire and
+  // left unread.
+  const absorbEffect = $derived(latestEffect("absorb", 2600));
+  const partitionEffect = $derived(latestEffect("headspace-partition", 4200));
+  const headspaceSettledEffect = $derived(latestEffect("headspace-equilibrium", 4200));
+  const supersaturateEffect = $derived(latestEffect("supersaturate", 5200));
+  const corrodeEffect = $derived(latestEffect("corrode", 5000));
   // GUI-099 scene numbers: frost forms below the temperature THIS liquid
   // freezes at, which the engine computes with the colligative depression
   // its solutes bought. 272 K was a constant that made brine frost early and
@@ -865,6 +880,38 @@
             <title>{t("{percent}% of tracked {metal} is locked in modeled oxide; schematic marker, not surface coverage", { percent: oxide.percent, metal: t(oxide.metal) })}</title>
           </rect>
         {/if}
+        {#if corrodeEffect?.corrosion && corrodeEffect.corrosion.species === solid.species}
+          <!-- GUI-099 ANIM-5: the extent PR 4 put on the wire, drawn. The
+               marker above is the STANDING share of tracked metal in oxide
+               and stays; this is the event's own `corroded_fraction`, and
+               the number of spots and how strongly they read are both
+               functions of it. A verdict with no extent yet draws nothing,
+               because a nail set up a second ago has no rust on it. -->
+          {@const bloom = corrosionBloom(corrodeEffect.corrosion.corrodedFraction ?? 0)}
+          {#if bloom.spots > 0}
+            <g
+              class="corrosion-bloom"
+              data-corroded-fraction={(corrodeEffect.corrosion.corrodedFraction ?? 0).toFixed(4)}
+              data-corroded-moles={(corrodeEffect.corrosion.corrodedMoles ?? 0).toExponential(3)}
+              data-bloom-spots={bloom.spots}
+              data-bloom-strength={bloom.strength.toFixed(3)}
+              aria-label={t("{percent}% of the {metal} has gone to oxide: {moles} mol", {
+                percent: Math.round((corrodeEffect.corrosion.corrodedFraction ?? 0) * 100),
+                metal: t(solid.name),
+                moles: formatReading(corrodeEffect.corrosion.corrodedMoles ?? 0, 4),
+              })}
+            >
+              {#each Array.from({ length: bloom.spots }, (_, k) => k) as k (k)}
+                <circle
+                  cx={INNER_X + 4 + ((k * 19) % Math.max(1, INNER_W - 8))}
+                  cy={layer.y + 1 + ((k * 7) % Math.max(1, Math.round(Math.max(1, layer.h - 2))))}
+                  r={0.7 + bloom.strength * 1.3}
+                  style={`opacity:${bloom.strength.toFixed(3)};animation-delay:${(k * 0.14).toFixed(2)}s`}
+                />
+              {/each}
+            </g>
+          {/if}
+        {/if}
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
            with a surface rather than a painted band. -->
@@ -1244,6 +1291,66 @@
             style={`animation-delay:${(i * 0.09).toFixed(2)}s${dissolveEffect.solid?.colour ? `;fill:${dissolveEffect.solid.colour}` : ""}`}
           />
         {/each}
+      </g>
+    {/if}
+    {#if absorbEffect && liquidH > 0}
+      <!-- GUI-099 ANIM-5: gas crossing INWARD. `gas_evolved` grows bubbles
+           and lets them go; this is the same moles arriving from outside,
+           so the bubbles sink and shrink into the liquid instead of rising
+           out of it. Count and radius both follow the moles absorbed. -->
+      {@const aMoles = absorbEffect.reading ?? 0}
+      {@const aCount = Math.max(2, Math.round(2 + absorbEffect.magnitude * 6))}
+      <g
+        class="absorbing"
+        data-absorbed-moles={aMoles.toExponential(3)}
+        data-absorb-intensity={absorbEffect.magnitude.toFixed(3)}
+        data-bubble-count={aCount}
+        aria-label={t("{moles} mol of {species} taken back into the liquid", {
+          moles: formatReading(aMoles, 4),
+          species: t(absorbEffect.species || "gas"),
+        })}
+      >
+        {#each Array.from({ length: aCount }, (_, i) => i) as i (i)}
+          <circle
+            class="absorb-bubble"
+            cx={INNER_X + 6 + ((i * 27) % Math.max(1, INNER_W - 12))}
+            cy={BOTTOM_Y - liquidH + 3}
+            r={0.9 + absorbEffect.magnitude * 1.3}
+            style={`--sink:${Math.max(6, liquidH - 8)}px;animation-delay:${(i * 0.18).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if supersaturateEffect?.saturation && liquidH > 0}
+      <!-- GUI-099 ANIM-5: the engine deliberately refuses to precipitate
+           this — that refusal is what makes rock candy possible — so the
+           only honest picture is the DISTANCE past the limit. The haze IS
+           `dissolved ÷ capacity`, and a solution exactly at saturation
+           draws nothing, because it looks like any other solution. -->
+      {@const sat = supersaturateEffect.saturation}
+      <g
+        class="supersaturation"
+        data-saturation-ratio={sat.ratio.toFixed(4)}
+        data-dissolved-moles={sat.dissolved.toExponential(3)}
+        data-capacity-moles={sat.capacity.toExponential(3)}
+        data-excess-moles={sat.excessMoles.toExponential(3)}
+        data-haze={supersaturateEffect.magnitude.toFixed(3)}
+        aria-label={t("{ratio}× saturation: {dissolved} mol dissolved against a limit of {capacity} mol", {
+          ratio: formatReading(sat.ratio, 2),
+          dissolved: formatReading(sat.dissolved, 4),
+          capacity: formatReading(sat.capacity, 4),
+        })}
+      >
+        <rect
+          class="saturation-haze"
+          x={INNER_X + 1}
+          y={BOTTOM_Y - liquidH}
+          width={INNER_W - 2}
+          height={liquidH}
+          style={`opacity:${(0.06 + supersaturateEffect.magnitude * 0.34).toFixed(3)}`}
+        />
+        <rect class="saturation-readout" x={INNER_X + 2} y={BOTTOM_Y - liquidH + 2} width="26" height="9" rx="3" />
+        <text x={INNER_X + 15} y={BOTTOM_Y - liquidH + 8.4} text-anchor="middle">{formatReading(sat.ratio, 2)}×</text>
       </g>
     {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
@@ -1726,6 +1833,71 @@
           })}</title>
         </rect>
       {/if}
+    {/if}
+    {#if partitionEffect?.headspacePartition}
+      <!-- GUI-099 ANIM-5: a volatile moving between the liquid and the gas
+           above it under Henry's law. The band's opacity IS the share of
+           the species' whole inventory now in the headspace, so a gas that
+           barely leaves the water tints almost nothing; the arrows only
+           say which way this step went. -->
+      {@const part = partitionEffect.headspacePartition}
+      {@const tint = partitionTint(part.gasFraction)}
+      {@const partTop = Math.max(10, liquidTopY - 20)}
+      <g
+        class="headspace-partition"
+        data-gas-fraction={part.gasFraction.toFixed(4)}
+        data-partition-moles={part.moles.toExponential(3)}
+        data-partial-pressure-pa={Math.round(part.partialPressurePa)}
+        data-henry-mol-per-l-atm={part.henryMolPerLAtm.toExponential(3)}
+        data-partition-direction={part.toGas ? "to-gas" : "to-liquid"}
+        data-partition-tint={tint.toFixed(3)}
+        aria-label={t("{percent}% of the {species} is in the headspace at {pressure} kPa", {
+          percent: Math.round(part.gasFraction * 100),
+          species: t(part.species),
+          pressure: formatReading(part.partialPressurePa / 1000, 2),
+        })}
+      >
+        <rect
+          class="partition-band"
+          x={INNER_X + 1}
+          y={partTop}
+          width={INNER_W - 2}
+          height={Math.max(3, liquidTopY - partTop)}
+          style={`opacity:${tint.toFixed(3)}`}
+        />
+        {#each [34, 50, 66] as x, i (x)}
+          <path
+            class="partition-arrow"
+            d={part.toGas
+              ? `M ${x} ${liquidTopY - 1} L ${x} ${liquidTopY - 8} M ${x - 2.4} ${liquidTopY - 5.4} L ${x} ${liquidTopY - 8} L ${x + 2.4} ${liquidTopY - 5.4}`
+              : `M ${x} ${liquidTopY - 8} L ${x} ${liquidTopY - 1} M ${x - 2.4} ${liquidTopY - 3.6} L ${x} ${liquidTopY - 1} L ${x + 2.4} ${liquidTopY - 3.6}`}
+            style={`animation-delay:${(i * 0.3).toFixed(2)}s`}
+          />
+        {/each}
+        {#if part.source}<title>{engineText(part.source)}</title>{/if}
+      </g>
+    {/if}
+    {#if headspaceSettledEffect?.headspaceEquilibrium}
+      <!-- GUI-099 ANIM-5: the gauge and the piston agreeing. The pressure
+           and the amount holding it are the two numbers the settled
+           headspace is, and the lid above is drawn from the same headspace,
+           so a reader can check one against the other. -->
+      {@const eq = headspaceSettledEffect.headspaceEquilibrium}
+      {@const gaugeY = Math.max(2, liquidTopY - 16)}
+      <g
+        class="headspace-settled"
+        data-settled-pressure-pa={Math.round(eq.pressurePa)}
+        data-settled-moles={eq.totalMoles.toExponential(3)}
+        data-settled-intensity={headspaceSettledEffect.magnitude.toFixed(3)}
+        aria-label={t("headspace settled at {pressure} kPa holding {moles} mol", {
+          pressure: formatReading(eq.pressurePa / 1000, 1),
+          moles: formatReading(eq.totalMoles, 4),
+        })}
+      >
+        <rect x={INNER_X + 2} y={gaugeY} width={INNER_W - 4} height="13" rx="3" />
+        <text x={INNER_X + INNER_W / 2} y={gaugeY + 5.6} text-anchor="middle">⇄ {formatReading(eq.pressurePa / 1000, 1)} kPa</text>
+        <text x={INNER_X + INNER_W / 2} y={gaugeY + 10.6} text-anchor="middle">{formatReading(eq.totalMoles, 4)} mol</text>
+      </g>
     {/if}
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
@@ -2400,6 +2572,26 @@
   .stir-result .rate-boundary { fill: var(--dim); font-size: 3.7px; }
   .resuspended-particle { stroke: var(--edge-strong); stroke-width: .35; animation: resuspend var(--resuspend-duration) ease-in-out infinite alternate; animation-delay: var(--resuspend-delay); }
   @keyframes resuspend { to { transform: translateY(calc(-1 * var(--resuspend-rise))) translateX(3px); opacity: .45; } }
+  /* GUI-099 ANIM-5. Every opacity, radius, count and offset below is set
+     inline from an engine number; the rules here only say what the shape
+     is made of and how it moves. */
+  .absorb-bubble { fill: none; stroke: var(--instrument); stroke-width: .7; transform-box: fill-box; transform-origin: center; animation: absorb-sink 2.4s ease-in infinite; }
+  @keyframes absorb-sink {
+    from { transform: translateY(0) scale(1); opacity: .85; }
+    to { transform: translateY(var(--sink, 20px)) scale(.15); opacity: 0; }
+  }
+  .saturation-haze { fill: var(--cloud); pointer-events: none; }
+  .supersaturation .saturation-readout { fill: color-mix(in srgb, var(--surface) 82%, transparent); stroke: var(--edge); stroke-width: .5; }
+  .supersaturation text { fill: var(--ink); font: 700 5px system-ui, sans-serif; }
+  .partition-band { fill: var(--instrument); pointer-events: none; }
+  .partition-arrow { fill: none; stroke: var(--instrument); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; animation: partition-drift 1.6s ease-in-out infinite; }
+  @keyframes partition-drift { 0%, 100% { opacity: .3; } 50% { opacity: .95; } }
+  .headspace-settled rect { fill: color-mix(in srgb, var(--surface) 84%, transparent); stroke: var(--instrument); stroke-width: .5; }
+  .headspace-settled text { fill: var(--ink); font: 700 4.2px system-ui, sans-serif; }
+  /* transform-box, or the scale below happens about the viewBox origin and
+     the spots slide across the vessel instead of growing where they are. */
+  .corrosion-bloom circle { fill: #a84f28; stroke: #71341d; stroke-width: .35; pointer-events: none; transform-box: fill-box; transform-origin: center; animation: corrosion-bloom-in .8s ease-out both; }
+  @keyframes corrosion-bloom-in { from { transform: scale(.2); } to { transform: scale(1); } }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -2713,6 +2905,11 @@
     .test-flame { animation: none; }
     .test-flame-small, .relit-flame, .pop-wave, .lime-particle { animation: none; }
     .waft-current { animation: none; opacity: .55; }
+    /* The evidence stays — every data-* attribute and every readout is
+       still rendered at its engine value; only the movement stops. */
+    .absorb-bubble { animation: none; opacity: .7; }
+    .partition-arrow { animation: none; opacity: .8; }
+    .corrosion-bloom circle { animation: none; }
     .glassbtn.pouring { animation: none; }
     .burette-fill,
     .piston-assembly .lid,

@@ -1801,7 +1801,6 @@
   "burette and retort stand on the bench": "",
   "burette and stand": "",
   "calcium-carbonate chalk stick": "",
-  "candle wax": "",
   "calorimeter reading: {value} kJ relative to 25 °C": "",
   "centrifugation": "",
   "charge": "",
@@ -1965,9 +1964,7 @@
   "safe waft at vessel v{vessel}: {result}": "",
   "sample temperature": "",
   "sample tube": "",
-  "sample vessel": "",
   "scatter": "",
-  "sealed connection": "",
   "sealed headspace volume": "",
   "separate and compare components": "",
   "separation applied to vessel": "",
@@ -2360,6 +2357,11 @@
   "Show the tools under the names of the activity kits.": "",
   "modeled foam half-life: {seconds} s": "",
   "half-life {seconds} s": "",
-  "gas production: {rate} mol per second, a bubble every {period} s": ""
+  "gas production: {rate} mol per second, a bubble every {period} s": "",
+  "{moles} mol of {species} taken back into the liquid": "",
+  "{ratio}× saturation: {dissolved} mol dissolved against a limit of {capacity} mol": "",
+  "{percent}% of the {species} is in the headspace at {pressure} kPa": "",
+  "headspace settled at {pressure} kPa holding {moles} mol": "",
+  "{percent}% of the {metal} has gone to oxide: {moles} mol": ""
  }
 }

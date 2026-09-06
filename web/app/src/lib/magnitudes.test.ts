@@ -7,12 +7,15 @@ import {
   bubblePeriodS,
   compressedVolumeL,
   condensationFilm,
+  corrosionBloom,
   depositParticles,
   dewPointK,
   electrodeBubbles,
   electrodePairBubbles,
   headspaceVolumeL,
+  partitionTint,
   phaseKind,
+  supersaturationHaze,
   effectFromEvent,
   incandescence,
   vapourIntensity,
@@ -875,5 +878,123 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
     expect(legacy!.kind).toBe("boil");
     expect(legacy!.phase!.kind).toBeUndefined();
     expect(legacy!.phase!.moles).toBeUndefined();
+  });
+
+  // -------------------------------------------------- GUI-099 ANIM-5 rows
+
+  it("a solution AT its limit hazes not at all, and one past it more the further past", () => {
+    // Saturation is not a spectacle: a saturated solution looks like any
+    // other, and drawing something there would be a picture of the word.
+    expect(supersaturationHaze(0.5, 1)).toBe(0);
+    expect(supersaturationHaze(1, 1)).toBe(0);
+    const slight = supersaturationHaze(1.1, 1);
+    const heavy = supersaturationHaze(2, 1);
+    expect(slight).toBeGreaterThan(0);
+    expect(heavy).toBeGreaterThan(slight);
+    // Bounded: a wild ratio cannot white the vessel out.
+    expect(supersaturationHaze(50, 1)).toBe(1);
+    // A capacity of zero is not a ratio, and must not be an infinity.
+    expect(supersaturationHaze(0.4, 0)).toBe(0);
+  });
+
+  it("supersaturated carries both halves of the comparison, not just the excess", () => {
+    const syrup = effectFromEvent({
+      event: "supersaturated", vessel: 0, species: "Sucrose",
+      dissolved: 4.2, capacity: 2.1,
+    });
+    expect(syrup!.kind).toBe("supersaturate");
+    expect(syrup!.saturation).toMatchObject({ dissolved: 4.2, capacity: 2.1, ratio: 2 });
+    expect(syrup!.saturation!.excessMoles).toBeCloseTo(2.1, 10);
+    const thinner = effectFromEvent({
+      event: "supersaturated", vessel: 0, species: "Sucrose",
+      dissolved: 2.2, capacity: 2.1,
+    });
+    expect(syrup!.magnitude).toBeGreaterThan(thinner!.magnitude);
+  });
+
+  it("gas crossing inward is drawn on the same ramp as gas leaving", () => {
+    const inward = effectFromEvent({ event: "gas_absorbed", vessel: 0, species: "CO2", moles: 0.05 });
+    const outward = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.05 });
+    expect(inward!.kind).toBe("absorb");
+    // One scale for one quantity: a mole in and a mole out read alike.
+    expect(inward!.magnitude).toBe(outward!.magnitude);
+    expect(inward!.reading).toBe(0.05);
+    const more = effectFromEvent({ event: "gas_absorbed", vessel: 0, species: "CO2", moles: 0.4 });
+    expect(more!.magnitude).toBeGreaterThan(inward!.magnitude);
+    expect(more!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("the headspace tint is the share that is gas, monotone and never opaque", () => {
+    expect(partitionTint(0)).toBe(0);
+    expect(partitionTint(0.25)).toBeLessThan(partitionTint(0.75));
+    // Held under the band's own ceiling: a full partition darkens the
+    // headspace without hiding the piston behind it.
+    expect(partitionTint(1)).toBeLessThanOrEqual(0.45);
+    expect(partitionTint(4)).toBe(partitionTint(1));
+    expect(partitionTint(Number.NaN)).toBe(0);
+  });
+
+  it("a partition says which way it went and how much is now gas", () => {
+    const out = effectFromEvent({
+      event: "headspace_partitioned", vessel: 0, species: "CO2", to_gas: true,
+      moles: 0.004, gas_fraction: 0.62, partial_pressure_pa: 4300,
+      henry_mol_per_l_atm: 0.034, source: "curated",
+    });
+    expect(out!.kind).toBe("headspace-partition");
+    expect(out!.headspacePartition).toMatchObject({ toGas: true, gasFraction: 0.62 });
+    expect(out!.magnitude).toBe(0.62);
+    const back = effectFromEvent({
+      event: "headspace_partitioned", vessel: 0, species: "CO2", to_gas: false,
+      moles: 0.001, gas_fraction: 0.12, partial_pressure_pa: 800,
+      henry_mol_per_l_atm: 0.034, source: "curated",
+    });
+    expect(back!.headspacePartition!.toGas).toBe(false);
+    expect(back!.magnitude).toBeLessThan(out!.magnitude);
+  });
+
+  it("a settled headspace at one atmosphere is unremarkable, and above it is not", () => {
+    const atRest = effectFromEvent({
+      event: "headspace_equilibrated", vessel: 0, pressure: 101_325, total_moles: 0.012,
+    });
+    expect(atRest!.kind).toBe("headspace-equilibrium");
+    expect(atRest!.magnitude).toBe(0);
+    expect(atRest!.headspaceEquilibrium).toMatchObject({ pressurePa: 101_325, totalMoles: 0.012 });
+    const pressed = effectFromEvent({
+      event: "headspace_equilibrated", vessel: 0, pressure: 300_000, total_moles: 0.04,
+    });
+    expect(pressed!.magnitude).toBeGreaterThan(0);
+    expect(pressed!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("rust is drawn from the extent, never from the verdict", () => {
+    // A nail the engine says WILL corrode but has not touched has no rust
+    // on it, and drawing some would be a picture of the word "corroding".
+    expect(corrosionBloom(0)).toEqual({ spots: 0, strength: 0 });
+    const early = corrosionBloom(0.1);
+    const late = corrosionBloom(0.9);
+    expect(early.spots).toBeGreaterThan(0);
+    expect(late.spots).toBeGreaterThan(early.spots);
+    expect(late.strength).toBeGreaterThan(early.strength);
+    // Bounded: a fully corroded solid is a texture, not a swarm.
+    expect(corrosionBloom(1).spots).toBeLessThanOrEqual(9);
+    expect(corrosionBloom(1).strength).toBeLessThanOrEqual(1);
+    expect(corrosionBloom(4)).toEqual(corrosionBloom(1));
+  });
+
+  it("corroded carries its extent, and an older log carries none rather than zero", () => {
+    const rusted = effectFromEvent({
+      event: "corroded", vessel: 0, species: "Fe", corroding: true,
+      why: "damp air", corroded_moles: 0.0031, corroded_fraction: 0.42,
+    });
+    expect(rusted!.kind).toBe("corrode");
+    expect(rusted!.magnitude).toBeCloseTo(0.42, 10);
+    expect(rusted!.corrosion).toMatchObject({ corrodedMoles: 0.0031, corrodedFraction: 0.42 });
+    const legacy = effectFromEvent({
+      event: "corroded", vessel: 0, species: "Fe", corroding: true, why: "damp air",
+    });
+    expect(legacy!.corrosion!.corrodedFraction).toBeUndefined();
+    expect(legacy!.corrosion!.corrodedMoles).toBeUndefined();
+    // No extent is no rust, which is what an untouched nail looks like.
+    expect(legacy!.magnitude).toBe(0);
   });
 });

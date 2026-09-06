@@ -29,12 +29,12 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion |
-|---|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 |
-| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 |
-| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 |
+|---|---|---|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -89,9 +89,9 @@ non-aqueous liquid frost at water's threshold.
 | `gas_evolved` | `species`, `moles` | bubble curtain + vent wisps; count, radius and tempo on a log ramp (1 mmol → 0, 100 mmol → 1) | — | done | done |
 | `gas_produced` | `species`, `moles`, `rate_moles_per_second` | bubble count/size from `moles`; cadence from the production rate | — | partial | **done** (computed-motion tranche) |
 | `gas_contained` | `species`, `moles` | **nothing** — a sealed flask boiling was invisible | bubbles, and a headspace that fills | missing | **done** (PR 1 bubbles, PR 2 headspace) |
-| `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | missing |
-| `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | missing |
-| `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | missing |
+| `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | **done** (ANIM-5) |
+| `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | **done** (ANIM-5) |
+| `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | **done** (ANIM-5) |
 | `vessel_sealed` | `headspace_volume` (L), `trapped_air` (mol) — plus scene `headspace_volume_l`, `headspace_moles` | a static lid rectangle | lid at the height the headspace volume implies | partial | **done** (PR 2 event, PR 4 standing) |
 | `vessel_pressure_controlled` | `pressure` (Pa), `initial_volume` (L), `trapped_gas` (mol) — plus the same scene pair | a piston drawn at a **fixed y** (`y=16`), whatever the pressure | piston height from the engine's own headspace volume, not a client-side `V = nRT/P` that goes stale | partial | **done** (PR 2 event, PR 4 standing) |
 | `vessel_swept` | `pressure` (Pa) | two static arrows | arrow tempo from the sweep pressure | partial | partial |
@@ -104,11 +104,11 @@ non-aqueous liquid frost at water's threshold.
 |---|---|---|---|---|---|
 | `precipitated` | `species`, `moles` (+ scene `solids[].volume_l`, `srgb`, `settled_fraction`; + shelf `molar_volume_l_per_mol`) | 2–8 grey specks, radius on a linear moles ramp, engine colour ignored; the settled pile *is* scene-driven | particle count from moles, particle size from **molar volume**, colour from the species' `srgb`, pile from `volume_l` | partial | **done** (PR 2, PR 4) |
 | `dissolved` | `species`, `moles` (+ the same shelf molar volume) | one circle, `r=4`, **magnitude hard-coded to 1** | particles shrinking in proportion to the moles that left the solid | partial | **done** (PR 2, PR 4) |
-| `supersaturated` | `dissolved`, `capacity` | nothing | how far past saturation, as haze or seed crystals | missing | missing |
+| `supersaturated` | `dissolved`, `capacity` | nothing | how far past saturation, as haze or seed crystals | missing | **done** (ANIM-5) |
 | `plated` | `species`, `onto`, `moles` | a shimmer rectangle over the deposit; **moles unused** | plating thickness from moles | partial | partial |
 | `adsorbed` | `held`, `loading_mg_per_g`, `still_dissolved` | nothing | the carbon darkening toward its isotherm ceiling | missing | missing |
 | `consumed` | `species`, `moles`, `remaining` | nothing transient; the scene shrinks the solid | a visible ribbon eaten away | partial | partial |
-| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4), plus standing scene corrosion extent | schematic oxide relation marker and “metal in oxide” readout, strength from the core fraction | — | missing | **done** (scene-authoritative corrosion extent) |
+| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4), plus standing scene corrosion extent | schematic oxide relation marker and “metal in oxide” readout, strength from the core fraction | plus a rust bloom on the metal itself, spot count and strength from `corroded_fraction` | missing | **done** (scene extent; event extent drawn in ANIM-5) |
 | `gravity_settled` | per-population `terminal_speed_m_s`, `distance_m`, `separated_fraction`, `particle_diameter_um` | grains falling; travel from `distance_m`, count and radius from the population | — | done | done |
 | `centrifuged` | `rcf`, `rpm`, `imbalance_g`, populations | rotor blur on a log `rcf` ramp, pellet per population | — | done | done |
 | `ground` | `surface_area_m2` | a magnitude on a log-area ramp, no vessel visual | finer powder in the vessel | partial | partial |
@@ -240,6 +240,28 @@ picture of a vessel.
   restrained schematic marker after the event has passed. It deliberately
   claims no rate, history, thickness or surface coverage; directly added oxide
   is indistinguishable from oxide formed in the vessel.
+
+- **ANIM-5 (the unread numbers)** — five quantities the wire has been
+  carrying and the bench has not been reading. `gas_absorbed` is the mirror
+  of `gas_evolved` and drew nothing: the same moles on the same log ramp,
+  as bubbles that sink and shrink into the liquid rather than rise out of
+  it. `headspace_partitioned` tints the band at the share of the volatile's
+  whole inventory that is now gas — `gas_fraction`, capped below the band's
+  own pressure tint so a full partition does not hide the piston — with
+  arrows that say only which way this step went. `headspace_equilibrated`
+  puts the settled `pressure` and `total_moles` on a gauge beside the lid
+  that is drawn from the same headspace, so the two can be checked against
+  each other. `supersaturated` hazes at `dissolved ÷ capacity` and at
+  nothing below 1: a solution exactly at its limit looks like any other
+  solution, and the distance past it is the whole quantity — which is why
+  it is the number rock candy is about. And `corroded`'s own
+  `corroded_fraction` — on the wire since PR 4 and read by nobody — now
+  sizes a rust bloom on the metal layer itself, spot count and strength
+  both functions of it, so a verdict with no extent yet draws no rust.
+  Beside them, the sublimation fog is finally sized: dry ice in an open
+  beaker often reports the transition and nothing else, and the plume was
+  falling back to its two-column minimum, so `state_changed.moles` now
+  reaches the plume through the same vapour magnitude a boil uses.
 
 - **Computed gas/foam motion** — `gas_produced.rate_moles_per_second` now sets
   the visible-bubble cadence while total moles continue to set count and size;
