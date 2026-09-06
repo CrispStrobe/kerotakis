@@ -212,12 +212,14 @@
     background: color-mix(in srgb, var(--surface) 92%, var(--instrument) 8%);
     box-shadow: 0 8px 24px var(--shadow);
   }
-  /* One row, and it stays one row: the title is the only thing that may
-     shrink, and it ellipses rather than wrapping the controls onto a
-     second line. */
+  /* One row wherever it fits: the title shrinks and ellipses first, and
+     only the retarget button — which appears rarely and is a sentence —
+     is allowed to take a second line rather than push the close off the
+     end of a scrolling row. */
   .strip {
     display: flex;
-    gap: 0.45rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
     align-items: center;
   }
   .title { min-width: 0; display: flex; flex: 1; align-items: baseline; gap: 0.4rem; }
@@ -225,7 +227,7 @@
   .strip small { flex: none; color: var(--instrument); font-size: .6rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .attention { min-width: 0; overflow: hidden; color: var(--warning); font-size: .66rem; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
   .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
-  .retarget { flex: none; min-height: 30px; padding: .25rem .48rem; border: 1px solid var(--instrument); border-radius: 8px; background: color-mix(in srgb, var(--surface) 82%, var(--instrument)); color: var(--ink); font-size: .62rem; font-weight: 750; }
+  .retarget { min-width: 0; min-height: 30px; padding: .25rem .48rem; border: 1px solid var(--instrument); border-radius: 8px; background: color-mix(in srgb, var(--surface) 82%, var(--instrument)); color: var(--ink); font-size: .62rem; font-weight: 750; }
   .fields {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
