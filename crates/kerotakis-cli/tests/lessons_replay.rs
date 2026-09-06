@@ -68,6 +68,71 @@ fn run(args: &[&str]) -> (String, String, bool) {
     )
 }
 
+/// True when `text` states a quantity in watts: a digit, an optional
+/// single space, an optional `k`, then `W` with no word character after
+/// it — the shape of `12.5 W`, `0.4 kW`, `3kW`.
+///
+/// This replaces `text.contains(" W")`, which is not a unit test at all
+/// but a test for a capital W anywhere after a space. Any sentence is
+/// allowed to begin a word with W, and one did: " Whichever" tripped the
+/// no-power guard, and the only way to satisfy that guard was to reword
+/// prose the assertion has no business constraining. A guard that fires
+/// on English is a guard people learn to edit around.
+///
+/// Hand-rolled rather than `regex`, which is not a dependency of this
+/// crate: the pattern is four characters of lookbehind and does not
+/// justify pulling one in for one call site.
+fn states_watts(text: &str) -> bool {
+    let bytes = text.as_bytes();
+    for (i, &b) in bytes.iter().enumerate() {
+        if b != b'W' {
+            continue;
+        }
+        // The `W` has to END the token, or this is `Watt`, `Wh`, `We`.
+        if bytes
+            .get(i + 1)
+            .is_some_and(|c| c.is_ascii_alphanumeric() || *c == b'_')
+        {
+            continue;
+        }
+        let mut j = i;
+        if j > 0 && bytes[j - 1] == b'k' {
+            j -= 1;
+        }
+        if j > 0 && bytes[j - 1] == b' ' {
+            j -= 1;
+        }
+        if j > 0 && bytes[j - 1].is_ascii_digit() {
+            return true;
+        }
+    }
+    false
+}
+
+/// The guard above is the thing under test here, not the bench. It is
+/// asserted in both directions on purpose: a matcher trusted only for
+/// being green is a matcher that might be matching nothing at all.
+#[test]
+fn the_watt_guard_reads_a_unit_not_a_capital_letter() {
+    // Inventing power looks like this, and must be caught.
+    assert!(states_watts("the cell delivers 12.5 W into the load"));
+    assert!(states_watts("about 0.4 kW"));
+    assert!(states_watts("3kW peak"));
+    assert!(states_watts("output: 5W"));
+
+    // Prose looks like this, and must not be.
+    assert!(!states_watts(
+        "Whichever electrode you pick, the pair sets the cell"
+    ));
+    assert!(!states_watts("2 electrodes: Which one is the anode?"));
+    assert!(!states_watts("0.9 V open-circuit, unit-activity estimate"));
+    assert!(!states_watts(
+        "internal resistance, current, power and lifetime are not modeled"
+    ));
+    // Watt-hours are energy, not power, and are a different claim.
+    assert!(!states_watts("12 Wh"));
+}
+
 #[test]
 fn every_lesson_replays_and_computes_chemistry() {
     let dir = lessons_dir();
@@ -973,7 +1038,7 @@ fn lemon_cell_reports_a_bounded_voltage_not_unmeasured_power() {
     );
     assert!(!out.contains("no cell"), "{out}");
     assert!(
-        !out.contains(" W"),
+        !states_watts(&out),
         "the no-load result must not invent power:\n{out}"
     );
 }
