@@ -447,6 +447,71 @@ export interface NeutralisationRun {
 }
 
 /**
+ * KID-12: the flame went out because of the AIR, not the fuel. A candle
+ * under a jar quits while roughly four fifths of the jar's oxygen is
+ * still there, so `oxygenFraction` is the number that contradicts "it
+ * used up all the oxygen", and `burnedMoles` says how much fuel it
+ * managed first — zero meaning it never caught at all.
+ */
+export interface FlameStarvedRun {
+  fuel: string;
+  burnedMoles: number;
+  oxygenFraction: number;
+}
+
+/**
+ * BRD-041: a fuel standing in air, warm, and below the temperature it
+ * would light itself at. Nothing burns, and that is the answer — so the
+ * only thing to draw is the gap.
+ */
+export interface AutoignitionGapRun {
+  fuel: string;
+  autoignitionK: number;
+  temperatureK: number;
+  /** `autoignitionK − temperatureK`, the K still to go. */
+  gapK: number;
+}
+
+/** A radionuclide tracer's opening activity — what the Geiger will read. */
+export interface NuclideSpikeRun {
+  nuclide: string;
+  moles: number;
+  activityBq: number;
+}
+
+/**
+ * A neutral solute split between two layers on its computed partition
+ * coefficient. `fractionLower` is the share that sat in the lower layer,
+ * and so the share that left when the stopcock opened.
+ */
+export interface SolutePartitionRun {
+  species: string;
+  fractionLower: number;
+}
+
+/**
+ * Water crossing a membrane. The sign is the whole observation: an egg in
+ * syrup shrinks and an egg in water swells, and both are the same event.
+ */
+export interface OsmosisRun {
+  material: string;
+  waterMoles: number;
+  massChangeG: number;
+}
+
+/**
+ * A settled thermal equilibrium. `holdsNothing` matters more than the
+ * temperature does: the burn consumed everything, and the number beside
+ * it is the exhaust's rather than the glass's — which reached a reader
+ * once as "thermal equilibrium at 2496 °C" over an empty beaker.
+ */
+export interface ThermalEquilibriumRun {
+  temperatureK: number;
+  reactionEnergyJ?: number;
+  holdsNothing: boolean;
+}
+
+/**
  * How long an instrument's reading stays on the vessel.
  *
  * 2.5 s, which is what this was, is long enough to notice something
@@ -554,6 +619,18 @@ export interface Effect {
   thickening?: ThickeningRun;
   /** Engine-computed acidity cancelled, for the neutralisation marks. */
   neutralisation?: NeutralisationRun;
+  /** Engine-computed oxygen the flame quit at, for the guttering flame. */
+  flameStarved?: FlameStarvedRun;
+  /** Engine-computed distance to autoignition, for the gap bar. */
+  autoignitionGap?: AutoignitionGapRun;
+  /** Engine-computed opening activity, for the tracer ticks. */
+  nuclideSpike?: NuclideSpikeRun;
+  /** Engine-computed solute split, for the dots across the two layers. */
+  solutePartition?: SolutePartitionRun;
+  /** Engine-computed water crossing a membrane, for the swelling. */
+  osmosis?: OsmosisRun;
+  /** Engine-settled temperature, for the equilibrium badge. */
+  thermalEquilibrium?: ThermalEquilibriumRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -1079,6 +1156,87 @@ export function shearResistance(strength: number, shearedHard: boolean): number 
   return Math.min(1, Math.max(0, strength));
 }
 
+/** Oxygen's share of dry air, the fraction every flame here starts from. */
+export const AIR_OXYGEN_FRACTION = 0.209;
+
+/**
+ * How starved a flame was when it quit, and whether it ever caught.
+ *
+ * `caught` is `burned > 0`: zero moles burned means the air was already
+ * too thin to light in, which is what a carbon-dioxide extinguisher
+ * makes, and drawing a flame for it would contradict the event. The
+ * guttering is how far the oxygen had fallen BELOW air's own fraction —
+ * not how much oxygen is left, because the point KID-12 teaches is that
+ * four fifths of it still is.
+ */
+export function flameGutter(
+  oxygenFraction: number,
+  burnedMoles: number,
+): { caught: boolean; guttering: number } {
+  const oxygen = Number.isFinite(oxygenFraction) ? Math.max(0, oxygenFraction) : 0;
+  const burned = Number.isFinite(burnedMoles) ? Math.max(0, burnedMoles) : 0;
+  const guttering = Math.min(1, Math.max(0, 1 - oxygen / AIR_OXYGEN_FRACTION));
+  return { caught: burned > 0, guttering };
+}
+
+/**
+ * How close a warm fuel stands to lighting itself, and how far that is.
+ *
+ * The gap is the answer BRD-041 gives — "it would sit there" — so the bar
+ * fills toward 1 as the vessel approaches the autoignition temperature
+ * and never reaches it, because reaching it is a different event.
+ */
+export function autoignitionApproach(
+  temperatureK: number,
+  autoignitionK: number,
+): { approach: number; gapK: number } {
+  const at = Number.isFinite(autoignitionK) ? autoignitionK : 0;
+  const now = Number.isFinite(temperatureK) ? temperatureK : 0;
+  if (!(at > 0)) return { approach: 0, gapK: 0 };
+  return { approach: Math.min(1, Math.max(0, now / at)), gapK: Math.max(0, at - now) };
+}
+
+/**
+ * How busy a tracer's opening activity reads.
+ *
+ * Logarithmic over the range a school tracer spans — a becquerel is one
+ * disintegration a second and a sealed teaching source is megabecquerels
+ * — so the ticks separate a background whisper from a working source.
+ */
+export function activityIntensity(activityBq: number): number {
+  if (!Number.isFinite(activityBq) || !(activityBq > 0)) return 0;
+  return scale(Math.log10(activityBq), 0, 6);
+}
+
+/**
+ * A solute's dots split across the two layers, from `fraction_lower`.
+ *
+ * The two counts always sum to `total`, because the solute did not go
+ * anywhere else: a split that loses a dot is a picture of a leak.
+ */
+export function soluteSplit(fractionLower: number, total = 10): { lower: number; upper: number } {
+  const bounded = Number.isFinite(fractionLower) ? Math.min(1, Math.max(0, fractionLower)) : 0;
+  const count = Math.max(0, Math.round(total));
+  const lower = Math.round(bounded * count);
+  return { lower, upper: count - lower };
+}
+
+/**
+ * Which way the water went, and how far it moved the object.
+ *
+ * The SIGN is the whole observation — an egg in syrup shrinks and an egg
+ * in water swells, and both arrive as the same event — so direction is
+ * reported separately from size rather than folded into one signed
+ * magnitude a visual would have to unpick.
+ */
+export function osmoticSwell(massChangeG: number): { direction: "in" | "out" | "none"; swell: number } {
+  if (!Number.isFinite(massChangeG) || massChangeG === 0) return { direction: "none", swell: 0 };
+  return {
+    direction: massChangeG > 0 ? "in" : "out",
+    swell: scale(Math.abs(massChangeG), 0.05, 12),
+  };
+}
+
 /**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
@@ -1325,6 +1483,111 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           solidMassFraction: Number(e.solid_mass_fraction ?? 0),
           tipSpeedMS: Number(e.tip_speed_m_s ?? 0),
           shearedHard,
+        },
+      };
+    }
+    case "flame_starved": {
+      // KID-12. `burned: 0` means the flame never caught — the air was
+      // already too thin to light in — so the visual must not draw one.
+      const oxygenFraction = Math.max(0, Number(e.oxygen_fraction ?? 0));
+      const burnedMoles = Math.max(0, Number(e.burned ?? 0));
+      const gutter = flameGutter(oxygenFraction, burnedMoles);
+      return {
+        kind: "flame-starve",
+        at: now,
+        durationMs: 4600,
+        magnitude: gutter.guttering,
+        species: String(e.fuel ?? ""),
+        reading: oxygenFraction,
+        unit: "fraction",
+        flameStarved: { fuel: String(e.fuel ?? ""), burnedMoles, oxygenFraction },
+      };
+    }
+    case "below_autoignition": {
+      const autoignitionK = Math.max(0, Number(e.autoignition ?? 0));
+      const temperatureK = Number(e.temperature ?? 0);
+      const gap = autoignitionApproach(temperatureK, autoignitionK);
+      return {
+        kind: "below-autoignition",
+        at: now,
+        durationMs: 4600,
+        magnitude: gap.approach,
+        species: String(e.fuel ?? ""),
+        temperatureK,
+        reading: gap.gapK,
+        unit: "K",
+        autoignitionGap: {
+          fuel: String(e.fuel ?? ""),
+          autoignitionK,
+          temperatureK,
+          gapK: gap.gapK,
+        },
+      };
+    }
+    case "nuclide_spiked": {
+      const activityBq = Math.max(0, Number(e.activity_bq ?? 0));
+      return {
+        kind: "spike",
+        at: now,
+        durationMs: 5000,
+        magnitude: activityIntensity(activityBq),
+        reading: activityBq,
+        unit: "Bq",
+        nuclideSpike: {
+          nuclide: String(e.nuclide ?? ""),
+          moles: Math.max(0, Number(e.moles ?? 0)),
+          activityBq,
+        },
+      };
+    }
+    case "partitioned": {
+      const fractionLower = Math.min(1, Math.max(0, Number(e.fraction_lower ?? 0)));
+      return {
+        kind: "solute-partition",
+        at: now,
+        durationMs: 5000,
+        magnitude: fractionLower,
+        species: String(e.species ?? ""),
+        reading: fractionLower,
+        unit: "fraction",
+        solutePartition: { species: String(e.species ?? ""), fractionLower },
+      };
+    }
+    case "osmosis_changed": {
+      const massChangeG = Number(e.mass_change_g ?? 0);
+      const swell = osmoticSwell(massChangeG);
+      return {
+        kind: "osmosis",
+        at: now,
+        durationMs: 6000,
+        magnitude: swell.swell,
+        reading: massChangeG,
+        unit: "g",
+        osmosis: {
+          material: String(e.material ?? ""),
+          waterMoles: Number(e.water_moles ?? 0),
+          massChangeG,
+        },
+      };
+    }
+    case "thermal_equilibrium": {
+      const temperatureK = Number(e.temperature ?? 0);
+      const reactionEnergyJ =
+        e.reaction_energy_j === undefined ? undefined : Number(e.reaction_energy_j);
+      return {
+        kind: "thermal-equilibrium",
+        at: now,
+        durationMs: 5000,
+        // The heat the solve converted, where it could say; otherwise the
+        // badge is a reading and claims no strength of its own.
+        magnitude: reactionEnergyJ === undefined ? 0 : exothermGlow(reactionEnergyJ),
+        temperatureK,
+        reading: temperatureK,
+        unit: "K",
+        thermalEquilibrium: {
+          temperatureK,
+          reactionEnergyJ,
+          holdsNothing: Boolean(e.holds_nothing),
         },
       };
     }

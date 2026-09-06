@@ -1,7 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
   FALLBACK_MOLAR_VOLUME_L,
+  AIR_OXYGEN_FRACTION,
+  activityIntensity,
   adsorptionDarkening,
+  autoignitionApproach,
   bubbleRideLift,
   INCANDESCENCE_ONSET_K,
   NORMAL_BOILING_K,
@@ -15,12 +18,15 @@ import {
   electrodeBubbles,
   exothermGlow,
   electrodePairBubbles,
+  flameGutter,
   headspaceVolumeL,
   neutralisationMarks,
+  osmoticSwell,
   partitionTint,
   phaseKind,
   reactionExtent,
   shearResistance,
+  soluteSplit,
   supersaturationHaze,
   effectFromEvent,
   incandescence,
@@ -1123,5 +1129,112 @@ describe("the invisible ones (GUI-099 ANIM-3)", () => {
       solid_mass_fraction: 0.55, tip_speed_m_s: 1.4, sheared_hard: true,
     });
     expect(shoved!.magnitude).toBeGreaterThan(0);
+  });
+
+  // -------------------------------------------------- GUI-099 ANIM-7 rows
+
+  it("a flame that never caught draws none, and the oxygen left is most of it", () => {
+    // KID-12's whole point: a candle under a jar quits with roughly four
+    // fifths of the jar's oxygen still in it.
+    const quit = flameGutter(0.16, 0.0021);
+    expect(quit.caught).toBe(true);
+    expect(quit.guttering).toBeGreaterThan(0);
+    expect(quit.guttering).toBeLessThan(0.4);
+    // A carbon-dioxide extinguisher: air already too thin to light in.
+    const never = flameGutter(0.05, 0);
+    expect(never.caught).toBe(false);
+    expect(never.guttering).toBeGreaterThan(quit.guttering);
+    // Ordinary air is not a starved flame.
+    expect(flameGutter(AIR_OXYGEN_FRACTION, 0.01).guttering).toBe(0);
+    expect(flameGutter(0.5, 0.01).guttering).toBe(0);
+  });
+
+  it("flame_starved carries the fraction the flame quit at", () => {
+    const starved = effectFromEvent({
+      event: "flame_starved", vessel: 0, fuel: "C25H52", burned: 0.0021, oxygen_fraction: 0.16,
+    });
+    expect(starved!.kind).toBe("flame-starve");
+    expect(starved!.flameStarved).toMatchObject({ burnedMoles: 0.0021, oxygenFraction: 0.16 });
+    expect(starved!.reading).toBe(0.16);
+  });
+
+  it("the autoignition bar fills toward the point and never reaches it", () => {
+    const cool = autoignitionApproach(320, 810);
+    const warm = autoignitionApproach(700, 810);
+    expect(warm.approach).toBeGreaterThan(cool.approach);
+    expect(cool.gapK).toBeCloseTo(490, 10);
+    expect(warm.gapK).toBeCloseTo(110, 10);
+    expect(autoignitionApproach(900, 810).approach).toBe(1);
+    // No autoignition temperature is no bar, not a division.
+    expect(autoignitionApproach(320, 0)).toEqual({ approach: 0, gapK: 0 });
+    const gap = effectFromEvent({
+      event: "below_autoignition", vessel: 0, fuel: "C8H18", autoignition: 490, temperature: 320,
+    });
+    expect(gap!.kind).toBe("below-autoignition");
+    expect(gap!.autoignitionGap!.gapK).toBeCloseTo(170, 10);
+  });
+
+  it("a tracer's ticks separate a whisper from a working source", () => {
+    expect(activityIntensity(0)).toBe(0);
+    expect(activityIntensity(-5)).toBe(0);
+    expect(activityIntensity(1)).toBe(0);
+    expect(activityIntensity(1000)).toBeGreaterThan(activityIntensity(10));
+    expect(activityIntensity(1e9)).toBe(1);
+    const spiked = effectFromEvent({
+      event: "nuclide_spiked", vessel: 0, nuclide: "K-40", moles: 0.0004, activity_bq: 12_000,
+    });
+    expect(spiked!.kind).toBe("spike");
+    expect(spiked!.nuclideSpike).toMatchObject({ activityBq: 12_000, moles: 0.0004 });
+  });
+
+  it("a partition's dots always add up, because the solute went nowhere else", () => {
+    for (const fraction of [0, 0.13, 0.5, 0.77, 1]) {
+      const split = soluteSplit(fraction);
+      expect(split.lower + split.upper).toBe(10);
+    }
+    expect(soluteSplit(0).lower).toBe(0);
+    expect(soluteSplit(1).lower).toBe(10);
+    expect(soluteSplit(0.8).lower).toBeGreaterThan(soluteSplit(0.2).lower);
+    const split = effectFromEvent({
+      event: "partitioned", vessel: 0, species: "I2", fraction_lower: 0.86,
+    });
+    expect(split!.kind).toBe("solute-partition");
+    expect(split!.magnitude).toBeCloseTo(0.86, 10);
+  });
+
+  it("osmosis reports which way the water went as well as how far", () => {
+    // An egg in syrup and an egg in water arrive as the SAME event; only
+    // the sign separates them, so it must not be folded into a magnitude.
+    const swelled = osmoticSwell(4.2);
+    const shrank = osmoticSwell(-4.2);
+    expect(swelled.direction).toBe("in");
+    expect(shrank.direction).toBe("out");
+    expect(swelled.swell).toBe(shrank.swell);
+    expect(osmoticSwell(0)).toEqual({ direction: "none", swell: 0 });
+    expect(osmoticSwell(20).swell).toBe(1);
+    expect(osmoticSwell(8).swell).toBeGreaterThan(osmoticSwell(1).swell);
+    const shrinking = effectFromEvent({
+      event: "osmosis_changed", vessel: 0, material: "egg", water_moles: -0.23, mass_change_g: -4.2,
+    });
+    expect(shrinking!.kind).toBe("osmosis");
+    expect(shrinking!.osmosis!.massChangeG).toBe(-4.2);
+  });
+
+  it("an equilibrium over an empty vessel says whose temperature it is", () => {
+    // "thermal equilibrium at 2496 °C" reached a reader over an EMPTY
+    // beaker: a true number attached to a picture that invites the wrong
+    // reading. The flag travels so the badge can step off the glass.
+    const exhaust = effectFromEvent({
+      event: "thermal_equilibrium", vessel: 0, temperature: 2769.15,
+      reaction_energy_j: 41_000, holds_nothing: true,
+    });
+    expect(exhaust!.kind).toBe("thermal-equilibrium");
+    expect(exhaust!.thermalEquilibrium).toMatchObject({ holdsNothing: true, reactionEnergyJ: 41_000 });
+    expect(exhaust!.magnitude).toBe(1);
+    const settled = effectFromEvent({ event: "thermal_equilibrium", vessel: 0, temperature: 298.15 });
+    expect(settled!.thermalEquilibrium!.holdsNothing).toBe(false);
+    // No thermochemical claim is not a zero claim about one.
+    expect(settled!.thermalEquilibrium!.reactionEnergyJ).toBeUndefined();
+    expect(settled!.magnitude).toBe(0);
   });
 });

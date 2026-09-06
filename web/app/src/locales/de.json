@@ -2370,6 +2370,14 @@
   "{object} needs {percent}% of its own volume in clinging gas to rise": "{object} braucht {percent}% des eigenen Volumens an anhaftendem Gas zum Aufsteigen",
   "{percent}% of the {sorbate} is on the {sorbent}; {remaining} mol still in solution": "{percent}% des {sorbate} sitzen auf dem {sorbent}; {remaining} mol noch in Lösung",
   "still in solution": "noch in Lösung",
-  "shear-thickened to {percent}% at {speed} m/s": "scherverdickt auf {percent}% bei {speed} m/s"
+  "shear-thickened to {percent}% at {speed} m/s": "scherverdickt auf {percent}% bei {speed} m/s",
+  "{percent}% of the {species} sat in the lower layer": "{percent}% des {species} befanden sich in der unteren Schicht",
+  "{material} changed by {grams} g as water crossed the membrane": "{material} veränderte sich um {grams} g, als Wasser die Membran durchquerte",
+  "the flame quit at {percent}% oxygen after burning {moles} mol": "Die Flamme erlosch bei {percent}% Sauerstoff, nachdem {moles} mol verbrannt waren",
+  "{gap} K below the temperature {fuel} lights itself at": "{gap} K unter der Temperatur, bei der sich {fuel} selbst entzündet",
+  "{nuclide} spiked at {activity} Bq": "{nuclide} mit {activity} Bq zugegeben",
+  "settled at {celsius} °C": "eingestellt bei {celsius} °C",
+  "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "eingestellt bei {celsius} °C — die Temperatur der Abgase; das Gefäß enthält nichts",
+  "exhaust, not the glass": "Abgas, nicht das Glas"
  }
 }
