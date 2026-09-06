@@ -904,8 +904,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     let slug = name.to_ascii_lowercase().replace(' ', "-");
                     locale
                         .lookup(&format!("heat-source.{slug}"))
-                        .unwrap_or(name.as_str())
-                        .to_string()
+                        .map(str::to_string)
+                        .unwrap_or_else(|| name.clone())
                 }
                 None => locale
                     .t("event.energy-transferred.unnamed-source", "heat source")

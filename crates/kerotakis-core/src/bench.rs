@@ -4405,20 +4405,20 @@ const HEAT_DELIVERY_PASSES: u32 = 32;
 
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
-fn extensive_key(event: &Event) -> Option<(u8, VesselId, &SpeciesId)> {
+fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
     match event {
         Event::GasEvolved {
             vessel, species, ..
-        } => Some((0, *vessel, species)),
+        } => Some((0, *vessel, species.clone())),
         Event::GasContained {
             vessel, species, ..
-        } => Some((1, *vessel, species)),
+        } => Some((1, *vessel, species.clone())),
         Event::Precipitated {
             vessel, species, ..
-        } => Some((2, *vessel, species)),
+        } => Some((2, *vessel, species.clone())),
         Event::Consumed {
             vessel, species, ..
-        } => Some((3, *vessel, species)),
+        } => Some((3, *vessel, species.clone())),
         _ => None,
     }
 }
@@ -4452,12 +4452,12 @@ fn coalesce_heat_passes(id: VesselId, events: &mut Vec<Event>) {
     let mut announced_temperature = false;
     for event in std::mem::take(events) {
         // Extensive quantities fold into their first appearance.
-        if let Some((kind, vessel, species)) = extensive_key(&event) {
-            let key = (kind, vessel, species.clone());
-            if let Some(slot) = out.iter_mut().find(|candidate| {
-                extensive_key(candidate)
-                    .is_some_and(|found| found.0 == key.0 && found.1 == key.1 && *found.2 == key.2)
-            }) {
+        let key = extensive_key(&event);
+        if let Some(key) = key {
+            if let Some(slot) = out
+                .iter_mut()
+                .find(|candidate| extensive_key(candidate).is_some_and(|found| found == key))
+            {
                 let mut event = event;
                 let add = extensive_moles(&mut event).map(|m| m.0).unwrap_or(0.0);
                 // What is left after the LAST pass is what is left.

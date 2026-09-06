@@ -223,6 +223,16 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
          more than one pass\n{seen}"
     );
 
+    // lv2's split: what arrived is partly warmth the crucible still holds
+    // and partly the price of breaking the carbonate apart.
+    assert!(
+        book.sensible_j < book.delivered_j,
+        "some of the {:.1} J that arrived was spent on chemistry, not \
+         warming, but sensible heat is reported as {:.1} J\n{seen}",
+        book.delivered_j,
+        book.sensible_j
+    );
+
     // Energy conservation: what crossed is the warming plus the calcination.
     let warming = vessel.enthalpy().0;
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
