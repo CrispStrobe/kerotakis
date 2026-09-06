@@ -274,7 +274,30 @@ $ python3 tools/asc/client.py GET '/v1/apps?limit=200'      # raw API
 $ python3 tools/asc/fetch-profile.py "Kerotakis AppStore CI" out.mobileprovision
 $ python3 tools/asc/testflight.py ios --internal-only       # internal, no review
 $ python3 tools/asc/testflight.py ios                       # external + submit
+$ python3 tools/asc/listing.py --dry-run                    # the store listing
+$ python3 tools/asc/listing.py                              # both platforms
+$ node tools/gen-appstore-screenshots.mjs <dir|url> shots/   # real renders
+$ python3 tools/asc/screenshots.py shots/                    # upload them
 ```
+
+`testflight.py` takes a build to beta; `listing.py` takes the APP to a
+submittable state — description, keywords, URLs, promotional text,
+copyright, categories, name/subtitle/privacy, review contact — from the
+same `metadata.json`. Two things it knows that each cost a round trip to
+learn: **categories live on `appInfos`**, not on the version, and only the
+`appInfo` that is not yet live may be edited; and **a version localisation
+is per PLATFORM**, so iOS and macOS need the same copy written twice.
+Filling one and assuming the other is how a listing sits half-populated.
+
+Screenshots do not need a Mac. `gen-appstore-screenshots.mjs` photographs
+the deployed PWA in headless Chrome at Apple's exact sizes — the Tauri
+app's UI *is* the web app, so they are real renders of the real solver
+rather than mockups — and `screenshots.py` does Apple's four-step upload
+(reserve → PUT to the presigned URL → PATCH with the MD5 → poll for
+`UPLOAD_COMPLETE`). On Node 20 run the generator with
+`--experimental-websocket`: the CDP client needs a global `WebSocket`, and
+without it the browser-candidate loop reports the *next* candidate's error
+instead of the real one.
 
 All the store and beta copy lives in `tools/asc/metadata.json`, so it is
 reviewable in a diff rather than typed into a web form once and forgotten.
@@ -355,6 +378,29 @@ without GitHub. The YAML's job is secrets, triggers, and artifacts.
 the ref is a tag; `android.yml` builds unsigned unless a keystore exists.
 An upload cannot be undone and a build number cannot be reused, so the safe
 thing has to be the default thing.
+
+That default paid for itself on the first tag that ever ran `appstore.yml`
+(2026-09-06 — every build before it was uploaded from a laptop). The dry
+run passed on both platforms; the tag run then failed on the one step a
+dry run does not reach:
+
+```
+Failed to load AuthKey file. (-43) The file 'AuthKey_XXX.p8' could not be
+found in any of these locations: '~/private_keys', '~/.private_keys',
+'~/.appstoreconnect/private_keys', …
+```
+
+`tools/asc/client.py` signs its own JWT and is happy with
+`ASC_API_KEY_P8_BASE64`; **altool is not** — `--api-key` takes the key ID
+and then hunts a FILE in four fixed directories. So the path worked on a
+laptop, where the key sits in `~/.appstoreconnect/private_keys/`, and
+could not work on a runner holding it only as a secret. `upload.py` now
+writes it there for the duration and removes it in a `finally`. No build
+number was consumed by the failure.
+
+**Run the dispatch first on any repo whose tag path has never executed.**
+The two are not the same code path, and only one of them can waste a build
+number.
 
 **No job is `continue-on-error`.** A mobile job carrying it reported green
 for a month over a two-line link error (appstore.md). If a platform breaks,
