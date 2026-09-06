@@ -6,6 +6,23 @@ import { i18n } from "./i18n.svelte";
 afterEach(() => i18n.setLocale("en"));
 
 describe("notebook export", () => {
+  /**
+   * The journal header now shows the session's status notes as icons and
+   * keeps them out of the log. The export is the other half of that: a
+   * reader who wants to know whether the solver was attached, or whether
+   * the bench came back from a save, must still find it written down.
+   */
+  it("keeps status notes in the export the journal header hides", () => {
+    const md = notebookMarkdown([
+      { kind: "note", status: "bench-live", text: "The bench is live: states nobody pre-computed are solved." },
+      { kind: "note", status: "restored", text: "restored your last session: 4 step(s) restored instantly" },
+      { kind: "line", text: "You add water to v1." },
+    ]);
+    expect(md).toContain("*The bench is live: states nobody pre-computed are solved.*");
+    expect(md).toContain("*restored your last session: 4 step(s) restored instantly*");
+    expect(md).toContain("You add water to v1.");
+  });
+
   it("renders each entry kind in its Markdown form", () => {
     const feed: FeedEntry[] = [
       { kind: "command", text: "add v1 water 100mL" },
