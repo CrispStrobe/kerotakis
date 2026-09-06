@@ -1033,4 +1033,7 @@ with = "mit"
 # learner who has just typed a German word the parser refused has no
 # reason to believe an English help screen will answer them.
 [script]
-unknown-verb = "unbekannter Befehl '{word}' — die Bank kennt diese Verben: {verbs}"
+# `das Labor` because that is what the interface bundle calls the bench
+# (`web/app/src/locales/de.json`, "the bench"); two German words for
+# one object is how a translation starts reading like two products.
+unknown-verb = "unbekannter Befehl '{word}' — das Labor kennt diese Verben: {verbs}"
