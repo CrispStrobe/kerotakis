@@ -233,6 +233,27 @@ describe("the filter rail composes", () => {
     expect(filterCatalogEntries([entry!], { ...NO_CATALOG_FILTERS, readiness: "ready" })).toHaveLength(0);
   });
 
+  it("never promotes an unloaded catalog to ready or missing", () => {
+    const [entry] = catalogEntries([], [guidedEntry({ ingredients: [], apparatus: [] })], context({
+      shelfKeys: new Set(), catalog: new Map(),
+    }));
+    expect(entry).toMatchObject({ availabilityKnown: false, readyNow: false });
+    expect(filterCatalogEntries([entry!], { ...NO_CATALOG_FILTERS, readiness: "ready" })).toHaveLength(0);
+    expect(filterCatalogEntries([entry!], { ...NO_CATALOG_FILTERS, readiness: "missing" })).toHaveLength(0);
+  });
+
+  it("uses the equipment catalogue's canonical instrument id for readiness", () => {
+    const catalog = new Map([
+      ["measure:ph", { id: "measure:ph", kind: "instrument" as const, minimum_completed: 2, available: false,
+        reason: { reason: "locked" as const, minimum_completed: 2 } }],
+    ]);
+    const [entry] = catalogEntries([], [guidedEntry({ apparatus: ["ph"] })], context({
+      shelfKeys: new Set(["baking_soda", "white_vinegar_5_percent"]), catalog,
+    }));
+    expect(entry?.access.map((item) => item.id)).toContain("measure:ph");
+    expect(entry?.readyNow).toBe(false);
+  });
+
   it("relates entries only through authored exact identifiers", () => {
     const codex = codexEntry({ id: "foam-model" });
     const entries = catalogEntries([codex], [

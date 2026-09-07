@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { continuationLabel, missionDistrictId, missionId, missionTitle, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "./storyProgress";
+import { continuationLabel, missionAvailability, missionDistrictId, missionId, missionTitle, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "./storyProgress";
 
 /** The seven Discovery Hall ships: six `start here` plus one `safety`,
  * exactly as `tools/lessons-index.py` buckets them. */
@@ -76,6 +76,11 @@ describe("story progression", () => {
     expect(remainingMissions(3, 0)).toBe(3);
     expect(remainingMissions(3, 1)).toBe(2);
     expect(remainingMissions(3, 4)).toBe(0);
+  });
+
+  it("projects the same district gate onto Concept Map mission links", () => {
+    expect(missionAvailability(missions, new Set(), missions[5]!)).toEqual({ unlocked: false, remaining: 3 });
+    expect(missionAvailability(missions, new Set(["silver-and-salt"]), missions[2]!)).toEqual({ unlocked: true, remaining: 0 });
   });
 });
 

@@ -592,8 +592,8 @@
               <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
               <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
             </dl>
-            <p class:ready={item.readyNow} class="readiness" data-ready-now={item.readyNow}>
-              {item.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${item.missingNeeds.length > 0 ? words(item.missingNeeds) : t("locked equipment")}`}
+            <p class:ready={item.readyNow} class="readiness" data-ready-now={item.availabilityKnown ? item.readyNow : undefined} data-readiness-known={item.availabilityKnown}>
+              {!item.availabilityKnown ? t("checking availability…") : item.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${item.missingNeeds.length > 0 ? words(item.missingNeeds) : t("locked equipment")}`}
             </p>
             {#each item.access as catalogItem (catalogItem.id)}
               {@const note = accessNote(catalogItem)}
@@ -667,8 +667,8 @@
         {/if}
         <span>{open.topics.map((topic) => t(topicLabel(topic))).join(" · ")}</span>
       </p>
-      <p class:ready={open.readyNow} class="readiness" data-ready-now={open.readyNow}>
-        {open.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${open.missingNeeds.length > 0 ? words(open.missingNeeds) : t("locked equipment")}`}
+      <p class:ready={open.readyNow} class="readiness" data-ready-now={open.availabilityKnown ? open.readyNow : undefined} data-readiness-known={open.availabilityKnown}>
+        {!open.availabilityKnown ? t("checking availability…") : open.readyNow ? `✓ ${t("ready now")}` : `${t("missing now")}: ${open.missingNeeds.length > 0 ? words(open.missingNeeds) : t("locked equipment")}`}
       </p>
       {#each open.access as catalogItem (catalogItem.id)}
         {@const note = accessNote(catalogItem)}

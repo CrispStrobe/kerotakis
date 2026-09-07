@@ -668,7 +668,9 @@ been ignoring all of it:
   name exact missing reagent ids, and render engine-owned locked, loaned and
   mission-only reasons. A ready/missing facet composes with the existing rail.
   Continue-with links use only authored Codex, lesson and capability ids;
-  titles are never treated as relations.
+  titles are never treated as relations. Until the catalog answer arrives,
+  readiness says it is checking and belongs to neither ready nor missing;
+  authored instrument tokens resolve through the single equipment catalogue.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
@@ -1171,6 +1173,9 @@ hide them completely.
   both on its map node and in its lock panel. The retired, unmounted
   `MissionControl.svelte` is deliberately not treated as a product surface;
   the larger open map work above remains.
+  Concept Map mission links consume that same district result, remain disabled
+  with the exact remaining count while locked, and therefore cannot bypass the
+  live mission surface's progression gate.
 - [ ] **GUI-078 — Mission journal and in-world delivery.** Evolve QuestBar into
   active-mission cards, evidence ledger, optional hints, messages, and result
   debriefs. Dialogue pauses only itself, never silently the chemistry. All copy,

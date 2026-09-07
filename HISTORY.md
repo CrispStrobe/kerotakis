@@ -103,8 +103,10 @@ it had while it was open, which is why a few numbers appear twice below.
 - **GUI-054 / GUI-077 discovery tranche** — unified Catalog cards gained an
   engine-backed ready/missing explanation and authored continue-with links;
   the live Story Map now states each locked district's exact remaining
-  prerequisite instead of repeating its absolute threshold
-- **Codex learning progress** — replaced implicit catalogue levels with a
+  prerequisite instead of repeating its absolute threshold; unknown catalog
+  state stays unknown, instrument tokens share the cupboard's id mapping, and
+  Concept Map mission links cannot bypass the same district gate
+- **Codex learning progress** — replaced age-derived catalogue levels with a
   required Rust-owned authored band on all 108 reactions (20 starter, 44
   intermediate, 44 advanced), enforced conservative prerequisite ordering,
   and removed invented Codex safety classifications
