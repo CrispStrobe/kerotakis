@@ -6,3 +6,4 @@
 # everyone who runs the test benefits from these saved cases.
 cc da32d24b98f29a40f571f969b757e26b52bc16c7d01ee03fc40d380086867b3c # shrinks to ops = [AddWater { celsius: 0.0, moles: 0.001 }, NewVessel, Distil { from: 0, to: 1, fraction: 0.4357638271163302 }]
 cc 477dd80cb0ee1aeca09b21da070890bcda702669369f776ace4a7eeda8a77eaa # shrinks to ops = [AddEthanol { celsius: 45.58911691724665, moles: 19.29602722056651 }, AddSalt { moles: 3.3459083950830424 }, NewVessel, AddWater { celsius: 3.4889833414378466, moles: 46.12861176803115 }]
+cc c05f955c04035507d5eb427928687be12a6a50b8958dca8de9a0680da6dd75f6 # shrinks to ops = [AddEthanol { celsius: 42.82874973899292, moles: 9.491566060438242 }, Heat { joules: 24665.731341893705 }, Heat { joules: 7563.724392595901 }, AddSalt { moles: 0.001 }, AddWater { celsius: 3.765238335916408, moles: 31.74140306217716 }]

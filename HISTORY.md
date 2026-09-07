@@ -52,6 +52,29 @@ it had while it was open, which is why a few numbers appear twice below.
   defect on the core path); and two codex entries tuned to straddle the 500 K
   kinetic threshold no longer straddled it, so their doses were re-tuned to
   reproduce the temperatures their prose already quotes
+- **#PRNUM** — `conservation::energy_is_conserved` was flaky on main, and it was
+  a **leak, not a rounding**. Dissolving a solid in an organic solvent
+  (`nonaqueous.rs`) relabelled the portion `Solid` → `Liquid` at a fixed
+  temperature, and a species that owns only a solid Cp(T) curve has none for
+  the liquid phase, so the portion silently moved onto the flat registry
+  constant. Curve and constant agree at 298.15 K and nowhere else, so the
+  vessel's enthalpy was rewritten for free: sodium chloride into warm ethanol
+  lost 4.3e-5 J per (K above reference)², *independent of how much salt was
+  poured*, because only the handbook limit ever dissolves — 0.0157 J on a
+  beaker 48 K up, which is what job 101869813421 caught. The relabelling now
+  conserves **enthalpy** and lets the temperature move (1.5e-5 K), the same
+  rule `kerotakis-phreeqc`'s aqueous tail already kept across speciation; the
+  residue on that case falls from 1.57e-2 J to 2.1e-6 J. The bound's *shape*
+  was wrong too: `1e-5 × |net budget|` scales the tolerance by a signed sum
+  that near-cancellation can drive to nothing while the arithmetic behind the
+  residue handled tens of kilojoules — 102 kJ moved, 414 J netted. It is now
+  `3e-6 × gross energy handled + 5e-6 × mol of water`, two terms because the
+  residue has two sources: the accumulated solve residues, which scale with
+  the energy, and liquid water's 2.6e-7 J/mol-per-difference conditioning,
+  which scales with the matter and does not care whether any energy moved at
+  all. Measured over 4096 random scripts (to 1.18 MJ and 39 operators): worst
+  residue/net 1.7e-6, worst residue/gross 3.5e-8, tightest margin under the
+  new bound 100×. The seed is pinned in `conservation.proptest-regressions`
 - **#531** — an open vessel takes up the room's CO₂ **as a rate**.
   `GasExchangeClock` joins the slow clock ahead of `ambient` and drives
   dn/dt = k_L·A·K_H·Δp through the vessel's mouth, with k_L = 5.75e-6 m/s, the

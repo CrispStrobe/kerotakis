@@ -312,33 +312,73 @@ proptest! {
     fn energy_is_conserved(ops in proptest::collection::vec(rand_op(), 1..40)) {
         let mut bench = Bench::new();
         let mut budget = 0.0f64;
+        // The GROSS energy the script handled, alongside the net it ends up
+        // holding. These are different numbers - by two or three orders of
+        // magnitude on any script that warms a beaker and then pours
+        // something cold into it - and only one of them is the size of the
+        // arithmetic that produced the residue. See the bound.
+        let mut gross = 0.0f64;
         for op in &ops {
             if let Some(q) = apply(&mut bench, op) {
                 budget += q;
+                gross += q.abs();
             }
         }
         let h = bench.total_enthalpy().0;
-        // A part in 100 000 rather than a part in a million. The balance
-        // used to close to machine precision because every step of it was
-        // linear: enthalpy was Cp*(T - T_ref) and every operator moved the
-        // temperature by q/Cp, so the two sides were the same arithmetic
-        // written twice. With heat capacities that are curves, the ledger is
-        // SOLVED rather than evaluated - each mix and each dose bisects for
-        // the temperature where the enthalpies balance - and each solve
-        // leaves a residue at the last representable float. Across a script
-        // of up to forty operators those residues add.
+
+        // Two terms, because the residue has two sources and they scale
+        // with different things.
         //
-        // The other half of the widening is a real claim, not a numerical
-        // one: a portion that changes phase changes which curve it is
-        // charged against, and two independently fitted curves do not meet
-        // to the last bit at the reference temperature. Relabelling a solid
-        // as dissolved is thermally free under Hess's law and very nearly
-        // free here - hundredths of a joule in tens of kilojoules - but not
-        // exactly. `kerotakis-phreeqc`'s aqueous tail balances that
-        // explicitly across speciation for the same reason.
+        // FIRST, three parts in a million of the energy the script MOVED.
+        // This was a part in a hundred thousand of the energy the script
+        // ends up HOLDING, and that is the wrong quantity, because `budget`
+        // is a signed sum that near-cancellation can drive to nothing while
+        // the arithmetic behind it handled tens of kilojoules. The run that
+        // made this test flaky on main added 9.49 mol of ethanol, spent
+        // 32.2 kJ of burner on it and then poured in 31.7 mol of water at
+        // 3.8 C: it handled 102 kJ and netted 414 J, and scaling by the
+        // 414 J asked the ledger for a precision the 102 kJ never had.
+        // Over 4096 random scripts (up to 1.18 MJ of traffic, up to 39
+        // operators) the worst residue against the net was 1.7e-6 - on a
+        // script that moved 204 kJ and netted 42.7 J, six times inside the
+        // old bound and heading the wrong way - while the worst against the
+        // gross was 3.5e-8. `gross` is also an upper bound on the largest
+        // enthalpy the bench ever held, which is the quantity actually
+        // being differenced, so it is the right ruler in both readings.
+        // Three parts in a million is the same strength as the old bound on
+        // a typical script, where gross is about three times net; what it
+        // removes is the cliff, not the rigour.
+        //
+        // SECOND, a floor that scales with the MATTER differenced rather
+        // than the energy moved, because the two come apart: water poured
+        // in at 25.0 C moves no energy at all and is still differenced.
+        // Liquid water's NASA-9 fit sums an antiderivative of terms ~1.2e9
+        // J/mol cancelling to -9.2e8, so a double gives up ~2.6e-7 J per
+        // mole per difference (#509; ice's fit gives up 4e-11 and
+        // nitrogen's 4e-12 - it is that one curve's conditioning, not the
+        // ledger). The worst case in the sweep is exactly this: 33.3 mol of
+        // near-room-temperature water, 306 J of traffic, 1.08e-5 J left
+        // over, which is 3.2e-7 J per mole and would sit only 28x inside a
+        // purely relative bound. Five microjoules per mole is twenty times
+        // the per-difference figure, leaving room for the several
+        // differences an operator takes. PLAN.md's `(T - T_mid)`
+        // reformulation would buy most of this term back.
+        //
+        // With both terms the tightest margin over those 4096 scripts is
+        // 100x, and the next tightest 228x.
+        //
+        // The 0.0157 J that failed job 101869813421 was NOT this floor and
+        // is not tolerated here. Dissolving a solid in an organic solvent
+        // moved the portion from its own Cp(T) curve onto the flat registry
+        // constant and rewrote the vessel's enthalpy for free; that is a
+        // leak, and it is fixed in `nonaqueous.rs`. Its seed is pinned in
+        // `conservation.proptest-regressions` so it is re-run every time.
+        let water = bench.total_moles(&SpeciesId::new("water")).0;
+        let tolerance = 3e-6 * gross.max(1.0) + 5e-6 * water;
         prop_assert!(
-            (h - budget).abs() < 1e-5 * budget.abs().max(1.0),
-            "bench enthalpy {h} J diverged from heat budget {budget} J"
+            (h - budget).abs() < tolerance,
+            "bench enthalpy {h} J diverged from heat budget {budget} J by more \
+             than {tolerance} J, across {gross} J of gross energy handled"
         );
     }
 }
