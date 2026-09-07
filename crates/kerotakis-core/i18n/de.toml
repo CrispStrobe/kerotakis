@@ -783,6 +783,25 @@ boiled = "siedete"
 "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing" = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
 "the pH meter reads nothing — no aqueous solution has been characterised in this vessel" = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
 "the conductivity meter reads nothing — no aqueous solution has been characterised" = "das Leitfähigkeitsmessgerät zeigt nichts an — es wurde keine wässrige Lösung charakterisiert"
+# The fixed reasons a gap gives, keyed by their English. Thirteen of these
+# reached a German learner in English until `every_fixed_gap_reason_has_german`
+# started reading them out of the source: the table was 100% translated over
+# the rows it had, which is the failure mode every gate in this repo exists
+# for. A reason that interpolates a value cannot be keyed this way at all —
+# see I18N.md, "What the English-keyed table cannot reach".
+"whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way" = "ob dieser Inhalt brennt: kein angebundener Löser modelliert die Verbrennung dafür, das Labor kann es also weder bejahen noch verneinen"
+"cooling an empty vessel (container heat capacity not modelled)" = "Abkühlen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
+"distillation of a vessel with no liquid water or ethanol — other volatile liquids need their Antoine constants curated first" = "Destillation eines Gefäßes ohne flüssiges Wasser oder Ethanol — für andere flüchtige Flüssigkeiten müssen erst die Antoine-Konstanten kuratiert werden"
+"draining a single-phase liquid — the funnel only separates what the thermodynamics has already split into layers" = "Ablassen einer einphasigen Flüssigkeit — der Trichter trennt nur, was die Thermodynamik bereits in Schichten aufgeteilt hat"
+"the volume meter reads a sealed vessel's headspace, and this one is open — seal it to give the gas a measured volume. The liquid's own volume is on the vessel line." = "das Volumenmessgerät liest den Gasraum eines verschlossenen Gefäßes, und dieses hier ist offen — verschließe es, damit das Gas ein gemessenes Volumen bekommt. Das Volumen der Flüssigkeit selbst steht in der Gefäßzeile."
+"the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess" = "das Leitfähigkeitsmessgerät liegt an einem trockenen Feststoff, für den das Verzeichnis keinen elektrischen Widerstand führt — die Messung braucht einen geprüften Wert, keine Schätzung"
+"the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing" = "den Anteil der gelösten Ionen an dieser Dichte: jedes Ion im Verzeichnis trägt die Dichte von Wasser als strukturellen Vorgabewert statt eines gemessenen, deshalb liest sich eine Salzlösung wie das Wasser, aus dem sie gemacht wurde. Der Wert des Lösungsmittels stimmt, der der gelösten Stoffe fehlt"
+"a density — the vessel is empty, and there is nothing to float the hydrometer in and nothing to weigh" = "eine Dichte — das Gefäß ist leer, es gibt nichts, worin das Aräometer schwimmen könnte, und nichts zu wiegen"
+"chromatography needs an aqueous sample — the column's mobile phase is water" = "die Chromatographie braucht eine wässrige Probe — die mobile Phase der Säule ist Wasser"
+"chromatography needs something dissolved to inject — this vessel holds only its mobile phase" = "die Chromatographie braucht etwas Gelöstes zum Aufgeben — dieses Gefäß enthält nur seine mobile Phase"
+"titration needs an aqueous solver to compute pH after each addition — none is wired" = "die Titration braucht einen wässrigen Löser, um nach jeder Zugabe den pH-Wert zu berechnen — es ist keiner angebunden"
+"no haloalkane substrate in the vessel — the selectivity table covers bromoethane (primary) and tert-butyl bromide (tertiary)" = "kein Halogenalkan-Substrat im Gefäß — die Selektivitätstabelle deckt Bromethan (primär) und tert-Butylbromid (tertiär) ab"
+"no recognised nucleophile in the vessel — the selectivity table covers NaOH (strong) and water (weak)" = "kein erkanntes Nucleophil im Gefäß — die Selektivitätstabelle deckt NaOH (stark) und Wasser (schwach) ab"
 solid-in-liquid = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
 dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
 
