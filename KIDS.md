@@ -13,6 +13,13 @@ Codex routes count an experiment as completed when either real route is
 finished, while the linked-learning counter continues to show every optional
 piece separately.
 
+The same rule now governs the Codex half of the one catalogue. Its 108
+reactions explicitly author learning progress from prerequisite depth and
+reasoning complexity: 20 starter, 44 intermediate and 44 advanced. Curriculum
+ages remain useful syllabus-placement metadata, but neither they nor an
+invented safety default classify a Codex card. A structural check prevents a
+consumer from being placed before every available teacher of a prerequisite.
+
 Structured, localized safety rationale and before-you-begin guidance now
 cover the five school-supervision gaps found by the GUI audit: K03, K19, K35,
 K41 and K54. The unified experiment cards show supervision before launch and

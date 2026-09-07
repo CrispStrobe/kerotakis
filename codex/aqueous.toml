@@ -21,6 +21,7 @@
 
 [[reaction]]
 id = "strong-base"
+progress = "starter"
 spine = ["herstellung-von-sauren-und-alkalischen-loesungen"]
 equation = "NaOH(s) → Na⁺(aq) + OH⁻(aq)"
 concepts = ["bases", "strong-bases"]
@@ -78,6 +79,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "lye-warms-the-beaker"
+progress = "intermediate"
 spine = ["kalorimetrie"]
 equation = "NaOH(s) → Na⁺(aq) + OH⁻(aq)   ΔH_dis = −44.5 kJ/mol"
 concepts = ["exothermic-dissolution", "concentrated-solutions"]
@@ -141,6 +143,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis; pH from PHREEQC vi
 
 [[reaction]]
 id = "neutralisation"
+progress = "intermediate"
 spine = ["neutralisationsreaktionen"]
 equation = "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O"
 concepts = ["neutralisation", "spectator-ions"]
@@ -203,6 +206,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "past-the-equivalence-point"
+progress = "intermediate"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 summary = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)"
 equation = "HCl + NaOH → NaCl + H₂O"
@@ -260,6 +264,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "phosphoric-acid-three-protons"
+progress = "intermediate"
 spine = ["ph-wert-berechnungen"]
 equation = "H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻ ⇌ 3 H⁺ + PO₄³⁻"
 concepts = ["polyprotic-acids"]
@@ -314,6 +319,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "phosphate-buffer"
+progress = "intermediate"
 spine = ["puffersysteme"]
 summary = "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)"
 equation = "H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻"
@@ -370,6 +376,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "half-neutralised-vinegar"
+progress = "intermediate"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 equation = "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺ + 0.5 H₂O   (pH ≈ pKa)"
 concepts = ["half-equivalence-point", "pka-measurement"]
@@ -425,6 +432,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "weak-acid-endpoint-is-alkaline"
+progress = "advanced"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 equation = "CH₃COOH + NaOH → CH₃COONa + H₂O;  CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻"
 concepts = ["weak-acid-equivalence", "conjugate-base"]
@@ -480,6 +488,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "buffer-capacity-exceeded"
+progress = "intermediate"
 spine = ["puffersysteme"]
 summary = "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed"
 equation = "CH₃COO⁻ + H⁺ → CH₃COOH"
@@ -539,6 +548,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "dilution-by-ten"
+progress = "intermediate"
 spine = ["konzentrationsberechnungen"]
 summary = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
 concepts = ["dilution", "concentration"]
@@ -591,6 +601,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "washing-soda-is-alkaline"
+progress = "intermediate"
 spine = ["der-ph-wert-als-eigenschaften-von-loesungen"]
 equation = "CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻"
 concepts = ["salt-hydrolysis", "carbonate-equilibria"]
@@ -652,6 +663,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "baking-soda-vents-carbon-dioxide"
+progress = "intermediate"
 equation = "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)"
 concepts = ["open-system", "carbonate-speciation"]
 requires = ["carbonate-equilibria", "gas-evolution"]
@@ -712,6 +724,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "sodium-acetate-hydrolysis"
+progress = "intermediate"
 spine = ["reaktionen-von-saeuren-und-basen"]
 equation = "CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻   ΔH_dis = −17.3 kJ/mol"
 concepts = ["salt-of-a-weak-acid"]
@@ -747,6 +760,7 @@ computed_by = "PHREEQC via Kerotakis L2; energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "copper-sulfate-is-blue-and-acidic"
+progress = "intermediate"
 spine = ["der-ph-wert-als-eigenschaften-von-loesungen"]
 equation = "CuSO₄ → Cu²⁺ + SO₄²⁻;  Cu²⁺ + H₂O ⇌ CuOH⁺ + H⁺"
 concepts = ["transition-metal-colour", "metal-ion-hydrolysis"]
@@ -805,6 +819,7 @@ computed_by = "PHREEQC via Kerotakis L2; colour from the curated registry, state
 
 [[reaction]]
 id = "descaling-with-acid"
+progress = "intermediate"
 spine = ["wasser-trinkwasser-und-mehr"]
 equation = "CaCO₃(s) + 2 H⁺ → Ca²⁺ + H₂O + CO₂↑"
 concepts = ["carbonate-test", "descaling"]
@@ -874,6 +889,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "chalk-in-water"
+progress = "starter"
 spine = ["chemisches-gleichgewicht"]
 equation = "CaCO₃(s) ⇌ Ca²⁺ + CO₃²⁻   (K_sp ≈ 3.3 × 10⁻⁹)"
 concepts = ["sparingly-soluble-salts", "saturation-index"]
@@ -935,6 +951,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "silver-chloride-solubility-product"
+progress = "intermediate"
 spine = ["chemisches-gleichgewicht"]
 equation = "AgCl(s) ⇌ Ag⁺ + Cl⁻   (K_sp ≈ 1.8 × 10⁻¹⁰)"
 concepts = ["ksp", "solubility-product"]
@@ -976,6 +993,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "common-ion-effect"
+progress = "intermediate"
 spine = ["chemisches-gleichgewicht"]
 equation = "AgCl(s) ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻"
 concepts = ["common-ion-effect"]
@@ -1033,6 +1051,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "chloride-complexes-redissolve-silver"
+progress = "advanced"
 spine = ["chemisches-gleichgewicht"]
 equation = "AgCl(s) + Cl⁻ ⇌ AgCl₂⁻   (complexation beats the common-ion effect)"
 concepts = ["complex-ions", "model-boundaries"]
@@ -1090,6 +1109,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "gypsum-carries-water-in-its-crystals"
+progress = "intermediate"
 spine = ["salze"]
 equation = "CaSO₄·2H₂O(s) ⇌ Ca²⁺ + SO₄²⁻ + 2 H₂O"
 concepts = ["waters-of-crystallisation", "hydrates"]
@@ -1146,6 +1166,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "heating-dissolves-more-salt"
+progress = "intermediate"
 equation = "NaCl(s) ⇌ Na⁺ + Cl⁻, solubility rising with temperature"
 concepts = ["temperature-and-solubility"]
 requires = ["saturation"]
@@ -1202,6 +1223,7 @@ computed_by = "PHREEQC via Kerotakis L2; energy balance by Kerotakis"
 
 [[reaction]]
 id = "any-chloride-precipitates-silver"
+progress = "intermediate"
 spine = ["qualitative-nachweisverfahren"]
 equation = "Ag⁺ + Cl⁻ → AgCl(s)↓   (K⁺ and NO₃⁻ are spectators)"
 concepts = ["net-ionic-reaction"]
@@ -1258,6 +1280,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "acetates-stay-dissolved"
+progress = "intermediate"
 spine = ["salzbildung"]
 summary = "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)"
 concepts = ["solubility-rules"]
@@ -1316,6 +1339,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "softening-with-washing-soda"
+progress = "intermediate"
 spine = ["wasser-trinkwasser-und-mehr"]
 equation = "Ca²⁺ + CO₃²⁻ → CaCO₃(s)↓"
 concepts = ["water-softening", "double-displacement"]
@@ -1371,6 +1395,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "permanent-hardness-makes-gypsum"
+progress = "intermediate"
 spine = ["wasser-trinkwasser-und-mehr"]
 equation = "Ca²⁺ + SO₄²⁻ + 2 H₂O → CaSO₄·2H₂O(s)↓"
 concepts = ["permanent-hardness"]
@@ -1408,6 +1433,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "filtering-a-precipitate"
+progress = "starter"
 spine = ["filtration"]
 summary = "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through"
 concepts = ["filtration", "separation"]
@@ -1478,6 +1504,7 @@ computed_by = "PHREEQC via Kerotakis L2; phase separation by the Kerotakis bench
 
 [[reaction]]
 id = "crystallising-salt-from-brine"
+progress = "intermediate"
 spine = ["eindampfen", "gewinnung-und-abbau-von-salzen"]
 summary = "Na⁺ + Cl⁻ → NaCl(s)  as water leaves"
 concepts = ["crystallisation", "evaporation"]
@@ -1542,6 +1569,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "permanganate-is-visible-when-almost-absent"
+progress = "intermediate"
 spine = ["konzentrationsberechnungen"]
 equation = "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)"
 concepts = ["colour-intensity"]
@@ -1597,6 +1625,7 @@ computed_by = "PHREEQC via Kerotakis L2 for pH and speciation; colour is curated
 
 [[reaction]]
 id = "ethanol-and-water-mix"
+progress = "intermediate"
 spine = ["weitere-stoffeigenschaften"]
 summary = "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)"
 concepts = ["miscibility", "mixtures"]
@@ -1654,6 +1683,7 @@ computed_by = "Kerotakis bench (volumes additive, stated as an approximation); n
 
 [[reaction]]
 id = "bleach-and-acid"
+progress = "intermediate"
 spine = ["chemikalien-im-alltag", "sicherheitsregeln-in-chemieraeumen"]
 equation = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O"
 concepts = ["toxic-gas", "household-hazards"]
@@ -1710,6 +1740,7 @@ computed_by = "L0 reactive-group screen (Kerotakis safety); residual solution by
 
 [[reaction]]
 id = "neutral-is-a-moving-target"
+progress = "starter"
 spine = ["die-autoprotolyse-als-eigenschaft-von-wasser"]
 equation = "H₂O ⇌ H⁺ + OH⁻"
 concepts = ["autoprotolysis", "temperature-dependent-kw"]
@@ -1766,6 +1797,7 @@ computed_by = "PHREEQC via Kerotakis L2, solved at the temperature the heating p
 
 [[reaction]]
 id = "bicarbonate-plays-both-sides"
+progress = "advanced"
 spine = ["saeure-basen-konzepte"]
 equation = "HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O"
 concepts = ["amphiprotic-ions", "proton-transfer"]
@@ -1826,6 +1858,7 @@ computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria"
 
 [[reaction]]
 id = "the-antacid-runs-on-arithmetic"
+progress = "intermediate"
 spine = ["verwendung-von-saeuren-und-basen"]
 equation = "NaHCO₃ + HCl → NaCl + H₂O + CO₂"
 concepts = ["neutralisation", "buffer-capacity"]
@@ -1895,6 +1928,7 @@ computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass 
 
 [[reaction]]
 id = "the-indicator-is-chosen-for-the-jump"
+progress = "intermediate"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 summary = "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl orange fired long before, deep in the buffer — the indicator is chosen to sit on the jump, not for its looks"
 concepts = ["indicators"]
@@ -1955,6 +1989,7 @@ computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson�
 
 [[reaction]]
 id = "the-in-between-colour-is-a-mixture"
+progress = "advanced"
 spine = ["eigenschaften-von-saeuren-und-basen"]
 summary = "Bromothymol blue near neutral is green — not a third colour of the dye, but the computed mixture of its yellow and blue forms at the solved ratio"
 concepts = ["indicators", "colour-from-mixed-spectra"]
@@ -2013,6 +2048,7 @@ computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson�
 
 [[reaction]]
 id = "charcoal-holds-the-dye"
+progress = "intermediate"
 spine = ["filtration"]
 summary = "Activated charcoal holds most of a dissolved dye on its surface; filtration retains that bound share while the remainder passes through"
 concepts = ["adsorption", "surface-area", "filtration", "separation", "model-boundary"]

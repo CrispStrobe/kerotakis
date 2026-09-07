@@ -14,6 +14,7 @@
 
 [[reaction]]
 id = "liquid-nitrogen-freezes-ethanol"
+progress = "advanced"
 spine = ["aggregatzustaende"]
 summary = "In an open virtual vessel, liquid nitrogen boils while ethanol freezes; the two phase changes share one latent-heat balance"
 concepts = ["phase-change", "latent-heat", "energy-conservation", "model-boundary"]
@@ -43,6 +44,7 @@ computed_by = "Kerotakis coupled phase-route energy ledger"
 
 [[reaction]]
 id = "salt-holds-the-water-liquid"
+progress = "intermediate"
 spine = ["aggregatzustaende"]
 summary = "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water"
 concepts = ["freezing-point-depression", "colligative-properties"]
@@ -113,6 +115,7 @@ computed_by = "Kerotakis state layer (P3s) over PHREEQC speciation; energy balan
 
 [[reaction]]
 id = "chains-slide-networks-do-not"
+progress = "advanced"
 spine = ["kunststoffe-langkettige-organische-molekuele"]
 summary = "At the same 150 °C, a polyethylene thermoplastic softens reversibly while a cured thermoset remains cross-linked and rigid"
 concepts = ["polymer-structure", "material-structure", "cross-linking", "thermal-softening", "reversible-change", "model-boundary"]

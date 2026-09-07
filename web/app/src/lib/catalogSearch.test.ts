@@ -133,6 +133,7 @@ describe("the unified catalogue index", () => {
   const entries = catalogEntries(
     [{
       id: "vinegar-and-baking-soda", equation: "NaHCO3 + CH3COOH -> CO2",
+      progress: "starter",
       concepts: ["acid-carbonate"], apparatus: ["beaker"],
       setup: { script: "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 5g\n" },
       expect: {}, registers: { lv2: "Gas leaves the beaker." },

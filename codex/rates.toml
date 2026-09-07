@@ -33,6 +33,7 @@
 
 [[reaction]]
 id = "doubling-the-thiosulfate-doubles-the-rate"
+progress = "starter"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
 concepts = ["reaction-rate", "reaction-order"]
@@ -101,6 +102,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration of the curated rate
 
 [[reaction]]
 id = "the-acid-term-is-an-activity"
+progress = "advanced"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed"
 concepts = ["activity-in-a-rate-law"]
@@ -179,6 +181,7 @@ computed_by = "kerotakis-core kinetics; pH and ionic strength from PHREEQC via K
 
 [[reaction]]
 id = "the-cross-disappears"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
 concepts = ["rate-from-a-fixed-observable"]
@@ -264,6 +267,7 @@ computed_by = "kerotakis-core kinetics; appearance from kerotakis-core::appearan
 
 [[reaction]]
 id = "the-ten-degree-rule-and-where-it-frays"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature"
 concepts = ["temperature-and-rate", "arrhenius-equation"]
@@ -341,6 +345,7 @@ computed_by = "kerotakis-core kinetics (Arrhenius k evaluated per vessel, midpoi
 
 [[reaction]]
 id = "a-steeper-barrier-breaks-the-rule-of-thumb"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["activation-energy"]
@@ -418,6 +423,7 @@ computed_by = "kerotakis-core kinetics"
 
 [[reaction]]
 id = "three-beakers-of-peroxide"
+progress = "advanced"
 spine = ["katalyse"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["catalysis"]
@@ -494,6 +500,7 @@ computed_by = "kerotakis-core kinetics"
 
 [[reaction]]
 id = "a-catalyst-comes-out-as-it-went-in"
+progress = "advanced"
 spine = ["katalyse"]
 summary = "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end"
 concepts = ["catalyst-not-consumed"]
@@ -573,6 +580,7 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 
 [[reaction]]
 id = "catalyst-area-and-stirring-change-the-rate"
+progress = "advanced"
 spine = ["katalyse"]
 summary = "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model"
 concepts = ["heterogeneous-catalysis", "surface-area", "mass-transfer"]
@@ -648,6 +656,7 @@ computed_by = "kerotakis-core quantitative catalyst activity plus the magnetic-s
 
 [[reaction]]
 id = "first-order-means-a-constant-half-life"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["half-life", "first-order-kinetics"]
@@ -722,6 +731,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration, checked against th
 
 [[reaction]]
 id = "two-beakers-and-one-clock"
+progress = "advanced"
 spine = ["erkenntnisgewinnung"]
 summary = "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol"
 concepts = ["shared-clock"]
@@ -804,6 +814,7 @@ computed_by = "kerotakis-core kinetics; bench clock via Operator::Wait"
 
 [[reaction]]
 id = "a-salt-with-no-database"
+progress = "intermediate"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without"
 concepts = ["species-without-a-database"]
@@ -880,6 +891,7 @@ computed_by = "PHREEQC via Kerotakis L2 for the two pH readings; the gap notice 
 
 [[reaction]]
 id = "the-acid-is-never-used-up"
+progress = "advanced"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066"
 concepts = ["excess-reagent-approximation"]
@@ -953,6 +965,7 @@ computed_by = "kerotakis-core kinetics; pH from PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "the-oxygen-is-counted-but-never-seen"
+progress = "advanced"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it."
 concepts = ["unrendered-observable"]
@@ -1025,6 +1038,7 @@ computed_by = "kerotakis-core kinetics for the oxygen; kerotakis-core::appearanc
 
 [[reaction]]
 id = "same-destination-different-journey"
+progress = "advanced"
 spine = ["kinetik"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["kinetic-versus-thermodynamic-outcome"]

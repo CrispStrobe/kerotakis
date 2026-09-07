@@ -2,6 +2,7 @@
   "reactions": [
     {
       "id": "strong-base",
+      "progress": "starter",
       "equation": "NaOH(s) → Na⁺(aq) + OH⁻(aq)",
       "summary": null,
       "concepts": [
@@ -109,6 +110,7 @@
     },
     {
       "id": "lye-warms-the-beaker",
+      "progress": "intermediate",
       "equation": "NaOH(s) → Na⁺(aq) + OH⁻(aq)   ΔH_dis = −44.5 kJ/mol",
       "summary": null,
       "concepts": [
@@ -220,6 +222,7 @@
     },
     {
       "id": "neutralisation",
+      "progress": "intermediate",
       "equation": "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O",
       "summary": null,
       "concepts": [
@@ -330,6 +333,7 @@
     },
     {
       "id": "past-the-equivalence-point",
+      "progress": "intermediate",
       "equation": "HCl + NaOH → NaCl + H₂O",
       "summary": "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)",
       "summary_de": "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH (Überschuss)",
@@ -427,6 +431,7 @@
     },
     {
       "id": "phosphoric-acid-three-protons",
+      "progress": "intermediate",
       "equation": "H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻ ⇌ 3 H⁺ + PO₄³⁻",
       "summary": null,
       "concepts": [
@@ -524,6 +529,7 @@
     },
     {
       "id": "phosphate-buffer",
+      "progress": "intermediate",
       "equation": "H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻",
       "summary": "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)",
       "summary_de": "H₂PO₄⁻/HPO₄²⁻-Puffer (1,5 Äquivalente Base pro H₃PO₄)",
@@ -624,6 +630,7 @@
     },
     {
       "id": "half-neutralised-vinegar",
+      "progress": "intermediate",
       "equation": "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺ + 0.5 H₂O   (pH ≈ pKa)",
       "summary": null,
       "concepts": [
@@ -723,6 +730,7 @@
     },
     {
       "id": "weak-acid-endpoint-is-alkaline",
+      "progress": "advanced",
       "equation": "CH₃COOH + NaOH → CH₃COONa + H₂O;  CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻",
       "summary": null,
       "concepts": [
@@ -822,6 +830,7 @@
     },
     {
       "id": "buffer-capacity-exceeded",
+      "progress": "intermediate",
       "equation": "CH₃COO⁻ + H⁺ → CH₃COOH",
       "summary": "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed",
       "summary_de": "CH₃COOH/CH₃COO⁻ + überschüssige HCl → Puffer zerstört",
@@ -919,6 +928,7 @@
     },
     {
       "id": "dilution-by-ten",
+      "progress": "intermediate",
       "equation": null,
       "summary": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
       "summary_de": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
@@ -1017,6 +1027,7 @@
     },
     {
       "id": "washing-soda-is-alkaline",
+      "progress": "intermediate",
       "equation": "CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻",
       "summary": null,
       "concepts": [
@@ -1126,6 +1137,7 @@
     },
     {
       "id": "baking-soda-vents-carbon-dioxide",
+      "progress": "intermediate",
       "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)",
       "summary": null,
       "concepts": [
@@ -1233,6 +1245,7 @@
     },
     {
       "id": "sodium-acetate-hydrolysis",
+      "progress": "intermediate",
       "equation": "CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻   ΔH_dis = −17.3 kJ/mol",
       "summary": null,
       "concepts": [
@@ -1300,6 +1313,7 @@
     },
     {
       "id": "copper-sulfate-is-blue-and-acidic",
+      "progress": "intermediate",
       "equation": "CuSO₄ → Cu²⁺ + SO₄²⁻;  Cu²⁺ + H₂O ⇌ CuOH⁺ + H⁺",
       "summary": null,
       "concepts": [
@@ -1403,6 +1417,7 @@
     },
     {
       "id": "descaling-with-acid",
+      "progress": "intermediate",
       "equation": "CaCO₃(s) + 2 H⁺ → Ca²⁺ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -1521,6 +1536,7 @@
     },
     {
       "id": "chalk-in-water",
+      "progress": "starter",
       "equation": "CaCO₃(s) ⇌ Ca²⁺ + CO₃²⁻   (K_sp ≈ 3.3 × 10⁻⁹)",
       "summary": null,
       "concepts": [
@@ -1629,6 +1645,7 @@
     },
     {
       "id": "silver-chloride-solubility-product",
+      "progress": "intermediate",
       "equation": "AgCl(s) ⇌ Ag⁺ + Cl⁻   (K_sp ≈ 1.8 × 10⁻¹⁰)",
       "summary": null,
       "concepts": [
@@ -1703,6 +1720,7 @@
     },
     {
       "id": "common-ion-effect",
+      "progress": "intermediate",
       "equation": "AgCl(s) ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻",
       "summary": null,
       "concepts": [
@@ -1803,6 +1821,7 @@
     },
     {
       "id": "chloride-complexes-redissolve-silver",
+      "progress": "advanced",
       "equation": "AgCl(s) + Cl⁻ ⇌ AgCl₂⁻   (complexation beats the common-ion effect)",
       "summary": null,
       "concepts": [
@@ -1900,6 +1919,7 @@
     },
     {
       "id": "gypsum-carries-water-in-its-crystals",
+      "progress": "intermediate",
       "equation": "CaSO₄·2H₂O(s) ⇌ Ca²⁺ + SO₄²⁻ + 2 H₂O",
       "summary": null,
       "concepts": [
@@ -1997,6 +2017,7 @@
     },
     {
       "id": "heating-dissolves-more-salt",
+      "progress": "intermediate",
       "equation": "NaCl(s) ⇌ Na⁺ + Cl⁻, solubility rising with temperature",
       "summary": null,
       "concepts": [
@@ -2092,6 +2113,7 @@
     },
     {
       "id": "any-chloride-precipitates-silver",
+      "progress": "intermediate",
       "equation": "Ag⁺ + Cl⁻ → AgCl(s)↓   (K⁺ and NO₃⁻ are spectators)",
       "summary": null,
       "concepts": [
@@ -2192,6 +2214,7 @@
     },
     {
       "id": "acetates-stay-dissolved",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)",
       "summary_de": "Ca²⁺ + 2 CH₃COO⁻ → kein Niederschlag (alle Acetate sind löslich)",
@@ -2290,6 +2313,7 @@
     },
     {
       "id": "softening-with-washing-soda",
+      "progress": "intermediate",
       "equation": "Ca²⁺ + CO₃²⁻ → CaCO₃(s)↓",
       "summary": null,
       "concepts": [
@@ -2390,6 +2414,7 @@
     },
     {
       "id": "permanent-hardness-makes-gypsum",
+      "progress": "intermediate",
       "equation": "Ca²⁺ + SO₄²⁻ + 2 H₂O → CaSO₄·2H₂O(s)↓",
       "summary": null,
       "concepts": [
@@ -2453,6 +2478,7 @@
     },
     {
       "id": "filtering-a-precipitate",
+      "progress": "starter",
       "equation": null,
       "summary": "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through",
       "summary_de": "AgCl(s) bleibt auf dem Papier zurück;  Na⁺, NO₃⁻ passieren",
@@ -2568,6 +2594,7 @@
     },
     {
       "id": "crystallising-salt-from-brine",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Na⁺ + Cl⁻ → NaCl(s)  as water leaves",
       "summary_de": "Na⁺ + Cl⁻ → NaCl(s), während Wasser entweicht",
@@ -2681,6 +2708,7 @@
     },
     {
       "id": "permanganate-is-visible-when-almost-absent",
+      "progress": "intermediate",
       "equation": "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)",
       "summary": null,
       "concepts": [
@@ -2779,6 +2807,7 @@
     },
     {
       "id": "ethanol-and-water-mix",
+      "progress": "intermediate",
       "equation": null,
       "summary": "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)",
       "summary_de": "C₂H₅OH(l) + H₂O(l) → eine flüssige Phase (vollständig mischbar)",
@@ -2877,6 +2906,7 @@
     },
     {
       "id": "bleach-and-acid",
+      "progress": "intermediate",
       "equation": "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O",
       "summary": null,
       "concepts": [
@@ -2973,6 +3003,7 @@
     },
     {
       "id": "neutral-is-a-moving-target",
+      "progress": "starter",
       "equation": "H₂O ⇌ H⁺ + OH⁻",
       "summary": null,
       "concepts": [
@@ -3073,6 +3104,7 @@
     },
     {
       "id": "bicarbonate-plays-both-sides",
+      "progress": "advanced",
       "equation": "HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O",
       "summary": null,
       "concepts": [
@@ -3173,6 +3205,7 @@
     },
     {
       "id": "the-antacid-runs-on-arithmetic",
+      "progress": "intermediate",
       "equation": "NaHCO₃ + HCl → NaCl + H₂O + CO₂",
       "summary": null,
       "concepts": [
@@ -3290,6 +3323,7 @@
     },
     {
       "id": "the-indicator-is-chosen-for-the-jump",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl orange fired long before, deep in the buffer — the indicator is chosen to sit on the jump, not for its looks",
       "summary_de": "Phenolphthalein schlägt am Endpunkt dieser Titration um (pH 8,6); Methylorange hat schon viel früher umgeschlagen, mitten im Pufferbereich — der Indikator wird für den Sprung gewählt, nicht für seine Optik",
@@ -3385,6 +3419,7 @@
     },
     {
       "id": "the-in-between-colour-is-a-mixture",
+      "progress": "advanced",
       "equation": null,
       "summary": "Bromothymol blue near neutral is green — not a third colour of the dye, but the computed mixture of its yellow and blue forms at the solved ratio",
       "summary_de": "Bromthymolblau ist nahe dem neutralen Punkt grün — keine dritte Farbe des Farbstoffs, sondern die berechnete Mischung seiner gelben und blauen Form im gelösten Verhältnis",
@@ -3479,6 +3514,7 @@
     },
     {
       "id": "charcoal-holds-the-dye",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Activated charcoal holds most of a dissolved dye on its surface; filtration retains that bound share while the remainder passes through",
       "summary_de": "Aktivkohle hält den größten Teil eines gelösten Farbstoffs an ihrer Oberfläche fest; beim Filtrieren bleibt dieser gebundene Anteil zurück, während der Rest hindurchfließt",
@@ -3581,6 +3617,7 @@
     },
     {
       "id": "salt-dissolves",
+      "progress": "starter",
       "equation": "NaCl(s) → Na⁺(aq) + Cl⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3646,6 +3683,7 @@
     },
     {
       "id": "salt-saturates",
+      "progress": "starter",
       "equation": "NaCl(s) ⇌ Na⁺(aq) + Cl⁻(aq)  (saturated at ≈6.1 mol/kgw)",
       "summary": null,
       "concepts": [
@@ -3717,6 +3755,7 @@
     },
     {
       "id": "silver-chloride-precipitation",
+      "progress": "starter",
       "equation": "AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)",
       "summary": null,
       "concepts": [
@@ -3772,6 +3811,7 @@
     },
     {
       "id": "strong-acid",
+      "progress": "starter",
       "equation": "HCl(aq) → H⁺(aq) + Cl⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3834,6 +3874,7 @@
     },
     {
       "id": "weak-acid",
+      "progress": "starter",
       "equation": "CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3899,6 +3940,7 @@
     },
     {
       "id": "buffer",
+      "progress": "starter",
       "equation": null,
       "summary": "CH₃COOH / CH₃COO⁻ buffer",
       "summary_de": "CH₃COOH / CH₃COO⁻-Puffer",
@@ -3964,6 +4006,7 @@
     },
     {
       "id": "vinegar-and-baking-soda",
+      "progress": "starter",
       "equation": "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -4035,6 +4078,7 @@
     },
     {
       "id": "hot-pack",
+      "progress": "starter",
       "equation": "CaCl₂(s) → Ca²⁺(aq) + 2 Cl⁻(aq)   ΔH_dis = −82.8 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4110,6 +4154,7 @@
     },
     {
       "id": "cold-pack",
+      "progress": "starter",
       "equation": "KCl(s) → K⁺(aq) + Cl⁻(aq)   ΔH_dis = +17.2 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4185,6 +4230,7 @@
     },
     {
       "id": "limescale",
+      "progress": "starter",
       "equation": "Ca²⁺(aq) + 2 HCO₃⁻(aq) → CaCO₃(s)↓ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -4255,6 +4301,7 @@
     },
     {
       "id": "calcination",
+      "progress": "starter",
       "equation": "CaCO₃(s) → CaO(s) + CO₂↑   (≈1170 K)",
       "summary": null,
       "concepts": [
@@ -4326,6 +4373,7 @@
     },
     {
       "id": "burning-magnesium",
+      "progress": "intermediate",
       "equation": "2 Mg(s) + O₂(g) → 2 MgO(s)   ΔH = −601 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4395,6 +4443,7 @@
     },
     {
       "id": "flame-test-sodium",
+      "progress": "starter",
       "equation": null,
       "summary": "Na⁺ → Na* → Na + hν (589 nm)",
       "summary_de": "Na⁺ → Na* → Na + hν (589 nm)",
@@ -4466,6 +4515,7 @@
     },
     {
       "id": "moles-from-mass",
+      "progress": "starter",
       "equation": null,
       "summary": "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol",
       "summary_de": "n = m / M   ·   5,844 g NaCl ÷ 58,443 g/mol = 0,1000 mol",
@@ -4576,6 +4626,7 @@
     },
     {
       "id": "concentration-is-a-ratio",
+      "progress": "starter",
       "equation": null,
       "summary": "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L",
       "summary_de": "c = n / V   ·   0,1000 mol in 0,100 L = 1,00 mol/L; dieselben 0,1000 mol in 0,200 L = 0,50 mol/L",
@@ -4694,6 +4745,7 @@
     },
     {
       "id": "dilution-moves-ph-by-one",
+      "progress": "intermediate",
       "equation": null,
       "summary": "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01",
       "summary_de": "c₁V₁ = c₂V₂   ·   0,001 mol in 0,100 L → pH-Wert 2,04; dieselbe Säure in 1,000 L → pH-Wert 3,01",
@@ -4821,6 +4873,7 @@
     },
     {
       "id": "stoichiometric-ratio-from-the-equation",
+      "progress": "advanced",
       "equation": "2 Mg + O₂ → 2 MgO   ·   2.40 g Mg → 3.98 g MgO, a ratio of 40.304 : 24.305",
       "summary": null,
       "concepts": [
@@ -4937,6 +4990,7 @@
     },
     {
       "id": "limiting-reagent",
+      "progress": "advanced",
       "equation": "Ag⁺ + Cl⁻ → AgCl↓   ·   0.0200 mol Ag⁺ + 0.0100 mol Cl⁻ → 0.0100 mol AgCl (and the reverse)",
       "summary": null,
       "concepts": [
@@ -5055,6 +5109,7 @@
     },
     {
       "id": "theoretical-yield-and-what-a-real-lab-loses",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g",
       "summary_de": "0,0100 mol AgCl × 143,32 g/mol = 1,43 g theoretisch; der Filter gewinnt 1,43 g zurück",
@@ -5157,6 +5212,7 @@
     },
     {
       "id": "the-carbon-came-from-the-baking-soda",
+      "progress": "advanced",
       "equation": "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid",
       "summary": null,
       "concepts": [
@@ -5276,6 +5332,7 @@
     },
     {
       "id": "mass-in-an-open-vessel",
+      "progress": "intermediate",
       "equation": "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑",
       "summary": "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂.",
       "summary_de": "252,66 g + 3,60 g Säure = 256,26 g erwartet; die Waage zeigt 254,84 g. Die 1,4 g entsprechen 0,0317 mol CO₂.",
@@ -5389,6 +5446,7 @@
     },
     {
       "id": "ph-is-not-quite-minus-log-c",
+      "progress": "intermediate",
       "equation": "HCl → H⁺ + Cl⁻",
       "summary": "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08",
       "summary_de": "0,100 mol/L HCl: −log c = 1,00, und das Messgerät zeigt 1,08",
@@ -5498,6 +5556,7 @@
     },
     {
       "id": "a-weak-acid-breaks-the-naive-sum",
+      "progress": "intermediate",
       "equation": "CH₃COOH ⇌ H⁺ + CH₃COO⁻",
       "summary": "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88",
       "summary_de": "0,100 mol/L: HCl → pH-Wert 1,08; CH₃COOH → pH-Wert 2,88",
@@ -5608,6 +5667,7 @@
     },
     {
       "id": "hot-pack-arithmetic",
+      "progress": "advanced",
       "equation": "CaCl₂ → Ca²⁺ + 2 Cl⁻",
       "summary": "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K",
       "summary_de": "ΔT = q / (n·Cp)   ·   8,28 kJ ÷ (5,5343 mol × 75,3 J·mol⁻¹·K⁻¹) = 19,9 K",
@@ -5732,6 +5792,7 @@
     },
     {
       "id": "cold-from-baking-soda",
+      "progress": "advanced",
       "equation": "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol   ·   25.0 °C → 21.0 °C",
       "summary": null,
       "concepts": [
@@ -5852,6 +5913,7 @@
     },
     {
       "id": "two-vessels-one-variable",
+      "progress": "advanced",
       "equation": null,
       "summary": "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C",
       "summary_de": "Dieselben 0,1000 mol CaCl₂; 100 mL → 44,87 °C, 200 mL → 34,93 °C",
@@ -5970,6 +6032,7 @@
     },
     {
       "id": "two-paths-one-temperature",
+      "progress": "intermediate",
       "equation": "NaOH(s) + HCl(aq) → NaCl(aq) + H₂O",
       "summary": null,
       "concepts": [
@@ -6079,6 +6142,7 @@
     },
     {
       "id": "chalk-below-the-kiln",
+      "progress": "intermediate",
       "equation": null,
       "summary": "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens",
       "summary_de": "CaCO₃(s) + Wärme → CaCO₃(s)   ·   147 °C sind heiß, und es passiert nichts",
@@ -6211,6 +6275,7 @@
     },
     {
       "id": "chalk-in-the-kiln",
+      "progress": "advanced",
       "equation": "CaCO₃(s) → CaO(s) + CO₂↑   ·   8 kJ takes 10 g of chalk past 1000 °C and it gives way",
       "summary": null,
       "concepts": [
@@ -6321,6 +6386,7 @@
     },
     {
       "id": "burning-makes-it-heavier",
+      "progress": "advanced",
       "equation": "2 Mg + O₂ → 2 MgO   ·   1.20 g of ribbon → 1.99 g of ash",
       "summary": null,
       "concepts": [
@@ -6446,6 +6512,7 @@
     },
     {
       "id": "burning-makes-it-lighter",
+      "progress": "advanced",
       "equation": "C + O₂ → CO₂↑   ·   1.20 g of charcoal → nothing on the balance",
       "summary": null,
       "concepts": [
@@ -6567,6 +6634,7 @@
     },
     {
       "id": "flame-temperature-is-a-balance-not-a-property",
+      "progress": "advanced",
       "equation": null,
       "summary": "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C",
       "summary_de": "2 Mg + O₂ → 2 MgO von 228 °C → 2177 °C; dieselbe Reaktion von 927 °C → 2769 °C",
@@ -6682,6 +6750,7 @@
     },
     {
       "id": "why-the-shelf-is-not-on-fire",
+      "progress": "advanced",
       "equation": null,
       "summary": "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there",
       "summary_de": "Mg + ½O₂ → MgO ist bei jeder Temperatur begünstigt; bei 224 °C liegt das Band einfach nur da",
@@ -6796,6 +6865,7 @@
     },
     {
       "id": "a-spark-that-changes-nothing",
+      "progress": "starter",
       "equation": null,
       "summary": "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)",
       "summary_de": "KCl + Funke → KCl (lila Flamme, 5,00 g hinein, 5,00 g heraus)",
@@ -6917,6 +6987,7 @@
     },
     {
       "id": "weigh-before-and-after",
+      "progress": "advanced",
       "equation": null,
       "summary": "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains",
       "summary_de": "5,844 g NaCl + 100 mL Wasser = 105,54 g; verdampft das Wasser, bleiben 5,84 g übrig",
@@ -7038,6 +7109,7 @@
     },
     {
       "id": "the-salt-comes-back-the-ribbon-does-not",
+      "progress": "advanced",
       "equation": null,
       "summary": "Dissolving reverses when the water leaves; burning does not reverse at any temperature — the difference is whether a new substance formed",
       "summary_de": "Lösen kehrt sich um, wenn das Wasser entweicht; Verbrennen kehrt sich bei keiner Temperatur um — der Unterschied ist, ob ein neuer Stoff entstanden ist",
@@ -7159,6 +7231,7 @@
     },
     {
       "id": "a-nanomole-is-not-a-cloud",
+      "progress": "advanced",
       "equation": null,
       "summary": "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported",
       "summary_de": "1,5 µmol Ag⁺ + 1,5 µmol Cl⁻ in 100 mL: Silberchlorid entsteht, und es wird keine Fällung gemeldet",
@@ -7272,6 +7345,7 @@
     },
     {
       "id": "when-the-lab-says-it-does-not-know",
+      "progress": "intermediate",
       "equation": null,
       "summary": "gypsum(s) + propanone(l) → not modelled",
       "summary_de": "Gips(s) + Propanon(l) → nicht modelliert",
@@ -7393,6 +7467,7 @@
     },
     {
       "id": "sugar-syrup-by-density",
+      "progress": "intermediate",
       "equation": null,
       "summary": "25.0 g sugar into 100 mL water → balance 124.70 g → 20.05 % w/w → ρ = 1.0813 g/mL",
       "concepts": [
@@ -7482,6 +7557,7 @@
     },
     {
       "id": "warm-water-climbs-less",
+      "progress": "advanced",
       "equation": null,
       "summary": "100 mL water + 15 kJ: 25.00 °C → 60.99 °C, and σ falls 71.97 → 66.07 mN/m with it",
       "concepts": [
@@ -7572,6 +7648,7 @@
     },
     {
       "id": "doubling-the-thiosulfate-doubles-the-rate",
+      "progress": "starter",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": null,
       "concepts": [
@@ -7685,6 +7762,7 @@
     },
     {
       "id": "the-acid-term-is-an-activity",
+      "progress": "advanced",
       "equation": null,
       "summary": "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed",
       "summary_de": "Verdoppelt man die Salzsäure, steigt die Geschwindigkeit um das 1,94-Fache statt um das 2,00-Fache — das Geschwindigkeitsgesetz liest die vom Solver berechnete Aktivität, nicht die eingewogene Menge",
@@ -7809,6 +7887,7 @@
     },
     {
       "id": "the-cross-disappears",
+      "progress": "intermediate",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": null,
       "concepts": [
@@ -7923,6 +8002,7 @@
     },
     {
       "id": "the-ten-degree-rule-and-where-it-frays",
+      "progress": "intermediate",
       "equation": null,
       "summary": "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature",
       "summary_de": "25 → 35 → 45 → 55 °C vervielfacht die Zehn-Sekunden-Ausbeute um 1,90, dann 1,80, dann 1,69 — die Faustregel ist eine Regel über eine bestimmte Aktivierungsenergie bei einer bestimmten Temperatur",
@@ -8042,6 +8122,7 @@
     },
     {
       "id": "a-steeper-barrier-breaks-the-rule-of-thumb",
+      "progress": "intermediate",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8164,6 +8245,7 @@
     },
     {
       "id": "three-beakers-of-peroxide",
+      "progress": "advanced",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8282,6 +8364,7 @@
     },
     {
       "id": "a-catalyst-comes-out-as-it-went-in",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end",
       "summary_de": "0,001 g Katalase zerstört drei aufeinanderfolgende 0,1-mol-Portionen Peroxid, jede innerhalb einer Sekunde, und liegt am Ende immer noch bei 4,16666667 × 10⁻⁹ mol",
@@ -8411,6 +8494,7 @@
     },
     {
       "id": "catalyst-area-and-stirring-change-the-rate",
+      "progress": "advanced",
       "equation": null,
       "summary": "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model",
       "concepts": [
@@ -8507,6 +8591,7 @@
     },
     {
       "id": "first-order-means-a-constant-half-life",
+      "progress": "intermediate",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8625,6 +8710,7 @@
     },
     {
       "id": "two-beakers-and-one-clock",
+      "progress": "advanced",
       "equation": null,
       "summary": "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol",
       "summary_de": "Identische Mischungen bei 25 °C und 35 °C; ein `wait 20s` lässt beide gleichzeitig fortschreiten, und nur die Temperatur unterscheidet sich — 4,3557 × 10⁻⁴ mol gegen 8,1256 × 10⁻⁴ mol",
@@ -8752,6 +8838,7 @@
     },
     {
       "id": "a-salt-with-no-database",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without",
       "summary_de": "Natriumthiosulfat löst sich auf und reagiert und trägt exakt nichts zum pH-Wert bei: 1,74858175066 mit ihm und 1,74858175066 ohne ihn",
@@ -8875,6 +8962,7 @@
     },
     {
       "id": "the-acid-is-never-used-up",
+      "progress": "advanced",
       "equation": null,
       "summary": "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066",
       "summary_de": "Zehn Minuten verbrauchen 4,6727 × 10⁻³ mol Thiosulfat — wofür 9,35 mmol Protonen nötig wären — während das Becherglas 2 mmol enthält und der pH-Wert nie von 1,74858175066 abweicht",
@@ -9000,6 +9088,7 @@
     },
     {
       "id": "the-oxygen-is-counted-but-never-seen",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it.",
       "summary_de": "0,05 mol Sauerstoff — etwa 1,2 L — befinden sich im Kolben; man sieht ihn aufsteigen und kann ihn nicht messen.",
@@ -9119,6 +9208,7 @@
     },
     {
       "id": "same-destination-different-journey",
+      "progress": "advanced",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -9238,6 +9328,7 @@
     },
     {
       "id": "permanganate-counts-in-fives",
+      "progress": "intermediate",
       "equation": "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O",
       "summary": null,
       "concepts": [
@@ -9337,6 +9428,7 @@
     },
     {
       "id": "half-oxidised-iron-reads-its-own-potential",
+      "progress": "advanced",
       "equation": null,
       "summary": "At half-oxidation, Eh reads the Fe(III)/Fe(II) couple's own formal potential — +0.674 V here, below the tabulated 0.771 V, because sulfate binds Fe(III) harder than Fe(II)",
       "summary_de": "Bei halber Oxidation zeigt Eh das eigene Formalpotenzial des Fe(III)/Fe(II)-Paares an — hier +0,674 V, unter dem tabellierten Wert von 0,771 V, weil Sulfat Fe(III) stärker bindet als Fe(II)",
@@ -9435,6 +9527,7 @@
     },
     {
       "id": "the-oxidant-is-spent-to-the-last-electron",
+      "progress": "advanced",
       "equation": "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O",
       "summary": null,
       "concepts": [
@@ -9533,6 +9626,7 @@
     },
     {
       "id": "the-series-decides-who-plates",
+      "progress": "advanced",
       "equation": "Zn + Cu²⁺ → Zn²⁺ + Cu",
       "summary": null,
       "concepts": [
@@ -9652,6 +9746,7 @@
     },
     {
       "id": "metals-below-hydrogen-fizz",
+      "progress": "advanced",
       "equation": "Mg + 2 H⁺ → Mg²⁺ + H₂",
       "summary": null,
       "concepts": [
@@ -9769,6 +9864,7 @@
     },
     {
       "id": "the-silver-tree",
+      "progress": "advanced",
       "equation": "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag",
       "summary": null,
       "concepts": [
@@ -9884,6 +9980,7 @@
     },
     {
       "id": "silver-does-not-stoop",
+      "progress": "advanced",
       "equation": null,
       "summary": "The series is an order: metallic silver in copper sulfate does nothing, and the nothing is a computed result",
       "summary_de": "Die Spannungsreihe ist eine Ordnung: Metallisches Silber in Kupfersulfat tut nichts, und dieses Nichts ist ein berechnetes Ergebnis",
@@ -9996,6 +10093,7 @@
     },
     {
       "id": "zinc-guards-iron",
+      "progress": "advanced",
       "equation": "Zn + Fe²⁺ → Zn²⁺ + Fe",
       "summary": null,
       "concepts": [
@@ -10111,6 +10209,7 @@
     },
     {
       "id": "the-daniell-cell-offers-its-voltage",
+      "progress": "advanced",
       "equation": null,
       "summary": "Two half-cells and a salt bridge: the Daniell cell reads 1.104 V open-circuit — the distance between two rungs of the series, offered before any current flows",
       "summary_de": "Zwei Halbzellen und eine Salzbrücke: Die Daniell-Zelle zeigt im Leerlauf 1,104 V — der Abstand zwischen zwei Sprossen der Spannungsreihe, angeboten, bevor überhaupt Strom fließt",
@@ -10209,6 +10308,7 @@
     },
     {
       "id": "dilution-buys-less-than-the-slide-rule-says",
+      "progress": "advanced",
       "equation": null,
       "summary": "Tenfold dilution of the copper side costs 18.2 mV, not the Nernst slide-rule's 29.6 — the equation is exact over activities, and the concentrations are not the activities",
       "summary_de": "Zehnfache Verdünnung der Kupferseite kostet 18,2 mV, nicht die 29,6 mV des Nernst-Rechenschiebers — die Gleichung ist exakt über Aktivitäten, und die Konzentrationen sind nicht die Aktivitäten",
@@ -10307,6 +10407,7 @@
     },
     {
       "id": "a-battery-from-nothing-but-imbalance",
+      "progress": "advanced",
       "equation": null,
       "summary": "A concentration cell: identical copper electrodes, tenfold different solutions — E° cancels to 0.000 and the meter still reads 18 mV, the Nernst term standing alone",
       "summary_de": "Eine Konzentrationszelle: identische Kupferelektroden, zehnfach unterschiedliche Lösungen — E° hebt sich zu 0,000 auf, und das Messgerät zeigt trotzdem 18 mV, der Nernst-Term ganz allein",
@@ -10404,6 +10505,7 @@
     },
     {
       "id": "only-the-two-is-chemistry",
+      "progress": "advanced",
       "equation": null,
       "summary": "Cu²⁺ + 2 e⁻ → Cu — a half-reaction, with the electrons supplied by the wire",
       "summary_de": "Cu²⁺ + 2 e⁻ → Cu — eine Halbreaktion, deren Elektronen der Draht liefert",
@@ -10511,6 +10613,7 @@
     },
     {
       "id": "the-plating-bath-turns-acid",
+      "progress": "advanced",
       "equation": null,
       "summary": "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — the inert anode pays the charge bill in protons",
       "summary_de": "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — die inerte Anode begleicht die Ladungsrechnung in Protonen",
@@ -10619,6 +10722,7 @@
     },
     {
       "id": "charging-fights-the-series",
+      "progress": "advanced",
       "equation": null,
       "summary": "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips",
       "summary_de": "Laden treibt die Zelle rückwärts, und die Abscheidung überlebt an einer kinetischen Leine — Wasserstoffbildung auf Zink kostet ~0,72 V Überspannung, und Gasbildung ist das, was passiert, wenn die Leine reißt",
@@ -10723,6 +10827,7 @@
     },
     {
       "id": "lead-stands-in-its-own-acid",
+      "progress": "advanced",
       "equation": null,
       "summary": "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence",
       "summary_de": "Blei steht in der Spannungsreihe unter Wasserstoff, und doch stehen die Platten einer Autobatterie jahrelang in Säure — die Triebkraft von +0,13 V kann die ~0,88 V Überspannung des Wasserstoffs auf Blei nicht begleichen, und genau diese unbeglichene Rechnung ist die Existenzgrundlage der Batterie",
@@ -10819,6 +10924,7 @@
     },
     {
       "id": "liquid-nitrogen-freezes-ethanol",
+      "progress": "advanced",
       "equation": null,
       "summary": "In an open virtual vessel, liquid nitrogen boils while ethanol freezes; the two phase changes share one latent-heat balance",
       "summary_de": "In einem offenen virtuellen Gefäß siedet flüssiger Stickstoff, während Ethanol gefriert — eine gekoppelte Bilanz zweier Phasenübergänge mit einer ausdrücklich offenen Stoffgrenze",
@@ -10880,6 +10986,7 @@
     },
     {
       "id": "salt-holds-the-water-liquid",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water",
       "summary_de": "Gelöste Teilchen senken den Gefrierpunkt: Bei gleicher Abkühlung beginnt Salzwasser erst bei etwa −4 °C zu gefrieren und bildet weniger Eis als reines Wasser",
@@ -10996,6 +11103,7 @@
     },
     {
       "id": "chains-slide-networks-do-not",
+      "progress": "advanced",
       "equation": null,
       "summary": "At the same 150 °C, a polyethylene thermoplastic softens reversibly while a cured thermoset remains cross-linked and rigid",
       "summary_de": "Bei denselben 150 °C erweicht ein Polyethylen-Thermoplast reversibel, während ein ausgehärteter Duroplast vernetzt und starr bleibt",

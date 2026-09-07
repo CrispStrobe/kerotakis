@@ -79,8 +79,6 @@ export interface CatalogEntry {
   /** One line on what happens. Never empty. */
   hook: string;
   level: CatalogLevel;
-  /** Curriculum metadata for Codex placement only; guided rows never invent it. */
-  ageMin: number | null;
   /** Lines the bench would run, or the work an entry puts on it. */
   steps: number;
   minutes: number;
@@ -108,7 +106,8 @@ export interface CatalogEntry {
   boundary: string | null;
   equation: string | null;
   status: KidsStatus;
-  safety: KidsSafety;
+  /** Guided safety classification; Codex entries make no invented claim. */
+  safety: KidsSafety | null;
   /** Localized safety explanation and action, independent of progress. */
   safetyRationale: string | null;
   safetyGuidance: string | null;
@@ -124,45 +123,18 @@ export interface CatalogEntry {
 // ── Level ─────────────────────────────────────────────────────────────
 
 /**
- * Where the three levels divide, and why there.
- *
- * The boundaries come from the curriculum placements the content carries,
- * which are stated in school years; the learner sees only the level name
- * these produce.
- *
- * Twelve is where the two corpora actually meet: the youngest curriculum
- * placement in the codex is KS3 at eleven, and the guided tasks that need
- * no supervision are written for around eight. Fifteen is where the German
- * placements start naming the upper secondary stages. So the bands are the
- * content's own, not three equal thirds of it.
- */
-export function levelForAge(ageMin: number): CatalogLevel {
-  if (ageMin < 12) return "starter";
-  return ageMin < 15 ? "intermediate" : "advanced";
-}
-
-/**
  * The label a level wears.
  *
  * A NAME, and only a name. The card used to print the age band beside it
  * ("ab 8 Jahren"), and that is the one thing this catalogue must not say:
  * every person is addressed here, an adult is welcome in "first steps",
  * and an age band beside a title reads as a permission slip ("not for
- * me"). The bands below are still how the CONTENT is sorted — they are
- * the curriculum's own placements — but they are an implementation
- * detail of the ordering, never a label a learner is shown.
+ * me"). The bands below sort the authored learning progression. Curriculum
+ * placement remains separately searchable metadata and never chooses a band.
  */
 export function levelLabel(level: CatalogLevel): string {
   if (level === "starter") return "first steps";
   return level === "intermediate" ? "going further" : "in depth";
-}
-
-/** The youngest age a codex entry is placed at, or a schoolroom default. */
-export function codexAgeMin(entry: Pick<CodexEntry, "curriculum">): number {
-  const ages = (entry.curriculum ?? [])
-    .map((placement) => placement.ages?.min)
-    .filter((age): age is number => typeof age === "number");
-  return ages.length === 0 ? 12 : Math.min(...ages);
 }
 
 // ── Duration ──────────────────────────────────────────────────────────
@@ -381,7 +353,6 @@ function onShelf(needs: readonly string[], shelfKeys: ReadonlySet<string> | unde
 function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry {
   const words = slugWords(entry.id);
   const title = context.translate(words);
-  const ageMin = codexAgeMin(entry);
   const steps = runnableLines(entry.setup.script).length;
   const minutes = minutesForSteps(steps);
   const needs = scriptKit(entry.setup.script);
@@ -396,8 +367,7 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     source: "codex",
     title: title || words,
     hook,
-    level: levelForAge(ageMin),
-    ageMin,
+    level: entry.progress,
     steps,
     minutes,
     duration: durationBand(minutes),
@@ -416,7 +386,7 @@ function fromCodex(entry: CodexEntry, context: CatalogViewContext): CatalogEntry
     boundary: null,
     equation: entry.equation ?? null,
     status: "computed",
-    safety: ageMin < 12 ? "home" : "school",
+    safety: null,
     safetyRationale: null,
     safetyGuidance: null,
     guided: null,
@@ -468,7 +438,6 @@ function fromGuided(
     title: title || entry.title,
     hook: hook || entry.phenomenon,
     level: entry.progress,
-    ageMin: null,
     steps,
     minutes,
     duration: durationBand(minutes),

@@ -15,6 +15,7 @@ use kerotakis_codex::Codex;
 const ENGLISH: &str = r#"
 [[reaction]]
 id = "salt-in-water"
+progress = "starter"
 summary = "Salt dissolves."
 system = "aqueous"
 stage = "solutions"

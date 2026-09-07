@@ -30,6 +30,7 @@ import { catalogEntries } from "./catalogEntry";
 
 const ENTRY = {
   id: "neutralisation",
+  progress: "starter" as const,
   setup: { script: "# a comment\nadd v1 water 1000mL\n\nadd v1 HCl 0.01mol\nadd v1 NaOH 0.01mol\n" },
   expect: { events: ["neutralised"], ph: { min: 6.9, max: 7.1 } },
 };
@@ -387,6 +388,7 @@ describe("running beside the learner's work", () => {
 describe("both corpora reach the runner through one door", () => {
   const script = {
     id: "vinegar-and-baking-soda",
+    progress: "starter" as const,
     setup: { script: "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 5g\n" },
     expect: { events: ["gas_evolved"] },
     registers: {},

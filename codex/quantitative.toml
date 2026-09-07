@@ -19,6 +19,7 @@
 
 [[reaction]]
 id = "moles-from-mass"
+progress = "starter"
 spine = ["die-stoffmenge-und-das-mol"]
 summary = "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol"
 concepts = ["amount-of-substance", "molar-mass"]
@@ -81,6 +82,7 @@ computed_by = "Kerotakis bench; speciation via PHREEQC L2"
 
 [[reaction]]
 id = "concentration-is-a-ratio"
+progress = "starter"
 spine = ["konzentrationsberechnungen"]
 summary = "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L"
 concepts = ["concentration", "ionic-strength"]
@@ -151,6 +153,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "dilution-moves-ph-by-one"
+progress = "intermediate"
 spine = ["konzentrationsberechnungen"]
 summary = "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01"
 concepts = ["dilution"]
@@ -228,6 +231,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "stoichiometric-ratio-from-the-equation"
+progress = "advanced"
 spine = ["chemisches-rechnen"]
 equation = "2 Mg + O₂ → 2 MgO   ·   2.40 g Mg → 3.98 g MgO, a ratio of 40.304 : 24.305"
 concepts = ["stoichiometric-ratio", "balanced-equations"]
@@ -298,6 +302,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "limiting-reagent"
+progress = "advanced"
 spine = ["chemisches-rechnen"]
 equation = "Ag⁺ + Cl⁻ → AgCl↓   ·   0.0200 mol Ag⁺ + 0.0100 mol Cl⁻ → 0.0100 mol AgCl (and the reverse)"
 concepts = ["limiting-reagent", "excess-reagent"]
@@ -369,6 +374,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "theoretical-yield-and-what-a-real-lab-loses"
+progress = "advanced"
 spine = ["quantitative-analyseverfahren"]
 summary = "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g"
 concepts = ["theoretical-yield", "percentage-yield"]
@@ -428,6 +434,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "the-carbon-came-from-the-baking-soda"
+progress = "advanced"
 spine = ["chemisches-rechnen"]
 equation = "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid"
 concepts = ["element-budget"]
@@ -496,6 +503,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "mass-in-an-open-vessel"
+progress = "intermediate"
 spine = ["massenerhaltung"]
 summary = "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂."
 equation = "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑"
@@ -563,6 +571,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "ph-is-not-quite-minus-log-c"
+progress = "intermediate"
 spine = ["ph-wert-berechnungen"]
 summary = "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08"
 equation = "HCl → H⁺ + Cl⁻"
@@ -625,6 +634,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "a-weak-acid-breaks-the-naive-sum"
+progress = "intermediate"
 spine = ["ph-wert-berechnungen"]
 summary = "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88"
 equation = "CH₃COOH ⇌ H⁺ + CH₃COO⁻"
@@ -693,6 +703,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "hot-pack-arithmetic"
+progress = "advanced"
 spine = ["kalorimetrie"]
 summary = "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K"
 equation = "CaCl₂ → Ca²⁺ + 2 Cl⁻"
@@ -762,6 +773,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "cold-from-baking-soda"
+progress = "advanced"
 spine = ["kalorimetrie"]
 equation = "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol   ·   25.0 °C → 21.0 °C"
 concepts = ["endothermic-dissolution"]
@@ -830,6 +842,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis; speciation via PHR
 
 [[reaction]]
 id = "two-vessels-one-variable"
+progress = "advanced"
 spine = ["erkenntnisgewinnung"]
 summary = "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C"
 concepts = ["controlled-comparison", "fair-test"]
@@ -902,6 +915,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "two-paths-one-temperature"
+progress = "intermediate"
 spine = ["der-satz-von-hess"]
 equation = "NaOH(s) + HCl(aq) → NaCl(aq) + H₂O"
 concepts = ["hess-law", "state-functions"]
@@ -970,6 +984,7 @@ computed_by = "Kerotakis energy balance (enthalpy-conserving) over curated ΔH_d
 
 [[reaction]]
 id = "chalk-below-the-kiln"
+progress = "intermediate"
 spine = ["der-energiebegriff"]
 summary = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
 concepts = ["decomposition-threshold"]
@@ -1048,6 +1063,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "chalk-in-the-kiln"
+progress = "advanced"
 spine = ["der-energiebegriff"]
 equation = "CaCO₃(s) → CaO(s) + CO₂↑   ·   8 kJ takes 10 g of chalk past 1000 °C and it gives way"
 concepts = ["computed-decomposition-temperature"]
@@ -1113,6 +1129,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "burning-makes-it-heavier"
+progress = "advanced"
 spine = ["massenerhaltung"]
 equation = "2 Mg + O₂ → 2 MgO   ·   1.20 g of ribbon → 1.99 g of ash"
 concepts = ["mass-gain-on-oxidation"]
@@ -1189,6 +1206,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "burning-makes-it-lighter"
+progress = "advanced"
 spine = ["massenerhaltung"]
 equation = "C + O₂ → CO₂↑   ·   1.20 g of charcoal → nothing on the balance"
 concepts = ["mass-loss-on-combustion"]
@@ -1260,6 +1278,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "flame-temperature-is-a-balance-not-a-property"
+progress = "advanced"
 spine = ["entropie-und-enthalpie"]
 summary = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
 concepts = ["adiabatic-flame-temperature", "enthalpy-balance"]
@@ -1327,6 +1346,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "why-the-shelf-is-not-on-fire"
+progress = "advanced"
 spine = ["kinetik"]
 summary = "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there"
 concepts = ["kinetic-barrier", "thermodynamic-versus-kinetic"]
@@ -1396,6 +1416,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser, gated by KINETIC_THRESHOLD_K"
 
 [[reaction]]
 id = "a-spark-that-changes-nothing"
+progress = "starter"
 spine = ["spektroskopieverfahren"]
 summary = "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)"
 concepts = ["negative-result", "flame-test-identification"]
@@ -1469,6 +1490,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser (the null result); emission colours
 
 [[reaction]]
 id = "weigh-before-and-after"
+progress = "advanced"
 spine = ["eindampfen"]
 summary = "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains"
 concepts = ["recovery", "before-and-after-measurement"]
@@ -1538,6 +1560,7 @@ computed_by = "PHREEQC via Kerotakis L2; mass bookkeeping by the Kerotakis bench
 
 [[reaction]]
 id = "the-salt-comes-back-the-ribbon-does-not"
+progress = "advanced"
 spine = ["die-chemische-reaktion", "stoffvernichtung-und-stoffneubildung"]
 summary = "Dissolving reverses when the water leaves; burning does not reverse at any temperature — the difference is whether a new substance formed"
 concepts = ["physical-vs-chemical-change", "reversibility"]
@@ -1608,6 +1631,7 @@ computed_by = "PHREEQC via Kerotakis L2 (brine); Gibbs minimisation over NASA-9 
 
 [[reaction]]
 id = "a-nanomole-is-not-a-cloud"
+progress = "advanced"
 spine = ["quantitative-analyseverfahren"]
 summary = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"
 concepts = ["detection-limit", "instrument-floor"]
@@ -1674,6 +1698,7 @@ computed_by = "PHREEQC via Kerotakis L2; reporting floor applied by the Kerotaki
 
 [[reaction]]
 id = "when-the-lab-says-it-does-not-know"
+progress = "intermediate"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "gypsum(s) + propanone(l) → not modelled"
 concepts = ["model-boundary", "stated-ignorance"]
@@ -1744,6 +1769,7 @@ computed_by = "Not computed — the honesty pass reports the gap, which is itsel
 
 [[reaction]]
 id = "sugar-syrup-by-density"
+progress = "intermediate"
 spine = ["konzentrationsberechnungen", "weitere-stoffeigenschaften"]
 summary = "25.0 g sugar into 100 mL water → balance 124.70 g → 20.05 % w/w → ρ = 1.0813 g/mL"
 concepts = ["concentration", "solutions", "model-boundaries"]
@@ -1801,6 +1827,7 @@ computed_by = "Kerotakis bench (balance, dissolution) and kerotakis_core::proper
 
 [[reaction]]
 id = "warm-water-climbs-less"
+progress = "advanced"
 spine = ["weitere-stoffeigenschaften", "der-energiebegriff"]
 summary = "100 mL water + 15 kJ: 25.00 °C → 60.99 °C, and σ falls 71.97 → 66.07 mN/m with it"
 concepts = ["heat-capacity", "before-and-after-measurement", "model-boundaries"]

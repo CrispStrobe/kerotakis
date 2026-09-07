@@ -18,12 +18,10 @@ import {
   CATALOG_TOPICS,
   catalogEntries,
   catalogEntryMatches,
-  codexAgeMin,
   durationBand,
   durationLabel,
   filterCatalogEntries,
   levelCounts,
-  levelForAge,
   levelLabel,
   minutesForSteps,
   NO_CATALOG_FILTERS,
@@ -49,6 +47,7 @@ const context = (over: Partial<Parameters<typeof catalogEntries>[2]> = {}) => ({
 
 const codexEntry = (over: Partial<CodexEntry> = {}): CodexEntry => ({
   id: "silver-chloride-precipitation",
+  progress: "starter",
   equation: "AgNO3 + NaCl -> AgCl",
   concepts: ["precipitation"],
   setup: { script: "add v1 water 100mL\nadd v1 AgNO3 1mmol\nadd v1 NaCl 1mmol\n" },
@@ -67,24 +66,13 @@ const guidedEntry = (over: Partial<KidsExperiment> = {}): KidsExperiment => ({
 });
 
 describe("one entry model", () => {
-  it("bands an age rather than a corpus", () => {
-    expect(levelForAge(8)).toBe("starter");
-    expect(levelForAge(11)).toBe("starter");
-    expect(levelForAge(12)).toBe("intermediate");
-    expect(levelForAge(14)).toBe("intermediate");
-    expect(levelForAge(15)).toBe("advanced");
-    expect(levelForAge(17)).toBe("advanced");
-  });
-
-  it("reads the youngest curriculum placement, and defaults without one", () => {
-    expect(codexAgeMin(codexEntry({
-      curriculum: [
-        { system: "a", stage: "s", ages: { min: 16 }, source: "x" },
-        { system: "b", stage: "t", ages: { min: 11 }, source: "y" },
-      ],
-    }))).toBe(11);
-    expect(codexAgeMin(codexEntry({ curriculum: [] }))).toBe(12);
-    expect(codexAgeMin(codexEntry({ curriculum: [{ system: "a", stage: "s", source: "x" }] }))).toBe(12);
+  it("uses authored Codex progress without reading curriculum ages", () => {
+    const entry = codexEntry({
+      progress: "advanced",
+      curriculum: [{ system: "a", stage: "s", ages: { min: 8 }, source: "x" }],
+    });
+    expect(catalogEntries([entry], [], context())[0]?.level).toBe("advanced");
+    expect(catalogEntries([entry], [], context())[0]?.safety).toBeNull();
   });
 
   it("prices a run at one pace for both corpora", () => {
@@ -186,7 +174,7 @@ describe("the filter rail composes", () => {
     equation: "CaCl2(s) -> Ca2+ + 2 Cl-", registers: { lv2: "Dissolving warms the water." },
   });
   const entries = catalogEntries(
-    [script, codexEntry({ id: "silver-chloride", curriculum: [{ system: "bayern", stage: "Jgst. 10", ages: { min: 16 }, source: "ISB" }] })],
+    [script, codexEntry({ id: "silver-chloride", progress: "advanced", curriculum: [{ system: "bayern", stage: "Jgst. 10", ages: { min: 16 }, source: "ISB" }] })],
     [guidedEntry({ codex: ["hot-pack"] })],
     context({ completed: new Set(["hot-pack"]), shelfKeys: new Set(["baking_soda", "white_vinegar_5_percent"]) }),
   );

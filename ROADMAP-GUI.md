@@ -642,9 +642,18 @@ been ignoring all of it:
   card design and one horizontally scrolling filter rail (level, topic,
   duration, "only what is on my shelf", done/not yet, plus concept and
   curriculum as selects where the old tabs were) now serve all 168
-  entries; `lib/catalogEntry.ts` derives the level, age, duration and a
-  shared topic vocabulary both corpora map into, so every filter is
+  entries; `lib/catalogEntry.ts` reads an authored learning-progress band,
+  derives duration and maps both corpora into a shared topic vocabulary, so every filter is
   answerable for every entry, and no surface names a reader by age.
+
+  *Progress-authority correction 2026-09-06.* All 108 Codex reactions now
+  require an explicit `starter`, `intermediate` or `advanced` value in the
+  Rust-owned schema, just as all 60 guided entries do. The reviewed assignment
+  follows prerequisite depth and the number of concepts, calculations and
+  models demanded; CI rejects missing/unknown values and any prerequisite for
+  which every teaching route is later than its consumer. Curriculum ages stay
+  available for syllabus browsing but no longer classify cards. Codex entries
+  also make no invented safety claim where their source carries none.
 
   *Update 2026-09-06 — two mechanism-backed entries are promoted.* Activated-
   charcoal adsorption and the thermoplastic/thermoset heat comparison are
