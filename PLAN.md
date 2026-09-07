@@ -1668,13 +1668,26 @@ Two boundaries the closing tranche wrote down rather than crossed, both in
 
 Open, and small:
 
-- [ ] `paraffin` carries no melting point, and the boundary note in the
-      export crate gives as its reason that "the installed state model
-      derives its transitions from water's enthalpies of fusion and
-      vaporisation and covers no other substance". That reason is now
-      false. A candle should melt; the row and the note both need writing.
+- [ ] `paraffin` still carries no melting point. The note giving the
+      reason has been corrected — it used to blame the state model for
+      covering nothing but water, which has stopped being true — and the
+      real obstacle is now written down instead: a candle blend spanning
+      C20 to C40 softens across roughly 46–68 °C rather than melting at a
+      point, and `PhaseTransitions` has five temperatures and no slot for
+      a RANGE. Give it one, and the wax melts.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
+- [ ] The latent heats live in `phase_route.rs` as curated Rust tables
+      rather than in the registry, which is where the temperatures they
+      pair with live. `kerotakis_data::schema::PhaseProperty` already
+      declares `EnthalpyOfFusion` and `EnthalpyOfVaporisation`, both
+      dimension-checked and both unused, so the schema is not what is
+      stopping it — only the build script, the runtime loader, the export
+      crate and their fidelity tests. Worth doing now that the claim is
+      twenty-five rows rather than two. (`loader_fidelity.rs` compares
+      eighteen fields and silently omits `transitions` and
+      `aqueous_solubility_g_per_100_ml_at_100c`; fix that in the same
+      pass, or the new fields will be unpinned the same way.)
 
 #### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
 
