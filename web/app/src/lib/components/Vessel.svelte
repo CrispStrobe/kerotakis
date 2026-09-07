@@ -15,16 +15,21 @@
     adsorptionDarkening,
     autoignitionApproach,
     bubbleRideLift,
+    consumptionRemainder,
     corrosionBloom,
+    decayTicks,
     depositParticles,
     electrodePairBubbles,
     headspaceVolumeL,
     incandescence,
     flameGutter,
+    grindGrains,
     neutralisationMarks,
     osmoticSwell,
     partitionTint,
     soluteSplit,
+    substrateClearing,
+    sweepPeriodS,
   } from "../magnitudes";
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
@@ -497,6 +502,18 @@
   const solutePartitionEffect = $derived(latestEffect("solute-partition", 5000));
   const osmosisEffect = $derived(latestEffect("osmosis", 6000));
   const thermalEquilibriumEffect = $derived(latestEffect("thermal-equilibrium", 5000));
+  // GUI-099 ANIM-8: the rows that had a visual driven by a CONSTANT.
+  const plateEffect = $derived(latestEffect("plate", 4200));
+  const consumeEffect = $derived(latestEffect("consume", 4200));
+  const grindEffect = $derived(latestEffect("grind", 4600));
+  const decayEffect = $derived(latestEffect("decay", 6000));
+  // The scene's standing conversion, which had a caption and no picture:
+  // milk clouded with undigested substrate clears as the enzyme works.
+  const substrateTurbidity = $derived(
+    persistentEnzymeReadouts.length > 0
+      ? Math.min(...persistentEnzymeReadouts.map((row) => substrateClearing(row.percent / 100)))
+      : 1,
+  );
   // GUI-099 scene numbers: frost forms below the temperature THIS liquid
   // freezes at, which the engine computes with the colligative depression
   // its solutes bought. 272 K was a constant that made brine frost early and
@@ -1581,6 +1598,137 @@
         {/each}
       </g>
     {/if}
+    {#if consumeEffect?.consumption && consumeEffect.consumption.moles > 0}
+      <!-- GUI-099 ANIM-8: a ribbon being eaten. Where the engine says what
+           is LEFT, the ribbon is drawn at that share and the caption says
+           it; where it does not, the ribbon still dissolves at its edge
+           but no length is claimed — the event carries an optional
+           remainder precisely because "is used up" once reported half a
+           magnesium ribbon gone. -->
+      {@const eaten = consumeEffect.consumption}
+      {@const left = consumptionRemainder(eaten.moles, eaten.remainingMoles)}
+      {@const ribbonW = (INNER_W - 16) * (left.knownRemainder ? Math.max(0.06, left.remainingFraction) : 0.6)}
+      <g
+        class="consuming"
+        class:remainder-unknown={!left.knownRemainder}
+        data-consumed-moles={eaten.moles.toExponential(3)}
+        data-remaining-moles={eaten.remainingMoles === undefined ? "" : eaten.remainingMoles.toExponential(3)}
+        data-remaining-fraction={left.knownRemainder ? left.remainingFraction.toFixed(4) : ""}
+        data-remainder-known={left.knownRemainder ? "true" : "false"}
+        aria-label={left.knownRemainder
+          ? t("{moles} mol of {species} used up, {remaining} mol left", {
+              moles: formatReading(eaten.moles, 4),
+              species: t(eaten.species),
+              remaining: formatReading(eaten.remainingMoles ?? 0, 4),
+            })
+          : t("{moles} mol of {species} used up", {
+              moles: formatReading(eaten.moles, 4),
+              species: t(eaten.species),
+            })}
+      >
+        <rect
+          class="consumed-ribbon"
+          x={INNER_X + 8}
+          y={BOTTOM_Y - Math.max(6, liquidH / 2)}
+          width={Math.max(2, ribbonW)}
+          height="3.2"
+          rx="1"
+        />
+        {#each Array.from({ length: 4 }, (_, i) => i) as i (i)}
+          <circle
+            class="consumed-edge"
+            cx={INNER_X + 8 + Math.max(2, ribbonW) + 1.5}
+            cy={BOTTOM_Y - Math.max(6, liquidH / 2) + 1.6}
+            r={0.7 + consumeEffect.magnitude * 0.8}
+            style={`animation-delay:${(i * 0.28).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if grindEffect?.grind}
+      <!-- GUI-099 ANIM-8: the powder itself. The grain radius is the
+           `diameter_um` the engine actually ground to, so grinding twice
+           draws visibly finer powder; the count follows the area that
+           exposed, which is what a heterogeneous rate would later see. -->
+      {@const powder = grindEffect.grind}
+      {@const grains = grindGrains(powder.diameterUm, powder.surfaceAreaM2)}
+      <g
+        class="ground-powder"
+        data-diameter-um={powder.diameterUm.toExponential(3)}
+        data-surface-area-m2={powder.surfaceAreaM2.toExponential(3)}
+        data-grain-count={grains.count}
+        data-grain-radius={grains.radius.toFixed(2)}
+        data-rate-coupled={powder.rateCoupled ? "true" : "false"}
+        aria-label={t("ground to {diameter} µm, exposing {area} m²", {
+          diameter: formatReading(powder.diameterUm, 0),
+          area: formatReading(powder.surfaceAreaM2, 4),
+        })}
+      >
+        {#each Array.from({ length: grains.count }, (_, i) => i) as i (i)}
+          <circle
+            class="powder-grain"
+            cx={INNER_X + 4 + ((i * 17) % Math.max(1, INNER_W - 8))}
+            cy={BOTTOM_Y - 3 - ((i * 5) % Math.max(2, Math.round(Math.max(4, solidH + 4))))}
+            r={grains.radius}
+          />
+        {/each}
+      </g>
+    {/if}
+    {#if decayEffect?.decay && decayEffect.decay.moles > 0}
+      <!-- GUI-099 ANIM-8: decay drawn from the DECAY, not from an
+           instrument being held. `ln2 ÷ half-life × moles` is the same
+           activity the Geiger reads, so a long-lived tracer ticks slowly
+           and a large parcel ticks often. -->
+      {@const gone = decayEffect.decay}
+      {@const ticking = decayTicks(gone.moles, gone.halfLifeS)}
+      {#if ticking.ticks > 0}
+        <g
+          class="decaying"
+          data-decayed-moles={gone.moles.toExponential(3)}
+          data-half-life-s={gone.halfLifeS.toExponential(3)}
+          data-decay-moles-per-second={ticking.molesPerSecond.toExponential(3)}
+          data-tick-count={ticking.ticks}
+          data-tick-period-s={ticking.periodS.toFixed(2)}
+          aria-label={t("{parent} decaying to {daughter} by {mode}, {moles} mol so far", {
+            parent: t(gone.parent),
+            daughter: t(gone.daughter),
+            mode: t(gone.mode),
+            moles: formatReading(gone.moles, 5),
+          })}
+        >
+          {#each Array.from({ length: ticking.ticks }, (_, i) => i) as i (i)}
+            <line
+              class="decay-tick"
+              x1={INNER_X + 6 + ((i * 21) % Math.max(1, INNER_W - 12))}
+              y1={BOTTOM_Y - 8 - ((i * 9) % Math.max(4, Math.round(Math.max(8, liquidH) * 0.7)))}
+              x2={INNER_X + 9 + ((i * 21) % Math.max(1, INNER_W - 12))}
+              y2={BOTTOM_Y - 11 - ((i * 9) % Math.max(4, Math.round(Math.max(8, liquidH) * 0.7)))}
+              style={`animation-duration:${ticking.periodS.toFixed(2)}s;animation-delay:${((i * ticking.periodS) / ticking.ticks).toFixed(2)}s`}
+            />
+          {/each}
+        </g>
+      {/if}
+    {/if}
+    {#if persistentEnzymeReadouts.length > 0 && liquidH > 0 && substrateTurbidity > 0.02}
+      <!-- GUI-099 ANIM-8: the substrate, visibly there. The conversion had
+           a caption percentage beside a liquid that never changed — a
+           number nothing on the stage agreed with. Milk clouded with
+           undigested substrate clears as the enzyme works, so the haze IS
+           `1 − converted_fraction`. -->
+      <rect
+        class="substrate-haze"
+        x={INNER_X + 1}
+        y={BOTTOM_Y - liquidH}
+        width={INNER_W - 2}
+        height={liquidH}
+        data-substrate-turbidity={substrateTurbidity.toFixed(4)}
+        style={`opacity:${(substrateTurbidity * 0.4).toFixed(3)}`}
+      >
+        <title>{t("{percent}% of the substrate is still unconverted", {
+          percent: Math.round(substrateTurbidity * 100),
+        })}</title>
+      </rect>
+    {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
       <!-- GUI-099: each electrode is sized by what actually comes off IT.
            The engine now names both half-reactions, so splitting water draws
@@ -1760,8 +1908,32 @@
         <circle cx="50" cy="65" r={18 + burstMag * 14} />
       </g>
     {/if}
-    {#if active("plate", 2000)}
-      <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
+    {#if plateEffect}
+      <!-- GUI-099 ANIM-8: the coating's thickness is the moles that came
+           out. The shimmer's magnitude was a hard-coded 1, so a copper
+           blush on a nail and a nail gone orange drew the same rectangle. -->
+      {@const coat = plateEffect.plating}
+      {@const thickness = 2 + plateEffect.magnitude * 8}
+      <g
+        class="plating"
+        data-plated-moles={(coat?.moles ?? plateEffect.reading ?? 0).toExponential(3)}
+        data-plating-thickness={plateEffect.magnitude.toFixed(3)}
+        data-plated-onto={coat?.onto ?? ""}
+        aria-label={t("{moles} mol of {species} plated onto {onto}", {
+          moles: formatReading(coat?.moles ?? plateEffect.reading ?? 0, 4),
+          species: t(coat?.species ?? plateEffect.species ?? "metal"),
+          onto: t(coat?.onto ?? "metal"),
+        })}
+      >
+        <rect
+          class="shimmer"
+          x={INNER_X}
+          y={BOTTOM_Y - Math.max(solidH, thickness)}
+          width={INNER_W}
+          height={Math.max(solidH, thickness)}
+          style={`opacity:${(0.2 + plateEffect.magnitude * 0.6).toFixed(3)}`}
+        />
+      </g>
     {/if}
 
     <!-- GUI-062: instruments drawn on the bench while their operation is live. -->
@@ -2351,12 +2523,25 @@
       </g>
     {:else if vessel.boundary === "swept"}
       <!-- Carrier gas in one side, out the other. -->
-      <g class="sweep" aria-hidden="true">
+      <!-- GUI-099 ANIM-8: the arrows were static whatever the sweep, so a
+           purge at half an atmosphere and one at five drew the same
+           picture. The cycle is now the engine's own sweep pressure. -->
+      {@const sweepPa = sweepEffect?.sweep?.pressurePa ?? 0}
+      {@const sweepPeriod = sweepPeriodS(sweepPa)}
+      <g
+        class="sweep"
+        class:swept-live={sweepPa > 0}
+        data-sweep-pressure-pa={Math.round(sweepPa)}
+        data-sweep-period-s={sweepPeriod.toFixed(2)}
+        style={`--sweep-period:${sweepPeriod.toFixed(2)}s`}
+      >
         <line x1="2" y1="18" x2="30" y2="18" />
         <path d="M 30 18 l -5 -3 v 6 z" />
         <line x1="70" y1="12" x2="98" y2="12" />
         <path d="M 98 12 l -5 -3 v 6 z" />
-        <title>{t("swept with carrier gas")}</title>
+        <title>{sweepPa > 0
+          ? t("swept with carrier gas at {pressure} kPa", { pressure: formatReading(sweepPa / 1000, 1) })
+          : t("swept with carrier gas")}</title>
       </g>
     {/if}
   </svg>
@@ -3057,6 +3242,16 @@
   .gap-fill { fill: var(--danger); opacity: .7; }
   .decay-tick { stroke: var(--instrument); stroke-width: .8; stroke-linecap: round; animation: decay-flash 1.1s ease-out infinite; }
   @keyframes decay-flash { from { opacity: .95; } to { opacity: 0; } }
+  /* GUI-099 ANIM-8. Widths, radii, counts, opacities and periods all come
+     from engine numbers set inline. */
+  .consumed-ribbon { fill: color-mix(in srgb, #b8bfc4 78%, var(--surface)); stroke: var(--edge-strong); stroke-width: .4; }
+  .consuming.remainder-unknown .consumed-ribbon { stroke-dasharray: 2 1.5; }
+  .consumed-edge { fill: none; stroke: var(--dim); stroke-width: .5; animation: consume-nibble 1.3s ease-out infinite; }
+  @keyframes consume-nibble { from { opacity: .9; transform: translateX(0); } to { opacity: 0; transform: translateX(4px); } }
+  .powder-grain { fill: var(--cloud); stroke: color-mix(in srgb, var(--edge-strong) 55%, transparent); stroke-width: .25; }
+  .substrate-haze { fill: color-mix(in srgb, white 82%, var(--cloud)); pointer-events: none; }
+  .sweep.swept-live line, .sweep.swept-live path { animation: sweep-drift var(--sweep-period, 2s) linear infinite; }
+  @keyframes sweep-drift { 0% { opacity: .25; } 50% { opacity: 1; } 100% { opacity: .25; } }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -3381,6 +3576,8 @@
     .osmotic-arrow { animation: none; opacity: .8; }
     .guttering-flame { animation: none; }
     .decay-tick { animation: none; opacity: .8; }
+    .consumed-edge { animation: none; opacity: .7; }
+    .sweep.swept-live line, .sweep.swept-live path { animation: none; opacity: 1; }
     .glassbtn.pouring { animation: none; }
     .burette-fill,
     .piston-assembly .lid,

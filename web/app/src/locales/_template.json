@@ -2365,6 +2365,13 @@
   "{nuclide} spiked at {activity} Bq": "",
   "settled at {celsius} °C": "",
   "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "",
-  "exhaust, not the glass": ""
+  "exhaust, not the glass": "",
+  "{moles} mol of {species} plated onto {onto}": "",
+  "swept with carrier gas at {pressure} kPa": "",
+  "{moles} mol of {species} used up, {remaining} mol left": "",
+  "{moles} mol of {species} used up": "",
+  "ground to {diameter} µm, exposing {area} m²": "",
+  "{parent} decaying to {daughter} by {mode}, {moles} mol so far": "",
+  "{percent}% of the substrate is still unconverted": ""
  }
 }
