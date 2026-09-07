@@ -41,6 +41,24 @@ it had while it was open, which is why a few numbers appear twice below.
   from a branch cut before #507, so the three new species carried no
   `heat_capacity_polys` field and `registry_matches_the_golden_snapshot`
   failed for every branch
+- **#518** — the bench refuses in the reader's language: `BenchError` is a
+  typed `Refusal { key, en, params }` and the host boundary (CLI, wasm,
+  src-tauri) renders it in the session's locale, so "no vessel v2" reaches a
+  German learner as German with the identifier kept as typed. 18 error keys,
+  25 `[refusal]` rows, all 22 hazard sentences and all 18 fixed `NotYetModeled`
+  reasons gated by `i18n_coverage.rs`, which reads the keys out of `bench.rs`
+  itself. Two bugs found on the way: the liquid-nitrogen hazard was translated
+  under the wrong table, and "cooling an empty vessel" had no row at all
+- **#520** — `discard v1` (German alias `entsorgen`): every condensed portion
+  and unresolved material moves into one shared `SpillDestination::Waste`, and
+  `Event::Discarded` names the vessel, the total in moles and grams and each
+  species largest-first so both hosts print the same evidence lines. A sealed
+  vessel refuses with the typed `VesselSealed`; the safety screen assesses the
+  combined bin BEFORE anything moves and, unlike a spill that has already
+  happened, may refuse a discard. `Bench.spills` is still off the wire
+- **#521** — German for the 18 fixed gap reasons the coverage table had
+  reported complete; the 39 interpolating reasons (seven in the aqueous tail)
+  still need an optional `Refusal` on the event
 
 **Web / i18n**
 
@@ -59,6 +77,40 @@ it had while it was open, which is why a few numbers appear twice below.
   as `step.routes` (native and wasm), and the drawer shows which solver
   answered, on what dataset and model, within what stated bounds, and what the
   bench declined — each in the engine's own sentence (PR #512)
+- **#515** — five German-deploy defects: a collapsed shelf or journal is
+  `display: none` with one floating chevron, not a hover overlay that came
+  back over the experiment; the periodic table's experiment rows render
+  `t(title)` + `tEngine(summary)` instead of `t()` over engine prose (which
+  echoed the English key); a reagent tapped in the table now returns the
+  reader to the bench like every other add path; the disposal station is a
+  button with the toolbar's ask-once shape; the "Aufgabe auswählen" picker
+  got the drawer's styling and a bounded width, and quest prose picks
+  `lv2_de` through one `registerText` (no quest ships a `_de` cell yet —
+  content, not code)
+- **#516** — the capability explorer's content speaks German: 500 questions,
+  186 material classes and 367 tags in
+  `tests/coverage/curiosity-v1/i18n/de.toml`, keyed by prompt id and by
+  English token, folded into `capabilities/index.json` by
+  `tools/curiosity-index.py`; `tools/curiosity-prose.py --check` refuses a
+  missing id, a stale key, a translated task identifier, a German row
+  byte-identical to its English, and age wording. The corpus shards are
+  untouched: a `question_de` field there would be a build failure
+- **#517** — the concept map gives its activities a scrolling column above
+  47.5 rem and collapses to a prerequisite-ordered accordion below it;
+  `entryLocked` gates only in Story mode, so Sandbox shows "builds on: …"
+  instead of "gesperrt" on 104 of 108 codex entries; the instrument tray's
+  "Alle Geräte" door left `position: sticky` and no longer rides over the
+  MESSEN pills. `catalogEntry.test.ts` walks all 168 entries at three points
+  on the progression
+- **#525** — the disposal station disposes: with a vessel selected and full it
+  submits `discard vN` through `session.submit` (replayable, in the script);
+  with nothing selected it keeps the bench-clearing press. `wasteStation.ts`
+  owns that decision so the control's wording and the command are one fact;
+  the remove-vessel dialog's "open waste station" arrives with THAT vessel
+  selected; a sealed vessel is offered and refused by the engine in German
+  rather than greyed out. The feed line is the engine's own
+  (`v2 → Abfall: 5,100 g (0,052 mol) entsorgt`); `session.lastDiscard` keeps
+  the receipt and forgets it on clear
 
 ### Lessons
 
@@ -80,6 +132,23 @@ it had while it was open, which is why a few numbers appear twice below.
 - a parser refusal can look like a missing model and be neither: #510 needed no
   new rate law, because a third-body factor and a falloff function multiply the
   rate constant rather than one direction of it.
+- a coverage table can report 100 % over the wrong denominator twice in one
+  day: #521's gap reasons were "complete" because the table never listed the
+  `what:` literals it was meant to count. Scrape the source, do not keep a list.
+- `t()` answering an unknown key with the key is how a German build prints
+  English and looks finished from the inside (#515, #516); the fix is to route
+  engine prose through the engine's own `_de` sibling and keep `t()` for the
+  shell's dictionary.
+- a lock the product cannot enforce is a lie in a badge: "gesperrt" had one
+  call site and the button under it opened the entry anyway (#517).
+- a test that passes when nothing happens proves nothing: the 768 px
+  concept-map check reported `compact === false` both when the panel heard the
+  resize and when it heard nothing; only the 390 px case could tell them apart.
+- Svelte appends a scoping class, so `toContain('class="add"')` can never
+  match; the house convention leaves the closing quote off (#515).
+- a veto means different things before and after the fact: a spill has
+  happened when the screen sees it and can only be warned about; a discard has
+  not, so the same screen may refuse it (#520).
 
 ## 2026-09-06
 
