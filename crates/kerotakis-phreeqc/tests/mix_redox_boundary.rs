@@ -16,7 +16,7 @@ fn solution(id: usize, solutes: &[(&str, f64)]) -> Vessel {
     vessel
         .contents
         .extend(solutes.iter().map(|(species, moles)| Portion {
-            species: SpeciesId::new(*species),
+            species: SpeciesId::new(species),
             moles: Moles(*moles),
             phase: Phase::Aqueous,
         }));

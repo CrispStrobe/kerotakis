@@ -55,8 +55,21 @@ also strengthened third-fleet atomic-refusal physical-state checks and added
 electrolysis atom ledgers including external gas exchange without changing
 the predeclared numeric tolerances.
 
-Two new lessons lack core frozen-output snapshot entries. Their entries must
-come from actual test execution and be reviewed; they have not been invented.
+The CLI-only native build completed successfully in 8m32s after the user
+requested this smaller execution route. The clean single-worker web rerun
+passes all 1,125 tests in 94 files. The first native replay passes 50 runs and
+43 scientific checks without solver failures; later fleets are still running.
+All three pure-water phase-fallback tests pass locally.
+
+Actual core frozen-output execution produced exactly two added lessons and
+zero changed or removed existing lessons. Added only those computed records:
+the endpoint lesson correctly discloses the core-only harness's absent aqueous
+engine; reverse equilibrium computes the same final composition from both
+starting directions. The original actual-output file is retained with the
+native replay evidence. The updated snapshot test passes locally.
+Fresh macOS CI additionally exposed a test-only `explicit_auto_deref` warning
+in the native MIX boundary test; removed the unnecessary dereference.
+
 CI now uploads generated `*.actual.json` files even on failure for that review.
 The native matrix no longer cancels Linux when macOS fails, allowing both
 platforms' independent results and the Linux fleet evidence to be collected.

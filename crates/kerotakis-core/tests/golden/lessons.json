@@ -1649,6 +1649,140 @@
       }
     ]
   },
+  "endpoint-is-not-a-full-drop": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +2.30 mmol hydrochloric acid",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +2.30 mmol hydrochloric acid",
+      "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "endpoint-is-not-a-full-drop.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0023,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.0007,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 11.45595337,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0023,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.0001,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 11.12389675,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "equilibrium-can-run-backward": {
+    "event_count": 9,
+    "events_sample": [
+      "v1: +0.0100 mol acetic acid",
+      "v1: +0.0100 mol ethanol",
+      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.007 mol reacted)",
+      "v1: not yet modelled — a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+      "v2: new vessel",
+      "v2: +0.0100 mol water",
+      "v2: +0.0100 mol ethyl_acetate",
+      "v2: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (-0.003 mol reacted)",
+      "v2: not yet modelled — a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+    ],
+    "lesson": "equilibrium-can-run-backward.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00333333,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.00333333,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.00666667,
+            "phase": "Liquid",
+            "species": "ethyl_acetate"
+          },
+          {
+            "moles": 0.00666667,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00333333,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.00333333,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.00666667,
+            "phase": "Liquid",
+            "species": "ethyl_acetate"
+          },
+          {
+            "moles": 0.00666667,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "fire": {
     "event_count": 8,
     "events_sample": [
