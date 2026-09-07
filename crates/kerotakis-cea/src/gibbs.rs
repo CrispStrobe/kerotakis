@@ -220,6 +220,10 @@ pub fn equilibrate_tp(
     // iterations.
     let mut admissions = vec![0u8; pool.len()];
 
+    // How often a singular solve has been repaired by admitting a second
+    // condensed carrier the initial basis left out (see the rescue below).
+    let mut phase_rescues = 0u8;
+
     // How often a singular linear solve has been repaired by re-seeding a
     // crushed gas carrier (see the rescue below). Capped so a genuinely
     // degenerate problem cannot cycle seed → crush → seed forever.
@@ -357,6 +361,55 @@ pub fn equilibrate_tp(
                 decay_guard = true;
                 n_total = gas.iter().map(|&i| n[i]).sum::<f64>().max(TRACE);
                 continue;
+            }
+            // The other repairable one, and it is a fact about the
+            // INITIAL BASIS rather than about a transient. An element no
+            // gas can carry is seeded into its single most stable
+            // condensed carrier above — and if that carrier also needs a
+            // second element the budget is short of, no amount of it can
+            // satisfy both rows. A crucible half way through a calcination
+            // is exactly that: 0.1 mol of calcium against 0.05 mol of
+            // carbon, so every calcium atom would have to be a carbonate
+            // and only half of them can be. The phase that takes up the
+            // slack — the oxide — is admissible only once the balance
+            // holds, and the balance cannot hold until it is admitted, so
+            // the solve circles and goes singular. Before this existed the
+            // state never arose: the old open-air answer calcined chalk in
+            // one pass and the minimiser was never handed a vessel holding
+            // both phases at once.
+            //
+            // Admit it here, where the solve has already failed. Only an
+            // element that NO gas can carry qualifies, which is what makes
+            // this a repair of the seeding rather than a new heuristic:
+            // every other element can reach its budget through the gas
+            // phase and never needed a second solid.
+            if phase_rescues < 8 {
+                let mut admitted_phase = false;
+                for (j, el) in elements.iter().enumerate() {
+                    if gas_carries[j] {
+                        continue;
+                    }
+                    let target = budget.get(el).copied().unwrap_or(0.0);
+                    let have: f64 = (0..pool.len()).map(|i| a(i, j) * n[i]).sum();
+                    if have >= target * (1.0 - BALANCE_TOL) {
+                        continue;
+                    }
+                    let carrier = cond
+                        .iter()
+                        .copied()
+                        .filter(|&c| !active_cond.contains(&c) && a(c, j) > 0.0)
+                        .min_by(|&x, &y| (mu0[x] / a(x, j)).total_cmp(&(mu0[y] / a(y, j))));
+                    if let Some(c) = carrier {
+                        active_cond.push(c);
+                        admissions[c] = admissions[c].saturating_add(1);
+                        n[c] = (target - have) / a(c, j);
+                        admitted_phase = true;
+                    }
+                }
+                if admitted_phase {
+                    phase_rescues += 1;
+                    continue;
+                }
             }
             // The genuine one: one condensed phase is the sole repository
             // of every element and the gas phase has collapsed — the
@@ -953,6 +1006,40 @@ mod tests {
         assert!(
             hot.moles_of("CaO(cr)") > 0.09,
             "chalk calcines by 1500 K: {:?}",
+            hot.composition
+        );
+    }
+
+    #[test]
+    fn a_crucible_half_way_through_a_calcination_still_solves() {
+        // What one pass of a burner leaves: 0.052 mol of chalk beside
+        // 0.048 mol of lime, standing in the same air. Calcium has no
+        // gaseous carrier at all, so it has to be shared between two
+        // solids — and the initial basis seeds exactly one of them, with
+        // the whole calcium budget, which no amount of carbonate can hold
+        // when there is only half as much carbon. Every temperature failed
+        // with a singular matrix until the phase rescue existed.
+        let b = budget(&[("C", 0.052207), ("Ca", 0.1), ("N", 1.248), ("O", 0.540414)]);
+        let pool = pool_of(&["C(gr)", "CO", "CO2", "CaCO3(cr)", "CaO(cr)", "N2", "O2"]);
+        for t in [400.0, 700.0, 1000.0, 1500.0] {
+            let eq = equilibrate_tp(&b, &pool, t, 1.0)
+                .unwrap_or_else(|e| panic!("half-calcined chalk at {t} K: {e}"));
+            assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K"));
+        }
+        // And the answer is chemistry, not merely arithmetic that closed:
+        // cold, the carbon stays locked up as carbonate and the spare
+        // calcium is lime; hot, nothing is left but lime and gas.
+        let cold = equilibrate_tp(&b, &pool, 400.0, 1.0).expect("cold");
+        assert!(
+            (cold.moles_of("CaCO3(cr)") - 0.052207).abs() < 1e-4
+                && (cold.moles_of("CaO(cr)") - 0.047793).abs() < 1e-4,
+            "at 400 K both solids stand: {:?}",
+            cold.composition
+        );
+        let hot = equilibrate_tp(&b, &pool, 1500.0, 1.0).expect("hot");
+        assert!(
+            hot.moles_of("CaCO3(cr)") < 1e-6 && (hot.moles_of("CaO(cr)") - 0.1).abs() < 1e-4,
+            "at 1500 K the rest gives way too: {:?}",
             hot.composition
         );
     }
