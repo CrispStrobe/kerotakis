@@ -43,6 +43,7 @@
   import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { i18n, t } from "./lib/i18n.svelte";
+  import { wasteStationAction } from "./lib/wasteStation";
   import { registerText } from "./lib/registerText";
   import { instrumentSurface } from "./lib/instrumentSurface.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
@@ -732,6 +733,29 @@
   let apparatusPreview = $state<Record<string, number | string>>(restoredApparatus?.values ?? {});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  /**
+   * What the disposal station's press means — see `wasteStation.ts`.
+   *
+   * The station's press used to mean one thing only, clear the whole bench,
+   * because the engine had no verb for one vessel's contents. `discard vN`
+   * is that verb, so the press means the selected vessel whenever the
+   * selected vessel is holding anything.
+   */
+  const wasteAction = $derived(wasteStationAction(selectedSceneVessel));
+  const wasteDisposable = $derived(wasteAction.kind === "discard");
+  /** The station's receipt for the discard the reader just confirmed. */
+  const wasteReceipt = $derived.by(() => {
+    const taken = session.lastDiscard;
+    if (!taken) return null;
+    const numberLocale = i18n.locale === "de" ? "de-DE" : "en-GB";
+    const count = taken.species.length + taken.materials.length;
+    return t("The waste container took {grams} g from v{vessel} — {moles} mol across {count} substance(s).", {
+      grams: taken.gramsTotal.toLocaleString(numberLocale, { maximumFractionDigits: 2 }),
+      vessel: taken.vessel + 1,
+      moles: taken.molesTotal.toLocaleString(numberLocale, { maximumFractionDigits: 3 }),
+      count,
+    });
+  });
   const apparatusSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === apparatusTarget));
   const apparatusInitialValues = $derived(
     apparatusSpec?.verb === "centrifuge"
@@ -1837,12 +1861,23 @@
       instrumentSurface.open = true;
     }}
     clearable={session.clearable && !session.busy}
+    disposable={wasteDisposable && !session.busy}
+    receipt={wasteReceipt}
     onwaste={() => {
       // The station has already asked, so this is the confirmed press.
-      // It empties the laboratory you are standing in and no other, which
-      // is the only disposal the engine will do today: there is no verb
-      // that discards one vessel's contents, and inventing one in the UI
-      // would mean deleting chemistry state the engine never agreed to.
+      //
+      // With something in the selected vessel it is the engine's own
+      // `discard vN`: the condensed portions go to the bench's shared
+      // waste container, weighed, logged, replayable and undoable like
+      // every other command. The station stays open afterwards so the
+      // container can say what it just took.
+      //
+      // With nothing in it the press keeps its older meaning — empty the
+      // laboratory you are standing in, and no other.
+      if (wasteAction.kind === "discard") {
+        void session.submit(wasteAction.command);
+        return;
+      }
       utilityStationOpen = false;
       clearBench();
     }}
@@ -1866,7 +1901,11 @@
         }
       : undefined}
     onopenwaste={() => {
+      // The signpost has to arrive at the station pointed at THIS vessel:
+      // the station acts on the selection, and sending a reader there with
+      // some other vessel selected would offer to empty the wrong one.
       removeRequest = null;
+      session.selected = vessel.id;
       utilityStationOpen = true;
     }}
     onclose={() => (removeRequest = null)}

@@ -1844,4 +1844,81 @@ describe("clearing the bench clears the whole bench", () => {
     await s.submit("add v1 water 100mL");
     expect(s.commandLog).toEqual(["add v1 water 100mL"]);
   });
+
+  /**
+   * `discard vN` (kerotakis-core::ops::Operator::Discard).
+   *
+   * The sentence is the ENGINE's — the German lives in the core catalog,
+   * not here — so what the client owes it is a feed line carried through
+   * unedited, and the totals kept in a form the disposal station can show
+   * back without reading its own prose.
+   */
+  it("carries the engine's discard line to the feed in German, vessel name intact", async () => {
+    const host = new FakeHost();
+    host.runScript = async (script: string) => {
+      host.calls.push(`run:${script}`);
+      return {
+        steps: [{
+          operator: {},
+          events: [{
+            event: "discarded",
+            vessel: 1,
+            into: "waste",
+            moles_total: 0.052,
+            grams_total: 5.1,
+            species: [
+              { species: "H2SO4(aq)", moles: 0.05, phase: "aqueous" },
+              { species: "NaCl(s)", moles: 0.002, phase: "solid" },
+            ],
+            materials: ["milk"],
+          }],
+          rendered: ["v2 → Abfall: 5,100 g (0,052 mol) entsorgt"],
+        }],
+        scene: { scene: 1, vessels: [] } as Scene,
+      };
+    };
+    const s = new Session(host, new FakeStorage());
+    expect(await s.submit("discard v2")).toBe(true);
+
+    expect(s.feed).toContainEqual({
+      kind: "line",
+      text: "v2 → Abfall: 5,100 g (0,052 mol) entsorgt",
+    });
+    // Not re-worded, not re-numbered, and not translated a second time:
+    // the client renders no discard prose of its own.
+    expect(s.feed.filter((entry) => entry.kind === "line").map((entry) => entry.text))
+      .toEqual(["v2 → Abfall: 5,100 g (0,052 mol) entsorgt"]);
+    // The durable notebook evidence the engine's own line does not replace
+    // (see `incidents.ts`) still lands beside it.
+    expect(s.feed.some((entry) => entry.kind === "note" && entry.text.includes("5.100 g"))).toBe(true);
+    // The receipt the station shows: totals and substances, structured.
+    expect(s.lastDiscard).toEqual({
+      vessel: 1,
+      gramsTotal: 5.1,
+      molesTotal: 0.052,
+      species: ["H2SO4(aq)", "NaCl(s)"],
+      materials: ["milk"],
+    });
+    // Disposal is chemistry that happened, so it replays like the rest.
+    expect(s.commandLog).toEqual(["discard v2"]);
+  });
+
+  it("forgets the last disposal when the bench is cleared", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{ event: "discarded", vessel: 0, moles_total: 1, grams_total: 18 }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host, new FakeStorage());
+    await s.submit("discard v1");
+    expect(s.lastDiscard).toMatchObject({ vessel: 0, gramsTotal: 18, species: [], materials: [] });
+    await s.clear();
+    // An empty bench with a receipt for a vessel that no longer exists is
+    // the same lie the feed used to tell after a clear.
+    expect(s.lastDiscard).toBe(null);
+  });
 });

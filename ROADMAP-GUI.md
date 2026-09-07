@@ -923,6 +923,14 @@ hide them completely.
   exact amount-aware water card, power routes to equipment, and the waste
   station states why chemical contents are never discarded silently.
   Cupboards and true free spatial placement remain.*
+  *Disposal slice shipped 2026-09-07: the waste station now disposes. A
+  selected vessel holding anything is emptied into the bench's shared waste
+  container by the engine's own `discard vN` verb — asked once, weighed,
+  logged, replayable and undoable — and the station shows back what the
+  container took; an empty selection keeps the older bench-clearing
+  meaning. The remove-vessel dialog's "open waste station" signpost now
+  arrives with that vessel selected. Listing what is standing in the
+  container remains: `Bench.spills` is not on the scene wire.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
