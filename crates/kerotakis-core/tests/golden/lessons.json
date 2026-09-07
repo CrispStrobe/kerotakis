@@ -2618,7 +2618,7 @@
     ]
   },
   "invisible-ink-boundary": {
-    "event_count": 29,
+    "event_count": 28,
     "events_sample": [
       "v1: +2.000 g paper_sheet (1 known ingredients)",
       "v1: +2.060 g lemon_juice (5 known ingredients)",
@@ -2630,8 +2630,7 @@
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: 25.0 °C → 221.7 °C",
       "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
-      "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing",
       "v1: The liquid is white and so cloudy you cannot see through it, there is white cellulose (anhydroglucose unit) at the bottom, a piece of paper floats on top.",
       "v1: 0.104 mol water evaporated",
       "v1: the lemon mark is dry and still faint",
@@ -2639,7 +2638,8 @@
       "v1: not yet modelled — cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — citric acid in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: 221.7 °C → 1069.0 °C",
-      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled"
+      "v1: 2.00 kJ requested; 2.00 kJ delivered — time model not yet coupled",
+      "v1: the dry lemon mark is 100% brown at 1342.2 K"
     ],
     "lesson": "invisible-ink-boundary.lab",
     "vessels": [
