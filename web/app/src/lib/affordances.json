@@ -4,6 +4,7 @@
   "stock": "planned:GUI-033 — the shelf card already READS the level (badge, and a dimmed/disabled card at empty); filling a bottle is authored in a script or lesson today, with no GUI surface that dispenses stock into the cabinet",
   "new": "Bench + button with kind chooser (beaker/flask/tube/cylinder/crucible)",
   "remove": "Selected-vessel remove button (empty vessels only)",
+  "discard": "Waste station in the utility dialog (empties the selected vessel into the bench waste, ask-once confirm)",
   "heat": "Inspector quick-action (heat 10 kJ)",
   "cool": "Inspector quick-action (cool 10 kJ)",
   "wait": "Header clock button (wait 30 s)",

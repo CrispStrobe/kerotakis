@@ -24,6 +24,7 @@ use crate::vessel::{VesselId, VESSEL_KINDS};
 pub const VERBS: &[(&str, &str)] = &[
     ("new", "new"),
     ("remove", "remove v1"),
+    ("discard", "discard v1"),
     ("add", "add v1 water 100mL"),
     ("stock", "stock NaCl 0.5mol"),
     ("heat", "heat v1 10kJ"),
@@ -805,6 +806,17 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 return Err("usage: remove <vessel>".into());
             }
             Operator::RemoveVessel {
+                vessel: parse_vessel(words[1])?,
+            }
+        }
+        // `remove` takes the empty glassware off the bench; `discard` is
+        // what makes it empty. They were one word short of each other for
+        // a long time, and the missing one is this.
+        "discard" => {
+            if words.len() != 2 {
+                return Err("usage: discard <vessel>".into());
+            }
+            Operator::Discard {
                 vessel: parse_vessel(words[1])?,
             }
         }

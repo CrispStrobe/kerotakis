@@ -219,6 +219,18 @@ pub enum Operator {
         destination_if_broken: SpillDestination,
         replay_seed: ReplaySeed,
     },
+    /// Empty ONE vessel into the bench's waste ledger.
+    ///
+    /// The bench had no way to dispose of a single vessel's contents.
+    /// `remove` refuses a vessel that is not empty, `drain` and `decant`
+    /// want a destination, and `Spill` is for matter that ended up
+    /// somewhere by accident — using it to make a beaker's contents
+    /// disappear would be a lie about how they got there. So this is the
+    /// deliberate one: everything condensed in the vessel moves to
+    /// `SpillDestination::Waste`, where it is still weighed and still
+    /// screened, and the vessel is left standing, still warm, still open,
+    /// with its apparatus (sorbent beds, exchangers, objects) untouched.
+    Discard { vessel: VesselId },
     /// Recover a fraction of a spill into an intact receiver.
     RecoverSpill {
         destination: SpillDestination,
@@ -738,6 +750,14 @@ pub enum DidNotIgniteReason {
     NotModelled,
 }
 
+/// One species' share of a `Discarded` line.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DiscardedPortion {
+    pub species: SpeciesId,
+    pub moles: Moles,
+    pub phase: Phase,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
 pub enum Event {
@@ -768,6 +788,22 @@ pub enum Event {
         destination: SpillDestination,
         to: VesselId,
         fraction: f64,
+    },
+    /// One vessel was emptied into the waste. `moles_total`/`grams_total`
+    /// are what left the vessel, `species` what it was made of — a ledger
+    /// that cannot say what it swallowed is not a ledger.
+    Discarded {
+        vessel: VesselId,
+        into: SpillDestination,
+        moles_total: Moles,
+        grams_total: f64,
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        species: Vec<DiscardedPortion>,
+        /// Matter that is deliberately not resolved into species (a recipe
+        /// portion — milk, vinegar). Counted in `grams_total`, absent from
+        /// `species`, named here so the line can still say what went in.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        materials: Vec<String>,
     },
     SpillHazard {
         destination: SpillDestination,

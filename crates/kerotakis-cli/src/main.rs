@@ -2721,7 +2721,8 @@ fn repl() {
                  electrochemistry cell <v> <v> · electrolyse <v> <A> <t>   (each half-cell wants its metal)\n\
                  analysis         titrate <v> <name> [<c>M] <step><mL|L> until <ph <t>|pe <op> <v>|colour persists>\n\
                  named reactions  react <v> <esterification|saponification|alcohol-oxidation|respiration>\n\
-                 the bench        new [beaker|flask|tube|cylinder|crucible] · remove <v> · inspect [v]\n\
+                 the bench        new [beaker|flask|tube|cylinder|crucible] · discard <v> · remove <v>\n\
+                 \x20                inspect [v]\n\
                  \x20                register <lv1|lv2|lv3> · lang <en|de> · explain [v] · quest · quit\n\
                  what is here     species (pure substances) · materials (household bottles) · find <word>\n\
                  your own words   kero repl --lang de · kero run --lang de FILE.lab · `lang de` as a\n\

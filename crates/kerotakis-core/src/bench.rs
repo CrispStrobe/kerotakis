@@ -8,7 +8,7 @@ use crate::combustion;
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe, MaterialRole};
 use crate::ops::{
-    CentrifugeSeparation, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
+    CentrifugeSeparation, DiscardedPortion, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
     MaterialComponentAdded, Operator,
 };
 use crate::refusal::{Refusal, Refuses};
@@ -70,6 +70,7 @@ pub enum BenchError {
     BadFraction,
     SelfTransfer,
     VesselNotEmpty(VesselId),
+    VesselSealed(VesselId),
     LastVessel,
     BrokenVessel(VesselId),
     NoSuchSpill,
@@ -153,6 +154,17 @@ impl Refuses for BenchError {
             BenchError::VesselNotEmpty(v) => Refusal::new(
                 "error.vessel-not-empty",
                 "vessel {vessel} is not empty — transfer or dispose of its contents first",
+            )
+            .with("vessel", v),
+            // The refusal has to say what to do about it. "Sealed" is a
+            // fact; "open v1 first" is the next move, and a learner who is
+            // told only the fact has to guess which of `open`, `remove`
+            // and `decant` was meant.
+            BenchError::VesselSealed(v) => Refusal::new(
+                "error.vessel-sealed",
+                "vessel {vessel} is closed — open {vessel} first, then discard it. Tipping a \
+                 sealed vessel into the waste would empty a container that is still holding \
+                 its own atmosphere, and the gas has to go somewhere you can see",
             )
             .with("vessel", v),
             BenchError::LastVessel => Refusal::new(
@@ -249,6 +261,53 @@ pub struct Bench {
     pub stock: crate::stock::StockLedger,
 }
 
+/// How matter came to leave a vessel — which decides both what leaves and
+/// what a safety veto can still do about it.
+///
+/// A tipped beaker loses its liquid and keeps its powder; a broken one
+/// loses everything; a discard takes everything that is not gas, because
+/// the gas above it belongs to the room and is vented where a reader can
+/// see it go rather than filed silently into a bin.
+///
+/// The veto rule follows from the same distinction. A spill has already
+/// happened by the time the screen sees it — the acid is on the floor
+/// whatever the verdict — so a veto there can only warn loudly. A discard
+/// has NOT happened yet, so a veto refuses, the way `add` refuses, and
+/// nothing moves.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum SpillKind {
+    /// Poured or knocked over: the liquid goes, the powder stays.
+    Poured,
+    /// The container failed: everything in it is now outside it.
+    Broken,
+    /// Deliberate disposal into the waste ledger.
+    Discarded,
+}
+
+impl SpillKind {
+    fn takes(self, phase: Phase) -> bool {
+        match self {
+            SpillKind::Poured => matches!(phase, Phase::Liquid | Phase::Aqueous),
+            SpillKind::Discarded => phase != Phase::Gas,
+            SpillKind::Broken => true,
+        }
+    }
+
+    /// Unresolved material portions have no `Phase`; only the poured case
+    /// has to ask the recipe whether the portion runs out of the vessel.
+    fn takes_unresolved(self, portion: &UnresolvedMaterialPortion) -> bool {
+        match self {
+            SpillKind::Poured => material::unresolved_portion_is_liquid(portion),
+            SpillKind::Broken | SpillKind::Discarded => true,
+        }
+    }
+
+    /// Whether a veto refuses the move rather than shouting about it.
+    fn refusable(self) -> bool {
+        matches!(self, SpillKind::Discarded)
+    }
+}
+
 impl Default for Bench {
     fn default() -> Self {
         Self::new()
@@ -315,15 +374,17 @@ impl Bench {
         events.push(Event::VesselCreated { vessel: id });
     }
 
+    /// Move a fraction of `from` into a spill compartment. `Ok(false)`
+    /// means the safety screen refused a deliberate move; see [`SpillKind`].
     fn move_to_spill(
         &mut self,
         from: VesselId,
         destination: &SpillDestination,
         fraction: f64,
-        all_phases: bool,
+        kind: SpillKind,
         screen: &dyn SafetyScreen,
         events: &mut Vec<Event>,
-    ) -> Result<(), BenchError> {
+    ) -> Result<bool, BenchError> {
         let source = self.vessel(from)?.clone();
         if !source.material_objects.is_empty() {
             events.push(Event::ObjectSpillBoundary {
@@ -331,7 +392,7 @@ impl Bench {
                 object_count: source.material_objects.len(),
             });
         }
-        let eligible = |phase: Phase| all_phases || matches!(phase, Phase::Liquid | Phase::Aqueous);
+        let eligible = |phase: Phase| kind.takes(phase);
         let moved = source
             .contents
             .iter()
@@ -346,7 +407,7 @@ impl Bench {
         let unresolved = source
             .unresolved_materials
             .iter()
-            .filter(|portion| all_phases || material::unresolved_portion_is_liquid(portion))
+            .filter(|portion| kind.takes_unresolved(portion))
             .map(|portion| {
                 let mut moved = portion.clone();
                 moved.amount *= fraction;
@@ -413,14 +474,21 @@ impl Bench {
                 real_world,
                 contributors: contributors.clone(),
             }),
-            SafetyVerdict::Veto { reason } => events.push(Event::SpillHazard {
-                destination: destination.clone(),
-                severity: crate::solve::Severity::Danger,
-                rule: String::new(),
-                hazard: reason,
-                real_world: "Do not touch the spill; follow the declared cleanup procedure.".into(),
-                contributors,
-            }),
+            SafetyVerdict::Veto { reason } => {
+                if kind.refusable() {
+                    events.push(Event::SafetyVeto { reason });
+                    return Ok(false);
+                }
+                events.push(Event::SpillHazard {
+                    destination: destination.clone(),
+                    severity: crate::solve::Severity::Danger,
+                    rule: String::new(),
+                    hazard: reason,
+                    real_world: "Do not touch the spill; follow the declared cleanup procedure."
+                        .into(),
+                    contributors,
+                })
+            }
         }
 
         let source = self.vessel_mut(from)?;
@@ -431,7 +499,7 @@ impl Bench {
         }
         source.contents.retain(|portion| portion.moles.0 > 1e-15);
         for portion in &mut source.unresolved_materials {
-            if all_phases || material::unresolved_portion_is_liquid(portion) {
+            if kind.takes_unresolved(portion) {
                 portion.amount *= 1.0 - fraction;
             }
         }
@@ -447,7 +515,7 @@ impl Bench {
         } else {
             self.spills.push(spill);
         }
-        Ok(())
+        Ok(true)
     }
 
     fn recover_spill(
@@ -1947,6 +2015,93 @@ impl Bench {
                     });
                 }
             }
+            Operator::Discard { vessel } => {
+                // A closed boundary is holding an atmosphere of its own.
+                // Tipping it into the bin would make that gas vanish with
+                // no line saying where it went, so the refusal names the
+                // one move that fixes it.
+                let source = self.vessel(*vessel)?;
+                if matches!(
+                    source.headspace,
+                    Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+                ) {
+                    return Err(BenchError::VesselSealed(*vessel));
+                }
+
+                // The ledger is read before anything moves, so a refusal
+                // costs nothing and the line cannot describe a state that
+                // never existed.
+                let mut discarded: Vec<DiscardedPortion> = source
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase != Phase::Gas)
+                    .filter(|portion| portion.moles.0 > 1e-15)
+                    .map(|portion| DiscardedPortion {
+                        species: portion.species.clone(),
+                        moles: portion.moles,
+                        phase: portion.phase,
+                    })
+                    .collect();
+                // Largest first, ties broken by name: a total order, because
+                // the same discard has to print the same way on the desktop
+                // and in the browser.
+                discarded.sort_by(|a, b| {
+                    b.moles
+                        .0
+                        .partial_cmp(&a.moles.0)
+                        .unwrap_or(std::cmp::Ordering::Equal)
+                        .then_with(|| a.species.0.cmp(&b.species.0))
+                });
+                let mut materials: Vec<String> = source
+                    .unresolved_materials
+                    .iter()
+                    .filter(|portion| portion.amount > 1e-15)
+                    .map(|portion| portion.material.clone())
+                    .collect();
+                materials.sort();
+                materials.dedup();
+                let moles_total = Moles(discarded.iter().map(|portion| portion.moles.0).sum());
+                let mass_before = source.mass().0;
+
+                if self.move_to_spill(
+                    *vessel,
+                    &SpillDestination::Waste,
+                    1.0,
+                    SpillKind::Discarded,
+                    screen,
+                    &mut events,
+                )? {
+                    // Weighed as a difference, so whatever the vessel holds
+                    // that this move does not take — a sorbent bed, a lump
+                    // of chalk, an exchanger's load — cannot be counted as
+                    // thrown away.
+                    let grams_total = mass_before - self.vessel(*vessel)?.mass().0;
+
+                    // The headspace above what was tipped away goes to the
+                    // room, exactly as it does when a vessel is opened. The
+                    // boundary itself is untouched: an open vessel stays
+                    // open, and a swept one keeps its carrier gas.
+                    let v = self.vessel_mut(*vessel)?;
+                    let gases = vent_headspace(v);
+                    v.refresh_pressure();
+                    for (species, moles) in gases {
+                        events.push(Event::GasEvolved {
+                            vessel: *vessel,
+                            species,
+                            moles,
+                        });
+                    }
+
+                    events.push(Event::Discarded {
+                        vessel: *vessel,
+                        into: SpillDestination::Waste,
+                        moles_total,
+                        grams_total,
+                        species: discarded,
+                        materials,
+                    });
+                }
+            }
             Operator::Spill {
                 from,
                 destination,
@@ -1962,7 +2117,14 @@ impl Bench {
                 if self.is_broken(*from) {
                     return Err(BenchError::BrokenVessel(*from));
                 }
-                self.move_to_spill(*from, destination, *fraction, false, screen, &mut events)?;
+                self.move_to_spill(
+                    *from,
+                    destination,
+                    *fraction,
+                    SpillKind::Poured,
+                    screen,
+                    &mut events,
+                )?;
                 events.push(Event::SpillCreated {
                     destination: destination.clone(),
                     source: *from,
@@ -1995,7 +2157,7 @@ impl Bench {
                         *vessel,
                         destination_if_broken,
                         1.0,
-                        true,
+                        SpillKind::Broken,
                         screen,
                         &mut events,
                     )?;
@@ -4894,6 +5056,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Spill { from, .. } => vec![*from],
+        Operator::Discard { vessel } => vec![*vessel],
         Operator::Impact { vessel, .. } => vec![*vessel],
         Operator::RecoverSpill { to, .. } => vec![*to],
         Operator::Decant { from, to, .. }

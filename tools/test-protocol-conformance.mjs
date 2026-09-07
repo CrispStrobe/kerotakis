@@ -614,6 +614,67 @@ if (!resultsPath) {
     );
 }
 
+// --- The disposal verb on the wire (the waste ledger) -------------------
+// The wasm half of `a_discard_reports_the_same_disposal_the_browser_reports`
+// in crates/kerotakis-cli/tests/protocol_conformance.rs, over the SAME
+// fixture. `discard` is the one operation a learner performs expecting the
+// matter to be gone, so it is the one that most needs to prove it is not:
+// the event names the bin, weighs what went in, and lists it species by
+// species. A host that reports a different disposal from the desktop is
+// the bug this pair exists to catch.
+{
+    const lab = new Lab();
+    const script = readFileSync(resolve("tools/fixtures/discard-parity.lab"), "utf8");
+    const doc = JSON.parse(lab.runScript(script));
+    const events = (doc.steps ?? []).flatMap((step) => step.events ?? []);
+    const discarded = events.filter((event) => event?.event === "discarded");
+    checks++;
+    if (discarded.length !== 1) {
+        fail("discard", `expected one discarded event, got ${discarded.length}`);
+    } else {
+        const event = discarded[0];
+        checks++;
+        if (event.vessel !== 0 || event.into?.surface !== "waste") {
+            fail("discard", `the disposal does not name its bin: ${JSON.stringify(event)}`);
+        }
+        checks++;
+        if (!(event.grams_total >= 95 && event.grams_total <= 105)) {
+            fail("discard", `100 mL of water is about 100 g, not ${event.grams_total} g`);
+        }
+        checks++;
+        if (!(event.moles_total >= 5.2 && event.moles_total <= 5.9)) {
+            fail("discard", `100 g of water is about 5.55 mol, not ${event.moles_total} mol`);
+        }
+        const species = Array.isArray(event.species) ? event.species : [];
+        checks++;
+        if (!species.some((portion) => portion?.species === "water")) {
+            fail("discard", `the ledger does not say what it swallowed: ${JSON.stringify(event)}`);
+        }
+        const summed = species.reduce((total, portion) => total + Number(portion?.moles ?? 0), 0);
+        checks++;
+        if (Math.abs(summed - Number(event.moles_total)) > 1e-9) {
+            fail("discard", `the per-species lines do not add up: ${summed} vs ${event.moles_total}`);
+        }
+        checks++;
+        const amounts = species.map((portion) => Number(portion?.moles ?? 0));
+        if (!amounts.every((value, index) => index === 0 || amounts[index - 1] >= value)) {
+            fail("discard", `the ledger is not ordered largest-first: ${JSON.stringify(amounts)}`);
+        }
+        // The vessel is still on the bench, and it is empty. A disposal is
+        // not a tidy-up: nobody took the beaker away.
+        const vessel = (doc.scene?.vessels ?? []).find((v) => v.id === 0);
+        checks++;
+        if (!vessel) {
+            fail("discard", "the discarded vessel left the bench");
+        } else if ((vessel.solids ?? []).length > 0 || (vessel.liquid?.volume_l ?? 0) > 1e-9) {
+            fail("discard", `the vessel kept something back: ${JSON.stringify(vessel.liquid)}`);
+        }
+        console.log(`discard: ${event.grams_total.toFixed(3)} g `
+            + `(${event.moles_total.toFixed(3)} mol) into the waste ledger, `
+            + `${species.length} species named`);
+    }
+}
+
 if (failures > 0) {
     console.error(`\n${failures} conformance failure(s) in ${checks} checks`);
     process.exit(1);

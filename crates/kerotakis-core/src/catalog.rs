@@ -179,7 +179,9 @@ const INSTRUMENT_MILESTONES: &[(&str, u32)] = &[
 /// `remove`, `add`, `stock`), observation that costs nothing to own
 /// (`measure`, `smell`, `test`, `chromatograph`, `particles`), and bench
 /// controls that are not equipment (`open`, `seal`, `wait`, `cool`,
-/// `ignite`, `titrate`).
+/// `ignite`, `titrate`, `discard` — a waste bin is not a thing a learner
+/// has to earn, and gating disposal would mean gating the only safe way
+/// to end an experiment).
 ///
 /// `measure` and `chromatograph` are here because the catalog tiers the
 /// INSTRUMENT (`measure:ph`, `measure:chromatograph`), not the verb that
@@ -197,6 +199,7 @@ const INSTRUMENT_MILESTONES: &[(&str, u32)] = &[
 pub const NOT_CABINET: &[&str] = &[
     "new",
     "remove",
+    "discard",
     "add",
     "stock",
     "open",

@@ -259,6 +259,11 @@ hydroxylapatite = "Hydroxylapatit"
 "vessel-created.lv2" = "{vessel}: neues Gefäß"
 "vessel-removed.lv1" = "Das leere Gefäß {vessel} kommt zurück in den Schrank."
 "vessel-removed.lv2" = "{vessel}: leeres Gefäß entfernt"
+"discarded.lv1" = "Du entleerst {vessel} in den Abfallbehälter. Das Gefäß bleibt stehen, leer und noch warm."
+"discarded.lv2" = "{vessel} → Abfall: {grams} g ({moles} mol) entsorgt"
+"discarded.lv3" = "{vessel} → Abfall: {grams} g ({moles} mol) entsorgt. Nichts wird vernichtet — der Abfallbehälter hält und wiegt es weiter, und die Unverträglichkeitsprüfung sieht den gesamten Behälter: was schon darin ist, entscheidet, ob die nächste Entsorgung erlaubt wird"
+"discarded.line" = "  {vessel} → Abfall: {moles} mol {species} ({phase})"
+"discarded.line-material" = "  {vessel} → Abfall: {material} (nicht aufgelöst)"
 "added.lv1" = "Du gibst {what} in {vessel}."
 "added.lv2" = "{vessel}: +{amount} {what}"
 "added.lv2-total" = "{vessel}: +{amount} {what} — jetzt {total} im Gefäß"
@@ -806,6 +811,7 @@ dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser
 "bad-fraction" = "der Anteil muss zwischen 0 und 1 liegen"
 "self-transfer" = "Quell- und Zielgefäß sind dasselbe"
 "vessel-not-empty" = "Gefäß {vessel} ist nicht leer — schütte den Inhalt zuerst um oder entsorge ihn"
+"vessel-sealed" = "Gefäß {vessel} ist verschlossen — öffne {vessel} zuerst und entsorge es dann. Ein verschlossenes Gefäß in den Abfall zu kippen würde einen Behälter leeren, der noch seine eigene Atmosphäre hält, und das Gas muss dorthin, wo man es sehen kann"
 "last-vessel" = "das letzte Gefäß muss auf der Werkbank bleiben"
 "broken-vessel" = "Gefäß {vessel} ist zerbrochen und kann nicht benutzt werden"
 "no-such-spill" = "an der angegebenen Stelle ist nichts verschüttet"
@@ -991,7 +997,11 @@ white = "weiß"
 
 [script-verb]
 new = "neu, neues"
-remove = "entfernen, entsorgen"
+remove = "entfernen, wegräumen, wegraeumen"
+# `entsorgen` used to sit on `remove`, which could not take a full
+# vessel — the German word for disposal pointed at the verb that
+# refuses to dispose of anything. It belongs here.
+discard = "entsorgen, ausleeren, wegwerfen, wegschütten, wegschuetten"
 add = "zugeben, hinzufügen, hinzufuegen, dazugeben, zufügen, zufuegen"
 stock = "bevorraten, vorrat"
 heat = "erhitzen, erwärmen, erwaermen, heizen"

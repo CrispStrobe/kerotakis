@@ -1,0 +1,9 @@
+# The disposal parity fixture (see tools/test-protocol-conformance.mjs and
+# crates/kerotakis-cli/tests/protocol_conformance.rs). Two hosts run these
+# lines and must report the same disposal.
+#
+# 100 mL of water is 100 g of water, which is why the fixture is written
+# this way: the assertions can pin a real number without either host
+# having to be asked what it thinks a mole of water weighs.
+add v1 water 100mL
+discard v1
