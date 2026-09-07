@@ -91,3 +91,16 @@ CI also exposed absent per-step guidance for the two new lessons. English and
 German guidance is added, and the ten selected audit guides now reflect finite
 acid and documented model limits instead of obsolete yields/precision claims.
 All ten step-prose tests pass and all 94 paced scripts/530 sentences validate.
+
+## Native engine startup contract
+
+The CLI experiment outputs contain native PHREEQC provenance; the engine was
+not absent from those runs. `frozen_behavior` intentionally uses the engine-free
+core bench, now explicitly documented at its runner. A separate real startup
+gap existed: CLI initialization failure printed a warning and substituted a
+reduced stack. Native bench startup now fails with an actionable error and
+nonzero status instead. Optional explanation-path comparison warns separately;
+its failure does not misrepresent the initialized primary engine as missing.
+Constructor-failure and successful native-provenance tests are added; their
+execution is pending at this edit. This does not invent missing chemical data
+or expand any solver's documented model domain.
