@@ -10,7 +10,7 @@ summary = "A computed distillation cut moves three components without creating o
 concepts = ["phase-change", "latent-heat", "conservation-of-mass", "model-boundary"]
 requires = ["amount-of-substance", "mixtures"]
 calculations = ["enthalpy-change"]
-models = ["massenerhaltung", "chemisches-gleichgewicht", "enthalpie"]
+models = ["conservation-of-mass", "equilibrium", "enthalpy"]
 apparatus = ["distillation-flask", "condenser", "beaker"]
 
 [reaction.setup]
@@ -55,7 +55,7 @@ summary = "Equal delivered charge gives equal modeled water-electrolysis product
 concepts = ["electrolysis", "faraday-law", "charge-conservation"]
 requires = ["amount-of-substance"]
 calculations = ["faraday"]
-models = ["stoechiometrie", "massenerhaltung"]
+models = ["stoichiometry", "conservation-of-mass"]
 apparatus = ["beaker", "power-supply"]
 
 [reaction.setup]
@@ -108,7 +108,7 @@ summary = "Grouping the same three water portions differently preserves their fi
 concepts = ["calorimetry", "heat-capacity", "state-functions"]
 requires = ["amount-of-substance"]
 calculations = ["enthalpy-change", "temperature-rise"]
-models = ["enthalpie", "massenerhaltung"]
+models = ["enthalpy", "conservation-of-mass"]
 apparatus = ["beaker", "thermometer"]
 
 [reaction.setup]

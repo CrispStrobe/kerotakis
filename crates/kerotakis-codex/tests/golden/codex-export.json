@@ -3642,9 +3642,9 @@
         "enthalpy-change"
       ],
       "models": [
-        "massenerhaltung",
-        "chemisches-gleichgewicht",
-        "enthalpie"
+        "conservation-of-mass",
+        "equilibrium",
+        "enthalpy"
       ],
       "setup": {
         "script": "add v1 water 3mol\nadd v1 methanol 0.3mol\nadd v1 isopropanol 0.2mol\nnew\ndistil v1 v2 0.2\ninspect v1\ninspect v2\n"
@@ -3722,8 +3722,8 @@
         "faraday"
       ],
       "models": [
-        "stoechiometrie",
-        "massenerhaltung"
+        "stoichiometry",
+        "conservation-of-mass"
       ],
       "setup": {
         "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.2A 60s\nnew\nadd v2 water 250mL\nadd v2 KNO3 0.001mol\nelectrolyse v2 0.1A 120s\nnew\nadd v3 water 250mL\nadd v3 KNO3 0.001mol\nelectrolyse v3 0.2A 30s\nelectrolyse v3 0.2A 30s\ninspect v1\ninspect v2\ninspect v3\n"
@@ -3804,8 +3804,8 @@
         "temperature-rise"
       ],
       "models": [
-        "enthalpie",
-        "massenerhaltung"
+        "enthalpy",
+        "conservation-of-mass"
       ],
       "setup": {
         "script": "new\nadd v2 water 1mol\nheat v2 300J\nnew\nadd v3 water 2mol\ncool v3 200J\nnew\nadd v4 water 3mol\nheat v4 100J\nnew\nmix v2 1 v3 1 into v5\nmix v5 1 v4 1 into v1\nmeasure v1 thermometer\nnew\nadd v6 water 1mol\nheat v6 300J\nnew\nadd v7 water 2mol\ncool v7 200J\nnew\nadd v8 water 3mol\nheat v8 100J\nnew\nmix v7 1 v8 1 into v9\nnew\nmix v6 1 v9 1 into v10\nmeasure v10 thermometer\n"
