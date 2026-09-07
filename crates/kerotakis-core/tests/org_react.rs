@@ -134,6 +134,7 @@ fn the_round_trip_returns_the_alcohol() {
 fn a_missing_reactant_refuses_out_loud() {
     let mut bench = Bench::new();
     add(&mut bench, "ethanol", 0.10);
+    let before = serde_json::to_value(&bench.vessel(VesselId(0)).unwrap().contents).unwrap();
     let events = bench
         .step(
             script::parse_op("react v1 esterification")
@@ -148,9 +149,20 @@ fn a_missing_reactant_refuses_out_loud() {
     assert!(
         events.iter().any(|e| matches!(
             e,
-            Event::NotYetModeled { what, .. } if what.contains("CH3COOH")
+            Event::NotYetModeled {
+                cause: ops::NotModelledCause::NothingToActOn,
+                vessel: VesselId(0),
+                what,
+            } if what.contains("esterification")
+                && what.contains("neither forward nor reverse reactants provide capacity")
+                && what.contains("1e-12 mol no-conversion tolerance")
         )),
-        "the refusal names what is missing"
+        "the refusal identifies unavailable reaction capacity, not a model error or equilibrium"
+    );
+    assert_eq!(
+        before,
+        serde_json::to_value(&bench.vessel(VesselId(0)).unwrap().contents).unwrap(),
+        "refusing a feed with no available reaction direction must leave its inventory unchanged"
     );
 }
 

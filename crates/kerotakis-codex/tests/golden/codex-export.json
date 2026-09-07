@@ -8085,6 +8085,7 @@
       "progress": "starter",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur",
+      "summary_de": "Doppeltes Thiosulfat verdoppelt die Anfangsgeschwindigkeit, nicht unbedingt die später gebildete Schwefelmenge",
       "concepts": [
         "reaction-rate",
         "reaction-order"
@@ -8182,8 +8183,7 @@
         "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
         "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
-      },
-      "summary_de": "Doppeltes Thiosulfat verdoppelt die Anfangsgeschwindigkeit, nicht unbedingt die später gebildete Schwefelmenge"
+      }
     },
     {
       "id": "the-acid-term-is-an-activity",
@@ -8305,6 +8305,7 @@
       "progress": "intermediate",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": "Before timing a cloudiness threshold, check whether the limiting reagent permits it",
+      "summary_de": "Vor dem Stoppen einer Trübungsschwelle prüfen, ob der limitierende Stoff sie erlaubt",
       "concepts": [
         "rate-from-a-fixed-observable"
       ],
@@ -8403,8 +8404,7 @@
         "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
         "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
-      },
-      "summary_de": "Vor dem Stoppen einer Trübungsschwelle prüfen, ob der limitierende Stoff sie erlaubt"
+      }
     },
     {
       "id": "the-ten-degree-rule-and-where-it-frays",

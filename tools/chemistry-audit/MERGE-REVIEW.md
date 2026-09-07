@@ -1,5 +1,57 @@
 # Safe integration review, 2026-09-07
 
+## Rebuilt CI repair — 2026-09-07
+
+Scope: audit branch / PR #504 only; no merge, reserved-branch edits, local
+compilation, new dependency, source-research publication or numerical-model change.
+Failed run: https://github.com/CrispStrobe/kerotakis/actions/runs/34118803477
+CI tested merge `3825363777ad37ec7f60d4e84c8b9c11b6d2134f`, whose tree is exactly
+audit head `cc6bcccfbb450fe8aed12bf3c96a1eaa37c8e230`. Both platforms' generated
+snapshot artifacts were downloaded separately and retained outside the worktree;
+the original failed run and all existing audit evidence remain preserved.
+
+Root causes and bounded repairs:
+
+- Full preflight stopped at `codex_export_matches_golden_snapshot`: two German
+  summary keys were manually appended after provenance instead of serialized
+  beside summary. Moved only those keys. All 113 entries and every value remain
+  semantically identical; corrected bytes match both Linux and macOS artifacts.
+- Both native jobs failed the same five targets: export_snapshot, org_react,
+  registry_snapshot, calcium_phosphate and legacy_diff. Registry golden drift
+  was number-token formatting from rebase serialization, not changed chemistry.
+  Corrected individual tokens against both CI artifacts, retaining all 179 rows.
+- `a_missing_reactant_refuses_out_loud` demanded an obsolete CH3COOH substring.
+  It now checks the typed NothingToActOn cause, vessel, reaction, unavailable
+  forward/reverse capacity, tolerance explanation and unchanged full inventory.
+- `apatite_is_withheld_out_loud_rather_than_precipitated` demanded obsolete
+  wording that claimed rates. It now checks the same diagnostic names the phase,
+  curated formation-temperature threshold, withholding and explicit non-rate
+  disclaimer. Both zero-solid checks are retained.
+- Current registry export's legacy-field comparison itself passed; its
+  byte-current-source test failed. The rebase had placed calcium-phosphate
+  provenance after tranche records and NASA Cp provenance after material/basis
+  records. Restored exporter order and serde number spellings, with no record or
+  value changes. All 179 identities and 37 Cp polynomial records are retained.
+- German browser test scanned leaf nodes for `v1: +`, but Feed renders v1 in a
+  child vessel chip and strips that prefix from observation prose. The test now
+  reads the vessel-specific journal row and waits for the actual addition.
+  German species and decimal-comma assertions remain, plus an explicit rendered-
+  addition check. No reserved UI implementation was edited.
+
+Validation: focused web tests 204/204 pass; German selector Chromium fixtures
+6/6 pass including English, decimal-point, wrong-vessel, non-addition negative
+controls and delayed rendering. Rust formatting, JavaScript syntax and diff
+whitespace checks pass. Codex and registry golden content agrees with both
+platforms' rebuilt artifacts (registry comparison trims its final newline, as
+the existing test does). Existing scientific evidence and react_diagnostics.rs
+remain unchanged. Exact source-export regeneration and updated native/browser
+tests await the next CI run; no local Rust build is claimed.
+
+Importantly, the failed run already passed all six new React diagnostic
+regressions and the 1280-mixture equilibrium grid. Native job failure prevented
+later CLI fleet steps: it does NOT establish a sixth-fleet scientific pass.
+Push uses an explicit lease against cc6bcccf; keep status polls >=300 seconds.
+
 ## Delegated audit-only rebase — 2026-09-07 11:51 UTC
 
 User delegated conflict resolution only for PR #504. Reserved GUI/KIDS/readout/

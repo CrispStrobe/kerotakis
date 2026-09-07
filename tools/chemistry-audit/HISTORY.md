@@ -1,5 +1,22 @@
 # Chemistry audit history and continuation
 
+## 2026-09-07 — repair rebuilt CI failures on audit branch only
+
+Run34118803477 failed preflight, both native jobs, German-render checks and the
+source-export job. Diagnosed two codex key-order mismatches, registry numeric
+spellings/provenance ordering, two stale diagnostic assertions and a leaf-node
+journal selector incompatible with vessel chips. Applied narrow patches; no
+equations, tolerances, runtime dependencies or reserved UI files changed.
+
+Preserved113 catalog entries,179 registry identities,37 Cp records, every
+existing scientific artifact and diagnostic regression. Web204 tests and six
+Chromium selector controls pass; formatting/syntax/diff checks pass. Both
+platforms' generated golden artifacts corroborate the snapshot corrections.
+Failed CI already passed the six new diagnostic regressions and1280-mixture
+grid, but later CLI fleets did not run. Rebuilt native/export/browser validation
+remains CI-owned. Explicit lease push only; no merge. See MERGE-REVIEW for exact
+failure mapping, retained evidence and verification limits.
+
 ## 2026-09-07 11:51 UTC — delegated conflict resolution
 
 Rebased only audit PR #504 with merge topology preserved, from old common base
