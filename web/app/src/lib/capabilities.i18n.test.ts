@@ -27,8 +27,8 @@ function rows(text: string, section: string): Map<string, string> {
   const body = text.split(`\n[${section}]\n`)[1]?.split("\n[")[0] ?? "";
   const found = new Map<string, string>();
   for (const line of body.split("\n")) {
-    const match = /^"([^"]+)" = "([^"]*)"$/.exec(line.trim());
-    if (match) found.set(match[1], match[2]);
+    const [, key, value] = /^"([^"]+)" = "([^"]*)"$/.exec(line.trim()) ?? [];
+    if (key !== undefined && value !== undefined) found.set(key, value);
   }
   return found;
 }
@@ -44,10 +44,10 @@ for (const shard of ["aqueous-household", "thermal-fire", "materials-handling", 
   const text = readFileSync(join(corpus, `${shard}.toml`), "utf8");
   let id: string | null = null;
   for (const line of text.split("\n")) {
-    const idMatch = /^id = "([^"]+)"$/.exec(line);
-    if (idMatch) id = idMatch[1];
-    const questionMatch = /^question = "(.+)"$/.exec(line);
-    if (questionMatch && id) english.set(id, questionMatch[1]);
+    const [, foundId] = /^id = "([^"]+)"$/.exec(line) ?? [];
+    if (foundId !== undefined) id = foundId;
+    const [, question] = /^question = "(.+)"$/.exec(line) ?? [];
+    if (question !== undefined && id !== null) english.set(id, question);
   }
 }
 
