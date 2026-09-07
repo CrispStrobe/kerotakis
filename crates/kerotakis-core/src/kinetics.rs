@@ -2308,6 +2308,15 @@ mod tests {
             &[
                 ("water", 5.5343, Phase::Liquid),
                 ("S2O3-2", thio, Phase::Aqueous),
+                // The sodium the salt brings with it. It was implicit while
+                // the reactant was spelled `Na2S2O3`, and a hand-built
+                // vessel that drops it is not electroneutral: a bare 2-
+                // anion beside 0.002 mol of free proton reads as a beaker
+                // holding base, and #529's represented-strong-acid
+                // bookkeeping is derived from exactly that balance. A
+                // solved beaker holds `Na+` and `S2O3-2` together, so this
+                // one does too.
+                ("Na+", 2.0 * thio, Phase::Aqueous),
                 (PROTON, 0.002, Phase::Aqueous),
                 ("Cl-", 0.002, Phase::Aqueous),
             ],
@@ -2433,7 +2442,12 @@ mod tests {
             (remaining - expected).abs() < 2e-8,
             "{remaining} versus {expected}"
         );
-        assert!((remaining - phase_moles(&split, "S2O3-2", Phase::Aqueous)).abs() < 2e-8);
+        let split_remaining = phase_moles(&split, "S2O3-2", Phase::Aqueous);
+        assert!(
+            (remaining - split_remaining).abs() < 2e-8,
+            "whole {remaining} versus split {split_remaining}, delta {}",
+            remaining - split_remaining
+        );
     }
 
     #[test]
