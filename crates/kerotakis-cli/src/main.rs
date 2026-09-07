@@ -32,6 +32,8 @@ use kerotakis_core::*;
 
 struct Session {
     bench: Bench,
+    /// Stream position; unlike `step` (a bench log reference), inspections advance it.
+    output_sequence: std::cell::Cell<u64>,
     register: Register,
     json: bool,
     stack: SolverStack,
@@ -67,28 +69,52 @@ struct Session {
     locale: kerotakis_core::Locale,
 }
 
-/// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
-/// initialised the session still works, honestly degraded.
+/// Native CLI bench sessions require their shipped aqueous engine. The
+/// deliberately cache-only browser/core paths have a separate capability
+/// contract; silently replacing this CLI's chemistry stack is not one.
 fn build_stack() -> SolverStack {
+    let aqueous = kerotakis_phreeqc::PhreeqcEquilibrator::new()
+        .map(|engine| Box::new(engine) as Box<dyn Equilibrator>)
+        .map_err(|error| error.to_string());
+    stack_from_aqueous(aqueous).unwrap_or_else(|error| {
+        eprintln!("kero: {error}");
+        std::process::exit(1);
+    })
+}
+
+/// Keep failure injection at the constructor boundary for tests, never in a
+/// production environment-variable switch or an alternative chemistry route.
+fn stack_from_aqueous(
+    aqueous: Result<Box<dyn Equilibrator>, String>,
+) -> Result<SolverStack, String> {
+    let aqueous = aqueous.map_err(|error| {
+        format!(
+            "required PHREEQC aqueous engine failed to initialize: {error}. \
+         No bench session was started. Reinstall a complete native Kerotakis build \
+         or rebuild with its default native engine features; if this persists, \
+         report this initialization error."
+        )
+    })?;
     // The order is kerotakis-stack's, shared with the shell and the wasm
     // bench — chemistry must not depend on which host ran it. Only the
     // aqueous tail is this host's to choose.
-    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
-        // The metallic state rides on top of the aqueous solve: the series
-        // moves electrons over the activities PHREEQC reports, and the
-        // products go back through it.
-        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
-            kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))],
-        Err(e) => {
-            eprintln!("kero: aqueous engine unavailable ({e}); running without it");
-            // Pure-water phase changes still work in the honestly degraded
-            // stack; only brine re-speciation is unavailable.
-            vec![Box::new(StateEquilibrator)]
+    let tail: Vec<Box<dyn Equilibrator>> = vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        kerotakis_core::DisplacementEquilibrator::wrapping(aqueous),
+    )))];
+    Ok(SolverStack::new(kerotakis_stack::standard_solvers(tail)))
+}
+
+fn optional_explanation_engine() -> Option<kerotakis_phreeqc::PhreeqcEquilibrator> {
+    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+        Ok(engine) => Some(engine),
+        Err(error) => {
+            eprintln!(
+                "kero: optional explanation path comparison is unavailable ({error}); \
+                 the initialized primary bench engine remains active"
+            );
+            None
         }
-    };
-    let solvers = kerotakis_stack::standard_solvers(tail);
-    SolverStack::new(solvers)
+    }
 }
 
 fn main() {
@@ -125,10 +151,11 @@ fn main() {
             });
             let mut session = Session {
                 bench: Bench::new(),
+                output_sequence: Default::default(),
                 register: Register::default(),
                 json,
                 stack: build_stack(),
-                paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
+                paths: optional_explanation_engine(),
                 quests: Vec::new(),
                 quest_states: Default::default(),
                 aliases: Default::default(),
@@ -2674,10 +2701,11 @@ fn repl() {
     println!("kerotakis 0.0.1 — the bench is ready. 'help' lists commands.");
     let mut session = Session {
         bench: Bench::new(),
+        output_sequence: Default::default(),
         register: Register::default(),
         json: false,
         stack: build_stack(),
-        paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
+        paths: optional_explanation_engine(),
         quests: Vec::new(),
         quest_states: Default::default(),
         aliases: Default::default(),
@@ -2989,7 +3017,12 @@ impl Session {
     /// dressed as it. Object keys are masked as well as values — a
     /// speciation map keyed by species id would otherwise carry the answer
     /// in its keys.
-    fn mask_json(&self, value: serde_json::Value) -> serde_json::Value {
+    fn mask_json(&self, mut value: serde_json::Value) -> serde_json::Value {
+        if let Some(map) = value.as_object_mut() {
+            let sequence = self.output_sequence.get();
+            map.insert("output_sequence".into(), sequence.into());
+            self.output_sequence.set(sequence + 1);
+        }
         if self.masks.is_empty() {
             return value;
         }
@@ -3287,5 +3320,80 @@ impl Session {
         for line in render_vessel(v, self.register) {
             println!("  {}", self.mask_for(v.id, &line));
         }
+    }
+}
+
+#[cfg(test)]
+mod native_startup_tests {
+    use super::*;
+
+    #[test]
+    fn primary_engine_initialization_failure_never_constructs_a_reduced_stack() {
+        let result = stack_from_aqueous(Err("injected database initialization failure".into()));
+        let error = match result {
+            Err(error) => error,
+            Ok(_) => panic!("a missing required engine must not produce a bench stack"),
+        };
+        assert!(error.contains("required PHREEQC aqueous engine"));
+        assert!(error.contains("injected database initialization failure"));
+        assert!(error.contains("No bench session was started"));
+        assert!(error.contains("Reinstall") && error.contains("rebuild"));
+    }
+
+    #[test]
+    fn successful_native_startup_retains_aqueous_computation_and_provenance() {
+        let engine = kerotakis_phreeqc::PhreeqcEquilibrator::new().expect("native PHREEQC");
+        let mut stack =
+            stack_from_aqueous(Ok(Box::new(engine))).unwrap_or_else(|error| panic!("{error}"));
+        let names: Vec<_> = stack.solvers.iter().map(|solver| solver.name()).collect();
+        let phase = names
+            .iter()
+            .position(|name| *name == "phase-coupled")
+            .unwrap();
+        let thermal = names
+            .iter()
+            .position(|name| *name == "cea-thermal")
+            .unwrap();
+        assert!(thermal < phase);
+        assert!(phase < names.iter().position(|name| *name == "honesty").unwrap());
+        let mut bench = Bench::new();
+        for (species, amount) in [("water", 3.0), ("NaCl", 0.001)] {
+            let events = bench
+                .step_with(
+                    Operator::Add {
+                        vessel: VesselId(0),
+                        species: SpeciesId::new(species),
+                        moles: Moles(amount),
+                        at: None,
+                    },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("normal native operation");
+            assert!(
+                !events
+                    .iter()
+                    .any(|e| matches!(e, Event::SolverFailed { .. })),
+                "{events:?}"
+            );
+            assert!(
+                events
+                    .iter()
+                    .any(|e| matches!(e, Event::SolutionCharacterized { .. })),
+                "{events:?}"
+            );
+        }
+        let solution = bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .solution
+            .as_ref()
+            .unwrap();
+        assert!(solution.ph.is_finite() && solution.ionic_strength > 0.0);
+        let provenance = solution
+            .provenance
+            .as_ref()
+            .expect("computed engine provenance");
+        assert!(provenance.engine.contains("PHREEQC"));
     }
 }

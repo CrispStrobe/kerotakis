@@ -332,6 +332,10 @@ fn direct_licence_allowed(kind: Kind, licence: &str) -> bool {
         "Apache-2.0",
         "LicenseRef-USGS-User-Rights-Notice",
         "LicenseRef-Public-Domain",
+        // Reviewed federal data sources recorded in provenance/sources.toml.
+        // These approvals do not authorize code or arbitrary LicenseRef names.
+        "LicenseRef-US-Bureau-of-Mines-Public-Domain",
+        "LicenseRef-US-Coast-Guard-Public-Domain",
     ];
     match kind {
         Kind::Code => CODE.contains(&licence),
@@ -568,6 +572,45 @@ sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
             valid_manifest().problems(Path::new("../..")),
             Vec::<String>::new()
         );
+    }
+
+    #[test]
+    fn reviewed_federal_data_references_are_explicit_and_not_code_approvals() {
+        for licence in [
+            "LicenseRef-US-Bureau-of-Mines-Public-Domain",
+            "LicenseRef-US-Coast-Guard-Public-Domain",
+        ] {
+            assert!(direct_licence_allowed(Kind::Data, licence));
+            assert!(!direct_licence_allowed(Kind::Code, licence));
+            let mut manifest = valid_manifest();
+            manifest.sources[0].licence = licence.to_string();
+            assert_eq!(manifest.problems(Path::new("../..")), Vec::<String>::new());
+        }
+    }
+
+    #[test]
+    fn federal_data_approvals_do_not_admit_copyleft_nc_or_unreviewed_references() {
+        for licence in [
+            "GPL-3.0-only",
+            "LGPL-3.0-only",
+            "CC-BY-SA-4.0",
+            "CC-BY-NC-4.0",
+            "CC-BY-NC-SA-4.0",
+            "LicenseRef-US-Unreviewed-Public-Domain",
+            "LicenseRef-US-Coast-Guard-Public-Domain-extra",
+        ] {
+            assert!(!direct_licence_allowed(Kind::Data, licence), "{licence}");
+            assert!(!direct_licence_allowed(Kind::Code, licence), "{licence}");
+            let mut manifest = valid_manifest();
+            manifest.sources[0].licence = licence.to_string();
+            let problems = manifest.problems(Path::new("../.."));
+            assert!(
+                problems
+                    .iter()
+                    .any(|p| p.contains("not directly includable")),
+                "{licence}: {problems:?}"
+            );
+        }
     }
 
     #[test]

@@ -33,6 +33,7 @@ Start with `species` to learn what the bench can name.";
 /// session, exactly as a REPL is.
 struct BenchSession {
     bench: Bench,
+    output_sequence: u64,
     stack: SolverStack,
     /// A second engine used only for `explain`'s path comparison, so
     /// comparing never disturbs the session's own solver state (the same
@@ -44,6 +45,7 @@ impl BenchSession {
     fn new() -> Self {
         BenchSession {
             bench: Bench::new(),
+            output_sequence: 0,
             stack: build_stack(),
             paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
         }
@@ -56,7 +58,13 @@ impl BenchSession {
     fn exec_script(&mut self, script: &str) -> Result<String, String> {
         let mut docs: Vec<serde_json::Value> = Vec::new();
         for (lineno, line) in script.lines().enumerate() {
-            if let Err(e) = self.exec_line(line, &mut docs) {
+            let start = docs.len();
+            let result = self.exec_line(line, &mut docs);
+            for doc in &mut docs[start..] {
+                doc["output_sequence"] = self.output_sequence.into();
+                self.output_sequence += 1;
+            }
+            if let Err(e) = result {
                 let done: String = docs.iter().map(|d| format!("{d}\n")).collect();
                 return Err(format!(
                     "line {}: {e}\n({} step(s) before this line were executed and remain on the bench)\n{done}",

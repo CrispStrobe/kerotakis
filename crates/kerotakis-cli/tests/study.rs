@@ -47,14 +47,17 @@ fn titration_study_reproduces_the_equivalence_point() {
             .as_f64()
             .expect("the titration delivered a volume");
         // 1 mol/L standard: delivered base moles equal acid moles at the
-        // crossing, within the one-step (1 mL = 0.001 mol) resolution.
+        // refined endpoint, rather than accepting a whole extra increment.
         let base_moles = volume * 1.0;
         assert!(
-            base_moles >= acid_moles - 1e-12 && base_moles - acid_moles <= 0.001 + 1e-12,
+            (base_moles - acid_moles).abs() <= acid_moles * 1e-4 + 1e-10,
             "equivalence: {base_moles} mol NaOH for {acid_moles} mol HCl"
         );
         let ph = row["probes"]["ph@v1"]["value"].as_f64().unwrap();
-        assert!(ph >= 7.0, "the crossing step ends past neutral, got {ph}");
+        assert!(
+            (ph - 7.0).abs() <= 1e-4,
+            "the endpoint must be solved to the requested pH, got {ph}"
+        );
         assert!(
             row["provenance"]
                 .as_str()
