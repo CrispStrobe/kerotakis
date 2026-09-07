@@ -17,7 +17,7 @@ it had while it was open, which is why a few numbers appear twice below.
 - **GUI-052** — provenance drawer: the solver routing record reaches the wire
   as `step.routes` (native and wasm), and the drawer shows which solver
   answered, on what dataset and model, within what stated bounds, and what the
-  bench declined — each in the engine's own sentence (PR #REPLACE)
+  bench declined — each in the engine's own sentence (PR #512)
 
 ## 2026-09-06
 

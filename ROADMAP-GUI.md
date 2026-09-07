@@ -1199,7 +1199,7 @@ hide them completely.
   and models any `provenance` names, the validity notes riding a reading, and
   the honesty pass's refusals — each in the engine's own words. `ValidityBounds`
   is deliberately not rendered: no solver in the tree populates it, so a box
-  for it would imply a check nobody ran (PR #REPLACE).
+  for it would imply a check nobody ran (PR #512).
 
 Continuous, all phases: a11y audit per surface; perf budgets in CI on a
 throttled target profile; golden scene/DOM tests over the lesson corpus;
