@@ -36,7 +36,7 @@
   } from "../codex";
   import { conceptLinks, relationLabel, type ConceptLink } from "../conceptLinks";
   import { kidsText, type KidsExperiment } from "../kidsCatalog";
-  import type { MissionSummary } from "../storyProgress";
+  import { missionAvailability, type MissionSummary } from "../storyProgress";
   import type { Session } from "../session.svelte";
   import type { LabMode } from "../worldState";
   import { i18n, t, tSlug } from "../i18n.svelte";
@@ -167,6 +167,10 @@
    * through the material, and never a refusal. */
   const pending = (e: CodexEntry): string[] => (e.requires ?? []).filter((r) => !met.has(r));
 
+  const missionAccess = (link: Elsewhere) => link.kind === "mission"
+    ? missionAvailability(missions, session.completedMissions, link.mission)
+    : null;
+
   function edgePath(e: { from: string; to: string }): string {
     const a = layout.at.get(e.from);
     const b = layout.at.get(e.to);
@@ -212,17 +216,27 @@
         </li>
       {/each}
       {#each elsewhere as link (link.kind + ":" + link.id)}
+        {@const access = missionAccess(link)}
         <li>
           <button
             class="entry"
-            onclick={() => (link.kind === "kids" ? onopenkids?.(link.id) : onopenmission?.(link.id))}
-            disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined}
+            data-mission-unlocked={access?.unlocked}
+            onclick={() => {
+              if (link.kind === "kids") onopenkids?.(link.id);
+              else if (access?.unlocked) onopenmission?.(link.id);
+            }}
+            disabled={link.kind === "kids" ? onopenkids === undefined : onopenmission === undefined || !access?.unlocked}
           >
             <span class="ready kind">{link.kind === "kids" ? t("experiment") : t("mission")}</span>
             {linkTitle(link)}
             {#if link.done}<span class="done">✓</span>{/if}
           </button>
           <span class="why">{t(relationLabel(link.relation))}</span>
+          {#if access && !access.unlocked}
+            <span class="needs">{access.remaining === 1
+              ? t("complete one more mission to unlock")
+              : t("complete {count} more missions to unlock", { count: access.remaining })}</span>
+          {/if}
         </li>
       {/each}
     </ul>

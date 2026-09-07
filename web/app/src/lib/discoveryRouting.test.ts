@@ -25,4 +25,11 @@ describe("discovery uses the two live product surfaces", () => {
     expect(story).toContain("remainingMissions(district.minimumCompleted, completedCount)");
     expect(story).toContain("remainingMissions(selected.minimumCompleted, completedCount)");
   });
+
+  it("does not let Concept Map bypass Story mission locks", () => {
+    const concept = source("components/ConceptMap.svelte");
+    expect(concept).toContain("missionAvailability(missions, session.completedMissions, link.mission)");
+    expect(concept).toContain("else if (access?.unlocked) onopenmission?.(link.id)");
+    expect(concept).toContain("data-mission-unlocked");
+  });
 });

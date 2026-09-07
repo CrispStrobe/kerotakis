@@ -41,6 +41,7 @@ import { guidedLearningLabel, kidsList, kidsRecipe, kidsText, type KidsExperimen
 import { kidsShelfKeys } from "./kidsSandbox";
 import { KIDS_EQUIPMENT, type KidsEquipment } from "./kidsEquipment";
 import type { CatalogItem } from "./host/EngineHost";
+import { catalogIdForApparatus } from "./equipmentCatalogue";
 
 /** Which corpus an entry came from. An INTERNAL identifier: never displayed. */
 export type CatalogSourceKind = "codex" | "guided";
@@ -128,6 +129,8 @@ export interface CatalogEntry {
   access: CatalogItem[];
   /** Shelf requirements plus engine-known apparatus refusals. */
   readyNow: boolean;
+  /** False until the engine has answered; unknown is neither ready nor missing. */
+  availabilityKnown: boolean;
   /** Every string worth matching a query against, localized and canonical. */
   search: string[];
 }
@@ -368,14 +371,16 @@ function availability(
   needs: readonly string[],
   apparatus: readonly string[],
   context: Pick<CatalogViewContext, "shelfKeys" | "catalog">,
-): Pick<CatalogEntry, "missingNeeds" | "access" | "readyNow"> {
+): Pick<CatalogEntry, "missingNeeds" | "access" | "readyNow" | "availabilityKnown"> {
+  const availabilityKnown = context.catalog !== undefined && context.catalog.size > 0;
   const missingNeeds = needs.filter((key) => !context.shelfKeys?.has(key));
-  const access = [...new Set([...needs, ...apparatus])]
+  const access = [...new Set([...needs, ...apparatus.map(catalogIdForApparatus)])]
     .flatMap((id) => context.catalog?.get(id) ?? []);
   return {
     missingNeeds,
     access,
-    readyNow: missingNeeds.length === 0 && access.every((item) => item.available),
+    availabilityKnown,
+    readyNow: availabilityKnown && missingNeeds.length === 0 && access.every((item) => item.available),
   };
 }
 
@@ -621,7 +626,7 @@ export function catalogEntryPasses(entry: CatalogEntry, filters: CatalogFilters)
   if (filters.duration && entry.duration !== filters.duration) return false;
   if (filters.shelfOnly && !entry.onShelf) return false;
   if (filters.readiness === "ready" && !entry.readyNow) return false;
-  if (filters.readiness === "missing" && entry.readyNow) return false;
+  if (filters.readiness === "missing" && (!entry.availabilityKnown || entry.readyNow)) return false;
   if (filters.progress === "completed" && !entry.done) return false;
   if (filters.progress === "not-tried" && entry.done) return false;
   if (filters.concept && !entry.concepts.includes(filters.concept)) return false;

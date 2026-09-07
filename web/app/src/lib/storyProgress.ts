@@ -100,6 +100,21 @@ export function remainingMissions(minimumCompleted: number, completed: number): 
   return Math.max(0, minimumCompleted - completed);
 }
 
+/** Project the one Story district gate onto an exact shipped mission. */
+export function missionAvailability(
+  missions: MissionSummary[],
+  completedIds: ReadonlySet<string>,
+  mission: MissionSummary,
+): { unlocked: boolean; remaining: number } {
+  const district = storyDistricts(missions, completedIds)
+    .find((candidate) => candidate.missions.some((item) => item.file === mission.file));
+  if (!district) return { unlocked: false, remaining: 0 };
+  return {
+    unlocked: district.unlocked,
+    remaining: remainingMissions(district.minimumCompleted, completedIds.size),
+  };
+}
+
 /** Pick one useful continuation without inventing a second progression model.
  * District order and mission export order are stable, so the answer is stable.
  * An active, unlocked, incomplete mission wins; otherwise take the first
