@@ -70,6 +70,32 @@ pub const ODORS: &[Odor] = &[
         // a bleach bottle is around 0.7 mol/L; a rinsed sink is not.
         detect_molar: 1e-3,
     },
+    // The same smell, on the two species a SOLVED bleach solution holds.
+    // Without these rows the bench stopped smelling of bleach the moment
+    // it computed a pH for it: the aqueous readback books the vessel's
+    // hypochlorite as `ClO-` and `HClO`, and the bottle key above is then
+    // no longer in the beaker to match on.
+    //
+    // The threshold is the bottle's, on both, and that is a deliberate
+    // simplification with a known direction. What a nose actually picks up
+    // over bleach is the undissociated acid and the traces of chlorine
+    // above it, not the anion — so putting the real threshold on `HClO`
+    // alone would be the better chemistry and would also make a pH 12
+    // bleach bottle odourless, which is not what a bleach bottle is like.
+    // Modelling that properly wants a Henry's-law partition this bench
+    // does not have; until it does, both members smell of bleach.
+    Odor {
+        species: "ClO-",
+        description: "swimming-pool chlorine",
+        hazardous: false,
+        detect_molar: 1e-3,
+    },
+    Odor {
+        species: "HClO",
+        description: "swimming-pool chlorine",
+        hazardous: false,
+        detect_molar: 1e-3,
+    },
     Odor {
         species: "CH3COOH",
         description: "vinegar",

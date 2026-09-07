@@ -95,6 +95,14 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         // The order makes that a non-question instead of a near miss.
         ("C3H5O3", "Lactate"),
         ("C2H3O2", "Acetate"), // CH3COO
+        // Hypochlorite, from the couple `databases::minteq_v4()` borrows
+        // out of llnl.dat. Nothing currently collides with it — the group
+        // is one chlorine and one oxygen, so only a formula carrying both
+        // can claim it — and the residue rules below refuse the higher
+        // oxychlorines rather than mis-booking them: NaClO3 extracts one
+        // ClO and is then left with two oxygens that no cation's charge
+        // can carry away as water, which is the `o > h` guard's job.
+        ("ClO", "Hypochlorite"),
         ("HCO3", "C"),
         ("CO3", "C"),
         ("NO3", "N(5)"),
@@ -174,25 +182,34 @@ pub const UNSPECIATED_ACIDS: &[(&str, &str)] = &[
 /// ```
 ///
 /// Every line true, and between them they never say the bleach is why. A
-/// learner is told an instrument failed. What actually happened is a fact
-/// about the world that is worth having.
+/// learner is told an instrument failed.
 ///
-/// Each row carries its whole sentence rather than a fragment, because the
-/// reason differs in kind between rows and a shared wrapper would flatten
-/// them. Membership is a strong claim — checked against every `.dat`
-/// vendored with iphreeqc, not only the four this lab loads — and it is
-/// what earns the `NotInAnyDatabase` cause: not in our gift, and not in
-/// anybody's.
-pub const UNSPECIATED_SOLUTES: &[(&str, &str)] = &[(
-    "NaOCl",
-    "no thermodynamic database defines a hypochlorite species — searched by \
-     name for HClO, ClO-, Cl(1) and the word itself across every .dat \
-     vendored with iphreeqc on 2026-09-04, including the ones this lab does \
-     not load, and the ClO- matches are all perchlorate. So the bleach sits \
-     in the water and nothing here can give it a pH, a strength, or any \
-     other number: this is a boundary of the shipped thermodynamics rather \
-     than a gap in this lab's wiring",
-)];
+/// **The table is empty, and the way its one row left is the point.** That
+/// row was bleach, and the sentence it carried said that "no thermodynamic
+/// database defines a hypochlorite species … and the `ClO-` matches are
+/// all perchlorate". Both halves were false, and the file that falsifies
+/// them was already vendored here:
+/// `vendor/iphreeqc/database/llnl.dat` line 107 is
+/// `Cl(1)     ClO-      0         Cl`, with perchlorate three lines below
+/// it as `Cl(7)`, and line 4493 is `H+ + ClO- = HClO`, `log_k 7.5692`. The
+/// search that sentence claimed to have run cannot have reached llnl.dat,
+/// and its second half — that the `ClO-` matches "are all perchlorate" —
+/// is not a search result at all but a guess about what a search would
+/// have found. It shipped to learners for three days. A refusal is a claim
+/// about the world and can be wrong in exactly the way a computed number
+/// can be wrong, only worse: nobody re-derives it.
+/// `databases::minteq_v4()` now borrows the couple, and the beaker of
+/// bleach reads pH 9.8.
+///
+/// The machinery is kept rather than deleted because the case it exists
+/// for is real and recurs; the empty slice is the honest current state of
+/// it. Each row carries its whole sentence rather than a fragment, because
+/// the reason differs in kind between rows and a shared wrapper would
+/// flatten them. Membership is a strong claim — it must be checked against
+/// every `.dat` vendored with iphreeqc, and `grep -n` in that directory is
+/// the check, not memory of an earlier search — and it is what earns the
+/// `NotInAnyDatabase` cause: not in our gift, and not in anybody's.
+pub const UNSPECIATED_SOLUTES: &[(&str, &str)] = &[];
 
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
@@ -214,6 +231,13 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // rebuild would find no booking ion for the Citrate element and
     // panic rather than return the citrate mass to the vessel.
     ("Citrate", "C6H5O7-3"),
+    // Hypochlorite's master species in the borrowed block is
+    // `Hypochlorite-`, which PHREEQC insists on and no chemist writes; the
+    // registry's word for the same ion is `ClO-`, added with this change so
+    // that a solved bleach solution has somewhere honest to book. Required
+    // rather than optional: the master-species fallback would book matter
+    // into `Hypochlorite-`, which nothing downstream can resolve.
+    ("Hypochlorite", "ClO-"),
     ("Mn(7)", "MnO4-"),
     // Bare manganese books as the reduced ion, which is what the databases
     // treat as the master species and what dissolved manganese actually is
@@ -384,6 +408,24 @@ pub const PROTONATION_SPLITS: &[(&str, &[(&str, &str)])] = &[
     (
         "Lactate",
         &[("H(Lactate)", "lactic_acid"), ("Lactate-", "lactate")],
+    ),
+    // Hypochlorite, and here the split is not a convenience: pKa 7.57 sits
+    // in the middle of the range a bench works in, so which member the
+    // beaker holds is a real question at every step rather than a formality
+    // at the extremes. Diluted bleach at pH 9.8 is 99% the anion; the same
+    // bleach with a descaler poured into it is almost entirely the
+    // undissociated acid, which is the form that then makes chlorine. A
+    // single booking ion would have named both of those `ClO-` and lost the
+    // distinction the hazard turns on.
+    //
+    // The asymmetry is at its widest in this row, and it is PHREEQC's
+    // doing rather than a choice: a master species must contain its
+    // element's name, so the borrowed block spells the couple
+    // `Hypochlorite-` and `H(Hypochlorite)` where the registry — and every
+    // chemist — writes `ClO-` and `HClO`.
+    (
+        "Hypochlorite",
+        &[("H(Hypochlorite)", "HClO"), ("Hypochlorite-", "ClO-")],
     ),
 ];
 
@@ -1078,16 +1120,19 @@ mod tests {
             vec![("N(-3)".into(), 1.0), ("Cl".into(), 1.0)]
         );
 
-        // Honestly unmappable: hypochlorite, organics (residual C), gases.
-        //
-        // Hypochlorite is refused by the `o > h` guard — its oxygen is
-        // bound to chlorine and is not available to leave as water — and
-        // that refusal is not merely conservative. Every `.dat` vendored
-        // with iphreeqc was searched by name on 2026-09-03 for HClO, ClO-,
-        // Cl(1) and the word hypochlorite: not one of them defines the
-        // species. Even if the formula decomposed, nothing downstream
-        // could speciate it. Unlike ammonia, this one is a real limit.
-        assert!(role("NaOCl").is_none());
+        // Bleach is NOT on this list any more, and the comment that used
+        // to put it here is why it is worth saying so. It claimed that
+        // "every `.dat` vendored with iphreeqc was searched by name on
+        // 2026-09-03 for HClO, ClO-, Cl(1) and the word hypochlorite: not
+        // one of them defines the species". llnl.dat, in this repository,
+        // defines all three spellings — `Cl(1)  ClO-` at line 107, the
+        // formation at 898, `H+ + ClO- = HClO  log_k 7.5692` at 4493. The
+        // `o > h` guard's refusal was sound and is still what refuses
+        // NaClO3; the claim built on top of it was not. `ClO` is now an
+        // extracted group and bleach dissolves as sodium and hypochlorite.
+        assert!(matches!(role("NaOCl"), Some(DerivedRole::Dissolves(_))));
+
+        // Honestly unmappable: organics (residual C), gases.
         assert!(role("ethanol").is_none());
         assert!(role("Cl2").is_none());
         assert!(role("CO2").is_none());

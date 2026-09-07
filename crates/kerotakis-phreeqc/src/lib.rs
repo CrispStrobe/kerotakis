@@ -64,9 +64,9 @@ pub mod databases {
     /// Extended natural-water species (incl. Ag, trace metals).
     pub const WATEQ4F: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/wateq4f.dat");
     /// Metals, complexation, sorption. PRIVATE on purpose: everything
-    /// goes through [`minteq_v4()`], which adds the reviewed lactate
-    /// definition. Reading these bytes directly would give a caller a
-    /// database the engine is not running.
+    /// goes through [`minteq_v4()`], which adds the reviewed lactate and
+    /// hypochlorite definitions. Reading these bytes directly would give a
+    /// caller a database the engine is not running.
     const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
@@ -107,6 +107,72 @@ SOLUTION_SPECIES
         log_k 3.8629
 ";
 
+    /// One reviewed couple added to minteq.v4: hypochlorite / hypochlorous
+    /// acid, which is what household bleach is.
+    ///
+    /// The gap this closes was not a gap at all but a wrong claim. The
+    /// bench used to tell a learner that "no thermodynamic database defines
+    /// a hypochlorite species … and the `ClO-` matches are all
+    /// perchlorate". Both halves are false, and the file that falsifies
+    /// them is vendored in this repository:
+    /// `vendor/iphreeqc/database/llnl.dat` line 107 reads
+    /// `Cl(1)     ClO-      0         Cl` — perchlorate is `Cl(7)`, three
+    /// lines below it — line 898 writes the formation of `ClO-`, and line
+    /// 4493 writes `H+ + ClO- = HClO` at `log_k 7.5692`. So the number was
+    /// on the shelf the whole time; nothing had gone and read it.
+    ///
+    /// That pKa of 7.57 is the entire answer to "does diluted bleach stay
+    /// alkaline". Hypochlorite is the conjugate base of a weak acid whose
+    /// pKa sits above neutral, so a hypochlorite solution hydrolyses:
+    /// 0.01 mol/L of it is about pH 9.8, and the couple buffers it there.
+    ///
+    /// **A pseudo-element, not chlorine's `Cl(1)` redox state.** llnl.dat
+    /// couples `ClO-` to chloride through oxygen —
+    /// `Cl- + 0.5 O2 = ClO-`, log K −15.1 — so entering it as a redox state
+    /// of Cl would hand the solver an open beaker's atmospheric pe and let
+    /// it decide how much of the bleach has already reduced itself to
+    /// chloride. That is thermodynamically defensible and pedagogically
+    /// useless: a bottle of bleach is a bottle of bleach, and its
+    /// hypochlorite is kinetically persistent for months. `Hypochlorite`
+    /// is therefore its own element with no redox partner, exactly as
+    /// `Lactate` above is its own element rather than a state of carbon.
+    /// The identifier it borrows settles the ACID–BASE behaviour of the
+    /// couple and NOTHING ELSE: not its oxidising strength, not the rate at
+    /// which it bleaches a dye, not its decomposition to chlorate. Every
+    /// oxidation this bench does with bleach is still curated, and stays
+    /// curated.
+    ///
+    /// **No enthalpy, deliberately** — the same trade `LACTATE_EXTENSION`
+    /// makes, and for a sharper reason: llnl.dat states `-delta_H 0` for
+    /// this protonation with the comment "Not possible to calculate
+    /// enthalpy of reaction HClO". Zero there means *unknown*, not
+    /// *athermal*, and carrying it across as a number would have turned an
+    /// absent datum into a claim that protonating hypochlorite releases no
+    /// heat.
+    ///
+    /// Alkalinity 1 and 51.4521 g/mol follow minteq.v4's own convention for
+    /// a monoprotic anion (`Acetate  Acetate-  1  59.045`); the mass is
+    /// Cl 35.4527 + O 15.9994 from IUPAC/CIAAW 2021, and agrees with
+    /// PubChem CID 61739 to the second decimal.
+    /// **The spelling is PHREEQC's, not chemistry's.** A master species must
+    /// contain its element's name as written — `ClO-` for an element called
+    /// `Hypochlorite` is rejected outright ("Master species, ClO- must
+    /// contain the element, Hypochlorite"), which is why minteq.v4 writes
+    /// acetate as `Acetate-` and `H(Acetate)` rather than `CH3COO-` and
+    /// `CH3COOH`. So the couple goes in as `Hypochlorite-` and
+    /// `H(Hypochlorite)`, and `derived::PROTONATION_SPLITS` maps those two
+    /// names onto the registry's `ClO-` and `HClO`. The log K is llnl.dat's
+    /// number unchanged; only the names are PHREEQC's.
+    const HYPOCHLORITE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Hypochlorite   Hypochlorite-   1   51.4521   51.4521
+SOLUTION_SPECIES
+    Hypochlorite- = Hypochlorite-
+        log_k 0
+    H+ + Hypochlorite- = H(Hypochlorite)
+        log_k 7.5692
+";
+
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
@@ -138,7 +204,7 @@ SOLUTION_SPECIES
     }
 
     /// minteq.v4 as this lab runs it: the vendored file plus
-    /// [`LACTATE_EXTENSION`].
+    /// [`LACTATE_EXTENSION`] and [`HYPOCHLORITE_EXTENSION`].
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -156,9 +222,12 @@ SOLUTION_SPECIES
             // exactly 0.0, and the acid's mass left the ledger with it.
             let text = MINTEQ_V4;
             let insert_at = find_last_end(text).unwrap_or(text.len());
-            let mut bytes = Vec::with_capacity(text.len() + LACTATE_EXTENSION.len());
+            let mut bytes = Vec::with_capacity(
+                text.len() + LACTATE_EXTENSION.len() + HYPOCHLORITE_EXTENSION.len(),
+            );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
+            bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             bytes
         })

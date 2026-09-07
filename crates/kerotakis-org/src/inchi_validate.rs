@@ -66,6 +66,15 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("SO4-2", "[O-]S(=O)(=O)[O-]"),
     ("HCO3-", "OC([O-])=O"),
     ("H2PO4-", "OP(=O)(O)[O-]"),
+    // The bleach couple. Worth having in the gate rather than trusting the
+    // fetched records: hypochlorite's key is NOT its acid's with the last
+    // character changed — PubChem writes it as a charged skeleton, so the
+    // first block differs and the suffix stays -N — and that is exactly the
+    // shape of mistake a look at the acetate and lactate pairs invites.
+    // Recomputing both from these SMILES is what makes the two rows in
+    // `data/registry/registry-source-v1.json` checkable instead of quoted.
+    ("ClO-", "[O-]Cl"),
+    ("HClO", "OCl"),
     // --- metals & non-metal elements ---
     // CAP-13 spike (2026-08-30): the bare bracket atoms joined once the
     // bridge stopped going through a V2000 molfile, which had no way to

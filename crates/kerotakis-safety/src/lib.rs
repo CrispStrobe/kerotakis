@@ -184,7 +184,15 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "MnO4-" => &[OxidizerStrong],
 
         // ── hypochlorite (specific sub-class of oxidizer) ─────────
-        "NaOCl" => &[OxidizerHypochlorite],
+        //
+        // The two ions carry the class as well as the bottle does, and
+        // that is now load-bearing rather than thorough: since the aqueous
+        // tail speciates bleach, a beaker of it holds `ClO-` and `HClO`
+        // and no longer holds `NaOCl` at all. Screening only the bottle
+        // would have withdrawn the chloramine and chlorine warnings from
+        // every vessel that had been through a solve — which is every
+        // vessel a learner pours a second reagent into.
+        "NaOCl" | "ClO-" | "HClO" => &[OxidizerHypochlorite],
 
         // ── reducing agents ───────────────────────────────────────
         "Na2SO3" | "NaHSO3" => &[ReducingAgent],
@@ -651,6 +659,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaHSO4",
     "NaOAc",
     "NaOCl",
+    "ClO-",
+    "HClO",
     "KOH",
     "NaOH",
     "OH-",

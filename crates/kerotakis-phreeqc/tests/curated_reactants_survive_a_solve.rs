@@ -118,11 +118,53 @@ const KNOWN_UNREACHABLE: &[(&str, &str)] = &[
          `curated` runs before the aqueous tail, so on the step where the \
          acid is ADDED the ledger still holds `HCl`. It was order dependence, \
          not absence, exactly as the vinegar rows were. The sibling written \
-         on `NaOCl` + `Cl⁻` + the vessel's own acidity now covers the other \
+         on `ClO⁻` + `Cl⁻` + the vessel's own acidity now covers the other \
          order, so the demonstration works whichever bottle is picked up \
          first. The reason a sibling on the chloride ALONE would have been \
          worse than the gap stands, and is why the row asks for the proton: \
          bleach and table salt would have evolved chlorine.",
+    ),
+    // The five rows below arrived on this list together, and they arrived
+    // because bleach started being speciated. Until then `NaOCl` had no
+    // derived role at all, so the readback left it alone and every row
+    // naming it was reachable in any beaker. Giving hypochlorite its
+    // borrowed acid–base couple — which is what lets `aq-053` answer, and
+    // what stops the bench making a false claim about the shipped
+    // databases — also books a solved bleach solution as `Na+` and `ClO-`,
+    // which is what it is. The five bottle-spelled rows are dead code from
+    // that moment in any vessel that has been through a solve, and each is
+    // covered by a sibling written on the ion.
+    //
+    // They are kept rather than deleted for the reason the two `KMnO4`
+    // rows are kept: a DRY vessel never meets the readback, so `add v1
+    // NaOCl` into an empty beaker with a dye already in it still fires the
+    // bottle row. Deleting them would trade a live capability for a shorter
+    // file.
+    (
+        "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+        "covered: the `ClO⁻ + Cl⁻ + 2 H⁺` row fires in its place, on the \
+         anion a solved bleach solution actually holds, and asks for the \
+         same two protons for the same reason.",
+    ),
+    (
+        "NH3 + NaOCl → NH2Cl↑ + NaOH",
+        "covered: the `NH3 + ClO⁻` row fires in its place. It leaves the \
+         hydroxide ion rather than `NaOH`, because the sodium is a spectator \
+         and the tail has already booked it as `Na+`.",
+    ),
+    (
+        "betanin + NaOCl → betanin(ox) + NaCl",
+        "covered: the `betanin + ClO⁻` row fires in its place. Verified by \
+         running `th-077` — bleach first, then the beetroot pigment — which \
+         is the order the bottle row could never have answered in.",
+    ),
+    (
+        "curcumin + NaOCl → curcumin(ox) + NaCl",
+        "covered: the `curcumin + ClO⁻` row fires in its place.",
+    ),
+    (
+        "indigo carmine + NaOCl → isatin sulfonate + NaCl",
+        "covered: the `indigo carmine + ClO⁻` row fires in its place.",
     ),
 ];
 

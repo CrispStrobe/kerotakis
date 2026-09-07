@@ -41,19 +41,25 @@ fn curiosity_smoke_routes_without_crashing() {
     // answered, and the note says so at length.
     //
     // No replacement exists. Two `missing` rows are left in the whole
-    // corpus, `aq-053` and `aq-085`, and BOTH carry `expected =
+    // corpus, `aq-085` and `mat-054`, and BOTH carry `expected =
     // "computed"` — so putting either into the smoke set would trip the
     // `expectation_mismatches == 0` assertion above, which is the
     // assertion that says the smoke set holds no open gaps. A `missing`
     // row that could sit here would have to be one the corpus does not
     // expect to compute, and there is none.
     //
+    // `aq-053` (bleach) used to be named here as the third. It computes
+    // as of 2026-09-07: llnl.dat defines the hypochlorite couple and
+    // `databases::minteq_v4()` borrows its pKa, so a diluted bleach reads
+    // pH 9.8 instead of being refused on a claim about the shipped
+    // databases that was never true.
+    //
     // Making the set EXACT is what keeps this a gate rather than a
     // weakened one: a smoke row that falls to `missing` now fails here,
     // where under "at least one of each" it would have passed as long as
     // some other row was still missing. `missing` itself stays covered by
     // the full `coverage curiosity --check`, which runs in CI beside this
-    // and holds `aq-053` and `aq-085`.
+    // and holds `aq-085` and `mat-054`.
     let exercised: BTreeSet<&str> = report["by_observed"]
         .as_object()
         .expect("the report counts its dispositions")

@@ -2280,7 +2280,9 @@ impl PhreeqcEquilibrator {
         };
 
         // Route by validity domain: minteq.v4 when its extended chemistry
-        // is needed — organics (it alone has acetate) or phosphate (wateq4f
+        // is needed — organics (it alone has acetate), the two couples
+        // `databases::minteq_v4()` borrows into it (lactate and
+        // hypochlorite), or phosphate (wateq4f
         // lacks the free H3PO4 species, so the first proton would come out
         // artificially strong); pitzer for concentrated major-ion brines
         // (the ion-interaction model is built for them: halite saturates at
@@ -2311,7 +2313,7 @@ impl PhreeqcEquilibrator {
         let (db_tag, routing) = if needs_extended {
             (
                 "minteq.v4",
-                "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)".to_string(),
+                "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)".to_string(),
             )
         } else if potential_molality > 1.0
             && pitzer_capable
