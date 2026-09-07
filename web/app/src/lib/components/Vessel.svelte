@@ -24,6 +24,7 @@
     incandescence,
     flameGutter,
     grindGrains,
+    mixThermalBands,
     neutralisationMarks,
     osmoticSwell,
     partitionTint,
@@ -384,13 +385,15 @@
     // `state_changed` now carries the moles that left, so the fog is sized
     // by them instead of falling back to the two-column minimum, which was
     // a constant wearing the shape of a plume.
-    return Math.max(mag("evaporate", 2500), mag("sublimate", 3200), last);
+    // GUI-099 ANIM-9: the water a hydrate gives up is vapour like any
+    // other, and it leaves at the temperature the engine drove it off at.
+    return Math.max(mag("evaporate", 2500), mag("sublimate", 3200), mag("dehydrate", 4200), last);
   });
   const vapourMoles = $derived.by(() => {
     const clock = effectClock;
     const carriers = effects.filter(
       (effect) =>
-        ["vent", "contain", "evaporate", "sublimate"].includes(effect.kind) &&
+        ["vent", "contain", "evaporate", "sublimate", "dehydrate"].includes(effect.kind) &&
         effectAlive(effect, 2600, clock) &&
         effect.unit === "mol",
     );
@@ -402,7 +405,9 @@
   // A sublimation is vapour leaving without a boil: dry ice fogs with no
   // liquid in the vessel at all, so the rolling-boil gate above (which needs
   // a liquid) can never fire for it and it used to draw nothing.
-  const steaming = $derived(boiling || active("evaporate", 2500) || active("sublimate", 3200));
+  const steaming = $derived(
+    boiling || active("evaporate", 2500) || active("sublimate", 3200) || active("dehydrate", 4200),
+  );
   // Above ~800 K a body glows in the visible, and its colour is a function of
   // temperature alone: the blackbody locus, deep red through amber to white.
   const incandescent = $derived(incandescence(vessel.temperature_k));
@@ -507,6 +512,11 @@
   const consumeEffect = $derived(latestEffect("consume", 4200));
   const grindEffect = $derived(latestEffect("grind", 4600));
   const decayEffect = $derived(latestEffect("decay", 6000));
+  // GUI-099 ANIM-9: the last three rows that drew from a constant.
+  const gelSetEffect = $derived(latestEffect("gel-set", 3600));
+  const mixEffect = $derived(latestEffect("swirl", 2200));
+  const dehydrateEffect = $derived(latestEffect("dehydrate", 4200));
+  const rehydrateEffect = $derived(latestEffect("rehydrate", 4200));
   // The scene's standing conversion, which had a caption and no picture:
   // milk clouded with undigested substrate clears as the enzyme works.
   const substrateTurbidity = $derived(
@@ -965,6 +975,32 @@
       />
     {/if}
 
+    {#if gelSetEffect?.gelSet && gelSetEffect.magnitude > 0}
+      <!-- GUI-099 ANIM-9, KID-14: the sol→gel STEP, which is the thing a
+           learner is watching for and the one thing the stage never drew.
+           The standing body below is the scene's; this front sweeps from
+           the height the gel had to the height it now has, and both
+           endpoints are engine numbers. A gel that was already set and
+           did not move this step draws nothing. -->
+      {@const setting = gelSetEffect.gelSet}
+      {@const fromH = Math.max(12, Math.max(liquidH, solidH) * (0.45 + 0.45 * setting.fromGelledFraction))}
+      {@const toH = Math.max(12, Math.max(liquidH, solidH) * (0.45 + 0.45 * setting.toGelledFraction))}
+      <g
+        class="gel-setting"
+        data-gel-from-fraction={setting.fromGelledFraction.toFixed(4)}
+        data-gel-to-fraction={setting.toGelledFraction.toFixed(4)}
+        data-gel-step={gelSetEffect.magnitude.toFixed(4)}
+        data-polymer-grams={setting.polymerGrams.toFixed(3)}
+        data-crosslinker-moles={setting.crosslinkerMoles.toExponential(3)}
+        style={`--gel-from-y:${(BOTTOM_Y - fromH).toFixed(2)}px;--gel-to-y:${(BOTTOM_Y - toH).toFixed(2)}px`}
+        aria-label={t("gelling from {from}% to {to}% of the polymer", {
+          from: Math.round(setting.fromGelledFraction * 100),
+          to: Math.round(setting.toGelledFraction * 100),
+        })}
+      >
+        <line class="gel-front" x1={INNER_X + 3} x2={INNER_X + INNER_W - 3} y1="0" y2="0" />
+      </g>
+    {/if}
     {#if vessel.gel && vessel.gel.gelled_fraction > 0}
       {@const gelStrength = Math.min(1, Math.max(0, vessel.gel.gelled_fraction))}
       {@const gelHeight = Math.max(12, Math.max(liquidH, solidH) * (0.45 + 0.45 * gelStrength))}
@@ -1728,6 +1764,87 @@
           percent: Math.round(substrateTurbidity * 100),
         })}</title>
       </rect>
+    {/if}
+    {#if mixEffect?.mixThermal && mixEffect.mixThermal.temperatureIntoK > 0}
+      <!-- GUI-099 ANIM-9: the adiabatic balance the swirl never showed.
+           All three temperatures are on one warmth ramp, so their real
+           order is what the reader sees: the mixture sits BETWEEN the two
+           that made it, which is the whole content of the calculation and
+           the thing a learner is asked to predict. A mix whose heat of
+           mixing carried it outside that pair is marked rather than
+           clamped into looking ordinary. -->
+      {@const bands = mixThermalBands(
+        mixEffect.mixThermal.temperatureAK,
+        mixEffect.mixThermal.temperatureBK,
+        mixEffect.mixThermal.temperatureIntoK,
+      )}
+      {@const bandY = Math.max(2, BOTTOM_Y - Math.max(6, liquidH) - 11)}
+      <g
+        class="mix-thermal"
+        class:outside-pair={!bands.between}
+        data-temperature-a-k={mixEffect.mixThermal.temperatureAK.toFixed(2)}
+        data-temperature-b-k={mixEffect.mixThermal.temperatureBK.toFixed(2)}
+        data-temperature-into-k={mixEffect.mixThermal.temperatureIntoK.toFixed(2)}
+        data-mix-spread-k={bands.spreadK.toFixed(2)}
+        data-settled-between={bands.between ? "true" : "false"}
+        aria-label={t("{a} °C and {b} °C settled at {into} °C", {
+          a: formatReading(mixEffect.mixThermal.temperatureAK - 273.15, 0),
+          b: formatReading(mixEffect.mixThermal.temperatureBK - 273.15, 0),
+          into: formatReading(mixEffect.mixThermal.temperatureIntoK - 273.15, 0),
+        })}
+      >
+        {#each [{ w: bands.a, x: 0 }, { w: bands.b, x: 1 }, { w: bands.into, x: 2 }] as band, i (i)}
+          <rect
+            class="mix-band"
+            class:settled={i === 2}
+            x={INNER_X + 3 + i * ((INNER_W - 6) / 3)}
+            y={bandY}
+            width={(INNER_W - 6) / 3 - 1.5}
+            height="8"
+            rx="2"
+            style={`--warmth:${band.w.toFixed(3)}`}
+          />
+        {/each}
+        <text x={INNER_X + INNER_W / 2} y={bandY + 5.8} text-anchor="middle">
+          {formatReading(mixEffect.mixThermal.temperatureIntoK - 273.15, 0)} °C
+        </text>
+      </g>
+    {/if}
+    {#if dehydrateEffect?.hydration || rehydrateEffect?.hydration}
+      <!-- GUI-099 ANIM-9, EXP-33: the colour change already arrived through
+           the scene; the WATER never did, so a hydrate driven off at 380 K
+           steamed exactly as much as one that lost a drop. Driving off
+           feeds the same plume a boil uses, at the moles the engine says
+           left and at the temperature it says they left at; rehydration
+           draws the water going back in. -->
+      {@const water = (dehydrateEffect ?? rehydrateEffect)!.hydration!}
+      {@const wet = water.drivingOff ? dehydrateEffect! : rehydrateEffect!}
+      <g
+        class="hydration"
+        class:driving-off={water.drivingOff}
+        data-water-moles={water.waterMoles.toExponential(3)}
+        data-formula-units={water.formulaUnits.toExponential(3)}
+        data-hydration-at-k={water.atK === undefined ? "" : water.atK.toFixed(1)}
+        data-hydration-direction={water.drivingOff ? "out" : "in"}
+        aria-label={water.drivingOff
+          ? t("{moles} mol of water driven off at {celsius} °C", {
+              moles: formatReading(water.waterMoles, 4),
+              celsius: formatReading((water.atK ?? 273.15) - 273.15, 0),
+            })
+          : t("{moles} mol of water taken back into the hydrate", {
+              moles: formatReading(water.waterMoles, 4),
+            })}
+      >
+        {#each Array.from({ length: Math.max(2, Math.round(2 + wet.magnitude * 5)) }, (_, i) => i) as i (i)}
+          <circle
+            class="hydration-drop"
+            cx={INNER_X + 6 + ((i * 23) % Math.max(1, INNER_W - 12))}
+            cy={BOTTOM_Y - Math.max(6, liquidH) - 2}
+            r={0.9 + wet.magnitude * 1.1}
+            style={`--water-travel:${Math.max(6, Math.max(8, liquidH) - 6)}px;animation-delay:${(i * 0.21).toFixed(2)}s`}
+          />
+        {/each}
+      </g>
     {/if}
     {#if active("electrolyse", 8000) && liquidH > 0}
       <!-- GUI-099: each electrode is sized by what actually comes off IT.
@@ -3252,6 +3369,28 @@
   .substrate-haze { fill: color-mix(in srgb, white 82%, var(--cloud)); pointer-events: none; }
   .sweep.swept-live line, .sweep.swept-live path { animation: sweep-drift var(--sweep-period, 2s) linear infinite; }
   @keyframes sweep-drift { 0% { opacity: .25; } 50% { opacity: 1; } 100% { opacity: .25; } }
+  /* GUI-099 ANIM-9. Both keyframe endpoints of the gel front are engine
+     heights, set inline; the warmth of each mix band is an engine
+     temperature on one shared ramp. */
+  .gel-front { stroke: color-mix(in srgb, var(--instrument) 70%, white); stroke-width: 1.4; stroke-linecap: round; animation: gel-set-sweep 1.8s ease-in-out infinite; }
+  @keyframes gel-set-sweep {
+    from { transform: translateY(var(--gel-from-y)); opacity: .95; }
+    to { transform: translateY(var(--gel-to-y)); opacity: .3; }
+  }
+  .mix-band { fill: color-mix(in srgb, #e2503c calc(var(--warmth) * 100%), #4a8fd0); stroke: var(--edge); stroke-width: .4; opacity: .8; }
+  .mix-band.settled { stroke: var(--ink); stroke-width: .7; opacity: 1; }
+  .mix-thermal.outside-pair .mix-band.settled { stroke: var(--danger); stroke-dasharray: 2 1; }
+  .mix-thermal text { fill: var(--ink); font: 700 4.2px system-ui, sans-serif; }
+  .hydration-drop { fill: none; stroke: var(--cloud); stroke-width: .7; animation: hydration-out 2.2s ease-in infinite; }
+  .hydration:not(.driving-off) .hydration-drop { animation-name: hydration-in; }
+  @keyframes hydration-out {
+    from { transform: translateY(0); opacity: .9; }
+    to { transform: translateY(calc(-1 * var(--water-travel, 14px))); opacity: 0; }
+  }
+  @keyframes hydration-in {
+    from { transform: translateY(calc(-1 * var(--water-travel, 14px))); opacity: 0; }
+    to { transform: translateY(0); opacity: .9; }
+  }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -3578,6 +3717,8 @@
     .decay-tick { animation: none; opacity: .8; }
     .consumed-edge { animation: none; opacity: .7; }
     .sweep.swept-live line, .sweep.swept-live path { animation: none; opacity: 1; }
+    .gel-front { animation: none; transform: translateY(var(--gel-to-y)); }
+    .hydration-drop { animation: none; opacity: .75; }
     .glassbtn.pouring { animation: none; }
     .burette-fill,
     .piston-assembly .lid,

@@ -2372,6 +2372,10 @@
   "{moles} mol of {species} used up": "",
   "ground to {diameter} µm, exposing {area} m²": "",
   "{parent} decaying to {daughter} by {mode}, {moles} mol so far": "",
-  "{percent}% of the substrate is still unconverted": ""
+  "{percent}% of the substrate is still unconverted": "",
+  "gelling from {from}% to {to}% of the polymer": "",
+  "{a} °C and {b} °C settled at {into} °C": "",
+  "{moles} mol of water driven off at {celsius} °C": "",
+  "{moles} mol of water taken back into the hydrate": ""
  }
 }

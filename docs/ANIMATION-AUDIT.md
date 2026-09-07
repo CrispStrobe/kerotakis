@@ -29,20 +29,25 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 | after ANIM-6 | after ANIM-7 | after ANIM-8 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 | 58 | 64 | 70 |
-| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 | 9 | 9 | 3 |
-| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 | 6 | 0 | 0 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 | after ANIM-6 | after ANIM-7 | after ANIM-8 | after ANIM-9 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 | 58 | 64 | 70 | 73 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 | 9 | 9 | 3 | 0 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 | 6 | 0 | 0 | 0 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
 
-**Nothing is *missing* any more, and only three rows are still *partial*.**
-Every other row the audit walked has a visual that is a function of an
-engine-computed quantity. The three that remain are `gel_formed` (the
-standing gel body is scene-driven; the sol→gel **transition** is not
-animated), `mixed` (the swirl follows the summed pour fractions; the three
-temperatures are unused) and `hydrated`/`dehydrated` (the colour change
-arrives through the scene; the water leaving at `at` is not drawn).
+**Every row is now *done*.** Each of the 73 the audit walked has a visual
+whose size, count, colour, tempo or position is a function of an
+engine-computed quantity, and each carries a `data-*` attribute naming
+that quantity so a test can assert on the number rather than on the shape.
+
+That is the end of the list this file was written to produce, and it is
+not the end of the question it asks. What remains is not a count of rows
+but two open kinds of gap, both recorded below: one event that carries no
+quantity to draw (*What the engine still lacks*), and the standing
+difference between a visual that is *correct at the instant of its event*
+and one that stays correct between events — the distinction PR 4 was
+about, which no row score can see.
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -131,7 +136,7 @@ non-aqueous liquid frost at water's threshold.
 | `emulsion_changed` | `dispersed_volume_l`, `dispersed_fraction`, `half_life_seconds` | **nothing, anywhere** — `SceneVessel.emulsion` was read by no component | dispersed droplets at `dispersed_fraction`, clearing over `half_life_seconds` | missing | **done** (PR 3) |
 | `curdling_changed` | `to_formed_fraction`, `separation_progress`, `curd_solids_mass_g` | curd ellipses, count from `separation_progress`, colour from the scene | — | done | done |
 | `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from scene volume, overflow drawn, head reaches half height on the computed half-life | — | partial | **done** (computed-motion tranche) |
-| `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | partial |
+| `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | **done** (ANIM-9) |
 | `thickened` | `strength`, `solid_mass_fraction`, `tip_speed_m_s`, `sheared_hard` | nothing | shear-thickening resisting the stirrer | missing | **done** (ANIM-6) |
 | `polymer_swelled` | `swelling_ratio_g_per_g`, `capacity_g_per_g` | snow height from the ratio against capacity | — | done | done |
 | `surface_spread` | `to_cleared_fraction` | particles fleeing the surfactant | — | done | done |
@@ -139,7 +144,7 @@ non-aqueous liquid frost at water's threshold.
 | `partitioned` | `fraction_lower` | nothing in the vessel | the solute's split across the two layers | missing | **done** (ANIM-7) |
 | `osmosis_changed` | `water_moles`, `mass_change_g` | nothing | the egg/potato swelling or shrinking | missing | **done** (ANIM-7) |
 | `diluted` | `volume`, `moles` | swirl, magnitude from the added volume | — | done | done |
-| `mixed` | `fraction_a`, `fraction_b`, `temperature_a`/`_b`/`_into` | swirl from the summed fractions; **the three temperatures unused** | thermal mixing visible as the streams meet | partial | partial |
+| `mixed` | `fraction_a`, `fraction_b`, `temperature_a`/`_b`/`_into` | swirl from the summed fractions; **the three temperatures unused** | thermal mixing visible as the streams meet | partial | **done** (ANIM-9) |
 | `transferred` | `fraction` | pour stream; angle and particle mass from the accepted fraction | — | done | done |
 | `drained` | `solvent`, `moles` | pour with the engine's lower/upper layer colours | — | done | done |
 | `stirred` | `rpm`, `tip_speed_m_s`, `resuspended_fraction`, `rate_coupled` | vortex, stirrer tempo and resuspended grains, all from the tip speed | — | done | done |
@@ -164,7 +169,7 @@ non-aqueous liquid frost at water's threshold.
 | `irradiated` | `wavelength_nm`, `irradiance_w_m2` | lamp, magnitude from the irradiance | — | done | done |
 | `uv_attenuated` | `wavelength_nm`, `band`, `transmitted_fraction`, `mechanism` | **nothing** | the beam dimming to `transmitted_fraction` through the sunscreen | missing | **done** (PR 3) |
 | `chemiluminescence_observed` | `relative_intensity`, `half_life_s` | the scene's glow, strength from the intensity | — | done | done |
-| `hydrated` / `dehydrated` | `formula_units`, `water`, `at` (K) | nothing transient; the colour change arrives through the scene | the water leaving as steam at `at` | partial | partial |
+| `hydrated` / `dehydrated` | `formula_units`, `water`, `at` (K) | nothing transient; the colour change arrives through the scene | the water leaving as steam at `at` | partial | **done** (ANIM-9) |
 | `neutralised` | `moles` of acidity cancelled | nothing | cancellation marks, count from the moles | missing | **done** (ANIM-6) |
 
 ## Bench-level
@@ -338,6 +343,26 @@ picture of a vessel.
   ticks now come from `ln2 ÷ half_life_s × moles`, which is the same
   activity that instrument reads, so a long-lived tracer ticks slowly and
   a large parcel ticks often.
+
+- **ANIM-9 (the last three)** — `gel_formed`'s standing body was already
+  scene-driven; what was missing was the sol→gel **step**, which is the
+  thing a learner is watching for. A setting front now sweeps between the
+  height the gel had and the height it now has — both endpoints engine
+  numbers — and a gel that was already set and did not move this step
+  draws nothing, because a transition visual has to be a function of the
+  step or it claims something happened that did not. `mixed` used the
+  summed pour fractions and threw the three temperatures away; all three
+  now sit on **one** warmth ramp, so the reader sees their real order —
+  the mixture BETWEEN the two that made it, which is the entire content of
+  the adiabatic balance — and a mix whose heat of mixing carried it
+  outside that pair is marked as such rather than clamped into looking
+  ordinary. `hydrated`/`dehydrated` let the colour change arrive through
+  the scene and never drew the water, so a hydrate driven off at 380 K
+  steamed exactly as much as one that lost a drop, which is to say not at
+  all; the water now feeds the same plume a boil uses, sized by the moles
+  that left and gated at the temperature they left at, and rehydration
+  draws them going back in with no temperature claimed, because the event
+  carries none.
 
 - **Computed gas/foam motion** — `gas_produced.rate_moles_per_second` now sets
   the visible-bubble cadence while total moles continue to set count and size;
