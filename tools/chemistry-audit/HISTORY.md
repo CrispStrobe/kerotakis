@@ -129,7 +129,7 @@ zero-extent diagnostic subsequently fixed generically.
 ## Earlier implementation and validation
 
 The audit repaired conserved aqueous H/O reconstruction, analytical acid/base
-bookkeeping, native MIX reconstruction, unresolved material mass, condensed
+bookkeeping, native MIX reconstruction, unresolved homogeneous-liquid mass, condensed
 phase identity, pure-water characterization, small adiabatic temperature state,
 bounded reversible ester equilibrium, optical concentration ownership, dissolved
 gas alias ownership, and atomic refusal for unrepresentable solver states.
@@ -157,6 +157,17 @@ Registry drift consisted only of the newly serialized heat-capacity-polynomial
 field; codex drift consisted of identified German fields. Both were reconciled
 field-by-field against their production sources. No unrelated upstream catalog
 file was copied wholesale.
+
+CI run 34133207021 exposed four expectation/integration drifts. The reviewed
+element fixture still counted H 179/O 203 after the registry reached H 181/O
+206. Two new fixed refusal messages lacked exact German keys. Nine registry
+rows lacked the newly serialized empty `heat_capacity_polys` field; Linux and
+macOS artifacts agreed field-for-field. Those fixtures and translations were
+updated narrowly. The audit's broadened unresolved-solid contribution had also
+changed 25 GUI003 Scene mass values; restoring main's established Scene mass
+boundary made the numeric five-lesson golden pass without editing either GUI003
+golden. The untracked `lessons.actual.json` and temporary Scene diagnostics were
+excluded from the repair.
 
 Stale cross-branch catalog counts were reconciled to 113 entries and 167 used
 concepts while preserving 189 defined concepts. The audit never modified the

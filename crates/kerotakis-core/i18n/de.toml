@@ -796,6 +796,8 @@ boiled = "siedete"
 "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing" = "das Wasser siedet und entweicht als Dampf, sodass sich das Gelöste im Rest vor Ihren Augen aufkonzentriert: Diese Werkbank meldet den Phasenübergang statt eines festen pH-Werts für eine Zusammensetzung, die sich noch ändert"
 "the pH meter reads nothing — no aqueous solution has been characterised in this vessel" = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
 "the conductivity meter reads nothing — no aqueous solution has been characterised" = "das Leitfähigkeitsmessgerät zeigt nichts an — es wurde keine wässrige Lösung charakterisiert"
+"A kinetic outcome requires a routed time model; zero extent does not establish equilibrium" = "Ein kinetisches Ergebnis erfordert ein zugeordnetes Zeitmodell; ein Umsatz von null weist kein Gleichgewicht nach"
+"pH crossing bracketed, but endpoint refinement did not converge to 0.0001 pH; the closest computed state is retained" = "Die pH-Überschreitung wurde eingegrenzt, aber die Endpunktverfeinerung konvergierte nicht auf 0,0001 pH-Einheiten; der nächstgelegene berechnete Zustand wird beibehalten"
 # The fixed reasons a gap gives, keyed by their English. Thirteen of these
 # reached a German learner in English until `every_fixed_gap_reason_has_german`
 # started reading them out of the source: the table was 100% translated over

@@ -13,10 +13,9 @@
   concepts. Preserve all entries and translations.
 - `crates/kerotakis-core/tests/golden/lessons.actual.json` is an intentionally
   retained untracked diagnostic artifact. Do not delete or stage it casually.
-- CI run 34118803477 tested old head `cc6bcccf` and failed five jobs. Its four
-  root causes and functional repair are recorded in `HISTORY.md`. The repair is
-  included in the rebased branch, but the new head has not yet passed CI. Do not
-  claim success from local checks.
+- CI run 34133207021 tested the rebased PR and failed preflight, native Linux,
+  native macOS and the browser demo. The element/i18n/registry/Scene causes and
+  narrow repairs are recorded in `HISTORY.md`; rebuilt CI is still required.
 - Expansion and catalog work are paused until the repaired PR run passes.
 - The sixth fleet has 24 inputs and 66 frozen checks. It has not run on a CLI
   built from the repaired head. Its contract is `SIXTH-BATCH.md`.
@@ -25,20 +24,20 @@
 
 ## Required order
 
-1. Push the rebased head with an explicit lease against the observed remote
-   audit head.
-2. Inspect PR #504 checks without changing the branch; poll no more often than
+1. Commit only the reviewed CI repair. Exclude `scene_golden.rs`, every
+   `*.actual.json` file and all temporary diagnostics.
+2. Push with an explicit lease against the observed remote audit head.
+3. Inspect PR #504 checks without changing the branch; poll no more often than
    every 300 seconds.
-3. If CI is green, record that completion in `HISTORY.md`; remove the resolved
+4. If CI is green, record that completion in `HISTORY.md`; remove the resolved
    CI blocker from this file and notify the integrator.
-4. If CI fails, download failed logs and generated artifacts once. Map each
+5. If CI fails, download failed logs and generated artifacts once. Map each
    failure to a specific source or expectation before editing.
-5. Fix only audit-owned causes. Preserve all 113 entries, every diagnostic test
+6. Fix only audit-owned causes. Preserve all 113 entries, every diagnostic test
    and every evidence artifact. Do not replace conflicted or generated files
    wholesale; compare records and fields semantically.
-6. Run narrow non-compiling checks locally where safe. Let CI own full Rust,
+7. Run narrow non-compiling checks locally where safe. Let CI own full Rust,
    browser and cross-platform builds while the host remains memory constrained.
-7. Push only the intended audit commit, using an explicit remote-head lease.
 8. After repaired CI passes, use the exact rebuilt CLI for the sixth fleet in a
    fresh output directory. Run the frozen analyzer without changing its bounds.
 9. Classify every sixth result as pass, fail, unsupported or uncertain. Diagnose

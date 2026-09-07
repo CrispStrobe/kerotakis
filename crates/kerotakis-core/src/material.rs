@@ -425,18 +425,16 @@ pub fn unresolved_portion_is_liquid(portion: &crate::vessel::UnresolvedMaterialP
     })
 }
 
-/// Mass of unresolved material whenever its recipe basis defines a conversion.
-/// Physical form controls transfer, not mass. Mole fractions still require a
-/// molecular composition and cannot be converted here.
+/// Mass represented by conserved unresolved homogeneous-liquid portions
+/// whenever their recipe basis defines an honest conversion. Other physical
+/// forms retain their existing accounting boundary; a mole-fraction aggregate
+/// still has no molecular mass.
 pub fn unresolved_material_mass_g(vessel: &crate::Vessel) -> f64 {
     vessel
         .unresolved_materials
         .iter()
         .filter_map(|portion| {
             let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
-            if portion.basis == MaterialBasis::MassFraction {
-                return Some(portion.amount);
-            }
             if !matches!(
                 recipe.physical_form,
                 kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid

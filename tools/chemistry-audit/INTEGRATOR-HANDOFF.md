@@ -12,9 +12,9 @@ Do not edit, rebase, push or merge the integrator's branches or reserved files.
 Do not merge PR #504. A green rebuild is necessary but does not grant merge
 authority. CI must rebuild the current audit branch, including functional repair
 `5338e3e6` as rebased onto main `139a18d6`, and all required checks must pass.
-The previous run, 34118803477, tested `cc6bcccf` and failed; its causes and
-repairs are recorded in `HISTORY.md`. Local narrow checks do not replace rebuilt
-CI. No successful run is yet attached to the rebased head.
+Run 34133207021 failed on fixture/translation drift and GUI003 behavior; the
+narrow repair is recorded in `HISTORY.md`. Local narrow checks do not replace
+rebuilt CI. No successful run is yet attached to the repaired head.
 
 When CI settles, send the integrator:
 
