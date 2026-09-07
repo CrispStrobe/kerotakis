@@ -1595,7 +1595,17 @@ pub fn solvent_state(vessel: &Vessel) -> SolventState {
         // a boiling vessel EXACTLY on `boiling_k`, so this has to admit
         // equality or the state it just computed would not be readable.
         let (t, _) = vessel_transitions(vessel);
-        if vessel.temperature.0 >= t.boiling_k - 1e-9 {
+        // A SEALED vessel at its own raised boiling point is not this
+        // case, and the distinction is the whole argument rather than a
+        // detail. What disqualifies an open beaker on the boil is that it
+        // is losing mass to the room while the reading is taken, so the
+        // aqueous engine — which solves a closed system — was handed a
+        // composition that had already changed. Under a lid the steam
+        // stays, the pressure it raises lifts the boiling point until the
+        // two agree, and liquid and vapour at coexistence in a closed
+        // vessel is an equilibrium the engine is entitled to solve. It
+        // keeps its pH.
+        if vessel.temperature.0 >= t.boiling_k - 1e-9 && !vessel.owns_headspace_gas() {
             return if characterisable {
                 SolventState::Boiling
             } else {

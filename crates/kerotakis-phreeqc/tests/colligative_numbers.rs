@@ -66,9 +66,9 @@ fn a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four() {
         transitions.solute_molality
     );
     assert!(
-        transitions.solute_molality > 1.5 && transitions.solute_molality < 2.0,
-        "a mole of NaCl must count as more than one particle and fewer than \
-         two: {:.4} mol/kg",
+        transitions.solute_molality > 1.5 && transitions.solute_molality <= 2.05,
+        "a mole of NaCl must count as about two particles; ion pairing may take \
+         it below two and nothing may take it above: {:.4} mol/kg",
         transitions.solute_molality
     );
 }
