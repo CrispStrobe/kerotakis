@@ -312,6 +312,16 @@ pub fn equilibrate_tp(
     // calcium, so neither looked like the last one, and a single step
     // dropped both — leaving the calcium row all zeros and every subsequent
     // solve singular.
+    // Whether another ACTIVE phase carries the same gas-less element. One
+    // carrier per element is what every solve here had until an open
+    // crucible could stop half way through a calcination, so this is false
+    // everywhere the old code ran and the two branches it guards below
+    // leave every existing answer exactly where it was.
+    let partnered = |c: usize, active: &[usize]| -> bool {
+        (0..elements.len()).any(|j| {
+            !gas_carries[j] && a(c, j) > 0.0 && active.iter().any(|&o| o != c && a(o, j) > 0.0)
+        })
+    };
     let would_strand = |c: usize, survivors: &[usize]| -> bool {
         (0..elements.len()).any(|j| {
             if gas_carries[j] || a(c, j) <= 0.0 {
@@ -498,12 +508,21 @@ pub fn equilibrate_tp(
             let dn = m_flat[(nel + c_idx) * stride + dim];
             if dn < 0.0 && n[c] > 0.0 {
                 let limit = (0.9 * n[c] / -dn).min(1.0);
-                if limit < 1e-3 && !would_strand(c, &survivors) {
+                if limit >= 1e-3 {
+                    lambda = lambda.min(limit);
+                } else if !would_strand(c, &survivors) {
                     forced_drop.push(c);
                     survivors.retain(|&o| o != c);
-                } else {
+                } else if !partnered(c, &active_cond) {
                     lambda = lambda.min(limit);
                 }
+                // A phase that may not be dropped AND has a partner
+                // carrying the same element throttles nothing: let it fall
+                // to the floor below, which is the amount conservation
+                // leaves it, rather than dragging λ to 1e-19 and freezing
+                // the gases mid-transient. That stall is what a
+                // half-calcined crucible produced once the calcium row was
+                // no longer allowed to empty.
             }
         }
 
@@ -534,7 +553,31 @@ pub fn equilibrate_tp(
         // balance tolerance, and Newton solves condensed phases for Δn
         // directly, so it climbs back to its true value in one step.
         for &c in &active_cond {
-            if n[c] <= TRACE && would_strand(c, &active_cond) {
+            if n[c] > TRACE || !would_strand(c, &active_cond) {
+                continue;
+            }
+            if partnered(c, &active_cond) {
+                // The other carriers cannot hold this element between
+                // them, so whatever they are short of is here. That amount
+                // — not a trace — is what conservation says this phase
+                // holds, and putting it back is what lets the gas half of
+                // the problem get on with converging.
+                let need = (0..elements.len())
+                    .filter(|&j| !gas_carries[j] && a(c, j) > 0.0)
+                    .map(|j| {
+                        let target = budget.get(&elements[j]).copied().unwrap_or(0.0);
+                        let held: f64 = active_cond
+                            .iter()
+                            .filter(|&&o| o != c)
+                            .map(|&o| a(o, j) * n[o])
+                            .sum();
+                        ((target - held) / a(c, j)).max(0.0)
+                    })
+                    .fold(0.0f64, f64::max);
+                n[c] = need
+                    .max((total_budget * 1e-14).max(1e-16))
+                    .min(phase_cap(c));
+            } else {
                 n[c] = (total_budget * 1e-14).max(1e-16);
             }
         }
@@ -1078,11 +1121,17 @@ mod tests {
         std::env::set_var("KERO_TP_TRACE", "1");
         let b = budget(&[("C", 0.052207), ("Ca", 0.1), ("N", 1.248), ("O", 0.540414)]);
         let pool = pool_of(&["C(gr)", "CO", "CO2", "CaCO3(cr)", "CaO(cr)", "N2", "O2"]);
+        let mut refused = Vec::new();
         for t in [400.0, 700.0, 1000.0, 1500.0] {
-            let eq = equilibrate_tp(&b, &pool, t, 1.0)
-                .unwrap_or_else(|e| panic!("half-calcined chalk at {t} K: {e}"));
-            assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K"));
+            match equilibrate_tp(&b, &pool, t, 1.0) {
+                Ok(eq) => assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K")),
+                Err(e) => refused.push(format!("{t} K: {e}")),
+            }
         }
+        assert!(
+            refused.is_empty(),
+            "a crucible half way through a calcination must still solve: {refused:?}"
+        );
         // And the answer is chemistry, not merely arithmetic that closed:
         // cold, the carbon stays locked up as carbonate and the spare
         // calcium is lime; hot, nothing is left but lime and gas.
