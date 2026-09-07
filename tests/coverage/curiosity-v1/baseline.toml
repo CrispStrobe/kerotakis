@@ -1523,8 +1523,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-004"
 owning_task = "EXP-10"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-005"
@@ -1577,8 +1577,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "mat-013"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "mat-014"
@@ -2351,8 +2351,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "th-017"
 owning_task = "CAP-3"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-018"
@@ -2435,20 +2435,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-031"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-032"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-033"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-034"
@@ -2477,20 +2477,20 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-038"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-039"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-040"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-041"
@@ -2531,8 +2531,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-047"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-048"
@@ -2549,8 +2549,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "th-050"
 owning_task = "BRD-073"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-051"
@@ -2561,32 +2561,32 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-052"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-053"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-054"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-055"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-056"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-057"
@@ -2645,8 +2645,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "th-066"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-067"
@@ -2933,14 +2933,14 @@ reason_code = "impossible-state"
 [[observation]]
 id = "th-114"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-115"
 owning_task = "BRD-041"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-116"
@@ -2993,8 +2993,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-124"
 owning_task = "BRD-073"
-outcome = "computed"
-reason_code = "computed-route"
+outcome = "curated"
+reason_code = "curated-route"
 
 [[observation]]
 id = "th-125"

@@ -1686,6 +1686,18 @@ Open, and small:
       original text already named the fix: "PHREEQC gives us the osmotic
       coefficient already." Pinned from both ends in
       `colligative_numbers.rs` so it cannot be narrowed away quietly.
+- [ ] **Is a boil a curated route or a computed one?**
+      `PhaseRouteEquilibrator` declares `SolverRouteKind::Curated`, which
+      was right when sublimation and hydrates were its only customers —
+      there the curated record IS the answer. Now that it melts and boils,
+      what it produces is arithmetic over a curated parameter, which is
+      exactly the shape `CombustionEquilibrator` has and that one declares
+      itself `Computed`. Twenty corpus rows moved `computed -> curated` on
+      this alone, and `th-017` ("can ethanol boil before water?") now reads
+      as an expectation mismatch for having been answered better. Changing
+      the kind would move the sublimation and hydrate rows the other way,
+      so it wants its own measurement rather than a rider on someone
+      else's.
 - [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
       soldering-iron melting point a learner is most likely to have met.
 - [ ] The latent heats live in `phase_route.rs` as curated Rust tables
