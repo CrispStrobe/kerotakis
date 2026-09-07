@@ -121,8 +121,15 @@ jobs:
         run: cargo fmt --check
       - name: Clippy
         run: cargo clippy --workspace --all-targets -- -D warnings
+      # `--no-fail-fast` because cargo's fail-fast is per test BINARY, not
+      # per workspace: without it the first crate whose suite fails ends
+      # the job, and every binary after it is never run. A tranche that
+      # moved one corpus row and three lesson goldens then costs four CI
+      # rounds to discover instead of one, and each round is a full
+      # rebuild. It cannot turn a red run green — it only makes a red one
+      # say everything it knows in one go.
       - name: Test
-        run: cargo test --workspace
+        run: cargo test --workspace --no-fail-fast
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
       # The curiosity baseline records the route every prompt actually takes.
