@@ -95,12 +95,12 @@ fn the_leftover_energy_chills_ice_at_ices_own_heat_capacity() {
     //
     // Where that leaves the beaker moved when the ledger began integrating
     // Cp(T) rather than multiplying a constant, and it moved for the reason
-    // the constant was always an abbreviation: ice's heat capacity is 2.09
-    // J/(g·K) at the melting point and roughly 1.57 near 180 K, falling
-    // almost linearly in between. The rectangle 209.3 J/K priced that last
-    // 16.19 kJ at 77.4 K; the area under the real curve buys 90.6, and the
-    // vessel reports 156.6 J/K — 28.2 J/(mol·K), 1.57 J/(g·K) — where it
-    // stops, which is ice's own tabulated value at 182 K.
+    // the constant was always an abbreviation: ice's heat capacity is 38.11
+    // J/(mol·K) — 2.12 J/(g·K) — at the melting point and 28.20 at 200 K,
+    // where NASA's table for it ends and the value is held. The rectangle
+    // 209.3 J/K priced the last 16.17 kJ at 77.4 K of chilling; the area
+    // under the curve buys 90.6, and the vessel stops at 182.5 K reporting
+    // 156.6 J/K, which is 5.5508 mol of the held 28.20.
     //
     // Still pinned tightly. The defect this test was written to catch
     // (−39.2 °C, ice charged at liquid water's capacity) is a factor of two
