@@ -21,9 +21,13 @@
 #   · the thiosulfate rate law consumes represented strong-acid equivalents
 #     with a locally fixed activity coefficient; uncoupled weak-buffer
 #     replenishment is withheld (`the-acid-is-never-used-up`);
-#   · thiosulfate is in no PHREEQC database we ship, so it dissolves but
-#     its missing ionic contribution is explicitly disclosed, and salt-only
-#     pH is withheld (`a-salt-with-no-database`);
+#   · and one that was here and was never an approximation at all but a
+#     mistake: this file said thiosulfate was in no PHREEQC database
+#     shipped with the bench, and llnl.dat is shipped with the bench and
+#     defines it. `a-salt-with-no-database` keeps its name and now teaches
+#     how such a claim is checked. The salt speciates as of 2026-09-07, so
+#     the pH of every thiosulfate beaker in this file moved and the
+#     pre-exponential was re-fitted to hold the forty-second observable;
 #   · the pre-exponential factors are calibrated against the observable, not
 #     measured, so absolute times are ours and ratios are the chemistry
 #     (`the-cross-disappears`).
@@ -766,7 +770,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 id = "a-salt-with-no-database"
 progress = "intermediate"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
-summary = "An unrepresented soluble ion must not inherit pure water's pH"
+summary = "The refusal was the error. llnl.dat is shipped here and defines the ion, so the salt speciates: 7.0249045339 alone, and the acid control moves from 1.7485817507 to 1.8837734312"
 concepts = ["species-without-a-database"]
 requires = ["stated-ignorance", "ph"]
 calculations = ["ph-from-concentration"]
@@ -800,30 +804,35 @@ measure v3 ph
 """
 
 [reaction.expect]
-events = ["not_yet_modelled", "added:Na2S2O3"]
-absent = ["solver_failed", "dissolved:Na2S2O3"]
-ph = { min = 1.70, max = 1.80 }
+events = ["added:Na2S2O3", "measured"]
+absent = ["solver_failed", "not_yet_modelled"]
+ph = { min = 1.84, max = 1.93 }
 
 [reaction.expect.predict]
-question = "What should a pH tool do when the added soluble salt has no integrated aqueous speciation model?"
-options = ["Guess a plausible alkaline value","Report pure water's pH as though the salt were neutral","Disclose the missing ionic contribution and withhold a complete salt-only pH"]
+question = "A tool reports that it has no speciation data for a salt you added. What is the check that this claim is true?"
+options = ["Accept it: a tool that declines to answer is being honest, and honesty is the point","Compare with a textbook value and accept the refusal if the two disagree","Search the data the tool actually ships for the species, by name, and read what it says","Add more of the salt and see whether the refusal changes"]
 answer = 2
-misconception = "Accepting material and predicting its equilibrium are separate capabilities. A plausible number is not evidence that the missing chemistry was computed."
+misconception = "A refusal is a claim about the world. It reaches you as a fact, it can be wrong in exactly the way a computed number can be wrong, and unlike a computed number nobody ever re-derives it. This bench said for months that sodium thiosulfate was in no PHREEQC database it shipped. `vendor/iphreeqc/database/llnl.dat` is shipped in this repository; line 229 reads `S(+2)  S2O3-2  0  S` and line 4585 `H+ + S2O3-2 = HS2O3-`. The check that would have caught it is one `grep` in one directory, and declining to answer is only honest while the reason for declining is still true."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "A remembered qualitative expectation is treated as a computed measurement."
-next = "Ask which species, equilibria and data support the number before accepting it."
+reveals = "A stated gap is treated as self-verifying, because a tool has nothing to gain by inventing one."
+next = "It has nothing to gain and it can still be wrong. A gap is a claim that data does not exist, and that claim goes stale the moment the data ships or the wiring reaches it. What was missing here was never data: the element was in the file and no code path asked for it."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
-reveals = "Unrepresented ions are treated as a nonionic solute."
-next = "Compare the salt-only vessel with the represented acid control and read the model-boundary notice."
+reveals = "The textbook is treated as the arbiter of whether the tool has data."
+next = "Two separate questions. The textbook rule for this salt says a solution of it is alkaline, and the computed answer is 7.0249045339 - so the textbook and the tool disagree, and the tool is right: thiosulfuric acid is not a weak acid, pKa2 about 1.0, so its anion barely hydrolyses. Disagreement with a rule of thumb is not evidence about what a program's data contains."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "The refusal is treated as a threshold effect that more material might cross."
+next = "A missing equilibrium constant is missing at every concentration. What DOES change with the amount is the thing worth measuring: this salt shifts the acid control from 1.7485817507 to 1.8837734312 and its ionic strength from 0.02006018054 to 0.16490617732, which is how you tell a computed number from a default in the first place."
 
 [reaction.registers]
-lv1 = "The bench can hold this salt without pretending it knows every effect of the dissolved ions."
-lv2 = "The represented acid can still be characterized, but its pH excludes the missing thiosulfate contribution and must say so. Salt alone must not receive a silently inherited pure-water pH."
-lv3 = "Thiosulfate's kinetic inventory and its missing aqueous equilibrium slice are separate ownership questions. Keeping a soluble salt in the inventory is not a speciation calculation; the generic ionic-coverage gate distinguishes it from water and neutral nonionic solutes."
+lv1 = "This bench used to say it could not work out what this salt does to acidity, and that was a better answer than a confident number nobody checked - right up until somebody checked it, and found the data in one of the lab's own files. Saying you do not know is honest. Going back to find out whether you still do not is the other half of the same honesty."
+lv2 = "Three beakers. The acid alone reads 1.7485817507. The same acid with the salt in it reads 1.8837734312, because part of the anion holds a proton at this acidity, and its ionic strength goes from 0.02006018054 to 0.16490617732. The salt alone reads 7.0249045339 - not the alkaline value the textbook rule for a salt of a weak acid predicts, because thiosulfuric acid is not weak, and not the 7.00 a program with nothing to say would print."
+lv3 = "The entry keeps the name of the mistake. The claim it used to teach was that thiosulfate had no aqueous equilibrium slice in any shipped dataset; vendor/iphreeqc/database/llnl.dat is shipped here and carries `S(+2)  S2O3-2  0  S` at line 229 and `H+ + S2O3-2 = HS2O3-  log_k 1.0139` at line 4585. databases::minteq_v4() borrows that constant as the pseudo-element `Thiosulfate`, deliberately NOT as sulfur's S(+2) redox state: the routed datasets define only S(-2) and S(6), coupled through pe, and an open beaker's pe is pinned near 19.6 by atmospheric oxygen, so as a genuine oxidation state the bottle would have oxidised itself to sulfate before the acid arrived. The borrowed number settles acid-base behaviour and nothing else - the reducing chemistry and the decomposition rate stay curated. The rate law was re-keyed onto `S2O3-2` in the same change, because a solved beaker holds that and no `Na2S2O3`, and its calibrated pre-exponential was re-fitted from 2.2e8 to 3.0e8 to hold the forty-second observable against the new proton activity."
 
 [reaction.provenance]
 source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."

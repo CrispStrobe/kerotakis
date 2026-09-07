@@ -256,12 +256,29 @@ pub struct SpeciesData {
     /// A salt that goes into solution but whose solution chemistry no
     /// wired engine models.
     ///
-    /// Sodium thiosulfate is in no PHREEQC database we ship, so the aqueous
-    /// engine cannot speciate it — but it is freely soluble, and leaving it
-    /// sitting at the bottom of the beaker as a white solid is a *visibly*
-    /// wrong observation about one of the commonest rate practicals. This
-    /// flag says: it dissolves, and that is all we claim. No speciation, no
-    /// contribution to pH or ionic strength, and the lab says so.
+    /// The example this doc used to give was sodium thiosulfate, and the
+    /// sentence was "Sodium thiosulfate is in no PHREEQC database we
+    /// ship". It is in one: `vendor/iphreeqc/database/llnl.dat` line 229
+    /// is `S(+2)     S2O3-2    0         S`, with the formation at line
+    /// 739 and `H+ + S2O3-2 = HS2O3-`, `log_k 1.0139`, at line 4585. llnl
+    /// is vendored here and not routed, which is a fair thing to say and
+    /// is not what was said. `databases::minteq_v4()` borrows the couple
+    /// now and the salt speciates like any other, so this flag has one
+    /// fewer holder.
+    ///
+    /// What the flag still means is unchanged, and sucrose is the honest
+    /// example: it dissolves, and that is all we claim. No speciation, no
+    /// contribution to pH or ionic strength, and the lab says so. Leaving
+    /// a freely soluble substance sitting at the bottom of the beaker as a
+    /// white solid is a *visibly* wrong observation, which is why the flag
+    /// exists rather than a refusal.
+    ///
+    /// **A flag left set after an engine gains the species double-counts
+    /// it** — `solve::dissolved_particle_molality` adds every holder to
+    /// the colligative particle count on the registry's own word that
+    /// nothing else has, so the boiling point would move twice. That is a
+    /// data fix rather than a guess in the solver, and it was made in the
+    /// same change that borrowed the couple.
     #[serde(default)]
     pub dissolves_without_speciation: bool,
     /// Conservative room-temperature aqueous solubility limit in grams of

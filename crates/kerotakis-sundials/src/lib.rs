@@ -238,7 +238,7 @@ mod tests {
     fn test_cvode_zero_duration() {
         let mut vessel = vessel_with(
             &[
-                ("Na2S2O3", 0.1, Phase::Aqueous),
+                ("S2O3-2", 0.1, Phase::Aqueous),
                 ("HCl", 0.1, Phase::Aqueous),
             ],
             25.0,
@@ -255,7 +255,7 @@ mod tests {
         // as diffsol for the thiosulfate-acid reaction
         let mut vessel_cvode = vessel_with(
             &[
-                ("Na2S2O3", 0.1, Phase::Aqueous),
+                ("S2O3-2", 0.1, Phase::Aqueous),
                 ("HCl", 0.2, Phase::Aqueous),
             ],
             25.0,

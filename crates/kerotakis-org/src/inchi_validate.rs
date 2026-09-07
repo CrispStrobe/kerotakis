@@ -114,6 +114,13 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Na2CO3", "[Na+].[Na+].[O-]C([O-])=O"),
     ("Na2SO3", "[Na+].[Na+].[O-]S([O-])=O"),
     ("Na2S2O3", "[Na+].[Na+].[O-]S(=O)(=O)[S-]"),
+    // The anion the bench now books dissolved hypo as, and the
+    // conjugate-base trap in a third shape. PubChem's `thiosulfate` BY
+    // NAME is the monoanion HS2O3- at -M (CID 439208); the dianion is CID
+    // 1084 and takes -L, and here the first block IS shared with the acid
+    // rather than different from it - the opposite of the hypochlorite
+    // pair above. Neither pattern generalises, so both were fetched.
+    ("S2O3-2", "[O-]S(=O)(=O)[S-]"),
     ("AgNO3", "[Ag+].[O-][N+](=O)[O-]"),
     ("NaNO3", "[Na+].[O-][N+](=O)[O-]"),
     ("KNO3", "[K+].[O-][N+](=O)[O-]"),

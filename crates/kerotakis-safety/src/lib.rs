@@ -201,7 +201,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── reducing agents ───────────────────────────────────────
         "Na2SO3" | "NaHSO3" => &[ReducingAgent],
-        "Na2S2O3" => &[ReducingAgent],
+        // The bottle and the ion it becomes carry the same screen. Once
+        // the tail speciates hypo the vessel holds `S2O3-2` and no
+        // `Na2S2O3`, and a hazard that depended on which name the ledger
+        // happened to be using would not be a hazard anybody could learn.
+        "Na2S2O3" | "S2O3-2" => &[ReducingAgent],
         "KI" => &[ReducingAgent],
         "ascorbic_acid" => &[ReducingAgent],
         // EXP-39's primary standard. Both rows follow from identity:
@@ -677,6 +681,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaBr",
     "Na2CO3",
     "Na2S2O3",
+    "S2O3-2",
     "Na2SO3",
     "Na2SO4",
     "NaCl",

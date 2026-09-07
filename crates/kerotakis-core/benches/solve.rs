@@ -15,7 +15,7 @@ fn make_vessel() -> Vessel {
     v.temperature = Kelvin(298.15);
     v.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
     v.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Aqueous);
-    v.deposit(SpeciesId::new("Na2S2O3"), Moles(0.1), Phase::Aqueous);
+    v.deposit(SpeciesId::new("S2O3-2"), Moles(0.1), Phase::Aqueous);
     v.solution = Some(kerotakis_core::vessel::SolutionInfo {
         solvent_kg: None,
         redox: Vec::new(),

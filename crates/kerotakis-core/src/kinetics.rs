@@ -510,10 +510,25 @@ pub struct KineticContext {
 pub const REGISTRY: &[KineticReaction<'static>] = &[
     KineticReaction {
         id: "thiosulfate-acid",
-        equation: "Na₂S₂O₃ + 2 H⁺ → S↓ + SO₂ + H₂O + 2 Na⁺",
+        equation: "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
+        // WRITTEN ON THE ION, and it has to be from the moment the tail
+        // speciates the salt. `databases::minteq_v4()` borrows llnl.dat's
+        // thiosulfate couple, so a solved beaker holds `Na+` and `S2O3-2`
+        // and no `Na2S2O3` at all - a reaction spelled on the bottle name
+        // would have gone on matching in a dry vessel, failed in every wet
+        // one, and said nothing about it. That is the vinegar and the
+        // bleach failure again (`curated_reactants_survive_a_solve` holds
+        // the curated half of it; rate laws have no such guard, which is
+        // why this comment is here).
+        //
+        // The two sodiums leaving the equation are a correction rather than
+        // a consequence: they were never participants, and they appeared on
+        // both sides only because the left-hand side was named after a
+        // bottle. `S2O3(2-) + 2 H+ -> S + SO2 + H2O` balances atoms and
+        // charge with nothing left over.
         stoichiometry: &[
             StoichiometricTerm {
-                species: "Na2S2O3",
+                species: "S2O3-2",
                 coefficient: -1.0,
                 phase: Phase::Aqueous,
             },
@@ -537,11 +552,6 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 coefficient: 1.0,
                 phase: Phase::Liquid,
             },
-            StoichiometricTerm {
-                species: "Na+",
-                coefficient: 2.0,
-                phase: Phase::Aqueous,
-            },
         ],
         // Analytical H+ now represents spendable strong-acid equivalents.
         // Its stoichiometric consumption bounds the extent; the measured
@@ -558,7 +568,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         forward: RateExpression {
             orders: &[
                 OrderTerm {
-                    species: "Na2S2O3",
+                    species: "S2O3-2",
                     phase: Some(Phase::Aqueous),
                     order: 1.0,
                 },
@@ -570,11 +580,30 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             ],
             arrhenius: RateLaw {
                 // Calibrated, and the calibration is the honest part: A is set
-                // so that 0.05 M thiosulfate at pH 1.7 and 25 °C takes about
-                // forty seconds to deposit enough sulfur to hide the cross,
-                // which is the range the practical is designed around. Ea and
-                // the orders are the literature's; A is ours.
-                pre_exponential: 2.2e8,
+                // so that 0.05 M thiosulfate in the practical's beaker at
+                // 25 °C takes about forty seconds to deposit enough sulfur to
+                // hide the cross, which is the range the practical is designed
+                // around. Ea and the orders are the literature's; A is ours.
+                //
+                // RE-CALIBRATED 2026-09-07, from 2.2e8, and the reason is the
+                // one thing A exists to absorb. Once the aqueous tail
+                // speciates thiosulfate, the anion protonates: pKa 1.01 puts
+                // a small fraction of it in the HS2O3- form at the practical's
+                // acidity, and those protons come out of the beaker before the
+                // clock starts. The same 100 mL with 0.79 g of hypo and 0.002
+                // mol of HCl used to read pH 1.7485817507 and now reads
+                // 1.8837734312 - the proton activity is a factor 1.365 lower,
+                // the rate is first order in it, and the cross would have
+                // taken fifty-five seconds instead of forty.
+                //
+                // A is the parameter this row states is ours and fixed by
+                // matching the observable, so matching the observable is what
+                // it does: 2.2e8 x 10^0.1352 = 3.0e8. Nothing about the
+                // chemistry moved. The RATIOS - order in thiosulfate, order in
+                // acid, the ten-degree rule - are untouched, because they
+                // never depended on A, and that division is the whole point of
+                // writing the calibration down rather than burying it.
+                pre_exponential: 3.0e8,
                 temperature_exponent: 0.0,
                 activation_energy: 51_000.0,
             },
@@ -595,7 +624,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             note: "absolute rate is calibrated to the disappearing-cross observation",
         },
         source_ids: &["kerotakis:kinetics:thiosulfate-acid"],
-        provenance: "Orders (1,1) and Ea ≈ 51 kJ/mol are existing disappearing-cross teaching parameters; A is calibrated rather than independently measured. Original stoichiometric correction 2026-09-06 consumes two represented strong-acid equivalents per extent and conserves atoms/charge. Native initial proton activity is updated with acid depletion at a locally frozen activity coefficient; this is not a buffered-acid speciation or universal rate model",
+        provenance: "Orders (1,1) and Ea ≈ 51 kJ/mol are existing disappearing-cross teaching parameters; A is calibrated rather than independently measured, and was re-fitted from 2.2e8 to 3.0e8 on 2026-09-07 when the aqueous tail began speciating thiosulfate and the practical beaker's pH moved from 1.7485817507 to 1.8837734312 (pKa 1.01, so part of the anion holds a proton). The reactant is now the ion the vessel actually holds, `S2O3-2`, and the two spectator sodiums have left the equation. Original stoichiometric correction 2026-09-06 consumes two represented strong-acid equivalents per extent and conserves atoms/charge. Native initial proton activity is updated with acid depletion at a locally frozen activity coefficient; this is not a buffered-acid speciation or universal rate model",
     },
     KineticReaction {
         id: "peroxide-decomposition",
@@ -2278,7 +2307,7 @@ mod tests {
         let mut v = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
-                ("Na2S2O3", thio, Phase::Aqueous),
+                ("S2O3-2", thio, Phase::Aqueous),
                 (PROTON, 0.002, Phase::Aqueous),
                 ("Cl-", 0.002, Phase::Aqueous),
             ],
@@ -2399,12 +2428,12 @@ mod tests {
         for _ in 0..10 {
             advance(&mut split, 10.0).unwrap();
         }
-        let remaining = phase_moles(&whole, "Na2S2O3", Phase::Aqueous);
+        let remaining = phase_moles(&whole, "S2O3-2", Phase::Aqueous);
         assert!(
             (remaining - expected).abs() < 2e-8,
             "{remaining} versus {expected}"
         );
-        assert!((remaining - phase_moles(&split, "Na2S2O3", Phase::Aqueous)).abs() < 2e-8);
+        assert!((remaining - phase_moles(&split, "S2O3-2", Phase::Aqueous)).abs() < 2e-8);
     }
 
     #[test]
@@ -2500,7 +2529,7 @@ mod tests {
         advance(&mut v, 600.0).unwrap();
         let sulfur = v.moles_of(&SpeciesId::new("S")).0;
         assert!(sulfur < 0.001 && sulfur > 0.0005, "{sulfur}");
-        assert!(v.moles_of(&SpeciesId::new("Na2S2O3")).0 >= 0.004 - 1e-10);
+        assert!(v.moles_of(&SpeciesId::new("S2O3-2")).0 >= 0.004 - 1e-10);
         // A lower, feasible observation threshold is reached by the same
         // computed trajectory. These are operational teaching thresholds,
         // not a claim to a universal sulfur optical-scattering constant.
@@ -2516,7 +2545,7 @@ mod tests {
         for p in &v.contents {
             assert!(p.moles.0 >= 0.0, "{:?}", p);
         }
-        assert!(v.moles_of(&SpeciesId::new("Na2S2O3")).0 >= 0.0);
+        assert!(v.moles_of(&SpeciesId::new("S2O3-2")).0 >= 0.0);
     }
 
     #[test]
@@ -3330,7 +3359,7 @@ mod tests {
 
         // Mass conservation: total Na2S2O3 should decrease by the same
         // amount as sulfur products increase.
-        let thio = phase_moles(&vessel_coupled, "Na2S2O3", Phase::Aqueous);
+        let thio = phase_moles(&vessel_coupled, "S2O3-2", Phase::Aqueous);
         assert!(thio < 0.1, "thiosulfate should have reacted, got {}", thio);
 
         assert!(
