@@ -925,8 +925,13 @@ fn borax_crystallises_on_cooling_where_sugar_supersaturates() {
         out.contains("0.0202 mol sodium tetraborate (borax) dissolved"),
         "25 g into cold water is mostly undissolved:\n{out}"
     );
+    // 0.0878 rather than 0.0879: water costs slightly more to warm on its
+    // own heat-capacity curve than at its 25 C constant, so the same 25 kJ
+    // reaches 81.78 C rather than a shade above it, and slightly less borax
+    // goes in. Hotter things hold more heat per kelvin; this is that, in
+    // the fourth figure.
     assert!(
-        out.contains("0.0879 mol sodium tetraborate (borax) dissolved"),
+        out.contains("0.0878 mol sodium tetraborate (borax) dissolved"),
         "heating dissolves the rest:\n{out}"
     );
     // And cooling gives it back, which is the experiment.
@@ -1225,7 +1230,12 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // of soda against 50 mL of 5% vinegar is ~0.042 mol of acid, and at
         // +26.8 kJ/mol that is 1.1 kJ into ~50 mL — about 5 K, which is
         // roughly what the bottle now does.
-        ("balloon-pressure.lab", &["284.18 kPa", "1480.54 mL"]),
+        // 284.19 kPa and 1480.55 mL rather than 284.18 and 1480.54: the
+        // heat capacities are integrated now, so the bottle settles a
+        // few hundredths of a kelvin from where it did, and the gas laws
+        // read the temperature. Both readings moved in the fourth figure
+        // and neither will move again unless the thermal balance does.
+        ("balloon-pressure.lab", &["284.19 kPa", "1480.55 mL"]),
         (
             "grinding-rate-boundary.lab",
             &["ground to 50.0 µm", "carbon dioxide ↑"],
