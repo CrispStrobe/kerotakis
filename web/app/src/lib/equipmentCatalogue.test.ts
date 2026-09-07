@@ -14,6 +14,7 @@ import {
   SHELF_ENTRIES,
   accessId,
   asShown,
+  catalogIdForApparatus,
   cupboardTally,
   deployedLabel,
   equipmentById,
@@ -51,6 +52,14 @@ describe("the merged equipment catalogue", () => {
     ];
     expect([...EQUIPMENT_CATALOGUE.map((entry) => entry.id)].sort()).toEqual([...expected].sort());
     expect(new Set(EQUIPMENT_CATALOGUE.map((entry) => entry.id)).size).toBe(EQUIPMENT_CATALOGUE.length);
+  });
+
+  it("resolves authored instrument tokens through the one equipment model", () => {
+    expect(catalogIdForApparatus("ph")).toBe("measure:ph");
+    expect(catalogIdForApparatus("thermometer")).toBe("measure:thermometer");
+    expect(catalogIdForApparatus("balance")).toBe("measure:balance");
+    expect(catalogIdForApparatus("stir")).toBe("stir");
+    expect(catalogIdForApparatus("beaker")).toBe("beaker");
   });
 
   it("gives every entry a shelf and something to do", () => {

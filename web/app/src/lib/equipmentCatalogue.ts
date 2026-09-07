@@ -335,6 +335,18 @@ export const equipmentById = (id: string): EquipmentEntry | undefined =>
   EQUIPMENT_CATALOGUE.find((entry) => entry.id === id);
 
 /**
+ * Translate content-authored apparatus vocabulary into the catalog id owned by
+ * the corresponding cupboard entry. Instruments are commonly authored by
+ * token (`ph`, `balance`) while catalog access is keyed `measure:<token>`.
+ * Unknown glassware/bench words pass through: silence is not a lock.
+ */
+export function catalogIdForApparatus(id: string): string {
+  const entry = equipmentById(id) ?? EQUIPMENT_CATALOGUE.find((candidate) =>
+    candidate.action.kind === "measure" && candidate.action.token === id);
+  return entry ? accessId(entry) : id;
+}
+
+/**
  * The slots the shelves draw: every tool, and no set.
  *
  * A set used to be a sixth shelf, which put the candle on the wall twice —

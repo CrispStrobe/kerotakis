@@ -95,6 +95,29 @@ export function storyDistricts(
   });
 }
 
+/** Exact remaining investigations for an engine-independent district gate. */
+export function remainingMissions(minimumCompleted: number, completed: number): number {
+  return Math.max(0, minimumCompleted - completed);
+}
+
+/** Project the one Story district gate onto an exact shipped mission. */
+export function missionAvailability(
+  missions: MissionSummary[],
+  completedIds: ReadonlySet<string>,
+  mission: MissionSummary,
+): { unlocked: boolean; remaining: number } {
+  const district = storyDistricts(missions, completedIds)
+    .find((candidate) => candidate.missions.some((item) => item.file === mission.file));
+  // A mission no district claims is a mission this gate has no opinion
+  // about, and silence is not a lock: refusing it would have disabled the
+  // link under the sentence "complete 0 more missions to unlock".
+  if (!district) return { unlocked: true, remaining: 0 };
+  return {
+    unlocked: district.unlocked,
+    remaining: remainingMissions(district.minimumCompleted, completedIds.size),
+  };
+}
+
 /** Pick one useful continuation without inventing a second progression model.
  * District order and mission export order are stable, so the answer is stable.
  * An active, unlocked, incomplete mission wins; otherwise take the first

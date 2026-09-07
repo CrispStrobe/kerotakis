@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { continuationLabel, missionDistrictId, missionId, missionTitle, nextUnlockedMission, storyDistricts, type MissionSummary } from "./storyProgress";
+import { continuationLabel, missionAvailability, missionDistrictId, missionId, missionTitle, nextUnlockedMission, remainingMissions, storyDistricts, type MissionSummary } from "./storyProgress";
 
 /** The seven Discovery Hall ships: six `start here` plus one `safety`,
  * exactly as `tools/lessons-index.py` buckets them. */
@@ -70,6 +70,27 @@ describe("story progression", () => {
   it("labels an active mission Continue and a selected successor Next", () => {
     expect(continuationLabel(missions[1]!, "never-mix")).toBe("continue investigation");
     expect(continuationLabel(missions[2]!, "never-mix")).toBe("next investigation");
+  });
+
+  it("states an exact remaining prerequisite without going below zero", () => {
+    expect(remainingMissions(3, 0)).toBe(3);
+    expect(remainingMissions(3, 1)).toBe(2);
+    expect(remainingMissions(3, 4)).toBe(0);
+  });
+
+  it("projects the same district gate onto Concept Map mission links", () => {
+    expect(missionAvailability(missions, new Set(), missions[5]!)).toEqual({ unlocked: false, remaining: 3 });
+    expect(missionAvailability(missions, new Set(["silver-and-salt"]), missions[2]!)).toEqual({ unlocked: true, remaining: 0 });
+  });
+
+  it("opens a mission no district claims rather than refusing it with a zero", () => {
+    // Every district filters by topic, so a mission carrying a topic none of
+    // them lists belongs to no district. Refusing it would have disabled the
+    // link under "complete 0 more missions to unlock" — a sentence, and a
+    // refusal, that nothing in the progression actually asked for.
+    const orphan: MissionSummary = { file: "nowhere.lab", name: "nowhere", topic: "no such topic" };
+    expect(missionAvailability([...missions, orphan], new Set(), orphan))
+      .toEqual({ unlocked: true, remaining: 0 });
   });
 });
 
