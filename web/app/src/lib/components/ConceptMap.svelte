@@ -85,10 +85,18 @@
   $effect(() => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
     const query = window.matchMedia(COMPACT);
-    compact = query.matches;
-    const onchange = (event: MediaQueryListEvent) => (compact = event.matches);
-    query.addEventListener("change", onchange);
-    return () => query.removeEventListener("change", onchange);
+    // Read the list rather than trust the event: `resize` and `change` are
+    // two announcements of one fact, they do not always both arrive, and a
+    // panel that answered only the second one kept the two-column layout
+    // on a window that had already become a phone.
+    const sync = () => (compact = query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    window.addEventListener("resize", sync);
+    return () => {
+      query.removeEventListener("change", sync);
+      window.removeEventListener("resize", sync);
+    };
   });
 
   // Layout: columns by depth, rows in each column's sorted order.

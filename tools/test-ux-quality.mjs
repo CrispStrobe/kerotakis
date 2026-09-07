@@ -105,6 +105,10 @@ const stripAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+/** Two frames and a tick: enough for a reflow and the shell's own
+ * re-render to land before anything is measured. */
+const settle = () => new Promise((resolve) => setTimeout(resolve, 300));
+
 /** GUI-475, owner: "'Alle Geräte' overlays on top of the Messen pieces".
  * The door was `position: sticky; right: 0` in a scrolling flex row, which
  * pins it to the scrollport and lets the instrument pills travel beneath
@@ -629,7 +633,11 @@ try {
     check("Sandbox marks no experiment locked in the concept map",
       wide.lockedBadges === 0, `${wide.lockedBadges} locked badges`);
 
+    // A resize is announced, not applied: the browser reflows and the shell
+    // re-renders on later frames, so measuring in the same breath measures
+    // the width that has just gone.
     await viewport(768, 900);
+    await settle();
     const tablet = JSON.parse(await conceptMapAudit());
     check("the 768 px concept map keeps the activities beside the graph",
       tablet.compact === false && tablet.teachWidth >= 320, `${tablet.teachWidth}px`);
@@ -640,6 +648,7 @@ try {
       `${tablet.lockedBadges} locked badges`);
 
     await viewport(390, 844);
+    await settle();
     const phone = JSON.parse(await conceptMapAudit());
     check("the 390 px concept map collapses the graph to a list",
       phone.compact === true && phone.items >= 3, `${phone.items} links`);
