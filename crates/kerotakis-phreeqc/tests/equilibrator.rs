@@ -363,6 +363,15 @@ fn dissolution_heat_does_not_depend_on_order() {
 /// adiabatic vessel's enthalpy — gives it back, and both orders land on
 /// T₀ + q/Cp(water).
 ///
+/// It broke a second time, smaller, when the bench began integrating Cp(T).
+/// The balance was still written as two rectangles — `Cp(before)` times the
+/// span it started with against `Cp(after)` times the span it ended with —
+/// and a rectangle's error depends on where along the curve it was drawn.
+/// The two orders draw theirs at 25 °C and at 35.7 °C, so they came back
+/// 7.25e-5 K apart. Balancing the AREA on both sides is what makes the
+/// claim a state function again rather than an approximation that happens
+/// to agree; the bound below is tight enough to notice if it stops being one.
+///
 /// NOTE the number this test does *not* check. Neutralisation enthalpy is
 /// not modelled, so both paths are short of a real bench by about 13 K
 /// (−57.3 kJ/mol over 0.1 mol). Hess's law holding is a statement about the
