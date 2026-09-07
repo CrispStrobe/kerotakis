@@ -233,23 +233,43 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.sensible_j
     );
 
-    // Energy: the calcination is paid for, and the bench's own ledger does
-    // NOT book all of it. What the crucible cost is 6.2 kJ of warming plus
-    // 17.9 kJ of calcination = 24.1 kJ; the bench delivered 13.9 kJ. The
-    // gap is not in this operator. `ThermalEquilibrator` solves an
-    // ADIABATIC charge that admits eight times the vessel's own moles of
-    // air (`thermal::AIR_RATIO`), and that air's enthalpy pays part of the
-    // decomposition — but it is not in `Vessel::heat_capacity()`, because
-    // an open crucible does not hold it. So the minimiser cools the vessel
-    // by 443 K where the vessel's own heat capacity says 1843 K, and the
-    // burner is asked for correspondingly less.
+    // Energy: the crucible's own books, and what is still outside them.
     //
-    // Pinned rather than hidden: the shortfall is real, it is one lane
-    // away in `crates/kerotakis-cea/src/thermal.rs`, and a test that
-    // asserted 5% here would have to fake something to stay green. What
-    // this asserts is the shape — the bench never books MORE than the
-    // chemistry costs, and books at least half of it — so a change in
-    // either direction is a failure someone has to explain.
+    // What the crucible costs, as the operator's ledger counts it, is the
+    // warmth it still holds plus the price of breaking the carbonate apart:
+    //
+    //     Cp(CaO) · ΔT                     6 195 J
+    //     0.1 mol × 178.8 kJ/mol          17 880 J
+    //                                     ────────
+    //                                      24 075 J
+    //
+    // The burner used to book 13 941 J of that — 58 % — and the hole was
+    // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
+    // admitted eight times the vessel's own moles of air and let that air's
+    // sensible heat pay for the decomposition, though room air is at 298 K
+    // and `Vessel::heat_capacity()` never held it. It books 22 538 J now,
+    // 93.6 %, and the calcination finishes instead of stopping half way.
+    //
+    // The 1 537 J still missing is not one error but two, of opposite sign,
+    // and both are outside this operator:
+    //
+    //   +3 625 J  The carbon dioxide leaves at the temperature it formed at
+    //             (995 K, 983 K, 1350 K over the four passes) and takes its
+    //             sensible heat with it. A kiln really does pay that, and
+    //             the two-term ledger above simply does not name it.
+    //   −6 433 J  `Vessel::heat_capacity()` is a room-temperature constant —
+    //             82.3 J/(mol·K) for calcite, 42.0 for lime — while the
+    //             NASA-9 polynomials the solver reads rise with temperature,
+    //             to about 123 and 55 by 1500 K. The burner is therefore
+    //             billed at 25 °C heat capacities for a crucible at 1500 °C,
+    //             and hands the charge more energy than it books. That is a
+    //             separate defect, in `kerotakis-core`'s registry rather
+    //             than here, and closing it would move every heat and cool
+    //             step on the bench.
+    //
+    // So the band below is 8 %, not 5 %, and it is written as a band around
+    // a number rather than a floor: a change in EITHER direction is a
+    // failure someone has to explain.
     let warming = vessel.enthalpy().0;
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
     let accounted = warming + chemistry;
@@ -261,11 +281,13 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.delivered_j
     );
     assert!(
-        book.delivered_j > 0.5 * accounted,
-        "the burner should still pay most of the {accounted:.1} J the \
-         crucible costs; it booked only {:.1} J, which is a bigger hole \
-         than the admitted air in CEA's adiabatic charge accounts for\n{seen}",
-        book.delivered_j
+        book.delivered_j > 0.92 * accounted,
+        "the burner should pay for what the crucible cost: {accounted:.1} J of \
+         warming and calcination against {:.1} J booked, which is {:.1} % and \
+         leaves a bigger hole than the hot exhaust and the constant-Cp bench \
+         account for\n{seen}",
+        book.delivered_j,
+        100.0 * book.delivered_j / accounted
     );
 
     // The split the event reports is exactly the energy it says arrived.
@@ -300,9 +322,11 @@ fn five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold() {
         "still under the flame\n{seen}"
     );
     // 5 kJ into 8.19 J/K reaches 908 K, and CEA finds the calcination has
-    // only just begun there: the chalk is overwhelmingly still chalk, and
-    // the little that went cooled the crucible to 890 K rather than
-    // raising it further.
+    // only just begun there: 0.0025 mol of the 0.1 goes, and the price of
+    // it pulls the crucible back to 873 K rather than letting the dose
+    // raise it further. The crucible pays that out of its own heat now —
+    // the room it stands in no longer chips in (`gibbs::OpenAtmosphere`),
+    // which is why less of the chalk goes than it used to.
     let chalk_left = vessel.moles_of(&SpeciesId::new("CaCO3")).0;
     assert!(
         chalk_left > 0.09,
@@ -312,6 +336,51 @@ fn five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold() {
         vessel.temperature.0 < 1000.0,
         "nowhere near the flame: {:.2} K\n{seen}",
         vessel.temperature.0
+    );
+}
+
+#[test]
+fn a_crucible_stopped_half_way_can_be_heated_again() {
+    // The state a small dose leaves: some carbonate, some lime, standing in
+    // the same air. Handing THAT back to the Gibbs minimiser failed at
+    // every temperature — calcium has no gaseous carrier, so it has to be
+    // shared between two solids, and the solve let one of them grow past
+    // the whole calcium budget and then dropped both. It was never seen
+    // because nothing could reach the state: a burner used to calcine ten
+    // grams of chalk in a single pass.
+    //
+    // It is reachable in one line of script, so it is a test.
+    let mut bench = Bench::new();
+    let mut s = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut s, v, "CaCO3", 0.1);
+    let first = heat(&mut bench, &mut s, v, 5.0);
+    let half = bench.vessel(v).expect("vessel");
+    assert!(
+        half.moles_of(&SpeciesId::new("CaCO3")).0 > 0.01
+            && half.moles_of(&SpeciesId::new("CaO")).0 > 1e-4,
+        "5 kJ should leave both phases standing: {:?}\n{}",
+        half.contents,
+        transcript(&bench, v, &first)
+    );
+
+    let again = heat(&mut bench, &mut s, v, 40.0);
+    let seen = transcript(&bench, v, &again);
+    assert!(
+        !again
+            .iter()
+            .any(|event| matches!(event, Event::SolverFailed { .. })),
+        "the minimiser must have an answer for a half-calcined crucible\n{seen}"
+    );
+    let vessel = bench.vessel(v).expect("vessel");
+    assert!(
+        vessel.moles_of(&SpeciesId::new("CaCO3")).0 < 1e-3,
+        "and the rest of the chalk gives way: {:.6} mol left\n{seen}",
+        vessel.moles_of(&SpeciesId::new("CaCO3")).0
+    );
+    assert!(
+        (vessel.moles_of(&SpeciesId::new("CaO")).0 - 0.1).abs() < 1e-3,
+        "0.1 mol of quicklime, all told\n{seen}"
     );
 }
 
