@@ -77,6 +77,7 @@ impl<'a> Validator<'a> {
         self.validate_identities();
         self.validate_compositions();
         self.validate_phase_thermodynamics();
+        self.validate_heat_capacity_polynomials();
         self.validate_transport();
         self.validate_optical();
         self.validate_safety();
@@ -198,6 +199,76 @@ impl<'a> Validator<'a> {
                 &record.quantity,
                 record.property.expected_dimension(),
             );
+        }
+    }
+
+    /// A heat-capacity curve is only usable if its intervals tile a range
+    /// without a gap: the evaluator walks them in order, and a gap is a
+    /// temperature at which the bench would silently fall back to an
+    /// endpoint value it never announced.
+    fn validate_heat_capacity_polynomials(&mut self) {
+        let mut ids = HashSet::new();
+        for (index, record) in self
+            .document
+            .heat_capacity_polynomials
+            .clone()
+            .iter()
+            .enumerate()
+        {
+            let path = format!("heat_capacity_polynomials[{index}]");
+            self.record_id(&path, &record.id, &mut ids);
+            self.species_ref(&format!("{path}.species_id"), &record.species_id);
+            self.evidence(
+                &format!("{path}.evidence"),
+                &record.evidence.source_id,
+                &record.evidence.method,
+            );
+            if record.unit.dimension != Dimension::MolarHeatCapacity {
+                self.issue(
+                    format!("{path}.unit"),
+                    "a heat-capacity curve must carry a molar heat capacity dimension",
+                );
+            }
+            if record.intervals.is_empty() {
+                self.issue(path.clone(), "heat-capacity curve carries no interval");
+            }
+            let mut previous: Option<f64> = None;
+            for (position, interval) in record.intervals.iter().enumerate() {
+                let path = format!("{path}.intervals[{position}]");
+                self.nonempty(&format!("{path}.reference"), &interval.reference);
+                if !interval.t_min_k.is_finite()
+                    || !interval.t_max_k.is_finite()
+                    || interval.t_max_k <= interval.t_min_k
+                {
+                    self.issue(path.clone(), "interval is not an ascending finite range");
+                }
+                if interval.coefficients.len() != record.form.coefficient_count() {
+                    self.issue(
+                        format!("{path}.coefficients"),
+                        format!(
+                            "{:?} needs {} coefficients, found {}",
+                            record.form,
+                            record.form.coefficient_count(),
+                            interval.coefficients.len()
+                        ),
+                    );
+                }
+                if interval.coefficients.iter().any(|c| !c.is_finite()) {
+                    self.issue(
+                        format!("{path}.coefficients"),
+                        "coefficient is not a finite number",
+                    );
+                }
+                if let Some(end) = previous {
+                    if (end - interval.t_min_k).abs() > 1e-6 {
+                        self.issue(
+                            path.clone(),
+                            format!("interval starts at {} but the previous one ended at {end}; a heat-capacity curve must tile its range without a gap or an overlap", interval.t_min_k),
+                        );
+                    }
+                }
+                previous = Some(interval.t_max_k);
+            }
         }
     }
 

@@ -205,8 +205,24 @@ pub struct SpeciesData {
     pub inchikey: &'static str,
     /// g/mol
     pub molar_mass: f64,
-    /// Molar heat capacity of the phase it is added as, J/(mol·K).
+    /// Molar heat capacity of the phase it is added as, J/(mol·K), at
+    /// 298.15 K. Stays the fallback: see `heat_capacity_polys`.
     pub heat_capacity: f64,
+    /// How that heat capacity changes with temperature, per phase, where a
+    /// published curve exists — empty where none does.
+    ///
+    /// The constant above is right at room temperature and wrong in a
+    /// crucible: calcite costs 82 J/(mol·K) to warm on a bench and about 130
+    /// at 1500 K, and a burner billed at the first while driving to the
+    /// second hands the charge energy its own ledger never books. The curve
+    /// is kept BESIDE the constant rather than replacing it so that "we have
+    /// a curve for this" and "we do not" stay different states of the data
+    /// instead of one silent extrapolation.
+    ///
+    /// Water has three entries here, one per phase, for the same reason
+    /// `states::heat_capacity_in` exists at all.
+    #[serde(default, skip_deserializing)]
+    pub heat_capacity_polys: &'static [crate::heat_capacity::CpPolynomial],
     /// Density of the pure substance at ~25 °C, g/mL (used for volume of
     /// liquids; approximate, additive-volume assumption is surfaced to the
     /// renderer as such).

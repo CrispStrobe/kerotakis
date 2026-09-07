@@ -8,13 +8,15 @@
 use std::collections::BTreeMap;
 
 use kerotakis_core::{
+    heat_capacity::CpForm,
     species::{Colour, Phase as LegacyPhase, SpeciesData, REGISTRY},
     spectrum::BAND_NM,
     stoich::parse_formula,
 };
 use kerotakis_data::{
     Applicability, CompositionRecord, CultureMetabolism, Dimension, ElementAmount, Evidence,
-    FractionRange, IdentityRecord, Interval, MaterialBasis, MaterialComponent, MaterialConfidence,
+    FractionRange, HeatCapacityForm, HeatCapacityInterval, HeatCapacityPolynomialRecord,
+    IdentityRecord, Interval, MaterialBasis, MaterialComponent, MaterialConfidence,
     MaterialExpansionPolicy, MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole,
     Method, ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
     PhaseThermodynamicRecord, RegistryDocument, SourceLane, SourceRecord, SpectralSample,
@@ -77,6 +79,15 @@ const DISSOLUTION_NOTES: &[(&str, &str)] = &[
 const RESISTIVITY_SOURCE: &str = "kerotakis/electrical-resistivity-v1";
 const RESISTIVITY_CITATION: &str = "Kerotakis curated electrical-resistivity tranche v1: bulk DC electrical resistivity of the pure solid at 293.15 K (20 C), in ohm.m. THE PROVENANCE LANE OF THIS TRANCHE IS PENDING REVIEW AND THE VALUES ARE RECORDED AS COMMONLY TABULATED. The CRC Handbook of Chemistry and Physics table 'Electrical Resistivity of Pure Metals' is the intended primary reference and these numbers agree with it to the precision quoted, but this is NOT a transcription from a positively identified copy of any single edition and no edition-level provenance is claimed: every row is flagged for reviewer confirmation against a positively identified copy before any stronger claim is made, exactly as the phase-transition tranche is. The values themselves are physical constants of the pure elements rather than anyone's compilation, and they are quoted only to the three or four figures that a room-temperature handbook column carries; no temperature coefficient, no purity dependence and no cold-worked or alloyed value is claimed, and each row's own `notes` field states what it does not cover. Graphite is the one row that is an order of magnitude rather than a measurement, and its note says so: graphite is strongly anisotropic and its resistivity depends on the grade, so the value here describes a polycrystalline bench rod and nothing finer. Compiled 2026-09-05";
 const RESISTIVITY_METHOD: &str = "curated electrical-resistivity tranche, provenance lane pending review; the row's own note states what the value does not cover";
+/// The heat capacities that stop being constants.
+///
+/// This tranche gets its own source for the same reason the transition and
+/// resistivity tranches got theirs, and one more besides: it is the only
+/// runtime-lane data in the registry that is not ours at all. It is NASA's
+/// file, already vendored for the equilibrium solver, read a second time.
+const HEAT_CAPACITY_CURVE_SOURCE: &str = "us-federal/nasa-cea-thermo-inp-v1";
+const HEAT_CAPACITY_CURVE_CITATION: &str = "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07";
+
 /// The same claim for a named OBJECT rather than a pure substance.
 ///
 /// It is a separate tranche and not an extension of the one above,
@@ -161,6 +172,7 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     inchikey: "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
     molar_mass: 60.096,
     heat_capacity: 152.2,
+    heat_capacity_polys: &[],
     density: 0.785,
     standard_phase: LegacyPhase::Liquid,
     appearance: Some("colourless"),
@@ -185,6 +197,7 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     inchikey: "CZMRCDWAGMRECN-SFOFJGFUSA-N",
     molar_mass: 342.2965,
     heat_capacity: 484.0,
+    heat_capacity_polys: &[],
     density: 1.59,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("white"),
@@ -209,6 +222,7 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     inchikey: "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
     molar_mass: 159.687,
     heat_capacity: 103.9,
+    heat_capacity_polys: &[],
     density: 5.24,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("reddish brown"),
@@ -238,6 +252,7 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     inchikey: "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
     molar_mass: 246.471,
     heat_capacity: 360.0,
+    heat_capacity_polys: &[],
     density: 1.68,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("colourless to white crystals"),
@@ -262,6 +277,7 @@ const SILICA_SEED: SpeciesData = SpeciesData {
     inchikey: "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
     molar_mass: 60.084,
     heat_capacity: 44.6,
+    heat_capacity_polys: &[],
     density: 2.65,
     standard_phase: LegacyPhase::Solid,
     appearance: Some("colourless to white grains"),
@@ -355,6 +371,19 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
             origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
             revision: Some("v1".to_string()),
             retrieved: Some("2026-09-05".to_string()),
+        });
+    }
+    // Same guard again. This one is not ours: it is NASA's file, Apache-2.0,
+    // already vendored for the equilibrium solver and read a second time.
+    if !document.heat_capacity_polynomials.is_empty() {
+        document.sources.push(SourceRecord {
+            id: HEAT_CAPACITY_CURVE_SOURCE.to_string(),
+            citation: HEAT_CAPACITY_CURVE_CITATION.to_string(),
+            licence: "Apache-2.0".to_string(),
+            lane: SourceLane::Runtime,
+            origin: Some("vendor/nasa-cea/thermo.inp".to_string()),
+            revision: Some("NASA TP-2002-211556".to_string()),
+            retrieved: Some("2026-09-07".to_string()),
         });
     }
     export_material_recipes(&mut document);
@@ -5238,6 +5267,50 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
                 quantity: imported_number(value, symbol, dimension, phase, &source_id),
             });
     }
+
+    // The temperature dependence of that heat capacity, where a published
+    // curve exists. One record per phase: ice, liquid water and steam are
+    // three curves and the file says so three times.
+    for curve in species.heat_capacity_polys {
+        // `phase` the local binding above shadows `phase` the function, so
+        // this one takes the long way round to the same call.
+        let curve_phase = crate::phase(curve.phase);
+        let form = match curve.intervals.first().map(|i| i.form) {
+            Some(CpForm::Nasa9) | None => HeatCapacityForm::Nasa9,
+            Some(CpForm::Shomate) => HeatCapacityForm::Shomate,
+        };
+        document
+            .heat_capacity_polynomials
+            .push(HeatCapacityPolynomialRecord {
+                id: format!(
+                    "heat-capacity-polynomial/{}/{}",
+                    species.key,
+                    phase_slug(curve_phase)
+                ),
+                species_id: species.key.to_string(),
+                phase: curve_phase,
+                form,
+                unit: Unit {
+                    symbol: "J/(mol.K)".to_string(),
+                    dimension: Dimension::MolarHeatCapacity,
+                },
+                intervals: curve
+                    .intervals
+                    .iter()
+                    .map(|interval| HeatCapacityInterval {
+                        t_min_k: interval.t_min,
+                        t_max_k: interval.t_max,
+                        coefficients: interval.coefficients[..form.coefficient_count()].to_vec(),
+                        reference: interval.reference.to_string(),
+                    })
+                    .collect(),
+                boundary: Some(curve.boundary.to_string()),
+                evidence: Evidence {
+                    source_id: HEAT_CAPACITY_CURVE_SOURCE.to_string(),
+                    method: Method::Imported(curve.method.to_string()),
+                },
+            });
+    }
     // EXP-33: melting/boiling ride the typed properties; sublimation,
     // decomposition and dehydration ride `Other`, because the schema has no
     // variant for them and inventing one would claim a dimension check the
@@ -5562,6 +5635,20 @@ fn phase(value: LegacyPhase) -> Phase {
         LegacyPhase::Liquid => Phase::Liquid,
         LegacyPhase::Aqueous => Phase::Aqueous,
         LegacyPhase::Gas => Phase::Gas,
+    }
+}
+
+/// The record id spelling of a phase, matching the schema's own
+/// `snake_case` serialisation so a reader can grep the id and the field and
+/// find the same word.
+fn phase_slug(value: Phase) -> &'static str {
+    match value {
+        Phase::Solid => "solid",
+        Phase::Liquid => "liquid",
+        Phase::Aqueous => "aqueous",
+        Phase::Gas => "gas",
+        Phase::Plasma => "plasma",
+        Phase::Supercritical => "supercritical",
     }
 }
 

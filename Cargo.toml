@@ -57,7 +57,16 @@ rand_chacha = "0.9"
 rand_distr = "0.5"
 rayon = "1.12"
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+# `float_roundtrip`: without it serde_json parses a float by dividing its
+# significand by a power of ten, which is exact only while that power is
+# 10^22 or smaller. A NASA-9 heat-capacity coefficient like
+# -4.822380530e-15 is past that, and the registry was reading it back one
+# unit in the last place away from the number the file says - enough for
+# the byte-exact export gate to catch it, and a silent corruption of a
+# published constant if it had not. A registry of cited numbers has to
+# parse them exactly; the cost is roughly 2x on float parsing, which
+# happens once at build time.
+serde_json = { version = "1", features = ["float_roundtrip"] }
 serde_yaml_ng = "=0.10.0"
 thiserror = "2"
 

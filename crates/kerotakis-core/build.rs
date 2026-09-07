@@ -26,6 +26,10 @@ fn main() {
     let identities = doc["identities"].as_array().expect("identities");
     let compositions = doc["compositions"].as_array().expect("compositions");
     let thermo = doc["phase_thermodynamics"].as_array().expect("thermo");
+    let curves = doc["heat_capacity_polynomials"]
+        .as_array()
+        .map(|v| v.as_slice())
+        .unwrap_or(&[]);
     let optical = doc["optical"].as_array().expect("optical");
     let params = doc["model_parameters"].as_array().expect("params");
     let sources = doc["sources"].as_array().expect("sources");
@@ -247,6 +251,87 @@ fn main() {
             None => "None".to_string(),
         };
 
+        // The temperature dependence of the heat capacity, where a curve
+        // is curated. Emitted in document order so the export that writes
+        // this section back reproduces it byte for byte.
+        let heat_capacity_polys = {
+            let mut records = String::new();
+            for curve in curves.iter().filter(|c| c["species_id"] == key) {
+                let phase = phase_variant(
+                    curve["phase"]
+                        .as_str()
+                        .unwrap_or_else(|| panic!("{key}: heat-capacity curve has no phase")),
+                );
+                let form = match curve["form"].as_str() {
+                    Some("nasa9") => "crate::heat_capacity::CpForm::Nasa9",
+                    Some("shomate") => "crate::heat_capacity::CpForm::Shomate",
+                    other => panic!("{key}: unknown heat-capacity form {other:?}"),
+                };
+                let symbol = curve["unit"]["symbol"].as_str();
+                assert_eq!(
+                    symbol,
+                    Some("J/(mol.K)"),
+                    "{key}: a heat-capacity curve must be in J/(mol.K), got {symbol:?}"
+                );
+                let kind = curve["evidence"]["method"]["kind"].as_str();
+                assert_eq!(
+                    kind,
+                    Some("imported"),
+                    "{key}: this tranche transcribes published coefficients, so its \
+                     method is `imported`; got {kind:?}"
+                );
+                let mut intervals = String::new();
+                let rows = curve["intervals"]
+                    .as_array()
+                    .unwrap_or_else(|| panic!("{key}: heat-capacity curve has no intervals"));
+                assert!(
+                    !rows.is_empty(),
+                    "{key}: a heat-capacity curve with no interval claims nothing"
+                );
+                for row in rows {
+                    let coefficients = row["coefficients"]
+                        .as_array()
+                        .unwrap_or_else(|| panic!("{key}: interval has no coefficients"));
+                    assert!(
+                        coefficients.len() <= 7,
+                        "{key}: {} coefficients will not fit the seven-slot runtime array",
+                        coefficients.len()
+                    );
+                    let mut slots = [0.0f64; 7];
+                    for (slot, value) in slots.iter_mut().zip(coefficients) {
+                        *slot = value
+                            .as_f64()
+                            .unwrap_or_else(|| panic!("{key}: coefficient is not a number"));
+                    }
+                    let slots: Vec<String> = slots.iter().map(|v| f64_lit(*v)).collect();
+                    write!(
+                        intervals,
+                        "crate::heat_capacity::CpInterval {{ t_min: {}, t_max: {}, form: {form}, \
+                         coefficients: [{}], reference: {:?} }}, ",
+                        f64_lit(row["t_min_k"].as_f64().expect("t_min_k")),
+                        f64_lit(row["t_max_k"].as_f64().expect("t_max_k")),
+                        slots.join(", "),
+                        row["reference"].as_str().unwrap_or(""),
+                    )
+                    .unwrap();
+                }
+                let citation = find_source(
+                    curve["evidence"]["source_id"]
+                        .as_str()
+                        .unwrap_or_else(|| panic!("{key}: heat-capacity curve has no source")),
+                );
+                write!(
+                    records,
+                    "crate::heat_capacity::CpPolynomial {{ phase: {phase}, intervals: &[{intervals}], \
+                     source: {citation:?}, method: {:?}, boundary: {:?} }}, ",
+                    curve["evidence"]["method"]["detail"].as_str().unwrap_or(""),
+                    curve["boundary"].as_str().unwrap_or(""),
+                )
+                .unwrap();
+            }
+            format!("&[{records}]")
+        };
+
         let dws = param_for(key, "dissolves-without-speciation").unwrap_or(0.0) != 0.0;
         let aqueous_solubility = param_for(key, "aqueous-solubility-g-per-100-ml")
             .map_or("None".to_string(), |v| format!("Some({})", f64_lit(v)));
@@ -263,7 +348,7 @@ fn main() {
 
         writeln!(
             out,
-            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        aqueous_solubility_g_per_100_ml_at_100c: {aqueous_solubility_hot},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        transitions: {transitions},\n        electrical_resistivity: {resistivity},\n        provenance: {provenance:?},\n    }},",
+            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        heat_capacity_polys: {heat_capacity_polys},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        aqueous_solubility_g_per_100_ml: {aqueous_solubility},\n        aqueous_solubility_g_per_100_ml_at_100c: {aqueous_solubility_hot},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        transitions: {transitions},\n        electrical_resistivity: {resistivity},\n        provenance: {provenance:?},\n    }},",
             identity["name"].as_str().expect("name"),
             comp["formula"].as_str().expect("formula"),
             // identifiers.inchikey, not canonical_key: the pack synthesizes

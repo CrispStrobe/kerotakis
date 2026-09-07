@@ -12,6 +12,7 @@
 //! session per pack, and the alternative (owned strings) would fork
 //! `SpeciesData` into two types across the whole engine.
 
+use crate::heat_capacity::{CpForm, CpInterval, CpPolynomial};
 use crate::species::{Colour, Phase, Resistivity, SpeciesData};
 
 fn leak(s: &str) -> &'static str {
@@ -26,6 +27,90 @@ fn phase_of(p: &str) -> Result<Phase, String> {
         "gas" => Phase::Gas,
         other => return Err(format!("phase '{other}' has no runtime Phase variant")),
     })
+}
+
+/// A loaded species' heat-capacity curves, leaked once, in document order —
+/// the runtime twin of the `heat_capacity_polys` block in `build.rs`.
+/// `loader_fidelity` fails if the two ever source them differently.
+fn heat_capacity_polys_of(
+    key: &str,
+    curves: &[serde_json::Value],
+    sources: &[serde_json::Value],
+) -> Result<&'static [CpPolynomial], String> {
+    let mut out: Vec<CpPolynomial> = Vec::new();
+    for curve in curves.iter().filter(|c| c["species_id"] == key) {
+        let phase = phase_of(
+            curve["phase"]
+                .as_str()
+                .ok_or_else(|| format!("{key}: heat-capacity curve has no phase"))?,
+        )?;
+        let form = match curve["form"].as_str() {
+            Some("nasa9") => CpForm::Nasa9,
+            Some("shomate") => CpForm::Shomate,
+            other => return Err(format!("{key}: unknown heat-capacity form {other:?}")),
+        };
+        if curve["unit"]["symbol"].as_str() != Some("J/(mol.K)") {
+            return Err(format!("{key}: a heat-capacity curve must be in J/(mol.K)"));
+        }
+        if curve["evidence"]["method"]["kind"].as_str() != Some("imported") {
+            return Err(format!(
+                "{key}: this tranche transcribes published coefficients, so its method \
+                 must be `imported`"
+            ));
+        }
+        let rows = curve["intervals"]
+            .as_array()
+            .filter(|rows| !rows.is_empty())
+            .ok_or_else(|| format!("{key}: heat-capacity curve has no intervals"))?;
+        let mut intervals: Vec<CpInterval> = Vec::with_capacity(rows.len());
+        for row in rows {
+            let raw = row["coefficients"]
+                .as_array()
+                .ok_or_else(|| format!("{key}: interval has no coefficients"))?;
+            if raw.len() > 7 {
+                return Err(format!(
+                    "{key}: {} coefficients will not fit the seven-slot runtime array",
+                    raw.len()
+                ));
+            }
+            let mut coefficients = [0.0f64; 7];
+            for (slot, value) in coefficients.iter_mut().zip(raw) {
+                *slot = value
+                    .as_f64()
+                    .ok_or_else(|| format!("{key}: coefficient is not a number"))?;
+            }
+            intervals.push(CpInterval {
+                t_min: row["t_min_k"]
+                    .as_f64()
+                    .ok_or_else(|| format!("{key}: interval has no t_min_k"))?,
+                t_max: row["t_max_k"]
+                    .as_f64()
+                    .ok_or_else(|| format!("{key}: interval has no t_max_k"))?,
+                form,
+                coefficients,
+                reference: leak(row["reference"].as_str().unwrap_or("")),
+            });
+        }
+        out.push(CpPolynomial {
+            phase,
+            intervals: Box::leak(intervals.into_boxed_slice()),
+            source: {
+                let id = curve["evidence"]["source_id"]
+                    .as_str()
+                    .ok_or_else(|| format!("{key}: heat-capacity curve has no source"))?;
+                leak(
+                    sources
+                        .iter()
+                        .find(|s| s["id"] == id)
+                        .and_then(|s| s["citation"].as_str())
+                        .ok_or_else(|| format!("no source citation for {id}"))?,
+                )
+            },
+            method: leak(curve["evidence"]["method"]["detail"].as_str().unwrap_or("")),
+            boundary: leak(curve["boundary"].as_str().unwrap_or("")),
+        });
+    }
+    Ok(Box::leak(out.into_boxed_slice()))
 }
 
 /// A loaded species' absorption spectrum: the optical record's sixteen
@@ -73,6 +158,12 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
     let optical = arr("optical")?;
     let params = arr("model_parameters")?;
     let sources = arr("sources")?;
+    // A document from before the curve tranche has no section at all, and
+    // that is a legal document: every species then keeps its constant.
+    let curves: &[serde_json::Value] = doc["heat_capacity_polynomials"]
+        .as_array()
+        .map(|v| v.as_slice())
+        .unwrap_or(&[]);
 
     let find_source = |id: &str| -> Result<&str, String> {
         sources
@@ -257,6 +348,7 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             inchikey: leak(identity["identifiers"]["inchikey"].as_str().unwrap_or("")),
             molar_mass,
             heat_capacity,
+            heat_capacity_polys: heat_capacity_polys_of(key, curves, sources)?,
             density,
             standard_phase,
             appearance,

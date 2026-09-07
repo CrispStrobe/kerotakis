@@ -157,9 +157,18 @@ fn mechanism_inspect_reports_troe_falloff_parameters() {
     );
     let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(value["reaction_details"][0]["rate_model"], "troe");
-    assert_eq!(
-        value["reaction_details"][0]["low_pressure_pre_exponential"],
-        1.0e6
+    // 1.0e15 in mol/cm3 units is 1.0e6 in mol/L for a third-order rate, and
+    // the conversion that gets there lands one unit in the last place out.
+    // `assert_eq!` on the JSON number used to pass only because serde_json
+    // rounded those last digits away as it parsed; with `float_roundtrip` it
+    // no longer does, and the honest comparison for a unit conversion was
+    // never bit equality.
+    let low_pressure = value["reaction_details"][0]["low_pressure_pre_exponential"]
+        .as_f64()
+        .expect("the low-pressure pre-exponential is a number");
+    assert!(
+        (low_pressure - 1.0e6).abs() < 1.0e-3,
+        "expected 1.0e6, got {low_pressure}"
     );
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
