@@ -24,7 +24,8 @@
 //! The one left reachable is octacalcium phosphate, which is what a
 //! near-neutral calcium phosphate solution actually gives at bench
 //! temperature and is the family milk's own colloidal calcium phosphate
-//! belongs to. About 3.4 mg of it comes out of 100 mL.
+//! belongs to. About 37 mg of it comes out of 100 mL, carrying 29 % of the
+//! calcium the recipe books into the glass.
 
 use kerotakis_core::render::{render_events, render_vessel, Register};
 use kerotakis_core::*;
@@ -127,12 +128,15 @@ fn milk_precipitates_a_calcium_phosphate_instead_of_apologising() {
         "100 mL of milk must lay down a calcium phosphate; it holds {ocp:.4e} mol \
          ({mass_mg:.3} mg) of octacalcium phosphate. Full output:\n{text}"
     );
-    // A few milligrams, not a curd. The bound is loose on purpose: what is
-    // being pinned is that a real but small colloid comes out, which is
-    // what a recipe carrying no casein can honestly produce.
+    // Tens of milligrams, not a curd, and not a trace either. The band is
+    // wide on purpose: what is pinned is that a real colloid of the right
+    // ORDER comes out — about an eighth of the 280 mg of calcium phosphate
+    // real milk holds in its micelle, which is what a recipe carrying no
+    // casein can honestly produce — rather than a digit a database
+    // revision could move.
     assert!(
-        (0.5..=20.0).contains(&mass_mg),
-        "the colloid should be a few milligrams per 100 mL, got {mass_mg:.3} mg"
+        (15.0..=70.0).contains(&mass_mg),
+        "the colloid should be a few tens of milligrams per 100 mL, got {mass_mg:.3} mg"
     );
     assert!(
         text.to_lowercase().contains("octacalcium phosphate"),
