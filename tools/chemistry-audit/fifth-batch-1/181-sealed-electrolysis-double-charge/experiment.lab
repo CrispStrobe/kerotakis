@@ -1,0 +1,8 @@
+# Does doubling charge double both generated products?
+register lv3
+add v1 water 0.3L
+add v1 KNO3 0.0012mol
+seal v1 0.12L
+electrolyse v1 0.15A 160s
+measure v1 pressure
+inspect

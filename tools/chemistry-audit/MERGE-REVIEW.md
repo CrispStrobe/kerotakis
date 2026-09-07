@@ -1,5 +1,121 @@
 # Safe integration review, 2026-09-07
 
+## Implementation checkpoint — 2026-09-07 11:33 UTC
+
+The generic curated-reaction diagnostic fix is implemented: model refusal,
+nonfinite result, absent/depleted forward-and-reverse capacity, and supported
+near-zero equilibrium extent are distinct. A valid equilibrium no-op emits
+the existing OrgReacted event with extent zero and an unchanged-inventory
+boundary. No experimental ID dispatch or numerical chemistry change was added.
+Six focused helper/integration regressions cover these distinctions, reverse
+reaction, and repeated requests over multiple scales. They are NOT yet executed:
+the local compile was stopped under severe host starvation, exact owned Cargo
+and rustc PIDs verified gone. Formatting/diff checks pass; compiled verification
+and the new CLI are delegated to CI, not represented by the old binary's results.
+
+Catalog: three original entries, EN/DE prose and German title labels are added.
+Native replay of 13 selected entries passes 37 checks; 199 focused web tests pass.
+Actual native export was reviewed: exactly three added entries, no other semantic
+change. The existing cached engine-free snapshot executable computed the three
+new lesson records; all existing records were unchanged. Only those additions
+were accepted. This is not verification of the new diagnostic implementation.
+Fresh source-built snapshot checks remain required in CI.
+
+Fifth native inventory cross-check also passes 213/213 comparisons over 226 rows.
+Fifth regression fleet is now wired into CI. Sixth fleet is frozen (24 cases,
+66 checks), missing-output negative control passes, and CI will run it on the
+rebuilt CLI. No sixth scientific pass is claimed before execution. Inputs and
+failure evidence are retained by the existing artifact workflow.
+
+Preservation decision: keep all fifth controls in the regression corpus. Strong
+next app candidates are diprotic remaining-equivalent capacity and hydroxide-
+limited zinc precipitation/acid reversal. Unequal silver feeds, equal charge
+and repeated equilibrium overlap existing lessons and should not become duplicate
+catalog cards. See SIXTH-BATCH for rationale. Source research stays private.
+
+Ownership remains audit branch / PR #504. No merge is claimed. Last GitHub status
+read approximately 11:31 UTC: OPEN, mergeability UNKNOWN, head a375f29d; do not
+poll again before 11:36 UTC. Integrator owns reserved branches and main sync.
+
+## Fifth fleet complete — 2026-09-07 11:08 UTC
+
+All 36 cases completed with exit zero and zero solver_failed events. The frozen
+analyser reports 119/119 checks passing: 36 execution, 42 conservation and 41
+model-law/control checks. Root read the actual report and confirmed no failed
+checks. Evidence is `fifth-batch-1/summary.json` and `law-checks.json`; no bounds
+were changed. Total per-case elapsed time 477.525 s, median 12.67 s, range
+6.376–25.051 s. This supersedes the in-flight checkpoint below.
+
+One diagnostic correctness gap remains despite passing numerical checks:
+case 192 is already at ester equilibrium, yet the repeated request says it
+needs both reactants. Both remain present (acid 0.010276049844845335 mol,
+ethanol 0.002276049844845333 mol); bench.rs uses the same message for near-zero
+extent. The state/idempotence checks pass; the explanation is misleading.
+Organic-rich mixtures also explicitly withhold aqueous ionic speciation;
+their ideal ester result does not validate missing nonaqueous activity models.
+
+Timing diagnosis: recorder starts a fresh CLI per case. Each run eagerly builds
+both primary and optional explanation aqueous engines, each loading three
+databases and obtaining neutralisation data. Host has four CPUs and load ~28.
+A separate no-operation startup probe measured 3.98 s wall versus 0.73 s CPU;
+Three simple operations measured 13.70 s wall / 1.90 s CPU; thirty operations
+in one timing-only shared session measured 10.08 s wall / 2.18 s CPU. These
+single samples demonstrate noisy wall-time contention, not a reliable speedup
+ratio. The existing MCP reset also reconstructs the engine session, so it does
+not yet provide isolated engine reuse. No runtime change
+or safe merge has been made by this diagnostic work. Catalog verification,
+diagnostic repair, source-backed extensions and combined CI remain pending.
+
+## Execution underway — 2026-09-07 11:02 UTC
+
+The frozen fifth fleet is now running through the existing native CLI (recorder
+PID 4032401); 15 of 36 cases have completed with exit zero at this checkpoint.
+Scientific pass counts await the unchanged 119-check analyser. Preflight input,
+analyser, protocol and binary hashes are in `fifth-batch-1/preflight.json`;
+raw outputs are retained. The assigned execution agent owns completion monitoring
+and analysis, with no rebuild or tolerance changes authorized.
+
+Separately, three private original analogue runs completed with all 12 declared
+checks passing and no solver failures. Root independently rechecked their raw
+scientific/control outputs. Exact inputs, source relationships and results stay
+in private research storage. These narrow successes do not validate the original
+source apparatus/endpoints or fix the previously identified model limitations.
+Catalog integration and combined CI/merge remain pending.
+
+## Intermediate review — 2026-09-07 10:54 UTC
+
+Root inspected private intermediate files and checked their schema/gap
+references, then resumed idle reviewers with explicit remaining coverage and
+machine-readable variant/check tasks. This establishes research progress only:
+no new source-inspired experiment has been executed or scientifically validated.
+Exact findings remain private as instructed. No reserved KIDS/integration files
+were changed. Catalog replay/export and the frozen fifth-fleet execution remain
+pending; no new chemistry fix, passing combined CI or merge is claimed.
+
+## Latest checkpoint — 2026-09-07 10:38 UTC
+
+Ownership remains audit branch `audit/chemistry-experiments-20260906`, PR #504;
+latest pushed implementation is `a375f29d`. No merge or new combined CI pass
+is claimed. All reserved integration branches/files remain untouched.
+
+Three independently authored catalog additions are in progress locally, with
+German translations and step guidance. Agent-reported schema/prose checks pass;
+root runtime replay, generated exports/snapshots and final integration checks
+remain required. Fifth fleet inputs are frozen: 36 new cases, 119 predeclared
+checks, with a missing-output negative control. It has not yet been executed.
+
+Source research is intentionally outside the public repository, now backed by
+a separately verified private repository. Exact source inventories, source-to-
+model gaps, URLs, and archival assets must stay private; this public checkpoint
+records only progress. Research assignments cover the supplied manuals and a
+new library triage; educational index review remains with root. Assignment is
+not completed coverage. No source-derived runtime data or copied manual text
+has been added to the app. Reuse and scientific validation remain separate gates.
+
+Next: finish/replay the three catalog entries, execute the frozen fifth fleet,
+continue private source review, reconcile combined CI with the integrator, and
+merge only after validation. GitHub status polling remains >=300 seconds.
+
 ## Latest audit state — 2026-09-07 09:38 UTC
 
 This supersedes earlier pending-run checkpoints below. Ownership restrictions

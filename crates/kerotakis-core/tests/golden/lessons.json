@@ -1712,6 +1712,77 @@
       }
     ]
   },
+  "equal-charge-different-clocks": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +1.00 mmol potassium nitrate",
+      "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v2: new vessel",
+      "v2: +13.8357 mol water",
+      "v2: +1.00 mmol potassium nitrate",
+      "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v3: new vessel",
+      "v3: +13.8357 mol water",
+      "v3: +1.00 mmol potassium nitrate",
+      "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+      "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled"
+    ],
+    "lesson": "equal-charge-different-clocks.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "KNO3"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "KNO3"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "KNO3"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "equilibrium-can-run-backward": {
     "event_count": 9,
     "events_sample": [
@@ -2228,6 +2299,106 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 262.1556
+      }
+    ]
+  },
+  "grouping-does-not-change-water-heat": {
+    "event_count": 37,
+    "events_sample": [
+      "v2: new vessel",
+      "v2: +1.0000 mol water",
+      "v2: 25.0 °C → 29.0 °C",
+      "v2: 0.30 kJ requested; 0.30 kJ delivered — time model not yet coupled",
+      "v3: new vessel",
+      "v3: +2.0000 mol water",
+      "v3: 25.0 °C → 23.7 °C",
+      "v3: 0.20 kJ requested; 0.20 kJ removed — time model not yet coupled",
+      "v4: new vessel",
+      "v4: +3.0000 mol water",
+      "v4: 25.0 °C → 25.4 °C",
+      "v4: 0.10 kJ requested; 0.10 kJ delivered — time model not yet coupled",
+      "v5: new vessel",
+      "v5: 25.0 °C → 25.4 °C",
+      "v2 (100%) + v3 (100%) → v5 at 25.44 °C",
+      "v1: 25.0 °C → 25.4 °C",
+      "v5 (100%) + v4 (100%) → v1 at 25.44 °C",
+      "v1 thermometer: 25.44 °C",
+      "v6: new vessel",
+      "v6: +1.0000 mol water"
+    ],
+    "lesson": "grouping-does-not-change-water-heat.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 6.0,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.5927
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 302.1341
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 296.822
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.5927
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.5927
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 302.1341
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 296.822
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.5927
+      },
+      {
+        "contents": [],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 297.8844
+      },
+      {
+        "contents": [
+          {
+            "moles": 6.0,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.5927
       }
     ]
   },
@@ -5726,6 +5897,63 @@
           },
           {
             "moles": 13.83842706,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "three-components-one-cut": {
+    "event_count": 5,
+    "events_sample": [
+      "v1: +3.0000 mol water",
+      "v1: +0.3000 mol methanol",
+      "v1: +0.2000 mol isopropanol",
+      "v2: new vessel",
+      "v1 → v2: 0.058907 mol isopropanol + 0.138644 mol methanol + 0.502448 mol water; 366.75 K → 368.45 K; 1 stage(s); 27.672 kJ latent heat. Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+    ],
+    "lesson": "three-components-one-cut.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.14109274,
+            "phase": "Liquid",
+            "species": "isopropanol"
+          },
+          {
+            "moles": 0.16135565,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 2.49755161,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05890726,
+            "phase": "Liquid",
+            "species": "isopropanol"
+          },
+          {
+            "moles": 0.13864435,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 0.50244839,
             "phase": "Liquid",
             "species": "water"
           }

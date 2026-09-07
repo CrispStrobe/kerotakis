@@ -1,0 +1,9 @@
+# Is a second equilibrium request idempotent rather than a second yield recipe?
+register lv3
+add v1 CH3COOH 0.017mol
+add v1 ethanol 0.009mol
+add v1 ethyl_acetate 0.002mol
+add v1 water 0.004mol
+react v1 esterification
+react v1 esterification
+inspect

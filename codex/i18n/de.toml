@@ -1,4 +1,32 @@
 # The catalogue in German.
+# Original audit-discovery translations, model-assisted draft, 2026-09-07.
+"three-components-one-cut.summary" = "Ein berechneter Destillationsschnitt überträgt drei Komponenten, ohne eine davon zu erzeugen oder zu verwerfen"
+"three-components-one-cut.expect.predict.question" = "Kommt die flüchtigste Komponente allein in der Vorlage an?"
+"three-components-one-cut.expect.predict.options" = ["Ja: Destillation überträgt immer nur eine Komponente", "Nein: Der Dampf ist ein Gemisch, und jede Komponente muss in beiden Gefäßen gezählt werden"]
+"three-components-one-cut.expect.predict.misconception" = "Anreicherung wird mit vollständiger Trennung verwechselt; ein gemischter Dampf kann eine Komponente bevorzugen, ohne die anderen auszuschließen."
+"three-components-one-cut.expect.predict.diagnosis.0.reveals" = "Eine Reihenfolge der Siedepunkte wird als Abfolge reiner Komponentenentnahmen verstanden."
+"three-components-one-cut.expect.predict.diagnosis.0.next" = "Addiere für jede Komponente die verbliebene und die aufgefangene Stoffmenge und vergleiche danach die Zusammensetzung der Vorlage mit der Ausgangsmischung."
+"three-components-one-cut.registers.lv1" = "Die Vorlage erhält ein Gemisch, nicht nur die am leichtesten verdampfende Komponente; was das Ausgangsgefäß verlässt, muss anderswo auftauchen."
+"three-components-one-cut.registers.lv2" = "Anfangs sind es insgesamt 3 + 0,3 + 0,2 = 3,5 mol, sodass ein molarer Schnittanteil von 0,2 insgesamt 0,7 mol anfordert, nicht diesen Anteil jeder einzelnen Komponente; prüfe jede Komponente getrennt über Ausgangsgefäß und Vorlage."
+"three-components-one-cut.registers.lv3" = "Die allgemeine Rayleigh-Berechnung verwendet ideales Raoult-Mischen und eine begrenzte Clausius–Clapeyron-Näherung mit konstanter Verdampfungsenthalpie; sie sagt weder nichtideale Azeotrope noch gemessene Apparateleistungen voraus, und die angegebene Energie summiert nur die latente Wärme des entnommenen Kondensats, ohne fühlbare Erwärmung und Rücklauf- oder Verdampferumlauf."
+"equal-charge-different-clocks.summary" = "Gleiche zugeführte Ladung ergibt trotz unterschiedlicher Stromverläufe dieselbe modellierte Wasserelektrolyse-Produktion"
+"equal-charge-different-clocks.expect.predict.question" = "Welcher Stromverlauf erzeugt in diesem Wasserelektrolyse-Modell den meisten Wasserstoff?"
+"equal-charge-different-clocks.expect.predict.options" = ["Der größte Strom erzeugt immer am meisten", "Alle drei Verläufe erzeugen dieselbe Menge, weil sie dieselbe Ladung zuführen"]
+"equal-charge-different-clocks.expect.predict.misconception" = "Strom wird als Menge statt als Ladung pro Zeit behandelt; die Dauer und die Summe getrennter Pulse fehlen."
+"equal-charge-different-clocks.expect.predict.diagnosis.0.reveals" = "Eine momentane Einstellung soll eine Gesamtmenge vorhersagen, ohne über die Zeit zu integrieren."
+"equal-charge-different-clocks.expect.predict.diagnosis.0.next" = "Multipliziere für jeden Puls Strom und Dauer, addiere die Pulse und vergleiche die erzeugten Elektrodenproduktmengen statt nur das in den offenen Gefäßen verbleibende Gas."
+"equal-charge-different-clocks.registers.lv1" = "Ein kleinerer Strom kann durch längere Dauer aufholen, und eine aufgeteilte Zufuhr löscht ihren ersten Teil nicht."
+"equal-charge-different-clocks.registers.lv2" = "Jeder Verlauf liefert Q = It = 12 C; bei Wasserüberschuss ergibt das Modell n(H2) = Q/(2F) und n(O2) = Q/(4F), daher ist die gesamte Elektrodenproduktion zu vergleichen, statt entwichene Gase als fehlende Produktion zu behandeln."
+"equal-charge-different-clocks.registers.lv3" = "Diese Kontrollen prüfen das vorhandene ideale Ladungs-Produkt-Modell, nicht gemessene Stromausbeute, Elektrodenüberspannung oder Gasauffangverluste; die unabhängige Atombilanz verrechnet den Endbestand mit nach außen abgegebenem minus aufgenommenem Gas, zählt zurückgehaltenes Kopfraumgas nur im Bestand und fügt Produktionsereignisse niemals als weiteren Stoffvorrat hinzu."
+"grouping-does-not-change-water-heat.summary" = "Eine andere Gruppierung derselben drei Wasserportionen bewahrt die abschließende Bilanz der fühlbaren Wärme"
+"grouping-does-not-change-water-heat.expect.predict.question" = "Ändert das zuerst gemischte wärmere Paar die Endtemperatur, wenn schließlich alle drei Wasserportionen zusammenkommen?"
+"grouping-does-not-change-water-heat.expect.predict.options" = ["Ja: Die erste Mischung legt eine Temperatur fest, an die sich die spätere Mischung erinnert", "Nein: Dieselbe gesamte Wassermenge und erhaltene fühlbare Wärme bestimmen die Endtemperatur"]
+"grouping-does-not-change-water-heat.expect.predict.misconception" = "Eine Zwischentemperatur wird als erhalten behandelt statt der Energie, die jede Wassermenge mitbringt."
+"grouping-does-not-change-water-heat.expect.predict.diagnosis.0.reveals" = "Ungewichtete Zwischentemperaturen ersetzen eine nach Stoffmengen gewichtete Energiebilanz."
+"grouping-does-not-change-water-heat.expect.predict.diagnosis.0.next" = "Summiere Energiezufuhr und Energieentzug, teile durch die gesamte Wärmekapazität und vergleiche die abschließenden Thermometer in v1 und v10."
+"grouping-does-not-change-water-heat.registers.lv1" = "Unterschiedliche Zwischentemperaturen können zur selben Endtemperatur führen, wenn am Ende dasselbe Wasser und dieselbe Energie zusammenkommen."
+"grouping-does-not-change-water-heat.registers.lv2" = "Jeder Zweig beginnt mit 6 mol Wasser bei 25 °C und behält 300 - 200 + 100 = 200 J; mit der vorhandenen Wasser-Wärmekapazität von 75,3 J/(mol K) folgt die Endtemperatur aus 25 + 200/(6 × 75,3), unabhängig von der Gruppierung."
+"grouping-does-not-change-water-heat.registers.lv3" = "Dies ist eine adiabatische Kontrolle der fühlbaren Wärme von Wasser bei konstanter Wärmekapazität, ohne Phasenübergang oder reaktives Mischen; sie behauptet weder Wärmeverlustfreiheit wirklicher Gefäße noch gleiche Endtemperaturen, wenn Stoff entweicht oder auf den Wegen unterschiedliche Chemie abläuft."
 # Audit preservation additions, original model-assisted editorial text, 2026-09-06.
 "endpoint-is-not-a-full-drop.summary" = "Ein grober Probeschritt grenzt den Endpunkt ein; ein berechneter Teilschritt erreicht ihn"
 "endpoint-is-not-a-full-drop.expect.predict.question" = "Die Säure benötigt ungefähr 23 mL Maßlösung. Die automatische Berechnung probiert 7-mL-Schritte. Muss sie bei 28 mL enden?"

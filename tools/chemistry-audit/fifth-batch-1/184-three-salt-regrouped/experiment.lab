@@ -1,0 +1,15 @@
+# Does regrouping three salt feeds preserve the receiver?
+register lv3
+add v1 water 0.15L
+add v1 CaCl2 0.0006mol
+new
+add v2 water 0.25L
+add v2 MgSO4 0.0005mol
+new
+add v3 water 0.35L
+add v3 NaNO3 0.0007mol
+new
+mix v2 0.6 v3 0.8 into v4
+new
+mix v1 0.4 v4 1 into v5
+inspect

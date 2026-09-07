@@ -1,0 +1,6 @@
+# Does coarse dosing refine to the same diprotic capacity?
+register lv3
+add v1 water 0.35L
+add v1 H2SO4 0.0007mol
+titrate v1 KOH 0.05M 11mL until ph 7
+inspect

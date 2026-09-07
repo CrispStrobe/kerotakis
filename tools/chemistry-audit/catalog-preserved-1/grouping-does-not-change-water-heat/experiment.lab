@@ -1,0 +1,30 @@
+# Grouping the same three water portions differently preserves their final sensible-energy balance
+register lv3
+new
+add v2 water 1mol
+heat v2 300J
+new
+add v3 water 2mol
+cool v3 200J
+new
+add v4 water 3mol
+heat v4 100J
+new
+mix v2 1 v3 1 into v5
+mix v5 1 v4 1 into v1
+measure v1 thermometer
+new
+add v6 water 1mol
+heat v6 300J
+new
+add v7 water 2mol
+cool v7 200J
+new
+add v8 water 3mol
+heat v8 100J
+new
+mix v7 1 v8 1 into v9
+new
+mix v6 1 v9 1 into v10
+measure v10 thermometer
+inspect

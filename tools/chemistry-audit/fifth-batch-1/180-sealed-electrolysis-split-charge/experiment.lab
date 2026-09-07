@@ -1,0 +1,9 @@
+# Does a divided electrical dose preserve cumulative electrode production?
+register lv3
+add v1 water 0.3L
+add v1 KNO3 0.0012mol
+seal v1 0.12L
+electrolyse v1 0.15A 40.0s
+electrolyse v1 0.15A 40.0s
+measure v1 pressure
+inspect

@@ -54,8 +54,8 @@ describe("codex labels are translated", () => {
   it("finds the catalogue, so the walk is not vacuous", () => {
     // Every count below is asserted rather than derived, because a test
     // that walks an empty list passes loudly and means nothing.
-    // The merged 108-entry catalog plus the two chemistry-audit lessons.
-    expect(experiments).toHaveLength(110);
+    // The merged 108-entry catalog plus five chemistry-audit lessons.
+    expect(experiments).toHaveLength(113);
     expect(concepts.length).toBeGreaterThanOrEqual(153);
   });
 

@@ -1,0 +1,303 @@
+diff --git a/codex/i18n/de.toml b/codex/i18n/de.toml
+index 5e484aa7..85f8d23d 100644
+--- a/codex/i18n/de.toml
++++ b/codex/i18n/de.toml
+@@ -1,4 +1,32 @@
+ # The catalogue in German.
++# Original audit-discovery translations, model-assisted draft, 2026-09-07.
++"three-components-one-cut.summary" = "Ein berechneter Destillationsschnitt überträgt drei Komponenten, ohne eine davon zu erzeugen oder zu verwerfen"
++"three-components-one-cut.expect.predict.question" = "Kommt die flüchtigste Komponente allein in der Vorlage an?"
++"three-components-one-cut.expect.predict.options" = ["Ja: Destillation überträgt immer nur eine Komponente", "Nein: Der Dampf ist ein Gemisch, und jede Komponente muss in beiden Gefäßen gezählt werden"]
++"three-components-one-cut.expect.predict.misconception" = "Anreicherung wird mit vollständiger Trennung verwechselt; ein gemischter Dampf kann eine Komponente bevorzugen, ohne die anderen auszuschließen."
++"three-components-one-cut.expect.predict.diagnosis.0.reveals" = "Eine Reihenfolge der Siedepunkte wird als Abfolge reiner Komponentenentnahmen verstanden."
++"three-components-one-cut.expect.predict.diagnosis.0.next" = "Addiere für jede Komponente die verbliebene und die aufgefangene Stoffmenge und vergleiche danach die Zusammensetzung der Vorlage mit der Ausgangsmischung."
++"three-components-one-cut.registers.lv1" = "Die Vorlage erhält ein Gemisch, nicht nur die am leichtesten verdampfende Komponente; was das Ausgangsgefäß verlässt, muss anderswo auftauchen."
++"three-components-one-cut.registers.lv2" = "Anfangs sind es insgesamt 3 + 0,3 + 0,2 = 3,5 mol, sodass ein molarer Schnittanteil von 0,2 insgesamt 0,7 mol anfordert, nicht diesen Anteil jeder einzelnen Komponente; prüfe jede Komponente getrennt über Ausgangsgefäß und Vorlage."
++"three-components-one-cut.registers.lv3" = "Die allgemeine Rayleigh-Berechnung verwendet ideales Raoult-Mischen und eine begrenzte Clausius–Clapeyron-Näherung mit konstanter Verdampfungsenthalpie; sie sagt weder nichtideale Azeotrope noch gemessene Apparateleistungen voraus, und die angegebene Energie summiert nur die latente Wärme des entnommenen Kondensats, ohne fühlbare Erwärmung und Rücklauf- oder Verdampferumlauf."
++"equal-charge-different-clocks.summary" = "Gleiche zugeführte Ladung ergibt trotz unterschiedlicher Stromverläufe dieselbe modellierte Wasserelektrolyse-Produktion"
++"equal-charge-different-clocks.expect.predict.question" = "Welcher Stromverlauf erzeugt in diesem Wasserelektrolyse-Modell den meisten Wasserstoff?"
++"equal-charge-different-clocks.expect.predict.options" = ["Der größte Strom erzeugt immer am meisten", "Alle drei Verläufe erzeugen dieselbe Menge, weil sie dieselbe Ladung zuführen"]
++"equal-charge-different-clocks.expect.predict.misconception" = "Strom wird als Menge statt als Ladung pro Zeit behandelt; die Dauer und die Summe getrennter Pulse fehlen."
++"equal-charge-different-clocks.expect.predict.diagnosis.0.reveals" = "Eine momentane Einstellung soll eine Gesamtmenge vorhersagen, ohne über die Zeit zu integrieren."
++"equal-charge-different-clocks.expect.predict.diagnosis.0.next" = "Multipliziere für jeden Puls Strom und Dauer, addiere die Pulse und vergleiche die erzeugten Elektrodenproduktmengen statt nur das in den offenen Gefäßen verbleibende Gas."
++"equal-charge-different-clocks.registers.lv1" = "Ein kleinerer Strom kann durch längere Dauer aufholen, und eine aufgeteilte Zufuhr löscht ihren ersten Teil nicht."
++"equal-charge-different-clocks.registers.lv2" = "Jeder Verlauf liefert Q = It = 12 C; bei Wasserüberschuss ergibt das Modell n(H2) = Q/(2F) und n(O2) = Q/(4F), daher ist die gesamte Elektrodenproduktion zu vergleichen, statt entwichene Gase als fehlende Produktion zu behandeln."
++"equal-charge-different-clocks.registers.lv3" = "Diese Kontrollen prüfen das vorhandene ideale Ladungs-Produkt-Modell, nicht gemessene Stromausbeute, Elektrodenüberspannung oder Gasauffangverluste; die unabhängige Atombilanz verrechnet den Endbestand mit nach außen abgegebenem minus aufgenommenem Gas, zählt zurückgehaltenes Kopfraumgas nur im Bestand und fügt Produktionsereignisse niemals als weiteren Stoffvorrat hinzu."
++"grouping-does-not-change-water-heat.summary" = "Eine andere Gruppierung derselben drei Wasserportionen bewahrt die abschließende Bilanz der fühlbaren Wärme"
++"grouping-does-not-change-water-heat.expect.predict.question" = "Ändert das zuerst gemischte wärmere Paar die Endtemperatur, wenn schließlich alle drei Wasserportionen zusammenkommen?"
++"grouping-does-not-change-water-heat.expect.predict.options" = ["Ja: Die erste Mischung legt eine Temperatur fest, an die sich die spätere Mischung erinnert", "Nein: Dieselbe gesamte Wassermenge und erhaltene fühlbare Wärme bestimmen die Endtemperatur"]
++"grouping-does-not-change-water-heat.expect.predict.misconception" = "Eine Zwischentemperatur wird als erhalten behandelt statt der Energie, die jede Wassermenge mitbringt."
++"grouping-does-not-change-water-heat.expect.predict.diagnosis.0.reveals" = "Ungewichtete Zwischentemperaturen ersetzen eine nach Stoffmengen gewichtete Energiebilanz."
++"grouping-does-not-change-water-heat.expect.predict.diagnosis.0.next" = "Summiere Energiezufuhr und Energieentzug, teile durch die gesamte Wärmekapazität und vergleiche die abschließenden Thermometer in v1 und v10."
++"grouping-does-not-change-water-heat.registers.lv1" = "Unterschiedliche Zwischentemperaturen können zur selben Endtemperatur führen, wenn am Ende dasselbe Wasser und dieselbe Energie zusammenkommen."
++"grouping-does-not-change-water-heat.registers.lv2" = "Jeder Zweig beginnt mit 6 mol Wasser bei 25 °C und behält 300 - 200 + 100 = 200 J; mit der vorhandenen Wasser-Wärmekapazität von 75,3 J/(mol K) folgt die Endtemperatur aus 25 + 200/(6 × 75,3), unabhängig von der Gruppierung."
++"grouping-does-not-change-water-heat.registers.lv3" = "Dies ist eine adiabatische Kontrolle der fühlbaren Wärme von Wasser bei konstanter Wärmekapazität, ohne Phasenübergang oder reaktives Mischen; sie behauptet weder Wärmeverlustfreiheit wirklicher Gefäße noch gleiche Endtemperaturen, wenn Stoff entweicht oder auf den Wegen unterschiedliche Chemie abläuft."
+ # Audit preservation additions, original model-assisted editorial text, 2026-09-06.
+ "endpoint-is-not-a-full-drop.summary" = "Ein grober Probeschritt grenzt den Endpunkt ein; ein berechneter Teilschritt erreicht ihn"
+ "endpoint-is-not-a-full-drop.expect.predict.question" = "Die Säure benötigt ungefähr 23 mL Maßlösung. Die automatische Berechnung probiert 7-mL-Schritte. Muss sie bei 28 mL enden?"
+diff --git a/data/steps/step-prose-de-v1.json b/data/steps/step-prose-de-v1.json
+index 87fb07ec..98386f3e 100644
+--- a/data/steps/step-prose-de-v1.json
++++ b/data/steps/step-prose-de-v1.json
+@@ -269,6 +269,23 @@
+       "Wiederhole die Berechnung mit derselben Maßlösungskonzentration und demselben pH-Ziel, aber mit 1-mL-Probezuschlägen.",
+       "Vergleiche diesen End-pH und das angegebene zugegebene Volumen mit dem groben Suchlauf, um Suchschrittweite und Endpunktauflösung auseinanderzuhalten."
+     ],
++    "equal-charge-different-clocks": [
++      "Gib dem ersten Gefäß 250 mL Wasser.",
++      "Gib Kaliumnitrat als Leitelektrolyt hinzu.",
++      "Führe bei 0,2 A für 60 Sekunden Ladung zu und beachte beide Elektrodenprodukte.",
++      "Erstelle ein zweites Gefäß als Kontrolle mit kleinerem Strom.",
++      "Verwende dieselbe Wassermenge.",
++      "Verwende dieselbe Elektrolytmenge.",
++      "Halbiere den Strom und verdopple die Dauer, sodass die zugeführte Ladung gleich bleibt.",
++      "Erstelle ein drittes Gefäß für eine aufgeteilte Zufuhr.",
++      "Gib dieselbe Wassermenge hinein.",
++      "Gib dieselbe Elektrolytmenge hinein.",
++      "Führe die erste Hälfte der Ladung beim ursprünglichen Strom zu.",
++      "Führe die zweite Hälfte zu und addiere ihre Produktion zur ersten, statt diese zu ersetzen.",
++      "Betrachte das erste Gefäß und bedenke, dass erzeugtes Gas ein offenes Gefäß verlassen kann.",
++      "Betrachte das zweite Gefäß und vergleiche die gesamte Elektrodenproduktion mit dem ersten Verlauf.",
++      "Betrachte das dritte Gefäß und vergleiche die Summe beider Pulse mit den anderen Zufuhren gleicher Ladung."
++    ],
+     "equilibrium-can-run-backward": [
+       "Beginne im ersten Gefäß mit 0,01 mol Essigsäure, einem Ausgangsstoff des Gleichgewichtsmodells.",
+       "Gib dieselbe Stoffmenge Ethanol als zweiten Ausgangsstoff hinzu.",
+@@ -310,6 +327,35 @@
+       "Direkt zünden, bei der Zündtemperatur der Werkbank.",
+       "Das Thermometer zeigt rund sechshundert Grad mehr als beim ersten. Gleiche Reaktion, gleiche freigesetzte Energie; die vorher zugeführte Wärme ist beim Entzünden nicht verschwunden — eine Flammentemperatur ist eine Bilanz und keine Eigenschaft des Metalls."
+     ],
++    "grouping-does-not-change-water-heat": [
++      "Lass v1 als Endvorlage leer und erstelle das erste Wassergefäß.",
++      "Gib ein Mol Wasser als erste Portion hinein.",
++      "Führe dieser Portion 300 J fühlbare Wärme zu.",
++      "Erstelle ein Gefäß für die zweite Portion.",
++      "Gib zwei Mol Wasser hinein.",
++      "Entziehe dieser Portion 200 J.",
++      "Erstelle ein Gefäß für die dritte Portion.",
++      "Gib drei Mol Wasser hinein.",
++      "Führe dieser Portion 100 J zu.",
++      "Erstelle ein Zwischengefäß zum Mischen.",
++      "Vereinige die erste und zweite Portion vollständig, wobei Stoffmengen und Energie gemeinsam übertragen werden.",
++      "Vereinige diese Zwischenmischung mit der dritten Portion in v1.",
++      "Lies die Endtemperatur der ersten Gruppierung ab.",
++      "Erstelle das erste Gefäß eines gleichen zweiten Zweigs.",
++      "Gib dasselbe eine Mol Wasser hinein.",
++      "Führe dieselben 300 J zu.",
++      "Erstelle das Gefäß für die zweite Portion.",
++      "Gib dieselben zwei Mol Wasser hinein.",
++      "Entziehe dieselben 200 J.",
++      "Erstelle das Gefäß für die dritte Portion.",
++      "Gib dieselben drei Mol Wasser hinein.",
++      "Führe dieselben 100 J zu.",
++      "Erstelle das andere Zwischengefäß zum Mischen.",
++      "Vereinige diesmal zuerst die zweite und dritte Portion.",
++      "Erstelle eine Vorlage für die Endmischung des zweiten Zweigs.",
++      "Gib die erste Portion zu dieser Zwischenmischung, sodass alle sechs Mol und ihre Nettoenergie erhalten bleiben.",
++      "Vergleiche das abschließende Thermometer mit v1, nicht die unterschiedlichen Zwischentemperaturen."
++    ],
+     "half-neutralised-vinegar": [
+       "Ein Liter Wasser.",
+       "0,1 mol Essigsäure.",
+@@ -643,6 +689,15 @@
+       "Ein tausendstel Gramm Katalase ist alles, was der dritte Kolben bekommt — ein Hunderttausendstel der Peroxidmasse.",
+       "Eine Sekunde vergeht für alle drei. Der schlichte Kolben hat nichts getan, was die Werkbank melden würde, der Mangan-Kolben hat ein wenig zersetzt, und der Katalase-Kolben ist bereits fertig."
+     ],
++    "three-components-one-cut": [
++      "Beginne im Ausgangsgefäß mit drei Mol Wasser.",
++      "Gib Methanol als eine flüchtige Komponente hinzu.",
++      "Gib Isopropanol als weitere Komponente hinzu, die die Berechnung nicht verwerfen darf.",
++      "Erstelle eine leere Vorlage für den berechneten Destillationsschnitt.",
++      "Entnimm ein Fünftel der gesamten Stoffmenge mit der offengelegten Näherung eines idealen Gemischs.",
++      "Betrachte den Rest im Ausgangsgefäß und behalte jede Komponente in der Bilanz.",
++      "Betrachte die Vorlage und addiere ihre Komponenten zu den verbliebenen Stoffmengen, ohne Anreicherung mit Reinheit zu verwechseln."
++    ],
+     "two-beakers-and-one-clock": [
+       "100 mL Wasser bei 25 °C in das erste Becherglas.",
+       "0,79 g Thiosulfat, bei derselben Temperatur.",
+diff --git a/data/steps/step-prose-v1.json b/data/steps/step-prose-v1.json
+index 6881d8f5..7289b017 100644
+--- a/data/steps/step-prose-v1.json
++++ b/data/steps/step-prose-v1.json
+@@ -268,6 +268,23 @@
+       "Repeat the calculation with the same titrant concentration and pH target but a 1 mL trial increment.",
+       "Compare this final pH and the reported delivered volume with the coarse-step run to distinguish trial size from endpoint resolution."
+     ],
++    "equal-charge-different-clocks": [
++      "Give the first vessel 250 mL of water.",
++      "Add potassium nitrate as the supporting electrolyte.",
++      "Deliver charge at 0.2 A for 60 seconds and note both electrode products.",
++      "Create a second vessel for a lower-current control.",
++      "Use the same water amount.",
++      "Use the same electrolyte amount.",
++      "Halve the current and double the duration, keeping delivered charge unchanged.",
++      "Create a third vessel for a split delivery.",
++      "Give it the same water amount.",
++      "Give it the same electrolyte amount.",
++      "Deliver the first half of the charge at the original current.",
++      "Deliver the second half and add its production to the first pulse rather than replacing it.",
++      "Inspect the first vessel, remembering that generated gas can leave an open vessel.",
++      "Inspect the second vessel and compare cumulative electrode production with the first schedule.",
++      "Inspect the third vessel and compare the sum of both pulses with the other equal-charge deliveries."
++    ],
+     "equilibrium-can-run-backward": [
+       "Start the first vessel with 0.01 mol of acetic acid, one reactant in the equilibrium model.",
+       "Add an equal amount of ethanol to supply the other reactant.",
+@@ -309,6 +326,35 @@
+       "Ignite it directly, from the bench's own ignition temperature.",
+       "The thermometer reads some six hundred degrees higher than the first. Same reaction, same energy released; the heat put in beforehand did not disappear when the fire started, and a flame temperature is a balance, not a property of the metal."
+     ],
++    "grouping-does-not-change-water-heat": [
++      "Leave v1 empty as the final receiver and create the first water vessel.",
++      "Add one mole of water to the first portion.",
++      "Give this portion 300 J of sensible heat.",
++      "Create a vessel for the second portion.",
++      "Add two moles of water.",
++      "Remove 200 J from this portion.",
++      "Create a vessel for the third portion.",
++      "Add three moles of water.",
++      "Give this portion 100 J.",
++      "Create an intermediate mixing vessel.",
++      "Combine the first and second portions completely, carrying their amounts and energy together.",
++      "Combine that intermediate mixture with the third portion in v1.",
++      "Read the final temperature for the first grouping.",
++      "Create the first vessel of a matching second branch.",
++      "Add the same one mole of water.",
++      "Give it the same 300 J.",
++      "Create the second portion's vessel.",
++      "Add the same two moles of water.",
++      "Remove the same 200 J.",
++      "Create the third portion's vessel.",
++      "Add the same three moles of water.",
++      "Give it the same 100 J.",
++      "Create the other intermediate mixing vessel.",
++      "This time combine the second and third portions first.",
++      "Create a receiver for the second branch's final mixture.",
++      "Add the first portion to that intermediate mixture, preserving all six moles and their net energy.",
++      "Compare the final thermometer with v1, not the different intermediate temperatures."
++    ],
+     "half-neutralised-vinegar": [
+       "A litre of water.",
+       "0.1 mol of acetic acid.",
+@@ -642,6 +688,15 @@
+       "A thousandth of a gram of catalase is all the third flask gets — a hundred-thousandth of the peroxide's mass.",
+       "One second passes for all three. The plain flask has done nothing the bench will report, the manganese flask has decomposed a little, and the catalase flask has already finished."
+     ],
++    "three-components-one-cut": [
++      "Start the source vessel with three moles of water.",
++      "Add methanol as one volatile component.",
++      "Add isopropanol as another component that the calculation must not discard.",
++      "Create an empty receiver for the computed cut.",
++      "Withdraw one fifth of the total molar inventory using the disclosed ideal-mixture approximation.",
++      "Inspect what remains in the source and retain every component in the accounting.",
++      "Inspect the receiver and add its component amounts to those remaining, without confusing enrichment with purity."
++    ],
+     "two-beakers-and-one-clock": [
+       "100 mL of water at 25 °C in the first beaker.",
+       "0.79 g of thiosulfate, at that same temperature.",
+diff --git a/tools/chemistry-audit/HISTORY.md b/tools/chemistry-audit/HISTORY.md
+index a450f56d..8fda6270 100644
+--- a/tools/chemistry-audit/HISTORY.md
++++ b/tools/chemistry-audit/HISTORY.md
+@@ -1,5 +1,26 @@
+ # Chemistry audit history and continuation
+ 
++## 2026-09-07 10:54 UTC — intermediate research inspection
++
++Root checked actual private inventories, schema/gap references and selected code
++evidence. Reviewers were steered toward explicit variant identities, completed
++page coverage and concrete independent numerical/control checks. Exact research
++findings remain private. No additional chemistry execution or production fix is
++claimed; catalog verification, fifth-fleet replay and safe integration remain.
++
++## 2026-09-07 10:38 UTC — catalog, frozen fleet and private research
++
++Three original catalog lessons are authored locally but still require root
++runtime/export verification. Fifth fleet has 36 frozen scripts and 119 checks;
++no execution or scientific pass is claimed yet. Latest pushed audit commit is
++`a375f29d`; PR #504 remains unmerged pending combined validation.
++
++External research has moved entirely outside the public worktree into separate
++private version control. Manual review and library triage are delegated with
++explicit partial-coverage, variant-preservation, model-gap, hazard, provenance
++and predeclared-check contracts. Exact source research is not recorded here
++or published with app content. Remaining work and ownership are in MERGE-REVIEW.
++
+ ## 2026-09-07 09:38 UTC — clean replay and fourth fleet
+ 
+ The third fleet now passes all 174 checks across 36 runs, and 69 native
+diff --git a/tools/chemistry-audit/MERGE-REVIEW.md b/tools/chemistry-audit/MERGE-REVIEW.md
+index b85a377f..f5383b2d 100644
+--- a/tools/chemistry-audit/MERGE-REVIEW.md
++++ b/tools/chemistry-audit/MERGE-REVIEW.md
+@@ -1,5 +1,39 @@
+ # Safe integration review, 2026-09-07
+ 
++## Intermediate review — 2026-09-07 10:54 UTC
++
++Root inspected private intermediate files and checked their schema/gap
++references, then resumed idle reviewers with explicit remaining coverage and
++machine-readable variant/check tasks. This establishes research progress only:
++no new source-inspired experiment has been executed or scientifically validated.
++Exact findings remain private as instructed. No reserved KIDS/integration files
++were changed. Catalog replay/export and the frozen fifth-fleet execution remain
++pending; no new chemistry fix, passing combined CI or merge is claimed.
++
++## Latest checkpoint — 2026-09-07 10:38 UTC
++
++Ownership remains audit branch `audit/chemistry-experiments-20260906`, PR #504;
++latest pushed implementation is `a375f29d`. No merge or new combined CI pass
++is claimed. All reserved integration branches/files remain untouched.
++
++Three independently authored catalog additions are in progress locally, with
++German translations and step guidance. Agent-reported schema/prose checks pass;
++root runtime replay, generated exports/snapshots and final integration checks
++remain required. Fifth fleet inputs are frozen: 36 new cases, 119 predeclared
++checks, with a missing-output negative control. It has not yet been executed.
++
++Source research is intentionally outside the public repository, now backed by
++a separately verified private repository. Exact source inventories, source-to-
++model gaps, URLs, and archival assets must stay private; this public checkpoint
++records only progress. Research assignments cover the supplied manuals and a
++new library triage; educational index review remains with root. Assignment is
++not completed coverage. No source-derived runtime data or copied manual text
++has been added to the app. Reuse and scientific validation remain separate gates.
++
++Next: finish/replay the three catalog entries, execute the frozen fifth fleet,
++continue private source review, reconcile combined CI with the integrator, and
++merge only after validation. GitHub status polling remains >=300 seconds.
++
+ ## Latest audit state — 2026-09-07 09:38 UTC
+ 
+ This supersedes earlier pending-run checkpoints below. Ownership restrictions
+diff --git a/web/app/src/lib/catalogEntry.test.ts b/web/app/src/lib/catalogEntry.test.ts
+index 25f4407f..3ba92a9c 100644
+--- a/web/app/src/lib/catalogEntry.test.ts
++++ b/web/app/src/lib/catalogEntry.test.ts
+@@ -217,9 +217,9 @@ describe("the shipped library", () => {
+   const entries = catalogEntries(codex, guided, context());
+ 
+   it("is one list of both corpora", () => {
+-    expect(codex).toHaveLength(110);
++    expect(codex).toHaveLength(113);
+     expect(guided).toHaveLength(60);
+-    expect(entries).toHaveLength(170);
++    expect(entries).toHaveLength(173);
+     expect(entries).toHaveLength(codex.length + guided.length);
+     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
+   });
+diff --git a/web/app/src/lib/codexTerms.test.ts b/web/app/src/lib/codexTerms.test.ts
+index 5b3c05bc..6fd4fa6e 100644
+--- a/web/app/src/lib/codexTerms.test.ts
++++ b/web/app/src/lib/codexTerms.test.ts
+@@ -54,8 +54,8 @@ describe("codex labels are translated", () => {
+   it("finds the catalogue, so the walk is not vacuous", () => {
+     // Every count below is asserted rather than derived, because a test
+     // that walks an empty list passes loudly and means nothing.
+-    // The merged 108-entry catalog plus the two chemistry-audit lessons.
+-    expect(experiments).toHaveLength(110);
++    // The merged 108-entry catalog plus five chemistry-audit lessons.
++    expect(experiments).toHaveLength(113);
+     expect(concepts.length).toBeGreaterThanOrEqual(153);
+   });
+ 

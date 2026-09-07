@@ -4262,28 +4262,24 @@ impl Bench {
                                 .iter()
                                 .map(|(k, c, _)| (k.to_string(), *c))
                                 .collect::<Vec<_>>();
-                            let extent =
-                                crate::family::outcome_extent(&model, v, &reactants, &products)
-                                    .unwrap_or_else(|detail| {
-                                        events.push(Event::NotYetModeled {
-                                            cause: crate::ops::NotModelledCause::ModelBoundary,
-                                            vessel: *vessel,
-                                            what: detail,
-                                        });
-                                        0.0
+                            let forward_available = !r.reactants.is_empty()
+                                && r.reactants.iter().all(|(key, coefficient)| {
+                                    v.moles_of(&SpeciesId::new(key)).0 / coefficient > 1e-12
+                                });
+                            let reverse_available =
+                                matches!(model, crate::family::OutcomeModel::Equilibrium { .. })
+                                    && !r.products.is_empty()
+                                    && r.products.iter().all(|(key, coefficient, _)| {
+                                        v.moles_of(&SpeciesId::new(key)).0 / coefficient > 1e-12
                                     });
-                            if !(extent.is_finite() && extent.abs() > 1e-12) {
-                                let needs: Vec<&str> =
-                                    r.reactants.iter().map(|(k, _)| *k).collect();
-                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
-                                vessel: *vessel,
-                                what: format!(
-                                    "nothing for {} to work on — it needs {} together                                      in the vessel",
-                                    r.name,
-                                    needs.join(" and ")
-                                ),
-                            });
-                            } else {
+                            if let Some(extent) = curated_reaction_extent(
+                                crate::family::outcome_extent(&model, v, &reactants, &products),
+                                &model,
+                                r,
+                                *vessel,
+                                forward_available || reverse_available,
+                                &mut events,
+                            ) {
                                 if extent >= 0.0 {
                                     for (key, coeff) in r.reactants {
                                         v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
@@ -5136,6 +5132,77 @@ fn electrolysed_run(
     }
 }
 
+/// Preserve the existing numerical no-conversion threshold, while keeping a
+/// computed equilibrium root distinct from unavailable reactants or a refusal.
+fn curated_reaction_extent(
+    result: Result<f64, String>,
+    model: &crate::family::OutcomeModel,
+    reaction: &crate::curated::OrgReaction,
+    vessel: VesselId,
+    direction_available: bool,
+    events: &mut Vec<Event>,
+) -> Option<f64> {
+    let extent = match result {
+        Err(detail) => {
+            events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary,
+                vessel,
+                what: detail,
+            });
+            return None;
+        }
+        Ok(extent) if !extent.is_finite() => {
+            events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary,
+                vessel,
+                what: format!(
+                    "{} returned a non-finite reaction extent; no conversion applied",
+                    reaction.name
+                ),
+            });
+            return None;
+        }
+        Ok(extent) => extent,
+    };
+    if extent.abs() > 1e-12 {
+        return Some(extent);
+    }
+    match model {
+        crate::family::OutcomeModel::Equilibrium { .. } if !direction_available => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
+            vessel,
+            what: format!(
+                "No conversion for {}: neither forward nor reverse reactants provide capacity above the 1e-12 mol no-conversion tolerance",
+                reaction.name
+            ),
+        }),
+        crate::family::OutcomeModel::Equilibrium { .. } => events.push(Event::OrgReacted {
+            vessel,
+            name: reaction.name.into(),
+            equation: reaction.equation.into(),
+            extent: Moles(0.0),
+            boundary: format!(
+                "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. {}",
+                reaction.boundary
+            ),
+        }),
+        crate::family::OutcomeModel::ToCompletion => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
+            vessel,
+            what: format!(
+                "No to-completion conversion for {}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
+                reaction.name
+            ),
+        }),
+        crate::family::OutcomeModel::KineticLaw { .. } => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::ModelBoundary,
+            vessel,
+            what: "A kinetic outcome requires a routed time model; zero extent does not establish equilibrium".into(),
+        }),
+    }
+    None
+}
+
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
 fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
@@ -5435,4 +5502,81 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     g.insert(1, 2);
     g.insert(2, 4);
     g
+}
+
+#[cfg(test)]
+mod react_diagnostic_tests {
+    use super::*;
+
+    #[test]
+    fn react_diagnostic_refusal_and_nonfinite_are_single_model_boundaries() {
+        let reaction = &crate::curated::ORG_REACTIONS[0];
+        let model = crate::family::OutcomeModel::Equilibrium {
+            log_k: 0.6,
+            source: "test".into(),
+        };
+        for result in [
+            Err("unavailable model".into()),
+            Ok(f64::NAN),
+            Ok(f64::INFINITY),
+            Ok(f64::NEG_INFINITY),
+        ] {
+            let mut events = Vec::new();
+            assert!(curated_reaction_extent(
+                result,
+                &model,
+                reaction,
+                VesselId(0),
+                true,
+                &mut events
+            )
+            .is_none());
+            assert!(matches!(
+                events.as_slice(),
+                [Event::NotYetModeled {
+                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                    ..
+                }]
+            ));
+        }
+    }
+
+    #[test]
+    fn react_diagnostic_zero_and_small_signed_extents_preserve_numerical_threshold() {
+        let reaction = &crate::curated::ORG_REACTIONS[0];
+        let model = crate::family::OutcomeModel::Equilibrium {
+            log_k: 0.6,
+            source: "test".into(),
+        };
+        for extent in [0.0, 1e-13, -1e-13, 1e-12, -1e-12] {
+            let mut events = Vec::new();
+            assert!(curated_reaction_extent(
+                Ok(extent),
+                &model,
+                reaction,
+                VesselId(0),
+                true,
+                &mut events
+            )
+            .is_none());
+            assert!(
+                matches!(events.as_slice(), [Event::OrgReacted { extent: Moles(0.0), boundary, .. }] if !boundary.is_empty())
+            );
+        }
+        for extent in [-1e-11, 1e-11] {
+            let mut events = Vec::new();
+            assert_eq!(
+                curated_reaction_extent(
+                    Ok(extent),
+                    &model,
+                    reaction,
+                    VesselId(0),
+                    true,
+                    &mut events
+                ),
+                Some(extent)
+            );
+            assert!(events.is_empty());
+        }
+    }
 }

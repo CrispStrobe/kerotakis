@@ -1,0 +1,599 @@
+{
+  "binary_sha256": "43f041c05fbdc795b5b2ac77b214a74dfd7fbae2b8983ddeefa3e1c023414bcd",
+  "checks": [
+    {
+      "check": "three-components-one-cut: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "three-components-one-cut: component conservation",
+      "passed": true,
+      "evidence": {
+        "water": 3.0,
+        "methanol": 0.3,
+        "isopropanol": 0.2
+      }
+    },
+    {
+      "check": "three-components-one-cut: mixed receiver and requested molar cut",
+      "passed": true,
+      "evidence": {
+        "water": 0.5024483893510502,
+        "methanol": 0.13864435224692426,
+        "isopropanol": 0.05890725840202508
+      }
+    },
+    {
+      "check": "equal-charge-different-clocks: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "equal-charge-different-clocks: equal and split charge obey SI Faraday law",
+      "passed": true,
+      "evidence": {
+        "0": {
+          "H2": 6.218561793970638e-05,
+          "O2": 3.109280896985319e-05
+        },
+        "1": {
+          "H2": 6.218561793970638e-05,
+          "O2": 3.109280896985319e-05
+        },
+        "2": {
+          "H2": 6.218561793970638e-05,
+          "O2": 3.109280896985319e-05
+        }
+      }
+    },
+    {
+      "check": "grouping-does-not-change-water-heat: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "grouping-does-not-change-water-heat: both groupings conserve water and sensible energy",
+      "passed": true,
+      "evidence": {
+        "expected_temperature_K": 298.59267374944665,
+        "observed_temperature_K": {
+          "0": 298.5926703439986,
+          "9": 298.59266992019616
+        }
+      }
+    },
+    {
+      "check": "endpoint-is-not-a-full-drop: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "endpoint-is-not-a-full-drop: both increments reach pH target and equivalent volume",
+      "passed": true,
+      "evidence": [
+        {
+          "concentration": 0.1,
+          "curve": [
+            [
+              0.0,
+              1.979572717565
+            ],
+            [
+              7.0,
+              2.151585912093
+            ],
+            [
+              14.0,
+              2.415418668173
+            ],
+            [
+              21.0,
+              3.082140552424
+            ],
+            [
+              23.00000822544098,
+              7.000027196971
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 7.000027196971,
+          "steps": 4,
+          "titrant": "NaOH",
+          "total_volume": 0.02300000822544098,
+          "vessel": 0
+        },
+        {
+          "concentration": 0.1,
+          "curve": [
+            [
+              0.0,
+              1.979572717565
+            ],
+            [
+              1.0,
+              2.000965292228
+            ],
+            [
+              2.0,
+              2.023250371622
+            ],
+            [
+              3.0,
+              2.046511161633
+            ],
+            [
+              4.0,
+              2.07084894277
+            ],
+            [
+              5.0,
+              2.096381421168
+            ],
+            [
+              6.0,
+              2.123246478527
+            ],
+            [
+              7.0,
+              2.151607073178
+            ],
+            [
+              8.0,
+              2.181657740344
+            ],
+            [
+              9.000000000000002,
+              2.213633276825
+            ],
+            [
+              10.000000000000002,
+              2.247820745471
+            ],
+            [
+              11.000000000000004,
+              2.284576188487
+            ],
+            [
+              12.000000000000004,
+              2.324348731122
+            ],
+            [
+              13.000000000000005,
+              2.367716132894
+            ],
+            [
+              14.000000000000005,
+              2.415439159439
+            ],
+            [
+              15.000000000000007,
+              2.468548131213
+            ],
+            [
+              16.000000000000007,
+              2.528487510052
+            ],
+            [
+              17.000000000000007,
+              2.597372805855
+            ],
+            [
+              18.00000000000001,
+              2.678483718955
+            ],
+            [
+              19.00000000000001,
+              2.777314630546
+            ],
+            [
+              20.00000000000001,
+              2.904165582867
+            ],
+            [
+              21.00000000000001,
+              3.082160466554
+            ],
+            [
+              22.000000000000014,
+              3.385085582172
+            ],
+            [
+              23.000000000000014,
+              6.992916743416
+            ],
+            [
+              23.000008344650283,
+              7.000045103844
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 7.000045103844,
+          "steps": 24,
+          "titrant": "NaOH",
+          "total_volume": 0.023000008344650283,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "check": "endpoint-is-not-a-full-drop: changing trial increment does not change delivered amount",
+      "passed": true,
+      "evidence": [
+        0.02300000822544098,
+        0.023000008344650283
+      ]
+    },
+    {
+      "check": "equilibrium-can-run-backward: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "equilibrium-can-run-backward: forward and reverse extents have opposite signs",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0066666666666666645,
+          "name": "esterification",
+          "vessel": 0
+        },
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": -0.003333333333333335,
+          "name": "esterification",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "check": "equilibrium-can-run-backward: vessel 0 mass-action root from actual extent",
+      "passed": true,
+      "evidence": {
+        "initial_mol": [
+          0.01,
+          0.01,
+          0.0,
+          0.0
+        ],
+        "extent_mol": 0.0066666666666666645,
+        "Q": 3.9999999999999916
+      }
+    },
+    {
+      "check": "equilibrium-can-run-backward: vessel 1 mass-action root from actual extent",
+      "passed": true,
+      "evidence": {
+        "initial_mol": [
+          0.0,
+          0.0,
+          0.01,
+          0.01
+        ],
+        "extent_mol": -0.003333333333333335,
+        "Q": 3.9999999999999947
+      }
+    },
+    {
+      "check": "cold-from-baking-soda: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "cold-from-baking-soda: cooling and carbonate gas change occur together",
+      "passed": true,
+      "evidence": {
+        "temperature_K": 291.596514081497,
+        "CO2_mol": 0.04161265433847
+      }
+    },
+    {
+      "check": "doubling-the-thiosulfate-doubles-the-rate: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "doubling-the-thiosulfate-doubles-the-rate: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.002
+        },
+        "integrated_extent_mol": {
+          "0": 0.00019997609391356858,
+          "1": 0.00036037333873060464
+        }
+      }
+    },
+    {
+      "check": "doubling-the-thiosulfate-doubles-the-rate: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 0.00019997609391356858,
+        "1": 0.00036037333873060464
+      }
+    },
+    {
+      "check": "the-acid-term-is-an-activity: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "the-acid-term-is-an-activity: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.004,
+          "2": 0.001
+        },
+        "integrated_extent_mol": {
+          "0": 2.2479415810037118e-05,
+          "1": 4.353147594415353e-05,
+          "2": 1.1550526150654505e-05
+        }
+      }
+    },
+    {
+      "check": "the-acid-term-is-an-activity: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 2.2479415810037118e-05,
+        "1": 4.353147594415353e-05,
+        "2": 1.1550526150654505e-05
+      }
+    },
+    {
+      "check": "the-cross-disappears: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "the-cross-disappears: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.002,
+          "2": 0.002
+        },
+        "integrated_extent_mol": {
+          "0": 0.0008953282357283016,
+          "1": 0.0009912486680737674,
+          "2": 0.0006600263924557667
+        }
+      }
+    },
+    {
+      "check": "the-cross-disappears: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 0.0008953282357283016,
+        "1": 0.0009912486680737674,
+        "2": 0.0006600263924557667
+      }
+    },
+    {
+      "check": "the-ten-degree-rule-and-where-it-frays: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "the-ten-degree-rule-and-where-it-frays: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.002,
+          "2": 0.002,
+          "3": 0.002
+        },
+        "integrated_extent_mol": {
+          "0": 0.00019997609391356858,
+          "1": 0.00034741584228812093,
+          "2": 0.0005398834172107188,
+          "3": 0.000740513582701728
+        }
+      }
+    },
+    {
+      "check": "the-ten-degree-rule-and-where-it-frays: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 0.00019997609391356858,
+        "1": 0.00034741584228812093,
+        "2": 0.0005398834172107188,
+        "3": 0.000740513582701728
+      }
+    },
+    {
+      "check": "two-beakers-and-one-clock: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "two-beakers-and-one-clock: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.002
+        },
+        "integrated_extent_mol": {
+          "0": 0.0005729445595237278,
+          "1": 0.0007957969868918049
+        }
+      }
+    },
+    {
+      "check": "two-beakers-and-one-clock: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 0.0005729445595237278,
+        "1": 0.0007957969868918049
+      }
+    },
+    {
+      "check": "a-salt-with-no-database: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "a-salt-with-no-database: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002,
+          "1": 0.002
+        },
+        "integrated_extent_mol": {}
+      }
+    },
+    {
+      "check": "a-salt-with-no-database: missing ionic model cannot inherit pure-water pH",
+      "passed": true,
+      "evidence": {
+        "salt_only_solution": null
+      }
+    },
+    {
+      "check": "the-acid-is-never-used-up: complete without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "the-acid-is-never-used-up: reaction extent respects supplied acid capacity",
+      "passed": true,
+      "evidence": {
+        "supplied_acid_mol": {
+          "0": 0.002
+        },
+        "integrated_extent_mol": {
+          "0": 0.000999985707545455
+        }
+      }
+    },
+    {
+      "check": "the-acid-is-never-used-up: kinetic comparison actually reacts",
+      "passed": true,
+      "evidence": {
+        "0": 0.000999985707545455
+      }
+    }
+  ],
+  "passed": 37,
+  "unmet": 0,
+  "final_ph_by_entry": {
+    "three-components-one-cut": {
+      "0": 6.999766304197,
+      "1": 6.999766304197
+    },
+    "equal-charge-different-clocks": {
+      "0": 6.998344699624,
+      "1": 6.998344699624,
+      "2": 6.998344699623
+    },
+    "grouping-does-not-change-water-heat": {
+      "0": 6.992511818796,
+      "1": null,
+      "2": null,
+      "3": null,
+      "4": null,
+      "5": null,
+      "6": null,
+      "7": null,
+      "8": null,
+      "9": 6.992511818796
+    },
+    "endpoint-is-not-a-full-drop": {
+      "0": 7.000027196971,
+      "1": 7.000045103844
+    },
+    "equilibrium-can-run-backward": {
+      "0": null,
+      "1": null
+    },
+    "cold-from-baking-soda": {
+      "0": 10.07645690435
+    },
+    "doubling-the-thiosulfate-doubles-the-rate": {
+      "0": 1.845493830165,
+      "1": 1.942682303115
+    },
+    "the-acid-term-is-an-activity": {
+      "0": 1.758457530466,
+      "1": 1.470358413096,
+      "2": 2.04825670337
+    },
+    "the-cross-disappears": {
+      "0": 2.728819567349,
+      "1": 3.806582058248,
+      "2": 2.217186195915
+    },
+    "the-ten-degree-rule-and-where-it-frays": {
+      "0": 1.845493830165,
+      "1": 1.934808882519,
+      "2": 2.087508678503,
+      "3": 2.337272355779
+    },
+    "two-beakers-and-one-clock": {
+      "0": 2.118140590688,
+      "1": 2.439406128142
+    },
+    "a-salt-with-no-database": {
+      "0": 1.74858175066,
+      "1": 1.74858175066,
+      "2": null
+    },
+    "the-acid-is-never-used-up": {
+      "0": 6.537142122868
+    }
+  }
+}

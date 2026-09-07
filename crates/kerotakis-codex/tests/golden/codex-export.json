@@ -3616,6 +3616,255 @@
       }
     },
     {
+      "id": "three-components-one-cut",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "A computed distillation cut moves three components without creating or discarding any of them",
+      "summary_de": "Ein berechneter Destillationsschnitt überträgt drei Komponenten, ohne eine davon zu erzeugen oder zu verwerfen",
+      "concepts": [
+        "phase-change",
+        "latent-heat",
+        "conservation-of-mass",
+        "model-boundary"
+      ],
+      "requires": [
+        "amount-of-substance",
+        "mixtures"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "distillation-flask",
+        "condenser",
+        "beaker"
+      ],
+      "calculations": [
+        "enthalpy-change"
+      ],
+      "models": [
+        "massenerhaltung",
+        "chemisches-gleichgewicht",
+        "enthalpie"
+      ],
+      "setup": {
+        "script": "add v1 water 3mol\nadd v1 methanol 0.3mol\nadd v1 isopropanol 0.2mol\nnew\ndistil v1 v2 0.2\ninspect v1\ninspect v2\n"
+      },
+      "expect": {
+        "events": [
+          "distilled"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Does the most volatile component arrive alone in the receiver?",
+          "question_de": "Kommt die flüchtigste Komponente allein in der Vorlage an?",
+          "options": [
+            "Yes: distillation transfers one component at a time",
+            "No: the vapor is a mixture, and every component must be counted in both vessels"
+          ],
+          "options_de": [
+            "Ja: Destillation überträgt immer nur eine Komponente",
+            "Nein: Der Dampf ist ein Gemisch, und jede Komponente muss in beiden Gefäßen gezählt werden"
+          ],
+          "answer": 1,
+          "misconception": "Enrichment is confused with perfect separation; a mixed vapor can favor one component without excluding the others.",
+          "misconception_de": "Anreicherung wird mit vollständiger Trennung verwechselt; ein gemischter Dampf kann eine Komponente bevorzugen, ohne die anderen auszuschließen.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "A boiling-point ordering is mistaken for a sequence of pure-component withdrawals.",
+              "reveals_de": "Eine Reihenfolge der Siedepunkte wird als Abfolge reiner Komponentenentnahmen verstanden.",
+              "next": "Add each component's remaining and collected amounts, then compare the receiver composition with the starting composition.",
+              "next_de": "Addiere für jede Komponente die verbliebene und die aufgefangene Stoffmenge und vergleiche danach die Zusammensetzung der Vorlage mit der Ausgangsmischung.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "The receiver gets a mixture, not just the easiest component to evaporate; what moved out of the source must appear somewhere else.",
+        "lv1_de": "Die Vorlage erhält ein Gemisch, nicht nur die am leichtesten verdampfende Komponente; was das Ausgangsgefäß verlässt, muss anderswo auftauchen.",
+        "lv2": "The starting total is 3 + 0.3 + 0.2 = 3.5 mol, so a molar cut fraction of 0.2 requests 0.7 mol in total, not that fraction of every component; check each component separately across the source and receiver.",
+        "lv2_de": "Anfangs sind es insgesamt 3 + 0,3 + 0,2 = 3,5 mol, sodass ein molarer Schnittanteil von 0,2 insgesamt 0,7 mol anfordert, nicht diesen Anteil jeder einzelnen Komponente; prüfe jede Komponente getrennt über Ausgangsgefäß und Vorlage.",
+        "lv3": "The generic Rayleigh calculation uses ideal Raoult mixing and a bounded constant-latent Clausius–Clapeyron approximation; it does not predict nonideal azeotropes or measured apparatus performance, and reported duty sums withdrawn condensate latent heat only, excluding sensible heating and reflux/reboiler circulation.",
+        "lv3_de": "Die allgemeine Rayleigh-Berechnung verwendet ideales Raoult-Mischen und eine begrenzte Clausius–Clapeyron-Näherung mit konstanter Verdampfungsenthalpie; sie sagt weder nichtideale Azeotrope noch gemessene Apparateleistungen voraus, und die angegebene Energie summiert nur die latente Wärme des entnommenen Kondensats, ohne fühlbare Erwärmung und Rücklauf- oder Verdampferumlauf."
+      },
+      "provenance": {
+        "source": "Original audit-derived lesson; conservation and cut-fraction arithmetic, existing reviewed USCG CHRIS still inputs and existing water latent reference; no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07.",
+        "licence": null,
+        "computed_by": "Kerotakis generic multicomponent Rayleigh solver; independent third/fourth-fleet component and latent-duty checks"
+      }
+    },
+    {
+      "id": "equal-charge-different-clocks",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Equal delivered charge gives equal modeled water-electrolysis production despite different current schedules",
+      "summary_de": "Gleiche zugeführte Ladung ergibt trotz unterschiedlicher Stromverläufe dieselbe modellierte Wasserelektrolyse-Produktion",
+      "concepts": [
+        "electrolysis",
+        "faraday-law",
+        "charge-conservation"
+      ],
+      "requires": [
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "power-supply"
+      ],
+      "calculations": [
+        "faraday"
+      ],
+      "models": [
+        "stoechiometrie",
+        "massenerhaltung"
+      ],
+      "setup": {
+        "script": "add v1 water 250mL\nadd v1 KNO3 0.001mol\nelectrolyse v1 0.2A 60s\nnew\nadd v2 water 250mL\nadd v2 KNO3 0.001mol\nelectrolyse v2 0.1A 120s\nnew\nadd v3 water 250mL\nadd v3 KNO3 0.001mol\nelectrolyse v3 0.2A 30s\nelectrolyse v3 0.2A 30s\ninspect v1\ninspect v2\ninspect v3\n"
+      },
+      "expect": {
+        "events": [
+          "electrolysed:H2",
+          "gas_evolved:H2",
+          "gas_evolved:O2"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Which current schedule produces the most hydrogen in this water-electrolysis model?",
+          "question_de": "Welcher Stromverlauf erzeugt in diesem Wasserelektrolyse-Modell den meisten Wasserstoff?",
+          "options": [
+            "The largest current always produces the most",
+            "All three schedules produce the same amount because they deliver equal charge"
+          ],
+          "options_de": [
+            "Der größte Strom erzeugt immer am meisten",
+            "Alle drei Verläufe erzeugen dieselbe Menge, weil sie dieselbe Ladung zuführen"
+          ],
+          "answer": 1,
+          "misconception": "Current is treated as an amount instead of a rate of charge delivery; the duration and the sum over separate pulses are missing.",
+          "misconception_de": "Strom wird als Menge statt als Ladung pro Zeit behandelt; die Dauer und die Summe getrennter Pulse fehlen.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "An instantaneous setting is used to predict a total without integrating over time.",
+              "reveals_de": "Eine momentane Einstellung soll eine Gesamtmenge vorhersagen, ohne über die Zeit zu integrieren.",
+              "next": "Multiply current by duration for each pulse and add the pulses, then compare the generated electrode-product amounts rather than only the gas remaining in the open vessels.",
+              "next_de": "Multipliziere für jeden Puls Strom und Dauer, addiere die Pulse und vergleiche die erzeugten Elektrodenproduktmengen statt nur das in den offenen Gefäßen verbleibende Gas.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "A smaller current can catch up by running longer, and splitting a delivery does not erase its first part.",
+        "lv1_de": "Ein kleinerer Strom kann durch längere Dauer aufholen, und eine aufgeteilte Zufuhr löscht ihren ersten Teil nicht.",
+        "lv2": "Each schedule delivers Q = It = 12 C; with water in excess the model gives n(H2) = Q/(2F) and n(O2) = Q/(4F), so compare cumulative electrode production rather than treating escaped gas as missing production.",
+        "lv2_de": "Jeder Verlauf liefert Q = It = 12 C; bei Wasserüberschuss ergibt das Modell n(H2) = Q/(2F) und n(O2) = Q/(4F), daher ist die gesamte Elektrodenproduktion zu vergleichen, statt entwichene Gase als fehlende Produktion zu behandeln.",
+        "lv3": "These controls test the existing ideal charge-to-product model, not measured current efficiency, electrode overpotential or apparatus gas collection; the independent atom ledger balances final contents against external gas evolved minus absorbed, counting retained headspace gas only in contents and never adding production events as another material reservoir.",
+        "lv3_de": "Diese Kontrollen prüfen das vorhandene ideale Ladungs-Produkt-Modell, nicht gemessene Stromausbeute, Elektrodenüberspannung oder Gasauffangverluste; die unabhängige Atombilanz verrechnet den Endbestand mit nach außen abgegebenem minus aufgenommenem Gas, zählt zurückgehaltenes Kopfraumgas nur im Bestand und fügt Produktionsereignisse niemals als weiteren Stoffvorrat hinzu."
+      },
+      "provenance": {
+        "source": "Original audit-derived control lesson; Faraday charge/stoichiometry arithmetic using the existing runtime Faraday constant, no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07.",
+        "licence": null,
+        "computed_by": "Kerotakis generic solvent-electrolysis operator and ordinary aqueous/gas stack; independent third-fleet charge and external-flow atom checks"
+      }
+    },
+    {
+      "id": "grouping-does-not-change-water-heat",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Grouping the same three water portions differently preserves their final sensible-energy balance",
+      "summary_de": "Eine andere Gruppierung derselben drei Wasserportionen bewahrt die abschließende Bilanz der fühlbaren Wärme",
+      "concepts": [
+        "calorimetry",
+        "heat-capacity",
+        "state-functions"
+      ],
+      "requires": [
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "thermometer"
+      ],
+      "calculations": [
+        "enthalpy-change",
+        "temperature-rise"
+      ],
+      "models": [
+        "enthalpie",
+        "massenerhaltung"
+      ],
+      "setup": {
+        "script": "new\nadd v2 water 1mol\nheat v2 300J\nnew\nadd v3 water 2mol\ncool v3 200J\nnew\nadd v4 water 3mol\nheat v4 100J\nnew\nmix v2 1 v3 1 into v5\nmix v5 1 v4 1 into v1\nmeasure v1 thermometer\nnew\nadd v6 water 1mol\nheat v6 300J\nnew\nadd v7 water 2mol\ncool v7 200J\nnew\nadd v8 water 3mol\nheat v8 100J\nnew\nmix v7 1 v8 1 into v9\nnew\nmix v6 1 v9 1 into v10\nmeasure v10 thermometer\n"
+      },
+      "expect": {
+        "events": [
+          "mixed",
+          "temperature_changed",
+          "measured"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "Does combining the warmer pair first change the final temperature when all three water portions are eventually combined?",
+          "question_de": "Ändert das zuerst gemischte wärmere Paar die Endtemperatur, wenn schließlich alle drei Wasserportionen zusammenkommen?",
+          "options": [
+            "Yes: the first mixture sets a temperature that the later mixture remembers",
+            "No: the same total water and retained sensible energy determine the final temperature"
+          ],
+          "options_de": [
+            "Ja: Die erste Mischung legt eine Temperatur fest, an die sich die spätere Mischung erinnert",
+            "Nein: Dieselbe gesamte Wassermenge und erhaltene fühlbare Wärme bestimmen die Endtemperatur"
+          ],
+          "answer": 1,
+          "misconception": "Intermediate temperature is treated as conserved, rather than the energy carried by each amount of water.",
+          "misconception_de": "Eine Zwischentemperatur wird als erhalten behandelt statt der Energie, die jede Wassermenge mitbringt.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Unweighted intermediate temperatures replace an amount-weighted energy balance.",
+              "reveals_de": "Ungewichtete Zwischentemperaturen ersetzen eine nach Stoffmengen gewichtete Energiebilanz.",
+              "next": "Sum the energy additions and removals, divide by the total heat capacity, and compare the final thermometers in v1 and v10.",
+              "next_de": "Summiere Energiezufuhr und Energieentzug, teile durch die gesamte Wärmekapazität und vergleiche die abschließenden Thermometer in v1 und v10.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": {
+          "min": 25.44,
+          "max": 25.45
+        }
+      },
+      "registers": {
+        "lv1": "Different intermediate temperatures can lead to the same final temperature when the same water and energy end up together.",
+        "lv1_de": "Unterschiedliche Zwischentemperaturen können zur selben Endtemperatur führen, wenn am Ende dasselbe Wasser und dieselbe Energie zusammenkommen.",
+        "lv2": "Each branch starts with 6 mol of water at 25 °C and retains 300 - 200 + 100 = 200 J; with the existing water heat capacity of 75.3 J/(mol K), the final temperature follows from 25 + 200/(6 × 75.3), regardless of grouping.",
+        "lv2_de": "Jeder Zweig beginnt mit 6 mol Wasser bei 25 °C und behält 300 - 200 + 100 = 200 J; mit der vorhandenen Wasser-Wärmekapazität von 75,3 J/(mol K) folgt die Endtemperatur aus 25 + 200/(6 × 75,3), unabhängig von der Gruppierung.",
+        "lv3": "This is an adiabatic, constant-heat-capacity sensible-energy control for water with no phase transition or reactive mixing; it does not claim that real vessels lose no heat, or that grouping preserves temperature if material escapes or different chemistry occurs along the paths.",
+        "lv3_de": "Dies ist eine adiabatische Kontrolle der fühlbaren Wärme von Wasser bei konstanter Wärmekapazität, ohne Phasenübergang oder reaktives Mischen; sie behauptet weder Wärmeverlustfreiheit wirklicher Gefäße noch gleiche Endtemperaturen, wenn Stoff entweicht oder auf den Wegen unterschiedliche Chemie abläuft."
+      },
+      "provenance": {
+        "source": "Original audit-derived control lesson; sensible-energy conservation with the existing water heat-capacity input, no new imported data. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-07.",
+        "licence": null,
+        "computed_by": "Kerotakis generic heating/cooling and material-conserving MIX; independent third-fleet three-water energy/associativity checks"
+      }
+    },
+    {
       "id": "endpoint-is-not-a-full-drop",
       "progress": "intermediate",
       "equation": null,

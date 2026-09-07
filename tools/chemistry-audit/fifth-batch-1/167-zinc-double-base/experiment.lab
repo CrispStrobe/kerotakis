@@ -1,0 +1,6 @@
+# Does doubling a still-limiting hydroxide dose increase zinc precipitation?
+register lv3
+add v1 water 0.4L
+add v1 ZnSO4 0.0008mol
+add v1 KOH 0.0012mol
+inspect

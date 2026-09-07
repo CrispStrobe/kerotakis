@@ -1,0 +1,6 @@
+# Does threefold solvent/feed scaling scale the zinc precipitate?
+register lv3
+add v1 water 1.2000000000000002L
+add v1 ZnSO4 0.0024000000000000002mol
+add v1 KOH 0.0018mol
+inspect

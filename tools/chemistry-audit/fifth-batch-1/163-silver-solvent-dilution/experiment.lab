@@ -1,0 +1,6 @@
+# Does fourfold dilution preserve atoms and not increase precipitated silver?
+register lv3
+add v1 water 1.2L
+add v1 AgNO3 0.0009mol
+add v1 NaCl 0.0003mol
+inspect

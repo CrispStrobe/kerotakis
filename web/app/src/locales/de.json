@@ -487,6 +487,9 @@
  "messages": {
   "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
   "equilibrium can run backward": "Ein Gleichgewicht kann sich rückwärts verschieben",
+  "three components one cut": "Drei Komponenten, ein Destillat",
+  "equal charge different clocks": "Gleiche Ladung, andere Zeiten",
+  "grouping does not change water heat": "Die Mischreihenfolge ändert die Wärmebilanz nicht",
   "chemical equilibrium": "Chemisches Gleichgewicht",
   "liquid nitrogen freezes ethanol": "Flüssiger Stickstoff gefriert Ethanol",
   "phase change": "Phasenübergang",

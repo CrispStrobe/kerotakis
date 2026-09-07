@@ -1,0 +1,8 @@
+# Does changing headspace preserve electrode production and the ideal gas law?
+register lv3
+add v1 water 0.3L
+add v1 KNO3 0.0012mol
+seal v1 0.48L
+electrolyse v1 0.15A 80s
+measure v1 pressure
+inspect

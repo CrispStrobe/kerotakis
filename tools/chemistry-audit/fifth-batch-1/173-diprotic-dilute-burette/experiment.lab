@@ -1,0 +1,6 @@
+# Does halving burette concentration double endpoint volume?
+register lv3
+add v1 water 0.35L
+add v1 H2SO4 0.0007mol
+titrate v1 KOH 0.025M 3mL until ph 7
+inspect

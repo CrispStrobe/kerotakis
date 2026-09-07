@@ -269,6 +269,23 @@
       "Wiederhole die Berechnung mit derselben Maßlösungskonzentration und demselben pH-Ziel, aber mit 1-mL-Probezuschlägen.",
       "Vergleiche diesen End-pH und das angegebene zugegebene Volumen mit dem groben Suchlauf, um Suchschrittweite und Endpunktauflösung auseinanderzuhalten."
     ],
+    "equal-charge-different-clocks": [
+      "Gib dem ersten Gefäß 250 mL Wasser.",
+      "Gib Kaliumnitrat als Leitelektrolyt hinzu.",
+      "Führe bei 0,2 A für 60 Sekunden Ladung zu und beachte beide Elektrodenprodukte.",
+      "Erstelle ein zweites Gefäß als Kontrolle mit kleinerem Strom.",
+      "Verwende dieselbe Wassermenge.",
+      "Verwende dieselbe Elektrolytmenge.",
+      "Halbiere den Strom und verdopple die Dauer, sodass die zugeführte Ladung gleich bleibt.",
+      "Erstelle ein drittes Gefäß für eine aufgeteilte Zufuhr.",
+      "Gib dieselbe Wassermenge hinein.",
+      "Gib dieselbe Elektrolytmenge hinein.",
+      "Führe die erste Hälfte der Ladung beim ursprünglichen Strom zu.",
+      "Führe die zweite Hälfte zu und addiere ihre Produktion zur ersten, statt diese zu ersetzen.",
+      "Betrachte das erste Gefäß und bedenke, dass erzeugtes Gas ein offenes Gefäß verlassen kann.",
+      "Betrachte das zweite Gefäß und vergleiche die gesamte Elektrodenproduktion mit dem ersten Verlauf.",
+      "Betrachte das dritte Gefäß und vergleiche die Summe beider Pulse mit den anderen Zufuhren gleicher Ladung."
+    ],
     "equilibrium-can-run-backward": [
       "Beginne im ersten Gefäß mit 0,01 mol Essigsäure, einem Ausgangsstoff des Gleichgewichtsmodells.",
       "Gib dieselbe Stoffmenge Ethanol als zweiten Ausgangsstoff hinzu.",
@@ -309,6 +326,35 @@
       "Dieselben 1,2 g Magnesium.",
       "Direkt zünden, bei der Zündtemperatur der Werkbank.",
       "Das Thermometer zeigt rund sechshundert Grad mehr als beim ersten. Gleiche Reaktion, gleiche freigesetzte Energie; die vorher zugeführte Wärme ist beim Entzünden nicht verschwunden — eine Flammentemperatur ist eine Bilanz und keine Eigenschaft des Metalls."
+    ],
+    "grouping-does-not-change-water-heat": [
+      "Lass v1 als Endvorlage leer und erstelle das erste Wassergefäß.",
+      "Gib ein Mol Wasser als erste Portion hinein.",
+      "Führe dieser Portion 300 J fühlbare Wärme zu.",
+      "Erstelle ein Gefäß für die zweite Portion.",
+      "Gib zwei Mol Wasser hinein.",
+      "Entziehe dieser Portion 200 J.",
+      "Erstelle ein Gefäß für die dritte Portion.",
+      "Gib drei Mol Wasser hinein.",
+      "Führe dieser Portion 100 J zu.",
+      "Erstelle ein Zwischengefäß zum Mischen.",
+      "Vereinige die erste und zweite Portion vollständig, wobei Stoffmengen und Energie gemeinsam übertragen werden.",
+      "Vereinige diese Zwischenmischung mit der dritten Portion in v1.",
+      "Lies die Endtemperatur der ersten Gruppierung ab.",
+      "Erstelle das erste Gefäß eines gleichen zweiten Zweigs.",
+      "Gib dasselbe eine Mol Wasser hinein.",
+      "Führe dieselben 300 J zu.",
+      "Erstelle das Gefäß für die zweite Portion.",
+      "Gib dieselben zwei Mol Wasser hinein.",
+      "Entziehe dieselben 200 J.",
+      "Erstelle das Gefäß für die dritte Portion.",
+      "Gib dieselben drei Mol Wasser hinein.",
+      "Führe dieselben 100 J zu.",
+      "Erstelle das andere Zwischengefäß zum Mischen.",
+      "Vereinige diesmal zuerst die zweite und dritte Portion.",
+      "Erstelle eine Vorlage für die Endmischung des zweiten Zweigs.",
+      "Gib die erste Portion zu dieser Zwischenmischung, sodass alle sechs Mol und ihre Nettoenergie erhalten bleiben.",
+      "Vergleiche das abschließende Thermometer mit v1, nicht die unterschiedlichen Zwischentemperaturen."
     ],
     "half-neutralised-vinegar": [
       "Ein Liter Wasser.",
@@ -642,6 +688,15 @@
       "Und zum dritten Mal dasselbe Peroxid.",
       "Ein tausendstel Gramm Katalase ist alles, was der dritte Kolben bekommt — ein Hunderttausendstel der Peroxidmasse.",
       "Eine Sekunde vergeht für alle drei. Der schlichte Kolben hat nichts getan, was die Werkbank melden würde, der Mangan-Kolben hat ein wenig zersetzt, und der Katalase-Kolben ist bereits fertig."
+    ],
+    "three-components-one-cut": [
+      "Beginne im Ausgangsgefäß mit drei Mol Wasser.",
+      "Gib Methanol als eine flüchtige Komponente hinzu.",
+      "Gib Isopropanol als weitere Komponente hinzu, die die Berechnung nicht verwerfen darf.",
+      "Erstelle eine leere Vorlage für den berechneten Destillationsschnitt.",
+      "Entnimm ein Fünftel der gesamten Stoffmenge mit der offengelegten Näherung eines idealen Gemischs.",
+      "Betrachte den Rest im Ausgangsgefäß und behalte jede Komponente in der Bilanz.",
+      "Betrachte die Vorlage und addiere ihre Komponenten zu den verbliebenen Stoffmengen, ohne Anreicherung mit Reinheit zu verwechseln."
     ],
     "two-beakers-and-one-clock": [
       "100 mL Wasser bei 25 °C in das erste Becherglas.",

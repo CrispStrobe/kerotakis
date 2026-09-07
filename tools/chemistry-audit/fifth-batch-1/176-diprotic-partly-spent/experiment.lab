@@ -1,0 +1,7 @@
+# Does a known KOH predose reduce subsequent titrant demand by its own equivalents?
+register lv3
+add v1 water 0.35L
+add v1 H2SO4 0.0007mol
+add v1 KOH 0.0004mol
+titrate v1 KOH 0.05M 3mL until ph 7
+inspect

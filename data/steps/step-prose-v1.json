@@ -268,6 +268,23 @@
       "Repeat the calculation with the same titrant concentration and pH target but a 1 mL trial increment.",
       "Compare this final pH and the reported delivered volume with the coarse-step run to distinguish trial size from endpoint resolution."
     ],
+    "equal-charge-different-clocks": [
+      "Give the first vessel 250 mL of water.",
+      "Add potassium nitrate as the supporting electrolyte.",
+      "Deliver charge at 0.2 A for 60 seconds and note both electrode products.",
+      "Create a second vessel for a lower-current control.",
+      "Use the same water amount.",
+      "Use the same electrolyte amount.",
+      "Halve the current and double the duration, keeping delivered charge unchanged.",
+      "Create a third vessel for a split delivery.",
+      "Give it the same water amount.",
+      "Give it the same electrolyte amount.",
+      "Deliver the first half of the charge at the original current.",
+      "Deliver the second half and add its production to the first pulse rather than replacing it.",
+      "Inspect the first vessel, remembering that generated gas can leave an open vessel.",
+      "Inspect the second vessel and compare cumulative electrode production with the first schedule.",
+      "Inspect the third vessel and compare the sum of both pulses with the other equal-charge deliveries."
+    ],
     "equilibrium-can-run-backward": [
       "Start the first vessel with 0.01 mol of acetic acid, one reactant in the equilibrium model.",
       "Add an equal amount of ethanol to supply the other reactant.",
@@ -308,6 +325,35 @@
       "The same 1.2 g of magnesium.",
       "Ignite it directly, from the bench's own ignition temperature.",
       "The thermometer reads some six hundred degrees higher than the first. Same reaction, same energy released; the heat put in beforehand did not disappear when the fire started, and a flame temperature is a balance, not a property of the metal."
+    ],
+    "grouping-does-not-change-water-heat": [
+      "Leave v1 empty as the final receiver and create the first water vessel.",
+      "Add one mole of water to the first portion.",
+      "Give this portion 300 J of sensible heat.",
+      "Create a vessel for the second portion.",
+      "Add two moles of water.",
+      "Remove 200 J from this portion.",
+      "Create a vessel for the third portion.",
+      "Add three moles of water.",
+      "Give this portion 100 J.",
+      "Create an intermediate mixing vessel.",
+      "Combine the first and second portions completely, carrying their amounts and energy together.",
+      "Combine that intermediate mixture with the third portion in v1.",
+      "Read the final temperature for the first grouping.",
+      "Create the first vessel of a matching second branch.",
+      "Add the same one mole of water.",
+      "Give it the same 300 J.",
+      "Create the second portion's vessel.",
+      "Add the same two moles of water.",
+      "Remove the same 200 J.",
+      "Create the third portion's vessel.",
+      "Add the same three moles of water.",
+      "Give it the same 100 J.",
+      "Create the other intermediate mixing vessel.",
+      "This time combine the second and third portions first.",
+      "Create a receiver for the second branch's final mixture.",
+      "Add the first portion to that intermediate mixture, preserving all six moles and their net energy.",
+      "Compare the final thermometer with v1, not the different intermediate temperatures."
     ],
     "half-neutralised-vinegar": [
       "A litre of water.",
@@ -641,6 +687,15 @@
       "And the same peroxide, for the third time.",
       "A thousandth of a gram of catalase is all the third flask gets — a hundred-thousandth of the peroxide's mass.",
       "One second passes for all three. The plain flask has done nothing the bench will report, the manganese flask has decomposed a little, and the catalase flask has already finished."
+    ],
+    "three-components-one-cut": [
+      "Start the source vessel with three moles of water.",
+      "Add methanol as one volatile component.",
+      "Add isopropanol as another component that the calculation must not discard.",
+      "Create an empty receiver for the computed cut.",
+      "Withdraw one fifth of the total molar inventory using the disclosed ideal-mixture approximation.",
+      "Inspect what remains in the source and retain every component in the accounting.",
+      "Inspect the receiver and add its component amounts to those remaining, without confusing enrichment with purity."
     ],
     "two-beakers-and-one-clock": [
       "100 mL of water at 25 °C in the first beaker.",

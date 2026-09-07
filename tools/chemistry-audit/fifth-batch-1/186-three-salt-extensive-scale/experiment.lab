@@ -1,0 +1,15 @@
+# Does fourfold extensive scaling scale the selected receiver inventories?
+register lv3
+add v1 water 0.6L
+add v1 CaCl2 0.0024mol
+new
+add v2 water 1.0L
+add v2 MgSO4 0.002mol
+new
+add v3 water 1.4L
+add v3 NaNO3 0.0028mol
+new
+mix v1 0.4 v2 0.6 into v4
+new
+mix v4 1 v3 0.8 into v5
+inspect

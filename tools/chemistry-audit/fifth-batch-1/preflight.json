@@ -1,0 +1,8 @@
+{
+  "note": "Hashes were read before launching the recorder; persisted during execution. No expectations were changed after observing output.",
+  "binary_sha256": "43f041c05fbdc795b5b2ac77b214a74dfd7fbae2b8983ddeefa3e1c023414bcd",
+  "fifth_batch_py_sha256": "ad849abb21ca922024992e96456786097aa75f94c3bf98ba415587f54c9ab74b",
+  "analyse_fifth_py_sha256": "2037b2d1add1d5014cf23d39b15dcd58937227651f214da3dd4806998cbf387a",
+  "protocol_sha256": "825d975444268b1f06afd1fc73b332606972f38a390177e6945270667916cb79",
+  "preflight_self_test": {"distinct_inputs": 36, "missing_output_negative_control": "passed", "rejected_checks": 119}
+}

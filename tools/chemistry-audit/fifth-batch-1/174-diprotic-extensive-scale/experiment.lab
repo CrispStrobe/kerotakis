@@ -1,0 +1,6 @@
+# Does doubling all extensive quantities double titrant demand?
+register lv3
+add v1 water 0.7L
+add v1 H2SO4 0.0014mol
+titrate v1 KOH 0.05M 6mL until ph 7
+inspect

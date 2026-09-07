@@ -1,0 +1,6 @@
+# Does fourfold extensive scaling scale the silver solid?
+register lv3
+add v1 water 1.2L
+add v1 AgNO3 0.0036mol
+add v1 NaCl 0.0012mol
+inspect

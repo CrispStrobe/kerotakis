@@ -1,0 +1,8 @@
+# Does scaling solution, headspace and charge preserve gas pressure?
+register lv3
+add v1 water 0.6L
+add v1 KNO3 0.0024mol
+seal v1 0.24L
+electrolyse v1 0.15A 160s
+measure v1 pressure
+inspect

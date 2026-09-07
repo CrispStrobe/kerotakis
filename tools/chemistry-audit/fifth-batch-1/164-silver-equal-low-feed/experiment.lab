@@ -1,0 +1,6 @@
+# Does equal low feed precipitate within its stoichiometric capacity?
+register lv3
+add v1 water 0.3L
+add v1 AgNO3 0.0003mol
+add v1 NaCl 0.0003mol
+inspect

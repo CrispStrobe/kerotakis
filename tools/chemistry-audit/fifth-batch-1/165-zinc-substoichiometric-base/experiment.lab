@@ -1,0 +1,6 @@
+# Does zinc solid stay below half the supplied hydroxide equivalents?
+register lv3
+add v1 water 0.4L
+add v1 ZnSO4 0.0008mol
+add v1 KOH 0.0006mol
+inspect

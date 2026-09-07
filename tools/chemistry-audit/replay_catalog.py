@@ -15,6 +15,8 @@ for path in sorted((recorder.ROOT / "codex").glob("*.toml")):
 selected = {
     "endpoint-is-not-a-full-drop", "equilibrium-can-run-backward",
     "cold-from-baking-soda",
+    "three-components-one-cut", "equal-charge-different-clocks",
+    "grouping-does-not-change-water-heat",
 }
 recorder.CASES = [
     recorder.case(entry["id"], entry.get("summary") or entry.get("equation") or entry["id"],

@@ -1,5 +1,60 @@
 # Chemistry audit history and continuation
 
+## 2026-09-07 11:33 UTC — generic diagnostic repair and corpus integration
+
+Implemented typed outcome distinctions for curated React diagnostics and six
+regressions. Final-source tests/CLI build remain pending: local compilation
+was cancelled safely under full-swap starvation, with owned PIDs verified gone.
+No numerical conversion law or tolerance changed. CI owns compiled validation.
+
+Three preserved catalog lessons now have EN/DE guidance, labels and reviewed
+generated export/core snapshot additions. Native replay13/37 and web199 tests
+pass. Cached engine-free snapshot execution established only the three new
+records; it does not validate the newly edited React branch. Fifth native
+inventory213/213 comparisons pass. Fifth and sixth fleets are wired into CI;
+sixth24cases/66checks are frozen but not run. Next app candidates and integration
+restrictions are recorded in MERGE-REVIEW/INTEGRATOR-HANDOFF/SIXTH-BATCH.
+
+## 2026-09-07 11:08 UTC — fifth fleet passes with diagnostic caveat
+
+Fifth fleet completed: 36 runs, 119/119 unchanged checks, no solver failures.
+Total case time 477.525 seconds. Repeated ester equilibrium preserves correct
+state but emits a misleading missing-reactants explanation; both reactants
+are still present. Organic-rich aqueous speciation remains explicitly withheld.
+Timing inspection found fresh per-case processes, two eager aqueous engines
+per process, and substantial host scheduling contention; no performance fix
+is claimed. See MERGE-REVIEW and fifth-batch-1 for public evidence.
+
+## 2026-09-07 11:02 UTC — execution started and first private checks passed
+
+Started the frozen 36-case fifth fleet on the existing native CLI; 15 cases
+completed at this checkpoint, full analysis pending with the execution agent.
+Three private original analogues also ran: 12/12 declared checks pass, zero
+solver failures, with root raw-output cross-checks. Private evidence remains
+separate from public audit data. No source-endpoint validation or general model
+fix is implied. See MERGE-REVIEW for running process ownership and remaining work.
+
+## 2026-09-07 10:54 UTC — intermediate research inspection
+
+Root checked actual private inventories, schema/gap references and selected code
+evidence. Reviewers were steered toward explicit variant identities, completed
+page coverage and concrete independent numerical/control checks. Exact research
+findings remain private. No additional chemistry execution or production fix is
+claimed; catalog verification, fifth-fleet replay and safe integration remain.
+
+## 2026-09-07 10:38 UTC — catalog, frozen fleet and private research
+
+Three original catalog lessons are authored locally but still require root
+runtime/export verification. Fifth fleet has 36 frozen scripts and 119 checks;
+no execution or scientific pass is claimed yet. Latest pushed audit commit is
+`a375f29d`; PR #504 remains unmerged pending combined validation.
+
+External research has moved entirely outside the public worktree into separate
+private version control. Manual review and library triage are delegated with
+explicit partial-coverage, variant-preservation, model-gap, hazard, provenance
+and predeclared-check contracts. Exact source research is not recorded here
+or published with app content. Remaining work and ownership are in MERGE-REVIEW.
+
 ## 2026-09-07 09:38 UTC — clean replay and fourth fleet
 
 The third fleet now passes all 174 checks across 36 runs, and 69 native

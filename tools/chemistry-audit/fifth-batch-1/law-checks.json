@@ -1,0 +1,1539 @@
+{
+  "fleet": "fifth-159-194",
+  "binary_sha256": "43f041c05fbdc795b5b2ac77b214a74dfd7fbae2b8983ddeefa3e1c023414bcd",
+  "checks": [
+    {
+      "check": "159: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "159: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ag": 0.0009,
+          "Cl": 0.0003,
+          "Na": 0.0003
+        },
+        "final_mol_atoms": {
+          "Ag": 0.0009000000000000065,
+          "Cl": 0.00030000000000003093,
+          "Na": 0.0002999999999998653
+        }
+      }
+    },
+    {
+      "check": "160: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "160: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Cl": 0.0003,
+          "Na": 0.0003,
+          "Ag": 0.0009
+        },
+        "final_mol_atoms": {
+          "Cl": 0.0002999999999999524,
+          "Na": 0.0002999999999998647,
+          "Ag": 0.0009000000000002465
+        }
+      }
+    },
+    {
+      "check": "161: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "161: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ag": 0.0003,
+          "Cl": 0.0009,
+          "Na": 0.0009
+        },
+        "final_mol_atoms": {
+          "Ag": 0.00029999999999997336,
+          "Cl": 0.0008999999999998386,
+          "Na": 0.0009000000000000049
+        }
+      }
+    },
+    {
+      "check": "162: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "162: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ag": 0.0036,
+          "Cl": 0.0012,
+          "Na": 0.0012
+        },
+        "final_mol_atoms": {
+          "Ag": 0.0036000000000006287,
+          "Cl": 0.001199999999999924,
+          "Na": 0.001200000000001059
+        }
+      }
+    },
+    {
+      "check": "163: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "163: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ag": 0.0009,
+          "Cl": 0.0003,
+          "Na": 0.0003
+        },
+        "final_mol_atoms": {
+          "Ag": 0.0008999999999997823,
+          "Cl": 0.0002999999999999845,
+          "Na": 0.0002999999999999148
+        }
+      }
+    },
+    {
+      "check": "164: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "164: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ag": 0.0003,
+          "Cl": 0.0003,
+          "Na": 0.0003
+        },
+        "final_mol_atoms": {
+          "Ag": 0.0002999999999998982,
+          "Cl": 0.00029999999999997303,
+          "Na": 0.000300000000000177
+        }
+      }
+    },
+    {
+      "check": "165: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "165: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Zn": 0.0008,
+          "K": 0.0006
+        },
+        "final_mol_atoms": {
+          "Zn": 0.0008000000000001821,
+          "K": 0.0005999999999998827
+        }
+      }
+    },
+    {
+      "check": "166: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "166: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0006,
+          "Zn": 0.0008
+        },
+        "final_mol_atoms": {
+          "K": 0.0005999999999998952,
+          "Zn": 0.0007999999999999057
+        }
+      }
+    },
+    {
+      "check": "167: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "167: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Zn": 0.0008,
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "Zn": 0.0008000000000002153,
+          "K": 0.0012000000000000203
+        }
+      }
+    },
+    {
+      "check": "168: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "168: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Zn": 0.0008,
+          "K": 0.00015
+        },
+        "final_mol_atoms": {
+          "Zn": 0.0008000000000005954,
+          "K": 0.0001499999999999987
+        }
+      }
+    },
+    {
+      "check": "169: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "169: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Zn": 0.0024000000000000002,
+          "K": 0.0018
+        },
+        "final_mol_atoms": {
+          "Zn": 0.0024000000000010797,
+          "K": 0.0018000000000004005
+        }
+      }
+    },
+    {
+      "check": "170: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "170: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Zn": 0.0008,
+          "K": 0.0006,
+          "Cl": 0.0015
+        },
+        "final_mol_atoms": {
+          "Zn": 0.0008000000000001372,
+          "K": 0.000600000000000103,
+          "Cl": 0.001500000000000058
+        }
+      }
+    },
+    {
+      "check": "171: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "171: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0013999954104423522
+        },
+        "final_mol_atoms": {
+          "K": 0.001399995411035515
+        }
+      }
+    },
+    {
+      "check": "172: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "172: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0013999953538179396
+        },
+        "final_mol_atoms": {
+          "K": 0.001399995353614261
+        }
+      }
+    },
+    {
+      "check": "173: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "173: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0013999953746795658
+        },
+        "final_mol_atoms": {
+          "K": 0.0013999953776828442
+        }
+      }
+    },
+    {
+      "check": "174: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "174: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0027999908208847044
+        },
+        "final_mol_atoms": {
+          "K": 0.0027999908191185044
+        }
+      }
+    },
+    {
+      "check": "175: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "175: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0013999950885772703
+        },
+        "final_mol_atoms": {
+          "K": 0.001399995087761763
+        }
+      }
+    },
+    {
+      "check": "176: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "176: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0013999953985214231
+        },
+        "final_mol_atoms": {
+          "K": 0.0013999953999854389
+        }
+      }
+    },
+    {
+      "check": "177: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "177: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "K": 0.0012000000018212273
+        }
+      }
+    },
+    {
+      "check": "178: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "178: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "K": 0.0012000000011380305
+        }
+      }
+    },
+    {
+      "check": "179: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "179: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "K": 0.0012000000018212273
+        }
+      }
+    },
+    {
+      "check": "180: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "180: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "K": 0.0012000000030932946
+        }
+      }
+    },
+    {
+      "check": "181: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "181: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0012
+        },
+        "final_mol_atoms": {
+          "K": 0.0011999999989081517
+        }
+      }
+    },
+    {
+      "check": "182: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "182: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "K": 0.0024
+        },
+        "final_mol_atoms": {
+          "K": 0.0023999999996327966
+        }
+      }
+    },
+    {
+      "check": "183: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "183: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0006,
+          "Cl": 0.0012,
+          "Mg": 0.0005,
+          "Na": 0.0007
+        },
+        "final_mol_atoms": {
+          "Ca": 0.0006000000000000037,
+          "Cl": 0.0012000000000000075,
+          "Mg": 0.0004999999999998556,
+          "Na": 0.0006999999999999695
+        }
+      }
+    },
+    {
+      "check": "184: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "184: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0006,
+          "Cl": 0.0012,
+          "Mg": 0.0005,
+          "Na": 0.0007
+        },
+        "final_mol_atoms": {
+          "Ca": 0.0006000000000000037,
+          "Cl": 0.0012000000000000075,
+          "Mg": 0.0004999999999999045,
+          "Na": 0.0006999999999999695
+        }
+      }
+    },
+    {
+      "check": "185: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "185: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0006,
+          "Cl": 0.0012,
+          "Mg": 0.0005,
+          "Na": 0.0007
+        },
+        "final_mol_atoms": {
+          "Ca": 0.0006000000000000037,
+          "Cl": 0.0012000000000000075,
+          "Mg": 0.0004999999999998556,
+          "Na": 0.0006999999999999695
+        }
+      }
+    },
+    {
+      "check": "186: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "186: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0024,
+          "Cl": 0.0048,
+          "Mg": 0.002,
+          "Na": 0.0028
+        },
+        "final_mol_atoms": {
+          "Ca": 0.002400000000000015,
+          "Cl": 0.00480000000000003,
+          "Mg": 0.0019999999999994224,
+          "Na": 0.002799999999999878
+        }
+      }
+    },
+    {
+      "check": "187: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "187: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0006,
+          "Cl": 0.0012,
+          "Mg": 0.0005,
+          "Na": 0.0007
+        },
+        "final_mol_atoms": {
+          "Ca": 0.000599999999999914,
+          "Cl": 0.0012000000000000075,
+          "Mg": 0.0004999999999999045,
+          "Na": 0.0006999999999998718
+        }
+      }
+    },
+    {
+      "check": "188: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "188: supplied nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "feed_mol_atoms": {
+          "Ca": 0.0006,
+          "Cl": 0.0012,
+          "Mg": 0.0005,
+          "Na": 0.0007
+        },
+        "final_mol_atoms": {
+          "Ca": 0.0006000000000000037,
+          "Cl": 0.0012000000000000075,
+          "Mg": 0.0004999999999998671,
+          "Na": 0.0006999999999998997
+        }
+      }
+    },
+    {
+      "check": "189: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "190: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "191: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "192: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "193: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "194: complete execution and finite registered inventory",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "malformed": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "159: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.0002998712388348,
+        "limiting_reagent_mol": 0.0003
+      }
+    },
+    {
+      "check": "160: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.0002998710860443,
+        "limiting_reagent_mol": 0.0003
+      }
+    },
+    {
+      "check": "161: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.0002998512587427,
+        "limiting_reagent_mol": 0.0003
+      }
+    },
+    {
+      "check": "162: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.001199484955339,
+        "limiting_reagent_mol": 0.0012
+      }
+    },
+    {
+      "check": "163: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.0002991528297299,
+        "limiting_reagent_mol": 0.0003
+      }
+    },
+    {
+      "check": "164: silver chloride limiting-reagent capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Ag_mol": 0.0002957659794342,
+        "limiting_reagent_mol": 0.0003
+      }
+    },
+    {
+      "check": "159/160: silver order or extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0002998712388348,
+        0.0002998710860443
+      ]
+    },
+    {
+      "check": "159/162: silver order or extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0002998712388348,
+        0.00029987123883475
+      ]
+    },
+    {
+      "check": "159/163: dilution cannot increase silver solid",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0002998712388348,
+        0.0002991528297299
+      ]
+    },
+    {
+      "check": "165: zinc positive precipitation within hydroxide capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Zn_mol": 0.0002947324511884,
+        "hydroxide_capacity_mol": 0.0003
+      }
+    },
+    {
+      "check": "166: zinc positive precipitation within hydroxide capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Zn_mol": 0.0002947374032636,
+        "hydroxide_capacity_mol": 0.0003
+      }
+    },
+    {
+      "check": "167: zinc positive precipitation within hydroxide capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Zn_mol": 0.0005960600415793,
+        "hydroxide_capacity_mol": 0.0006
+      }
+    },
+    {
+      "check": "168: zinc positive precipitation within hydroxide capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Zn_mol": 6.897882917948e-05,
+        "hydroxide_capacity_mol": 7.5e-05
+      }
+    },
+    {
+      "check": "169: zinc positive precipitation within hydroxide capacity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "solid_Zn_mol": 0.0008841973535651,
+        "hydroxide_capacity_mol": 0.0009
+      }
+    },
+    {
+      "check": "165/166: zinc order or extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0002947324511884,
+        0.0002947374032636
+      ]
+    },
+    {
+      "check": "165/169: zinc order or extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.0002947324511884,
+        0.0002947324511883667
+      ]
+    },
+    {
+      "check": "165/167/168/170: zinc dose ordering and acid reversal",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "165": 0.0002947324511884,
+        "167": 0.0005960600415793,
+        "168": 6.897882917948e-05,
+        "170": 0
+      }
+    },
+    {
+      "check": "171: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.0014,
+        "delivered_KOH_mol": 0.0013999954104423522,
+        "volume_L": 0.02799990820884704,
+        "pH": 7.00006659717
+      }
+    },
+    {
+      "check": "172: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.0014,
+        "delivered_KOH_mol": 0.0013999953538179396,
+        "volume_L": 0.027999907076358792,
+        "pH": 7.000056508326
+      }
+    },
+    {
+      "check": "173: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.0014,
+        "delivered_KOH_mol": 0.0013999953746795658,
+        "volume_L": 0.05599981498718263,
+        "pH": 7.000073530897
+      }
+    },
+    {
+      "check": "174: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.0028,
+        "delivered_KOH_mol": 0.0027999908208847044,
+        "volume_L": 0.05599981641769408,
+        "pH": 7.000068654343
+      }
+    },
+    {
+      "check": "175: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.0014,
+        "delivered_KOH_mol": 0.0013999950885772703,
+        "volume_L": 0.027999901771545405,
+        "pH": 7.000004270479
+      }
+    },
+    {
+      "check": "176: diprotic acid endpoint and remaining equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_KOH_mol": 0.001,
+        "delivered_KOH_mol": 0.0009999953985214232,
+        "volume_L": 0.019999907970428464,
+        "pH": 7.000002314064
+      }
+    },
+    {
+      "check": "177: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12.0,
+        "electrode_product_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        }
+      }
+    },
+    {
+      "check": "177: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": 0.0,
+          "N": 1.821050255035317e-12,
+          "K": 1.8210513392374894e-12
+        },
+        "external_flows": [],
+        "pressure_Pa": 103221.9265173675,
+        "ideal_Pa": 103221.92651926994
+      }
+    },
+    {
+      "check": "178: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12.0,
+        "electrode_product_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        }
+      }
+    },
+    {
+      "check": "178: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": 3.552713678800501e-15,
+          "N": 1.1379092113017464e-12,
+          "K": 1.1379074765782704e-12
+        },
+        "external_flows": [],
+        "pressure_Pa": 101790.83297791507,
+        "ideal_Pa": 101790.83297979117
+      }
+    },
+    {
+      "check": "179: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12.0,
+        "electrode_product_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        }
+      }
+    },
+    {
+      "check": "179: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": 0.0,
+          "N": 1.821050255035317e-12,
+          "K": 1.8210513392374894e-12
+        },
+        "external_flows": [],
+        "pressure_Pa": 103221.9265173675,
+        "ideal_Pa": 103221.92651926994
+      }
+    },
+    {
+      "check": "180: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12.0,
+        "electrode_product_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        }
+      }
+    },
+    {
+      "check": "180: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": -3.552713678800501e-15,
+          "N": 3.0931177757986816e-12,
+          "K": 3.0931186431604196e-12
+        },
+        "external_flows": [],
+        "pressure_Pa": 103221.9265175833,
+        "ideal_Pa": 103221.92651948573
+      }
+    },
+    {
+      "check": "181: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 24.0,
+        "electrode_product_mol": {
+          "O2": 6.218561793970638e-05,
+          "H2": 0.00012437123587941276
+        }
+      }
+    },
+    {
+      "check": "181: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": 0.0,
+          "N": -1.0920257753621598e-12,
+          "K": -1.0920242574791184e-12
+        },
+        "external_flows": [],
+        "pressure_Pa": 105148.87011486902,
+        "ideal_Pa": 105148.87011680695
+      }
+    },
+    {
+      "check": "182: independent SI Faraday yields at both electrodes",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 24.0,
+        "electrode_product_mol": {
+          "O2": 6.218561793970638e-05,
+          "H2": 0.00012437123587941276
+        }
+      }
+    },
+    {
+      "check": "182: sealed atom inventory and actual-headspace gas law",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "atom_changes_mol": {
+          "H": 0.0,
+          "O": 0.0,
+          "N": -3.6755667953691784e-13,
+          "K": -3.6755537849431086e-13
+        },
+        "external_flows": [],
+        "pressure_Pa": 103221.92651735693,
+        "ideal_Pa": 103221.92651925937
+      }
+    },
+    {
+      "check": "177/179/180/182: equal-charge, split-charge and extensive pressure controls",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "177": 103221.9265173675,
+        "179": 103221.9265173675,
+        "180": 103221.9265175833,
+        "182": 103221.92651735693
+      }
+    },
+    {
+      "check": "183: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.00023999999999999998,
+          "Cl": 0.00047999999999999996,
+          "Mg": 0.0003,
+          "Na": 0.0005600000000000001
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.0002400000000000015,
+          "Cl": 0.000480000000000003,
+          "Mg": 0.0002999999999999042,
+          "Na": 0.0005600000000000035
+        }
+      }
+    },
+    {
+      "check": "184: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.00023999999999999998,
+          "Cl": 0.00047999999999999996,
+          "Mg": 0.0003,
+          "Na": 0.0005600000000000001
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.0002400000000000015,
+          "Cl": 0.000480000000000003,
+          "Mg": 0.0002999999999999531,
+          "Na": 0.0005600000000000035
+        }
+      }
+    },
+    {
+      "check": "185: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.00023999999999999998,
+          "Cl": 0.00047999999999999996,
+          "Mg": 0.0003,
+          "Na": 0.0005600000000000001
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.0002400000000000015,
+          "Cl": 0.000480000000000003,
+          "Mg": 0.0002999999999999042,
+          "Na": 0.0005600000000000035
+        }
+      }
+    },
+    {
+      "check": "186: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.0009599999999999999,
+          "Cl": 0.0019199999999999998,
+          "Mg": 0.0012,
+          "Na": 0.0022400000000000002
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.000960000000000006,
+          "Cl": 0.001920000000000012,
+          "Mg": 0.0011999999999996167,
+          "Na": 0.002240000000000014
+        }
+      }
+    },
+    {
+      "check": "187: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.00023999999999999998,
+          "Cl": 0.00047999999999999996,
+          "Mg": 0.0003,
+          "Na": 0.0005600000000000001
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.0002400000000000015,
+          "Cl": 0.000480000000000003,
+          "Mg": 0.0002999999999999531,
+          "Na": 0.0005599999999999058
+        }
+      }
+    },
+    {
+      "check": "188: three-feed fractional receiver ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.00011999999999999999,
+          "Cl": 0.00023999999999999998,
+          "Mg": 0.00015,
+          "Na": 0.00028000000000000003
+        },
+        "receiver_mol_atoms": {
+          "Ca": 0.00012000000000000075,
+          "Cl": 0.0002400000000000015,
+          "Mg": 0.0001499999999999521,
+          "Na": 0.00028000000000000176
+        }
+      }
+    },
+    {
+      "check": "183/184/185/186/188: grouping and concentration preserve receiver pH",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "183": 6.97397270124,
+        "184": 6.97397270124,
+        "185": 6.97397270124,
+        "186": 6.97397270124,
+        "188": 6.97397270124
+      }
+    },
+    {
+      "check": "189: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.017,
+          "ethanol": 0.009,
+          "ethyl_acetate": 0.002,
+          "water": 0.004
+        },
+        "extent_mol": 0.006723950155154666,
+        "Q": 3.999999999999997,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "190: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.017,
+          "ethanol": 0.009,
+          "ethyl_acetate": 0.002,
+          "water": 0.004
+        },
+        "extent_mol": 0.006723950155154666,
+        "Q": 3.999999999999997,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "191: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.051000000000000004,
+          "ethanol": 0.026999999999999996,
+          "ethyl_acetate": 0.006,
+          "water": 0.012
+        },
+        "extent_mol": 0.020171850465464006,
+        "Q": 4.000000000000004,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "192: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.017,
+          "ethanol": 0.009,
+          "ethyl_acetate": 0.002,
+          "water": 0.004
+        },
+        "extent_mol": 0.006723950155154666,
+        "Q": 3.999999999999997,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "193: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.017,
+          "ethanol": 0.018,
+          "ethyl_acetate": 0.002,
+          "water": 0.004
+        },
+        "extent_mol": 0.010666666666666668,
+        "Q": 4.000000000000003,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "194: current-state organic mass action and conserved atoms",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial_mol": {
+          "CH3COOH": 0.017,
+          "ethanol": 0.009,
+          "ethyl_acetate": 0.002,
+          "water": 0.008
+        },
+        "extent_mol": 0.006258990097589073,
+        "Q": 4.000000000000004,
+        "boundaries": [
+          "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+        ]
+      }
+    },
+    {
+      "check": "189/190: organic order, scale or repeated-request idempotence",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.006723950155154666,
+        0.006723950155154666
+      ]
+    },
+    {
+      "check": "189/191: organic order, scale or repeated-request idempotence",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.006723950155154666,
+        0.006723950155154669
+      ]
+    },
+    {
+      "check": "189/192: organic order, scale or repeated-request idempotence",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        0.006723950155154666,
+        0.006723950155154666
+      ]
+    },
+    {
+      "check": "189/193/194: independent reactant/product perturbation directions",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "189": 0.006723950155154666,
+        "193": 0.010666666666666668,
+        "194": 0.006258990097589073
+      }
+    }
+  ],
+  "passed": 119,
+  "unmet": 0
+}

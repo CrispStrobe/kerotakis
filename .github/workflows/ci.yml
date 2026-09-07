@@ -176,6 +176,23 @@ jobs:
           python3 tools/chemistry-audit/fourth_batch.py --binary target/debug/kero --out "$AUDIT_OUT/fourth"
           python3 tools/chemistry-audit/analyse_fourth.py "$AUDIT_OUT/fourth" --out "$AUDIT_OUT/fourth-checks.json"
           python3 tools/chemistry-audit/check_native_inventory.py "$AUDIT_OUT/fourth" --out "$AUDIT_OUT/fourth-native-inventory.json"
+      - name: Chemistry audit — fifth law and control fleet
+        if: runner.os == 'Linux'
+        env:
+          AUDIT_OUT: ${{ runner.temp }}/chemistry-audit
+        run: |
+          python3 tools/chemistry-audit/analyse_fifth.py --self-test
+          python3 tools/chemistry-audit/fifth_batch.py --binary target/debug/kero --out "$AUDIT_OUT/fifth"
+          python3 tools/chemistry-audit/analyse_fifth.py "$AUDIT_OUT/fifth" --out "$AUDIT_OUT/fifth-checks.json"
+          python3 tools/chemistry-audit/check_native_inventory.py "$AUDIT_OUT/fifth" --out "$AUDIT_OUT/fifth-native-inventory.json"
+      - name: Chemistry audit — sixth discovery fleet
+        if: runner.os == 'Linux'
+        env:
+          AUDIT_OUT: ${{ runner.temp }}/chemistry-audit
+        run: |
+          python3 tools/chemistry-audit/analyse_sixth.py --self-test
+          python3 tools/chemistry-audit/sixth_batch.py --binary target/debug/kero --out "$AUDIT_OUT/sixth"
+          python3 tools/chemistry-audit/analyse_sixth.py "$AUDIT_OUT/sixth" --out "$AUDIT_OUT/sixth-checks.json"
       - name: Preserve chemistry audit evidence, including failed checks
         if: always() && runner.os == 'Linux'
         uses: actions/upload-artifact@v6

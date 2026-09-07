@@ -1,0 +1,8 @@
+# Does an alternative current/time pair conserve charge yield in a sealed vessel?
+register lv3
+add v1 water 0.3L
+add v1 KNO3 0.0012mol
+seal v1 0.12L
+electrolyse v1 0.3A 40s
+measure v1 pressure
+inspect

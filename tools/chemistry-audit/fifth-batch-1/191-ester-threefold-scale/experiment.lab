@@ -1,0 +1,8 @@
+# Does threefold organic scale preserve intensive equilibrium?
+register lv3
+add v1 CH3COOH 0.051000000000000004mol
+add v1 ethanol 0.026999999999999996mol
+add v1 ethyl_acetate 0.006mol
+add v1 water 0.012mol
+react v1 esterification
+inspect

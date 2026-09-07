@@ -1,0 +1,19 @@
+# Temperature changes the rate constant; finite-time yields also reflect depletion
+register lv3
+add v1 water 100mL @ 25C
+add v1 Na2S2O3 0.79g @ 25C
+add v1 HCl 0.002mol @ 25C
+new
+add v2 water 100mL @ 35C
+add v2 Na2S2O3 0.79g @ 35C
+add v2 HCl 0.002mol @ 35C
+new
+add v3 water 100mL @ 45C
+add v3 Na2S2O3 0.79g @ 45C
+add v3 HCl 0.002mol @ 45C
+new
+add v4 water 100mL @ 55C
+add v4 Na2S2O3 0.79g @ 55C
+add v4 HCl 0.002mol @ 55C
+wait 10s
+inspect

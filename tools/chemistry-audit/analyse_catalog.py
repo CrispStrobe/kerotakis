@@ -7,6 +7,7 @@ single-vessel pH range cannot express.
 """
 import argparse
 import json
+import math
 import pathlib
 import re
 
@@ -19,6 +20,8 @@ def analyse(directory):
         "doubling-the-thiosulfate-doubles-the-rate", "the-acid-term-is-an-activity",
         "the-cross-disappears", "the-ten-degree-rule-and-where-it-frays",
         "two-beakers-and-one-clock", "a-salt-with-no-database", "the-acid-is-never-used-up",
+        "three-components-one-cut", "equal-charge-different-clocks",
+        "grouping-does-not-change-water-heat",
     }
     if not required.issubset(records):
         raise ValueError(f"Missing required catalog comparisons: {sorted(required - records.keys())}")
@@ -45,6 +48,41 @@ def analyse(directory):
         vessels = record["final"]["vessels"] if record["final"] else []
         ph[key] = {str(v["id"]): (v.get("solution") or {}).get("ph") for v in vessels}
         script = (directory / key / "experiment.lab").read_text()
+        if key == "three-components-one-cut":
+            expected = {"water": 3.0, "methanol": 0.3, "isopropanol": 0.2}
+            totals = {s: sum(p["moles"] for v in vessels for p in v["contents"]
+                             if p["species"] == s) for s in expected}
+            check(key + ": component conservation", len(vessels) == 2 and
+                  all(abs(totals[s] - n) <= 1e-8 + 1e-6*n for s, n in expected.items()), totals)
+            receiver = next((v for v in vessels if v["id"] == 1), None)
+            cut = {s: sum(p["moles"] for p in receiver["contents"] if p["species"] == s)
+                   for s in expected} if receiver else {}
+            check(key + ": mixed receiver and requested molar cut", bool(cut) and
+                  all(n > 0 for n in cut.values()) and abs(sum(cut.values()) - .7) <= 1e-8,
+                  cut)
+        if key == "equal-charge-different-clocks":
+            faraday = 6.02214076e23 * 1.602176634e-19
+            products = {}
+            for event in events:
+                if event["event"] == "electrolysed":
+                    amounts = products.setdefault(event["vessel"], {"H2": 0.0, "O2": 0.0})
+                    for pole in ("anode", "cathode"):
+                        species = event[pole + "_species"]
+                        amounts[species] = amounts.get(species, 0) + event[pole + "_moles"]
+            check(key + ": equal and split charge obey SI Faraday law",
+                  set(products) == {0, 1, 2} and all(
+                      abs(amounts[s] - 12/(z*faraday)) <= 1e-10 + 1e-6*12/(z*faraday)
+                      for amounts in products.values() for s, z in (("H2", 2), ("O2", 4))), products)
+        if key == "grouping-does-not-change-water-heat":
+            receivers = {v["id"]: v for v in vessels if v["id"] in (0, 9)}
+            expected_t = 298.15 + 200/(6*75.3)
+            check(key + ": both groupings conserve water and sensible energy",
+                  set(receivers) == {0, 9} and all(
+                      math.isfinite(v["temperature"]) and abs(v["temperature"] - expected_t) <= .005
+                      and abs(sum(p["moles"] for p in v["contents"] if p["species"] == "water") - 6) <= 1e-8
+                      for v in receivers.values()),
+                  {"expected_temperature_K": expected_t,
+                   "observed_temperature_K": {i: v["temperature"] for i, v in receivers.items()}})
         if "Na2S2O3" in script:
             acid = {}
             for vessel, n in re.findall(r"^add v(\d+) HCl ([0-9.eE+-]+)mol(?:\s|$)", script, re.M):
