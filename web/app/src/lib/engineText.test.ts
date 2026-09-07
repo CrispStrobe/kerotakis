@@ -59,6 +59,34 @@ describe("engine text localization", () => {
     expect(engineText(english)).toBe(english);
   });
 
+  /**
+   * The refusals, which arrive finished for the same reason the hazards do.
+   *
+   * These were reported from the live German deploy — "many
+   * warnings/errors/info strings are NOT showing in German, like 'no vessel
+   * v2'". The fix is in the engine (`Refusal` + `error.*` in
+   * `crates/kerotakis-core/i18n/de.toml`, gated by
+   * `crates/kerotakis-core/tests/refusal_locale.rs`); what is checked HERE
+   * is only that the shell does not undo it.
+   */
+  it("passes a German refusal through with its vessel name intact", () => {
+    i18n.setLocale("de");
+    const refusal =
+      "kein Gefäß v2 — lege es zuerst mit `new` an; das erzeugt das nächste freie Gefäß";
+    expect(engineText(refusal)).toBe(refusal);
+    // `v2` is an identifier, not a measurement: nothing may reformat it.
+    expect(engineText(refusal)).toContain("v2");
+  });
+
+  it("does not re-translate an English refusal it happens to recognise", () => {
+    // The temptation this file exists to resist. A German string written
+    // in the shell is not a missing translation — it is one that only
+    // German can ever have, and there would be nowhere to put French.
+    i18n.setLocale("de");
+    const english = "no vessel v2 — make it first with `new`, which creates the next free vessel";
+    expect(engineText(english)).toBe(english);
+  });
+
   it("invents nothing for prose it does not recognise", () => {
     i18n.setLocale("de");
     const unknown = "something no catalogue anywhere has a translation for";

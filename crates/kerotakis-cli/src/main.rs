@@ -3217,7 +3217,10 @@ impl Session {
                 &mut self.stack,
                 &kerotakis_safety::ReactiveGroupScreen,
             )
-            .map_err(|e| e.to_string())?;
+            // I18N: `kero --lang de` refuses in German too. The refusal is
+            // the one line a learner reads most often and it was the last
+            // English one left in a German REPL.
+            .map_err(|e| e.localize(self.locale))?;
         // The sealed set follows the matter: `exec_line` seals the vessel
         // an alias was added to, and every transfer out of a sealed
         // vessel seals the destination. Chemistry is untouched — this

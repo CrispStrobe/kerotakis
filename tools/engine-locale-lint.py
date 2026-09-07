@@ -39,6 +39,13 @@ RENDER = ROOT / "crates/kerotakis-core/src/render.rs"
 # learner may type. Those keys reach no call site in render.rs and are not
 # orphans; this is where they are used.
 SCRIPT = ROOT / "crates/kerotakis-core/src/script.rs"
+# The bench's refusals do not go through `render.rs` at all: they are the
+# reason an operator did NOTHING, so there is no event to render. They name
+# their key at the point they are constructed, and the host renders them in
+# the session's locale on the way out. Same catalogue, same fallback, other
+# file — so this lint has to read two sources or it reports every refusal
+# key as an orphan.
+BENCH = ROOT / "crates/kerotakis-core/src/bench.rs"
 CATALOGUES = ROOT / "crates/kerotakis-core/i18n"
 
 # `locale.t("vessel.open", ", open to atmosphere")` and the fill() form.
@@ -64,6 +71,18 @@ SECTION = re.compile(r'\.\s*section\s*\(\s*"([\w.-]+)"')
 # section the grammar owns is named `script-*`, which is the convention
 # that makes this answerable at all.
 SECTION_LITERAL = re.compile(r'"(script-[\w-]+)"')
+
+# `Refusal::new("error.no-such-vessel", "no vessel {vessel} — …")` — the
+# same (key, English source) pair `locale.t` takes, written at the point
+# the refusal is made rather than at the point it is rendered.
+REFUSAL = re.compile(
+    r'Refusal::new\(\s*"([^"]+)"\s*,\s*"((?:[^"\\]|\\.)*)"', re.S
+)
+
+
+def unwrap(text: str) -> str:
+    """A Rust string literal's `\\`-at-end-of-line continuation, undone."""
+    return re.sub(r"\\\n\s*", "", text)
 
 # A dotted key named anywhere in the file, which covers the case where the
 # key is chosen by a match arm rather than passed literally:
@@ -100,6 +119,12 @@ def main() -> int:
     if cut != -1:
         src = src[:cut]
     used = {m.group(1): m.group(2) for m in CALL.finditer(src)}
+    bench = BENCH.read_text()
+    bench_cut = bench.find("\n#[cfg(test)]")
+    if bench_cut != -1:
+        bench = bench[:bench_cut]
+    refusals = {m.group(1): unwrap(m.group(2)) for m in REFUSAL.finditer(bench)}
+    used.update(refusals)
     grammar = SCRIPT.read_text()
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
     dynamic |= {m.group(1) for m in DYNAMIC.finditer(grammar)}
@@ -163,6 +188,8 @@ def main() -> int:
     per_key = collections.defaultdict(set)
     for m in CALL.finditer(src):
         per_key[m.group(1)].add(m.group(2))
+    for m in REFUSAL.finditer(bench):
+        per_key[m.group(1)].add(unwrap(m.group(2)))
     shared = {k: v for k, v in per_key.items() if len(v) > 1}
     if shared:
         print("KEY USED BY TWO DIFFERENT SENTENCES:")
@@ -172,8 +199,10 @@ def main() -> int:
                 print(f"      {x[:70]}")
 
     print(f"{'engine prose in render.rs':<34}")
-    print(f"   reachable by a catalogue : {len(used):>4} keys")
+    print(f"   reachable by a catalogue : {len(used) - len(refusals):>4} keys")
     print(f"   still inside a bare format!: {len(bare):>4} literals")
+    print(f"{'bench refusals in bench.rs':<34}")
+    print(f"   reachable by a catalogue : {len(refusals):>4} keys")
 
     problems = len(shared)
     print()
@@ -199,7 +228,7 @@ def main() -> int:
         for k in sorted(set(cat) - set(used)):
             if k.split(".")[0] in dynamic or k in mentioned:
                 continue
-            print(f"   ORPHAN: {code}.toml has '{k}', which render.rs never asks for")
+            print(f"   ORPHAN: {code}.toml has '{k}', which nothing asks for")
             problems += 1
 
     if bare:

@@ -11,6 +11,7 @@ use crate::ops::{
     CentrifugeSeparation, ElutedPeak, Endpoint, Event, Instrument, LogEntry,
     MaterialComponentAdded, Operator,
 };
+use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
@@ -52,61 +53,184 @@ fn liquid_colour_word_of(vessel: &Vessel) -> &'static str {
 /// because `v2` did not exist yet and never mentioned `new`, and a learner
 /// who has just watched chalk dissolve is told there is no solid to grind
 /// without being told that is *because* it dissolved.
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug)]
 pub enum BenchError {
-    #[error("no vessel {0} — make it first with `new`, which creates the next free vessel")]
     NoSuchVessel(VesselId),
-    #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
-    #[error("unknown material '{0}' — not in the recipe registry")]
     UnknownMaterial(String),
-    #[error("material recipe identity does not match the pinned operator")]
     MaterialRecipeMismatch,
-    #[error("amount must be positive")]
     NonPositiveAmount,
-    #[error("nothing on the shelf is called '{0}' — it is neither a species nor a material")]
     UnstockableKey(String),
-    #[error("the '{key}' bottle holds {remaining} {unit}, and {requested} {unit} was asked for")]
     StockExhausted {
         key: String,
         requested: f64,
         remaining: f64,
         unit: crate::stock::StockUnit,
     },
-    #[error("fraction must be within 0..=1")]
     BadFraction,
-    #[error("source and target vessel are the same")]
     SelfTransfer,
-    #[error("vessel {0} is not empty — transfer or dispose of its contents first")]
     VesselNotEmpty(VesselId),
-    #[error("the last vessel must stay on the bench")]
     LastVessel,
-    #[error("vessel {0} is broken and cannot be used")]
     BrokenVessel(VesselId),
-    #[error("no spill exists at the requested destination")]
     NoSuchSpill,
-    #[error(
-        "vessel {vessel} contains no solid {species} to grind — grinding changes a \
-         solid's particle size, so it has to happen before the solid dissolves, not after"
-    )]
     SolidNotPresent {
         vessel: VesselId,
         species: SpeciesId,
     },
-    #[error("centrifuge cannot run this vessel: {0}")]
     CentrifugeUnavailable(String),
-    #[error(
-        "centrifuge rotor is {imbalance_g:.2} g out of balance (sample {sample_g:.2} g, counterbalance {counterbalance_g:.2} g); match within 0.10 g"
-    )]
     CentrifugeImbalance {
         sample_g: f64,
         counterbalance_g: f64,
         imbalance_g: f64,
     },
-    #[error(transparent)]
-    Kinetics(#[from] crate::kinetics::IntegrationError),
-    #[error(transparent)]
-    Transport(#[from] crate::transport::TransportError),
+    Kinetics(crate::kinetics::IntegrationError),
+    Transport(crate::transport::TransportError),
+}
+
+/// Why the sentences moved out of `#[error(...)]` and into here.
+///
+/// `thiserror` writes a `Display` from an attribute, which is exactly the
+/// right amount of machinery for an error nobody but a programmer reads.
+/// These are read by a fourteen-year-old, in the middle of an otherwise
+/// German bench, and an attribute has nowhere to put a key. So each arm
+/// now names a [`Refusal`] — the same key/English/holes shape every event
+/// already renders through — and `Display` is `render(Locale::EN)`.
+///
+/// The English is therefore not duplicated: the sentence a CLI user sees
+/// is *generated from the template a translation replaces*, so the two
+/// cannot drift. `english_is_exactly_what_it_was` pins the wording of
+/// every arm against the strings that shipped before this change.
+impl Refuses for BenchError {
+    fn refusal(&self) -> Refusal {
+        match self {
+            BenchError::NoSuchVessel(v) => Refusal::new(
+                "error.no-such-vessel",
+                "no vessel {vessel} — make it first with `new`, which creates the next free vessel",
+            )
+            .with("vessel", v),
+            BenchError::UnknownSpecies(s) => Refusal::new(
+                "error.unknown-species",
+                "unknown species '{species}' — not in the registry",
+            )
+            .with("species", s),
+            BenchError::UnknownMaterial(m) => Refusal::new(
+                "error.unknown-material",
+                "unknown material '{material}' — not in the recipe registry",
+            )
+            .with("material", m),
+            BenchError::MaterialRecipeMismatch => Refusal::new(
+                "error.material-recipe-mismatch",
+                "material recipe identity does not match the pinned operator",
+            ),
+            BenchError::NonPositiveAmount => {
+                Refusal::new("error.non-positive-amount", "amount must be positive")
+            }
+            BenchError::UnstockableKey(k) => Refusal::new(
+                "error.unstockable-key",
+                "nothing on the shelf is called '{key}' — it is neither a species nor a material",
+            )
+            .with("key", k),
+            BenchError::StockExhausted {
+                key,
+                requested,
+                remaining,
+                unit,
+            } => Refusal::new(
+                "error.stock-exhausted",
+                "the '{key}' bottle holds {remaining} {unit}, and {requested} {unit} was asked for",
+            )
+            .with("key", key)
+            .with("unit", unit)
+            .with_number("remaining", remaining.to_string())
+            .with_number("requested", requested.to_string()),
+            BenchError::BadFraction => {
+                Refusal::new("error.bad-fraction", "fraction must be within 0..=1")
+            }
+            BenchError::SelfTransfer => Refusal::new(
+                "error.self-transfer",
+                "source and target vessel are the same",
+            ),
+            BenchError::VesselNotEmpty(v) => Refusal::new(
+                "error.vessel-not-empty",
+                "vessel {vessel} is not empty — transfer or dispose of its contents first",
+            )
+            .with("vessel", v),
+            BenchError::LastVessel => Refusal::new(
+                "error.last-vessel",
+                "the last vessel must stay on the bench",
+            ),
+            BenchError::BrokenVessel(v) => Refusal::new(
+                "error.broken-vessel",
+                "vessel {vessel} is broken and cannot be used",
+            )
+            .with("vessel", v),
+            BenchError::NoSuchSpill => Refusal::new(
+                "error.no-such-spill",
+                "no spill exists at the requested destination",
+            ),
+            BenchError::SolidNotPresent { vessel, species } => Refusal::new(
+                "error.solid-not-present",
+                "vessel {vessel} contains no solid {species} to grind — grinding changes a \
+                 solid's particle size, so it has to happen before the solid dissolves, not after",
+            )
+            .with("vessel", vessel)
+            .with("species", species),
+            BenchError::CentrifugeUnavailable(why) => Refusal::new(
+                "error.centrifuge-unavailable",
+                "centrifuge cannot run this vessel: {reason}",
+            )
+            .with("reason", why),
+            BenchError::CentrifugeImbalance {
+                sample_g,
+                counterbalance_g,
+                imbalance_g,
+            } => Refusal::new(
+                "error.centrifuge-imbalance",
+                "centrifuge rotor is {imbalance_g} g out of balance (sample {sample_g} g, \
+                 counterbalance {counterbalance_g} g); match within 0.10 g",
+            )
+            .with_number("imbalance_g", format!("{imbalance_g:.2}"))
+            .with_number("sample_g", format!("{sample_g:.2}"))
+            .with_number("counterbalance_g", format!("{counterbalance_g:.2}")),
+            // The two nested error types keep their own English for now.
+            // A pass-through key still gives the frame a place to live and
+            // a translator somewhere to start; splitting `TransportError`
+            // and `IntegrationError` into keys of their own is the same
+            // exercise one layer down, and it is not this change.
+            BenchError::Kinetics(e) => Refusal::new("error.kinetics", "{detail}").with("detail", e),
+            BenchError::Transport(e) => {
+                Refusal::new("error.transport", "{detail}").with("detail", e)
+            }
+        }
+    }
+}
+
+impl std::fmt::Display for BenchError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.refusal().render(crate::Locale::EN))
+    }
+}
+
+impl std::error::Error for BenchError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            BenchError::Kinetics(e) => Some(e),
+            BenchError::Transport(e) => Some(e),
+            _ => None,
+        }
+    }
+}
+
+impl From<crate::kinetics::IntegrationError> for BenchError {
+    fn from(e: crate::kinetics::IntegrationError) -> Self {
+        BenchError::Kinetics(e)
+    }
+}
+
+impl From<crate::transport::TransportError> for BenchError {
+    fn from(e: crate::transport::TransportError) -> Self {
+        BenchError::Transport(e)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

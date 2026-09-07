@@ -20,7 +20,7 @@ pub mod worker;
 
 use kerotakis_core::{
     localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale,
-    Operator, Register, SolverRoute, SolverRouteOutcome, SolverStack,
+    Operator, Refuses, Register, SolverRoute, SolverRouteOutcome, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -377,7 +377,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         let census = kerotakis_core::particles::census(v, 30);
         let doc = serde_json::json!({
             "census": census,
@@ -391,7 +391,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         Ok(serde_json::to_string(&kerotakis_core::observe(v))
             .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}")))
     }
@@ -402,7 +402,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         Ok(serde_json::json!({
             "rendered": render_vessel_in(v, self.register, self.locale),
             "vessel": v,
@@ -833,7 +833,7 @@ impl Lab {
         let v = self
             .bench
             .vessel(kerotakis_core::VesselId(vessel))
-            .map_err(|e| JsError::new(&e.to_string()))?;
+            .map_err(|e| JsError::new(&e.localize(self.locale)))?;
         let mixing = kerotakis_core::MixingEquilibrator;
         let curated = kerotakis_core::CuratedEquilibrator;
         let thermal = kerotakis_cea::ThermalEquilibrator;
@@ -863,7 +863,11 @@ impl Lab {
             &kerotakis_safety::ReactiveGroupScreen,
         );
         std::mem::swap(&mut stack, &mut self.stack);
-        result.map_err(|e| JsError::new(&e.to_string()))
+        // I18N: the first — and only — point in the stack that knows what
+        // language this session reads. `bench.rs` names the refusal; the
+        // sentence is chosen here, exactly as `localize_events` chooses the
+        // sentence for the events of a step that succeeded.
+        result.map_err(|e| JsError::new(&e.localize(self.locale)))
     }
 }
 
