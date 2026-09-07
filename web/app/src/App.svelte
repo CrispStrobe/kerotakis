@@ -264,6 +264,19 @@
   }
 
   /**
+   * Choosing a reagent means the same thing wherever it is chosen: pour it
+   * into the selected vessel and put the bench in front of the person who
+   * poured it. The cabinet did the second half and the periodic table did
+   * not, so on a narrow window a tap in the table dispensed correctly into
+   * a bench nobody was looking at — the reported "nothing happens". One
+   * handler now, so the two cannot drift apart again.
+   */
+  function addReagent(line: string) {
+    void dispense(line);
+    pane = "bench";
+  }
+
+  /**
    * A shelf click or drop represents a physical pour, not zero-duration state
    * editing. Advance one explicit second, then keep ticking only while the
    * computed scene is bubbling or its foam is growing. Every tick remains a
@@ -1265,10 +1278,7 @@
         stockUsed={session.storyStockUsed}
         bottles={shelfBottles}
         focusRequest={shelfFocusRequest}
-        onadd={(line) => {
-          void dispense(line);
-          pane = "bench";
-        }}
+        onadd={addReagent}
       />
     </div>
   </nav>
@@ -1759,7 +1769,7 @@
     experiments={codexEntries}
     onadd={(item) => {
       tableOpen = false;
-      void dispense(
+      addReagent(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
     }}
@@ -1768,9 +1778,12 @@
       void startLesson(file);
     }}
     onexperiment={(id) => {
+      // Closing first, before the lookup can fail: an id that missed used
+      // to leave the table open and nothing else changed, so the press
+      // looked ignored rather than unsuccessful.
+      tableOpen = false;
       const entry = codexEntries.find((candidate) => candidate.id === id);
       if (!entry) return;
-      tableOpen = false;
       catalogInitial = entry;
       catalogOpen = true;
     }}

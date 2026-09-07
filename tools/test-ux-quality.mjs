@@ -488,6 +488,37 @@ try {
   check("the default table omits hazardous and synthetic identities",
     ["Po", "At", "Fr", "Ra", "Og"].every((symbol) => !labTable.symbols.includes(symbol)));
   check("every element cell has an accessible name", labTable.unnamed === 0, `${labTable.unnamed} unnamed`);
+
+  // "Nothing happens when I click a reagent in the periodic table." The
+  // press did reach the engine, but the surface never came back to the
+  // bench that had just changed, so the whole gesture looked ignored. The
+  // only honest way to test that is to press it and see the bench move.
+  const reagentPress = JSON.parse(await page.evaluate(`(async () => {
+    const before = document.querySelectorAll('.feed > *').length;
+    const cell = [...document.querySelectorAll('dialog.table-panel button.el')]
+      .find((element) => !element.classList.contains('unsupported'));
+    cell?.click();
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    const chip = document.querySelector('dialog.table-panel button.add[data-key]');
+    const key = chip?.getAttribute('data-key') ?? null;
+    chip?.click();
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    return JSON.stringify({
+      element: Boolean(cell),
+      chip: Boolean(chip),
+      key,
+      closed: !document.querySelector('dialog.table-panel'),
+      grew: document.querySelectorAll('.feed > *').length > before,
+    });
+  })()`));
+  check("picking an element offers its shelf reagents", reagentPress.element && reagentPress.chip);
+  check("a periodic-table reagent carries the key the bench command needs",
+    Boolean(reagentPress.key), String(reagentPress.key));
+  check("pressing a periodic-table reagent closes the table and moves the bench",
+    reagentPress.closed && reagentPress.grew,
+    `closed ${reagentPress.closed}, journal grew ${reagentPress.grew}`);
+
+  check("the periodic table reopens from the bench", await openPeriodicTable());
   await page.evaluate(`document.querySelector('dialog.table-panel button.mode')?.click()`);
   const fullTable = JSON.parse(await periodicAudit());
   check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);

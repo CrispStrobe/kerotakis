@@ -59,7 +59,20 @@ export function parseElementCoverage(raw: unknown): ElementCoverageReport | null
 
 export interface ElementContentRoute {
   key: string;
-  label: string;
+  /** The route's name in English, already worded — hyphens are not a word
+   * separator on screen — so it is a key in the shell dictionary and the
+   * surface renders `t(title)`. This replaces the old `label`, which was
+   * the codex `summary`: engine prose that is not, and never will be, in
+   * the shell dictionary, so `t()` handed it straight back and the German
+   * table listed English experiments. */
+  title: string;
+  /** The route's one line of prose, in the engine's own sibling shape, so
+   * a surface can hand the route itself to `tEngine`. Codex entries ship
+   * `summary` beside `summary_de`; lessons keep their prose in the shell
+   * dictionary instead and leave both null. This module has no locale and
+   * keeps none — choosing between the two is the surface's job. */
+  summary: string | null;
+  summary_de: string | null;
   requiredShelfKeys: string[];
   kind: "lesson" | "experiment";
 }
@@ -74,6 +87,9 @@ export interface ElementLessonIndexEntry {
 export interface ElementExperimentIndexEntry {
   id: string;
   summary?: string | null;
+  /** The codex ships German beside English rather than under it; keeping
+   * the sibling on this narrower view is what lets the table localise. */
+  summary_de?: string | null;
   setup: { script: string };
 }
 
@@ -211,6 +227,14 @@ export const LAB_ELEMENTS = ELEMENTS.filter((element) =>
   LAB_ELEMENT_SYMBOLS.has(element.symbol)
 );
 
+/** A slug as a reader says it: hyphens are not a word separator on screen,
+ * and the dictionary is keyed by the words. The catalogue has its own copy
+ * of this for the same reason; both exist because the id is the identity
+ * and the words are the name. */
+function slugWords(value: string): string {
+  return value.replaceAll("-", " ").replaceAll("_", " ");
+}
+
 export function shelfItemsContainingElement<T extends { formula: string }>(
   symbol: string,
   shelf: T[],
@@ -235,7 +259,14 @@ export function contentRoutesForElement(
       && requiredShelfKeys.some((key) => matchingKeys.has(key))) {
       routes.push({
         key: lesson.file,
-        label: lesson.blurb || lesson.name,
+        // The lesson index words the file stem for its `name`, and every
+        // one of those phrases is a dictionary key. Its `blurb` is prose
+        // lifted out of the `.lab` source and is not, which is why the
+        // blurb was the half that read English and the name is the half
+        // shown here.
+        title: lesson.name,
+        summary: null,
+        summary_de: null,
         requiredShelfKeys,
         kind: "lesson",
       });
@@ -248,7 +279,9 @@ export function contentRoutesForElement(
       && requiredShelfKeys.some((key) => matchingKeys.has(key))) {
       routes.push({
         key: experiment.id,
-        label: experiment.summary || experiment.id,
+        title: slugWords(experiment.id),
+        summary: experiment.summary ?? null,
+        summary_de: experiment.summary_de ?? null,
         requiredShelfKeys,
         kind: "experiment",
       });
