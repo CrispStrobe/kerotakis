@@ -165,6 +165,8 @@ pub fn equilibrate_tp(
         mu0.push(g / (R * t));
     }
 
+    // TEMPORARY per-iteration trace.
+    let trace = std::env::var("KERO_TP_TRACE").is_ok();
     let gas: Vec<usize> = (0..pool.len()).filter(|i| pool[*i].is_gas()).collect();
     let cond: Vec<usize> = (0..pool.len()).filter(|i| !pool[*i].is_gas()).collect();
 
@@ -245,6 +247,19 @@ pub fn equilibrate_tp(
                 *slot -= take * a(c, k);
             }
         }
+    }
+
+    if trace {
+        eprintln!(
+            "TP {t:.0} K seed: cond {:?}, gas {:?}",
+            active_cond
+                .iter()
+                .map(|&c| (pool[c].name.as_str(), n[c]))
+                .collect::<Vec<_>>(),
+            gas.iter()
+                .map(|&i| (pool[i].name.as_str(), n[i]))
+                .collect::<Vec<_>>()
+        );
     }
 
     // How often each condensed phase has been admitted. A phase that is
@@ -353,6 +368,18 @@ pub fn equilibrate_tp(
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
         if !solve_flat(&mut m_flat, dim, stride) {
+            if trace {
+                eprintln!(
+                    "TP {t:.0} K it{iteration} SINGULAR: cond {:?}, gas {:?}, rescues {rescues}",
+                    active_cond
+                        .iter()
+                        .map(|&c| (pool[c].name.as_str(), n[c]))
+                        .collect::<Vec<_>>(),
+                    gas.iter()
+                        .map(|&i| (pool[i].name.as_str(), n[i]))
+                        .collect::<Vec<_>>()
+                );
+            }
             // Singular. Two distinct situations land here.
             //
             // The repairable one: a Newton transient crushed a gas species
@@ -485,6 +512,20 @@ pub fn equilibrate_tp(
         // step alone silently returned compositions that created matter —
         // heating chalk produced twice the carbon it started with.
         let residual = balance_residual(&pool, &n, &elements, budget);
+
+        if trace && iteration <= 40 {
+            eprintln!(
+                "TP {t:.0} K it{iteration}: lambda {lambda:.3e} max_change {max_change:.3e} \
+                 residual {residual:.3e} cond {:?} gas {:?}",
+                active_cond
+                    .iter()
+                    .map(|&c| (pool[c].name.as_str(), n[c]))
+                    .collect::<Vec<_>>(),
+                gas.iter()
+                    .map(|&i| (pool[i].name.as_str(), n[i]))
+                    .collect::<Vec<_>>()
+            );
+        }
 
         // Phase management: drop an exhausted condensed phase; admit one
         // whose chemical potential says it should exist.
