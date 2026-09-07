@@ -1577,6 +1577,15 @@
       "retrieved": null
     },
     {
+      "id": "legacy/S2O3-2",
+      "citation": "thiosulfate ion, the anion sodium thiosulfate actually is once it is in water and the key the aqueous readback needs before a solved hypo solution has anywhere honest to book. IDENTITY VERIFIED against PubChem CID 1084 on 2026-09-07 (PUG REST property record): molecular formula O3S2-2, molecular weight 112.13, IUPAC name thiosulfate, InChIKey DHCDFWKWKRSZHF-UHFFFAOYSA-L. NOTE THE FINAL CHARACTER AND HOW IT WAS OBTAINED. Asking PubChem for the name `thiosulfate` returns CID 439208, which is the MONOanion HS2O3- at -M; the dianion this bench books is a different record, CID 1084, and takes -L. It was fetched by the name `thiosulfate(2-)` rather than assumed from the first answer. Here the first block IS shared with the parent acid, because both records are written from the H2S2O3 skeleton with a /p-n layer - the exact opposite of the hypochlorite and borate pairs in this same registry, where the anion has its own skeleton hash. Neither pattern generalises and every key has to be fetched. Molar mass 112.130 g/mol, which is 2 S 32.066 + 3 O 15.9994 from IUPAC/CIAAW 2021 atomic weights and agrees with PubChem's 112.13. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions; the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries, because solution volume is carried by the liquid phase. WHAT THIS ROW SETTLES IS THE ACID-BASE BEHAVIOUR AND NOTHING ELSE. It exists because vendor/iphreeqc/database/llnl.dat defines the anion - `S(+2)  S2O3-2  0  S` at line 229, the formation at line 739 and `H+ + S2O3-2 = HS2O3-  log_k 1.0139` at line 4585 - and databases::minteq_v4() borrows that protonation constant as a pseudo-element with no redox partner. It says nothing about how strongly thiosulfate reduces, nothing about the iodine titration, and nothing about the rate at which acid decomposes it to sulfur: that rate is kinetics::REGISTRY's `thiosulfate-acid` and stays curated.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "kerotakis/phase-transitions-v1",
       "citation": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed: CRC Handbook of Chemistry and Physics, 97th ed. is the intended primary reference and every value here is flagged for reviewer confirmation against a positively identified copy of it before any stronger claim is made. (Reviewer confirmation recorded 2026-09-01 in the registry source's own citation; this seed constant is historical - the bootstrap only fires when the source record is absent.) Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29",
       "licence": "AGPL-3.0-or-later",
@@ -1629,15 +1638,6 @@
       "origin": "Kerotakis original stoichiometric derivation",
       "revision": "1",
       "retrieved": "2026-09-06"
-    },
-    {
-      "id": "legacy/S2O3-2",
-      "citation": "thiosulfate ion, the anion sodium thiosulfate actually is once it is in water and the key the aqueous readback needs before a solved hypo solution has anywhere honest to book. IDENTITY VERIFIED against PubChem CID 1084 on 2026-09-07 (PUG REST property record): molecular formula O3S2-2, molecular weight 112.13, IUPAC name thiosulfate, InChIKey DHCDFWKWKRSZHF-UHFFFAOYSA-L. NOTE THE FINAL CHARACTER AND HOW IT WAS OBTAINED. Asking PubChem for the name `thiosulfate` returns CID 439208, which is the MONOanion HS2O3- at -M; the dianion this bench books is a different record, CID 1084, and takes -L. It was fetched by the name `thiosulfate(2-)` rather than assumed from the first answer. Here the first block IS shared with the parent acid, because both records are written from the H2S2O3 skeleton with a /p-n layer - the exact opposite of the hypochlorite and borate pairs in this same registry, where the anion has its own skeleton hash. Neither pattern generalises and every key has to be fetched. Molar mass 112.130 g/mol, which is 2 S 32.066 + 3 O 15.9994 from IUPAC/CIAAW 2021 atomic weights and agrees with PubChem's 112.13. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions; the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries, because solution volume is carried by the liquid phase. WHAT THIS ROW SETTLES IS THE ACID-BASE BEHAVIOUR AND NOTHING ELSE. It exists because vendor/iphreeqc/database/llnl.dat defines the anion - `S(+2)  S2O3-2  0  S` at line 229, the formation at line 739 and `H+ + S2O3-2 = HS2O3-  log_k 1.0139` at line 4585 - and databases::minteq_v4() borrows that protonation constant as a pseudo-element with no redox partner. It says nothing about how strongly thiosulfate reduces, nothing about the iodine titration, and nothing about the rate at which acid decomposes it to sulfur: that rate is kinetics::REGISTRY's `thiosulfate-acid` and stays curated.",
-      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-      "lane": "build_oracle",
-      "origin": "crates/kerotakis-core/src/species.rs",
-      "revision": null,
-      "retrieved": null
     }
   ],
   "identities": [
