@@ -289,9 +289,42 @@ pub fn equilibrate_tp(
     let gas_carries: Vec<bool> = (0..elements.len())
         .map(|j| gas.iter().any(|&i| a(i, j) > 0.0))
         .collect();
-    let is_sole_carrier = |c: usize, active: &[usize]| -> bool {
+    // The most of a condensed phase the budget can hold at all. A mole of
+    // calcium carbonate needs a mole of calcium and a mole of carbon, and
+    // there are only so many of each: no equilibrium, and no step on the
+    // way to one, may contain more of the phase than that. Newton does not
+    // know it — the damping above bounds a condensed phase that is
+    // SHRINKING and leaves a growing one free — and a half-calcined
+    // crucible is where that showed: one step put 1.6 mol of carbonate in a
+    // vessel holding 0.1 mol of calcium, and nothing recovered from it.
+    let phase_cap = |c: usize| -> f64 {
+        (0..elements.len())
+            .filter(|&k| a(c, k) > 0.0)
+            .map(|k| budget.get(&elements[k]).copied().unwrap_or(0.0) / a(c, k))
+            .fold(f64::INFINITY, f64::min)
+    };
+    // Whether dropping this phase would leave an element no gas can carry
+    // with no way back to its budget.
+    //
+    // One carrier per element is the ordinary case and this is then just
+    // "is it the last one". Two carriers sharing an element is the case
+    // that needs the AMOUNTS as well as the names: chalk and lime both hold
+    // calcium, so neither looked like the last one, and a single step
+    // dropped both — leaving the calcium row all zeros and every subsequent
+    // solve singular.
+    let would_strand = |c: usize, survivors: &[usize]| -> bool {
         (0..elements.len()).any(|j| {
-            a(c, j) > 0.0 && !gas_carries[j] && !active.iter().any(|&o| o != c && a(o, j) > 0.0)
+            if gas_carries[j] || a(c, j) <= 0.0 {
+                return false;
+            }
+            let target = budget.get(&elements[j]).copied().unwrap_or(0.0);
+            let reachable: f64 = survivors
+                .iter()
+                .copied()
+                .filter(|&o| o != c)
+                .map(|o| a(o, j) * phase_cap(o))
+                .sum();
+            reachable < target * (1.0 - 1e-12)
         })
     };
 
@@ -460,12 +493,14 @@ pub fn equilibrate_tp(
         // stalled iteration used to be misread as a converged one. Below a
         // tenth of a percent of a step, remove the phase instead.
         let mut forced_drop: Vec<usize> = Vec::new();
+        let mut survivors: Vec<usize> = active_cond.clone();
         for (c_idx, &c) in active_cond.iter().enumerate() {
             let dn = m_flat[(nel + c_idx) * stride + dim];
             if dn < 0.0 && n[c] > 0.0 {
                 let limit = (0.9 * n[c] / -dn).min(1.0);
-                if limit < 1e-3 && !is_sole_carrier(c, &active_cond) {
+                if limit < 1e-3 && !would_strand(c, &survivors) {
                     forced_drop.push(c);
+                    survivors.retain(|&o| o != c);
                 } else {
                     lambda = lambda.min(limit);
                 }
@@ -485,7 +520,7 @@ pub fn equilibrate_tp(
         for (c_idx, &c) in active_cond.iter().enumerate() {
             let dn = lambda * m_flat[(nel + c_idx) * stride + dim];
             max_change = max_change.max((dn / n_total.max(TRACE)).abs());
-            n[c] = (n[c] + dn).max(0.0);
+            n[c] = (n[c] + dn).max(0.0).min(phase_cap(c));
         }
         let step_n = lambda * d_ln_n;
         n_total = (n_total.max(TRACE).ln() + step_n).exp();
@@ -499,7 +534,7 @@ pub fn equilibrate_tp(
         // balance tolerance, and Newton solves condensed phases for Δn
         // directly, so it climbs back to its true value in one step.
         for &c in &active_cond {
-            if n[c] <= TRACE && is_sole_carrier(c, &active_cond) {
+            if n[c] <= TRACE && would_strand(c, &active_cond) {
                 n[c] = (total_budget * 1e-14).max(1e-16);
             }
         }
@@ -1043,7 +1078,7 @@ mod tests {
         std::env::set_var("KERO_TP_TRACE", "1");
         let b = budget(&[("C", 0.052207), ("Ca", 0.1), ("N", 1.248), ("O", 0.540414)]);
         let pool = pool_of(&["C(gr)", "CO", "CO2", "CaCO3(cr)", "CaO(cr)", "N2", "O2"]);
-        for t in [400.0] {
+        for t in [400.0, 700.0, 1000.0, 1500.0] {
             let eq = equilibrate_tp(&b, &pool, t, 1.0)
                 .unwrap_or_else(|e| panic!("half-calcined chalk at {t} K: {e}"));
             assert_conserved(&eq, &b, &format!("half-calcined chalk at {t} K"));
