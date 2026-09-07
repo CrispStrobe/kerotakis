@@ -2072,7 +2072,7 @@ impl Equilibrator for HonestyEquilibrator {
 /// exact. It stops at a nanokelvin or a microjoule, both far below what any
 /// instrument on this bench reads.
 pub fn adiabatic_rest_temperature(lo: f64, hi: f64, total: impl Fn(f64) -> f64) -> Kelvin {
-    if !(hi > lo + 1e-12) {
+    if hi - lo <= 1e-12 {
         return Kelvin(0.5 * (lo + hi));
     }
     if total(lo) >= 0.0 {
@@ -2099,9 +2099,9 @@ pub fn adiabatic_rest_temperature(lo: f64, hi: f64, total: impl Fn(f64) -> f64) 
 
 /// Mix incoming matter arriving at `t_in` into `vessel`, adiabatically.
 ///
-/// `incoming(t)` is the heat that matter absorbs going from `t_in` to `t`, J
-/// - signed, so it is negative when the incoming matter is the warmer side.
-/// [`portions_enthalpy`] builds it from a list of portions.
+/// `incoming(t)` is the heat that matter absorbs going from `t_in` to `t`,
+/// J, signed: negative when the incoming matter is the warmer side.
+/// Build it from a list of portions with [`portions_enthalpy`].
 pub fn adiabatic_mix_into(vessel: &Vessel, t_in: Kelvin, incoming: impl Fn(f64) -> f64) -> Kelvin {
     let held = vessel.temperature.0;
     adiabatic_rest_temperature(held.min(t_in.0), held.max(t_in.0), |t| {
