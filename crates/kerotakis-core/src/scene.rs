@@ -204,6 +204,23 @@ pub struct SceneMaterialObject {
     pub mass_g: f64,
     pub exchanged_water_moles: f64,
     pub browned_fraction: f64,
+    /// Standing, cumulative water transfer for recipes whose reviewed role is
+    /// an osmotic membrane. This deliberately does not claim object geometry,
+    /// membrane mechanics, or a final equilibrium mass.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub osmosis: Option<SceneOsmosis>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneOsmosis {
+    /// Signed cumulative modeled transfer: positive is into the object.
+    pub water_moles: f64,
+    /// The same transfer expressed using water's registry molar mass.
+    pub mass_change_g: f64,
+    /// `into_object`, `out_of_object`, or `balanced`.
+    pub direction: String,
+    /// Short machine-visible model provenance and boundary for clients.
+    pub basis: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -914,7 +931,60 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             confidence: Confidence::Modeled,
         });
     }
+    let material_objects: Vec<_> = v
+        .material_objects
+        .iter()
+        .map(|object| {
+            let is_osmotic = crate::material::lookup(&object.material, None).is_some_and(|recipe| {
+                    recipe.roles.iter().any(|role| {
+                        matches!(role, crate::material::MaterialRole::OsmoticMembrane { .. })
+                    })
+                });
+            let water_moles = object.state.exchanged_water_moles;
+            let osmosis = is_osmotic.then(|| SceneOsmosis {
+                water_moles,
+                mass_change_g: water_moles
+                    * species::lookup(&crate::SpeciesId::new("water"))
+                        .map_or(18.01528, |data| data.molar_mass),
+                direction: if water_moles > 1e-15 {
+                    "into_object"
+                } else if water_moles < -1e-15 {
+                    "out_of_object"
+                } else {
+                    "balanced"
+                }
+                .to_string(),
+                basis: "stored cumulative output of the bounded osmolarity-gradient teaching model (20% water exchange per 1 osmol/L contrast over a 24 h exponential timescale, capped at 40% per step); not object size, membrane mechanics, ion selectivity, or final equilibrium"
+                    .to_string(),
+            });
+            SceneMaterialObject {
+                material: object.material.clone(),
+                recipe_id: object.recipe_id.clone(),
+                mass_g: object.mass_g,
+                exchanged_water_moles: water_moles,
+                browned_fraction: object.state.browned_fraction,
+                osmosis,
+            }
+        })
+        .collect();
+
     let mut words = seen.words;
+    for object in &material_objects {
+        if let Some(osmosis) = &object.osmosis {
+            if osmosis.water_moles.abs() <= 1e-15 {
+                continue;
+            }
+            let direction = match osmosis.direction.as_str() {
+                "into_object" => "into",
+                "out_of_object" => "out of",
+                _ => "into or out of",
+            };
+            words.push_str(&format!(
+                " Osmosis has moved {:.4} mol ({:.3} g) of water {} the {} cumulatively in the teaching model; object size, membrane mechanics, and final equilibrium are not modeled.",
+                osmosis.water_moles.abs(), osmosis.mass_change_g.abs(), direction, object.material
+            ));
+        }
+    }
     if let Some(gel) = &gel_observation {
         words.push_str(&format!(
             " A translucent cohesive gel contains {:.0}% of the {} polymer.",
@@ -1032,17 +1102,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         corrosion,
         adsorption,
         partition,
-        material_objects: v
-            .material_objects
-            .iter()
-            .map(|object| SceneMaterialObject {
-                material: object.material.clone(),
-                recipe_id: object.recipe_id.clone(),
-                mass_g: object.mass_g,
-                exchanged_water_moles: object.state.exchanged_water_moles,
-                browned_fraction: object.state.browned_fraction,
-            })
-            .collect(),
+        material_objects,
         soap_scum: v.soap_scum.as_ref().map(|scum| SceneSoapScum {
             aggregate_mass_g: scum.aggregate_mass_g,
             divalent_ion_moles: scum.divalent_ion_moles,

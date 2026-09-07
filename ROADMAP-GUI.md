@@ -1422,6 +1422,12 @@ and presents them well.
   between events and disappear when the layers separate. This improves
   persistence without changing the closed 73-row event score.
 
+  ANIM-11 adds a standing counterpart to the transient osmosis row. The
+  prepared object's durable cumulative water exchange is exposed as signed
+  moles and grams in the existing vessel, surviving between events and reloads.
+  It does not resize the object or claim membrane mechanics or final
+  equilibrium, and therefore does not change the closed 73-row event score.
+
   **This item is closed and the question it asks is not.** One gap outlives
   the row count, recorded in the audit. (The other, `Event::DidNotIgnite`
   carrying nothing but a vessel id, is now closed in #501: the event names

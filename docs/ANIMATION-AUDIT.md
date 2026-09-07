@@ -378,6 +378,13 @@ picture of a vessel.
   interface geometry, emulsions, ions, or general solvent support. This is a
   persistence improvement and does not inflate the closed event-row score.
 
+- **ANIM-11 / K14 standing osmosis** — the prepared object's durable signed
+  cumulative water exchange now travels with the standing scene as moles and
+  grams and remains readable between events and after reload. The readout does
+  not resize the object or imply membrane mechanics or a computed final
+  equilibrium. It complements the completed transient row without inflating
+  the closed event-row score.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
