@@ -2894,9 +2894,7 @@ impl Bench {
                             // exactly the mismatch #509 removed everywhere else.
                             let t_new = adiabatic_mix_into(dst, t_from, |t| {
                                 portions_enthalpy(
-                                    components
-                                        .iter()
-                                        .map(|(id, n)| (id, n.0, Phase::Liquid)),
+                                    components.iter().map(|(id, n)| (id, n.0, Phase::Liquid)),
                                     t_from.0,
                                     t,
                                 )
