@@ -7,10 +7,17 @@
 //! the word. Its sibling `FlameStarved` carries the fuel, what burned and
 //! the oxygen fraction, and is drawn from those.
 //!
-//! These tests are about the two ends of the new `reason`. A beaker of
-//! water was never going to burn and there is nothing to draw. Propane in
-//! a heated bath, sparked and quenched, did not burn for a reason with a
-//! number in it — and the number is on the event.
+//! These tests are about the two ends of the new `reason`. A sealed flask
+//! of spent air was never going to burn and there is nothing to draw.
+//! Propane in a heated bath, sparked and quenched, did not burn for a
+//! reason with a number in it — and the number is on the event.
+//!
+//! Both vessels are held at a bath temperature, and that is not a trick
+//! to make a test pass. `ignite` takes a vessel to 1200 K, above every
+//! tabulated autoignition point, so a sparked vessel is examined at a
+//! temperature no bench ever sits at; a thermostat pulls it straight back
+//! and the solvers see the vessel the learner is left with, which is the
+//! state these fields describe.
 
 use kerotakis_cea::ThermalEquilibrator;
 use kerotakis_core::ops::DidNotIgniteReason;
@@ -53,30 +60,42 @@ fn absence(events: &[Event]) -> (DidNotIgniteReason, Option<String>, Option<f64>
         .unwrap_or_else(|| panic!("no DidNotIgnite among {events:?}"))
 }
 
-/// Water in a beaker, held in a flame: nothing burns, and the reason is
-/// that nothing in there is a fuel.
+/// A sealed flask of the air a fire has already used: nothing in there
+/// is a fuel, and that is the reason.
 ///
 /// This is the case the old sentence — "not everything burns" — was
 /// actually true of, and it is now the only one it is said about. The
 /// client draws nothing for it, which is the point: there is no fuel to
 /// scale a wisp by, so the event says so rather than offering a zero.
+///
+/// **It is deliberately not a beaker of water**, which is what this test
+/// was first written as, and what the engine answers there is worth
+/// recording. Water held in a flame goes past the aqueous model's 300 °C
+/// ceiling, no chemistry solver claims the state, and the bench says
+/// `NotYetModeled` rather than `DidNotIgnite` — it may not turn a gap in
+/// the modelling into a claim that water does not burn. So the honest
+/// `NoFuel` needs a vessel a solver actually examined, and a warm flask
+/// of exhaust gas is one: CEA can name both species and finds nothing to
+/// do with them.
 #[test]
-fn a_beaker_of_water_held_in_a_flame_has_no_fuel_in_it() {
+fn a_flask_of_spent_air_has_no_fuel_in_it() {
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
-    bench
-        .step_with(
-            Operator::Add {
-                vessel: v,
-                species: SpeciesId::new("water"),
-                moles: Moles(0.5),
-                at: None,
-            },
-            &mut stack,
-            &PermissiveScreen,
-        )
-        .expect("add water");
+    {
+        let vessel = &mut bench.vessels[0];
+        vessel.headspace = Headspace::Sealed {
+            volume: Liters(1.0),
+        };
+        // Held at its bath, for the same reason the propane case below is:
+        // the spark is quenched, so what the solver examines is the warm
+        // vessel rather than a flash of 1200 K.
+        vessel.thermal_mode = ThermalMode::Thermostatted(Kelvin(600.0));
+        vessel.temperature = Kelvin(600.0);
+        vessel.deposit(SpeciesId::new("N2"), Moles(0.04), Phase::Gas);
+        vessel.deposit(SpeciesId::new("CO2"), Moles(0.01), Phase::Gas);
+        vessel.refresh_pressure();
+    }
 
     let events = ignite(&mut bench, &mut stack, v);
     let (reason, fuel, oxygen, gap) = absence(&events);
@@ -84,13 +103,10 @@ fn a_beaker_of_water_held_in_a_flame_has_no_fuel_in_it() {
     assert_eq!(reason, DidNotIgniteReason::NoFuel, "{events:?}");
     assert_eq!(fuel, None, "there is no candidate to name");
     assert_eq!(gap, None, "and so no gap to any temperature");
-    // The oxygen fraction is still a true reading, and an open beaker
-    // stands in the room's air rather than in an empty ledger.
-    let oxygen = oxygen.expect("an open beaker reports the air it stands in");
-    assert!(
-        (oxygen - kerotakis_core::combustion::ROOM_OXYGEN_FRACTION).abs() < 1e-9,
-        "{oxygen}"
-    );
+    // The oxygen fraction is still a true reading, and a sealed vessel
+    // owns its gas: there is none in there at all.
+    let oxygen = oxygen.expect("a sealed vessel can report its own gas");
+    assert!(oxygen < 1e-9, "spent air has no oxygen left: {oxygen}");
 }
 
 /// Propane in a bath at 600 K, sparked: the bath swallows the spark, the

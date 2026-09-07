@@ -394,10 +394,17 @@ are one visual and three deliberate blanks:
   candidate's moles on a log ramp and thinning it by the gap. A milligram
   of wax and a block of it are not the same non-event, and something
   400 K short of catching is not visibly doing anything.
-- `no_fuel` draws **nothing**, on purpose. A beaker of water has no fuel
-  to scale a wisp by, and a wisp over it would invent a substance. So do
-  `no_oxygen` (a smothered fuel is not warm) and `not_modelled` (the
-  bench does not know).
+- `no_fuel` draws **nothing**, on purpose. A flask of spent air has no
+  fuel to scale a wisp by, and a wisp over it would invent a substance.
+  So do `no_oxygen` (a smothered fuel is not warm) and `not_modelled`
+  (the bench does not know).
+
+`no_fuel` is also narrower than it sounds, and the tests say why. A
+beaker of water held in a flame is **not** one: it goes past the aqueous
+model's 300 °C ceiling, no chemistry solver claims the state, and the
+bench answers `NotYetModeled` — it may not turn a gap in the modelling
+into a claim that water does not burn. `NoFuel` is only said about a
+vessel a solver actually examined.
 
 The reason, the fuel moles, the gap and the oxygen fraction are all on
 `data-*` attributes whether or not a shape is drawn, so the absence stays
