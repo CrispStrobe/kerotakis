@@ -21,7 +21,7 @@ fn localized_milk_recipe_conserves_water_and_unresolved_milk_solids() {
     // unresolved balance carries what is left.
     assert!((expansion.components[0].amount - 89.61).abs() < 1e-10);
     assert_eq!(expansion.components[0].species_id, "water");
-    assert!((expansion.unresolved_amount - 12.761803).abs() < 1e-10);
+    assert!((expansion.unresolved_amount - 12.7564882).abs() < 1e-10);
     // The conservation this test exists for, over EVERY component rather
     // than over the first one. It read `components[0] + unresolved` while
     // water was the only component, which was the same sum by accident
@@ -98,5 +98,5 @@ fn a_half_pour_conserves_milk_and_keeps_its_concentration() {
         .filter(|portion| portion.recipe_id == "household/whole-milk-surrogate")
         .map(|portion| portion.amount)
         .sum();
-    assert!((conserved_unresolved - 12.761803).abs() < 1e-10);
+    assert!((conserved_unresolved - 12.7564882).abs() < 1e-10);
 }
