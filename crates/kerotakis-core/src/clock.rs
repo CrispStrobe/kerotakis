@@ -1038,14 +1038,24 @@ pub const CO2_TRANSFER_FLOOR_MOL: f64 = crate::OBSERVABLE_MOLES;
 /// puts 100 mL of water 80 % of the way to the room when the answer is
 /// 55 %, and clamping that at the capacity then reads as arrival.
 ///
-/// What this does NOT model is a limewater beaker going cloudy on the
-/// hour, and it should not be expected to. Saturated limewater holds
-/// about 4 mmol of hydroxide in 200 mL; at 2.9e-10 mol/s that is months,
-/// not an afternoon, and the gap is the chemical enhancement stated on
-/// [`STILL_SURFACE_K_L_M_PER_S`] plus the calcium the solid keeps feeding
-/// back. The bench will show the drift on a `wait` measured in days. Said
-/// here because "limewater goes cloudy in air" is the demonstration this
-/// clock is most likely to be reached for.
+/// Limewater is the demonstration this clock is most likely to be reached
+/// for, so here is what it actually does. 200 mL of it, 4 mmol of
+/// Ca(OH)₂ at pH 12.46, left open:
+///
+/// ```text
+/// wait 24h    25 µmol CO2 in,   24 µmol chalk down,  pH 12.46
+/// + 7 days   178 µmol CO2 in,  202 µmol chalk down,  pH 12.44, hazy
+/// + 30 days  762 µmol CO2 in,  788 µmol chalk down,  pH 12.36
+/// ```
+///
+/// Chalk on the FIRST day, a visible haze in about a week, and roughly
+/// five months to spend the whole 4 mmol — the hydroxide holds the
+/// driving force wide open the entire time, so it runs dead straight at
+/// 25 µmol a day. It is NOT the afternoon a real beaker takes, and the
+/// gap is the chemical enhancement stated on
+/// [`STILL_SURFACE_K_L_M_PER_S`]: this clock carries the physical film
+/// transfer alone. A bench sees the right thing happen on a `wait`
+/// measured in days rather than hours.
 ///
 /// This clock computes the amount and parks it in
 /// [`Vessel::pending_co2_transfer_mol`]; the aqueous tail spends it. It
@@ -1178,7 +1188,11 @@ impl Clock for GasExchangeClock {
         // discrepancy that then gets clamped and looks like arrival.
         let tau_s = volume_l / (STILL_SURFACE_K_L_M_PER_S * area * LITRES_PER_M3);
         let max_rate_mol_per_s = STILL_SURFACE_K_L_M_PER_S * area * k_h * driving * LITRES_PER_M3;
-        if !(tau_s > 0.0) || !(max_rate_mol_per_s > 0.0) {
+        if tau_s <= 0.0
+            || max_rate_mol_per_s <= 0.0
+            || !tau_s.is_finite()
+            || !max_rate_mol_per_s.is_finite()
+        {
             return Ok(());
         }
         // How long the base holds the driving force wide open.
