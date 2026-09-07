@@ -693,17 +693,54 @@ impl Equilibrator for ThermalEquilibrator {
                 });
             }
         }
-        for p in &vessel.contents {
+        // Per species and over every condensed phase it is in, not per
+        // portion and solids only.
+        //
+        // `after` always summed the whole species; `before` read ONE portion
+        // and only if that portion happened to be solid. A ribbon of
+        // magnesium that a spark has taken past its 923 K melting point is a
+        // liquid portion by the time the minimisation sees it, so it burned,
+        // precipitated its oxide, and was never reported consumed — the
+        // `Precipitated` loop above has no such guard, which is exactly the
+        // asymmetry `kero codex lint` caught: six entries kept
+        // `precipitated:MgO` and lost `consumed:Mg`.
+        //
+        // `combustion.rs` fixed the same defect on the core path and left
+        // the reason: "Taking it from `Phase::Solid` alone would have burned
+        // the diesel without consuming it, and the ledger would have carried
+        // it forever." A fuel that burned has left the vessel whatever phase
+        // was holding it.
+        //
+        // Gases are excluded because they have their own events above
+        // (`GasEvolved`), not because they cannot be consumed.
+        for (index, p) in vessel.contents.iter().enumerate() {
+            if p.phase == Phase::Gas {
+                continue;
+            }
+            // One event per species: skip if an earlier condensed portion of
+            // the same species has already been counted.
+            if vessel.contents[..index]
+                .iter()
+                .any(|c| c.species == p.species && c.phase != Phase::Gas)
+            {
+                continue;
+            }
+            let before: f64 = vessel
+                .contents
+                .iter()
+                .filter(|c| c.species == p.species && c.phase != Phase::Gas)
+                .map(|c| c.moles.0)
+                .sum();
             let after: f64 = contents
                 .iter()
                 .filter(|c| c.species == p.species)
                 .map(|c| c.moles.0)
                 .sum();
-            if p.phase == Phase::Solid && p.moles.0 - after >= kerotakis_core::OBSERVABLE_MOLES {
+            if before - after >= kerotakis_core::OBSERVABLE_MOLES {
                 events.push(Event::Consumed {
                     vessel: vessel.id,
                     species: p.species.clone(),
-                    moles: Moles(p.moles.0 - after),
+                    moles: Moles(before - after),
                     remaining: Some(Moles(after)),
                 });
             }
