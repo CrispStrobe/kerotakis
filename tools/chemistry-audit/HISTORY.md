@@ -1,5 +1,19 @@
 # Chemistry audit history and continuation
 
+## 2026-09-07 11:51 UTC — delegated conflict resolution
+
+Rebased only audit PR #504 with merge topology preserved, from old common base
+4762a550 onto fetched main9084c03e. Backup retains oldhead58416bcf. Three conflicts
+were resolved field/record-wise: registry source, registry golden, element coverage.
+The combined179 identities retain both audit analytical basis and main calcium-
+phosphate/Cp data. No conflicting file was replaced wholesale.
+
+Preservation checks retain all113 catalog IDs/scripts, all audit evidence and
+diagnostic tests. Incoming catalog count assertions/prose were reconciled to113
+entries/167 used concepts. Post-rebase web204 tests, actionlint and whitespace
+checks pass; Rust/CLI/sixth-fleet validation remains CI-owned. Explicit leasepush
+only; reserved branches untouched; no PR merge. Full details in MERGE-REVIEW.
+
 ## 2026-09-07 11:33 UTC — generic diagnostic repair and corpus integration
 
 Implemented typed outcome distinctions for curated React diagnostics and six

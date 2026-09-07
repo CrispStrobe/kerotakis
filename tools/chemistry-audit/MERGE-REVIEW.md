@@ -1,5 +1,40 @@
 # Safe integration review, 2026-09-07
 
+## Delegated audit-only rebase — 2026-09-07 11:51 UTC
+
+User delegated conflict resolution only for PR #504. Reserved GUI/KIDS/readout/
+discovery branches were not edited, rebased or pushed; no PR merge performed.
+
+- Pre-rebase head / explicit remote lease: `58416bcfb503c494e838e4560237a083586ec3fc`.
+- Backup ref: `backup/audit-504-before-main-sync-20260907-1139`.
+- Old common base: `4762a550da31af08f96f03d69de49cd04d045fb1`.
+- Fetched new base: `9084c03e8e807f002b4e6011bdde1236556d7df9`.
+- Rebase used `--rebase-merges` to preserve earlier integration resolutions.
+  Replayed head before this reconciliation note: `c2e092359fc632dc7e30c37d9e9cd4404ae39599`.
+
+Three textual conflicts occurred in the registry source, registry golden and
+element-coverage fixture. JSON was merged by stable record identity and field,
+never by replacing a conflicting file with either parent. All parent changes
+were checked: eight audit aqueous identities and three main calcium-phosphate
+identities coexist (179 total); all 37 Cp polynomial records survive. OH- keeps
+the audit's 17.007 molar mass and main's heat_capacity_polys field. Every golden
+row has the new Cp field, with no invented parameters for the added aqueous rows.
+Coverage counts derive from disjoint additions: H177+2+2=181, O198+5+3=206.
+
+Post-rebase semantic reconciliation changes only stale catalog counts: README
+113 entries/167 used concepts, incoming codexProse test113, and title-count comment.
+All 113 unique TOML/export/backup IDs and scripts match. All 28 model metadata
+records and 189 defined vocabulary concepts exactly preserve main. Every existing
+audit evidence/test artifact was byte-identical to backup before these notes;
+the diagnostic helper and react_diagnostics integration test remain byte-identical.
+
+Validation: four focused web suites pass 204/204; actionlint and diff whitespace
+checks pass. Static review found no missing Cp fields in SpeciesData constructors
+or missing incoming solver-route fields. No Rust compilation was attempted during
+the rebase. Built diagnostic tests and sixth-fleet execution still require CI.
+Push must use the exact lease above; report CI state after submission and keep
+GitHub status reads >=300 seconds apart. No merge until rebuilt checks pass.
+
 ## Implementation checkpoint — 2026-09-07 11:33 UTC
 
 The generic curated-reaction diagnostic fix is implemented: model refusal,
