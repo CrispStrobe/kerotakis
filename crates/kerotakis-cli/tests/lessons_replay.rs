@@ -1283,9 +1283,20 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // `balloon_lesson_obeys_the_gas_law_at_both_boundaries` below, which
         // asserts PV = nRT at both of them rather than matching a rounded
         // print: a snapshot that agrees with a wrong number is not evidence.
+        // 284.48 kPa and 1481.02 mL, from 284.19 and 1480.56: an adiabatic
+        // vessel used to commit its final temperature only when the change
+        // exceeded 0.01 K, so every step smaller than that threw its energy
+        // away and the bottle arrived about 0.2 K colder than the chemistry
+        // it had just done. The gauge reads the difference because it reads
+        // the temperature. Which boundary each number belongs to is pinned
+        // here — sealed, then pressure-controlled — and what the row actually
+        // CLAIMS is checked by `balloon_lesson_obeys_the_gas_law_at_both_boundaries`
+        // below, which asserts PV = nRT at both of them. A snapshot that
+        // agrees with a wrong number is not evidence; a snapshot beside an
+        // invariant is a record of which answer the invariant accepted.
         (
             "balloon-pressure.lab",
-            &["284.19 kPa", "1480.56 mL", "100.00 kPa"],
+            &["284.48 kPa", "1481.02 mL", "100.00 kPa"],
         ),
         (
             "grinding-rate-boundary.lab",

@@ -90,7 +90,13 @@ fn pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales
             ),
         ] {
             let mut v = water(amount, initial, initial_t);
-            let available = v.heat_capacity() * (initial_t - boundary).abs();
+            // The sensible heat the vessel gives up walking to the phase
+            // boundary, taken the way the engine takes it since #509: the
+            // INTEGRAL of Cp(T) between the two temperatures, not
+            // `Cp · ΔT` read at one of them. Water's Cp is not flat over
+            // 20 K, so the rectangle and the area differ in the fourth
+            // decimal — which is exactly the size of the assertion below.
+            let available = v.energy_between(boundary, initial_t).abs();
             let events = assert_failed_but_phase_computed(&mut v);
             assert!((v.temperature.0 - boundary).abs() < 1e-9);
             let transferred: f64 = events
