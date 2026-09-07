@@ -89,6 +89,23 @@ Computed, not scripted:
   excess CO₂ redissolves it, with absorbed and vented carbon accounted for.
 - **Heat**: dissolution enthalpies drive the vessel temperature, so calcium
   chloride is a +20 K hot pack and potassium chloride a −4 K cold pack.
+- **Changes of state, for any liquid the registry has a transition for.**
+  Water freezes and boils on a plateau that *moves* with what is dissolved
+  in it — the cryoscopic and ebullioscopic constants are derived from
+  water's own enthalpies of fusion and vaporisation rather than tabulated,
+  and the particle count comes from the solved speciation, so a mole of
+  salt freezes a kilogram of water at −3.4 °C (not the ideal −3.72: some
+  of it is ion-paired) while a mole of sugar boils it at 100.5 °C. Beyond
+  the solvent, ethanol boils at 78.4 °C and holds the thermometer there,
+  naphthalene draws the school cooling curve at 80.2 °C, glacial acetic
+  acid freezes at 16.6 °C, and a flame casts lead, zinc, aluminium, silver
+  and copper — but not iron, whose melting point is above what a Bunsen
+  reaches.
+- **A vessel that is not a solution says so.** Ice has no pH, and a beaker
+  on the boil has no *settled* one, because solvent is leaving while the
+  reading is taken. Both withdraw the aqueous readout and name the reason
+  rather than quoting a number to two decimals off a composition with a
+  stopwatch running on it.
 - **Hard-water chemistry**: chalk, limescale, and gypsum binding its two
   waters of crystallisation into the crystal.
 - **Separations**: filter a precipitate off, evaporate brine to crystals.

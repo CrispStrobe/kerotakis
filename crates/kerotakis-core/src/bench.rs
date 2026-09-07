@@ -2438,25 +2438,15 @@ impl Bench {
                             }
                         }
                     }
-                    let stranded: Vec<&str> = v
-                        .contents
-                        .iter()
-                        .filter(|p| p.phase == Phase::Aqueous)
-                        .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
-                        .collect();
-                    if dry && !stranded.is_empty() {
-                        events.push(Event::NotYetModeled {
-                            cause: crate::ops::NotModelledCause::NoSolver,
-                            vessel: *vessel,
-                            what: format!(
-                                "the last of the water is gone and {} are still shown as \
-                                 dissolved, which is not a state a beaker can be in. What \
-                                 they crystallise into is not decidable from the ions alone, \
-                                 so the bench will not guess at the solids",
-                                stranded.join(", ")
-                            ),
-                        });
-                    }
+                    // The sentence that used to be composed here now
+                    // belongs to `solve::SolventState::BoiledDry`, and is
+                    // said by the honesty pass at the end of this same
+                    // step. Moving it was not tidying: a beaker taken to
+                    // dryness by a burner reaches exactly this state and
+                    // never came through this operator, so a message that
+                    // lived inside `evaporate` could only ever cover one
+                    // of the two ways to get here. Emitting it from both
+                    // places would say it twice.
                     // No energy is charged for the vaporisation, and that
                     // is decided rather than forgotten: `evaporate` means
                     // the dish is on a hotplate, and the ~40.7 kJ/mol comes

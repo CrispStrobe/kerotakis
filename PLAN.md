@@ -1642,20 +1642,39 @@ are a sliver of school chemistry, while redox and rates are enormous
 blocks, and both are *already most of the way there* underneath. Phase
 behaviour returns when the school-facing layers are covered.
 
-#### P3s — States, freezing and boiling  ← **first, it is a correctness bug**
+#### P3s — States, freezing and boiling  ← closed, 2026-09-07
 
-- [ ] The bench happily reports **liquid water at −7.95 °C with a pH**. It
-      has no model of state at all: `Phase` is assigned when matter is
-      added and never reconsidered, so cooling a beaker past its freezing
-      point changes nothing but the number on the thermometer.
-- [ ] Melting/boiling points per species from the registry; the solvent
-      state re-evaluated whenever temperature changes.
-- [ ] **Colligative properties fall straight out** and are core curriculum:
-      freezing-point depression and boiling-point elevation from the
-      computed ionic strength — salt on icy roads, why seawater freezes
-      below 0 °C. PHREEQC gives us the osmotic coefficient already.
-- [ ] Honest boundary: a frozen or boiling vessel is a state the aqueous
-      solver does not model, and must say so rather than keep answering.
+All four items are done; see `HISTORY.md` for what each one taught. The
+last of them is worth restating here because it is a rule rather than a
+feature: **a vessel whose solvent is not a settled liquid does not report a
+solution.** Ice has no pH. A beaker on the boil has no *settled* pH,
+because solvent is leaving while the reading is taken and every molality
+the engine solved for belongs to a composition that has already changed.
+`solve::SolventState` is where that is decided, the honesty pass is where
+it is said, and the readout is withdrawn in the same breath so the meter
+cannot contradict the sentence.
+
+Two boundaries the closing tranche wrote down rather than crossed, both in
+`phase_route.rs`:
+
+- **A boil is only given to a species the registry carries as a liquid.**
+  `condensation_partner` can find a vapour's way back only for those, so a
+  boil given to a standard-phase solid — iodine, naphthalene, molten zinc —
+  would be one-way, and a transition this bench pays for has to run both
+  directions. Those substances melt and do not boil.
+- **No metal boils.** Zinc's 1180 K boiling point is inside a Bunsen's
+  reach and zinc fume is a named hazard, so it wants its own tranche with
+  its own safety row.
+
+Open, and small:
+
+- [ ] `paraffin` carries no melting point, and the boundary note in the
+      export crate gives as its reason that "the installed state model
+      derives its transitions from water's enthalpies of fusion and
+      vaporisation and covers no other substance". That reason is now
+      false. A candle should melt; the row and the note both need writing.
+- [ ] No tin and no glycerol in the registry at all. Tin at 232 °C is the
+      soldering-iron melting point a learner is most likely to have met.
 
 #### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
 
