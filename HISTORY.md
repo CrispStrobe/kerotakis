@@ -33,6 +33,38 @@ it had while it was open, which is why a few numbers appear twice below.
 
 **Engine**
 
+- **#530** — the bench had been telling learners that *"no thermodynamic
+  database defines a hypochlorite species … and the ClO⁻ matches are all
+  perchlorate."* Every part of that was false: the `llnl.dat` vendored here
+  carries `Cl(1) ClO-`, its formation, and `H+ + ClO- = HClO, log_k 7.5692`.
+  Borrowed the way lactate was (#448), so **diluted bleach now reads pH 9.74**
+  and buffers — a tenfold dose moves it 0.5 units where NaOH moves 0.90. The
+  work was not the borrowing: speciating a reagent means a solved beaker holds
+  `Na+` and `ClO-` and no longer holds `NaOCl`, so five curated rules keyed on
+  the bottle name became dead code, and the bleach-and-acid hazard needed six
+  spellings because each side may be solved or freshly added. Corpus `missing`
+  3 → 2
+- **#529** — the generic half of the chemistry audit (PR #504), rebuilt on main
+  in twelve reviewable commits without its 27 MB evidence tree. Among the
+  repairs: a refused operation still mutated the bench; a failed PHREEQC init
+  produced a degraded stack that answered pH questions anyway; MIX was a
+  different chemistry from adding the same reagents; the family router created
+  and destroyed matter; and `deny.toml` carried an AGPL allow-all. Its own
+  broadening of `partition()` was **not** carried: characterising every
+  solvent drifted 69 corpus rows, and only 35 of those were the grading leak —
+  26 rows lost a typed observation outright because a solvent-only solve
+  silences the honesty pass, and 3 became hard solver failures on freezing
+  water. Main's guard stands, both audit tests were rewritten to pin the
+  boundary as a table, and the order the real work has to happen in is in
+  PLAN.md
+- **#533** — three claims that lactate is in no loaded database, left behind by
+  the fix that put it there (#448 changed no document). Struck through in place
+  with the correction beside them, including one the brief did not name. The
+  yoghurt rows are still not *answered*, for a different and now stated
+  reason: casein is unmodelled, so the pH is a lower bound at the same acid
+  dose. The sweep found three more false claims — borate (in **loaded**
+  databases), thiosulfate (vendored, not loaded) and the aqueous NaCl ion pair
+
 - **#509** — the heat ledger spends the **integral**, not the rectangle. Every
   dose and every mix now solves for the temperature where the enthalpies
   balance over Cp(T), so a beaker given 240 kJ lands at 470.2 °C where the flat
@@ -181,6 +213,18 @@ it had while it was open, which is why a few numbers appear twice below.
   the receipt and forgets it on clear
 
 ### Lessons
+
+- a species claim ages badly and silently: #448 speciated lactate and touched
+  no document, so three files went on saying it could not be done, and #530
+  found the same shape again in a sentence that named the file it had searched.
+  A note that says "no database defines X" is a claim about today's wiring, so
+  it belongs where the wiring is, not in prose.
+- speciating a reagent kills every curated rule keyed on the bottle it came in:
+  a solved beaker holds ions, not `NaOCl`, and five rules went silent silently
+  until a test that walks curated reachability caught them (#530).
+- restoring a guard and fixing a classifier are not interchangeable: 35 of the
+  69 drifted rows were a grading leak, 26 were the engine going quiet, and no
+  classifier can un-fail a solver (#529).
 
 - a bench that answers a rate question instantly cannot teach it: limewater
   going cloudy, rain turning acidic and a drink going flat are all the same
