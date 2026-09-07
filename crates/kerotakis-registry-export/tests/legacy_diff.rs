@@ -30,18 +30,36 @@ fn checked_in_source_document_is_current_byte_for_byte() {
     generated.push('\n');
     let checked_in = include_str!("../../../data/registry/registry-source-v1.json");
     if generated != checked_in {
-        let mismatch = generated
+        // A line number alone sends the reader to a file they cannot
+        // regenerate without running the exporter. Print the first few
+        // disagreements as a pair, so the difference itself is in the log.
+        let differences: Vec<String> = generated
             .lines()
             .zip(checked_in.lines())
-            .position(|(current, committed)| current != committed)
-            .map_or_else(
-                || generated.lines().count().min(checked_in.lines().count()) + 1,
-                |index| index + 1,
-            );
+            .enumerate()
+            .filter(|(_, (current, committed))| current != committed)
+            .take(5)
+            .map(|(index, (current, committed))| {
+                format!(
+                    "  line {}:\n    exporter:  {current}\n    checked in: {committed}",
+                    index + 1
+                )
+            })
+            .collect();
+        let counts = format!(
+            "exporter wrote {} lines, the checked-in file has {}",
+            generated.lines().count(),
+            checked_in.lines().count()
+        );
+        let body = if differences.is_empty() {
+            format!("{counts}; one file is a prefix of the other")
+        } else {
+            format!("{counts}\n{}", differences.join("\n"))
+        };
         panic!(
-            "checked-in source registry differs at line {mismatch}; regenerate with \
+            "checked-in source registry differs; regenerate with \
              `cargo run -p kerotakis-registry-export -- \
-             data/registry/registry-source-v1.json`"
+             data/registry/registry-source-v1.json`\n{body}"
         );
     }
 }
