@@ -314,12 +314,13 @@ fn five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold() {
         vessel.temperature.0 <= BUNSEN_CEILING_K + 1e-6,
         "still under the flame\n{seen}"
     );
-    // 5 kJ into 8.19 J/K reaches 908 K, and CEA finds the calcination has
-    // only just begun there: 0.0025 mol of the 0.1 goes, and the price of
-    // it pulls the crucible back to 873 K rather than letting the dose
-    // raise it further. The crucible pays that out of its own heat now —
-    // the room it stands in no longer chips in (`gibbs::OpenAtmosphere`),
-    // which is why less of the chalk goes than it used to.
+    // 5 kJ used to reach 908 K, on a crucible billed 8.19 J/K all the way
+    // up. Calcite's own curve takes it from 8.38 J/K at 25 C to 12.1 by
+    // 900 K, so the same dose now reaches about 775 K - which is the
+    // point of the change, and it is also why less of the chalk goes than
+    // it did. The crucible pays for its own calcination out of its own
+    // heat: the room it stands in does not chip in
+    // (`gibbs::OpenAtmosphere`).
     let chalk_left = vessel.moles_of(&SpeciesId::new("CaCO3")).0;
     assert!(
         chalk_left > 0.09,
@@ -347,7 +348,12 @@ fn a_crucible_stopped_half_way_can_be_heated_again() {
     let mut s = stack();
     let v = VesselId(0);
     add(&mut bench, &mut s, v, "CaCO3", 0.1);
-    let first = heat(&mut bench, &mut s, v, 5.0);
+    // 7 kJ rather than 5: on its own heat-capacity curve the crucible costs
+    // about a quarter more to warm than the room-temperature constant said,
+    // and 5 kJ no longer reaches the temperature where the carbonate starts
+    // to go. The state this test needs is a half-calcined crucible, and the
+    // dose that leaves one is now a bigger dose.
+    let first = heat(&mut bench, &mut s, v, 7.0);
     let half = bench.vessel(v).expect("vessel");
     assert!(
         half.moles_of(&SpeciesId::new("CaCO3")).0 > 0.01
