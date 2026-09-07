@@ -2156,6 +2156,21 @@ that raised it. Nothing below is a commitment to an order.
   The last rectangle in the ledger was in `kerotakis-phreeqc`'s aqueous tail,
   where balancing two flat Cp spans instead of two areas made Hess's law
   order-dependent by 7.25e-5 K.
+- **Liquid water's Cp fit is ill-conditioned for differencing** (#509) — its
+  NASA-9 record is a narrow fit, 273.15 to 600 K, carrying a 1/T² term, and the
+  antiderivative the ledger differences is a sum of terms of order 1.2e9 J/mol
+  cancelling to −9.2e8. A double gives up about 2.6e-7 J per mole of liquid
+  water per difference taken, which is why two energy round trips in #509 close
+  to 1.9e-9 J and 9.9e-7 J rather than to machine epsilon, and why their bounds
+  are a hundred-thousandth of a joule with the measurement written beside them.
+  Ice's fit gives up 4e-11 J/mol and nitrogen's 4e-12, so this is one curve's
+  conditioning and not the arithmetic. `t.ln()` is libm rather than correctly
+  rounded, so the floor itself moves about one unit between platforms.
+  Evaluating each interval's integral in `(T − T_mid)` rather than about zero
+  would buy most of it back; it moves every golden in the last digits, so it
+  wants its own change. Nothing observable depends on it — the worse of the two
+  residues is 3e-9 K — but any future test that asks the ledger for an exact
+  joule will meet this floor and should be told why.
 - **`Vessel::heat_capacity` room-temperature residual** — open until #509
   merges: the burner is still charged room-temperature prices for a crucible
   at kiln temperature. #509 also names the term the two-line ledger never
