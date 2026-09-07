@@ -158,6 +158,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     match species_key {
         // ── strong acids ──────────────────────────────────────────
         "HCl" | "HI" | "HBr" => &[AcidStrong],
+        "NO2-" => &[ToxicSoluble, ReducingAgent],
+        // Thiocyanate is not cyanide; its oxidation chemistry is reviewed in
+        // USBM IC 9429 ch.7. Do not assign Cyanide merely from the CN substring.
+        "KSCN" | "SCN-" => &[ToxicSoluble, ReducingAgent],
+        "CO3-2" => &[Carbonate],
         "H2SO4" | "NaHSO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
@@ -334,9 +339,15 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "NaOAc"
         | "CH3COO-"
         | "CO2"
+        | "CO2(aq)"
+        // Analytical proton equivalents are not a strong-acid bottle.
+        // The contextual acidity screen below uses pH and titratable acid.
+        | "H+"
         | "HCO3-"
         | "H3PO4"
         | "H2PO4-"
+        | "HPO4-2"
+        | "PO4-3"
         | "KCl"
         | "CaCl2"
         | "MgSO4"
@@ -560,6 +571,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 /// this set against `species::registry()` — a new species without an
 /// entry here fails CI.
 pub const COVERED_KEYS: &[&str] = &[
+    "H+",
+    "CO2(aq)",
+    "CO3-2",
+    "HPO4-2",
+    "PO4-3",
+    "NO2-",
+    "KSCN",
+    "SCN-",
     "Ag",
     "Ag+",
     "AgCl",

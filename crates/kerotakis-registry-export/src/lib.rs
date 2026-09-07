@@ -387,6 +387,56 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         });
     }
     export_material_recipes(&mut document);
+    // These records were authored in the source contract, not inherited from
+    // the handwritten seed. Re-exporting generated SpeciesData must not turn
+    // their derivation evidence into a fictitious legacy import.
+    let reviewed: RegistryDocument = serde_json::from_str(include_str!(
+        "../../../data/registry/registry-source-v1.json"
+    ))
+    .map_err(|error| error.to_string())?;
+    const BASIS: &str = "kerotakis/aqueous-basis-v1";
+    for record in reviewed
+        .identities
+        .iter()
+        .filter(|r| r.evidence.source_id == BASIS)
+    {
+        document
+            .sources
+            .retain(|s| s.id != format!("legacy/{}", record.id));
+        // Absent source parameters mean unknown/default, not measured zero.
+        // Do not invent a legacy observation when exporting that default.
+        document
+            .model_parameters
+            .retain(|p| p.quantity.source_id != format!("legacy/{}", record.id));
+        if let Some(out) = document.identities.iter_mut().find(|r| r.id == record.id) {
+            *out = record.clone();
+        }
+    }
+    for record in reviewed
+        .compositions
+        .iter()
+        .filter(|r| r.evidence.source_id == BASIS)
+    {
+        if let Some(out) = document.compositions.iter_mut().find(|r| r.id == record.id) {
+            *out = record.clone();
+        }
+    }
+    for record in reviewed
+        .phase_thermodynamics
+        .iter()
+        .filter(|r| r.quantity.source_id == BASIS)
+    {
+        if let Some(out) = document
+            .phase_thermodynamics
+            .iter_mut()
+            .find(|r| r.id == record.id)
+        {
+            *out = record.clone();
+        }
+    }
+    document
+        .sources
+        .extend(reviewed.sources.into_iter().filter(|s| s.id == BASIS));
     document.validate().map_err(|error| error.to_string())?;
     Ok(document)
 }

@@ -158,6 +158,13 @@ impl Lab {
         Ok(self.aqueous.import_cache(data))
     }
 
+    /// Exact native database, including reviewed extensions and independent
+    /// slow-redox components. External engines must load it before setSolver.
+    #[wasm_bindgen(js_name = aqueousDatabase)]
+    pub fn aqueous_database(&self, tag: &str) -> Result<String, JsValue> {
+        kerotakis_phreeqc::aqueous_database(tag).map_err(|e| JsValue::from_str(&e))
+    }
+
     /// Hand the bench a real aqueous solver.
     ///
     /// `fn` is called as `fn(databaseTag, phreeqcInput)` and must return a
