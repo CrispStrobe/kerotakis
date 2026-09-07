@@ -10,6 +10,7 @@
  */
 import { describe, expect, it, vi } from "vitest";
 import {
+  alignSay,
   benchOccupied,
   canUseFreshVessels,
   freshVesselScript,
@@ -238,6 +239,82 @@ describe("walking a script one step at a time", () => {
     expect(bench.marked).toEqual([]);
   });
 
+  /**
+   * The prose that paces the walk.
+   *
+   * A sentence per step is the one thing the strip could not say: the feed
+   * reports what a line DID, and the learner pacing the run also needs to
+   * know what to WATCH for. The risk it introduces is worse than absence,
+   * which is why these tests are about alignment and not about presence —
+   * a sentence attached to the wrong line narrates the fizz while the
+   * water is still being measured, and reads as confident and true.
+   */
+  const SAY = ["fill the beaker", "the acid goes in", "and the base neutralises it"];
+
+  it("announces each line with its own sentence, in order", async () => {
+    const { bench, seen, onstepdone } = gate(["next", "next"]);
+    const announced: (string | null)[] = [];
+    await runCatalogEntry(bench, ENTRY, {
+      pause: instantly,
+      onstepdone,
+      say: SAY,
+      onstep: (step) => announced.push(step.say),
+    });
+    expect(announced).toEqual(SAY);
+    // The report a learner reads carries the same sentence the step was
+    // announced with: one step, one claim, whichever half shows it.
+    expect(seen.map((s) => s.say)).toEqual(["fill the beaker", "the acid goes in"]);
+  });
+
+  it("degrades to exactly today's run when an entry ships no prose", async () => {
+    const { bench, seen, onstepdone } = gate(["next", "next"]);
+    const announced: (string | null)[] = [];
+    await runCatalogEntry(bench, ENTRY, {
+      pause: instantly,
+      onstepdone,
+      onstep: (step) => announced.push(step.say),
+    });
+    expect(announced).toEqual([null, null, null]);
+    expect(seen.map((s) => s.say)).toEqual([null, null]);
+    expect(bench.submitted).toHaveLength(3);
+  });
+
+  it("ignores prose that does not match the script rather than shifting it", async () => {
+    const { bench, onstepdone } = gate(["next", "next"]);
+    const announced: (string | null)[] = [];
+    await runCatalogEntry(bench, ENTRY, {
+      pause: instantly,
+      onstepdone,
+      say: ["only one sentence"],
+      onstep: (step) => announced.push(step.say),
+    });
+    expect(announced).toEqual([null, null, null]);
+    expect(bench.submitted).toHaveLength(3);
+  });
+
+  it("keeps every sentence on its own line when the run moves to fresh glassware", async () => {
+    // "Fresh vessels" prepends one `new` per vessel the script names. The
+    // authored prose knows nothing about that prelude, so without the
+    // offset every sentence would land one step late — the defect that
+    // makes wrong prose worse than none.
+    const bench = new FakeBench();
+    bench.scene = { vessels: [{ id: 0, liquid: {} }] };
+    const announced: { line: string; say: string | null }[] = [];
+    await runCatalogEntry(bench, ENTRY, {
+      pause: instantly,
+      decision: "fresh",
+      say: SAY,
+      onstep: (step) => announced.push({ line: step.line, say: step.say }),
+    });
+    expect(announced[0]).toEqual({ line: "new", say: null });
+    expect(announced.slice(1).map((s) => s.say)).toEqual(SAY);
+    expect(announced.slice(1).map((s) => s.line)).toEqual([
+      "add v2 water 1000mL",
+      "add v2 HCl 0.01mol",
+      "add v2 NaOH 0.01mol",
+    ]);
+  });
+
   it("credits nothing to an automatic run the learner stopped either", async () => {
     const bench = new FakeBench();
     bench.events = ["neutralised"];
@@ -416,5 +493,35 @@ describe("both corpora reach the runner through one door", () => {
     expect(outcome.result.allOk).toBe(true);
     // Progress is the codex id, not the guided task's — one record.
     expect(bench.marked).toEqual(["vinegar-and-baking-soda"]);
+  });
+});
+
+/**
+ * The alignment rule on its own.
+ *
+ * `alignSay` is what stands between "one sentence per step" and "a
+ * sentence about the previous step, stated with confidence". It is
+ * exported so the rule can be pinned here rather than inferred from a
+ * whole run.
+ */
+describe("aligning authored prose to the lines that will actually run", () => {
+  const script = "# a note\nadd v1 water 100mL\n\nadd v1 HCl 1mmol\n";
+
+  it("is silence for every line when nothing was authored", () => {
+    expect(alignSay(undefined, script, script)).toEqual([null, null]);
+  });
+
+  it("pairs each sentence with its own line when the script is unchanged", () => {
+    expect(alignSay(["a", "b"], script, script)).toEqual(["a", "b"]);
+  });
+
+  it("refuses a mismatched array outright, rather than covering the lines it can", () => {
+    expect(alignSay(["a"], script, script)).toEqual([null, null]);
+    expect(alignSay(["a", "b", "c"], script, script)).toEqual([null, null]);
+  });
+
+  it("narrates a prepended prelude as silence and keeps the body aligned", () => {
+    const decided = freshVesselScript(script, 3);
+    expect(alignSay(["a", "b"], script, decided)).toEqual([null, "a", "b"]);
   });
 });

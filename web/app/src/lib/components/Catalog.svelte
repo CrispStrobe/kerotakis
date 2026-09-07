@@ -80,10 +80,12 @@
     kidsConnections,
     type KidsExperiment,
   } from "../kidsCatalog";
+  import { NO_STEP_PROSE, sayForScript, type StepProseIndex } from "../stepProse";
 
   let {
     entries,
     kidsEntries = [],
+    stepProse = NO_STEP_PROSE,
     session,
     capabilityIds = new Set<string>(),
     codexIds = new Set<string>(),
@@ -98,6 +100,8 @@
   }: {
     entries: CodexEntry[];
     kidsEntries?: KidsExperiment[];
+    /** One sentence per script line, for the learner who paces a run. */
+    stepProse?: StepProseIndex;
     session: Session;
     capabilityIds?: ReadonlySet<string>;
     codexIds?: ReadonlySet<string>;
@@ -318,6 +322,17 @@
   const stepCount = $derived(open?.script ? runnableLines(open.script.setup.script).length : 0);
   const canFresh = $derived(open?.script ? canUseFreshVessels(open.script.setup.script) : false);
 
+  /**
+   * What to watch for, line by line, in the language being read.
+   *
+   * Only the stepped run uses it: an automatic run is a demonstration
+   * nobody is pacing, and a sentence that appears and is replaced every
+   * 420 ms is noise rather than guidance.
+   */
+  const say = $derived(open?.script
+    ? sayForScript(stepProse, open.script.id, open.script.setup.script, i18n.locale)
+    : null);
+
   /** Ask before touching a bench that already has the learner's work on it. */
   function requestRun() {
     if (!open?.script || running || session.busy) return;
@@ -344,6 +359,7 @@
     try {
       const outcome = await runCatalogEntry(session, script, {
         decision: chosen,
+        say: runMode === "step" ? (say ?? undefined) : undefined,
         onstep: (s) => {
           step = s;
           // The previous step's account belongs to the previous step.
@@ -413,6 +429,12 @@
           <span class="dock-kicker">{awaiting ? t("your turn") : t("running on the bench")}</span>
           <strong>{open?.title ?? ""}</strong>
           <code>{step?.line ?? ""}</code>
+          <!-- What this step is FOR, above the account of what it did.
+               Stepped runs only: the sentence is there to be read, and a
+               run that paces itself gives nobody time to read it. -->
+          {#if stepping && step?.say}
+            <p class="dock-say">{step.say}</p>
+          {/if}
           <!-- What that line DID, in the bench's own words. The feed is
                already the record a learner reads when they type a command
                themselves, so quoting its tail here is the same account, not
@@ -840,6 +862,17 @@
     align-items: flex-start;
     flex-wrap: wrap;
   }
+  /* The step's own sentence, above the bench's account of it: authored
+     guidance and machine report are different kinds of claim, so they do
+     not share a voice. */
+  .dock-say {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 58ch;
+  }
+
   .dock-produced {
     list-style: none;
     margin: 0.2rem 0 0;

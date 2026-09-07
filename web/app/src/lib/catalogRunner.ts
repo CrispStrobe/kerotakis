@@ -86,6 +86,15 @@ export interface RunStep {
   /** Zero-based position among the lines the runner will submit. */
   index: number;
   total: number;
+  /**
+   * What to watch for at this step, in the reader's language, or null.
+   *
+   * The feed says what the line DID; this says what it is FOR, which is
+   * the sentence a learner pacing a script by hand is missing. Null
+   * whenever the entry ships no prose, which is most of them — the run is
+   * then exactly the run that shipped before the field existed.
+   */
+  say: string | null;
 }
 
 /** What the learner asked for after watching one step land. */
@@ -100,6 +109,8 @@ export interface StepReport {
   produced: RunnerFeedLine[];
   /** True while lines remain after this one. */
   more: boolean;
+  /** The same sentence the step was announced with, or null. */
+  say: string | null;
 }
 
 /** How the learner wants the script walked. Remembered between runs. */
@@ -260,6 +271,18 @@ export interface RunOptions {
    * answer to that step.
    */
   onstepdone?: (report: StepReport) => Promise<StepVerdict>;
+  /**
+   * One sentence per runnable line of the entry's OWN script.
+   *
+   * Its length is checked against that script, not against the script the
+   * bench decision produced, because those differ: running onto fresh
+   * glassware prepends a `new` per vessel, which would shift every
+   * sentence one or more steps late. The prelude is narrated as silence
+   * and the body keeps its own sentences. A wrong length is ignored
+   * entirely — silence is a worse experience than nothing, but narrating
+   * the wrong line is worse than both.
+   */
+  say?: readonly string[];
 }
 
 /** The feed a step wrote, minus the echo of the command that wrote it. */
@@ -274,6 +297,28 @@ function producedSince(bench: RunnerBench, from: number): RunnerFeedLine[] {
 
 const wait = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * The sentence for each line the runner will actually submit.
+ *
+ * `decided` is the script after the bench decision, which may carry a
+ * prelude the authored prose knows nothing about; the offset between the
+ * two line counts is exactly that prelude, and it narrates as null.
+ */
+export function alignSay(
+  say: readonly string[] | undefined,
+  authored: string,
+  decided: string,
+): (string | null)[] {
+  const decidedLines = runnableLines(decided);
+  const blank = decidedLines.map(() => null);
+  if (!say) return blank;
+  const authoredCount = runnableLines(authored).length;
+  if (say.length !== authoredCount) return blank;
+  const offset = decidedLines.length - authoredCount;
+  if (offset < 0) return blank;
+  return decidedLines.map((_, index) => say[index - offset] ?? null);
+}
 
 /**
  * Run one catalogue entry on the VISIBLE bench, step by step.
@@ -292,6 +337,7 @@ export async function runCatalogEntry(
   if (decision === "clear") await bench.clear();
   const script = scriptForDecision(entry.setup.script, decision, bench.scene);
   const lines = runnableLines(script);
+  const say = alignSay(options.say, entry.setup.script, script);
 
   const ran: string[] = [];
   let refusedAt: number | null = null;
@@ -307,7 +353,7 @@ export async function runCatalogEntry(
         halted = true;
         break;
       }
-      onstep?.({ line, index, total: lines.length });
+      onstep?.({ line, index, total: lines.length, say: say[index] ?? null });
       const feedBefore = bench.feed?.length ?? 0;
       const accepted = await bench.submit(line);
       ran.push(line);
@@ -323,6 +369,7 @@ export async function runCatalogEntry(
           total: lines.length,
           produced: producedSince(bench, feedBefore),
           more,
+          say: say[index] ?? null,
         });
         if (verdict === "stop") {
           halted = true;
