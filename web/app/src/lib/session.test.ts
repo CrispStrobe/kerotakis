@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { EngineHost, Scene, ScriptResult } from "./host/EngineHost";
+import { EngineError, type EngineHost, type Scene, type ScriptResult } from "./host/EngineHost";
 import { REGISTERS, Session, type StorageLike } from "./session.svelte";
 
 class FakeStorage implements StorageLike {
@@ -1797,6 +1797,45 @@ describe("clearing the bench clears the whole bench", () => {
     expect(s.feed.filter((f) => f.kind === "command").map((f) => f.text)).toEqual([
       "add v1 water 100mL",
     ]);
+  });
+
+  /**
+   * I18N: the bench refuses in the learner's language, and the feed shows
+   * exactly what it said.
+   *
+   * Reported from the live German deploy: "many warnings/errors/info
+   * strings are NOT showing in German, like 'no vessel v2'". They were not
+   * untranslated, they were untranslatable — `BenchError` composed a
+   * finished English sentence and the hosts stringified it. The refusal now
+   * carries a key and its holes and the host renders it in the session
+   * locale; the shell's job is to print that and nothing else.
+   *
+   * The vessel NAME is the second half of the claim. `v2` identifies a
+   * vessel the learner can see, so it survives translation untouched — a
+   * refusal that says `kein Gefäß v2` is actionable and one that renamed it
+   * would not be.
+   */
+  it("shows the engine's refusal verbatim, in German, with the vessel name intact", async () => {
+    class RefusingHost extends FakeHost {
+      async runScript(script: string): Promise<ScriptResult> {
+        this.calls.push(`run:${script}`);
+        throw new EngineError(
+          "kein Gefäß v2 — lege es zuerst mit `new` an; das erzeugt das nächste freie Gefäß",
+          "refused",
+        );
+      }
+    }
+    const s = new Session(new RefusingHost(), new FakeStorage());
+    expect(await s.submit("filter v1 v2")).toBe(false);
+
+    const refusal = s.feed.at(-1)!;
+    expect(refusal.kind).toBe("refusal");
+    expect(refusal.text).toContain("kein Gefäß");
+    expect(refusal.text).toContain("v2");
+    expect(refusal.text).not.toContain("no vessel");
+    // A refused line is not chemistry that happened: it must not enter the
+    // replayable script.
+    expect(s.commandLog).toEqual([]);
   });
 
   /** An older host that reports no canonical line logs what was typed. */

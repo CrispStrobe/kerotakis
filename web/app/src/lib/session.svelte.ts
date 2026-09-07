@@ -1026,6 +1026,11 @@ export class Session {
       return true;
     } catch (e) {
       const refusal = e instanceof EngineError && e.kind === "refused";
+      // I18N: printed, never rewritten. The bench names its refusal with a
+      // key and the host renders it in this session's locale before it is
+      // thrown, so this string is already German on a German bench — and a
+      // shell that matched on its English would be a layer only English
+      // could pass through. See `EngineError` and `engineText`.
       this.feed.push({
         kind: refusal ? "refusal" : "error",
         text: e instanceof Error ? e.message : String(e),

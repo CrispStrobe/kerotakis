@@ -15,7 +15,7 @@ use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
     localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Locale, Operator,
-    PhaseEquilibrator, Register, SolverStack, StateEquilibrator, VesselId,
+    PhaseEquilibrator, Refuses, Register, SolverStack, StateEquilibrator, VesselId,
 };
 use serde_json::{json, Value};
 
@@ -81,13 +81,17 @@ impl NativeLab {
         self.stack.last_routes.clear();
         self.bench
             .step_with(op, &mut self.stack, &kerotakis_safety::ReactiveGroupScreen)
-            .map_err(|e| e.to_string())
+            // I18N: the same point the wasm host localises at, and it has
+            // to be both — PROTOCOL.md's rule that the UI cannot tell the
+            // transports apart covers the refusals as much as the numbers,
+            // and this binding is the one on the App Store.
+            .map_err(|e| e.localize(self.locale))
     }
 
     fn vessel(&self, index: usize) -> Result<&kerotakis_core::Vessel, String> {
         self.bench
             .vessel(VesselId(index))
-            .map_err(|e| e.to_string())
+            .map_err(|e| e.localize(self.locale))
     }
 }
 

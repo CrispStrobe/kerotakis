@@ -784,6 +784,38 @@ boiled = "siedete"
 solid-in-liquid = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
 dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
 
+# What the bench REFUSED to do, keyed by the place the refusal is written.
+#
+# Distinct from `[refusal]` above, and the difference is the whole point.
+# `[refusal]` is keyed by an English sentence, so it can only ever reach the
+# refusals that interpolate nothing. These are keyed by a PLACE — the arm of
+# `BenchError` that said no — so the holes are filled after the sentence is
+# chosen, and a language that wants the vessel first may put it first.
+#
+# `{vessel}` is a NAME (v1, v2) and never a number: it keeps its point.
+[error]
+"no-such-vessel" = "kein Gefäß {vessel} — lege es zuerst mit `new` an; das erzeugt das nächste freie Gefäß"
+"unknown-species" = "unbekannter Stoff '{species}' — nicht im Verzeichnis"
+"unknown-material" = "unbekanntes Material '{material}' — nicht im Rezeptverzeichnis"
+"material-recipe-mismatch" = "die Rezept-Identität des Materials stimmt nicht mit dem festgelegten Operator überein"
+"non-positive-amount" = "die Menge muss positiv sein"
+"unstockable-key" = "im Regal heißt nichts '{key}' — es ist weder ein Stoff noch ein Material"
+"stock-exhausted" = "die Flasche '{key}' enthält {remaining} {unit}, angefordert wurden aber {requested} {unit}"
+"bad-fraction" = "der Anteil muss zwischen 0 und 1 liegen"
+"self-transfer" = "Quell- und Zielgefäß sind dasselbe"
+"vessel-not-empty" = "Gefäß {vessel} ist nicht leer — schütte den Inhalt zuerst um oder entsorge ihn"
+"last-vessel" = "das letzte Gefäß muss auf der Werkbank bleiben"
+"broken-vessel" = "Gefäß {vessel} ist zerbrochen und kann nicht benutzt werden"
+"no-such-spill" = "an der angegebenen Stelle ist nichts verschüttet"
+"solid-not-present" = "in Gefäß {vessel} ist kein fester {species} zum Zerreiben — Zerreiben verändert die Korngröße eines Feststoffs und muss deshalb geschehen, bevor er sich löst, nicht danach"
+"centrifuge-unavailable" = "die Zentrifuge kann dieses Gefäß nicht fahren: {reason}"
+"centrifuge-imbalance" = "der Zentrifugenrotor hat {imbalance_g} g Unwucht (Probe {sample_g} g, Gegengewicht {counterbalance_g} g); gleiche auf 0,10 g genau aus"
+# The two nested error types still write their own English sentence. The
+# hole is here so that the frame exists the day they get keys of their own;
+# translating `{detail}` is not a translation, it is a promise to keep.
+"kinetics" = "{detail}"
+"transport" = "{detail}"
+
 [severity]
 Caution = "Vorsicht"
 Danger = "Gefahr"
@@ -804,6 +836,13 @@ Danger = "Gefahr"
 "this substance reacts violently with water, releasing a large amount of heat" = "dieser Stoff reagiert heftig mit Wasser und setzt dabei sehr viel Wärme frei"
 "sealed vessel over-pressurised and burst" = "verschlossenes Gefäß überdruckt und geborsten"
 "radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
+# GUI: this sentence WAS translated — under `[refusal]`, where nothing
+# looks for it. `localize_hazard` tries `hazard.*` then `hazard_vapour.*`
+# and stops, so the one Danger-severity rule about a cryogen reached a
+# German learner as a German real_world sentence wrapped around an English
+# hazard clause. Its two neighbours above are duplicated into both tables
+# on purpose; this one had only half that treatment.
+"liquid nitrogen is a cryogen and its boil-off displaces breathable air" = "Flüssiger Stickstoff ist ein Kryogen; sein verdampfendes Gas verdrängt Atemluft"
 
 # Why it matters outside the simulation. The most important prose in the app
 # to not leave in English: it is the sentence explaining the danger.

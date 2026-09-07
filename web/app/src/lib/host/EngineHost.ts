@@ -399,7 +399,21 @@ export interface ScriptResult {
   scene?: Scene;
 }
 
-/** A structured engine failure. `refused` is a result, not a fault. */
+/**
+ * A structured engine failure. `refused` is a result, not a fault.
+ *
+ * I18N: `message` is **already in the session's language**. The bench names
+ * its refusal with a key (`error.no-such-vessel` and its siblings in
+ * `crates/kerotakis-core/src/bench.rs`) and both hosts render it through
+ * the locale they were given, on the way out — the same point and the same
+ * catalogue `localize_events` uses for the events of a step that succeeded.
+ *
+ * So nothing here may translate, match on, or reword it. A shell that
+ * recognised English refusal text would be a layer only English can pass
+ * through, and it would go quietly wrong the moment the engine's wording
+ * changed. A key with no German renders the English at the call site,
+ * per key — which is also the debugging signal that one is missing.
+ */
 export class EngineError extends Error {
   constructor(
     message: string,
