@@ -1230,12 +1230,15 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // of soda against 50 mL of 5% vinegar is ~0.042 mol of acid, and at
         // +26.8 kJ/mol that is 1.1 kJ into ~50 mL — about 5 K, which is
         // roughly what the bottle now does.
-        // 284.19 kPa and 1480.55 mL rather than 284.18 and 1480.54: the
+        // 284.19 kPa and 1480.56 mL rather than 284.18 and 1480.54: the
         // heat capacities are integrated now, so the bottle settles a
         // few hundredths of a kelvin from where it did, and the gas laws
-        // read the temperature. Both readings moved in the fourth figure
-        // and neither will move again unless the thermal balance does.
-        ("balloon-pressure.lab", &["284.19 kPa", "1480.55 mL"]),
+        // read the temperature. The last 0.01 mL of the volume arrived
+        // with the aqueous tail's enthalpy balance, which was still two
+        // rectangles when this row was first written; the gauge reads the
+        // same 284.19 kPa either way, because the pressure is taken at
+        // 18.2 °C and only the expansion afterwards sees the difference.
+        ("balloon-pressure.lab", &["284.19 kPa", "1480.56 mL"]),
         (
             "grinding-rate-boundary.lab",
             &["ground to 50.0 µm", "carbon dioxide ↑"],
