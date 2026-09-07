@@ -372,6 +372,11 @@ export interface StepResult {
   /** GUI-092: the net ionic equations the step earned, validated on
    * arrival by `ionic.ts` rather than trusted here. */
   ionic?: unknown[];
+  /** GUI-052: the step's routing evidence - which solver was asked, in
+   * order, and what it answered. Validated on arrival by `provenance.ts`
+   * rather than trusted here, and absent from a host built before it
+   * existed, which is why the drawer must survive not getting it. */
+  routes?: unknown[];
   quest?: QuestOutput[];
   scene?: Scene;
 }
@@ -387,6 +392,8 @@ export interface ScriptResult {
     events: unknown[];
     rendered: string[];
     ionic?: unknown[];
+    /** GUI-052; see `StepResult.routes`. */
+    routes?: unknown[];
     quest?: QuestOutput[];
   }[];
   scene?: Scene;

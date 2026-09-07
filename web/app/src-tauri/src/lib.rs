@@ -74,6 +74,11 @@ impl NativeLab {
     }
 
     fn run(&mut self, op: Operator) -> Result<Vec<kerotakis_core::Event>, String> {
+        // GUI-052: an operator that never equilibrates leaves the PREVIOUS
+        // step's routes standing on the stack, and the drawer would then
+        // read one step's routing against the next. Clearing here makes a
+        // step's routes its own, as the corpus classifier already does.
+        self.stack.last_routes.clear();
         self.bench
             .step_with(op, &mut self.stack, &kerotakis_safety::ReactiveGroupScreen)
             .map_err(|e| e.to_string())
@@ -181,6 +186,8 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 "charts": kerotakis_core::chart::charts_for_events(&events),
                 "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                 "quest": quest,
+                // GUI-052: identical key and shape to the wasm host's.
+                "routes": lab.stack.last_routes,
                 "scene": kerotakis_core::scene(&lab.bench),
                 "bench": { "vessels": lab.bench.vessels },
             })
@@ -214,6 +221,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                             "charts": kerotakis_core::chart::charts_for_events(&events),
                             "ionic": kerotakis_core::ionic::net_ionic_for(&events, &lab.bench.vessels),
                             "quest": quest,
+                            "routes": lab.stack.last_routes,
                         }));
                     }
                     Err(e) => return Err(format!("line {}: {e}", lineno + 1)),
@@ -632,6 +640,57 @@ mod protocol_conformance {
         // The bench opens with one beaker; `new` stood a second one up —
         // the wasm host answers exactly the same (checked live).
         assert_eq!(doc["scene"]["vessels"].as_array().map(Vec::len), Some(2));
+    }
+
+    /// GUI-052: routing evidence travels beside the events, in the same
+    /// key and the same shape the wasm host emits — `tools/`'s protocol
+    /// conformance suite checks the browser's half. A drawer that reads
+    /// `routes` on one transport and nothing on the other is a protocol
+    /// bug even if both GUIs happen to render.
+    ///
+    /// The same script also proves routes do not leak: `new` equilibrates
+    /// nothing, so it must report nothing rather than inherit whatever the
+    /// step before it routed through.
+    #[test]
+    fn steps_carry_solver_routes_without_leaking() {
+        let mut lab = NativeLab::new();
+        let doc = ask(
+            &mut lab,
+            json!({"cmd": "run_script", "script": "new\nadd v1 water 100mL"}),
+        );
+        assert_eq!(
+            doc["steps"][0]["routes"].as_array().map(Vec::len),
+            Some(0),
+            "`new` equilibrates nothing: {}",
+            doc["steps"][0]["routes"]
+        );
+        let routes = doc["steps"][1]["routes"]
+            .as_array()
+            .expect("routes array")
+            .clone();
+        assert!(!routes.is_empty(), "a step that equilibrates has routing");
+        for route in &routes {
+            assert!(route["solver"].is_string(), "{route}");
+            assert!(route["chemistry"].is_boolean(), "{route}");
+            assert!(
+                ["computed", "curated", "qualitative"]
+                    .contains(&route["kind"].as_str().unwrap_or_default()),
+                "{route}"
+            );
+            // `outcome` is either the unit tag `not_applicable`/`failed`
+            // or the `succeeded` object carrying an event count.
+            assert!(
+                route["outcome"].is_string() || route["outcome"].is_object(),
+                "{route}"
+            );
+        }
+        assert!(
+            routes.iter().any(|r| r["outcome"]
+                .get("succeeded")
+                .and_then(|s| s.get("event_count"))
+                .is_some()),
+            "at least one solver answered: {routes:?}"
+        );
     }
 
     #[test]
