@@ -153,9 +153,8 @@ impl StateDelta {
             match thermal {
                 ThermalDelta::SetTemperature(t) => vessel.temperature = *t,
                 ThermalDelta::AddEnergy(j) => {
-                    let cap = vessel.heat_capacity();
-                    if cap > 0.0 {
-                        vessel.temperature.0 += j.0 / cap;
+                    if vessel.heat_capacity() > 0.0 {
+                        vessel.temperature.0 = vessel.temperature_after(j.0);
                     }
                 }
             }

@@ -1141,6 +1141,17 @@ impl Vessel {
     /// gas inventory; an explicit gas portion there is a finite dose and
     /// carries sensible heat until the chemistry pass absorbs or vents it.
     pub fn heat_capacity(&self) -> f64 {
+        self.heat_capacity_at(self.temperature.0)
+    }
+
+    /// The same quantity at a stated temperature, J/K.
+    ///
+    /// Heat capacity is not a constant, and on a bench that fires a
+    /// crucible the difference is not small: calcite costs 82 J/(mol.K) to
+    /// warm at room temperature and about 139 at 1500 K. Where the registry
+    /// carries a curve for a species it is evaluated here; where it does
+    /// not, the room-temperature constant comes back exactly as it did.
+    pub fn heat_capacity_at(&self, t_k: f64) -> f64 {
         let resolved: f64 = self
             .contents
             .iter()
@@ -1151,11 +1162,7 @@ impl Vessel {
                 // boiled has its own heat capacity, and spending the wrong
                 // one is how a beaker chilled with 60 kJ came back at
                 // −39 °C instead of −78 °C.
-                let phase_molar = crate::states::heat_capacity_in(
-                    &portion.species,
-                    portion.phase,
-                    data.heat_capacity,
-                );
+                let phase_molar = crate::states::heat_capacity_at(data, portion.phase, t_k);
                 let molar = if portion.phase == Phase::Gas && self.is_sealed() {
                     (phase_molar - crate::constants::GAS_CONSTANT).max(0.0)
                 } else {
@@ -1167,14 +1174,106 @@ impl Vessel {
         resolved + crate::plastics::unresolved_heat_capacity(self)
     }
 
+    /// The heat these contents absorb going from `t0` to `t1`, J - the
+    /// integral of Cp over the interval, not Cp times the span.
+    ///
+    /// Signed: cooling returns a negative number. This is what every ledger
+    /// on the bench should spend, because over a wide interval the two are
+    /// different quantities. 0.1 mol of quicklime taken from 25 C to 1500 C
+    /// costs 7.5 kJ on its curve and 6.2 kJ at its constant, and the 1.3 kJ
+    /// between them is energy a burner delivered that the ledger never
+    /// booked.
+    ///
+    /// A rigid sealed headspace still spends `Cv = Cp - R` on its gas, which
+    /// integrates to the same subtraction of `R` times the span; the
+    /// unresolved-material term is a specific heat with no curve behind it
+    /// and stays a rectangle.
+    pub fn energy_between(&self, t0: f64, t1: f64) -> f64 {
+        let sealed = self.is_sealed();
+        let resolved: f64 = self
+            .contents
+            .iter()
+            .filter_map(|portion| {
+                let data = species::lookup(&portion.species)?;
+                let mut molar = crate::states::enthalpy_between(data, portion.phase, t0, t1);
+                if portion.phase == Phase::Gas && sealed {
+                    molar -= crate::constants::GAS_CONSTANT * (t1 - t0);
+                }
+                Some(portion.moles.0 * molar)
+            })
+            .sum();
+        resolved + crate::plastics::unresolved_heat_capacity(self) * (t1 - t0)
+    }
+
+    /// The temperature this vessel reaches when `joules` are put into it -
+    /// the inverse of `energy_between` starting from where it stands now.
+    ///
+    /// With a constant heat capacity this was `T + j/Cp`. With curves it has
+    /// no closed form, so it is bracketed outward from that same guess and
+    /// bisected. Monotone, because every heat capacity on the bench is
+    /// positive. An empty vessel has nothing to warm and stays where it is.
+    pub fn temperature_after(&self, joules: f64) -> f64 {
+        self.temperature_after_from(self.temperature.0, joules)
+    }
+
+    /// The same inversion starting from a stated temperature rather than
+    /// from where the vessel currently is.
+    ///
+    /// The phase routes need this: a vessel that has just spent its budget
+    /// reaching a melting point is AT the threshold by construction, and
+    /// what is left over has to be spent from there over the contents it
+    /// has now, not over the ones it started with.
+    pub fn temperature_after_from(&self, from: f64, joules: f64) -> f64 {
+        if joules == 0.0 {
+            return from;
+        }
+        let guess = self.heat_capacity_at(from);
+        if guess <= 0.0 {
+            return from;
+        }
+        let mut span = (joules / guess).abs().max(1.0);
+        let (mut lo, mut hi) = (from, from);
+        for _ in 0..60 {
+            if joules > 0.0 {
+                hi = from + span;
+                if self.energy_between(from, hi) >= joules {
+                    break;
+                }
+                lo = hi;
+            } else {
+                lo = (from - span).max(0.0);
+                if self.energy_between(from, lo) <= joules || lo <= 0.0 {
+                    break;
+                }
+                hi = lo;
+            }
+            span *= 2.0;
+        }
+        for _ in 0..200 {
+            let mid = 0.5 * (lo + hi);
+            let delta = self.energy_between(from, mid) - joules;
+            if delta.abs() < 1e-6 || hi - lo < 1e-9 {
+                return mid;
+            }
+            if delta > 0.0 {
+                hi = mid;
+            } else {
+                lo = mid;
+            }
+        }
+        0.5 * (lo + hi)
+    }
+
     /// Sensible energy of the contents relative to 298.15 K, J.
     ///
     /// This is enthalpy for constant-pressure and condensed portions, and
-    /// internal energy for gas in a rigid sealed headspace. Heat capacities
-    /// are treated as temperature-independent at this stage. The historical
-    /// method name remains the public ledger API.
+    /// internal energy for gas in a rigid sealed headspace. It integrates
+    /// the heat capacity over the interval, so a crucible at 1500 C is
+    /// charged what it actually cost rather than its room-temperature price
+    /// times the span. The historical method name remains the public ledger
+    /// API.
     pub fn enthalpy(&self) -> Joules {
-        Joules(self.heat_capacity() * (self.temperature.0 - Kelvin::STANDARD.0))
+        Joules(self.energy_between(Kelvin::STANDARD.0, self.temperature.0))
     }
 
     /// Total mass, g.

@@ -926,19 +926,21 @@ const SOLVENT: &str = "water";
 /// single liquid phase still undergoes its physical transfer.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
-/// The heat capacity that spends the energy left over once a phase change
-/// has finished, J/K.
+/// Where the vessel lands once a phase change has finished and there is
+/// energy left over, K.
 ///
-/// Read AFTER the transfer, so it is the heat capacity of the phase the
-/// vessel is now in. `before` is the fallback for a vessel that has nothing
-/// left to warm — an open flask boiled dry — where dividing by what remains
-/// would turn a rounding error into thousands of kelvin.
-fn residual_cp(vessel: &Vessel, before: f64) -> f64 {
-    let after = vessel.heat_capacity();
-    if after > 1e-9 {
-        after
+/// Spent AFTER the transfer, so it is spent over the phase the vessel is now
+/// in. `before` is the fallback for a vessel that has nothing left to warm —
+/// an open flask boiled dry — where dividing by what remains would turn a
+/// rounding error into thousands of kelvin.
+fn settle_from(vessel: &Vessel, threshold: f64, joules: f64, before: f64) -> f64 {
+    if vessel.heat_capacity() > 1e-9 {
+        // Integrated over the contents the vessel has now: the leftover is
+        // spent against the real curve rather than divided by one value of
+        // it.
+        vessel.temperature_after_from(threshold, joules)
     } else {
-        before
+        threshold + joules / before
     }
 }
 
@@ -1092,7 +1094,7 @@ impl Equilibrator for StateEquilibrator {
             }
             // Energy that would have to leave to get this cold, spent on
             // freezing instead.
-            let excess_j = cp * (t.freezing_k - now);
+            let excess_j = vessel.energy_between(now, t.freezing_k);
             let latent_total = liquid_moles * crate::states::WATER_H_FUS;
             let requested_freezing = (excess_j / crate::states::WATER_H_FUS).min(liquid_moles);
             // Keep enough liquid water to stay inside the explicit brine
@@ -1146,7 +1148,7 @@ impl Equilibrator for StateEquilibrator {
                 // says how much it could not remove; re-deriving the deficit
                 // from the clamped temperature can ask for more than the
                 // ice has, and a negative kelvin is not an answer.
-                Kelvin((t.freezing_k - leftover / residual_cp(vessel, cp)).max(0.0))
+                Kelvin(settle_from(vessel, t.freezing_k, -leftover, cp).max(0.0))
             };
             vessel.temperature = settled;
 
@@ -1173,7 +1175,7 @@ impl Equilibrator for StateEquilibrator {
             }
         } else if frozen_water && now > t.freezing_k {
             // Melting, with the same plateau in reverse.
-            let available_j = cp * (now - t.freezing_k);
+            let available_j = vessel.energy_between(t.freezing_k, now);
             let melting = (available_j / crate::states::WATER_H_FUS).min(frozen_moles);
             let latent_total = frozen_moles * crate::states::WATER_H_FUS;
 
@@ -1193,7 +1195,12 @@ impl Equilibrator for StateEquilibrator {
             } else {
                 // The same correction as the freezing branch: what is left
                 // once the last of the ice has gone warms LIQUID water.
-                Kelvin(t.freezing_k + (available_j - latent_total) / residual_cp(vessel, cp))
+                Kelvin(settle_from(
+                    vessel,
+                    t.freezing_k,
+                    available_j - latent_total,
+                    cp,
+                ))
             };
             vessel.temperature = settled;
 
@@ -1227,7 +1234,7 @@ impl Equilibrator for StateEquilibrator {
             // the energy above the boiling point buys vapour, and the
             // temperature holds at the boiling point until it has bought all
             // of it.
-            let available_j = cp * (now - t.boiling_k);
+            let available_j = vessel.energy_between(t.boiling_k, now);
             let boiling = (available_j / crate::states::WATER_H_VAP).min(liquid_moles);
             let latent_total = liquid_moles * crate::states::WATER_H_VAP;
 
@@ -1261,14 +1268,19 @@ impl Equilibrator for StateEquilibrator {
             // What is left once the last of the water has gone is spread
             // over whatever the vessel still holds — the steam, if the
             // flask is sealed, or the solute left behind. A vessel boiled
-            // dry and open holds nothing, and `residual_cp` then falls back
+            // dry and open holds nothing, and `settle_from` then falls back
             // to the pre-transition figure: that under-reports the final
             // temperature, and never the plateau itself, which is the
             // observation the curve is for.
             let settled = if available_j < latent_total {
                 Kelvin(t.boiling_k)
             } else {
-                Kelvin(t.boiling_k + (available_j - latent_total) / residual_cp(vessel, cp))
+                Kelvin(settle_from(
+                    vessel,
+                    t.boiling_k,
+                    available_j - latent_total,
+                    cp,
+                ))
             };
             vessel.temperature = settled;
 

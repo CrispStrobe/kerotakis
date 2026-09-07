@@ -238,38 +238,32 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
     // What the crucible costs, as the operator's ledger counts it, is the
     // warmth it still holds plus the price of breaking the carbonate apart:
     //
-    //     Cp(CaO) · ΔT                     6 195 J
-    //     0.1 mol × 178.8 kJ/mol          17 880 J
-    //                                     ────────
-    //                                      24 075 J
+    //     the sensible heat of the lime, integrated
+    //     0.1 mol x 178.8 kJ/mol            17 880 J
     //
-    // The burner used to book 13 941 J of that — 58 % — and the hole was
+    // The burner used to book 13 941 J of that - 58 % - and the hole was
     // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
     // admitted eight times the vessel's own moles of air and let that air's
     // sensible heat pay for the decomposition, though room air is at 298 K
-    // and `Vessel::heat_capacity()` never held it. It books 22 538 J now,
-    // 93.6 %, and the calcination finishes instead of stopping half way.
+    // and `Vessel::heat_capacity()` never held it. Closing that took it to
+    // 22 538 J against 24 075 J of warming and calcination, 93.6 %.
     //
-    // The 1 537 J still missing is not one error but two, of opposite sign,
-    // and both are outside this operator:
+    // The 1 537 J still missing was named as two errors of opposite sign,
+    // and the larger of them is now closed. `Vessel::heat_capacity()` was a
+    // room-temperature constant - 82.3 J/(mol.K) for calcite, 42.0 for lime
+    // - while the NASA-9 polynomials the solver reads rise to about 139 and
+    // 53 by 1500 K. The burner was billed at 25 C prices for a crucible at
+    // 1500 C, and both sides of this ratio were wrong: the ledger charged
+    // too little to warm the charge, and `vessel.enthalpy()` under-reported
+    // what the charge was holding. Both now integrate the same curves.
     //
-    //   +3 625 J  The carbon dioxide leaves at the temperature it formed at
-    //             (995 K, 983 K, 1350 K over the four passes) and takes its
-    //             sensible heat with it. A kiln really does pay that, and
-    //             the two-term ledger above simply does not name it.
-    //   −6 433 J  `Vessel::heat_capacity()` is a room-temperature constant —
-    //             82.3 J/(mol·K) for calcite, 42.0 for lime — while the
-    //             NASA-9 polynomials the solver reads rise with temperature,
-    //             to about 123 and 55 by 1500 K. The burner is therefore
-    //             billed at 25 °C heat capacities for a crucible at 1500 °C,
-    //             and hands the charge more energy than it books. That is a
-    //             separate defect, in `kerotakis-core`'s registry rather
-    //             than here, and closing it would move every heat and cool
-    //             step on the bench.
+    // What remains is the one term this two-line ledger genuinely does not
+    // name: the carbon dioxide leaves at the temperature it formed at and
+    // takes its sensible heat with it. A kiln really does pay that.
     //
-    // So the band below is 8 %, not 5 %, and it is written as a band around
-    // a number rather than a floor: a change in EITHER direction is a
-    // failure someone has to explain.
+    // The band below is still written around a number rather than as a
+    // floor: a change in EITHER direction is a failure someone has to
+    // explain.
     let warming = vessel.enthalpy().0;
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
     let accounted = warming + chemistry;
@@ -281,11 +275,10 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.delivered_j
     );
     assert!(
-        book.delivered_j > 0.92 * accounted,
+        book.delivered_j > 0.97 * accounted,
         "the burner should pay for what the crucible cost: {accounted:.1} J of \
          warming and calcination against {:.1} J booked, which is {:.1} % and \
-         leaves a bigger hole than the hot exhaust and the constant-Cp bench \
-         account for\n{seen}",
+         leaves a bigger hole than the hot exhaust accounts for\n{seen}",
         book.delivered_j,
         100.0 * book.delivered_j / accounted
     );

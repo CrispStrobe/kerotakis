@@ -565,13 +565,15 @@ fn spend_pool(vessel: &mut Vessel, pool: &mut f64, events: &mut Vec<Event>) {
     if *pool <= 0.0 {
         return;
     }
-    let cp = vessel.heat_capacity();
-    if cp <= 0.0 {
+    if vessel.heat_capacity() <= 0.0 {
         *pool = 0.0;
         return;
     }
     let from = vessel.temperature;
-    let to = crate::units::Kelvin(from.0 + *pool / cp);
+    // Not `from + pool/Cp`: over a wide rise the heat capacity the vessel
+    // ends with is not the one it started with, and the temperature that
+    // absorbs this pool is the one where the INTEGRAL matches it.
+    let to = crate::units::Kelvin(vessel.temperature_after(*pool));
     *pool = 0.0;
     if (to.0 - from.0).abs() <= 1e-9 {
         return;
@@ -652,10 +654,13 @@ fn ledger(
     // the cryogen's own capacity to discard an arrival superheat that no
     // longer exists; keeping that exclusion here would lose the heat the
     // ethanol gave the nitrogen on the pour.
+    // The heat between here and the threshold, integrated: over the span a
+    // cryogen or a crucible covers, the area under Cp(T) and the rectangle
+    // Cp(now) times the span are different numbers.
     let budget = if forward {
-        vessel.heat_capacity() * (now - threshold)
+        vessel.energy_between(threshold, now)
     } else {
-        vessel.heat_capacity() * (threshold - now)
+        vessel.energy_between(now, threshold)
     }
     .max(0.0);
     Ledger {
@@ -703,15 +708,18 @@ fn settle(vessel: &mut Vessel, l: &Ledger, moved: f64, threshold: f64, events: &
     let Some(budget) = l.budget else {
         return;
     };
-    let cp = vessel.heat_capacity();
-    if cp <= 0.0 {
+    if vessel.heat_capacity() <= 0.0 {
         return;
     }
     let left = budget - moved * l.latent;
+    // Spent from the threshold over the contents the vessel has NOW, and
+    // integrated rather than divided: same three cases, one of which is
+    // the plateau, where `left` is zero and this lands exactly on the
+    // threshold as it always did.
     let to = if l.forward {
-        threshold + left / cp
+        vessel.temperature_after_from(threshold, left)
     } else {
-        threshold - left / cp
+        vessel.temperature_after_from(threshold, -left)
     };
     let to = crate::units::Kelvin(to.max(0.0));
     let from = vessel.temperature;
@@ -804,7 +812,7 @@ impl PhaseRouteEquilibrator {
                 continue;
             }
             let inventory = moles_in_phase(vessel, &species, Phase::Liquid);
-            let budget = (vessel.heat_capacity() * (melting - now)).max(0.0);
+            let budget = vessel.energy_between(now, melting).max(0.0);
             let n = (budget / latent).min(inventory);
             if n <= TRACE {
                 continue;
@@ -841,7 +849,7 @@ impl PhaseRouteEquilibrator {
                 continue;
             }
             let inventory = moles_in_phase(vessel, &gas, Phase::Gas);
-            let budget = (vessel.heat_capacity() * (boiling - now)).max(0.0);
+            let budget = vessel.energy_between(now, boiling).max(0.0);
             let n = (budget / latent).min(inventory);
             if n <= TRACE {
                 continue;

@@ -219,9 +219,8 @@ impl Clock for DecayClock {
         if energy_j > 0.0 {
             let from = vessel.temperature;
             if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                let heat_capacity = vessel.heat_capacity();
-                if heat_capacity > 0.0 {
-                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                if vessel.heat_capacity() > 0.0 {
+                    vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
                 }
             }
             events.push(Event::ReactionHeatReleased {
@@ -266,9 +265,8 @@ impl Clock for CuratedKineticsClock {
                 let energy_j = 98_200.0 * moles.0;
                 let from = vessel.temperature;
                 if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                    let heat_capacity = vessel.heat_capacity();
-                    if heat_capacity > 0.0 {
-                        vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                    if vessel.heat_capacity() > 0.0 {
+                        vessel.temperature = Kelvin(vessel.temperature_after(energy_j));
                     }
                 }
                 if moles.0 >= crate::OBSERVABLE_MOLES {
@@ -393,9 +391,8 @@ impl Clock for GasMechanismClock {
             }
             let from = vessel.temperature;
             if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                let heat_capacity = vessel.heat_capacity();
-                if heat_capacity > 0.0 {
-                    vessel.temperature = Kelvin(from.0 + released_j / heat_capacity);
+                if vessel.heat_capacity() > 0.0 {
+                    vessel.temperature = Kelvin(vessel.temperature_after(released_j));
                     vessel.refresh_pressure();
                 }
             }
@@ -663,6 +660,31 @@ pub fn ambient_conductance_w_per_k(label: &str) -> f64 {
 /// millilitre's, and the second is faster than a real one.
 fn ambient_thermal_mass(vessel: &Vessel) -> f64 {
     let contents = vessel.heat_capacity();
+    if contents > 0.0 {
+        contents
+    } else {
+        wall_heat_capacity_j_per_k(&vessel.label)
+    }
+}
+
+/// The same thermal mass, averaged over the interval the vessel is about to
+/// traverse rather than read where it currently stands, J/K.
+///
+/// Newton's law of cooling has a closed form only for a constant heat
+/// capacity, and the bench's heat capacities are no longer constant. Rather
+/// than abandon the closed form for a sub-stepped one everywhere, the
+/// capacity it is given is the MEAN over the span — the integral of Cp
+/// across the interval divided by the interval — which is exact in the
+/// energy the exchange moves and approximate only in the shape of the
+/// approach. For a species with no curve it is identical to the old value,
+/// and for water over a room-temperature drift it differs in the fourth
+/// figure; it is the crucible cooling from 1500 K where it matters.
+fn ambient_thermal_mass_between(vessel: &Vessel, to: f64) -> f64 {
+    let from = vessel.temperature.0;
+    if (to - from).abs() < 1e-9 {
+        return ambient_thermal_mass(vessel);
+    }
+    let contents = vessel.energy_between(from, to) / (to - from);
     if contents > 0.0 {
         contents
     } else {
@@ -1016,7 +1038,14 @@ impl Clock for AmbientClock {
             // worse version of it.
             let capacity = ambient_thermal_mass(vessel);
             if capacity > 0.0 {
-                let to = room + (from.0 - room) * (-conductance * seconds / capacity).exp();
+                let relax = |c: f64| room + (from.0 - room) * (-conductance * seconds / c).exp();
+                // One Picard pass: solve with the capacity where the vessel
+                // stands, then redo with the mean over the span that answer
+                // implies. With a constant heat capacity the two agree
+                // exactly and this is the same closed form it always was.
+                let provisional = relax(capacity);
+                let mean = ambient_thermal_mass_between(vessel, provisional).max(1e-12);
+                let to = relax(mean);
                 vessel.temperature = Kelvin(to.max(0.0));
                 vessel.refresh_pressure();
             }

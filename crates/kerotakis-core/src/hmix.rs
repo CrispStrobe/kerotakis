@@ -176,10 +176,9 @@ impl Equilibrator for MixingEnthalpyEquilibrator {
         // Forming a more negative Hᴱ releases heat: q = −ΔHᴱ.
         let q = -delta;
         if matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic) {
-            let cp = vessel.heat_capacity();
-            if cp > 0.0 {
+            if vessel.heat_capacity() > 0.0 {
                 let from = vessel.temperature;
-                let to = crate::units::Kelvin(from.0 + q / cp);
+                let to = crate::units::Kelvin(vessel.temperature_after(q));
                 vessel.temperature = to;
                 events.push(Event::TemperatureChanged {
                     vessel: vessel.id,

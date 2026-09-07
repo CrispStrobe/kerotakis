@@ -815,7 +815,7 @@ impl Bench {
                 .vessel(heated)
                 .map(|v| {
                     (
-                        v.heat_capacity() * (v.temperature.0 - temperature_before.0),
+                        v.energy_between(temperature_before.0, v.temperature.0),
                         v.temperature,
                     )
                 })
@@ -1283,13 +1283,22 @@ impl Bench {
                     break;
                 }
                 let now = vessel.temperature;
-                let room = ((ceiling - now.0) * cp).min(remaining);
+                // What still fits below the flame is the area under this
+                // vessel's own heat capacity between here and the ceiling.
+                // Billed at the room-temperature rectangle, a crucible on
+                // its way to 1500 K is charged about a third too little,
+                // which is most of the hole the #488 balance named.
+                let room = vessel
+                    .energy_between(now.0, ceiling)
+                    .max(0.0)
+                    .min(remaining);
                 // The vessel is as hot as the flame and the last pass
                 // bought nothing: there is no route left for the rest.
                 if room <= 1e-9 {
                     break;
                 }
-                vessel.temperature = Kelvin(now.0 + room / cp);
+                let landed = vessel.temperature_after(room);
+                vessel.temperature = Kelvin(landed);
                 vessel.solution = None;
                 vessel.step_start = Some(crate::vessel::StepStart::capture(vessel));
                 room
@@ -1704,8 +1713,8 @@ impl Bench {
                     // they pull the vessel back down and make room for
                     // more, which is what `deliver_remaining_heat` finds
                     // out — it has the solver, and `apply` does not.
-                    let head = source.headroom_j(from, cp).min(energy.0);
-                    let to = Kelvin(from.0 + head / cp);
+                    let head = source.headroom_for(v).min(energy.0);
+                    let to = Kelvin(v.temperature_after(head));
                     v.temperature = to;
                     events.push(Event::TemperatureChanged {
                         vessel: *vessel,
@@ -1748,7 +1757,21 @@ impl Bench {
                 let cp = v.heat_capacity();
                 if cp > 0.0 {
                     let from = v.temperature;
-                    let wanted = from.0 + signed / cp;
+                    // `from + signed/Cp` no longer: the heat a vessel can
+                    // give up between here and there is the area under its
+                    // own capacity, and `temperature_after` inverts that.
+                    // Below absolute zero the integral runs out first, so
+                    // the shortfall is measured against what the vessel
+                    // actually holds rather than against a rectangle.
+                    let holds = -v.energy_between(from.0, 0.0);
+                    let wanted = if -signed > holds {
+                        // Asked for more than there is; the clamp below and
+                        // the `NotYetModeled` note both key off this being
+                        // negative, as they did.
+                        -1.0
+                    } else {
+                        v.temperature_after(signed)
+                    };
                     // A vessel can only give up the heat it has. Clamping
                     // at absolute zero and saying nothing let a request for
                     // more be silently granted: two grams of magnesia at
@@ -1760,10 +1783,11 @@ impl Bench {
                     // available is the vessel's own heat content, and the
                     // bench has to say when a request runs past it. That
                     // this bound is absolute zero is itself the tell: long
-                    // before it, constant heat capacities have stopped
-                    // describing anything, since every Cp here is a room-
-                    // temperature figure treated as temperature-independent.
+                    // before it the heat capacities have stopped describing
+                    // anything, because even a tabulated curve runs out of
+                    // table around 100-300 K and is held flat below it.
                     let to = Kelvin(wanted.max(0.0));
+                    let moved = -v.energy_between(from.0, to.0);
                     v.temperature = to;
                     events.push(Event::TemperatureChanged {
                         vessel: *vessel,
@@ -1774,7 +1798,7 @@ impl Bench {
                         vessel: *vessel,
                         heating: false,
                         requested_j: energy.0,
-                        delivered_j: (to.0 - from.0).abs() * cp,
+                        delivered_j: moved,
                         time_coupled: false,
                         // No coolant is modelled, so there is no cold body
                         // to name and no floor of its temperature to quote.
@@ -1783,13 +1807,13 @@ impl Bench {
                         // Cooling here is pure sensible heat by
                         // construction: this arm moves the thermometer and
                         // nothing else.
-                        sensible_j: (to.0 - from.0).abs() * cp,
+                        sensible_j: moved,
                         passes: 1,
                         capped: false,
                     });
                     brown_dry_lemon_mark(v, &mut events);
                     if wanted < 0.0 {
-                        let could_pay = cp * from.0 / 1000.0;
+                        let could_pay = holds / 1000.0;
                         events.push(Event::NotYetModeled {
                             cause: crate::ops::NotModelledCause::ModelBoundary,
                             vessel: *vessel,
@@ -1798,9 +1822,12 @@ impl Bench {
                                  zero, and {:.2} kJ were asked of it. No coolant \
                                  is modelled here — nothing sets how cold the \
                                  surroundings are — so the rest simply could not \
-                                 be removed. The heat capacities are room-\
-                                 temperature values held constant, which stops \
-                                 being true long before this",
+                                 be removed. The heat a substance holds is \
+                                 integrated over its own heat capacity where \
+                                 the registry carries one, but below about \
+                                 200 K even a tabulated curve has run out of \
+                                 table and is held flat, so this floor is a \
+                                 model boundary rather than a measurement",
                                 energy.0 / 1000.0,
                             ),
                         });

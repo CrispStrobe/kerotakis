@@ -185,11 +185,31 @@ impl HeatSource {
     /// How much energy this source can still put into a vessel of heat
     /// capacity `cp` sitting at `now` before the vessel is as hot as the
     /// source, J. Zero when the vessel has already reached the ceiling.
+    ///
+    /// The constant-capacity form. [`HeatSource::headroom_for`] is the one
+    /// to reach for when the vessel is at hand: over the span between a
+    /// bench and a burner flame, `Cp` is not one number and this one
+    /// under-reports what the source can still deliver.
     pub fn headroom_j(&self, now: Kelvin, cp: f64) -> f64 {
         if cp <= 0.0 {
             return 0.0;
         }
         ((self.ceiling.0 - now.0) * cp).max(0.0)
+    }
+
+    /// The same headroom, integrated over the vessel's own heat-capacity
+    /// curves rather than its capacity at the temperature it is at now.
+    ///
+    /// This is the difference between charging a crucible its bench price
+    /// all the way to 1500 °C and charging it what heating it actually
+    /// costs.
+    pub fn headroom_for(&self, vessel: &Vessel) -> f64 {
+        if vessel.heat_capacity() <= 0.0 {
+            return 0.0;
+        }
+        vessel
+            .energy_between(vessel.temperature.0, self.ceiling.0)
+            .max(0.0)
     }
 
     /// Apply the heat source to a vessel for a duration.
@@ -225,7 +245,11 @@ impl HeatSource {
         // the burner is left under it.
         let final_temp = final_temp.clamp(0.0, self.ceiling.0.max(from.0));
         let energy_in = Joules(p * dt);
-        let energy_lost = Joules(energy_in.0 - cp * (final_temp - from.0));
+        // What the vessel kept is the area under its own heat capacity over
+        // the rise, not the rectangle: a crucible warmed 1200 K holds
+        // noticeably more than its bench-temperature capacity times the
+        // span, and the difference used to be booked as loss.
+        let energy_lost = Joules(energy_in.0 - vessel.energy_between(from.0, final_temp));
 
         vessel.temperature = Kelvin(final_temp);
         vessel.refresh_pressure();
