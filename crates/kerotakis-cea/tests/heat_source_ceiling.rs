@@ -233,52 +233,77 @@ fn ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame() {
         book.sensible_j
     );
 
-    // Energy: the crucible's own books, and what is still outside them.
+    // Energy: the crucible's own books, and there is nothing left outside
+    // them.
     //
-    // What the crucible costs, as the operator's ledger counts it, is the
-    // warmth it still holds plus the price of breaking the carbonate apart:
+    // What the crucible costs is three things, and it took two changes to
+    // be able to write all three down:
     //
-    //     the sensible heat of the lime, integrated
-    //     0.1 mol x 178.8 kJ/mol            17 880 J
+    //     the sensible heat the lime still holds     7 529 J
+    //     0.1 mol x 178.8 kJ/mol                    17 880 J
+    //     the sensible heat the CO2 carried out      7 783 J
+    //                                               --------
+    //                                               33 192 J
     //
     // The burner used to book 13 941 J of that - 58 % - and the hole was
     // one lane away. `ThermalEquilibrator` solved an ADIABATIC charge that
     // admitted eight times the vessel's own moles of air and let that air's
     // sensible heat pay for the decomposition, though room air is at 298 K
     // and `Vessel::heat_capacity()` never held it. Closing that took it to
-    // 22 538 J against 24 075 J of warming and calcination, 93.6 %.
+    // 22 538 J against a TWO-term ledger of 24 075 J, 93.6 %.
     //
-    // The 1 537 J still missing was named as two errors of opposite sign,
-    // and the larger of them is now closed. `Vessel::heat_capacity()` was a
-    // room-temperature constant - 82.3 J/(mol.K) for calcite, 42.0 for lime
-    // - while the NASA-9 polynomials the solver reads rise to about 139 and
-    // 53 by 1500 K. The burner was billed at 25 C prices for a crucible at
-    // 1500 C, and both sides of this ratio were wrong: the ledger charged
-    // too little to warm the charge, and `vessel.enthalpy()` under-reported
-    // what the charge was holding. Both now integrate the same curves.
+    // That 93.6 % was two errors of opposite sign, and both are now named.
+    // `Vessel::heat_capacity()` was a room-temperature constant - 82.3
+    // J/(mol.K) for calcite, 42.0 for lime - while the NASA-9 polynomials
+    // the solver reads rise to about 139 and 53 by 1500 K. The burner was
+    // billed at 25 C prices for a crucible at 1500 C, and BOTH sides of the
+    // ratio were wrong with it: the ledger charged too little to warm the
+    // charge, and `vessel.enthalpy()` under-reported what the charge was
+    // holding. Both integrate the same curves now.
     //
-    // What remains is the one term this two-line ledger genuinely does not
-    // name: the carbon dioxide leaves at the temperature it formed at and
-    // takes its sensible heat with it. A kiln really does pay that.
+    // With that gone, the second error stopped hiding behind it. The carbon
+    // dioxide leaves at the temperature it formed at and takes its sensible
+    // heat with it - a kiln really does pay that - and the two-line ledger
+    // simply never named it. Naming it closes the balance to 99.5 %.
     //
-    // The band below is still written around a number rather than as a
-    // floor: a change in EITHER direction is a failure someone has to
-    // explain.
+    // The 0.5 % that is left has a sign and a reason: the exhaust term here
+    // is charged at the crucible's FINAL temperature, and some of the CO2
+    // left on earlier passes when the crucible was cooler. So the accounted
+    // figure is a slight over-estimate, and `delivered < accounted` below is
+    // an assertion about that direction rather than a formality.
     let warming = vessel.enthalpy().0;
     let chemistry = 0.1 * CALCINATION_ENTHALPY_J_PER_MOL;
-    let accounted = warming + chemistry;
+    // The gas's own sensible heat, from the same NASA-9 record the
+    // minimiser used. `h` is referenced so that h(298.15) is the formation
+    // enthalpy, which makes the difference a pure sensible heat.
+    let co2 = kerotakis_cea::nasa9::db()
+        .species
+        .get("CO2")
+        .expect("thermo.inp has carbon dioxide");
+    let exhaust = 0.1
+        * (co2
+            .h(vessel.temperature.0)
+            .expect("CO2 enthalpy at the ceiling")
+            - co2.h(298.15).expect("CO2 enthalpy at 298.15 K"));
+    let accounted = warming + chemistry + exhaust;
+    assert!(
+        exhaust > 7000.0 && exhaust < 8500.0,
+        "0.1 mol of CO2 taken from 25 C to 1500 C carries about 7.8 kJ out \
+         of the crucible, this says {exhaust:.1} J\n{seen}"
+    );
     assert!(
         book.delivered_j < accounted,
         "the burner cannot deliver more than the crucible costs: delivered \
          {:.1} J against warming {warming:.1} J plus calcination \
-         {chemistry:.1} J = {accounted:.1} J\n{seen}",
+         {chemistry:.1} J plus exhaust {exhaust:.1} J = {accounted:.1} J\n{seen}",
         book.delivered_j
     );
     assert!(
-        book.delivered_j > 0.97 * accounted,
+        book.delivered_j > 0.99 * accounted,
         "the burner should pay for what the crucible cost: {accounted:.1} J of \
-         warming and calcination against {:.1} J booked, which is {:.1} % and \
-         leaves a bigger hole than the hot exhaust accounts for\n{seen}",
+         warming, calcination and hot exhaust against {:.1} J booked, which is \
+         {:.1} % and leaves a bigger hole than charging the exhaust at the \
+         final temperature accounts for\n{seen}",
         book.delivered_j,
         100.0 * book.delivered_j / accounted
     );
