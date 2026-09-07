@@ -52,7 +52,7 @@ it had while it was open, which is why a few numbers appear twice below.
   defect on the core path); and two codex entries tuned to straddle the 500 K
   kinetic threshold no longer straddled it, so their doses were re-tuned to
   reproduce the temperatures their prose already quotes
-- **#PRNUM** — `conservation::energy_is_conserved` was flaky on main, and it was
+- **#537** — `conservation::energy_is_conserved` was flaky on main, and it was
   a **leak, not a rounding**. Dissolving a solid in an organic solvent
   (`nonaqueous.rs`) relabelled the portion `Solid` → `Liquid` at a fixed
   temperature, and a species that owns only a solid Cp(T) curve has none for
