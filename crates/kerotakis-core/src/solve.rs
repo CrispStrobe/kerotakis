@@ -1265,6 +1265,33 @@ impl Equilibrator for StateEquilibrator {
             // The solvent mass changed, so every molality and activity the
             // aqueous engine solved for describes water that has left.
             vessel.solution = None;
+
+            // Boiled DRY, not merely boiling. Said here and not in the
+            // honesty pass because here there is evidence: this branch
+            // just removed the water, so "no water, and something is
+            // still filed as dissolved" cannot be confused with a vessel
+            // that never had any. `evaporate` says the same sentence for
+            // the same reason, and they share it (`stranded_solutes`)
+            // rather than each composing their own.
+            let dry = !vessel
+                .contents
+                .iter()
+                .any(|p| p.species == solvent && p.phase == Phase::Liquid);
+            if dry {
+                let stranded: Vec<&str> = vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.phase == Phase::Aqueous)
+                    .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
+                    .collect();
+                if !stranded.is_empty() {
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::NoSolver,
+                        vessel: vessel.id,
+                        what: stranded_solutes(&stranded),
+                    });
+                }
+            }
         }
 
         Ok(events)
@@ -1510,10 +1537,19 @@ pub enum SolventState {
     /// Liquid solvent standing at or above its own (colligatively shifted,
     /// pressure-shifted) boiling point.
     Boiling,
-    /// The solvent has gone and something that was dissolved in it is
-    /// still filed as dissolved.
-    BoiledDry,
-    /// No solvent here, or nothing that was ever dissolved in one.
+    /// No solvent here.
+    ///
+    /// Deliberately **not** "the solvent boiled away and left its ions
+    /// stranded", though that state exists and is worth naming. A vessel
+    /// holding aqueous-filed matter and no water looks identical to one
+    /// whose solvent left, and is not always the same thing: a kneaded
+    /// dough holds its water in the flour matrix and pours none into the
+    /// beaker, so a fermentation product filed aqueous beside it would
+    /// trip that test with nothing wrong. Naming it safely needs the one
+    /// fact a snapshot cannot carry — that the water *left* — so the
+    /// claim is made by the two passes that removed it (`evaporate`, and
+    /// the boiling branch of [`StateEquilibrator`]) and the sentence they
+    /// share is [`stranded_solutes`].
     Absent,
 }
 
@@ -1521,14 +1557,7 @@ impl SolventState {
     /// The sentence the bench owes a reader, and the cause to file it
     /// under. `None` where there is nothing to apologise for.
     ///
-    /// The dry case names what it is holding, because "some ions" and
-    /// "sodium ion, chloride ion" are different amounts of help and the
-    /// second one is what `evaporate` used to say from inside the operator.
-    /// It says it from here now, so that a beaker boiled dry over a burner
-    /// gets the same sentence as one evaporated on a hotplate — the state
-    /// is the same state, and which verb reached it is not the reader's
-    /// problem.
-    pub fn boundary(self, vessel: &Vessel) -> Option<(String, crate::ops::NotModelledCause)> {
+    pub fn boundary(self) -> Option<(String, crate::ops::NotModelledCause)> {
         match self {
             Self::Settled | Self::Pure | Self::Absent => None,
             Self::Frozen => Some((
@@ -1539,26 +1568,6 @@ impl SolventState {
                 "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing".to_string(),
                 crate::ops::NotModelledCause::ModelBoundary,
             )),
-            Self::BoiledDry => {
-                let stranded: Vec<&str> = vessel
-                    .contents
-                    .iter()
-                    .filter(|p| p.phase == Phase::Aqueous)
-                    .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
-                    .collect();
-                (!stranded.is_empty()).then(|| {
-                    (
-                        format!(
-                            "the last of the water is gone and {} are still shown as \
-                             dissolved, which is not a state a beaker can be in. What \
-                             they crystallise into is not decidable from the ions alone, \
-                             so the bench will not guess at the solids",
-                            stranded.join(", ")
-                        ),
-                        crate::ops::NotModelledCause::NoSolver,
-                    )
-                })
-            }
         }
     }
 }
@@ -1621,10 +1630,24 @@ pub fn solvent_state(vessel: &Vessel) -> SolventState {
             SolventState::Pure
         };
     }
-    if dissolved {
-        return SolventState::BoiledDry;
-    }
     SolventState::Absent
+}
+
+/// The sentence for dissolved matter whose solvent has left, by name.
+///
+/// Shared by the two passes entitled to say it — `evaporate`, and the
+/// boiling branch of [`StateEquilibrator`] — so that a beaker taken to
+/// dryness by a burner gets the same words as one dried on a hotplate.
+/// Which verb reached the state is not the reader's problem; that it is a
+/// state no beaker can be in is.
+pub fn stranded_solutes(names: &[&str]) -> String {
+    format!(
+        "the last of the water is gone and {} are still shown as dissolved, \
+         which is not a state a beaker can be in. What they crystallise into \
+         is not decidable from the ions alone, so the bench will not guess at \
+         the solids",
+        names.join(", ")
+    )
 }
 
 /// A solid portion of a substance that is a liquid at standard conditions,
@@ -1668,7 +1691,7 @@ impl Equilibrator for HonestyEquilibrator {
         // decided this vessel is not a settled solution; this is where
         // that decision reaches the reader and the meter.
         let state = solvent_state(vessel);
-        if let Some((what, cause)) = state.boundary(vessel) {
+        if let Some((what, cause)) = state.boundary() {
             events.push(Event::NotYetModeled {
                 cause,
                 vessel: vessel.id,
@@ -1870,7 +1893,7 @@ impl Equilibrator for HonestyEquilibrator {
         // The preview cannot withdraw the reading (it holds the vessel by
         // reference), so it says the sentence and leaves the withdrawal to
         // the pass that owns the mutation.
-        if let Some((what, cause)) = solvent_state(vessel).boundary(vessel) {
+        if let Some((what, cause)) = solvent_state(vessel).boundary() {
             events.push(Event::NotYetModeled {
                 cause,
                 vessel: vessel.id,

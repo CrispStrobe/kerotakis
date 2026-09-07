@@ -2438,15 +2438,31 @@ impl Bench {
                             }
                         }
                     }
-                    // The sentence that used to be composed here now
-                    // belongs to `solve::SolventState::BoiledDry`, and is
-                    // said by the honesty pass at the end of this same
-                    // step. Moving it was not tidying: a beaker taken to
-                    // dryness by a burner reaches exactly this state and
-                    // never came through this operator, so a message that
-                    // lived inside `evaporate` could only ever cover one
-                    // of the two ways to get here. Emitting it from both
-                    // places would say it twice.
+                    // Said from here, and not from the honesty pass, and
+                    // the reason is evidence rather than tidiness. "There
+                    // is no water and something is still filed as
+                    // dissolved" looks like a stranded solution and is
+                    // not always one: a kneaded dough holds its water in
+                    // the flour matrix and pours NONE into the beaker, so
+                    // a fermentation product filed aqueous beside it
+                    // would trip that test with nothing wrong. What makes
+                    // the claim safe is knowing the water LEFT, and only
+                    // the two places that removed it know that. This is
+                    // one of them; `solve::StateEquilibrator`'s boiling
+                    // branch is the other, and it says the same sentence.
+                    let stranded: Vec<&str> = v
+                        .contents
+                        .iter()
+                        .filter(|p| p.phase == Phase::Aqueous)
+                        .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
+                        .collect();
+                    if dry && !stranded.is_empty() {
+                        events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::NoSolver,
+                            vessel: *vessel,
+                            what: crate::solve::stranded_solutes(&stranded),
+                        });
+                    }
                     // No energy is charged for the vaporisation, and that
                     // is decided rather than forgotten: `evaporate` means
                     // the dish is on a hotplate, and the ~40.7 kJ/mol comes
