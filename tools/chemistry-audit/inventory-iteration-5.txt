@@ -1,0 +1,11 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.50s
+     Running tests/analytical_inventory.rs (target/debug/deps/analytical_inventory-f5b5dd473b32d8f1)
+
+running 2 tests
+ligand routing: 33 computed, 3 explicitly refused with unchanged inventory
+test trace_ligand_routing_never_drops_nitrogen ... ok
+test aqueous_basis_conserves_atoms_across_doses_volumes_and_temperatures ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.51s
+

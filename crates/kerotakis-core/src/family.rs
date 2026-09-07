@@ -336,15 +336,17 @@ pub const FREE_PROTON: &str = "H+";
 pub const CATALYTIC_ACIDITY_MOL_PER_L: f64 = 1e-3;
 
 /// How much of `key` the vessel holds for the router's purposes: portions,
-/// plus the measured free ions for the two virtual keys. A real `OH-`
-/// portion (poured before any solve) and the measurement never double
-/// count, because the tail replaces the portion with the measurement when
-/// it runs.
+/// and the measured free ions for the two virtual keys. Analytical acid/base
+/// equivalents are inventory coordinates, not additional free ions.
 fn amount_of(vessel: &Vessel, key: &str) -> f64 {
     let portions = vessel.moles_of(&SpeciesId::new(key)).0;
+    // The bench clears SolutionInfo before dispatch, but intentionally retains
+    // its free-ion measurements for the family gates ahead of the aqueous tail.
+    let measured =
+        vessel.solution.is_some() || vessel.free_hydroxide > 0.0 || vessel.free_proton > 0.0;
     match key {
-        FREE_HYDROXIDE => portions + vessel.free_hydroxide,
-        FREE_PROTON => portions + vessel.free_proton,
+        FREE_HYDROXIDE if measured => vessel.free_hydroxide,
+        FREE_PROTON if measured => vessel.free_proton,
         _ => portions,
     }
 }
@@ -519,6 +521,23 @@ impl<O: StructureOracle> FamilyRouter<O> {
         };
         let mut refused = None;
         for keys in tuples {
+            // Structural group requirements are part of the match, not just
+            // operating conditions. For example, a carboxylic OH must not
+            // masquerade as an alcohol and produce an esterification warning
+            // in an acid-only vessel before its temperature gate is checked.
+            let groups: Vec<_> = keys
+                .iter()
+                .filter_map(|key| self.oracle.groups_of(key))
+                .flatten()
+                .collect();
+            if record
+                .gates
+                .required_groups
+                .iter()
+                .any(|group| !groups.contains(group))
+            {
+                continue;
+            }
             match self.oracle.apply(record, &keys) {
                 Ok(Some(products)) => {
                     return MatchOutcome::Matched(Matched {
@@ -805,6 +824,17 @@ fn solve_extent(
     reactants: &[(String, f64)],
     products: &[(String, f64)],
 ) -> Result<f64, String> {
+    outcome_extent(&record.outcome, vessel, reactants, products)
+}
+
+/// Compute a signed reaction extent from the current inventory, not a preset yield.
+/// Shared by the family router and explicit reaction requests.
+pub(crate) fn outcome_extent(
+    outcome: &OutcomeModel,
+    vessel: &Vessel,
+    reactants: &[(String, f64)],
+    products: &[(String, f64)],
+) -> Result<f64, String> {
     let amount = |k: &str| amount_of(vessel, k);
     let forward_max = reactants
         .iter()
@@ -813,7 +843,7 @@ fn solve_extent(
     if !forward_max.is_finite() {
         return Ok(0.0);
     }
-    match &record.outcome {
+    match outcome {
         OutcomeModel::ToCompletion => Ok(forward_max.max(0.0)),
         OutcomeModel::KineticLaw { kinetics_id } => Err(format!(
             "outcome model kinetic_law ({kinetics_id}) is not yet routed — BRD-050 owns admitting \
@@ -892,22 +922,54 @@ fn apply_extent(
         (products, reactants)
     };
     let n = x.abs();
-    // The virtual keys move no portion: consuming charge-backed hydroxide
-    // beside a deposited anion is what the charge refresh below records,
-    // and a hydroxide portion (a test's, or one poured before any solve)
-    // is withdrawn like anything else.
+    // Free-ion measurements and analytical equivalents are different pools.
+    // If a measured ion has no matching analytical portion, its H/O must
+    // still come from solvent: H2O -> H+ + OH-. Preflight that withdrawal
+    // before changing anything, so a missing solvent cannot half-apply a row.
+    let solvent_needed: f64 = consumed
+        .iter()
+        .map(|(key, coefficient)| {
+            if is_virtual(key) {
+                (n * coefficient - vessel.moles_of(&SpeciesId::new(key)).0).max(0.0)
+            } else if key == "water" {
+                n * coefficient
+            } else {
+                0.0
+            }
+        })
+        .sum();
+    if solvent_needed > vessel.moles_of(&SpeciesId::new("water")).0 + TRACE {
+        return Err(
+            "insufficient solvent to supply the measured acid/base ions conservatively".into(),
+        );
+    }
     let phases: Vec<Option<Phase>> = formed
         .iter()
         .map(|(k, _)| {
             if is_virtual(k) {
-                Ok(None)
+                Ok(Some(Phase::Aqueous))
             } else {
                 phase_of(k).map(Some)
             }
         })
         .collect::<Result<_, _>>()?;
     for (k, c) in consumed {
-        vessel.withdraw(&SpeciesId::new(k), Moles(n * c));
+        let withdrawn = vessel.withdraw(&SpeciesId::new(k), Moles(n * c)).0;
+        let deficit = (n * c - withdrawn).max(0.0);
+        if is_virtual(k) && deficit > 0.0 {
+            vessel.withdraw(&SpeciesId::new("water"), Moles(deficit));
+            let counterpart = if k == FREE_HYDROXIDE {
+                FREE_PROTON
+            } else {
+                FREE_HYDROXIDE
+            };
+            vessel.deposit(SpeciesId::new(counterpart), Moles(deficit), Phase::Aqueous);
+        }
+        match k.as_str() {
+            FREE_HYDROXIDE => vessel.free_hydroxide = (vessel.free_hydroxide - n * c).max(0.0),
+            FREE_PROTON => vessel.free_proton = (vessel.free_proton - n * c).max(0.0),
+            _ => {}
+        }
     }
     for ((k, c), phase) in formed.iter().zip(phases) {
         if let Some(phase) = phase {
@@ -1064,12 +1126,44 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
         }
         Ok(events)
     }
+
+    fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
+        self.evaluate(vessel).declined.into_iter().map(|d| Event::NotYetModeled {
+            cause: NotModelledCause::ModelBoundary,
+            vessel: vessel.id,
+            what: format!("{} v{} matched, but declined at {}: {}. Waiting does not supply a missing reaction rate or satisfy the condition gate", d.family, d.version, d.gate, d.reason),
+        }).collect()
+    }
 }
 
 #[cfg(test)]
 mod router_tests {
     use super::*;
     use crate::vessel::VesselId;
+
+    #[test]
+    fn measured_ions_and_reverse_products_keep_their_atoms() {
+        for extent in [1e-8, 1e-6, 1e-4, 1e-2] {
+            let mut v = Vessel::new(VesselId(0), "beaker");
+            v.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Liquid);
+            v.deposit(SpeciesId::new("ethyl_acetate"), Moles(0.1), Phase::Liquid);
+            v.free_hydroxide = extent;
+            let before = crate::ledger::ConservedLedger::from_vessel(&v);
+            let reactants = vec![("ethyl_acetate".into(), 1.0), ("OH-".into(), 1.0)];
+            let products = vec![("CH3COO-".into(), 1.0), ("ethanol".into(), 1.0)];
+            for direction in [1.0, -1.0] {
+                apply_extent(&mut v, &reactants, &products, direction * extent).unwrap();
+                let after = crate::ledger::ConservedLedger::from_vessel(&v);
+                for (element, amount) in &before.elements {
+                    assert!(
+                        (after.elements.get(element).copied().unwrap_or(0.0) - amount).abs()
+                            < 1e-12
+                    );
+                }
+                assert!((after.charge - before.charge).abs() < 1e-12);
+            }
+        }
+    }
 
     /// A structural oracle with no chemistry toolkit behind it: the
     /// router's own logic is what these tests weigh. `kerotakis-org`

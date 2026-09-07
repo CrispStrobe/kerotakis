@@ -1454,7 +1454,7 @@
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
       "v1: The liquid is white and so cloudy you cannot see through it.",
-      "v1: not yet modelled — nothing here can be electrolysed: v1 holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
+      "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
       "v1: The liquid is white and so cloudy you cannot see through it."
@@ -5524,25 +5524,36 @@
     ]
   },
   "there-and-back": {
-    "event_count": 8,
+    "event_count": 9,
     "events_sample": [
       "v1: +13.8357 mol water",
       "v1: +0.1000 mol acetic acid",
       "v1: +0.1000 mol ethanol",
-      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.100 mol reacted)",
+      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.003 mol reacted)",
       "v1: The liquid is colourless and clear.",
       "v1: +0.1000 mol sodium hydroxide",
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.100 mol reacted)"
+      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.003 mol reacted)",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "there-and-back.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.1,
+            "moles": 0.09726542,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.00273458,
             "phase": "Aqueous",
             "species": "NaOAc"
+          },
+          {
+            "moles": 0.09726542,
+            "phase": "Solid",
+            "species": "NaOH"
           },
           {
             "moles": 0.1,
@@ -5550,7 +5561,7 @@
             "species": "ethanol"
           },
           {
-            "moles": 13.93569248,
+            "moles": 13.83842706,
             "phase": "Liquid",
             "species": "water"
           }
@@ -5997,7 +6008,7 @@
       "v1: +11.0686 mol water",
       "v1: +7.04 mmol sodium sulfate",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: not yet modelled — nothing here can be electrolysed: v1 holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
+      "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
       "v1: not yet modelled — sodium sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: The liquid is white and so cloudy you cannot see through it."
     ],

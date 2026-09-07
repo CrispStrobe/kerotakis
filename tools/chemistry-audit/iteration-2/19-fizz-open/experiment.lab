@@ -1,0 +1,8 @@
+# How much mass and CO2 leave an open acid/bicarbonate vessel?
+register lv3
+add v1 water 200mL
+add v1 NaHCO3 0.01mol
+measure v1 balance
+add v1 CH3COOH 0.012mol
+measure v1 balance
+inspect

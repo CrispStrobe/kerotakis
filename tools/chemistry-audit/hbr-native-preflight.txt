@@ -1,0 +1,41 @@
+HBr native data preflight, 2026-09-06
+Worktree: /mnt/volume1/kero-experiment-audit
+
+No engine/dependency rebuild. The following command compiled only the tiny
+CAPI harness and linked the already-built static IPhreeqc library:
+
+c++ -std=c++17 -O0 -Ivendor/iphreeqc/src -Ivendor/iphreeqc/src/phreeqcpp/common tools/chemistry-audit/hbr_native_preflight.cpp target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib/libIPhreeqc.a -o /tmp/kero-hbr-native-preflight -pthread
+
+Existing static library SHA-256:
+231a9e06d95c8e25a233f919562f7ad7fbadcf38fcc3f4ca6d0a0cc3f898b17b
+
+Run command (from worktree root):
+/tmp/kero-hbr-native-preflight
+
+Each state uses a fresh native instance, raw WATEQ4F plus the reviewed
+runtime HBr gas extension inserted before END, 25 C and 0.1 kg water.
+Rows 1-3: pure-water initial solution; 4-6: 0.01 mol/kgw chloride acid;
+7-9: 0.01 mol/kgw potassium base. pH is the charge-balance variable.
+Finite HBr(g) inventory enters EQUILIBRIUM_PHASES at log fugacity 0;
+all these dilute finite doses exhaust before reaching 1-atm saturation.
+Br values below are aqueous moles; gas is remaining finite phase moles.
+logK is calculated from native LA(H+)+LA(Br-)-SI(HBr(g)), not copied from
+the data for output. The harness compares it to the runtime input constant.
+
+dose=1e-06 Br=1e-06 gas=0 logK=8.9221026770419
+dose=0.0001 Br=0.0001 gas=0 logK=8.9221026770419
+dose=0.001 Br=0.001 gas=0 logK=8.9221026770419
+dose=1e-06 Br=1e-06 gas=0 logK=8.9221026770419
+dose=0.0001 Br=0.0001 gas=0 logK=8.9221026770419
+dose=0.001 Br=0.001 gas=0 logK=8.9221026770419
+dose=1e-06 Br=1.0000000000011e-06 gas=0 logK=8.9221026770419
+dose=0.0001 Br=0.00010000000000011 gas=0 logK=8.9221026770419
+dose=0.001 Br=0.001 gas=0 logK=8.9221026770419
+PASS: 9 finite gas-dose/native mass-action states
+
+Exit status: 0.
+
+Scope: native phase parsing, activity mass action, finite inventory
+conservation and gas absorption. This is not independent experimental
+validation, a dynamic mass-transfer model, a sealed-headspace proof, or
+a test of the parent adapter's new gas inventory/readback integration.

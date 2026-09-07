@@ -1,0 +1,6 @@
+# Does dissolving KCl cool water?
+register lv3
+add v1 water 200mL
+add v1 KCl 0.04mol
+measure v1 temp
+inspect

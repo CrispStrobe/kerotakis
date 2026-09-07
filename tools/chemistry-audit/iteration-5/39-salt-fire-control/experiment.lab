@@ -1,0 +1,5 @@
+# Does noncombustible salt give a flame test without inventing combustion?
+register lv3
+add v1 NaCl 0.01mol
+ignite v1
+inspect

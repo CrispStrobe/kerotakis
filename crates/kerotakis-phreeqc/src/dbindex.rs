@@ -265,6 +265,14 @@ impl DbIndex {
                             .and_then(|rhs| rhs.split_whitespace().next())
                             .map(|first| first.to_string())
                             .filter(|first| !first.is_empty());
+                        // PHREEQC reinitializes a redefined species, including
+                        // attributes omitted from its replacement. An overlay
+                        // changing the reaction convention must not inherit a
+                        // stale enthalpy from the earlier definition.
+                        if let Some(name) = &pending_species {
+                            idx.species_delta_h_kj.remove(name);
+                            analytic_species.remove(name);
+                        }
                     } else if let Some(name) = &pending_species {
                         let tokens: Vec<&str> = line.split_whitespace().collect();
                         let keyword = tokens
@@ -731,5 +739,16 @@ mod delta_h_tests {
             text.contains("CO2 + H2O = 2 H+ + CO3-2"),
             "minteq.v4's CO2(g) dissolution is no longer written to the carbonate master species"
         );
+    }
+
+    #[test]
+    fn redefining_species_drops_earlier_temperature_attributes() {
+        for earlier in ["delta_h -72 kJ", "-analytical_expression 0 0 -1000 0 0"] {
+            let source = format!("SOLUTION_SPECIES\nCu+2 + NH4+ = CuNH3+2 + H+\nlog_k -5.234\n{earlier}\nSOLUTION_SPECIES\nCu+2 + NH3 = CuNH3+2\nlog_k 4.0\nEND\n");
+            let index = DbIndex::parse(source.as_bytes());
+            assert!(!index.species_delta_h_kj.contains_key("CuNH3+2"));
+        }
+        let index = DbIndex::parse(crate::databases::minteq_v4());
+        assert!(!index.species_delta_h_kj.contains_key("CuNH3+2"));
     }
 }

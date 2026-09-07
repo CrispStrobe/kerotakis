@@ -1,0 +1,1135 @@
+{
+  "reason": "Obsolete test executables from the prior completed workspace run; generated files, recoverable by rebuilding. Sources and experimental evidence retained.",
+  "entries": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_cea_subset-e196c8c50250decd",
+      "size": 6882656,
+      "mtime": 1788723538
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ambient_after_flame-74bc7599e499f96c",
+      "size": 43515744,
+      "mtime": 1788723539
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/autoignition-9134c1bfa5306c00",
+      "size": 34758256,
+      "mtime": 1788723538
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/bench_thermal-4e205d09e4962249",
+      "size": 43838432,
+      "mtime": 1788723537
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/equilibrium-70aca7f770c9b8c3",
+      "size": 34077880,
+      "mtime": 1788723538
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_mechanism_endpoint-66a336b5d0324dd6",
+      "size": 38068464,
+      "mtime": 1788723536
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/heat_source_ceiling-bcbb42daa9ea9d1f",
+      "size": 45712080,
+      "mtime": 1788723539
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/vented_products-487ee3a2203c8157",
+      "size": 45714784,
+      "mtime": 1788723537
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/cabinet-4f6fb311563ace86",
+      "size": 31884112,
+      "mtime": 1788723885
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/chart-e98a45a253a37c3e",
+      "size": 32000872,
+      "mtime": 1788723841
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/curiosity-a3acdac89df9da9c",
+      "size": 8129032,
+      "mtime": 1788723862
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fit-632f3bc4607a20fd",
+      "size": 7890616,
+      "mtime": 1788723880
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/headspace_json-ba2ff38cf4599e9e",
+      "size": 7845872,
+      "mtime": 1788723844
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/json_contract-eef692c5cb48b6cd",
+      "size": 7793808,
+      "mtime": 1788723823
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/lessons_replay-62c9f9ee1728af2e",
+      "size": 35031368,
+      "mtime": 1788723838
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/licence_consistency-921c3ef7c1ee446b",
+      "size": 6990096,
+      "mtime": 1788723816
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/mcp-5edd61521aa6e092",
+      "size": 8037800,
+      "mtime": 1788723879
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/mechanism-71380d0cc1de93c2",
+      "size": 7980824,
+      "mtime": 1788723852
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/metamorphic-bebf4f8e5a5819fd",
+      "size": 7871440,
+      "mtime": 1788723861
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/plan_figures-07c43152145b457e",
+      "size": 35697352,
+      "mtime": 1788723857
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/protocol_conformance-56e27347eb7bdb85",
+      "size": 7921456,
+      "mtime": 1788723879
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance-896383ffd28931fa",
+      "size": 7049304,
+      "mtime": 1788723856
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quest-3817ecc009a52c5a",
+      "size": 7887000,
+      "mtime": 1788723881
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/study-825e2d8b4df40390",
+      "size": 7825864,
+      "mtime": 1788723884
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/study_mc-267d2ee89062b5e9",
+      "size": 7835280,
+      "mtime": 1788723875
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/curiosity_corpus-ebe275086b5ff864",
+      "size": 38194976,
+      "mtime": 1788723468
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/export_snapshot-f2421190c5630353",
+      "size": 36256584,
+      "mtime": 1788723473
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/french_probe-287343af9f3376a0",
+      "size": 35918352,
+      "mtime": 1788723472
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/prose_figures-d8de713dccef59e6",
+      "size": 35989576,
+      "mtime": 1788723477
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quest_engine-7455519d9811c817",
+      "size": 46052624,
+      "mtime": 1788723473
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sidecar_roundtrip-9689cb9044af041f",
+      "size": 36876640,
+      "mtime": 1788723474
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/vertical_slice-47f9257aa968b8c4",
+      "size": 36981872,
+      "mtime": 1788723462
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/acid_metal_cell-8bedb1f28728cce1",
+      "size": 31827920,
+      "mtime": 1788723553
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/adsorption-a181d081eee7f74e",
+      "size": 34185736,
+      "mtime": 1788723649
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/allocation_profile-b3eef081ca4bdfcc",
+      "size": 38993536,
+      "mtime": 1788723651
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ambient_heat-83a9ac837b13ba63",
+      "size": 41272600,
+      "mtime": 1788723599
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/amylase-21c6da45fcb982cb",
+      "size": 43513080,
+      "mtime": 1788723583
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/batteries-9aeec3a558c56c7d",
+      "size": 41574208,
+      "mtime": 1788723607
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/buoyancy-29e4e7fb1ee40e04",
+      "size": 41464560,
+      "mtime": 1788723605
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/centrifuging-42c29d4d1f3d350b",
+      "size": 41778872,
+      "mtime": 1788723653
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/chromatograph-5ffdd7f645bc6fb7",
+      "size": 41486424,
+      "mtime": 1788723576
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/combustion-aaaa32ed487f935a",
+      "size": 41439088,
+      "mtime": 1788723610
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/conservation-5359feaab83a4344",
+      "size": 45654888,
+      "mtime": 1788723657
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/corrosion-4f5f66b1ad518e7d",
+      "size": 41531344,
+      "mtime": 1788723572
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/density-01209d3c61b0291f",
+      "size": 41452544,
+      "mtime": 1788723624
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/dilute-b7399def65b5cadd",
+      "size": 41495344,
+      "mtime": 1788723661
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/distil-29cf54ac851257bf",
+      "size": 41336312,
+      "mtime": 1788723654
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/element_coverage-f4f1e0ff03b7c4b2",
+      "size": 34991984,
+      "mtime": 1788723544
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/energy_transfer-4696c05ff2cdc633",
+      "size": 43595072,
+      "mtime": 1788723552
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/enzyme_activity-f1dca93f7879736c",
+      "size": 41618808,
+      "mtime": 1788723563
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/enzyme_families-a14c03b79d460ef7",
+      "size": 41453600,
+      "mtime": 1788723632
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange-f263ec1bf82f0681",
+      "size": 35095304,
+      "mtime": 1788723588
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fermentation-39fe80e298ece0a6",
+      "size": 41578816,
+      "mtime": 1788723612
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/float_or_sink-93f513a135926953",
+      "size": 41459232,
+      "mtime": 1788723551
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_pack_identity-3fd0a8b1f28cbfe2",
+      "size": 32024360,
+      "mtime": 1788723556
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/foam_observable-a2440f61b5baefdb",
+      "size": 41507048,
+      "mtime": 1788723570
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/food_colour-c61f62c7d1deb41f",
+      "size": 41454704,
+      "mtime": 1788723563
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/frozen_behavior-b4d0d8b94137db7e",
+      "size": 43889616,
+      "mtime": 1788723542
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_mechanism_clock-129191d6ad7aaf77",
+      "size": 38486240,
+      "mtime": 1788723627
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_mechanism_packs-7d83e4700634d672",
+      "size": 36386032,
+      "mtime": 1788723622
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_tests-b107d252bd6b378d",
+      "size": 41615200,
+      "mtime": 1788723620
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/grinding-f31e17aa7ba2987f",
+      "size": 41591800,
+      "mtime": 1788723596
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/hair_bleach-730f2fe9a58f8cc6",
+      "size": 36627400,
+      "mtime": 1788723573
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/hazard_locale-9a749f0e055e7e9b",
+      "size": 34077224,
+      "mtime": 1788723661
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/headspace-ad6fd1503c456718",
+      "size": 42778976,
+      "mtime": 1788723549
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/heat_of_mixing-d43ea520f7ed95d7",
+      "size": 41308192,
+      "mtime": 1788723663
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/honesty-f29a51bd4b94f8bd",
+      "size": 41233272,
+      "mtime": 1788723548
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/household_fizz-e11bd355a2ba1296",
+      "size": 41569400,
+      "mtime": 1788723563
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/i18n_coverage-c10034d095acdbb7",
+      "size": 39579656,
+      "mtime": 1788723633
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/instrument_oracle-768e9a787a453c35",
+      "size": 41189832,
+      "mtime": 1788723625
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/iodine_clock-dffce09184011653",
+      "size": 34123776,
+      "mtime": 1788723584
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ionic_render-94747ad31be2079b",
+      "size": 34328272,
+      "mtime": 1788723550
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/irradiation-9e694d0a1f3f353d",
+      "size": 43590040,
+      "mtime": 1788723553
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/kids_luminol_temperature-3e6e45387570da99",
+      "size": 41691312,
+      "mtime": 1788723553
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/kids_water_filter-c3100d44007e58db",
+      "size": 41693872,
+      "mtime": 1788723592
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/kitchen_biology-8393cc5c8bca24b4",
+      "size": 31749864,
+      "mtime": 1788723540
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/layers-70d0d1973afa7f2e",
+      "size": 41222736,
+      "mtime": 1788723647
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/lemon_paper_mark-8fb87521bae7b1ab",
+      "size": 50933432,
+      "mtime": 1788723644
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/loader_fidelity-e2f6c2375d81ef78",
+      "size": 32414400,
+      "mtime": 1788723659
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/magic_milk-4ec7f974128268be",
+      "size": 41698376,
+      "mtime": 1788723634
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/magnetic_materials-7df086d441eeed0d",
+      "size": 41446920,
+      "mtime": 1788723593
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/material_object_state-aed2f1d26af77ee4",
+      "size": 36762992,
+      "mtime": 1788723562
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/material_recipe-2b504bb8359e19c6",
+      "size": 43391776,
+      "mtime": 1788723547
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/mechanism_cantera_audit-e8ec70c6632d0760",
+      "size": 34071144,
+      "mtime": 1788723659
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/melting_point-05789219999be6ae",
+      "size": 43653952,
+      "mtime": 1788723549
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_colloid-45400e48b1fecdd7",
+      "size": 41696328,
+      "mtime": 1788723543
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_curdling-4903f2c82217f942",
+      "size": 41673264,
+      "mtime": 1788723602
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/mix-04786a74e6b22e35",
+      "size": 41509928,
+      "mtime": 1788723653
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/nonaqueous-8636d8261e2208a7",
+      "size": 43499096,
+      "mtime": 1788723547
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/nuclear-a3f022a33d0ad614",
+      "size": 41595288,
+      "mtime": 1788723624
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/oil_emulsion-988192c4eb59c509",
+      "size": 41681736,
+      "mtime": 1788723618
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/org_react-511e718e37e114b2",
+      "size": 41574144,
+      "mtime": 1788723542
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/organic_equilibrium_grid-e618b452ff6639b0",
+      "size": 40944384,
+      "mtime": 1788723594
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/paint_colour-87a18be02a369bd7",
+      "size": 41448680,
+      "mtime": 1788723663
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/parse_roundtrip-bac269cece6c23a8",
+      "size": 36327232,
+      "mtime": 1788723565
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/particles_operator-6273ccec3a3a7ea1",
+      "size": 41499200,
+      "mtime": 1788723619
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/permanganate-4e55940ea75a549b",
+      "size": 43529064,
+      "mtime": 1788723567
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_heat_capacity-e091655278e74ce2",
+      "size": 43305600,
+      "mtime": 1788723665
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_routes-82597cc582d33f80",
+      "size": 41422400,
+      "mtime": 1788723577
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/plastics-0d9a059d8fb07fda",
+      "size": 41422160,
+      "mtime": 1788723550
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/prepared_kitchen_objects-44a82a49eb610b81",
+      "size": 49300872,
+      "mtime": 1788723560
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/prepared_material_identity-bb6ef81061b1c338",
+      "size": 33644552,
+      "mtime": 1788723558
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pressure_boiling-d5badc87dd483796",
+      "size": 41148952,
+      "mtime": 1788723543
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/proportional_transfer-a68033a0976c31a9",
+      "size": 41468048,
+      "mtime": 1788723541
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/protein_denaturation-53f9c27f953f365c",
+      "size": 41446928,
+      "mtime": 1788723590
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_titrimetry-222e26f311ab1b63",
+      "size": 45578288,
+      "mtime": 1788723546
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_snapshot-6b5d7d2a74f6ce7d",
+      "size": 32192384,
+      "mtime": 1788723665
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/remove_vessel-79d2c2ecf7d85320",
+      "size": 41224176,
+      "mtime": 1788723574
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/render_locale-6b928cf295edae34",
+      "size": 36857096,
+      "mtime": 1788723583
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/resistivity-2de4fa744840d14a",
+      "size": 41621352,
+      "mtime": 1788723657
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_authority-1a925d6519599b8f",
+      "size": 41630088,
+      "mtime": 1788723626
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_bulk_objects-8edf402cec73dbee",
+      "size": 41649096,
+      "mtime": 1788723613
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_numbers-bf6b369de9709732",
+      "size": 41385848,
+      "mtime": 1788723585
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/selectivity-a3dbea05f2b786e9",
+      "size": 41511544,
+      "mtime": 1788723595
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/senses-45c699c54200627f",
+      "size": 41598064,
+      "mtime": 1788723552
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/silver_metathesis-de3e1782520382c4",
+      "size": 43537672,
+      "mtime": 1788723589
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/solid_solution-913fe06f47baf218",
+      "size": 36918424,
+      "mtime": 1788723581
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/spill_breakage-5086feaed74efd5b",
+      "size": 50809032,
+      "mtime": 1788723573
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/spill_persistence-e029dd7e9c256c0e",
+      "size": 50746216,
+      "mtime": 1788723608
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/starch_iodine-046a9bfd7fe05fc6",
+      "size": 44116296,
+      "mtime": 1788723668
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/states-4e18882fa0374c98",
+      "size": 41324480,
+      "mtime": 1788723628
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/stirring-d2c38686e4c2813d",
+      "size": 43635880,
+      "mtime": 1788723616
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/stock-273db02cdff64ffd",
+      "size": 51185440,
+      "mtime": 1788723651
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sucrose_dissolution-0dfda38459cca402",
+      "size": 41567336,
+      "mtime": 1788723611
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sunscreen-7a8e4101750ec5df",
+      "size": 41544552,
+      "mtime": 1788723635
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/surface-3c4fff5899984f58",
+      "size": 35092024,
+      "mtime": 1788723631
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/surface_spread-d6e3efaf49055d92",
+      "size": 41673208,
+      "mtime": 1788723584
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/thermal_decomp-064e7d7960750d87",
+      "size": 43792872,
+      "mtime": 1788723555
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/transport-f30d435735ca69ef",
+      "size": 34758376,
+      "mtime": 1788723562
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/transport_verb-fc0e483ebfaa0411",
+      "size": 41230392,
+      "mtime": 1788723610
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/vegetable_oil_layers-7399a7a7f119a31e",
+      "size": 41691992,
+      "mtime": 1788723614
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/vitamin_c-b0c3983c6759b257",
+      "size": 43516512,
+      "mtime": 1788723623
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/compile_registry-80b96510b5e2a515",
+      "size": 6882640,
+      "mtime": 1788719670
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_parameter_import-8d73f8072ee7b8b5",
+      "size": 6882672,
+      "mtime": 1788719665
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_import-f989f77ba9634858",
+      "size": 6882632,
+      "mtime": 1788719674
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_review-cd4a4f3967fb7bce",
+      "size": 6882648,
+      "mtime": 1788719674
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/adapter_quarantine-d5223bb2fcd7dc81",
+      "size": 13790736,
+      "mtime": 1788719666
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/chebi_adapter-42da9c9378a97164",
+      "size": 15057344,
+      "mtime": 1788719670
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_parameters-fdc8dcbee1082797",
+      "size": 16364728,
+      "mtime": 1788722129
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/import_pipeline-0ded1ea7a08b2d51",
+      "size": 15269240,
+      "mtime": 1788719662
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_properties-6c28d557a3434071",
+      "size": 14585240,
+      "mtime": 1788719697
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance_lint-be26ddc5cc824393",
+      "size": 13332576,
+      "mtime": 1788719681
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_adapter-ea5476de86bd024e",
+      "size": 15894224,
+      "mtime": 1788719687
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_cli-b24c23a4ad6de2c8",
+      "size": 7837840,
+      "mtime": 1788719659
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_parity-5c755b6fcc4d571f",
+      "size": 15658008,
+      "mtime": 1788719694
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_round_trip-0d370ef742ef790e",
+      "size": 16023784,
+      "mtime": 1788719689
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/schema-4766908adad71028",
+      "size": 15723432,
+      "mtime": 1788719680
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/units-4b7f23abf129cd99",
+      "size": 13323352,
+      "mtime": 1788719675
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/usda_adapter-09e49d4582e7e3f2",
+      "size": 15472064,
+      "mtime": 1788719664
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/conservation-87764cfb5f862be4",
+      "size": 45650344,
+      "mtime": 1788723535
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/family_route-437aa7ed90179146",
+      "size": 50516488,
+      "mtime": 1788723535
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/native_identity-116ca31eee09d7ee",
+      "size": 6882632,
+      "mtime": 1788723533
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_identity-10fa6828ce5f3620",
+      "size": 6882632,
+      "mtime": 1788723534
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/stereo_isotope_identity-4be3b53fef95dbaf",
+      "size": 6882672,
+      "mtime": 1788723533
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/template_oracle-724d1dab165fe414",
+      "size": 47279352,
+      "mtime": 1788723530
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_dbindex-d5023d6564cca96c",
+      "size": 6882640,
+      "mtime": 1788723868
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/acid_base-71d5adc7501eafff",
+      "size": 49428192,
+      "mtime": 1788723847
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/agcl-99def2c8cf1db7de",
+      "size": 37738808,
+      "mtime": 1788723885
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/analytical_inventory-03022aac61180a06",
+      "size": 42655776,
+      "mtime": 1788723826
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/basic_dialect_oracle-7cfb872105962656",
+      "size": 37135040,
+      "mtime": 1788723876
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/bridge_contract-f832347e36c924cc",
+      "size": 33992728,
+      "mtime": 1788723872
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/brine_and_phosphate-8d3a9a0057b7d710",
+      "size": 48611560,
+      "mtime": 1788723840
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/bundled_rates_oracle-c9305737a0a19dcd",
+      "size": 37175208,
+      "mtime": 1788723822
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/carbonate-bbcd8b78acd7105b",
+      "size": 48802200,
+      "mtime": 1788723853
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/chromatograph-9d6f1048b940d31a",
+      "size": 48719736,
+      "mtime": 1788723855
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/curated_reachability_at_runtime-61923ed7936198b7",
+      "size": 48963432,
+      "mtime": 1788723883
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/curated_reactants_survive_a_solve-68cfb17910208369",
+      "size": 35688408,
+      "mtime": 1788723849
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/dialect_corpus-b3413763a46f3581",
+      "size": 37588096,
+      "mtime": 1788723841
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/differential_oracle-551847e65f2170d5",
+      "size": 37402992,
+      "mtime": 1788723871
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/displacement-bf767eaa89d4732f",
+      "size": 49701152,
+      "mtime": 1788723866
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/displacement_exhausted-ed9fe06dc54ad45d",
+      "size": 51226640,
+      "mtime": 1788723814
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/drain-0490bdbfe034af73",
+      "size": 48639976,
+      "mtime": 1788723863
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/electrolyse_solution-1d28219c4548d8d4",
+      "size": 49033104,
+      "mtime": 1788723859
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/engine_call_budget-3f0c858e634db2cf",
+      "size": 48605264,
+      "mtime": 1788723854
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/enthalpy_basis-021c0ac7bd29adb6",
+      "size": 39002168,
+      "mtime": 1788723851
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/equilibrator-6f8eb38373e911b3",
+      "size": 51449592,
+      "mtime": 1788723861
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/error_location_parity-b81784f9127b54ad",
+      "size": 37124400,
+      "mtime": 1788723872
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ex21_observable_parity-103dd826616dcb61",
+      "size": 37160184,
+      "mtime": 1788723820
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange-0d184267a4fc41f3",
+      "size": 48731656,
+      "mtime": 1788723866
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange_transport-26d7d8b0b61aacf3",
+      "size": 42335528,
+      "mtime": 1788723818
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/family_aqueous_tail-af5e0372c111393d",
+      "size": 69203264,
+      "mtime": 1788723864
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/faraday-a39703005edec072",
+      "size": 49078440,
+      "mtime": 1788723876
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/food_chemistry-dea8ee535069bf1f",
+      "size": 49074648,
+      "mtime": 1788723860
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/formula_parser_diff-bfce21829302cedc",
+      "size": 34746400,
+      "mtime": 1788723823
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/hard_water-a4ffe28c03086280",
+      "size": 49018928,
+      "mtime": 1788723840
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/headspace-aef8eb1ca3d9b988",
+      "size": 49006592,
+      "mtime": 1788723869
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ignite_over_fizz-e37a79030a23421d",
+      "size": 69174904,
+      "mtime": 1788723849
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/instrument_oracle-31339ba345d818f5",
+      "size": 48608144,
+      "mtime": 1788723874
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/kinetics_trajectory-b35e0b8067fb3f3e",
+      "size": 39398464,
+      "mtime": 1788723878
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/kinetics_trajectory_oracle-33ba75268acb6839",
+      "size": 37375032,
+      "mtime": 1788723867
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/lactate_speciation-925505891733910a",
+      "size": 69300288,
+      "mtime": 1788723859
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/measured_acidity-81d553a6b8c1e4e2",
+      "size": 69067656,
+      "mtime": 1788723879
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/metastable-a4ee7cb026036742",
+      "size": 48943456,
+      "mtime": 1788723830
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_buffer-8e0a57b7617211b5",
+      "size": 69073576,
+      "mtime": 1788723882
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/mix-7b2fc86bc88a5899",
+      "size": 49037592,
+      "mtime": 1788723843
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/my_basic_preview-c79e43bb3f1581e7",
+      "size": 37226752,
+      "mtime": 1788723867
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/native_delta_h-5dae566352b9929b",
+      "size": 37742448,
+      "mtime": 1788723883
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/no_basic-8bdaac818e918a29",
+      "size": 6882600,
+      "mtime": 1788723878
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/official_examples_completion-d91d3d6ab3596456",
+      "size": 37130888,
+      "mtime": 1788723870
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/partial_freezing-a30797203ef76659",
+      "size": 69599264,
+      "mtime": 1788723818
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pourbaix-53b5e972a49ebda8",
+      "size": 37988664,
+      "mtime": 1788723844
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/prewarm-ddd2bc524df82922",
+      "size": 48802832,
+      "mtime": 1788723874
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance-e4a61831717f5472",
+      "size": 48676760,
+      "mtime": 1788723880
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/qualitative-be9fd12bfb11f04b",
+      "size": 49078880,
+      "mtime": 1788723875
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/r1_acceptance-22ff5f1cdc966c2a",
+      "size": 48913568,
+      "mtime": 1788723845
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/reaction_heat-b869a2f362c1f13e",
+      "size": 69069088,
+      "mtime": 1788723828
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/redox-ce00db4bc5b9255d",
+      "size": 48744152,
+      "mtime": 1788723833
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_titrimetry-1d67f28025de3309",
+      "size": 69496744,
+      "mtime": 1788723851
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/resource_limits-16246dd3606829bd",
+      "size": 37063816,
+      "mtime": 1788723884
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/school_salts-e52e0b0630c08e01",
+      "size": 49115256,
+      "mtime": 1788723871
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sealed_mass-577162eb41757d85",
+      "size": 69301496,
+      "mtime": 1788723847
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/separations-066bf725a0001287",
+      "size": 49428616,
+      "mtime": 1788723826
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/solid_solution-58da5c68de3afb94",
+      "size": 42331632,
+      "mtime": 1788723857
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/speciation-7692e0302f68bd79",
+      "size": 48633344,
+      "mtime": 1788723878
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/standalone_basic_corpus-15aa11d3a84d4d60",
+      "size": 37187024,
+      "mtime": 1788723821
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/surface-c3cfe1d92b9ea32c",
+      "size": 48888368,
+      "mtime": 1788723845
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/surface_transport-07bd30d25914a05c",
+      "size": 42496144,
+      "mtime": 1788723864
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/titration_refinement-d2fde5c64626bc70",
+      "size": 48715288,
+      "mtime": 1788723869
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/validity_ceiling-05e5ebd794353347",
+      "size": 49197808,
+      "mtime": 1788723856
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/weak_acid-8c00023f710481a4",
+      "size": 48687712,
+      "mtime": 1788723842
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/legacy_diff-6c24057a65e98899",
+      "size": 41324776,
+      "mtime": 1788723459
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/flash_gamma-b3e0fa3850eacc70",
+      "size": 8429104,
+      "mtime": 1788719653
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/lle_unifac-4c5e1043a4fdb2f0",
+      "size": 8270872,
+      "mtime": 1788719654
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/still-70e0e93e4b050dce",
+      "size": 8304888,
+      "mtime": 1788719655
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/thermo_oracle-b2ae849bf4fbc6b3",
+      "size": 8394456,
+      "mtime": 1788719652
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/vle-666c6e296a1ba089",
+      "size": 8443856,
+      "mtime": 1788719653
+    }
+  ]
+}

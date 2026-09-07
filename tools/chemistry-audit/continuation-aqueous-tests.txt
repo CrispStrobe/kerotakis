@@ -1,0 +1,61 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 45.68s
+     Running tests/analytical_inventory.rs (target/debug/deps/analytical_inventory-be0b46b9985a8a84)
+
+running 2 tests
+test trace_ligand_routing_never_drops_nitrogen ... ok
+test aqueous_basis_conserves_atoms_across_doses_volumes_and_temperatures ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 21.05s
+
+     Running tests/family_aqueous_tail.rs (target/debug/deps/family_aqueous_tail-8a17eef8defb179c)
+
+running 5 tests
+test saponification_is_not_billed_as_a_neutralisation ... ok
+test warm_saponification_survives_the_aqueous_tail ... ok
+test the_router_arrives_where_the_salt_would_have ... ok
+test water_pushes_esterification_back_in_the_full_stack ... ok
+test the_pouring_order_no_longer_decides_whether_the_ester_hydrolyses ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.16s
+
+     Running tests/ligand_reference.rs (target/debug/deps/ligand_reference-e0c6ab13f2941b45)
+
+running 2 tests
+test reported_thiocyanate_complexes_keep_unknown_spectra_explicit ... ok
+test reviewed_ligand_ladders_obey_activity_mass_action_on_both_database_routes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+     Running tests/reaction_heat.rs (target/debug/deps/reaction_heat-fa10f503732fb0aa)
+
+running 4 tests
+test an_instant_cold_pack_gets_cold ... ok
+test the_volcano_gets_cold ... ok
+test a_strong_acid_and_a_strong_base_warm_the_same_either_way_round ... ok
+test the_volcano_cools_the_same_whichever_way_round_you_pour_it ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.37s
+
+     Running tests/sealed_mass.rs (target/debug/deps/sealed_mass-b0abe54849d8a24c)
+
+running 2 tests
+test co2_over_water_keeps_its_mass_when_it_cools ... ok
+test the_sealed_volcano_weighs_what_went_in ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.83s
+
+     Running tests/titration_refinement.rs (target/debug/deps/titration_refinement-0fcb4fa229d27241)
+
+running 1 test
+test endpoint_is_solved_not_the_first_full_increment_past_it ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.98s
+
+     Running tests/unsupported_ionic.rs (target/debug/deps/unsupported_ionic-326f2588cf44dea5)
+
+running 1 test
+test unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.92s
+

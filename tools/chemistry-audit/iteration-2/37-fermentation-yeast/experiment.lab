@@ -1,0 +1,7 @@
+# Does adding yeast produce a conserved, explicitly bounded fermentation result?
+register lv3
+add v1 water 100mL
+add v1 table_sugar 5g
+add v1 dry_yeast 0.5g
+wait 600s
+inspect

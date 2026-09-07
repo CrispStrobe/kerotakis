@@ -1,0 +1,12 @@
+# A coarse trial step brackets the endpoint; a computed partial step reaches it
+register lv3
+add v1 water 200mL
+add v1 HCl 0.0023mol
+titrate v1 NaOH 0.1M 7mL until ph 7
+measure v1 ph
+new
+add v2 water 200mL
+add v2 HCl 0.0023mol
+titrate v2 NaOH 0.1M 1mL until ph 7
+measure v2 ph
+inspect

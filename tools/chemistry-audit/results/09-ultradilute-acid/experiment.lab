@@ -1,0 +1,6 @@
+# Does 1e-9 mol HCl per litre stay near neutrality rather than pH 9?
+register lv3
+add v1 water 1L
+add v1 HCl 0.000000001mol
+measure v1 ph
+inspect

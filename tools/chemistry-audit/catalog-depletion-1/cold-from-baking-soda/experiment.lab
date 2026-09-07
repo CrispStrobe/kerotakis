@@ -1,0 +1,6 @@
+# NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol
+register lv3
+add v1 water 100mL
+add v1 NaHCO3 8.4g
+measure v1 thermometer
+inspect

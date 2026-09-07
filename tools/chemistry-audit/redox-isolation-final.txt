@@ -1,0 +1,52 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 32s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-9ab21d24ebd44a22)
+
+running 30 tests
+test complexation::tests::extension_precedes_end_and_does_not_claim_temperature_derivatives ... ok
+test complexation::tests::physical_aliases_are_exact_and_preserve_reference_coverage ... ok
+test dbindex::delta_h_tests::delta_h_is_normalised_to_kilojoules ... ok
+test dbindex::tests::formula_parser_handles_the_registry ... ok
+test dbindex::delta_h_tests::carbonate_rows_are_the_shape_the_algebra_assumes ... ok
+test dbindex::tests::parses_the_three_databases ... ok
+test dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes ... ok
+test dbindex::delta_h_tests::phase_and_species_enthalpies_come_off_the_shipped_files ... ok
+test derived::tests::a_condensed_gas_is_never_a_database_mineral ... ok
+test derived::tests::citric_acid_is_one_citrate_and_not_two_acetates ... ok
+test derived::tests::bookings_cover_every_derivable_element ... ok
+test derived::tests::malate_is_in_none_of_the_shipped_databases ... ok
+test derived::tests::phase_table_is_derived ... ok
+test derived::tests::sugars_and_malic_acid_are_not_decomposed_into_acetate ... ok
+test derived::tests::lactate_is_defined_in_exactly_one_loaded_database ... ok
+test derived::tests::roles_are_derived_correctly ... ok
+test enthalpy::tests::an_unpriceable_spectator_that_does_not_move_is_harmless ... ok
+test enthalpy::tests::a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there ... ok
+test enthalpy::tests::a_solid_prices_as_its_ions_less_its_dissolution ... ok
+test enthalpy::tests::neutralisation_falls_out_of_the_basis ... ok
+test enthalpy::tests::something_unpriceable_that_moves_declines_by_name ... ok
+test enthalpy::tests::the_basis_is_populated_and_not_silently_zero ... ok
+test enthalpy::tests::the_volcano_is_endothermic_and_the_right_size ... ok
+test native_namespace::tests::a_phase_name_is_not_an_aqueous_species_formula ... ok
+test derived::tests::phase_coverage_reports_how_little_the_datasets_share ... ok
+test native_namespace::tests::totals_species_and_similar_names_keep_distinct_meanings ... ok
+test phase_diagnostics::tests::offered_small_and_invalid_indices_do_not_generate_boundaries ... ok
+test phase_diagnostics::tests::temperature_boundary_is_checked_not_merely_present ... ok
+test phase_diagnostics::tests::gases_and_registered_solids_are_never_reported_as_missing_precipitates ... ok
+test phase_diagnostics::tests::registry_coverage_is_not_candidate_coverage ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.44s
+
+     Running tests/redox_isolation_probe.rs (target/debug/deps/redox_isolation_probe-9c1b11e4e2b502b1)
+
+running 3 tests
+test sulfate_mineral_feed_does_not_reduce_while_ammonia_complexes ... ok
+test isolated_totals_survive_native_batch_and_mix_at_arbitrary_pe ... ok
+test transformed_databases_load_natively ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.11s
+

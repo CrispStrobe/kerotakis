@@ -1,0 +1,7 @@
+# Does initially supplied water alter the equilibrium extent?
+register lv3
+add v1 CH3COOH 0.01mol
+add v1 ethanol 0.01mol
+add v1 water 0.02mol
+react v1 esterification
+inspect

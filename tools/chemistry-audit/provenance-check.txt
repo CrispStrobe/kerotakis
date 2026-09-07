@@ -1,0 +1,46 @@
+=== Provenance lint ===
+  ok  manifest exists
+--- Checksum verification ---
+  ok  vendor/iphreeqc/database/phreeqc.dat checksum matches
+  ok  vendor/iphreeqc/database/wateq4f.dat checksum matches
+  ok  vendor/iphreeqc/database/minteq.v4.dat checksum matches
+  ok  vendor/iphreeqc/database/pitzer.dat checksum matches
+  ok  vendor/my-basic/my_basic.c checksum matches
+  ok  vendor/my-basic/my_basic.h checksum matches
+  ok  vendor/my-basic/LICENSE checksum matches
+  ok  vendor/nasa-cea/thermo.inp checksum matches
+  ok  vendor/nasa-cea/LICENSE.txt checksum matches
+  ok  vendor/nasa-cea/NOTICE.txt checksum matches
+  ok  vendor/inchi/LICENSE checksum matches
+  ok  vendor/inchi/INCHI_BASE/src/ichi_bns.c checksum matches
+  ok  crates/kerotakis-data/tests/fixtures/quarantine/chebi-v1/raw/chebi-rel253.json checksum matches
+  ok  crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1/raw/snapshot.json checksum matches
+  ok  crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1/seed.json checksum matches
+  ok  crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1/raw/snapshot.json checksum matches
+  ok  crates/kerotakis-data/tests/fixtures/quarantine/usda-fdc-v1/manifest.json checksum matches
+--- Licence check ---
+  ok  usgs-iphreeqc-code: LicenseRef-USGS-User-Rights-Notice (runtime)
+  ok  usgs-phreeqc-database: LicenseRef-USGS-User-Rights-Notice (runtime)
+  ok  usgs-wateq4f-database: LicenseRef-USGS-User-Rights-Notice (runtime)
+  ok  usgs-minteq-v4-database: LicenseRef-USGS-User-Rights-Notice (runtime)
+  ok  usgs-pitzer-database: LicenseRef-USGS-User-Rights-Notice (runtime)
+  ok  my-basic-interpreter: MIT (runtime)
+  ok  nasa-cea-thermodynamic-data: Apache-2.0 (runtime)
+  ok  iupac-inchi-library: MIT (runtime)
+  ok  ebi-chebi-identity-slice: CC-BY-4.0 (quarantine)
+  ok  pubchem-pug-rest-brd010: LicenseRef-PubChem-Public-Domain (quarantine)
+  ok  usda-fdc-foundation: CC0-1.0 (quarantine)
+--- Oracle leakage check ---
+  ok  no oracle leakage
+--- Vendored source coverage ---
+  ok  iphreeqc has provenance record
+  ok  my-basic has provenance record
+  ok  nasa-cea has provenance record
+  ok  inchi has provenance record
+--- Quarantine promotion gate ---
+  ok  pinned quarantine fixture passes the promotion gate
+  ok  tainted quarantine fixture is refused
+  ok  pinned PubChem fixture passes its promotion dry run
+  ok  no PubChem candidate reached the runtime registry
+
+All provenance checks passed.

@@ -1,0 +1,57 @@
+    Blocking waiting for file lock on build directory
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4m 16s
+     Running tests/acid_base.rs (target/debug/deps/acid_base-a130e5a6f73b4b7f)
+
+running 22 tests
+test ammonium_chloride_is_still_an_ammonium_salt ... ok
+test a_trace_of_acid_makes_only_a_trace_of_chlorine ... ok
+test an_ammonia_solution_is_still_made_of_ammonia ... ok
+test bleach_and_acid_release_chlorine_in_either_order ... ok
+test bleach_and_ammonia_warns_then_shows_the_chloramine ... ok
+test bleach_and_table_salt_do_nothing ... ok
+test bleach_says_why_it_cannot_be_speciated ... ok
+test decanting_bleach_into_ammonia_warns_first ... ok
+test dissolving_sodium_hydroxide_warms_the_water ... ok
+test bleach_and_vinegar_warn_in_either_order ... ok
+test household_ammonia_computes_its_own_ph ... ok
+test hydrochloric_acid_is_acidic ... ok
+test endothermic_salt_cools_slightly ... ok
+test household_cleaner_recipes_reach_the_same_warning_and_reaction ... ok
+test sodium_hydroxide_is_basic ... ok
+test the_volcano_cools_when_the_acid_goes_in_first ... ok
+test titration_walks_the_curve_to_equivalence ... ok
+test the_titrate_verb_finds_the_equivalence_point ... ok
+test vinegar_alone_raises_no_alarm ... ok
+test the_volcano_cools_whichever_order_you_build_it_in ... ok
+test vinegar_and_baking_soda_fizz_in_water ... ok
+test vinegar_dissolves_the_calcium_carbonate_in_an_eggshell ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.41s
+
+     Running tests/family_aqueous_tail.rs (target/debug/deps/family_aqueous_tail-b17fe0f9965e463f)
+
+running 5 tests
+test saponification_is_not_billed_as_a_neutralisation ... ok
+test warm_saponification_survives_the_aqueous_tail ... ok
+test the_router_arrives_where_the_salt_would_have ... ok
+test the_pouring_order_no_longer_decides_whether_the_ester_hydrolyses ... ok
+test water_pushes_esterification_back_in_the_full_stack ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.92s
+
+     Running tests/reaction_heat.rs (target/debug/deps/reaction_heat-6db595852c1dfacd)
+
+running 4 tests
+test an_instant_cold_pack_gets_cold ... ok
+test the_volcano_gets_cold ... ok
+test a_strong_acid_and_a_strong_base_warm_the_same_either_way_round ... ok
+test the_volcano_cools_the_same_whichever_way_round_you_pour_it ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.58s
+

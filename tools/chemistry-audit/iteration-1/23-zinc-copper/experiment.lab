@@ -1,0 +1,6 @@
+# Does Zn displace copper from CuSO4 with bounded stoichiometry?
+register lv3
+add v1 water 200mL
+add v1 CuSO4 0.003mol
+add v1 Zn 0.004mol
+inspect

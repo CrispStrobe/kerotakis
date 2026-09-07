@@ -1,0 +1,44 @@
+PASS 01: water/nonionic baseline has measurable near-neutral pH
+PASS 49: water/nonionic baseline has measurable near-neutral pH
+PASS 50: water/nonionic baseline has measurable near-neutral pH
+PASS 02: dilute strong electrolyte tenfold pH shift
+PASS 03: dilute strong electrolyte tenfold pH shift
+PASS 04/05: neutralization addition-order invariance
+PASS 06/07: buffer resists acid
+PASS 08: successive phosphate additions raise pH
+PASS 09: ultradilute acid respects water autoionization
+PASS 10: major precipitate yield
+PASS 12: major precipitate yield
+PASS 13: major precipitate yield
+PASS 10/11: precipitation addition-order yield
+PASS 14/15: saturation and redissolution
+PASS 16/17: dissolution heat signs
+PASS 18: equal heat/cool returns approximate initial temperature
+PASS 20/21: gas responds to declared boundary
+PASS 22: excess finite CO2 substantially reduces precipitate
+PASS 23/24: displacement and reverse control
+PASS 25/26: magnesium acid and copper control
+PASS 27: Daniell voltage
+PASS 28: Faraday charge and gas ratio
+PASS 30: dilution preserves permanganate inventory
+PASS 31: filter preserves solid and dissolved silver
+PASS 33: distillation enriches ethanol and conserves it
+PASS 34: passive organic wait explains unavailable kinetics
+PASS 35: explicit organic reaction declares its boundary
+PASS 36/37: fermentation requires yeast
+PASS 37: fermentation conserves mass when all generated CO2 is retained
+PASS 38: hot MgO phase agrees with solver's liquid MgO
+PASS 39: NaCl flame test preserves salt
+PASS 42: endpoint is refined to the requested pH
+PASS 43: added mass appears on balance
+PASS 44: added mass appears on balance
+PASS 45: added mass appears on balance
+PASS 48: sealed fizz weighs its additions
+PASS output: all numeric JSON values finite
+PASS output: every experiment completes
+PASS output: no solver failures
+PASS 41: copper/ammonia includes tetraammine speciation
+PASS 41: native speciation honors declared slow-redox isolation
+PASS 46: copper/ammonia includes tetraammine speciation
+PASS 46: native speciation honors declared slow-redox isolation
+43 passed, 0 unmet; 50 distinct experiments

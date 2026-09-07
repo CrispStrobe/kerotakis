@@ -1,0 +1,51 @@
+  v1: +50.300 g white_vinegar_5_percent (2 known ingredients)
+  v1: pH 2.41
+  v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air
+  v1: headspace settled at 1.013 bar with 0.0204 mol gas
+  v1: pH 2.41
+  ⚠ HAZARD (Caution): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter — Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces. Safe only because this lab is virtual.
+  v1: 25.0 °C → 25.0 °C
+  v1: +5.000 g baking_soda (1 known ingredients)
+  v1: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+  v1: 0.0417 mol carbon dioxide formed and remains in the closed headspace
+  v1: 0.0178 mol baking soda (sodium bicarbonate) dissolved
+  v1: 200 µmol neutralised
+  v1: headspace settled at 2.845 bar with 0.0587 mol gas
+  v1: pH 6.80
+  v1: 25.0 °C → 18.4 °C
+  v1: net ionic: H⁺(aq) + OH⁻(aq) → H₂O(l)
+  v1 balance: 55.89 g
+  v1 (beaker) — 18.44 °C, 55.9 g, 48.7 mL liquid, sealed 500.0 mL headspace at 2.845 bar, pH 6.80, I = 0.9259 m
+          0.0161 mol  nitrogen           Gas
+          0.0043 mol  oxygen             Gas
+          0.0003 mol  acetic acid        Aqueous
+          0.0416 mol  acetate ion        Aqueous
+          0.0043 mol  dissolved carbon dioxide Aqueous
+          0.0169 mol  bicarbonate ion    Aqueous
+          0.0000 mol  carbonate ion      Aqueous
+          0.0595 mol  sodium ion         Aqueous
+          0.0382 mol  carbon dioxide     Gas
+          2.6941 mol  water              Liquid
+          0.0010 mol  hydroxide ion      Aqueous
+  v2: new vessel
+  v2: +50.300 g white_vinegar_5_percent (2 known ingredients)
+  v2: pH 2.41
+  ⚠ HAZARD (Caution): strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter — Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces. Safe only because this lab is virtual.
+  v2: 25.0 °C → 25.0 °C
+  v2: +5.000 g baking_soda (1 known ingredients)
+  v2: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+  v2: 0.0417 mol carbon dioxide ↑ (gas escapes the open vessel)
+  v2: 7.58 mmol carbon dioxide ↑ (gas escapes the open vessel)
+  v2: 0.0178 mol baking soda (sodium bicarbonate) dissolved
+  v2: pH 9.67
+  v2: 25.0 °C → 17.4 °C
+  v2 balance: 53.13 g
+  v2 (flask) — 17.44 °C, 53.1 g, 48.7 mL liquid, open to atmosphere, pH 9.67, I = 0.8882 m
+          0.0000 mol  acetic acid        Aqueous
+          0.0419 mol  acetate ion        Aqueous
+          0.0000 mol  dissolved carbon dioxide Aqueous
+          0.0076 mol  bicarbonate ion    Aqueous
+          0.0026 mol  carbonate ion      Aqueous
+          0.0595 mol  sodium ion         Aqueous
+          2.6970 mol  water              Liquid
+          0.0047 mol  hydroxide ion      Aqueous

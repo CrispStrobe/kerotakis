@@ -1,0 +1,43 @@
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:42:6
+   │
+42 │     "0BSD",
+   │      ━━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:36:6
+   │
+36 │     "Apache-2.0 WITH LLVM-exception",
+   │      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:38:6
+   │
+38 │     "BSD-3-Clause",
+   │      ━━━━━━━━━━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:45:6
+   │
+45 │     "CC0-1.0",
+   │      ━━━━━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:40:6
+   │
+40 │     "ISC",
+   │      ━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:50:6
+   │
+50 │     "OpenSSL",
+   │      ━━━━━━━ unmatched license allowance
+
+warning[license-not-encountered]: license was not encountered
+   ┌─ /mnt/volume1/kero-experiment-audit/deny.toml:48:6
+   │
+48 │     "Unicode-DFS-2016",
+   │      ━━━━━━━━━━━━━━━━ unmatched license allowance
+
+licenses ok

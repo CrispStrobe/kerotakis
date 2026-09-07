@@ -1,0 +1,9 @@
+# Follow-up: does limewater clearing persist after the finite CO2 dose has ended?
+register lv3
+add v1 water 500mL
+add v1 Ca(OH)2 0.005mol
+add v1 CO2 0.005mol
+add v1 CO2 0.025mol
+inspect v1
+wait 1s
+inspect

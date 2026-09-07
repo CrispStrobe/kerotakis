@@ -1,0 +1,23 @@
+   Compiling chematic-mol v0.18.0 (/mnt/volume1/kero-experiment-audit/vendor/chematic-0.18/chematic-mol-0.18.0)
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling chematic v0.18.0 (/mnt/volume1/kero-experiment-audit/vendor/chematic-0.18/chematic-0.18.0)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 59.36s
+     Running tests/family_route.rs (target/debug/deps/family_route-745259f2ef132b72)
+
+running 12 tests
+test a_balanced_salt_solution_is_not_alkaline ... ok
+test cold_saponification_declines_and_dry_ester_is_not_asked ... ok
+test hydroxide_the_aqueous_tail_measured_saponifies_too ... ok
+test hot_acid_and_alcohol_over_sulfuric_acid_esterify_to_k ... ok
+test cold_or_uncatalysed_the_family_declines_in_words ... ok
+test the_router_type_is_the_one_the_stack_boxes ... ok
+test the_shipped_pack_lints_and_names_its_families ... ok
+test methyl_acetate_is_a_registry_task_not_a_silent_drop ... ok
+test pouring_order_does_not_change_the_answer ... ok
+test warm_ester_and_hydroxide_in_water_saponify_and_keep_the_sodium ... ok
+test passive_warnings_require_all_structural_reactants ... ok
+test water_pushes_the_esterification_back ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+

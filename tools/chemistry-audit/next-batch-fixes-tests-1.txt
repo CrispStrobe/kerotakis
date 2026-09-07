@@ -1,0 +1,681 @@
+   Compiling kerotakis-thermo v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-thermo)
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 74m 57s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_core-d7bcdee4050467d7)
+
+running 453 tests
+test apparatus::tests::batch_reactor_conversion_increases_with_time ... ok
+test adsorption::tests::with_no_sorbent_everything_stays_dissolved ... ok
+test apparatus::tests::cstr_conversion_less_than_pfr ... ok
+test apparatus::tests::extraction_conserves_mass ... ok
+test adsorption::tests::the_isotherm_is_monotone_and_capped ... ok
+test adsorption::tests::the_split_is_a_mass_and_closes_the_balance ... ok
+test apparatus::tests::condenser_transfers_matter ... ok
+test apparatus::tests::pfr_conversion_equals_batch_for_first_order ... ok
+test apparatus::tests::recrystallization_nothing_if_undersaturated ... ok
+test apparatus::tests::recrystallization_recovers_excess ... ok
+test apparatus::tests::repeated_extraction_beats_single ... ok
+test apparatus::tests::single_extraction ... ok
+test apparatus::tests::heat_source_raises_temperature ... ok
+test apparatus::tests::heat_source_with_loss_reaches_equilibrium ... ok
+test apparatus::tests::heat_source_zero_duration_no_change ... ok
+test appearance::tests::an_empty_beaker_says_so ... ok
+test appearance::tests::permanganate_goes_from_pink_to_purple_as_it_concentrates ... ok
+test appearance::tests::copper_sulfate_solution_is_blue ... ok
+test appearance::tests::water_is_colourless_and_clear ... ok
+test appearance::tests::permanganate_is_visible_at_a_tiny_concentration ... ok
+test buoyancy::tests::the_lift_fraction_is_the_density_gap_over_the_liquid ... ok
+test butler_volmer::tests::negative_overpotential_gives_cathodic_current ... ok
+test butler_volmer::tests::positive_overpotential_gives_anodic_current ... ok
+test butler_volmer::tests::symmetry_when_alpha_a_equals_alpha_c ... ok
+test butler_volmer::tests::zero_overpotential_gives_zero_current ... ok
+test butler_volmer::tests::tafel_slope_is_about_59mv_for_n1_alpha_half ... ok
+test cabinet::tests::an_empty_query_finds_nothing_rather_than_everything ... ok
+test appearance::tests::a_plated_metal_does_not_cloud_the_liquid ... ok
+test appearance::tests::a_precipitate_makes_it_cloudy ... ok
+test cabinet::tests::materials_are_searched_beside_species ... ok
+test cabinet::tests::a_substring_finds_what_an_exact_query_would_miss ... ok
+test cache_key::tests::cache_keys_are_deterministic ... ok
+test cache_key::tests::different_inputs_produce_different_keys ... ok
+test catalog::tests::an_award_outranks_a_loan_and_both_beat_a_lock ... ok
+test catalog::tests::an_unknown_verb_is_last_rather_than_free ... ok
+test catalog::tests::every_parsed_verb_is_either_tiered_or_deliberately_not_cabinet ... ok
+test cabinet::tests::an_exact_key_comes_first ... ok
+test catalog::tests::hazard_sets_the_reagent_ladder_and_silence_is_not_a_clearance ... ok
+test catalog::tests::story_locks_what_progress_has_not_reached_and_says_what_would ... ok
+test catalog::tests::sandbox_derives_everything_as_full ... ok
+test centrifuge::tests::buoyant_particles_cream_inward ... ok
+test centrifuge::tests::particle_diameter_has_the_stokes_square_law ... ok
+test centrifuge::tests::rcf_comes_from_rpm_and_radius ... ok
+test catalog::tests::the_response_carries_no_prose ... ok
+test chart::tests::a_pe_curve_becomes_its_own_chart ... ok
+test chart::tests::a_titrated_event_becomes_the_titration_chart ... ok
+test chemiluminescence::tests::light_fades_with_elapsed_time ... ok
+test chemiluminescence::tests::warmer_is_brighter_and_shorter_lived ... ok
+test clock::tests::a_beakers_conductance_is_arithmetic_on_its_geometry ... ok
+test cabinet::tests::an_exact_hit_drops_the_coincidences ... ok
+test clock::tests::a_negative_interval_is_no_time_at_all ... ok
+test chart::tests::contract_round_trips ... ok
+test clock::tests::a_thermostatted_vessel_does_not_drift ... ok
+test clock::tests::a_room_temperature_beaker_says_nothing_in_thirty_seconds ... ok
+test clock::tests::an_empty_beaker_left_at_flame_temperature_cools_on_the_glass_alone ... ok
+test combustion::tests::a_diluted_jar_burns_nothing_even_with_oxygen_in_it ... ok
+test combustion::tests::a_sealed_jar_stops_with_oxygen_to_spare ... ok
+test combustion::tests::every_curated_fuel_balances ... ok
+test combustion::tests::every_curated_fuel_is_a_condensed_registry_species ... ok
+test combustion::tests::the_diesel_surrogate_self_ignites_below_the_petrol_surrogate ... ok
+test compartment::tests::compartment_default_is_room_conditions ... ok
+test compartment::tests::electrode_state_round_trips ... ok
+test compartment::tests::environment_default_is_standard_air ... ok
+test compartment::tests::interface_serializes_round_trip ... ok
+test compartment::tests::volume_mode_variants_serialize ... ok
+test conductivity::tests::concentrated_solutions_leave_the_validity_window ... ok
+test clock::tests::the_standard_clocks_keep_their_order ... ok
+test conductivity::tests::kitchen_brine_matches_the_measured_conductivity ... ok
+test conductivity::tests::mobility_ordering_is_visible ... ok
+test conductivity::tests::neutral_complexes_carry_no_current ... ok
+test conductivity::tests::no_speciation_falls_back_to_labelled_mean_mobility ... ok
+test conductivity::tests::past_the_fitted_range_the_estimate_admits_it ... ok
+test conductivity::tests::kcl_calibration_standard_within_model_error ... ok
+test conductivity::tests::phreeqc_charge_suffixes_parse ... ok
+test conductivity::tests::untabulated_ions_are_confessed_not_ignored ... ok
+test constants::tests::gas_constant_is_na_times_kb ... ok
+test conductivity::tests::the_concentration_correction_is_monotone_over_the_bench_range ... ok
+test corrosion::tests::an_ungated_reaction_is_never_blocked ... ok
+test constants::tests::faraday_is_na_times_e ... ok
+test corrosion::tests::every_barrier_names_a_series_metal ... ok
+test corrosion::tests::every_gated_reaction_exists_and_eats_the_metal_it_names ... ok
+test delta::tests::commit_conserved_accepts_balanced_reaction ... ok
+test coverage::tests::coverage_manifest_reports_solvers ... ok
+test delta::tests::commit_conserved_rejects_negativity_without_applying ... ok
+test delta::tests::commit_rejects_invalid_delta ... ok
+test delta::tests::commit_conserved_rejects_unbalanced_and_rolls_back ... ok
+test delta::tests::deposit_delta_validates_and_applies ... ok
+test delta::tests::empty_delta_is_valid ... ok
+test delta::tests::reaction_delta_with_conservation ... ok
+test delta::tests::thermal_delta_changes_temperature ... ok
+test delta::tests::rollback_preserves_temperature ... ok
+test delta::tests::withdrawal_beyond_limits_rejected ... ok
+test delta::tests::withdrawal_within_limits_succeeds ... ok
+test displacement::tests::every_couple_names_a_registry_species_or_the_acid ... ok
+test displacement::tests::equations_balance_electrons ... ok
+test displacement::tests::a_metal_is_a_metal_and_charcoal_is_not ... ok
+test displacement::tests::the_series_is_ordered_most_noble_first ... ok
+test electrochemistry::tests::butler_volmer_anodic_positive ... ok
+test electrochemistry::tests::conductive_deposit_leaves_full_area ... ok
+test electrochemistry::tests::butler_volmer_cathodic_negative ... ok
+test electrochemistry::tests::ir_drop_scales_linearly ... ok
+test electrochemistry::tests::limiting_current_positive ... ok
+test electrochemistry::tests::butler_volmer_zero_at_equilibrium ... ok
+test electrochemistry::tests::galvanostatic_round_trips ... ok
+test electrochemistry::tests::tafel_agrees_with_bv_at_high_eta ... ok
+test exact_stoich::tests::gcd_of_simple_vector ... ok
+test electrochemistry::tests::passivating_surface_reduces_active_area ... ok
+test exact_stoich::tests::rationalize_integer ... ok
+test exact_stoich::tests::rationalize_simple_fractions ... ok
+test family::router_tests::a_neutral_salt_does_not_open_the_hydroxide_gate ... ok
+test family::router_tests::a_hydroxide_portion_and_the_charge_do_not_double_count ... ok
+test family::router_tests::a_product_the_registry_cannot_name_is_a_typed_refusal ... ok
+test family::router_tests::a_species_without_a_structure_is_never_asked ... ok
+test family::router_tests::a_pack_loads_and_a_bad_record_refuses_the_pack ... ok
+test family::router_tests::charge_without_measured_hydroxide_opens_nothing ... ok
+test family::router_tests::cold_it_declines_and_names_the_temperature_gate ... ok
+test family::router_tests::an_unnameable_product_behind_a_closed_gate_is_a_quiet_decline ... ok
+test family::router_tests::hydroxide_the_tail_measured_is_a_substrate ... ok
+test family::router_tests::hot_and_catalysed_it_runs_to_k_and_conserves_mass ... ok
+test family::router_tests::added_water_pushes_the_equilibrium_back ... ok
+test family::router_tests::measured_ions_and_reverse_products_keep_their_atoms ... ok
+test family::router_tests::measured_free_protons_open_the_catalyst_gate_by_concentration ... ok
+test family::router_tests::past_its_equilibrium_the_record_runs_backward ... ok
+test family::router_tests::pouring_order_does_not_change_the_answer ... ok
+test family::router_tests::to_completion_consumes_the_limiting_reagent ... ok
+test family::router_tests::reactant_slots_counts_top_level_separators_only ... ok
+test family::router_tests::the_higher_priority_record_answers_first ... ok
+test family::tests::conflict_order_is_total_and_deterministic ... ok
+test family::tests::records_round_trip_through_serde ... ok
+test family::tests::the_lint_refuses_a_boundaryless_rule ... ok
+test family::tests::the_lint_refuses_an_instance_without_substrates ... ok
+test family::tests::windows_admit_and_refuse ... ok
+test i18n::tests::a_regional_tag_finds_its_language ... ok
+test i18n::tests::a_repeated_hole_is_filled_every_time ... ok
+test i18n::tests::a_translation_may_reorder_the_holes ... ok
+test i18n::tests::an_unknown_hole_stays_visible ... ok
+test i18n::tests::an_unknown_tag_is_english ... ok
+test i18n::tests::available_lists_english_first ... ok
+test family::router_tests::without_its_catalyst_it_declines_by_name ... ok
+test i18n::tests::fill_substitutes_named_holes ... ok
+test i18n::tests::lookup_declines_rather_than_inventing ... ok
+test i18n::tests::a_missing_key_renders_the_english_at_the_call_site ... ok
+test indicator::ladder_tests::a_two_form_ladder_agrees_with_henderson_hasselbalch ... ok
+test indicator::ladder_tests::the_ladder_fractions_sum_to_one_across_the_whole_range ... ok
+test indicator::ladder_tests::every_form_on_a_ladder_dominates_somewhere ... ok
+test instrument::tests::chromatography_resolution_increases_with_plates ... ok
+test instrument::tests::balance_reads_zero_for_empty_vessel ... ok
+test instrument::tests::chromatography_retention_time_scales_with_k ... ok
+test instrument::tests::spectrophotometer_reports_zero_for_empty_vessel ... ok
+test instrument::tests::ph_meter_requires_solution ... ok
+test i18n::tests::every_shipped_catalogue_parses ... ok
+test instrument::tests::thermometer_reads_room_temperature ... ok
+test intern::tests::intern_round_trips ... ok
+test intern::tests::interned_key_is_copy ... ok
+test intern::tests::different_strings_get_different_keys ... ok
+test ionic::tests::charges_are_typeset_the_way_they_are_read ... ok
+test ionic::tests::neutralisation_is_water_forming ... ok
+test ionic::tests::other_events_earn_no_equation ... ok
+test ionic::tests::a_trace_precipitate_is_not_announced ... ok
+test ionic::tests::silver_chloride_drops_its_spectators ... ok
+test ionic::tests::without_speciation_there_is_nothing_to_say ... ok
+test kinetics::fit_override_tests::pre_exponential_override_is_scoped_and_nestable ... ok
+test ionic::tests::magnesium_hydroxide_balances_its_hydroxide ... ok
+test kinetics::heterogeneous_tests::heterogeneous_rate_round_trips ... ok
+test kinetics::heterogeneous_tests::surface_area_models_serialize ... ok
+test kinetics::mechanism::tests::default_kmol_per_cubic_metre_matches_moles_per_litre ... ok
+test kinetics::mechanism::tests::modified_arrhenius_temperature_exponent_is_executed ... ok
+test kinetics::mechanism::tests::lindemann_and_troe_match_their_closed_form_rates ... ok
+test kinetics::mechanism::tests::nasa7_schema_errors_name_the_species ... ok
+test kinetics::mechanism::tests::parsed_gas_network_advances_in_a_finite_headspace ... ok
+test kinetics::mechanism::tests::parses_validates_and_lowers_elementary_mechanism ... ok
+test kinetics::fit_override_tests::pre_exponential_override_restores_after_unwind ... ok
+test kinetics::mechanism::tests::plog_rejects_missing_or_degenerate_pressure_grids ... ok
+test kinetics::mechanism::tests::nasa7_reversible_rate_obeys_detailed_balance ... ok
+test kinetics::mechanism::tests::pressure_dependent_schema_errors_are_explicit ... ok
+test kinetics::mechanism::tests::rejects_unbalanced_unknown_and_uncharacterised_reversible_reactions ... ok
+test kinetics::packs::tests::every_shipped_species_has_a_formation_enthalpy ... ok
+test kinetics::mechanism::tests::three_body_efficiencies_change_the_effective_collider_concentration ... ok
+test kinetics::packs::tests::one_pack_speaks_for_a_vessel_and_the_larger_cover_wins ... ok
+test kinetics::packs::tests::methane_combustion_releases_its_textbook_heat ... ok
+test kinetics::mechanism::tests::plog_sums_duplicate_pressures_interpolates_logs_and_executes_implicitly ... ok
+test kinetics::packs::tests::the_shipped_packs_compile_and_speak_registry_keys ... ok
+test kinetics::tests::a_catalyst_lowers_the_barrier_and_its_activity_scales_the_rate ... ok
+test kinetics::tests::a_product_can_activate_the_next_reaction_during_one_wait ... ok
+test kinetics::tests::a_reverse_expression_drives_back_toward_balance ... ok
+test kinetics::tests::a_cross_threshold_requires_enough_acid_not_just_a_longer_wait ... ok
+test kinetics::tests::an_overlarge_coupled_step_is_scaled_before_any_product_is_deposited ... ok
+test kinetics::tests::arrhenius_is_the_arrhenius_equation ... ok
+test kinetics::tests::buffered_acid_is_not_mistaken_for_represented_free_acid ... ok
+test kinetics::tests::built_in_network_passes_structural_conservation_lint ... ok
+test kinetics::tests::catalase_rate_tracks_enzyme_loading_at_fixed_peroxide ... ok
+test kinetics::tests::catalase_warms_then_loses_activity_in_very_hot_water ... ok
+test kinetics::tests::a_warmer_beaker_clouds_sooner ... ok
+test kinetics::tests::concentration_sets_the_rate_through_the_order ... ok
+test kinetics::tests::competing_paths_share_a_reactant_without_overdrawing_it ... ok
+test kinetics::tests::dry_yeast_activity_ramps_with_liquid_contact_and_warmth ... ok
+test kinetics::tests::coupled_integration_conserves_mass ... ok
+test kinetics::tests::exact_proton_depletion_clears_stale_acidity_without_inventing_neutral_ph ... ok
+test kinetics::tests::ideal_gas_equilibrium_converts_pressure_standard_states_to_moles_per_litre ... ok
+test kinetics::tests::integration_never_produces_a_negative_amount ... ok
+test kinetics::tests::iodide_rate_is_first_order_in_catalyst_concentration ... ok
+test kinetics::tests::lint_reports_elements_charge_sites_and_declared_electrons ... ok
+test kinetics::tests::manganese_dioxide_rate_uses_area_and_bounded_mixing ... ok
+test kinetics::tests::every_rate_law_conserves_its_atoms ... ok
+test kinetics::tests::proton_depletion_matches_integrated_second_order_law_and_time_partition ... ok
+test kinetics::tests::stiff_depletion_is_detected_after_rejected_steps ... ok
+test kinetics::tests::the_catalyst_is_not_consumed ... ok
+test kinetics::tests::the_declared_equation_balances_too ... ok
+test kinetics::tests::the_integrator_matches_the_analytic_solution ... ok
+test kinetics::tests::the_integrator_matches_the_analytic_solution_when_catalysed ... ok
+test kinetics::tests::the_ten_degree_rule_falls_out_rather_than_being_applied ... ok
+test ledger::tests::adding_matter_shows_violation ... ok
+test ledger::tests::identical_vessels_have_no_violations ... ok
+test ledger::tests::kinetics_conserves_elements ... ok
+test ledger::tests::ledger_from_vessel_has_elements ... ok
+test material::tests::builtins_resolve_localized_names_and_expand ... ok
+test molecule::tests::molecule_graph_round_trips ... ok
+test molecule::tests::nacl_net_charge ... ok
+test molecule::tests::water_formula ... ok
+test nuclide::tests::activity_scales_with_amount ... ok
+test nuclide::tests::c14_notation ... ok
+test orchestrator::tests::diff_of_identical_vessels_is_empty ... ok
+test orchestrator::tests::diff_vessels_detects_species_change ... ok
+test orchestrator::tests::diff_vessels_detects_temperature_change ... ok
+test orchestrator::tests::honesty_produces_native_delta ... ok
+test orchestrator::tests::mixing_produces_native_delta ... ok
+test orchestrator::tests::orchestrator_preserves_mass_through_mixing ... ok
+test orchestrator::tests::orchestrator_runs_mixing_on_water ... ok
+test orchestrator::tests::orchestrator_uses_native_delta_path ... ok
+test orchestrator::tests::solver_order_does_not_change_accepted_state ... ok
+test orchestrator::tests::solver_order_with_curated_reactions ... ok
+test packs::tests::environmental_pack_has_scenarios ... ok
+test packs::tests::materials_pack_has_scenarios ... ok
+test packs::tests::polymer_moments_mn_mw_pdi ... ok
+test packs::tests::polymer_moments_pdi_unity_for_monodisperse ... ok
+test packs::tests::polymer_pack_has_scenarios ... ok
+test parallel::tests::parallel_lessons_produce_independent_results ... ok
+test particles::charge_label_tests::a_trailing_digit_alone_is_not_a_charge ... ok
+test particles::charge_label_tests::database_spellings_are_classified_by_their_written_sign ... ok
+test particles::tests::a_species_too_rare_to_draw_is_named_not_dropped ... ok
+test particles::tests::an_empty_vessel_draws_nothing_and_does_not_panic ... ok
+test particles::tests::ions_are_drawn_in_computed_proportion ... ok
+test particles::tests::solids_appear_beside_the_dissolved_species ... ok
+test particles::tests::the_scale_is_stated ... ok
+test particles::tests::without_speciation_the_picture_says_so ... ok
+test phase_route::tests::a_substance_that_melts_does_not_also_sublime ... ok
+test phase_route::tests::every_pair_conserves_mass_exactly ... ok
+test phase_route::tests::hydrate_formulas_split_into_salt_and_water ... ok
+test photochem::tests::inactive_lamp_gives_zero_flux ... ok
+test photochem::tests::photolysis_rate_scales_with_concentration ... ok
+test photochem::tests::uv_lamp_photon_energy ... ok
+test pigment::tests::missing_optics_never_falls_back_to_rgb ... ok
+test pigment::tests::mixing_is_order_independent ... ok
+test pigment::tests::subtractive_blue_and_yellow_leave_green ... ok
+test pigment::tests::white_and_black_bound_the_model ... ok
+test polymer::tests::pdi_of_monodisperse_is_one ... ok
+test properties::tests::capillary_rise_falls_as_the_water_warms ... ok
+test properties::tests::capillary_rise_in_a_half_millimetre_tube ... ok
+test properties::tests::capillary_rise_is_inverse_in_the_radius ... ok
+test properties::tests::capillary_rise_is_negative_when_the_liquid_is_pushed_down ... ok
+test properties::tests::capillary_rise_refuses_beyond_the_density_correlation ... ok
+test properties::tests::capillary_rise_refuses_nonsense_geometry ... ok
+test properties::tests::capillary_rise_vanishes_at_ninety_degrees ... ok
+test properties::tests::ethanol_water_density_decreases_with_ethanol ... ok
+test properties::tests::ethanol_water_density_refuses_outside_range ... ok
+test properties::tests::ethanol_water_fifty_percent ... ok
+test properties::tests::ethanol_water_pure_ethanol ... ok
+test properties::tests::ethanol_water_pure_water ... ok
+test properties::tests::evaluate_dispatches_ethanol_water_density ... ok
+test properties::tests::evaluate_dispatches_henry ... ok
+test properties::tests::evaluate_dispatches_sucrose_water_density ... ok
+test properties::tests::evaluate_dispatches_the_new_interfacial_properties ... ok
+test properties::tests::evaluate_dispatches_water_density ... ok
+test properties::tests::evaluate_rejects_unknown ... ok
+test properties::tests::henry_co2_at_25c ... ok
+test properties::tests::henry_decreases_with_temperature_for_co2 ... ok
+test properties::tests::henry_lookup_by_name ... ok
+test properties::tests::henry_lookup_case_insensitive ... ok
+test properties::tests::henry_nh3_at_25c ... ok
+test properties::tests::henry_o2_at_25c ... ok
+test properties::tests::sucrose_water_density_increases_with_sugar ... ok
+test properties::tests::sucrose_water_matches_an_independent_table ... ok
+test properties::tests::sucrose_water_pure_water_is_the_water_correlation ... ok
+test properties::tests::sucrose_water_refuses_beyond_the_published_table ... ok
+test properties::tests::sucrose_water_reports_the_specific_gravity_it_solved ... ok
+test properties::tests::water_density_at_0c ... ok
+test properties::tests::water_density_at_25c ... ok
+test properties::tests::water_density_at_40c ... ok
+test properties::tests::water_density_at_4c_is_maximum ... ok
+test properties::tests::water_density_refuses_outside_range ... ok
+test properties::tests::water_permittivity_at_0c ... ok
+test properties::tests::water_permittivity_at_25c ... ok
+test properties::tests::water_permittivity_refuses_outside_range ... ok
+test properties::tests::water_surface_tension_at_0c ... ok
+test properties::tests::water_surface_tension_at_100c ... ok
+test properties::tests::water_surface_tension_at_20c ... ok
+test properties::tests::water_surface_tension_at_25c ... ok
+test properties::tests::water_surface_tension_falls_with_temperature ... ok
+test properties::tests::water_surface_tension_refuses_outside_range ... ok
+test properties::tests::water_viscosity_at_0c ... ok
+test properties::tests::water_viscosity_at_20c ... ok
+test properties::tests::water_viscosity_at_25c ... ok
+test properties::tests::water_viscosity_refuses_outside_range ... ok
+test relations::tests::arrhenius_matches_hand_calculation ... ok
+test relations::tests::arrhenius_ten_degree_rule ... ok
+test relations::tests::debye_huckel_divalent ... ok
+test relations::tests::debye_huckel_monovalent_dilute ... ok
+test relations::tests::evaluate_dispatches_nernst ... ok
+test relations::tests::evaluate_rejects_unknown ... ok
+test relations::tests::every_relation_has_a_worked_example ... ok
+test relations::tests::every_relation_says_what_it_is_for_in_both_languages ... ok
+test relations::tests::eyring_at_room_temperature ... ok
+test relations::tests::henderson_hasselbalch_at_pka ... ok
+test relations::tests::henderson_hasselbalch_equal_concentrations ... ok
+test relations::tests::henderson_hasselbalch_ph_from_ratio ... ok
+test relations::tests::ionic_strength_cacl2_0_1m ... ok
+test relations::tests::ionic_strength_nacl_0_1m ... ok
+test relations::tests::nernst_copper_at_dilute ... ok
+test relations::tests::nernst_slope_at_25c ... ok
+test relations::tests::nernst_standard_hydrogen_electrode ... ok
+test relations::tests::sources_are_the_provenance_they_came_from ... ok
+test relations::tests::van_t_hoff_endothermic_increases_k ... ok
+test relations::tests::van_t_hoff_exothermic_decreases_k ... ok
+test relations::tests::van_t_hoff_same_temperature_returns_k1 ... ok
+test render::consumed_tests::a_consumed_event_without_the_remainder_still_deserialises ... ok
+test render::consumed_tests::lv1_says_only_what_the_event_knows ... ok
+test render::dedupe_tests::identical_lv1_lines_collapse_and_lv2_lines_do_not ... ok
+test render::quantity_tests::a_real_trace_amount_never_renders_as_zero ... ok
+test render::quantity_tests::small_amounts_read_in_the_unit_that_fits_them ... ok
+test render::quantity_tests::the_unit_travels_with_the_number_in_every_locale ... ok
+test render::vessel_tests::a_frozen_vessel_is_prose_not_the_state_contract ... ok
+test scene::tests::a_new_bench_is_one_empty_beaker ... ok
+test scene::tests::a_precipitate_is_textured_a_plated_metal_is_metallic ... ok
+test scene::tests::additive_observation_fields_default_when_old_scene_is_read ... ok
+test scene::tests::an_ordinary_solution_is_one_layer_matching_the_liquid ... ok
+test scene::tests::chemiluminescence_scene_tracks_temperature_and_elapsed_time ... ok
+test scene::tests::coating_projection_fails_closed_for_bare_or_mixed_iron ... ok
+test scene::tests::copper_solution_paints_blue_with_the_word_attached ... ok
+test scene::tests::enzyme_conversion_is_persistent_readout_not_a_fake_texture ... ok
+test scene::tests::foam_carries_the_computed_liquid_colour ... ok
+test scene::tests::gel_scene_is_derived_from_current_inventory_with_accessible_words ... ok
+test kinetics::tests::proton_consumption_is_bounded_conserved_and_not_an_infinite_ph_reservoir ... ok
+test scene::tests::material_provenance_projects_protective_coatings ... ok
+test scene::tests::older_scene_json_without_coatings_still_deserializes ... ok
+test scene::tests::persistent_foam_is_part_of_the_scene_and_accessible_words ... ok
+test scene::tests::polymer_without_crosslinker_has_no_gel_scene ... ok
+test scene::tests::swelling_is_persistent_scene_state_with_accessible_words ... ok
+test scene::tests::the_gas_boundary_keeps_its_tag ... ok
+test scene::tests::the_scene_shape_is_pinned ... ok
+test scene::tests::the_tube_has_a_shorter_light_path ... ok
+test script::grammar_inventory::every_verb_example_parses ... ok
+test script::grammar_inventory::the_inventory_is_well_formed ... ok
+test script::grammar_inventory::typed_errors_distinguish_identity_reaction_and_grammar_gaps ... ok
+test script::grammar_inventory::vessel_kinds_parse_and_unknowns_refuse ... ok
+test scene::tests::hexane_on_water_renders_two_layers_water_at_the_bottom ... ok
+test cabinet::tests::the_reported_unit_is_the_one_the_ledger_uses ... ok
+test script::localised_grammar::english_wins_and_a_word_claimed_twice_is_dropped ... ok
+test script::localised_grammar::english_still_works_in_a_german_session ... ok
+test script::localised_grammar::a_canonical_line_is_never_rewritten ... ok
+test script::localised_grammar::german_names_resolve_to_the_canonical_key ... ok
+test script::localised_grammar::german_reaches_past_the_verb ... ok
+test script::localised_grammar::the_english_tables_are_what_the_parser_takes ... ok
+test script::localised_grammar::the_unknown_verb_refusal_speaks_german ... ok
+test solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality ... ok
+test solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption ... ok
+test solve::route_trace_tests::gas_kept_in_a_headspace_is_not_booked_as_gas_that_left ... ok
+test solve::route_trace_tests::stack_records_typed_routes_without_changing_events ... ok
+test solve::route_trace_tests::the_stack_books_each_solvers_gas_on_the_step_before_the_next_runs ... ok
+test spectrum::tests::absorbances_add_so_mixtures_compose ... ok
+test spectrum::tests::absorbing_everything_is_black ... ok
+test spectrum::tests::absorbing_green_gives_magenta ... ok
+test spectrum::tests::concentration_changes_hue_not_just_depth ... ok
+test spectrum::tests::nothing_absorbing_is_white ... ok
+test spectrum::tests::path_length_matters ... ok
+test starch_iodine::tests::all_three_components_and_water_are_required ... ok
+test starch_iodine::tests::complex_is_bounded_by_each_inventory ... ok
+test states::tests::boiling_rises_much_less_than_freezing_falls ... ok
+test states::tests::brine_boundary_is_finite_and_matches_its_declared_temperature ... ok
+test states::tests::pure_water_freezes_at_zero ... ok
+test states::tests::salt_water_freezes_below_zero ... ok
+test states::tests::seawater_is_in_the_right_place ... ok
+test states::tests::the_constants_come_out_of_the_enthalpies ... ok
+test statistics::tests::linear_regression_perfect_line ... ok
+test statistics::tests::mean_std_of_known_data ... ok
+test statistics::tests::seeded_rng_is_deterministic ... ok
+test stock::tests::a_species_is_stocked_in_moles_and_an_unknown_key_has_no_unit ... ok
+test stock::tests::an_untracked_key_is_an_unlimited_supply ... ok
+test stock::tests::drawing_decrements_and_running_out_is_refused_with_the_numbers ... ok
+test stock::tests::the_last_exact_dispense_is_not_lost_to_float_slack ... ok
+test stoich::exercise_tests::a_family_says_so_without_saying_which_member ... ok
+test stoich::exercise_tests::an_already_balanced_equation_asks_the_same_question ... ok
+test stoich::exercise_tests::prose_is_refused_by_every_entry_point ... ok
+test stoich::exercise_tests::stateless_marking_agrees_with_marking_in_hand ... ok
+test stoich::exercise_tests::the_exercise_carries_no_route_to_the_answer ... ok
+test stoich::exercise_tests::the_reveal_writes_the_answer_out ... ok
+test stoich::exercise_tests::trivial_marks_the_questions_with_nothing_to_work_out ... ok
+test stoich::tests::a_balanced_equation_and_its_skeleton_set_the_same_exercise ... ok
+test stoich::tests::a_degenerate_skeleton_is_refused_rather_than_overflowing ... ok
+test stoich::tests::a_digit_before_a_trailing_sign_is_a_subscript ... ok
+test stoich::tests::a_report_refuses_what_is_not_an_equation ... ok
+test stoich::tests::an_impossible_skeleton_is_refused ... ok
+test stoich::tests::an_underdetermined_skeleton_reports_its_basis ... ok
+test stoich::tests::balanced_equations_are_recognised ... ok
+test stoich::tests::balancing_finds_the_coefficients ... ok
+test stoich::tests::balancing_respects_charge ... ok
+test stoich::tests::charge_is_checked_not_just_atoms ... ok
+test stoich::tests::charge_is_the_last_row_of_the_reported_matrix ... ok
+test stoich::tests::hydrates ... ok
+test stoich::tests::parenthesised_groups ... ok
+test stoich::tests::permanganate_half_reaction_balances ... ok
+test stoich::tests::plain_formulas ... ok
+test stoich::tests::prose_is_not_a_formula ... ok
+test stoich::tests::registry_style_charges_too ... ok
+test stoich::tests::state_labels_are_not_elements ... ok
+test stoich::tests::the_reported_matrix_annihilates_the_reported_answer ... ok
+test stoich::tests::unbalanced_equations_are_caught ... ok
+test stoich::tests::underdetermined_carbon_oxidation_returns_family ... ok
+test stoich::tests::underdetermined_permanganate_peroxide ... ok
+test stoich::tests::unicode_subscripts_and_charges ... ok
+test swelling::tests::uptake_is_water_limited_and_conserves_the_ledger ... ok
+test tests::decant_conserves_mass_and_enthalpy ... ok
+test tests::heating_raises_temperature_by_q_over_cp ... ok
+test tests::measure_never_mutates ... ok
+test tests::solid_in_liquid_is_honestly_not_modeled ... ok
+test tests::thermal_mixing_of_hot_and_cold_water ... ok
+test units::tests::amperes_round_trip ... ok
+test units::tests::grams_round_trip ... ok
+test units::tests::joules_round_trip ... ok
+test units::tests::kelvin_celsius_conversion ... ok
+test units::tests::kelvin_round_trip ... ok
+test units::tests::liters_round_trip ... ok
+test units::tests::molar_flow_round_trip ... ok
+test units::tests::molarity_from_moles_and_litres ... ok
+test units::tests::molarity_round_trip ... ok
+test units::tests::moles_round_trip ... ok
+test units::tests::pascal_round_trip ... ok
+test units::tests::photon_flux_round_trip ... ok
+test units::tests::seconds_round_trip ... ok
+test units::tests::square_meters_round_trip ... ok
+test units::tests::unit_arithmetic ... ok
+test units::tests::volts_round_trip ... ok
+test units::tests::volume_flow_round_trip ... ok
+test units::tests::watts_from_energy_and_time ... ok
+test units::tests::watts_round_trip ... ok
+test uv::tests::the_bands_are_the_labels_bands ... ok
+test volatility::tests::a_cooled_jar_takes_its_ammonia_back ... ok
+test volatility::tests::ammonia_in_a_sealed_jar_reaches_the_headspace ... ok
+test volatility::tests::an_open_vessel_is_left_alone ... ok
+test volatility::tests::only_species_the_registry_does_not_carry_as_gas_qualify ... ok
+test volatility::tests::water_holds_ammonia_back ... ok
+test script::localised_grammar::every_hint_is_a_line_the_parser_takes ... ok
+test script::localised_grammar::every_german_verb_alias_means_its_canonical_verb ... ok
+test kinetics::packs::tests::renaming_changes_nothing_but_the_names ... ok
+
+test result: ok. 453 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 13.17s
+
+     Running tests/distil.rs (target/debug/deps/distil-9e60735ae2351909)
+
+running 6 tests
+test additional_solvents_are_computed_not_silently_left_behind ... ok
+test dilute_ethanol_uses_the_cleared_high_temperature_range ... ok
+test unrepresented_competing_liquid_is_an_atomic_distillation_boundary ... FAILED
+test distillation_conserves_matter ... ok
+test distilling_brine_makes_distilled_water ... ok
+test the_azeotrope_refuses_to_enrich ... ok
+
+failures:
+
+---- unrepresented_competing_liquid_is_an_atomic_distillation_boundary stdout ----
+
+thread 'unrepresented_competing_liquid_is_an_atomic_distillation_boundary' (2996454) panicked at crates/kerotakis-core/tests/distil.rs:111:46:
+operator applies: UnknownSpecies(SpeciesId("acetone"))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    unrepresented_competing_liquid_is_an_atomic_distillation_boundary
+
+test result: FAILED. 5 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.83s
+
+error: test failed, to rerun pass `-p kerotakis-core --test distil`
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-f13b485083bdf9c1)
+
+running 33 tests
+test complexation::tests::physical_aliases_are_exact_and_preserve_reference_coverage ... ok
+test dbindex::delta_h_tests::delta_h_is_normalised_to_kilojoules ... ok
+test complexation::tests::extension_precedes_end_and_does_not_claim_temperature_derivatives ... ok
+test dbindex::delta_h_tests::carbonate_rows_are_the_shape_the_algebra_assumes ... ok
+test dbindex::tests::formula_parser_handles_the_registry ... ok
+test dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes ... ok
+test dbindex::delta_h_tests::phase_and_species_enthalpies_come_off_the_shipped_files ... ok
+test dbindex::tests::parses_the_three_databases ... ok
+test aqueous_gases::tests::gas_slice_converts_dissociative_not_molecular_henry_constant ... ok
+test derived::tests::citric_acid_is_one_citrate_and_not_two_acetates ... ok
+test derived::tests::lactate_is_defined_in_exactly_one_loaded_database ... ok
+test derived::tests::bookings_cover_every_derivable_element ... ok
+test derived::tests::malate_is_in_none_of_the_shipped_databases ... ok
+test derived::tests::a_condensed_gas_is_never_a_database_mineral ... ok
+test derived::tests::phase_table_is_derived ... ok
+test derived::tests::roles_are_derived_correctly ... ok
+test derived::tests::sugars_and_malic_acid_are_not_decomposed_into_acetate ... ok
+test enthalpy::tests::a_solids_enthalpy_is_its_ions_less_the_cost_of_getting_there ... ok
+test enthalpy::tests::a_solid_prices_as_its_ions_less_its_dissolution ... ok
+test enthalpy::tests::an_unpriceable_spectator_that_does_not_move_is_harmless ... ok
+test enthalpy::tests::aqueous_thiocyanate_relabelling_preserves_known_heat_not_unknown_properties ... ok
+test enthalpy::tests::neutralisation_falls_out_of_the_basis ... ok
+test enthalpy::tests::something_unpriceable_that_moves_declines_by_name ... ok
+test enthalpy::tests::the_basis_is_populated_and_not_silently_zero ... ok
+test enthalpy::tests::the_volcano_is_endothermic_and_the_right_size ... ok
+test native_namespace::tests::a_partial_state_selection_does_not_invent_an_element_total ... ok
+test native_namespace::tests::totals_species_and_similar_names_keep_distinct_meanings ... ok
+test native_namespace::tests::a_phase_name_is_not_an_aqueous_species_formula ... ok
+test derived::tests::phase_coverage_reports_how_little_the_datasets_share ... FAILED
+test phase_diagnostics::tests::offered_small_and_invalid_indices_do_not_generate_boundaries ... ok
+test phase_diagnostics::tests::temperature_boundary_is_checked_not_merely_present ... ok
+test phase_diagnostics::tests::gases_and_registered_solids_are_never_reported_as_missing_precipitates ... ok
+test phase_diagnostics::tests::registry_coverage_is_not_candidate_coverage ... ok
+
+failures:
+
+---- derived::tests::phase_coverage_reports_how_little_the_datasets_share stdout ----
+
+thread 'derived::tests::phase_coverage_reports_how_little_the_datasets_share' (2996742) panicked at crates/kerotakis-phreeqc/src/derived.rs:1243:9:
+assertion `left == right` failed: phases, gases included
+  left: 708
+ right: 707
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    derived::tests::phase_coverage_reports_how_little_the_datasets_share
+
+test result: FAILED. 32 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.92s
+
+error: test failed, to rerun pass `-p kerotakis-phreeqc --lib`
+     Running tests/ligand_reference.rs (target/debug/deps/ligand_reference-9b07aae72c49c4bc)
+
+running 3 tests
+test reported_thiocyanate_complexes_keep_unknown_spectra_explicit ... ok
+test reviewed_ligand_ladders_obey_activity_mass_action_on_both_database_routes ... ok
+test concentrated_ligand_feed_discloses_activity_model_fallback ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.50s
+
+     Running tests/mix_redox_boundary.rs (target/debug/deps/mix_redox_boundary-9f17552763caa629)
+
+running 2 tests
+test uncoupled_native_mix_remains_available ... ok
+test coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons ... FAILED
+
+failures:
+
+---- coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons stdout ----
+
+thread 'coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons' (2997357) panicked at crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs:103:9:
+assertion failed: manganese_ii > 0.98 * 0.0002 * fb
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.89s
+
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test mix_redox_boundary`
+     Running tests/reactive_gas.rs (target/debug/deps/reactive_gas-6ffec9168693bda3)
+
+running 2 tests
+test sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium ... FAILED
+test reactive_gas_acid_conserves_finite_doses_and_neutralises_generically ... ok
+
+failures:
+
+---- sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium stdout ----
+
+thread 'sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium' (2997910) panicked at crates/kerotakis-phreeqc/tests/reactive_gas.rs:73:13:
+Br
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.78s
+
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test reactive_gas`
+     Running tests/unsupported_ionic.rs (target/debug/deps/unsupported_ionic-c37c41997dd27639)
+
+running 2 tests
+test analytical_proton_and_hydroxide_are_not_unsupported_ionic_feeds ... ok
+test unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.71s
+
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_thermo-7dfe916da9196cea)
+
+running 65 tests
+test eos::tests::fugacity_approaches_unity_at_low_pressure ... ok
+test eos::tests::compressibility_decreases_with_pressure ... ok
+test eos::tests::ideal_gas_limit ... ok
+test eos::tests::molar_volume_positive ... ok
+test excess::tests::the_allowlist_verification_holds ... ok
+test excess::tests::endpoints_are_zero ... ok
+test excess::tests::the_curve_is_smooth_and_vanishes_smoothly ... ok
+test fluid::tests::ideal_fluid_delegates_to_vle ... ok
+test fluid::tests::ideal_solution_returns_unity_gammas ... ok
+test fluid::tests::unsupported_operation_is_a_named_refusal_through_trait_object ... ok
+test lle::tests::ideal_mixture_no_split ... ok
+test lle::tests::highly_nonideal_mixture_splits ... ok
+test lle::tests::weakly_nonideal_no_split ... ok
+test pack::tests::a_permanent_gas_refuses_saturation_pressure_by_name ... ok
+test pack::tests::a_fluid_with_no_cleared_correlation_refuses_a_boiling_point ... ok
+test pack::tests::a_pressure_outside_the_cleared_window_is_refused_in_pressure ... ok
+test pack::tests::a_row_is_found_by_its_key_and_never_by_its_name ... ok
+test pack::tests::boiling_rises_with_pressure_for_every_cleared_fluid ... ok
+test pack::tests::every_cleared_row_names_the_model_that_speaks_for_it ... ok
+test pack::tests::no_row_claims_a_residual_equation_of_state_or_a_density ... ok
+test pack::tests::one_atmosphere_reproduces_the_substance_normal_boiling_point ... ok
+test pack::tests::outside_the_fitted_interval_is_a_refusal_and_not_an_extrapolation ... ok
+test pack::tests::the_ethanol_row_keeps_one_provenance_per_segment ... ok
+test pack::tests::rows_are_unique_and_ordered_by_inchikey ... ok
+test pack::tests::the_inversion_is_the_correlation_read_backwards ... ok
+test pack::tests::the_lint_refuses_a_row_with_no_source ... ok
+test pack::tests::the_shipped_pack_passes_its_own_lint ... ok
+test unifac::tests::acetic_acid_ethanol_gamma_inf ... ok
+test unifac::tests::acetic_acid_water_gamma_inf ... ok
+test phase_diagram::tests::txy_envelope_generates_curves ... ok
+test unifac::tests::compatibility_entry_point_also_fails_closed - should panic ... ok
+test unifac::tests::dilute_ethanol_higher_gamma ... ok
+test unifac::tests::approved_table_has_provenance ... ok
+test unifac::tests::ethanol_water_activity_coefficients ... ok
+test unifac::tests::methanol_propanone_gamma_inf ... ok
+test unifac::tests::missing_forward_interaction_is_a_named_refusal ... ok
+test unifac::tests::propanone_water_gamma_inf ... ok
+test unifac::tests::pure_component_gamma_is_unity ... ok
+test unifac::tests::methanol_water_gamma_inf ... ok
+test unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction ... ok
+test unifac::tests::self_interaction_is_defined_without_a_table_row ... ok
+test vle::tests::antoine_range_endpoints_are_inclusive_and_nonfinite_is_refused ... ok
+test vle::tests::bubble_below_dew_for_binary ... ok
+test unifac::tests::table_covers_six_main_groups ... ok
+test vle::tests::ethanol_piecewise_range_is_continuous_inclusive_and_bounded ... ok
+test vle::tests::flash_compositions_sum_to_one ... ok
+test vle::tests::ethanol_high_fit_agrees_with_independent_published_observations ... ok
+test vle::tests::hp_flash_finds_temperature ... ok
+test vle::tests::malformed_piecewise_correlations_refuse_without_zero_fraction_panics ... ok
+test vle::tests::hp_flash_latent_heat_plateau ... ok
+test vle::tests::pure_isopropanol_boils_at_the_reviewed_temperature ... ok
+test vle::tests::pure_methanol_bubble_point ... ok
+test vle::tests::pure_propanone_bubble_point ... ok
+test vle::tests::pure_water_bubble_point ... ok
+test vle::tests::pure_water_dew_point ... ok
+test vle::tests::pure_ethanoic_acid_bubble_point ... ok
+test vle::tests::solvers_refuse_non_overlapping_antoine_ranges ... ok
+test vle::tests::tp_flash_refuses_temperature_outside_any_component_fit ... ok
+test vle::tests::solvers_refuse_nonfinite_inputs_and_activity_coefficients ... ok
+test vle::tests::tp_flash_superheated_vapour ... ok
+test vle::tests::tp_flash_two_phase ... ok
+test vle::tests::tp_flash_subcooled_liquid ... ok
+test batch::tests::constant_relative_volatility_obeys_independent_rayleigh_identity ... ok
+test vle::tests::water_rich_atmospheric_distillation_uses_high_ethanol_segment ... ok
+test batch::tests::pure_limit_scale_permutation_energy_and_conservation ... ok
+
+test result: ok. 65 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 33.35s
+
+error: 4 targets failed:
+    `-p kerotakis-core --test distil`
+    `-p kerotakis-phreeqc --lib`
+    `-p kerotakis-phreeqc --test mix_redox_boundary`
+    `-p kerotakis-phreeqc --test reactive_gas`

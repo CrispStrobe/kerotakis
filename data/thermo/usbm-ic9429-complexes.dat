@@ -1,0 +1,27 @@
+# Source: usbm-ic9429-complexes-25c
+# Flynn, C. M., Jr. and Haslem, S. M. (1995), USBM IC 9429,
+# Cyanide Chemistry - Precious Metals Processing and Waste Treatment.
+# https://stacks.cdc.gov/view/cdc/206360 (explicitly Public Domain).
+# Appendix D, Table D-7 printed p.149 and D-15 printed p.165.
+# Each log_k is a cumulative formation constant at 25 C, ionic strength zero.
+# No reaction enthalpy, temperature derivative, kinetic rate or spectrum supplied.
+# The compilation cites Smith and Martell, Critical Stability Constants,
+# volumes 4 (1976), 5 (1982), and 6 (1989); these rows have no additional citation.
+# Original transcription to PHREEQC reaction syntax; no copying of book tables.
+SOLUTION_MASTER_SPECIES
+    Thiocyanate Thiocyanate- 0 58.078 58.078
+SOLUTION_SPECIES
+    Thiocyanate- = Thiocyanate-
+        log_k 0
+    Cu+2 + NH3 = CuNH3+2
+        log_k 4.0
+    Cu+2 + 2 NH3 = Cu(NH3)2+2
+        log_k 7.5
+    Cu+2 + 3 NH3 = Cu(NH3)3+2
+        log_k 10.3
+    Cu+2 + 4 NH3 = Cu(NH3)4+2
+        log_k 11.8
+    Fe+3 + Thiocyanate- = Fe(Thiocyanate)+2
+        log_k 3.0
+    Fe+3 + 2 Thiocyanate- = Fe(Thiocyanate)2+
+        log_k 3.6

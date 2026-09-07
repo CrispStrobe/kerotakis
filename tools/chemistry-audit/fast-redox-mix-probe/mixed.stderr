@@ -1,0 +1,159 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.049850000
+    pe        4  O2(g)  -0.68
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.049850000
+    pe        4  O2(g)  -0.68
+    Cl 1.003009027081e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+PHASES
+    Fe(OH)2
+        Fe(OH)2 + 2 H+ = Fe+2 + 2 H2O
+        log_k 13.564
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.049850000
+    pe        4  O2(g)  -0.68
+    Cl 1.003009027081e-1
+    S(6) 1.003009027081e-1
+    Fe(2) 1.003009027081e-1
+EQUILIBRIUM_PHASES 1
+    Fe(OH)2 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl S(6) Fe(2) Fe(3) S(-2)
+    -equilibrium_phases Fe(OH)2
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.049850000
+    pe        4  O2(g)  -0.68
+    Cl 1.003009027081e-1
+    Mn(7) 4.012036108325e-3
+    K 4.012036108325e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Mn(7) K Mn(2) Mn(3) Mn(6)
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      24.9922
+    pH        7  charge
+    water     0.099700000
+    pe        4  O2(g)  -0.68
+    Cl 1.003009027081e-1
+    Fe(2) 5.015045135405e-2
+    S(6) 5.015045135405e-2
+    K 2.006018054162e-3
+    Mn(7) 2.006018054162e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Fe(2) S(6) K Mn(7) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.2497
+    pH        7  charge
+    water     0.099700000
+    pe        4  O2(g)  -0.68
+    Cl 1.003009027081e-1
+    Fe(2) 5.015045135405e-2
+    S(6) 5.015045135405e-2
+    K 2.006018054162e-3
+    Mn(7) 2.006018054162e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Fe(2) S(6) K Mn(7) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+END
+---

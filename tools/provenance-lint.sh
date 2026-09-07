@@ -41,7 +41,7 @@ done < "$MANIFEST"
 
 # 3. No runtime source uses a non-allowlisted licence
 echo "--- Licence check ---"
-ALLOWED_RUNTIME="MIT|Apache-2.0|AGPL-3.0-or-later|BSD-2-Clause|BSD-3-Clause|CC0-1.0|ISC|Zlib|LicenseRef-USGS"
+ALLOWED_RUNTIME="MIT|Apache-2.0|AGPL-3.0-or-later|BSD-2-Clause|BSD-3-Clause|CC0-1.0|ISC|Zlib|LicenseRef-USGS|LicenseRef-US-Bureau-of-Mines-Public-Domain"
 while IFS= read -r line; do
     licence=$(echo "$line" | sed -n 's/^licence = "\(.*\)"/\1/p')
     [ -z "$licence" ] && continue
@@ -71,7 +71,19 @@ for block in blocks:
     licence = fields.get('licence', '')
     sid = fields.get('id', '?')
     if 'runtime' in lane.lower():
-        if not re.match(allowed, licence):
+        # Per-field attribution-only exception, not blanket approval of
+        # CC-BY imports or of the compilation's referenced publications.
+        reviewed_hbr = (sid == 'sander-2023-hbr-reference'
+                        and lane == 'runtime-data'
+                        and fields.get('kind') == 'data'
+                        and fields.get('decision') == 'approved'
+                        and licence == 'CC-BY-4.0')
+        reviewed_chris = (sid == 'uscg-chris-still-reference'
+                          and lane == 'runtime-data'
+                          and fields.get('kind') == 'data'
+                          and fields.get('decision') == 'approved'
+                          and licence == 'LicenseRef-US-Coast-Guard-Public-Domain')
+        if not re.match(allowed, licence) and not reviewed_hbr and not reviewed_chris:
             print(f"FAIL: runtime source {sid} has non-allowlisted licence: {licence}", file=sys.stderr)
             sys.exit(1)
         else:

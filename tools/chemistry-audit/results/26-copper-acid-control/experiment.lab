@@ -1,0 +1,6 @@
+# Is copper in nonoxidizing HCl refused for a chemical reason?
+register lv3
+add v1 water 200mL
+add v1 HCl 0.006mol
+add v1 Cu 0.002mol
+inspect

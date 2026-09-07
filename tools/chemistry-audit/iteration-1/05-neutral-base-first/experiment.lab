@@ -1,0 +1,8 @@
+# Does reversing neutralization order preserve the final composition and heat?
+register lv3
+add v1 water 100mL
+add v1 NaOH 0.005mol
+add v1 HCl 0.005mol
+measure v1 ph
+measure v1 temp
+inspect

@@ -1,0 +1,7 @@
+# Does a low-fraction distillation enrich ethanol in the receiver?
+register lv3
+add v1 water 4mol
+add v1 ethanol 0.4mol
+new
+distil v1 v2 0.15
+inspect

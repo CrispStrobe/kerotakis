@@ -3478,6 +3478,159 @@
       }
     },
     {
+      "id": "endpoint-is-not-a-full-drop",
+      "equation": null,
+      "summary": "A coarse trial step brackets the endpoint; a computed partial step reaches it",
+      "summary_de": "Ein grober Probeschritt grenzt den Endpunkt ein; ein berechneter Teilschritt erreicht ihn",
+      "concepts": [
+        "equivalence-point",
+        "concentration"
+      ],
+      "requires": [
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker",
+        "burette",
+        "ph-meter"
+      ],
+      "calculations": [
+        "titration-stoichiometry",
+        "concentration"
+      ],
+      "models": [
+        "particle-model"
+      ],
+      "setup": {
+        "script": "add v1 water 200mL\nadd v1 HCl 0.0023mol\ntitrate v1 NaOH 0.1M 7mL until ph 7\nmeasure v1 ph\nnew\nadd v2 water 200mL\nadd v2 HCl 0.0023mol\ntitrate v2 NaOH 0.1M 1mL until ph 7\nmeasure v2 ph\n"
+      },
+      "expect": {
+        "events": [],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "The acid requires about 23 mL of titrant. The automatic calculation tries 7 mL steps. Must it stop at 28 mL?",
+          "question_de": "Die Säure benötigt ungefähr 23 mL Maßlösung. Die automatische Berechnung probiert 7-mL-Schritte. Muss sie bei 28 mL enden?",
+          "options": [
+            "Yes: the trial step determines the endpoint accuracy",
+            "No: it can refine the bracket and commit only part of the last step"
+          ],
+          "options_de": [
+            "Ja: Der Probeschritt bestimmt die Endpunktgenauigkeit",
+            "Nein: Sie kann das Intervall verfeinern und nur einen Teil des letzten Schritts übernehmen"
+          ],
+          "answer": 1,
+          "misconception": "A trial interval is not a physical minimum droplet. The numerical solver can recompute a smaller addition from the same pre-dose state.",
+          "misconception_de": "Ein Suchintervall ist keine kleinste physikalische Tropfengröße. Der numerische Löser kann vom selben Zustand vor der Zugabe eine kleinere Zugabe neu berechnen.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "A search setting is mistaken for an indivisible physical dose.",
+              "reveals_de": "Eine Sucheinstellung wird mit einer unteilbaren physikalischen Dosis verwechselt.",
+              "next": "Compare the final pH values and delivered volumes for the 7 mL and 1 mL trial increments; then distinguish this numerical precision from instrument uncertainty.",
+              "next_de": "Vergleiche End-pH und zugegebenes Volumen für 7-mL- und 1-mL-Probeschritte. Unterscheide anschließend numerische Präzision von Messgeräteunsicherheit.",
+              "source": null
+            }
+          ]
+        },
+        "ph": {
+          "min": 6.9999,
+          "max": 7.0001
+        },
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "Both virtual burettes can stop at the same target even though one searches in larger steps. They do not have to pour the entire last trial dose.",
+        "lv1_de": "Beide virtuellen Büretten erreichen dasselbe Ziel, obwohl eine in größeren Schritten sucht. Sie müssen die letzte Probemenge nicht vollständig zugeben.",
+        "lv2": "For the 1:1 reaction, V = n/c = 0.0023 mol / (0.1 mol/L) = 0.023 L. Compare this equivalent-volume estimate with the computed volume; pH 7 is the chosen target, not a universal definition of equivalence at every temperature.",
+        "lv2_de": "Für die 1:1-Reaktion gilt V = n/c = 0,0023 mol / (0,1 mol/L) = 0,023 L. Vergleiche dieses stöchiometrische Volumen mit dem berechneten Wert. pH 7 ist das gewählte Ziel, keine allgemeine Definition des Äquivalenzpunkts bei jeder Temperatur.",
+        "lv3": "Each trial includes the carrier water, temperature change, and aqueous solve. Once the target is bracketed, the algorithm restores the pre-dose state for each refinement and commits one accepted partial dose. This validates numerical endpoint resolution, not real burette calibration or indicator error.",
+        "lv3_de": "Jeder Versuch berücksichtigt Trägerwasser, Temperaturänderung und wässriges Gleichgewicht. Sobald das Ziel eingegrenzt ist, wird jede Verfeinerung vom Zustand vor der Zugabe berechnet und nur eine angenommene Teildosis übernommen. Das prüft die numerische Endpunktauflösung, nicht die Kalibrierung einer echten Bürette oder Indikatorfehler."
+      },
+      "provenance": {
+        "source": "Original audit preservation; stoichiometric derivation V=n/c. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-06; no imported numeric data.",
+        "licence": null,
+        "computed_by": "Kerotakis generic titration refinement and PHREEQC aqueous equilibrium"
+      }
+    },
+    {
+      "id": "equilibrium-can-run-backward",
+      "equation": null,
+      "summary": "An equilibrium request can form or consume ester, depending on the initial mixture",
+      "summary_de": "Eine Gleichgewichtsberechnung kann je nach Ausgangsmischung Ester bilden oder verbrauchen",
+      "concepts": [
+        "chemical-equilibrium"
+      ],
+      "requires": [
+        "amount-of-substance"
+      ],
+      "spine": [],
+      "curriculum": [],
+      "apparatus": [
+        "beaker"
+      ],
+      "calculations": [
+        "percentage-yield"
+      ],
+      "models": [
+        "equilibrium"
+      ],
+      "setup": {
+        "script": "add v1 CH3COOH 0.01mol\nadd v1 ethanol 0.01mol\nreact v1 esterification\nnew\nadd v2 water 0.01mol\nadd v2 ethyl_acetate 0.01mol\nreact v2 esterification\n"
+      },
+      "expect": {
+        "events": [
+          "org_reacted"
+        ],
+        "absent": [
+          "solver_failed"
+        ],
+        "predict": {
+          "question": "The second vessel starts with ester and water, not acid and alcohol. What can the same equilibrium calculation do?",
+          "question_de": "Das zweite Gefäß enthält anfangs Ester und Wasser statt Säure und Alkohol. Was kann dieselbe Gleichgewichtsberechnung tun?",
+          "options": [
+            "Nothing: a reaction command only consumes the reactants in its name",
+            "Consume some ester and water to form acid and alcohol"
+          ],
+          "options_de": [
+            "Nichts: Ein Reaktionsbefehl verbraucht nur die im Namen genannten Ausgangsstoffe",
+            "Etwas Ester und Wasser verbrauchen und Säure und Alkohol bilden"
+          ],
+          "answer": 1,
+          "misconception": "A reaction name is not a one-way instruction. The sign of the calculated extent depends on the initial reaction quotient.",
+          "misconception_de": "Ein Reaktionsname ist keine Einbahnstraße. Das Vorzeichen des berechneten Reaktionsfortschritts hängt vom anfänglichen Reaktionsquotienten ab.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "The written forward direction is confused with a restriction on equilibrium.",
+              "reveals_de": "Die aufgeschriebene Hinrichtung wird mit einer Beschränkung des Gleichgewichts verwechselt.",
+              "next": "Inspect both final inventories. Change the initial ester or water amount and ask which direction would move the quotient toward equilibrium.",
+              "next_de": "Untersuche beide Endinventare. Ändere die anfängliche Ester- oder Wassermenge und frage, welche Richtung den Quotienten zum Gleichgewicht bewegt.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "One virtual mixture makes ester; the other consumes some of it. Equilibrium can be approached from either side.",
+        "lv1_de": "Eine virtuelle Mischung bildet Ester, die andere verbraucht etwas davon. Das Gleichgewicht lässt sich von beiden Seiten erreichen.",
+        "lv2": "For acid + alcohol ⇌ ester + water, the existing ideal-mixture model uses Q = n(ester)n(water)/(n(acid)n(alcohol)) and K = 4. The bounded extent may be positive or negative; neither starting mixture must react to completion.",
+        "lv2_de": "Für Säure + Alkohol ⇌ Ester + Wasser verwendet das vorhandene ideale Mischungsmodell Q = n(Ester)n(Wasser)/(n(Säure)n(Alkohol)) und K = 4. Der begrenzte Reaktionsfortschritt kann positiv oder negativ sein; keine Ausgangsmischung muss vollständig reagieren.",
+        "lv3": "The explicit request solves mass action against the current inventory. It is not a kinetic simulation and does not predict how quickly an uncatalyzed mixture changes. Aqueous dissociation and phase partitioning can alter the subsequently displayed molecular amounts, so the isolated mass-action regression checks the equilibrium operator before those other owners run.",
+        "lv3_de": "Der ausdrückliche Auftrag löst das Massenwirkungsgesetz für das aktuelle Inventar. Er ist keine kinetische Simulation und sagt nicht voraus, wie schnell sich eine unkatalysierte Mischung verändert. Wässrige Dissoziation und Phasenverteilung können die anschließend angezeigten molekularen Mengen verändern; deshalb prüft der isolierte Massenwirkungstest den Gleichgewichtsoperator vor diesen anderen Berechnungen."
+      },
+      "provenance": {
+        "source": "Original audit preservation using the already shipped ideal-mixture esterification model; no new empirical constants. Editorial judgement (Kerotakis), model-assisted draft, 2026-09-06.",
+        "licence": null,
+        "computed_by": "Kerotakis generic reversible mass-action extent solver, followed by the ordinary solver stack"
+      }
+    },
+    {
       "id": "salt-dissolves",
       "equation": "NaCl(s) → Na⁺(aq) + Cl⁻(aq)",
       "summary": null,
@@ -5630,7 +5783,7 @@
     },
     {
       "id": "cold-from-baking-soda",
-      "equation": "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol   ·   25.0 °C → 21.0 °C",
+      "equation": "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol",
       "summary": null,
       "concepts": [
         "endothermic-dissolution"
@@ -5694,17 +5847,17 @@
         ],
         "absent": [],
         "predict": {
-          "question": "0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C. ΔH_dis = +16.7 kJ/mol. What does the thermometer say?",
-          "question_de": "0,1000 mol Natron kommen in 100 mL Wasser bei 25,0 °C. ΔH_Lös = +16,7 kJ/mol. Was zeigt das Thermometer?",
+          "question": "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel. Dissolution absorbs heat, and carbonate speciation releases CO₂. What should the thermal calculation include?",
+          "question_de": "Etwa 0,1000 mol Natron kommen in einem offenen Gefäß in 100 mL Wasser bei 25,0 °C. Das Lösen nimmt Wärme auf, und bei der Carbonat-Speziation entweicht CO₂. Was muss die Wärmeberechnung berücksichtigen?",
           "options": [
             "Warmer — dissolving always releases energy",
-            "21.0 °C — about four degrees colder",
+            "Cooling from the combined dissolution, speciation, and gas-loss energy balance",
             "Unchanged — the water is what holds the temperature"
           ],
           "options_de": [
-            "Wärmer — Lösen setzt immer Energie frei",
-            "21,0 °C — etwa vier Grad kälter",
-            "Unverändert — das Wasser ist es, was die Temperatur hält"
+            "Erwärmung — Lösen setzt immer Energie frei",
+            "Abkühlung aus der gemeinsamen Energiebilanz von Lösen, Speziation und Gasverlust",
+            "Keine Änderung — das Wasser hält die Temperatur fest"
           ],
           "answer": 1,
           "misconception": "Having just watched calcium chloride heat a cup, learners generalise: dissolving warms things. The sign of ΔH_dis is a property of the substance, not of dissolving. Baking soda, potassium chloride and ammonium nitrate all go the other way, and an instant cold pack is exactly this experiment.",
@@ -5722,30 +5875,30 @@
               "option": 2,
               "reveals": "Water as a thermal anchor: a big steady liquid that a spoonful of powder cannot move — heat capacity mistaken for immunity.",
               "reveals_de": "Wasser als thermischer Anker: eine große, stetige Flüssigkeit, die ein Löffel Pulver nicht bewegen kann — Wärmekapazität wird mit Unempfindlichkeit verwechselt.",
-              "next": "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from 416 J/K of water costs 4.0 K, and the thermometer pays it. A large capacity makes moves smaller — `two-vessels-one-variable` prices exactly that — but never zero.",
-              "next_de": "Wärmekapazität ist ein Preis, kein Veto: 1,67 kJ aus 416 J/K Wasser zu entziehen kostet 4,0 K, und das Thermometer bezahlt sie. Eine große Kapazität macht Änderungen kleiner — `two-vessels-one-variable` bepreist genau das —, aber niemals null.",
+              "next": "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water would cost about 4 K from dissolution alone. The open-vessel carbonate conversion contributes too. A larger capacity reduces a temperature change; it does not prohibit one.",
+              "next_de": "Wärmekapazität ist ein Preis, kein Veto: 1,67 kJ aus etwa 416 J/K Wasser zu entziehen würde allein durch das Lösen ungefähr 4 K kosten. Die Carbonat-Umwandlung im offenen Gefäß trägt ebenfalls bei. Eine größere Kapazität verkleinert die Temperaturänderung, verbietet sie aber nicht.",
               "source": null
             }
           ]
         },
         "ph": null,
         "temperature_c": {
-          "min": 19.5,
-          "max": 22.5
+          "min": 17.5,
+          "max": 19.5
         }
       },
       "registers": {
         "lv1": "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it.",
         "lv1_de": "Derselbe Becher, dasselbe Wasser, ein anderes Pulver — und dieses wird kalt statt heiß. Das ist kein Trick und kein anderes Rühren; manche Stoffe müssen sich Energie vom Wasser leihen, um sich aufzulösen, und das Wasser bleibt kälter zurück, weil es sie verliehen hat.",
-        "lv2": "q = 0.1000 mol × (+16.7 kJ/mol) = +1.67 kJ absorbed. ΔT = −1670 J ÷ 416.7 J/K = −4.0 K, so 25.0 °C → 21.0 °C, and the thermometer reads 21.02 °C. Potassium chloride at +17.2 kJ/mol gives 20.87 °C in the same cup — nearly the same, because the enthalpies are nearly the same.",
-        "lv2_de": "q = 0,1000 mol × (+16,7 kJ/mol) = +1,67 kJ aufgenommen. ΔT = −1670 J ÷ 416,7 J/K = −4,0 K, also 25,0 °C → 21,0 °C, und das Thermometer zeigt 21,02 °C. Kaliumchlorid mit +17,2 kJ/mol ergibt 20,87 °C im selben Becher — fast dasselbe, weil die Enthalpien fast gleich sind.",
-        "lv3": "Endothermic dissolution means the lattice enthalpy exceeds the sum of the hydration enthalpies; the deficit comes out of the solution's sensible heat in an adiabatic vessel. Note the bench also reports 0.0424 mol of CO₂ leaving: a bicarbonate solution at pH 10.07 is supersaturated against atmospheric pCO₂ and outgasses. That carbonate chemistry is real and independent of the thermal effect, which is why both events appear.",
-        "lv3_de": "Endotherme Lösung bedeutet, dass die Gitterenthalpie die Summe der Hydratationsenthalpien übersteigt; das Defizit wird der fühlbaren Wärme der Lösung in einem adiabatischen Gefäß entnommen. Beachte, dass das Labor außerdem meldet, dass 0,0424 mol CO₂ entweichen: Eine Hydrogencarbonat-Lösung bei pH-Wert 10,07 ist gegenüber dem atmosphärischen pCO₂ übersättigt und entgast. Diese Carbonat-Chemie ist real und unabhängig vom thermischen Effekt, weshalb beide Ereignisse auftreten."
+        "lv2": "The dissolution-only estimate is q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, or about 4 K cooling for 100 mL of water. It is not the full prediction for this open beaker: the computed result is about 18.4 °C because carbonate speciation and CO₂ transfer also enter the energy balance.",
+        "lv2_de": "Allein für das Lösen ergibt sich q ≈ 0,1000 mol × 16,7 kJ/mol = 1,67 kJ Aufnahme, also ungefähr 4 K Abkühlung für 100 mL Wasser. Das ist nicht die vollständige Vorhersage für das offene Gefäß: Berechnet werden etwa 18,4 °C, weil auch Carbonat-Speziation und CO₂-Transfer in die Energiebilanz eingehen.",
+        "lv3": "The ordinary aqueous solver prices the complete change in chemical inventory and gas exchange. About 0.0416 mol CO₂ leaves this input as bicarbonate redistributes toward carbonate under the open atmospheric boundary. That conversion is not thermally independent of dissolution. The result assumes immediate gas equilibrium and an adiabatic vessel; it predicts neither a gas-transfer time nor heat leakage from a real cup.",
+        "lv3_de": "Der wässrige Löser bilanziert die vollständige Änderung von Stoffinventar und Gasaustausch. Bei diesem Ansatz entweichen etwa 0,0416 mol CO₂, während Hydrogencarbonat unter der offenen atmosphärischen Randbedingung zu Carbonat umverteilt wird. Diese Umwandlung ist thermisch nicht unabhängig vom Lösen. Das Ergebnis setzt sofortiges Gasgleichgewicht und ein adiabatisches Gefäß voraus; es sagt weder eine Gastransferzeit noch Wärmeverluste eines echten Bechers voraus."
       },
       "provenance": {
-        "source": "Enthalpy of solution of NaHCO₃, standard reference value; carbonate speciation from PHREEQC (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
+        "source": "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance.",
         "licence": null,
-        "computed_by": "Kerotakis energy balance over curated ΔH_dis; speciation via PHREEQC L2"
+        "computed_by": "Kerotakis aqueous inventory/gas enthalpy balance using PHREEQC L2"
       }
     },
     {
@@ -7471,7 +7624,8 @@
     {
       "id": "doubling-the-thiosulfate-doubles-the-rate",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
-      "summary": null,
+      "summary": "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur",
+      "summary_de": "Doppeltes Thiosulfat verdoppelt die Anfangsgeschwindigkeit, nicht unbedingt die später gebildete Schwefelmenge",
       "concepts": [
         "reaction-rate",
         "reaction-order"
@@ -7517,75 +7671,65 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "Two beakers, the same acid, the same ten seconds. One holds 0.05 mol/L thiosulfate, the other 0.10 mol/L. The first deposits 0.000223 mol of sulfur. What does the second deposit?",
-          "question_de": "Zwei Bechergläser, dieselbe Säure, dieselben zehn Sekunden. Das eine enthält 0,05 mol/L Thiosulfat, das andere 0,10 mol/L. Im ersten scheiden sich 0,000223 mol Schwefel ab. Was scheidet sich im zweiten ab?",
+          "question": "Before either mixture reacts, doubling thiosulfate at the same proton activity changes the initial rate by what factor?",
+          "question_de": "Um welchen Faktor ändert doppeltes Thiosulfat bei gleicher Protonenaktivität die Anfangsgeschwindigkeit, bevor die Mischungen reagieren?",
           "options": [
-            "0.000223 mol — the same, because it is the same reaction",
-            "0.000446 mol — twice as much",
-            "0.000891 mol — four times as much, because rate goes with concentration squared",
-            "Somewhere between, because the stronger one runs out sooner"
+            "No change",
+            "A factor of two under the stated first-order rate law",
+            "Always a factor of four"
           ],
           "options_de": [
-            "0,000223 mol — dasselbe, weil es dieselbe Reaktion ist",
-            "0,000446 mol — doppelt so viel",
-            "0,000891 mol — viermal so viel, weil die Geschwindigkeit mit dem Quadrat der Konzentration geht",
-            "Irgendwo dazwischen, weil das stärkere früher ausgeht"
+            "Keine Änderung",
+            "Ein Faktor zwei nach dem angegebenen Geschwindigkeitsgesetz erster Ordnung",
+            "Immer ein Faktor vier"
           ],
           "answer": 1,
-          "misconception": "The last option is the interesting wrong answer, and a lot of learners reach for it: they know depletion slows a reaction down and expect the stronger solution to be handicapped by it. It is not, and the reason is worth having — for a first-order reaction the *fraction* consumed in ten seconds is the same in both beakers, so the amounts stay in the ratio they started in at every instant. The squared option is order confused with coefficient: the equation has a 2 in front of H⁺ and none in front of thiosulfate, and neither number is the order.",
-          "misconception_de": "Die letzte Option ist die interessante falsche Antwort, nach der viele Lernende greifen: Sie wissen, dass eine abnehmende Konzentration eine Reaktion verlangsamt, und erwarten deshalb, dass die stärkere Lösung dadurch benachteiligt wird. Das ist nicht der Fall, und der Grund lohnt sich: Bei einer Reaktion erster Ordnung ist der in zehn Sekunden umgesetzte *Anteil* in beiden Bechergläsern gleich, sodass die Mengen zu jedem Zeitpunkt im ursprünglichen Verhältnis zueinander bleiben. Die quadrierte Option verwechselt Reaktionsordnung mit Koeffizient: In der Gleichung steht eine 2 vor H⁺ und keine vor Thiosulfat, und keine der beiden Zahlen ist die Ordnung.",
+          "misconception": "Initial rate and finite-time yield are different quantities. During ten seconds, both acid and thiosulfate are consumed; the faster mixture loses its acid faster.",
+          "misconception_de": "Anfangsgeschwindigkeit und Ausbeute nach endlicher Zeit sind verschiedene Größen. In zehn Sekunden werden Säure und Thiosulfat verbraucht; die schnellere Mischung verliert ihre Säure schneller.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "A reaction has one speed, the way a substance has one melting point — concentration changes how much there is, not how fast it goes.",
-              "reveals_de": "Eine Reaktion hat eine feste Geschwindigkeit, so wie ein Stoff einen festen Schmelzpunkt hat — die Konzentration ändert, wie viel vorhanden ist, nicht, wie schnell es abläuft.",
-              "next": "Run the same pair with a `wait 5s` and then another `wait 5s`. If speed were a property of the reaction the two beakers would track each other; they separate on the first interval and stay separated.",
-              "next_de": "Dasselbe Paar wird mit `wait 5s` und danach noch einmal `wait 5s` laufen gelassen. Wäre die Geschwindigkeit eine Eigenschaft der Reaktion, würden die beiden Bechergläser gleichauf bleiben; sie laufen aber schon im ersten Intervall auseinander und bleiben es.",
+              "reveals": "Concentration is treated as an amount that cannot influence encounters.",
+              "reveals_de": "Konzentration gilt als eine Menge ohne Einfluss auf Begegnungen.",
+              "next": "Compare the initial rate-law inputs before interpreting the sulfur after ten seconds.",
+              "next_de": "Vergleiche zunächst die Eingaben des Geschwindigkeitsgesetzes und erst danach die Schwefelmenge nach zehn Sekunden.",
               "source": null
             },
             {
               "option": 2,
-              "reveals": "The order is read off the equation: there is a 2 in front of H⁺, so something must be squared.",
-              "reveals_de": "Die Ordnung wird an der Gleichung abgelesen: Vor H⁺ steht eine 2, also muss irgendetwas quadriert werden.",
-              "next": "Open the same experiment on the acid instead (`the-acid-term-is-an-activity`): the species with the coefficient 2 is the one that turns out to be first order, which is hard to explain if orders came from coefficients.",
-              "next_de": "Dasselbe Experiment wird stattdessen für die Säure geöffnet (`the-acid-term-is-an-activity`): Ausgerechnet die Spezies mit dem Koeffizienten 2 erweist sich als erster Ordnung — schwer zu erklären, wenn Ordnungen aus Koeffizienten stammen würden.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "Depletion is imagined as a penalty the faster beaker pays, so the strong solution should fall behind its own head start.",
-              "reveals_de": "Der Konzentrationsrückgang wird sich als Strafe vorgestellt, die das schnellere Becherglas zahlt, sodass die starke Lösung hinter ihren eigenen Vorsprung zurückfallen müsste.",
-              "next": "Compare the sulfur in the two beakers at 24 s, 49 s and 113 s in `the-cross-disappears`: the ratio is exactly 2 at every reading, because both beakers lose the same fraction, not the same amount.",
-              "next_de": "Der Schwefel in den beiden Bechergläsern wird bei 24 s, 49 s und 113 s in `the-cross-disappears` verglichen: Das Verhältnis ist bei jeder Messung exakt 2, weil beide Bechergläser denselben Anteil verlieren, nicht dieselbe Menge.",
+              "reveals": "Reaction order is inferred from an unrelated stoichiometric coefficient.",
+              "reveals_de": "Die Reaktionsordnung wird aus einem unpassenden stöchiometrischen Koeffizienten abgeleitet.",
+              "next": "The curated thiosulfate order is one; the coefficient two on consumed protons does not change it.",
+              "next_de": "Die kuratierte Ordnung bezüglich Thiosulfat ist eins; der Koeffizient zwei der verbrauchten Protonen ändert sie nicht.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 1.82,
+          "max": 1.88
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Two beakers of the same clear liquid, one twice as strong as the other, and one clock for both. After ten seconds the strong one has made exactly twice as much yellow cloudiness as the weak one. Not a bit more — twice. Crowd the pieces together twice as tightly and they meet twice as often.",
-        "lv1_de": "Zwei Bechergläser mit derselben klaren Flüssigkeit, das eine doppelt so stark wie das andere, und eine Uhr für beide. Nach zehn Sekunden hat das starke genau doppelt so viel gelbe Trübung erzeugt wie das schwache. Nicht ein bisschen mehr — doppelt so viel. Drängt man die Teilchen doppelt so eng zusammen, treffen sie doppelt so oft aufeinander.",
-        "lv2": "Rate = k·[S₂O₃²⁻]·[H⁺]. Both beakers hold the same acid (pH 1.7486), so the only difference is the thiosulfate: 0.05 mol/L against 0.10 mol/L. In ten seconds the bench reports 2.2275 × 10⁻⁴ mol of reaction in the first and 4.4551 × 10⁻⁴ mol in the second — a ratio of 2.000. First order in thiosulfate, measured rather than assumed.",
-        "lv2_de": "Geschwindigkeit = k·[S₂O₃²⁻]·[H⁺]. Beide Bechergläser enthalten dieselbe Säure (pH 1,7486), der einzige Unterschied ist also das Thiosulfat: 0,05 mol/L gegen 0,10 mol/L. In zehn Sekunden meldet das Labor 2,2275 × 10⁻⁴ mol Umsatz im ersten und 4,4551 × 10⁻⁴ mol im zweiten — ein Verhältnis von 2,000. Erste Ordnung bezüglich Thiosulfat, gemessen statt angenommen.",
-        "lv3": "The exactness is worth pausing on, because it is a stronger statement than the practical usually makes. Initial rates are proportional to concentration for any first-order reaction by definition; here the *integrated* amounts are also in the ratio 2.000 after ten seconds, and that holds because the integrated first-order solution is c₀(1 − e^(−k′t)) with k′ = k[H⁺] identical in both vessels. So the c₀ factors straight out and the proportionality survives depletion. The order is curated data, not inferred: `kinetics.rs` keeps `orders` separate from `reactants` precisely so that the coefficient 2 on H⁺ cannot leak into the rate law, and neither order here matches a coefficient.",
-        "lv3_de": "Die Exaktheit lohnt einen Moment Aufmerksamkeit, denn sie ist eine stärkere Aussage, als das Experiment normalerweise liefert. Anfangsgeschwindigkeiten sind bei jeder Reaktion erster Ordnung per Definition proportional zur Konzentration; hier stehen aber auch die *integrierten* Mengen nach zehn Sekunden im Verhältnis 2,000, und das gilt, weil die integrierte Lösung erster Ordnung c₀(1 − e^(−k′t)) lautet, mit k′ = k[H⁺] identisch in beiden Gefäßen. Der Faktor c₀ kürzt sich damit heraus, und die Proportionalität übersteht den Konzentrationsrückgang. Die Ordnung ist kuratierte Angabe, nicht Schlussfolgerung: `kinetics.rs` hält `orders` bewusst getrennt von `reactants`, damit der Koeffizient 2 vor H⁺ nicht ins Geschwindigkeitsgesetz durchsickern kann, und keine der beiden Ordnungen hier entspricht einem Koeffizienten."
+        "lv1": "The stronger solution starts making sulfur faster. Later, a comparison also depends on how much acid remains.",
+        "lv1_de": "Die konzentriertere Lösung bildet anfangs schneller Schwefel. Später hängt der Vergleich auch davon ab, wie viel Säure übrig ist.",
+        "lv2": "Initially r = k c(thiosulfate) a(H+), so doubling c doubles r. A finite-time extent integrates a changing rate: two acid equivalents are consumed for every mole of sulfur formed.",
+        "lv2_de": "Anfangs gilt r = k c(Thiosulfat) a(H+); doppeltes c verdoppelt r. Ein endlicher Reaktionsfortschritt integriert eine veränderliche Geschwindigkeit: Pro Mol Schwefel werden zwei Säureäquivalente verbraucht.",
+        "lv3": "The existing calibrated rate coefficients are unchanged. The network now consumes represented strong-acid equivalents and updates proton activity during each interval with a locally frozen activity coefficient. Uncoupled weak-acid replenishment is explicitly withheld, and thiosulfate itself still lacks aqueous speciation data.",
+        "lv3_de": "Die vorhandenen kalibrierten Geschwindigkeitsparameter bleiben unverändert. Das Netzwerk verbraucht dargestellte starke Säureäquivalente und aktualisiert die Protonenaktivität innerhalb jedes Intervalls mit lokal konstantem Aktivitätskoeffizienten. Ungekoppelte Nachlieferung aus schwachen Säuren wird ausdrücklich nicht berechnet; für Thiosulfat selbst fehlen weiterhin wässrige Speziationsdaten."
       },
       "provenance": {
-        "source": "Orders (1,1) for the thiosulfate–acid clock reaction are the standard result of the disappearing-cross practical (school practical literature). Editorial judgement (Kerotakis): the choice to demonstrate the order by comparing integrated extents over a shared ten seconds, rather than by tangent-fitting an initial rate, is ours — it is what the bench can show honestly.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics (midpoint integration of the curated rate law); pH from PHREEQC via Kerotakis L2"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
       "id": "the-acid-term-is-an-activity",
       "equation": null,
-      "summary": "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed",
-      "summary_de": "Verdoppelt man die Salzsäure, steigt die Geschwindigkeit um das 1,94-Fache statt um das 2,00-Fache — das Geschwindigkeitsgesetz liest die vom Solver berechnete Aktivität, nicht die eingewogene Menge",
+      "summary": "A proton-dependent rate uses activity, while stoichiometry spends acid equivalents",
+      "summary_de": "Eine protonenabhängige Geschwindigkeit verwendet Aktivität; die Stöchiometrie verbraucht Säureäquivalente",
       "concepts": [
         "activity-in-a-rate-law"
       ],
@@ -7641,46 +7785,36 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "Three beakers, identical except for the acid: 0.001, 0.002 and 0.004 mol of HCl in 100 mL. The reaction is known to be first order in H⁺. Doubling the acid from 0.002 to 0.004 mol should multiply the rate by exactly two. The bench says 1.94. Who is wrong?",
-          "question_de": "Drei Bechergläser, identisch bis auf die Säure: 0,001, 0,002 und 0,004 mol HCl in 100 mL. Die Reaktion ist bekanntlich erster Ordnung bezüglich H⁺. Verdoppelst du die Säure von 0,002 auf 0,004 mol, sollte sich die Geschwindigkeit genau verdoppeln. Das Labor zeigt 1,94. Wer irrt sich?",
+          "question": "Why need doubling the initial HCl amount not exactly double an activity-dependent initial rate?",
+          "question_de": "Warum muss die doppelte anfängliche HCl-Menge eine aktivitätsabhängige Anfangsgeschwindigkeit nicht genau verdoppeln?",
           "options": [
-            "The bench — a first-order term must double when you double the concentration",
-            "Nobody. The rate law is first order in the *activity* of H⁺, and doubling the amount raises the activity by only 1.94",
-            "The chemistry — the order in H⁺ must really be a bit less than one",
-            "It is rounding error in the integrator"
+            "The first-order law must be wrong",
+            "The activity coefficient can change with ionic strength",
+            "The solver is allowed to invent reaction orders"
           ],
           "options_de": [
-            "Das Labor — ein Term erster Ordnung muss sich verdoppeln, wenn man die Konzentration verdoppelt",
-            "Niemand. Das Geschwindigkeitsgesetz ist erster Ordnung bezüglich der *Aktivität* von H⁺, und eine Verdopplung der Menge erhöht die Aktivität nur um das 1,94-Fache",
-            "Die Chemie — die Ordnung bezüglich H⁺ muss in Wirklichkeit etwas kleiner als eins sein",
-            "Das ist ein Rundungsfehler im Integrator"
+            "Das Gesetz erster Ordnung muss falsch sein",
+            "Der Aktivitätskoeffizient kann sich mit der Ionenstärke ändern",
+            "Der Löser darf Reaktionsordnungen erfinden"
           ],
           "answer": 1,
-          "misconception": "The third option is the trap that catches good students: a measured exponent slightly below one looks like evidence for a fractional order, and fractional orders are real. Here it is not one. The order in the model is exactly 1.000, and the shortfall comes from somewhere else entirely — the ionic strength doubled with the acid, the activity coefficient fell from 0.889 to 0.863, and the rate law reads activity. Mistaking a solution non-ideality for a mechanistic order is a live error in real kinetics work, not a schoolroom one.",
-          "misconception_de": "Die dritte Option ist die Falle, in die gute Lernende tappen: Ein gemessener Exponent knapp unter eins wirkt wie ein Beleg für eine gebrochene Ordnung, und gebrochene Ordnungen gibt es tatsächlich. Hier ist es aber keine. Die Ordnung im Modell ist exakt 1,000, und die Abweichung kommt von ganz woanders her — die Ionenstärke hat sich mit der Säure verdoppelt, der Aktivitätskoeffizient ist von 0,889 auf 0,863 gefallen, und das Geschwindigkeitsgesetz liest die Aktivität. Eine Nichtidealität der Lösung mit einer mechanistischen Ordnung zu verwechseln ist ein realer Fehler in der praktischen Kinetik, kein Schulbuchfehler.",
+          "misconception": "First order in activity is not identical to first order in an uncorrected bottle concentration.",
+          "misconception_de": "Erste Ordnung bezüglich der Aktivität ist nicht identisch mit erster Ordnung bezüglich einer unkorrigierten Flaschenkonzentration.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "First order means the printed concentration doubles the rate — the number on the bottle is the number in the equation.",
-              "reveals_de": "Erste Ordnung bedeutet, dass die aufgedruckte Konzentration die Geschwindigkeit verdoppelt — die Zahl auf der Flasche ist die Zahl in der Gleichung.",
-              "next": "Read the three ionic strengths (0.01003, 0.02006, 0.04012 mol/kgw) beside the three pH values. The pH steps are 0.2895 and 0.2878, not the 0.3010 that a factor of two in concentration would give.",
-              "next_de": "Die drei Ionenstärken (0,01003, 0,02006, 0,04012 mol/kgw) werden neben den drei pH-Werten abgelesen. Die pH-Schritte betragen 0,2895 und 0,2878, nicht die 0,3010, die ein Konzentrationsfaktor von zwei ergeben würde.",
+              "reveals": "Activity and concentration are treated as identical under every condition.",
+              "reveals_de": "Aktivität und Konzentration werden unter allen Bedingungen gleichgesetzt.",
+              "next": "Compare 10^(-pH) before waiting; this is the activity entering the initial rate.",
+              "next_de": "Vergleiche 10^(-pH) vor dem Warten; diese Aktivität geht in die Anfangsgeschwindigkeit ein.",
               "source": null
             },
             {
               "option": 2,
-              "reveals": "A measured exponent below one is evidence about the mechanism, so the order must really be about 0.95.",
-              "reveals_de": "Ein gemessener Exponent unter eins gilt als Beleg über den Mechanismus, also müsse die wahre Ordnung etwa 0,95 betragen.",
-              "next": "Repeat with the thiosulfate instead of the acid, where no ionic-strength change is involved: that ratio comes out at 2.000. An order that appears only when the ionic strength moves is not an order.",
-              "next_de": "Dasselbe wird mit dem Thiosulfat statt der Säure wiederholt, wo keine Änderung der Ionenstärke im Spiel ist: Dort ergibt sich ein Verhältnis von exakt 2,000. Eine Ordnung, die nur auftritt, wenn sich die Ionenstärke ändert, ist keine Ordnung.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "A discrepancy in the third significant figure must be numerical noise rather than chemistry.",
-              "reveals_de": "Eine Abweichung in der dritten signifikanten Stelle müsse numerisches Rauschen sein und keine Chemie.",
-              "next": "Check the size: the integrator agrees with the closed-form first-order solution to better than 0.1%, and this discrepancy is 3%. Errors have magnitudes, and comparing them is the habit worth building.",
-              "next_de": "Die Größenordnung wird geprüft: Der Integrator stimmt mit der geschlossenen Lösung erster Ordnung auf besser als 0,1 % überein, diese Abweichung beträgt aber 3 %. Fehler haben Größenordnungen, und sie zu vergleichen ist die Gewohnheit, die es sich anzueignen lohnt.",
+              "reveals": "Model data are confused with quantities inferred by the solver.",
+              "reveals_de": "Modelldaten werden mit vom Löser abgeleiteten Größen verwechselt.",
+              "next": "The order is supplied; the native solution supplies the initial activity, and stoichiometry limits how much can react.",
+              "next_de": "Die Ordnung ist vorgegeben; die native Lösung liefert die anfängliche Aktivität, und die Stöchiometrie begrenzt den Reaktionsfortschritt.",
               "source": null
             }
           ]
@@ -7692,23 +7826,24 @@
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Put in twice as much acid and the reaction does not quite get twice as fast — it gets 1.94 times as fast. The missing bit is not a mistake. Ions in a crowded solution get in each other's way, so twice as many of them do not push twice as hard.",
-        "lv1_de": "Gibt man doppelt so viel Säure hinein, wird die Reaktion nicht ganz doppelt so schnell — sie wird 1,94-mal so schnell. Das fehlende Stückchen ist kein Fehler. In einer dicht gedrängten Lösung kommen sich die Ionen gegenseitig in die Quere, sodass doppelt so viele nicht doppelt so stark drücken.",
-        "lv2": "The bench computes pH 2.0381, 1.7486 and 1.4608 for 0.001, 0.002 and 0.004 mol of HCl in 100 mL, and the rate law uses 10^(−pH). In one second the three vessels react by 1.1686 × 10⁻⁵, 2.2735 × 10⁻⁵ and 4.4010 × 10⁻⁵ mol. Halving the acid gives ×0.514 and doubling it gives ×1.936 — first order, but in the activity rather than in the amount weighed out.",
-        "lv2_de": "Das Labor berechnet pH 2,0381, 1,7486 und 1,4608 für 0,001, 0,002 und 0,004 mol HCl in 100 mL, und das Geschwindigkeitsgesetz verwendet 10^(−pH). In einer Sekunde setzen die drei Gefäße 1,1686 × 10⁻⁵, 2,2735 × 10⁻⁵ und 4,4010 × 10⁻⁵ mol um. Halbieren der Säure ergibt ×0,514, Verdoppeln ergibt ×1,936 — erste Ordnung, aber bezüglich der Aktivität, nicht der eingewogenen Menge.",
-        "lv3": "PHREEQC's pH is −log₁₀(a_H⁺), so `term_concentration` returning 10^(−pH) hands the rate law an activity, deliberately: adding HCl to water leaves chloride in the vessel inventory and puts the proton into the charge balance, where it has no inventory amount to read. The ionic strengths are 0.01003, 0.02006 and 0.04012 mol/kgw, giving activity coefficients 0.913, 0.889 and 0.863 under the WATEQ Debye–Hückel extension; 0.034609/0.017838 = 1.940 is the activity ratio, and the measured 1.936 falls just short of it because the faster vessel has already consumed slightly more thiosulfate within the second. This is the same γ that shows up in `ph-is-not-quite-minus-log-c`, met again where it changes a rate instead of a reading.",
-        "lv3_de": "PHREEQCs pH ist −log₁₀(a_H⁺), sodass `term_concentration` mit der Rückgabe 10^(−pH) dem Geschwindigkeitsgesetz bewusst eine Aktivität übergibt: Gibt man HCl zu Wasser, bleibt Chlorid im Gefäßinventar, während das Proton in die Ladungsbilanz eingeht, wo es keinen Inventarwert zum Ablesen gibt. Die Ionenstärken betragen 0,01003, 0,02006 und 0,04012 mol/kgw, was unter der WATEQ-Debye-Hückel-Erweiterung Aktivitätskoeffizienten von 0,913, 0,889 und 0,863 ergibt; 0,034609/0,017838 = 1,940 ist das Aktivitätsverhältnis, und die gemessenen 1,936 bleiben knapp darunter, weil das schnellere Gefäß innerhalb der Sekunde bereits etwas mehr Thiosulfat verbraucht hat. Das ist dasselbe γ, das in `ph-is-not-quite-minus-log-c` auftaucht — hier verändert es eine Geschwindigkeit statt einer Messanzeige."
+        "lv1": "Twice as much acid is not always twice the chemical push. The solution's other ions affect that push.",
+        "lv1_de": "Doppelt so viel Säure bedeutet nicht immer den doppelten chemischen Antrieb. Die anderen Ionen der Lösung beeinflussen ihn.",
+        "lv2": "The initial proton term is a(H+) = 10^(-pH), not simply the nominal molarity. Compare that initial activity ratio separately from the sulfur amounts after one second, when acid and thiosulfate have already been consumed.",
+        "lv2_de": "Der anfängliche Protonenterm ist a(H+) = 10^(-pH), nicht einfach die nominelle Molarität. Vergleiche dieses anfängliche Aktivitätsverhältnis getrennt von den Schwefelmengen nach einer Sekunde, wenn bereits Säure und Thiosulfat verbraucht wurden.",
+        "lv3": "Native initial pH determines the activity. During an uncoupled strong-acid kinetic interval the coefficient is held locally fixed while the represented acid inventory falls. This approximation is not a full evolving ionic-strength or buffered-acid solve; aqueous re-equilibration follows the interval.",
+        "lv3_de": "Der native anfängliche pH bestimmt die Aktivität. Während eines ungekoppelten kinetischen Intervalls mit starker Säure bleibt der Koeffizient lokal konstant, während das dargestellte Säureinventar abnimmt. Diese Näherung ist keine vollständige Berechnung der veränderlichen Ionenstärke oder gepufferten Säure; danach folgt das wässrige Gleichgewicht."
       },
       "provenance": {
-        "source": "Standard curriculum kinetics for the order in H⁺; activity coefficients from PHREEQC wateq4f.dat (USGS) under the WATEQ Debye–Hückel extension. Editorial judgement (Kerotakis): reading the acid term as an activity rather than a nominal concentration is an engine design decision, documented in `kinetics.rs`, and this entry exists to make that decision visible rather than to hide it behind a round number.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics; pH and ionic strength from PHREEQC via Kerotakis L2"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
       "id": "the-cross-disappears",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
-      "summary": null,
+      "summary": "Before timing a cloudiness threshold, check whether the limiting reagent permits it",
+      "summary_de": "Vor dem Stoppen einer Trübungsschwelle prüfen, ob der limitierende Stoff sie erlaubt",
       "concepts": [
         "rate-from-a-fixed-observable"
       ],
@@ -7755,75 +7890,65 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "Three beakers at 0.025, 0.05 and 0.10 mol/L thiosulfate. You time how long each takes to hide a pencil cross under the beaker. The 0.10 mol/L beaker takes 24 s. The reaction is first order. How long does the 0.025 mol/L beaker take?",
-          "question_de": "Drei Bechergläser mit 0,025, 0,05 und 0,10 mol/L Thiosulfat. Du stoppst, wie lange jedes braucht, um ein Bleistiftkreuz unter dem Becherglas zu verdecken. Das 0,10-mol/L-Becherglas braucht 24 s. Die Reaktion ist erster Ordnung. Wie lange braucht das 0,025-mol/L-Becherglas?",
+          "question": "Each beaker contains 2 mmol of strong acid, and making 1 mmol of sulfur consumes 2 mmol of acid. Can waiting longer guarantee the old 1 mmol sulfur endpoint?",
+          "question_de": "Jedes Gefäß enthält 2 mmol starke Säure; für 1 mmol Schwefel werden 2 mmol Säure verbraucht. Garantiert längeres Warten den alten Endpunkt von 1 mmol Schwefel?",
           "options": [
-            "48 s — twice as long, twice as long again would be silly",
-            "96 s — four times the time for a quarter of the concentration",
-            "113 s — longer than four times, because a fixed amount of sulfur is a much bigger bite out of a weak solution",
-            "It never gets there — there is not enough thiosulfate"
+            "Yes, because there is excess thiosulfate",
+            "Yes, because every first-order reaction finishes in a fixed time",
+            "No: the acid inventory sets the capacity and its depletion slows the rate"
           ],
           "options_de": [
-            "48 s — doppelt so lange, noch einmal doppelt so lange wäre albern",
-            "96 s — die vierfache Zeit für ein Viertel der Konzentration",
-            "113 s — länger als das Vierfache, weil eine feste Schwefelmenge einer schwachen Lösung einen viel größeren Brocken abverlangt",
-            "Es kommt nie so weit — es ist nicht genug Thiosulfat vorhanden"
+            "Ja, weil Thiosulfat im Überschuss vorliegt",
+            "Ja, weil jede Reaktion erster Ordnung nach einer festen Zeit fertig ist",
+            "Nein: Das Säureinventar begrenzt die Kapazität, und sein Verbrauch verlangsamt die Reaktion"
           ],
           "answer": 2,
-          "misconception": "Both of the first two options assume the time to a fixed observable is exactly inversely proportional to concentration. It nearly is, and the practical is built on that assumption — but only while the sulfur you are waiting for is a small fraction of what you started with. Hiding the cross costs 0.01 mol/L of sulfur: a tenth of the strong beaker and two fifths of the weak one, which is why the weak one falls further behind than the simple ratio predicts. The last option is worth taking seriously and rejecting on the arithmetic: 0.025 mol/L is enough, with room to spare.",
-          "misconception_de": "Die ersten beiden Optionen gehen beide davon aus, dass die Zeit bis zu einem festen Beobachtungspunkt exakt umgekehrt proportional zur Konzentration ist. Das stimmt fast, und das Experiment beruht auf dieser Annahme — aber nur solange der abgewartete Schwefel ein kleiner Anteil der Ausgangsmenge ist. Das Verdecken des Kreuzes kostet 0,01 mol/L Schwefel: ein Zehntel beim starken Becherglas und zwei Fünftel beim schwachen, weshalb das schwache stärker zurückfällt, als das einfache Verhältnis vorhersagt. Die letzte Option verdient es, ernst genommen und mit der Rechnung widerlegt zu werden: 0,025 mol/L reicht, mit Reserve.",
+          "misconception": "An observable threshold is meaningful only if all required reagents can supply it. A finite-time rate comparison must not silently assume an infinite acid reservoir.",
+          "misconception_de": "Eine Beobachtungsschwelle ist nur sinnvoll, wenn alle benötigten Stoffe sie ermöglichen. Ein Geschwindigkeitsvergleich nach endlicher Zeit darf keinen unendlichen Säurevorrat voraussetzen.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "Quarter the concentration, double the time — the relationship between concentration and time is being applied once instead of twice.",
-              "reveals_de": "Konzentration geviertelt, Zeit verdoppelt — der Zusammenhang zwischen Konzentration und Zeit wird einmal statt zweimal angewendet.",
-              "next": "Lay the three times out as a table with the three concentrations. 24, 49, 113 against 0.10, 0.05, 0.025: each halving of concentration costs rather more than a doubling of time, and the table makes that visible without any algebra.",
-              "next_de": "Die drei Zeiten werden als Tabelle neben die drei Konzentrationen gelegt. 24, 49, 113 gegen 0,10, 0,05, 0,025: Jede Halbierung der Konzentration kostet eher mehr als eine Verdopplung der Zeit, und die Tabelle macht das ohne jede Algebra sichtbar.",
+              "reveals": "Only the visually interesting reagent is counted.",
+              "reveals_de": "Nur der optisch interessante Ausgangsstoff wird gezählt.",
+              "next": "Count the two consumed acid equivalents per sulfur before comparing thiosulfate concentrations.",
+              "next_de": "Zähle zuerst die zwei verbrauchten Säureäquivalente pro Schwefel und vergleiche dann die Thiosulfatkonzentrationen.",
               "source": null
             },
             {
               "option": 1,
-              "reveals": "Time is exactly inversely proportional to concentration, always — 1/t *is* the rate rather than standing in for it.",
-              "reveals_de": "Die Zeit sei immer exakt umgekehrt proportional zur Konzentration — 1/t *ist* die Geschwindigkeit, statt nur ein Ersatz dafür zu sein.",
-              "next": "Ask how much of each beaker's thiosulfate has been used at the moment the cross vanishes: 10%, 20%, 40%. The method assumes the answer is 'hardly any', and in the weakest beaker it is not.",
-              "next_de": "Es wird gefragt, wie viel Thiosulfat in jedem Becherglas verbraucht ist, wenn das Kreuz verschwindet: 10 %, 20 %, 40 %. Die Methode setzt voraus, dass die Antwort 'kaum etwas' lautet, und im schwächsten Becherglas stimmt das nicht mehr.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "Sulfur has to be at 0.01 mol/L, so a 0.025 mol/L solution is nearly out of material and may never make it.",
-              "reveals_de": "Der Schwefel müsse 0,01 mol/L erreichen, sodass einer 0,025-mol/L-Lösung fast das Material ausgeht und sie es vielleicht nie schafft.",
-              "next": "Do the stoichiometry before the kinetics: 1 mol of thiosulfate gives 1 mol of sulfur, so 0.025 mol/L can reach 0.01 mol/L with 60% to spare. Checking whether a reaction *can* finish before asking how fast is a habit worth having.",
-              "next_de": "Die Stöchiometrie wird vor der Kinetik geprüft: 1 mol Thiosulfat ergibt 1 mol Schwefel, sodass 0,025 mol/L die 0,01 mol/L mit 60 % Reserve erreichen kann. Zu prüfen, ob eine Reaktion überhaupt *fertig werden kann*, bevor man nach dem Wie-schnell fragt, ist eine Gewohnheit, die sich lohnt.",
+              "reveals": "A rate law is treated as a fixed completion time.",
+              "reveals_de": "Ein Geschwindigkeitsgesetz wird als feste Abschlusszeit verstanden.",
+              "next": "Inspect the remaining acid after each wait; a changing reactant inventory changes the rate.",
+              "next_de": "Untersuche nach jedem Warten die übrige Säure; ein verändertes Reaktandeninventar ändert die Geschwindigkeit.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 2.7,
+          "max": 2.76
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Draw a cross on paper, stand the beaker on it, and start the clock when the acid goes in. The liquid slowly turns milky with sulfur until the cross vanishes. Strong solution: 24 seconds. Half as strong: 49. A quarter as strong: 113. Fainter mixture, longer wait — and the clock is the measuring instrument, which is the whole trick of the experiment.",
-        "lv1_de": "Man zeichnet ein Kreuz auf Papier, stellt das Becherglas darauf und startet die Uhr, sobald die Säure hineinkommt. Die Flüssigkeit wird langsam milchig vom Schwefel, bis das Kreuz verschwindet. Starke Lösung: 24 Sekunden. Halb so stark: 49. Ein Viertel so stark: 113. Blassere Mischung, längeres Warten — und die Uhr ist das Messinstrument, das ist der ganze Trick des Experiments.",
-        "lv2": "Taking 0.01 mol/L of suspended sulfur as the point where the cross is hidden, the bench reaches it at 24 s (0.10 mol/L), 49 s (0.05 mol/L) and 113 s (0.025 mol/L). 1/t is the usual stand-in for the rate: 0.0417, 0.0204 and 0.0088 s⁻¹, close to halving each time but not exactly — the successive time ratios are 2.04 and 2.31, not 2.00 and 2.00. At the moment each beaker is read it has used 10%, 20% and 40% of its thiosulfate, and the most dilute one is no longer anywhere near its initial rate.",
-        "lv2_de": "Nimmt man 0,01 mol/L suspendierten Schwefel als den Punkt, an dem das Kreuz verdeckt ist, erreicht das Labor diesen bei 24 s (0,10 mol/L), 49 s (0,05 mol/L) und 113 s (0,025 mol/L). 1/t ist der übliche Ersatz für die Geschwindigkeit: 0,0417, 0,0204 und 0,0088 s⁻¹, jeweils nahe an einer Halbierung, aber nicht genau — die aufeinanderfolgenden Zeitverhältnisse sind 2,04 und 2,31, nicht 2,00 und 2,00. Zum Zeitpunkt der jeweiligen Ablesung hat jedes Becherglas 10 %, 20 % beziehungsweise 40 % seines Thiosulfats verbraucht, und das am stärksten verdünnte ist längst nicht mehr in der Nähe seiner Anfangsgeschwindigkeit.",
-        "lv3": "The absolute times belong to us and the ratios belong to the chemistry — that distinction is the honest content of this entry. The pre-exponential A = 2.2 × 10⁸ in `kinetics.rs` is calibrated so that 0.05 mol/L at pH 1.7 and 25 °C hides the cross in about forty seconds, which is the range the practical is designed around; it is not a measured Arrhenius A, and the file says so. Everything derived from *comparing* vessels — the order, the temperature ratios, the catalyst factors — is independent of A and survives any recalibration. The exact integrated form is t = −ln(1 − 0.01/c₀)/(k[H⁺]), which with the engine's own k[H⁺] = 4.561 × 10⁻³ s⁻¹ puts the crossings at 23.1, 48.9 and 112.0 s and the ratios at 2.12 and 2.29; reading the beaker once a second rounds those to 24, 49 and 113 and distorts the first ratio to 2.04. Nearly a second of quantisation is worth noticing, because a real practical reads its stopwatch to about the same precision. The 0.01 mol/L threshold is also ours — it is the criterion the engine's own regression test uses — and it is not the same thing as the renderer's vocabulary: `appearance` calls a beaker 'cloudy' from a cloudiness of 0.15, which is 0.0075 mol/L of sulfur and arrives about thirteen seconds earlier in the 0.05 mol/L beaker. Each beaker is therefore already being described as 'cloudy' by the time it reaches the criterion, and the two thresholds should not be read as one.",
-        "lv3_de": "Die absoluten Zeiten stammen von uns, die Verhältnisse von der Chemie — diese Unterscheidung ist der ehrliche Kern dieses Eintrags. Der präexponentielle Faktor A = 2,2 × 10⁸ in `kinetics.rs` ist so kalibriert, dass 0,05 mol/L bei pH 1,7 und 25 °C das Kreuz in rund vierzig Sekunden verdeckt, was dem Bereich entspricht, für den das Experiment ausgelegt ist; es ist kein gemessenes Arrhenius-A, und die Datei sagt das auch so. Alles, was aus dem *Vergleich* von Gefäßen abgeleitet wird — die Ordnung, die Temperaturverhältnisse, die Katalysatorfaktoren —, ist unabhängig von A und übersteht jede Neukalibrierung. Die exakte integrierte Form lautet t = −ln(1 − 0,01/c₀)/(k[H⁺]), was mit dem motoreigenen k[H⁺] = 4,561 × 10⁻³ s⁻¹ die Kreuzungszeitpunkte bei 23,1, 48,9 und 112,0 s ansetzt und die Verhältnisse bei 2,12 und 2,29; liest man das Becherglas nur einmal pro Sekunde ab, rundet das auf 24, 49 und 113 und verzerrt das erste Verhältnis auf 2,04. Fast eine Sekunde Quantisierung ist bemerkenswert, denn ein echtes Experiment liest die Stoppuhr mit ungefähr derselben Genauigkeit ab. Auch die Schwelle von 0,01 mol/L stammt von uns — sie ist das Kriterium, das der motoreigene Regressionstest verwendet — und sie ist nicht dasselbe wie das Vokabular des Renderers: `appearance` nennt ein Becherglas ab einer Trübung von 0,15 'trüb', was 0,0075 mol/L Schwefel entspricht und im 0,05-mol/L-Becherglas rund dreizehn Sekunden früher eintritt. Jedes Becherglas wird also bereits als 'trüb' beschrieben, bevor es das Kriterium erreicht, und die beiden Schwellen sollten nicht als ein und dieselbe gelesen werden."
+        "lv1": "A stronger mixture may turn cloudy sooner, but waiting cannot supply missing acid. Count the reagents before using a disappearing mark as a timer.",
+        "lv1_de": "Eine konzentriertere Mischung kann früher trüb werden, aber Warten liefert keine fehlende Säure. Zähle die Stoffe, bevor du eine verschwindende Markierung als Zeitmesser verwendest.",
+        "lv2": "At most 1 mmol of sulfur can be formed from 2 mmol of represented acid by this stoichiometry. Depletion reduces the rate as that limit is approached. The old constant-acid crossing times are not valid for this finite acid inventory.",
+        "lv2_de": "Nach dieser Stöchiometrie können aus 2 mmol dargestellter Säure höchstens 1 mmol Schwefel entstehen. Der Verbrauch verringert die Geschwindigkeit bei Annäherung an diese Grenze. Die alten Übergangszeiten bei konstanter Säure gelten nicht für dieses endliche Säureinventar.",
+        "lv3": "The snapshots at 24, 49 and 113 seconds are observation times, not claimed crossing times. Optical cloudiness thresholds are teaching conventions, not measured universal sulfur scattering laws. The absolute kinetic coefficient remains calibrated; finite acid consumption is now explicit.",
+        "lv3_de": "Die Momentaufnahmen nach 24, 49 und 113 Sekunden sind Beobachtungszeiten, keine behaupteten Übergangszeiten. Optische Trübungsschwellen sind Lehrkonventionen, keine gemessenen universellen Streugesetze für Schwefel. Der absolute Geschwindigkeitskoeffizient bleibt kalibriert; der endliche Säureverbrauch ist jetzt ausdrücklich berücksichtigt."
       },
       "provenance": {
-        "source": "The disappearing-cross practical is standard school chemistry; Ea ≈ 51 kJ/mol and orders (1,1) are its usual reported results (commonly 45–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable rather than measured, and '0.01 mol/L of sulfur hides the cross' is our operational definition of the endpoint, chosen to match the engine's own regression test rather than taken from a source.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics; appearance from kerotakis-core::appearance (cloudiness = suspended solid per litre against an opacity scale)"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
       "id": "the-ten-degree-rule-and-where-it-frays",
       "equation": null,
-      "summary": "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature",
-      "summary_de": "25 → 35 → 45 → 55 °C vervielfacht die Zehn-Sekunden-Ausbeute um 1,90, dann 1,80, dann 1,69 — die Faustregel ist eine Regel über eine bestimmte Aktivierungsenergie bei einer bestimmten Temperatur",
+      "summary": "Temperature changes the rate constant; finite-time yields also reflect depletion",
+      "summary_de": "Die Temperatur ändert die Geschwindigkeitskonstante; endliche Ausbeuten spiegeln auch den Verbrauch wider",
       "concepts": [
         "temperature-and-rate",
         "arrhenius-equation"
@@ -7871,53 +7996,43 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "Four beakers of the same mixture at 25, 35, 45 and 55 °C. 'The rate doubles every ten degrees.' If the 25 °C beaker deposits 0.000223 mol of sulfur in ten seconds, what does the 55 °C beaker deposit?",
-          "question_de": "Vier Bechergläser mit derselben Mischung bei 25, 35, 45 und 55 °C. 'Die Geschwindigkeit verdoppelt sich alle zehn Grad.' Wenn das 25-°C-Becherglas in zehn Sekunden 0,000223 mol Schwefel abscheidet, wie viel scheidet das 55-°C-Becherglas ab?",
+          "question": "Does a ten-degree temperature increase guarantee exactly twice as much sulfur after a fixed wait?",
+          "question_de": "Garantieren zehn Grad Temperaturerhöhung nach einer festen Wartezeit genau doppelt so viel Schwefel?",
           "options": [
-            "0.00178 mol — eight times, three doublings",
-            "0.00128 mol — a bit less than eight times, because each ten-degree step is worth slightly less than the last",
-            "0.000669 mol — three times, one doubling per ten degrees added up",
-            "0.00223 mol — ten times, because the temperature went up by thirty degrees"
+            "Yes, at every temperature and conversion",
+            "No: Arrhenius changes the rate constant, while depletion also affects the integrated yield",
+            "No: temperature never enters a rate law"
           ],
           "options_de": [
-            "0,00178 mol — achtmal so viel, drei Verdopplungen",
-            "0,00128 mol — etwas weniger als das Achtfache, weil jeder Zehn-Grad-Schritt etwas weniger bringt als der vorherige",
-            "0,000669 mol — dreimal so viel, eine Verdopplung pro zehn Grad addiert",
-            "0,00223 mol — zehnmal so viel, weil die Temperatur um dreißig Grad gestiegen ist"
+            "Ja, bei jeder Temperatur und jedem Umsatz",
+            "Nein: Arrhenius ändert die Geschwindigkeitskonstante; der Verbrauch beeinflusst zusätzlich die integrierte Ausbeute",
+            "Nein: Temperatur kommt in keinem Geschwindigkeitsgesetz vor"
           ],
           "answer": 1,
-          "misconception": "The third option is the commonest arithmetic slip in this topic: doublings multiply, they do not add. The first is the right arithmetic applied to a rule that is only approximately true, and it is the more instructive error — it treats 'doubles every ten degrees' as a law. It is not a law; it is what an activation energy near 50 kJ/mol happens to give near room temperature, and the factor shrinks steadily as the beaker gets hotter because the Arrhenius exponent depends on 1/T, not on T.",
-          "misconception_de": "Die dritte Option ist der häufigste Rechenfehler bei diesem Thema: Verdopplungen multiplizieren sich, sie addieren sich nicht. Die erste Option wendet die richtige Rechnung auf eine nur näherungsweise gültige Regel an, und das ist der lehrreichere Fehler — sie behandelt 'verdoppelt sich alle zehn Grad' als Naturgesetz. Das ist es nicht; es ist das, was eine Aktivierungsenergie nahe 50 kJ/mol nahe Raumtemperatur zufällig ergibt, und der Faktor schrumpft mit steigender Temperatur stetig weiter, weil der Arrhenius-Exponent von 1/T abhängt, nicht von T.",
+          "misconception": "A rule of thumb for a rate constant is not a universal rule for an accumulated product amount.",
+          "misconception_de": "Eine Faustregel für eine Geschwindigkeitskonstante ist kein allgemeines Gesetz für eine angesammelte Produktmenge.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "'Doubles every ten degrees' is a law of nature, so three steps give exactly eight times.",
-              "reveals_de": "'Verdoppelt sich alle zehn Grad' sei ein Naturgesetz, also ergäben drei Schritte genau das Achtfache.",
-              "next": "Compute the three step factors from the bench's own numbers — 1.90, 1.80, 1.69 — and ask what would have to be true of Arrhenius for them all to be 2. The answer is that Ea would have to grow with temperature.",
-              "next_de": "Die drei Schrittfaktoren werden aus den eigenen Zahlen des Labors berechnet — 1,90, 1,80, 1,69 — und es wird gefragt, was für Arrhenius gelten müsste, damit sie alle gleich 2 wären. Die Antwort: Ea müsste mit der Temperatur wachsen.",
+              "reveals": "Rate constant and finite-time yield are identified.",
+              "reveals_de": "Geschwindigkeitskonstante und endliche Ausbeute werden gleichgesetzt.",
+              "next": "Compare the initial Arrhenius factors, then inspect how much acid remains in each warmer vessel.",
+              "next_de": "Vergleiche die anfänglichen Arrhenius-Faktoren und untersuche dann die verbleibende Säure in jedem wärmeren Gefäß.",
               "source": null
             },
             {
               "option": 2,
-              "reveals": "Three ten-degree steps means three doublings added together, so three times faster.",
-              "reveals_de": "Drei Zehn-Grad-Schritte bedeuten drei addierte Verdopplungen, also dreimal so schnell.",
-              "next": "Do it on paper with a simpler case first: two doublings of £10 is £40, not £30. Then ask which operation 'per ten degrees' describes.",
-              "next_de": "Zunächst wird ein einfacheres Beispiel auf Papier durchgerechnet: Zwei Verdopplungen von 10 € ergeben 40 €, nicht 30 €. Dann wird gefragt, welche Rechenoperation 'pro zehn Grad' eigentlich beschreibt.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "Rate scales with temperature itself, so thirty degrees on top of twenty-five is roughly ten times as much heat and ten times the rate.",
-              "reveals_de": "Die Geschwindigkeit skaliere mit der Temperatur selbst, sodass dreißig Grad zusätzlich zu fünfundzwanzig ungefähr zehnmal so viel Wärme und die zehnfache Geschwindigkeit bedeuten.",
-              "next": "Try the same reasoning in kelvin: 298 K to 328 K is a 10% rise, which would predict almost no change. A rule that gives two different answers in two temperature scales is not describing a proportionality.",
-              "next_de": "Dieselbe Überlegung wird in Kelvin durchgespielt: 298 K auf 328 K ist ein Anstieg von 10 %, was fast keine Veränderung vorhersagen würde. Eine Regel, die in zwei Temperaturskalen zwei verschiedene Antworten liefert, beschreibt keine Proportionalität.",
+              "reveals": "The kinetic model is read as concentration-only.",
+              "reveals_de": "Das kinetische Modell wird auf Konzentrationen beschränkt.",
+              "next": "The Arrhenius exponential contains absolute temperature and the supplied activation energy.",
+              "next_de": "Die Arrhenius-Exponentialfunktion enthält die absolute Temperatur und die vorgegebene Aktivierungsenergie.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 1.82,
+          "max": 1.88
         },
         "temperature_c": {
           "min": 24.5,
@@ -7925,17 +8040,17 @@
         }
       },
       "registers": {
-        "lv1": "Same mixture, four temperatures, one clock. In ten seconds the cold beaker makes a faint haze and the hot one is properly cloudy — roughly twice as much sulfur for every ten degrees you go up. Roughly. Each ten degrees buys a little less than the last one did, so 'it doubles' is a handy rule rather than a promise.",
-        "lv1_de": "Dieselbe Mischung, vier Temperaturen, eine Uhr. In zehn Sekunden bildet das kalte Becherglas einen leichten Schleier, das heiße wird richtig trüb — ungefähr doppelt so viel Schwefel für je zehn Grad mehr. Ungefähr. Jede weitere Zehn-Grad-Stufe bringt etwas weniger als die vorige, deshalb ist 'es verdoppelt sich' eine praktische Faustregel und kein Versprechen.",
-        "lv2": "In ten seconds the bench reports 2.2275 × 10⁻⁴, 4.2430 × 10⁻⁴, 7.6234 × 10⁻⁴ and 1.2847 × 10⁻³ mol of reaction at 25, 35, 45 and 55 °C. The step factors are 1.90, 1.80 and 1.69. Nobody applied a rule: k = A·e^(−Ea/RT) with Ea = 51 kJ/mol was evaluated at each temperature, and the near-doubling came out.",
-        "lv2_de": "In zehn Sekunden meldet das Labor 2,2275 × 10⁻⁴, 4,2430 × 10⁻⁴, 7,6234 × 10⁻⁴ und 1,2847 × 10⁻³ mol Umsatz bei 25, 35, 45 und 55 °C. Die Schrittfaktoren betragen 1,90, 1,80 und 1,69. Niemand hat dabei eine Regel angewendet: k = A·e^(−Ea/RT) mit Ea = 51 kJ/mol wurde bei jeder Temperatur ausgewertet, und die Beinahe-Verdopplung ergab sich von selbst.",
-        "lv3": "Two separate reasons keep these below two, and they should not be confused. First, the Arrhenius ratio itself: k(308)/k(298) = e^(Ea/R · (1/298.15 − 1/308.15)) = 1.95 for Ea = 51 kJ/mol, and the same construction gives 1.87 and 1.80 for the higher steps, because the exponent goes as 1/T. Second, depletion: over ten seconds the hotter vessels have already eaten into their thiosulfate, which is why the measured 1.90/1.80/1.69 sit below those. Shortening the clock to one second, where almost nothing has been consumed, the bench gives 1.94/1.86/1.78 — within a percent of the pure rate-constant ratios. The 'rule' is therefore a statement about an activation energy near 50 kJ/mol at around 300 K, and the practical's real lesson is that it decays in a way you can predict.",
-        "lv3_de": "Zwei getrennte Gründe halten diese Werte unter zwei, und sie sollten nicht verwechselt werden. Erstens das Arrhenius-Verhältnis selbst: k(308)/k(298) = e^(Ea/R · (1/298,15 − 1/308,15)) = 1,95 für Ea = 51 kJ/mol, und dieselbe Rechnung ergibt 1,87 und 1,80 für die höheren Schritte, weil der Exponent wie 1/T verläuft. Zweitens der Konzentrationsrückgang: In zehn Sekunden haben die heißeren Gefäße bereits an ihrem Thiosulfat gezehrt, weshalb die gemessenen 1,90/1,80/1,69 darunter liegen. Verkürzt man die Uhr auf eine Sekunde, in der fast nichts verbraucht wurde, liefert das Labor 1,94/1,86/1,78 — innerhalb eines Prozents der reinen Geschwindigkeitskonstanten-Verhältnisse. Die 'Regel' ist somit eine Aussage über eine Aktivierungsenergie nahe 50 kJ/mol bei rund 300 K, und die eigentliche Lehre des Experiments ist, dass sie auf vorhersagbare Weise nachlässt."
+        "lv1": "Warm mixtures start reacting faster in this model. They also use up their acid faster, so the final sulfur amounts need not follow a simple doubling rule.",
+        "lv1_de": "Warme Mischungen reagieren in diesem Modell anfangs schneller. Sie verbrauchen auch ihre Säure schneller; die Endmengen an Schwefel müssen daher keiner einfachen Verdopplungsregel folgen.",
+        "lv2": "Compare k(T2)/k(T1) = exp[(Ea/R)(1/T1 - 1/T2)] separately from the finite-time sulfur ratio. Even at a fixed activation energy, the Arrhenius ratio depends on both absolute temperatures; the yield ratio additionally depends on depletion.",
+        "lv2_de": "Vergleiche k(T2)/k(T1) = exp[(Ea/R)(1/T1 - 1/T2)] getrennt vom Schwefelverhältnis nach endlicher Zeit. Auch bei fester Aktivierungsenergie hängt das Arrhenius-Verhältnis von beiden absoluten Temperaturen ab; das Ausbeuteverhältnis hängt zusätzlich vom Verbrauch ab.",
+        "lv3": "The existing rate parameters are calibrated near room temperature; extrapolated rates are model predictions, not an independently validated temperature series. The kinetic step uses local frozen proton activity coefficients and conserves the represented acid inventory.",
+        "lv3_de": "Die vorhandenen Geschwindigkeitsparameter sind nahe Raumtemperatur kalibriert; extrapolierte Geschwindigkeiten sind Modellvorhersagen, keine unabhängig validierte Temperaturreihe. Der kinetische Schritt verwendet lokal konstante Protonen-Aktivitätskoeffizienten und erhält das dargestellte Säureinventar."
       },
       "provenance": {
-        "source": "Arrhenius, Zeitschrift für physikalische Chemie, 1889, for the temperature dependence; Ea ≈ 51 kJ/mol for the thiosulfate–acid clock reaction per school practical literature (commonly reported 45–60 kJ/mol). Editorial judgement (Kerotakis): the four-temperature ladder and the decision to report the fraying of the rule rather than the rule alone are ours.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics (Arrhenius k evaluated per vessel, midpoint integration); pH from PHREEQC via Kerotakis L2"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
@@ -8524,8 +8639,8 @@
     {
       "id": "two-beakers-and-one-clock",
       "equation": null,
-      "summary": "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol",
-      "summary_de": "Identische Mischungen bei 25 °C und 35 °C; ein `wait 20s` lässt beide gleichzeitig fortschreiten, und nur die Temperatur unterscheidet sich — 4,3557 × 10⁻⁴ mol gegen 8,1256 × 10⁻⁴ mol",
+      "summary": "One wait advances every prepared vessel; experimental controls share elapsed time",
+      "summary_de": "Ein Warten bewegt alle vorbereiteten Gefäße weiter; Kontrollen teilen dieselbe vergangene Zeit",
       "concepts": [
         "shared-clock"
       ],
@@ -8581,53 +8696,43 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "You want to know whether temperature changes the rate. You have one stopwatch. What is the flaw in timing the cold beaker first and then the hot one?",
-          "question_de": "Du willst wissen, ob die Temperatur die Geschwindigkeit verändert. Du hast eine Stoppuhr. Was ist der Fehler daran, erst das kalte und dann das heiße Becherglas zu stoppen?",
+          "question": "When the shared bench waits ten seconds, which prepared beakers advance?",
+          "question_de": "Welche vorbereiteten Gefäße entwickeln sich weiter, wenn das gemeinsame Labor zehn Sekunden wartet?",
           "options": [
-            "No flaw — the stopwatch does not care which beaker it is timing",
-            "The hot beaker cools while it waits its turn, so the two are not really at the temperatures you wrote down",
-            "You cannot see both crosses vanish at once",
-            "There is no flaw, but it is slower to do it that way"
+            "Only the last vessel inspected",
+            "Every vessel on the shared clock",
+            "Only the more concentrated vessel"
           ],
           "options_de": [
-            "Kein Fehler — der Stoppuhr ist es egal, welches Becherglas sie stoppt",
-            "Das heiße Becherglas kühlt ab, während es auf seine Reihe wartet, sodass die beiden nicht wirklich bei den notierten Temperaturen sind",
-            "Man kann nicht beide Kreuze gleichzeitig verschwinden sehen",
-            "Es gibt keinen Fehler, aber es dauert so länger"
+            "Nur das zuletzt betrachtete Gefäß",
+            "Alle Gefäße der gemeinsamen Uhr",
+            "Nur das konzentriertere Gefäß"
           ],
           "answer": 1,
-          "misconception": "The first and last options treat 'fair test' as a rule about *which variables you change* and stop there. It is also a rule about when things happen. A virtual bench makes the point unusually sharply, because it had to be built in: `wait` advances every vessel on the bench, so the two beakers cannot drift apart in time, cannot be started at different moments and cannot sit around waiting their turn. A real bench gives you none of that for free, which is exactly why the habit has to be taught.",
-          "misconception_de": "Die erste und die letzte Option behandeln 'faires Experiment' als Regel darüber, *welche Variablen man ändert*, und hören dort auf. Es ist aber auch eine Regel darüber, wann Dinge geschehen. Ein virtuelles Labor macht diesen Punkt ungewöhnlich deutlich, weil er eigens eingebaut werden musste: `wait` lässt jedes Gefäß im Labor gleichzeitig fortschreiten, sodass die beiden Bechergläser zeitlich nicht auseinanderdriften können, nicht zu unterschiedlichen Zeitpunkten gestartet werden können und nicht auf ihre Reihe warten müssen. Ein echtes Labor schenkt einem davon nichts — genau deshalb muss diese Gewohnheit gelehrt werden.",
+          "misconception": "Observing one vessel does not give it a separate chemical clock.",
+          "misconception_de": "Die Beobachtung eines Gefäßes gibt ihm keine eigene chemische Uhr.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "A fair test is a rule about which variables you change; once the variables are right, the procedure is free.",
-              "reveals_de": "Ein faires Experiment sei eine Regel darüber, welche Variablen man ändert; sobald die Variablen stimmen, sei der Ablauf frei wählbar.",
-              "next": "List everything that differs between 'timed first' and 'timed second' — the beaker's temperature, how long the acid has been in, the room. A controlled comparison controls the procedure as well as the ingredients.",
-              "next_de": "Es wird aufgelistet, was sich zwischen 'zuerst gestoppt' und 'als zweites gestoppt' alles unterscheidet — die Temperatur des Becherglases, wie lange die Säure schon zugegeben ist, der Raum. Ein kontrollierter Vergleich kontrolliert den Ablauf ebenso wie die Zutaten.",
+              "reveals": "Selection in the interface is mistaken for a physical time boundary.",
+              "reveals_de": "Die Auswahl in der Oberfläche wird als physikalische Zeitgrenze missverstanden.",
+              "next": "Inspect both vessels before and after the same wait and compare their elapsed time.",
+              "next_de": "Untersuche beide Gefäße vor und nach demselben Warten und vergleiche die vergangene Zeit.",
               "source": null
             },
             {
               "option": 2,
-              "reveals": "The problem is the observer: one pair of eyes cannot watch two beakers.",
-              "reveals_de": "Das Problem sei der Beobachter: Ein Augenpaar könne nicht zwei Bechergläser gleichzeitig beobachten.",
-              "next": "A real constraint, and a soluble one — two crosses side by side, or a video. Ask instead what happens to the beaker that is not being watched, which is the part no amount of attention fixes.",
-              "next_de": "Eine reale und lösbare Einschränkung — zwei Kreuze nebeneinander oder ein Video. Stattdessen wird gefragt, was mit dem Becherglas passiert, das gerade nicht beobachtet wird — das ist der Teil, den keine noch so große Aufmerksamkeit beheben kann.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "Sequential timing is merely inefficient, not invalid.",
-              "reveals_de": "Nacheinander zu stoppen sei lediglich ineffizient, nicht ungültig.",
-              "next": "Estimate the size of the error. A beaker sitting for a minute between runs loses a degree or two, and this reaction changes rate by 1.9 per ten degrees — so a couple of degrees is several percent, comparable with the effect being measured.",
-              "next_de": "Die Größe des Fehlers wird abgeschätzt. Ein Becherglas, das eine Minute lang zwischen den Durchläufen steht, verliert ein bis zwei Grad, und diese Reaktion ändert ihre Geschwindigkeit um das 1,9-Fache pro zehn Grad — ein paar Grad sind also mehrere Prozent, vergleichbar mit dem zu messenden Effekt.",
+              "reveals": "A faster rate is confused with permission for time to pass.",
+              "reveals_de": "Eine höhere Geschwindigkeit wird mit der Erlaubnis für Zeitablauf verwechselt.",
+              "next": "Both inventories evolve over the same interval, at their own concentration-dependent rates.",
+              "next_de": "Beide Inventare entwickeln sich im selben Intervall mit ihren jeweiligen konzentrationsabhängigen Geschwindigkeiten.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 2.09,
+          "max": 2.15
         },
         "temperature_c": {
           "min": 24.5,
@@ -8635,24 +8740,24 @@
         }
       },
       "registers": {
-        "lv1": "Two beakers, the same amounts of everything, one warm and one not. Start them together, watch them together, stop them together. After twenty seconds the cold one is faintly hazy and the warm one is properly cloudy — and because nothing else was different, the warmth is the only thing that can have caused it. Change two things at once and you have a nice-looking experiment that proves nothing.",
-        "lv1_de": "Zwei Bechergläser, von allem dieselbe Menge, das eine warm und das andere nicht. Man startet sie gemeinsam, beobachtet sie gemeinsam, stoppt sie gemeinsam. Nach zwanzig Sekunden ist das kalte leicht trübe, das warme richtig trüb — und weil sonst nichts anders war, kann nur die Wärme das verursacht haben. Ändert man zwei Dinge gleichzeitig, hat man ein hübsch aussehendes Experiment, das nichts beweist.",
-        "lv2": "Same 0.05 mol/L thiosulfate, same 0.002 mol of HCl, same 100 mL, 25 °C against 35 °C. One `wait 20s` advances both vessels: 4.3557 × 10⁻⁴ mol of reaction in the cold beaker against 8.1256 × 10⁻⁴ in the warm one, a factor of 1.87. The second twenty seconds gives 3.9760 × 10⁻⁴ and 6.8042 × 10⁻⁴ — both beakers slowing as their thiosulfate runs down, the warm one faster because it has less left.",
-        "lv2_de": "Dasselbe 0,05 mol/L Thiosulfat, dieselben 0,002 mol HCl, dieselben 100 mL, 25 °C gegen 35 °C. Ein `wait 20s` lässt beide Gefäße gleichzeitig fortschreiten: 4,3557 × 10⁻⁴ mol Umsatz im kalten Becherglas gegen 8,1256 × 10⁻⁴ im warmen, ein Faktor von 1,87. Die zweiten zwanzig Sekunden ergeben 3,9760 × 10⁻⁴ und 6,8042 × 10⁻⁴ — beide Bechergläser werden langsamer, während ihr Thiosulfat zur Neige geht, das warme schneller, weil ihm weniger übrig bleibt.",
-        "lv3": "Time is a state dimension on this bench, and it is shared rather than per-vessel: `Operator::Wait` iterates every vessel and advances each one's clock and chemistry by the same interval, and the bench then re-settles every vessel's fast equilibria around what is left. That ordering — kinetics first, then speciation — is operator splitting, and it is the right way round because equilibrium is the faster process. The design cost of the alternative is worth naming: had `wait` taken a vessel argument, every rate comparison in this file would have been a comparison of two separately-run experiments, and the fair test would have been a convention the user had to keep rather than a property the engine guarantees. What the simulation cannot supply is the difficulty: identical starting temperatures, zero heat loss and perfect timing are free here and are most of the work at a real bench.",
-        "lv3_de": "Zeit ist auf diesem Labor eine Zustandsdimension, und sie wird geteilt statt pro Gefäß geführt: `Operator::Wait` durchläuft jedes Gefäß und lässt dessen Uhr und Chemie um dasselbe Intervall fortschreiten, und das Labor stellt danach die schnellen Gleichgewichte jedes Gefäßes neu um das ein, was übrig ist. Diese Reihenfolge — erst Kinetik, dann Speziation — ist Operatorsplitting, und sie ist richtig herum, weil das Gleichgewicht der schnellere Prozess ist. Die Entwurfskosten der Alternative sind es wert, genannt zu werden: Hätte `wait` ein Gefäßargument entgegengenommen, wäre jeder Geschwindigkeitsvergleich in dieser Datei ein Vergleich zweier getrennt durchgeführter Experimente gewesen, und das faire Experiment wäre eine Konvention gewesen, die der Nutzer selbst hätte einhalten müssen, statt eine Eigenschaft, die der Motor garantiert. Was die Simulation nicht liefern kann, ist die Schwierigkeit: identische Ausgangstemperaturen, kein Wärmeverlust und perfektes Timing gibt es hier gratis, und genau das macht bei einem echten Labor den größten Teil der Arbeit aus."
+        "lv1": "The beakers share a clock, not a reaction speed. One can change more during the same wait.",
+        "lv1_de": "Die Gefäße teilen eine Uhr, nicht eine Reaktionsgeschwindigkeit. Eines kann sich während derselben Wartezeit stärker verändern.",
+        "lv2": "A fair comparison uses the same elapsed interval and records each vessel's initial concentrations. Subsequent rates depend on each vessel's remaining thiosulfate and acid, so finite-time sulfur ratios need not stay exactly constant.",
+        "lv2_de": "Ein fairer Vergleich verwendet dasselbe Zeitintervall und dokumentiert die Anfangskonzentrationen jedes Gefäßes. Spätere Geschwindigkeiten hängen vom jeweils übrigen Thiosulfat und der Säure ab; Schwefelverhältnisse nach endlicher Zeit müssen daher nicht exakt konstant bleiben.",
+        "lv3": "Wait advances each vessel independently through the same duration. The solver uses a common stoichiometric network, but each vessel has its own state and limiting reagents; selection and inspection cannot supply or consume reaction time.",
+        "lv3_de": "Warten entwickelt jedes Gefäß unabhängig über dieselbe Dauer weiter. Der Löser verwendet ein gemeinsames stöchiometrisches Netzwerk, aber jedes Gefäß besitzt seinen eigenen Zustand und seine limitierenden Stoffe; Auswahl und Betrachtung liefern oder verbrauchen keine Reaktionszeit."
       },
       "provenance": {
-        "source": "Editorial judgement (Kerotakis): the shared-clock design and the argument that it is what makes a fair test structural rather than conventional are ours, recorded in PLAN.md (P3k) and `kinetics.rs`. The controlled-comparison principle itself is standard scientific method.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics; bench clock via Operator::Wait"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
       "id": "a-salt-with-no-database",
       "equation": null,
-      "summary": "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without",
-      "summary_de": "Natriumthiosulfat löst sich auf und reagiert und trägt exakt nichts zum pH-Wert bei: 1,74858175066 mit ihm und 1,74858175066 ohne ihn",
+      "summary": "An unrepresented soluble ion must not inherit pure water's pH",
+      "summary_de": "Ein nicht dargestelltes lösliches Ion darf nicht den pH von reinem Wasser erben",
       "concepts": [
         "species-without-a-database"
       ],
@@ -8707,46 +8812,36 @@
           "dissolved:Na2S2O3"
         ],
         "predict": {
-          "question": "Sodium thiosulfate is a salt of a weak acid, so a solution of it should be slightly alkaline. What does this bench report for 0.79 g of it in 100 mL of pure water?",
-          "question_de": "Natriumthiosulfat ist das Salz einer schwachen Säure, eine Lösung davon sollte also leicht alkalisch sein. Was meldet dieses Labor für 0,79 g davon in 100 mL reinem Wasser?",
+          "question": "What should a pH tool do when the added soluble salt has no integrated aqueous speciation model?",
+          "question_de": "Was soll ein pH-Werkzeug tun, wenn für das zugegebene lösliche Salz kein integriertes wässriges Speziationsmodell vorliegt?",
           "options": [
-            "About pH 8.5, as the chemistry requires",
-            "pH 7.00 — it treats the salt as neutral",
-            "Nothing at all: no solver can speciate thiosulfate, so no solution is characterised and the pH meter reads nothing",
-            "It refuses to add the salt"
+            "Guess a plausible alkaline value",
+            "Report pure water's pH as though the salt were neutral",
+            "Disclose the missing ionic contribution and withhold a complete salt-only pH"
           ],
           "options_de": [
-            "Etwa pH 8,5, wie es die Chemie verlangt",
-            "pH 7,00 — es behandelt das Salz als neutral",
-            "Überhaupt nichts: Kein Solver kann Thiosulfat speziieren, also wird keine Lösung charakterisiert, und das pH-Meter zeigt nichts an",
-            "Es weigert sich, das Salz zuzugeben"
+            "Einen plausiblen alkalischen Wert schätzen",
+            "Den pH von reinem Wasser ausgeben, als wäre das Salz neutral",
+            "Den fehlenden Ionenbeitrag nennen und einen vollständigen pH nur für das Salz verweigern"
           ],
           "answer": 2,
-          "misconception": "The second option is what most software would do and is the failure this bench is built to avoid: a plausible number with nothing behind it. Thiosulfate is absent from every PHREEQC database we ship, so there is no equilibrium constant to compute a pH from. The bench therefore says so, and the salt sits in the vessel without a solution around it. The first option is the right chemistry — S₂O₃²⁻ is the conjugate base of a weak acid and a real solution is mildly alkaline — which makes the gap a real one rather than a technicality.",
-          "misconception_de": "Die zweite Option ist das, was die meiste Software tun würde, und genau dieses Versagen soll dieses Labor vermeiden: eine plausible Zahl ohne jede Grundlage. Thiosulfat fehlt in jeder PHREEQC-Datenbank, die wir ausliefern, es gibt also keine Gleichgewichtskonstante, aus der sich ein pH-Wert berechnen ließe. Das Labor sagt das deshalb offen, und das Salz liegt im Gefäß, ohne dass eine Lösung um es herum charakterisiert wird. Die erste Option ist die richtige Chemie — S₂O₃²⁻ ist die konjugierte Base einer schwachen Säure, und eine echte Lösung ist leicht alkalisch —, was die Lücke real macht und nicht bloß zu einer Formsache.",
+          "misconception": "Accepting material and predicting its equilibrium are separate capabilities. A plausible number is not evidence that the missing chemistry was computed.",
+          "misconception_de": "Material anzunehmen und sein Gleichgewicht vorherzusagen sind verschiedene Fähigkeiten. Eine plausible Zahl belegt nicht, dass die fehlende Chemie berechnet wurde.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "The software knows the chemistry, so it will give the chemically correct answer.",
-              "reveals_de": "Die Software kenne die Chemie und liefere deshalb die chemisch korrekte Antwort.",
-              "next": "Ask where such an answer would come from. A pH needs an equilibrium constant, and no shipped database carries one for thiosulfate. Software knows what its data knows.",
-              "next_de": "Es wird gefragt, woher eine solche Antwort überhaupt kommen sollte. Ein pH-Wert braucht eine Gleichgewichtskonstante, und keine ausgelieferte Datenbank führt eine für Thiosulfat. Software weiß nur, was ihre Daten wissen.",
+              "reveals": "A remembered qualitative expectation is treated as a computed measurement.",
+              "reveals_de": "Eine erinnerte qualitative Erwartung wird als berechnete Messung behandelt.",
+              "next": "Ask which species, equilibria and data support the number before accepting it.",
+              "next_de": "Frage nach den Spezies, Gleichgewichten und Daten hinter der Zahl, bevor du sie akzeptierst.",
               "source": null
             },
             {
               "option": 1,
-              "reveals": "Where a program has nothing to say it defaults to the neutral, unremarkable value.",
-              "reveals_de": "Wo ein Programm nichts zu sagen habe, falle es auf den neutralen, unauffälligen Wert zurück.",
-              "next": "This is the answer to watch for in any tool: a plausible number with nothing behind it, indistinguishable from a computed one. Compare with the same bench's `when-the-lab-says-it-does-not-know` — the design commitment is to say nothing rather than to say 7.",
-              "next_de": "Genau davor sollte man sich bei jedem Werkzeug hüten: eine plausible Zahl ohne jede Grundlage, nicht zu unterscheiden von einer tatsächlich berechneten. Zum Vergleich der Eintrag `when-the-lab-says-it-does-not-know` desselben Labors — die Entwurfsentscheidung lautet, lieber nichts zu sagen als 7 zu sagen.",
-              "source": null
-            },
-            {
-              "option": 3,
-              "reveals": "A model that cannot handle something should refuse to proceed.",
-              "reveals_de": "Ein Modell, das etwas nicht abbilden kann, sollte die Ausführung verweigern.",
-              "next": "Notice what would be lost: the salt would be unusable, and its rate chemistry — which the engine models perfectly well — would go with it. The useful move is to accept the substance and name precisely which downstream numbers it invalidates.",
-              "next_de": "Es wird bemerkt, was dabei verloren ginge: Das Salz wäre unbrauchbar, und seine Kinetik — die der Motor durchaus gut modelliert — ginge mit verloren. Der nützlichere Weg ist, den Stoff zu akzeptieren und genau zu benennen, welche nachgelagerten Werte er ungültig macht.",
+              "reveals": "Unrepresented ions are treated as a nonionic solute.",
+              "reveals_de": "Nicht dargestellte Ionen werden wie ein nichtionischer gelöster Stoff behandelt.",
+              "next": "Compare the salt-only vessel with the represented acid control and read the model-boundary notice.",
+              "next_de": "Vergleiche das Gefäß nur mit Salz mit der dargestellten Säurekontrolle und lies den Hinweis auf die Modellgrenze.",
               "source": null
             }
           ]
@@ -8758,24 +8853,24 @@
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Some things this lab knows how to think about, and some it does not. It can hold this salt, dissolve it and let it react — but if you ask what it does to the acidity, it tells you plainly that it has no way to work that out. That is a better answer than a confident number nobody checked.",
-        "lv1_de": "Manches weiß dieses Labor zu bedenken, manches nicht. Es kann dieses Salz aufnehmen, es auflösen und reagieren lassen — aber fragst du, was es mit der Säure macht, sagt es dir offen, dass es das nicht herausfinden kann. Das ist eine bessere Antwort als eine selbstsichere Zahl, die niemand überprüft hat.",
-        "lv2": "The acid beaker reads pH 1.74858175066. The beaker with thiosulfate *and* the same acid reads pH 1.74858175066 — identical to twelve figures, because the thiosulfate contributes nothing to the charge balance or the ionic strength (0.02006 mol/kgw in both). The third beaker, thiosulfate in pure water, has no characterised solution at all: the salt stays in the vessel as a solid and the pH meter reports that it has nothing to read.",
-        "lv2_de": "Das Säure-Becherglas zeigt pH 1,74858175066. Das Becherglas mit Thiosulfat *und* derselben Säure zeigt pH 1,74858175066 — identisch bis zur zwölften Stelle, weil das Thiosulfat weder zur Ladungsbilanz noch zur Ionenstärke etwas beiträgt (0,02006 mol/kgw in beiden). Das dritte Becherglas, Thiosulfat in reinem Wasser, hat überhaupt keine charakterisierte Lösung: Das Salz bleibt als Feststoff im Gefäß, und das pH-Messgerät meldet, dass es nichts abzulesen gibt.",
-        "lv3": "The species registry marks sodium thiosulfate `dissolves_without_speciation`, and the bench raises `NotYetModeled` every time it is added, naming exactly what is affected: the pH and the ionic strength are for everything else in the beaker. This is not cosmetic — it was earned by two bugs that only a rate model could have exposed. Before the fix, one species without a derived role made `partition` return `None`, so adding thiosulfate silently withdrew the pH of the acid sitting beside it; and because the aqueous rebuild replaces a vessel's contents with the computed state, the unrecognised species was then destroyed rather than ignored. What remains is a vessel where two solvers coexist over the same liquid with different vocabularies, and the rate engine draws its acid term from the one that does know about protons. Worth naming the real chemistry that is missing: S₂O₃²⁻ has pKa₂ ≈ 1.6, so at pH 1.75 a real solution is roughly half protonated, and the reacting species is arguably HS₂O₃⁻ rather than the free anion.",
-        "lv3_de": "Das Spezies-Register markiert Natriumthiosulfat als `dissolves_without_speciation`, und das Labor löst bei jeder Zugabe `NotYetModeled` aus und benennt dabei genau, was betroffen ist: pH-Wert und Ionenstärke gelten für alles andere im Becherglas. Das ist keine Kosmetik — es wurde durch zwei Fehler erkauft, die nur ein Kinetikmodell hätte aufdecken können. Vor der Behebung führte eine Spezies ohne abgeleitete Rolle dazu, dass `partition` `None` zurückgab, sodass die Zugabe von Thiosulfat stillschweigend den pH-Wert der danebenliegenden Säure entzog; und weil der wässrige Neuaufbau den Inhalt eines Gefäßes durch den berechneten Zustand ersetzt, wurde die nicht erkannte Spezies anschließend zerstört statt ignoriert. Was bleibt, ist ein Gefäß, in dem zwei Solver über derselben Flüssigkeit mit unterschiedlichem Vokabular koexistieren, und der Kinetikmotor bezieht seinen Säureterm von demjenigen, der etwas von Protonen versteht. Es lohnt sich, die fehlende reale Chemie zu benennen: S₂O₃²⁻ hat pKa₂ ≈ 1,6, sodass bei pH 1,75 eine echte Lösung ungefähr zur Hälfte protoniert wäre, und die reagierende Spezies wäre eher HS₂O₃⁻ als das freie Anion."
+        "lv1": "The bench can hold this salt without pretending it knows every effect of the dissolved ions.",
+        "lv1_de": "Das Labor kann dieses Salz enthalten, ohne vorzutäuschen, jede Wirkung der gelösten Ionen zu kennen.",
+        "lv2": "The represented acid can still be characterized, but its pH excludes the missing thiosulfate contribution and must say so. Salt alone must not receive a silently inherited pure-water pH.",
+        "lv2_de": "Die dargestellte Säure kann weiterhin charakterisiert werden; ihr pH lässt den fehlenden Thiosulfatbeitrag jedoch aus und muss das offenlegen. Das Salz allein darf keinen stillschweigend übernommenen Reinwasser-pH erhalten.",
+        "lv3": "Thiosulfate's kinetic inventory and its missing aqueous equilibrium slice are separate ownership questions. Keeping a soluble salt in the inventory is not a speciation calculation; the generic ionic-coverage gate distinguishes it from water and neutral nonionic solutes.",
+        "lv3_de": "Das kinetische Thiosulfatinventar und sein fehlendes wässriges Gleichgewichtsmodell sind getrennte Zuständigkeiten. Ein lösliches Salz im Inventar zu erhalten ist keine Speziationsrechnung; die allgemeine Ionen-Abdeckungsprüfung unterscheidet es von Wasser und neutralen nichtionischen Stoffen."
       },
       "provenance": {
-        "source": "Editorial judgement (Kerotakis): the decision to let an unspeciated salt dissolve while reporting what that costs, rather than refusing it or inventing a pH, is ours and is recorded in PLAN.md (P3k, 'Honest gaps'). The absence of thiosulfate from wateq4f.dat, minteq.v4.dat and pitzer.dat is a property of the shipped PHREEQC databases (USGS). The pKa₂ ≈ 1.6 quoted at lv3 is a standard reference value and is not computed by this engine.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "PHREEQC via Kerotakis L2 for the two pH readings; the gap notice comes from the bench's honesty pass"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {
       "id": "the-acid-is-never-used-up",
       "equation": null,
-      "summary": "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066",
-      "summary_de": "Zehn Minuten verbrauchen 4,6727 × 10⁻³ mol Thiosulfat — wofür 9,35 mmol Protonen nötig wären — während das Becherglas 2 mmol enthält und der pH-Wert nie von 1,74858175066 abweicht",
+      "summary": "Finite acid is consumed: an old fixed-reservoir approximation is now a limiting-reagent test",
+      "summary_de": "Endliche Säure wird verbraucht: Eine alte Festreservoir-Näherung ist jetzt ein Test des limitierenden Stoffes",
       "concepts": [
         "excess-reagent-approximation"
       ],
@@ -8832,68 +8927,58 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "The equation is S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. The beaker starts with 5.0 mmol of thiosulfate and 2.0 mmol of acid. After ten minutes, 4.67 mmol of thiosulfate has reacted. What has the pH done?",
-          "question_de": "Die Gleichung lautet S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. Das Becherglas startet mit 5,0 mmol Thiosulfat und 2,0 mmol Säure. Nach zehn Minuten haben 4,67 mmol Thiosulfat reagiert. Was hat der pH-Wert getan?",
+          "question": "With 5 mmol thiosulfate and 2 mmol represented strong acid, how much sulfur can this proton-consuming reaction form without a new acid source?",
+          "question_de": "Wie viel Schwefel kann diese protonenverbrauchende Reaktion aus 5 mmol Thiosulfat und 2 mmol dargestellter starker Säure ohne neue Säurequelle bilden?",
           "options": [
-            "Risen sharply — the protons were the limiting reagent and ran out after 1 mmol of thiosulfate",
-            "Risen a little, as protons were consumed",
-            "Not moved at all — this rate law reads the acid from the pH and never consumes it, which is a stated approximation and here it is being stretched past where it holds",
-            "Fallen, because sulfur dioxide dissolves to make an acid"
+            "At most 1 mmol, because each sulfur requires two acid equivalents",
+            "All 5 mmol, because pH is a permanent acid supply",
+            "More sulfur for every extra minute, without an inventory bound"
           ],
           "options_de": [
-            "Stark gestiegen — die Protonen waren das begrenzende Edukt und gingen nach 1 mmol Thiosulfat aus",
-            "Ein wenig gestiegen, da Protonen verbraucht wurden",
-            "Überhaupt nicht bewegt — dieses Geschwindigkeitsgesetz liest die Säure aus dem pH-Wert ab und verbraucht sie nie, was eine erklärte Näherung ist, die hier über ihre Gültigkeitsgrenze hinaus strapaziert wird",
-            "Gefallen, weil sich Schwefeldioxid unter Bildung einer Säure löst"
+            "Höchstens 1 mmol, weil jeder Schwefel zwei Säureäquivalente benötigt",
+            "Alle 5 mmol, weil der pH eine permanente Säurequelle ist",
+            "Mit jeder zusätzlichen Minute mehr Schwefel, ohne Inventargrenze"
           ],
-          "answer": 2,
-          "misconception": "There is no misconception on offer here — all four options are chemically sensible, and the first is what a real beaker would do. The question exists to make a modelling decision visible. The rate law treats [H⁺] as an influence read from the solution rather than as a reactant with an inventory, because the practical is designed to run with acid in large excess and the vessel has no proton portion to draw down. Over the twenty to sixty seconds the practical actually uses, that is a good approximation. Over ten minutes with only 2 mmol of acid it is not, and the entry says so rather than letting the reader discover it as a surprise.",
-          "misconception_de": "Hier wird kein Missverständnis angeboten — alle vier Optionen sind chemisch sinnvoll, und die erste ist das, was ein echtes Becherglas tun würde. Die Frage dient dazu, eine Modellierungsentscheidung sichtbar zu machen. Das Geschwindigkeitsgesetz behandelt [H⁺] als einen aus der Lösung abgelesenen Einfluss, nicht als Reaktanten mit eigenem Inventar, weil das Experiment für einen großen Säureüberschuss ausgelegt ist und das Gefäß keine Protonenmenge besitzt, die abgebaut werden könnte. Über die zwanzig bis sechzig Sekunden, die das Experiment tatsächlich nutzt, ist das eine gute Näherung. Über zehn Minuten mit nur 2 mmol Säure ist sie es nicht, und der Eintrag sagt das offen, statt es die Leserin oder den Leser als Überraschung entdecken zu lassen.",
+          "answer": 0,
+          "misconception": "A measured activity affects the rate; it is not an inexhaustible reactant inventory.",
+          "misconception_de": "Eine gemessene Aktivität beeinflusst die Geschwindigkeit; sie ist kein unerschöpfliches Reaktandeninventar.",
           "diagnosis": [
             {
-              "option": 0,
-              "reveals": "The right chemistry for a real beaker, and the right stoichiometry — offered as a prediction about this model.",
-              "reveals_de": "Die richtige Chemie für ein echtes Becherglas und die richtige Stöchiometrie — angeboten als Vorhersage über dieses Modell.",
-              "next": "Nothing to unlearn. Note instead which prediction the engine cannot honour and why: there is no proton portion in the vessel to draw down, so the limiting-reagent argument has nothing to act on here even though it is correct.",
-              "next_de": "Hier ist nichts zu verlernen. Stattdessen wird notiert, welche Vorhersage der Motor nicht einlösen kann und warum: Es gibt im Gefäß keine Protonenmenge, die sich abbauen ließe, sodass das Argument des limitierenden Reagenz hier korrekt, aber wirkungslos ist.",
-              "source": null
-            },
-            {
               "option": 1,
-              "reveals": "Protons are consumed, but a solution buffers itself, so the pH drifts rather than jumps.",
-              "reveals_de": "Protonen würden verbraucht, aber eine Lösung puffere sich selbst, sodass der pH-Wert eher driftet als springt.",
-              "next": "Check whether anything in this beaker could buffer: hydrochloric acid is fully dissociated and thiosulfate is invisible to the aqueous solver. Then read the pH — not drifted, not moved at all, twelve digits unchanged.",
-              "next_de": "Es wird geprüft, ob irgendetwas in diesem Becherglas puffern könnte: Salzsäure ist vollständig dissoziiert, und Thiosulfat ist für den wässrigen Solver unsichtbar. Dann wird der pH-Wert abgelesen — nicht gedriftet, überhaupt nicht bewegt, zwölf Stellen unverändert.",
+              "reveals": "A cached pH value is treated as a material reservoir.",
+              "reveals_de": "Ein gespeicherter pH-Wert wird als Stoffreservoir behandelt.",
+              "next": "Count the consumed H+ equivalents in the balanced reaction and compare them with the initial 2 mmol.",
+              "next_de": "Zähle die verbrauchten H+-Äquivalente in der ausgeglichenen Reaktion und vergleiche sie mit den anfänglichen 2 mmol.",
               "source": null
             },
             {
-              "option": 3,
-              "reveals": "Sulfur dioxide is an acid gas, so dissolving it should acidify the beaker further.",
-              "reveals_de": "Schwefeldioxid sei ein saures Gas, sein Lösen müsse das Becherglas also weiter ansäuern.",
-              "next": "Chemically reasonable and also not modelled: the SO₂ is deposited straight into the gas phase and never enters the aqueous solver, so it cannot form sulfurous acid here. Two separate absences produce the same flat line, and it is worth being able to name both.",
-              "next_de": "Chemisch vernünftig und ebenfalls nicht modelliert: Das SO₂ wird direkt in die Gasphase abgelagert und gelangt nie in den wässrigen Solver, kann hier also keine schweflige Säure bilden. Zwei getrennte Lücken erzeugen dieselbe flache Linie, und es lohnt sich, beide benennen zu können.",
+              "option": 2,
+              "reveals": "Integration time is allowed to overrule conservation.",
+              "reveals_de": "Die Integrationszeit darf in dieser Vorstellung die Erhaltung überstimmen.",
+              "next": "A longer wait changes extent only within the reagent bounds; inspect the remaining acid and sulfur together.",
+              "next_de": "Längeres Warten verändert den Fortschritt nur innerhalb der Reaktandengrenzen; untersuche übrige Säure und Schwefel gemeinsam.",
               "source": null
             }
           ]
         },
         "ph": {
-          "min": 1.7,
-          "max": 1.8
+          "min": 6.45,
+          "max": 6.65
         },
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Left for ten minutes, the beaker turns thick and yellow: almost all the thiosulfate has become sulfur. The acid meter reads exactly what it read at the start. In a real beaker it would not — the acid is meant to be used up too, and here it never is. This is a corner the model was not built for, and it is better to know where those corners are than to find one by accident.",
-        "lv1_de": "Zehn Minuten sich selbst überlassen, wird das Becherglas dickflüssig und gelb: Fast das gesamte Thiosulfat ist zu Schwefel geworden. Das Säuremessgerät zeigt genau denselben Wert wie am Anfang. In einem echten Becherglas wäre das nicht so — die Säure sollte eigentlich auch verbraucht werden, und hier geschieht das nie. Das ist eine Ecke, für die das Modell nicht gebaut wurde, und es ist besser, diese Ecken zu kennen, als zufällig darüber zu stolpern.",
-        "lv2": "In 600 s the bench reports 4.6727 × 10⁻³ mol of reaction, 93.5% of the 4.9965 × 10⁻³ mol of thiosulfate present, and pH 1.74858175066 before and after — the same twelve digits. By the stated equation that much reaction would need 9.345 × 10⁻³ mol of protons, and the beaker was charged with 2.0 × 10⁻³ mol. A real beaker would have run out of acid after about 1 mmol of thiosulfate and stalled.",
-        "lv2_de": "Nach 600 s meldet das Labor 4,6727 × 10⁻³ mol Umsatz, 93,5 % der vorhandenen 4,9965 × 10⁻³ mol Thiosulfat, und pH 1,74858175066 davor wie danach — dieselben zwölf Stellen. Nach der angegebenen Gleichung würde ein solcher Umsatz 9,345 × 10⁻³ mol Protonen benötigen, und das Becherglas wurde mit 2,0 × 10⁻³ mol befüllt. Ein echtes Becherglas wäre nach etwa 1 mmol umgesetztem Thiosulfat die Säure ausgegangen, und die Reaktion wäre ins Stocken geraten.",
-        "lv3": "The approximation is deliberate and documented: `orders` carries `(PROTON, 1.0)` while `reactants` does not, so the proton enters the rate through `10^(−pH)` and is never withdrawn. The reason it cannot simply be fixed by adding H⁺ to `reactants` is structural — the proton is not a vessel portion at all; it lives in PHREEQC's charge balance, and there is nothing there for the integrator to decrement. Doing this properly means the rate engine handing a consumed proton amount back to the aqueous solver as an alkalinity change between substeps, which is a coupling neither solver currently has. Until then the honest guidance is that thiosulfate results are trustworthy while the acid is in genuine excess — for these amounts, up to roughly the first fifth of the thiosulfate, which comfortably covers the disappearing-cross timings and does not cover this ten-minute run.",
-        "lv3_de": "Die Näherung ist bewusst gewählt und dokumentiert: `orders` enthält `(PROTON, 1.0)`, während `reactants` das nicht tut, sodass das Proton über `10^(−pH)` in die Geschwindigkeit eingeht und niemals entnommen wird. Der Grund, warum sich das nicht einfach durch Hinzufügen von H⁺ zu `reactants` beheben lässt, ist struktureller Natur — das Proton ist überhaupt keine Gefäßmenge; es lebt in PHREEQCs Ladungsbilanz, wo es für den Integrator nichts zu verringern gibt. Das richtig zu lösen würde bedeuten, dass der Kinetikmotor eine verbrauchte Protonenmenge zwischen den Teilschritten als Änderung der Alkalinität an den wässrigen Solver zurückgibt — eine Kopplung, die derzeit keiner der beiden Solver besitzt. Bis dahin gilt als ehrliche Richtschnur: Thiosulfat-Ergebnisse sind vertrauenswürdig, solange die Säure in echtem Überschuss vorliegt — für diese Mengen also bis zu ungefähr dem ersten Fünftel des Thiosulfats, was die Zeiten des verschwindenden Kreuzes bequem abdeckt, aber diesen Zehn-Minuten-Lauf nicht."
+        "lv1": "The acid is now spent as the reaction runs. Waiting cannot pour in more of it.",
+        "lv1_de": "Die Säure wird während der Reaktion nun verbraucht. Warten kann keine zusätzliche Säure eingießen.",
+        "lv2": "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. Subsequent gas exchange and aqueous speciation determine the displayed pH; the stoichiometric bound alone does not predict that pH.",
+        "lv2_de": "Der ausgeglichene kinetische Schritt verbraucht zwei dargestellte H+-Äquivalente pro Schwefel; die anfänglichen 2 mmol Säure begrenzen seinen Fortschritt somit auf 1 mmol. Anschließender Gasaustausch und wässrige Speziation bestimmen den angezeigten pH; die stöchiometrische Grenze allein sagt ihn nicht voraus.",
+        "lv3": "The historical catalog ID is retained for links, but the earlier constant-acid approximation is no longer the implemented behavior. The bounded network spends acid inventory and changes its activity locally; independent conservation and integrated-rate tests cover scale, acid ratio, and time partition. Missing weak-acid coupling remains an explicit boundary.",
+        "lv3_de": "Die historische Katalog-ID bleibt für Verweise erhalten, aber die frühere Näherung konstanter Säure ist nicht mehr das implementierte Verhalten. Das begrenzte Netzwerk verbraucht Säureinventar und verändert lokal dessen Aktivität; unabhängige Erhaltungs- und integrierte Geschwindigkeitstests prüfen Maßstab, Säureverhältnis und Zeitaufteilung. Fehlende Kopplung schwacher Säuren bleibt eine ausdrückliche Modellgrenze."
       },
       "provenance": {
-        "source": "Editorial judgement (Kerotakis): the excess-acid approximation and its boundary are ours, stated in `kinetics.rs` and stretched deliberately here so that the boundary can be seen. The stoichiometry S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O is standard.",
+        "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics; pH from PHREEQC via Kerotakis L2"
+        "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
       }
     },
     {

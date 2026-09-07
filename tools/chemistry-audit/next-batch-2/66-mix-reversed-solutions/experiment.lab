@@ -1,0 +1,10 @@
+# Does swapping MIX operands leave the receiver unchanged?
+register lv3
+add v1 water 200mL
+add v1 MgSO4 0.002mol
+new
+add v2 water 400mL
+add v2 NaCl 0.004mol
+new
+mix v2 0.75 v1 0.25 into v3
+inspect

@@ -257,6 +257,25 @@ impl Clock for CuratedKineticsClock {
         ctx: &ClockContext,
         events: &mut Vec<Event>,
     ) -> Result<(), IntegrationError> {
+        for reaction in crate::kinetics::REGISTRY {
+            let other_reactants_present = reaction
+                .reactants()
+                .filter(|term| term.species != crate::kinetics::PROTON)
+                .all(|term| {
+                    vessel.contents.iter().any(|p| {
+                        p.species.0 == term.species && p.phase == term.phase && p.moles.0 > 0.0
+                    })
+                });
+            if other_reactants_present {
+                if let Some(detail) = reaction.proton_consumption_boundary(vessel) {
+                    events.push(Event::NotYetModeled {
+                        cause: crate::ops::NotModelledCause::ModelBoundary,
+                        vessel: vessel.id,
+                        what: format!("{}: {detail}", reaction.id),
+                    });
+                }
+            }
+        }
         for (reaction, moles) in
             crate::kinetics::advance_with_context(vessel, seconds, ctx.kinetic)?
         {
@@ -299,6 +318,16 @@ impl Clock for CuratedKineticsClock {
             }
             if moles.0 < crate::OBSERVABLE_MOLES {
                 continue;
+            }
+            if reaction
+                .reactants()
+                .any(|term| term.species == crate::kinetics::PROTON)
+            {
+                events.push(Event::NotYetModeled {
+                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                    vessel: vessel.id,
+                    what: format!("{} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.", reaction.id),
+                });
             }
             let (ea, catalyst) =
                 reaction.effective_activation_energy_with_context(vessel, ctx.kinetic);

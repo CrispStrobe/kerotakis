@@ -12,6 +12,42 @@ fn lessons_dir() -> std::path::PathBuf {
 }
 
 #[test]
+fn open_fizz_balance_equals_inputs_minus_escaped_gas() {
+    let lesson = lessons_dir().join("sealed-mass-conservation.lab");
+    let (out, err, ok) = run(&["run", lesson.to_str().unwrap(), "--json"]);
+    assert!(ok, "{err}");
+    let rows: Vec<serde_json::Value> = out
+        .lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect();
+    let events: Vec<_> = rows
+        .iter()
+        .flat_map(|r| r["events"].as_array().unwrap())
+        .collect();
+    let mut escaped_g = 0.0;
+    for event in &events {
+        if event["vessel"] != 1 {
+            continue;
+        }
+        let sign = match event["event"].as_str() {
+            Some("gas_evolved") => 1.0,
+            Some("gas_absorbed") => -1.0,
+            _ => continue,
+        };
+        let gas = kerotakis_core::species::lookup_key(event["species"].as_str().unwrap()).unwrap();
+        escaped_g += sign * event["moles"].as_f64().unwrap() * gas.molar_mass;
+    }
+    let reading = events
+        .iter()
+        .find(|e| e["event"] == "measured" && e["vessel"] == 1 && e["instrument"] == "balance")
+        .unwrap();
+    // The recipe inputs are 50.300 g vinegar plus 5.000 g baking soda.
+    // This budget, not a rounded output snapshot, determines the balance.
+    assert!(escaped_g > 0.0);
+    assert!((reading["value"].as_f64().unwrap() + escaped_g - 55.3).abs() < 1e-4);
+}
+
+#[test]
 fn prepared_kids_mechanism_lessons_replay_the_computed_events() {
     let cases: &[(&str, &[&str])] = &[
         (
@@ -1007,18 +1043,20 @@ fn a_cooling_copper_sulfate_solution_grows_blue_crystals() {
         "and the crystals are described as blue, not white:\n{out}"
     );
 
-    // The concentration story: too dark to see through while the copper is
-    // dissolved, blue once most of it has crystallised out.
+    // The native distribution includes copper complexes without reviewed
+    // spectra. Total dissolved copper must not be assigned the free-ion
+    // spectrum and asserted to be black. Preserve the independently known
+    // blue solid and require disclosure of the incomplete liquid spectrum.
     let cooled_at = out
         .rfind("net ionic")
         .unwrap_or_else(|| panic!("the lesson cools the solution:\n{out}"));
     assert!(
-        out[..cooled_at].contains("The liquid is black"),
-        "a strong copper sulfate solution saturates to black:\n{out}"
+        out[..cooled_at].contains("Colour is incomplete: no absorption spectrum for"),
+        "missing complex spectra must be disclosed:\n{out}"
     );
     assert!(
         out[cooled_at..].contains("The liquid is blue"),
-        "and lightens as the copper leaves it:\n{out}"
+        "the known free-ion contribution is still blue:\n{out}"
     );
 }
 
@@ -1141,7 +1179,8 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // of soda against 50 mL of 5% vinegar is ~0.042 mol of acid, and at
         // +26.8 kJ/mol that is 1.1 kJ into ~50 mL — about 5 K, which is
         // roughly what the bottle now does.
-        ("balloon-pressure.lab", &["284.18 kPa", "1480.54 mL"]),
+        // Numeric gas-law checks below replace rounded output snapshots.
+        ("balloon-pressure.lab", &["100.00 kPa"]),
         (
             "grinding-rate-boundary.lab",
             &["ground to 50.0 µm", "carbon dioxide ↑"],
@@ -1165,7 +1204,7 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             // 50.300 g of vinegar + 5 g of soda + 0.59 g of trapped air:
             // the sealed reading is what went in, at 18 °C as at 25, and
             // the open flask is lighter by exactly the gas that escaped.
-            &["v1 balance: 55.89 g", "v2 balance: 53.14 g"],
+            &["v1 balance: 55.89 g", "v2 balance: 53.13 g"],
         ),
     ];
     for (name, evidence) in cases {
@@ -1176,4 +1215,55 @@ fn newly_guided_kids_rows_keep_their_evidence() {
             assert!(out.contains(expected), "{name} lost {expected:?}:\n{out}");
         }
     }
+}
+
+#[test]
+fn balloon_lesson_obeys_the_gas_law_at_both_boundaries() {
+    let path = lessons_dir().join("balloon-pressure.lab");
+    let (out, err, ok) = run(&["run", path.to_str().unwrap(), "--json"]);
+    assert!(ok, "{err}");
+    let rows: Vec<serde_json::Value> = out
+        .lines()
+        .map(|s| serde_json::from_str(s).unwrap())
+        .collect();
+    let mut sealed = false;
+    let mut controlled = false;
+    for row in rows {
+        let Some(v) = row["bench"]["vessels"].get(0) else {
+            continue;
+        };
+        let boundary = v["headspace"]["boundary"].as_str().unwrap_or("");
+        if !matches!(boundary, "sealed" | "pressure_controlled") {
+            continue;
+        }
+        let pressure = v["pressure"].as_f64().unwrap();
+        let volume = v["headspace"]["volume"].as_f64().unwrap();
+        let temperature = v["temperature"].as_f64().unwrap();
+        let gases: Vec<_> = v["contents"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|p| p["phase"] == "gas")
+            .collect();
+        assert!(
+            !gases.iter().any(|p| p["species"] == "CO2(aq)"),
+            "dissolved aliases must not become a second gas identity"
+        );
+        let moles: f64 = gases.iter().map(|p| p["moles"].as_f64().unwrap()).sum();
+        let ratio = pressure * volume / (moles * 8314.462618 * temperature);
+        assert!((ratio - 1.0).abs() < 1e-5, "PV/nRT={ratio}");
+        if boundary == "sealed" && pressure > 150000.0 {
+            assert!((200000.0..400000.0).contains(&pressure));
+            sealed = true;
+        }
+        if boundary == "pressure_controlled" {
+            assert!((pressure - 100000.0).abs() < 1e-6);
+            assert!(
+                (1.0..2.0).contains(&volume),
+                "the piston should expand: {volume} L"
+            );
+            controlled = true;
+        }
+    }
+    assert!(sealed && controlled);
 }

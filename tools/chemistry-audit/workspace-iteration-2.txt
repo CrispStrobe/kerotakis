@@ -1,0 +1,62 @@
+    Blocking waiting for file lock on build directory
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling sundials-sys v0.1.0 (/mnt/volume1/kero-experiment-audit/sundials-kinetics-rs/sundials-sys)
+   Compiling sundials v0.1.0 (/mnt/volume1/kero-experiment-audit/sundials-kinetics-rs/sundials)
+warning: unused import: `KIN_SUCCESS`
+ --> sundials-kinetics-rs/sundials/src/kinsol.rs:8:88
+  |
+8 |     KINCreate, KINFree, KINInit, KINSetLinearSolver, KINSetUserData, KINSol, N_Vector, KIN_SUCCESS,
+  |                                                                                        ^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `nvector::NVector`
+ --> sundials-kinetics-rs/sundials/src/sparse.rs:1:31
+  |
+1 | use crate::{context::Context, nvector::NVector};
+  |                               ^^^^^^^^^^^^^^^^
+
+warning: fields `rows` and `cols` are never read
+ --> sundials-kinetics-rs/sundials/src/matrix.rs:6:5
+  |
+4 | pub struct DenseMatrix {
+  |            ----------- fields in this struct
+5 |     inner: SUNMatrix,
+6 |     rows: usize,
+  |     ^^^^
+7 |     cols: usize,
+  |     ^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `sundials` (lib) generated 3 warnings (run `cargo fix --lib -p sundials` to apply 2 suggestions)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-codex v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-codex)
+   Compiling kerotakis-registry-export v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-registry-export)
+   Compiling kerotakis-scene-physics v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-scene-physics)
+   Compiling kerotakis-wasm v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-wasm)
+   Compiling kerotakis-sundials v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-sundials)
+   Compiling kerotakis-cli v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cli)
+error[E0560]: struct `SolutionInfo` has no field named `solvent_kg`
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:1887:13
+     |
+1887 |             solvent_kg: value("mass_H2O"),
+     |             ^^^^^^^^^^ `SolutionInfo` does not have this field
+     |
+     = note: all struct fields are already assigned
+
+error[E0560]: struct `SolutionInfo` has no field named `solvent_kg`
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:3638:13
+     |
+3638 |             solvent_kg: value("mass_H2O"),
+     |             ^^^^^^^^^^ `SolutionInfo` does not have this field
+     |
+     = note: all struct fields are already assigned
+
+For more information about this error, try `rustc --explain E0560`.
+error: could not compile `kerotakis-phreeqc` (lib test) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...

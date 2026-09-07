@@ -2146,7 +2146,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string()), ("moles", &locale.number(format!("{:.6}", moles.0)))],
             ),
         },
-        Event::Distilled { from, to, water, ethanol, at, ended, stages, energy_kj, azeotropic } => match register.level() {
+        Event::Distilled { from, to, components, model, at, ended, stages, energy_kj, .. } if !model.is_empty() => {
+            let contents = components.iter().map(|(id, n)| format!("{} mol {}", locale.number(format!("{:.6}", n.0)), id.0)).collect::<Vec<_>>().join(" + ");
+            format!("{from} → {to}: {contents}; {:.2} K → {:.2} K; {stages} stage(s); {:.3} kJ latent heat. {model}", at.0, ended.0, energy_kj)
+        },
+        Event::Distilled { from, to, water, ethanol, at, ended, stages, energy_kj, azeotropic, .. } => match register.level() {
             1 => locale.fill(
                 "event.distilled.lv1",
                 "Vapour rises from {from}, cools in the tube, and drips into {to}.",

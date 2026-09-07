@@ -1,0 +1,7 @@
+# Can the registry and solver express the classic Fe(III)/thiocyanate complex?
+register lv3
+add v1 water 100mL
+add v1 FeCl3 0.0001mol
+add v1 KSCN 0.0003mol
+look v1
+inspect

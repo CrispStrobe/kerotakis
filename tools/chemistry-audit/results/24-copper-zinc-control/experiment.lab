@@ -1,0 +1,6 @@
+# Does copper fail to displace Zn from ZnSO4?
+register lv3
+add v1 water 200mL
+add v1 ZnSO4 0.003mol
+add v1 Cu 0.004mol
+inspect

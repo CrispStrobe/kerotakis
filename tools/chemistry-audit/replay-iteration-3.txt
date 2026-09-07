@@ -1,0 +1,50 @@
+01-water exit= 0 steps= 3 events= {'added': 1, 'solution_characterized': 1, 'measured': 1}
+02-acid-dilution exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'measured': 2}
+03-base-dilution exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 1, 'temperature_changed': 1, 'measured': 2}
+04-neutral-acid-first exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 1, 'neutralised': 1, 'temperature_changed': 1, 'measured': 2}
+05-neutral-base-first exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 1, 'temperature_changed': 3, 'neutralised': 1, 'measured': 2}
+06-acetate-buffer exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 4, 'temperature_changed': 2, 'dissolved': 1, 'measured': 2, 'neutralised': 1}
+07-buffer-control exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 2, 'measured': 2}
+08-phosphate exit= 0 steps= 11 events= {'added': 6, 'solution_characterized': 6, 'temperature_changed': 9, 'dissolved': 4, 'neutralised': 4, 'measured': 4}
+09-ultradilute-acid exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'measured': 1}
+10-silver-chloride exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'temperature_changed': 2, 'precipitated': 1}
+11-silver-reverse exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'temperature_changed': 3, 'precipitated': 1}
+12-barium-sulfate exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'precipitated': 1}
+13-copper-hydroxide exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 3, 'precipitated': 2, 'temperature_changed': 3, 'neutralised': 1, 'not_yet_modeled': 1}
+14-salt-saturation exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'temperature_changed': 2, 'dissolved': 1}
+15-salt-dilute-again exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'temperature_changed': 4, 'dissolved': 2}
+16-hot-pack exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'temperature_changed': 2, 'dissolved': 1, 'measured': 1}
+17-cold-pack exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'temperature_changed': 2, 'dissolved': 1, 'measured': 1}
+18-copper-crystals exit= 0 steps= 7 events= {'added': 2, 'solution_characterized': 4, 'temperature_changed': 6, 'dissolved': 4, 'precipitated': 5, 'energy_transferred': 2, 'neutralised': 1}
+19-fizz-open exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'temperature_changed': 4, 'dissolved': 1, 'gas_evolved': 3, 'measured': 2, 'reaction_occurred': 1}
+20-fizz-sealed exit= 0 steps= 8 events= {'added': 3, 'solution_characterized': 4, 'temperature_changed': 4, 'dissolved': 1, 'gas_evolved': 1, 'vessel_sealed': 1, 'neutralised': 2, 'headspace_equilibrated': 2, 'measured': 3, 'reaction_occurred': 1, 'gas_contained': 1}
+21-fizz-regulated exit= 0 steps= 7 events= {'added': 3, 'solution_characterized': 4, 'temperature_changed': 2, 'dissolved': 1, 'gas_evolved': 1, 'vessel_pressure_controlled': 1, 'neutralised': 2, 'headspace_equilibrated': 2, 'reaction_occurred': 1, 'gas_contained': 1, 'measured': 2}
+22-limewater-excess exit= 0 steps= 6 events= {'added': 4, 'solution_characterized': 4, 'dissolved': 3, 'temperature_changed': 1, 'precipitated': 1, 'not_yet_modeled': 2, 'gas_absorbed': 2, 'neutralised': 1, 'gas_evolved': 1}
+23-zinc-copper exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'precipitated': 1, 'temperature_changed': 3, 'reaction_occurred': 1, 'consumed': 1, 'plated': 1, 'inert': 2}
+24-copper-zinc-control exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 1, 'temperature_changed': 1, 'inert': 1, 'corroded': 1}
+25-magnesium-acid exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'hazard_warning': 1, 'reaction_occurred': 1, 'consumed': 1, 'gas_evolved': 1, 'temperature_changed': 1}
+26-copper-acid-control exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'inert': 1}
+27-daniell-cell exit= 0 steps= 9 events= {'added': 6, 'solution_characterized': 6, 'temperature_changed': 4, 'dissolved': 2, 'not_yet_modeled': 1, 'corroded': 1, 'vessel_created': 1, 'precipitated': 1, 'neutralised': 1, 'inert': 1, 'cell_voltage': 1}
+28-electrolysis-sulfate exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 3, 'dissolved': 1, 'temperature_changed': 1, 'electrolysed': 1, 'gas_evolved': 2}
+29-electrolysis-water-control exit= 0 steps= 3 events= {'added': 1, 'solution_characterized': 2, 'not_yet_modeled': 1}
+30-permanganate-dilution exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 1, 'observed': 2}
+31-filter-precipitate exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 4, 'dissolved': 2, 'temperature_changed': 2, 'precipitated': 1, 'vessel_created': 1, 'filtered': 1}
+32-evaporate-brine exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 3, 'temperature_changed': 3, 'dissolved': 1, 'evaporated': 1, 'precipitated': 1}
+33-distil-ethanol exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 4, 'vessel_created': 1, 'distilled': 1}
+34-esterification-passive exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 4, 'not_yet_modeled': 1}
+35-esterification-explicit exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 4, 'org_reacted': 1}
+36-fermentation-control exit= 0 steps= 4 events= {'added': 1, 'solution_characterized': 3, 'material_added': 1, 'dissolved': 1}
+37-fermentation-yeast exit= 0 steps= 5 events= {'added': 1, 'solution_characterized': 4, 'material_added': 2, 'dissolved': 1, 'gas_produced': 1, 'fermented': 1, 'not_yet_modeled': 1, 'gas_absorbed': 1, 'temperature_changed': 1}
+38-magnesium-fire exit= 0 steps= 5 events= {'added': 1, 'measured': 2, 'ignited': 1, 'precipitated': 1, 'consumed': 1, 'temperature_changed': 1, 'thermal_equilibrium': 1}
+39-salt-fire-control exit= 0 steps= 3 events= {'added': 1, 'flame_test': 1}
+40-iron-thiocyanate exit= 1 steps= 2 events= {'added': 2, 'solution_characterized': 2, 'dissolved': 1, 'not_yet_modeled': 1}
+41-ammonia-copper exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'precipitated': 2, 'temperature_changed': 1, 'not_yet_modeled': 2, 'observed': 1}
+42-neutralization-titration exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 23, 'dissolved': 21, 'neutralised': 20, 'temperature_changed': 20, 'titrated': 1}
+43-acid-mass-ledger exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 2, 'measured': 2}
+44-base-mass-ledger exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 2, 'measured': 2, 'temperature_changed': 2, 'dissolved': 1}
+45-yeast-mass-ledger exit= 0 steps= 5 events= {'added': 1, 'solution_characterized': 2, 'measured': 2, 'material_added': 1}
+46-ammonia-extended-route exit= 0 steps= 6 events= {'added': 4, 'solution_characterized': 4, 'dissolved': 2, 'neutralised': 1, 'temperature_changed': 1, 'precipitated': 1, 'not_yet_modeled': 1, 'observed': 1}
+47-limewater-wait exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 5, 'dissolved': 4, 'temperature_changed': 1, 'precipitated': 2, 'not_yet_modeled': 2, 'gas_absorbed': 2, 'neutralised': 1, 'gas_evolved': 2, 'gravity_settled': 1}
+48-fizz-sealed-from-start exit= 0 steps= 9 events= {'added': 3, 'solution_characterized': 5, 'vessel_sealed': 1, 'headspace_equilibrated': 4, 'measured': 3, 'temperature_changed': 4, 'gas_contained': 3, 'dissolved': 1, 'reaction_occurred': 2, 'neutralised': 2, 'gravity_settled': 1}
+49-water-clock exit= 0 steps= 4 events= {'added': 1, 'solution_characterized': 2, 'measured': 1}
+50-sugar-ph exit= 0 steps= 4 events= {'added': 1, 'solution_characterized': 2, 'material_added': 1, 'dissolved': 1, 'measured': 1}

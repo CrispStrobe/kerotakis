@@ -1,0 +1,6 @@
+# Does 60 C generate H2/O2 in a 2:1 ratio?
+register lv3
+add v1 water 200mL
+add v1 Na2SO4 0.5g
+electrolyse v1 0.1A 10min
+inspect

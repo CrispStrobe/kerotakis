@@ -1,0 +1,7 @@
+# Does excess ammonia describe the copper ammine complex and colour?
+register lv3
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 NH3 0.02mol
+look v1
+inspect

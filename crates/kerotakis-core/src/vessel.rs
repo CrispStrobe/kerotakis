@@ -606,6 +606,10 @@ pub struct Provenance {
 /// What an aqueous solver last computed about this vessel's solution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
+    /// Solvent mass used by the native species distribution, in kg.
+    /// Distinct from the solvent in the reconstructed analytical inventory.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub solvent_kg: Option<f64>,
     /// Electron activity, −log a(e⁻): the redox axis.
     ///
     /// pe is to electrons what pH is to protons, and the symmetry is worth

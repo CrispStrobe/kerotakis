@@ -1,0 +1,51 @@
+
+running 1 test
+  pe=3.500 sum=1.040000e-2 target=1.140000e-2
+  pe=10.250 sum=1.058433e-2 target=1.140000e-2
+  pe=13.625 sum=1.531851e-2 target=1.140000e-2
+  pe=11.938 sum=1.340537e-2 target=1.140000e-2
+  pe=11.094 sum=1.141082e-2 target=1.140000e-2
+  pe=10.672 sum=1.085238e-2 target=1.140000e-2
+  pe=10.883 sum=1.108702e-2 target=1.140000e-2
+  pe=10.988 sum=1.123712e-2 target=1.140000e-2
+  pe=11.041 sum=1.132098e-2 target=1.140000e-2
+  pe=11.067 sum=1.136516e-2 target=1.140000e-2
+  pe=11.081 sum=1.138780e-2 target=1.140000e-2
+  pe=11.087 sum=1.139926e-2 target=1.140000e-2
+  pe=3.500 sum=5.400000e-3 target=6.400000e-3
+  pe=10.250 sum=5.474326e-3 target=6.400000e-3
+  pe=13.625 sum=7.851091e-3 target=6.400000e-3
+  pe=11.938 sum=6.782640e-3 target=6.400000e-3
+  pe=11.094 sum=5.824308e-3 target=6.400000e-3
+  pe=11.516 sum=6.243461e-3 target=6.400000e-3
+  pe=11.727 sum=6.507465e-3 target=6.400000e-3
+  pe=11.621 sum=6.372617e-3 target=6.400000e-3
+  pe=11.674 sum=6.439502e-3 target=6.400000e-3
+  pe=11.647 sum=6.405902e-3 target=6.400000e-3
+  pe=11.634 sum=6.389217e-3 target=6.400000e-3
+  pe=11.641 sum=6.397550e-3 target=6.400000e-3
+  pe=11.644 sum=6.401723e-3 target=6.400000e-3
+  pe=11.643 sum=6.399636e-3 target=6.400000e-3
+  pe=3.500 sum=1.020000e-2 target=1.070000e-2
+  pe=10.250 sum=1.041495e-2 target=1.070000e-2
+  pe=15.312 sum=1.519855e-2 target=1.070000e-2
+  pe=14.469 sum=1.518988e-2 target=1.070000e-2
+  pe=14.047 sum=1.517339e-2 target=1.070000e-2
+  pe=13.836 sum=1.515696e-2 target=1.070000e-2
+  pe=13.730 sum=1.514532e-2 target=1.070000e-2
+  pe=13.678 sum=1.513839e-2 target=1.070000e-2
+  pe=13.651 sum=1.513460e-2 target=1.070000e-2
+  pe=13.638 sum=1.513263e-2 target=1.070000e-2
+
+thread 'coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons' (3005275) panicked at crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs:103:9:
+assertion failed: manganese_ii > 0.98 * 0.0002 * fb
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons ... FAILED
+
+failures:
+
+failures:
+    coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 8.10s
+

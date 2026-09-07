@@ -134,8 +134,7 @@ fn identical_states_hit_the_cache() {
     let first = run(&mut eq);
     assert_eq!(eq.cache_hits(), 0, "first run is all engine calls");
     let second = run(&mut eq);
-    // Two solver-reaching steps per run (plain water never reaches the
-    // engine); the replay is served entirely from the cache.
-    assert_eq!(eq.cache_hits(), 2, "identical replay must hit the cache");
+    // Water autoionization, salt and weak acid all reach the engine now.
+    assert_eq!(eq.cache_hits(), 3, "identical replay must hit the cache");
     assert_eq!(first, second, "cached answers are bit-identical");
 }

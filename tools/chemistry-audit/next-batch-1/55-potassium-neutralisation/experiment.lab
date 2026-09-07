@@ -1,0 +1,7 @@
+# Can potassium hydroxide neutralize HBr without a NaOH-specific implementation?
+register lv3
+add v1 water 500mL
+add v1 HBr 0.003mol
+add v1 KOH 0.003mol
+measure v1 ph
+inspect

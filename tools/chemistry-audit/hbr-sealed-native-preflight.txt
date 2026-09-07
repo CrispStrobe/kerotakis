@@ -1,0 +1,36 @@
+Independent sealed-HBr initializer diagnosis, 2026-09-06
+Worktree: /mnt/volume1/kero-experiment-audit
+
+The native GAS_PHASE initializer in vendor/iphreeqc/src/phreeqcpp/tidy.cpp
+lines 987-988 converts partial pressure to moles as p*V/R_LITER_ATM/T.
+global_structures.h line 23 defines R_LITER_ATM = 0.0820597 L atm/(mol K).
+Encoding the same intended dose with CODATA R=0.082057366 therefore gives
+n_native/n_intended = 0.082057366/0.0820597, a loss of 28.442706956 ppm.
+This is a foreign input convention, not a proposal to change the lab's
+physical ideal-gas constant everywhere.
+
+Exact compile command (only the audit harness was compiled):
+c++ -std=c++17 -O0 -Ivendor/iphreeqc/src -Ivendor/iphreeqc/src/phreeqcpp/common tools/chemistry-audit/hbr_native_preflight.cpp target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib/libIPhreeqc.a -o /tmp/kero-hbr-native-preflight -pthread
+
+Existing static library SHA-256:
+231a9e06d95c8e25a233f919562f7ad7fbadcf38fcc3f4ca6d0a0cc3f898b17b
+
+Run command:
+/tmp/kero-hbr-native-preflight --sealed
+
+Six fresh CAPI instances: raw WATEQ4F plus runtime HBr gas extension,
+25 C, 0.1 kg water, intended finite HBr dose 0.001 mol. Three fixed
+headspace volumes, each encoded with both old and native gas constants.
+Both aqueous Br and native residual GAS("HBr(g)") are included in totals.
+
+volume_L=0.01 input_R=0.082057366 aqueous_Br=0.000999971557293004 gas_HBr=4.02813678261983e-17 total_Br=0.000999971557293044 error_ppm=-28.4427069561222 predicted_error_ppm=-28.4427069559001
+volume_L=0.01 input_R=0.0820597 aqueous_Br=0.00099999999999996 gas_HBr=4.02835676974136e-17 total_Br=0.001 error_ppm=2.22044604925031e-10 predicted_error_ppm=0
+volume_L=0.1 input_R=0.082057366 aqueous_Br=0.000999971557292641 gas_HBr=4.02813678261702e-16 total_Br=0.000999971557293044 error_ppm=-28.4427069563442 predicted_error_ppm=-28.4427069559001
+volume_L=0.1 input_R=0.0820597 aqueous_Br=0.000999999999999597 gas_HBr=4.02835676973855e-16 total_Br=0.001 error_ppm=-2.22044604925031e-10 predicted_error_ppm=0
+volume_L=1 input_R=0.082057366 aqueous_Br=0.000999971557289016 gas_HBr=4.02813678258899e-15 total_Br=0.000999971557293044 error_ppm=-28.4427069559001 predicted_error_ppm=-28.4427069559001
+volume_L=1 input_R=0.0820597 aqueous_Br=0.000999999999995972 gas_HBr=4.02835676971049e-15 total_Br=0.001 error_ppm=4.44089209850063e-10 predicted_error_ppm=0
+PASS: 6 sealed states; native-R conversion conserves the intended dose
+
+Exit status: 0. No production source or engine/dependency rebuild.
+Scope: proves the conversion mismatch and correction independently of
+the Rust adapter; its integrated regression remains a separate test.

@@ -1,0 +1,6 @@
+# Does the matched sealed chalk control retain much more solid?
+register lv3
+add v1 water 300mL
+seal v1 400mL
+add v1 CaCO3 0.002mol
+inspect

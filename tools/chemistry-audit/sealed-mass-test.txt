@@ -1,0 +1,36 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.51s
+     Running tests/sealed_mass.rs (target/debug/deps/sealed_mass-4f43535d2454196d)
+
+running 2 tests
+test co2_over_water_keeps_its_mass_when_it_cools ... FAILED
+test the_sealed_volcano_weighs_what_went_in ... ok
+
+failures:
+
+---- co2_over_water_keeps_its_mass_when_it_cools stdout ----
+
+thread 'co2_over_water_keeps_its_mass_when_it_cools' (2449190) panicked at crates/kerotakis-phreeqc/tests/sealed_mass.rs:95:5:
+sealed CO2 over water lost or gained 0.01085 g on cooling
+BEFORE
+T = 298.23 K, p = 192.9 kPa, mass = 51.34590 g
+  water          Liquid 2.7671326 mol × 18.015 g/mol = 49.84989 g
+  N2             Gas 0.0161473 mol × 28.014 g/mol = 0.45235 g
+  O2             Gas 0.0042816 mol × 31.998 g/mol = 0.13700 g
+  HCO3-          Aqueous 0.0015369 mol × 61.017 g/mol = 0.09378 g
+  CO2            Gas 0.0184707 mol × 44.009 g/mol = 0.81288 g
+AFTER
+T = 283.93 K, p = 180.6 kPa, mass = 51.35675 g
+  water          Liquid 2.7671316 mol × 18.015 g/mol = 49.84988 g
+  N2             Gas 0.0161473 mol × 28.014 g/mol = 0.45235 g
+  O2             Gas 0.0042816 mol × 31.998 g/mol = 0.13700 g
+  HCO3-          Aqueous 0.0021774 mol × 61.017 g/mol = 0.13286 g
+  CO2            Gas 0.0178297 mol × 44.009 g/mol = 0.78467 g
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    co2_over_water_keeps_its_mass_when_it_cools
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.49s
+
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test sealed_mass`

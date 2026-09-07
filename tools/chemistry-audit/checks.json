@@ -1,0 +1,710 @@
+{
+  "unique_cases": 50,
+  "executions": 53,
+  "execution_records": [
+    {
+      "id": "01-water",
+      "exit": 0,
+      "seconds": 1.301,
+      "non_json_lines": []
+    },
+    {
+      "id": "02-acid-dilution",
+      "exit": 0,
+      "seconds": 1.169,
+      "non_json_lines": []
+    },
+    {
+      "id": "03-base-dilution",
+      "exit": 0,
+      "seconds": 1.176,
+      "non_json_lines": []
+    },
+    {
+      "id": "04-neutral-acid-first",
+      "exit": 0,
+      "seconds": 1.451,
+      "non_json_lines": []
+    },
+    {
+      "id": "05-neutral-base-first",
+      "exit": 0,
+      "seconds": 1.632,
+      "non_json_lines": []
+    },
+    {
+      "id": "06-acetate-buffer",
+      "exit": 0,
+      "seconds": 1.704,
+      "non_json_lines": []
+    },
+    {
+      "id": "07-buffer-control",
+      "exit": 0,
+      "seconds": 1.694,
+      "non_json_lines": []
+    },
+    {
+      "id": "08-phosphate",
+      "exit": 0,
+      "seconds": 1.537,
+      "non_json_lines": []
+    },
+    {
+      "id": "09-ultradilute-acid",
+      "exit": 0,
+      "seconds": 1.486,
+      "non_json_lines": []
+    },
+    {
+      "id": "10-silver-chloride",
+      "exit": 0,
+      "seconds": 1.319,
+      "non_json_lines": []
+    },
+    {
+      "id": "11-silver-reverse",
+      "exit": 0,
+      "seconds": 1.22,
+      "non_json_lines": []
+    },
+    {
+      "id": "12-barium-sulfate",
+      "exit": 0,
+      "seconds": 1.424,
+      "non_json_lines": []
+    },
+    {
+      "id": "13-copper-hydroxide",
+      "exit": 0,
+      "seconds": 1.391,
+      "non_json_lines": []
+    },
+    {
+      "id": "14-salt-saturation",
+      "exit": 0,
+      "seconds": 1.363,
+      "non_json_lines": []
+    },
+    {
+      "id": "15-salt-dilute-again",
+      "exit": 0,
+      "seconds": 1.403,
+      "non_json_lines": []
+    },
+    {
+      "id": "16-hot-pack",
+      "exit": 0,
+      "seconds": 1.339,
+      "non_json_lines": []
+    },
+    {
+      "id": "17-cold-pack",
+      "exit": 0,
+      "seconds": 1.327,
+      "non_json_lines": []
+    },
+    {
+      "id": "18-copper-crystals",
+      "exit": 0,
+      "seconds": 1.304,
+      "non_json_lines": []
+    },
+    {
+      "id": "19-fizz-open",
+      "exit": 0,
+      "seconds": 1.344,
+      "non_json_lines": []
+    },
+    {
+      "id": "20-fizz-sealed",
+      "exit": 0,
+      "seconds": 1.403,
+      "non_json_lines": []
+    },
+    {
+      "id": "21-fizz-regulated",
+      "exit": 0,
+      "seconds": 1.181,
+      "non_json_lines": []
+    },
+    {
+      "id": "22-limewater-excess",
+      "exit": 0,
+      "seconds": 1.352,
+      "non_json_lines": []
+    },
+    {
+      "id": "23-zinc-copper",
+      "exit": 0,
+      "seconds": 1.477,
+      "non_json_lines": []
+    },
+    {
+      "id": "24-copper-zinc-control",
+      "exit": 0,
+      "seconds": 1.368,
+      "non_json_lines": []
+    },
+    {
+      "id": "25-magnesium-acid",
+      "exit": 0,
+      "seconds": 1.142,
+      "non_json_lines": []
+    },
+    {
+      "id": "26-copper-acid-control",
+      "exit": 0,
+      "seconds": 1.791,
+      "non_json_lines": []
+    },
+    {
+      "id": "27-daniell-cell",
+      "exit": 0,
+      "seconds": 1.653,
+      "non_json_lines": []
+    },
+    {
+      "id": "28-electrolysis-sulfate",
+      "exit": 0,
+      "seconds": 1.585,
+      "non_json_lines": []
+    },
+    {
+      "id": "29-electrolysis-water-control",
+      "exit": 0,
+      "seconds": 1.592,
+      "non_json_lines": []
+    },
+    {
+      "id": "30-permanganate-dilution",
+      "exit": 0,
+      "seconds": 1.503,
+      "non_json_lines": []
+    },
+    {
+      "id": "31-filter-precipitate",
+      "exit": 0,
+      "seconds": 1.438,
+      "non_json_lines": []
+    },
+    {
+      "id": "32-evaporate-brine",
+      "exit": 0,
+      "seconds": 1.519,
+      "non_json_lines": []
+    },
+    {
+      "id": "33-distil-ethanol",
+      "exit": 0,
+      "seconds": 2.173,
+      "non_json_lines": []
+    },
+    {
+      "id": "34-esterification-passive",
+      "exit": 0,
+      "seconds": 1.489,
+      "non_json_lines": []
+    },
+    {
+      "id": "35-esterification-explicit",
+      "exit": 0,
+      "seconds": 1.34,
+      "non_json_lines": []
+    },
+    {
+      "id": "36-fermentation-control",
+      "exit": 0,
+      "seconds": 1.445,
+      "non_json_lines": []
+    },
+    {
+      "id": "37-fermentation-yeast",
+      "exit": 0,
+      "seconds": 1.482,
+      "non_json_lines": []
+    },
+    {
+      "id": "38-magnesium-fire",
+      "exit": 0,
+      "seconds": 1.736,
+      "non_json_lines": []
+    },
+    {
+      "id": "39-salt-fire-control",
+      "exit": 0,
+      "seconds": 2.065,
+      "non_json_lines": []
+    },
+    {
+      "id": "40-iron-thiocyanate",
+      "exit": 1,
+      "seconds": 1.46,
+      "non_json_lines": []
+    },
+    {
+      "id": "41-ammonia-copper",
+      "exit": 0,
+      "seconds": 1.434,
+      "non_json_lines": []
+    },
+    {
+      "id": "42-neutralization-titration",
+      "exit": 0,
+      "seconds": 1.431,
+      "non_json_lines": []
+    },
+    {
+      "id": "40-iron-thiocyanate",
+      "exit": 1,
+      "seconds": 1.439,
+      "non_json_lines": []
+    },
+    {
+      "id": "41-ammonia-copper",
+      "exit": 0,
+      "seconds": 1.288,
+      "non_json_lines": []
+    },
+    {
+      "id": "42-neutralization-titration",
+      "exit": 0,
+      "seconds": 1.94,
+      "non_json_lines": []
+    },
+    {
+      "id": "43-acid-mass-ledger",
+      "exit": 0,
+      "seconds": 1.763,
+      "non_json_lines": []
+    },
+    {
+      "id": "44-base-mass-ledger",
+      "exit": 0,
+      "seconds": 1.539,
+      "non_json_lines": []
+    },
+    {
+      "id": "45-yeast-mass-ledger",
+      "exit": 0,
+      "seconds": 1.355,
+      "non_json_lines": []
+    },
+    {
+      "id": "46-ammonia-extended-route",
+      "exit": 0,
+      "seconds": 1.864,
+      "non_json_lines": []
+    },
+    {
+      "id": "47-limewater-wait",
+      "exit": 0,
+      "seconds": 1.779,
+      "non_json_lines": []
+    },
+    {
+      "id": "48-fizz-sealed-from-start",
+      "exit": 0,
+      "seconds": 2.042,
+      "non_json_lines": []
+    },
+    {
+      "id": "49-water-clock",
+      "exit": 0,
+      "seconds": 1.37,
+      "non_json_lines": []
+    },
+    {
+      "id": "50-sugar-ph",
+      "exit": 0,
+      "seconds": 1.822,
+      "non_json_lines": []
+    }
+  ],
+  "checks": [
+    {
+      "check": "01: water/nonionic baseline has measurable near-neutral pH",
+      "passed": false,
+      "evidence": []
+    },
+    {
+      "check": "49: water/nonionic baseline has measurable near-neutral pH",
+      "passed": false,
+      "evidence": []
+    },
+    {
+      "check": "50: water/nonionic baseline has measurable near-neutral pH",
+      "passed": false,
+      "evidence": []
+    },
+    {
+      "check": "02: dilute strong electrolyte tenfold pH shift",
+      "passed": true,
+      "evidence": [
+        3.013464900299,
+        4.003655744991
+      ]
+    },
+    {
+      "check": "03: dilute strong electrolyte tenfold pH shift",
+      "passed": true,
+      "evidence": [
+        10.98526719393,
+        9.995753547129
+      ]
+    },
+    {
+      "check": "04/05: neutralization addition-order invariance",
+      "passed": true,
+      "evidence": {
+        "temperature_K": [
+          299.3546914440013,
+          299.35469144400133
+        ],
+        "ph": [
+          6.969393046106,
+          6.969393046106
+        ]
+      }
+    },
+    {
+      "check": "06/07: buffer resists acid",
+      "passed": true,
+      "evidence": [
+        4.693720160147,
+        4.606771175234
+      ]
+    },
+    {
+      "check": "08: successive phosphate additions raise pH",
+      "passed": true,
+      "evidence": [
+        2.618241761368,
+        4.705227422848,
+        6.982083020121,
+        9.312741004871
+      ]
+    },
+    {
+      "check": "09: ultradilute acid respects water autoionization",
+      "passed": true,
+      "evidence": 6.997590288224
+    },
+    {
+      "check": "10: major precipitate yield",
+      "passed": true,
+      "evidence": 0.00199696232266
+    },
+    {
+      "check": "12: major precipitate yield",
+      "passed": true,
+      "evidence": 0.001996341977358
+    },
+    {
+      "check": "13: major precipitate yield",
+      "passed": true,
+      "evidence": 0.001996948940694
+    },
+    {
+      "check": "10/11: precipitation addition-order yield",
+      "passed": true,
+      "evidence": {
+        "delta_mol": 1.2730650002061583e-09
+      }
+    },
+    {
+      "check": "14/15: saturation and redissolution",
+      "passed": true,
+      "evidence": {
+        "saturated_solid_mol": 0.190749540586
+      }
+    },
+    {
+      "check": "16/17: dissolution heat signs",
+      "passed": true,
+      "evidence": {
+        "temperatures_K": [
+          302.1237840858451,
+          297.32452584536725
+        ]
+      }
+    },
+    {
+      "check": "18: equal heat/cool returns approximate initial temperature",
+      "passed": true,
+      "evidence": [
+        326.0608438284647,
+        326.06021371133943
+      ]
+    },
+    {
+      "check": "20/21: gas responds to declared boundary",
+      "passed": true,
+      "evidence": {
+        "sealed_Pa": 145123.28820282748,
+        "regulated_L": 0.35419379303633863
+      }
+    },
+    {
+      "check": "22: excess finite CO2 substantially reduces precipitate",
+      "passed": true,
+      "evidence": {
+        "before_mol": 0.004938794237571,
+        "after_mol": 0.0003477769276321
+      }
+    },
+    {
+      "check": "23/24: displacement and reverse control",
+      "passed": true,
+      "evidence": {
+        "Cu_plated_mol": 0.002989599439078491
+      }
+    },
+    {
+      "check": "25/26: magnesium acid and copper control",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_evolved",
+          "moles": 0.002,
+          "species": "H2",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "27: Daniell voltage",
+      "passed": true,
+      "evidence": 1.1042057194529837
+    },
+    {
+      "check": "28: Faraday charge and gas ratio",
+      "passed": true,
+      "evidence": {
+        "amps": 0.1,
+        "anode_moles": 0.00015546404484926594,
+        "anode_species": "O2",
+        "cathode_moles": 0.0003109280896985319,
+        "cathode_species": "H2",
+        "coulombs": 60.0,
+        "electrons": 0.0006218561793970638,
+        "event": "electrolysed",
+        "grams": 0.0006268310288322403,
+        "moles": 0.0003109280896985319,
+        "per_ion": 2.0,
+        "seconds": 600.0,
+        "species": "H2",
+        "vessel": 0
+      }
+    },
+    {
+      "check": "30: dilution preserves permanganate inventory",
+      "passed": true,
+      "evidence": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 222,
+              "g": 0,
+              "r": 234,
+              "strength": 0.0
+            },
+            "words": "The liquid is purple and clear."
+          },
+          "event": "observed",
+          "vessel": 0
+        },
+        {
+          "appearance": {
+            "bubbling": false,
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 250,
+              "g": 115,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is pink and clear."
+          },
+          "event": "observed",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "31: filter preserves solid and dissolved silver",
+      "passed": true,
+      "evidence": {
+        "solid_mol": 0.00199696232266,
+        "filtrate_Ag_mol": 3.037677707795154e-06
+      }
+    },
+    {
+      "check": "33: distillation enriches ethanol and conserves it",
+      "passed": true,
+      "evidence": {
+        "receiver_ethanol_mole_fraction": 0.38505687560917956
+      }
+    },
+    {
+      "check": "34: passive organic wait explains unavailable kinetics",
+      "passed": false,
+      "evidence": {
+        "wait_events": [
+          {
+            "event": "solution_characterized",
+            "ionic_strength": 0.001958170659271,
+            "ph": 2.729462672723,
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "35: forced organic reaction declares its boundary",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Fischer esterification is an equilibrium (K \u2248 4 for this                    pair); the verb drives the requested extent to completion                    and says so \u2014 no yield claim is made, and the acid                    catalyst and heat the real reaction wants are assumed,                    not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.01980477038582964,
+          "name": "esterification",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "36/37: fermentation requires yeast",
+      "passed": true,
+      "evidence": [
+        {
+          "active_yeast_grams": 0.3672214687430296,
+          "carbon_dioxide_moles": 0.0025188543155604164,
+          "ethanol_moles": 0.0025188543155604164,
+          "event": "fermented",
+          "seconds": 600.0,
+          "sucrose_moles": 0.0006297135788901041,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "37: fermentation conserves mass when all generated CO2 is retained",
+      "passed": false,
+      "evidence": {
+        "mass_change_g": 0.04264924275955195
+      }
+    },
+    {
+      "check": "38: hot MgO phase agrees with solver's liquid MgO",
+      "passed": false,
+      "evidence": {
+        "T_K": 3213.7908935546875,
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "solid",
+            "species": "MgO"
+          }
+        ],
+        "provenance": {
+          "dataset": "NASA CEA thermo.inp",
+          "dataset_sources": [
+            "MgO(L): Liquid Gurvich,1996a pt1 p397 pt2 p317.",
+            "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207.",
+            "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
+          ],
+          "engine": "Gibbs minimisation (Kerotakis)",
+          "model": "NASA-9 polynomials, ideal gas + pure condensed phases",
+          "routing": "chosen because this vessel is dry solids and gases, which the aqueous engine does not model"
+        }
+      }
+    },
+    {
+      "check": "39: NaCl flame test preserves salt",
+      "passed": true,
+      "evidence": [
+        {
+          "colour": "bright yellow",
+          "event": "flame_test",
+          "species": "NaCl",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "42: endpoint crosses within one increment",
+      "passed": true,
+      "evidence": {
+        "volume_L": 0.02100000000000001,
+        "ph": 10.6046496821
+      }
+    },
+    {
+      "check": "43: added mass appears on balance",
+      "passed": false,
+      "evidence": {
+        "expected_added_g": 3.6461,
+        "actual_added_g": 3.545299999999088,
+        "error_g": -0.10080000000091216
+      }
+    },
+    {
+      "check": "44: added mass appears on balance",
+      "passed": false,
+      "evidence": {
+        "expected_added_g": 3.9997000000000003,
+        "actual_added_g": 2.2989999999994097,
+        "error_g": -1.7007000000005905
+      }
+    },
+    {
+      "check": "45: added mass appears on balance",
+      "passed": false,
+      "evidence": {
+        "expected_added_g": 0.5,
+        "actual_added_g": 4.999999987376214e-07,
+        "error_g": -0.49999950000000126
+      }
+    },
+    {
+      "check": "48: sealed fizz weighs its additions",
+      "passed": false,
+      "evidence": {
+        "expected_added_g": 1.5606940000000002,
+        "actual_added_g": 1.5583834465539042
+      }
+    },
+    {
+      "check": "repeat: replayed cases are identical",
+      "passed": true,
+      "evidence": [
+        {
+          "case": 40,
+          "identical_json": true
+        },
+        {
+          "case": 41,
+          "identical_json": true
+        },
+        {
+          "case": 42,
+          "identical_json": true
+        }
+      ]
+    },
+    {
+      "check": "output: all numeric JSON values finite",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "passed": 28,
+  "unmet": 10,
+  "solver_failures": []
+}

@@ -1,0 +1,6 @@
+# Does a second cold-pack salt cool without an invented redox reaction?
+register lv3
+add v1 water 300mL
+add v1 NH4NO3 0.015mol
+measure v1 temp
+inspect

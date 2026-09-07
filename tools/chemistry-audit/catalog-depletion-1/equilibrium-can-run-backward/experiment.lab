@@ -1,0 +1,10 @@
+# An equilibrium request can form or consume ester, depending on the initial mixture
+register lv3
+add v1 CH3COOH 0.01mol
+add v1 ethanol 0.01mol
+react v1 esterification
+new
+add v2 water 0.01mol
+add v2 ethyl_acetate 0.01mol
+react v2 esterification
+inspect

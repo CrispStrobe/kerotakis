@@ -1,0 +1,4 @@
+codex: 3 problem(s)
+  · cold-from-baking-soda: claims 19.5–22.5 °C, computed 18.4 °C
+  · doubling-the-thiosulfate-doubles-the-rate: claims 'not_yet_modelled', which the solvers did not produce
+  · a-salt-with-no-database: claims 'not_yet_modelled', which the solvers did not produce

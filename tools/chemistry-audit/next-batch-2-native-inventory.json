@@ -1,0 +1,923 @@
+{
+  "scope": "Native redox-element aqueous totals versus formula-counted aqueous portions; separate ligand pools may require a narrower comparison.",
+  "registry": {
+    "path": "/mnt/volume1/kero-experiment-audit/data/registry/registry-source-v1.json",
+    "sha256": "e9e01b89cbc724ac317596d4d0e3428b0fec1d1c4060baacbb613f91ac6a242f"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/51-ammonium-hydrolysis/stdout.ndjson",
+      "sha256": "64ac49c8585d3cbdf21f07e908eb89e34ec5800be3dd70abaa1177420c772660"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "sha256": "336e6ac2e4a970546fca770495352f8adafa20786cde3be430744014a724a061"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "sha256": "40e14480caba7f2e2585d6d7d9bc06614c61f2d16aaaa750685c38409fc53d5b"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "sha256": "8f86487b9d2a1d5ef8b4cc5e51eef0766dc8d55b35412bc8143a6808d70a9413"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/55-potassium-neutralisation/stdout.ndjson",
+      "sha256": "aa96c5885904ad177a4c2b9c6c10747d97f6fb65822e5ed88362e946550efea8"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/56-spectator-ion-mixture/stdout.ndjson",
+      "sha256": "f5277794885fa248f01f725b4a4a8279998c2586f6e5906cdefbde724d77b603"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/57-gypsum-calcium-first/stdout.ndjson",
+      "sha256": "8276fd19b4085174d820461897a68e2e584e463f8a475a610a41488aa50d6f4b"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/58-gypsum-sulfate-first/stdout.ndjson",
+      "sha256": "2322555fa39b47ed30874fba8fa7a6a68114d214d8ce5e625060901722694707"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/59-magnesium-hydroxide/stdout.ndjson",
+      "sha256": "dc642391512c552d43e756c3ffe8700309c1101c575f9923acb32f1f0c44dd63"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/60-magnesium-redissolution/stdout.ndjson",
+      "sha256": "c64677e567196353081db87660a4e853ad8be8d4e4841b1d280f4a8d09ae80c4"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/61-carbonate-acid-sealed/stdout.ndjson",
+      "sha256": "b43ad42274c3349a0aa48764b9909ec847c19fbd8c241692fbf95a7892408ae7"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/62-carbonate-no-acid/stdout.ndjson",
+      "sha256": "ee75238633ccb9c45f0ac5897b5770778a3f6e52b1f3ee985883c7e148c0fa1e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/63-filter-dissolved-sugar/stdout.ndjson",
+      "sha256": "d16f45cc7b22240f9f980426d5022f576d5d18a90738e0d1485e9f936ee4eaeb"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/64-filter-sand-and-salt/stdout.ndjson",
+      "sha256": "bf758aa1ee1e14db2e6b419a9be3c68cbd778678ae64970e3f8f79027b9c395e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "sha256": "34ee6c110c4778a1776295bcc23e0a11c37b56fc92ce1cb6d36b129b7d4eb5fe"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "sha256": "da65607c0a62d67e242b7dd91dcd2005d867d96a8aa9e871291a5ea6790fc63b"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/67-evaporate-potassium-salt/stdout.ndjson",
+      "sha256": "2f3e91329fb971b696773e7f3003d064f6b7680aefa618a85b86d8340fe6e0ac"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/68-evaporate-glucose/stdout.ndjson",
+      "sha256": "36973751345a8cbede95cc411c489e9cc3c6b992ad6e5f280f911804c28ccadd"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/69-reverse-strong-titration/stdout.ndjson",
+      "sha256": "4158070b2fd5eec4f22715deef7e8bd164b0e9d9a6dfad4583729bfbcbaab76f"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/70-weak-base-titration/stdout.ndjson",
+      "sha256": "c477ec5f630a9d8d343a1450a575003f124f5ee1390b956f73cc82ef084cd5a3"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/71-lactic-half-neutralisation/stdout.ndjson",
+      "sha256": "1f7564e402b8b9f3ab4e12702b4b449f1c4163ef3a66f7c8dadb46bc26081ca5"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/72-citric-proton-ladder/stdout.ndjson",
+      "sha256": "45c487583f55de47c4023de5f54ba1fe428e28a632c437ba5596e4fd10936cd2"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/73-phosphate-buffer-acid/stdout.ndjson",
+      "sha256": "7f2152b38280dc2ce0032153c418f9664961d7ff9ba88da008efa5a9c118e719"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/74-phosphate-buffer-base/stdout.ndjson",
+      "sha256": "a34f02220c0452bc1833b7e641e260917e74fb0c5eab45eae68a023510011a4b"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/75-hot-cold-mixing/stdout.ndjson",
+      "sha256": "592e9f359e7d3733f8962f2c2f35c57845fb186702982e30a7e241d0a47c8000"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/76-hot-cold-reversed/stdout.ndjson",
+      "sha256": "56abcb6b5f8130214b20e1a03d2ab5655089bd045068d6d7ed170489019716f9"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/77-ester-product-loaded/stdout.ndjson",
+      "sha256": "f1a1e06a1c871e74e2d91cb888709305286b426adbb69d0ec34bcfcadb0afa34"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/78-ester-water-loaded/stdout.ndjson",
+      "sha256": "f03345822ce6860a55f216db2916a117838540ab95a642ca1ed37e8f1658e590"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/79-ester-reverse-request/stdout.ndjson",
+      "sha256": "8593acccd64481361c049e7301a640864fc7d9748e5248e31de9b53f3572984e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/80-ester-reverse-passive/stdout.ndjson",
+      "sha256": "61ac12594cf8cb03db3de7575d6e0d22779e627c53d503d32d9aa0d93f560e43"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/81-conductivity-potassium/stdout.ndjson",
+      "sha256": "bda639e3e03cb94107cdee1a18dc866aee4c8a8b021f1766ff2e4ef16cabae24"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/82-conductivity-glucose/stdout.ndjson",
+      "sha256": "907193eff5d06baba0db0edd3076674c9eb24cb6b827d9b99220f80f4f8cad2d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/83-distil-isopropanol/stdout.ndjson",
+      "sha256": "cafdb1476cb307c72fe4cf999c29470575b992413a31b6e6894e4bbe0ff5809f"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/84-distil-methanol/stdout.ndjson",
+      "sha256": "e8700ca1ba4bd44049d63ce5881f1ee1726bdec0e6d2588a824ef6f91d36a916"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/85-gypsum-dilution-control/stdout.ndjson",
+      "sha256": "73d9740b882d06e9ab593da6745a3aa2f7cb769bb995845f65788e5ada1c6502"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/86-ammonium-nitrate-cooling/stdout.ndjson",
+      "sha256": "97d46b18d1ebc09cdd7ea500ea22cca4d3316a06b639b81313e35ba69bf575ee"
+    }
+  ],
+  "absolute_tolerance_mol": 1e-08,
+  "relative_tolerance": 1e-06,
+  "rows_checked": 198,
+  "comparisons_checked": 62,
+  "comparisons_passed": 62,
+  "states_observed": [
+    {
+      "element": "N",
+      "oxidation": -3
+    },
+    {
+      "element": "N",
+      "oxidation": 5
+    },
+    {
+      "element": "S",
+      "oxidation": 6
+    }
+  ],
+  "maximum_absolute_error_mol": 3.469446951953614e-18,
+  "comparisons": [
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/51-ammonium-hydrolysis/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/51-ammonium-hydrolysis/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/51-ammonium-hydrolysis/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00999999999999757,
+      "aqueous_inventory_moles": 0.00999999999999757,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.9999999999997572e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.01999999999999514,
+      "aqueous_inventory_moles": 0.01999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 2.999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.01999999999999514,
+      "aqueous_inventory_moles": 0.01999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 2.999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041842,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041842,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/52-ammonium-buffer-acid/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041842,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.00999999999999757,
+      "aqueous_inventory_moles": 0.00999999999999757,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.9999999999997572e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.01999999999999514,
+      "aqueous_inventory_moles": 0.01999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 2.999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.01999999999999514,
+      "aqueous_inventory_moles": 0.01999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 2.999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041846,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041846,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/53-ammonium-buffer-base/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.020000000013041842,
+      "aqueous_inventory_moles": 0.020000000013041846,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.000000001304184e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/54-bisulfate-neutralisation/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/56-spectator-ion-mixture/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/56-spectator-ion-mixture/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/56-spectator-ion-mixture/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.004999999999998785,
+      "aqueous_inventory_moles": 0.004999999999998785,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4999999999998784e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/57-gypsum-calcium-first/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004393941311411849,
+      "aqueous_inventory_moles": 0.004393941311411849,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4393941311411849e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/57-gypsum-calcium-first/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004393941311411849,
+      "aqueous_inventory_moles": 0.004393941311411849,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4393941311411849e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/58-gypsum-sulfate-first/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.00999999999999802,
+      "aqueous_inventory_moles": 0.009999999999998017,
+      "absolute_error_mol": 1.734723475976807e-18,
+      "tolerance_mol": 1.999999999999802e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/58-gypsum-sulfate-first/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004394384492527128,
+      "aqueous_inventory_moles": 0.004394384492527128,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4394384492527128e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/58-gypsum-sulfate-first/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.004394384492527128,
+      "aqueous_inventory_moles": 0.004394384492527128,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.4394384492527128e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/59-magnesium-hydroxide/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/59-magnesium-hydroxide/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.002999999999999253,
+      "aqueous_inventory_moles": 0.002999999999999253,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999253e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/59-magnesium-hydroxide/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.002999999999999253,
+      "aqueous_inventory_moles": 0.002999999999999253,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999253e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/60-magnesium-redissolution/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/60-magnesium-redissolution/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.002999999999999253,
+      "aqueous_inventory_moles": 0.002999999999999253,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999253e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/60-magnesium-redissolution/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0030000000000003474,
+      "aqueous_inventory_moles": 0.0030000000000003474,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.3000000000000348e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/60-magnesium-redissolution/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0030000000000003474,
+      "aqueous_inventory_moles": 0.0030000000000003474,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.3000000000000348e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0014999999999996353,
+      "aqueous_inventory_moles": 0.0014999999999996353,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1499999999999635e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 2,
+      "element": "S",
+      "native_moles": 0.0004999999999998286,
+      "aqueous_inventory_moles": 0.0004999999999998286,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.049999999999983e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0014999999999996353,
+      "aqueous_inventory_moles": 0.0014999999999996353,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1499999999999635e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/65-mix-magnesium-solutions/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 2,
+      "element": "S",
+      "native_moles": 0.0004999999999998286,
+      "aqueous_inventory_moles": 0.0004999999999998286,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.049999999999983e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999514,
+      "aqueous_inventory_moles": 0.001999999999999514,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999514e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0014999999999996353,
+      "aqueous_inventory_moles": 0.0014999999999996353,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1499999999999635e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 2,
+      "element": "S",
+      "native_moles": 0.0004999999999998286,
+      "aqueous_inventory_moles": 0.0004999999999998286,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.049999999999983e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0014999999999996353,
+      "aqueous_inventory_moles": 0.0014999999999996353,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1499999999999635e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/66-mix-reversed-solutions/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 2,
+      "element": "S",
+      "native_moles": 0.0004999999999998286,
+      "aqueous_inventory_moles": 0.0004999999999998286,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.049999999999983e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/70-weak-base-titration/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.001999999999999913,
+      "aqueous_inventory_moles": 0.001999999999999913,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999912e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/70-weak-base-titration/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0019999999951491824,
+      "aqueous_inventory_moles": 0.001999999995149182,
+      "absolute_error_mol": 4.336808689942018e-19,
+      "tolerance_mol": 1.1999999995149183e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/70-weak-base-titration/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0019999999951491824,
+      "aqueous_inventory_moles": 0.001999999995149182,
+      "absolute_error_mol": 4.336808689942018e-19,
+      "tolerance_mol": 1.1999999995149183e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/70-weak-base-titration/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0019999999951491824,
+      "aqueous_inventory_moles": 0.001999999995149182,
+      "absolute_error_mol": 4.336808689942018e-19,
+      "tolerance_mol": 1.1999999995149183e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/85-gypsum-dilution-control/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.009999999999998446,
+      "aqueous_inventory_moles": 0.009999999999998446,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.9999999999998445e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/85-gypsum-dilution-control/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.009999999999998446,
+      "aqueous_inventory_moles": 0.009999999999998446,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.9999999999998445e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/86-ammonium-nitrate-cooling/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.02999999999999869,
+      "aqueous_inventory_moles": 0.029999999999998694,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.999999999999869e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/86-ammonium-nitrate-cooling/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.02999999999999869,
+      "aqueous_inventory_moles": 0.029999999999998694,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.999999999999869e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/next-batch-2/86-ammonium-nitrate-cooling/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.02999999999999869,
+      "aqueous_inventory_moles": 0.029999999999998694,
+      "absolute_error_mol": 3.469446951953614e-18,
+      "tolerance_mol": 3.999999999999869e-08,
+      "passed": true
+    }
+  ],
+  "mismatches": [],
+  "invalid_comparisons": [],
+  "internal_alias_leaks": [],
+  "passed": true
+}

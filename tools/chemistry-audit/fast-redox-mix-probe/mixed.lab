@@ -1,0 +1,12 @@
+# Same analytical input as direct.lab, combined through the native MIX route.
+register lv3
+new
+new
+add v1 water 50mL
+add v1 HCl 0.005mol
+add v1 FeSO4 0.005mol
+add v2 water 50mL
+add v2 HCl 0.005mol
+add v2 KMnO4 0.0002mol
+mix v1 1 v2 1 into v3
+inspect

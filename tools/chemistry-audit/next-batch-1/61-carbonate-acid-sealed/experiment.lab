@@ -1,0 +1,7 @@
+# Does acid consume chalk in a sealed vessel without losing calcium?
+register lv3
+add v1 water 300mL
+seal v1 400mL
+add v1 CaCO3 0.002mol
+add v1 HCl 0.004mol
+inspect

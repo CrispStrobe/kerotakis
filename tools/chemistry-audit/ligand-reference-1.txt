@@ -1,0 +1,18 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.78s
+     Running tests/ligand_reference.rs (target/debug/deps/ligand_reference-721e2c525e5ea9d4)
+
+running 1 test
+test reviewed_ligand_ladders_obey_activity_mass_action_on_both_database_routes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.30s
+
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.63s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-4eded48c090b1497)
+
+running 1 test
+test dbindex::delta_h_tests::redefining_species_drops_earlier_temperature_attributes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 26 filtered out; finished in 0.14s
+

@@ -1,0 +1,5 @@
+# Does pure water give a finite near-neutral baseline?
+register lv3
+add v1 water 1L
+measure v1 ph
+inspect

@@ -1,0 +1,64 @@
+    Blocking waiting for file lock on build directory
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-codex v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-codex)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-cli v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 11s
+     Running tests/json_contract.rs (target/debug/deps/json_contract-e1dee9be4a331d87)
+
+running 1 test
+test json_output_is_the_api_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.48s
+
+     Running tests/lessons_replay.rs (target/debug/deps/lessons_replay-d6cc7fc7e9e6a0d2)
+
+running 30 tests
+test a_cooling_copper_sulfate_solution_grows_blue_crystals ... ok
+test a_copper_coin_in_vinegar_and_salt_grows_its_own_green ... ok
+test a_raisin_needs_a_third_of_its_own_volume_in_bubbles ... ok
+test a_candle_under_a_jar_goes_out_with_oxygen_to_spare ... ok
+test a_volcano_with_soap_in_it_climbs_out_of_the_glass ... ok
+test conductive_water_electrolysis_reports_both_gases ... ok
+test balloon_lesson_obeys_the_gas_law_at_both_boundaries ... ok
+test borax_crystallises_on_cooling_where_sugar_supersaturates ... ok
+test density_tells_apart_what_the_balance_cannot ... ok
+test lemon_cell_reports_a_bounded_voltage_not_unmeasured_power ... ok
+test invisible_ink_requires_drying_before_the_mark_browns ... ok
+test household_food_lessons_keep_their_observable_contrasts ... ok
+test oobleck_answers_differently_depending_how_hard_it_is_pushed ... ok
+test open_fizz_balance_equals_inputs_minus_escaped_gas ... ok
+test lessons_are_json_clean_at_every_register ... ok
+test plastics_sort_themselves_by_density_in_water ... ok
+test rock_candy_needs_the_heat_and_then_the_seed ... ok
+test rubbery_bone_lesson_computes_only_the_chalk_control ... ok
+test rusting_needs_air_and_water_and_salt_makes_it_faster ... ok
+test prepared_kids_mechanism_lessons_replay_the_computed_events ... ok
+test slime_is_a_dose_response_and_the_borax_survives_it ... ok
+test newly_guided_kids_rows_keep_their_evidence ... ok
+test the_boiling_plateau_holds_while_the_water_leaves ... ok
+test the_cabbage_rainbow_computes_five_colours_from_one_pigment ... ok
+test the_hand_warmer_says_why_it_cannot_click ... ok
+test the_ink_strip_and_the_column_cannot_disagree ... ok
+test the_milk_lesson_curdles_through_the_full_solver_stack ... ok
+test the_kitchen_ph_map_says_which_bottle_it_cannot_price ... ok
+test every_lesson_replays_and_computes_chemistry has been running for over 60 seconds
+test the_prewarmed_cache_covers_the_lessons ... ok
+test every_lesson_replays_and_computes_chemistry ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 226.06s
+
+     Running tests/study.rs (target/debug/deps/study-5052183b58c8d2b4)
+
+running 4 tests
+test an_ambiguous_selector_refuses_with_the_candidates ... ok
+test csv_output_has_one_row_per_run ... ok
+test titration_study_reproduces_the_equivalence_point ... ok
+test a_study_is_byte_deterministic ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.31s
+

@@ -79,7 +79,6 @@ fn mass(bench: &Bench) -> f64 {
 /// the protonated forms, the same mechanism as N(−3)'s — the aqueous
 /// lane's, and this test is un-ignored when it lands.
 #[test]
-#[ignore = "dissolved CO2 from the gas is booked as HCO3- without a water debit (+17 g/mol); aqueous lane, C(4) protonation split"]
 fn co2_over_water_keeps_its_mass_when_it_cools() {
     let mut bench = Bench::new();
     let mut stack = stack();

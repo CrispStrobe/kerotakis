@@ -1,0 +1,36 @@
+51-ammonium-hydrolysis exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'dissolved': 1, 'temperature_changed': 1, 'measured': 1}
+52-ammonium-buffer-acid exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 4, 'dissolved': 1, 'temperature_changed': 3, 'measured': 2, 'neutralised': 1}
+53-ammonium-buffer-base exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 4, 'dissolved': 2, 'temperature_changed': 3, 'measured': 2}
+54-bisulfate-neutralisation exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'measured': 2, 'neutralised': 1, 'temperature_changed': 1}
+55-potassium-neutralisation exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 3, 'not_yet_modeled': 2, 'gas_absorbed': 1, 'temperature_changed': 3, 'dissolved': 1, 'neutralised': 1, 'measured': 1}
+56-spectator-ion-mixture exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'temperature_changed': 1, 'measured': 1}
+57-gypsum-calcium-first exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'temperature_changed': 4, 'dissolved': 2, 'precipitated': 1}
+58-gypsum-sulfate-first exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'temperature_changed': 4, 'dissolved': 2, 'precipitated': 1, 'neutralised': 1}
+59-magnesium-hydroxide exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'precipitated': 1, 'temperature_changed': 1}
+60-magnesium-redissolution exit= 0 steps= 5 events= {'added': 4, 'solution_characterized': 4, 'dissolved': 3, 'precipitated': 1, 'temperature_changed': 1, 'neutralised': 1}
+61-carbonate-acid-sealed exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 4, 'vessel_sealed': 1, 'headspace_equilibrated': 3, 'dissolved': 3, 'precipitated': 1, 'hazard_warning': 1, 'gas_contained': 1}
+62-carbonate-no-acid exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 3, 'vessel_sealed': 1, 'headspace_equilibrated': 2, 'dissolved': 1, 'precipitated': 1}
+63-filter-dissolved-sugar exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 3, 'dissolved': 1, 'vessel_created': 1, 'filtered': 1}
+64-filter-sand-and-salt exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 4, 'dissolved': 2, 'temperature_changed': 1, 'vessel_created': 1, 'filtered': 1}
+65-mix-magnesium-solutions exit= 0 steps= 8 events= {'added': 4, 'solution_characterized': 7, 'dissolved': 2, 'vessel_created': 2, 'mixed': 1}
+66-mix-reversed-solutions exit= 0 steps= 8 events= {'added': 4, 'solution_characterized': 7, 'dissolved': 2, 'vessel_created': 2, 'mixed': 1}
+67-evaporate-potassium-salt exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 3, 'dissolved': 1, 'temperature_changed': 1, 'evaporated': 1}
+68-evaporate-glucose exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 3, 'dissolved': 1, 'evaporated': 1, 'measured': 1}
+69-reverse-strong-titration exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 6, 'dissolved': 1, 'temperature_changed': 4, 'neutralised': 4, 'titrated': 1, 'measured': 1}
+70-weak-base-titration exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 9, 'temperature_changed': 8, 'neutralised': 7, 'titrated': 1, 'measured': 1}
+71-lactic-half-neutralisation exit= 0 steps= 6 events= {'added': 3, 'solution_characterized': 3, 'measured': 2, 'dissolved': 1, 'neutralised': 1, 'temperature_changed': 1}
+72-citric-proton-ladder exit= 0 steps= 10 events= {'added': 5, 'solution_characterized': 5, 'dissolved': 4, 'measured': 4, 'neutralised': 3, 'temperature_changed': 5}
+73-phosphate-buffer-acid exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 4, 'temperature_changed': 2, 'dissolved': 1, 'neutralised': 2, 'measured': 2}
+74-phosphate-buffer-base exit= 0 steps= 7 events= {'added': 4, 'solution_characterized': 4, 'temperature_changed': 2, 'dissolved': 2, 'neutralised': 1, 'measured': 2}
+75-hot-cold-mixing exit= 0 steps= 9 events= {'added': 2, 'solution_characterized': 5, 'temperature_changed': 3, 'energy_transferred': 2, 'vessel_created': 2, 'mixed': 1, 'measured': 1}
+76-hot-cold-reversed exit= 0 steps= 9 events= {'added': 2, 'solution_characterized': 5, 'temperature_changed': 3, 'energy_transferred': 2, 'vessel_created': 2, 'mixed': 1, 'measured': 1}
+77-ester-product-loaded exit= 0 steps= 5 events= {'added': 3, 'org_reacted': 1, 'not_yet_modeled': 1}
+78-ester-water-loaded exit= 0 steps= 5 events= {'added': 3, 'solution_characterized': 2, 'org_reacted': 1}
+79-ester-reverse-request exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'org_reacted': 1, 'not_yet_modeled': 1}
+80-ester-reverse-passive exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 3, 'not_yet_modeled': 1}
+81-conductivity-potassium exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'dissolved': 1, 'temperature_changed': 1, 'measured': 1}
+82-conductivity-glucose exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'dissolved': 1, 'measured': 1}
+83-distil-isopropanol exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 4, 'vessel_created': 1, 'distilled': 1}
+84-distil-methanol exit= 0 steps= 5 events= {'added': 2, 'solution_characterized': 4, 'vessel_created': 1, 'distilled': 1}
+85-gypsum-dilution-control exit= 0 steps= 4 events= {'added': 3, 'solution_characterized': 3, 'dissolved': 2, 'temperature_changed': 1}
+86-ammonium-nitrate-cooling exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'temperature_changed': 2, 'dissolved': 1, 'measured': 1}

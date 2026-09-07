@@ -1,0 +1,7 @@
+# Does dry magnesium combustion consume air oxygen and increase residue mass?
+register lv3
+add v1 Mg 0.01mol
+measure v1 balance
+ignite v1
+measure v1 balance
+inspect

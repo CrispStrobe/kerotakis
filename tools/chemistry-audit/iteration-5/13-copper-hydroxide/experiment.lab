@@ -1,0 +1,6 @@
+# Does CuSO4 plus hydroxide form a copper precipitate with an honest phase identity?
+register lv3
+add v1 water 200mL
+add v1 CuSO4 0.002mol
+add v1 NaOH 0.004mol
+inspect

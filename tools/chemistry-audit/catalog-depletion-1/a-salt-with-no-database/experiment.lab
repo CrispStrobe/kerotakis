@@ -1,0 +1,13 @@
+# An unrepresented soluble ion must not inherit pure water's pH
+register lv3
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 HCl 0.002mol
+new
+add v3 water 100mL
+add v3 Na2S2O3 0.79g
+measure v3 ph
+inspect

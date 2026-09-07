@@ -1,0 +1,3909 @@
+{
+  "commit": "f511d533b6a573f2a350b02cd33a7b92ccb17188",
+  "complete_source_patch_sha256": "0fbb38c617092ed4fd843f62bf18efcffe4414d53663d07497e1bd257a19a05d",
+  "binary_sha256": "99c22ca16ab90c637dc8e5348a48fbb6215196e7936282712cfe4be932566658",
+  "lock_sha256": "0b975bbafb01ea847c262465d5bb7b364e2e909a9c41a8be2c421ba806636288",
+  "submodules": " 8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa sundials-kinetics-rs (heads/master)\n 47b459c4a5e3e20b9990fa304e207eca0dcc6ff1 vendor/iphreeqc (v3.6.1-1932-g47b459c4)\n",
+  "source_diff_sha256": "06b3b281af52ef1f7409affaea4b1aa9668a32eef7e3340d2ad222d264be3d5a",
+  "untracked_source_sha256": {
+    "crates/kerotakis-core/src/solution_optics.rs": "173f947cf0a4e6a6fcf0eb0ffbab540506026c593180589dc5dfe2aa50c05007",
+    "crates/kerotakis-core/tests/organic_equilibrium_grid.rs": "bc6907a891e13257deb8a88dc624d03ca36e557f328e4f5f6c74c47bb12cb828",
+    "crates/kerotakis-phreeqc/src/aqueous_gases.rs": "289236dc0483200a28ee8dbf18b488ea5f607681cf7bd616cbba2b6e77fb1e6e",
+    "crates/kerotakis-phreeqc/src/complexation.rs": "6602df5d4c0f254bf42f774f37b8c5a06d64c78a66a7473607af8acbdcd107f4",
+    "crates/kerotakis-phreeqc/src/inventory.rs": "ebd772f93e27afc1f0e989bca350c65b5191e48397c79b75046041e55647f67a",
+    "crates/kerotakis-phreeqc/src/native_namespace.rs": "87fd38ca056396d0b5d490dde46f42495819355223ea0ee6ed90095783f965f9",
+    "crates/kerotakis-phreeqc/src/phase_diagnostics.rs": "61f105fc6a4a197591b280c9bfa44b7e1abcc07351ecb9214223ca2c4416bf3b",
+    "crates/kerotakis-phreeqc/src/redox_isolation.rs": "d087ebe6c87bc79355a848826c80efea6f74bc988a867a4c2d7cbd81275fc7c4",
+    "crates/kerotakis-phreeqc/tests/analytical_inventory.rs": "bd6fa53ccdc770669b5eb3e5fe8eba613dc40a35bac871a03d5f6e68992a3af3",
+    "crates/kerotakis-phreeqc/tests/ligand_reference.rs": "baffb040fc4c3a5dbc5f9dc9ccfb70030d3828a93e2841bb834a93576afa3f02",
+    "crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs": "421d4f622de742f6fd2d03974cd50f434208a4dd141a58dad53d776b6c99f16f",
+    "crates/kerotakis-phreeqc/tests/reactive_gas.rs": "36cfe072d28dae7c05a3cdfb7a66ea636079af0b2dc66f079d8a746ff55f1669",
+    "crates/kerotakis-phreeqc/tests/redox_isolation_probe.rs": "05422bbcb7113cc792a89b4819f48e1414c4cdd2706ad89aef83608662cc7f5b",
+    "crates/kerotakis-phreeqc/tests/titration_refinement.rs": "575e8244c1f5d434d4ef50ee50f7fc9452cc873d2c4c59135ed221d4e57be80f",
+    "crates/kerotakis-phreeqc/tests/unsupported_ionic.rs": "609f6930538afa929445f2beed1a6c80dd539748f6b562db46c0e983d93a031b",
+    "crates/kerotakis-thermo/src/batch.rs": "1c1f900cd743927d4f99f69b8553e6bb00604e1c7d628c35e97ec3bffc0b0447"
+  },
+  "cases": [
+    {
+      "id": "endpoint-is-not-a-full-drop",
+      "question": "A coarse trial step brackets the endpoint; a computed partial step reaches it",
+      "exit": 0,
+      "seconds": 15.394,
+      "steps": 10,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 4,
+        "solution_characterized": 32,
+        "dissolved": 28,
+        "neutralised": 27,
+        "temperature_changed": 27,
+        "titrated": 2,
+        "measured": 2,
+        "vessel_created": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 7.000027196971,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 7.000045103844,
+          "vessel": 1
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.0023000000084846587,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0023000008289189413,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 12.343738146031896,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 8.225455871979648e-10,
+                "phase": "aqueous",
+                "species": "OH-"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5195231320469293e-08,
+            "free_proton": 2.4374797037779072e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0023,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 8.204342825772482e-10,
+            "solution": {
+              "ionic_strength": 0.01034328912143,
+              "pe": null,
+              "ph": 7.000027196971,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.22236884,
+              "species": [
+                {
+                  "activity": 0.9996,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.009297,
+                  "molality": 0.01034,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.009325,
+                  "molality": 0.01034,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002667,
+                  "molality": 0.0002661,
+                  "name": "O2"
+                },
+                {
+                  "activity": 1.018e-07,
+                  "molality": 1.133e-07,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 9.999e-08,
+                  "molality": 1.096e-07,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.3984539820296,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.0022999999419695497,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.002300000805572946,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 12.343738152629244,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 8.344649415903405e-10,
+                "phase": "aqueous",
+                "species": "OH-"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5237854110807458e-08,
+            "free_proton": 2.437425071471919e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0023,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 8.636033962602929e-10,
+            "solution": {
+              "ionic_strength": 0.01034312142635,
+              "pe": null,
+              "ph": 7.000045103844,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.222372443,
+              "species": [
+                {
+                  "activity": 0.9996,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.009297,
+                  "molality": 0.01034,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.009325,
+                  "molality": 0.01034,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002666,
+                  "molality": 0.000266,
+                  "name": "O2"
+                },
+                {
+                  "activity": 1.02e-07,
+                  "molality": 1.135e-07,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 9.999e-08,
+                  "molality": 1.096e-07,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.39845398070287,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "equilibrium-can-run-backward",
+      "question": "An equilibrium request can form or consume ester, depending on the initial mixture",
+      "exit": 0,
+      "seconds": 8.708,
+      "steps": 8,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 4,
+        "org_reacted": 2,
+        "not_yet_modeled": 2,
+        "vessel_created": 1,
+        "solution_characterized": 2
+      },
+      "diagnostics": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "a mixed solvent that is mostly organic (water is 40% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.0033333333333333357,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.0066666666666666645,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.1499999999999,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.006666666666666665,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.006666666666666664,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.003333333333333335,
+                "phase": "liquid",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.003333333333333335,
+                "phase": "liquid",
+                "species": "ethanol"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.8031388422713554e-11,
+            "free_proton": 1.8031388422713554e-11,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethyl_acetate",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.1499995892119,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "cold-from-baking-soda",
+      "question": "NaHCO\u2083(s) \u2192 Na\u207a(aq) + HCO\u2083\u207b(aq)   \u0394H_dis = +16.7 kJ/mol",
+      "exit": 0,
+      "seconds": 8.721,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_characterized": 2,
+        "temperature_changed": 2,
+        "dissolved": 1,
+        "gas_evolved": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "thermometer",
+          "unit": "\u00b0C",
+          "value": 18.446514081497014,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 1.3709475670428452e-06,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 0.016774730981190075,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.04160291109380086,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.09999166736102576,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.575879902489808,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.1114192364658493e-05,
+                "phase": "aqueous",
+                "species": "OH-"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.1114212188119996e-05,
+            "free_proton": 1.9963033424653925e-11,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.09999166736105325,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 1.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 1.1114192233957487e-05,
+            "solution": {
+              "ionic_strength": 1.409609334445,
+              "pe": null,
+              "ph": 10.07645690435,
+              "provenance": {
+                "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                  "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                  "Hnedkovsky et al., 1996, JCT 28, 125",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+                "routing": "chosen because the solution is concentrated (~2.0 mol/kgw), where the ion-interaction model is the valid one"
+              },
+              "redox": [],
+              "solvent_kg": 0.1004495181855,
+              "species": [
+                {
+                  "activity": 0.9794,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.5371,
+                  "molality": 0.9954,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.03703,
+                  "molality": 0.4142,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 0.07831,
+                  "molality": 0.167,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 7.052e-05,
+                  "molality": 0.0001106,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.616e-05,
+                  "molality": 1.365e-05,
+                  "name": "CO2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 291.596514081497,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "doubling-the-thiosulfate-doubles-the-rate",
+      "question": "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur",
+      "exit": 0,
+      "seconds": 8.199,
+      "steps": 9,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 6,
+        "solution_characterized": 6,
+        "not_yet_modeled": 10,
+        "vessel_created": 1,
+        "gravity_settled": 2,
+        "reacted": 2,
+        "dissolved": 2
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004796545315231962,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.00019966416748371966,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.00019997609391356858,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1192642984890995e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000086385287,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.00039995218955473635,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534476967489972,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0016000478121735995,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.062984474126097e-14,
+            "free_proton": 0.0016000478191640541,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0016000478190837924,
+            "solution": {
+              "ionic_strength": 0.02005945571214,
+              "pe": null,
+              "ph": 1.845493830165,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099703603,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01427,
+                  "molality": 0.01605,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.003499,
+                  "molality": 0.004011,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.009632669479560457,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0003600614032606711,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.00036037333873060464,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.119354699334974e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0019999999974777134,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0007207466765525823,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.53463736473479,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012792533225383096,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.0085469372545489e-13,
+            "free_proton": 0.0012792533210259345,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.009993042818291062,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0012792533209251312,
+            "solution": {
+              "ionic_strength": 0.02005887437679,
+              "pe": null,
+              "ph": 1.942682303115,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099706492,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01141,
+                  "molality": 0.01283,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.006305,
+                  "molality": 0.007229,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866589534,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "the-acid-term-is-an-activity",
+      "question": "A proton-dependent rate uses activity, while stoichiometry spends acid equivalents",
+      "exit": 0,
+      "seconds": 12.783,
+      "steps": 13,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 9,
+        "solution_characterized": 9,
+        "not_yet_modeled": 15,
+        "vessel_created": 2,
+        "gravity_settled": 3,
+        "reacted": 3,
+        "dissolved": 3
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004974041993335494,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 2.2167499384007074e-05,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 2.2479415810037118e-05,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1191642603004215e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000006679813,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 4.4958831635098526e-05,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.5342994708118685,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0019550411683812996,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.598518531725237e-14,
+            "free_proton": 0.001955041169098755,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.8970390296609736
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.001955041169032883,
+            "solution": {
+              "ionic_strength": 0.02006009906112,
+              "pe": null,
+              "ph": 1.758457530466,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099700405,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01744,
+                  "molality": 0.01961,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0003933,
+                  "molality": 0.0004509,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004952989933201378,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 4.3219558331616794e-05,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 4.353147594415353e-05,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1191761253673415e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.003999999991192491,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 8.706295169659816e-05,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534320522872003,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0039129370481116865,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 3.5642424449651624e-14,
+            "free_proton": 0.003912937039531725,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.8970390296609735
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.003912937039495893,
+            "solution": {
+              "ionic_strength": 0.04012004550765,
+              "pe": null,
+              "ph": 1.470358413096,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099700784,
+              "species": [
+                {
+                  "activity": 0.9986,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.03318,
+                  "molality": 0.04012,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.03386,
+                  "molality": 0.03925,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0007299,
+                  "molality": 0.0008732,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002652,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866358,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004984970882994877,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 1.1238610340583215e-05,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 1.1550526150654505e-05,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.119158100712887e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0009999999991702712,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.3101052282139407e-05,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534288541922209,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.000976898947698146,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2390158524023752e-13,
+            "free_proton": 0.000976898947012029,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.8970390296609735
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0009768989468881318,
+            "solution": {
+              "ionic_strength": 0.01003006933841,
+              "pe": null,
+              "ph": 2.04825670337,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099700208,
+              "species": [
+                {
+                  "activity": 0.9997,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.009029,
+                  "molality": 0.01003,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.008948,
+                  "molality": 0.009798,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002671,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0002092,
+                  "molality": 0.0002317,
+                  "name": "Na+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866358,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "the-cross-disappears",
+      "question": "Before timing a cloudiness threshold, check whether the limiting reagent permits it",
+      "exit": 0,
+      "seconds": 9.193,
+      "steps": 24,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 9,
+        "solution_characterized": 15,
+        "not_yet_modeled": 27,
+        "vessel_created": 2,
+        "gravity_settled": 3,
+        "reacted": 9,
+        "dissolved": 9,
+        "observed": 9
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004101193173417231,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0008950162701079902,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0008953282357283016,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1196562031123527e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0019999999811393145,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0017906564587357448,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.535172319631788,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.000209343528542405,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 113.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.164144347769694e-13,
+            "free_proton": 0.00020934352302001455,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0002093435224035697,
+            "solution": {
+              "ionic_strength": 0.02005693564133,
+              "pe": null,
+              "ph": 2.728819567349,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099716129,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01566,
+                  "molality": 0.01796,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.001867,
+                  "molality": 0.002099,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.009001794150217296,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0009909366970473233,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0009912486680737674,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1197102644413386e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.001999999980106897,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001982497319569992,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.535268240064132,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.7502663853363742e-05,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 113.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 7.372968175884176e-12,
+            "free_proton": 1.7502667909873994e-05,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.009993042818291062,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -1.7502660536904656e-05,
+            "solution": {
+              "ionic_strength": 0.02005658813426,
+              "pe": null,
+              "ph": 3.806582058248,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099717857,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01734,
+                  "molality": 0.01988,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0001561,
+                  "molality": 0.0001755,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866589534,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.0018382343121169987,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0006597144400972081,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0006600263924557667,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.119523585587082e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0019999999984294074,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0013200527817935149,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534937017788514,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0006799472150902375,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 113.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.8976761057764457e-13,
+            "free_proton": 0.0006799472168256444,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0024982607045727656,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0006799472166358926,
+            "solution": {
+              "ionic_strength": 0.02005778848058,
+              "pe": null,
+              "ph": 2.217186195915,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.09971189,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01155,
+                  "molality": 0.01324,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.006065,
+                  "molality": 0.006819,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866241925,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "the-ten-degree-rule-and-where-it-frays",
+      "question": "Temperature changes the rate constant; finite-time yields also reflect depletion",
+      "exit": 0,
+      "seconds": 8.321,
+      "steps": 17,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 12,
+        "solution_characterized": 12,
+        "not_yet_modeled": 20,
+        "vessel_created": 3,
+        "temperature_changed": 8,
+        "gravity_settled": 4,
+        "reacted": 4,
+        "dissolved": 4
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 3,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 3,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 3,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 3,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 3,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004796545315231962,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.00019966416748371966,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.00019997609391356858,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1192642984890995e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000086385287,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.00039995218955473635,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534476967489972,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0016000478121735995,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.062984474126097e-14,
+            "free_proton": 0.0016000478191640541,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0016000478190837924,
+            "solution": {
+              "ionic_strength": 0.02005945571214,
+              "pe": null,
+              "ph": 1.845493830165,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099703603,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01427,
+                  "molality": 0.01605,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.003499,
+                  "molality": 0.004011,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004649105566857411,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0003471039075484797,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.00034741584228812093,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1193473964125323e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000060895425,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0006948316866919487,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534624407238347,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0013051683154241545,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.031387931510788e-13,
+            "free_proton": 0.0013051683196002967,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0013051683193975939,
+            "solution": {
+              "ionic_strength": 0.02005892133906,
+              "pe": null,
+              "ph": 1.934808882519,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099706259,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01735,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01162,
+                  "molality": 0.01309,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.006063,
+                  "molality": 0.006969,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002307,
+                  "molality": 0.0002296,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 308.11219168448537,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004456637991934812,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.00053957147162349,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0005398834172107188,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1194558722881384e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.002000000000004177,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0010797668344241745,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534816874813269,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0009202331655799867,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.527484580609008e-13,
+            "free_proton": 0.0009202331661327928,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0009202331655800023,
+            "solution": {
+              "ionic_strength": 0.02005822381416,
+              "pe": null,
+              "ph": 2.087508678503,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099709726,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01731,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.009397,
+                  "molality": 0.01083,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.008175,
+                  "molality": 0.009229,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002049,
+                  "molality": 0.000204,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 318.0743842701854,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004256007826443803,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.000740201625806863,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.000740513582701728,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1195689486485775e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0019999999929357767,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.00148102716017229,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.535017504978761,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0005189728345964539,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.7695386736298716e-12,
+            "free_proton": 0.0005189728345329998,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 3,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0005189728327634868,
+            "solution": {
+              "ionic_strength": 0.02005749676729,
+              "pe": null,
+              "ph": 2.337272355779,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.09971334,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01726,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01285,
+                  "molality": 0.01485,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0046,
+                  "molality": 0.005205,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.000187,
+                  "molality": 0.0001862,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 328.0365763945441,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "two-beakers-and-one-clock",
+      "question": "One wait advances every prepared vessel; experimental controls share elapsed time",
+      "exit": 0,
+      "seconds": 6.537,
+      "steps": 14,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 6,
+        "solution_characterized": 8,
+        "not_yet_modeled": 14,
+        "vessel_created": 1,
+        "temperature_changed": 3,
+        "gravity_settled": 2,
+        "reacted": 4,
+        "dissolved": 4,
+        "observed": 4
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 1,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004423576849621804,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0005726326120731532,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0005729445595237278,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.1194745057455526e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000145002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0011458891259588776,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.534849935955582,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0008541108809545506,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 40.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.5106716189401506e-13,
+            "free_proton": 0.0008541108886923835,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0008541108885413225,
+            "solution": {
+              "ionic_strength": 0.0200581040612,
+              "pe": null,
+              "ph": 2.118140590688,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099710322,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01002,
+                  "molality": 0.01149,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.007618,
+                  "molality": 0.008566,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.004200724422253726,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0007954850268811343,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.0007957969868918049,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.119600106705608e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0019999999921551243,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0015915939680458753,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.53507278838295,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00040840602621905475,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 40.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.438071652110944e-13,
+            "free_proton": 0.00040840602475310467,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.00040840602410924893,
+            "solution": {
+              "ionic_strength": 0.02005729640319,
+              "pe": null,
+              "ph": 2.439406128142,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099714336,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01735,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01389,
+                  "molality": 0.01596,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.003636,
+                  "molality": 0.004096,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002311,
+                  "molality": 0.00023,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 307.9889746988802,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "a-salt-with-no-database",
+      "question": "An unrepresented soluble ion must not inherit pure water's pH",
+      "exit": 0,
+      "seconds": 7.289,
+      "steps": 11,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 7,
+        "solution_characterized": 5,
+        "not_yet_modeled": 6,
+        "vessel_created": 2
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "no-solution",
+          "event": "not_yet_modeled",
+          "vessel": 2,
+          "what": "the pH meter reads nothing \u2014 no aqueous solution has been characterised in this vessel"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.004996521409145531,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.001999999999999514,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.002000000000000668,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.450137964692482e-14,
+            "free_proton": 0.002000000000064319,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.001999999999999514,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.0997,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 0.001999999999999514,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.002000000000000668,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.450137964692482e-14,
+            "free_proton": 0.002000000000064319,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.001999999999999514,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.0997,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1499999999913,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004996521409145531,
+                "phase": "solid",
+                "species": "Na2S2O3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 9.97906980707489e-09,
+            "free_proton": 9.97906980707489e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 1.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.14999866358,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "the-acid-is-never-used-up",
+      "question": "Finite acid is consumed: an old fixed-reservoir approximation is now a limiting-reagent test",
+      "exit": 0,
+      "seconds": 6.44,
+      "steps": 8,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_characterized": 3,
+        "not_yet_modeled": 5,
+        "measured": 2,
+        "gravity_settled": 1,
+        "reacted": 1,
+        "dissolved": 1,
+        "observed": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 1.74858175066,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 6.537142122868,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 0.003996535701600076,
+                "phase": "aqueous",
+                "species": "Na2S2O3"
+              },
+              {
+                "moles": 0.0009996737360265862,
+                "phase": "solid",
+                "species": "S"
+              },
+              {
+                "moles": 0.000999985707545455,
+                "phase": "gas",
+                "species": "SO2"
+              },
+              {
+                "moles": 3.119715188689006e-07,
+                "phase": "aqueous",
+                "species": "S"
+              },
+              {
+                "moles": 0.0020000000051631633,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001999971420255253,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.535276977103604,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.8584910438667066e-08,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 600.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 3.9646341986188535e-09,
+            "free_proton": 3.254954210887596e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004996521409145531,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Na2S2O3",
+                "suspended_fraction": 0.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -2.85849079103076e-08,
+            "solution": {
+              "ionic_strength": 0.02005659629102,
+              "pe": null,
+              "ph": 6.537142122868,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default inorganic aqueous dataset"
+              },
+              "redox": [],
+              "solvent_kg": 0.099718015,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.01749,
+                  "molality": 0.02006,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                },
+                {
+                  "activity": 2.903e-07,
+                  "molality": 3.264e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 3.446e-08,
+                  "molality": 3.976e-08,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999866357994,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

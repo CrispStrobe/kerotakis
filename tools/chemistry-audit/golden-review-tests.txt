@@ -1,0 +1,16 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 52.42s
+     Running tests/frozen_behavior.rs (target/debug/deps/frozen_behavior-7eb3f540b95634ed)
+
+running 1 test
+test lessons_produce_stable_output ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.72s
+
+     Running tests/registry_snapshot.rs (target/debug/deps/registry_snapshot-b8aa72e47820f764)
+
+running 1 test
+test registry_matches_the_golden_snapshot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+

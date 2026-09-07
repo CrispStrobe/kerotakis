@@ -96,6 +96,12 @@ pub trait Equilibrator {
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 
+    /// Missing time models relevant to a wait, without claiming a rate from an
+    /// equilibrium calculation. Ordinary additions need not repeat these notes.
+    fn time_boundaries(&self, _vessel: &Vessel) -> Vec<Event> {
+        Vec::new()
+    }
+
     /// Mix two solutions by fraction into a target vessel using the solver's
     /// native mixing (PHREEQC MIX). Returns `None` if the solver does not
     /// support native mixing; the caller falls back to `equilibrate`.
@@ -183,6 +189,13 @@ impl SolverStack {
 }
 
 impl Equilibrator for SolverStack {
+    fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
+        self.solvers
+            .iter()
+            .flat_map(|s| s.time_boundaries(vessel))
+            .collect()
+    }
+
     fn name(&self) -> &'static str {
         "solver-stack"
     }

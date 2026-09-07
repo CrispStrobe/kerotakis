@@ -1,0 +1,11 @@
+# Does a Zn/Cu cell report roughly 1.1 V and provenance?
+register lv3
+add v1 water 200mL
+add v1 ZnSO4 0.02mol
+add v1 Zn 0.01mol
+new
+add v2 water 200mL
+add v2 CuSO4 0.02mol
+add v2 Cu 0.01mol
+cell v1 v2
+inspect

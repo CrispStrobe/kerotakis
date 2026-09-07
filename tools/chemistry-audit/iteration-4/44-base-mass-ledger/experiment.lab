@@ -1,0 +1,7 @@
+# Follow-up: does adding 0.1 mol NaOH retain hydroxide mass?
+register lv3
+add v1 water 1L
+measure v1 balance
+add v1 NaOH 0.1mol
+measure v1 balance
+inspect

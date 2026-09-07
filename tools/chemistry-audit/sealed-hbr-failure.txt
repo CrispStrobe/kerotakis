@@ -1,0 +1,38 @@
+
+running 1 test
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099983250
+GAS_PHASE 1
+    -temperature 25.0000
+    -fixed_volume
+    -volume 1.000000000000e-2
+    HBr(g) 2.446540367290e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Br
+    -gases    HBr(g)
+    -molalities H+ OH-
+END
+---
+
+thread 'sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium' (2998952) panicked at crates/kerotakis-phreeqc/tests/reactive_gas.rs:73:13:
+Br
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium ... FAILED
+
+failures:
+
+failures:
+    sealed_reactive_gas_keeps_atoms_and_reaches_a_finite_headspace_equilibrium
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 11.91s
+

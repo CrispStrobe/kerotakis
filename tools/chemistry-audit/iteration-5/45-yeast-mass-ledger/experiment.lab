@@ -1,0 +1,7 @@
+# Follow-up: does the balance include 0.5 g unresolved yeast solids?
+register lv3
+add v1 water 100mL
+measure v1 balance
+add v1 dry_yeast 0.5g
+measure v1 balance
+inspect

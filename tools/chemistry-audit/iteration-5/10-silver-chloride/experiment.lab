@@ -1,0 +1,6 @@
+# Does near-stoichiometric dilute Ag/Cl precipitate AgCl?
+register lv3
+add v1 water 200mL
+add v1 NaCl 0.002mol
+add v1 AgNO3 0.002mol
+inspect

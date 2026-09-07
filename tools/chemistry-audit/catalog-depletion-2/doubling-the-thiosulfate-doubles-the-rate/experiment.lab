@@ -1,0 +1,11 @@
+# Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur
+register lv3
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 Na2S2O3 1.58g
+add v2 HCl 0.002mol
+wait 10s
+inspect

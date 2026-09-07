@@ -1,0 +1,663 @@
+
+running 1 test
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099983250
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 5.000837640305e-2
+    S(6) 5.000837640305e-2
+    K 2.000335056122e-3
+    Mn(7) 2.000335056122e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Fe(2) S(6) K Mn(7) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 3.333891760203e-2
+    S(6) 3.333891760203e-2
+    K 2.667113408163e-3
+    Mn(7) 2.667113408163e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Fe(2) S(6) K Mn(7) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input ---
+SOLUTION_SPECIES
+    Fe+2 = Fe+3 + 1 e-
+        log_k -50
+    Mn+2 = Mn+3 + 1 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4-2 + 8 H+ + 4 e-
+        log_k -50
+    Mn+2 + 4 H2O = MnO4- + 8 H+ + 5 e-
+        log_k 50
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        4  O2(g)  -0.68
+    Cl 1.000167528061e-1
+    Fe(2) 6.667783520406e-2
+    S(6) 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn(7) 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Fe(2) S(6) K Mn(7) Fe(3) Mn(2) Mn(3) Mn(6) S(-2)
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.631592
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.628296
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.626648
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625824
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625412
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625206
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625103
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625051
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625026
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625013
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625006
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625003
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625002
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625001
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+--- PHREEQC input that failed ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.074987438
+    pe        13.625000
+    Cl 1.000167528061e-1
+    Fe 6.667783520406e-2
+    Soxsix 6.667783520406e-2
+    K 1.333556704081e-3
+    Mn 1.333556704081e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals Cl Fe(2) Fe(3) K Mn(2) Mn(3) Mn(6) Mn(7) Soxsix Sredtwo
+    -molalities H+ OH-
+END
+---
+
+thread 'coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons' (3001553) panicked at crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs:103:9:
+assertion failed: manganese_ii > 0.98 * 0.0002 * fb
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons ... FAILED
+
+failures:
+
+failures:
+    coupled_mix_declines_without_mutation_and_normal_solve_balances_electrons
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 10.77s
+

@@ -606,7 +606,13 @@ impl Equilibrator for ThermalEquilibrator {
             contents.push(Portion {
                 species: SpeciesId::new(reg.key),
                 moles: Moles(*moles),
-                phase: reg.standard_phase,
+                // CEA distinguishes condensed phases in the record identity;
+                // the room-temperature registry phase is not the solved phase.
+                phase: if s.name.ends_with("(L)") {
+                    Phase::Liquid
+                } else {
+                    Phase::Solid
+                },
             });
         }
         let vented = exhaust_composition(&eq.composition, &pool).unwrap_or_else(|| {

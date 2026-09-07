@@ -1,0 +1,51 @@
+Generic batch-kernel finite-value audit, 2026-09-07
+Worktree: /mnt/volume1/kero-experiment-audit
+
+Scope: production crates/kerotakis-thermo/src/batch.rs imported directly by
+the existing standalone_batch.rs wrapper. Only its public StillTake enum
+is mirrored; no distillation algorithm or experimental answer is copied.
+No cargo invocation, dependency rebuild, target cleanup or deletion.
+
+Before implementation fix, added two regression tests and compiled:
+rustc --edition 2021 --test tools/chemistry-audit/standalone_batch.rs -o /tmp/kero-batch-validation-before
+
+/tmp/kero-batch-validation-before --nocapture zero_inventory_cannot_hide_invalid_component_properties
+FAILED, exit 101:
+invalid latent=NaN, take=Fraction(0.2): Some(BatchCut { overhead: [0.19999999999999699, 0.0], t_start_k: 350.0, t_end_k: 350.0, energy_kj: NaN })
+
+/tmp/kero-batch-validation-before --nocapture finite_inventory_cannot_return_overflowed_heat
+FAILED, exit 101:
+unrepresentable cut energy: Some(BatchCut { overhead: [4.999999999999971e306], t_start_k: 350.0, t_end_k: 350.0, energy_kj: inf })
+
+Cause: bubble-pressure calculations skip zero inventory, while the latent
+sum and heat accounting evaluated zero*NaN or zero*infinity. Separately,
+finite mole inventories could overflow accumulated heat late in a cut.
+
+Fix: validate all supplied model parameters, including inactive entries;
+retain inactive-component exemption from bubble-temperature bounds;
+check positive finite vapour sum and latent mixture; reject the whole cut
+if accumulated heat becomes nonfinite. No new numerical result fitting.
+
+Post-fix production file SHA-256:
+c087492f5721a1bd6b4b70913ed1610762441fac2c06032d26a3c407d0c71bd7
+
+rustc --edition 2021 --test tools/chemistry-audit/standalone_batch.rs -o /tmp/kero-batch-validation-after
+/tmp/kero-batch-validation-after --nocapture
+
+running 5 tests
+test batch::tests::finite_inventory_cannot_return_overflowed_heat ... ok
+test batch::tests::zero_inventory_cannot_hide_invalid_component_properties ... ok
+test batch::tests::inactive_domains_and_large_representable_cuts_remain_supported ... ok
+test batch::tests::constant_relative_volatility_obeys_independent_rayleigh_identity ... ok
+test batch::tests::pure_limit_scale_permutation_energy_and_conservation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 25.90s
+Exit status: 0.
+
+New cases include inactive NaN/infinite/nonpositive latent heats for both
+fraction and energy requests; invalid inactive boiling/domain parameters;
+valid zero-inventory components whose temperature domain excludes the
+active bubble point; scales 1e-6, 1 and 1e300 mol with finite valid energy;
+and an unrepresentable 1e307-mol half-cut. Existing independent Rayleigh,
+permutation, conservation, pure-limit and energy tests also remain passing.
+This standalone gate supplements, not replaces, the parent workspace gate.

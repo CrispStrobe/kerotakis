@@ -1,0 +1,15 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-registry-export v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-registry-export)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 20s
+     Running `target/debug/kerotakis-registry-export data/registry/registry-source-v1.json`
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-registry-export v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-registry-export)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 15.06s
+     Running tests/legacy_diff.rs (target/debug/deps/legacy_diff-64475357101e5f8b)
+
+running 2 tests
+test every_legacy_field_is_present_and_unchanged ... ok
+test checked_in_source_document_is_current_byte_for_byte ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+

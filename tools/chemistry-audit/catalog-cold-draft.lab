@@ -1,0 +1,6 @@
+# Existing cold-from-baking-soda catalog input, retained for review.
+register lv3
+add v1 water 100mL
+add v1 NaHCO3 8.4g
+measure v1 thermometer
+inspect

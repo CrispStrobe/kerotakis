@@ -1,0 +1,8 @@
+# Does tenfold dilution of dilute HCl raise pH by about one?
+register lv3
+add v1 water 100mL
+add v1 HCl 0.0001mol
+measure v1 ph
+add v1 water 900mL
+measure v1 ph
+inspect

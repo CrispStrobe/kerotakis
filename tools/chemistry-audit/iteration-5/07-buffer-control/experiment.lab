@@ -1,0 +1,7 @@
+# Does the same acid dose cause a much larger pH change in water?
+register lv3
+add v1 water 1L
+measure v1 ph
+add v1 HCl 0.002mol
+measure v1 ph
+inspect

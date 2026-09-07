@@ -121,7 +121,7 @@ jobs:
       - name: Clippy
         run: cargo clippy --workspace --all-targets -- -D warnings
       - name: Test
-        run: cargo test --workspace
+        run: cargo test --locked --no-fail-fast --workspace
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
       # The curiosity baseline records the route every prompt actually takes.
@@ -132,6 +132,35 @@ jobs:
       # explain rather than a number someone regenerates.
       - name: Curiosity coverage — the recorded route is still the route
         run: cargo run -p kerotakis-cli -- coverage curiosity --check
+      - name: Chemistry audit — previous fleets and preserved catalog
+        if: runner.os == 'Linux'
+        env:
+          AUDIT_OUT: ${{ runner.temp }}/chemistry-audit
+        run: |
+          python3 tools/chemistry-audit/run.py --binary target/debug/kero --out "$AUDIT_OUT/original"
+          python3 tools/chemistry-audit/analyse.py "$AUDIT_OUT/original" --out "$AUDIT_OUT/original-checks.json"
+          python3 tools/chemistry-audit/next_batch.py --binary target/debug/kero --out "$AUDIT_OUT/second"
+          python3 tools/chemistry-audit/analyse_next.py "$AUDIT_OUT/second" --out "$AUDIT_OUT/second-checks.json"
+          python3 tools/chemistry-audit/check_native_inventory.py "$AUDIT_OUT/original" "$AUDIT_OUT/second" --out "$AUDIT_OUT/native-inventory.json"
+          python3 tools/chemistry-audit/replay_catalog.py --binary target/debug/kero --out "$AUDIT_OUT/catalog"
+          python3 tools/chemistry-audit/analyse_catalog.py "$AUDIT_OUT/catalog" --out "$AUDIT_OUT/catalog-checks.json"
+          node --test web/kerotakis-pool.test.mjs
+      - name: Chemistry audit — newly designed third fleet
+        if: runner.os == 'Linux'
+        env:
+          AUDIT_OUT: ${{ runner.temp }}/chemistry-audit
+        run: |
+          python3 tools/chemistry-audit/third_batch.py --binary target/debug/kero --out "$AUDIT_OUT/third"
+          python3 tools/chemistry-audit/analyse_third.py "$AUDIT_OUT/third" --out "$AUDIT_OUT/third-checks.json"
+          python3 tools/chemistry-audit/check_native_inventory.py "$AUDIT_OUT/third" --out "$AUDIT_OUT/third-native-inventory.json"
+      - name: Preserve chemistry audit evidence, including failed checks
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@v6
+        with:
+          name: chemistry-audit-${{ github.sha }}
+          path: ${{ runner.temp }}/chemistry-audit
+          if-no-files-found: ignore
+          retention-days: 30
 
   my-basic-preview:
     name: MY-BASIC preview (${{ matrix.os }})

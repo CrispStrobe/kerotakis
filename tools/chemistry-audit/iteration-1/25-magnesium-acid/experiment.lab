@@ -1,0 +1,6 @@
+# Does Mg consume two equivalents of acid per H2?
+register lv3
+add v1 water 200mL
+add v1 HCl 0.006mol
+add v1 Mg 0.002mol
+inspect

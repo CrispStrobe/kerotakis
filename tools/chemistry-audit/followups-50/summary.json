@@ -1,0 +1,97 @@
+{
+  "commit": "f511d533b6a573f2a350b02cd33a7b92ccb17188",
+  "binary_sha256": "518ca996010114d52c1ceba242470e01c62836fb58ca4c04c4985e3bf65e1808",
+  "lock_sha256": "b72474b830398cd5bd99b49011f50632efa91abbf39571445a718c1fc88e6109",
+  "submodules": " 8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa sundials-kinetics-rs (heads/master)\n 47b459c4a5e3e20b9990fa304e207eca0dcc6ff1 vendor/iphreeqc (v3.6.1-1932-g47b459c4)\n",
+  "cases": [
+    {
+      "id": "50-sugar-ph",
+      "question": "Follow-up: is the pH of a nonionic sugar solution characterized?",
+      "exit": 0,
+      "seconds": 1.822,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "material_added": 1,
+        "dissolved": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "no-solution",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "the pH meter reads nothing \u2014 no aqueous solution has been characterised in this vessel"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 55.34276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.014607219179863073,
+                "phase": "aqueous",
+                "species": "sucrose"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 55.34276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.014607219179863073,
+                "particle_size_um": null,
+                "phase": "aqueous",
+                "source": "material recipe household/granulated-table-sugar",
+                "species": "sucrose",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

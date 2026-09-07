@@ -1,0 +1,6 @@
+# Follow-up: can waiting cause pure water to be characterized?
+register lv3
+add v1 water 1L
+wait 1s
+measure v1 ph
+inspect

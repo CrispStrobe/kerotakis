@@ -1,0 +1,2658 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on build directory
+   Compiling kerotakis-thermo v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-thermo)
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-codex v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-codex)
+   Compiling sundials-sys v0.1.0 (/mnt/volume1/kero-experiment-audit/sundials-kinetics-rs/sundials-sys)
+   Compiling kerotakis-registry-export v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-registry-export)
+   Compiling sundials v0.1.0 (/mnt/volume1/kero-experiment-audit/sundials-kinetics-rs/sundials)
+warning: unused import: `KIN_SUCCESS`
+ --> sundials-kinetics-rs/sundials/src/kinsol.rs:8:88
+  |
+8 |     KINCreate, KINFree, KINInit, KINSetLinearSolver, KINSetUserData, KINSol, N_Vector, KIN_SUCCESS,
+  |                                                                                        ^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `nvector::NVector`
+ --> sundials-kinetics-rs/sundials/src/sparse.rs:1:31
+  |
+1 | use crate::{context::Context, nvector::NVector};
+  |                               ^^^^^^^^^^^^^^^^
+
+warning: fields `rows` and `cols` are never read
+ --> sundials-kinetics-rs/sundials/src/matrix.rs:6:5
+  |
+4 | pub struct DenseMatrix {
+  |            ----------- fields in this struct
+5 |     inner: SUNMatrix,
+6 |     rows: usize,
+  |     ^^^^
+7 |     cols: usize,
+  |     ^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `sundials` (lib) generated 3 warnings (run `cargo fix --lib -p sundials` to apply 2 suggestions)
+   Compiling kerotakis-scene-physics v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-scene-physics)
+   Compiling kerotakis-sundials v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-sundials)
+   Compiling kerotakis-wasm v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-wasm)
+   Compiling kerotakis-cli v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cli)
+   Compiling kerotakis-data v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-data)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 39m 40s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_cea-100ca080ada1d326)
+
+running 17 tests
+test gibbs::tests::burning_magnesium_conserves_every_element ... ok
+test gibbs::tests::a_degenerate_problem_is_refused_rather_than_guessed ... ok
+test gibbs::tests::calcining_chalk_conserves_every_element ... ok
+test gibbs::tests::oxygen_does_not_leave_solid_carbon_behind ... ok
+test gibbs::tests::chalk_decomposes_when_it_is_hot_enough_and_not_before ... ok
+test nasa9::tests::co2_matches_the_reference_values ... ok
+test nasa9::tests::condensed_phases_are_marked ... ok
+test nasa9::tests::heat_capacity_rises_with_temperature ... ok
+test nasa9::tests::parses_the_database ... ok
+test nasa9::tests::the_reactant_walk_never_lands_on_a_data_line ... ok
+test nasa9::tests::two_letter_elements_are_normalised ... ok
+test scoped_ideal_gas::tests::all_six_locators_resolve_to_canonical_gas_records ... ok
+test scoped_ideal_gas::tests::out_of_scope_species_are_refused ... ok
+test scoped_ideal_gas::tests::representative_values_are_read_from_the_canonical_table ... ok
+test scoped_ideal_gas::tests::revised_runtime_range_is_not_misrepresented_as_the_2002_pdf ... ok
+test scoped_ideal_gas::tests::runtime_records_retain_report_level_references ... ok
+test gibbs::tests::the_adiabatic_solve_conserves_too ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s
+
+     Running unittests src/bin/generate-cea-subset.rs (target/debug/deps/generate_cea_subset-e196c8c50250decd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ambient_after_flame.rs (target/debug/deps/ambient_after_flame-74bc7599e499f96c)
+
+running 1 test
+test the_beaker_the_flame_left_behind_is_cool_an_hour_later ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
+
+     Running tests/autoignition.rs (target/debug/deps/autoignition-9134c1bfa5306c00)
+
+running 5 tests
+test a_spark_is_above_every_autoignition_temperature ... ok
+test an_open_flask_of_warm_ethanol_is_below_autoignition_on_the_rooms_air ... ok
+test above_autoignition_the_same_mixture_burns ... ok
+test warm_methane_and_oxygen_do_not_burn_without_a_spark ... ok
+test hydrogen_is_gated_too_and_without_oxygen_nothing_is_said ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s
+
+     Running tests/bench_thermal.rs (target/debug/deps/bench_thermal-4e205d09e4962249)
+
+running 12 tests
+test a_flame_really_burns_liquid_ethanol ... ok
+test a_solution_is_left_to_the_aqueous_engine ... ok
+test a_flame_really_burns_liquid_methanol ... ok
+test a_spark_held_to_something_that_will_not_burn_leaves_no_trace ... ok
+test burning_magnesium_makes_white_oxide_and_a_great_deal_of_heat ... ok
+test chalk_in_a_cold_crucible_just_sits_there ... ok
+test aqueous_rubbing_alcohol_keeps_an_explicit_combustion_boundary ... ok
+test igniting_magnesium_gains_mass_from_the_air ... ok
+test species_map_into_the_nasa_data_by_formula ... ok
+test steel_wool_ignites_to_named_iron_oxide_in_open_air ... ok
+test heating_chalk_hard_enough_calcines_it ... ok
+test the_thermal_answer_carries_its_provenance ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+
+     Running tests/equilibrium.rs (target/debug/deps/equilibrium-70aca7f770c9b8c3)
+
+running 6 tests
+test dissociation_appears_at_flame_temperatures ... ok
+test chalk_decomposes_when_hot_enough ... ok
+test elements_are_conserved_exactly ... ok
+test methane_burns_to_carbon_dioxide_and_water ... ok
+test methane_in_air_has_a_textbook_flame_temperature ... ok
+test the_decomposition_temperature_is_computed_not_assumed ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+     Running tests/gas_mechanism_endpoint.rs (target/debug/deps/gas_mechanism_endpoint-66a336b5d0324dd6)
+
+running 7 tests
+test a_global_step_cannot_make_the_carbon_monoxide_cea_finds ... ok
+test cea_carries_every_species_the_packs_name ... ok
+test equilibrium_at_the_claimed_conditions_is_complete_combustion ... ok
+test every_global_step_releases_about_the_same_heat_per_mole_of_oxygen ... ok
+test a_global_step_ends_where_cea_ends_under_lean_conditions ... ok
+test every_species_a_pack_can_move_is_one_cea_can_price ... ok
+test the_kinetic_route_approaches_equilibrium_without_overshooting_it ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.22s
+
+     Running tests/heat_source_ceiling.rs (target/debug/deps/heat_source_ceiling-bcbb42daa9ea9d1f)
+
+running 5 tests
+test a_hundred_millilitres_of_water_and_fifty_kilojoules_boils_rather_than_glows ... ok
+test cooling_still_bounds_on_the_vessels_own_heat_and_names_no_source ... ok
+test five_kilojoules_is_delivered_whole_because_the_chalk_stays_cold ... ok
+test ten_grams_of_chalk_and_forty_kilojoules_stop_at_the_flame ... ok
+test a_candle_is_a_lower_ceiling_than_a_burner ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.21s
+
+     Running tests/vented_products.rs (target/debug/deps/vented_products-487ee3a2203c8157)
+
+running 5 tests
+test a_vessel_that_kept_its_product_keeps_the_plain_wording ... ok
+test an_emptied_beaker_says_the_temperature_is_the_flames ... ok
+test the_exhaust_temperature_hardly_matters ... ok
+test the_exhaust_is_what_the_equation_says_it_is ... ok
+test the_flame_keeps_its_temperature_and_its_energy ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.89s
+
+     Running unittests src/main.rs (target/debug/deps/kero-5b27e741decac112)
+
+running 18 tests
+test balance_exercise::tests::a_blank_or_impossible_coefficient_is_not_an_answer ... ok
+test balance_exercise::tests::a_correct_multiple_is_balanced_and_named_as_a_multiple ... ok
+test balance_exercise::tests::charge_is_marked_as_well_as_the_atoms ... ok
+test balance_exercise::tests::the_solvers_own_answer_is_correct_and_simplest ... ok
+test balance_exercise::tests::what_cannot_be_drilled_is_reported_rather_than_dropped ... ok
+test coverage::tests::an_unmet_requirement_is_sorted_by_where_missing_sits ... ok
+test coverage::tests::baseline_reports_changed_added_and_removed_prompts ... ok
+test coverage::tests::smoke_comparison_ignores_baseline_entries_outside_the_subset ... ok
+test provenance::tests::a_distributed_lane_still_demands_a_verdict ... ok
+test provenance::tests::a_quarantine_snapshot_may_await_its_review ... ok
+test provenance::tests::accepts_a_complete_allowlisted_record ... ok
+test provenance::tests::permits_copyleft_only_outside_distribution ... ok
+test provenance::tests::rejects_an_unpinned_revision ... ok
+test provenance::tests::rejects_checksum_drift ... ok
+test provenance::tests::rejects_copyleft_in_a_distributed_lane ... ok
+test provenance::tests::rejects_unknown_upstream_inputs ... ok
+test provenance::tests::rejects_unsafe_or_missing_paths ... ok
+test balance_exercise::tests::every_shipped_exercise_accepts_its_answer_and_refuses_a_perturbation ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.26s
+
+     Running tests/cabinet.rs (target/debug/deps/cabinet-c965c49bff12998d)
+
+running 12 tests
+test an_empty_search_says_so_rather_than_listing_the_catalogue ... ok
+test explain_is_silent_about_recipes_when_none_were_used ... ok
+test explain_names_the_recipe_a_vessel_was_built_from ... ok
+test find_matches_an_alias_and_says_which_one ... ok
+test find_reaches_a_material_a_species_listing_never_showed ... ok
+test find_reports_the_shelf_level_it_will_be_refused_against ... ok
+test find_takes_a_fragment_when_nothing_matches_exactly ... ok
+test help_names_every_verb_the_grammar_accepts ... ok
+test lessons_are_listed_with_their_own_titles ... ok
+test household_bleach_and_ammonia_still_warn ... ok
+test one_reviewed_bottle_is_not_a_mixture_someone_made ... ok
+test pouring_the_same_two_species_separately_still_warns ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.99s
+
+     Running tests/chart.rs (target/debug/deps/chart-e6e53318f04c4c0b)
+
+running 2 tests
+test a_band_renders_as_a_shaded_polygon ... ok
+test renderer_draws_every_series_and_the_provenance ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/curiosity.rs (target/debug/deps/curiosity-0df72282d7a774c1)
+
+running 3 tests
+test curiosity_full_reports_every_prompt_or_failure ... ignored, scheduled native curiosity corpus
+test curiosity_check_rejects_a_synthetic_routing_regression ... ok
+test curiosity_smoke_routes_without_crashing ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 21.13s
+
+     Running tests/fit.rs (target/debug/deps/fit-d5d646dd2d0f9db9)
+
+running 3 tests
+test malformed_measurements_and_unsupported_options_are_refused ... ok
+test refuses_finite_observations_whose_squared_residuals_overflow ... ok
+test replay_recovers_a_known_rate_and_reports_residuals_and_curation ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 19.08s
+
+     Running tests/headspace_json.rs (target/debug/deps/headspace_json-ca5204dde3e4c039)
+
+running 1 test
+test every_gas_boundary_round_trips_through_the_cli_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.07s
+
+     Running tests/json_contract.rs (target/debug/deps/json_contract-27aeee86cfbc9cc7)
+
+running 1 test
+test json_output_is_the_api_contract ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.31s
+
+     Running tests/lessons_replay.rs (target/debug/deps/lessons_replay-06cbd7b792036755)
+
+running 30 tests
+test a_cooling_copper_sulfate_solution_grows_blue_crystals ... ok
+test a_candle_under_a_jar_goes_out_with_oxygen_to_spare ... ok
+test a_copper_coin_in_vinegar_and_salt_grows_its_own_green ... ok
+test a_raisin_needs_a_third_of_its_own_volume_in_bubbles ... ok
+test a_volcano_with_soap_in_it_climbs_out_of_the_glass ... ok
+test balloon_lesson_obeys_the_gas_law_at_both_boundaries ... ok
+test borax_crystallises_on_cooling_where_sugar_supersaturates ... ok
+test conductive_water_electrolysis_reports_both_gases ... ok
+test density_tells_apart_what_the_balance_cannot ... ok
+test household_food_lessons_keep_their_observable_contrasts ... ok
+test invisible_ink_requires_drying_before_the_mark_browns ... ok
+test lemon_cell_reports_a_bounded_voltage_not_unmeasured_power ... ok
+test every_lesson_replays_and_computes_chemistry has been running for over 60 seconds
+test lessons_are_json_clean_at_every_register ... ok
+test newly_guided_kids_rows_keep_their_evidence ... ok
+test oobleck_answers_differently_depending_how_hard_it_is_pushed ... ok
+test open_fizz_balance_equals_inputs_minus_escaped_gas ... ok
+test plastics_sort_themselves_by_density_in_water ... ok
+test prepared_kids_mechanism_lessons_replay_the_computed_events ... ok
+test rock_candy_needs_the_heat_and_then_the_seed ... ok
+test rubbery_bone_lesson_computes_only_the_chalk_control ... ok
+test rusting_needs_air_and_water_and_salt_makes_it_faster ... ok
+test slime_is_a_dose_response_and_the_borax_survives_it ... ok
+test the_boiling_plateau_holds_while_the_water_leaves ... ok
+test the_cabbage_rainbow_computes_five_colours_from_one_pigment ... ok
+test the_hand_warmer_says_why_it_cannot_click ... ok
+test the_ink_strip_and_the_column_cannot_disagree ... ok
+test the_kitchen_ph_map_says_which_bottle_it_cannot_price ... ok
+test the_milk_lesson_curdles_through_the_full_solver_stack ... ok
+test the_prewarmed_cache_covers_the_lessons ... ok
+test every_lesson_replays_and_computes_chemistry ... ok
+
+test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 364.52s
+
+     Running tests/licence_consistency.rs (target/debug/deps/licence_consistency-9b0747fdf69d1aff)
+
+running 6 tests
+test contributing_data_section_says_cc_by_cc0 ... ok
+test contributing_references_notice ... ok
+test license_additional_permission_says_copyright_holders ... ok
+test notice_limits_to_copyright_holders ... ok
+test shipped_data_is_cc_by_or_cc0_not_by_sa ... ok
+test codex_headers_use_the_declared_kerotakis_data_licence ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/mcp.rs (target/debug/deps/mcp-ae2530d54e1efa23)
+
+running 4 tests
+test handshake_and_tool_listing ... ok
+test refusals_and_errors_are_stated ... ok
+test bench_output_is_the_cli_json_contract ... ok
+test the_bench_persists_until_reset ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.76s
+
+     Running tests/mechanism.rs (target/debug/deps/mechanism-8eb23312e97b1ad4)
+
+running 10 tests
+test mechanism_inspect_json_is_machine_readable_and_normalized ... ok
+test mechanism_inspect_reports_troe_falloff_parameters ... ok
+test mechanism_inspect_rejects_unbalanced_input_with_reaction_number ... ok
+test mechanism_rates_exposes_balanced_forward_and_reverse_flux_at_equilibrium ... ok
+test mechanism_rates_reports_progress_species_production_and_limiting_step ... ok
+test mechanism_simulate_rejects_an_unknown_feed_species ... ok
+test mechanism_simulate_rejects_zero_sample_intervals ... ok
+test mechanism_simulate_advances_a_finite_gas_reactor_as_json ... ok
+test pressure_grid_is_inspectable_and_shared_by_rates_and_simulation ... ok
+test mechanism_simulate_reversible_gas_approaches_thermodynamic_equilibrium ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s
+
+     Running tests/metamorphic.rs (target/debug/deps/metamorphic-0c4203ba837296ae)
+
+running 3 tests
+test order_independence_of_equilibrium ... FAILED
+test scale_invariance_of_intensive_properties ... FAILED
+test dilution_moves_ph_toward_seven ... FAILED
+
+failures:
+
+---- order_independence_of_equilibrium stdout ----
+
+thread 'order_independence_of_equilibrium' (3093350) panicked at crates/kerotakis-cli/tests/metamorphic.rs:27:10:
+kero runs: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- scale_invariance_of_intensive_properties stdout ----
+
+thread 'scale_invariance_of_intensive_properties' (3093490) panicked at crates/kerotakis-cli/tests/metamorphic.rs:27:10:
+kero runs: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+---- dilution_moves_ph_toward_seven stdout ----
+
+thread 'dilution_moves_ph_toward_seven' (3093349) panicked at crates/kerotakis-cli/tests/metamorphic.rs:27:10:
+kero runs: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+
+failures:
+    dilution_moves_ph_toward_seven
+    order_independence_of_equilibrium
+    scale_invariance_of_intensive_properties
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.13s
+
+error: test failed, to rerun pass `-p kerotakis-cli --test metamorphic`
+     Running tests/plan_figures.rs (target/debug/deps/plan_figures-5abe2ebd8d274817)
+error: test failed, to rerun pass `-p kerotakis-cli --test plan_figures`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/plan_figures-5abe2ebd8d274817` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/protocol_conformance.rs (target/debug/deps/protocol_conformance-fa27a27f62015023)
+error: test failed, to rerun pass `-p kerotakis-cli --test protocol_conformance`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/protocol_conformance-fa27a27f62015023` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/provenance.rs (target/debug/deps/provenance-926a29fc2b707e2d)
+error: test failed, to rerun pass `-p kerotakis-cli --test provenance`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance-926a29fc2b707e2d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/quest.rs (target/debug/deps/quest-17cbdd3ea52b0cd9)
+error: test failed, to rerun pass `-p kerotakis-cli --test quest`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/quest-17cbdd3ea52b0cd9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/study.rs (target/debug/deps/study-b98858b4d16b7cda)
+error: test failed, to rerun pass `-p kerotakis-cli --test study`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/study-b98858b4d16b7cda` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/study_mc.rs (target/debug/deps/study_mc-f36214f9fc368fe9)
+error: test failed, to rerun pass `-p kerotakis-cli --test study_mc`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/study_mc-f36214f9fc368fe9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_codex-7f1b92be1edd3be4)
+error: test failed, to rerun pass `-p kerotakis-codex --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_codex-7f1b92be1edd3be4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/curiosity_corpus.rs (target/debug/deps/curiosity_corpus-ebe275086b5ff864)
+error: test failed, to rerun pass `-p kerotakis-codex --test curiosity_corpus`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/curiosity_corpus-ebe275086b5ff864` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/export_snapshot.rs (target/debug/deps/export_snapshot-f2421190c5630353)
+error: test failed, to rerun pass `-p kerotakis-codex --test export_snapshot`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/export_snapshot-f2421190c5630353` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/french_probe.rs (target/debug/deps/french_probe-287343af9f3376a0)
+error: test failed, to rerun pass `-p kerotakis-codex --test french_probe`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/french_probe-287343af9f3376a0` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/prose_figures.rs (target/debug/deps/prose_figures-d8de713dccef59e6)
+error: test failed, to rerun pass `-p kerotakis-codex --test prose_figures`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/prose_figures-d8de713dccef59e6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/quest_engine.rs (target/debug/deps/quest_engine-7455519d9811c817)
+error: test failed, to rerun pass `-p kerotakis-codex --test quest_engine`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/quest_engine-7455519d9811c817` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/sidecar_roundtrip.rs (target/debug/deps/sidecar_roundtrip-9689cb9044af041f)
+error: test failed, to rerun pass `-p kerotakis-codex --test sidecar_roundtrip`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/sidecar_roundtrip-9689cb9044af041f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/vertical_slice.rs (target/debug/deps/vertical_slice-47f9257aa968b8c4)
+error: test failed, to rerun pass `-p kerotakis-codex --test vertical_slice`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/vertical_slice-47f9257aa968b8c4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_core-5f86df50f3f0ecec)
+error: test failed, to rerun pass `-p kerotakis-core --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_core-5f86df50f3f0ecec` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/acid_metal_cell.rs (target/debug/deps/acid_metal_cell-8bedb1f28728cce1)
+error: test failed, to rerun pass `-p kerotakis-core --test acid_metal_cell`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/acid_metal_cell-8bedb1f28728cce1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/adsorption.rs (target/debug/deps/adsorption-a181d081eee7f74e)
+error: test failed, to rerun pass `-p kerotakis-core --test adsorption`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/adsorption-a181d081eee7f74e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/allocation_profile.rs (target/debug/deps/allocation_profile-b3eef081ca4bdfcc)
+error: test failed, to rerun pass `-p kerotakis-core --test allocation_profile`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/allocation_profile-b3eef081ca4bdfcc` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/ambient_heat.rs (target/debug/deps/ambient_heat-83a9ac837b13ba63)
+error: test failed, to rerun pass `-p kerotakis-core --test ambient_heat`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/ambient_heat-83a9ac837b13ba63` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/amylase.rs (target/debug/deps/amylase-21c6da45fcb982cb)
+error: test failed, to rerun pass `-p kerotakis-core --test amylase`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/amylase-21c6da45fcb982cb` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/batteries.rs (target/debug/deps/batteries-9aeec3a558c56c7d)
+error: test failed, to rerun pass `-p kerotakis-core --test batteries`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/batteries-9aeec3a558c56c7d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/buoyancy.rs (target/debug/deps/buoyancy-29e4e7fb1ee40e04)
+error: test failed, to rerun pass `-p kerotakis-core --test buoyancy`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/buoyancy-29e4e7fb1ee40e04` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/centrifuging.rs (target/debug/deps/centrifuging-42c29d4d1f3d350b)
+error: test failed, to rerun pass `-p kerotakis-core --test centrifuging`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/centrifuging-42c29d4d1f3d350b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/chromatograph.rs (target/debug/deps/chromatograph-5ffdd7f645bc6fb7)
+error: test failed, to rerun pass `-p kerotakis-core --test chromatograph`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/chromatograph-5ffdd7f645bc6fb7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/combustion.rs (target/debug/deps/combustion-aaaa32ed487f935a)
+error: test failed, to rerun pass `-p kerotakis-core --test combustion`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/combustion-aaaa32ed487f935a` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/conservation.rs (target/debug/deps/conservation-5359feaab83a4344)
+error: test failed, to rerun pass `-p kerotakis-core --test conservation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/conservation-5359feaab83a4344` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/corrosion.rs (target/debug/deps/corrosion-4f5f66b1ad518e7d)
+error: test failed, to rerun pass `-p kerotakis-core --test corrosion`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/corrosion-4f5f66b1ad518e7d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/density.rs (target/debug/deps/density-01209d3c61b0291f)
+error: test failed, to rerun pass `-p kerotakis-core --test density`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/density-01209d3c61b0291f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/dilute.rs (target/debug/deps/dilute-b7399def65b5cadd)
+error: test failed, to rerun pass `-p kerotakis-core --test dilute`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/dilute-b7399def65b5cadd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/distil.rs (target/debug/deps/distil-29cf54ac851257bf)
+error: test failed, to rerun pass `-p kerotakis-core --test distil`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/distil-29cf54ac851257bf` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/element_coverage.rs (target/debug/deps/element_coverage-f4f1e0ff03b7c4b2)
+error: test failed, to rerun pass `-p kerotakis-core --test element_coverage`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/element_coverage-f4f1e0ff03b7c4b2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/energy_transfer.rs (target/debug/deps/energy_transfer-4696c05ff2cdc633)
+error: test failed, to rerun pass `-p kerotakis-core --test energy_transfer`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/energy_transfer-4696c05ff2cdc633` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/enzyme_activity.rs (target/debug/deps/enzyme_activity-f1dca93f7879736c)
+error: test failed, to rerun pass `-p kerotakis-core --test enzyme_activity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/enzyme_activity-f1dca93f7879736c` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/enzyme_families.rs (target/debug/deps/enzyme_families-a14c03b79d460ef7)
+error: test failed, to rerun pass `-p kerotakis-core --test enzyme_families`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/enzyme_families-a14c03b79d460ef7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/exchange.rs (target/debug/deps/exchange-f263ec1bf82f0681)
+error: test failed, to rerun pass `-p kerotakis-core --test exchange`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange-f263ec1bf82f0681` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/fermentation.rs (target/debug/deps/fermentation-39fe80e298ece0a6)
+error: test failed, to rerun pass `-p kerotakis-core --test fermentation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/fermentation-39fe80e298ece0a6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/float_or_sink.rs (target/debug/deps/float_or_sink-93f513a135926953)
+error: test failed, to rerun pass `-p kerotakis-core --test float_or_sink`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/float_or_sink-93f513a135926953` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/fluid_pack_identity.rs (target/debug/deps/fluid_pack_identity-3fd0a8b1f28cbfe2)
+error: test failed, to rerun pass `-p kerotakis-core --test fluid_pack_identity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_pack_identity-3fd0a8b1f28cbfe2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/foam_observable.rs (target/debug/deps/foam_observable-a2440f61b5baefdb)
+error: test failed, to rerun pass `-p kerotakis-core --test foam_observable`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/foam_observable-a2440f61b5baefdb` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/food_colour.rs (target/debug/deps/food_colour-c61f62c7d1deb41f)
+error: test failed, to rerun pass `-p kerotakis-core --test food_colour`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/food_colour-c61f62c7d1deb41f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/frozen_behavior.rs (target/debug/deps/frozen_behavior-b4d0d8b94137db7e)
+error: test failed, to rerun pass `-p kerotakis-core --test frozen_behavior`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/frozen_behavior-b4d0d8b94137db7e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/gas_mechanism_clock.rs (target/debug/deps/gas_mechanism_clock-129191d6ad7aaf77)
+error: test failed, to rerun pass `-p kerotakis-core --test gas_mechanism_clock`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_mechanism_clock-129191d6ad7aaf77` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/gas_mechanism_packs.rs (target/debug/deps/gas_mechanism_packs-7d83e4700634d672)
+error: test failed, to rerun pass `-p kerotakis-core --test gas_mechanism_packs`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_mechanism_packs-7d83e4700634d672` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/gas_tests.rs (target/debug/deps/gas_tests-b107d252bd6b378d)
+error: test failed, to rerun pass `-p kerotakis-core --test gas_tests`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/gas_tests-b107d252bd6b378d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/grinding.rs (target/debug/deps/grinding-f31e17aa7ba2987f)
+error: test failed, to rerun pass `-p kerotakis-core --test grinding`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/grinding-f31e17aa7ba2987f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/hair_bleach.rs (target/debug/deps/hair_bleach-730f2fe9a58f8cc6)
+error: test failed, to rerun pass `-p kerotakis-core --test hair_bleach`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/hair_bleach-730f2fe9a58f8cc6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/hazard_locale.rs (target/debug/deps/hazard_locale-9a749f0e055e7e9b)
+error: test failed, to rerun pass `-p kerotakis-core --test hazard_locale`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/hazard_locale-9a749f0e055e7e9b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/headspace.rs (target/debug/deps/headspace-ad6fd1503c456718)
+error: test failed, to rerun pass `-p kerotakis-core --test headspace`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/headspace-ad6fd1503c456718` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/heat_of_mixing.rs (target/debug/deps/heat_of_mixing-d43ea520f7ed95d7)
+error: test failed, to rerun pass `-p kerotakis-core --test heat_of_mixing`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/heat_of_mixing-d43ea520f7ed95d7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/honesty.rs (target/debug/deps/honesty-f29a51bd4b94f8bd)
+error: test failed, to rerun pass `-p kerotakis-core --test honesty`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/honesty-f29a51bd4b94f8bd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/household_fizz.rs (target/debug/deps/household_fizz-e11bd355a2ba1296)
+error: test failed, to rerun pass `-p kerotakis-core --test household_fizz`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/household_fizz-e11bd355a2ba1296` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/i18n_coverage.rs (target/debug/deps/i18n_coverage-c10034d095acdbb7)
+error: test failed, to rerun pass `-p kerotakis-core --test i18n_coverage`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/i18n_coverage-c10034d095acdbb7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/instrument_oracle.rs (target/debug/deps/instrument_oracle-768e9a787a453c35)
+error: test failed, to rerun pass `-p kerotakis-core --test instrument_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/instrument_oracle-768e9a787a453c35` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/iodine_clock.rs (target/debug/deps/iodine_clock-dffce09184011653)
+error: test failed, to rerun pass `-p kerotakis-core --test iodine_clock`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/iodine_clock-dffce09184011653` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/ionic_render.rs (target/debug/deps/ionic_render-94747ad31be2079b)
+error: test failed, to rerun pass `-p kerotakis-core --test ionic_render`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/ionic_render-94747ad31be2079b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/irradiation.rs (target/debug/deps/irradiation-9e694d0a1f3f353d)
+error: test failed, to rerun pass `-p kerotakis-core --test irradiation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/irradiation-9e694d0a1f3f353d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/kids_luminol_temperature.rs (target/debug/deps/kids_luminol_temperature-3e6e45387570da99)
+error: test failed, to rerun pass `-p kerotakis-core --test kids_luminol_temperature`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kids_luminol_temperature-3e6e45387570da99` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/kids_water_filter.rs (target/debug/deps/kids_water_filter-c3100d44007e58db)
+error: test failed, to rerun pass `-p kerotakis-core --test kids_water_filter`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kids_water_filter-c3100d44007e58db` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/kitchen_biology.rs (target/debug/deps/kitchen_biology-8393cc5c8bca24b4)
+error: test failed, to rerun pass `-p kerotakis-core --test kitchen_biology`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kitchen_biology-8393cc5c8bca24b4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/layers.rs (target/debug/deps/layers-70d0d1973afa7f2e)
+error: test failed, to rerun pass `-p kerotakis-core --test layers`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/layers-70d0d1973afa7f2e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/lemon_paper_mark.rs (target/debug/deps/lemon_paper_mark-8fb87521bae7b1ab)
+error: test failed, to rerun pass `-p kerotakis-core --test lemon_paper_mark`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/lemon_paper_mark-8fb87521bae7b1ab` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/loader_fidelity.rs (target/debug/deps/loader_fidelity-e2f6c2375d81ef78)
+error: test failed, to rerun pass `-p kerotakis-core --test loader_fidelity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/loader_fidelity-e2f6c2375d81ef78` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/magic_milk.rs (target/debug/deps/magic_milk-4ec7f974128268be)
+error: test failed, to rerun pass `-p kerotakis-core --test magic_milk`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/magic_milk-4ec7f974128268be` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/magnetic_materials.rs (target/debug/deps/magnetic_materials-7df086d441eeed0d)
+error: test failed, to rerun pass `-p kerotakis-core --test magnetic_materials`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/magnetic_materials-7df086d441eeed0d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/material_object_state.rs (target/debug/deps/material_object_state-aed2f1d26af77ee4)
+error: test failed, to rerun pass `-p kerotakis-core --test material_object_state`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/material_object_state-aed2f1d26af77ee4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/material_recipe.rs (target/debug/deps/material_recipe-2b504bb8359e19c6)
+error: test failed, to rerun pass `-p kerotakis-core --test material_recipe`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/material_recipe-2b504bb8359e19c6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/mechanism_cantera_audit.rs (target/debug/deps/mechanism_cantera_audit-e8ec70c6632d0760)
+error: test failed, to rerun pass `-p kerotakis-core --test mechanism_cantera_audit`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/mechanism_cantera_audit-e8ec70c6632d0760` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/melting_point.rs (target/debug/deps/melting_point-05789219999be6ae)
+error: test failed, to rerun pass `-p kerotakis-core --test melting_point`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/melting_point-05789219999be6ae` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/milk_colloid.rs (target/debug/deps/milk_colloid-45400e48b1fecdd7)
+error: test failed, to rerun pass `-p kerotakis-core --test milk_colloid`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_colloid-45400e48b1fecdd7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/milk_curdling.rs (target/debug/deps/milk_curdling-4903f2c82217f942)
+error: test failed, to rerun pass `-p kerotakis-core --test milk_curdling`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_curdling-4903f2c82217f942` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/mix.rs (target/debug/deps/mix-04786a74e6b22e35)
+error: test failed, to rerun pass `-p kerotakis-core --test mix`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/mix-04786a74e6b22e35` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/nonaqueous.rs (target/debug/deps/nonaqueous-8636d8261e2208a7)
+error: test failed, to rerun pass `-p kerotakis-core --test nonaqueous`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/nonaqueous-8636d8261e2208a7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/nuclear.rs (target/debug/deps/nuclear-a3f022a33d0ad614)
+error: test failed, to rerun pass `-p kerotakis-core --test nuclear`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/nuclear-a3f022a33d0ad614` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/oil_emulsion.rs (target/debug/deps/oil_emulsion-988192c4eb59c509)
+error: test failed, to rerun pass `-p kerotakis-core --test oil_emulsion`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/oil_emulsion-988192c4eb59c509` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/org_react.rs (target/debug/deps/org_react-511e718e37e114b2)
+error: test failed, to rerun pass `-p kerotakis-core --test org_react`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/org_react-511e718e37e114b2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/organic_equilibrium_grid.rs (target/debug/deps/organic_equilibrium_grid-e618b452ff6639b0)
+error: test failed, to rerun pass `-p kerotakis-core --test organic_equilibrium_grid`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/organic_equilibrium_grid-e618b452ff6639b0` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/paint_colour.rs (target/debug/deps/paint_colour-87a18be02a369bd7)
+error: test failed, to rerun pass `-p kerotakis-core --test paint_colour`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/paint_colour-87a18be02a369bd7` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/parse_roundtrip.rs (target/debug/deps/parse_roundtrip-bac269cece6c23a8)
+error: test failed, to rerun pass `-p kerotakis-core --test parse_roundtrip`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/parse_roundtrip-bac269cece6c23a8` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/particles_operator.rs (target/debug/deps/particles_operator-6273ccec3a3a7ea1)
+error: test failed, to rerun pass `-p kerotakis-core --test particles_operator`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/particles_operator-6273ccec3a3a7ea1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/permanganate.rs (target/debug/deps/permanganate-4e55940ea75a549b)
+error: test failed, to rerun pass `-p kerotakis-core --test permanganate`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/permanganate-4e55940ea75a549b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/phase_heat_capacity.rs (target/debug/deps/phase_heat_capacity-e091655278e74ce2)
+error: test failed, to rerun pass `-p kerotakis-core --test phase_heat_capacity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_heat_capacity-e091655278e74ce2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/phase_routes.rs (target/debug/deps/phase_routes-82597cc582d33f80)
+error: test failed, to rerun pass `-p kerotakis-core --test phase_routes`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_routes-82597cc582d33f80` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/plastics.rs (target/debug/deps/plastics-0d9a059d8fb07fda)
+error: test failed, to rerun pass `-p kerotakis-core --test plastics`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/plastics-0d9a059d8fb07fda` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/prepared_kitchen_objects.rs (target/debug/deps/prepared_kitchen_objects-44a82a49eb610b81)
+error: test failed, to rerun pass `-p kerotakis-core --test prepared_kitchen_objects`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/prepared_kitchen_objects-44a82a49eb610b81` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/prepared_material_identity.rs (target/debug/deps/prepared_material_identity-bb6ef81061b1c338)
+error: test failed, to rerun pass `-p kerotakis-core --test prepared_material_identity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/prepared_material_identity-bb6ef81061b1c338` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/pressure_boiling.rs (target/debug/deps/pressure_boiling-d5badc87dd483796)
+error: test failed, to rerun pass `-p kerotakis-core --test pressure_boiling`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/pressure_boiling-d5badc87dd483796` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/proportional_transfer.rs (target/debug/deps/proportional_transfer-a68033a0976c31a9)
+error: test failed, to rerun pass `-p kerotakis-core --test proportional_transfer`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/proportional_transfer-a68033a0976c31a9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/protein_denaturation.rs (target/debug/deps/protein_denaturation-53f9c27f953f365c)
+error: test failed, to rerun pass `-p kerotakis-core --test protein_denaturation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/protein_denaturation-53f9c27f953f365c` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/redox_titrimetry.rs (target/debug/deps/redox_titrimetry-222e26f311ab1b63)
+error: test failed, to rerun pass `-p kerotakis-core --test redox_titrimetry`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_titrimetry-222e26f311ab1b63` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/registry_snapshot.rs (target/debug/deps/registry_snapshot-6b5d7d2a74f6ce7d)
+error: test failed, to rerun pass `-p kerotakis-core --test registry_snapshot`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_snapshot-6b5d7d2a74f6ce7d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/remove_vessel.rs (target/debug/deps/remove_vessel-79d2c2ecf7d85320)
+error: test failed, to rerun pass `-p kerotakis-core --test remove_vessel`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/remove_vessel-79d2c2ecf7d85320` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/render_locale.rs (target/debug/deps/render_locale-6b928cf295edae34)
+error: test failed, to rerun pass `-p kerotakis-core --test render_locale`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/render_locale-6b928cf295edae34` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/resistivity.rs (target/debug/deps/resistivity-2de4fa744840d14a)
+error: test failed, to rerun pass `-p kerotakis-core --test resistivity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/resistivity-2de4fa744840d14a` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/scene_authority.rs (target/debug/deps/scene_authority-1a925d6519599b8f)
+error: test failed, to rerun pass `-p kerotakis-core --test scene_authority`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_authority-1a925d6519599b8f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/scene_bulk_objects.rs (target/debug/deps/scene_bulk_objects-8edf402cec73dbee)
+error: test failed, to rerun pass `-p kerotakis-core --test scene_bulk_objects`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_bulk_objects-8edf402cec73dbee` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/scene_numbers.rs (target/debug/deps/scene_numbers-bf6b369de9709732)
+error: test failed, to rerun pass `-p kerotakis-core --test scene_numbers`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/scene_numbers-bf6b369de9709732` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/selectivity.rs (target/debug/deps/selectivity-a3dbea05f2b786e9)
+error: test failed, to rerun pass `-p kerotakis-core --test selectivity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/selectivity-a3dbea05f2b786e9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/senses.rs (target/debug/deps/senses-45c699c54200627f)
+error: test failed, to rerun pass `-p kerotakis-core --test senses`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/senses-45c699c54200627f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/silver_metathesis.rs (target/debug/deps/silver_metathesis-de3e1782520382c4)
+error: test failed, to rerun pass `-p kerotakis-core --test silver_metathesis`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/silver_metathesis-de3e1782520382c4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-913fe06f47baf218)
+error: test failed, to rerun pass `-p kerotakis-core --test solid_solution`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/solid_solution-913fe06f47baf218` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/spill_breakage.rs (target/debug/deps/spill_breakage-5086feaed74efd5b)
+error: test failed, to rerun pass `-p kerotakis-core --test spill_breakage`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/spill_breakage-5086feaed74efd5b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/spill_persistence.rs (target/debug/deps/spill_persistence-e029dd7e9c256c0e)
+error: test failed, to rerun pass `-p kerotakis-core --test spill_persistence`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/spill_persistence-e029dd7e9c256c0e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/starch_iodine.rs (target/debug/deps/starch_iodine-046a9bfd7fe05fc6)
+error: test failed, to rerun pass `-p kerotakis-core --test starch_iodine`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/starch_iodine-046a9bfd7fe05fc6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/states.rs (target/debug/deps/states-4e18882fa0374c98)
+error: test failed, to rerun pass `-p kerotakis-core --test states`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/states-4e18882fa0374c98` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/stirring.rs (target/debug/deps/stirring-d2c38686e4c2813d)
+error: test failed, to rerun pass `-p kerotakis-core --test stirring`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/stirring-d2c38686e4c2813d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/stock.rs (target/debug/deps/stock-273db02cdff64ffd)
+error: test failed, to rerun pass `-p kerotakis-core --test stock`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/stock-273db02cdff64ffd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/sucrose_dissolution.rs (target/debug/deps/sucrose_dissolution-0dfda38459cca402)
+error: test failed, to rerun pass `-p kerotakis-core --test sucrose_dissolution`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/sucrose_dissolution-0dfda38459cca402` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/sunscreen.rs (target/debug/deps/sunscreen-7a8e4101750ec5df)
+error: test failed, to rerun pass `-p kerotakis-core --test sunscreen`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/sunscreen-7a8e4101750ec5df` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/surface.rs (target/debug/deps/surface-3c4fff5899984f58)
+error: test failed, to rerun pass `-p kerotakis-core --test surface`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/surface-3c4fff5899984f58` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/surface_spread.rs (target/debug/deps/surface_spread-d6e3efaf49055d92)
+error: test failed, to rerun pass `-p kerotakis-core --test surface_spread`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/surface_spread-d6e3efaf49055d92` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/thermal_decomp.rs (target/debug/deps/thermal_decomp-064e7d7960750d87)
+error: test failed, to rerun pass `-p kerotakis-core --test thermal_decomp`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/thermal_decomp-064e7d7960750d87` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/transport.rs (target/debug/deps/transport-f30d435735ca69ef)
+error: test failed, to rerun pass `-p kerotakis-core --test transport`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/transport-f30d435735ca69ef` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/transport_verb.rs (target/debug/deps/transport_verb-fc0e483ebfaa0411)
+error: test failed, to rerun pass `-p kerotakis-core --test transport_verb`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/transport_verb-fc0e483ebfaa0411` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/vegetable_oil_layers.rs (target/debug/deps/vegetable_oil_layers-7399a7a7f119a31e)
+error: test failed, to rerun pass `-p kerotakis-core --test vegetable_oil_layers`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/vegetable_oil_layers-7399a7a7f119a31e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/vitamin_c.rs (target/debug/deps/vitamin_c-b0c3983c6759b257)
+error: test failed, to rerun pass `-p kerotakis-core --test vitamin_c`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/vitamin_c-b0c3983c6759b257` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_data-6bf8fa3ffbbf1354)
+error: test failed, to rerun pass `-p kerotakis-data --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_data-6bf8fa3ffbbf1354` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/bin/compile-registry.rs (target/debug/deps/compile_registry-80b96510b5e2a515)
+error: test failed, to rerun pass `-p kerotakis-data --bin compile-registry`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/compile_registry-80b96510b5e2a515` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/bin/fluid-parameter-import.rs (target/debug/deps/fluid_parameter_import-8d73f8072ee7b8b5)
+error: test failed, to rerun pass `-p kerotakis-data --bin fluid-parameter-import`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_parameter_import-8d73f8072ee7b8b5` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/bin/pubchem-import.rs (target/debug/deps/pubchem_import-f989f77ba9634858)
+error: test failed, to rerun pass `-p kerotakis-data --bin pubchem-import`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_import-f989f77ba9634858` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/bin/quarantine-review.rs (target/debug/deps/quarantine_review-cd4a4f3967fb7bce)
+error: test failed, to rerun pass `-p kerotakis-data --bin quarantine-review`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_review-cd4a4f3967fb7bce` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/adapter_quarantine.rs (target/debug/deps/adapter_quarantine-d5223bb2fcd7dc81)
+error: test failed, to rerun pass `-p kerotakis-data --test adapter_quarantine`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/adapter_quarantine-d5223bb2fcd7dc81` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/chebi_adapter.rs (target/debug/deps/chebi_adapter-42da9c9378a97164)
+error: test failed, to rerun pass `-p kerotakis-data --test chebi_adapter`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/chebi_adapter-42da9c9378a97164` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/fluid_parameters.rs (target/debug/deps/fluid_parameters-fdc8dcbee1082797)
+error: test failed, to rerun pass `-p kerotakis-data --test fluid_parameters`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_parameters-fdc8dcbee1082797` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/import_pipeline.rs (target/debug/deps/import_pipeline-0ded1ea7a08b2d51)
+error: test failed, to rerun pass `-p kerotakis-data --test import_pipeline`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/import_pipeline-0ded1ea7a08b2d51` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/phase_properties.rs (target/debug/deps/phase_properties-6c28d557a3434071)
+error: test failed, to rerun pass `-p kerotakis-data --test phase_properties`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/phase_properties-6c28d557a3434071` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/provenance_lint.rs (target/debug/deps/provenance_lint-be26ddc5cc824393)
+error: test failed, to rerun pass `-p kerotakis-data --test provenance_lint`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance_lint-be26ddc5cc824393` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/pubchem_adapter.rs (target/debug/deps/pubchem_adapter-ea5476de86bd024e)
+error: test failed, to rerun pass `-p kerotakis-data --test pubchem_adapter`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_adapter-ea5476de86bd024e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/quarantine_cli.rs (target/debug/deps/quarantine_cli-b24c23a4ad6de2c8)
+error: test failed, to rerun pass `-p kerotakis-data --test quarantine_cli`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_cli-b24c23a4ad6de2c8` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/registry_parity.rs (target/debug/deps/registry_parity-5c755b6fcc4d571f)
+error: test failed, to rerun pass `-p kerotakis-data --test registry_parity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_parity-5c755b6fcc4d571f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/registry_round_trip.rs (target/debug/deps/registry_round_trip-0d370ef742ef790e)
+error: test failed, to rerun pass `-p kerotakis-data --test registry_round_trip`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_round_trip-0d370ef742ef790e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/schema.rs (target/debug/deps/schema-4766908adad71028)
+error: test failed, to rerun pass `-p kerotakis-data --test schema`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/schema-4766908adad71028` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/units.rs (target/debug/deps/units-4b7f23abf129cd99)
+error: test failed, to rerun pass `-p kerotakis-data --test units`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/units-4b7f23abf129cd99` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/usda_adapter.rs (target/debug/deps/usda_adapter-09e49d4582e7e3f2)
+error: test failed, to rerun pass `-p kerotakis-data --test usda_adapter`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/usda_adapter-09e49d4582e7e3f2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_org-15530e7570af012e)
+error: test failed, to rerun pass `-p kerotakis-org --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_org-15530e7570af012e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/conservation.rs (target/debug/deps/conservation-87764cfb5f862be4)
+error: test failed, to rerun pass `-p kerotakis-org --test conservation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/conservation-87764cfb5f862be4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/family_route.rs (target/debug/deps/family_route-437aa7ed90179146)
+error: test failed, to rerun pass `-p kerotakis-org --test family_route`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/family_route-437aa7ed90179146` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/native_identity.rs (target/debug/deps/native_identity-116ca31eee09d7ee)
+error: test failed, to rerun pass `-p kerotakis-org --test native_identity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/native_identity-116ca31eee09d7ee` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/pubchem_identity.rs (target/debug/deps/pubchem_identity-10fa6828ce5f3620)
+error: test failed, to rerun pass `-p kerotakis-org --test pubchem_identity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_identity-10fa6828ce5f3620` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/stereo_isotope_identity.rs (target/debug/deps/stereo_isotope_identity-4be3b53fef95dbaf)
+error: test failed, to rerun pass `-p kerotakis-org --test stereo_isotope_identity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/stereo_isotope_identity-4be3b53fef95dbaf` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/template_oracle.rs (target/debug/deps/template_oracle-724d1dab165fe414)
+error: test failed, to rerun pass `-p kerotakis-org --test template_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/template_oracle-724d1dab165fe414` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-611f2bf177b3d5cb)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_phreeqc-611f2bf177b3d5cb` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/bin/generate-dbindex.rs (target/debug/deps/generate_dbindex-f232ed3b0f2d49c6)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --bin generate-dbindex`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_dbindex-f232ed3b0f2d49c6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/acid_base.rs (target/debug/deps/acid_base-7f2ced2364f8376b)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test acid_base`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/acid_base-7f2ced2364f8376b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/agcl.rs (target/debug/deps/agcl-a685ccffc37d8b6b)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test agcl`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/agcl-a685ccffc37d8b6b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/analytical_inventory.rs (target/debug/deps/analytical_inventory-c4c8eea57ef55f7c)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test analytical_inventory`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/analytical_inventory-c4c8eea57ef55f7c` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/basic_dialect_oracle.rs (target/debug/deps/basic_dialect_oracle-5e4216b94b7f4579)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test basic_dialect_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/basic_dialect_oracle-5e4216b94b7f4579` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/bridge_contract.rs (target/debug/deps/bridge_contract-1e5a312e85fcc576)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test bridge_contract`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/bridge_contract-1e5a312e85fcc576` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/brine_and_phosphate.rs (target/debug/deps/brine_and_phosphate-a54b89fe9b2fe453)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test brine_and_phosphate`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/brine_and_phosphate-a54b89fe9b2fe453` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/bundled_rates_oracle.rs (target/debug/deps/bundled_rates_oracle-1b44c7e119a5fa4e)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test bundled_rates_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/bundled_rates_oracle-1b44c7e119a5fa4e` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/carbonate.rs (target/debug/deps/carbonate-ed3750cb8bb7302d)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test carbonate`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/carbonate-ed3750cb8bb7302d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/chromatograph.rs (target/debug/deps/chromatograph-ef842353acce9ea2)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test chromatograph`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/chromatograph-ef842353acce9ea2` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/curated_reachability_at_runtime.rs (target/debug/deps/curated_reachability_at_runtime-4152420587e3ae9d)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test curated_reachability_at_runtime`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/curated_reachability_at_runtime-4152420587e3ae9d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/curated_reactants_survive_a_solve.rs (target/debug/deps/curated_reactants_survive_a_solve-96982ef2901944ff)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test curated_reactants_survive_a_solve`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/curated_reactants_survive_a_solve-96982ef2901944ff` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/dialect_corpus.rs (target/debug/deps/dialect_corpus-def82b0516302476)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test dialect_corpus`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/dialect_corpus-def82b0516302476` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/differential_oracle.rs (target/debug/deps/differential_oracle-0e80fb93ca247cc8)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test differential_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/differential_oracle-0e80fb93ca247cc8` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/displacement.rs (target/debug/deps/displacement-a68e0a8aa4204517)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test displacement`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/displacement-a68e0a8aa4204517` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/displacement_exhausted.rs (target/debug/deps/displacement_exhausted-b0717b320e14a9d5)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test displacement_exhausted`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/displacement_exhausted-b0717b320e14a9d5` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/drain.rs (target/debug/deps/drain-fde8da9e458dafc9)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test drain`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/drain-fde8da9e458dafc9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/electrolyse_solution.rs (target/debug/deps/electrolyse_solution-9954c1847cb19e02)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test electrolyse_solution`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/electrolyse_solution-9954c1847cb19e02` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/engine_call_budget.rs (target/debug/deps/engine_call_budget-062f04aab5ec5c9b)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test engine_call_budget`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/engine_call_budget-062f04aab5ec5c9b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/enthalpy_basis.rs (target/debug/deps/enthalpy_basis-1809625abbcd45f6)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test enthalpy_basis`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/enthalpy_basis-1809625abbcd45f6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/equilibrator.rs (target/debug/deps/equilibrator-c9efdf0907e3f92a)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test equilibrator`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/equilibrator-c9efdf0907e3f92a` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/error_location_parity.rs (target/debug/deps/error_location_parity-a6d420ed0f8bbaf4)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test error_location_parity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/error_location_parity-a6d420ed0f8bbaf4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/ex21_observable_parity.rs (target/debug/deps/ex21_observable_parity-33a2c6f64bb73f2f)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test ex21_observable_parity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/ex21_observable_parity-33a2c6f64bb73f2f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/exchange.rs (target/debug/deps/exchange-d8a6c67dee4396d6)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test exchange`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange-d8a6c67dee4396d6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/exchange_transport.rs (target/debug/deps/exchange_transport-153d830c83d485e1)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test exchange_transport`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/exchange_transport-153d830c83d485e1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/family_aqueous_tail.rs (target/debug/deps/family_aqueous_tail-5bc2d054c4665a8c)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test family_aqueous_tail`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/family_aqueous_tail-5bc2d054c4665a8c` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/faraday.rs (target/debug/deps/faraday-9eb4cbe1cf171700)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test faraday`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/faraday-9eb4cbe1cf171700` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/food_chemistry.rs (target/debug/deps/food_chemistry-84076a2b70c3e702)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test food_chemistry`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/food_chemistry-84076a2b70c3e702` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/formula_parser_diff.rs (target/debug/deps/formula_parser_diff-4350eb03cd8927e1)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test formula_parser_diff`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/formula_parser_diff-4350eb03cd8927e1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/hard_water.rs (target/debug/deps/hard_water-6d73d4fbf5958d66)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test hard_water`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/hard_water-6d73d4fbf5958d66` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/headspace.rs (target/debug/deps/headspace-97d523445d2129a5)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test headspace`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/headspace-97d523445d2129a5` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/ignite_over_fizz.rs (target/debug/deps/ignite_over_fizz-a1af831e8a74fc03)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test ignite_over_fizz`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/ignite_over_fizz-a1af831e8a74fc03` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/instrument_oracle.rs (target/debug/deps/instrument_oracle-c039db5fb46a34ac)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test instrument_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/instrument_oracle-c039db5fb46a34ac` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/kinetics_trajectory.rs (target/debug/deps/kinetics_trajectory-58bbc2f8e5e7d891)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test kinetics_trajectory`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kinetics_trajectory-58bbc2f8e5e7d891` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/kinetics_trajectory_oracle.rs (target/debug/deps/kinetics_trajectory_oracle-c0bc2931fce64714)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test kinetics_trajectory_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kinetics_trajectory_oracle-c0bc2931fce64714` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/lactate_speciation.rs (target/debug/deps/lactate_speciation-94111a2ab431d76d)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test lactate_speciation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/lactate_speciation-94111a2ab431d76d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/ligand_reference.rs (target/debug/deps/ligand_reference-40b676d4c1b84ac6)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test ligand_reference`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/ligand_reference-40b676d4c1b84ac6` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/measured_acidity.rs (target/debug/deps/measured_acidity-79928dd1779e8781)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test measured_acidity`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/measured_acidity-79928dd1779e8781` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/metastable.rs (target/debug/deps/metastable-ea9605144f7e23d1)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test metastable`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/metastable-ea9605144f7e23d1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/milk_buffer.rs (target/debug/deps/milk_buffer-f3a070aebe4b6991)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test milk_buffer`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/milk_buffer-f3a070aebe4b6991` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/mix.rs (target/debug/deps/mix-47256d2bcdf789bd)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test mix`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/mix-47256d2bcdf789bd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/mix_redox_boundary.rs (target/debug/deps/mix_redox_boundary-c977ea479e4c9ddf)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test mix_redox_boundary`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/mix_redox_boundary-c977ea479e4c9ddf` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/my_basic_preview.rs (target/debug/deps/my_basic_preview-7f8033bb164b7d33)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test my_basic_preview`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/my_basic_preview-7f8033bb164b7d33` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/native_delta_h.rs (target/debug/deps/native_delta_h-6b057864f379c146)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test native_delta_h`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/native_delta_h-6b057864f379c146` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/no_basic.rs (target/debug/deps/no_basic-ff8eef5011841f83)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test no_basic`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/no_basic-ff8eef5011841f83` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/official_examples_completion.rs (target/debug/deps/official_examples_completion-96e089b922cacdfa)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test official_examples_completion`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/official_examples_completion-96e089b922cacdfa` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/partial_freezing.rs (target/debug/deps/partial_freezing-3f7f6863bf2f61fb)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test partial_freezing`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/partial_freezing-3f7f6863bf2f61fb` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/pourbaix.rs (target/debug/deps/pourbaix-5b99384cdd8c0443)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test pourbaix`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/pourbaix-5b99384cdd8c0443` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/prewarm.rs (target/debug/deps/prewarm-ef97ae3ae96870da)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test prewarm`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/prewarm-ef97ae3ae96870da` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/provenance.rs (target/debug/deps/provenance-22fcf4036cdd10ed)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test provenance`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/provenance-22fcf4036cdd10ed` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/qualitative.rs (target/debug/deps/qualitative-311152a99b06aa20)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test qualitative`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/qualitative-311152a99b06aa20` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/r1_acceptance.rs (target/debug/deps/r1_acceptance-12247d4d61256a53)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test r1_acceptance`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/r1_acceptance-12247d4d61256a53` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/reaction_heat.rs (target/debug/deps/reaction_heat-4be4b594a6e54898)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test reaction_heat`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/reaction_heat-4be4b594a6e54898` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/reactive_gas.rs (target/debug/deps/reactive_gas-2fe43287bcfdb40a)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test reactive_gas`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/reactive_gas-2fe43287bcfdb40a` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/redox.rs (target/debug/deps/redox-8bc24acdad599114)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test redox`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/redox-8bc24acdad599114` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/redox_isolation_probe.rs (target/debug/deps/redox_isolation_probe-b3dbe950036da8b4)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test redox_isolation_probe`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_isolation_probe-b3dbe950036da8b4` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/redox_titrimetry.rs (target/debug/deps/redox_titrimetry-f03584fc2474c284)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test redox_titrimetry`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_titrimetry-f03584fc2474c284` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/resource_limits.rs (target/debug/deps/resource_limits-a8f89a4b7fa01e61)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test resource_limits`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/resource_limits-a8f89a4b7fa01e61` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/school_salts.rs (target/debug/deps/school_salts-1eb076a244ba9fb1)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test school_salts`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/school_salts-1eb076a244ba9fb1` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/sealed_mass.rs (target/debug/deps/sealed_mass-ad277b014e1eff97)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test sealed_mass`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/sealed_mass-ad277b014e1eff97` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/separations.rs (target/debug/deps/separations-b7fb04ec491a390f)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test separations`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/separations-b7fb04ec491a390f` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-20ce03f04acb6a30)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test solid_solution`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/solid_solution-20ce03f04acb6a30` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/speciation.rs (target/debug/deps/speciation-177ae3688bbf4e2c)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test speciation`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/speciation-177ae3688bbf4e2c` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/standalone_basic_corpus.rs (target/debug/deps/standalone_basic_corpus-b54442fa5b8b7498)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test standalone_basic_corpus`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/standalone_basic_corpus-b54442fa5b8b7498` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/surface.rs (target/debug/deps/surface-711b977785791b4d)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test surface`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/surface-711b977785791b4d` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/surface_transport.rs (target/debug/deps/surface_transport-ff7e8622638439bd)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test surface_transport`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/surface_transport-ff7e8622638439bd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/titration_refinement.rs (target/debug/deps/titration_refinement-a6330d99355f2c95)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test titration_refinement`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/titration_refinement-a6330d99355f2c95` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/unsupported_ionic.rs (target/debug/deps/unsupported_ionic-ec7d90d2ff82ab76)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test unsupported_ionic`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/unsupported_ionic-ec7d90d2ff82ab76` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/validity_ceiling.rs (target/debug/deps/validity_ceiling-3f79b86e3891b4f3)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test validity_ceiling`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/validity_ceiling-3f79b86e3891b4f3` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/weak_acid.rs (target/debug/deps/weak_acid-20c4e6d5ed67c616)
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test weak_acid`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/weak_acid-20c4e6d5ed67c616` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_registry_export-14e5e7858537a7dd)
+error: test failed, to rerun pass `-p kerotakis-registry-export --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_registry_export-14e5e7858537a7dd` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/main.rs (target/debug/deps/kerotakis_registry_export-67513f493e218758)
+error: test failed, to rerun pass `-p kerotakis-registry-export --bin kerotakis-registry-export`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_registry_export-67513f493e218758` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/legacy_diff.rs (target/debug/deps/legacy_diff-6c24057a65e98899)
+error: test failed, to rerun pass `-p kerotakis-registry-export --test legacy_diff`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/legacy_diff-6c24057a65e98899` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_safety-a5ab902bd5c1e2fc)
+error: test failed, to rerun pass `-p kerotakis-safety --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_safety-a5ab902bd5c1e2fc` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_scene_physics-c07773b77635f953)
+error: test failed, to rerun pass `-p kerotakis-scene-physics --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_scene_physics-c07773b77635f953` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_stack-afa3c9b3c39c0cdc)
+error: test failed, to rerun pass `-p kerotakis-stack --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_stack-afa3c9b3c39c0cdc` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_sundials-52a5ff72874135b9)
+error: test failed, to rerun pass `-p kerotakis-sundials --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_sundials-52a5ff72874135b9` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_thermo-a9e63bf4338f4b6b)
+error: test failed, to rerun pass `-p kerotakis-thermo --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_thermo-a9e63bf4338f4b6b` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/flash_gamma.rs (target/debug/deps/flash_gamma-b3e0fa3850eacc70)
+error: test failed, to rerun pass `-p kerotakis-thermo --test flash_gamma`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/flash_gamma-b3e0fa3850eacc70` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/lle_unifac.rs (target/debug/deps/lle_unifac-4c5e1043a4fdb2f0)
+error: test failed, to rerun pass `-p kerotakis-thermo --test lle_unifac`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/lle_unifac-4c5e1043a4fdb2f0` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/still.rs (target/debug/deps/still-70e0e93e4b050dce)
+error: test failed, to rerun pass `-p kerotakis-thermo --test still`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/still-70e0e93e4b050dce` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/thermo_oracle.rs (target/debug/deps/thermo_oracle-b2ae849bf4fbc6b3)
+error: test failed, to rerun pass `-p kerotakis-thermo --test thermo_oracle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/thermo_oracle-b2ae849bf4fbc6b3` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running tests/vle.rs (target/debug/deps/vle-666c6e296a1ba089)
+error: test failed, to rerun pass `-p kerotakis-thermo --test vle`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/vle-666c6e296a1ba089` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_wasm-7191198aabf12942)
+error: test failed, to rerun pass `-p kerotakis-wasm --lib`
+
+Caused by:
+  could not execute process `/mnt/volume1/kero-experiment-audit/target/debug/deps/kerotakis_wasm-7191198aabf12942` (never executed)
+
+Caused by:
+  No such file or directory (os error 2)
+   Doc-tests kerotakis_cea
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-cea/src/thermal.rs:22:5
+   |
+22 | use kerotakis_core::species::{self, Phase};
+   |     ^^^^^^^^^^^^^^
+
+error: aborting due to 1 previous error
+
+error: doctest failed, to rerun pass `-p kerotakis-cea --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_cea --test crates/kerotakis-cea/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-cea -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern criterion=/mnt/volume1/kero-experiment-audit/target/debug/deps/libcriterion-9d676a84a3bf7b9f.rlib --extern kerotakis_cea=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_cea-6ecd1f279b344277.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_codex
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+  --> crates/kerotakis-codex/src/curiosity.rs:12:5
+   |
+12 | use serde::{Deserialize, Serialize};
+   |     ^^^^^
+
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+   --> crates/kerotakis-codex/src/curiosity.rs:576:9
+    |
+576 |     use kerotakis_core::script::ParseErrorKind;
+    |         ^^^^^^^^^^^^^^
+
+error: aborting due to 2 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-codex --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_codex --test crates/kerotakis-codex/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-codex -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_codex=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_codex-ad167071234b29f0.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib --extern toml=/mnt/volume1/kero-experiment-audit/target/debug/deps/libtoml-550afd7ed94bcc67.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_core
+error: couldn't read `/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-core-2b58acdc02d9db03/out/materials_generated.rs`: No such file or directory (os error 2)
+  --> crates/kerotakis-core/src/material.rs:14:1
+   |
+14 | include!(concat!(env!("OUT_DIR"), "/materials_generated.rs"));
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: aborting due to 1 previous error
+
+error: doctest failed, to rerun pass `-p kerotakis-core --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_core --test crates/kerotakis-core/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-core -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern bumpalo=/mnt/volume1/kero-experiment-audit/target/debug/deps/libbumpalo-12fa8a90d8348699.rlib --extern criterion=/mnt/volume1/kero-experiment-audit/target/debug/deps/libcriterion-9d676a84a3bf7b9f.rlib --extern dhat=/mnt/volume1/kero-experiment-audit/target/debug/deps/libdhat-e4c92a2767943312.rlib --extern diffsol=/mnt/volume1/kero-experiment-audit/target/debug/deps/libdiffsol-39a4f1b0773e6e3f.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern kerotakis_thermo=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_thermo-5e4fd81eac08a296.rlib --extern lasso=/mnt/volume1/kero-experiment-audit/target/debug/deps/liblasso-ad823df981c3db91.rlib --extern num_rational=/mnt/volume1/kero-experiment-audit/target/debug/deps/libnum_rational-2b973c6813c96639.rlib --extern proptest=/mnt/volume1/kero-experiment-audit/target/debug/deps/libproptest-7e24c957ec3730e8.rlib --extern rand=/mnt/volume1/kero-experiment-audit/target/debug/deps/librand-329019f8b28677ea.rlib --extern rand_chacha=/mnt/volume1/kero-experiment-audit/target/debug/deps/librand_chacha-264e05969b73e560.rlib --extern rand_distr=/mnt/volume1/kero-experiment-audit/target/debug/deps/librand_distr-b328c040c0a068dd.rlib --extern rayon=/mnt/volume1/kero-experiment-audit/target/debug/deps/librayon-77f95c30f0da983e.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern serde_yaml_ng=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_yaml_ng-3005a7f43291f319.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib --extern toml=/mnt/volume1/kero-experiment-audit/target/debug/deps/libtoml-550afd7ed94bcc67.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --cfg 'feature="default"' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default", "mimalloc", "talc-alloc"))' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_data
+error: extern location for sha2 does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libsha2-4841e5575cb02c5b.rlib
+  --> crates/kerotakis-data/src/pack.rs:48:9
+   |
+48 |     use sha2::{Digest, Sha256};
+   |         ^^^^
+
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+ --> crates/kerotakis-data/src/adapter.rs:8:5
+  |
+8 | use serde::{Deserialize, Serialize};
+  |     ^^^^^
+
+error: extern location for serde_json does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib
+ --> crates/kerotakis-data/src/adapter.rs:9:5
+  |
+9 | use serde_json::Value;
+  |     ^^^^^^^^^^
+
+error: aborting due to 3 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-data --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_data --test crates/kerotakis-data/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-data -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern sha2=/mnt/volume1/kero-experiment-audit/target/debug/deps/libsha2-4841e5575cb02c5b.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --cfg 'feature="default"' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default"))' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_org
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-org/src/family_oracle.rs:19:5
+   |
+19 | use kerotakis_core::family::{FamilyRecord, FamilyRouter, StructureOracle};
+   |     ^^^^^^^^^^^^^^
+
+error: extern location for chematic does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libchematic-f535fb7227e2fc9d.rlib
+ --> crates/kerotakis-org/src/groups.rs:6:5
+  |
+6 | use chematic::smarts;
+  |     ^^^^^^^^
+
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+ --> crates/kerotakis-org/src/templates.rs:7:5
+  |
+7 | use serde::{Deserialize, Serialize};
+  |     ^^^^^
+
+error: aborting due to 3 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-org --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_org --test crates/kerotakis-org/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-org -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern chematic=/mnt/volume1/kero-experiment-audit/target/debug/deps/libchematic-f535fb7227e2fc9d.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern kerotakis_org=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_org-944447a3b9720d19.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --cfg 'feature="default"' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default", "native-inchi"))' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_phreeqc
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-phreeqc/src/acceptance.rs:12:5
+   |
+12 | use kerotakis_core::{
+   |     ^^^^^^^^^^^^^^
+
+error: aborting due to 1 previous error
+
+error: doctest failed, to rerun pass `-p kerotakis-phreeqc --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_phreeqc --test crates/kerotakis-phreeqc/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern criterion=/mnt/volume1/kero-experiment-audit/target/debug/deps/libcriterion-9d676a84a3bf7b9f.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern kerotakis_org=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_org-944447a3b9720d19.rlib --extern kerotakis_phreeqc=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_phreeqc-c16144d54f9b445c.rlib --extern kerotakis_safety=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_safety-b4ff539599ed9e55.rlib --extern kerotakis_stack=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_stack-f149742455866971.rlib --extern postcard=/mnt/volume1/kero-experiment-audit/target/debug/deps/libpostcard-734ec3afc427d4ef.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="engine"' --cfg 'feature="my-basic"' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default", "engine", "my-basic"))' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_registry_export
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-registry-export/src/lib.rs:10:5
+   |
+10 | use kerotakis_core::{
+   |     ^^^^^^^^^^^^^^
+
+error: extern location for kerotakis_data does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib
+  --> crates/kerotakis-registry-export/src/lib.rs:15:5
+   |
+15 | use kerotakis_data::{
+   |     ^^^^^^^^^^^^^^
+
+error: aborting due to 2 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-registry-export --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_registry_export --test crates/kerotakis-registry-export/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-registry-export -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern kerotakis_registry_export=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_registry_export-367255253073b511.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_safety
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-safety/src/lib.rs:23:5
+   |
+23 | use kerotakis_core::{SafetyScreen, SafetyVerdict, Severity, Vessel};
+   |     ^^^^^^^^^^^^^^
+
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+  --> crates/kerotakis-safety/src/lib.rs:24:5
+   |
+24 | use serde::{Deserialize, Serialize};
+   |     ^^^^^
+
+error: aborting due to 2 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-safety --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_safety --test crates/kerotakis-safety/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-safety -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_safety=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_safety-b4ff539599ed9e55.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_scene_physics
+error: extern location for rapier2d does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/librapier2d-96ecccef38828dcd.rlib
+  --> crates/kerotakis-scene-physics/src/lib.rs:10:5
+   |
+10 | use rapier2d::prelude::*;
+   |     ^^^^^^^^
+
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+ --> crates/kerotakis-scene-physics/src/lib.rs:8:5
+  |
+8 | use kerotakis_core::authority::{CollisionProposal, ReplaySeed, SpillDestination};
+  |     ^^^^^^^^^^^^^^
+
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+  --> crates/kerotakis-scene-physics/src/lib.rs:11:5
+   |
+11 | use serde::{Deserialize, Serialize};
+   |     ^^^^^
+
+error: aborting due to 3 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-scene-physics --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type rlib --crate-type cdylib --color auto --crate-name kerotakis_scene_physics --test crates/kerotakis-scene-physics/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-scene-physics -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_scene_physics=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_scene_physics.rlib --extern rapier2d=/mnt/volume1/kero-experiment-audit/target/debug/deps/librapier2d-96ecccef38828dcd.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern sha2=/mnt/volume1/kero-experiment-audit/target/debug/deps/libsha2-4841e5575cb02c5b.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_stack
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-stack/src/lib.rs:15:5
+   |
+15 | use kerotakis_core::{
+   |     ^^^^^^^^^^^^^^
+
+error: aborting due to 1 previous error
+
+error: doctest failed, to rerun pass `-p kerotakis-stack --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_stack --test crates/kerotakis-stack/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-stack -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_cea=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_cea-6ecd1f279b344277.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_org=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_org-944447a3b9720d19.rlib --extern kerotakis_stack=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_stack-f149742455866971.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_sundials
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-sundials/src/lib.rs:12:5
+   |
+12 | use kerotakis_core::kinetics::{
+   |     ^^^^^^^^^^^^^^
+
+error: extern location for sundials does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libsundials-637d3fb66af965e3.rlib
+  --> crates/kerotakis-sundials/src/lib.rs:19:5
+   |
+19 | use sundials::linsol::{DenseLinearSolver, PrecType, SpgmrSolver};
+   |     ^^^^^^^^
+
+error: aborting due to 2 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-sundials --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_sundials --test crates/kerotakis-sundials/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-sundials -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_sundials=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_sundials-e8b719e3bf71bf88.rlib --extern sundials=/mnt/volume1/kero-experiment-audit/target/debug/deps/libsundials-637d3fb66af965e3.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_thermo
+error: extern location for contour does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libcontour-b0b686e805e5bcb6.rlib
+ --> crates/kerotakis-thermo/src/phase_diagram.rs:6:5
+  |
+6 | use contour::ContourBuilder;
+  |     ^^^^^^^
+
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+  --> crates/kerotakis-thermo/src/vle.rs:10:5
+   |
+10 | use serde::{Deserialize, Serialize};
+   |     ^^^^^
+
+error: aborting due to 2 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-thermo --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name kerotakis_thermo --test crates/kerotakis-thermo/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-thermo -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern contour=/mnt/volume1/kero-experiment-audit/target/debug/deps/libcontour-b0b686e805e5bcb6.rlib --extern kerotakis_thermo=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_thermo-5e4fd81eac08a296.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern thiserror=/mnt/volume1/kero-experiment-audit/target/debug/deps/libthiserror-a8f0d7c98f6b2f4a.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+   Doc-tests kerotakis_wasm
+error: extern location for serde does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib
+ --> crates/kerotakis-wasm/src/worker.rs:6:5
+  |
+6 | use serde::{Deserialize, Serialize};
+  |     ^^^^^
+
+error: extern location for kerotakis_core does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib
+  --> crates/kerotakis-wasm/src/worker.rs:49:9
+   |
+49 | pub use kerotakis_core::packs_manifest::{core_packs, verify_offline_install, ModelPackManifest};
+   |         ^^^^^^^^^^^^^^
+
+error: extern location for wasm_bindgen does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libwasm_bindgen-6edb70918003c606.rlib
+  --> crates/kerotakis-wasm/src/lib.rs:25:5
+   |
+25 | use wasm_bindgen::prelude::*;
+   |     ^^^^^^^^^^^^
+
+error: extern location for kerotakis_codex does not exist: /mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_codex-ad167071234b29f0.rlib
+  --> crates/kerotakis-wasm/src/lib.rs:47:9
+   |
+47 |     use kerotakis_codex::quest::QuestOutput as Q;
+   |         ^^^^^^^^^^^^^^^
+
+error: aborting due to 4 previous errors
+
+error: doctest failed, to rerun pass `-p kerotakis-wasm --doc`
+
+Caused by:
+  process didn't exit successfully: `/home/claudeuser/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type cdylib --crate-type rlib --color auto --crate-name kerotakis_wasm --test crates/kerotakis-wasm/src/lib.rs --test-run-directory /mnt/volume1/kero-experiment-audit/crates/kerotakis-wasm -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/kerotakis-phreeqc-7804c594eb3757ee/out/lib -L native=/mnt/volume1/kero-experiment-audit/target/debug/build/sundials-sys-8c28f79efabf094f/out/lib --extern js_sys=/mnt/volume1/kero-experiment-audit/target/debug/deps/libjs_sys-3b3467d85baf3f1d.rlib --extern kerotakis_cea=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_cea-6ecd1f279b344277.rlib --extern kerotakis_codex=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_codex-ad167071234b29f0.rlib --extern kerotakis_core=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_core-c5c431884ff73895.rlib --extern kerotakis_data=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_data-342cb2a9039f9b8c.rlib --extern kerotakis_org=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_org-944447a3b9720d19.rlib --extern kerotakis_phreeqc=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_phreeqc-c16144d54f9b445c.rlib --extern kerotakis_safety=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_safety-b4ff539599ed9e55.rlib --extern kerotakis_stack=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_stack-f149742455866971.rlib --extern kerotakis_wasm=/mnt/volume1/kero-experiment-audit/target/debug/deps/libkerotakis_wasm.rlib --extern postcard=/mnt/volume1/kero-experiment-audit/target/debug/deps/libpostcard-734ec3afc427d4ef.rlib --extern serde=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde-b44f4dbbe7e7ae7c.rlib --extern serde_json=/mnt/volume1/kero-experiment-audit/target/debug/deps/libserde_json-60a3f2f4efbe58ee.rlib --extern wasm_bindgen=/mnt/volume1/kero-experiment-audit/target/debug/deps/libwasm_bindgen-6edb70918003c606.rlib -L dependency=/mnt/volume1/kero-experiment-audit/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human` (exit status: 1)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+error: 239 targets failed:
+    `-p kerotakis-cli --test metamorphic`
+    `-p kerotakis-cli --test plan_figures`
+    `-p kerotakis-cli --test protocol_conformance`
+    `-p kerotakis-cli --test provenance`
+    `-p kerotakis-cli --test quest`
+    `-p kerotakis-cli --test study`
+    `-p kerotakis-cli --test study_mc`
+    `-p kerotakis-codex --lib`
+    `-p kerotakis-codex --test curiosity_corpus`
+    `-p kerotakis-codex --test export_snapshot`
+    `-p kerotakis-codex --test french_probe`
+    `-p kerotakis-codex --test prose_figures`
+    `-p kerotakis-codex --test quest_engine`
+    `-p kerotakis-codex --test sidecar_roundtrip`
+    `-p kerotakis-codex --test vertical_slice`
+    `-p kerotakis-core --lib`
+    `-p kerotakis-core --test acid_metal_cell`
+    `-p kerotakis-core --test adsorption`
+    `-p kerotakis-core --test allocation_profile`
+    `-p kerotakis-core --test ambient_heat`
+    `-p kerotakis-core --test amylase`
+    `-p kerotakis-core --test batteries`
+    `-p kerotakis-core --test buoyancy`
+    `-p kerotakis-core --test centrifuging`
+    `-p kerotakis-core --test chromatograph`
+    `-p kerotakis-core --test combustion`
+    `-p kerotakis-core --test conservation`
+    `-p kerotakis-core --test corrosion`
+    `-p kerotakis-core --test density`
+    `-p kerotakis-core --test dilute`
+    `-p kerotakis-core --test distil`
+    `-p kerotakis-core --test element_coverage`
+    `-p kerotakis-core --test energy_transfer`
+    `-p kerotakis-core --test enzyme_activity`
+    `-p kerotakis-core --test enzyme_families`
+    `-p kerotakis-core --test exchange`
+    `-p kerotakis-core --test fermentation`
+    `-p kerotakis-core --test float_or_sink`
+    `-p kerotakis-core --test fluid_pack_identity`
+    `-p kerotakis-core --test foam_observable`
+    `-p kerotakis-core --test food_colour`
+    `-p kerotakis-core --test frozen_behavior`
+    `-p kerotakis-core --test gas_mechanism_clock`
+    `-p kerotakis-core --test gas_mechanism_packs`
+    `-p kerotakis-core --test gas_tests`
+    `-p kerotakis-core --test grinding`
+    `-p kerotakis-core --test hair_bleach`
+    `-p kerotakis-core --test hazard_locale`
+    `-p kerotakis-core --test headspace`
+    `-p kerotakis-core --test heat_of_mixing`
+    `-p kerotakis-core --test honesty`
+    `-p kerotakis-core --test household_fizz`
+    `-p kerotakis-core --test i18n_coverage`
+    `-p kerotakis-core --test instrument_oracle`
+    `-p kerotakis-core --test iodine_clock`
+    `-p kerotakis-core --test ionic_render`
+    `-p kerotakis-core --test irradiation`
+    `-p kerotakis-core --test kids_luminol_temperature`
+    `-p kerotakis-core --test kids_water_filter`
+    `-p kerotakis-core --test kitchen_biology`
+    `-p kerotakis-core --test layers`
+    `-p kerotakis-core --test lemon_paper_mark`
+    `-p kerotakis-core --test loader_fidelity`
+    `-p kerotakis-core --test magic_milk`
+    `-p kerotakis-core --test magnetic_materials`
+    `-p kerotakis-core --test material_object_state`
+    `-p kerotakis-core --test material_recipe`
+    `-p kerotakis-core --test mechanism_cantera_audit`
+    `-p kerotakis-core --test melting_point`
+    `-p kerotakis-core --test milk_colloid`
+    `-p kerotakis-core --test milk_curdling`
+    `-p kerotakis-core --test mix`
+    `-p kerotakis-core --test nonaqueous`
+    `-p kerotakis-core --test nuclear`
+    `-p kerotakis-core --test oil_emulsion`
+    `-p kerotakis-core --test org_react`
+    `-p kerotakis-core --test organic_equilibrium_grid`
+    `-p kerotakis-core --test paint_colour`
+    `-p kerotakis-core --test parse_roundtrip`
+    `-p kerotakis-core --test particles_operator`
+    `-p kerotakis-core --test permanganate`
+    `-p kerotakis-core --test phase_heat_capacity`
+    `-p kerotakis-core --test phase_routes`
+    `-p kerotakis-core --test plastics`
+    `-p kerotakis-core --test prepared_kitchen_objects`
+    `-p kerotakis-core --test prepared_material_identity`
+    `-p kerotakis-core --test pressure_boiling`
+    `-p kerotakis-core --test proportional_transfer`
+    `-p kerotakis-core --test protein_denaturation`
+    `-p kerotakis-core --test redox_titrimetry`
+    `-p kerotakis-core --test registry_snapshot`
+    `-p kerotakis-core --test remove_vessel`
+    `-p kerotakis-core --test render_locale`
+    `-p kerotakis-core --test resistivity`
+    `-p kerotakis-core --test scene_authority`
+    `-p kerotakis-core --test scene_bulk_objects`
+    `-p kerotakis-core --test scene_numbers`
+    `-p kerotakis-core --test selectivity`
+    `-p kerotakis-core --test senses`
+    `-p kerotakis-core --test silver_metathesis`
+    `-p kerotakis-core --test solid_solution`
+    `-p kerotakis-core --test spill_breakage`
+    `-p kerotakis-core --test spill_persistence`
+    `-p kerotakis-core --test starch_iodine`
+    `-p kerotakis-core --test states`
+    `-p kerotakis-core --test stirring`
+    `-p kerotakis-core --test stock`
+    `-p kerotakis-core --test sucrose_dissolution`
+    `-p kerotakis-core --test sunscreen`
+    `-p kerotakis-core --test surface`
+    `-p kerotakis-core --test surface_spread`
+    `-p kerotakis-core --test thermal_decomp`
+    `-p kerotakis-core --test transport`
+    `-p kerotakis-core --test transport_verb`
+    `-p kerotakis-core --test vegetable_oil_layers`
+    `-p kerotakis-core --test vitamin_c`
+    `-p kerotakis-data --lib`
+    `-p kerotakis-data --bin compile-registry`
+    `-p kerotakis-data --bin fluid-parameter-import`
+    `-p kerotakis-data --bin pubchem-import`
+    `-p kerotakis-data --bin quarantine-review`
+    `-p kerotakis-data --test adapter_quarantine`
+    `-p kerotakis-data --test chebi_adapter`
+    `-p kerotakis-data --test fluid_parameters`
+    `-p kerotakis-data --test import_pipeline`
+    `-p kerotakis-data --test phase_properties`
+    `-p kerotakis-data --test provenance_lint`
+    `-p kerotakis-data --test pubchem_adapter`
+    `-p kerotakis-data --test quarantine_cli`
+    `-p kerotakis-data --test registry_parity`
+    `-p kerotakis-data --test registry_round_trip`
+    `-p kerotakis-data --test schema`
+    `-p kerotakis-data --test units`
+    `-p kerotakis-data --test usda_adapter`
+    `-p kerotakis-org --lib`
+    `-p kerotakis-org --test conservation`
+    `-p kerotakis-org --test family_route`
+    `-p kerotakis-org --test native_identity`
+    `-p kerotakis-org --test pubchem_identity`
+    `-p kerotakis-org --test stereo_isotope_identity`
+    `-p kerotakis-org --test template_oracle`
+    `-p kerotakis-phreeqc --lib`
+    `-p kerotakis-phreeqc --bin generate-dbindex`
+    `-p kerotakis-phreeqc --test acid_base`
+    `-p kerotakis-phreeqc --test agcl`
+    `-p kerotakis-phreeqc --test analytical_inventory`
+    `-p kerotakis-phreeqc --test basic_dialect_oracle`
+    `-p kerotakis-phreeqc --test bridge_contract`
+    `-p kerotakis-phreeqc --test brine_and_phosphate`
+    `-p kerotakis-phreeqc --test bundled_rates_oracle`
+    `-p kerotakis-phreeqc --test carbonate`
+    `-p kerotakis-phreeqc --test chromatograph`
+    `-p kerotakis-phreeqc --test curated_reachability_at_runtime`
+    `-p kerotakis-phreeqc --test curated_reactants_survive_a_solve`
+    `-p kerotakis-phreeqc --test dialect_corpus`
+    `-p kerotakis-phreeqc --test differential_oracle`
+    `-p kerotakis-phreeqc --test displacement`
+    `-p kerotakis-phreeqc --test displacement_exhausted`
+    `-p kerotakis-phreeqc --test drain`
+    `-p kerotakis-phreeqc --test electrolyse_solution`
+    `-p kerotakis-phreeqc --test engine_call_budget`
+    `-p kerotakis-phreeqc --test enthalpy_basis`
+    `-p kerotakis-phreeqc --test equilibrator`
+    `-p kerotakis-phreeqc --test error_location_parity`
+    `-p kerotakis-phreeqc --test ex21_observable_parity`
+    `-p kerotakis-phreeqc --test exchange`
+    `-p kerotakis-phreeqc --test exchange_transport`
+    `-p kerotakis-phreeqc --test family_aqueous_tail`
+    `-p kerotakis-phreeqc --test faraday`
+    `-p kerotakis-phreeqc --test food_chemistry`
+    `-p kerotakis-phreeqc --test formula_parser_diff`
+    `-p kerotakis-phreeqc --test hard_water`
+    `-p kerotakis-phreeqc --test headspace`
+    `-p kerotakis-phreeqc --test ignite_over_fizz`
+    `-p kerotakis-phreeqc --test instrument_oracle`
+    `-p kerotakis-phreeqc --test kinetics_trajectory`
+    `-p kerotakis-phreeqc --test kinetics_trajectory_oracle`
+    `-p kerotakis-phreeqc --test lactate_speciation`
+    `-p kerotakis-phreeqc --test ligand_reference`
+    `-p kerotakis-phreeqc --test measured_acidity`
+    `-p kerotakis-phreeqc --test metastable`
+    `-p kerotakis-phreeqc --test milk_buffer`
+    `-p kerotakis-phreeqc --test mix`
+    `-p kerotakis-phreeqc --test mix_redox_boundary`
+    `-p kerotakis-phreeqc --test my_basic_preview`
+    `-p kerotakis-phreeqc --test native_delta_h`
+    `-p kerotakis-phreeqc --test no_basic`
+    `-p kerotakis-phreeqc --test official_examples_completion`
+    `-p kerotakis-phreeqc --test partial_freezing`
+    `-p kerotakis-phreeqc --test pourbaix`
+    `-p kerotakis-phreeqc --test prewarm`
+    `-p kerotakis-phreeqc --test provenance`
+    `-p kerotakis-phreeqc --test qualitative`
+    `-p kerotakis-phreeqc --test r1_acceptance`
+    `-p kerotakis-phreeqc --test reaction_heat`
+    `-p kerotakis-phreeqc --test reactive_gas`
+    `-p kerotakis-phreeqc --test redox`
+    `-p kerotakis-phreeqc --test redox_isolation_probe`
+    `-p kerotakis-phreeqc --test redox_titrimetry`
+    `-p kerotakis-phreeqc --test resource_limits`
+    `-p kerotakis-phreeqc --test school_salts`
+    `-p kerotakis-phreeqc --test sealed_mass`
+    `-p kerotakis-phreeqc --test separations`
+    `-p kerotakis-phreeqc --test solid_solution`
+    `-p kerotakis-phreeqc --test speciation`
+    `-p kerotakis-phreeqc --test standalone_basic_corpus`
+    `-p kerotakis-phreeqc --test surface`
+    `-p kerotakis-phreeqc --test surface_transport`
+    `-p kerotakis-phreeqc --test titration_refinement`
+    `-p kerotakis-phreeqc --test unsupported_ionic`
+    `-p kerotakis-phreeqc --test validity_ceiling`
+    `-p kerotakis-phreeqc --test weak_acid`
+    `-p kerotakis-registry-export --lib`
+    `-p kerotakis-registry-export --bin kerotakis-registry-export`
+    `-p kerotakis-registry-export --test legacy_diff`
+    `-p kerotakis-safety --lib`
+    `-p kerotakis-scene-physics --lib`
+    `-p kerotakis-stack --lib`
+    `-p kerotakis-sundials --lib`
+    `-p kerotakis-thermo --lib`
+    `-p kerotakis-thermo --test flash_gamma`
+    `-p kerotakis-thermo --test lle_unifac`
+    `-p kerotakis-thermo --test still`
+    `-p kerotakis-thermo --test thermo_oracle`
+    `-p kerotakis-thermo --test vle`
+    `-p kerotakis-wasm --lib`
+    `-p kerotakis-cea --doc`
+    `-p kerotakis-codex --doc`
+    `-p kerotakis-core --doc`
+    `-p kerotakis-data --doc`
+    `-p kerotakis-org --doc`
+    `-p kerotakis-phreeqc --doc`
+    `-p kerotakis-registry-export --doc`
+    `-p kerotakis-safety --doc`
+    `-p kerotakis-scene-physics --doc`
+    `-p kerotakis-stack --doc`
+    `-p kerotakis-sundials --doc`
+    `-p kerotakis-thermo --doc`
+    `-p kerotakis-wasm --doc`

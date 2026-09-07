@@ -1,0 +1,9 @@
+# Does pressure-controlled fizz change headspace volume rather than pressure?
+register lv3
+add v1 water 200mL
+add v1 NaHCO3 0.01mol
+regulate v1 1.2bar 250mL
+add v1 CH3COOH 0.012mol
+measure v1 pressure
+measure v1 volume
+inspect

@@ -347,6 +347,25 @@ pub fn unspent_acidity(vessel: &Vessel) -> f64 {
     (-vessel.solute_charge).max(0.0) + bound_protons(vessel)
 }
 
+/// Remove titratable protons from the material inventory. The caller owns the
+/// matching product and refreshes charge after applying its full reaction.
+pub(crate) fn consume_acidity(vessel: &mut Vessel, moles: f64) {
+    let free = (-vessel.solute_charge).max(0.0).min(moles);
+    vessel.withdraw(&SpeciesId::new("H+"), Moles(free));
+    let mut remaining = (moles - free).max(0.0);
+    for (acid, base) in LEDGER_ACIDS {
+        if remaining <= TRACE {
+            break;
+        }
+        let spent = remaining.min(vessel.moles_of(&SpeciesId::new(acid)).0);
+        if spent > TRACE {
+            vessel.withdraw(&SpeciesId::new(acid), Moles(spent));
+            vessel.deposit(SpeciesId::new(base), Moles(spent), Phase::Aqueous);
+            remaining -= spent;
+        }
+    }
+}
+
 /// Protons the ledger holds on undissociated weak acids — the ones
 /// `solute_charge` cannot see, because an undissociated acid is neutral.
 ///
@@ -379,7 +398,7 @@ pub fn solute_charge(vessel: &Vessel) -> f64 {
     vessel
         .contents
         .iter()
-        .filter(|p| p.phase == Phase::Aqueous)
+        .filter(|p| p.phase == Phase::Aqueous && !matches!(p.species.0.as_str(), "H+" | "OH-"))
         .filter_map(|p| {
             let d = species::lookup(&p.species)?;
             let f = crate::stoich::parse_formula(d.formula).ok()?;
@@ -715,19 +734,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
             // Free protons go first and the acid makes up the difference,
             // which is the order the equilibrium would reach anyway — the
             // next solve re-equilibrates what is left.
-            let free = (-vessel.solute_charge).max(0.0);
-            let mut from_acid = (reduced_made * ox.oxidised_per_reduced - free).max(0.0);
-            for (acid, base) in LEDGER_ACIDS {
-                if from_acid <= TRACE {
-                    break;
-                }
-                let spent = from_acid.min(vessel.moles_of(&SpeciesId::new(acid)).0);
-                if spent > TRACE {
-                    vessel.withdraw(&SpeciesId::new(acid), Moles(spent));
-                    vessel.deposit(SpeciesId::new(base), Moles(spent), Phase::Aqueous);
-                    from_acid -= spent;
-                }
-            }
+            consume_acidity(vessel, reduced_made * ox.oxidised_per_reduced);
             let species = SpeciesId::new(ox.reduced);
             let moles = Moles(reduced_made);
             if vessel.retain_gas(species.clone(), moles) {
@@ -1084,8 +1091,9 @@ pub struct SolventElectrolysis {
 /// The current does something to the solution even with no metal cell.
 ///
 /// `None` when there is no water to electrolyse or nothing dissolved to
-/// carry the current — pure water is an insulator, and a bench that
-/// electrolysed it would be teaching that it is not.
+/// carry the requested current in this ideal-current model. Pure water
+/// is weakly conducting, not an insulator; predicting its current needs
+/// a voltage, cell geometry and electrode-overpotential model.
 pub fn electrolyse_solvent(
     vessel: &Vessel,
     amps: f64,

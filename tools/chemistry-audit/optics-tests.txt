@@ -1,0 +1,53 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+error[E0283]: type annotations needed
+   --> crates/kerotakis-core/src/solution_optics.rs:84:55
+    |
+ 84 |         let mut v = Vessel::new(VesselId(0), "beaker".into());
+    |                     -----------                       ^^^^
+    |                     |
+    |                     required by a bound introduced by this call
+    |
+    = note: the type must implement `Into<std::string::String>`
+note: required by a bound in `vessel::Vessel::new`
+   --> crates/kerotakis-core/src/vessel.rs:946:42
+    |
+946 |     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
+    |                                          ^^^^^^^^^^^^ required by this bound in `Vessel::new`
+help: try using a fully qualified path to specify the expected types
+    |
+ 84 -         let mut v = Vessel::new(VesselId(0), "beaker".into());
+ 84 +         let mut v = Vessel::new(VesselId(0), <&str as Into<T>>::into("beaker"));
+    |
+help: consider removing this method call, as the receiver has type `&'static str` and `&'static str: Into<std::string::String>` trivially holds
+    |
+ 84 -         let mut v = Vessel::new(VesselId(0), "beaker".into());
+ 84 +         let mut v = Vessel::new(VesselId(0), "beaker");
+    |
+
+error[E0283]: type annotations needed
+   --> crates/kerotakis-core/src/solution_optics.rs:111:59
+    |
+111 |             let mut v = Vessel::new(VesselId(0), "beaker".into());
+    |                         -----------                       ^^^^
+    |                         |
+    |                         required by a bound introduced by this call
+    |
+    = note: the type must implement `Into<std::string::String>`
+note: required by a bound in `vessel::Vessel::new`
+   --> crates/kerotakis-core/src/vessel.rs:946:42
+    |
+946 |     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
+    |                                          ^^^^^^^^^^^^ required by this bound in `Vessel::new`
+help: try using a fully qualified path to specify the expected types
+    |
+111 -             let mut v = Vessel::new(VesselId(0), "beaker".into());
+111 +             let mut v = Vessel::new(VesselId(0), <&str as Into<T>>::into("beaker"));
+    |
+help: consider removing this method call, as the receiver has type `&'static str` and `&'static str: Into<std::string::String>` trivially holds
+    |
+111 -             let mut v = Vessel::new(VesselId(0), "beaker".into());
+111 +             let mut v = Vessel::new(VesselId(0), "beaker");
+    |
+
+For more information about this error, try `rustc --explain E0283`.
+error: could not compile `kerotakis-core` (lib test) due to 2 previous errors

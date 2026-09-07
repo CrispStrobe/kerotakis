@@ -1,0 +1,11 @@
+# Is thermal MIX invariant to operand ordering?
+register lv3
+add v1 water 200mL
+heat v1 8kJ
+new
+add v2 water 400mL
+cool v2 4kJ
+new
+mix v2 1 v1 1 into v3
+measure v3 temp
+inspect

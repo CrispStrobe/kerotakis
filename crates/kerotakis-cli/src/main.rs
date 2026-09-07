@@ -29,6 +29,8 @@ use kerotakis_core::*;
 
 struct Session {
     bench: Bench,
+    /// Stream position; unlike `step` (a bench log reference), inspections advance it.
+    output_sequence: std::cell::Cell<u64>,
     register: Register,
     json: bool,
     stack: SolverStack,
@@ -100,6 +102,7 @@ fn main() {
             });
             let mut session = Session {
                 bench: Bench::new(),
+                output_sequence: Default::default(),
                 register: Register::default(),
                 json,
                 stack: build_stack(),
@@ -2618,6 +2621,7 @@ fn repl() {
     println!("kerotakis 0.0.1 — the bench is ready. 'help' lists commands.");
     let mut session = Session {
         bench: Bench::new(),
+        output_sequence: Default::default(),
         register: Register::default(),
         json: false,
         stack: build_stack(),
@@ -2889,7 +2893,12 @@ impl Session {
     /// dressed as it. Object keys are masked as well as values — a
     /// speciation map keyed by species id would otherwise carry the answer
     /// in its keys.
-    fn mask_json(&self, value: serde_json::Value) -> serde_json::Value {
+    fn mask_json(&self, mut value: serde_json::Value) -> serde_json::Value {
+        if let Some(map) = value.as_object_mut() {
+            let sequence = self.output_sequence.get();
+            map.insert("output_sequence".into(), sequence.into());
+            self.output_sequence.set(sequence + 1);
+        }
         if self.masks.is_empty() {
             return value;
         }

@@ -1,0 +1,1693 @@
+{
+  "commit": "f511d533b6a573f2a350b02cd33a7b92ccb17188",
+  "binary_sha256": "518ca996010114d52c1ceba242470e01c62836fb58ca4c04c4985e3bf65e1808",
+  "lock_sha256": "b72474b830398cd5bd99b49011f50632efa91abbf39571445a718c1fc88e6109",
+  "submodules": " 8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa sundials-kinetics-rs (heads/master)\n 47b459c4a5e3e20b9990fa304e207eca0dcc6ff1 vendor/iphreeqc (v3.6.1-1932-g47b459c4)\n",
+  "cases": [
+    {
+      "id": "40-iron-thiocyanate",
+      "question": "Can the registry and solver express the classic Fe(III)/thiocyanate complex?",
+      "exit": 1,
+      "seconds": 1.439,
+      "steps": 2,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "dissolved": 1,
+        "solution_characterized": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "a real beaker would not stay like this: the solution is supersaturated against Hematite (SI +13.8), Fe(OH)2.7Cl.3 (SI +6.3), Goethite (SI +5.9), and 1 more. Those phases are in wateq4f.dat but not in this lab's registry, so nothing can precipitate out of it here"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 5.534276136068276,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0003000000000000194,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 9.943231347957725e-05,
+                "phase": "aqueous",
+                "species": "Fe+3"
+              },
+              {
+                "moles": 5.676865204024e-07,
+                "phase": "solid",
+                "species": "Fe(OH)3"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.00010418649999999999,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "FeCl3",
+                "suspended_fraction": 1.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -1.7030595612876312e-06,
+            "solution": {
+              "ionic_strength": 0.004183440674711,
+              "pe": 17.61817952112,
+              "ph": 3.008750206515,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry"
+              },
+              "redox": [
+                {
+                  "element": "Fe",
+                  "molality": 0.0009973152341719,
+                  "oxidation": 3
+                }
+              ],
+              "species": [
+                {
+                  "activity": 0.9999,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.002796,
+                  "molality": 0.003001,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0009801,
+                  "molality": 0.001045,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0004826,
+                  "molality": 0.0006351,
+                  "name": "FeOH+2"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002674,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.000163,
+                  "molality": 0.0001745,
+                  "name": "Fe(OH)2+"
+                },
+                {
+                  "activity": 7.326e-05,
+                  "molality": 0.0001374,
+                  "name": "Fe+3"
+                },
+                {
+                  "activity": 6.268e-06,
+                  "molality": 1.917e-05,
+                  "name": "Fe2(OH)2+4"
+                },
+                {
+                  "activity": 6.187e-06,
+                  "molality": 8.142e-06,
+                  "name": "FeCl+2"
+                },
+                {
+                  "activity": 2.135e-07,
+                  "molality": 1.225e-06,
+                  "name": "Fe3(OH)4+5"
+                },
+                {
+                  "activity": 7.727e-08,
+                  "molality": 8.287e-08,
+                  "name": "FeCl2+"
+                },
+                {
+                  "activity": 2.143e-08,
+                  "molality": 2.141e-08,
+                  "name": "Fe(OH)3"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": "kero: /mnt/volume1/kero-experiment-audit/tools/chemistry-audit/followups/40-iron-thiocyanate/experiment.lab:5: unknown species or material 'KSCN' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)\n"
+    },
+    {
+      "id": "41-ammonia-copper",
+      "question": "Does excess ammonia describe the copper ammine complex and colour?",
+      "exit": 0,
+      "seconds": 1.288,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "dissolved": 2,
+        "precipitated": 2,
+        "solution_characterized": 2,
+        "temperature_changed": 1,
+        "not_yet_modeled": 2,
+        "observed": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "a real beaker would not stay like this: the solution is supersaturated against Covellite (SI +14.9), BlaubleiI (SI +7.2), N2(g) (SI +1.4). Those phases are in wateq4f.dat but not in this lab's registry, so nothing can precipitate out of it here"
+        },
+        {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), which this lab is deliberately holding back: it is the more stable solid, but at 25 \u00b0C the metastable one forms first and stays. That is a claim about rates, not about equilibrium, and it is curated rather than computed"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 5.53880743960755,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00027148887662497765,
+                "phase": "aqueous",
+                "species": "Cu+2"
+              },
+              {
+                "moles": 0.016970397513765674,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.0004274451098137439,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 0.0013010786801111042,
+                "phase": "aqueous",
+                "species": "N2"
+              },
+              {
+                "moles": 0.0009999999988778146,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 0.000728511122568,
+                "phase": "solid",
+                "species": "Cu(OH)2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.041794585793294e-05,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "CuSO4",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.02,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.00102957713469193,
+            "solution": {
+              "ionic_strength": 0.00466250522523,
+              "pe": -8.832220425121,
+              "ph": 10.86957124152,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry. some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added"
+              },
+              "redox": [
+                {
+                  "element": "Cu",
+                  "molality": 0.002720830624333,
+                  "oxidation": 2
+                },
+                {
+                  "element": "N",
+                  "molality": 0.1743591987857,
+                  "oxidation": -3
+                },
+                {
+                  "element": "N",
+                  "molality": 0.02607852492169,
+                  "oxidation": 0
+                },
+                {
+                  "element": "S",
+                  "molality": 0.01002188618224,
+                  "oxidation": -2
+                },
+                {
+                  "element": "S",
+                  "molality": 3.142945194073e-12,
+                  "oxidation": 6
+                }
+              ],
+              "species": [
+                {
+                  "activity": 0.9967,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.1701,
+                  "molality": 0.1701,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.01305,
+                  "molality": 0.01304,
+                  "name": "N2"
+                },
+                {
+                  "activity": 0.00398,
+                  "molality": 0.004284,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.00252,
+                  "molality": 0.002712,
+                  "name": "Cu(HS)3-"
+                },
+                {
+                  "activity": 0.0007488,
+                  "molality": 0.0008066,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 0.0001402,
+                  "molality": 0.0001805,
+                  "name": "S5-2"
+                },
+                {
+                  "activity": 8.181e-05,
+                  "molality": 0.0001063,
+                  "name": "S4-2"
+                },
+                {
+                  "activity": 7.189e-05,
+                  "molality": 9.177e-05,
+                  "name": "S6-2"
+                },
+                {
+                  "activity": 8.984e-06,
+                  "molality": 8.974e-06,
+                  "name": "Cu(OH)2"
+                },
+                {
+                  "activity": 7.38e-06,
+                  "molality": 7.95e-06,
+                  "name": "HS-"
+                },
+                {
+                  "activity": 6.681e-08,
+                  "molality": 8.915e-08,
+                  "name": "S-2"
+                },
+                {
+                  "activity": 5.95e-08,
+                  "molality": 5.944e-08,
+                  "name": "H2"
+                },
+                {
+                  "activity": 3.996e-08,
+                  "molality": 4.3e-08,
+                  "name": "Cu(OH)3-"
+                },
+                {
+                  "activity": 2.885e-08,
+                  "molality": 3.787e-08,
+                  "name": "S3-2"
+                },
+                {
+                  "activity": 1.639e-09,
+                  "molality": 2.168e-09,
+                  "name": "S2-2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.32474194193105,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "42-neutralization-titration",
+      "question": "Does an automatic titration reach the strong-acid endpoint within one increment?",
+      "exit": 0,
+      "seconds": 1.94,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_characterized": 22,
+        "dissolved": 21,
+        "neutralised": 20,
+        "temperature_changed": 20,
+        "titrated": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 12.23075215098529,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001999999999999558,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.002099999999999932,
+                "phase": "aqueous",
+                "species": "Na+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.00010001096429999998,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0001000000000003741,
+            "solution": {
+              "ionic_strength": 0.00953085503563,
+              "pe": null,
+              "ph": 10.6046496821,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry"
+              },
+              "redox": [],
+              "species": [
+                {
+                  "activity": 0.9997,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.008624,
+                  "molality": 0.009531,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.00819,
+                  "molality": 0.009077,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0004094,
+                  "molality": 0.0004539,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 0.0002667,
+                  "molality": 0.0002661,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.3680411206371,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "43-acid-mass-ledger",
+      "question": "Follow-up: does adding 0.1 mol HCl increase balance mass by its full molecular mass?",
+      "exit": 0,
+      "seconds": 1.763,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "measured": 2,
+        "solution_characterized": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 997.0,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 1000.5452999999991,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 55.34276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0999999999999757,
+                "phase": "aqueous",
+                "species": "Cl-"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0999991,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 55.34276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.1,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0999999999999757,
+            "solution": {
+              "ionic_strength": 0.1003009027083,
+              "pe": null,
+              "ph": 1.082115057308,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry"
+              },
+              "redox": [],
+              "species": [
+                {
+                  "activity": 0.9966,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.08277,
+                  "molality": 0.1003,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.07663,
+                  "molality": 0.1003,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002616,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "44-base-mass-ledger",
+      "question": "Follow-up: does adding 0.1 mol NaOH retain hydroxide mass?",
+      "exit": 0,
+      "seconds": 1.539,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "measured": 2,
+        "dissolved": 1,
+        "solution_characterized": 1,
+        "temperature_changed": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 997.0,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 999.2989999999994,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 55.34276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0999999999999757,
+                "phase": "aqueous",
+                "species": "Na+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0999991,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 55.34276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.1,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaOH",
+                "suspended_fraction": 1.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0999999999999757,
+            "solution": {
+              "ionic_strength": 0.1003009027083,
+              "pe": null,
+              "ph": 12.84882686578,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry"
+              },
+              "redox": [],
+              "species": [
+                {
+                  "activity": 0.9966,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.07633,
+                  "molality": 0.1003,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 0.07845,
+                  "molality": 0.1003,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.000263,
+                  "molality": 0.000257,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 299.2178470530021,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "45-yeast-mass-ledger",
+      "question": "Follow-up: does the balance include 0.5 g unresolved yeast solids?",
+      "exit": 0,
+      "seconds": 1.355,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "measured": 2,
+        "material_added": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 99.7,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 99.7000005,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.0833333333333334e-12,
+                "phase": "aqueous",
+                "species": "catalase"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "hydrated_at": 0.0,
+                "moles": 2.0833333333333334e-12,
+                "particle_size_um": null,
+                "phase": "aqueous",
+                "source": "material recipe household/dry-yeast-catalase-surrogate",
+                "species": "catalase",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic",
+            "unresolved_materials": [
+              {
+                "amount": 0.4999995,
+                "basis": "mass_fraction",
+                "material": "dry_yeast",
+                "recipe_id": "household/dry-yeast-catalase-surrogate",
+                "recipe_version": 1
+              }
+            ]
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "46-ammonia-extended-route",
+      "question": "Follow-up: does a trace acetate forcing the extended database change copper/ammonia predictions?",
+      "exit": 0,
+      "seconds": 1.864,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 4,
+        "dissolved": 2,
+        "solution_characterized": 3,
+        "neutralised": 1,
+        "temperature_changed": 1,
+        "precipitated": 1,
+        "not_yet_modeled": 2,
+        "observed": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "1.677e-5 mol settled as N(3), an oxidation state this lab has no name for \u2014 it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in"
+        },
+        {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), which this lab is deliberately holding back: it is the more stable solid, but at 25 \u00b0C the metastable one forms first and stays. That is a claim about rates, not about equilibrium, and it is curated rather than computed"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 5.534202229673051,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.999974447063132e-10,
+                "phase": "aqueous",
+                "species": "CH3COO-"
+              },
+              {
+                "moles": 1.0000000014229635e-09,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 4.9979906038145415e-09,
+                "phase": "aqueous",
+                "species": "Cu+2"
+              },
+              {
+                "moles": 0.0180317098580695,
+                "phase": "aqueous",
+                "species": "NH3"
+              },
+              {
+                "moles": 0.0019515251218858163,
+                "phase": "aqueous",
+                "species": "NH4+"
+              },
+              {
+                "moles": 1.8878312252696457e-11,
+                "phase": "aqueous",
+                "species": "NO3-"
+              },
+              {
+                "moles": 0.0010000000014219665,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 0.0009999950034289,
+                "phase": "solid",
+                "species": "Cu(OH)2"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.280137212896119e-05,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 1e-09,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaOAc",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "CuSO4",
+                "suspended_fraction": 1.0
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.02,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "NH3",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -4.846490385266482e-05,
+            "solution": {
+              "ionic_strength": 0.02853022333946,
+              "pe": 1.024420673382,
+              "ph": 10.28000361357,
+              "provenance": {
+                "dataset": "minteq.v4.dat plus one reviewed lactate definition",
+                "dataset_sources": [],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid). some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones \u2014 sulfate, nitrate, carbonate \u2014 are held as added"
+              },
+              "redox": [
+                {
+                  "element": "Cu",
+                  "molality": 5.013097414079e-08,
+                  "oxidation": 2
+                },
+                {
+                  "element": "N",
+                  "molality": 0.2004363584167,
+                  "oxidation": -3
+                },
+                {
+                  "element": "N",
+                  "molality": 0.0001681570320751,
+                  "oxidation": 3
+                },
+                {
+                  "element": "N",
+                  "molality": 1.893537340065e-10,
+                  "oxidation": 5
+                },
+                {
+                  "element": "S",
+                  "molality": 0.0100302257819,
+                  "oxidation": 6
+                }
+              ],
+              "species": [
+                {
+                  "activity": 0.9964,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.18,
+                  "molality": 0.18,
+                  "name": "NH3"
+                },
+                {
+                  "activity": 0.01636,
+                  "molality": 0.01948,
+                  "name": "NH4+"
+                },
+                {
+                  "activity": 0.004779,
+                  "molality": 0.009052,
+                  "name": "SO4-2"
+                },
+                {
+                  "activity": 0.0008379,
+                  "molality": 0.0009787,
+                  "name": "NH4SO4-"
+                },
+                {
+                  "activity": 0.0001937,
+                  "molality": 0.0002287,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 0.0001419,
+                  "molality": 0.0001682,
+                  "name": "NO2-"
+                },
+                {
+                  "activity": 2.98e-08,
+                  "molality": 2.98e-08,
+                  "name": "Cu(OH)2"
+                },
+                {
+                  "activity": 1.169e-08,
+                  "molality": 1.425e-08,
+                  "name": "Cu(OH)3-"
+                },
+                {
+                  "activity": 8.55e-09,
+                  "molality": 1.003e-08,
+                  "name": "Acetate-"
+                },
+                {
+                  "activity": 8.337e-09,
+                  "molality": 9.781e-09,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 2.311e-09,
+                  "molality": 5.111e-09,
+                  "name": "CuNH3+2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.3247419845531,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "47-limewater-wait",
+      "question": "Follow-up: does limewater clearing persist after the finite CO2 dose has ended?",
+      "exit": 0,
+      "seconds": 1.779,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 4,
+        "dissolved": 4,
+        "solution_characterized": 4,
+        "temperature_changed": 1,
+        "precipitated": 2,
+        "gas_absorbed": 2,
+        "neutralised": 1,
+        "gas_evolved": 2,
+        "gravity_settled": 1
+      },
+      "diagnostics": [],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 27.676219442153762,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002639198940172405,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0005263122056918372,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.004736080104635,
+                "phase": "solid",
+                "species": "CaCO3"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.674018080696061e-07,
+            "free_proton": 3.140094246569223e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 27.671384956980294,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.005,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Ca(OH)2",
+                "suspended_fraction": 0.814175086360127
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.005,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "CO2",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.025,
+                "particle_size_um": null,
+                "phase": "gas",
+                "source": "reagent bottle",
+                "species": "CO2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 1.527582342643807e-06,
+            "solution": {
+              "ionic_strength": 0.001569031028222,
+              "pe": 12.40248169421,
+              "ph": 8.218790546843,
+              "provenance": {
+                "dataset": "wateq4f.dat",
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "the default for dilute inorganic aqueous chemistry"
+              },
+              "redox": [],
+              "species": [
+                {
+                  "activity": 1.0,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0009786,
+                  "molality": 0.001022,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.0004353,
+                  "molality": 0.0005181,
+                  "name": "Ca+2"
+                },
+                {
+                  "activity": 0.0002659,
+                  "molality": 0.0002658,
+                  "name": "O2"
+                },
+                {
+                  "activity": 1.329e-05,
+                  "molality": 1.328e-05,
+                  "name": "CO2"
+                },
+                {
+                  "activity": 7.604e-06,
+                  "molality": 9.048e-06,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 5.438e-06,
+                  "molality": 5.678e-06,
+                  "name": "CaHCO3+"
+                },
+                {
+                  "activity": 5.552e-06,
+                  "molality": 5.55e-06,
+                  "name": "CaCO3"
+                },
+                {
+                  "activity": 1.664e-06,
+                  "molality": 1.74e-06,
+                  "name": "OH-"
+                },
+                {
+                  "activity": 1.196e-08,
+                  "molality": 1.248e-08,
+                  "name": "CaOH+"
+                },
+                {
+                  "activity": 6.042e-09,
+                  "molality": 6.299e-09,
+                  "name": "H+"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.20916633551326,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "48-fizz-sealed-from-start",
+      "question": "Follow-up: when sealed before bicarbonate addition, is the entire added mass retained?",
+      "exit": 0,
+      "seconds": 2.042,
+      "steps": 9,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "vessel_sealed": 1,
+        "headspace_equilibrated": 4,
+        "solution_characterized": 4,
+        "measured": 3,
+        "gas_contained": 3,
+        "dissolved": 1,
+        "temperature_changed": 3,
+        "reaction_occurred": 2,
+        "neutralised": 2,
+        "gravity_settled": 1
+      },
+      "diagnostics": [],
+      "measurements": [
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 199.69488086114075,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 201.25326430769465,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "balance",
+          "unit": "g",
+          "value": 201.25325182798954,
+          "vessel": 0
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 11.074393571446016,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.008073645644668174,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.0021407780819617545,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.009999999967261199,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 0.004247577673796315,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0024290644834748486,
+                "phase": "aqueous",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 0.009570935477239785,
+                "phase": "aqueous",
+                "species": "CH3COO-"
+              },
+              {
+                "moles": 0.005755990830253,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.475883180876598e-10,
+            "free_proton": 1.3106375716450065e-06,
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.25
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "NaHCO3",
+                "suspended_fraction": 0.8170787687153394
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.012,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 158217.52816192,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0038185131837749015,
+            "solution": {
+              "ionic_strength": 0.04906533969535,
+              "pe": null,
+              "ph": 5.267507851323,
+              "provenance": {
+                "dataset": "minteq.v4.dat plus one reviewed lactate definition",
+                "dataset_sources": [],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)"
+              },
+              "redox": [],
+              "species": [
+                {
+                  "activity": 0.9978,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.04034,
+                  "molality": 0.04906,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.03878,
+                  "molality": 0.04715,
+                  "name": "Acetate-"
+                },
+                {
+                  "activity": 0.01934,
+                  "molality": 0.01934,
+                  "name": "H2CO3"
+                },
+                {
+                  "activity": 0.01197,
+                  "molality": 0.01197,
+                  "name": "H(Acetate)"
+                },
+                {
+                  "activity": 0.001587,
+                  "molality": 0.001913,
+                  "name": "HCO3-"
+                },
+                {
+                  "activity": 0.001029,
+                  "molality": 0.001029,
+                  "name": "Na(Acetate)"
+                },
+                {
+                  "activity": 3.618e-05,
+                  "molality": 3.618e-05,
+                  "name": "NaHCO3"
+                },
+                {
+                  "activity": 5.401e-06,
+                  "molality": 6.568e-06,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.37e-08,
+                  "molality": 2.996e-08,
+                  "name": "CO3-2"
+                },
+                {
+                  "activity": 1.037e-08,
+                  "molality": 1.25e-08,
+                  "name": "NaCO3-"
+                },
+                {
+                  "activity": 1.823e-09,
+                  "molality": 2.243e-09,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 297.8819781672866,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "49-water-clock",
+      "question": "Follow-up: can waiting cause pure water to be characterized?",
+      "exit": 0,
+      "seconds": 1.37,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "not_yet_modeled": 1
+      },
+      "diagnostics": [
+        {
+          "cause": "no-solution",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "the pH meter reads nothing \u2014 no aqueous solution has been characterised in this vessel"
+        }
+      ],
+      "measurements": [],
+      "final": {
+        "vessels": [
+          {
+            "contents": [
+              {
+                "moles": 55.34276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 1.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 55.34276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

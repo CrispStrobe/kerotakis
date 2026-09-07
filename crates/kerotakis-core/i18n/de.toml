@@ -64,6 +64,14 @@ gas = "gasförmig"
 # translated; anything absent reads in English inside a German line, which
 # is better than a formula nobody asked for.
 [species]
+"hydrogen ion" = "Wasserstoff-Ion"
+"dissolved carbon dioxide" = "gelöstes Kohlenstoffdioxid"
+"carbonate ion" = "Carbonat-Ion"
+"hydrogen phosphate ion" = "Hydrogenphosphat-Ion"
+"phosphate ion" = "Phosphat-Ion"
+"nitrite ion" = "Nitrit-Ion"
+"thiocyanate ion" = "Thiocyanat-Ion"
+"potassium thiocyanate (aqueous reagent)" = "Kaliumthiocyanat (wässriges Reagenz)"
 "poly(vinyl alcohol)" = "Polyvinylalkohol"
 "sodium tetraborate (borax)" = "Natriumtetraborat (Borax)"
 "anthocyanin (red-cabbage pigment)" = "Anthocyan (Rotkohl-Farbstoff)"

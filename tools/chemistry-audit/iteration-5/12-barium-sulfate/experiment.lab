@@ -1,0 +1,6 @@
+# Does mixing barium chloride and sodium sulfate give insoluble barite?
+register lv3
+add v1 water 200mL
+add v1 BaCl2 0.002mol
+add v1 Na2SO4 0.002mol
+inspect

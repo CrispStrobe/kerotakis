@@ -1,0 +1,9 @@
+error[E0689]: can't call method `exp` on ambiguous numeric type `{float}`
+   --> tools/chemistry-audit/../../crates/kerotakis-thermo/src/batch.rs:188:78
+    |
+188 |         let alpha = (40.0 / 0.008_314_462_618 * (1.0 / 340.0 - 1.0 / 370.0)).exp();
+    |                                                                              ^^^
+
+error: aborting due to 1 previous error
+
+For more information about this error, try `rustc --explain E0689`.

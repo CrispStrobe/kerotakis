@@ -1,0 +1,50 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6m 39s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_core-d7bcdee4050467d7)
+
+running 29 tests
+test kinetics::tests::a_catalyst_lowers_the_barrier_and_its_activity_scales_the_rate ... ok
+test kinetics::tests::a_product_can_activate_the_next_reaction_during_one_wait ... ok
+test kinetics::tests::a_reverse_expression_drives_back_toward_balance ... ok
+test kinetics::tests::arrhenius_is_the_arrhenius_equation ... ok
+test kinetics::tests::buffered_acid_is_not_mistaken_for_represented_free_acid ... ok
+test kinetics::tests::an_overlarge_coupled_step_is_scaled_before_any_product_is_deposited ... ok
+test kinetics::tests::built_in_network_passes_structural_conservation_lint ... ok
+test kinetics::tests::catalase_rate_tracks_enzyme_loading_at_fixed_peroxide ... ok
+test kinetics::tests::catalase_warms_then_loses_activity_in_very_hot_water ... ok
+test kinetics::tests::concentration_sets_the_rate_through_the_order ... ok
+test kinetics::tests::a_cross_threshold_requires_enough_acid_not_just_a_longer_wait ... ok
+test kinetics::tests::dry_yeast_activity_ramps_with_liquid_contact_and_warmth ... ok
+test kinetics::tests::a_warmer_beaker_clouds_sooner ... FAILED
+test kinetics::tests::ideal_gas_equilibrium_converts_pressure_standard_states_to_moles_per_litre ... ok
+test kinetics::tests::competing_paths_share_a_reactant_without_overdrawing_it ... ok
+test kinetics::tests::iodide_rate_is_first_order_in_catalyst_concentration ... ok
+test kinetics::tests::lint_reports_elements_charge_sites_and_declared_electrons ... ok
+test kinetics::tests::manganese_dioxide_rate_uses_area_and_bounded_mixing ... ok
+test kinetics::tests::coupled_integration_conserves_mass ... ok
+test kinetics::tests::integration_never_produces_a_negative_amount ... ok
+test kinetics::tests::stiff_depletion_is_detected_after_rejected_steps ... ok
+test kinetics::tests::the_catalyst_is_not_consumed ... ok
+test kinetics::tests::the_declared_equation_balances_too ... ok
+test kinetics::tests::proton_depletion_matches_integrated_second_order_law_and_time_partition ... ok
+test kinetics::tests::the_integrator_matches_the_analytic_solution_when_catalysed ... ok
+test kinetics::tests::the_ten_degree_rule_falls_out_rather_than_being_applied ... ok
+test kinetics::tests::the_integrator_matches_the_analytic_solution ... ok
+test kinetics::tests::every_rate_law_conserves_its_atoms ... ok
+test kinetics::tests::proton_consumption_is_bounded_conserved_and_not_an_infinite_ph_reservoir ... ok
+
+failures:
+
+---- kinetics::tests::a_warmer_beaker_clouds_sooner stdout ----
+
+thread 'kinetics::tests::a_warmer_beaker_clouds_sooner' (2833828) panicked at crates/kerotakis-core/src/kinetics.rs:2444:9:
+20 °C gave 2.938e-4 mol of sulfur, 40 °C gave 7.126e-4 (×2.43)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    kinetics::tests::a_warmer_beaker_clouds_sooner
+
+test result: FAILED. 28 passed; 1 failed; 0 ignored; 0 measured; 423 filtered out; finished in 1.07s
+
+error: test failed, to rerun pass `-p kerotakis-core --lib`

@@ -1,0 +1,10 @@
+# Does the same fizz retain gas, raise pressure and conserve closed-system mass?
+register lv3
+add v1 water 200mL
+add v1 NaHCO3 0.01mol
+seal v1 250mL
+measure v1 balance
+add v1 CH3COOH 0.012mol
+measure v1 balance
+measure v1 pressure
+inspect

@@ -1468,6 +1468,14 @@ pub enum Event {
         to: VesselId,
         water: Moles,
         ethanol: Moles,
+        /// All condensed components. Legacy water/ethanol fields remain for
+        /// consumers of the original binary event; they are not extra matter.
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        components: Vec<(SpeciesId, Moles)>,
+        /// Empty on older binary events. An explicit approximation disclosure
+        /// belongs to the result, not just an optional high-detail render.
+        #[serde(default, skip_serializing_if = "String::is_empty")]
+        model: String,
         at: Kelvin,
         #[serde(default = "kelvin_zero")]
         ended: Kelvin,

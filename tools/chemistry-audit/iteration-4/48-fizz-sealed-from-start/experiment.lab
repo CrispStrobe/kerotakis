@@ -1,0 +1,11 @@
+# Follow-up: when sealed before bicarbonate addition, is the entire added mass retained?
+register lv3
+add v1 water 200mL
+seal v1 250mL
+measure v1 balance
+add v1 NaHCO3 0.01mol
+add v1 CH3COOH 0.012mol
+measure v1 balance
+wait 1s
+measure v1 balance
+inspect

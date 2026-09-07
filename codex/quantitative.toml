@@ -763,7 +763,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 [[reaction]]
 id = "cold-from-baking-soda"
 spine = ["kalorimetrie"]
-equation = "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol   ·   25.0 °C → 21.0 °C"
+equation = "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol"
 concepts = ["endothermic-dissolution"]
 requires = ["calorimetry", "endothermic"]
 calculations = ["moles-from-mass", "enthalpy-change", "temperature-rise"]
@@ -797,13 +797,13 @@ measure v1 thermometer
 
 [reaction.expect]
 events = ["dissolved:NaHCO3", "gas_evolved:CO2"]
-temperature_c = { min = 19.5, max = 22.5 }
+temperature_c = { min = 17.5, max = 19.5 }
 
 [reaction.expect.predict]
-question = "0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C. ΔH_dis = +16.7 kJ/mol. What does the thermometer say?"
+question = "About 0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C in an open vessel. Dissolution absorbs heat, and carbonate speciation releases CO₂. What should the thermal calculation include?"
 options = [
   "Warmer — dissolving always releases energy",
-  "21.0 °C — about four degrees colder",
+  "Cooling from the combined dissolution, speciation, and gas-loss energy balance",
   "Unchanged — the water is what holds the temperature",
 ]
 answer = 1
@@ -817,16 +817,16 @@ next = "Run `hot-pack-arithmetic` and this beaker back to back: the sign travels
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Water as a thermal anchor: a big steady liquid that a spoonful of powder cannot move — heat capacity mistaken for immunity."
-next = "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from 416 J/K of water costs 4.0 K, and the thermometer pays it. A large capacity makes moves smaller — `two-vessels-one-variable` prices exactly that — but never zero."
+next = "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from about 416 J/K of water would cost about 4 K from dissolution alone. The open-vessel carbonate conversion contributes too. A larger capacity reduces a temperature change; it does not prohibit one."
 
 [reaction.registers]
 lv1 = "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it."
-lv2 = "q = 0.1000 mol × (+16.7 kJ/mol) = +1.67 kJ absorbed. ΔT = −1670 J ÷ 416.7 J/K = −4.0 K, so 25.0 °C → 21.0 °C, and the thermometer reads 21.02 °C. Potassium chloride at +17.2 kJ/mol gives 20.87 °C in the same cup — nearly the same, because the enthalpies are nearly the same."
-lv3 = "Endothermic dissolution means the lattice enthalpy exceeds the sum of the hydration enthalpies; the deficit comes out of the solution's sensible heat in an adiabatic vessel. Note the bench also reports 0.0424 mol of CO₂ leaving: a bicarbonate solution at pH 10.07 is supersaturated against atmospheric pCO₂ and outgasses. That carbonate chemistry is real and independent of the thermal effect, which is why both events appear."
+lv2 = "The dissolution-only estimate is q ≈ 0.1000 mol × 16.7 kJ/mol = 1.67 kJ absorbed, or about 4 K cooling for 100 mL of water. It is not the full prediction for this open beaker: the computed result is about 18.4 °C because carbonate speciation and CO₂ transfer also enter the energy balance."
+lv3 = "The ordinary aqueous solver prices the complete change in chemical inventory and gas exchange. About 0.0416 mol CO₂ leaves this input as bicarbonate redistributes toward carbonate under the open atmospheric boundary. That conversion is not thermally independent of dissolution. The result assumes immediate gas equilibrium and an adiabatic vessel; it predicts neither a gas-transfer time nor heat leakage from a real cup."
 
 [reaction.provenance]
-source = "Enthalpy of solution of NaHCO₃, standard reference value; carbonate speciation from PHREEQC (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
-computed_by = "Kerotakis energy balance over curated ΔH_dis; speciation via PHREEQC L2"
+source = "Existing registry enthalpy of solution of NaHCO₃ and PHREEQC carbonate data (USGS); no newly imported constants. Editorial judgement (Kerotakis), model-assisted revision 2026-09-06: distinguish dissolution-only arithmetic from the complete open-vessel energy balance."
+computed_by = "Kerotakis aqueous inventory/gas enthalpy balance using PHREEQC L2"
 
 [[reaction]]
 id = "two-vessels-one-variable"

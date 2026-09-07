@@ -1,0 +1,6 @@
+# Does excess NaCl leave solid and select a suitable high-strength model?
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.8mol
+explain v1
+inspect

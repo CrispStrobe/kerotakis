@@ -1,0 +1,7 @@
+# Same analytical input as mixed.lab; direct electron-budget route.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.01mol
+add v1 FeSO4 0.005mol
+add v1 KMnO4 0.0002mol
+inspect

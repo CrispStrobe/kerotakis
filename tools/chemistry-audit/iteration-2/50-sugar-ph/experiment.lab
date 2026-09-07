@@ -1,0 +1,6 @@
+# Follow-up: is the pH of a nonionic sugar solution characterized?
+register lv3
+add v1 water 1L
+add v1 table_sugar 5g
+measure v1 ph
+inspect

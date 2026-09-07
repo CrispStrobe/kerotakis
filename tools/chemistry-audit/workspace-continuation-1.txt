@@ -1,0 +1,2 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+sccache: warning: The server looks like it shut down unexpectedly, compiling locally instead

@@ -28,6 +28,9 @@ use crate::vessel::Vessel;
 /// What the eye reports.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Appearance {
+    /// Species whose optical contribution could not be computed.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub spectral_gaps: Vec<String>,
     /// The liquid's colour, sRGB.
     pub liquid: Option<Colour>,
     /// 0 = clear, 1 = opaque. Suspended solid, before it settles.
@@ -53,39 +56,8 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     // path length enter the same way they do in a real beaker. A species
     // with no curated spectrum contributes nothing rather than being
     // guessed at.
-    let mut absorbance = [0.0f64; crate::spectrum::BANDS];
-    for p in &vessel.contents {
-        if !matches!(p.phase, Phase::Aqueous | Phase::Liquid) {
-            continue;
-        }
-        // An indicator has two spectra and the pH picks the mixture, so it
-        // is asked for one only once the solution has been characterised.
-        // Without a pH there is no answer to give, and guessing at one
-        // would make the bench assert a colour it has not computed.
-        let eps = if crate::indicator::is_ph_dependent(&p.species.0) {
-            // KID-8: a two-form indicator and a four-form pigment ladder ask
-            // the same question of the solution, so they are asked it the
-            // same way.
-            match vessel.solution.as_ref() {
-                Some(sol) => match crate::indicator::spectrum_at_ph(&p.species.0, sol.ph) {
-                    Some(spectrum) => spectrum,
-                    None => continue,
-                },
-                None => continue,
-            }
-        } else {
-            match species::lookup(&p.species).and_then(|d| d.spectrum) {
-                Some(spectrum) => *spectrum,
-                None => continue,
-            }
-        };
-        let visible_moles =
-            (p.moles.0 - crate::surface_colour::sequestered_moles(vessel, &p.species)).max(0.0);
-        let concentration = visible_moles / litres;
-        for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
-            *band += e * concentration * crate::vessel::path_cm_for(&vessel.label);
-        }
-    }
+    let mut absorbance =
+        crate::solution_optics::absorbance(vessel, crate::vessel::path_cm_for(&vessel.label));
     let starch_iodine_complex_moles = crate::starch_iodine::add_absorbance(
         vessel,
         litres,
@@ -271,7 +243,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             .iter()
             .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
 
-    let words = describe(
+    let mut words = describe(
         LiquidState {
             colour: &liquid,
             cloudiness,
@@ -283,7 +255,15 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         bubbling,
         vessel,
     );
+    let spectral_gaps = crate::solution_optics::spectral_gaps(vessel);
+    if !spectral_gaps.is_empty() {
+        words.push_str(&format!(
+            " Colour is incomplete: no absorption spectrum for {}.",
+            spectral_gaps.join(", ")
+        ));
+    }
     Appearance {
+        spectral_gaps,
         liquid,
         cloudiness,
         deposit,

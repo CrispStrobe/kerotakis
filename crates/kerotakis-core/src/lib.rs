@@ -82,6 +82,7 @@ pub mod scene;
 pub mod script;
 pub mod selectivity;
 pub mod senses;
+pub mod solution_optics;
 pub mod solve;
 pub mod species;
 pub mod species_loader;

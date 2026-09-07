@@ -1,0 +1,6 @@
+# Does the same calcium/sulfate amount precipitate less in tenfold more water?
+register lv3
+add v1 water 2L
+add v1 CaCl2 0.01mol
+add v1 Na2SO4 0.01mol
+inspect

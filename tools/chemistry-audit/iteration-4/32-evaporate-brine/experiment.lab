@@ -1,0 +1,6 @@
+# Does removing 90 percent solvent concentrate salt into crystals?
+register lv3
+add v1 water 200mL
+add v1 NaCl 0.2mol
+evaporate v1 0.9
+inspect

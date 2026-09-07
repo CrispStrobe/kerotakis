@@ -1,0 +1,8 @@
+# Does filtration preserve total material and separate AgCl from solution?
+register lv3
+add v1 water 200mL
+add v1 NaCl 0.002mol
+add v1 AgNO3 0.002mol
+new
+filter v1 v2
+inspect

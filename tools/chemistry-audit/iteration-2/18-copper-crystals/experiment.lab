@@ -1,0 +1,9 @@
+# Does a heat/cool cycle reversibly change hydrated copper sulfate solid?
+register lv3
+add v1 water 100mL
+add v1 CuSO4 25g
+inspect v1
+heat v1 15kJ
+inspect v1
+cool v1 15kJ
+inspect

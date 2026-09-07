@@ -1,0 +1,8 @@
+# Does dilution reduce permanganate absorption without losing material?
+register lv3
+add v1 water 100mL
+add v1 KMnO4 0.0001mol
+look v1
+add v1 water 900mL
+look v1
+inspect

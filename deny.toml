@@ -30,8 +30,6 @@ ignore = [
 # Shipping bar, hardened 2026-08-23 (see PLAN.md).
 # No GPL family including LGPL.
 allow = [
-    # Kerotakis' own code
-    "AGPL-3.0-or-later",
     # Shipping bar (PLAN.md, hardened 2026-08-23)
     "MIT",
     "Apache-2.0",
@@ -52,6 +50,24 @@ allow = [
     "OpenSSL",
 ]
 confidence-threshold = 0.8
+
+# Existing project licence only: never admit an external copyleft dependency
+# through a global AGPL allowance. These names are workspace-owned packages.
+exceptions = [
+    { name = "kerotakis-core", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-data", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-thermo", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-cli", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-cea", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-codex", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-org", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-phreeqc", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-safety", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-stack", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-wasm", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-registry-export", allow = ["AGPL-3.0-or-later"] },
+    { name = "kerotakis-scene-physics", allow = ["AGPL-3.0-or-later"] },
+]
 
 [bans]
 multiple-versions = "warn"

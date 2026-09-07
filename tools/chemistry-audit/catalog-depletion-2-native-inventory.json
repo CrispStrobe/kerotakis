@@ -1,0 +1,61 @@
+{
+  "scope": "Native redox-element aqueous totals versus formula-counted aqueous portions; separate ligand pools may require a narrower comparison.",
+  "registry": {
+    "path": "/mnt/volume1/kero-experiment-audit/data/registry/registry-source-v1.json",
+    "sha256": "e9e01b89cbc724ac317596d4d0e3428b0fec1d1c4060baacbb613f91ac6a242f"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/a-salt-with-no-database/stdout.ndjson",
+      "sha256": "eebc84147b4dc184c793cf5919c5a2cdac96918177920fb1986dae640cc02e2c"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/cold-from-baking-soda/stdout.ndjson",
+      "sha256": "0c52a65f7418d74e87662129002e1931848808c3d7c605018f3582fca08aa1a7"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/doubling-the-thiosulfate-doubles-the-rate/stdout.ndjson",
+      "sha256": "6e1cbdf62af5da78e709136d8d2ff3d60440852945b1e6c8b6bed703cfa733b4"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/endpoint-is-not-a-full-drop/stdout.ndjson",
+      "sha256": "d507a37fcdd5eb08c049c9c19a9f5a24c341582fa3b8d164ff738d3710c61160"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/equilibrium-can-run-backward/stdout.ndjson",
+      "sha256": "4dc1a76aafa52b0789f68be429abf28e0ee97ddcbc1e06c0fc244ccc31d5b53e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/the-acid-is-never-used-up/stdout.ndjson",
+      "sha256": "48a51c26f7e456f3bf4192a57c9ff3093374338b01be694ed9c5ebaca44edb9c"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/the-acid-term-is-an-activity/stdout.ndjson",
+      "sha256": "032daf4035351eb5922be2b4a473d3f5f2d1d6f7f8edb11f09a80dcbdc29d60e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/the-cross-disappears/stdout.ndjson",
+      "sha256": "3485aa67dd2d1136a6ab8a36c92c3e23b2368b9878594cee350816fe35d0b36d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/the-ten-degree-rule-and-where-it-frays/stdout.ndjson",
+      "sha256": "c00906129509dd93eb40e770b9815b984e2d19e762ce571dce3b37e93b5915f3"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/catalog-depletion-2/two-beakers-and-one-clock/stdout.ndjson",
+      "sha256": "59006159d217a02192cfc4c472c0d7d586f5f243c90abfed73c5d6570c6556cb"
+    }
+  ],
+  "absolute_tolerance_mol": 1e-08,
+  "relative_tolerance": 1e-06,
+  "rows_checked": 118,
+  "comparisons_checked": 0,
+  "comparisons_passed": 0,
+  "states_observed": [],
+  "maximum_absolute_error_mol": 0.0,
+  "comparisons": [],
+  "mismatches": [],
+  "invalid_comparisons": [],
+  "internal_alias_leaks": [],
+  "passed": false
+}

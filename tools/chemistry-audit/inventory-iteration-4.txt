@@ -1,0 +1,28 @@
+   Compiling kerotakis-core v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-core)
+   Compiling kerotakis-phreeqc v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-phreeqc)
+   Compiling kerotakis-cea v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/mnt/volume1/kero-experiment-audit/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 01s
+     Running tests/analytical_inventory.rs (target/debug/deps/analytical_inventory-f5b5dd473b32d8f1)
+
+running 2 tests
+test trace_ligand_routing_never_drops_nitrogen ... FAILED
+test aqueous_basis_conserves_atoms_across_doses_volumes_and_temperatures ... ok
+
+failures:
+
+---- trace_ligand_routing_never_drops_nitrogen stdout ----
+
+thread 'trace_ligand_routing_never_drops_nitrogen' (2659840) panicked at crates/kerotakis-phreeqc/tests/analytical_inventory.rs:108:57:
+called `Result::unwrap()` on an `Err` value: NotConverged { solver: "phreeqc-inventory", detail: "cannot commit unrepresented elemental states: [(\"S(-2)\", 2.8567860980690464e-6)]" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    trace_ligand_routing_never_drops_nitrogen
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.98s
+
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test analytical_inventory`

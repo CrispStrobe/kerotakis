@@ -1,0 +1,10 @@
+endpoint-is-not-a-full-drop exit= 0 steps= 10 events= {'added': 4, 'solution_characterized': 32, 'dissolved': 28, 'neutralised': 27, 'temperature_changed': 27, 'titrated': 2, 'measured': 2, 'vessel_created': 1}
+equilibrium-can-run-backward exit= 0 steps= 8 events= {'added': 4, 'org_reacted': 2, 'not_yet_modeled': 2, 'vessel_created': 1, 'solution_characterized': 2}
+cold-from-baking-soda exit= 0 steps= 4 events= {'added': 2, 'solution_characterized': 2, 'temperature_changed': 2, 'dissolved': 1, 'gas_evolved': 1, 'measured': 1}
+doubling-the-thiosulfate-doubles-the-rate exit= 0 steps= 9 events= {'added': 6, 'solution_characterized': 6, 'not_yet_modeled': 10, 'vessel_created': 1, 'gravity_settled': 2, 'reacted': 2, 'dissolved': 2}
+the-acid-term-is-an-activity exit= 0 steps= 13 events= {'added': 9, 'solution_characterized': 9, 'not_yet_modeled': 15, 'vessel_created': 2, 'gravity_settled': 3, 'reacted': 3, 'dissolved': 3}
+the-cross-disappears exit= 0 steps= 24 events= {'added': 9, 'solution_characterized': 15, 'not_yet_modeled': 27, 'vessel_created': 2, 'gravity_settled': 3, 'reacted': 9, 'dissolved': 9, 'observed': 9}
+the-ten-degree-rule-and-where-it-frays exit= 0 steps= 17 events= {'added': 12, 'solution_characterized': 12, 'not_yet_modeled': 20, 'vessel_created': 3, 'temperature_changed': 8, 'gravity_settled': 4, 'reacted': 4, 'dissolved': 4}
+two-beakers-and-one-clock exit= 0 steps= 14 events= {'added': 6, 'solution_characterized': 8, 'not_yet_modeled': 14, 'vessel_created': 1, 'temperature_changed': 3, 'gravity_settled': 2, 'reacted': 4, 'dissolved': 4, 'observed': 4}
+a-salt-with-no-database exit= 0 steps= 11 events= {'added': 7, 'solution_characterized': 5, 'not_yet_modeled': 6, 'vessel_created': 2}
+the-acid-is-never-used-up exit= 0 steps= 8 events= {'added': 3, 'solution_characterized': 3, 'not_yet_modeled': 5, 'measured': 2, 'gravity_settled': 1, 'reacted': 1, 'dissolved': 1, 'observed': 1}

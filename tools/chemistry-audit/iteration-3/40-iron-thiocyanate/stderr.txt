@@ -1,0 +1,1 @@
+kero: /mnt/volume1/kero-experiment-audit/tools/chemistry-audit/iteration-3/40-iron-thiocyanate/experiment.lab:5: unknown species or material 'KSCN' ('species' lists the pure substances, 'materials' the household and school bottles, 'find <word>' searches both)

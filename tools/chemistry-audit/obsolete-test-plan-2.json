@@ -1,0 +1,185 @@
+{
+  "safe_root": "/mnt/volume1/kero-experiment-audit/target/debug/deps",
+  "entries": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/acid_base-a130e5a6f73b4b7f",
+      "bytes": 48729176,
+      "mtime_ns": 1788723755591790869
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/analytical_inventory-4e728a289c4eb767",
+      "bytes": 41451328,
+      "mtime_ns": 1788720535935282390
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/analytical_inventory-f5b5dd473b32d8f1",
+      "bytes": 41932928,
+      "mtime_ns": 1788722944960582040
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/compile_registry-8621fb85ef230f9e",
+      "bytes": 13044008,
+      "mtime_ns": 1788719673594404831
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/equilibrator-2e5c6a85610c5844",
+      "bytes": 50688776,
+      "mtime_ns": 1788720806802510440
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/equilibrator-d2a1ad205f799bf6",
+      "bytes": 50694656,
+      "mtime_ns": 1788720537425349647
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/family_aqueous_tail-b17fe0f9965e463f",
+      "bytes": 68568160,
+      "mtime_ns": 1788723753762701658
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/family_route-745259f2ef132b72",
+      "bytes": 49850312,
+      "mtime_ns": 1788722511566785839
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/fluid_parameter_import-700ff01215daf448",
+      "bytes": 11464520,
+      "mtime_ns": 1788719668224163221
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/food_chemistry-45fcb3c8f2213b68",
+      "bytes": 48249456,
+      "mtime_ns": 1788720804271396159
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/food_chemistry-fdb61580c80d4a4f",
+      "bytes": 48252568,
+      "mtime_ns": 1788720537964373977
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/frozen_behavior-7eb3f540b95634ed",
+      "bytes": 43254944,
+      "mtime_ns": 1788721841606243872
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_cea_subset-63f3526ec2303ff9",
+      "bytes": 31749368,
+      "mtime_ns": 1788723536429070575
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_dbindex-7e0bf3e553407d8e",
+      "bytes": 32718392,
+      "mtime_ns": 1788727532632601170
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_dbindex-bbc9247663fd4935",
+      "bytes": 32034448,
+      "mtime_ns": 1788720536823322473
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/generate_dbindex-ff82f09100bbe829",
+      "bytes": 32769544,
+      "mtime_ns": 1788723858317795523
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/json_contract-e1dee9be4a331d87",
+      "bytes": 7793872,
+      "mtime_ns": 1788722832465808059
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/legacy_diff-64475357101e5f8b",
+      "bytes": 40665488,
+      "mtime_ns": 1788726540855594262
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/lessons_replay-d6cc7fc7e9e6a0d2",
+      "bytes": 34335104,
+      "mtime_ns": 1788722831129739002
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/ligand_reference-721e2c525e5ea9d4",
+      "bytes": 36992664,
+      "mtime_ns": 1788726438071625769
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/org_react-ff0cd230c2efa814",
+      "bytes": 40735592,
+      "mtime_ns": 1788720531435079265
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/organic_equilibrium_grid-461fcc65670e6dd5",
+      "bytes": 40107824,
+      "mtime_ns": 1788720327354869327
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_import-6815d4b6d9169f10",
+      "bytes": 12301008,
+      "mtime_ns": 1788716493604674582
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/pubchem_import-d74ecd849aa511ee",
+      "bytes": 12305576,
+      "mtime_ns": 1788719691736221114
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_review-474bb578be90d7b4",
+      "bytes": 11720920,
+      "mtime_ns": 1788716492549625829
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/quarantine_review-524b59df586a4000",
+      "bytes": 11725128,
+      "mtime_ns": 1788719683664857932
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/reaction_heat-6db595852c1dfacd",
+      "bytes": 68434696,
+      "mtime_ns": 1788723756733846569
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/redox_isolation_probe-23bfee337013968f",
+      "bytes": 38839936,
+      "mtime_ns": 1788727535357721161
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/registry_snapshot-b8aa72e47820f764",
+      "bytes": 31520328,
+      "mtime_ns": 1788721841481238226
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sealed_mass-3d74c69cd2ef2e8e",
+      "bytes": 68514736,
+      "mtime_ns": 1788720370358809765
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/sealed_mass-4f43535d2454196d",
+      "bytes": 68398512,
+      "mtime_ns": 1788719040369025724
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/solid_solution-36dd146e50cebbff",
+      "bytes": 41556240,
+      "mtime_ns": 1788721260440995387
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/study-5052183b58c8d2b4",
+      "bytes": 7825912,
+      "mtime_ns": 1788722825022423174
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/titration_refinement-014a5ef0546d8286",
+      "bytes": 47893712,
+      "mtime_ns": 1788720536111290334
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/titration_refinement-d406d5aaa006c912",
+      "bytes": 47888768,
+      "mtime_ns": 1788721259273942681
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/target/debug/deps/weak_acid-9aa472dea1165871",
+      "bytes": 47862640,
+      "mtime_ns": 1788720807669549588
+    }
+  ]
+}

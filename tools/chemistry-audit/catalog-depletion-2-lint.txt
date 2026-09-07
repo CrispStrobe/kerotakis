@@ -1,0 +1,25 @@
+codex ok: 107 entries, 158 concepts, 28 models (8 progressions) — every claim replayed through the solvers
+  equations: 67 balanced (atoms and charge); 44 entries describe something that is not a reaction
+  prose: 234 number(s) in register text that this replay does not account for —
+    · strong-base: 1 mol — "…iiert vollständig, sodass 0,001 mol in einem Liter [OH⁻] =…"
+    · strong-base: 3 pH — "…litre (`strong-acid`) reads pH 3.0 on this bench. Swap the…"
+    · lye-warms-the-beaker: 10 °C — "…, that is a rise of roughly 10 °C, and the resulting 1 mol…"
+    · lye-warms-the-beaker: 1 mol — "…the arithmetic promises. 0,1 mol NaOH in 100 mL setzen et…"
+    · lye-warms-the-beaker: 10 °C — "…das einen Anstieg von etwa 10 °C, und die entstehende 1-m…"
+    · lye-warms-the-beaker: 7 °C — "…as Becherglas selbst auf 35,7 °C erwärmt, und K_w ist star…"
+    · neutralisation: 1 mol — "…ionen explizit weiter: Je 0,01 mol Na⁺ und Cl⁻ bleiben im…"
+    · past-the-equivalence-point: 1 mol — "…Base den pH-Wert direkt: 0,001 mol übrig gebliebenes NaOH…"
+    · phosphate-buffer: 1.5 mol — "…anderen Partnerpaar. Adding 1.5 mol of base per mole of H₃…"
+    · phosphate-buffer: 5 mol — "…ound pKa₂. Die Zugabe von 1,5 mol Base pro Mol H₃PO₄ wande…"
+    · half-neutralised-vinegar: 4 pH — "…d die Flüssigkeit liegt bei pH 4,7 — und bleibt hartnäckig…"
+    · buffer-capacity-exceeded: 1 mol — "…enthält eine Reserve von 0,1 mol Acetat. 0,15 mol HCl wan…"
+    · buffer-capacity-exceeded: 15 mol — "…serve von 0,1 mol Acetat. 0,15 mol HCl wandeln sie vollstä…"
+    · buffer-capacity-exceeded: 5 mol — "…Essigsäure um und lassen 0,05 mol starke Säure frei im Li…"
+    · buffer-capacity-exceeded: 2 mol — "…e enthält jetzt insgesamt 0,2 mol Acetat und 0,15 mol Chlo…"
+    · buffer-capacity-exceeded: 15 mol — "…gesamt 0,2 mol Acetat und 0,15 mol Chlorid gegenüber nur 0…"
+    · buffer-capacity-exceeded: 1 mol — "…mol Chlorid gegenüber nur 0,1 mol Natrium; die Ladungsbila…"
+    · dilution-by-ten: 1 mol — "…e an HCl ändert sich nie: 0,001 mol, zunächst in 0,1 L (0,…"
+    · baking-soda-vents-carbon-dioxide: 1 mol — "…the pH settles near 9.7. 0,1 mol NaHCO₃ pro Liter ergeben…"
+    · baking-soda-vents-carbon-dioxide: 8.3 pH — "…is the lesson. The classic pH 8.3 for NaHCO₃ assumes a se…"
+    · … and 214 more
+  predictions: 91 questions, 196/196 wrong answers say what believing them reveals

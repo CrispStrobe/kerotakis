@@ -13,7 +13,7 @@ fn json_output_is_the_api_contract() {
     let mut f = std::fs::File::create(&lab).unwrap();
     writeln!(
         f,
-        "add v1 water 100mL\nadd v1 NaCl 1g\nmeasure v1 ph\nmeasure v1 balance"
+        "add v1 water 100mL\nadd v1 NaCl 1g\nmeasure v1 ph\nmeasure v1 balance\ninspect v1\ninspect v1\nwait 1s"
     )
     .unwrap();
 
@@ -32,10 +32,20 @@ fn json_output_is_the_api_contract() {
         .lines()
         .map(|l| serde_json::from_str(l).expect("every line is JSON"))
         .collect();
-    assert_eq!(steps.len(), 4, "one JSON object per operator");
+    assert_eq!(
+        steps.len(),
+        7,
+        "one JSON object per command, including inspection"
+    );
 
     for (i, step) in steps.iter().enumerate() {
-        assert_eq!(step["step"], i, "steps are numbered");
+        assert_eq!(
+            step["output_sequence"], i,
+            "every output has a unique stream position"
+        );
+        if i < 4 {
+            assert_eq!(step["step"], i, "mutations reference the bench log");
+        }
         assert!(step["operator"]["op"].is_string(), "operator is tagged");
         assert!(step["events"].is_array(), "events are an array");
         assert!(step["bench"]["vessels"].is_array(), "bench state included");

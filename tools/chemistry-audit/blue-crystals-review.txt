@@ -1,0 +1,49 @@
+  v1: +5.5343 mol water
+  v1: pH 7.00
+  v1: 25.0 °C → 25.0 °C
+  v1: +0.1880 mol copper sulfate
+  v1: 0.1880 mol copper sulfate dissolved
+  v1: 0.0967 mol copper(II) sulfate pentahydrate (chalcanthite) precipitated ↓
+  v1: 232 µmol antlerite (green copper sulfate) precipitated ↓
+  v1: pH 3.28
+  v1: 25.0 °C → 58.7 °C
+  v1: net ionic: Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: The liquid is blue and so cloudy you cannot see through it, there is blue copper(II) sulfate pentahydrate (chalcanthite) at the bottom. Colour is incomplete: no absorption spectrum for CuSO4, Cu2(OH)2+2, CuOH+, Cu(OH)2.
+  v1: 58.7 °C → 107.8 °C
+  v1: 20.00 kJ requested; 20.00 kJ delivered, 0.00 kJ undelivered — Bunsen burner, ceiling 1500 °C; of what arrived, 17.60 kJ is warmth the vessel still holds and 2.40 kJ went into chemistry or a phase change (1 passes) — time model not yet coupled
+  v1: 0.0725 mol copper(II) sulfate pentahydrate (chalcanthite) dissolved
+  v1: 232 µmol antlerite (green copper sulfate) dissolved
+  v1: 2.88 mmol langite (blue-green copper sulfate) precipitated ↓
+  v1: pH 2.67
+  v1: 107.8 °C → 101.3 °C
+  v1: 0.0516 mol water ↑ (gas escapes the open vessel)
+  v1: water boiled at 101.3 °C — 1.3 °C higher than pure water, because of what is dissolved in it
+  v1: not yet modelled — copper(II) sulfate pentahydrate (chalcanthite) in contact with liquid: no wired solver models this dissolution/reaction
+  v1: not yet modelled — langite (blue-green copper sulfate) in contact with liquid: no wired solver models this dissolution/reaction
+  v1 (beaker) — 101.30 °C, 128.8 g, 96.5 mL liquid, open to atmosphere
+          0.1523 mol  copper(II) ion     Aqueous
+          0.1609 mol  sulfate ion        Aqueous
+          0.0242 mol  copper(II) sulfate pentahydrate (chalcanthite) Solid
+          0.0029 mol  langite (blue-green copper sulfate) Solid
+          5.3417 mol  water              Liquid
+          0.0173 mol  hydrogen ion       Aqueous
+  v1: 101.3 °C → 28.3 °C
+  v1: 30.00 kJ requested; 30.00 kJ removed — time model not yet coupled
+  v1: 0.1011 mol copper(II) sulfate pentahydrate (chalcanthite) precipitated ↓
+  v1: 2.88 mmol langite (blue-green copper sulfate) dissolved
+  v1: 87.5 µmol antlerite (green copper sulfate) precipitated ↓
+  v1: 0.0169 mol neutralised
+  v1: pH 3.34
+  v1: 28.3 °C → 28.4 °C
+  v1: net ionic: Cu²⁺(aq) + SO₄²⁻(aq) + 5 H₂O(l) → chalcanthite(s)
+  v1: net ionic: 3 Cu²⁺(aq) + SO₄²⁻(aq) + 4 H₂O(l) → antlerite(s) + 4 H⁺(aq)
+  v1: The liquid is blue and so cloudy you cannot see through it, there is blue copper(II) sulfate pentahydrate (chalcanthite) at the bottom. Colour is incomplete: no absorption spectrum for CuSO4, CuOH+, Cu2(OH)2+2, Cu(OH)2.
+  v1 (beaker) — 28.35 °C, 128.8 g, 87.7 mL liquid, open to atmosphere, pH 3.34, pe 16.98 (+1.016 V), I = 1.2391 m
+      redox — all Cu as Cu(II); all S as S(VI)
+          0.0624 mol  copper(II) ion     Aqueous
+          0.0626 mol  sulfate ion        Aqueous
+          0.1253 mol  copper(II) sulfate pentahydrate (chalcanthite) Solid
+          0.0001 mol  antlerite (green copper sulfate) Solid
+          4.8559 mol  water              Liquid
+          0.0003 mol  hydrogen ion       Aqueous

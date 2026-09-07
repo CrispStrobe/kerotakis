@@ -62,7 +62,20 @@ fn every_legacy_field_is_present_and_unchanged() {
             .filter(|species| {
                 !matches!(
                     species.key,
-                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite" | "chalcanthite" | "SiO2"
+                    "isopropanol"
+                        | "sucrose"
+                        | "Fe2O3"
+                        | "epsomite"
+                        | "chalcanthite"
+                        | "SiO2"
+                        | "H+"
+                        | "CO2(aq)"
+                        | "CO3-2"
+                        | "HPO4-2"
+                        | "PO4-3"
+                        | "NO2-"
+                        | "KSCN"
+                        | "SCN-"
                 )
             })
             .count()
@@ -179,6 +192,10 @@ fn every_legacy_field_is_present_and_unchanged() {
     assert_eq!(
         document.model_parameters.len(),
         REGISTRY.len()
+            // Eight source-authored analytical identities have no dissolution
+            // observation. Export must not turn an absent parameter into a
+            // fictitious legacy measurement of zero.
+            - 8
             + REGISTRY
                 .iter()
                 .filter(|species| species.colour.is_some())
@@ -209,6 +226,39 @@ fn every_legacy_field_is_present_and_unchanged() {
 }
 
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
+    if matches!(
+        species.key,
+        "H+" | "CO2(aq)" | "CO3-2" | "HPO4-2" | "PO4-3" | "NO2-" | "KSCN" | "SCN-"
+    ) {
+        let identity = document
+            .identities
+            .iter()
+            .find(|r| r.id == species.key)
+            .unwrap();
+        assert_eq!(identity.name, species.name);
+        assert_eq!(identity.evidence.source_id, "kerotakis/aqueous-basis-v1");
+        let composition = document
+            .compositions
+            .iter()
+            .find(|r| r.species_id == species.key)
+            .unwrap();
+        assert_eq!(composition.formula, species.formula);
+        for (property, value) in [
+            (PhaseProperty::MolarMass, species.molar_mass),
+            (PhaseProperty::MolarHeatCapacity, species.heat_capacity),
+            (PhaseProperty::MassDensity, species.density),
+        ] {
+            let row = document
+                .phase_thermodynamics
+                .iter()
+                .find(|r| r.species_id == species.key && r.property == property)
+                .unwrap();
+            assert_eq!(row.quantity.value, value);
+            assert_eq!(row.quantity.source_id, "kerotakis/aqueous-basis-v1");
+            assert!(matches!(row.quantity.method, Method::Derived(_)));
+        }
+        return;
+    }
     let source_id = match species.key {
         "isopropanol" => "us-federal/isopropanol-chris".to_string(),
         "sucrose" => "kerotakis/sucrose-teaching-properties-v1".to_string(),
@@ -508,6 +558,13 @@ fn assert_property(
         .find(|record| record.species_id == species.key && record.property == property)
         .unwrap_or_else(|| panic!("missing {property:?} for {}", species.key));
     assert_eq!(record.phase, phase, "{} {property:?} phase", species.key);
+    if species.key == "OH-" && property == PhaseProperty::MolarMass {
+        assert_eq!(record.quantity.value, 17.007);
+        assert_eq!(record.quantity.value, value);
+        assert_eq!(record.quantity.source_id, "kerotakis/aqueous-basis-v1");
+        assert!(matches!(record.quantity.method, Method::Derived(_)));
+        return;
+    }
     assert_imported_quantity(&record.quantity, value, symbol, dimension, phase, source_id);
 }
 
