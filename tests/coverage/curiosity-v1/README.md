@@ -124,6 +124,70 @@ smoke set would NOT have caught this: none of the four are in it, which is
 why the full check is what runs.
 
 
+## Correction 2026-09-07 — lactate had been speciated all along
+
+**No row moves. No number moves. Nothing in the corpus changes.** This
+section exists because four claims — two in this file, two in
+`data/registry/registry-source-v1.json` — went on asserting a boundary for a
+day after the boundary was removed, and the bleach entry immediately below
+is what a stale boundary claim costs when nobody re-reads it.
+
+**The claim.** In those four places the bench said, in these words or close
+to them, that closing `bio-069`/`bio-070` (yoghurt, and yoghurt in a
+refrigerator) "needs a lactate species in a loaded database", that
+`llnl-organics` "has one and is not among wateq4f, minteq.v4 and pitzer",
+and that "until one does, the acid's carboxylic proton is still absent from
+every computed pH".
+
+**Why it is false.** `crates/kerotakis-phreeqc/src/lib.rs` has carried
+`LACTATE_EXTENSION` since #448, merged 2026-09-06 — hours after the
+fourteenth refresh below was written, and by a change that touched no
+document. `databases::minteq_v4()` is the vendored `minteq.v4.dat` plus
+that extension, inserted BEFORE the file's trailing `END` because PHREEQC
+stops reading there. It is one `SOLUTION_MASTER_SPECIES` line
+(`Lactate  Lactate-  1  89.07  89.07`) and one protonation
+(`H+ + Lactate- = H(Lactate)`, `log_k 3.8629`), which is llnl-organics'
+own `log_k -3.8629` sign-flipped into the direction minteq writes its acids
+in — pKa 3.86, lactic acid's measured value. **The file was never loaded;
+one constant was borrowed from it.** That is exactly the move
+`HYPOCHLORITE_EXTENSION` was modelled on, line for line, a day later, and
+the two extensions now sit beside each other in `minteq_v4()`.
+
+**What the bench does with the yoghurt rows today.** Both are
+`computed`/`computed-route` in `baseline.toml`, and the pH meter at the end
+of each script reads an acidified milk rather than nothing.
+`crates/kerotakis-phreeqc/tests/lactate_speciation.rs` holds it from three
+sides: the fermentation's 0.0038 mol comes back SPLIT between `lactic_acid`
+and `lactate` with both forms non-zero, which is what pKa 3.86 requires at
+that pH; the fermented beaker lands strictly between the unbuffered acid's
+2.6 and real yoghurt's 4.4; and fresh milk reads 6.4–7.0 with the culture
+dropping it by more than two units. The refrigerated row is the same
+chemistry two orders of magnitude slower
+(`crates/kerotakis-core/tests/fermentation.rs`), which is the comparison
+`bio-070` asks for.
+
+**What has NOT changed, and must not be read as changed.** The fourteenth
+refresh's headline — that these rows being `computed` does not mean they
+are ANSWERED — stands, and this correction does not touch it. Only its
+stated REASON was stale. The reason today is a different one and is
+narrower: casein is not modelled, so the recipe carries none of milk's
+protein buffer capacity between pH 6.6 and pH 5.0, which is the larger part
+of it, so a computed yoghurt pH is a LOWER BOUND on the real thing at the
+same acid dose rather than a prediction of it — `whole_milk`'s own
+`lot_assumptions` say so in those words. There is still no gelation, so the
+bench cannot show milk setting into yoghurt; and the lactic route still
+emits no typed event of its own, because the clock arm builds `Fermented`
+and `GasProduced` out of the sucrose/ethanol/CO2 fields. Those are the
+reasons to quote from now on.
+
+**Where the stale sentences were.** Two in this file (the fourteenth
+refresh and the fifth-refresh triage, both struck through in place rather
+than deleted) and two in `data/registry/registry-source-v1.json`, on the
+`legacy/lactate` and `legacy/lactic_acid` citations. The second registry
+one was not on anyone's list; it turned up in the sweep for siblings, which
+is the argument for sweeping.
+
+
 ## Refresh 2026-09-07 — bleach was never a boundary
 
 One row. `aq-053` ("Does diluted bleach remain alkaline?")
@@ -327,13 +391,18 @@ quoted:
 - `bio-069`, `bio-070` (yoghurt, and yoghurt in a refrigerator) →
   `missing`/`not-yet-modeled` becomes `computed`/`computed-route`.
   **THIS DOES NOT MEAN THE ROWS ARE ANSWERED, AND THE NUMBER THE METER
-  PRINTS IS NOT YOGHURT'S.** It is fresh milk's, near 6.7, because the
+  PRINTS IS NOT YOGHURT'S.** ~~It is fresh milk's, near 6.7, because the
   lactic acid the culture just made is still speciated by no database this
   lab loads, so its carboxylic proton is in no computed pH. The
   unspeciated-acid note still fires and still says so, in the words "the
-  real solution is more acidic than it says" — but it fires on the
-  fermentation step, and this gate reads the disposition off the LAST
-  step, which is now a pH meter that succeeds instead of one that
+  real solution is more acidic than it says"~~ — **both struck sentences
+  stopped being true within hours of being written, and they
+  are kept here rather than deleted; see "Correction 2026-09-07 — lactate
+  had been speciated all along" above.** The bold headline above them did
+  NOT expire and is not what is being corrected: the two are different
+  claims and both stand. What the note used to do it no longer does — it
+  fired on the fermentation step, and this gate reads the disposition off
+  the LAST step, which is now a pH meter that succeeds instead of one that
   refuses. So the disposition records, truthfully, that a computed
   chemistry route ran; it does not record that the question was answered,
   and the classifier's own comment says that is not what a disposition is
@@ -341,11 +410,15 @@ quoted:
 
   What actually improved is worth stating plainly, because it is half the
   job rather than none of it: the fermentation was always real, and now it
-  runs into something that can hold a pH. What is still missing is a
+  runs into something that can hold a pH. ~~What is still missing is a
   lactate species in a loaded database — `llnl-organics` has one and is
   not among wateq4f, minteq.v4 and pitzer — and that is the other half,
-  which is not in this change. The registry now carries the `lactate`
-  ion so that half has a key to book into.
+  which is not in this change.~~ **That other half landed the same night,
+  in #448**, and this paragraph was never revisited: `databases::minteq_v4()`
+  is the vendored file plus `LACTATE_EXTENSION`, which borrows
+  llnl-organics' own `log_k -3.8629` rather than loading its file. The
+  registry now carries the `lactate` ion so that half has a key to book
+  into, and it books into it.
 
   Two things will still be wrong when it lands, and neither is a database
   problem. Casein is not modelled, so it carries none of milk's protein
@@ -645,19 +718,28 @@ wrong summary, so they are listed apart.
   the solution. It is limited by the oxygen actually in the vessel, and
   with none added it does nothing.
 
-**Two run a real fermentation and still cannot answer.**
+~~**Two run a real fermentation and still cannot answer.**~~ **Both of them
+can, as of 2026-09-06 — see "Correction 2026-09-07 — lactate had been
+speciated all along" above.**
 
 - `bio-069`, `bio-070` (yoghurt, and yoghurt in a refrigerator) →
   `missing`/`not-yet-modeled`. They no longer stop at the parser. The
   culture runs: milk sugar leaves the conserved unresolved solids, lactic
   acid appears in the vessel, mass is conserved exactly, and the 5 °C run
   is more than two orders of magnitude slower than the room-temperature
-  one. They stop at the pH meter. Milk resolves only water, and lactic acid
+  one. ~~They stop at the pH meter. Milk resolves only water, and lactic acid
   cannot be speciated by any database this lab loads — `llnl-organics`
   defines Lactate and is not one of the three — so no aqueous solution is
   characterised at all and the meter reads nothing. **Closing these two
   needs a lactate species in a loaded database, or milk's minerals
-  resolved, and not more fermentation.**
+  resolved, and not more fermentation.**~~ **Both halves of that closing
+  sentence were then done, a day apart, and the paragraph was left
+  standing.** Milk's diffusible minerals were resolved on 2026-09-06
+  ("Refresh 2026-09-06, fourteenth — milk stops being water"), so a beaker
+  of milk is a characterised solution near pH 6.7; and #448 the same night
+  added `LACTATE_EXTENSION` to `databases::minteq_v4()`, so the acid the
+  culture makes is speciated. The rows are `computed`/`computed-route`
+  today and the meter reads an acidified milk, not nothing.
 
 **One is a true remark outranking a computed result.**
 
