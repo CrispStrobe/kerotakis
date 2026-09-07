@@ -66,6 +66,10 @@ impl ConservedLedger {
 
         // Surface sites (sorbates)
         for surface in &vessel.surfaces {
+            // Ligand exchange transfers this water from the neutral surface
+            // reference into solvent. Count the matching debit on the surface.
+            *elements.entry("H".into()).or_default() -= 2.0 * surface.water_release.0;
+            *elements.entry("O".into()).or_default() -= surface.water_release.0;
             for occ in &surface.occupancy {
                 let sid = occ.sorbate.species();
                 if let Some(data) = species::lookup(&sid) {
@@ -76,6 +80,30 @@ impl ConservedLedger {
                         charge += formula.charge * occ.moles.0;
                     }
                 }
+            }
+        }
+
+        // Prepared objects own their resolved ingredients outside bulk contents.
+        for component in vessel.material_objects.iter().flat_map(|o| &o.components) {
+            if let Some(formula) = species::lookup(&component.species)
+                .and_then(|data| stoich::parse_formula(data.formula).ok())
+            {
+                for (el, count) in formula.counts {
+                    *elements.entry(el).or_default() += count * component.moles.0;
+                }
+                charge += formula.charge * component.moles.0;
+            }
+        }
+
+        // Bound organic sorbates remain material even outside aqueous contents.
+        for bound in &vessel.adsorbed {
+            if let Some(formula) = species::lookup(&bound.sorbate)
+                .and_then(|data| stoich::parse_formula(data.formula).ok())
+            {
+                for (el, count) in formula.counts {
+                    *elements.entry(el).or_default() += count * bound.moles.0;
+                }
+                charge += formula.charge * bound.moles.0;
             }
         }
 
@@ -98,13 +126,14 @@ impl ConservedLedger {
         for ss in &vessel.solid_solutions {
             for component in &ss.components {
                 let sid = component.component.species();
-                if let Some(data) = species::lookup(&sid) {
-                    if let Ok(formula) = stoich::parse_formula(data.formula) {
-                        for (el, count) in &formula.counts {
-                            *elements.entry(el.clone()).or_insert(0.0) += count * component.moles.0;
-                        }
-                        charge += formula.charge * component.moles.0;
+                // Typed end members can exist before a standalone bottle is
+                // registered (SrCO3). Their identities are formula keys.
+                let formula_text = species::lookup(&sid).map(|d| d.formula).unwrap_or(&sid.0);
+                if let Ok(formula) = stoich::parse_formula(formula_text) {
+                    for (el, count) in &formula.counts {
+                        *elements.entry(el.clone()).or_insert(0.0) += count * component.moles.0;
                     }
+                    charge += formula.charge * component.moles.0;
                 }
             }
         }
@@ -262,6 +291,7 @@ mod tests {
         v.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
         v.deposit(SpeciesId::new("Na2S2O3"), Moles(0.1), Phase::Aqueous);
         v.solution = Some(crate::vessel::SolutionInfo {
+            solvent_kg: None,
             redox: Vec::new(),
             pe: None,
             ph: 1.7,

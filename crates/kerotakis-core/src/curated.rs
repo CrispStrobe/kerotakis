@@ -538,6 +538,8 @@ pub struct OrgReaction {
     pub equation: &'static str,
     pub reactants: &'static [(&'static str, f64)],
     pub products: &'static [(&'static str, f64, Phase)],
+    /// Base-10 ideal-mixture equilibrium constant, where parameterised.
+    pub equilibrium_log_k: Option<f64>,
     /// What this entry does NOT claim — stated at lv3, because an
     /// equilibrium driven to completion on command is a modelling
     /// choice, not a measurement.
@@ -548,17 +550,19 @@ pub struct OrgReaction {
 pub const ORG_REACTIONS: &[OrgReaction] = &[
     OrgReaction {
         name: "esterification",
+        equilibrium_log_k: Some(0.6020599913279624),
         equation: "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O",
         reactants: &[("CH3COOH", 1.0), ("ethanol", 1.0)],
         products: &[
             ("ethyl_acetate", 1.0, Phase::Liquid),
             ("water", 1.0, Phase::Liquid),
         ],
-        boundary: "Fischer esterification is an equilibrium (K ≈ 4 for this                    pair); the verb drives the requested extent to completion                    and says so — no yield claim is made, and the acid                    catalyst and heat the real reaction wants are assumed,                    not modelled",
+        boundary: "Ideal-mixture equilibrium with K ≈ 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
         source: "Fischer esterification, March's Advanced Organic Chemistry;                  stoichiometry proven against the kerotakis-org SMIRKS                  template at the InChIKey level",
     },
     OrgReaction {
         name: "saponification",
+        equilibrium_log_k: None,
         equation: "CH3COOC2H5 + NaOH → NaOAc + C2H5OH",
         reactants: &[("ethyl_acetate", 1.0), ("NaOH", 1.0)],
         products: &[
@@ -578,6 +582,7 @@ pub const ORG_REACTIONS: &[OrgReaction] = &[
     // verb's own conservation test exercises.
     OrgReaction {
         name: "alcohol-oxidation",
+        equilibrium_log_k: None,
         equation: "C2H5OH + O2 → CH3COOH + H2O",
         reactants: &[("ethanol", 1.0), ("O2", 1.0)],
         products: &[
@@ -593,6 +598,7 @@ pub const ORG_REACTIONS: &[OrgReaction] = &[
     // respire, and only a request makes this happen.
     OrgReaction {
         name: "respiration",
+        equilibrium_log_k: None,
         equation: "C6H12O6 + 6 O2 → 6 CO2 + 6 H2O",
         reactants: &[("glucose", 1.0), ("O2", 6.0)],
         products: &[("CO2", 6.0, Phase::Gas), ("water", 6.0, Phase::Liquid)],
@@ -795,6 +801,9 @@ impl Equilibrator for CuratedEquilibrator {
                 progressed = true;
                 if reaction.solvent.is_some() {
                     solvent_gated_done[i] = true;
+                }
+                if let Some(protons) = reaction.acid_protons {
+                    crate::displacement::consume_acidity(vessel, x * protons);
                 }
                 for (key, coeff) in reaction.reactants {
                     if reaction.solvent.is_some() {

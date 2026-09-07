@@ -25,7 +25,7 @@ fn registry_matches_the_golden_snapshot() {
     let current = serde_json::to_string_pretty(&doc).unwrap();
 
     let golden = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/golden/registry.json");
-    if !golden.exists() {
+    if !golden.exists() || std::env::var("KEROTAKIS_BLESS_GOLDEN").as_deref() == Ok("1") {
         fs::create_dir_all(golden.parent().unwrap()).unwrap();
         fs::write(&golden, &current).unwrap();
         eprintln!("golden created at {}", golden.display());

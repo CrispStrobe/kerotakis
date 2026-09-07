@@ -37,6 +37,7 @@ fn cell(id: usize, tracer_moles: f64, temperature_k: f64) -> Vessel {
     vessel.temperature = Kelvin(temperature_k);
     vessel.solute_charge = tracer_moles * 0.25;
     vessel.solution = Some(SolutionInfo {
+        solvent_kg: None,
         pe: None,
         redox: Vec::new(),
         ph: 7.0,

@@ -24,6 +24,15 @@ use crate::vessel::{
     ObjectComponent, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
 };
 
+/// Whether applying an operator permits subsequent physical-state mutation.
+/// Explicit atomic refusals keep their diagnostics/log entry but must not
+/// turn an unchanged vessel into another equilibrium or contact-history step.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ApplyDisposition {
+    Reequilibrate,
+    Unchanged,
+}
+
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
 
@@ -724,7 +733,21 @@ impl Bench {
                 .map(|v| (*vessel, v.temperature, v.enthalpy().0)),
             _ => None,
         };
-        let mut events = self.apply(&op, screen)?;
+        let mut disposition = ApplyDisposition::Reequilibrate;
+        let mut events = self.apply(&op, screen, &mut disposition)?;
+        if disposition == ApplyDisposition::Unchanged {
+            self.log.push(LogEntry {
+                step: self.log.len(),
+                operator: op,
+                events: events.clone(),
+            });
+            return Ok(events);
+        }
+        if matches!(&op, Operator::Wait { seconds } if *seconds > 0.0) {
+            for vessel in &self.vessels {
+                events.extend(solver.time_boundaries(vessel));
+            }
+        }
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
             Operator::Wait { .. } => self.vessels.iter().map(|v| v.id).collect(),
@@ -1382,6 +1405,7 @@ impl Bench {
         &mut self,
         op: &Operator,
         screen: &dyn SafetyScreen,
+        disposition: &mut ApplyDisposition,
     ) -> Result<Vec<Event>, BenchError> {
         let mut events = Vec::new();
         if !matches!(op, Operator::Impact { .. } | Operator::RemoveVessel { .. }) {
@@ -2839,6 +2863,76 @@ impl Bench {
                 let water = SpeciesId::new("water");
                 let ethanol = SpeciesId::new("ethanol");
                 let src = self.vessel_mut(*from)?;
+                match crate::volatility::additional_solvent_cut(src, take, *stages) {
+                    Err(what) => {
+                        *disposition = ApplyDisposition::Unchanged;
+                        events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::ModelBoundary,
+                            vessel: *from,
+                            what,
+                        });
+                        return Ok(events);
+                    }
+                    Ok(Some((ids, cut))) => {
+                        let t_from = src.temperature;
+                        let mut components = Vec::new();
+                        for (id, amount) in ids.into_iter().zip(cut.overhead) {
+                            let liquid = src.withdraw_phase(&id, Moles(amount), Phase::Liquid);
+                            let aqueous = src.withdraw_phase(
+                                &id,
+                                Moles((amount - liquid.0).max(0.0)),
+                                Phase::Aqueous,
+                            );
+                            components.push((id, Moles(liquid.0 + aqueous.0)));
+                        }
+                        let dst = self.vessel_mut(*to)?;
+                        if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                            // The condensate is priced along each component's
+                            // own Cp(T), the same way the receiver charges its
+                            // own contents. A flat `n · Cp` for the incoming
+                            // side against an integrated one for the vessel is
+                            // exactly the mismatch #509 removed everywhere else.
+                            let t_new = adiabatic_mix_into(dst, t_from, |t| {
+                                portions_enthalpy(
+                                    components
+                                        .iter()
+                                        .map(|(id, n)| (id, n.0, Phase::Liquid)),
+                                    t_from.0,
+                                    t,
+                                )
+                            });
+                            if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                                events.push(Event::TemperatureChanged {
+                                    vessel: *to,
+                                    from: dst.temperature,
+                                    to: t_new,
+                                });
+                            }
+                            dst.temperature = t_new;
+                        }
+                        for (id, n) in &components {
+                            if n.0 > 0.0 {
+                                dst.deposit(id.clone(), *n, Phase::Liquid);
+                            }
+                        }
+                        let amount_of = |key: &SpeciesId| {
+                            components
+                                .iter()
+                                .find(|(id, _)| id == key)
+                                .map(|(_, n)| *n)
+                                .unwrap_or(Moles(0.0))
+                        };
+                        events.push(Event::Distilled {
+                            from: *from, to: *to, water: amount_of(&water), ethanol: amount_of(&ethanol),
+                            components,
+                            model: "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature.".to_string(),
+                            at: Kelvin(cut.t_start_k), ended: Kelvin(cut.t_end_k),
+                            stages: *stages, energy_kj: cut.energy_kj, azeotropic: false,
+                        });
+                        return Ok(events);
+                    }
+                    Ok(None) => {}
+                }
                 // Ethanol counts in either label: with water present the
                 // aqueous pass files it as dissolved (it has no derived
                 // role, so it dissolves without speciation), and alone it
@@ -2946,6 +3040,8 @@ impl Bench {
                                 to: *to,
                                 water: removed_w,
                                 ethanol: removed_e,
+                                components: vec![(water, removed_w), (ethanol, removed_e)],
+                                model: String::new(),
                                 at,
                                 ended,
                                 stages: *stages,
@@ -3352,6 +3448,7 @@ impl Bench {
                     }
                     Instrument::Spectrophotometer => {
                         let spec = crate::instrument::Spectrophotometer::default();
+                        let gaps = crate::solution_optics::spectral_gaps(v);
                         if let Some(reading) = spec.measure(v) {
                             events.push(Event::Measured {
                                 vessel: *vessel,
@@ -3361,9 +3458,9 @@ impl Bench {
                                 note: None,
                             });
                         } else {
-                            events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NoSolution,
+                            events.push(Event::NotYetModeled { cause: if gaps.is_empty() { crate::ops::NotModelledCause::NoSolution } else { crate::ops::NotModelledCause::ModelBoundary },
                                 vessel: *vessel,
-                                what: "no aqueous solution for spectrophotometer".to_string(),
+                                what: if gaps.is_empty() { "no aqueous solution for spectrophotometer".to_string() } else { format!("complete absorbance is unavailable: no absorption spectrum for {}", gaps.join(", ")) },
                             });
                         }
                     }
@@ -3778,9 +3875,23 @@ impl Bench {
                             }
                         }
                         None => {
-                            let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
+                            let v = self.vessel(*vessel)?;
+                            let has_water = v.contents.iter().any(|p| {
+                                p.species.0 == "water"
+                                    && p.phase == Phase::Liquid
+                                    && p.moles.0 > crate::OBSERVABLE_MOLES
+                            });
+                            let why = if has_water {
+                                "the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled".to_string()
+                            } else {
+                                crate::displacement::why_no_electrode(v)
+                            };
                             events.push(Event::NotYetModeled {
-                                cause: crate::ops::NotModelledCause::NothingToActOn,
+                                cause: if has_water {
+                                    crate::ops::NotModelledCause::ModelBoundary
+                                } else {
+                                    crate::ops::NotModelledCause::NothingToActOn
+                                },
                                 vessel: *vessel,
                                 what: format!("nothing here can be electrolysed: {why}"),
                             });
@@ -4155,28 +4266,66 @@ impl Bench {
                         }
                         Some(r) => {
                             let v = self.vessel_mut(*vessel)?;
-                            let extent = r
+                            let model = r.equilibrium_log_k.map_or(
+                                crate::family::OutcomeModel::ToCompletion,
+                                |log_k| crate::family::OutcomeModel::Equilibrium {
+                                    log_k,
+                                    source: r.source.into(),
+                                },
+                            );
+                            let reactants = r
                                 .reactants
                                 .iter()
-                                .map(|(key, coeff)| v.moles_of(&SpeciesId::new(key)).0 / coeff)
-                                .fold(f64::INFINITY, f64::min);
-                            if !(extent.is_finite() && extent > 1e-12) {
-                                let needs: Vec<&str> =
-                                    r.reactants.iter().map(|(k, _)| *k).collect();
-                                events.push(Event::NotYetModeled { cause: crate::ops::NotModelledCause::NothingToActOn,
-                                vessel: *vessel,
-                                what: format!(
-                                    "nothing for {} to work on — it needs {} together                                      in the vessel",
-                                    r.name,
-                                    needs.join(" and ")
-                                ),
-                            });
-                            } else {
-                                for (key, coeff) in r.reactants {
-                                    v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
-                                }
-                                for (key, coeff, phase) in r.products {
-                                    v.deposit(SpeciesId::new(key), Moles(extent * coeff), *phase);
+                                .map(|(k, c)| (k.to_string(), *c))
+                                .collect::<Vec<_>>();
+                            let products = r
+                                .products
+                                .iter()
+                                .map(|(k, c, _)| (k.to_string(), *c))
+                                .collect::<Vec<_>>();
+                            let forward_available = !r.reactants.is_empty()
+                                && r.reactants.iter().all(|(key, coefficient)| {
+                                    v.moles_of(&SpeciesId::new(key)).0 / coefficient > 1e-12
+                                });
+                            let reverse_available =
+                                matches!(model, crate::family::OutcomeModel::Equilibrium { .. })
+                                    && !r.products.is_empty()
+                                    && r.products.iter().all(|(key, coefficient, _)| {
+                                        v.moles_of(&SpeciesId::new(key)).0 / coefficient > 1e-12
+                                    });
+                            if let Some(extent) = curated_reaction_extent(
+                                crate::family::outcome_extent(&model, v, &reactants, &products),
+                                &model,
+                                r,
+                                *vessel,
+                                forward_available || reverse_available,
+                                &mut events,
+                            ) {
+                                if extent >= 0.0 {
+                                    for (key, coeff) in r.reactants {
+                                        v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
+                                    }
+                                    for (key, coeff, phase) in r.products {
+                                        v.deposit(
+                                            SpeciesId::new(key),
+                                            Moles(extent * coeff),
+                                            *phase,
+                                        );
+                                    }
+                                } else {
+                                    for (key, coeff, _) in r.products {
+                                        v.withdraw(&SpeciesId::new(key), Moles(-extent * coeff));
+                                    }
+                                    for (key, coeff) in r.reactants {
+                                        let phase = species::lookup_key(key)
+                                            .expect("curated reactant")
+                                            .standard_phase;
+                                        v.deposit(
+                                            SpeciesId::new(key),
+                                            Moles(-extent * coeff),
+                                            phase,
+                                        );
+                                    }
                                 }
                                 events.push(Event::OrgReacted {
                                     vessel: *vessel,
@@ -4382,15 +4531,22 @@ impl Bench {
         let mut reached = false;
         let mut pe_ever_pinned = false;
 
-        for _ in 0..max_steps {
-            // Sub-step: add one increment of titrant at standard temperature.
-            let v = self.vessel_mut(vessel)?;
+        // Every trial starts from the SAME pre-increment inventory. This avoids
+        // accumulating matter, heat or gas-exchange events during root finding.
+        let dose = |start: &Vessel, fraction: f64, solver: &mut dyn Equilibrator| {
+            let mut v = start.clone();
             if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
-                let settled = adiabatic_mix_into(v, Kelvin::STANDARD, |t| {
+                // Main integrates each side along its own Cp(T) rather than
+                // multiplying two flat rectangles, and this dose is a FRACTION
+                // of the increment while the root is being found — so the
+                // enthalpy it carries in is that fraction too. Charging a whole
+                // increment's heat for a tenth of a drop moves the very curve
+                // the bisection is reading.
+                let settled = adiabatic_mix_into(&v, Kelvin::STANDARD, |t| {
                     portions_enthalpy(
                         [
-                            (&titrant, moles_per_step.0, data.standard_phase),
-                            (&water, water_per_step.0, Phase::Liquid),
+                            (&titrant, fraction * moles_per_step.0, data.standard_phase),
+                            (&water, fraction * water_per_step.0, Phase::Liquid),
                         ],
                         Kelvin::STANDARD.0,
                         t,
@@ -4398,24 +4554,100 @@ impl Bench {
                 });
                 v.temperature = settled;
             }
-            v.deposit(titrant.clone(), moles_per_step, data.standard_phase);
-            v.deposit(water.clone(), water_per_step, Phase::Liquid);
-            total_volume = Liters(total_volume.0 + step.0);
-
-            // Re-equilibrate so the solver computes the new pH.
-            let v = self.vessel_mut(vessel)?;
+            v.deposit(
+                titrant.clone(),
+                Moles(fraction * moles_per_step.0),
+                data.standard_phase,
+            );
+            v.deposit(
+                water.clone(),
+                Moles(fraction * water_per_step.0),
+                Phase::Liquid,
+            );
             v.solution = None;
-            if solver.applies(v) {
-                match solver.equilibrate(v) {
-                    Ok(mut more) => events.append(&mut more),
-                    Err(e) => events.push(Event::SolverFailed {
+            v.step_start = Some(crate::vessel::StepStart::capture(&v));
+            let result = if solver.applies(&v) {
+                solver.equilibrate(&mut v)
+            } else {
+                Ok(Vec::new())
+            };
+            v.step_start = None;
+            v.refresh_pressure();
+            result.map(|events| (v, events))
+        };
+
+        for _ in 0..max_steps {
+            let start = self.vessel(vessel)?.clone();
+            if matches!(endpoint, Endpoint::Ph)
+                && start
+                    .solution
+                    .as_ref()
+                    .is_some_and(|s| (s.ph - target_ph).abs() <= 1e-4)
+            {
+                reached = true;
+                break;
+            }
+            let (mut accepted, mut accepted_events) = match dose(&start, 1.0, solver) {
+                Ok(result) => result,
+                Err(e) => {
+                    events.push(Event::SolverFailed {
                         vessel,
                         solver: solver.name().to_string(),
                         detail: e.to_string(),
-                    }),
+                    });
+                    break;
+                }
+            };
+            let mut fraction = 1.0;
+            let mut refined = false;
+            if let (Endpoint::Ph, Some(before), Some(after)) =
+                (endpoint, &start.solution, &accepted.solution)
+            {
+                let mut lo_value = before.ph - target_ph;
+                if lo_value * (after.ph - target_ph) <= 0.0 {
+                    let (mut lo, mut hi) = (0.0, 1.0);
+                    let mut error = (after.ph - target_ph).abs();
+                    for _ in 0..48 {
+                        if error <= 1e-4 {
+                            break;
+                        }
+                        let mid = 0.5 * (lo + hi);
+                        let Ok((trial, trial_events)) = dose(&start, mid, solver) else {
+                            break;
+                        };
+                        let Some(info) = &trial.solution else {
+                            break;
+                        };
+                        let value = info.ph - target_ph;
+                        if !value.is_finite() {
+                            break;
+                        }
+                        if lo_value * value <= 0.0 {
+                            hi = mid;
+                        } else {
+                            lo = mid;
+                            lo_value = value;
+                        }
+                        if value.abs() < error {
+                            error = value.abs();
+                            fraction = mid;
+                            accepted = trial;
+                            accepted_events = trial_events;
+                        }
+                    }
+                    refined = error <= 1e-4;
+                    if !refined {
+                        events.push(Event::NotYetModeled {
+                            cause: crate::ops::NotModelledCause::ModelBoundary,
+                            vessel,
+                            what: "pH crossing bracketed, but endpoint refinement did not converge to 0.0001 pH; the closest computed state is retained".into(),
+                        });
+                    }
                 }
             }
-            self.vessel_mut(vessel)?.refresh_pressure();
+            *self.vessel_mut(vessel)? = accepted;
+            events.append(&mut accepted_events);
+            total_volume = Liters(total_volume.0 + step.0 * fraction);
 
             // Read pH after this step.
             let v = self.vessel(vessel)?;
@@ -4428,17 +4660,13 @@ impl Bench {
                 Some(info) => {
                     let ml = total_volume.0 * 1000.0;
                     let ph = info.ph;
-                    let prev_ph = curve.last().map(|&(_, p)| p);
                     curve.push((ml, ph));
                     if let Some(pe) = info.pe {
                         pe_curve.push((ml, pe));
                         pe_ever_pinned = true;
                     }
                     let arrived = match endpoint {
-                        Endpoint::Ph => prev_ph.is_some_and(|prev| {
-                            (prev <= target_ph && ph >= target_ph)
-                                || (prev >= target_ph && ph <= target_ph)
-                        }),
+                        Endpoint::Ph => refined || (ph - target_ph).abs() <= 1e-4,
                         Endpoint::Pe { compare, value } => {
                             info.pe.is_some_and(|pe| compare.holds(pe, value))
                         }
@@ -4929,6 +5157,77 @@ fn electrolysed_run(
     }
 }
 
+/// Preserve the existing numerical no-conversion threshold, while keeping a
+/// computed equilibrium root distinct from unavailable reactants or a refusal.
+fn curated_reaction_extent(
+    result: Result<f64, String>,
+    model: &crate::family::OutcomeModel,
+    reaction: &crate::curated::OrgReaction,
+    vessel: VesselId,
+    direction_available: bool,
+    events: &mut Vec<Event>,
+) -> Option<f64> {
+    let extent = match result {
+        Err(detail) => {
+            events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary,
+                vessel,
+                what: detail,
+            });
+            return None;
+        }
+        Ok(extent) if !extent.is_finite() => {
+            events.push(Event::NotYetModeled {
+                cause: crate::ops::NotModelledCause::ModelBoundary,
+                vessel,
+                what: format!(
+                    "{} returned a non-finite reaction extent; no conversion applied",
+                    reaction.name
+                ),
+            });
+            return None;
+        }
+        Ok(extent) => extent,
+    };
+    if extent.abs() > 1e-12 {
+        return Some(extent);
+    }
+    match model {
+        crate::family::OutcomeModel::Equilibrium { .. } if !direction_available => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
+            vessel,
+            what: format!(
+                "No conversion for {}: neither forward nor reverse reactants provide capacity above the 1e-12 mol no-conversion tolerance",
+                reaction.name
+            ),
+        }),
+        crate::family::OutcomeModel::Equilibrium { .. } => events.push(Event::OrgReacted {
+            vessel,
+            name: reaction.name.into(),
+            equation: reaction.equation.into(),
+            extent: Moles(0.0),
+            boundary: format!(
+                "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. {}",
+                reaction.boundary
+            ),
+        }),
+        crate::family::OutcomeModel::ToCompletion => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::NothingToActOn,
+            vessel,
+            what: format!(
+                "No to-completion conversion for {}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
+                reaction.name
+            ),
+        }),
+        crate::family::OutcomeModel::KineticLaw { .. } => events.push(Event::NotYetModeled {
+            cause: crate::ops::NotModelledCause::ModelBoundary,
+            vessel,
+            what: "A kinetic outcome requires a routed time model; zero extent does not establish equilibrium".into(),
+        }),
+    }
+    None
+}
+
 /// The quantity a repeated event carries, and what makes two of them the
 /// same claim about the same thing.
 fn extensive_key(event: &Event) -> Option<(u8, VesselId, SpeciesId)> {
@@ -5228,4 +5527,81 @@ pub(crate) fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
     g.insert(1, 2);
     g.insert(2, 4);
     g
+}
+
+#[cfg(test)]
+mod react_diagnostic_tests {
+    use super::*;
+
+    #[test]
+    fn react_diagnostic_refusal_and_nonfinite_are_single_model_boundaries() {
+        let reaction = &crate::curated::ORG_REACTIONS[0];
+        let model = crate::family::OutcomeModel::Equilibrium {
+            log_k: 0.6,
+            source: "test".into(),
+        };
+        for result in [
+            Err("unavailable model".into()),
+            Ok(f64::NAN),
+            Ok(f64::INFINITY),
+            Ok(f64::NEG_INFINITY),
+        ] {
+            let mut events = Vec::new();
+            assert!(curated_reaction_extent(
+                result,
+                &model,
+                reaction,
+                VesselId(0),
+                true,
+                &mut events
+            )
+            .is_none());
+            assert!(matches!(
+                events.as_slice(),
+                [Event::NotYetModeled {
+                    cause: crate::ops::NotModelledCause::ModelBoundary,
+                    ..
+                }]
+            ));
+        }
+    }
+
+    #[test]
+    fn react_diagnostic_zero_and_small_signed_extents_preserve_numerical_threshold() {
+        let reaction = &crate::curated::ORG_REACTIONS[0];
+        let model = crate::family::OutcomeModel::Equilibrium {
+            log_k: 0.6,
+            source: "test".into(),
+        };
+        for extent in [0.0, 1e-13, -1e-13, 1e-12, -1e-12] {
+            let mut events = Vec::new();
+            assert!(curated_reaction_extent(
+                Ok(extent),
+                &model,
+                reaction,
+                VesselId(0),
+                true,
+                &mut events
+            )
+            .is_none());
+            assert!(
+                matches!(events.as_slice(), [Event::OrgReacted { extent: Moles(0.0), boundary, .. }] if !boundary.is_empty())
+            );
+        }
+        for extent in [-1e-11, 1e-11] {
+            let mut events = Vec::new();
+            assert_eq!(
+                curated_reaction_extent(
+                    Ok(extent),
+                    &model,
+                    reaction,
+                    VesselId(0),
+                    true,
+                    &mut events
+                ),
+                Some(extent)
+            );
+            assert!(events.is_empty());
+        }
+    }
 }
