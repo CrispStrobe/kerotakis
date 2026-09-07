@@ -31,6 +31,15 @@ const check = (name, ok, detail = "") => {
 const { server, origin } = await serve(PAYLOAD);
 const page = await browser();
 
+/* A stated width, rather than whatever Chrome happens to default to.
+ * Several of the surfaces read below choose their shape by media query —
+ * the concept map is a graph beside its activities above 47.5rem and an
+ * accordion under it — so a gate that never says how wide it is is a gate
+ * whose selectors depend on a browser default. */
+await page.cdp.send("Emulation.setDeviceMetricsOverride", {
+  width: 1280, height: 900, deviceScaleFactor: 1, mobile: false,
+}, page.sessionId);
+
 /** Click the first button whose visible text matches, or return false. */
 const clickByText = (re) =>
   page.evaluate(`(() => {
