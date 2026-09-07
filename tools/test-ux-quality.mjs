@@ -741,8 +741,11 @@ try {
     check("the pour chooser opens on the stage, not above it", false, "no .pour-overlay");
   }
 
-  // The MESSEN strip at the width the owner reported it at.
-  if (await openStrip()) {
+  // The MESSEN strip at the width the owner reported it at. Boxes are only
+  // boxes once the row is laid out, so the wait is for a VISIBLE button
+  // rather than for one in the document.
+  if (await openStrip()
+      && await waitFor(page, `Boolean(document.querySelector('.instrument-tray button')?.offsetParent)`, { timeout: 10000 })) {
     const tray = JSON.parse(await trayAudit());
     check("the MESSEN strip is one row of separate buttons at 390 px",
       tray.present && tray.buttons >= 2 && tray.overlaps.length === 0,
