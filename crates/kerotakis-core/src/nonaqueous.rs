@@ -747,6 +747,32 @@ impl Equilibrator for NonAqueousEquilibrator {
             }
         }
 
+        // Enthalpy, not temperature, is what survives the relabelling —
+        // the same rule `kerotakis-phreeqc`'s aqueous tail already keeps
+        // across speciation, kept here across dissolution.
+        //
+        // Calling a solid "dissolved" moves it from its own Cp(T) curve to
+        // the flat registry constant, because a species that owns only a
+        // solid curve has none for the liquid phase and
+        // `states::heat_capacity_curve` falls back to the number. Curve and
+        // constant agree at the reference temperature and nowhere else, so
+        // relabelling at a fixed temperature silently rewrote the vessel's
+        // enthalpy: sodium chloride into warm ethanol lost
+        // 4.3e-5 J per (K above 298.15 K) squared, no matter how much salt
+        // was poured, because only the handbook limit ever dissolves. That
+        // is 0.0157 J on a 46 K beaker and it is what made
+        // `conservation::energy_is_conserved` flaky.
+        //
+        // Dissolution in this rung carries no heat of solution — the curated
+        // rows are solubilities, not enthalpies — so the vessel's enthalpy is
+        // exactly what it was and the temperature is whatever the new
+        // mixture's heat capacity says it is. The shift is real but tiny:
+        // 1.5e-5 K in the case above, because the two Cp models differ in
+        // the third decimal, not the first.
+        let t_ref = crate::units::Kelvin::STANDARD.0;
+        let held = vessel.enthalpy().0;
+        let relabelled = dissolutions.iter().any(|(_, dissolve, _)| dissolve.0 > 0.0);
+
         for (species_id, dissolve, remaining) in dissolutions {
             if dissolve.0 > 0.0 {
                 vessel.withdraw(&species_id, dissolve);
@@ -760,6 +786,15 @@ impl Equilibrator for NonAqueousEquilibrator {
                 undissolved: remaining,
             });
         }
+        // A vessel held at a bath temperature is held; only an adiabatic one
+        // moves with its own contents.
+        if relabelled
+            && matches!(vessel.thermal_mode, crate::vessel::ThermalMode::Adiabatic)
+            && vessel.heat_capacity() > 0.0
+        {
+            vessel.temperature = crate::units::Kelvin(vessel.temperature_after_from(t_ref, held));
+        }
+
         for (species_id, why) in inerts {
             events.push(Event::InertInSolvent {
                 vessel: vessel.id,
