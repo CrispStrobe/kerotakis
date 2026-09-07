@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { briefFor, kidsEquipmentVerbs, kidsShelfKeys, storePendingKidsSandbox, takePendingKidsSandbox } from "./kidsSandbox";
 
 const experiment = {
-  id: "K44", title: "Eggshell in cola", phenomenon: "Acid attacks carbonate", status: "computed" as const,
+  id: "K44", title: "Eggshell in cola", phenomenon: "Acid attacks carbonate", status: "computed" as const, progress: "starter" as const,
   topics: ["food"], ingredients: ["cola", "chalk_stick"], apparatus: ["beaker", "ph"], safety: "home" as const,
 };
 

@@ -283,6 +283,17 @@ export interface FermentationRun {
   molesPerSecond: number;
 }
 
+/** Engine-computed production rate for a gas-forming reaction. */
+export interface GasProductionRun {
+  molesPerSecond: number;
+}
+
+/** Engine-computed persistence of a newly formed foam head. */
+export interface FoamRun {
+  /** Seconds in which the modeled foam head falls to half its height. */
+  halfLifeSeconds: number;
+}
+
 /** Engine-computed transmission of one UV band through a sample. */
 export interface UvRun {
   material: string;
@@ -291,6 +302,296 @@ export interface UvRun {
   /** Fraction of the incident light that got through, 0–1. */
   transmittedFraction: number;
   mechanism: string;
+}
+
+/**
+ * Engine-computed Henry's-law split of one volatile between the liquid and
+ * an owned headspace. `gasFraction` is the share of the species' whole
+ * inventory now sitting in the gas — the standing state, which is what
+ * tints the band — while `toGas` is only which way this one step went,
+ * which is what points the arrows.
+ */
+export interface HeadspacePartitionRun {
+  species: string;
+  /** `true`: liquid → headspace this step; `false`: headspace → liquid. */
+  toGas: boolean;
+  /** Moles that crossed. */
+  moles: number;
+  /** Share of the species' whole inventory now in the headspace, 0–1. */
+  gasFraction: number;
+  /** Equilibrium partial pressure, Pa. */
+  partialPressurePa: number;
+  /** Henry's constant at the vessel temperature, mol/(L·atm). */
+  henryMolPerLAtm: number;
+  /** Provenance of the coefficient, for the tooltip. */
+  source: string;
+}
+
+/**
+ * The gas/liquid equilibrium a finite headspace settled at: the pressure a
+ * gauge would read and the moles that are holding it there. Two numbers
+ * that have to agree with the piston drawn from the same headspace, which
+ * is the whole point of showing them together.
+ */
+export interface HeadspaceEquilibriumRun {
+  pressurePa: number;
+  totalMoles: number;
+}
+
+/**
+ * How far past its own limit a solution is holding a solid. The engine
+ * refuses to precipitate it — that is what makes rock candy possible — so
+ * the only honest visual is the distance itself, and `ratio` is it.
+ */
+export interface SaturationRun {
+  species: string;
+  /** What is in solution now, mol. */
+  dissolved: number;
+  /** What this much solvent holds at this temperature, mol. */
+  capacity: number;
+  /** `dissolved ÷ capacity`; 1 is saturation, above it is metastable. */
+  ratio: number;
+  /** `dissolved − capacity`, the moles the solvent should not be holding. */
+  excessMoles: number;
+}
+
+/**
+ * The engine's corrosion verdict together with how far it has already got.
+ * The extent is an amount and never a rate — the rate lives in the
+ * kinetics registry and arrives as `Reacted` — so what it can size is a
+ * picture of a nail that is *already* rusted, not one rusting faster.
+ */
+export interface CorrosionRun {
+  species: string;
+  corroding: boolean;
+  why: string;
+  /** Moles of the metal now locked in its oxide, where the engine knew. */
+  corrodedMoles?: number;
+  /** That over all the metal the vessel holds in either form, 0–1. */
+  corrodedFraction?: number;
+}
+
+/**
+ * One kinetic interval: how far a curated reaction ran, and over how much
+ * bench time. The pair is the point — the same tenth of a mole in one
+ * second and in one hour are different observations.
+ */
+export interface ReactionRun {
+  reaction: string;
+  equation: string;
+  moles: number;
+  seconds: number;
+  /** `moles ÷ seconds`, the extent rate the tempo follows. */
+  molesPerSecond: number;
+  /** The catalyst in force, where one was. */
+  catalyst?: string;
+  /** Activation energy actually used, J/mol. */
+  activationEnergyJPerMol: number;
+}
+
+/** Heat a curated kinetic reaction let go during one interval. */
+export interface ExothermRun {
+  reaction: string;
+  energyJ: number;
+}
+
+/**
+ * KID-13, the dancing raisin. `liftGasFraction` is the attached gas volume,
+ * as a fraction of the object's own volume, needed before it goes up —
+ * zero meaning it floats unaided, which is the case the visual must not
+ * draw bubbles for.
+ */
+export interface BubbleRideRun {
+  object: string;
+  objectDensityGPerMl: number;
+  liquidDensityGPerMl: number;
+  liftGasFraction: number;
+}
+
+/**
+ * BRD-032: what the sorbent took and what the beaker still holds. Both
+ * halves travel because neither can be read without the other — "the
+ * charcoal adsorbed the dye" is exactly the sentence that misleads.
+ */
+export interface AdsorptionRun {
+  sorbate: string;
+  sorbent: string;
+  /** Moles now held on the surface. */
+  heldMoles: number;
+  /** Moles still in solution, which is what a filtration would pour. */
+  stillDissolvedMoles: number;
+  /** The isotherm's own unit, mg of sorbate per g of sorbent. */
+  loadingMgPerG: number;
+  /** What the curated isotherm does not claim. */
+  boundary: string;
+}
+
+/**
+ * A shear-thickening mixture pushed. Nothing reacts and no mole moves:
+ * this is how the mixture *responds*, which is why the only honest visual
+ * is resistance to the thing doing the pushing.
+ */
+export interface ThickeningRun {
+  solid: string;
+  /** 0 at the onset mixture, 1 at the full one. */
+  strength: number;
+  solidMassFraction: number;
+  tipSpeedMS: number;
+  /** Sheared hard enough to thicken, rather than merely stirred. */
+  shearedHard: boolean;
+}
+
+/** Moles of acidity cancelled — the commonest reaction in a school lab. */
+export interface NeutralisationRun {
+  moles: number;
+}
+
+/**
+ * KID-12: the flame went out because of the AIR, not the fuel. A candle
+ * under a jar quits while roughly four fifths of the jar's oxygen is
+ * still there, so `oxygenFraction` is the number that contradicts "it
+ * used up all the oxygen", and `burnedMoles` says how much fuel it
+ * managed first — zero meaning it never caught at all.
+ */
+export interface FlameStarvedRun {
+  fuel: string;
+  burnedMoles: number;
+  oxygenFraction: number;
+}
+
+/**
+ * BRD-041: a fuel standing in air, warm, and below the temperature it
+ * would light itself at. Nothing burns, and that is the answer — so the
+ * only thing to draw is the gap.
+ */
+export interface AutoignitionGapRun {
+  fuel: string;
+  autoignitionK: number;
+  temperatureK: number;
+  /** `autoignitionK − temperatureK`, the K still to go. */
+  gapK: number;
+}
+
+/** A radionuclide tracer's opening activity — what the Geiger will read. */
+export interface NuclideSpikeRun {
+  nuclide: string;
+  moles: number;
+  activityBq: number;
+}
+
+/**
+ * A neutral solute split between two layers on its computed partition
+ * coefficient. `fractionLower` is the share that sat in the lower layer,
+ * and so the share that left when the stopcock opened.
+ */
+export interface SolutePartitionRun {
+  species: string;
+  fractionLower: number;
+}
+
+/**
+ * Water crossing a membrane. The sign is the whole observation: an egg in
+ * syrup shrinks and an egg in water swells, and both are the same event.
+ */
+export interface OsmosisRun {
+  material: string;
+  waterMoles: number;
+  massChangeG: number;
+}
+
+/**
+ * A settled thermal equilibrium. `holdsNothing` matters more than the
+ * temperature does: the burn consumed everything, and the number beside
+ * it is the exhaust's rather than the glass's — which reached a reader
+ * once as "thermal equilibrium at 2496 °C" over an empty beaker.
+ */
+export interface ThermalEquilibriumRun {
+  temperatureK: number;
+  reactionEnergyJ?: number;
+  holdsNothing: boolean;
+}
+
+/** A metal coming out of solution onto a more reactive one. */
+export interface PlatingRun {
+  species: string;
+  onto: string;
+  moles: number;
+}
+
+/**
+ * What went, and what is left. The remainder is optional on purpose: the
+ * event used to carry only what went, and "is used up" claimed a
+ * completeness it could not see — half a magnesium ribbon beside its
+ * plated copper was reported gone. Absent means the emitter did not say,
+ * and the visual must then claim no remainder either.
+ */
+export interface ConsumptionRun {
+  species: string;
+  moles: number;
+  remainingMoles?: number;
+}
+
+/** A solid ground finer: the size of the grains and the area they expose. */
+export interface GrindRun {
+  species: string;
+  diameterUm: number;
+  solidMoles: number;
+  surfaceAreaM2: number;
+  /** False until a heterogeneous kinetic law actually consumes this area. */
+  rateCoupled: boolean;
+}
+
+/** One parcel of parent that became daughter while bench time ran. */
+export interface DecayRun {
+  parent: string;
+  daughter: string;
+  mode: string;
+  moles: number;
+  halfLifeS: number;
+  /** `ln2 ÷ half-life × moles`, the decay rate the ticks follow. */
+  molesPerSecond: number;
+}
+
+/**
+ * KID-14: the sol→gel step itself. The standing gel body is the scene's
+ * business; this is the *transition*, which is the thing a learner is
+ * watching for and the thing the stage never drew.
+ */
+export interface GelSetRun {
+  polymer: string;
+  crosslinker: string;
+  fromGelledFraction: number;
+  toGelledFraction: number;
+  polymerGrams: number;
+  crosslinkerMoles: number;
+}
+
+/**
+ * The adiabatic balance behind a pour-together: the two starting
+ * temperatures and the one they settled at. The event carries all three
+ * so a client can explain the outcome without reconstructing pre-step
+ * state — and the stage used none of them.
+ */
+export interface MixThermalRun {
+  temperatureAK: number;
+  temperatureBK: number;
+  temperatureIntoK: number;
+}
+
+/**
+ * EXP-33: water leaving a hydrate, or going back into it. `atK` is the
+ * temperature the engine drove it off at, which is what makes the steam a
+ * claim rather than a decoration.
+ */
+export interface HydrationRun {
+  hydrate: string;
+  anhydrous: string;
+  formulaUnits: number;
+  waterMoles: number;
+  /** Temperature the water left at, K. Absent on rehydration. */
+  atK?: number;
+  /** `true` when the water went OUT. */
+  drivingOff: boolean;
 }
 
 /**
@@ -375,8 +676,58 @@ export interface Effect {
   emulsion?: EmulsionRun;
   /** Engine-owned anaerobic run, for the slow bubbling. */
   fermentation?: FermentationRun;
+  /** Engine-owned gas production rate, for bubble cadence. */
+  gasProduction?: GasProductionRun;
+  /** Engine-owned foam half-life, for collapse timing. */
+  foam?: FoamRun;
   /** Engine-owned UV transmission, for the beam. */
   uv?: UvRun;
+  /** Engine-owned Henry's-law split, for the headspace tint and arrows. */
+  headspacePartition?: HeadspacePartitionRun;
+  /** Engine-settled headspace pressure and amount, for the gauge. */
+  headspaceEquilibrium?: HeadspaceEquilibriumRun;
+  /** Engine-owned distance past saturation, for the haze. */
+  saturation?: SaturationRun;
+  /** Engine-read corrosion extent, for the bloom on the metal. */
+  corrosion?: CorrosionRun;
+  /** Engine-computed kinetic interval, for the extent readout and tempo. */
+  reaction?: ReactionRun;
+  /** Engine-computed heat let go, for the exotherm halo. */
+  exotherm?: ExothermRun;
+  /** Engine-computed lift threshold, for the riding object. */
+  bubbleRide?: BubbleRideRun;
+  /** Engine-computed sorbent loading and remainder, for the darkening. */
+  adsorption?: AdsorptionRun;
+  /** Engine-computed shear response, for the resisting stirrer. */
+  thickening?: ThickeningRun;
+  /** Engine-computed acidity cancelled, for the neutralisation marks. */
+  neutralisation?: NeutralisationRun;
+  /** Engine-computed oxygen the flame quit at, for the guttering flame. */
+  flameStarved?: FlameStarvedRun;
+  /** Engine-computed distance to autoignition, for the gap bar. */
+  autoignitionGap?: AutoignitionGapRun;
+  /** Engine-computed opening activity, for the tracer ticks. */
+  nuclideSpike?: NuclideSpikeRun;
+  /** Engine-computed solute split, for the dots across the two layers. */
+  solutePartition?: SolutePartitionRun;
+  /** Engine-computed water crossing a membrane, for the swelling. */
+  osmosis?: OsmosisRun;
+  /** Engine-settled temperature, for the equilibrium badge. */
+  thermalEquilibrium?: ThermalEquilibriumRun;
+  /** Engine-computed deposit, for the plating's thickness. */
+  plating?: PlatingRun;
+  /** Engine-computed amount gone and, where known, what is left. */
+  consumption?: ConsumptionRun;
+  /** Engine-computed grain size and exposed area, for the powder. */
+  grind?: GrindRun;
+  /** Engine-computed decay parcel and half-life, for the ticks. */
+  decay?: DecayRun;
+  /** Engine-computed sol→gel step, for the setting front. */
+  gelSet?: GelSetRun;
+  /** Engine-computed adiabatic balance, for the meeting streams. */
+  mixThermal?: MixThermalRun;
+  /** Engine-computed water leaving or returning to a hydrate. */
+  hydration?: HydrationRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -748,6 +1099,393 @@ export function electrodePairBubbles(
 }
 
 /**
+ * How heavy the haze over a solution holding more than it should is.
+ *
+ * Zero at and below saturation, because a saturated solution looks like any
+ * other one and drawing something there would be a picture of the word.
+ * Above it the ratio is the whole quantity: a syrup at twice its limit is
+ * the one that grows rock candy, and it reads far heavier than one a hair
+ * over. Bounded at 1 so a wild ratio cannot white the vessel out.
+ */
+export function supersaturationHaze(dissolved: number, capacity: number): number {
+  if (!Number.isFinite(dissolved) || !Number.isFinite(capacity)) return 0;
+  if (!(capacity > 0) || !(dissolved > capacity)) return 0;
+  return scale(dissolved / capacity, 1, 2.5);
+}
+
+/**
+ * Opacity for the headspace band during a Henry's-law partition, from the
+ * share of the species' whole inventory that is now gas.
+ *
+ * Capped below the band's own pressure tint so a fully partitioned volatile
+ * darkens the headspace without blacking it out — the band still has to
+ * show the piston behind it.
+ */
+export function partitionTint(gasFraction: number): number {
+  if (!Number.isFinite(gasFraction)) return 0;
+  return Math.min(1, Math.max(0, gasFraction)) * 0.45;
+}
+
+/**
+ * The rust bloom on a corroding metal: how many spots, and how strongly
+ * they read, from the fraction of that metal already locked in its oxide.
+ *
+ * An untouched nail gets nothing — the verdict "this will corrode" is not
+ * yet a picture of rust — and a nail entirely gone to oxide gets the full
+ * field. The count is bounded at nine so a fully corroded solid reads as a
+ * texture rather than as a swarm of circles.
+ */
+export function corrosionBloom(fraction: number): { spots: number; strength: number } {
+  if (!Number.isFinite(fraction)) return { spots: 0, strength: 0 };
+  const bounded = Math.min(1, Math.max(0, fraction));
+  if (bounded <= 0) return { spots: 0, strength: 0 };
+  return { spots: Math.max(1, Math.round(bounded * 9)), strength: 0.18 + bounded * 0.62 };
+}
+
+/**
+ * How strongly a kinetic interval reads, and how fast it ran.
+ *
+ * Logarithmic on the extent for the same reason the gas ramp is: a school
+ * bench reaction runs a hundredth of a mole and a demonstration runs a
+ * tenth, and a linear ramp draws both as nothing. The rate is the honest
+ * companion — the same tenth of a mole in a second and over an hour are
+ * different observations, and only the pair separates them.
+ */
+export function reactionExtent(
+  moles: number,
+  seconds: number,
+): { intensity: number; molesPerSecond: number } {
+  const amount = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  const elapsed = Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
+  const intensity = amount > 0 ? scale(Math.log10(amount), Math.log10(0.0001), Math.log10(0.1)) : 0;
+  return { intensity, molesPerSecond: elapsed > 0 ? amount / elapsed : 0 };
+}
+
+/**
+ * The exotherm's halo, from the joules a curated reaction let go.
+ *
+ * Same ramp as the heat of mixing, deliberately: dissolving a spoon of
+ * lye and a self-heating hand warmer are the same kind of claim about the
+ * same quantity, and drawing them on two scales would say they were not.
+ */
+export function exothermGlow(energyJ: number): number {
+  if (!Number.isFinite(energyJ)) return 0;
+  return scale(Math.max(0, energyJ), 5, 5000);
+}
+
+/**
+ * How many cancellation marks an acid meeting a base draws.
+ *
+ * `H⁺ + OH⁻ → H₂O` is the commonest reaction a school bench runs and the
+ * only one that used to happen with nothing at all against it. Bounded at
+ * nine so a titration's last drop and a beaker of drain cleaner differ in
+ * how many marks they draw rather than in how long the browser takes.
+ */
+export function neutralisationMarks(moles: number): number {
+  if (!Number.isFinite(moles) || !(moles > 0)) return 0;
+  const ramp = scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1));
+  return Math.max(1, Math.round(1 + ramp * 8));
+}
+
+/**
+ * KID-13: what has to cling to a raisin before it goes up.
+ *
+ * `liftGasFraction` is the engine's threshold — attached gas volume as a
+ * fraction of the object's own volume — so an object that floats unaided
+ * reports zero and must draw NO clinging bubbles, because the bubbles are
+ * not why it is up there. The count is that threshold: the more gas the
+ * object needs, the more of it has to be visibly stuck on. Time follows
+ * the same number, because gathering more gas takes longer.
+ */
+export function bubbleRideLift(
+  objectDensityGPerMl: number,
+  liquidDensityGPerMl: number,
+  liftGasFraction: number,
+): { needsGas: boolean; clingingBubbles: number; densityRatio: number; riseSeconds: number } {
+  const object = Number.isFinite(objectDensityGPerMl) ? Math.max(0, objectDensityGPerMl) : 0;
+  const liquid = Number.isFinite(liquidDensityGPerMl) ? Math.max(0, liquidDensityGPerMl) : 0;
+  const need = Number.isFinite(liftGasFraction) ? Math.max(0, liftGasFraction) : 0;
+  const densityRatio = liquid > 0 ? object / liquid : 0;
+  if (!(need > 0)) {
+    return { needsGas: false, clingingBubbles: 0, densityRatio, riseSeconds: 1.2 };
+  }
+  const bounded = Math.min(1, need);
+  return {
+    needsGas: true,
+    clingingBubbles: Math.max(1, Math.round(1 + bounded * 7)),
+    densityRatio,
+    riseSeconds: 1.2 + bounded * 8,
+  };
+}
+
+/**
+ * How dark the sorbent goes, and how much of the dye actually left.
+ *
+ * Driven by the two amounts the event insists on carrying together —
+ * `held` and `still_dissolved` — because their ratio is the answer to
+ * "can charcoal take a food dye out of water" and the loading alone is
+ * not. No isotherm ceiling is claimed here: the wire does not carry the
+ * capacity, so the darkening is the fraction removed and the loading
+ * travels beside it as a readout rather than as a fraction of something
+ * nobody stated.
+ */
+export function adsorptionDarkening(
+  heldMoles: number,
+  stillDissolvedMoles: number,
+): { removedFraction: number; darkening: number } {
+  const held = Number.isFinite(heldMoles) ? Math.max(0, heldMoles) : 0;
+  const left = Number.isFinite(stillDissolvedMoles) ? Math.max(0, stillDissolvedMoles) : 0;
+  const total = held + left;
+  const removedFraction = total > 0 ? held / total : 0;
+  return { removedFraction, darkening: 0.15 + removedFraction * 0.6 };
+}
+
+/**
+ * How hard a shear-thickening mixture pushes back.
+ *
+ * Zero unless the engine says it was sheared HARD: oobleck stirred slowly
+ * is a liquid, and drawing resistance there would be a picture of the
+ * recipe rather than of what happened. Above that it is `strength`, which
+ * the engine already normalises from the onset mixture to the full one.
+ */
+export function shearResistance(strength: number, shearedHard: boolean): number {
+  if (!shearedHard || !Number.isFinite(strength)) return 0;
+  return Math.min(1, Math.max(0, strength));
+}
+
+/** Oxygen's share of dry air, the fraction every flame here starts from. */
+export const AIR_OXYGEN_FRACTION = 0.209;
+
+/**
+ * How starved a flame was when it quit, and whether it ever caught.
+ *
+ * `caught` is `burned > 0`: zero moles burned means the air was already
+ * too thin to light in, which is what a carbon-dioxide extinguisher
+ * makes, and drawing a flame for it would contradict the event. The
+ * guttering is how far the oxygen had fallen BELOW air's own fraction —
+ * not how much oxygen is left, because the point KID-12 teaches is that
+ * four fifths of it still is.
+ */
+export function flameGutter(
+  oxygenFraction: number,
+  burnedMoles: number,
+): { caught: boolean; guttering: number } {
+  const oxygen = Number.isFinite(oxygenFraction) ? Math.max(0, oxygenFraction) : 0;
+  const burned = Number.isFinite(burnedMoles) ? Math.max(0, burnedMoles) : 0;
+  const guttering = Math.min(1, Math.max(0, 1 - oxygen / AIR_OXYGEN_FRACTION));
+  return { caught: burned > 0, guttering };
+}
+
+/**
+ * How close a warm fuel stands to lighting itself, and how far that is.
+ *
+ * The gap is the answer BRD-041 gives — "it would sit there" — so the bar
+ * fills toward 1 as the vessel approaches the autoignition temperature
+ * and never reaches it, because reaching it is a different event.
+ */
+export function autoignitionApproach(
+  temperatureK: number,
+  autoignitionK: number,
+): { approach: number; gapK: number } {
+  const at = Number.isFinite(autoignitionK) ? autoignitionK : 0;
+  const now = Number.isFinite(temperatureK) ? temperatureK : 0;
+  if (!(at > 0)) return { approach: 0, gapK: 0 };
+  return { approach: Math.min(1, Math.max(0, now / at)), gapK: Math.max(0, at - now) };
+}
+
+/**
+ * How busy a tracer's opening activity reads.
+ *
+ * Logarithmic over the range a school tracer spans — a becquerel is one
+ * disintegration a second and a sealed teaching source is megabecquerels
+ * — so the ticks separate a background whisper from a working source.
+ */
+export function activityIntensity(activityBq: number): number {
+  if (!Number.isFinite(activityBq) || !(activityBq > 0)) return 0;
+  return scale(Math.log10(activityBq), 0, 6);
+}
+
+/**
+ * A solute's dots split across the two layers, from `fraction_lower`.
+ *
+ * The two counts always sum to `total`, because the solute did not go
+ * anywhere else: a split that loses a dot is a picture of a leak.
+ */
+export function soluteSplit(fractionLower: number, total = 10): { lower: number; upper: number } {
+  const bounded = Number.isFinite(fractionLower) ? Math.min(1, Math.max(0, fractionLower)) : 0;
+  const count = Math.max(0, Math.round(total));
+  const lower = Math.round(bounded * count);
+  return { lower, upper: count - lower };
+}
+
+/**
+ * Which way the water went, and how far it moved the object.
+ *
+ * The SIGN is the whole observation — an egg in syrup shrinks and an egg
+ * in water swells, and both arrive as the same event — so direction is
+ * reported separately from size rather than folded into one signed
+ * magnitude a visual would have to unpick.
+ */
+export function osmoticSwell(massChangeG: number): { direction: "in" | "out" | "none"; swell: number } {
+  if (!Number.isFinite(massChangeG) || massChangeG === 0) return { direction: "none", swell: 0 };
+  return {
+    direction: massChangeG > 0 ? "in" : "out",
+    swell: scale(Math.abs(massChangeG), 0.05, 12),
+  };
+}
+
+/**
+ * How thick a plated coating reads, from the moles that came out.
+ *
+ * The event's magnitude was a hard-coded `1`, so a copper blush on a nail
+ * and a nail gone orange drew the same shimmer. Logarithmic, because a
+ * displacement demonstration runs a tenth of a millimole and a plating
+ * cell runs a hundredth of a mole.
+ */
+export function platingThickness(moles: number): number {
+  if (!Number.isFinite(moles) || !(moles > 0)) return 0;
+  return scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.02));
+}
+
+/**
+ * What is left of a ribbon being eaten, where the engine said.
+ *
+ * `remaining` is optional on the wire and the difference matters: absent
+ * means the emitter did not know, and a visual that shrank the ribbon
+ * anyway would repeat the "is used up" claim that reported half a
+ * magnesium ribbon gone. So an unknown remainder draws the ribbon being
+ * eaten without asserting how much of it is left.
+ */
+export function consumptionRemainder(
+  moles: number,
+  remaining?: number,
+): { knownRemainder: boolean; remainingFraction: number } {
+  const gone = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  if (remaining === undefined || !Number.isFinite(remaining)) {
+    return { knownRemainder: false, remainingFraction: 1 };
+  }
+  const left = Math.max(0, remaining);
+  const total = gone + left;
+  return { knownRemainder: true, remainingFraction: total > 0 ? left / total : 0 };
+}
+
+/**
+ * The powder a grind leaves: how big each grain is and how many are drawn.
+ *
+ * The grain radius comes from `diameter_um`, which is the actual size the
+ * engine ground to — so grinding twice draws visibly finer powder rather
+ * than the same specks with a different caption. The count follows the
+ * area that exposed, on a log ramp, because that is what a rate would
+ * later see.
+ */
+export function grindGrains(
+  diameterUm: number,
+  surfaceAreaM2: number,
+): { count: number; radius: number } {
+  const diameter = Number.isFinite(diameterUm) ? Math.max(0, diameterUm) : 0;
+  const area = Number.isFinite(surfaceAreaM2) ? Math.max(0, surfaceAreaM2) : 0;
+  const count = area > 0 ? Math.max(3, Math.round(3 + scale(Math.log10(area), -4, 1) * 15)) : 3;
+  // 1 µm reads as the smallest speck the stage can draw, 2 mm as a chip.
+  const radius = 0.35 + scale(Math.log10(Math.max(1, diameter)), 0, Math.log10(2000)) * 2.4;
+  return { count, radius };
+}
+
+/**
+ * Seconds for one sweep-arrow cycle, from the carrier gas pressure.
+ *
+ * The two arrows were static whatever the sweep, which drew a purge at
+ * half an atmosphere and one at five the same way. Faster at higher
+ * pressure, and bounded at both ends so neither becomes a strobe nor
+ * appears stopped.
+ */
+export function sweepPeriodS(pressurePa: number): number {
+  const pressure = Number.isFinite(pressurePa) ? Math.max(0, pressurePa) : 0;
+  return 2.6 - scale(pressure, 50_000, 500_000) * 2;
+}
+
+/**
+ * How turbid the substrate still is, from the fraction the enzyme has
+ * converted. Milk clouded with undigested lactose clears as lactase
+ * works, and the clearing IS the fraction — a caption percentage beside
+ * an unchanged liquid was a number nothing on the stage agreed with.
+ */
+export function substrateClearing(convertedFraction: number): number {
+  if (!Number.isFinite(convertedFraction)) return 1;
+  return 1 - Math.min(1, Math.max(0, convertedFraction));
+}
+
+/**
+ * Decay ticks for a parcel that actually decayed, from the parent amount
+ * and its half-life.
+ *
+ * `ln2 ÷ half-life × moles` is the activity — the same physics the Geiger
+ * reads — so a long-lived tracer ticks slowly and a large parcel ticks
+ * often, and the bench stops needing an instrument in hand before decay
+ * is visible at all.
+ */
+export function decayTicks(
+  moles: number,
+  halfLifeS: number,
+): { ticks: number; periodS: number; molesPerSecond: number } {
+  const parcel = Number.isFinite(moles) ? Math.max(0, moles) : 0;
+  const halfLife = Number.isFinite(halfLifeS) ? Math.max(0, halfLifeS) : 0;
+  const molesPerSecond = halfLife > 0 && parcel > 0 ? (Math.LN2 / halfLife) * parcel : 0;
+  if (!(molesPerSecond > 0)) return { ticks: 0, periodS: 6, molesPerSecond: 0 };
+  const busy = scale(Math.log10(molesPerSecond), -12, -3);
+  return { ticks: Math.max(1, Math.round(1 + busy * 7)), periodS: 3.2 - busy * 2.8, molesPerSecond };
+}
+
+/**
+ * The sol→gel STEP, which is what the transition visual has to be a
+ * function of. The standing fraction belongs to the scene and is already
+ * drawn; a gel that was already set and did not move this step must show
+ * no setting, or the picture claims something happened that did not.
+ */
+export function gelStep(
+  fromFraction: number,
+  toFraction: number,
+): { step: number; from: number; to: number } {
+  const from = Number.isFinite(fromFraction) ? Math.min(1, Math.max(0, fromFraction)) : 0;
+  const to = Number.isFinite(toFraction) ? Math.min(1, Math.max(0, toFraction)) : 0;
+  return { step: Math.max(0, to - from), from, to };
+}
+
+/**
+ * Warmth on one shared ramp, so three temperatures drawn with it keep
+ * their real order: ice water reads cold, a hot pour reads hot, and the
+ * mixture reads BETWEEN them, which is the whole content of an adiabatic
+ * balance and the thing a learner is asked to predict.
+ */
+export function thermalWarmth(temperatureK: number): number {
+  if (!Number.isFinite(temperatureK)) return 0;
+  return scale(temperatureK, 273.15, 373.15);
+}
+
+/**
+ * The three bands of a thermal mix, and whether the settled temperature
+ * actually landed between the two that made it.
+ *
+ * `between` is false only for a mix whose enthalpy of mixing carried it
+ * outside the starting pair — which is a real result and is drawn as
+ * such rather than clamped into looking ordinary.
+ */
+export function mixThermalBands(
+  temperatureAK: number,
+  temperatureBK: number,
+  temperatureIntoK: number,
+): { a: number; b: number; into: number; spreadK: number; between: boolean } {
+  const lo = Math.min(temperatureAK, temperatureBK);
+  const hi = Math.max(temperatureAK, temperatureBK);
+  return {
+    a: thermalWarmth(temperatureAK),
+    b: thermalWarmth(temperatureBK),
+    into: thermalWarmth(temperatureIntoK),
+    spreadK: Number.isFinite(hi - lo) ? Math.abs(hi - lo) : 0,
+    between: temperatureIntoK >= lo && temperatureIntoK <= hi,
+  };
+}
+
+/**
  * Map one engine event to a visual effect with magnitude.
  * Returns null if the event kind has no visual mapping.
  */
@@ -758,8 +1496,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
   switch (kind) {
     case "gas_evolved":
       return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
-    case "gas_produced":
-      return { kind: "vent", at: now, magnitude: gasMag(e), species: String(e.species ?? ""), reading: Number(e.moles ?? 0), unit: "mol" };
+    case "gas_produced": {
+      const rawRate = Number(e.rate_moles_per_second ?? 0);
+      return {
+        kind: "vent",
+        at: now,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+        gasProduction: {
+          molesPerSecond: Number.isFinite(rawRate) ? Math.max(0, rawRate) : 0,
+        },
+      };
+    }
     case "gas_contained":
       // A sealed vessel keeps its gas: the same moles, but they stay in the
       // headspace and raise the pressure instead of leaving through the mouth.
@@ -773,12 +1523,420 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
-    case "foam_changed":
+    case "gas_absorbed":
+      // The mirror of `gas_evolved`: gas crossing INWARD from a boundary
+      // and staying in the liquid. It changed the vessel and drew nothing.
+      // Same log ramp on the same moles, so a mole in and a mole out read
+      // at one scale rather than at two that happen to look similar.
+      return {
+        kind: "absorb",
+        at: now,
+        durationMs: 2600,
+        magnitude: gasMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
+    case "headspace_partitioned": {
+      const gasFraction = Math.max(0, Math.min(1, Number(e.gas_fraction ?? 0)));
+      return {
+        kind: "headspace-partition",
+        at: now,
+        durationMs: 4200,
+        // The standing share, not the step: the band shows where the
+        // volatile IS, and the arrows show which way it just went.
+        magnitude: gasFraction,
+        species: String(e.species ?? ""),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+        headspacePartition: {
+          species: String(e.species ?? ""),
+          toGas: Boolean(e.to_gas),
+          moles: Number(e.moles ?? 0),
+          gasFraction,
+          partialPressurePa: Number(e.partial_pressure_pa ?? 0),
+          henryMolPerLAtm: Number(e.henry_mol_per_l_atm ?? 0),
+          source: String(e.source ?? ""),
+        },
+      };
+    }
+    case "headspace_equilibrated": {
+      const pressurePa = Math.max(0, Number(e.pressure ?? 0));
+      return {
+        kind: "headspace-equilibrium",
+        at: now,
+        durationMs: 4200,
+        // A headspace that settled AT one atmosphere is unremarkable and
+        // reads as nothing; the magnitude is how far over that it sits.
+        magnitude: scale(pressurePa, 101_325, 500_000),
+        reading: pressurePa,
+        unit: "Pa",
+        headspaceEquilibrium: {
+          pressurePa,
+          totalMoles: Math.max(0, Number(e.total_moles ?? 0)),
+        },
+      };
+    }
+    case "supersaturated": {
+      const dissolved = Math.max(0, Number(e.dissolved ?? 0));
+      const capacity = Math.max(0, Number(e.capacity ?? 0));
+      return {
+        kind: "supersaturate",
+        at: now,
+        durationMs: 5200,
+        magnitude: supersaturationHaze(dissolved, capacity),
+        species: String(e.species ?? ""),
+        reading: dissolved,
+        unit: "mol",
+        saturation: {
+          species: String(e.species ?? ""),
+          dissolved,
+          capacity,
+          ratio: capacity > 0 ? dissolved / capacity : 0,
+          excessMoles: Math.max(0, dissolved - capacity),
+        },
+      };
+    }
+    case "corroded": {
+      // GUI-099: the verdict has carried an EXTENT since PR 4 and nothing
+      // drew it. The magnitude is that extent and not the verdict, so a
+      // nail the engine says will corrode but has not touched yet draws
+      // no rust — which is what a beaker set up a second ago looks like.
+      const fraction =
+        e.corroded_fraction === undefined
+          ? undefined
+          : Math.max(0, Math.min(1, Number(e.corroded_fraction)));
+      const corrodedMoles =
+        e.corroded_moles === undefined ? undefined : Math.max(0, Number(e.corroded_moles));
+      return {
+        kind: "corrode",
+        at: now,
+        durationMs: 5000,
+        magnitude: fraction ?? 0,
+        species: String(e.species ?? ""),
+        reading: corrodedMoles,
+        unit: corrodedMoles === undefined ? undefined : "mol",
+        corrosion: {
+          species: String(e.species ?? ""),
+          corroding: Boolean(e.corroding),
+          why: String(e.why ?? ""),
+          corrodedMoles,
+          corrodedFraction: fraction,
+        },
+      };
+    }
+    case "reacted": {
+      // Time passed and this is what it did. The extent and the seconds
+      // travel together because the same tenth of a mole in a second and
+      // over an hour are different observations, and the bench drew
+      // neither of them.
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      const extent = reactionExtent(moles, seconds);
+      const catalyst = e.catalyst === undefined || e.catalyst === null ? undefined : String(e.catalyst);
+      return {
+        kind: "react",
+        at: now,
+        durationMs: 5200,
+        magnitude: extent.intensity,
+        reading: moles,
+        unit: "mol",
+        reaction: {
+          reaction: String(e.reaction ?? ""),
+          equation: String(e.equation ?? ""),
+          moles,
+          seconds,
+          molesPerSecond: extent.molesPerSecond,
+          catalyst,
+          activationEnergyJPerMol: Number(e.activation_energy ?? 0),
+        },
+      };
+    }
+    case "reaction_heat_released": {
+      const energyJ = Math.max(0, Number(e.energy_j ?? 0));
+      return {
+        kind: "exotherm",
+        at: now,
+        durationMs: 4200,
+        magnitude: exothermGlow(energyJ),
+        reading: energyJ,
+        unit: "J",
+        exotherm: { reaction: String(e.reaction ?? ""), energyJ },
+      };
+    }
+    case "neutralised": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      return {
+        kind: "neutralise",
+        at: now,
+        durationMs: 3000,
+        magnitude: moles > 0 ? scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1)) : 0,
+        reading: moles,
+        unit: "mol",
+        neutralisation: { moles },
+      };
+    }
+    case "bubble_ride": {
+      const liftGasFraction = Math.max(0, Number(e.lift_gas_fraction ?? 0));
+      return {
+        kind: "bubble-ride",
+        at: now,
+        durationMs: 9000,
+        // How much gas it NEEDS is the whole observation: a raisin that
+        // wants half its own volume in bubbles is the striking one.
+        magnitude: Math.min(1, liftGasFraction),
+        reading: liftGasFraction,
+        unit: "fraction",
+        bubbleRide: {
+          object: String(e.object ?? ""),
+          objectDensityGPerMl: Number(e.object_density_g_per_ml ?? 0),
+          liquidDensityGPerMl: Number(e.liquid_density_g_per_ml ?? 0),
+          liftGasFraction,
+        },
+      };
+    }
+    case "adsorbed": {
+      const heldMoles = Math.max(0, Number(e.held ?? 0));
+      const stillDissolvedMoles = Math.max(0, Number(e.still_dissolved ?? 0));
+      const removed = adsorptionDarkening(heldMoles, stillDissolvedMoles);
+      return {
+        kind: "adsorb",
+        at: now,
+        durationMs: 5200,
+        magnitude: removed.removedFraction,
+        species: String(e.sorbate ?? ""),
+        reading: heldMoles,
+        unit: "mol",
+        adsorption: {
+          sorbate: String(e.sorbate ?? ""),
+          sorbent: String(e.sorbent ?? ""),
+          heldMoles,
+          stillDissolvedMoles,
+          loadingMgPerG: Number(e.loading_mg_per_g ?? 0),
+          boundary: String(e.boundary ?? ""),
+        },
+      };
+    }
+    case "thickened": {
+      const strength = Number(e.strength ?? 0);
+      const shearedHard = Boolean(e.sheared_hard);
+      return {
+        kind: "thicken",
+        at: now,
+        durationMs: 3600,
+        magnitude: shearResistance(strength, shearedHard),
+        thickening: {
+          solid: String(e.solid ?? ""),
+          strength: Math.min(1, Math.max(0, Number.isFinite(strength) ? strength : 0)),
+          solidMassFraction: Number(e.solid_mass_fraction ?? 0),
+          tipSpeedMS: Number(e.tip_speed_m_s ?? 0),
+          shearedHard,
+        },
+      };
+    }
+    case "flame_starved": {
+      // KID-12. `burned: 0` means the flame never caught — the air was
+      // already too thin to light in — so the visual must not draw one.
+      const oxygenFraction = Math.max(0, Number(e.oxygen_fraction ?? 0));
+      const burnedMoles = Math.max(0, Number(e.burned ?? 0));
+      const gutter = flameGutter(oxygenFraction, burnedMoles);
+      return {
+        kind: "flame-starve",
+        at: now,
+        durationMs: 4600,
+        magnitude: gutter.guttering,
+        species: String(e.fuel ?? ""),
+        reading: oxygenFraction,
+        unit: "fraction",
+        flameStarved: { fuel: String(e.fuel ?? ""), burnedMoles, oxygenFraction },
+      };
+    }
+    case "below_autoignition": {
+      const autoignitionK = Math.max(0, Number(e.autoignition ?? 0));
+      const temperatureK = Number(e.temperature ?? 0);
+      const gap = autoignitionApproach(temperatureK, autoignitionK);
+      return {
+        kind: "below-autoignition",
+        at: now,
+        durationMs: 4600,
+        magnitude: gap.approach,
+        species: String(e.fuel ?? ""),
+        temperatureK,
+        reading: gap.gapK,
+        unit: "K",
+        autoignitionGap: {
+          fuel: String(e.fuel ?? ""),
+          autoignitionK,
+          temperatureK,
+          gapK: gap.gapK,
+        },
+      };
+    }
+    case "nuclide_spiked": {
+      const activityBq = Math.max(0, Number(e.activity_bq ?? 0));
+      return {
+        kind: "spike",
+        at: now,
+        durationMs: 5000,
+        magnitude: activityIntensity(activityBq),
+        reading: activityBq,
+        unit: "Bq",
+        nuclideSpike: {
+          nuclide: String(e.nuclide ?? ""),
+          moles: Math.max(0, Number(e.moles ?? 0)),
+          activityBq,
+        },
+      };
+    }
+    case "partitioned": {
+      const fractionLower = Math.min(1, Math.max(0, Number(e.fraction_lower ?? 0)));
+      return {
+        kind: "solute-partition",
+        at: now,
+        durationMs: 5000,
+        magnitude: fractionLower,
+        species: String(e.species ?? ""),
+        reading: fractionLower,
+        unit: "fraction",
+        solutePartition: { species: String(e.species ?? ""), fractionLower },
+      };
+    }
+    case "osmosis_changed": {
+      const massChangeG = Number(e.mass_change_g ?? 0);
+      const swell = osmoticSwell(massChangeG);
+      return {
+        kind: "osmosis",
+        at: now,
+        durationMs: 6000,
+        magnitude: swell.swell,
+        reading: massChangeG,
+        unit: "g",
+        osmosis: {
+          material: String(e.material ?? ""),
+          waterMoles: Number(e.water_moles ?? 0),
+          massChangeG,
+        },
+      };
+    }
+    case "thermal_equilibrium": {
+      const temperatureK = Number(e.temperature ?? 0);
+      const reactionEnergyJ =
+        e.reaction_energy_j === undefined ? undefined : Number(e.reaction_energy_j);
+      return {
+        kind: "thermal-equilibrium",
+        at: now,
+        durationMs: 5000,
+        // The heat the solve converted, where it could say; otherwise the
+        // badge is a reading and claims no strength of its own.
+        magnitude: reactionEnergyJ === undefined ? 0 : exothermGlow(reactionEnergyJ),
+        temperatureK,
+        reading: temperatureK,
+        unit: "K",
+        thermalEquilibrium: {
+          temperatureK,
+          reactionEnergyJ,
+          holdsNothing: Boolean(e.holds_nothing),
+        },
+      };
+    }
+    case "consumed": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const remainingMoles = e.remaining === undefined || e.remaining === null
+        ? undefined
+        : Math.max(0, Number(e.remaining));
+      return {
+        kind: "consume",
+        at: now,
+        durationMs: 4200,
+        magnitude: moles > 0 ? scale(Math.log10(moles), Math.log10(0.0001), Math.log10(0.1)) : 0,
+        species: String(e.species ?? ""),
+        reading: moles,
+        unit: "mol",
+        consumption: { species: String(e.species ?? ""), moles, remainingMoles },
+      };
+    }
+    case "decayed": {
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      const halfLifeS = Math.max(0, Number(e.half_life_s ?? 0));
+      const ticking = decayTicks(moles, halfLifeS);
+      return {
+        kind: "decay",
+        at: now,
+        durationMs: 6000,
+        // The activity, not the parcel: a long-lived tracer that barely
+        // moved should not read like a hot source that did.
+        magnitude: ticking.ticks > 0 ? Math.min(1, ticking.ticks / 8) : 0,
+        reading: moles,
+        unit: "mol",
+        decay: {
+          parent: String(e.parent ?? ""),
+          daughter: String(e.daughter ?? ""),
+          mode: String(e.mode ?? ""),
+          moles,
+          halfLifeS,
+          molesPerSecond: ticking.molesPerSecond,
+        },
+      };
+    }
+    case "gel_formed": {
+      // KID-14. The standing gel body is the scene's; this is the STEP,
+      // so a gel that was already set and did not move draws no setting.
+      const step = gelStep(Number(e.from_gelled_fraction ?? 0), Number(e.to_gelled_fraction ?? 0));
+      return {
+        kind: "gel-set",
+        at: now,
+        durationMs: 3600,
+        magnitude: step.step,
+        reading: step.to,
+        unit: "fraction",
+        gelSet: {
+          polymer: String(e.polymer ?? ""),
+          crosslinker: String(e.crosslinker ?? ""),
+          fromGelledFraction: step.from,
+          toGelledFraction: step.to,
+          polymerGrams: Math.max(0, Number(e.polymer_grams ?? 0)),
+          crosslinkerMoles: Math.max(0, Number(e.crosslinker_moles ?? 0)),
+        },
+      };
+    }
+    case "dehydrated":
+    case "hydrated": {
+      // EXP-33. The colour change arrives through the scene; the WATER
+      // never did, so a hydrate driven off at 380 K steamed as much as
+      // one that lost a drop, which is to say not at all.
+      const drivingOff = kind === "dehydrated";
+      const waterMoles = Math.max(0, Number(e.water ?? 0));
+      const atK = e.at === undefined ? undefined : Number(e.at);
+      return {
+        kind: drivingOff ? "dehydrate" : "rehydrate",
+        at: now,
+        durationMs: 4200,
+        magnitude: vapourIntensity(waterMoles),
+        species: String(e.hydrate ?? ""),
+        temperatureK: atK,
+        reading: waterMoles,
+        unit: "mol",
+        hydration: {
+          hydrate: String(e.hydrate ?? ""),
+          anhydrous: String(e.anhydrous ?? ""),
+          formulaUnits: Math.max(0, Number(e.formula_units ?? 0)),
+          waterMoles,
+          atK,
+          drivingOff,
+        },
+      };
+    }
+    case "foam_changed": {
+      const rawHalfLife = Number(e.half_life_seconds ?? 0);
+      const halfLifeSeconds = Number.isFinite(rawHalfLife) ? Math.max(0, rawHalfLife) : 0;
       return {
         kind: "foam",
         at: now,
+        durationMs: halfLifeSeconds > 0 ? halfLifeSeconds * 1000 : undefined,
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
+        foam: halfLifeSeconds > 0 ? { halfLifeSeconds } : undefined,
       };
+    }
     case "surface_spread":
       return {
         kind: "surface-spread",
@@ -855,12 +2013,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "mixed":
+      // The three temperatures the adiabatic balance used were on the wire
+      // and unused: the swirl said how MUCH poured and nothing said what
+      // happened thermally when the two streams met.
       return {
         kind: "swirl",
         at: now,
         magnitude: mixMag(e),
         source: Number(e.a ?? 0),
         target: Number(e.into ?? 0),
+        mixThermal: {
+          temperatureAK: Number(e.temperature_a ?? 0),
+          temperatureBK: Number(e.temperature_b ?? 0),
+          temperatureIntoK: Number(e.temperature_into ?? 0),
+        },
       };
     case "stirred":
       return {
@@ -879,7 +2045,25 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "ground":
-      return { kind: "grind", at: now, magnitude: grindMag(e) };
+      // The magnitude on the log-area ramp was all there was; the grain
+      // SIZE the engine ground to never reached the vessel, so grinding
+      // twice drew the same specks with a different caption.
+      return {
+        kind: "grind",
+        at: now,
+        durationMs: 4600,
+        magnitude: grindMag(e),
+        species: String(e.species ?? ""),
+        reading: Number(e.surface_area_m2 ?? 0),
+        unit: "m2",
+        grind: {
+          species: String(e.species ?? ""),
+          diameterUm: Math.max(0, Number(e.diameter_um ?? 0)),
+          solidMoles: Math.max(0, Number(e.solid_moles ?? 0)),
+          surfaceAreaM2: Math.max(0, Number(e.surface_area_m2 ?? 0)),
+          rateCoupled: Boolean(e.rate_coupled),
+        },
+      };
     case "centrifuged":
       return {
         kind: "centrifuge",
@@ -1016,8 +2200,21 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         reading: Number(e.moles ?? 0),
         unit: "mol",
       };
-    case "plated":
-      return { kind: "plate", at: now, magnitude: 1 };
+    case "plated": {
+      // The magnitude was a hard-coded 1: a copper blush on a nail and a
+      // nail gone orange drew the same shimmer.
+      const moles = Math.max(0, Number(e.moles ?? 0));
+      return {
+        kind: "plate",
+        at: now,
+        durationMs: 4200,
+        magnitude: platingThickness(moles),
+        species: String(e.species ?? ""),
+        reading: moles,
+        unit: "mol",
+        plating: { species: String(e.species ?? ""), onto: String(e.onto ?? ""), moles },
+      };
+    }
     case "temperature_changed": {
       const to = Number(e.to ?? 0);
       return {

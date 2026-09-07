@@ -14,7 +14,31 @@ it had while it was open, which is why a few numbers appear twice below.
 
 ## 2026-09-06
 
+- **Codex learning progress** — replaced age-derived catalogue levels with a
+  required Rust-owned authored band on all 108 reactions (20 starter, 44
+  intermediate, 44 advanced), enforced conservative prerequisite ordering,
+  and removed invented Codex safety classifications
+- **ANIM-5** — made gas-production bubble cadence follow the engine's molar
+  rate and foam collapse reach half height on the engine's half-life, with
+  readable/data-attribute evidence and reduced-motion coverage
+- **KIDS GUI reachability / tranche 1** — replaced safety-derived guided
+  levels with authored learning-progress bands, made mixed lesson/Codex
+  completion route-accurate, and put localized actionable safety guidance for
+  K03, K19, K35, K41 and K54 on the unified cards before launch
+- **Planning reconciliation** — aligned the roadmaps with shipped reality:
+  closed GUI-001, GUI-004 and GUI-017 with source-backed evidence, recorded
+  BRD-042's terminal no-go, removed the retired catalogue fixture claim, and
+  kept GUI-003 honestly open for numeric/browser goldens
+- **ANIM-4** — put corrosion extent on the standing scene and existing vessel:
+  a labelled “metal in oxide” fraction and restrained schematic marker follow
+  the core's current oxide bookkeeping without claiming rate, history,
+  thickness or surface coverage
+- **BRD-032 / learning slice** — made the liquid-nitrogen/ethanol phase-change
+  model an Energy Yard investigation, with source-backed cryogen/asphyxiant
+  handling warnings, last-tier Story stock and mission-only loan access
 - **ANIM-2** — matter and pressure: precipitate count from moles, grain size from molar volume, piston height from V=nRT/P (PR 2 of GUI-099)
+- **BRD-023** — promoted the bounded thermoplastic/thermoset heat comparison into the unified catalogue with a runnable script and complete German learner copy
+- **BRD-032** — promoted methyl-orange adsorption on activated charcoal into the unified catalogue with a runnable filtration script and explicit parameter/safety boundaries
 
 ### Lessons
 

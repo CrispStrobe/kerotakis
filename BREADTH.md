@@ -153,9 +153,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   conserved rather than discarded; English/German aliases resolve.
 - **Out of scope:** reverse-engineering branded proprietary formulations or
   treating a nutrient panel as complete molecular composition.
-- **Remaining work:** cabinet search/`explain` integration for recipes (shipped
-  slices — the schema, runtime `add`, and the finite stockroom ledger — are
-  recorded in `HISTORY.md`).
+- **Browser explanation slice (PR #433):** the existing shelf `(i)` receives
+  engine-owned recipe confidence, basis, component ranges, unresolved matter,
+  preparation, lot assumptions, and source id. Component names also join shelf
+  search in both the canonical and displayed locale; every wire field is
+  additive so older hosts remain usable.
+- **Remaining work:** close the CLI/browser `explain` parity audit and record
+  the landed slice in `HISTORY.md` after the PR is green and merged. The
+  schema, runtime `add`, and finite stockroom ledger are already recorded
+  there.
 
 ## Stage B1 — the everyday shelf
 
@@ -313,7 +319,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-023 — Familiar organic reaction-family pack v1
 
 - [ ] **Status:** open (BRD-023.S01 and the galvanic-corrosion, peroxide-bleach
-  and alcohol-oxidation checkpoints shipped 2026-09-05 — recorded in
+  and alcohol-oxidation checkpoints shipped 2026-09-05; the bounded
+  thermoplastic/thermoset comparison became directly runnable in the unified
+  catalogue 2026-09-06 — recorded in
   `HISTORY.md`). **Size:** large/data-heavy. **Depends on:** BRD-014 and
   BRD-022.
 - **Scope:** curate a first useful set driven by `EXP-36/41/42/46/50` and the
@@ -369,7 +377,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 ### BRD-032 — feos-backed bench routing
 
 - [ ] **Status:** first slice shipped 2026-09-05 (adsorption, pressure-dependent
-  boiling, dry-ice and liquid-nitrogen phase routes — recorded in
+  boiling, dry-ice and liquid-nitrogen phase routes; the methyl-orange on
+  activated-charcoal case became directly runnable in the unified catalogue
+  2026-09-06 — recorded in
   `HISTORY.md`); the residual-EOS half remains blocked on BRD-031's uncleared
   parameter pack. **Size:** large. **Depends on:** BRD-031.
 - **Scope:** route pressure-dependent boiling/condensation, flash, phase split,
@@ -381,10 +391,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** conservation and scale invariance; pressure monotonicity for
   boiling where valid; azeotrope/phase-split goldens; identical host results;
   BRD-000 phase-change coverage increases without weakening honest refusals.
-- **Remaining work:** wire `measure <vessel> boiling_point` to the pack API in
-  `bench.rs` for the five cleared fluids not yet reached that way; the
-  residual-EOS route (density, saturation pressure for CO2/N2/O2/hexane/ethyl
-  acetate) stays refused until BRD-031e clears parameters.
+- **Liquid-nitrogen investigation checkpoint (2026-09-06):** the coupled
+  ethanol-freezing/nitrogen-boiling route is reachable through an Energy Yard
+  lesson and mission. Handling hazards remain separate from reactive groups;
+  Story loans liquid nitrogen only inside the mission and never awards it.
+- **Remaining work:** the residual-EOS route (density, saturation pressure for
+  CO2/N2/O2/hexane/ethyl acetate) stays refused until BRD-031e clears parameters.
 
 ### BRD-041 — Familiar gas/combustion mechanism packs
 
@@ -421,7 +433,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-042 — Full Cantera C-API shipping gate
 
-- [ ] **Status:** parked — BRD-040 recorded a **no-go** on 2026-08-29. **Size:**
+- [x] **Status:** closed no-go — BRD-040 recorded the terminal decision on
+  2026-08-29. Re-open only for a newly demonstrated capability gap. **Size:**
   extra large. **Depends on:** BRD-040 (complete) and a stable upstream C API on
   all targets.
 - **BRD-040 finding:** no BRD-041 need requires the C API. The portable parser,
@@ -781,6 +794,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **BRD-011** — ChEBI identity and ontology adapter. Complete. See `HISTORY.md`.
 - **BRD-030** — direct feos integration spike. Closed `go` (scoped). See `HISTORY.md`.
 - **BRD-040** — Cantera mechanism and API audit. Complete. See `HISTORY.md`.
+- **BRD-042** — full Cantera C-API shipping gate. Closed no-go; no required
+  capability justifies the cross-target C++ dependency. See `HISTORY.md`.
 - **BRD-070** — scene/chemistry authority contract. Complete. See `HISTORY.md`.
 - **BRD-071** — Rapier rigid-body integration. Complete; go with optional Rapier 2-D. See `HISTORY.md`.
 - **BRD-072** — Salva fluid-visual integration. Complete/no-go; kept `fluidScene`. See `HISTORY.md`.

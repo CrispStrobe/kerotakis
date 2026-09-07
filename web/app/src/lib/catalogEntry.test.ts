@@ -18,12 +18,10 @@ import {
   CATALOG_TOPICS,
   catalogEntries,
   catalogEntryMatches,
-  codexAgeMin,
   durationBand,
   durationLabel,
   filterCatalogEntries,
   levelCounts,
-  levelForAge,
   levelLabel,
   minutesForSteps,
   NO_CATALOG_FILTERS,
@@ -49,6 +47,7 @@ const context = (over: Partial<Parameters<typeof catalogEntries>[2]> = {}) => ({
 
 const codexEntry = (over: Partial<CodexEntry> = {}): CodexEntry => ({
   id: "silver-chloride-precipitation",
+  progress: "starter",
   equation: "AgNO3 + NaCl -> AgCl",
   concepts: ["precipitation"],
   setup: { script: "add v1 water 100mL\nadd v1 AgNO3 1mmol\nadd v1 NaCl 1mmol\n" },
@@ -61,30 +60,19 @@ const codexEntry = (over: Partial<CodexEntry> = {}): CodexEntry => ({
 const guidedEntry = (over: Partial<KidsExperiment> = {}): KidsExperiment => ({
   id: "K99", title: "Volcano", phenomenon: "Soap traps gas as foam",
   title_de: "Vulkan", phenomenon_de: "Seife fängt Gas als Schaum",
-  status: "computed", topics: ["gases", "acids"],
+  status: "computed", progress: "starter", topics: ["gases", "acids"],
   ingredients: ["baking_soda", "white_vinegar_5_percent"], apparatus: ["beaker"],
   safety: "home", ...over,
 });
 
 describe("one entry model", () => {
-  it("bands an age rather than a corpus", () => {
-    expect(levelForAge(8)).toBe("starter");
-    expect(levelForAge(11)).toBe("starter");
-    expect(levelForAge(12)).toBe("intermediate");
-    expect(levelForAge(14)).toBe("intermediate");
-    expect(levelForAge(15)).toBe("advanced");
-    expect(levelForAge(17)).toBe("advanced");
-  });
-
-  it("reads the youngest curriculum placement, and defaults without one", () => {
-    expect(codexAgeMin(codexEntry({
-      curriculum: [
-        { system: "a", stage: "s", ages: { min: 16 }, source: "x" },
-        { system: "b", stage: "t", ages: { min: 11 }, source: "y" },
-      ],
-    }))).toBe(11);
-    expect(codexAgeMin(codexEntry({ curriculum: [] }))).toBe(12);
-    expect(codexAgeMin(codexEntry({ curriculum: [{ system: "a", stage: "s", source: "x" }] }))).toBe(12);
+  it("uses authored Codex progress without reading curriculum ages", () => {
+    const entry = codexEntry({
+      progress: "advanced",
+      curriculum: [{ system: "a", stage: "s", ages: { min: 8 }, source: "x" }],
+    });
+    expect(catalogEntries([entry], [], context())[0]?.level).toBe("advanced");
+    expect(catalogEntries([entry], [], context())[0]?.safety).toBeNull();
   });
 
   it("prices a run at one pace for both corpora", () => {
@@ -96,6 +84,17 @@ describe("one entry model", () => {
     expect(durationBand(3)).toBe("short");
     expect(durationBand(15)).toBe("medium");
     expect(durationBand(16)).toBe("long");
+  });
+
+  it("uses authored guided progress without inferring it from supervision", () => {
+    const entries = catalogEntries([], [
+      guidedEntry({ id: "K97", progress: "advanced", safety: "home" }),
+      guidedEntry({ id: "K98", progress: "starter", safety: "school" }),
+    ], context());
+    expect(Object.fromEntries(entries.map((entry) => [entry.id, entry.level]))).toEqual({
+      K97: "advanced",
+      K98: "starter",
+    });
   });
 
   it("gives a guided task with a shipped codex entry the same run as the codex card", () => {
@@ -138,6 +137,17 @@ describe("one entry model", () => {
     expect(entries.find((e) => e.id === "K98")?.done).toBe(true);
   });
 
+  it("marks a mixed-route experiment done when either its lesson or primary Codex run is complete", () => {
+    const script = codexEntry({ id: "hot-pack" });
+    const guided = guidedEntry({ codex: ["hot-pack"], lesson: "kitchen-hot-and-cold-packs.lab" });
+    const lessonDone = catalogEntries([script], [guided], context({
+      completedMissions: new Set(["kitchen-hot-and-cold-packs"]),
+    }))[1];
+    const codexDone = catalogEntries([script], [guided], context({ completed: new Set(["hot-pack"]) }))[1];
+    expect(lessonDone?.done).toBe(true);
+    expect(codexDone?.done).toBe(true);
+  });
+
   it("answers the shelf question only when every material is reachable", () => {
     const entries = catalogEntries([], [guidedEntry({ ingredients: ["baking_soda", "milk"] })], context({
       shelfKeys: new Set(["baking_soda", "whole_milk"]),
@@ -164,7 +174,7 @@ describe("the filter rail composes", () => {
     equation: "CaCl2(s) -> Ca2+ + 2 Cl-", registers: { lv2: "Dissolving warms the water." },
   });
   const entries = catalogEntries(
-    [script, codexEntry({ id: "silver-chloride", curriculum: [{ system: "bayern", stage: "Jgst. 10", ages: { min: 16 }, source: "ISB" }] })],
+    [script, codexEntry({ id: "silver-chloride", progress: "advanced", curriculum: [{ system: "bayern", stage: "Jgst. 10", ages: { min: 16 }, source: "ISB" }] })],
     [guidedEntry({ codex: ["hot-pack"] })],
     context({ completed: new Set(["hot-pack"]), shelfKeys: new Set(["baking_soda", "white_vinegar_5_percent"]) }),
   );
@@ -207,10 +217,33 @@ describe("the shipped library", () => {
   const entries = catalogEntries(codex, guided, context());
 
   it("is one list of both corpora", () => {
-    expect(codex.length).toBeGreaterThan(100);
-    expect(guided.length).toBeGreaterThan(50);
+    expect(codex).toHaveLength(108);
+    expect(guided).toHaveLength(60);
+    expect(entries).toHaveLength(168);
     expect(entries).toHaveLength(codex.length + guided.length);
     expect(new Set(entries.map((entry) => entry.id)).size).toBe(entries.length);
+  });
+
+  it("makes adsorption and polymer heat response runnable and searchable", () => {
+    const charcoal = entries.find((entry) => entry.id === "charcoal-holds-the-dye");
+    const polymers = entries.find((entry) => entry.id === "chains-slide-networks-do-not");
+
+    expect(charcoal?.run.kind).toBe("script");
+    expect(charcoal?.needs).toEqual(expect.arrayContaining(["activated_charcoal", "methyl_orange", "water"]));
+    expect(charcoal?.expectations).toEqual(expect.arrayContaining(["adsorbed:methyl_orange", "filtered"]));
+    expect(charcoal?.topics).toEqual(["boundaries", "materials", "rates", "separations"]);
+    expect(catalogEntryMatches(charcoal!, "activated charcoal")).toBe(true);
+    expect(catalogEntryMatches(charcoal!, "adsorption")).toBe(true);
+
+    expect(polymers?.run.kind).toBe("script");
+    expect(polymers?.needs).toEqual(expect.arrayContaining(["thermoplastic", "thermoset_resin"]));
+    expect(polymers?.expectations).toEqual(expect.arrayContaining([
+      "polymer_heated:thermoplastic sheet",
+      "polymer_heated:cured thermoset resin",
+    ]));
+    expect(polymers?.topics).toEqual(["boundaries", "heat", "materials"]);
+    expect(catalogEntryMatches(polymers!, "thermoplastic")).toBe(true);
+    expect(catalogEntryMatches(polymers!, "thermoset")).toBe(true);
   });
 
   it("leaves no entry without a title, a level, a hook or a run target", () => {

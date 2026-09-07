@@ -16,6 +16,7 @@
 
 [[reaction]]
 id = "permanganate-counts-in-fives"
+progress = "intermediate"
 spine = ["redox-reaktionen"]
 equation = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O"
 concepts = ["redox-reactions", "electron-transfer"]
@@ -71,6 +72,7 @@ computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
 
 [[reaction]]
 id = "half-oxidised-iron-reads-its-own-potential"
+progress = "advanced"
 spine = ["redox-reaktionen", "die-elektrochemie"]
 summary = "At half-oxidation, Eh reads the Fe(III)/Fe(II) couple's own formal potential — +0.674 V here, below the tabulated 0.771 V, because sulfate binds Fe(III) harder than Fe(II)"
 concepts = ["formal-potential", "electron-transfer"]
@@ -126,6 +128,7 @@ computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e); Eh from
 
 [[reaction]]
 id = "the-oxidant-is-spent-to-the-last-electron"
+progress = "advanced"
 spine = ["redox-reaktionen"]
 equation = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O"
 concepts = ["redox-reactions", "equivalence-point"]
@@ -183,6 +186,7 @@ computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
 
 [[reaction]]
 id = "the-series-decides-who-plates"
+progress = "advanced"
 spine = ["die-spannungsreihe-der-metalle"]
 equation = "Zn + Cu²⁺ → Zn²⁺ + Cu"
 concepts = ["activity-series", "displacement-reactions"]
@@ -250,6 +254,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities, ent
 
 [[reaction]]
 id = "metals-below-hydrogen-fizz"
+progress = "advanced"
 spine = ["die-spannungsreihe-der-metalle"]
 equation = "Mg + 2 H⁺ → Mg²⁺ + H₂"
 concepts = ["activity-series", "hydrogen-as-a-rung"]
@@ -320,6 +325,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via
 
 [[reaction]]
 id = "the-silver-tree"
+progress = "advanced"
 spine = ["die-spannungsreihe-der-metalle"]
 equation = "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag"
 concepts = ["activity-series", "displacement-reactions"]
@@ -386,6 +392,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities, ent
 
 [[reaction]]
 id = "silver-does-not-stoop"
+progress = "advanced"
 spine = ["die-spannungsreihe-der-metalle"]
 summary = "The series is an order: metallic silver in copper sulfate does nothing, and the nothing is a computed result"
 concepts = ["activity-series"]
@@ -451,6 +458,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via
 
 [[reaction]]
 id = "zinc-guards-iron"
+progress = "advanced"
 spine = ["korrosion-und-korrosionsschutz"]
 equation = "Zn + Fe²⁺ → Zn²⁺ + Fe"
 concepts = ["activity-series", "sacrificial-protection"]
@@ -525,6 +533,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via
 
 [[reaction]]
 id = "the-daniell-cell-offers-its-voltage"
+progress = "advanced"
 spine = ["die-elektrochemie", "batterien"]
 summary = "Two half-cells and a salt bridge: the Daniell cell reads 1.104 V open-circuit — the distance between two rungs of the series, offered before any current flows"
 concepts = ["galvanic-cells", "activity-series"]
@@ -584,6 +593,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 
 [[reaction]]
 id = "dilution-buys-less-than-the-slide-rule-says"
+progress = "advanced"
 spine = ["die-elektrochemie"]
 summary = "Tenfold dilution of the copper side costs 18.2 mV, not the Nernst slide-rule's 29.6 — the equation is exact over activities, and the concentrations are not the activities"
 concepts = ["nernst-over-activities", "galvanic-cells"]
@@ -648,6 +658,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 
 [[reaction]]
 id = "a-battery-from-nothing-but-imbalance"
+progress = "advanced"
 spine = ["die-elektrochemie"]
 summary = "A concentration cell: identical copper electrodes, tenfold different solutions — E° cancels to 0.000 and the meter still reads 18 mV, the Nernst term standing alone"
 concepts = ["concentration-cells", "nernst-over-activities"]
@@ -709,6 +720,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 
 [[reaction]]
 id = "only-the-two-is-chemistry"
+progress = "advanced"
 spine = ["elektrolyse"]
 summary = "Cu²⁺ + 2 e⁻ → Cu — a half-reaction, with the electrons supplied by the wire"
 concepts = ["electrolysis", "faraday-law"]
@@ -770,6 +782,7 @@ computed_by = "Kerotakis electrolysis operator (charge → electrons → moles v
 
 [[reaction]]
 id = "the-plating-bath-turns-acid"
+progress = "advanced"
 spine = ["elektrolyse"]
 summary = "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — the inert anode pays the charge bill in protons"
 concepts = ["electrolysis", "charge-conservation"]
@@ -833,6 +846,7 @@ computed_by = "Kerotakis electrolysis operator (inert anode; charge-conserving) 
 
 [[reaction]]
 id = "charging-fights-the-series"
+progress = "advanced"
 spine = ["akkumulatoren"]
 summary = "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips"
 concepts = ["accumulators", "electrolysis"]
@@ -894,6 +908,7 @@ computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotaki
 
 [[reaction]]
 id = "lead-stands-in-its-own-acid"
+progress = "advanced"
 spine = ["akkumulatoren"]
 summary = "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence"
 concepts = ["accumulators", "activity-series"]

@@ -350,10 +350,13 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
         let phase = locale.t(phase_key(p.phase), phase_english(p.phase));
         // The comma goes here as well: a header reading 25,00 above rows
         // reading 11.0686 is worse than either convention used throughout.
-        out.push(
-            locale.number(format!("    {:>10.4} mol  ", p.moles.0))
-                + &format!("{name:<18} {phase}"),
-        );
+        // `{:>10.4} mol` printed "0.0000 mol" for the 11 µmol of antlerite
+        // a decanted copper sulfate left behind; the amount formatter the
+        // feed uses says "11.1 µmol" and keeps the column.
+        out.push(format!(
+            "    {:>14}  {name:<18} {phase}",
+            si_amount(locale, p.moles.0, "mol")
+        ));
     }
     for solid_solution in &v.solid_solutions {
         out.push(format!(

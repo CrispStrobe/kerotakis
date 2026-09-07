@@ -3,6 +3,7 @@
 
 [[reaction]]
 id = "endpoint-is-not-a-full-drop"
+progress = "intermediate"
 summary = "A coarse trial step brackets the endpoint; a computed partial step reaches it"
 concepts = ["equivalence-point", "concentration"]
 requires = ["amount-of-substance"]
@@ -49,6 +50,7 @@ computed_by = "Kerotakis generic titration refinement and PHREEQC aqueous equili
 
 [[reaction]]
 id = "equilibrium-can-run-backward"
+progress = "advanced"
 summary = "An equilibrium request can form or consume ester, depending on the initial mixture"
 concepts = ["chemical-equilibrium"]
 requires = ["amount-of-substance"]

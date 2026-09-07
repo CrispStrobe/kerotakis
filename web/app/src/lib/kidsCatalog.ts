@@ -2,6 +2,8 @@ import { normalizeCatalogText } from "./catalogSearch";
 
 export type KidsStatus = "computed" | "partial" | "boundary" | "declined" | "unreachable";
 export type KidsSafety = "home" | "school";
+/** Authored learning progress, independent of age and supervision. */
+export type KidsProgress = "starter" | "intermediate" | "advanced";
 
 export interface KidsExperiment {
   id: string;
@@ -10,6 +12,7 @@ export interface KidsExperiment {
   title_de?: string;
   phenomenon_de?: string;
   status: KidsStatus;
+  progress: KidsProgress;
   topics: string[];
   ingredients: string[];
   apparatus: string[];
@@ -19,6 +22,10 @@ export interface KidsExperiment {
   capabilities?: string[];
   codex?: string[];
   safety: KidsSafety;
+  safety_rationale?: string;
+  safety_rationale_de?: string;
+  safety_guidance?: string;
+  safety_guidance_de?: string;
   boundary?: string;
   boundary_de?: string;
 }
@@ -39,7 +46,10 @@ export function parseKidsCatalog(raw: unknown): KidsExperiment[] {
       && typeof value.phenomenon_de === "string"
       && (!value.boundary || typeof value.boundary_de === "string")
       && ["computed", "partial", "boundary", "declined", "unreachable"].includes(value.status ?? "")
+      && ["starter", "intermediate", "advanced"].includes(value.progress ?? "")
       && (value.safety === "home" || value.safety === "school")
+      && [value.safety_rationale, value.safety_guidance].every((text) => text === undefined || (typeof text === "string" && text.trim().length > 0))
+      && [value.safety_rationale_de, value.safety_guidance_de].every((text) => text === undefined || (typeof text === "string" && text.trim().length > 0))
       && [value.topics, value.ingredients, value.apparatus]
         .every((list) => Array.isArray(list) && list.every((item) => typeof item === "string"))
       && [value.capabilities, value.codex].every((list) => list === undefined || (
@@ -94,9 +104,13 @@ export function kidsConnections(
   };
 }
 
-export function kidsText(item: KidsExperiment, field: "title" | "phenomenon" | "boundary", locale: string): string {
+export function kidsText(item: KidsExperiment, field: "title" | "phenomenon" | "boundary" | "safety_rationale" | "safety_guidance", locale: string): string {
   if (locale === "de") {
-    const localized = field === "title" ? item.title_de : field === "phenomenon" ? item.phenomenon_de : item.boundary_de;
+    const localized = field === "title" ? item.title_de
+      : field === "phenomenon" ? item.phenomenon_de
+      : field === "boundary" ? item.boundary_de
+      : field === "safety_rationale" ? item.safety_rationale_de
+      : item.safety_guidance_de;
     return localized ?? item[field] ?? "";
   }
   return item[field] ?? "";

@@ -3,6 +3,32 @@
 > Finished work is not listed here. What landed, and what it taught us, is in
 > [HISTORY.md](HISTORY.md). Task numbers are never renumbered and never reused.
 
+## GUI reachability follow-up (2026-09-06)
+
+The first follow-up tranche removes the last age-shaped shortcut from the
+guided catalogue. Every K01–K60 row now authors its own learning-progress
+band (`starter`, `intermediate`, or `advanced`); the independent `home` or
+`school` safety classification no longer chooses that band. Mixed guided and
+Codex routes count an experiment as completed when either real route is
+finished, while the linked-learning counter continues to show every optional
+piece separately.
+
+The same rule now governs the Codex half of the one catalogue. Its 108
+reactions explicitly author learning progress from prerequisite depth and
+reasoning complexity: 20 starter, 44 intermediate and 44 advanced. Curriculum
+ages remain useful syllabus-placement metadata, but neither they nor an
+invented safety default classify a Codex card. A structural check prevents a
+consumer from being placed before every available teacher of a prerequisite.
+
+Structured, localized safety rationale and before-you-begin guidance now
+cover the five school-supervision gaps found by the GUI audit: K03, K19, K35,
+K41 and K54. The unified experiment cards show supervision before launch and
+repeat actionable guidance in their existing details/procedure/run views. The
+remaining follow-up remains translation of full lesson narration, structured
+recipe quantities and observations, and exact links from experiment apparatus
+to the five existing classroom-kit part lists. These belong in the same
+Experiments/Codex/Missions flow, never a separate surface.
+
 Thirty experiments a child actually meets — the volcano, the elephant
 toothpaste, the naked egg, the red-cabbage rainbow — driven through the
 shipped bench as a stranger would drive it, and the register of what came

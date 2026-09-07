@@ -46,6 +46,7 @@
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { parseCapabilityIndex, type CapabilityPrompt } from "./lib/capabilities";
   import { parseKidsCatalog, type KidsExperiment } from "./lib/kidsCatalog";
+  import { NO_STEP_PROSE, parseStepProse, type StepProseIndex } from "./lib/stepProse";
   import { briefFor, kidsEquipmentVerbs, kidsShelfKeys, storePendingKidsSandbox, takePendingKidsSandbox, type KidsSandboxBrief } from "./lib/kidsSandbox";
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle, type MissionSummary } from "./lib/storyProgress";
@@ -505,6 +506,12 @@
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (kidsExperiments = parseKidsCatalog(raw)))
       .catch(() => {});
+    // Per-step prose paces a run; a payload without it runs exactly as it
+    // did before the file existed, so its absence is as quiet as the rest.
+    void fetch(new URL("steps/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (stepProse = parseStepProse(raw)))
+      .catch(() => {});
     void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
@@ -637,6 +644,7 @@
   let codexEntries = $state<CodexEntry[]>([]);
   let capabilityPrompts = $state<CapabilityPrompt[]>([]);
   let kidsExperiments = $state<KidsExperiment[]>([]);
+  let stepProse = $state<StepProseIndex>(NO_STEP_PROSE);
   const capabilityIds = $derived(new Set(capabilityPrompts.map((prompt) => prompt.id)));
   const codexIds = $derived(new Set(codexEntries.map((entry) => entry.id)));
   /** The burette: clamped over the selected vessel when out (GUI-033). */
@@ -1594,6 +1602,7 @@
     initialLevel={kidsOpen && kidsInitial === null ? "starter" : null}
     entries={codexEntries}
     kidsEntries={kidsExperiments}
+    {stepProse}
     {session}
     kidsInitial={kidsInitial}
     {capabilityIds}

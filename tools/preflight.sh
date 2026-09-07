@@ -69,6 +69,7 @@ step "portable deps self-test"; gated python3 -m unittest tools.tests.test_porta
 step "lesson coverage index self-test"; gated python3 -m unittest tools.tests.test_lessons_index
 step "curiosity capability index self-test"; gated python3 -m unittest tools/test_curiosity_index.py
 step "kids experiment catalog self-test"; gated python3 -m unittest tools.tests.test_kids_catalog
+step "per-step prose self-test"; gated python3 -m unittest tools.tests.test_step_prose
 step "GPU release tools self-test"; gated bash tools/test-gpu-release-tools.sh
 
 if $LIGHT; then

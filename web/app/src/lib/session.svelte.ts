@@ -98,6 +98,16 @@ export type ShelfItem = {
   molar_volume_l_per_mol?: number;
   /** A versioned named mixture/object rather than a pure species. */
   material?: boolean;
+  /** Engine-owned recipe explanation for named mixtures and objects. */
+  material_details?: {
+    basis: "mass_fraction" | "mole_fraction" | "volume_fraction";
+    confidence: "measured" | "curated" | "estimated" | "surrogate";
+    components: { key: string; lower: number; upper: number }[];
+    unresolved?: { lower: number; upper: number } | null;
+    preparation?: string | null;
+    lot_assumptions: string[];
+    source_id: string;
+  };
   /**
    * GUI-093 shelf-role inputs. All additive: an older engine build omits
    * them and `reagentRoles.ts` falls back to what `hazards` still says.

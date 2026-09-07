@@ -11,6 +11,7 @@
 
 [[reaction]]
 id = "salt-dissolves"
+progress = "starter"
 spine = ["die-eigenschaften-von-salzen"]
 equation = "NaCl(s) → Na⁺(aq) + Cl⁻(aq)"
 concepts = ["dissolving", "solutions", "ions"]
@@ -48,6 +49,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "salt-saturates"
+progress = "starter"
 equation = "NaCl(s) ⇌ Na⁺(aq) + Cl⁻(aq)  (saturated at ≈6.1 mol/kgw)"
 concepts = ["solubility-limit", "saturation", "equilibrium"]
 requires = ["dissolving"]
@@ -92,6 +94,7 @@ computed_by = "PHREEQC (pitzer.dat) via Kerotakis L2"
 
 [[reaction]]
 id = "silver-chloride-precipitation"
+progress = "starter"
 equation = "AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)"
 concepts = ["precipitation", "insoluble-salts", "ionic-equations"]
 requires = ["dissolving"]
@@ -126,6 +129,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "strong-acid"
+progress = "starter"
 spine = ["eigenschaften-von-saeuren-und-basen"]
 equation = "HCl(aq) → H⁺(aq) + Cl⁻(aq)"
 concepts = ["acids", "ph"]
@@ -162,6 +166,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "weak-acid"
+progress = "starter"
 spine = ["reaktionen-von-saeuren-und-basen"]
 equation = "CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)"
 concepts = ["weak-acids", "equilibrium", "ph"]
@@ -199,6 +204,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "buffer"
+progress = "starter"
 spine = ["reaktionen-von-saeuren-und-basen"]
 summary = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["buffers", "le-chatelier"]
@@ -240,6 +246,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "vinegar-and-baking-soda"
+progress = "starter"
 equation = "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑"
 concepts = ["gas-evolution", "acid-carbonate", "conservation-of-mass"]
 requires = ["acids"]
@@ -285,6 +292,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "hot-pack"
+progress = "starter"
 spine = ["der-energiebegriff"]
 equation = "CaCl₂(s) → Ca²⁺(aq) + 2 Cl⁻(aq)   ΔH_dis = −82.8 kJ/mol"
 concepts = ["exothermic", "enthalpy-of-solution"]
@@ -329,6 +337,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "cold-pack"
+progress = "starter"
 spine = ["der-energiebegriff"]
 equation = "KCl(s) → K⁺(aq) + Cl⁻(aq)   ΔH_dis = +17.2 kJ/mol"
 concepts = ["endothermic", "enthalpy-of-solution"]
@@ -375,6 +384,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "limescale"
+progress = "starter"
 equation = "Ca²⁺(aq) + 2 HCO₃⁻(aq) → CaCO₃(s)↓ + H₂O + CO₂↑"
 concepts = ["hard-water", "precipitation"]
 requires = ["precipitation"]
@@ -420,6 +430,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "calcination"
+progress = "starter"
 equation = "CaCO₃(s) → CaO(s) + CO₂↑   (≈1170 K)"
 concepts = ["thermal-decomposition", "calcination"]
 requires = ["gas-evolution"]
@@ -463,6 +474,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "burning-magnesium"
+progress = "intermediate"
 spine = ["redox-reaktionen"]
 equation = "2 Mg(s) + O₂(g) → 2 MgO(s)   ΔH = −601 kJ/mol"
 concepts = ["combustion", "oxidation", "conservation-of-mass"]
@@ -502,6 +514,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "flame-test-sodium"
+progress = "starter"
 summary = "Na⁺ → Na* → Na + hν (589 nm)"
 concepts = ["flame-tests", "atomic-emission"]
 

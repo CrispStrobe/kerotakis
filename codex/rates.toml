@@ -18,10 +18,12 @@
 #
 # Three approximations run through the whole file and are stated rather than
 # hidden, each with an entry of its own:
-#   · the thiosulfate rate law reads acid from the computed pH and never
-#     consumes it (`the-acid-is-never-used-up`);
+#   · the thiosulfate rate law consumes represented strong-acid equivalents
+#     with a locally fixed activity coefficient; uncoupled weak-buffer
+#     replenishment is withheld (`the-acid-is-never-used-up`);
 #   · thiosulfate is in no PHREEQC database we ship, so it dissolves but
-#     contributes nothing to pH or ionic strength (`a-salt-with-no-database`);
+#     its missing ionic contribution is explicitly disclosed, and salt-only
+#     pH is withheld (`a-salt-with-no-database`);
 #   · the pre-exponential factors are calibrated against the observable, not
 #     measured, so absolute times are ours and ratios are the chemistry
 #     (`the-cross-disappears`).
@@ -34,6 +36,7 @@
 [[reaction]]
 id = "doubling-the-thiosulfate-doubles-the-rate"
 summary = "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur"
+progress = "starter"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
 concepts = ["reaction-rate", "reaction-order"]
@@ -92,6 +95,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "the-acid-term-is-an-activity"
+progress = "advanced"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "A proton-dependent rate uses activity, while stoichiometry spends acid equivalents"
 concepts = ["activity-in-a-rate-law"]
@@ -161,6 +165,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 [[reaction]]
 id = "the-cross-disappears"
 summary = "Before timing a cloudiness threshold, check whether the limiting reagent permits it"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
 concepts = ["rate-from-a-fixed-observable"]
@@ -234,6 +239,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "the-ten-degree-rule-and-where-it-frays"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "Temperature changes the rate constant; finite-time yields also reflect depletion"
 concepts = ["temperature-and-rate", "arrhenius-equation"]
@@ -301,6 +307,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "a-steeper-barrier-breaks-the-rule-of-thumb"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["activation-energy"]
@@ -378,6 +385,7 @@ computed_by = "kerotakis-core kinetics"
 
 [[reaction]]
 id = "three-beakers-of-peroxide"
+progress = "advanced"
 spine = ["katalyse"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["catalysis"]
@@ -454,6 +462,7 @@ computed_by = "kerotakis-core kinetics"
 
 [[reaction]]
 id = "a-catalyst-comes-out-as-it-went-in"
+progress = "advanced"
 spine = ["katalyse"]
 summary = "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end"
 concepts = ["catalyst-not-consumed"]
@@ -533,6 +542,7 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 
 [[reaction]]
 id = "catalyst-area-and-stirring-change-the-rate"
+progress = "advanced"
 spine = ["katalyse"]
 summary = "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model"
 concepts = ["heterogeneous-catalysis", "surface-area", "mass-transfer"]
@@ -608,6 +618,7 @@ computed_by = "kerotakis-core quantitative catalyst activity plus the magnetic-s
 
 [[reaction]]
 id = "first-order-means-a-constant-half-life"
+progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["half-life", "first-order-kinetics"]
@@ -682,6 +693,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration, checked against th
 
 [[reaction]]
 id = "two-beakers-and-one-clock"
+progress = "advanced"
 spine = ["erkenntnisgewinnung"]
 summary = "One wait advances every prepared vessel; experimental controls share elapsed time"
 concepts = ["shared-clock"]
@@ -752,6 +764,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "a-salt-with-no-database"
+progress = "intermediate"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "An unrepresented soluble ion must not inherit pure water's pH"
 concepts = ["species-without-a-database"]
@@ -818,6 +831,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "the-acid-is-never-used-up"
+progress = "advanced"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "Finite acid is consumed: an old fixed-reservoir approximation is now a limiting-reagent test"
 concepts = ["excess-reagent-approximation"]
@@ -881,6 +895,7 @@ computed_by = "Kerotakis bounded reaction-network integration with represented a
 
 [[reaction]]
 id = "the-oxygen-is-counted-but-never-seen"
+progress = "advanced"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it."
 concepts = ["unrendered-observable"]
@@ -953,6 +968,7 @@ computed_by = "kerotakis-core kinetics for the oxygen; kerotakis-core::appearanc
 
 [[reaction]]
 id = "same-destination-different-journey"
+progress = "advanced"
 spine = ["kinetik"]
 equation = "2 H₂O₂ → 2 H₂O + O₂↑"
 concepts = ["kinetic-versus-thermodynamic-outcome"]

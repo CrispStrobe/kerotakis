@@ -2,6 +2,7 @@
   "reactions": [
     {
       "id": "strong-base",
+      "progress": "starter",
       "equation": "NaOH(s) → Na⁺(aq) + OH⁻(aq)",
       "summary": null,
       "concepts": [
@@ -109,6 +110,7 @@
     },
     {
       "id": "lye-warms-the-beaker",
+      "progress": "intermediate",
       "equation": "NaOH(s) → Na⁺(aq) + OH⁻(aq)   ΔH_dis = −44.5 kJ/mol",
       "summary": null,
       "concepts": [
@@ -220,6 +222,7 @@
     },
     {
       "id": "neutralisation",
+      "progress": "intermediate",
       "equation": "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O",
       "summary": null,
       "concepts": [
@@ -330,6 +333,7 @@
     },
     {
       "id": "past-the-equivalence-point",
+      "progress": "intermediate",
       "equation": "HCl + NaOH → NaCl + H₂O",
       "summary": "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)",
       "summary_de": "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH (Überschuss)",
@@ -427,6 +431,7 @@
     },
     {
       "id": "phosphoric-acid-three-protons",
+      "progress": "intermediate",
       "equation": "H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻ ⇌ 3 H⁺ + PO₄³⁻",
       "summary": null,
       "concepts": [
@@ -524,6 +529,7 @@
     },
     {
       "id": "phosphate-buffer",
+      "progress": "intermediate",
       "equation": "H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻",
       "summary": "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)",
       "summary_de": "H₂PO₄⁻/HPO₄²⁻-Puffer (1,5 Äquivalente Base pro H₃PO₄)",
@@ -624,6 +630,7 @@
     },
     {
       "id": "half-neutralised-vinegar",
+      "progress": "intermediate",
       "equation": "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺ + 0.5 H₂O   (pH ≈ pKa)",
       "summary": null,
       "concepts": [
@@ -723,6 +730,7 @@
     },
     {
       "id": "weak-acid-endpoint-is-alkaline",
+      "progress": "advanced",
       "equation": "CH₃COOH + NaOH → CH₃COONa + H₂O;  CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻",
       "summary": null,
       "concepts": [
@@ -822,6 +830,7 @@
     },
     {
       "id": "buffer-capacity-exceeded",
+      "progress": "intermediate",
       "equation": "CH₃COO⁻ + H⁺ → CH₃COOH",
       "summary": "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed",
       "summary_de": "CH₃COOH/CH₃COO⁻ + überschüssige HCl → Puffer zerstört",
@@ -919,6 +928,7 @@
     },
     {
       "id": "dilution-by-ten",
+      "progress": "intermediate",
       "equation": null,
       "summary": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
       "summary_de": "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L",
@@ -1017,6 +1027,7 @@
     },
     {
       "id": "washing-soda-is-alkaline",
+      "progress": "intermediate",
       "equation": "CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻",
       "summary": null,
       "concepts": [
@@ -1126,6 +1137,7 @@
     },
     {
       "id": "baking-soda-vents-carbon-dioxide",
+      "progress": "intermediate",
       "equation": "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)",
       "summary": null,
       "concepts": [
@@ -1233,6 +1245,7 @@
     },
     {
       "id": "sodium-acetate-hydrolysis",
+      "progress": "intermediate",
       "equation": "CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻   ΔH_dis = −17.3 kJ/mol",
       "summary": null,
       "concepts": [
@@ -1300,6 +1313,7 @@
     },
     {
       "id": "copper-sulfate-is-blue-and-acidic",
+      "progress": "intermediate",
       "equation": "CuSO₄ → Cu²⁺ + SO₄²⁻;  Cu²⁺ + H₂O ⇌ CuOH⁺ + H⁺",
       "summary": null,
       "concepts": [
@@ -1403,6 +1417,7 @@
     },
     {
       "id": "descaling-with-acid",
+      "progress": "intermediate",
       "equation": "CaCO₃(s) + 2 H⁺ → Ca²⁺ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -1521,6 +1536,7 @@
     },
     {
       "id": "chalk-in-water",
+      "progress": "starter",
       "equation": "CaCO₃(s) ⇌ Ca²⁺ + CO₃²⁻   (K_sp ≈ 3.3 × 10⁻⁹)",
       "summary": null,
       "concepts": [
@@ -1629,6 +1645,7 @@
     },
     {
       "id": "silver-chloride-solubility-product",
+      "progress": "intermediate",
       "equation": "AgCl(s) ⇌ Ag⁺ + Cl⁻   (K_sp ≈ 1.8 × 10⁻¹⁰)",
       "summary": null,
       "concepts": [
@@ -1703,6 +1720,7 @@
     },
     {
       "id": "common-ion-effect",
+      "progress": "intermediate",
       "equation": "AgCl(s) ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻",
       "summary": null,
       "concepts": [
@@ -1803,6 +1821,7 @@
     },
     {
       "id": "chloride-complexes-redissolve-silver",
+      "progress": "advanced",
       "equation": "AgCl(s) + Cl⁻ ⇌ AgCl₂⁻   (complexation beats the common-ion effect)",
       "summary": null,
       "concepts": [
@@ -1900,6 +1919,7 @@
     },
     {
       "id": "gypsum-carries-water-in-its-crystals",
+      "progress": "intermediate",
       "equation": "CaSO₄·2H₂O(s) ⇌ Ca²⁺ + SO₄²⁻ + 2 H₂O",
       "summary": null,
       "concepts": [
@@ -1997,6 +2017,7 @@
     },
     {
       "id": "heating-dissolves-more-salt",
+      "progress": "intermediate",
       "equation": "NaCl(s) ⇌ Na⁺ + Cl⁻, solubility rising with temperature",
       "summary": null,
       "concepts": [
@@ -2092,6 +2113,7 @@
     },
     {
       "id": "any-chloride-precipitates-silver",
+      "progress": "intermediate",
       "equation": "Ag⁺ + Cl⁻ → AgCl(s)↓   (K⁺ and NO₃⁻ are spectators)",
       "summary": null,
       "concepts": [
@@ -2192,6 +2214,7 @@
     },
     {
       "id": "acetates-stay-dissolved",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)",
       "summary_de": "Ca²⁺ + 2 CH₃COO⁻ → kein Niederschlag (alle Acetate sind löslich)",
@@ -2290,6 +2313,7 @@
     },
     {
       "id": "softening-with-washing-soda",
+      "progress": "intermediate",
       "equation": "Ca²⁺ + CO₃²⁻ → CaCO₃(s)↓",
       "summary": null,
       "concepts": [
@@ -2390,6 +2414,7 @@
     },
     {
       "id": "permanent-hardness-makes-gypsum",
+      "progress": "intermediate",
       "equation": "Ca²⁺ + SO₄²⁻ + 2 H₂O → CaSO₄·2H₂O(s)↓",
       "summary": null,
       "concepts": [
@@ -2453,6 +2478,7 @@
     },
     {
       "id": "filtering-a-precipitate",
+      "progress": "starter",
       "equation": null,
       "summary": "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through",
       "summary_de": "AgCl(s) bleibt auf dem Papier zurück;  Na⁺, NO₃⁻ passieren",
@@ -2568,6 +2594,7 @@
     },
     {
       "id": "crystallising-salt-from-brine",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Na⁺ + Cl⁻ → NaCl(s)  as water leaves",
       "summary_de": "Na⁺ + Cl⁻ → NaCl(s), während Wasser entweicht",
@@ -2681,6 +2708,7 @@
     },
     {
       "id": "permanganate-is-visible-when-almost-absent",
+      "progress": "intermediate",
       "equation": "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)",
       "summary": null,
       "concepts": [
@@ -2779,6 +2807,7 @@
     },
     {
       "id": "ethanol-and-water-mix",
+      "progress": "intermediate",
       "equation": null,
       "summary": "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)",
       "summary_de": "C₂H₅OH(l) + H₂O(l) → eine flüssige Phase (vollständig mischbar)",
@@ -2877,6 +2906,7 @@
     },
     {
       "id": "bleach-and-acid",
+      "progress": "intermediate",
       "equation": "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O",
       "summary": null,
       "concepts": [
@@ -2973,6 +3003,7 @@
     },
     {
       "id": "neutral-is-a-moving-target",
+      "progress": "starter",
       "equation": "H₂O ⇌ H⁺ + OH⁻",
       "summary": null,
       "concepts": [
@@ -3073,6 +3104,7 @@
     },
     {
       "id": "bicarbonate-plays-both-sides",
+      "progress": "advanced",
       "equation": "HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O",
       "summary": null,
       "concepts": [
@@ -3173,6 +3205,7 @@
     },
     {
       "id": "the-antacid-runs-on-arithmetic",
+      "progress": "intermediate",
       "equation": "NaHCO₃ + HCl → NaCl + H₂O + CO₂",
       "summary": null,
       "concepts": [
@@ -3290,6 +3323,7 @@
     },
     {
       "id": "the-indicator-is-chosen-for-the-jump",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl orange fired long before, deep in the buffer — the indicator is chosen to sit on the jump, not for its looks",
       "summary_de": "Phenolphthalein schlägt am Endpunkt dieser Titration um (pH 8,6); Methylorange hat schon viel früher umgeschlagen, mitten im Pufferbereich — der Indikator wird für den Sprung gewählt, nicht für seine Optik",
@@ -3385,6 +3419,7 @@
     },
     {
       "id": "the-in-between-colour-is-a-mixture",
+      "progress": "advanced",
       "equation": null,
       "summary": "Bromothymol blue near neutral is green — not a third colour of the dye, but the computed mixture of its yellow and blue forms at the solved ratio",
       "summary_de": "Bromthymolblau ist nahe dem neutralen Punkt grün — keine dritte Farbe des Farbstoffs, sondern die berechnete Mischung seiner gelben und blauen Form im gelösten Verhältnis",
@@ -3478,7 +3513,111 @@
       }
     },
     {
+      "id": "charcoal-holds-the-dye",
+      "progress": "intermediate",
+      "equation": null,
+      "summary": "Activated charcoal holds most of a dissolved dye on its surface; filtration retains that bound share while the remainder passes through",
+      "summary_de": "Aktivkohle hält den größten Teil eines gelösten Farbstoffs an ihrer Oberfläche fest; beim Filtrieren bleibt dieser gebundene Anteil zurück, während der Rest hindurchfließt",
+      "concepts": [
+        "adsorption",
+        "surface-area",
+        "filtration",
+        "separation",
+        "model-boundary"
+      ],
+      "requires": [
+        "solutions",
+        "filtration"
+      ],
+      "spine": [
+        "filtration"
+      ],
+      "curriculum": [
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — separation techniques",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+        }
+      ],
+      "apparatus": [
+        "beaker",
+        "filter-funnel",
+        "filter-paper"
+      ],
+      "calculations": [
+        "percentage-removal",
+        "adsorption-capacity"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 water 100mL\nadd v1 methyl_orange 0.001mol\nadd v1 activated_charcoal 1g\nnew\nfilter v1 v2\nlook v1\nlook v2\n"
+      },
+      "expect": {
+        "events": [
+          "adsorbed:methyl_orange",
+          "filtered",
+          "observed"
+        ],
+        "absent": [],
+        "predict": {
+          "question": "One gram of activated charcoal meets 327 mg of dissolved methyl orange before the mixture is filtered. What should the filtrate contain?",
+          "question_de": "Ein Gramm Aktivkohle trifft vor dem Filtrieren auf 327 mg gelöstes Methylorange. Was sollte das Filtrat enthalten?",
+          "options": [
+            "Pure water — charcoal is a universal purifier and removes every dissolved substance",
+            "Less dye, but still some dye: the charcoal has a finite surface capacity, and only the unbound share passes through the filter",
+            "All 327 mg of dye — filter paper retains the charcoal, so anything it held must be squeezed back into the water"
+          ],
+          "options_de": [
+            "Reines Wasser — Aktivkohle ist ein Universalreiniger und entfernt jeden gelösten Stoff",
+            "Weniger Farbstoff, aber noch etwas davon: Die Kohle hat eine endliche Oberflächenkapazität, und nur der ungebundene Anteil passiert den Filter",
+            "Alle 327 mg Farbstoff — das Filterpapier hält die Kohle zurück, also muss alles Festgehaltene ins Wasser zurückgepresst werden"
+          ],
+          "answer": 1,
+          "misconception": "Adsorption is easily mistaken for destruction or perfect purification. The dye is conserved: this one curated surface equilibrium divides it between charcoal and water. Filter paper then separates phases, retaining the charcoal and its bound dye while the still-dissolved share follows the water. A finite surface capacity makes 'most' and 'all' chemically different answers.",
+          "misconception_de": "Adsorption wird leicht mit Zerstörung oder vollkommener Reinigung verwechselt. Der Farbstoff bleibt erhalten: Dieses eine kuratierte Oberflächengleichgewicht verteilt ihn zwischen Kohle und Wasser. Das Filterpapier trennt anschließend die Phasen; es hält die Kohle samt gebundenem Farbstoff zurück, während der noch gelöste Anteil dem Wasser folgt. Bei endlicher Oberflächenkapazität sind ‚der größte Teil‘ und ‚alles‘ chemisch verschiedene Antworten.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "Black powder is treated as a universal sink: if the colour fades, every contaminant must have vanished and the water must be safe.",
+              "reveals_de": "Schwarzes Pulver gilt als universelle Senke: Verblasst die Farbe, müssen alle Verunreinigungen verschwunden und das Wasser sicher sein.",
+              "next": "Inspect both vessels after filtering. The retained carbon carries dye, but v2 still reports dissolved methyl orange. Filtration plus one adsorption isotherm is not a drinking-water certificate, and this bench makes no claim about microbes, toxins, taste, or any second solute.",
+              "next_de": "Untersuche nach dem Filtrieren beide Gefäße. Die zurückgehaltene Kohle trägt Farbstoff, aber v2 meldet weiterhin gelöstes Methylorange. Filtration plus eine Adsorptionsisotherme ist kein Trinkwasserzertifikat; dieses Labor macht keine Aussage über Mikroben, Giftstoffe, Geschmack oder einen zweiten gelösten Stoff.",
+              "source": null
+            },
+            {
+              "option": 2,
+              "reveals": "Filtration is imagined to reverse adsorption, as though holding back the solid forces its surface cargo through the paper.",
+              "reveals_de": "Filtration wird als Umkehr der Adsorption vorgestellt, als würde das Zurückhalten des Feststoffs seine Oberflächenfracht durch das Papier zwingen.",
+              "next": "Follow the matter rather than the colour: bound dye belongs to the retained solid ledger; free dye belongs to the liquid ledger. Filtering moves the liquid phase and leaves the solid phase behind, so each share goes where its phase goes.",
+              "next_de": "Verfolge die Materie statt der Farbe: Gebundener Farbstoff gehört zur zurückgehaltenen Feststoffbilanz, freier Farbstoff zur Flüssigkeitsbilanz. Beim Filtrieren bewegt sich die Flüssigphase und die Festphase bleibt zurück; jeder Anteil geht dorthin, wohin seine Phase geht.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "The black charcoal grabs most of the orange dye and keeps hold of it when the water passes through the paper. The water underneath is less coloured, but not clean: some dye is still dissolved, because one gram of charcoal has only so much surface to offer.",
+        "lv1_de": "Die schwarze Aktivkohle schnappt sich den größten Teil des orangefarbenen Farbstoffs und hält ihn fest, während das Wasser durch das Papier läuft. Das Wasser darunter ist weniger gefärbt, aber nicht sauber: Etwas Farbstoff ist noch gelöst, denn ein Gramm Kohle bietet nur eine begrenzte Oberfläche.",
+        "lv2": "A Langmuir equilibrium partitions 0.001 mol (327 mg) of methyl orange between 1 g of activated charcoal and 100 mL of water. The curated 200 mg/g monolayer capacity is smaller than the dose, so adsorption is substantial but incomplete; filtration retains the carbon and its adsorbed share, while the remaining dissolved dye enters v2.",
+        "lv2_de": "Ein Langmuir-Gleichgewicht verteilt 0,001 mol (327 mg) Methylorange zwischen 1 g Aktivkohle und 100 mL Wasser. Die kuratierte Monolagenkapazität von 200 mg/g ist kleiner als die Dosis, daher ist die Adsorption stark, aber unvollständig; die Filtration hält Kohle und adsorbierten Anteil zurück, während der gelöste Rest in v2 gelangt.",
+        "lv3": "The vessel carries adsorbed moles as conserved matter owned by the sorbent, separate from dissolved inventory. The one installed isotherm has qmax = 200 mg/g and K = 0.05 L/mg, both commonly tabulated estimates in a provenance lane still pending review. It is an instantaneous equilibrium projection, not uptake kinetics: `wait` changes nothing. Carbon grade, pore-size distribution, activation, specific area, pH dependence and competitive adsorption are absent, so this result speaks only for methyl orange on the nominal activated carbon row.",
+        "lv3_de": "Das Gefäß führt adsorbierte Mole als erhaltene, dem Adsorbens zugeordnete Materie getrennt vom gelösten Inventar. Die einzige installierte Isotherme besitzt qmax = 200 mg/g und K = 0,05 L/mg; beide sind allgemein tabellierte Schätzwerte in einer noch ausstehenden Provenienzprüfung. Sie ist eine sofortige Gleichgewichtsprojektion, keine Aufnahmekinetik: `wait` ändert nichts. Kohlesorte, Porengrößenverteilung, Aktivierung, spezifische Oberfläche, pH-Abhängigkeit und konkurrierende Adsorption fehlen; das Ergebnis gilt daher nur für Methylorange und die nominelle Aktivkohlezeile."
+      },
+      "provenance": {
+        "source": "Langmuir monolayer adsorption of methyl orange on powdered activated carbon, using the exact curated isotherm and boundary in kerotakis-core::adsorption. Both parameters are recorded there as commonly tabulated estimates and their provenance lane is PENDING REVIEW; no paper-level transcription is claimed. Powdered activated carbon is used only as a virtual school-laboratory material here: carbon dust can be explosible, and spent carbon loaded with oxidisers can self-heat. This is not a home purification procedure and the filtrate is not claimed potable. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06.",
+        "licence": null,
+        "computed_by": "Kerotakis bounded Langmuir adsorption equilibrium and conserved adsorbed ledger; phase separation by the Kerotakis filter operation"
+      }
+    },
+    {
       "id": "endpoint-is-not-a-full-drop",
+      "progress": "intermediate",
       "equation": null,
       "summary": "A coarse trial step brackets the endpoint; a computed partial step reaches it",
       "summary_de": "Ein grober Probeschritt grenzt den Endpunkt ein; ein berechneter Teilschritt erreicht ihn",
@@ -3558,6 +3697,7 @@
     },
     {
       "id": "equilibrium-can-run-backward",
+      "progress": "advanced",
       "equation": null,
       "summary": "An equilibrium request can form or consume ester, depending on the initial mixture",
       "summary_de": "Eine Gleichgewichtsberechnung kann je nach Ausgangsmischung Ester bilden oder verbrauchen",
@@ -3632,6 +3772,7 @@
     },
     {
       "id": "salt-dissolves",
+      "progress": "starter",
       "equation": "NaCl(s) → Na⁺(aq) + Cl⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3697,6 +3838,7 @@
     },
     {
       "id": "salt-saturates",
+      "progress": "starter",
       "equation": "NaCl(s) ⇌ Na⁺(aq) + Cl⁻(aq)  (saturated at ≈6.1 mol/kgw)",
       "summary": null,
       "concepts": [
@@ -3768,6 +3910,7 @@
     },
     {
       "id": "silver-chloride-precipitation",
+      "progress": "starter",
       "equation": "AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)",
       "summary": null,
       "concepts": [
@@ -3823,6 +3966,7 @@
     },
     {
       "id": "strong-acid",
+      "progress": "starter",
       "equation": "HCl(aq) → H⁺(aq) + Cl⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3885,6 +4029,7 @@
     },
     {
       "id": "weak-acid",
+      "progress": "starter",
       "equation": "CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)",
       "summary": null,
       "concepts": [
@@ -3950,6 +4095,7 @@
     },
     {
       "id": "buffer",
+      "progress": "starter",
       "equation": null,
       "summary": "CH₃COOH / CH₃COO⁻ buffer",
       "summary_de": "CH₃COOH / CH₃COO⁻-Puffer",
@@ -4015,6 +4161,7 @@
     },
     {
       "id": "vinegar-and-baking-soda",
+      "progress": "starter",
       "equation": "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -4086,6 +4233,7 @@
     },
     {
       "id": "hot-pack",
+      "progress": "starter",
       "equation": "CaCl₂(s) → Ca²⁺(aq) + 2 Cl⁻(aq)   ΔH_dis = −82.8 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4161,6 +4309,7 @@
     },
     {
       "id": "cold-pack",
+      "progress": "starter",
       "equation": "KCl(s) → K⁺(aq) + Cl⁻(aq)   ΔH_dis = +17.2 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4236,6 +4385,7 @@
     },
     {
       "id": "limescale",
+      "progress": "starter",
       "equation": "Ca²⁺(aq) + 2 HCO₃⁻(aq) → CaCO₃(s)↓ + H₂O + CO₂↑",
       "summary": null,
       "concepts": [
@@ -4306,6 +4456,7 @@
     },
     {
       "id": "calcination",
+      "progress": "starter",
       "equation": "CaCO₃(s) → CaO(s) + CO₂↑   (≈1170 K)",
       "summary": null,
       "concepts": [
@@ -4377,6 +4528,7 @@
     },
     {
       "id": "burning-magnesium",
+      "progress": "intermediate",
       "equation": "2 Mg(s) + O₂(g) → 2 MgO(s)   ΔH = −601 kJ/mol",
       "summary": null,
       "concepts": [
@@ -4446,6 +4598,7 @@
     },
     {
       "id": "flame-test-sodium",
+      "progress": "starter",
       "equation": null,
       "summary": "Na⁺ → Na* → Na + hν (589 nm)",
       "summary_de": "Na⁺ → Na* → Na + hν (589 nm)",
@@ -4517,6 +4670,7 @@
     },
     {
       "id": "moles-from-mass",
+      "progress": "starter",
       "equation": null,
       "summary": "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol",
       "summary_de": "n = m / M   ·   5,844 g NaCl ÷ 58,443 g/mol = 0,1000 mol",
@@ -4627,6 +4781,7 @@
     },
     {
       "id": "concentration-is-a-ratio",
+      "progress": "starter",
       "equation": null,
       "summary": "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L",
       "summary_de": "c = n / V   ·   0,1000 mol in 0,100 L = 1,00 mol/L; dieselben 0,1000 mol in 0,200 L = 0,50 mol/L",
@@ -4745,6 +4900,7 @@
     },
     {
       "id": "dilution-moves-ph-by-one",
+      "progress": "intermediate",
       "equation": null,
       "summary": "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01",
       "summary_de": "c₁V₁ = c₂V₂   ·   0,001 mol in 0,100 L → pH-Wert 2,04; dieselbe Säure in 1,000 L → pH-Wert 3,01",
@@ -4872,6 +5028,7 @@
     },
     {
       "id": "stoichiometric-ratio-from-the-equation",
+      "progress": "advanced",
       "equation": "2 Mg + O₂ → 2 MgO   ·   2.40 g Mg → 3.98 g MgO, a ratio of 40.304 : 24.305",
       "summary": null,
       "concepts": [
@@ -4988,6 +5145,7 @@
     },
     {
       "id": "limiting-reagent",
+      "progress": "advanced",
       "equation": "Ag⁺ + Cl⁻ → AgCl↓   ·   0.0200 mol Ag⁺ + 0.0100 mol Cl⁻ → 0.0100 mol AgCl (and the reverse)",
       "summary": null,
       "concepts": [
@@ -5106,6 +5264,7 @@
     },
     {
       "id": "theoretical-yield-and-what-a-real-lab-loses",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g",
       "summary_de": "0,0100 mol AgCl × 143,32 g/mol = 1,43 g theoretisch; der Filter gewinnt 1,43 g zurück",
@@ -5208,6 +5367,7 @@
     },
     {
       "id": "the-carbon-came-from-the-baking-soda",
+      "progress": "advanced",
       "equation": "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid",
       "summary": null,
       "concepts": [
@@ -5327,6 +5487,7 @@
     },
     {
       "id": "mass-in-an-open-vessel",
+      "progress": "intermediate",
       "equation": "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑",
       "summary": "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂.",
       "summary_de": "252,66 g + 3,60 g Säure = 256,26 g erwartet; die Waage zeigt 254,84 g. Die 1,4 g entsprechen 0,0317 mol CO₂.",
@@ -5440,6 +5601,7 @@
     },
     {
       "id": "ph-is-not-quite-minus-log-c",
+      "progress": "intermediate",
       "equation": "HCl → H⁺ + Cl⁻",
       "summary": "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08",
       "summary_de": "0,100 mol/L HCl: −log c = 1,00, und das Messgerät zeigt 1,08",
@@ -5549,6 +5711,7 @@
     },
     {
       "id": "a-weak-acid-breaks-the-naive-sum",
+      "progress": "intermediate",
       "equation": "CH₃COOH ⇌ H⁺ + CH₃COO⁻",
       "summary": "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88",
       "summary_de": "0,100 mol/L: HCl → pH-Wert 1,08; CH₃COOH → pH-Wert 2,88",
@@ -5659,6 +5822,7 @@
     },
     {
       "id": "hot-pack-arithmetic",
+      "progress": "advanced",
       "equation": "CaCl₂ → Ca²⁺ + 2 Cl⁻",
       "summary": "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K",
       "summary_de": "ΔT = q / (n·Cp)   ·   8,28 kJ ÷ (5,5343 mol × 75,3 J·mol⁻¹·K⁻¹) = 19,9 K",
@@ -5783,6 +5947,7 @@
     },
     {
       "id": "cold-from-baking-soda",
+      "progress": "advanced",
       "equation": "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol",
       "summary": null,
       "concepts": [
@@ -5903,6 +6068,7 @@
     },
     {
       "id": "two-vessels-one-variable",
+      "progress": "advanced",
       "equation": null,
       "summary": "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C",
       "summary_de": "Dieselben 0,1000 mol CaCl₂; 100 mL → 44,87 °C, 200 mL → 34,93 °C",
@@ -6021,6 +6187,7 @@
     },
     {
       "id": "two-paths-one-temperature",
+      "progress": "intermediate",
       "equation": "NaOH(s) + HCl(aq) → NaCl(aq) + H₂O",
       "summary": null,
       "concepts": [
@@ -6130,6 +6297,7 @@
     },
     {
       "id": "chalk-below-the-kiln",
+      "progress": "intermediate",
       "equation": null,
       "summary": "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens",
       "summary_de": "CaCO₃(s) + Wärme → CaCO₃(s)   ·   147 °C sind heiß, und es passiert nichts",
@@ -6262,6 +6430,7 @@
     },
     {
       "id": "chalk-in-the-kiln",
+      "progress": "advanced",
       "equation": "CaCO₃(s) → CaO(s) + CO₂↑   ·   8 kJ takes 10 g of chalk past 1000 °C and it gives way",
       "summary": null,
       "concepts": [
@@ -6359,7 +6528,7 @@
       "registers": {
         "lv1": "Now the chalk really does change. It glows, then goes dull, and what is left is a different white powder that weighs much less — and if you drop water on it, it hisses and gets hot. This is how lime for mortar has been made for four thousand years, and the only thing you needed was a hot enough fire.",
         "lv1_de": "Jetzt verändert sich die Kreide tatsächlich. Sie glüht, wird dann matt, und was übrig bleibt, ist ein anderes weißes Pulver, das viel weniger wiegt — und tropfst du Wasser darauf, zischt es und wird heiß. So wird seit viertausend Jahren Mörtelkalk hergestellt, und das Einzige, was du dafür brauchtest, war ein ausreichend heißes Feuer.",
-        "lv2": "8 kJ takes 0.0999 mol of chalk to about 1000 °C, above the decomposition point. CaCO₃ → CaO + CO₂: the carbon dioxide escapes and the balance falls from 10.00 g towards the mass of the quicklime alone. Every mole of chalk that decomposes gives up 44.009 g of gas and keeps 56.077 g of oxide — a loss of 44%.",
+        "lv2": "8 kJ into 0.0999 mol of chalk at 81.9 J·mol⁻¹·K⁻¹ carries it to about 1000 °C, past the decomposition point — and the decomposition then costs more than the dose had left, so the crucible settles back below it with the reaction part done. CaCO₃ → CaO + CO₂: the carbon dioxide escapes and the balance falls from 10.00 g towards the mass of the quicklime alone. Every mole of chalk that decomposes gives up 44.009 g of gas and keeps 56.077 g of oxide — a loss of 44%.",
         "lv2_de": "8 kJ bringen 0,0999 mol Kreide auf etwa 1000 °C, über den Zersetzungspunkt hinaus. CaCO₃ → CaO + CO₂: Das Kohlenstoffdioxid entweicht, und die Waage fällt von 10,00 g auf die Masse des reinen Branntkalks. Jedes Mol Kreide, das sich zersetzt, gibt 44,009 g Gas ab und behält 56,077 g Oxid — ein Verlust von 44 %.",
         "lv3": "The threshold is not tabulated. The minimiser is handed the element budget of the vessel plus its share of the atmosphere and asked for the composition with the lowest Gibbs energy at the temperature the enthalpy balance settles at; calcite wins below the crossing and lime-plus-gas above it. Element balance is a hard constraint here rather than an aspiration: the solver refuses to return a composition whose atoms do not add up to the ones that went in, to within a part in a billion, and it will report a failure to converge rather than a composition that creates matter. That check is the reason this entry can quote amounts at all — an earlier version of the minimiser tested convergence on the size of its own correction step instead of on the residual, and quietly returned twice the carbon dioxide it started with.",
         "lv3_de": "Die Schwelle ist nicht tabelliert. Dem Minimierer werden das Elementbudget des Gefäßes sowie sein Anteil an der Atmosphäre übergeben, und er wird nach der Zusammensetzung mit der niedrigsten Gibbs-Energie bei der Temperatur gefragt, auf die sich die Enthalpiebilanz einpendelt; unterhalb des Übergangs gewinnt Calcit, oberhalb Kalk-plus-Gas. Die Elementbilanz ist hier eine harte Randbedingung und kein Anspruch: Der Löser verweigert die Rückgabe einer Zusammensetzung, deren Atome nicht bis auf ein Milliardstel mit den eingesetzten übereinstimmen, und meldet lieber ein Nicht-Konvergieren als eine Zusammensetzung, die Materie erschafft. Diese Kontrolle ist der Grund, warum dieser Eintrag überhaupt Mengen nennen kann — eine frühere Version des Minimierers prüfte die Konvergenz anhand der Größe ihres eigenen Korrekturschritts statt anhand des Residuums und lieferte still und leise die doppelte Menge des Kohlenstoffdioxids, mit dem sie begonnen hatte."
@@ -6372,6 +6541,7 @@
     },
     {
       "id": "burning-makes-it-heavier",
+      "progress": "advanced",
       "equation": "2 Mg + O₂ → 2 MgO   ·   1.20 g of ribbon → 1.99 g of ash",
       "summary": null,
       "concepts": [
@@ -6497,6 +6667,7 @@
     },
     {
       "id": "burning-makes-it-lighter",
+      "progress": "advanced",
       "equation": "C + O₂ → CO₂↑   ·   1.20 g of charcoal → nothing on the balance",
       "summary": null,
       "concepts": [
@@ -6618,6 +6789,7 @@
     },
     {
       "id": "flame-temperature-is-a-balance-not-a-property",
+      "progress": "advanced",
       "equation": null,
       "summary": "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C",
       "summary_de": "2 Mg + O₂ → 2 MgO von 228 °C → 2177 °C; dieselbe Reaktion von 927 °C → 2769 °C",
@@ -6733,6 +6905,7 @@
     },
     {
       "id": "why-the-shelf-is-not-on-fire",
+      "progress": "advanced",
       "equation": null,
       "summary": "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there",
       "summary_de": "Mg + ½O₂ → MgO ist bei jeder Temperatur begünstigt; bei 224 °C liegt das Band einfach nur da",
@@ -6847,6 +7020,7 @@
     },
     {
       "id": "a-spark-that-changes-nothing",
+      "progress": "starter",
       "equation": null,
       "summary": "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)",
       "summary_de": "KCl + Funke → KCl (lila Flamme, 5,00 g hinein, 5,00 g heraus)",
@@ -6968,6 +7142,7 @@
     },
     {
       "id": "weigh-before-and-after",
+      "progress": "advanced",
       "equation": null,
       "summary": "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains",
       "summary_de": "5,844 g NaCl + 100 mL Wasser = 105,54 g; verdampft das Wasser, bleiben 5,84 g übrig",
@@ -7089,6 +7264,7 @@
     },
     {
       "id": "the-salt-comes-back-the-ribbon-does-not",
+      "progress": "advanced",
       "equation": null,
       "summary": "Dissolving reverses when the water leaves; burning does not reverse at any temperature — the difference is whether a new substance formed",
       "summary_de": "Lösen kehrt sich um, wenn das Wasser entweicht; Verbrennen kehrt sich bei keiner Temperatur um — der Unterschied ist, ob ein neuer Stoff entstanden ist",
@@ -7210,6 +7386,7 @@
     },
     {
       "id": "a-nanomole-is-not-a-cloud",
+      "progress": "advanced",
       "equation": null,
       "summary": "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported",
       "summary_de": "1,5 µmol Ag⁺ + 1,5 µmol Cl⁻ in 100 mL: Silberchlorid entsteht, und es wird keine Fällung gemeldet",
@@ -7323,6 +7500,7 @@
     },
     {
       "id": "when-the-lab-says-it-does-not-know",
+      "progress": "intermediate",
       "equation": null,
       "summary": "gypsum(s) + propanone(l) → not modelled",
       "summary_de": "Gips(s) + Propanon(l) → nicht modelliert",
@@ -7444,6 +7622,7 @@
     },
     {
       "id": "sugar-syrup-by-density",
+      "progress": "intermediate",
       "equation": null,
       "summary": "25.0 g sugar into 100 mL water → balance 124.70 g → 20.05 % w/w → ρ = 1.0813 g/mL",
       "concepts": [
@@ -7533,6 +7712,7 @@
     },
     {
       "id": "warm-water-climbs-less",
+      "progress": "advanced",
       "equation": null,
       "summary": "100 mL water + 15 kJ: 25.00 °C → 60.99 °C, and σ falls 71.97 → 66.07 mN/m with it",
       "concepts": [
@@ -7623,9 +7803,9 @@
     },
     {
       "id": "doubling-the-thiosulfate-doubles-the-rate",
+      "progress": "starter",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur",
-      "summary_de": "Doppeltes Thiosulfat verdoppelt die Anfangsgeschwindigkeit, nicht unbedingt die später gebildete Schwefelmenge",
       "concepts": [
         "reaction-rate",
         "reaction-order"
@@ -7723,10 +7903,12 @@
         "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
         "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
-      }
+      },
+      "summary_de": "Doppeltes Thiosulfat verdoppelt die Anfangsgeschwindigkeit, nicht unbedingt die später gebildete Schwefelmenge"
     },
     {
       "id": "the-acid-term-is-an-activity",
+      "progress": "advanced",
       "equation": null,
       "summary": "A proton-dependent rate uses activity, while stoichiometry spends acid equivalents",
       "summary_de": "Eine protonenabhängige Geschwindigkeit verwendet Aktivität; die Stöchiometrie verbraucht Säureäquivalente",
@@ -7841,9 +8023,9 @@
     },
     {
       "id": "the-cross-disappears",
+      "progress": "intermediate",
       "equation": "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
       "summary": "Before timing a cloudiness threshold, check whether the limiting reagent permits it",
-      "summary_de": "Vor dem Stoppen einer Trübungsschwelle prüfen, ob der limitierende Stoff sie erlaubt",
       "concepts": [
         "rate-from-a-fixed-observable"
       ],
@@ -7942,10 +8124,12 @@
         "source": "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported.",
         "licence": null,
         "computed_by": "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
-      }
+      },
+      "summary_de": "Vor dem Stoppen einer Trübungsschwelle prüfen, ob der limitierende Stoff sie erlaubt"
     },
     {
       "id": "the-ten-degree-rule-and-where-it-frays",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Temperature changes the rate constant; finite-time yields also reflect depletion",
       "summary_de": "Die Temperatur ändert die Geschwindigkeitskonstante; endliche Ausbeuten spiegeln auch den Verbrauch wider",
@@ -8055,6 +8239,7 @@
     },
     {
       "id": "a-steeper-barrier-breaks-the-rule-of-thumb",
+      "progress": "intermediate",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8177,6 +8362,7 @@
     },
     {
       "id": "three-beakers-of-peroxide",
+      "progress": "advanced",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8295,6 +8481,7 @@
     },
     {
       "id": "a-catalyst-comes-out-as-it-went-in",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end",
       "summary_de": "0,001 g Katalase zerstört drei aufeinanderfolgende 0,1-mol-Portionen Peroxid, jede innerhalb einer Sekunde, und liegt am Ende immer noch bei 4,16666667 × 10⁻⁹ mol",
@@ -8424,6 +8611,7 @@
     },
     {
       "id": "catalyst-area-and-stirring-change-the-rate",
+      "progress": "advanced",
       "equation": null,
       "summary": "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model",
       "concepts": [
@@ -8520,6 +8708,7 @@
     },
     {
       "id": "first-order-means-a-constant-half-life",
+      "progress": "intermediate",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -8638,6 +8827,7 @@
     },
     {
       "id": "two-beakers-and-one-clock",
+      "progress": "advanced",
       "equation": null,
       "summary": "One wait advances every prepared vessel; experimental controls share elapsed time",
       "summary_de": "Ein Warten bewegt alle vorbereiteten Gefäße weiter; Kontrollen teilen dieselbe vergangene Zeit",
@@ -8755,6 +8945,7 @@
     },
     {
       "id": "a-salt-with-no-database",
+      "progress": "intermediate",
       "equation": null,
       "summary": "An unrepresented soluble ion must not inherit pure water's pH",
       "summary_de": "Ein nicht dargestelltes lösliches Ion darf nicht den pH von reinem Wasser erben",
@@ -8868,6 +9059,7 @@
     },
     {
       "id": "the-acid-is-never-used-up",
+      "progress": "advanced",
       "equation": null,
       "summary": "Finite acid is consumed: an old fixed-reservoir approximation is now a limiting-reagent test",
       "summary_de": "Endliche Säure wird verbraucht: Eine alte Festreservoir-Näherung ist jetzt ein Test des limitierenden Stoffes",
@@ -8983,6 +9175,7 @@
     },
     {
       "id": "the-oxygen-is-counted-but-never-seen",
+      "progress": "advanced",
       "equation": null,
       "summary": "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it.",
       "summary_de": "0,05 mol Sauerstoff — etwa 1,2 L — befinden sich im Kolben; man sieht ihn aufsteigen und kann ihn nicht messen.",
@@ -9102,6 +9295,7 @@
     },
     {
       "id": "same-destination-different-journey",
+      "progress": "advanced",
       "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
       "summary": null,
       "concepts": [
@@ -9221,6 +9415,7 @@
     },
     {
       "id": "permanganate-counts-in-fives",
+      "progress": "intermediate",
       "equation": "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O",
       "summary": null,
       "concepts": [
@@ -9320,6 +9515,7 @@
     },
     {
       "id": "half-oxidised-iron-reads-its-own-potential",
+      "progress": "advanced",
       "equation": null,
       "summary": "At half-oxidation, Eh reads the Fe(III)/Fe(II) couple's own formal potential — +0.674 V here, below the tabulated 0.771 V, because sulfate binds Fe(III) harder than Fe(II)",
       "summary_de": "Bei halber Oxidation zeigt Eh das eigene Formalpotenzial des Fe(III)/Fe(II)-Paares an — hier +0,674 V, unter dem tabellierten Wert von 0,771 V, weil Sulfat Fe(III) stärker bindet als Fe(II)",
@@ -9418,6 +9614,7 @@
     },
     {
       "id": "the-oxidant-is-spent-to-the-last-electron",
+      "progress": "advanced",
       "equation": "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O",
       "summary": null,
       "concepts": [
@@ -9516,6 +9713,7 @@
     },
     {
       "id": "the-series-decides-who-plates",
+      "progress": "advanced",
       "equation": "Zn + Cu²⁺ → Zn²⁺ + Cu",
       "summary": null,
       "concepts": [
@@ -9635,6 +9833,7 @@
     },
     {
       "id": "metals-below-hydrogen-fizz",
+      "progress": "advanced",
       "equation": "Mg + 2 H⁺ → Mg²⁺ + H₂",
       "summary": null,
       "concepts": [
@@ -9752,6 +9951,7 @@
     },
     {
       "id": "the-silver-tree",
+      "progress": "advanced",
       "equation": "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag",
       "summary": null,
       "concepts": [
@@ -9867,6 +10067,7 @@
     },
     {
       "id": "silver-does-not-stoop",
+      "progress": "advanced",
       "equation": null,
       "summary": "The series is an order: metallic silver in copper sulfate does nothing, and the nothing is a computed result",
       "summary_de": "Die Spannungsreihe ist eine Ordnung: Metallisches Silber in Kupfersulfat tut nichts, und dieses Nichts ist ein berechnetes Ergebnis",
@@ -9979,6 +10180,7 @@
     },
     {
       "id": "zinc-guards-iron",
+      "progress": "advanced",
       "equation": "Zn + Fe²⁺ → Zn²⁺ + Fe",
       "summary": null,
       "concepts": [
@@ -10094,6 +10296,7 @@
     },
     {
       "id": "the-daniell-cell-offers-its-voltage",
+      "progress": "advanced",
       "equation": null,
       "summary": "Two half-cells and a salt bridge: the Daniell cell reads 1.104 V open-circuit — the distance between two rungs of the series, offered before any current flows",
       "summary_de": "Zwei Halbzellen und eine Salzbrücke: Die Daniell-Zelle zeigt im Leerlauf 1,104 V — der Abstand zwischen zwei Sprossen der Spannungsreihe, angeboten, bevor überhaupt Strom fließt",
@@ -10192,6 +10395,7 @@
     },
     {
       "id": "dilution-buys-less-than-the-slide-rule-says",
+      "progress": "advanced",
       "equation": null,
       "summary": "Tenfold dilution of the copper side costs 18.2 mV, not the Nernst slide-rule's 29.6 — the equation is exact over activities, and the concentrations are not the activities",
       "summary_de": "Zehnfache Verdünnung der Kupferseite kostet 18,2 mV, nicht die 29,6 mV des Nernst-Rechenschiebers — die Gleichung ist exakt über Aktivitäten, und die Konzentrationen sind nicht die Aktivitäten",
@@ -10290,6 +10494,7 @@
     },
     {
       "id": "a-battery-from-nothing-but-imbalance",
+      "progress": "advanced",
       "equation": null,
       "summary": "A concentration cell: identical copper electrodes, tenfold different solutions — E° cancels to 0.000 and the meter still reads 18 mV, the Nernst term standing alone",
       "summary_de": "Eine Konzentrationszelle: identische Kupferelektroden, zehnfach unterschiedliche Lösungen — E° hebt sich zu 0,000 auf, und das Messgerät zeigt trotzdem 18 mV, der Nernst-Term ganz allein",
@@ -10387,6 +10592,7 @@
     },
     {
       "id": "only-the-two-is-chemistry",
+      "progress": "advanced",
       "equation": null,
       "summary": "Cu²⁺ + 2 e⁻ → Cu — a half-reaction, with the electrons supplied by the wire",
       "summary_de": "Cu²⁺ + 2 e⁻ → Cu — eine Halbreaktion, deren Elektronen der Draht liefert",
@@ -10494,6 +10700,7 @@
     },
     {
       "id": "the-plating-bath-turns-acid",
+      "progress": "advanced",
       "equation": null,
       "summary": "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — the inert anode pays the charge bill in protons",
       "summary_de": "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — die inerte Anode begleicht die Ladungsrechnung in Protonen",
@@ -10602,6 +10809,7 @@
     },
     {
       "id": "charging-fights-the-series",
+      "progress": "advanced",
       "equation": null,
       "summary": "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips",
       "summary_de": "Laden treibt die Zelle rückwärts, und die Abscheidung überlebt an einer kinetischen Leine — Wasserstoffbildung auf Zink kostet ~0,72 V Überspannung, und Gasbildung ist das, was passiert, wenn die Leine reißt",
@@ -10706,6 +10914,7 @@
     },
     {
       "id": "lead-stands-in-its-own-acid",
+      "progress": "advanced",
       "equation": null,
       "summary": "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence",
       "summary_de": "Blei steht in der Spannungsreihe unter Wasserstoff, und doch stehen die Platten einer Autobatterie jahrelang in Säure — die Triebkraft von +0,13 V kann die ~0,88 V Überspannung des Wasserstoffs auf Blei nicht begleichen, und genau diese unbeglichene Rechnung ist die Existenzgrundlage der Batterie",
@@ -10801,7 +11010,70 @@
       }
     },
     {
+      "id": "liquid-nitrogen-freezes-ethanol",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "In an open virtual vessel, liquid nitrogen boils while ethanol freezes; the two phase changes share one latent-heat balance",
+      "summary_de": "In einem offenen virtuellen Gefäß siedet flüssiger Stickstoff, während Ethanol gefriert — eine gekoppelte Bilanz zweier Phasenübergänge mit einer ausdrücklich offenen Stoffgrenze",
+      "concepts": [
+        "phase-change",
+        "latent-heat",
+        "energy-conservation",
+        "model-boundary"
+      ],
+      "requires": [],
+      "spine": [
+        "aggregatzustaende"
+      ],
+      "curriculum": [],
+      "apparatus": [
+        "open-dewar",
+        "beaker",
+        "thermometer"
+      ],
+      "calculations": [
+        "sensible-heat",
+        "enthalpy-of-fusion",
+        "enthalpy-of-vaporisation"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 ethanol 0.17126484mol\nadd v1 liquid_nitrogen 2.88070251mol\nmeasure v1 thermometer\nlook v1\n"
+      },
+      "expect": {
+        "events": [
+          "hazard_warning",
+          "froze:ethanol",
+          "boiled:liquid_nitrogen",
+          "gas_evolved:N2",
+          "measured",
+          "observed"
+        ],
+        "absent": [],
+        "predict": null,
+        "ph": null,
+        "temperature_c": {
+          "min": -196.0,
+          "max": -195.0
+        }
+      },
+      "registers": {
+        "lv1": "The liquid nitrogen boils as it takes heat away. The ethanol freezes, and the cold bath stays near −196 °C while liquid nitrogen remains. This is a virtual investigation: real liquid nitrogen needs trained supervision, face and eye protection, cryogenic gloves, strong ventilation, and an open container.",
+        "lv1_de": "Das ist nur ein virtuelles Experiment. Der eiskalte Stickstoff bringt das Ethanol zum Gefrieren und wird dabei selbst zu Gas. In Wirklichkeit kann flüssiger Stickstoff schwere Kälteverbrennungen verursachen, und sein unsichtbares Gas verdrängt Atemluft: nur offen, sehr gut belüftet, mit Augen-/Gesichtsschutz, Kälteschutzhandschuhen und geschulter Aufsicht — niemals verschließen.",
+        "lv2": "The open vessel couples two phase changes: cooling and freezing 10 mL ethanol supplies energy that vaporises part of 100 mL liquid nitrogen. Nitrogen gas crosses the open boundary. Never seal a cryogen; boil-off can build dangerous pressure, and in a poorly ventilated room it displaces oxygen.",
+        "lv2_de": "Die Energiebilanz koppelt zwei Phasenwechsel: Verdampfender Stickstoff nimmt latente Wärme auf, Ethanol gibt beim Gefrieren latente Wärme ab. Der Stickstoff verlässt als N₂ die offene Gefäßgrenze. Das Modell berechnet weder Wärmeübertragungsrate noch Leidenfrost-Schicht, Glas-Thermoschock oder Sauerstoffgehalt des Raums; die Handhabungswarnung bleibt daher eine reale Grenze, keine simulierte Freigabe.",
+        "lv3": "The engine conserves energy with ethanol sensible cooling plus ΔHfus feeding nitrogen ΔHvap, and conserves mass by emitting GasEvolved:N2 at the open boundary. It assumes instantaneous adiabatic equilibration and omits Leidenfrost-limited transfer, glass thermal shock, ethanol slush morphology, room heat leak and room oxygen concentration. The safety warning is handling metadata, not reactive-mixture chemistry.",
+        "lv3_de": "Der Phasenweg verwendet kuratierte Stoffwerte mit NIST-Provenienz und bilanziert die endliche Verdampfungsenthalpie des Stickstoffs gegen Abkühlung und Erstarrung des Ethanols. Die Wärmekapazitätsquelle für flüssigen Stickstoff berichtet Cv/Cσ; die Labor gibt sie nicht als präzises Cp aus. Das Gefäß ist offen, deshalb erscheint N₂ als abgegebene Gasmenge statt als berechneter Druck. Reale Druckbildung, Sauerstoffverdrängung, Strömung, Filmkochen und Gefäßversagen liegen außerhalb des Modells; echte Durchführung erfordert Lüftung, Druckentlastung, geeignete PSA und geschulte Aufsicht."
+      },
+      "provenance": {
+        "source": "Liquid-nitrogen normal boiling point and enthalpy of vaporisation (5.6 kJ/mol at 77 K): NIST Chemistry WebBook, SRD 69, nitrogen phase-change data. Ethanol enthalpy of fusion: NIST Chemistry WebBook, SRD 69, ethanol phase-change data. Liquid-nitrogen heat capacity: NIST Journal of Research 96(6), thermophysical properties paper reporting 57.2 J mol−1 K−1. Liquid density: Particle Data Group/Lawrence Berkeley National Laboratory Atomic and Nuclear Properties table, NIST-derived liquid-nitrogen density near its normal boiling point. Safety boundaries: standard cryogenic handling principles; this software is not a real-laboratory procedure.",
+        "licence": null,
+        "computed_by": "Kerotakis coupled phase-route energy ledger"
+      }
+    },
+    {
       "id": "salt-holds-the-water-liquid",
+      "progress": "intermediate",
       "equation": null,
       "summary": "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water",
       "summary_de": "Gelöste Teilchen senken den Gefrierpunkt: Bei gleicher Abkühlung beginnt Salzwasser erst bei etwa −4 °C zu gefrieren und bildet weniger Eis als reines Wasser",
@@ -10914,6 +11186,108 @@
         "source": "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)",
         "licence": null,
         "computed_by": "Kerotakis state layer (P3s) over PHREEQC speciation; energy balance pays the latent heat"
+      }
+    },
+    {
+      "id": "chains-slide-networks-do-not",
+      "progress": "advanced",
+      "equation": null,
+      "summary": "At the same 150 °C, a polyethylene thermoplastic softens reversibly while a cured thermoset remains cross-linked and rigid",
+      "summary_de": "Bei denselben 150 °C erweicht ein Polyethylen-Thermoplast reversibel, während ein ausgehärteter Duroplast vernetzt und starr bleibt",
+      "concepts": [
+        "polymer-structure",
+        "material-structure",
+        "cross-linking",
+        "thermal-softening",
+        "reversible-change",
+        "model-boundary"
+      ],
+      "requires": [
+        "heat-capacity"
+      ],
+      "spine": [
+        "kunststoffe-langkettige-organische-molekuele"
+      ],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Kunststoffe",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium — Struktur-Eigenschafts-Beziehungen und Kunststoffklassen"
+        }
+      ],
+      "apparatus": [
+        "beaker",
+        "hotplate",
+        "thermometer"
+      ],
+      "calculations": [
+        "specific-heat"
+      ],
+      "models": [],
+      "setup": {
+        "script": "add v1 thermoplastic 2g\nheat v1 455J\nnew\nadd v2 thermoset_resin 2g\nheat v2 375J\nlook v1\nlook v2\n"
+      },
+      "expect": {
+        "events": [
+          "polymer_heated:thermoplastic sheet",
+          "polymer_heated:cured thermoset resin",
+          "observed"
+        ],
+        "absent": [],
+        "predict": {
+          "question": "Two two-gram plastic objects are heated to about 150 °C. One is polyethylene thermoplastic; the other is cured thermoset resin. What differs?",
+          "question_de": "Zwei je zwei Gramm schwere Kunststoffkörper werden auf etwa 150 °C erhitzt. Einer ist ein Polyethylen-Thermoplast, der andere ausgehärtetes Duroplastharz. Was unterscheidet sich?",
+          "options": [
+            "Both melt alike — plastic is one kind of substance once it is hot enough",
+            "The thermoset softens first because its cross-links conduct heat between chains",
+            "The thermoplastic softens as separate chains slide; the cross-linked thermoset stays rigid because it has no melting point"
+          ],
+          "options_de": [
+            "Beide schmelzen gleich — Kunststoff ist bei genügend Wärme eine einzige Stoffart",
+            "Der Duroplast erweicht zuerst, weil seine Vernetzungen Wärme zwischen den Ketten leiten",
+            "Der Thermoplast erweicht, weil getrennte Ketten gleiten; der vernetzte Duroplast bleibt starr, weil er keinen Schmelzpunkt besitzt"
+          ],
+          "answer": 2,
+          "misconception": "'Plastic' names a use-class, not one molecular architecture. A thermoplastic contains separate chains held together by attractions that heat can overcome. Curing a thermoset joins chains covalently into a network, removing the sliding motion that makes melting and reshaping possible. Its missing melting point is the answer, not an unfilled datum.",
+          "misconception_de": "‚Kunststoff‘ bezeichnet eine Verwendungsklasse, nicht eine einzige molekulare Architektur. Ein Thermoplast enthält getrennte Ketten, deren zwischenmolekulare Anziehung Wärme überwinden kann. Beim Aushärten eines Duroplasts werden die Ketten kovalent zu einem Netzwerk verbunden; damit verschwindet genau die Gleitbewegung, die Schmelzen und Umformen ermöglicht. Der fehlende Schmelzpunkt ist die Antwort, keine Datenlücke.",
+          "diagnosis": [
+            {
+              "option": 0,
+              "reveals": "All plastics are treated as one material whose only meaningful difference is how much heat it takes to melt.",
+              "reveals_de": "Alle Kunststoffe gelten als ein Stoff, der sich nur darin unterscheidet, wie viel Wärme zum Schmelzen nötig ist.",
+              "next": "Compare the two engine verdicts at the same temperature. The thermoplastic reports a reversible softened state; the thermoset explicitly reports no softening point. Heat further and the network decomposes rather than crossing a hidden, higher melt threshold.",
+              "next_de": "Vergleiche die beiden Urteile der Engine bei derselben Temperatur. Der Thermoplast meldet einen reversiblen erweichten Zustand; der Duroplast ausdrücklich keinen Erweichungspunkt. Bei weiterer Erwärmung zersetzt sich das Netzwerk, statt eine verborgene, höhere Schmelzschwelle zu überschreiten.",
+              "source": null
+            },
+            {
+              "option": 1,
+              "reveals": "Cross-linking is heard as stronger heat transport rather than a topological constraint that prevents whole chains from sliding.",
+              "reveals_de": "Vernetzung wird als bessere Wärmeleitung verstanden statt als topologische Fessel, die ganze Ketten am Gleiten hindert.",
+              "next": "Ask what must move for an object to be reshaped. Heat need not travel differently: separate chains must pass one another. Cross-links fasten those chains into one network, so the required motion no longer exists.",
+              "next_de": "Frage, was sich bewegen muss, damit der Körper umgeformt werden kann. Wärme muss nicht anders fließen: Getrennte Ketten müssen aneinander vorbeikommen. Vernetzungen heften sie zu einem Netzwerk zusammen; die nötige Bewegung existiert dann nicht mehr.",
+              "source": null
+            }
+          ]
+        },
+        "ph": null,
+        "temperature_c": null
+      },
+      "registers": {
+        "lv1": "Warm both pieces equally. The thermoplastic goes soft and could be pressed into a new shape; the cured resin stays hard. Its chains are tied together into one net, so there are no loose chains left to slide.",
+        "lv1_de": "Erwärme beide Stücke gleich. Der Thermoplast wird weich und könnte in eine neue Form gedrückt werden; das ausgehärtete Harz bleibt hart. Seine Ketten sind zu einem einzigen Netz verbunden, daher gibt es keine losen Ketten mehr, die gleiten könnten.",
+        "lv2": "At about 150 °C the polyethylene teaching sheet is above its curated 130 °C crystalline melt and reports Softened, reversible on cooling. The cured thermoset reports Rigid: its covalently cross-linked network has no softening point. Above its separate 300 °C decomposition threshold it chars instead of melting.",
+        "lv2_de": "Bei etwa 150 °C liegt die Polyethylen-Lehrfolie über ihrer kuratierten kristallinen Schmelze von 130 °C und meldet Erweicht, beim Abkühlen reversibel. Der Duroplast meldet Starr: Sein kovalent vernetztes Netzwerk besitzt keinen Erweichungspunkt. Oberhalb seiner getrennten Zersetzungsschwelle von 300 °C verkohlt er, statt zu schmelzen.",
+        "lv3": "Material-owned heat-response rows contribute the unresolved objects' heat capacity and map current temperature to only three states: rigid, softened or charred. The thresholds are curated, not predicted, and remain in a pending-review provenance lane. The thermoplastic row stands only for moulded HDPE; amorphous PS, PVC and acrylic soften at glass transitions this model does not represent. No viscosity, flow rate, degree of cure, moulding geometry or shape change is computed. Charring is persistent state and narration only: no invented char or volatile products enter the ledger.",
+        "lv3_de": "Materialeigene Wärmeantwortzeilen liefern die Wärmekapazität der unaufgelösten Körper und bilden die aktuelle Temperatur auf nur drei Zustände ab: starr, erweicht oder verkohlt. Die Schwellen sind kuratiert, nicht vorhergesagt, und ihre Provenienzprüfung steht noch aus. Die Thermoplastzeile steht nur für geformtes HDPE; amorphes PS, PVC und Acryl erweichen an Glasübergängen, die dieses Modell nicht abbildet. Viskosität, Fließgeschwindigkeit, Aushärtungsgrad, Formwerkzeug und Formänderung werden nicht berechnet. Verkohlung ist nur persistenter Zustand und Beschreibung: Keine erfundene Kohle oder flüchtigen Produkte gelangen in die Bilanz."
+      },
+      "provenance": {
+        "source": "The exact PolymerHeatResponse rows and boundaries curated in the thermoplastic-sheet and cured-thermoset-resin material recipes. Their tranche is PENDING REVIEW and does not claim paper-level provenance. The 130 °C polyethylene melt and 300/400 °C decomposition thresholds are teaching values, not predictions for arbitrary plastics. Virtual school-laboratory comparison only: heating real plastics can burn and release hazardous decomposition products, which this model deliberately does not formulate or render. Diagnoses: Editorial judgement (Kerotakis), 2026-09-06.",
+        "licence": null,
+        "computed_by": "Kerotakis material-owned heat capacity and bounded PolymerHeatResponse projection"
       }
     }
   ],

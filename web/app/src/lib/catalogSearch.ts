@@ -40,14 +40,30 @@ export function normalizeCatalogText(value: string): string {
 }
 
 export function reagentMatches(
-  item: Pick<ShelfItem, "key" | "name" | "formula">,
+  item: Pick<ShelfItem, "key" | "name" | "formula" | "material_details">,
   query: string,
   localizedName: string,
+  localize: (value: string) => string = (value) => value,
 ): boolean {
   const needle = normalizeCatalogText(query.trim());
   if (!needle) return true;
-  return [localizedName, item.name, item.formula, item.key]
+  return [
+    localizedName,
+    item.name,
+    item.formula,
+    item.key,
+    ...(item.material_details?.components.flatMap((component) => [
+      component.key,
+      localizeMaterialKey(component.key),
+      localize(localizeMaterialKey(component.key)),
+    ]) ?? []),
+  ]
     .some((value) => normalizeCatalogText(value).includes(needle));
+}
+
+/** Component keys use the same display convention as other registry keys. */
+function localizeMaterialKey(key: string): string {
+  return key.replace(/_/g, " ");
 }
 
 /** Match an instrument in both its stable command vocabulary and displayed locale. */

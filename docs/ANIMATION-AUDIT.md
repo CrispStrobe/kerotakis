@@ -29,12 +29,25 @@ Three sources feed the stage, and the audit distinguishes them:
 
 ## Score
 
-| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 |
-|---|---|---|---|---|---|
-| done | 32 | 36 | 41 | 45 | 45 |
-| partial | 18 | 17 | 12 | 11 | 11 |
-| missing | 23 | 20 | 20 | 17 | 17 |
-| **total rows** | **73** | **73** | **73** | **73** | **73** |
+| | before GUI-099 | after PR 1 | after PR 2 | after PR 3 | after PR 4 | after corrosion extent | after computed gas/foam motion | after ANIM-5 | after ANIM-6 | after ANIM-7 | after ANIM-8 | after ANIM-9 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| done | 32 | 36 | 41 | 45 | 45 | 46 | 48 | 52 | 58 | 64 | 70 | 73 |
+| partial | 18 | 17 | 12 | 11 | 11 | 11 | 9 | 9 | 9 | 9 | 3 | 0 |
+| missing | 23 | 20 | 20 | 17 | 17 | 16 | 16 | 12 | 6 | 0 | 0 | 0 |
+| **total rows** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** | **73** |
+
+**Every row is now *done*.** Each of the 73 the audit walked has a visual
+whose size, count, colour, tempo or position is a function of an
+engine-computed quantity, and each carries a `data-*` attribute naming
+that quantity so a test can assert on the number rather than on the shape.
+
+That is the end of the list this file was written to produce, and it is
+not the end of the question it asks. What remains is not a count of rows
+but two open kinds of gap, both recorded below: one event that carries no
+quantity to draw (*What the engine still lacks*), and the standing
+difference between a visual that is *correct at the instant of its event*
+and one that stays correct between events — the distinction PR 4 was
+about, which no row score can see.
 
 **PR 4 deliberately moves no row, and that is the point.** It is the
 engine-side lane: the list under *What the engine should add* below, put on
@@ -66,7 +79,7 @@ the next lane can pick it up without repeating this walk.
 | `boiling_point_routed` | `pressure_kpa`, `boiling` (K), `shifted_by`, `route`, `model` | nothing | the same rolling boil, held at the routed plateau (vacuum, pressure, salted solvent) | missing | **done** (PR 1) |
 | `evaporated` | `moles` | three fixed steam columns, opacity from moles | plume count, reach and opacity from moles; rolling boil in the liquid | partial | **done** (PR 1) |
 | `distilled` | `water`, `ethanol`, `at`, `ended`, `stages`, `energy_kj`, `azeotropic` | still rig, boiling range and column plate count drawn | — | done | done |
-| `thermal_equilibrium` | the settled temperature | nothing (feed only) | — | missing | missing |
+| `thermal_equilibrium` | the settled temperature, `reaction_energy_j`, `holds_nothing` | nothing (feed only) | the settled temperature, and whose it is when the burn left the vessel empty | missing | **done** (ANIM-7) |
 
 The boil is the headline fix. `steaming` was `temperature_k >= 368` — a
 constant that is wrong under a partial vacuum, wrong in a pressurised vessel,
@@ -87,16 +100,16 @@ non-aqueous liquid frost at water's threshold.
 | Event | What the engine computes | What the stage showed | What it should show | Before | After |
 |---|---|---|---|---|---|
 | `gas_evolved` | `species`, `moles` | bubble curtain + vent wisps; count, radius and tempo on a log ramp (1 mmol → 0, 100 mmol → 1) | — | done | done |
-| `gas_produced` | `species`, `moles`, `rate_moles_per_second` | same curtain from `moles`; **`rate` unused** | tempo from the rate, amount from the moles | partial | partial |
+| `gas_produced` | `species`, `moles`, `rate_moles_per_second` | bubble count/size from `moles`; cadence from the production rate | — | partial | **done** (computed-motion tranche) |
 | `gas_contained` | `species`, `moles` | **nothing** — a sealed flask boiling was invisible | bubbles, and a headspace that fills | missing | **done** (PR 1 bubbles, PR 2 headspace) |
-| `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | missing |
-| `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | missing |
-| `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | missing |
+| `gas_absorbed` | `species`, `moles` | nothing | bubbles shrinking as the liquid takes the gas back | missing | **done** (ANIM-5) |
+| `headspace_partitioned` | `to_gas`, `moles`, `gas_fraction`, `partial_pressure_pa`, `henry_mol_per_l_atm` | nothing | headspace tint by `gas_fraction`; direction from `to_gas` | missing | **done** (ANIM-5) |
+| `headspace_equilibrated` | `pressure`, `total_moles` | nothing | the gauge and the piston agreeing | missing | **done** (ANIM-5) |
 | `vessel_sealed` | `headspace_volume` (L), `trapped_air` (mol) — plus scene `headspace_volume_l`, `headspace_moles` | a static lid rectangle | lid at the height the headspace volume implies | partial | **done** (PR 2 event, PR 4 standing) |
 | `vessel_pressure_controlled` | `pressure` (Pa), `initial_volume` (L), `trapped_gas` (mol) — plus the same scene pair | a piston drawn at a **fixed y** (`y=16`), whatever the pressure | piston height from the engine's own headspace volume, not a client-side `V = nRT/P` that goes stale | partial | **done** (PR 2 event, PR 4 standing) |
-| `vessel_swept` | `pressure` (Pa) | two static arrows | arrow tempo from the sweep pressure | partial | partial |
+| `vessel_swept` | `pressure` (Pa) | two static arrows | arrow tempo from the sweep pressure | partial | **done** (ANIM-8) |
 | `burst` | `at_pa`, `rating_pa` | star + shock ring, radius from `at_pa / rating_pa` | — | done | done |
-| `bubble_ride` | `object_density`, `liquid_density`, `lift_gas_fraction` | nothing | the object rising once `lift_gas_fraction` of bubbles clings to it | missing | missing |
+| `bubble_ride` | `object_density`, `liquid_density`, `lift_gas_fraction` | nothing | the object rising once `lift_gas_fraction` of bubbles clings to it | missing | **done** (ANIM-6) |
 
 ## Solids
 
@@ -104,14 +117,14 @@ non-aqueous liquid frost at water's threshold.
 |---|---|---|---|---|---|
 | `precipitated` | `species`, `moles` (+ scene `solids[].volume_l`, `srgb`, `settled_fraction`; + shelf `molar_volume_l_per_mol`) | 2–8 grey specks, radius on a linear moles ramp, engine colour ignored; the settled pile *is* scene-driven | particle count from moles, particle size from **molar volume**, colour from the species' `srgb`, pile from `volume_l` | partial | **done** (PR 2, PR 4) |
 | `dissolved` | `species`, `moles` (+ the same shelf molar volume) | one circle, `r=4`, **magnitude hard-coded to 1** | particles shrinking in proportion to the moles that left the solid | partial | **done** (PR 2, PR 4) |
-| `supersaturated` | `dissolved`, `capacity` | nothing | how far past saturation, as haze or seed crystals | missing | missing |
-| `plated` | `species`, `onto`, `moles` | a shimmer rectangle over the deposit; **moles unused** | plating thickness from moles | partial | partial |
-| `adsorbed` | `held`, `loading_mg_per_g`, `still_dissolved` | nothing | the carbon darkening toward its isotherm ceiling | missing | missing |
-| `consumed` | `species`, `moles`, `remaining` | nothing transient; the scene shrinks the solid | a visible ribbon eaten away | partial | partial |
-| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4) | nothing | pitting/oxide on the metal object, sized by the corroded fraction | missing | missing (the number is on the wire; the visual is the next lane's) |
+| `supersaturated` | `dissolved`, `capacity` | nothing | how far past saturation, as haze or seed crystals | missing | **done** (ANIM-5) |
+| `plated` | `species`, `onto`, `moles` | a shimmer rectangle over the deposit; **magnitude a hard-coded `1`** | plating thickness from moles | partial | **done** (ANIM-8) |
+| `adsorbed` | `held`, `loading_mg_per_g`, `still_dissolved` | nothing | the carbon darkening by the share that left the water, with the remainder beside it | missing | **done** (ANIM-6) |
+| `consumed` | `species`, `moles`, `remaining` | nothing transient; the scene shrinks the solid | a visible ribbon eaten away, at the remainder where the engine states one | partial | **done** (ANIM-8) |
+| `corroded` | `species`, `corroding`, `why`, **`corroded_moles`, `corroded_fraction`** (PR 4), plus standing scene corrosion extent | schematic oxide relation marker and “metal in oxide” readout, strength from the core fraction | plus a rust bloom on the metal itself, spot count and strength from `corroded_fraction` | missing | **done** (scene extent; event extent drawn in ANIM-5) |
 | `gravity_settled` | per-population `terminal_speed_m_s`, `distance_m`, `separated_fraction`, `particle_diameter_um` | grains falling; travel from `distance_m`, count and radius from the population | — | done | done |
 | `centrifuged` | `rcf`, `rpm`, `imbalance_g`, populations | rotor blur on a log `rcf` ramp, pellet per population | — | done | done |
-| `ground` | `surface_area_m2` | a magnitude on a log-area ramp, no vessel visual | finer powder in the vessel | partial | partial |
+| `ground` | `diameter_um`, `solid_moles`, `surface_area_m2`, `rate_coupled` | a magnitude on a log-area ramp, no vessel visual | finer powder in the vessel, grain radius from `diameter_um` | partial | **done** (ANIM-8) |
 | `magnet_separated` | `attracted`, `remained` | bench transfer, magnitude from the attracted moles read off the scene | — | done | done |
 | `filtered` | `from`, `to` | bench transfer + residue on the paper, magnitude from retained moles | — | done | done |
 
@@ -122,16 +135,16 @@ non-aqueous liquid frost at water's threshold.
 | `layers_formed` / `material_layers_formed` | `upper`, `lower` (+ scene `layers[].volume_l`, `srgb`) | the stack, each band's height its share of the volume | — | done (scene) | done |
 | `emulsion_changed` | `dispersed_volume_l`, `dispersed_fraction`, `half_life_seconds` | **nothing, anywhere** — `SceneVessel.emulsion` was read by no component | dispersed droplets at `dispersed_fraction`, clearing over `half_life_seconds` | missing | **done** (PR 3) |
 | `curdling_changed` | `to_formed_fraction`, `separation_progress`, `curd_solids_mass_g` | curd ellipses, count from `separation_progress`, colour from the scene | — | done | done |
-| `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from the scene volume, overflow drawn; **`half_life_seconds` unused** | the head collapsing on its own half-life | partial | partial |
-| `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | partial |
-| `thickened` | `strength`, `solid_mass_fraction`, `tip_speed_m_s`, `sheared_hard` | nothing | shear-thickening resisting the stirrer | missing | missing |
+| `foam_changed` | `trapped_gas_liters`, `volume_liters`, `height_cm`, `overflow_liters`, `half_life_seconds` | foam band from scene volume, overflow drawn, head reaches half height on the computed half-life | — | partial | **done** (computed-motion tranche) |
+| `gel_formed` | `from`/`to_gelled_fraction`, `polymer_grams`, `crosslinker_moles` | gel body from the scene's `gelled_fraction`; **the transition is not animated** | the sol→gel step itself | partial | **done** (ANIM-9) |
+| `thickened` | `strength`, `solid_mass_fraction`, `tip_speed_m_s`, `sheared_hard` | nothing | shear-thickening resisting the stirrer | missing | **done** (ANIM-6) |
 | `polymer_swelled` | `swelling_ratio_g_per_g`, `capacity_g_per_g` | snow height from the ratio against capacity | — | done | done |
 | `surface_spread` | `to_cleared_fraction` | particles fleeing the surfactant | — | done | done |
 | `surface_colour_spread` | `to_spread_fraction`, `spot_count` | colour spots spreading | — | done | done |
-| `partitioned` | `fraction_lower` | nothing in the vessel | the solute's split across the two layers | missing | missing |
-| `osmosis_changed` | `water_moles`, `mass_change_g` | nothing | the egg/potato swelling or shrinking | missing | missing |
+| `partitioned` | `fraction_lower` | nothing in the vessel | the solute's split across the two layers | missing | **done** (ANIM-7) |
+| `osmosis_changed` | `water_moles`, `mass_change_g` | nothing | the egg/potato swelling or shrinking | missing | **done** (ANIM-7) |
 | `diluted` | `volume`, `moles` | swirl, magnitude from the added volume | — | done | done |
-| `mixed` | `fraction_a`, `fraction_b`, `temperature_a`/`_b`/`_into` | swirl from the summed fractions; **the three temperatures unused** | thermal mixing visible as the streams meet | partial | partial |
+| `mixed` | `fraction_a`, `fraction_b`, `temperature_a`/`_b`/`_into` | swirl from the summed fractions; **the three temperatures unused** | thermal mixing visible as the streams meet | partial | **done** (ANIM-9) |
 | `transferred` | `fraction` | pour stream; angle and particle mass from the accepted fraction | — | done | done |
 | `drained` | `solvent`, `moles` | pour with the engine's lower/upper layer colours | — | done | done |
 | `stirred` | `rpm`, `tip_speed_m_s`, `resuspended_fraction`, `rate_coupled` | vortex, stirrer tempo and resuspended grains, all from the tip speed | — | done | done |
@@ -143,21 +156,21 @@ non-aqueous liquid frost at water's threshold.
 |---|---|---|---|---|---|
 | `ignited` | `flame` (colour word), `energy_j` | flame scale from `energy_j` (100 J → 50 kJ), colour from `flame`, WebGPU flame where enabled | — plus the driving number readable from the DOM | done | done (`data-flame-energy-j`, PR 2) |
 | `flame_test` | `species`, `colour` | burner rig, flame colour from the event; a restrained fixed size, because the event carries no energy | — | done | done |
-| `did_not_ignite` / `flame_starved` | `fuel`, `burned`, `oxygen_fraction` | nothing | a flame that catches and gutters out at `oxygen_fraction` | missing | missing |
-| `below_autoignition` | the gap to the autoignition temperature | nothing | — | missing | missing |
-| `reacted` | `moles`, `seconds`, `catalyst`, `activation_energy` | nothing in the vessel | reaction extent over the elapsed bench seconds | missing | missing |
-| `reaction_heat_released` | `energy_j` | nothing | the exotherm, as a temperature the thermometer then reads | missing | missing |
+| `did_not_ignite` / `flame_starved` | `fuel`, `burned`, `oxygen_fraction` — **`did_not_ignite` carries none of them** | nothing | a flame that catches and gutters out at `oxygen_fraction` | missing | **done** (ANIM-7, `flame_starved` only) |
+| `below_autoignition` | `autoignition`, `temperature` — the gap between them | nothing | the gap itself, since the answer is that nothing burns | missing | **done** (ANIM-7) |
+| `reacted` | `moles`, `seconds`, `catalyst`, `activation_energy` | nothing in the vessel | reaction extent over the elapsed bench seconds | missing | **done** (ANIM-6) |
+| `reaction_heat_released` | `energy_j` | nothing | the exotherm, on the same ramp the heat of mixing uses | missing | **done** (ANIM-6) |
 | `fermented` | `sucrose_moles`, `ethanol_moles`, `carbon_dioxide_moles`, `active_yeast_grams`, `seconds` | **nothing** | slow bubbling paced over `seconds`, sized by the CO₂ moles | missing | **done** (PR 3) |
-| `enzyme_hydrolysed` | `converted_fraction`, `seconds` | a caption percentage | the substrate visibly clearing | partial | partial |
+| `enzyme_hydrolysed` | `converted_fraction`, `seconds` | a caption percentage | the substrate visibly clearing | partial | **done** (ANIM-8) |
 | `electrolysed` | `amps`, `seconds`, `coulombs`, `electrons`, `moles`, `grams`, `per_ion`, **`anode_species`/`anode_moles`, `cathode_species`/`cathode_moles`** (PR 4) | bubbles at two electrodes, count from moles, duration from seconds; **both electrodes got the same count off one product's moles** | each electrode sized by what actually leaves *it* — twice as many bubbles at the cathode as at the anode when water splits | partial | **done** (PR 3 charge, PR 4 ratio) |
 | `cell_voltage` | `volts` | connection arc, magnitude from \|V\| | — | done | done |
-| `decayed` | `parent`, `daughter`, `mode`, `moles`, `half_life_s` | the Geiger comes from a `measured` reading, not from `decayed` | decay drawn from the event, not only when an instrument is held | partial | partial |
-| `nuclide_spiked` | `activity_bq` | nothing | initial activity | missing | missing |
+| `decayed` | `parent`, `daughter`, `mode`, `moles`, `half_life_s` | the Geiger comes from a `measured` reading, not from `decayed` | decay drawn from the event, not only when an instrument is held | partial | **done** (ANIM-8) |
+| `nuclide_spiked` | `activity_bq`, `moles` | nothing | initial activity | missing | **done** (ANIM-7) |
 | `irradiated` | `wavelength_nm`, `irradiance_w_m2` | lamp, magnitude from the irradiance | — | done | done |
 | `uv_attenuated` | `wavelength_nm`, `band`, `transmitted_fraction`, `mechanism` | **nothing** | the beam dimming to `transmitted_fraction` through the sunscreen | missing | **done** (PR 3) |
 | `chemiluminescence_observed` | `relative_intensity`, `half_life_s` | the scene's glow, strength from the intensity | — | done | done |
-| `hydrated` / `dehydrated` | `formula_units`, `water`, `at` (K) | nothing transient; the colour change arrives through the scene | the water leaving as steam at `at` | partial | partial |
-| `neutralised` | `moles` of acidity cancelled | nothing | — | missing | missing |
+| `hydrated` / `dehydrated` | `formula_units`, `water`, `at` (K) | nothing transient; the colour change arrives through the scene | the water leaving as steam at `at` | partial | **done** (ANIM-9) |
+| `neutralised` | `moles` of acidity cancelled | nothing | cancellation marks, count from the moles | missing | **done** (ANIM-6) |
 
 ## Bench-level
 
@@ -234,9 +247,144 @@ picture of a vessel.
   redissolves in one step — leaving no scene row behind — is still drawn at
   its own grain size.
 
+- **Corrosion extent** — `SceneVessel.corrosion` projects the current fraction
+  of tracked metal atoms locked in the modeled oxide from
+  `corrosion::corroded_extent`. The vessel keeps a labelled percentage and a
+  restrained schematic marker after the event has passed. It deliberately
+  claims no rate, history, thickness or surface coverage; directly added oxide
+  is indistinguishable from oxide formed in the vessel.
+
+- **ANIM-5 (the unread numbers)** — five quantities the wire has been
+  carrying and the bench has not been reading. `gas_absorbed` is the mirror
+  of `gas_evolved` and drew nothing: the same moles on the same log ramp,
+  as bubbles that sink and shrink into the liquid rather than rise out of
+  it. `headspace_partitioned` tints the band at the share of the volatile's
+  whole inventory that is now gas — `gas_fraction`, capped below the band's
+  own pressure tint so a full partition does not hide the piston — with
+  arrows that say only which way this step went. `headspace_equilibrated`
+  puts the settled `pressure` and `total_moles` on a gauge beside the lid
+  that is drawn from the same headspace, so the two can be checked against
+  each other. `supersaturated` hazes at `dissolved ÷ capacity` and at
+  nothing below 1: a solution exactly at its limit looks like any other
+  solution, and the distance past it is the whole quantity — which is why
+  it is the number rock candy is about. And `corroded`'s own
+  `corroded_fraction` — on the wire since PR 4 and read by nobody — now
+  sizes a rust bloom on the metal layer itself, spot count and strength
+  both functions of it, so a verdict with no extent yet draws no rust.
+  Beside them, the sublimation fog is finally sized: dry ice in an open
+  beaker often reports the transition and nothing else, and the plume was
+  falling back to its two-column minimum, so `state_changed.moles` now
+  reaches the plume through the same vapour magnitude a boil uses.
+
+- **ANIM-6 (six more unread numbers)** — `reacted` is the commonest event
+  the bench emits and it drew nothing in the vessel at all: the extent
+  ring's strength is the moles on a log ramp and its tempo is
+  `moles ÷ seconds`, because the same tenth of a mole in one second and
+  over one hour are different observations and only the pair separates
+  them; the catalyst and the activation energy actually used travel beside
+  it. `reaction_heat_released` glows on exactly the ramp `heat_of_mixing`
+  uses — dissolving lye and a hand warmer are the same claim about the same
+  quantity, and two ramps would say they were not. `neutralised` — the
+  commonest reaction a school lab runs, and the only one that happened with
+  nothing at all against it — draws cancellation marks counted from the
+  moles of acidity that went. `bubble_ride` draws the raisin with the gas
+  that has to cling to it, and draws **no** bubbles on an object that
+  floats unaided, because they are not why it is up there and saying so is
+  the misconception KID-13 exists against. `adsorbed` darkens the sorbent
+  by `held ÷ (held + still_dissolved)` — the share that actually left the
+  water, which is the answer to "can charcoal take this dye out" — and
+  keeps the remainder and the loading on the readout, because the event
+  carries both halves for a reason and neither can be read without the
+  other; no isotherm ceiling is claimed, since the wire carries no
+  capacity. `thickened` shows the stirrer's arc blunted by `strength`, and
+  only where the engine says `sheared_hard`: oobleck stirred slowly is a
+  liquid, and drawing resistance there would be a picture of the recipe.
+
+- **ANIM-7 (the last six)** — `flame_starved` draws the flame guttering at
+  the oxygen fraction the engine says the air had fallen to, and draws
+  **no flame at all** when `burned` is zero, because that is a carbon-
+  dioxide extinguisher and the air was already too thin to light in; the
+  readout is the fraction itself, which is the number that contradicts "it
+  used up all the oxygen". `below_autoignition` draws the gap, because the
+  answer BRD-041 gives is that nothing burns — the bar fills toward the
+  autoignition point and never reaches it, since reaching it is a
+  different event. `nuclide_spiked` ticks at `activity_bq` on a log ramp
+  from one disintegration a second to a teaching source's megabecquerels.
+  `partitioned` splits ten dots across the two layers at `fraction_lower`,
+  drawn inside the bands the engine's own volumes made, and the two counts
+  always sum to ten because the solute did not go anywhere else.
+  `osmosis_changed` swells or shrinks the object and points the arrows by
+  the **sign** of `mass_change_g`, which is the whole observation: an egg
+  in syrup and an egg in water arrive as the same event. And
+  `thermal_equilibrium` shows the settled temperature — with the badge
+  stepping off the glass and saying "exhaust, not the glass" wherever
+  `holds_nothing` is set, because "thermal equilibrium at 2496 °C" once
+  reached a reader over an empty beaker: a true number attached to a
+  picture that invites the wrong reading.
+
+- **ANIM-8 (the constants that were left)** — six rows whose visual existed
+  but did not move when the engine's number did. `plated`'s magnitude was a
+  literal `1`, so a copper blush on a nail and a nail gone orange drew the
+  same shimmer; the coating's thickness is now the moles on a log ramp.
+  `consumed` drew nothing transient at all; a ribbon is now eaten at the
+  share the engine says is **left**, and where the event carries no
+  `remaining` — which is optional precisely because "is used up" once
+  reported half a magnesium ribbon gone — the ribbon is drawn dissolving
+  at its edge with no length claimed. `ground` had a magnitude on a
+  log-area ramp and no powder anywhere; the grain radius is now the
+  `diameter_um` the engine actually ground to, so grinding twice draws
+  visibly finer powder rather than the same specks with a new caption, and
+  the count follows the area a heterogeneous rate would later see.
+  `vessel_swept` drew two static arrows whatever the sweep; their cycle is
+  now the carrier pressure. `enzyme_hydrolysed` had a caption percentage
+  beside a liquid that never changed — a number nothing on the stage
+  agreed with — and the substrate haze is now `1 − converted_fraction`.
+  And `decayed` drew nothing unless a Geiger happened to be in hand; the
+  ticks now come from `ln2 ÷ half_life_s × moles`, which is the same
+  activity that instrument reads, so a long-lived tracer ticks slowly and
+  a large parcel ticks often.
+
+- **ANIM-9 (the last three)** — `gel_formed`'s standing body was already
+  scene-driven; what was missing was the sol→gel **step**, which is the
+  thing a learner is watching for. A setting front now sweeps between the
+  height the gel had and the height it now has — both endpoints engine
+  numbers — and a gel that was already set and did not move this step
+  draws nothing, because a transition visual has to be a function of the
+  step or it claims something happened that did not. `mixed` used the
+  summed pour fractions and threw the three temperatures away; all three
+  now sit on **one** warmth ramp, so the reader sees their real order —
+  the mixture BETWEEN the two that made it, which is the entire content of
+  the adiabatic balance — and a mix whose heat of mixing carried it
+  outside that pair is marked as such rather than clamped into looking
+  ordinary. `hydrated`/`dehydrated` let the colour change arrive through
+  the scene and never drew the water, so a hydrate driven off at 380 K
+  steamed exactly as much as one that lost a drop, which is to say not at
+  all; the water now feeds the same plume a boil uses, sized by the moles
+  that left and gated at the temperature they left at, and rehydration
+  draws them going back in with no temperature claimed, because the event
+  carries none.
+
+- **Computed gas/foam motion** — `gas_produced.rate_moles_per_second` now sets
+  the visible-bubble cadence while total moles continue to set count and size;
+  `foam_changed.half_life_seconds` sets the foam head's collapse to half height.
+  Both raw values and the derived bubble period are readable and exposed as
+  `data-*` evidence; reduced-motion mode keeps the evidence and stops motion.
+
 Every one of those carries a `data-*` attribute naming the number that drives
 it, so the browser UX gate and any later test can assert on the *quantity*
 rather than on the presence of a shape.
+
+## What the engine still lacks
+
+One row cannot be closed from the client at all. **`Event::DidNotIgnite`
+carries nothing but the vessel id** — no fuel, no oxygen fraction, no gap
+to the autoignition temperature — so there is no quantity for a visual to
+be a function of, and drawing anything for it would be a picture of the
+word. Its sibling `FlameStarved` carries `fuel`, `burned` and
+`oxygen_fraction` and is drawn; the shared row above is marked done on
+that half alone, and deliberately says so. Giving `DidNotIgnite` the same
+three fields (or the gap `BelowAutoignition` already computes) would close
+the other half.
 
 ## What the engine should add
 
@@ -279,12 +427,11 @@ one that is still open is still open.
    `electrolysed` event at all for the one lesson whose title is the ratio.
    The stage draws each electrode at the moles that leave it, and falls back
    to the shared charge for a log that carries only one product.
-5. **`gas_produced.rate_moles_per_second` is already there** — nothing to
-   add; the client simply has not used it yet. Same for
-   `foam_changed.half_life_seconds` and `emulsion_changed.half_life_seconds`,
-   which would let a head or an emulsion decay on the bench without a further
-   event. **Still open**, and still a client-side job rather than an engine
-   one.
+5. ~~**`gas_produced.rate_moles_per_second` is already there**~~ — **done in
+   the computed-motion tranche**, as the visible-bubble cadence. The same
+   tranche uses `foam_changed.half_life_seconds` for collapse to half height.
+   `emulsion_changed.half_life_seconds` was already driving its coalescence
+   animation. No engine addition was needed.
 6. ~~**A `sublimated` distinction.**~~ **Done (PR 4)**, as a `kind` field on
    `state_changed` rather than a new event, because `phase_route` already
    emits `state_changed` for all six transitions and a second event would

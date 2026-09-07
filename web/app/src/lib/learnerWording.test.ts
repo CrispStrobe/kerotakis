@@ -15,11 +15,10 @@
  *
  * So this walks what a learner can actually be shown — every translated
  * value, every source key a component asks `t()` for — and fails on the
- * vocabulary. It is deliberately a wording test and not a lint: the
- * underlying identifiers (`age_band`, `ageMin`, `KIDS_EQUIPMENT`,
- * `levelForAge`) are fine and stay, because the corpus really is banded by
- * school placement. What must never happen is that banding reaching the
- * interface as words.
+ * vocabulary. It is deliberately a wording test and not a lint. Curriculum
+ * placements can retain the source documents' age ranges for syllabus lookup,
+ * but catalogue progress is authored independently and has no age-derived
+ * identifier or fallback to leak into the interface.
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { extname, join } from "node:path";

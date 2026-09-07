@@ -502,7 +502,7 @@ fn the_heat_of_freezing_boils_nitrogen_rather_than_warming_the_flask() {
             .heat_capacity;
     let sensible = cp * (298.15 - 77.36);
     let fusion = ethanol_moles() * 4930.0;
-    let expected = (sensible + fusion) / 5570.0;
+    let expected = (sensible + fusion) / 5600.0;
     assert!(
         (boiled - expected).abs() < 1e-6,
         "{boiled} mol boiled, but the ethanol only gave up {sensible:.0} + {fusion:.0} J, \

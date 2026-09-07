@@ -482,8 +482,8 @@ pub fn transform(bytes: &[u8]) -> Result<IsolatedDatabase, String> {
                 .iter()
                 .find(|r| r.line > reaction.line)
                 .map_or(lines.len(), |r| r.line);
-            for i in reaction.line + 1..end {
-                let parameter = lines[i]
+            for (i, line) in lines.iter().enumerate().take(end).skip(reaction.line + 1) {
+                let parameter = line
                     .trim()
                     .trim_start_matches('-')
                     .split_whitespace()

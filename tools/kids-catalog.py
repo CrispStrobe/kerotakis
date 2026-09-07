@@ -10,6 +10,8 @@ import tomllib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ALLOWED_STATUS = {"computed", "partial", "boundary", "declined", "unreachable"}
 ALLOWED_SAFETY = {"home", "school"}
+ALLOWED_PROGRESS = {"starter", "intermediate", "advanced"}
+SAFETY_DETAIL_REQUIRED = {"K03", "K19", "K35", "K41", "K54"}
 EXPECTED_STATUS_COUNTS = {
     "computed": 52, "partial": 5, "boundary": 1, "declined": 2, "unreachable": 0,
 }
@@ -49,6 +51,12 @@ def validate(document: dict, root: pathlib.Path = ROOT) -> list[dict]:
         counts[status] += 1
         if row.get("safety") not in ALLOWED_SAFETY:
             raise ValueError(f"{kid}: safety must be home or school")
+        if row.get("progress") not in ALLOWED_PROGRESS:
+            raise ValueError(f"{kid}: progress must be starter, intermediate, or advanced")
+        if kid in SAFETY_DETAIL_REQUIRED:
+            for field in ("safety_rationale", "safety_guidance"):
+                if not isinstance(row.get(field), str) or not row[field].strip():
+                    raise ValueError(f"{kid}: {field} must be non-empty")
         for field in ("topics", "ingredients", "apparatus"):
             values = row.get(field)
             if not isinstance(values, list) or not values or not all(isinstance(v, str) and v for v in values):
@@ -86,6 +94,7 @@ def add_translation(document: dict, translation: dict) -> dict:
     for source in source_rows:
         target = by_id[source["id"]]
         required = ["title", "phenomenon"] + (["boundary"] if source.get("boundary") else [])
+        required += [field for field in ("safety_rationale", "safety_guidance") if source.get(field)]
         if not source.get("boundary") and "boundary" in target:
             raise ValueError(f"{source['id']}: German boundary exists without an English boundary")
         for field in required:

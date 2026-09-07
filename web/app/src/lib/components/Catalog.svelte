@@ -80,10 +80,12 @@
     kidsConnections,
     type KidsExperiment,
   } from "../kidsCatalog";
+  import { NO_STEP_PROSE, sayForScript, type StepProseIndex } from "../stepProse";
 
   let {
     entries,
     kidsEntries = [],
+    stepProse = NO_STEP_PROSE,
     session,
     capabilityIds = new Set<string>(),
     codexIds = new Set<string>(),
@@ -98,6 +100,8 @@
   }: {
     entries: CodexEntry[];
     kidsEntries?: KidsExperiment[];
+    /** One sentence per script line, for the learner who paces a run. */
+    stepProse?: StepProseIndex;
     session: Session;
     capabilityIds?: ReadonlySet<string>;
     codexIds?: ReadonlySet<string>;
@@ -318,6 +322,17 @@
   const stepCount = $derived(open?.script ? runnableLines(open.script.setup.script).length : 0);
   const canFresh = $derived(open?.script ? canUseFreshVessels(open.script.setup.script) : false);
 
+  /**
+   * What to watch for, line by line, in the language being read.
+   *
+   * Only the stepped run uses it: an automatic run is a demonstration
+   * nobody is pacing, and a sentence that appears and is replaced every
+   * 420 ms is noise rather than guidance.
+   */
+  const say = $derived(open?.script
+    ? sayForScript(stepProse, open.script.id, open.script.setup.script, i18n.locale)
+    : null);
+
   /** Ask before touching a bench that already has the learner's work on it. */
   function requestRun() {
     if (!open?.script || running || session.busy) return;
@@ -344,6 +359,7 @@
     try {
       const outcome = await runCatalogEntry(session, script, {
         decision: chosen,
+        say: runMode === "step" ? (say ?? undefined) : undefined,
         onstep: (s) => {
           step = s;
           // The previous step's account belongs to the previous step.
@@ -413,6 +429,12 @@
           <span class="dock-kicker">{awaiting ? t("your turn") : t("running on the bench")}</span>
           <strong>{open?.title ?? ""}</strong>
           <code>{step?.line ?? ""}</code>
+          <!-- What this step is FOR, above the account of what it did.
+               Stepped runs only: the sentence is there to be read, and a
+               run that paces itself gives nobody time to read it. -->
+          {#if stepping && step?.say}
+            <p class="dock-say">{step.say}</p>
+          {/if}
           <!-- What that line DID, in the bench's own words. The feed is
                already the record a learner reads when they type a command
                themselves, so quoting its tail here is the same account, not
@@ -534,6 +556,9 @@
             </div>
             <h2>{item.title}</h2>
             <p class="hook">{item.hook}</p>
+            {#if item.guided}
+              <p class="safety-summary">{t(item.safety === "home" ? "home-friendly" : "school supervision")}{item.safetyRationale ? ` — ${item.safetyRationale}` : ""}</p>
+            {/if}
             <dl>
               <div><dt>{t("what you need")}</dt><dd>{item.needs.length > 0 ? words(item.needs) : t("nothing from the shelf")}</dd></div>
               <div><dt>{t("apparatus")}</dt><dd>{item.apparatus.length > 0 ? words(item.apparatus) : t("the bench as it stands")}</dd></div>
@@ -613,6 +638,7 @@
              it needs, where the model stops, and the door that does exist. -->
         <p class="prose">{open.hook}</p>
         {#if open.boundary}<p class="boundary">{open.boundary}</p>{/if}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         <p class="meta">{t("you will need: {apparatus}", { apparatus: [...open.needs, ...open.apparatus].map((value) => t(slugWords(value))).join(", ") })}</p>
         {#if open.run.kind !== "boundary"}
           <button class="go" onclick={() => act(open)}>{t(runTargetLabel(open.run, open.done))}</button>
@@ -629,6 +655,7 @@
           <p class="meta">{t("models: {models}", { models: open.script.models!.map(tSlug).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         {#if open.apparatus.length > 0}
           <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus.map(tSlug).join(", ") })}</p>
         {/if}
@@ -645,6 +672,7 @@
         {/if}
         <pre class="script">{open.script.setup.script}</pre>
       {:else}
+        {#if open.safetyGuidance}<p class="safety-guidance"><strong>{t("before you begin")}</strong> {open.safetyGuidance}</p>{/if}
         {#if prediction}
           <div class="predict">
             <p class="question">{tEngine(prediction, "question")}</p>
@@ -834,6 +862,17 @@
     align-items: flex-start;
     flex-wrap: wrap;
   }
+  /* The step's own sentence, above the bench's account of it: authored
+     guidance and machine report are different kinds of claim, so they do
+     not share a voice. */
+  .dock-say {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 58ch;
+  }
+
   .dock-produced {
     list-style: none;
     margin: 0.2rem 0 0;
@@ -1199,6 +1238,8 @@
   dt { color: var(--dim); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; }
   dd { margin: 0; font-size: 0.66rem; }
   .boundary { padding: 0.5rem; border-left: 3px solid var(--bad); font-size: 0.7rem; line-height: 1.45; }
+  .safety-summary { margin: .35rem 0; color: var(--dim); font-size: .68rem; line-height: 1.4; }
+  .safety-guidance { padding: .55rem; border-left: 3px solid var(--warn, var(--hot)); background: var(--panel-raised); font-size: .76rem; line-height: 1.45; }
   .connections { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.2rem 0 0.35rem; }
   .connections .related {
     padding: 0.3rem 0.45rem;

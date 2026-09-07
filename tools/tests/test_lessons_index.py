@@ -47,6 +47,13 @@ measure v1 ph
             self.assertIn("computed", entry["outcome_note"])
             self.assertIn("no crystal", entry["boundary_note"])
 
+    def test_liquid_nitrogen_lesson_is_visible_and_loans_both_materials(self):
+        lesson = ROOT / "lessons" / "liquid-nitrogen-freezes-ethanol.lab"
+        entry = MODULE.index(lesson.parent)
+        entry = next(item for item in entry if item["file"] == lesson.name)
+        self.assertEqual(entry["topic"], "heat & fire")
+        self.assertEqual(entry["kit"], ["ethanol", "liquid_nitrogen"])
+
 
 if __name__ == "__main__":
     unittest.main()

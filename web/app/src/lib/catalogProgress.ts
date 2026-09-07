@@ -19,6 +19,8 @@ export type CatalogAccess = {
   loaned: boolean;
   /** Permanently earned by closing a case, rather than reached by count. */
   granted: boolean;
+  /** Story access is deliberately limited to an authored mission kit. */
+  missionOnly: boolean;
   minimumCompleted: number;
 };
 
@@ -43,6 +45,7 @@ export function access(catalog: CatalogMap, id: string): CatalogAccess | null {
     available: item.available,
     loaned: item.reason.reason === "loaned",
     granted: item.reason.reason === "awarded",
+    missionOnly: item.reason.reason === "mission_only",
     minimumCompleted: item.minimum_completed,
   };
 }
@@ -75,6 +78,7 @@ export function equipmentAccess(catalog: CatalogMap, id: string): CatalogAccess 
     available: catalog.size > 0,
     loaned: false,
     granted: false,
+    missionOnly: false,
     minimumCompleted: 0,
   };
 }

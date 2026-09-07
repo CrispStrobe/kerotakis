@@ -104,6 +104,71 @@ fn run(args: &[&str]) -> (String, String, bool) {
     )
 }
 
+/// True when `text` states a quantity in watts: a digit, an optional
+/// single space, an optional `k`, then `W` with no word character after
+/// it — the shape of `12.5 W`, `0.4 kW`, `3kW`.
+///
+/// This replaces `text.contains(" W")`, which is not a unit test at all
+/// but a test for a capital W anywhere after a space. Any sentence is
+/// allowed to begin a word with W, and one did: " Whichever" tripped the
+/// no-power guard, and the only way to satisfy that guard was to reword
+/// prose the assertion has no business constraining. A guard that fires
+/// on English is a guard people learn to edit around.
+///
+/// Hand-rolled rather than `regex`, which is not a dependency of this
+/// crate: the pattern is four characters of lookbehind and does not
+/// justify pulling one in for one call site.
+fn states_watts(text: &str) -> bool {
+    let bytes = text.as_bytes();
+    for (i, &b) in bytes.iter().enumerate() {
+        if b != b'W' {
+            continue;
+        }
+        // The `W` has to END the token, or this is `Watt`, `Wh`, `We`.
+        if bytes
+            .get(i + 1)
+            .is_some_and(|c| c.is_ascii_alphanumeric() || *c == b'_')
+        {
+            continue;
+        }
+        let mut j = i;
+        if j > 0 && bytes[j - 1] == b'k' {
+            j -= 1;
+        }
+        if j > 0 && bytes[j - 1] == b' ' {
+            j -= 1;
+        }
+        if j > 0 && bytes[j - 1].is_ascii_digit() {
+            return true;
+        }
+    }
+    false
+}
+
+/// The guard above is the thing under test here, not the bench. It is
+/// asserted in both directions on purpose: a matcher trusted only for
+/// being green is a matcher that might be matching nothing at all.
+#[test]
+fn the_watt_guard_reads_a_unit_not_a_capital_letter() {
+    // Inventing power looks like this, and must be caught.
+    assert!(states_watts("the cell delivers 12.5 W into the load"));
+    assert!(states_watts("about 0.4 kW"));
+    assert!(states_watts("3kW peak"));
+    assert!(states_watts("output: 5W"));
+
+    // Prose looks like this, and must not be.
+    assert!(!states_watts(
+        "Whichever electrode you pick, the pair sets the cell"
+    ));
+    assert!(!states_watts("2 electrodes: Which one is the anode?"));
+    assert!(!states_watts("0.9 V open-circuit, unit-activity estimate"));
+    assert!(!states_watts(
+        "internal resistance, current, power and lifetime are not modeled"
+    ));
+    // Watt-hours are energy, not power, and are a different claim.
+    assert!(!states_watts("12 Wh"));
+}
+
 #[test]
 fn every_lesson_replays_and_computes_chemistry() {
     let dir = lessons_dir();
@@ -257,11 +322,25 @@ fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
             .collect();
         format!("{header}\n{}", body.join("\n"))
     };
+    // Inventory rows carry their amount in the best SI prefix ("2.77 mmol",
+    // "135 µmol"), so an amount is read WITH its unit: comparing a mmol
+    // row against a mol row as bare numbers would be off by a thousand.
+    let moles_in = |line: &str| -> f64 {
+        let mut words = line.split_whitespace();
+        let value: f64 = words.next().and_then(|w| w.parse().ok()).unwrap_or(0.0);
+        match words.next() {
+            Some("mol") => value,
+            Some("mmol") => value * 1e-3,
+            Some("µmol") => value * 1e-6,
+            Some("nmol") => value * 1e-9,
+            _ => 0.0,
+        }
+    };
     let rust_in = |vessel: &str| -> f64 {
         arm(vessel)
             .lines()
             .find(|line| line.contains("iron(III) oxide"))
-            .and_then(|line| line.split_whitespace().next()?.parse::<f64>().ok())
+            .map(moles_in)
             .unwrap_or(0.0)
     };
 
@@ -288,9 +367,14 @@ fn rusting_needs_air_and_water_and_salt_makes_it_faster() {
 
     // The oxygen is consumed, which is why a sealed tin does not rust from
     // the inside — and it is what makes the water rise in the real tube.
+    let oxygen_left = arm("v4")
+        .lines()
+        .find(|line| line.contains("  oxygen"))
+        .map(moles_in)
+        .unwrap_or(0.0);
     assert!(
-        arm("v4").contains("0.0001 mol  oxygen"),
-        "the salt arm should run its trapped oxygen down:\n{}",
+        oxygen_left > 0.0 && oxygen_left < 2e-4,
+        "the salt arm should run its trapped oxygen down to a tenth of a millimole: {oxygen_left} mol\n{}",
         arm("v4")
     );
 }
@@ -990,7 +1074,7 @@ fn lemon_cell_reports_a_bounded_voltage_not_unmeasured_power() {
     );
     assert!(!out.contains("no cell"), "{out}");
     assert!(
-        !out.contains(" W"),
+        !states_watts(&out),
         "the no-load result must not invent power:\n{out}"
     );
 }

@@ -22,7 +22,7 @@ const entry = (
   concepts: string[],
   script: string,
   events: string[] = [],
-): CodexEntry => ({ id, concepts, setup: { script }, expect: { events }, registers: {} });
+): CodexEntry => ({ id, progress: "starter", concepts, setup: { script }, expect: { events }, registers: {} });
 
 const entries: CodexEntry[] = [
   entry("silver-chloride-precipitation", ["precipitation"], "add v1 water 100mL\nadd v1 AgNO3 1mmol\nadd v1 NaCl 1mmol\n", ["precipitated:AgCl"]),
@@ -31,8 +31,8 @@ const entries: CodexEntry[] = [
 ];
 
 const kids: KidsExperiment[] = [
-  { id: "K01", title: "Cloudy water", phenomenon: "A solid appears", status: "computed", topics: [], ingredients: [], apparatus: [], codex: ["silver-chloride-precipitation"], lesson: "silver-and-salt.lab", safety: "home" },
-  { id: "K02", title: "Something else", phenomenon: "Unrelated", status: "computed", topics: [], ingredients: [], apparatus: [], safety: "home" },
+  { id: "K01", title: "Cloudy water", phenomenon: "A solid appears", status: "computed", progress: "starter", topics: [], ingredients: [], apparatus: [], codex: ["silver-chloride-precipitation"], lesson: "silver-and-salt.lab", safety: "home" },
+  { id: "K02", title: "Something else", phenomenon: "Unrelated", status: "computed", progress: "starter", topics: [], ingredients: [], apparatus: [], safety: "home" },
 ];
 
 const missions: MissionSummary[] = [

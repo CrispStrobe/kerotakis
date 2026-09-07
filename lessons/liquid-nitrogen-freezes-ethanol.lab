@@ -1,0 +1,13 @@
+# Liquid nitrogen: one phase change pays for another (virtual investigation only)
+# Real liquid nitrogen can cause severe cold burns and displace breathable air.
+# Use only with trained supervision, eye/face protection, cryogenic gloves,
+# strong ventilation, and an open pressure-relief path. Never seal a cryogen.
+register lv1
+# 0.1713 mol and 2.8807 mol correspond to 10 mL ethanol and 100 mL LN2
+# at the cited liquid densities. Molar additions use the audited phase route.
+add v1 ethanol 0.17126484mol
+add v1 liquid_nitrogen 2.88070251mol
+measure v1 thermometer
+look v1
+register lv3
+inspect

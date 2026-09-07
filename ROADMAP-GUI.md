@@ -461,29 +461,33 @@ every new dependency before its first import.
 
 ### Phase G0 — Contracts (no visible UI change)
 
-- [ ] **GUI-001 — `EngineHost` protocol v1.** Specify the JSON contract
+- [x] **GUI-001 — `EngineHost` protocol v1.** Specify the JSON contract
   (step/runScript/state/scene/events/species/parse/chart) as a versioned
   document + conformance test that both hosts must pass. The current wasm
   API is the seed.
-  *Status 2026-08-24 (2nd pass): spec written — [PROTOCOL.md](PROTOCOL.md).
-  Conformance runs against BOTH shipping hosts: the CLI/MCP surface
+  *Status 2026-09-06: complete — spec written in [PROTOCOL.md](PROTOCOL.md).
+  Conformance runs against the CLI/MCP surface
   (`crates/kerotakis-cli/tests/protocol_conformance.rs`, in the test
-  suite) and the wasm host (`tools/test-protocol-conformance.mjs`,
-  919 structural checks over the lesson corpus, wired into the CI wasm
-  job) — one shape, drift fails before a client sees it. Open for the
-  checkbox: the same suite against TauriHost once the shell builds
-  (GUI-030), and hello's remaining fields.*
+  suite), the wasm host (`tools/test-protocol-conformance.mjs`, wired into
+  CI over the lesson corpus), and Tauri's native dispatch
+  (`web/app/src-tauri/src/lib.rs`) — one shape, drift fails before a client
+  sees it. The versioned `hello` identity fields are shipped.*
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
-  *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
+  *Status 2026-09-06: structurally implemented — `kerotakis-core/src/scene.rs` (liquid
   colour+word, solids with metallic/precipitate split, headspace, badges,
   lv1 words), shape-pinning + behaviour tests in-module, wired into the
   wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
-  checkbox: goldens over the replayed lesson corpus (folds into GUI-001's
-  conformance suite).*
-- [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
+  checkbox: numeric/behavioural scene goldens over replayed lessons and
+  browser/DOM snapshots for the representative five-lesson suite. The
+  landed whole-corpus contract checks pin structure, not those answers.*
+- [x] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
+  *Status 2026-09-06: complete — `WorkerHost.ts` owns transport and
+  `engineWorker.ts` loads the bench wasm and IPhreeQC together off-thread.
+  OPT-11 measured the crossings; OPT-9 recorded the evidence-based no-build
+  decision for additional marshalling work.*
 
 ### Phase G1 — The bench, on the web
 
@@ -521,9 +525,9 @@ every new dependency before its first import.
   reaches parity (end of G1) the surfaces swap places: app at `/`, console
   at `/console/`. Blocked only on a local `wasm-bindgen-cli 0.2.127`
   install + emsdk sourcing after the cargo lock frees.
-- [ ] **GUI-017 — Continuous deploy.** `.github/workflows/pages.yml`
-  (added: builds the payload with the same recipe ci.yml already uses and
-  deploys to Pages on web-affecting pushes + manual dispatch); the Vercel
+- [x] **GUI-017 — Continuous deploy.** `.github/workflows/ci.yml` builds and
+  browser-tests the complete payload on pull requests and pushes, then deploys
+  that artifact to GitHub Pages after the demo job on `main`; the Vercel
   production deploy stays a deliberate manual step until the register dial
   UX is demo-ready. The service worker now precaches the app's hashed
   assets (stamped by build-web.sh), so both surfaces are offline-first
@@ -561,6 +565,11 @@ every new dependency before its first import.
   hold; engine-marked.
 
 ### The sandbox completeness invariant
+
+*Liquid-nitrogen learning slice (2026-09-06):* the existing lesson and mission
+surfaces carry the coupled phase-change investigation. Story reach follows
+completed investigations through Energy Yard, never learner age; the mission
+temporarily loans the cryogen and declares no permanent reagent reward.
 
 **Every registry species, every apparatus, every engine verb is reachable
 from the GUI — in sandbox mode, without the command bar.** The engine
@@ -632,10 +641,24 @@ been ignoring all of it:
   *Correction 2026-09-06 — the tiers are gone, not merely merged.* One
   card design and one horizontally scrolling filter rail (level, topic,
   duration, "only what is on my shelf", done/not yet, plus concept and
-  curriculum as selects where the old tabs were) now serve all 165
-  entries; `lib/catalogEntry.ts` derives the level, age, duration and a
-  shared topic vocabulary both corpora map into, so every filter is
+  curriculum as selects where the old tabs were) now serve all 168
+  entries; `lib/catalogEntry.ts` reads an authored learning-progress band,
+  derives duration and maps both corpora into a shared topic vocabulary, so every filter is
   answerable for every entry, and no surface names a reader by age.
+
+  *Progress-authority correction 2026-09-06.* All 108 Codex reactions now
+  require an explicit `starter`, `intermediate` or `advanced` value in the
+  Rust-owned schema, just as all 60 guided entries do. The reviewed assignment
+  follows prerequisite depth and the number of concepts, calculations and
+  models demanded; CI rejects missing/unknown values and any prerequisite for
+  which every teaching route is later than its consumer. Curriculum ages stay
+  available for syllabus browsing but no longer classify cards. Codex entries
+  also make no invented safety claim where their source carries none.
+
+  *Update 2026-09-06 — two mechanism-backed entries are promoted.* Activated-
+  charcoal adsorption and the thermoplastic/thermoset heat comparison are
+  searchable, filterable and directly runnable. Their copy states the curated
+  parameter domains and safety limits; neither claims a general-purpose model.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
@@ -1329,7 +1352,7 @@ and presents them well.
 
 ## The stage must render the computation (GUI-099)
 
-- [ ] **GUI-099 — Animations that follow the computed numbers.** The owner's
+- [x] **GUI-099 — Animations that follow the computed numbers.** The owner's
   brief, from the German live deploy: *"we need way better and more complete
   animations for what happens. they must render what actually goes on.
   rendering must follow actual physical computed parameters where possible."*
@@ -1344,8 +1367,9 @@ and presents them well.
   scored done / partial / missing, with the numbers the engine should add
   listed at the end so the engine lane can pick them up.
 
-  Starting score: **32 done, 18 partial, 23 missing.** Finishing score across
-  the three PRs: **45 done, 11 partial, 17 missing.** The worst finding was
+  Starting score: **32 done, 18 partial, 23 missing.** The first three visual
+  PRs reached **45 done, 11 partial, 17 missing**; the persistent corrosion
+  extent tranche then reached **46 done, 11 partial, 16 missing.** The worst finding was
   not an absence but a constant: `steaming` gated on `temperature_k >= 368`, a
   number that is wrong under a partial vacuum, wrong in a pressurised vessel,
   wrong for a salted solvent and wrong for every solvent that is not water —
@@ -1361,8 +1385,31 @@ and presents them well.
   ANIM-1 (thermal truth), ANIM-2 (matter and pressure) and ANIM-3 (the
   three events that drew nothing) shipped across three PRs and took the
   audit from 32/18/23 to **45 done, 11 partial, 17 missing**; see
-  `HISTORY.md`. The remaining 11 partial and 17 missing rows are the open
-  half of this item.
+  `HISTORY.md`. Persistent corrosion extent moved one further missing row to
+  done. The computed-motion tranche then made gas production cadence follow
+  `rate_moles_per_second` and foam collapse follow `half_life_seconds`, moving
+  two partial rows to done, reaching **48 done, 9 partial, 16 missing**.
+
+  ANIM-5 through ANIM-9 then closed the rest, five slices of at most six
+  rows each: 48/9/16 → 52/9/12 → 58/9/6 → 64/9/0 → 70/3/0 → **73 done, 0
+  partial, 0 missing.** The last two slices are the ones worth naming here,
+  because they were not absences but *constants*: `plated`'s magnitude was a
+  literal `1`, so a copper blush and a nail gone orange drew the same
+  shimmer; `vessel_swept` drew two static arrows whatever the sweep;
+  `enzyme_hydrolysed` had a caption percentage beside a liquid that never
+  changed; `mixed` threw away all three of the temperatures its adiabatic
+  balance had computed. Every one of the 73 rows is now a function of an
+  engine number carrying a `data-*` attribute that names it.
+
+  **This item is closed and the question it asks is not.** Two gaps outlive
+  the row count, both recorded in the audit. One event carries no quantity
+  at all — `Event::DidNotIgnite` has nothing but a vessel id, so nothing can
+  be drawn for it that is not a picture of the word, and its sibling
+  `FlameStarved` carries the three numbers instead. And a row score cannot
+  see the difference between a visual that is right *at the instant of its
+  event* and one that stays right *between* events; that was the whole
+  subject of the scene-numbers PR, and it is the standing risk in every
+  transient effect this item shipped.
 
   DoD: mappings unit-tested in `magnitudes.test.ts` for monotonicity in the
   driving quantity and for bounds; every new visual reachable from the DOM by

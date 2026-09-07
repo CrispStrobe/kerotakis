@@ -4343,64 +4343,6 @@ fn oxidation_sum(rows: &[Vec<String>], columns: &[String], kgw: f64) -> Option<f
     Some(sum)
 }
 
-#[cfg(test)]
-mod oxidation_sum_tests {
-    use super::oxidation_sum;
-
-    fn rows(header: &[&str], values: &[&str]) -> Vec<Vec<String>> {
-        [header, values]
-            .into_iter()
-            .map(|row| row.iter().map(|s| (*s).to_string()).collect())
-            .collect()
-    }
-
-    #[test]
-    fn invalid_or_partial_native_ledgers_are_not_balances() {
-        let columns = vec!["Fe(2)".into(), "Fe(3)".into()];
-        for value in ["NaN", "inf", "-inf", "-0.001", "invalid", "1e308"] {
-            assert_eq!(
-                oxidation_sum(&rows(&["Fe(2)", "Fe(3)"], &[value, "0"]), &columns, 1.0),
-                None,
-                "{value}"
-            );
-        }
-        for data in [
-            vec![],
-            vec![vec!["Fe(2)".into(), "Fe(3)".into()]],
-            rows(&["pH"], &["7"]),
-            rows(&["Fe(2)"], &["0.1"]),
-            rows(&["Fe(2)", "Fe(3)"], &["0.1"]),
-            rows(&["Fe(2)", "Fe(2)", "Fe(3)"], &["0.1", "0.2", "0.3"]),
-        ] {
-            assert_eq!(oxidation_sum(&data, &columns, 1.0), None, "{data:?}");
-        }
-        let data = rows(&["Fe(2)", "Fe(3)"], &["0.1", "0.2"]);
-        for kg in [0.0, -1.0, f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
-            assert_eq!(oxidation_sum(&data, &columns, kg), None);
-        }
-        assert_eq!(oxidation_sum(&data, &[], 1.0), None);
-        assert_eq!(
-            oxidation_sum(&data, &["Fe(2)".into(), "Fe(2)".into()], 1.0),
-            None
-        );
-        assert_eq!(
-            oxidation_sum(&rows(&["Fe"], &["0.1"]), &["Fe".into()], 1.0),
-            None
-        );
-    }
-
-    #[test]
-    fn valid_negative_oxidation_sum_and_zero_population_are_preserved() {
-        let columns = vec!["S(-2)".into(), "S(6)".into()];
-        let data = rows(&["S(-2)", "S(6)"], &["0.5", "0"]);
-        assert_eq!(oxidation_sum(&data, &columns, 2.0), Some(-2.0));
-        assert_eq!(
-            oxidation_sum(&rows(&["S(-2)", "S(6)"], &["0", "0"]), &columns, 1.0),
-            Some(0.0)
-        );
-    }
-}
-
 /// The per-oxidation-state totals worth asking for.
 ///
 /// PHREEQC will report an element split across its oxidation states if you
@@ -5097,4 +5039,62 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     }
     result.sort_by(|a, b| b.molality.total_cmp(&a.molality));
     result
+}
+
+#[cfg(test)]
+mod oxidation_sum_tests {
+    use super::oxidation_sum;
+
+    fn rows(header: &[&str], values: &[&str]) -> Vec<Vec<String>> {
+        [header, values]
+            .into_iter()
+            .map(|row| row.iter().map(|s| (*s).to_string()).collect())
+            .collect()
+    }
+
+    #[test]
+    fn invalid_or_partial_native_ledgers_are_not_balances() {
+        let columns = vec!["Fe(2)".into(), "Fe(3)".into()];
+        for value in ["NaN", "inf", "-inf", "-0.001", "invalid", "1e308"] {
+            assert_eq!(
+                oxidation_sum(&rows(&["Fe(2)", "Fe(3)"], &[value, "0"]), &columns, 1.0),
+                None,
+                "{value}"
+            );
+        }
+        for data in [
+            vec![],
+            vec![vec!["Fe(2)".into(), "Fe(3)".into()]],
+            rows(&["pH"], &["7"]),
+            rows(&["Fe(2)"], &["0.1"]),
+            rows(&["Fe(2)", "Fe(3)"], &["0.1"]),
+            rows(&["Fe(2)", "Fe(2)", "Fe(3)"], &["0.1", "0.2", "0.3"]),
+        ] {
+            assert_eq!(oxidation_sum(&data, &columns, 1.0), None, "{data:?}");
+        }
+        let data = rows(&["Fe(2)", "Fe(3)"], &["0.1", "0.2"]);
+        for kg in [0.0, -1.0, f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+            assert_eq!(oxidation_sum(&data, &columns, kg), None);
+        }
+        assert_eq!(oxidation_sum(&data, &[], 1.0), None);
+        assert_eq!(
+            oxidation_sum(&data, &["Fe(2)".into(), "Fe(2)".into()], 1.0),
+            None
+        );
+        assert_eq!(
+            oxidation_sum(&rows(&["Fe"], &["0.1"]), &["Fe".into()], 1.0),
+            None
+        );
+    }
+
+    #[test]
+    fn valid_negative_oxidation_sum_and_zero_population_are_preserved() {
+        let columns = vec!["S(-2)".into(), "S(6)".into()];
+        let data = rows(&["S(-2)", "S(6)"], &["0.5", "0"]);
+        assert_eq!(oxidation_sum(&data, &columns, 2.0), Some(-2.0));
+        assert_eq!(
+            oxidation_sum(&rows(&["S(-2)", "S(6)"], &["0", "0"]), &columns, 1.0),
+            Some(0.0)
+        );
+    }
 }

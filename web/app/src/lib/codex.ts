@@ -40,8 +40,11 @@ export interface CodexExpect {
   temperature_c?: CodexRange | null;
 }
 
+export type CodexProgress = "starter" | "intermediate" | "advanced";
+
 export interface CodexEntry {
   id: string;
+  progress: CodexProgress;
   equation?: string | null;
   summary?: string | null;
   summary_de?: string | null;
@@ -79,7 +82,8 @@ export function parseCodexIndex(raw: unknown): CodexEntry[] {
   const doc = raw as { reactions?: unknown[]; entries?: unknown[] } | unknown[];
   const list = Array.isArray(doc) ? doc : (doc?.reactions ?? doc?.entries ?? []);
   return (list as CodexEntry[]).filter(
-    (e) => typeof e?.id === "string" && typeof e?.setup?.script === "string",
+    (e) => typeof e?.id === "string" && typeof e?.setup?.script === "string"
+      && ["starter", "intermediate", "advanced"].includes(e.progress),
   );
 }
 

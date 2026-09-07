@@ -18,6 +18,26 @@ describe("reagentMatches", () => {
   it("ignores case and accents", () => {
     expect(normalizeCatalogText("LÖSCH-Kalk")).toBe("losch-kalk");
   });
+
+  it("finds a named material by a resolved component", () => {
+    const material = {
+      ...water,
+      key: "teaching_mixture",
+      name: "teaching mixture",
+      formula: "",
+      material_details: {
+        basis: "mass_fraction" as const,
+        confidence: "curated" as const,
+        components: [{ key: "sodium_chloride", lower: 0.1, upper: 0.1 }],
+        lot_assumptions: [],
+        source_id: "source",
+      },
+    };
+    expect(reagentMatches(material, "sodium chloride", "Lehrmischung")).toBe(true);
+    expect(reagentMatches(material, "Natriumchlorid", "Lehrmischung", (value) =>
+      value === "sodium chloride" ? "Natriumchlorid" : value,
+    )).toBe(true);
+  });
 });
 
 describe("experimentMatches", () => {
@@ -113,6 +133,7 @@ describe("the unified catalogue index", () => {
   const entries = catalogEntries(
     [{
       id: "vinegar-and-baking-soda", equation: "NaHCO3 + CH3COOH -> CO2",
+      progress: "starter",
       concepts: ["acid-carbonate"], apparatus: ["beaker"],
       setup: { script: "add v1 white_vinegar_5_percent 50mL\nadd v1 baking_soda 5g\n" },
       expect: {}, registers: { lv2: "Gas leaves the beaker." },
@@ -120,7 +141,7 @@ describe("the unified catalogue index", () => {
     [{
       id: "K06", title: "Magic milk", phenomenon: "Soap spreads colour",
       title_de: "Zaubermilch", phenomenon_de: "Seife verteilt Farbe",
-      status: "computed", topics: ["surfaces"], ingredients: ["milk", "dish_soap"],
+      status: "computed", progress: "starter", topics: ["surfaces"], ingredients: ["milk", "dish_soap"],
       apparatus: ["beaker"], safety: "home",
     }],
     { locale: "de", translate: de, completed: new Set() },
