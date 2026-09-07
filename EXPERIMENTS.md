@@ -579,7 +579,7 @@ cross-reference to the children's corpus. Same laws as Part 3: ideas and
 task-classes only, never another collection's texts/scenarios/data; EXP
 numbers are never re-bound.
 
-## EXP-30..52 (new tasks; same registry-pipeline discipline as Part 3)
+## EXP-30..53 (new tasks; same registry-pipeline discipline as Part 3)
 
 - **EXP-30 — Qualitative inorganic analysis** — HARDER (breadth), partially
   landed. Hydroxide precipitation matrix (Cu²⁺/Fe³⁺/Fe²⁺/Mg²⁺/Zn²⁺/Ca²⁺ +
@@ -787,6 +787,19 @@ numbers are never re-bound.
   where wrong routing triggers the same screen that guards the bench.
   Acceptance: a clear-the-bench quest gradeable entirely by existing safety
   machinery plus the rule table.
+- **EXP-53 — Computed experiment audit and portfolio expansion** — PR #504 is
+  the unmerged evidence branch. First reconcile it field-by-field with current
+  main while preserving all 113 catalog entries and raw failed runs; then require
+  rebuilt CI on the reconciled head. Only after that gate, run frozen cases
+  195–218 on a binary tied to that head, retaining every unsupported or
+  implausible result. Promote a small set of distinct successful concepts to the
+  catalog with original EN/DE prose; keep parameter variants as regression cases.
+  Acceptance: no experiment-ID dispatch or output fitting; checks frozen before
+  execution; raw input/output, hashes and failures retained; conservation and
+  independent laws checked separately from process success; private source URLs,
+  OCR and source mappings absent from the public repository; no GPL/LGPL/NC or
+  otherwise incompatible new runtime dependency or data. The audit owner may
+  push its branch but must not merge without explicit authority.
 
 ## Declined items (all corpora, recorded with reasons)
 
@@ -881,7 +894,7 @@ EXP-level behavior.
 
 ## Registry state (current)
 
-EXP-0..52. Yield per corpus (new task numbers produced): 16 -> 9 -> 7 -> 1
+EXP-0..53. Yield per corpus (new task numbers produced): 16 -> 9 -> 7 -> 1
 -> 3 -> 0 -> 3 across the eight audits 2026-08-24/25 (see HISTORY.md for
 the audit-by-audit tallies and dates). New corpora now confirm coverage
 rather than add chemistry; the build order stands: EXP-0 unlocks
