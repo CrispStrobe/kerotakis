@@ -231,8 +231,26 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
         "re-equilibrating must conserve the neutral surface/water reference: first neutral={first_neutral_water:.12e} mol, settled neutral={:.12e} mol, settled water={settled_water:.12e} mol, first release={first_water_release:.12e} mol, settled release={settled_water_release:.12e} mol",
         settled_water - settled_water_release,
     );
+    // EXP-57 widened this from 2e-8. The step between the two readings is
+    // a STIR, which passes time, and an open beaker that stands in a room
+    // now takes carbon dioxide up from it: 2.94e-9 mol of bicarbonate
+    // arrives over the ten seconds, exactly `k_L*A*K_H*p_air*t`. That is
+    // not a solver failing to be idempotent — it is the vessel genuinely
+    // being a different vessel, and the invariant this test protects
+    // (re-equilibration does not invent or destroy bound zinc) still holds
+    // to well inside the new bound.
+    //
+    // The zinc moves further than the carbon does, by about sixteen times,
+    // because hydrous ferric oxide's sorption edge is steep and this
+    // beaker is otherwise unbuffered. Worth knowing before trusting this
+    // surface to a fourth digit.
+    //
+    // NOTE for whoever tightens this again: the clock uses the STILL
+    // surface transfer velocity even while the bar is turning, and
+    // stirring raises `k_L` substantially. The uptake during a stir is
+    // therefore under-stated, not over-stated.
     assert!(
-        (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 2e-8,
+        (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 1e-7,
         "re-equilibrating must not change the equilibrium bound inventory: first={first_bound:.12e} mol, settled={:.12e} mol, delta={:.12e} mol",
         settled.surfaces[0].bound(SurfaceSorbate::Zinc).0,
         settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound,
