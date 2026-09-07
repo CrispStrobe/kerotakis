@@ -89,6 +89,11 @@ pub struct SceneVessel {
     /// ledger. This is equilibrium bookkeeping, never replayed event history.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub adsorption: Vec<SceneAdsorption>,
+    /// Equilibrium distribution of supported neutral solutes while both
+    /// liquid layers remain together. Recomputed from current vessel matter,
+    /// never reconstructed from a past `partitioned` event.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub partition: Vec<ScenePartition>,
     /// Prepared coherent objects with object-owned inventories.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub material_objects: Vec<SceneMaterialObject>,
@@ -419,6 +424,73 @@ pub struct SceneAdsorption {
     pub provenance: String,
 }
 
+/// Standing two-liquid equilibrium for one supported neutral solute.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ScenePartition {
+    pub species: String,
+    pub lower_solvent: String,
+    pub upper_solvent: String,
+    pub total_moles: f64,
+    pub lower_moles: f64,
+    pub upper_moles: f64,
+    pub fraction_lower: f64,
+    pub boundary: String,
+    pub provenance: String,
+}
+
+fn standing_partition(vessel: &Vessel) -> Vec<ScenePartition> {
+    let Some((upper, lower)) = crate::solve::layered_pair(vessel) else {
+        return Vec::new();
+    };
+    let solvent_moles = |key: &str| {
+        vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == key && portion.phase == Phase::Liquid)
+            .map(|portion| portion.moles.0)
+            .sum::<f64>()
+    };
+    let lower_solvent_moles = solvent_moles(lower);
+    let upper_solvent_moles = solvent_moles(upper);
+    let mut solutes = std::collections::BTreeMap::<String, f64>::new();
+    for portion in &vessel.contents {
+        if portion.species.0 == lower || portion.species.0 == upper {
+            continue;
+        }
+        if !matches!(portion.phase, Phase::Aqueous | Phase::Liquid) {
+            continue;
+        }
+        if crate::bench::partition_groups(&portion.species).is_some() {
+            *solutes.entry(portion.species.0.clone()).or_default() += portion.moles.0;
+        }
+    }
+    solutes
+        .into_iter()
+        .filter_map(|(species, total_moles)| {
+            let groups = crate::bench::partition_groups(&crate::SpeciesId::new(&species))?;
+            let fraction_lower = kerotakis_thermo::lle::partition_fraction_lower(
+                &groups,
+                &crate::bench::water_groups(),
+                &crate::bench::hexane_groups(),
+                lower_solvent_moles,
+                upper_solvent_moles,
+                vessel.temperature.0,
+            );
+            Some(ScenePartition {
+                species,
+                lower_solvent: lower.to_string(),
+                upper_solvent: upper.to_string(),
+                total_moles,
+                lower_moles: total_moles * fraction_lower,
+                upper_moles: total_moles * (1.0 - fraction_lower),
+                fraction_lower,
+                boundary: "instant equal-activity equilibrium at the current temperature and layer amounts; neutral curated UNIFAC solutes only, with no mass-transfer rate, emulsion, interface geometry, ion partition, or concentration-dependent solute interaction".to_string(),
+                provenance: "UNIFAC infinite-dilution activity coefficients: Fredenslund, Jones & Prausnitz, AIChE Journal 21(6), 1086–1099 (1975); curated water/hexane and solute group decompositions".to_string(),
+            })
+        })
+        .collect()
+}
+
 fn fully_settled() -> f64 {
     1.0
 }
@@ -530,6 +602,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let gel_observation = crate::gel::observe(v);
     let chemiluminescence_observation = crate::chemiluminescence::observe(v);
     let enzyme_hydrolysis = crate::enzyme_activity::observe(v);
+    let partition = standing_partition(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
@@ -902,6 +975,22 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             row.still_dissolved_mg,
         ));
     }
+    for split in &partition {
+        words.push_str(&format!(
+            " At equilibrium, {:.0}% of the modeled {} is in the lower {} layer and {:.0}% is in the upper {} layer.",
+            split.fraction_lower * 100.0,
+            species::lookup(&crate::SpeciesId::new(&split.species))
+                .map(|data| data.name)
+                .unwrap_or(&split.species),
+            species::lookup(&crate::SpeciesId::new(&split.lower_solvent))
+                .map(|data| data.name)
+                .unwrap_or(&split.lower_solvent),
+            (1.0 - split.fraction_lower) * 100.0,
+            species::lookup(&crate::SpeciesId::new(&split.upper_solvent))
+                .map(|data| data.name)
+                .unwrap_or(&split.upper_solvent),
+        ));
+    }
     if let Some(emulsion) = &emulsion_observation {
         words.push_str(&format!(
             " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
@@ -942,6 +1031,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         coatings,
         corrosion,
         adsorption,
+        partition,
         material_objects: v
             .material_objects
             .iter()
@@ -1322,6 +1412,14 @@ mod tests {
         json.as_object_mut().unwrap().remove("adsorption");
         let old: SceneVessel = serde_json::from_value(json).unwrap();
         assert!(old.adsorption.is_empty());
+    }
+
+    #[test]
+    fn older_scene_json_without_partition_still_deserializes() {
+        let mut json = serde_json::to_value(scene_vessel(&vessel_with(&[]))).unwrap();
+        json.as_object_mut().unwrap().remove("partition");
+        let old: SceneVessel = serde_json::from_value(json).unwrap();
+        assert!(old.partition.is_empty());
     }
 
     #[test]

@@ -49,6 +49,62 @@ fn ethanol_does_not_layer_on_water() {
 }
 
 #[test]
+fn scene_carries_the_partition_while_both_layers_stand() {
+    let mut bench = Bench::new();
+    for (key, moles) in [("water", 2.0), ("hexane", 1.0), ("ethanol", 0.2)] {
+        bench
+            .step(Operator::Add {
+                vessel: VesselId(0),
+                species: SpeciesId::new(key),
+                moles: Moles(moles),
+                at: None,
+            })
+            .unwrap();
+    }
+    let before = scene(&bench).vessels[0].partition[0].clone();
+    assert_eq!(before.species, "ethanol");
+    assert_eq!(before.lower_solvent, "water");
+    assert_eq!(before.upper_solvent, "hexane");
+    assert!((before.lower_moles + before.upper_moles - before.total_moles).abs() < 1e-12);
+    assert!(before.fraction_lower > 0.0 && before.fraction_lower < 1.0);
+    assert!(before.boundary.contains("no mass-transfer rate"));
+    assert!(before.provenance.contains("Fredenslund"));
+
+    // Serialization is the save/reload boundary. There is no event history
+    // in the restored vessel from which this answer could be reconstructed.
+    let mut restored: Bench =
+        serde_json::from_str(&serde_json::to_string(&bench).unwrap()).unwrap();
+    assert_eq!(scene(&restored).vessels[0].partition, vec![before.clone()]);
+
+    let expected_fraction = before.fraction_lower;
+    let events = restored
+        .step(Operator::Drain {
+            from: VesselId(0),
+            to: VesselId(1),
+        })
+        .unwrap();
+    let event_fraction = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Partitioned {
+                species,
+                fraction_lower,
+                ..
+            } if species.0 == "ethanol" => Some(*fraction_lower),
+            _ => None,
+        })
+        .expect("the drain reports the standing split it applied");
+    assert!((event_fraction - expected_fraction).abs() < 1e-12);
+    assert!(
+        scene(&restored)
+            .vessels
+            .iter()
+            .all(|vessel| vessel.partition.is_empty()),
+        "after draining, neither separated vessel pretends both layers remain"
+    );
+}
+
+#[test]
 fn draining_takes_the_brine_and_leaves_the_hexane() {
     let mut bench = Bench::new();
     bench.step(Operator::NewVessel { kind: None }).unwrap();

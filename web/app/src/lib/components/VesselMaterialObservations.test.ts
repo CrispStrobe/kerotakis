@@ -51,4 +51,13 @@ describe("persistent material observations", () => {
     expect(source).toContain('class="scene-solid"');
     expect(source).toContain("data-moles={solid.moles.toFixed(6)}");
   });
+
+  it("draws a partition from standing scene equilibrium, not an event", () => {
+    expect(source).toContain("partitionReadouts(vessel.partition)");
+    expect(source).toContain('class="partition-marker"');
+    expect(source).toContain("22 * split.fractionLower");
+    expect(source).toContain('class="persistent-readout partition-readout"');
+    expect(source).toContain("split.boundary");
+    expect(source).not.toContain("Partitioned");
+  });
 });
