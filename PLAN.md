@@ -39,10 +39,15 @@ appearances or changes scientific behavior.
 ## Localisation is modular by design
 
 A new language (French, Chinese, Japanese) is added in one go by dropping one
-`crates/kerotakis-core/i18n/<lang>.toml` and one
-`web/app/src/locales/<lang>.json` (copied from `_template.json`), with no code
-change. Anything that would require code for a new language is a defect.
-`I18N.md` carries the full file list and the rule behind it.
+`crates/kerotakis-core/i18n/<lang>.toml`, one
+`web/app/src/locales/<lang>.json` (copied from `_template.json`), one
+`codex/i18n/<lang>.toml` and one
+`tests/coverage/curiosity-v1/i18n/<lang>.toml`, with no code change. Anything
+that would require code for a new language is a defect. That includes AUTHORED
+CONTENT, not only chrome: the capability explorer read as translated
+while listing five hundred English questions, because its buttons were in the
+bundle and its subject matter was not. `I18N.md` carries the full file list and
+the rule behind it.
 
 ---
 
