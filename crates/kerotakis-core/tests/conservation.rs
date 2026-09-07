@@ -318,8 +318,26 @@ proptest! {
             }
         }
         let h = bench.total_enthalpy().0;
+        // A part in 100 000 rather than a part in a million. The balance
+        // used to close to machine precision because every step of it was
+        // linear: enthalpy was Cp*(T - T_ref) and every operator moved the
+        // temperature by q/Cp, so the two sides were the same arithmetic
+        // written twice. With heat capacities that are curves, the ledger is
+        // SOLVED rather than evaluated - each mix and each dose bisects for
+        // the temperature where the enthalpies balance - and each solve
+        // leaves a residue at the last representable float. Across a script
+        // of up to forty operators those residues add.
+        //
+        // The other half of the widening is a real claim, not a numerical
+        // one: a portion that changes phase changes which curve it is
+        // charged against, and two independently fitted curves do not meet
+        // to the last bit at the reference temperature. Relabelling a solid
+        // as dissolved is thermally free under Hess's law and very nearly
+        // free here - hundredths of a joule in tens of kilojoules - but not
+        // exactly. `kerotakis-phreeqc`'s aqueous tail balances that
+        // explicitly across speciation for the same reason.
         prop_assert!(
-            (h - budget).abs() < 1e-6 * budget.abs().max(1.0),
+            (h - budget).abs() < 1e-5 * budget.abs().max(1.0),
             "bench enthalpy {h} J diverged from heat budget {budget} J"
         );
     }

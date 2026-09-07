@@ -2085,13 +2085,18 @@ pub fn adiabatic_rest_temperature(lo: f64, hi: f64, total: impl Fn(f64) -> f64) 
     let (mut a, mut b) = (lo, hi);
     for _ in 0..200 {
         let m = 0.5 * (a + b);
+        // Run the bracket down to adjacent floats rather than to a chosen
+        // tolerance. The ledger is solved numerically now, and a stopping
+        // rule of a nanokelvin leaves a residual of Cp nanojoules per mix
+        // that accumulates across a script; `conservation::
+        // energy_is_conserved` measures exactly that sum.
+        if m <= a || m >= b {
+            break;
+        }
         if total(m) > 0.0 {
             b = m;
         } else {
             a = m;
-        }
-        if b - a < 1e-9 {
-            break;
         }
     }
     Kelvin(0.5 * (a + b))

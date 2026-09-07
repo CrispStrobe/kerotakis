@@ -1251,8 +1251,13 @@ impl Vessel {
         }
         for _ in 0..200 {
             let mid = 0.5 * (lo + hi);
+            // Adjacent floats, not a chosen tolerance: see the note in
+            // `solve::adiabatic_rest_temperature`.
+            if mid <= lo || mid >= hi {
+                return mid;
+            }
             let delta = self.energy_between(from, mid) - joules;
-            if delta.abs() < 1e-6 || hi - lo < 1e-9 {
+            if delta == 0.0 {
                 return mid;
             }
             if delta > 0.0 {
