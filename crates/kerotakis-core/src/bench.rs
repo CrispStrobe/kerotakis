@@ -13,7 +13,7 @@ use crate::ops::{
 };
 use crate::refusal::{Refusal, Refuses};
 use crate::solve::{
-    adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
+    adiabatic_mix_into, portions_enthalpy, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
@@ -414,25 +414,29 @@ impl Bench {
             .spill(destination)
             .cloned()
             .unwrap_or_else(|| SpillCompartment::new(destination.clone(), source.temperature));
-        let old_cp: f64 = spill
-            .contents
-            .iter()
-            .filter_map(|portion| {
-                species::lookup(&portion.species).map(|data| data.heat_capacity * portion.moles.0)
-            })
-            .sum();
-        let incoming_cp: f64 = moved
-            .iter()
-            .filter_map(|portion| {
-                species::lookup(&portion.species).map(|data| data.heat_capacity * portion.moles.0)
-            })
-            .sum();
-        if old_cp + incoming_cp > 0.0 {
-            spill.temperature = Kelvin(
-                (old_cp * spill.temperature.0 + incoming_cp * source.temperature.0)
-                    / (old_cp + incoming_cp),
-            );
-        }
+        // The same enthalpy balance the vessels use: a puddle that read a
+        // different table from the beaker it came out of would not conserve
+        // energy across a spill.
+        let held = spill.temperature.0;
+        let arriving = source.temperature.0;
+        let settled =
+            crate::solve::adiabatic_rest_temperature(held.min(arriving), held.max(arriving), |t| {
+                crate::solve::portions_enthalpy(
+                    spill
+                        .contents
+                        .iter()
+                        .map(|portion| (&portion.species, portion.moles.0, portion.phase)),
+                    held,
+                    t,
+                ) + crate::solve::portions_enthalpy(
+                    moved
+                        .iter()
+                        .map(|portion| (&portion.species, portion.moles.0, portion.phase)),
+                    arriving,
+                    t,
+                )
+            });
+        spill.temperature = settled;
         for portion in &moved {
             if let Some(existing) = spill.contents.iter_mut().find(|candidate| {
                 candidate.species == portion.species && candidate.phase == portion.phase
@@ -562,22 +566,18 @@ impl Bench {
                 return Ok(false);
             }
         }
-        let incoming_cp: f64 = spill
-            .contents
-            .iter()
-            .filter_map(|portion| {
-                species::lookup(&portion.species)
-                    .map(|data| data.heat_capacity * portion.moles.0 * fraction)
-            })
-            .sum();
         let receiver = self.vessel_mut(to)?;
         if matches!(receiver.thermal_mode, ThermalMode::Adiabatic) {
-            receiver.temperature = adiabatic_mix_temperature(
-                receiver.temperature,
-                receiver.heat_capacity(),
-                spill.temperature,
-                incoming_cp,
-            );
+            let settled = adiabatic_mix_into(receiver, spill.temperature, |t| {
+                portions_enthalpy(
+                    spill.contents.iter().map(|portion| {
+                        (&portion.species, portion.moles.0 * fraction, portion.phase)
+                    }),
+                    spill.temperature.0,
+                    t,
+                )
+            });
+            receiver.temperature = settled;
         }
         for portion in &spill.contents {
             receiver.deposit(
@@ -1462,11 +1462,12 @@ impl Bench {
                 let t_in = at.unwrap_or_else(|| {
                     crate::phase_route::arrives_at_k(&sid.0).map_or(Kelvin::STANDARD, Kelvin)
                 });
-                let cp_in = moles.0 * data.heat_capacity;
+                let arriving = data.standard_phase;
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new =
-                        adiabatic_mix_temperature(v.temperature, v.heat_capacity(), t_in, cp_in);
+                    let t_new = adiabatic_mix_into(v, t_in, |t| {
+                        portions_enthalpy([(sid, moles.0, arriving)], t_in.0, t)
+                    });
                     if (t_new.0 - v.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: v.id,
@@ -1583,16 +1584,17 @@ impl Bench {
                 }
 
                 let t_in = at.unwrap_or(Kelvin::STANDARD);
-                let cp_in = components
-                    .iter()
-                    .filter_map(|(sid, _, _, moles)| {
-                        species::lookup(sid).map(|data| moles.0 * data.heat_capacity)
-                    })
-                    .sum();
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new =
-                        adiabatic_mix_temperature(v.temperature, v.heat_capacity(), t_in, cp_in);
+                    let t_new = adiabatic_mix_into(v, t_in, |t| {
+                        portions_enthalpy(
+                            components.iter().filter_map(|(sid, _, _, moles)| {
+                                species::lookup(sid).map(|data| (sid, moles.0, data.standard_phase))
+                            }),
+                            t_in.0,
+                            t,
+                        )
+                    });
                     if (t_new.0 - v.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: v.id,
@@ -2323,18 +2325,15 @@ impl Bench {
                     would_move
                 };
                 // …and mix it into `to` with the energy balance.
-                let cp_in: f64 = portions
-                    .iter()
-                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_temperature(
-                        dst.temperature,
-                        dst.heat_capacity(),
-                        t_from,
-                        cp_in,
-                    );
+                    let t_new = adiabatic_mix_into(dst, t_from, |t| {
+                        portions_enthalpy(
+                            portions.iter().map(|(s, n, p)| (s, n.0, *p)),
+                            t_from.0,
+                            t,
+                        )
+                    });
                     if !portions.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: *to,
@@ -2502,32 +2501,35 @@ impl Bench {
                 }
 
                 // Deposit into target with adiabatic energy balance.
-                let cp_a: f64 = move_a
-                    .iter()
-                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
-                let cp_b: f64 = move_b
-                    .iter()
-                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
                 let dst = self.vessel_mut(*into)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
                     // Three-body adiabatic mix: vessel + stream_a + stream_b.
-                    let cp_dst = dst.heat_capacity();
-                    let total_cp = cp_dst + cp_a + cp_b;
-                    if total_cp > 0.0 {
-                        let t_new = Kelvin(
-                            (cp_dst * dst.temperature.0 + cp_a * t_a.0 + cp_b * t_b.0) / total_cp,
-                        );
-                        if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
-                            events.push(Event::TemperatureChanged {
-                                vessel: *into,
-                                from: dst.temperature,
-                                to: t_new,
-                            });
-                        }
-                        dst.temperature = t_new;
+                    // One root, three enthalpies, all measured from where
+                    // their own matter currently is.
+                    let held = dst.temperature.0;
+                    let lo = held.min(t_a.0).min(t_b.0);
+                    let hi = held.max(t_a.0).max(t_b.0);
+                    let t_new = crate::solve::adiabatic_rest_temperature(lo, hi, |t| {
+                        dst.energy_between(held, t)
+                            + portions_enthalpy(
+                                move_a.iter().map(|(s, n, p)| (s, n.0, *p)),
+                                t_a.0,
+                                t,
+                            )
+                            + portions_enthalpy(
+                                move_b.iter().map(|(s, n, p)| (s, n.0, *p)),
+                                t_b.0,
+                                t,
+                            )
+                    });
+                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *into,
+                            from: dst.temperature,
+                            to: t_new,
+                        });
                     }
+                    dst.temperature = t_new;
                 }
                 for (s, n, phase) in move_a.into_iter().chain(move_b) {
                     dst.deposit(s, n, phase);
@@ -2599,19 +2601,16 @@ impl Bench {
 
                 let src = self.vessel_mut(*from)?;
                 src.contents.retain(|p| p.phase == Phase::Solid);
-                let cp_in: f64 = would_move
-                    .iter()
-                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_temperature(
-                        dst.temperature,
-                        dst.heat_capacity(),
-                        t_from,
-                        cp_in,
-                    );
-                    dst.temperature = t_new;
+                    let settled = adiabatic_mix_into(dst, t_from, |t| {
+                        portions_enthalpy(
+                            would_move.iter().map(|(s, n, p)| (s, n.0, *p)),
+                            t_from.0,
+                            t,
+                        )
+                    });
+                    dst.temperature = settled;
                 }
                 for (s, n, phase) in would_move {
                     dst.deposit(s, n, phase);
@@ -2908,20 +2907,20 @@ impl Bench {
                             // invent it. `at` reports where it boiled, not
                             // what the receiver's thermometer reads.
                             let t_from = src.temperature;
-                            let cp_in: f64 = [(&water, removed_w), (&ethanol, removed_e)]
-                                .iter()
-                                .filter_map(|(s, n)| {
-                                    species::lookup(s).map(|d| n.0 * d.heat_capacity)
-                                })
-                                .sum();
                             let dst = self.vessel_mut(*to)?;
                             if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                                let t_new = adiabatic_mix_temperature(
-                                    dst.temperature,
-                                    dst.heat_capacity(),
-                                    t_from,
-                                    cp_in,
-                                );
+                                // The distillate arrives as liquid, which is
+                                // what it condenses to in the receiver.
+                                let t_new = adiabatic_mix_into(dst, t_from, |t| {
+                                    portions_enthalpy(
+                                        [
+                                            (&water, removed_w.0, Phase::Liquid),
+                                            (&ethanol, removed_e.0, Phase::Liquid),
+                                        ],
+                                        t_from.0,
+                                        t,
+                                    )
+                                });
                                 if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
                                     events.push(Event::TemperatureChanged {
                                         vessel: *to,
@@ -3033,18 +3032,11 @@ impl Bench {
                     src.withdraw(spec, *m);
                 }
                 let t_from = src.temperature;
-                let cp_in: f64 = moved
-                    .iter()
-                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
                 let dst = self.vessel_mut(*to)?;
                 if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_temperature(
-                        dst.temperature,
-                        dst.heat_capacity(),
-                        t_from,
-                        cp_in,
-                    );
+                    let t_new = adiabatic_mix_into(dst, t_from, |t| {
+                        portions_enthalpy(moved.iter().map(|(s, n, p)| (s, n.0, *p)), t_from.0, t)
+                    });
                     if !moved.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: *to,
@@ -4208,12 +4200,9 @@ impl Bench {
                 }
                 let v = self.vessel_mut(*vessel)?;
                 if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
-                    let t_new = adiabatic_mix_temperature(
-                        v.temperature,
-                        v.heat_capacity(),
-                        Kelvin::STANDARD,
-                        moles.0 * data.heat_capacity,
-                    );
+                    let t_new = adiabatic_mix_into(v, Kelvin::STANDARD, |t| {
+                        portions_enthalpy([(&water, moles.0, Phase::Liquid)], Kelvin::STANDARD.0, t)
+                    });
                     if (t_new.0 - v.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: *vessel,
@@ -4280,18 +4269,16 @@ impl Bench {
                 }
 
                 let t_eff = inlet_vessel.temperature;
-                let cp_eff: f64 = total_effluent
-                    .iter()
-                    .filter_map(|(s, n)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
-                    .sum();
                 let dst = self.vessel_mut(*receiver)?;
-                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && cp_eff > 0.0 {
-                    let t_new = adiabatic_mix_temperature(
-                        dst.temperature,
-                        dst.heat_capacity(),
-                        t_eff,
-                        cp_eff,
-                    );
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && !total_effluent.is_empty()
+                {
+                    let t_new = adiabatic_mix_into(dst, t_eff, |t| {
+                        portions_enthalpy(
+                            total_effluent.iter().map(|(s, n)| (s, n.0, Phase::Liquid)),
+                            t_eff.0,
+                            t,
+                        )
+                    });
                     if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
                         events.push(Event::TemperatureChanged {
                             vessel: *receiver,
@@ -4399,14 +4386,17 @@ impl Bench {
             // Sub-step: add one increment of titrant at standard temperature.
             let v = self.vessel_mut(vessel)?;
             if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
-                let t_new = adiabatic_mix_temperature(
-                    v.temperature,
-                    v.heat_capacity(),
-                    Kelvin::STANDARD,
-                    moles_per_step.0 * data.heat_capacity
-                        + water_per_step.0 * water_data.heat_capacity,
-                );
-                v.temperature = t_new;
+                let settled = adiabatic_mix_into(v, Kelvin::STANDARD, |t| {
+                    portions_enthalpy(
+                        [
+                            (&titrant, moles_per_step.0, data.standard_phase),
+                            (&water, water_per_step.0, Phase::Liquid),
+                        ],
+                        Kelvin::STANDARD.0,
+                        t,
+                    )
+                });
+                v.temperature = settled;
             }
             v.deposit(titrant.clone(), moles_per_step, data.standard_phase);
             v.deposit(water.clone(), water_per_step, Phase::Liquid);

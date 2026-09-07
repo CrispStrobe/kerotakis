@@ -164,25 +164,22 @@ pub use vessel::{
 mod tests {
     use super::*;
 
-    /// Equal amounts of water at 20 °C and 80 °C meet in the middle - to
-    /// within a few hundredths of a kelvin, which is where this stopped
-    /// being exact and started being physics.
+    /// Equal amounts of water at 20 °C and 80 °C meet in the middle - or
+    /// rather, at 50.014 °C, which is where they actually meet.
     ///
-    /// It used to be exactly 50.000 °C, because both sides were charged the
+    /// It used to be exactly 50.000, because both sides were charged the
     /// same constant 75.3 J/(mol·K) and a weighted mean of two equal weights
-    /// is the midpoint. Water's real heat capacity is 75.335 at 20 °C and
-    /// 75.575 at 80 °C - it has a MINIMUM near 35 °C - so the true
-    /// enthalpy-balanced answer is 50.014 °C, and the bench lands at 49.993.
+    /// is the midpoint. Water's real heat capacity has a MINIMUM near 35 °C
+    /// and rises at both ends - 75.335 at 20, 75.575 at 80 - so the hot half
+    /// gives up more per kelvin than the cold half takes, and they settle
+    /// fractionally above halfway.
     ///
-    /// The 21 mK between those two is the one thing this change does not
-    /// close, and it is worth naming rather than burying in a tolerance: the
-    /// DESTINATION of an adiabatic mix reads its heat-capacity curve, and the
-    /// incoming portion is still weighted by its 298 K constant. That is
-    /// exact for anything poured from the shelf, which is most of what this
-    /// bench mixes, and wrong by this much for a hot transfer. Closing it
-    /// means giving `adiabatic_mix_temperature` both sides' curves rather
-    /// than two scalars, and moving every mixing, decanting, filtering,
-    /// distilling and titrating golden with it.
+    /// The bench finds that by balancing enthalpies rather than averaging
+    /// temperatures. Averaging is the same answer only while every heat
+    /// capacity is a constant, and with curves it is not even conservative:
+    /// pouring a millilitre of room-temperature water into a beaker a kelvin
+    /// warm changed the bench's total enthalpy by 3 parts in 10^5, which is
+    /// what `conservation::energy_is_conserved` is for.
     #[test]
     fn thermal_mixing_of_hot_and_cold_water() {
         let mut bench = Bench::new();
@@ -205,8 +202,8 @@ mod tests {
             .unwrap();
         let t = bench.vessel(v).unwrap().temperature.to_celsius();
         assert!(
-            (t - 50.0).abs() < 0.05,
-            "expected the middle of 20 and 80 to within the seam named above, got {t}"
+            (t - 50.014).abs() < 0.005,
+            "20 and 80 settle at 50.014 on water's own curve, not at 50.000, got {t}"
         );
     }
 
