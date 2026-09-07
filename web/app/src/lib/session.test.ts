@@ -1045,6 +1045,79 @@ describe("Session", () => {
     expect(s.lastSpectators).toBe("Na⁺, NO₃⁻");
   });
 
+  /**
+   * GUI-052. The drawer reads ONE step, not the concatenation of a
+   * command's steps: routing belongs to a single equilibrium pass, and
+   * three lines of a script routed together describe a solve that never
+   * happened.
+   */
+  it("keeps the last step's routing, not the whole command's", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [],
+          rendered: ["did: new"],
+          routes: [],
+        },
+        {
+          operator: {},
+          events: [
+            {
+              event: "precipitated",
+              vessel: 0,
+              provenance: {
+                engine: "PHREEQC (IPhreeqc)",
+                dataset: "wateq4f.dat",
+                model: "ion association",
+                dataset_sources: [],
+                routing: "an aqueous solution is characterised",
+              },
+            },
+          ],
+          rendered: ["did: add v1 AgNO3 1.7g"],
+          routes: [
+            {
+              solver: "phreeqc-aqueous",
+              kind: "computed",
+              chemistry: true,
+              outcome: { succeeded: { event_count: 1 } },
+              vessel: 0,
+            },
+            {
+              solver: "honesty",
+              kind: "qualitative",
+              chemistry: false,
+              outcome: "not_applicable",
+              vessel: 0,
+              reason: "honesty does not apply to this vessel state",
+            },
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    const report = s.latestProvenance;
+    expect(report.empty).toBe(false);
+    expect(report.headline).toEqual({
+      solver: "phreeqc-aqueous",
+      dataset: "wateq4f.dat",
+      declined: 1,
+    });
+    expect(report.sources[0]?.engine).toBe("PHREEQC (IPhreeqc)");
+  });
+
+  /** A bench that has run nothing has nothing to show, and says so by
+   * being empty rather than by inventing a routing record. */
+  it("reports no provenance before anything has been run", async () => {
+    const s = new Session(new FakeHost());
+    expect(s.latestProvenance.empty).toBe(true);
+    expect(s.latestProvenance.headline).toBeNull();
+  });
+
   it("a step with no derivable ionic form leaves the strip molecular", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

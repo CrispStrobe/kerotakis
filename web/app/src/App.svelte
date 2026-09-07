@@ -10,6 +10,7 @@
   import Shelf from "./lib/components/Shelf.svelte";
   import Inspector from "./lib/components/Inspector.svelte";
   import LatestResultCard from "./lib/components/LatestResultCard.svelte";
+  import ProvenanceDrawer from "./lib/components/ProvenanceDrawer.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
@@ -621,6 +622,8 @@
   );
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
+  /** GUI-052: the provenance drawer over the latest step's routing. */
+  let provenanceOpen = $state(false);
   let utilityStationOpen = $state(false);
   let removeRequest = $state<number | null>(null);
   const removeVessel = $derived(
@@ -834,6 +837,13 @@
   const selectedVessel = $derived(
     session.scene?.vessels.find((v) => v.id === session.selected) ?? null,
   );
+  /**
+   * GUI-052: what the engine recorded about how the latest step was
+   * computed, for the vessel the bench is looking at. `empty` decides
+   * whether the result card offers the door at all — a card that opens onto
+   * "nothing recorded" teaches the reader to stop pressing it.
+   */
+  const provenance = $derived(session.latestProvenance);
 
   function download(name: string, text: string, type = "text/plain") {
     const blob = new Blob([text], { type });
@@ -897,6 +907,7 @@
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
       else if (utilityStationOpen) utilityStationOpen = false;
+      else if (provenanceOpen) provenanceOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (drillOpen) drillOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
@@ -1022,6 +1033,7 @@
       <button class="tool" onclick={() => { toolsOpen = false; homeOpen = true; }}>{t("world map")}</button>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      <button class="tool" onclick={() => (provenanceOpen = true)}>{t("provenance")}</button>
       <button class="tool" onclick={() => (drillOpen = true)}>{t("balance it")}</button>
       <button class="tool" onclick={() => { toolsOpen = false; roomOpen = true; }}>{t("lab rooms")}</button>
       {#if codexEntries.length > 0}
@@ -1403,7 +1415,11 @@
            rather than shrunk — the feed underneath is complete on its own,
            which is the same reason the card degrades away with JavaScript. -->
       {#if session.latestResult && session.register !== "lv3"}
-        <LatestResultCard result={session.latestResult} onclose={() => (session.latestResult = null)} />
+        <LatestResultCard
+          result={session.latestResult}
+          onclose={() => (session.latestResult = null)}
+          onprovenance={provenance.empty ? undefined : () => (provenanceOpen = true)}
+        />
       {/if}
       <Feed
         entries={session.feed}
@@ -1703,6 +1719,17 @@
 
 {#if safetyOpen}
   <SafetyBoard onclose={() => (safetyOpen = false)} />
+{/if}
+
+<!-- GUI-052: which solver answered, on what data, within what bounds, and
+     what it declined. Opened from the result card's header and from the
+     overflow menu, so it is reachable whether or not a card is showing. -->
+{#if provenanceOpen}
+  <ProvenanceDrawer
+    report={provenance}
+    register={session.register}
+    onclose={() => (provenanceOpen = false)}
+  />
 {/if}
 
 {#if roomOpen}

@@ -166,6 +166,33 @@ pub struct SolverRoute {
     pub kind: SolverRouteKind,
     pub chemistry: bool,
     pub outcome: SolverRouteOutcome,
+    /// The vessel this pass examined. A step may equilibrate more than one
+    /// vessel, and a routing record that cannot say which one it belongs to
+    /// can be read against the wrong beaker.
+    ///
+    /// `serde(default)` so route records written before this field existed
+    /// still load; absent rather than null on the wire.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vessel: Option<crate::vessel::VesselId>,
+    /// The solver's own sentence for declining, where it gives one.
+    ///
+    /// `applies()` answers yes or no; `capability()` answers why. Only a
+    /// decline pays for the second call, and only a solver that overrides
+    /// `capability()` says anything a reader could not have guessed.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
+}
+
+/// The sentence a solver gives for declining this vessel, if it gives one.
+///
+/// Kept beside `SolverRoute` rather than inside `applies()` because it costs
+/// a second pass over the vessel: the stack asks for it only where a solver
+/// has already declined, so an applicable route pays nothing.
+pub fn decline_reason(solver: &dyn Equilibrator, vessel: &Vessel) -> Option<String> {
+    match solver.capability(vessel).applicability {
+        Applicability::NotApplicable { reason } => Some(reason),
+        Applicability::Applicable | Applicability::Partial { .. } => None,
+    }
 }
 
 pub struct SolverStack {
@@ -204,6 +231,8 @@ impl Equilibrator for SolverStack {
                     kind,
                     chemistry,
                     outcome: SolverRouteOutcome::NotApplicable,
+                    vessel: Some(vessel.id),
+                    reason: decline_reason(&**solver, vessel),
                 });
                 continue;
             }
@@ -216,6 +245,8 @@ impl Equilibrator for SolverStack {
                         outcome: SolverRouteOutcome::Succeeded {
                             event_count: more.len(),
                         },
+                        vessel: Some(vessel.id),
+                        reason: None,
                     });
                     // Gas this solver sent out of the vessel, booked on the
                     // step's snapshot before the next solver runs: the
@@ -251,6 +282,8 @@ impl Equilibrator for SolverStack {
                         kind,
                         chemistry,
                         outcome: SolverRouteOutcome::Failed,
+                        vessel: Some(vessel.id),
+                        reason: Some(e.to_string()),
                     });
                     events.push(Event::SolverFailed {
                         vessel: vessel.id,
@@ -1941,5 +1974,46 @@ mod route_trace_tests {
             stack.last_routes[1].outcome,
             SolverRouteOutcome::Succeeded { event_count: 0 }
         );
+    }
+
+    /// GUI-052: a declining solver says which vessel it looked at and, if
+    /// it overrides `capability()`, why it declined. The default adapter
+    /// still gives a sentence, so a reader is never left with a bare "no".
+    #[test]
+    fn declined_routes_name_the_vessel_and_the_reason() {
+        let mut stack = SolverStack::new(vec![Box::new(TestRoute {
+            name: "computed-test",
+            applies: false,
+            kind: SolverRouteKind::Computed,
+        })]);
+        let mut vessel = Vessel::new(crate::vessel::VesselId(3), "beaker");
+        stack.equilibrate(&mut vessel).expect("stack succeeds");
+        assert_eq!(
+            stack.last_routes[0].vessel,
+            Some(crate::vessel::VesselId(3))
+        );
+        let reason = stack.last_routes[0]
+            .reason
+            .as_deref()
+            .expect("a decline carries the solver's own sentence");
+        assert!(reason.contains("computed-test"), "{reason}");
+    }
+
+    /// A route that answered has nothing to explain, and the wire says so
+    /// by omission rather than by a null.
+    #[test]
+    fn answered_routes_carry_no_reason() {
+        let mut stack = SolverStack::new(vec![Box::new(TestRoute {
+            name: "curated-test",
+            applies: true,
+            kind: SolverRouteKind::Curated,
+        })]);
+        stack
+            .equilibrate(&mut Vessel::new(crate::vessel::VesselId(0), "beaker"))
+            .expect("stack succeeds");
+        assert_eq!(stack.last_routes[0].reason, None);
+        let wire = serde_json::to_value(&stack.last_routes[0]).expect("route serialises");
+        assert!(wire.get("reason").is_none(), "{wire}");
+        assert_eq!(wire["vessel"], serde_json::json!(0));
     }
 }

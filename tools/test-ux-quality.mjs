@@ -198,6 +198,44 @@ const chooseMobilePane = async (index) => {
   return JSON.parse(await layoutAudit());
 };
 
+/** GUI-052: the provenance drawer, reached from the overflow menu. It has to
+ * open with no result on the bench too — a reader asking "who computed
+ * this?" before pressing anything gets an honest "nothing routed yet"
+ * rather than a control that does not respond. */
+const openProvenance = async () => {
+  const hasButton = await page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
+    /provenance|herkunft/i.test(item.textContent || "")))`);
+  if (!hasButton) {
+    await page.evaluate(`document.querySelector('button.utility-toggle')?.click()`);
+    await waitFor(page, `document.querySelector('.utility-drawer')`, { timeout: 5000 });
+  }
+  await page.evaluate(`(() => {
+    const button = [...document.querySelectorAll('button.tool')].find((item) =>
+      /provenance|herkunft/i.test(item.textContent || ""));
+    button?.click();
+  })()`);
+  return waitFor(page, `document.querySelector('dialog.provenance-drawer')`, { timeout: 5000 });
+};
+
+const provenanceAudit = () => page.evaluate(`(() => {
+  const panel = document.querySelector('dialog.provenance-drawer');
+  if (!panel) return JSON.stringify({ present: false });
+  const rect = panel.getBoundingClientRect();
+  return JSON.stringify({
+    present: true,
+    viewportOverflow: Math.max(0, rect.right - document.documentElement.clientWidth, -rect.left),
+    below: Math.max(0, rect.bottom - document.documentElement.clientHeight),
+    width: rect.width,
+    // The one close affordance the whole bench shares.
+    close: Boolean(panel.querySelector('button.icon-close')),
+    // A drawer with no heading is a box; the heading is what says which
+    // question it answers.
+    titled: Boolean(panel.querySelector('h2')?.textContent.trim()),
+    // It must always say something, even with nothing routed yet.
+    said: (panel.querySelector('.headline')?.textContent || '').trim().length,
+  });
+})()`);
+
 const openPeriodicTable = async () => {
   const hasButton = await page.evaluate(`Boolean([...document.querySelectorAll('button.tool')].find((item) =>
     /elements|elemente/i.test(item.textContent || "")))`);
@@ -423,6 +461,17 @@ try {
   check("the explicit full-table mode exposes all 118 identities", fullTable.options === 118, `${fullTable.options} cells`);
   await page.evaluate(`document.querySelector('dialog.table-panel button.icon-close')?.click()`);
 
+  check("the provenance drawer opens from the bench", await openProvenance());
+  const provenance = JSON.parse(await provenanceAudit());
+  check("the desktop provenance drawer stays inside the viewport",
+    provenance.viewportOverflow <= 1 && provenance.below <= 1,
+    `${provenance.viewportOverflow}px right, ${provenance.below}px below`);
+  check("the provenance drawer names itself and carries the shared close",
+    provenance.titled && provenance.close);
+  check("the provenance drawer says something even before anything is routed",
+    provenance.said > 0, `${provenance.said} characters`);
+  await page.evaluate(`document.querySelector('dialog.provenance-drawer button.icon-close')?.click()`);
+
   check("the equipment cupboard opens from the bench", await openCupboard());
   const cupboard = JSON.parse(await cupboardAudit());
   // Five shelves since GUI-103: measure, heat & cool, prepare & convert,
@@ -500,6 +549,19 @@ try {
   const phoneCupboard = JSON.parse(await cupboardAudit());
   check("the phone cupboard stays inside the viewport", phoneCupboard.viewportOverflow <= 1, `${phoneCupboard.viewportOverflow}px`);
   await page.evaluate(`document.querySelector('dialog.cupboard button.icon-close')?.click()`);
+
+  check("the provenance drawer opens on a phone", await openProvenance());
+  const phoneProvenance = JSON.parse(await provenanceAudit());
+  // A right-anchored drawer is the shape that hangs off the edge when it is
+  // sized in rem and the phone is narrower than the rem figure. Full-bleed
+  // below 30rem is what keeps this at zero.
+  check("the phone provenance drawer stays inside the viewport",
+    phoneProvenance.viewportOverflow <= 1 && phoneProvenance.below <= 1,
+    `${phoneProvenance.viewportOverflow}px right, ${phoneProvenance.below}px below`);
+  const phoneLayout = JSON.parse(await layoutAudit());
+  check("the open provenance drawer does not widen the phone page",
+    phoneLayout.bodyOverflow <= 1, `${phoneLayout.bodyOverflow}px`);
+  await page.evaluate(`document.querySelector('dialog.provenance-drawer button.icon-close')?.click()`);
 
   // The workstation, on a phone. It is deployed from the vessel dock rather
   // than the cupboard because the dock is the surface a learner reaches it

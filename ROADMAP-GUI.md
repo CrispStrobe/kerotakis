@@ -1190,8 +1190,16 @@ hide them completely.
 - [ ] **GUI-050 — Studies UI** over CAP-2 (sweeps) with CAP-3 rendering.
 - [ ] **GUI-051 — Diagrams** (CAP-4 predominance/Pourbaix) and **Monte
   Carlo bands** (CAP-8) in the chart renderer.
-- [ ] **GUI-052 — Provenance drawer** rendering the R0 capability/validity
-  reports and the property-resolution ladder rung per number.
+- [x] **GUI-052 — Provenance drawer** rendering the R0 capability/validity
+  reports and the property-resolution ladder rung per number. The routing
+  record (`SolverStack::last_routes`) reaches the wire as `step.routes`,
+  native and wasm alike, with the declining solver's own sentence beside it;
+  `provenance.ts` builds the drawer's model from a step's events and routes,
+  and `ProvenanceDrawer.svelte` shows the solver chain in order, the datasets
+  and models any `provenance` names, the validity notes riding a reading, and
+  the honesty pass's refusals — each in the engine's own words. `ValidityBounds`
+  is deliberately not rendered: no solver in the tree populates it, so a box
+  for it would imply a check nobody ran (PR #512).
 
 Continuous, all phases: a11y audit per surface; perf budgets in CI on a
 throttled target profile; golden scene/DOM tests over the lesson corpus;
