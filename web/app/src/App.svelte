@@ -1188,11 +1188,15 @@
 <QuestBar {session} />
 
 <main data-pane={pane}>
-  <!-- Collapsed, a side panel is a 20 px rail at the screen edge and the
-       bench takes every pixel it gave up. Hover or focus the rail to read
-       the panel over the stage; press it to pin the panel back into the
-       layout. Touch has no hover, so the press is the whole interaction
-       there — which is why the reveal is never the only way in. -->
+  <!-- Collapsed, a side panel is gone: not a column, not an overlay, not a
+       hover peek. All that is left at the screen edge is one small floating
+       chevron, and the bench takes every pixel the panel gave up. Pressing
+       the chevron brings the panel back as a normal column that pushes the
+       stage aside, exactly as it was before. A panel that reappeared under
+       the pointer was the bug — it hovered over the experiment and there
+       was no way to keep it away. Below the phone breakpoint the tabs still
+       give each pane the whole screen, so the collapsed state is ignored
+       there and the chevron never shows. -->
   <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>
     {#if cabinetCollapsed}
       <button
@@ -1201,7 +1205,7 @@
         aria-label={t("open supply cabinet")}
         title={t("open supply cabinet")}
         onclick={() => setPanelCollapsed("cabinet", false)}
-      ><span aria-hidden="true">›</span></button>
+      ><span aria-hidden="true">‹</span></button>
     {/if}
     <div class="pane-body">
       <div class="pane-heading">
@@ -1438,7 +1442,7 @@
         aria-label={t("open lab journal")}
         title={t("open lab journal")}
         onclick={() => setPanelCollapsed("journal", false)}
-      ><span aria-hidden="true">‹</span></button>
+      ><span aria-hidden="true">›</span></button>
     {/if}
     <div class="pane-body">
       <div class="pane-heading journal-heading">
@@ -2458,7 +2462,7 @@
     background: var(--surface);
   }
 
-  /* The rail exists only where a panel can be collapsed out of the
+  /* The chevron exists only where a panel can be collapsed out of the
      layout; the phone gives each pane the whole screen by tab instead. */
   .pane-rail {
     display: none;
@@ -2467,58 +2471,49 @@
   @media (min-width: 981px) {
     .shelf-pane,
     aside { transition: width 180ms ease, box-shadow 180ms ease; }
-    /* 20 px of edge, and the bench keeps the rest. The old collapsed
-       panel still held a 44 px column open to say nothing. */
+    /* Collapsed, the lane is nothing but a lane-width strip holding one
+       floating chevron: no frame, no fill, no shadow, so the button reads
+       as sitting on the stage rather than as a panel squeezed thin. */
     .shelf-pane.collapsed,
     aside.collapsed {
-      width: 20px;
-      overflow: visible;
-      box-shadow: none;
-      background: var(--surface-raised);
-    }
-    .pane-rail {
-      display: flex;
-      width: 100%;
-      height: 100%;
+      width: 28px;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      overflow: visible;
       border: 0;
-      color: var(--dim);
+      box-shadow: none;
       background: none;
+    }
+    /* The panel is not hidden behind a hover — it is out of the layout
+       entirely. `display: none` is deliberate over `visibility` so that
+       nothing inside it is focusable, measurable, or read aloud while the
+       lane is closed; the only way back is the chevron. */
+    .shelf-pane.collapsed .pane-body,
+    aside.collapsed .pane-body {
+      display: none;
+    }
+    .pane-rail {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 44px;
+      flex: none;
+      padding: 0;
+      border: 1px solid var(--edge);
+      border-radius: 9px;
+      color: var(--dim);
+      background: var(--surface-raised);
+      box-shadow: 0 6px 18px var(--shadow);
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 1rem;
       cursor: pointer;
     }
-    .shelf-pane.collapsed:hover .pane-rail,
-    aside.collapsed:hover .pane-rail { color: var(--primary); }
+    .pane-rail:hover { color: var(--primary); border-color: var(--primary); }
     .pane-rail:focus-visible {
       color: var(--primary);
       outline: 2px solid var(--primary);
-      outline-offset: -2px;
+      outline-offset: 2px;
     }
-    /* Revealed over the stage, not beside it: peeking must not move the
-       bench, or every hover would reflow the experiment underneath. */
-    .shelf-pane.collapsed .pane-body,
-    aside.collapsed .pane-body {
-      position: absolute;
-      top: 0.75rem;
-      bottom: 0.75rem;
-      z-index: 15;
-      width: min(15rem, 20vw);
-      border: 1px solid var(--edge);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-      box-shadow: 0 18px 55px var(--shadow-strong);
-      overflow: hidden;
-      visibility: hidden;
-    }
-    .shelf-pane.collapsed .pane-body { left: 0.75rem; }
-    aside.collapsed .pane-body { right: 0.75rem; width: min(18rem, 23vw); }
-    .shelf-pane.collapsed:hover .pane-body,
-    .shelf-pane.collapsed:focus-within .pane-body,
-    aside.collapsed:hover .pane-body,
-    aside.collapsed:focus-within .pane-body { visibility: visible; }
   }
 
   @media (max-width: 980px) {
