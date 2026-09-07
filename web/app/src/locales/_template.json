@@ -3,6 +3,14 @@
  "@@name": "",
  "@@note": "Copy to <code>.json, set @@locale, translate the VALUES only. Keys are English source text and must not change.",
  "terms": {
+  "hydrogen ion": "",
+  "dissolved carbon dioxide": "",
+  "carbonate ion": "",
+  "hydrogen phosphate ion": "",
+  "phosphate ion": "",
+  "nitrite ion": "",
+  "thiocyanate ion": "",
+  "potassium thiocyanate (aqueous reagent)": "",
   "A lemon cell: voltage is not the same thing as useful power": "",
   "Splitting conductive water: two gases, in a two-to-one ratio": "",
   "lemon cell": "",
@@ -479,6 +487,12 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": ""
  },
  "messages": {
+  "endpoint is not a full drop": "",
+  "equilibrium can run backward": "",
+  "three components one cut": "",
+  "equal charge different clocks": "",
+  "grouping does not change water heat": "",
+  "chemical equilibrium": "",
   "liquid nitrogen freezes ethanol": "",
   "phase change": "",
   "latent heat": "",

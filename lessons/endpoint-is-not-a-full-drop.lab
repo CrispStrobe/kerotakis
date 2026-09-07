@@ -1,0 +1,16 @@
+# Virtual comparison: the numerical endpoint is not a whole burette step.
+# Both vessels contain 0.0023 mol HCl. At 0.1 mol/L, equivalence requires
+# approximately 23 mL. The 7 mL trial increment deliberately misses it.
+# The automatic solver refines its last increment; a physical burette and
+# indicator have their own uncertainty, which this calculation does not model.
+register lv3
+add v1 water 200mL
+add v1 HCl 0.0023mol
+titrate v1 NaOH 0.1M 7mL until ph 7
+measure v1 ph
+new
+add v2 water 200mL
+add v2 HCl 0.0023mol
+titrate v2 NaOH 0.1M 1mL until ph 7
+measure v2 ph
+inspect

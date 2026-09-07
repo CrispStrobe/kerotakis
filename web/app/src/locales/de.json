@@ -3,6 +3,14 @@
  "@@name": "Deutsch",
  "@@note": "The shell's German. One file per language: adding French means adding fr.json beside this one and translating the values — no code change, and no other translation touched. Keys are the English source text, which is what t() is called with. `terms` are the engine's vocabulary (species, colours, hazards) and are substituted inside longer sentences; `messages` are the interface's own strings, plus the concept and experiment names the codex refers to by slug.",
  "terms": {
+  "hydrogen ion": "Wasserstoff-Ion",
+  "dissolved carbon dioxide": "gelöstes Kohlenstoffdioxid",
+  "carbonate ion": "Carbonat-Ion",
+  "hydrogen phosphate ion": "Hydrogenphosphat-Ion",
+  "phosphate ion": "Phosphat-Ion",
+  "nitrite ion": "Nitrit-Ion",
+  "thiocyanate ion": "Thiocyanat-Ion",
+  "potassium thiocyanate (aqueous reagent)": "Kaliumthiocyanat (wässriges Reagenz)",
   "A lemon cell: voltage is not the same thing as useful power": "Eine Zitronenzelle: Spannung ist nicht dasselbe wie nutzbare Leistung",
   "Splitting conductive water: two gases, in a two-to-one ratio": "Leitfähiges Wasser zerlegen: zwei Gase im Verhältnis zwei zu eins",
   "lemon cell": "Zitronenzelle",
@@ -479,6 +487,12 @@
   "{family} enzyme model: {percent}% of {substrate} converted in {material}": "{family}-Enzymmodell: {percent} % von {substrate} in {material} umgesetzt"
  },
  "messages": {
+  "endpoint is not a full drop": "Der Endpunkt ist kein ganzer Tropfen",
+  "equilibrium can run backward": "Ein Gleichgewicht kann sich rückwärts verschieben",
+  "three components one cut": "Drei Komponenten, ein Destillat",
+  "equal charge different clocks": "Gleiche Ladung, andere Zeiten",
+  "grouping does not change water heat": "Die Mischreihenfolge ändert die Wärmebilanz nicht",
+  "chemical equilibrium": "Chemisches Gleichgewicht",
   "liquid nitrogen freezes ethanol": "Flüssiger Stickstoff gefriert Ethanol",
   "phase change": "Phasenübergang",
   "latent heat": "latente Wärme",

@@ -1,0 +1,15 @@
+# Virtual equilibrium request, not a synthesis recipe or a time prediction.
+# Same reaction, two initial conditions. Reactants can form ester; starting
+# with ester and water instead drives hydrolysis in the reverse direction.
+# The explicit command uses the existing ideal-mixture K=4 model, not a
+# measured rate, catalyst model, or nonideal liquid activity calculation.
+register lv3
+add v1 CH3COOH 0.01mol
+add v1 ethanol 0.01mol
+react v1 esterification
+inspect v1
+new
+add v2 water 0.01mol
+add v2 ethyl_acetate 0.01mol
+react v2 esterification
+inspect v2

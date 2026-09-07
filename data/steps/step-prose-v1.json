@@ -33,10 +33,10 @@
     "a-salt-with-no-database": [
       "100 mL of water in the first beaker.",
       "Sodium thiosulfate dissolves into it — the salt this bench can hold and react but cannot place on the pH scale.",
-      "Acid goes in on top of it. The meter reads pH 1.7485817506.",
+      "Acid goes in, and its computed pH must be accompanied by the warning that the dissolved thiosulfate contribution is not modeled.",
       "A second beaker, for the same acid with no thiosulfate at all.",
       "The same 100 mL of water.",
-      "The same acid, alone. This meter reads 1.7485817506 as well — identical to twelve figures, because the thiosulfate contributed nothing to the balance the solver actually solves.",
+      "The same acid goes in alone as a reference; similar computed pH values would not prove that thiosulfate has no real effect on acidity.",
       "A third beaker, to ask the question directly.",
       "Water again.",
       "The thiosulfate on its own, with nothing to react with.",
@@ -185,8 +185,8 @@
     ],
     "cold-from-baking-soda": [
       "100 mL of water, starting at 25 °C.",
-      "8.4 g of bicarbonate dissolves — and it has to borrow energy from the water to come apart.",
-      "The thermometer reads about 21 °C. The water is colder for having lent it: nothing was cooled, the dissolving itself took the heat."
+      "Add 8.4 g of bicarbonate and watch the open-beaker model account for dissolution, carbonate speciation and carbon dioxide exchange together.",
+      "Read the cooling on the thermometer as the full adiabatic energy balance, not dissolution alone or a prediction of real-cup heat leakage and gas-transfer time."
     ],
     "cold-pack": [
       "100 mL of water, and the thermometer starts at room temperature.",
@@ -254,8 +254,45 @@
       "A second beaker.",
       "The same 100 mL of water.",
       "Twice the thiosulfate — 1.58 g. This is the only thing that differs between the two.",
-      "The same acid again, in the same amount — the one thing held constant between the two.",
-      "Ten seconds pass on one clock for both. The strong beaker has made twice as much yellow cloudiness as the weak one: not a bit more, twice. Crowd the particles twice as tightly and they meet twice as often."
+      "The same acid amount again gives both vessels the same finite supply of proton equivalents.",
+      "After ten seconds compare the sulfur amounts: doubling thiosulfate doubles the modeled initial rate at fixed proton activity, but acid consumption prevents an automatic twofold finite-time yield."
+    ],
+    "endpoint-is-not-a-full-drop": [
+      "The first vessel receives 200 mL of water for the coarse-step titration.",
+      "Add 0.0023 mol of hydrochloric acid to set the amount the base must neutralize.",
+      "The automatic titration searches toward pH 7 with 7 mL trial increments and refines the final bracket rather than committing a whole last increment.",
+      "Read the computed final pH as a numerical endpoint check, not a claim about a physical burette's uncertainty.",
+      "Create a second vessel for the smaller-step control.",
+      "Give it the same 200 mL of water so the solvent amount stays fixed.",
+      "Add the same acid amount so only the titration's search increment will differ.",
+      "Repeat the calculation with the same titrant concentration and pH target but a 1 mL trial increment.",
+      "Compare this final pH and the reported delivered volume with the coarse-step run to distinguish trial size from endpoint resolution."
+    ],
+    "equal-charge-different-clocks": [
+      "Give the first vessel 250 mL of water.",
+      "Add potassium nitrate as the supporting electrolyte.",
+      "Deliver charge at 0.2 A for 60 seconds and note both electrode products.",
+      "Create a second vessel for a lower-current control.",
+      "Use the same water amount.",
+      "Use the same electrolyte amount.",
+      "Halve the current and double the duration, keeping delivered charge unchanged.",
+      "Create a third vessel for a split delivery.",
+      "Give it the same water amount.",
+      "Give it the same electrolyte amount.",
+      "Deliver the first half of the charge at the original current.",
+      "Deliver the second half and add its production to the first pulse rather than replacing it.",
+      "Inspect the first vessel, remembering that generated gas can leave an open vessel.",
+      "Inspect the second vessel and compare cumulative electrode production with the first schedule.",
+      "Inspect the third vessel and compare the sum of both pulses with the other equal-charge deliveries."
+    ],
+    "equilibrium-can-run-backward": [
+      "Start the first vessel with 0.01 mol of acetic acid, one reactant in the equilibrium model.",
+      "Add an equal amount of ethanol to supply the other reactant.",
+      "Request the ideal-mixture equilibrium calculation and watch for ester formation without interpreting the calculated extent as a reaction time.",
+      "Create a second vessel to approach the same equilibrium from its product side.",
+      "Add 0.01 mol of water, which is a product in the written forward reaction.",
+      "Add an equal amount of ethyl acetate so this vessel begins with ester and water instead of acid and alcohol.",
+      "Request the same equilibrium calculation and compare the signed extent with the first vessel, allowing reverse reaction without assuming complete hydrolysis."
     ],
     "ethanol-and-water-mix": [
       "100 mL of water.",
@@ -288,6 +325,35 @@
       "The same 1.2 g of magnesium.",
       "Ignite it directly, from the bench's own ignition temperature.",
       "The thermometer reads some six hundred degrees higher than the first. Same reaction, same energy released; the heat put in beforehand did not disappear when the fire started, and a flame temperature is a balance, not a property of the metal."
+    ],
+    "grouping-does-not-change-water-heat": [
+      "Leave v1 empty as the final receiver and create the first water vessel.",
+      "Add one mole of water to the first portion.",
+      "Give this portion 300 J of sensible heat.",
+      "Create a vessel for the second portion.",
+      "Add two moles of water.",
+      "Remove 200 J from this portion.",
+      "Create a vessel for the third portion.",
+      "Add three moles of water.",
+      "Give this portion 100 J.",
+      "Create an intermediate mixing vessel.",
+      "Combine the first and second portions completely, carrying their amounts and energy together.",
+      "Combine that intermediate mixture with the third portion in v1.",
+      "Read the final temperature for the first grouping.",
+      "Create the first vessel of a matching second branch.",
+      "Add the same one mole of water.",
+      "Give it the same 300 J.",
+      "Create the second portion's vessel.",
+      "Add the same two moles of water.",
+      "Remove the same 200 J.",
+      "Create the third portion's vessel.",
+      "Add the same three moles of water.",
+      "Give it the same 100 J.",
+      "Create the other intermediate mixing vessel.",
+      "This time combine the second and third portions first.",
+      "Create a receiver for the second branch's final mixture.",
+      "Add the first portion to that intermediate mixture, preserving all six moles and their net energy.",
+      "Compare the final thermometer with v1, not the different intermediate temperatures."
     ],
     "half-neutralised-vinegar": [
       "A litre of water.",
@@ -462,11 +528,11 @@
     "the-acid-is-never-used-up": [
       "100 mL of water.",
       "0.79 g of thiosulfate dissolves.",
-      "Only 0.002 mol of acid — remember that number, because the reaction is about to need far more than it.",
-      "Read the pH now: 1.74858175066.",
-      "Ten minutes pass, and the beaker turns thick and yellow: about 93 % of the thiosulfate has become sulfur.",
-      "Read the pH again: 1.74858175066, the same twelve digits. By the stated equation that much reaction needed some 9 mmol of protons and the beaker held 2. A real beaker would have run out of acid and stalled — this is a documented corner of the model, and knowing where it is beats finding it by accident.",
-      "Look at what is there: the sulfur is real and the accounting for it is not."
+      "The 0.002 mol acid supply permits at most 0.001 mol sulfur because the balanced kinetic step consumes two proton equivalents per sulfur atom.",
+      "Record the initial computed pH, keeping the missing thiosulfate speciation contribution in mind.",
+      "Wait ten minutes while the bounded kinetic model spends represented acid and lowers proton activity with a locally fixed activity coefficient.",
+      "Read the pH again after aqueous re-equilibration rather than inferring it from the acid-capacity bound alone.",
+      "Inspect the sulfur inventory against its stoichiometric limit, remembering that this consuming rate model does not supply uncoupled weak-buffer replenishment."
     ],
     "the-acid-term-is-an-activity": [
       "100 mL of water in the first vessel.",
@@ -480,7 +546,7 @@
       "The same water again.",
       "The same thiosulfate again.",
       "0.001 mol of acid — half the reference.",
-      "One second for all three. Doubling the acid multiplies the rate by 1.94 and halving it by 0.51, not by 2 and 0.5: the rate law reads the acidity the solver computed, and in a crowded solution ions get in each other's way, so twice as many do not push twice as hard."
+      "After one second compare sulfur amounts separately from initial proton-activity ratios, because the model starts from computed activity and then consumes acid with a locally fixed activity coefficient."
     ],
     "the-antacid-runs-on-arithmetic": [
       "100 mL of water to make the mock stomach acid in.",
@@ -504,18 +570,18 @@
       "The same water once more.",
       "Half the thiosulfate.",
       "And the same acid a third time. Three beakers, one difference.",
-      "Twenty-four seconds pass — the time the strongest beaker takes to hide a cross drawn on paper under it.",
-      "Look at the middle beaker: hazy, not yet hidden.",
-      "Look at the strong one: cloudy enough to hide the cross. Twenty-four seconds.",
-      "Look at the weak one: barely started.",
+      "Wait twenty-four seconds for the first observation, without assuming that this is a cross-disappearance time.",
+      "Inspect the middle-strength beaker and record the cloudiness the model actually reports.",
+      "Inspect the stronger beaker at the same elapsed time rather than assuming it has hidden a cross.",
+      "Inspect the weaker beaker to complete the first equal-time comparison.",
       "Another twenty-five seconds.",
-      "Now the middle beaker hides its cross too, at forty-nine seconds — about twice the strong one's time for half the strength.",
-      "The strong one has gone further still.",
-      "The weak one is still waiting.",
+      "Inspect the middle beaker at forty-nine seconds and compare it with its earlier state.",
+      "Inspect the stronger beaker while remembering that faster initial reaction also spends acid faster.",
+      "Inspect the weaker beaker without treating a fixed observation time as an optical threshold crossing.",
       "Another sixty-four seconds.",
-      "The middle beaker has long since gone.",
-      "So has the strong one.",
-      "And the weak one hides its cross at last, at a hundred and thirteen seconds. The clock is the measuring instrument here — but note the times are not exactly doubling, because by the time each beaker is read it has already spent some of its thiosulfate."
+      "Inspect the middle beaker at a hundred and thirteen seconds, with sulfur formation still bounded by the supplied acid.",
+      "Inspect the stronger beaker under the same acid-capacity limit, regardless of its larger thiosulfate supply.",
+      "Inspect the weaker beaker to finish the time series, remembering that the cloudiness thresholds are teaching conventions and waiting cannot supply missing acid."
     ],
     "the-daniell-cell-offers-its-voltage": [
       "100 mL of water for the zinc half-cell.",
@@ -598,7 +664,7 @@
       "The same water at 55 °C.",
       "The same thiosulfate.",
       "The same acid, for the fourth time.",
-      "Ten seconds on one clock for all four. Each ten degrees roughly doubles the sulfur made — but the factors are 1.90, then 1.80, then 1.69. Each step buys a little less than the last, so 'it doubles' is a useful rule and not a promise."
+      "After ten seconds compare the sulfur amounts while distinguishing Arrhenius rate ratios from acid-limited finite-time yields, remembering that extrapolation beyond the calibrated temperature range is not independently validated."
     ],
     "theoretical-yield-and-what-a-real-lab-loses": [
       "500 mL of water.",
@@ -622,6 +688,15 @@
       "A thousandth of a gram of catalase is all the third flask gets — a hundred-thousandth of the peroxide's mass.",
       "One second passes for all three. The plain flask has done nothing the bench will report, the manganese flask has decomposed a little, and the catalase flask has already finished."
     ],
+    "three-components-one-cut": [
+      "Start the source vessel with three moles of water.",
+      "Add methanol as one volatile component.",
+      "Add isopropanol as another component that the calculation must not discard.",
+      "Create an empty receiver for the computed cut.",
+      "Withdraw one fifth of the total molar inventory using the disclosed ideal-mixture approximation.",
+      "Inspect what remains in the source and retain every component in the accounting.",
+      "Inspect the receiver and add its component amounts to those remaining, without confusing enrichment with purity."
+    ],
     "two-beakers-and-one-clock": [
       "100 mL of water at 25 °C in the first beaker.",
       "0.79 g of thiosulfate, at that same temperature.",
@@ -631,11 +706,11 @@
       "The same thiosulfate.",
       "The same acid, in the same amount. Everything matches except the ten degrees.",
       "Twenty seconds pass — one clock, both beakers, started and stopped together.",
-      "Look at the cold one: faintly hazy.",
-      "Look at the warm one: properly cloudy, nearly twice as much sulfur. Nothing else was different, so nothing else can have caused it.",
+      "Inspect the cooler beaker to record its sulfur and cloudiness after the shared wait.",
+      "Inspect the warmer beaker at the same elapsed time without assuming that its sulfur yield must be twice as large.",
       "Another twenty seconds on the same clock.",
-      "The cold beaker has slowed a little: it has less thiosulfate left than it started with.",
-      "And the warm one has slowed more, because it has spent more. Change one thing at a time and the comparison means something; change two and it means nothing, however carefully it was measured."
+      "Inspect the cooler beaker again, whose subsequent rate depends on both remaining thiosulfate and remaining acid.",
+      "Inspect the warmer beaker again and compare the trajectories, since a common clock does not keep their rates or remaining reagent inventories equal."
     ],
     "two-paths-one-temperature": [
       "100 mL of water in the first beaker.",

@@ -18,10 +18,12 @@
 #
 # Three approximations run through the whole file and are stated rather than
 # hidden, each with an entry of its own:
-#   · the thiosulfate rate law reads acid from the computed pH and never
-#     consumes it (`the-acid-is-never-used-up`);
+#   · the thiosulfate rate law consumes represented strong-acid equivalents
+#     with a locally fixed activity coefficient; uncoupled weak-buffer
+#     replenishment is withheld (`the-acid-is-never-used-up`);
 #   · thiosulfate is in no PHREEQC database we ship, so it dissolves but
-#     contributes nothing to pH or ionic strength (`a-salt-with-no-database`);
+#     its missing ionic contribution is explicitly disclosed, and salt-only
+#     pH is withheld (`a-salt-with-no-database`);
 #   · the pre-exponential factors are calibrated against the observable, not
 #     measured, so absolute times are ours and ratios are the chemistry
 #     (`the-cross-disappears`).
@@ -33,6 +35,7 @@
 
 [[reaction]]
 id = "doubling-the-thiosulfate-doubles-the-rate"
+summary = "Doubling thiosulfate doubles the initial rate, not necessarily the later accumulated sulfur"
 progress = "starter"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
@@ -63,48 +66,38 @@ wait 10s
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "not_yet_modelled"]
 absent = ["solver_failed"]
-ph = { min = 1.70, max = 1.80 }
+ph = { min = 1.82, max = 1.88 }
 
 [reaction.expect.predict]
-question = "Two beakers, the same acid, the same ten seconds. One holds 0.05 mol/L thiosulfate, the other 0.10 mol/L. The first deposits 0.000223 mol of sulfur. What does the second deposit?"
-options = [
-  "0.000223 mol — the same, because it is the same reaction",
-  "0.000446 mol — twice as much",
-  "0.000891 mol — four times as much, because rate goes with concentration squared",
-  "Somewhere between, because the stronger one runs out sooner",
-]
+question = "Before either mixture reacts, doubling thiosulfate at the same proton activity changes the initial rate by what factor?"
+options = ["No change","A factor of two under the stated first-order rate law","Always a factor of four"]
 answer = 1
-misconception = "The last option is the interesting wrong answer, and a lot of learners reach for it: they know depletion slows a reaction down and expect the stronger solution to be handicapped by it. It is not, and the reason is worth having — for a first-order reaction the *fraction* consumed in ten seconds is the same in both beakers, so the amounts stay in the ratio they started in at every instant. The squared option is order confused with coefficient: the equation has a 2 in front of H⁺ and none in front of thiosulfate, and neither number is the order."
+misconception = "Initial rate and finite-time yield are different quantities. During ten seconds, both acid and thiosulfate are consumed; the faster mixture loses its acid faster."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "A reaction has one speed, the way a substance has one melting point — concentration changes how much there is, not how fast it goes."
-next = "Run the same pair with a `wait 5s` and then another `wait 5s`. If speed were a property of the reaction the two beakers would track each other; they separate on the first interval and stay separated."
+reveals = "Concentration is treated as an amount that cannot influence encounters."
+next = "Compare the initial rate-law inputs before interpreting the sulfur after ten seconds."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
-reveals = "The order is read off the equation: there is a 2 in front of H⁺, so something must be squared."
-next = "Open the same experiment on the acid instead (`the-acid-term-is-an-activity`): the species with the coefficient 2 is the one that turns out to be first order, which is hard to explain if orders came from coefficients."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "Depletion is imagined as a penalty the faster beaker pays, so the strong solution should fall behind its own head start."
-next = "Compare the sulfur in the two beakers at 24 s, 49 s and 113 s in `the-cross-disappears`: the ratio is exactly 2 at every reading, because both beakers lose the same fraction, not the same amount."
+reveals = "Reaction order is inferred from an unrelated stoichiometric coefficient."
+next = "The curated thiosulfate order is one; the coefficient two on consumed protons does not change it."
 
 [reaction.registers]
-lv1 = "Two beakers of the same clear liquid, one twice as strong as the other, and one clock for both. After ten seconds the strong one has made exactly twice as much yellow cloudiness as the weak one. Not a bit more — twice. Crowd the pieces together twice as tightly and they meet twice as often."
-lv2 = "Rate = k·[S₂O₃²⁻]·[H⁺]. Both beakers hold the same acid (pH 1.7486), so the only difference is the thiosulfate: 0.05 mol/L against 0.10 mol/L. In ten seconds the bench reports 2.2275 × 10⁻⁴ mol of reaction in the first and 4.4551 × 10⁻⁴ mol in the second — a ratio of 2.000. First order in thiosulfate, measured rather than assumed."
-lv3 = "The exactness is worth pausing on, because it is a stronger statement than the practical usually makes. Initial rates are proportional to concentration for any first-order reaction by definition; here the *integrated* amounts are also in the ratio 2.000 after ten seconds, and that holds because the integrated first-order solution is c₀(1 − e^(−k′t)) with k′ = k[H⁺] identical in both vessels. So the c₀ factors straight out and the proportionality survives depletion. The order is curated data, not inferred: `kinetics.rs` keeps `orders` separate from `reactants` precisely so that the coefficient 2 on H⁺ cannot leak into the rate law, and neither order here matches a coefficient."
+lv1 = "The stronger solution starts making sulfur faster. Later, a comparison also depends on how much acid remains."
+lv2 = "Initially r = k c(thiosulfate) a(H+), so doubling c doubles r. A finite-time extent integrates a changing rate: two acid equivalents are consumed for every mole of sulfur formed."
+lv3 = "The existing calibrated rate coefficients are unchanged. The network now consumes represented strong-acid equivalents and updates proton activity during each interval with a locally frozen activity coefficient. Uncoupled weak-acid replenishment is explicitly withheld, and thiosulfate itself still lacks aqueous speciation data."
 
 [reaction.provenance]
-source = "Orders (1,1) for the thiosulfate–acid clock reaction are the standard result of the disappearing-cross practical (school practical literature). Editorial judgement (Kerotakis): the choice to demonstrate the order by comparing integrated extents over a shared ten seconds, rather than by tangent-fitting an initial rate, is ours — it is what the bench can show honestly."
-computed_by = "kerotakis-core kinetics (midpoint integration of the curated rate law); pH from PHREEQC via Kerotakis L2"
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "the-acid-term-is-an-activity"
 progress = "advanced"
 spine = ["die-reaktionsgeschwindigkeit"]
-summary = "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed"
+summary = "A proton-dependent rate uses activity, while stoichiometry spends acid equivalents"
 concepts = ["activity-in-a-rate-law"]
 requires = ["reaction-order", "activity", "ph"]
 calculations = ["rate-from-extent", "ph-from-concentration"]
@@ -145,42 +138,33 @@ absent = ["solver_failed"]
 ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
-question = "Three beakers, identical except for the acid: 0.001, 0.002 and 0.004 mol of HCl in 100 mL. The reaction is known to be first order in H⁺. Doubling the acid from 0.002 to 0.004 mol should multiply the rate by exactly two. The bench says 1.94. Who is wrong?"
-options = [
-  "The bench — a first-order term must double when you double the concentration",
-  "Nobody. The rate law is first order in the *activity* of H⁺, and doubling the amount raises the activity by only 1.94",
-  "The chemistry — the order in H⁺ must really be a bit less than one",
-  "It is rounding error in the integrator",
-]
+question = "Why need doubling the initial HCl amount not exactly double an activity-dependent initial rate?"
+options = ["The first-order law must be wrong","The activity coefficient can change with ionic strength","The solver is allowed to invent reaction orders"]
 answer = 1
-misconception = "The third option is the trap that catches good students: a measured exponent slightly below one looks like evidence for a fractional order, and fractional orders are real. Here it is not one. The order in the model is exactly 1.000, and the shortfall comes from somewhere else entirely — the ionic strength doubled with the acid, the activity coefficient fell from 0.889 to 0.863, and the rate law reads activity. Mistaking a solution non-ideality for a mechanistic order is a live error in real kinetics work, not a schoolroom one."
+misconception = "First order in activity is not identical to first order in an uncorrected bottle concentration."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "First order means the printed concentration doubles the rate — the number on the bottle is the number in the equation."
-next = "Read the three ionic strengths (0.01003, 0.02006, 0.04012 mol/kgw) beside the three pH values. The pH steps are 0.2895 and 0.2878, not the 0.3010 that a factor of two in concentration would give."
+reveals = "Activity and concentration are treated as identical under every condition."
+next = "Compare 10^(-pH) before waiting; this is the activity entering the initial rate."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
-reveals = "A measured exponent below one is evidence about the mechanism, so the order must really be about 0.95."
-next = "Repeat with the thiosulfate instead of the acid, where no ionic-strength change is involved: that ratio comes out at 2.000. An order that appears only when the ionic strength moves is not an order."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "A discrepancy in the third significant figure must be numerical noise rather than chemistry."
-next = "Check the size: the integrator agrees with the closed-form first-order solution to better than 0.1%, and this discrepancy is 3%. Errors have magnitudes, and comparing them is the habit worth building."
+reveals = "Model data are confused with quantities inferred by the solver."
+next = "The order is supplied; the native solution supplies the initial activity, and stoichiometry limits how much can react."
 
 [reaction.registers]
-lv1 = "Put in twice as much acid and the reaction does not quite get twice as fast — it gets 1.94 times as fast. The missing bit is not a mistake. Ions in a crowded solution get in each other's way, so twice as many of them do not push twice as hard."
-lv2 = "The bench computes pH 2.0381, 1.7486 and 1.4608 for 0.001, 0.002 and 0.004 mol of HCl in 100 mL, and the rate law uses 10^(−pH). In one second the three vessels react by 1.1686 × 10⁻⁵, 2.2735 × 10⁻⁵ and 4.4010 × 10⁻⁵ mol. Halving the acid gives ×0.514 and doubling it gives ×1.936 — first order, but in the activity rather than in the amount weighed out."
-lv3 = "PHREEQC's pH is −log₁₀(a_H⁺), so `term_concentration` returning 10^(−pH) hands the rate law an activity, deliberately: adding HCl to water leaves chloride in the vessel inventory and puts the proton into the charge balance, where it has no inventory amount to read. The ionic strengths are 0.01003, 0.02006 and 0.04012 mol/kgw, giving activity coefficients 0.913, 0.889 and 0.863 under the WATEQ Debye–Hückel extension; 0.034609/0.017838 = 1.940 is the activity ratio, and the measured 1.936 falls just short of it because the faster vessel has already consumed slightly more thiosulfate within the second. This is the same γ that shows up in `ph-is-not-quite-minus-log-c`, met again where it changes a rate instead of a reading."
+lv1 = "Twice as much acid is not always twice the chemical push. The solution's other ions affect that push."
+lv2 = "The initial proton term is a(H+) = 10^(-pH), not simply the nominal molarity. Compare that initial activity ratio separately from the sulfur amounts after one second, when acid and thiosulfate have already been consumed."
+lv3 = "Native initial pH determines the activity. During an uncoupled strong-acid kinetic interval the coefficient is held locally fixed while the represented acid inventory falls. This approximation is not a full evolving ionic-strength or buffered-acid solve; aqueous re-equilibration follows the interval."
 
 [reaction.provenance]
-source = "Standard curriculum kinetics for the order in H⁺; activity coefficients from PHREEQC wateq4f.dat (USGS) under the WATEQ Debye–Hückel extension. Editorial judgement (Kerotakis): reading the acid term as an activity rather than a nominal concentration is an engine design decision, documented in `kinetics.rs`, and this entry exists to make that decision visible rather than to hide it behind a round number."
-computed_by = "kerotakis-core kinetics; pH and ionic strength from PHREEQC via Kerotakis L2"
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "the-cross-disappears"
+summary = "Before timing a cloudiness threshold, check whether the limiting reagent permits it"
 progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
 equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
@@ -226,50 +210,38 @@ look v3
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "observed"]
 absent = ["solver_failed"]
-ph = { min = 1.70, max = 1.80 }
+ph = { min = 2.7, max = 2.76 }
 
 [reaction.expect.predict]
-question = "Three beakers at 0.025, 0.05 and 0.10 mol/L thiosulfate. You time how long each takes to hide a pencil cross under the beaker. The 0.10 mol/L beaker takes 24 s. The reaction is first order. How long does the 0.025 mol/L beaker take?"
-options = [
-  "48 s — twice as long, twice as long again would be silly",
-  "96 s — four times the time for a quarter of the concentration",
-  "113 s — longer than four times, because a fixed amount of sulfur is a much bigger bite out of a weak solution",
-  "It never gets there — there is not enough thiosulfate",
-]
+question = "Each beaker contains 2 mmol of strong acid, and making 1 mmol of sulfur consumes 2 mmol of acid. Can waiting longer guarantee the old 1 mmol sulfur endpoint?"
+options = ["Yes, because there is excess thiosulfate","Yes, because every first-order reaction finishes in a fixed time","No: the acid inventory sets the capacity and its depletion slows the rate"]
 answer = 2
-misconception = "Both of the first two options assume the time to a fixed observable is exactly inversely proportional to concentration. It nearly is, and the practical is built on that assumption — but only while the sulfur you are waiting for is a small fraction of what you started with. Hiding the cross costs 0.01 mol/L of sulfur: a tenth of the strong beaker and two fifths of the weak one, which is why the weak one falls further behind than the simple ratio predicts. The last option is worth taking seriously and rejecting on the arithmetic: 0.025 mol/L is enough, with room to spare."
+misconception = "An observable threshold is meaningful only if all required reagents can supply it. A finite-time rate comparison must not silently assume an infinite acid reservoir."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "Quarter the concentration, double the time — the relationship between concentration and time is being applied once instead of twice."
-next = "Lay the three times out as a table with the three concentrations. 24, 49, 113 against 0.10, 0.05, 0.025: each halving of concentration costs rather more than a doubling of time, and the table makes that visible without any algebra."
+reveals = "Only the visually interesting reagent is counted."
+next = "Count the two consumed acid equivalents per sulfur before comparing thiosulfate concentrations."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
-reveals = "Time is exactly inversely proportional to concentration, always — 1/t *is* the rate rather than standing in for it."
-next = "Ask how much of each beaker's thiosulfate has been used at the moment the cross vanishes: 10%, 20%, 40%. The method assumes the answer is 'hardly any', and in the weakest beaker it is not."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "Sulfur has to be at 0.01 mol/L, so a 0.025 mol/L solution is nearly out of material and may never make it."
-next = "Do the stoichiometry before the kinetics: 1 mol of thiosulfate gives 1 mol of sulfur, so 0.025 mol/L can reach 0.01 mol/L with 60% to spare. Checking whether a reaction *can* finish before asking how fast is a habit worth having."
+reveals = "A rate law is treated as a fixed completion time."
+next = "Inspect the remaining acid after each wait; a changing reactant inventory changes the rate."
 
 [reaction.registers]
-lv1 = "Draw a cross on paper, stand the beaker on it, and start the clock when the acid goes in. The liquid slowly turns milky with sulfur until the cross vanishes. Strong solution: 24 seconds. Half as strong: 49. A quarter as strong: 113. Fainter mixture, longer wait — and the clock is the measuring instrument, which is the whole trick of the experiment."
-lv2 = "Taking 0.01 mol/L of suspended sulfur as the point where the cross is hidden, the bench reaches it at 24 s (0.10 mol/L), 49 s (0.05 mol/L) and 113 s (0.025 mol/L). 1/t is the usual stand-in for the rate: 0.0417, 0.0204 and 0.0088 s⁻¹, close to halving each time but not exactly — the successive time ratios are 2.04 and 2.31, not 2.00 and 2.00. At the moment each beaker is read it has used 10%, 20% and 40% of its thiosulfate, and the most dilute one is no longer anywhere near its initial rate."
-lv3 = "The absolute times belong to us and the ratios belong to the chemistry — that distinction is the honest content of this entry. The pre-exponential A = 2.2 × 10⁸ in `kinetics.rs` is calibrated so that 0.05 mol/L at pH 1.7 and 25 °C hides the cross in about forty seconds, which is the range the practical is designed around; it is not a measured Arrhenius A, and the file says so. Everything derived from *comparing* vessels — the order, the temperature ratios, the catalyst factors — is independent of A and survives any recalibration. The exact integrated form is t = −ln(1 − 0.01/c₀)/(k[H⁺]), which with the engine's own k[H⁺] = 4.561 × 10⁻³ s⁻¹ puts the crossings at 23.1, 48.9 and 112.0 s and the ratios at 2.12 and 2.29; reading the beaker once a second rounds those to 24, 49 and 113 and distorts the first ratio to 2.04. Nearly a second of quantisation is worth noticing, because a real practical reads its stopwatch to about the same precision. The 0.01 mol/L threshold is also ours — it is the criterion the engine's own regression test uses — and it is not the same thing as the renderer's vocabulary: `appearance` calls a beaker 'cloudy' from a cloudiness of 0.15, which is 0.0075 mol/L of sulfur and arrives about thirteen seconds earlier in the 0.05 mol/L beaker. Each beaker is therefore already being described as 'cloudy' by the time it reaches the criterion, and the two thresholds should not be read as one."
+lv1 = "A stronger mixture may turn cloudy sooner, but waiting cannot supply missing acid. Count the reagents before using a disappearing mark as a timer."
+lv2 = "At most 1 mmol of sulfur can be formed from 2 mmol of represented acid by this stoichiometry. Depletion reduces the rate as that limit is approached. The old constant-acid crossing times are not valid for this finite acid inventory."
+lv3 = "The snapshots at 24, 49 and 113 seconds are observation times, not claimed crossing times. Optical cloudiness thresholds are teaching conventions, not measured universal sulfur scattering laws. The absolute kinetic coefficient remains calibrated; finite acid consumption is now explicit."
 
 [reaction.provenance]
-source = "The disappearing-cross practical is standard school chemistry; Ea ≈ 51 kJ/mol and orders (1,1) are its usual reported results (commonly 45–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable rather than measured, and '0.01 mol/L of sulfur hides the cross' is our operational definition of the endpoint, chosen to match the engine's own regression test rather than taken from a source."
-computed_by = "kerotakis-core kinetics; appearance from kerotakis-core::appearance (cloudiness = suspended solid per litre against an opacity scale)"
-
-# ============================================================== temperature
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "the-ten-degree-rule-and-where-it-frays"
 progress = "intermediate"
 spine = ["die-reaktionsgeschwindigkeit"]
-summary = "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature"
+summary = "Temperature changes the rate constant; finite-time yields also reflect depletion"
 concepts = ["temperature-and-rate", "arrhenius-equation"]
 requires = ["reaction-rate"]
 calculations = ["rate-from-extent", "arrhenius-ratio"]
@@ -305,43 +277,33 @@ wait 10s
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "temperature_changed"]
 absent = ["solver_failed"]
-ph = { min = 1.70, max = 1.80 }
+ph = { min = 1.82, max = 1.88 }
 temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
-question = "Four beakers of the same mixture at 25, 35, 45 and 55 °C. 'The rate doubles every ten degrees.' If the 25 °C beaker deposits 0.000223 mol of sulfur in ten seconds, what does the 55 °C beaker deposit?"
-options = [
-  "0.00178 mol — eight times, three doublings",
-  "0.00128 mol — a bit less than eight times, because each ten-degree step is worth slightly less than the last",
-  "0.000669 mol — three times, one doubling per ten degrees added up",
-  "0.00223 mol — ten times, because the temperature went up by thirty degrees",
-]
+question = "Does a ten-degree temperature increase guarantee exactly twice as much sulfur after a fixed wait?"
+options = ["Yes, at every temperature and conversion","No: Arrhenius changes the rate constant, while depletion also affects the integrated yield","No: temperature never enters a rate law"]
 answer = 1
-misconception = "The third option is the commonest arithmetic slip in this topic: doublings multiply, they do not add. The first is the right arithmetic applied to a rule that is only approximately true, and it is the more instructive error — it treats 'doubles every ten degrees' as a law. It is not a law; it is what an activation energy near 50 kJ/mol happens to give near room temperature, and the factor shrinks steadily as the beaker gets hotter because the Arrhenius exponent depends on 1/T, not on T."
+misconception = "A rule of thumb for a rate constant is not a universal rule for an accumulated product amount."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "'Doubles every ten degrees' is a law of nature, so three steps give exactly eight times."
-next = "Compute the three step factors from the bench's own numbers — 1.90, 1.80, 1.69 — and ask what would have to be true of Arrhenius for them all to be 2. The answer is that Ea would have to grow with temperature."
+reveals = "Rate constant and finite-time yield are identified."
+next = "Compare the initial Arrhenius factors, then inspect how much acid remains in each warmer vessel."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
-reveals = "Three ten-degree steps means three doublings added together, so three times faster."
-next = "Do it on paper with a simpler case first: two doublings of £10 is £40, not £30. Then ask which operation 'per ten degrees' describes."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "Rate scales with temperature itself, so thirty degrees on top of twenty-five is roughly ten times as much heat and ten times the rate."
-next = "Try the same reasoning in kelvin: 298 K to 328 K is a 10% rise, which would predict almost no change. A rule that gives two different answers in two temperature scales is not describing a proportionality."
+reveals = "The kinetic model is read as concentration-only."
+next = "The Arrhenius exponential contains absolute temperature and the supplied activation energy."
 
 [reaction.registers]
-lv1 = "Same mixture, four temperatures, one clock. In ten seconds the cold beaker makes a faint haze and the hot one is properly cloudy — roughly twice as much sulfur for every ten degrees you go up. Roughly. Each ten degrees buys a little less than the last one did, so 'it doubles' is a handy rule rather than a promise."
-lv2 = "In ten seconds the bench reports 2.2275 × 10⁻⁴, 4.2430 × 10⁻⁴, 7.6234 × 10⁻⁴ and 1.2847 × 10⁻³ mol of reaction at 25, 35, 45 and 55 °C. The step factors are 1.90, 1.80 and 1.69. Nobody applied a rule: k = A·e^(−Ea/RT) with Ea = 51 kJ/mol was evaluated at each temperature, and the near-doubling came out."
-lv3 = "Two separate reasons keep these below two, and they should not be confused. First, the Arrhenius ratio itself: k(308)/k(298) = e^(Ea/R · (1/298.15 − 1/308.15)) = 1.95 for Ea = 51 kJ/mol, and the same construction gives 1.87 and 1.80 for the higher steps, because the exponent goes as 1/T. Second, depletion: over ten seconds the hotter vessels have already eaten into their thiosulfate, which is why the measured 1.90/1.80/1.69 sit below those. Shortening the clock to one second, where almost nothing has been consumed, the bench gives 1.94/1.86/1.78 — within a percent of the pure rate-constant ratios. The 'rule' is therefore a statement about an activation energy near 50 kJ/mol at around 300 K, and the practical's real lesson is that it decays in a way you can predict."
+lv1 = "Warm mixtures start reacting faster in this model. They also use up their acid faster, so the final sulfur amounts need not follow a simple doubling rule."
+lv2 = "Compare k(T2)/k(T1) = exp[(Ea/R)(1/T1 - 1/T2)] separately from the finite-time sulfur ratio. Even at a fixed activation energy, the Arrhenius ratio depends on both absolute temperatures; the yield ratio additionally depends on depletion."
+lv3 = "The existing rate parameters are calibrated near room temperature; extrapolated rates are model predictions, not an independently validated temperature series. The kinetic step uses local frozen proton activity coefficients and conserves the represented acid inventory."
 
 [reaction.provenance]
-source = "Arrhenius, Zeitschrift für physikalische Chemie, 1889, for the temperature dependence; Ea ≈ 51 kJ/mol for the thiosulfate–acid clock reaction per school practical literature (commonly reported 45–60 kJ/mol). Editorial judgement (Kerotakis): the four-temperature ladder and the decision to report the fraying of the rule rather than the rule alone are ours."
-computed_by = "kerotakis-core kinetics (Arrhenius k evaluated per vessel, midpoint integration); pH from PHREEQC via Kerotakis L2"
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "a-steeper-barrier-breaks-the-rule-of-thumb"
@@ -733,7 +695,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration, checked against th
 id = "two-beakers-and-one-clock"
 progress = "advanced"
 spine = ["erkenntnisgewinnung"]
-summary = "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol"
+summary = "One wait advances every prepared vessel; experimental controls share elapsed time"
 concepts = ["shared-clock"]
 requires = ["fair-test", "temperature-and-rate"]
 calculations = ["rate-from-extent"]
@@ -772,51 +734,39 @@ look v2
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "observed", "temperature_changed"]
 absent = ["solver_failed"]
-ph = { min = 1.70, max = 1.80 }
+ph = { min = 2.09, max = 2.15 }
 temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
-question = "You want to know whether temperature changes the rate. You have one stopwatch. What is the flaw in timing the cold beaker first and then the hot one?"
-options = [
-  "No flaw — the stopwatch does not care which beaker it is timing",
-  "The hot beaker cools while it waits its turn, so the two are not really at the temperatures you wrote down",
-  "You cannot see both crosses vanish at once",
-  "There is no flaw, but it is slower to do it that way",
-]
+question = "When the shared bench waits ten seconds, which prepared beakers advance?"
+options = ["Only the last vessel inspected","Every vessel on the shared clock","Only the more concentrated vessel"]
 answer = 1
-misconception = "The first and last options treat 'fair test' as a rule about *which variables you change* and stop there. It is also a rule about when things happen. A virtual bench makes the point unusually sharply, because it had to be built in: `wait` advances every vessel on the bench, so the two beakers cannot drift apart in time, cannot be started at different moments and cannot sit around waiting their turn. A real bench gives you none of that for free, which is exactly why the habit has to be taught."
+misconception = "Observing one vessel does not give it a separate chemical clock."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "A fair test is a rule about which variables you change; once the variables are right, the procedure is free."
-next = "List everything that differs between 'timed first' and 'timed second' — the beaker's temperature, how long the acid has been in, the room. A controlled comparison controls the procedure as well as the ingredients."
+reveals = "Selection in the interface is mistaken for a physical time boundary."
+next = "Inspect both vessels before and after the same wait and compare their elapsed time."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
-reveals = "The problem is the observer: one pair of eyes cannot watch two beakers."
-next = "A real constraint, and a soluble one — two crosses side by side, or a video. Ask instead what happens to the beaker that is not being watched, which is the part no amount of attention fixes."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "Sequential timing is merely inefficient, not invalid."
-next = "Estimate the size of the error. A beaker sitting for a minute between runs loses a degree or two, and this reaction changes rate by 1.9 per ten degrees — so a couple of degrees is several percent, comparable with the effect being measured."
+reveals = "A faster rate is confused with permission for time to pass."
+next = "Both inventories evolve over the same interval, at their own concentration-dependent rates."
 
 [reaction.registers]
-lv1 = "Two beakers, the same amounts of everything, one warm and one not. Start them together, watch them together, stop them together. After twenty seconds the cold one is faintly hazy and the warm one is properly cloudy — and because nothing else was different, the warmth is the only thing that can have caused it. Change two things at once and you have a nice-looking experiment that proves nothing."
-lv2 = "Same 0.05 mol/L thiosulfate, same 0.002 mol of HCl, same 100 mL, 25 °C against 35 °C. One `wait 20s` advances both vessels: 4.3557 × 10⁻⁴ mol of reaction in the cold beaker against 8.1256 × 10⁻⁴ in the warm one, a factor of 1.87. The second twenty seconds gives 3.9760 × 10⁻⁴ and 6.8042 × 10⁻⁴ — both beakers slowing as their thiosulfate runs down, the warm one faster because it has less left."
-lv3 = "Time is a state dimension on this bench, and it is shared rather than per-vessel: `Operator::Wait` iterates every vessel and advances each one's clock and chemistry by the same interval, and the bench then re-settles every vessel's fast equilibria around what is left. That ordering — kinetics first, then speciation — is operator splitting, and it is the right way round because equilibrium is the faster process. The design cost of the alternative is worth naming: had `wait` taken a vessel argument, every rate comparison in this file would have been a comparison of two separately-run experiments, and the fair test would have been a convention the user had to keep rather than a property the engine guarantees. What the simulation cannot supply is the difficulty: identical starting temperatures, zero heat loss and perfect timing are free here and are most of the work at a real bench."
+lv1 = "The beakers share a clock, not a reaction speed. One can change more during the same wait."
+lv2 = "A fair comparison uses the same elapsed interval and records each vessel's initial concentrations. Subsequent rates depend on each vessel's remaining thiosulfate and acid, so finite-time sulfur ratios need not stay exactly constant."
+lv3 = "Wait advances each vessel independently through the same duration. The solver uses a common stoichiometric network, but each vessel has its own state and limiting reagents; selection and inspection cannot supply or consume reaction time."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): the shared-clock design and the argument that it is what makes a fair test structural rather than conventional are ours, recorded in PLAN.md (P3k) and `kinetics.rs`. The controlled-comparison principle itself is standard scientific method."
-computed_by = "kerotakis-core kinetics; bench clock via Operator::Wait"
-
-# ============================================== where the model stops, plainly
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "a-salt-with-no-database"
 progress = "intermediate"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
-summary = "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without"
+summary = "An unrepresented soluble ion must not inherit pure water's pH"
 concepts = ["species-without-a-database"]
 requires = ["stated-ignorance", "ph"]
 calculations = ["ph-from-concentration"]
@@ -855,45 +805,35 @@ absent = ["solver_failed", "dissolved:Na2S2O3"]
 ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
-question = "Sodium thiosulfate is a salt of a weak acid, so a solution of it should be slightly alkaline. What does this bench report for 0.79 g of it in 100 mL of pure water?"
-options = [
-  "About pH 8.5, as the chemistry requires",
-  "pH 7.00 — it treats the salt as neutral",
-  "Nothing at all: no solver can speciate thiosulfate, so no solution is characterised and the pH meter reads nothing",
-  "It refuses to add the salt",
-]
+question = "What should a pH tool do when the added soluble salt has no integrated aqueous speciation model?"
+options = ["Guess a plausible alkaline value","Report pure water's pH as though the salt were neutral","Disclose the missing ionic contribution and withhold a complete salt-only pH"]
 answer = 2
-misconception = "The second option is what most software would do and is the failure this bench is built to avoid: a plausible number with nothing behind it. Thiosulfate is absent from every PHREEQC database we ship, so there is no equilibrium constant to compute a pH from. The bench therefore says so, and the salt sits in the vessel without a solution around it. The first option is the right chemistry — S₂O₃²⁻ is the conjugate base of a weak acid and a real solution is mildly alkaline — which makes the gap a real one rather than a technicality."
+misconception = "Accepting material and predicting its equilibrium are separate capabilities. A plausible number is not evidence that the missing chemistry was computed."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
-reveals = "The software knows the chemistry, so it will give the chemically correct answer."
-next = "Ask where such an answer would come from. A pH needs an equilibrium constant, and no shipped database carries one for thiosulfate. Software knows what its data knows."
+reveals = "A remembered qualitative expectation is treated as a computed measurement."
+next = "Ask which species, equilibria and data support the number before accepting it."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
-reveals = "Where a program has nothing to say it defaults to the neutral, unremarkable value."
-next = "This is the answer to watch for in any tool: a plausible number with nothing behind it, indistinguishable from a computed one. Compare with the same bench's `when-the-lab-says-it-does-not-know` — the design commitment is to say nothing rather than to say 7."
-
-[[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "A model that cannot handle something should refuse to proceed."
-next = "Notice what would be lost: the salt would be unusable, and its rate chemistry — which the engine models perfectly well — would go with it. The useful move is to accept the substance and name precisely which downstream numbers it invalidates."
+reveals = "Unrepresented ions are treated as a nonionic solute."
+next = "Compare the salt-only vessel with the represented acid control and read the model-boundary notice."
 
 [reaction.registers]
-lv1 = "Some things this lab knows how to think about, and some it does not. It can hold this salt, dissolve it and let it react — but if you ask what it does to the acidity, it tells you plainly that it has no way to work that out. That is a better answer than a confident number nobody checked."
-lv2 = "The acid beaker reads pH 1.74858175066. The beaker with thiosulfate *and* the same acid reads pH 1.74858175066 — identical to twelve figures, because the thiosulfate contributes nothing to the charge balance or the ionic strength (0.02006 mol/kgw in both). The third beaker, thiosulfate in pure water, has no characterised solution at all: the salt stays in the vessel as a solid and the pH meter reports that it has nothing to read."
-lv3 = "The species registry marks sodium thiosulfate `dissolves_without_speciation`, and the bench raises `NotYetModeled` every time it is added, naming exactly what is affected: the pH and the ionic strength are for everything else in the beaker. This is not cosmetic — it was earned by two bugs that only a rate model could have exposed. Before the fix, one species without a derived role made `partition` return `None`, so adding thiosulfate silently withdrew the pH of the acid sitting beside it; and because the aqueous rebuild replaces a vessel's contents with the computed state, the unrecognised species was then destroyed rather than ignored. What remains is a vessel where two solvers coexist over the same liquid with different vocabularies, and the rate engine draws its acid term from the one that does know about protons. Worth naming the real chemistry that is missing: S₂O₃²⁻ has pKa₂ ≈ 1.6, so at pH 1.75 a real solution is roughly half protonated, and the reacting species is arguably HS₂O₃⁻ rather than the free anion."
+lv1 = "The bench can hold this salt without pretending it knows every effect of the dissolved ions."
+lv2 = "The represented acid can still be characterized, but its pH excludes the missing thiosulfate contribution and must say so. Salt alone must not receive a silently inherited pure-water pH."
+lv3 = "Thiosulfate's kinetic inventory and its missing aqueous equilibrium slice are separate ownership questions. Keeping a soluble salt in the inventory is not a speciation calculation; the generic ionic-coverage gate distinguishes it from water and neutral nonionic solutes."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): the decision to let an unspeciated salt dissolve while reporting what that costs, rather than refusing it or inventing a pH, is ours and is recorded in PLAN.md (P3k, 'Honest gaps'). The absence of thiosulfate from wateq4f.dat, minteq.v4.dat and pitzer.dat is a property of the shipped PHREEQC databases (USGS). The pKa₂ ≈ 1.6 quoted at lv3 is a standard reference value and is not computed by this engine."
-computed_by = "PHREEQC via Kerotakis L2 for the two pH readings; the gap notice comes from the bench's honesty pass"
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "the-acid-is-never-used-up"
 progress = "advanced"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
-summary = "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066"
+summary = "Finite acid is consumed: an old fixed-reservoir approximation is now a limiting-reagent test"
 concepts = ["excess-reagent-approximation"]
 requires = ["reaction-order", "excess-reagent"]
 calculations = ["stoichiometric-ratio", "rate-from-extent"]
@@ -926,42 +866,32 @@ look v1
 [reaction.expect]
 events = ["reacted:thiosulfate-acid", "measured", "observed"]
 absent = ["solver_failed"]
-ph = { min = 1.70, max = 1.80 }
+ph = { min = 6.45, max = 6.65 }
 
 [reaction.expect.predict]
-question = "The equation is S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. The beaker starts with 5.0 mmol of thiosulfate and 2.0 mmol of acid. After ten minutes, 4.67 mmol of thiosulfate has reacted. What has the pH done?"
-options = [
-  "Risen sharply — the protons were the limiting reagent and ran out after 1 mmol of thiosulfate",
-  "Risen a little, as protons were consumed",
-  "Not moved at all — this rate law reads the acid from the pH and never consumes it, which is a stated approximation and here it is being stretched past where it holds",
-  "Fallen, because sulfur dioxide dissolves to make an acid",
-]
-answer = 2
-misconception = "There is no misconception on offer here — all four options are chemically sensible, and the first is what a real beaker would do. The question exists to make a modelling decision visible. The rate law treats [H⁺] as an influence read from the solution rather than as a reactant with an inventory, because the practical is designed to run with acid in large excess and the vessel has no proton portion to draw down. Over the twenty to sixty seconds the practical actually uses, that is a good approximation. Over ten minutes with only 2 mmol of acid it is not, and the entry says so rather than letting the reader discover it as a surprise."
-
-[[reaction.expect.predict.diagnosis]]
-option = 0
-reveals = "The right chemistry for a real beaker, and the right stoichiometry — offered as a prediction about this model."
-next = "Nothing to unlearn. Note instead which prediction the engine cannot honour and why: there is no proton portion in the vessel to draw down, so the limiting-reagent argument has nothing to act on here even though it is correct."
+question = "With 5 mmol thiosulfate and 2 mmol represented strong acid, how much sulfur can this proton-consuming reaction form without a new acid source?"
+options = ["At most 1 mmol, because each sulfur requires two acid equivalents","All 5 mmol, because pH is a permanent acid supply","More sulfur for every extra minute, without an inventory bound"]
+answer = 0
+misconception = "A measured activity affects the rate; it is not an inexhaustible reactant inventory."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
-reveals = "Protons are consumed, but a solution buffers itself, so the pH drifts rather than jumps."
-next = "Check whether anything in this beaker could buffer: hydrochloric acid is fully dissociated and thiosulfate is invisible to the aqueous solver. Then read the pH — not drifted, not moved at all, twelve digits unchanged."
+reveals = "A cached pH value is treated as a material reservoir."
+next = "Count the consumed H+ equivalents in the balanced reaction and compare them with the initial 2 mmol."
 
 [[reaction.expect.predict.diagnosis]]
-option = 3
-reveals = "Sulfur dioxide is an acid gas, so dissolving it should acidify the beaker further."
-next = "Chemically reasonable and also not modelled: the SO₂ is deposited straight into the gas phase and never enters the aqueous solver, so it cannot form sulfurous acid here. Two separate absences produce the same flat line, and it is worth being able to name both."
+option = 2
+reveals = "Integration time is allowed to overrule conservation."
+next = "A longer wait changes extent only within the reagent bounds; inspect the remaining acid and sulfur together."
 
 [reaction.registers]
-lv1 = "Left for ten minutes, the beaker turns thick and yellow: almost all the thiosulfate has become sulfur. The acid meter reads exactly what it read at the start. In a real beaker it would not — the acid is meant to be used up too, and here it never is. This is a corner the model was not built for, and it is better to know where those corners are than to find one by accident."
-lv2 = "In 600 s the bench reports 4.6727 × 10⁻³ mol of reaction, 93.5% of the 4.9965 × 10⁻³ mol of thiosulfate present, and pH 1.74858175066 before and after — the same twelve digits. By the stated equation that much reaction would need 9.345 × 10⁻³ mol of protons, and the beaker was charged with 2.0 × 10⁻³ mol. A real beaker would have run out of acid after about 1 mmol of thiosulfate and stalled."
-lv3 = "The approximation is deliberate and documented: `orders` carries `(PROTON, 1.0)` while `reactants` does not, so the proton enters the rate through `10^(−pH)` and is never withdrawn. The reason it cannot simply be fixed by adding H⁺ to `reactants` is structural — the proton is not a vessel portion at all; it lives in PHREEQC's charge balance, and there is nothing there for the integrator to decrement. Doing this properly means the rate engine handing a consumed proton amount back to the aqueous solver as an alkalinity change between substeps, which is a coupling neither solver currently has. Until then the honest guidance is that thiosulfate results are trustworthy while the acid is in genuine excess — for these amounts, up to roughly the first fifth of the thiosulfate, which comfortably covers the disappearing-cross timings and does not cover this ten-minute run."
+lv1 = "The acid is now spent as the reaction runs. Waiting cannot pour in more of it."
+lv2 = "The balanced kinetic step consumes two represented H+ equivalents per sulfur, so the initial 2 mmol acid limits its extent to 1 mmol. Subsequent gas exchange and aqueous speciation determine the displayed pH; the stoichiometric bound alone does not predict that pH."
+lv3 = "The historical catalog ID is retained for links, but the earlier constant-acid approximation is no longer the implemented behavior. The bounded network spends acid inventory and changes its activity locally; independent conservation and integrated-rate tests cover scale, acid ratio, and time partition. Missing weak-acid coupling remains an explicit boundary."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): the excess-acid approximation and its boundary are ours, stated in `kinetics.rs` and stretched deliberately here so that the boundary can be seen. The stoichiometry S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O is standard."
-computed_by = "kerotakis-core kinetics; pH from PHREEQC via Kerotakis L2"
+source = "Existing Kerotakis calibrated thiosulfate rate parameters and PHREEQC aqueous data; original stoichiometric and model-boundary review, model-assisted editorial revision 2026-09-06. No new empirical constant imported."
+computed_by = "Kerotakis bounded reaction-network integration with represented acid consumption; native aqueous equilibrium after each interval"
 
 [[reaction]]
 id = "the-oxygen-is-counted-but-never-seen"
