@@ -686,6 +686,88 @@ fn assert_imported_evidence(source_id: &str, method: &Method, expected_source: &
     assert_eq!(method, &Method::Imported(IMPORT_METHOD.to_string()));
 }
 
+/// The species the heat-capacity curve tranche covers, written out here
+/// rather than read from the exporter's own table, for the same reason
+/// `RESISTIVITY_KEYS` is: a test that derives its expectation from the code
+/// under test agrees with that code however wrong it is.
+const CURVE_KEYS: &[&str] = &[
+    "Ag", "Al", "C", "CO", "CO2", "Ca(OH)2", "CaCO3", "CaO", "Cl2", "Cu", "CuO", "Fe", "Fe(OH)2",
+    "Fe(OH)3", "Fe2O3", "H2", "KCl", "Mg", "Mg(OH)2", "MgO", "N2", "Na2CO3", "Na2SO4", "NaCl",
+    "NaOH", "O2", "Pb", "S", "SO2", "SiO2", "Zn", "butane", "methane", "propane", "water",
+];
+
+#[test]
+fn the_heat_capacity_curve_tranche_survives_the_round_trip() {
+    let document = export_current_registry().expect("export current registry");
+    document.validate().expect("export validates");
+
+    let mut covered: Vec<&str> = document
+        .heat_capacity_polynomials
+        .iter()
+        .map(|record| record.species_id.as_str())
+        .collect();
+    covered.sort_unstable();
+    covered.dedup();
+    assert_eq!(covered, CURVE_KEYS);
+
+    // Water is the one species with three curves, one per phase, and that
+    // is the whole reason the record carries a phase at all.
+    let water: Vec<Phase> = document
+        .heat_capacity_polynomials
+        .iter()
+        .filter(|record| record.species_id == "water")
+        .map(|record| record.phase)
+        .collect();
+    assert_eq!(water, vec![Phase::Solid, Phase::Liquid, Phase::Gas]);
+
+    // One source record, cited by every curve and by nothing else, and it
+    // is NASA's file rather than ours.
+    let source = document
+        .sources
+        .iter()
+        .filter(|source| source.id == "us-federal/nasa-cea-thermo-inp-v1")
+        .collect::<Vec<_>>();
+    assert_eq!(source.len(), 1);
+    assert_eq!(source[0].lane, SourceLane::Runtime);
+    assert_eq!(source[0].licence, "Apache-2.0");
+    assert_eq!(
+        source[0].origin.as_deref(),
+        Some("vendor/nasa-cea/thermo.inp")
+    );
+    for record in &document.heat_capacity_polynomials {
+        assert_eq!(
+            record.evidence.source_id, "us-federal/nasa-cea-thermo-inp-v1",
+            "{} cites something else",
+            record.species_id
+        );
+        assert_eq!(record.unit.dimension, Dimension::MolarHeatCapacity);
+        assert!(
+            record.boundary.is_some(),
+            "{}: a curve must say what it does not claim",
+            record.species_id
+        );
+        for interval in &record.intervals {
+            assert_eq!(
+                interval.coefficients.len(),
+                record.form.coefficient_count(),
+                "{} interval {}-{} K",
+                record.species_id,
+                interval.t_min_k,
+                interval.t_max_k
+            );
+        }
+    }
+
+    // Every curve in the runtime table came back out, and nothing else did.
+    assert_eq!(
+        document.heat_capacity_polynomials.len(),
+        REGISTRY
+            .iter()
+            .map(|species| species.heat_capacity_polys.len())
+            .sum::<usize>()
+    );
+}
+
 fn has_optical(species: &SpeciesData) -> bool {
     species.appearance.is_some()
         || species.flame_colour.is_some()

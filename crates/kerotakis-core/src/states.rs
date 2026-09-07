@@ -32,7 +32,8 @@
 //! 0.512. So the only curated inputs are two enthalpies, and the numbers a
 //! learner is normally told to memorise come out of them.
 
-use crate::species::{Phase, SpeciesId};
+use crate::heat_capacity::CpPolynomial;
+use crate::species::{Phase, SpeciesData, SpeciesId};
 use serde::{Deserialize, Serialize};
 
 const R: f64 = crate::constants::GAS_CONSTANT;
@@ -82,7 +83,14 @@ pub const LIQUID_WATER_HEAT_CAPACITY: f64 = 75.3;
 /// whose transitions are not modelled would be data with nothing to check
 /// it. Anything else keeps its registry value.
 pub fn heat_capacity_in(species: &SpeciesId, phase: Phase, registry: f64) -> f64 {
-    if species.0 != "water" {
+    constant_heat_capacity_in(&species.0, phase, registry)
+}
+
+/// The same lookup keyed by the registry key rather than an owned
+/// `SpeciesId`, so a caller that already holds a `&SpeciesData` does not
+/// have to allocate a `String` per portion per step to ask this question.
+pub fn constant_heat_capacity_in(key: &str, phase: Phase, registry: f64) -> f64 {
+    if key != "water" {
         return registry;
     }
     match phase {
@@ -90,6 +98,66 @@ pub fn heat_capacity_in(species: &SpeciesId, phase: Phase, registry: f64) -> f64
         Phase::Gas => STEAM_HEAT_CAPACITY,
         Phase::Liquid | Phase::Aqueous => registry,
     }
+}
+
+/// The curated Cp(T) curve for this species in this phase, if there is one.
+///
+/// A dissolved portion is charged against the LIQUID curve, because that is
+/// what the aqueous convention already does: solutes carry a heat capacity
+/// of zero and the solution's heat capacity is its water's. A solute that
+/// happens to own a solid curve therefore does not get charged for it while
+/// it is in solution, which is the same answer the constant gave.
+pub fn heat_capacity_curve(data: &SpeciesData, phase: Phase) -> Option<&'static CpPolynomial> {
+    let wanted = match phase {
+        Phase::Aqueous => Phase::Liquid,
+        other => other,
+    };
+    crate::heat_capacity::polynomial_for(data.heat_capacity_polys, wanted)
+}
+
+/// Molar heat capacity of a species in a phase AT a temperature, J/(mol·K).
+///
+/// This is `heat_capacity_in` with the temperature it was always missing.
+/// Where a curve exists it is evaluated (and held at its endpoints outside
+/// the tabulated range); where none does, the room-temperature constant is
+/// returned unchanged, so a species without a curve behaves exactly as it
+/// did before curves existed.
+pub fn heat_capacity_at(data: &SpeciesData, phase: Phase, t_k: f64) -> f64 {
+    heat_capacity_curve(data, phase)
+        .and_then(|curve| curve.cp(t_k))
+        .unwrap_or_else(|| constant_heat_capacity_in(data.key, phase, data.heat_capacity))
+}
+
+/// The heat one mole of this species in this phase absorbs going from `t0`
+/// to `t1`, J/mol — `∫Cp dT`, not `Cp·ΔT`.
+///
+/// Signed: cooling returns a negative number. This is the function every
+/// `cp * delta_t` on the bench should be written in terms of, because with a
+/// curve the two are not the same quantity: chalk heated from 25 °C to
+/// 1500 °C costs a third more than its room-temperature heat capacity
+/// suggests, and a burner charged the smaller number delivers energy the
+/// ledger cannot account for.
+pub fn enthalpy_between(data: &SpeciesData, phase: Phase, t0: f64, t1: f64) -> f64 {
+    match heat_capacity_curve(data, phase).and_then(|curve| curve.enthalpy_between(t0, t1)) {
+        Some(joules) => joules,
+        None => constant_heat_capacity_in(data.key, phase, data.heat_capacity) * (t1 - t0),
+    }
+}
+
+/// The single heat capacity that would carry the same enthalpy across
+/// `[t0, t1]`, J/(mol·K).
+///
+/// Newton's law of cooling has a closed form only for a constant heat
+/// capacity. Rather than abandon the closed form, a caller can integrate the
+/// real curve across the interval it is about to traverse and use the mean
+/// this returns — exact in the energy it moves, and approximate only in the
+/// shape of the approach. For a degenerate interval it falls back to the
+/// instantaneous value, which is the limit.
+pub fn mean_heat_capacity_between(data: &SpeciesData, phase: Phase, t0: f64, t1: f64) -> f64 {
+    if (t1 - t0).abs() < 1e-9 {
+        return heat_capacity_at(data, phase, t0);
+    }
+    enthalpy_between(data, phase, t0, t1) / (t1 - t0)
 }
 
 /// Lowest temperature at which the linear colligative partial-freezing model

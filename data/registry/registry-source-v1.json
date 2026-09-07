@@ -1541,6 +1541,15 @@
       "retrieved": "2026-09-05"
     },
     {
+      "id": "us-federal/nasa-cea-thermo-inp-v1",
+      "citation": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07",
+      "licence": "Apache-2.0",
+      "lane": "runtime",
+      "origin": "vendor/nasa-cea/thermo.inp",
+      "revision": "NASA TP-2002-211556",
+      "retrieved": "2026-09-07"
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey; USDA FoodData Central's white all-purpose wheat flour entry reports starch as the large majority of its carbohydrate, with protein, moisture, fibre, lipid and ash making up the rest, and its unsweetened apple-juice entry reports roughly 88% water with the sugars dominated by fructose and glucose rather than sucrose and the acidity carried mainly by malic acid; its raw-lemon-juice entry reports roughly 91% water with citric acid as the dominant acid at about 4.7% and ascorbic acid present at about 0.05%; ordinary flat glass is a soda-lime composition of roughly three quarters silica with soda, lime, magnesia and alumina as network modifiers; solid paraffin candle wax and a sheet of office paper are dispensed against room-temperature bulk densities of 0.90 and 0.80 g/mL; USDA FoodData Central's seedless-raisin entry reports roughly 15% water and 79% carbohydrate of which about 59% is sugars, and a dried grape is denser than water at roughly 1.35 g/mL, which is why raisins sink in it; USDA FoodData Central's Foundation Foods whole-milk entry (FDC 746782, 'Milk, whole, 3.25% milkfat, with added vitamin D', published 2019-12-16, retrieved 2026-09-05) reports per 100 g the analytical values 88.1 g water, 38.0 mg sodium, 150 mg potassium, 123 mg calcium, 101 mg phosphorus, 11.9 mg magnesium, 0.8 g ash and 4.81 g lactose, and those sodium, potassium, calcium and phosphorus totals are what the whole-milk recipe's diffusible mineral buffer is built from; milk's chloride and citrate are absent from that entry and come as single cited figures from Gaucheron F. (2005), 'The minerals of milk', Reproduction Nutrition Development 45:473-483, whose Table I gives whole milk 772 to 1207 mg/kg of chloride (22 to 34 mmol/kg) and 7 to 11 mmol/kg of citrate and whose Table II gives bulk skim milk pH 6.72, while the soluble share of the calcium is constrained against Le Graet Y. and Brule G. (1993), 'Les equilibres mineraux du lait: influence du pH et de la force ionique', Lait 73:51-60, which measured 27% of total calcium soluble at pH 6.6 - the recipe's own lot assumptions say which of its numbers is which, and say that casein's buffering is modelled by nothing",
       "licence": "AGPL-3.0-or-later",
@@ -40747,6 +40756,1924 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ],
+  "heat_capacity_polynomials": [
+    {
+      "id": "heat-capacity-polynomial/water/solid",
+      "species_id": "water",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 273.15,
+          "coefficients": [
+            -402677.748,
+            2747.887946,
+            57.3833663,
+            -0.826791524,
+            0.00441308798,
+            -0.00001054251164,
+            9.69449597e-9
+          ],
+          "reference": "H2O(cr): Ice. Gordon,1982."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 273.15 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/water/liquid",
+      "species_id": "water",
+      "phase": "liquid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 273.15,
+          "t_max_k": 373.15,
+          "coefficients": [
+            1326371304.0,
+            -24482953.88,
+            187942.8776,
+            -767.899505,
+            1.761556813,
+            -0.002151167128,
+            1.092570813e-6
+          ],
+          "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
+        },
+        {
+          "t_min_k": 373.15,
+          "t_max_k": 600.0,
+          "coefficients": [
+            1263631001.0,
+            -16803802.49,
+            92782.3479,
+            -272.237395,
+            0.447924376,
+            -0.000391939743,
+            1.425743266e-7
+          ],
+          "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969."
+        }
+      ],
+      "boundary": "Tabulated for 273.15 to 600 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O(L) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/water/gas",
+      "species_id": "water",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -39479.6083,
+            575.573102,
+            0.931782653,
+            0.00722271286,
+            -7.34255737e-6,
+            4.95504349e-9,
+            -1.336933246e-12
+          ],
+          "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            1034972.096,
+            -2412.698562,
+            4.64611078,
+            0.002291998307,
+            -6.83683048e-7,
+            9.42646893e-11,
+            -4.82238053e-15
+          ],
+          "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/NaCl/solid",
+      "species_id": "NaCl",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            2725695.501,
+            -51609.5875,
+            398.458231,
+            -1.547496756,
+            0.00335217231,
+            -3.78778159e-6,
+            1.751729541e-9
+          ],
+          "reference": "NaCL(cr): Cubic. Gurvich,1982 pt1 p335 pt2 p374."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1074.0,
+          "coefficients": [
+            2657.827371,
+            0.0,
+            5.66571869,
+            0.000870890149,
+            1.34056003e-6,
+            0.0,
+            0.0
+          ],
+          "reference": "NaCL(cr): Cubic. Gurvich,1982 pt1 p335 pt2 p374."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1074 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records NaCL(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/S/solid",
+      "species_id": "S",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 368.3,
+          "coefficients": [
+            -10357.10779,
+            0.0,
+            1.866766938,
+            0.00425614025,
+            -3.26525227e-6,
+            0.0,
+            0.0
+          ],
+          "reference": "S(a): Alpha. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160."
+        },
+        {
+          "t_min_k": 368.3,
+          "t_max_k": 388.36,
+          "coefficients": [
+            0.0,
+            0.0,
+            2.080514131,
+            0.002440879557,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "S(b): Beta. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 388.36 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records S(a), S(b), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records S(a), S(b) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/SO2/gas",
+      "species_id": "SO2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -53108.4214,
+            909.031167,
+            -2.356891244,
+            0.02204449885,
+            -0.00002510781471,
+            1.446300484e-8,
+            -3.36907094e-12
+          ],
+          "reference": "SO2: Gurvich,1989 pt1 p288 pt2 p175."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            -112764.0116,
+            -825.226138,
+            7.61617863,
+            -0.000199932761,
+            5.65563143e-8,
+            -5.45431661e-12,
+            2.918294102e-16
+          ],
+          "reference": "SO2: Gurvich,1989 pt1 p288 pt2 p175."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records SO2 (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Ca(OH)2/solid",
+      "species_id": "Ca(OH)2",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 100.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -205883.8935,
+            6172.55449,
+            -74.9975099,
+            0.50121824,
+            -0.001423348682,
+            1.994984415e-6,
+            -1.095038067e-9
+          ],
+          "reference": "Ca(OH)2(cr): Hexagonal Gurvich,1996a pt1 p454 pt2 p357."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1023.0,
+          "coefficients": [
+            -124541.3139,
+            0.0,
+            10.73593032,
+            0.003982435525,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Ca(OH)2(cr): Hexagonal Gurvich,1996a pt1 p454 pt2 p357."
+        }
+      ],
+      "boundary": "Tabulated for 100 to 1023 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Ca(OH)2(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/CuO/solid",
+      "species_id": "CuO",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -451691.732,
+            5470.07809,
+            -21.9947439,
+            0.0592981586,
+            -0.0000434615259,
+            0.0,
+            0.0
+          ],
+          "reference": "CuO(cr): Crystal. King,1973 p56."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1400.0,
+          "coefficients": [
+            1200465.628,
+            -7265.7876,
+            20.78520457,
+            -0.01455522591,
+            0.00001267438982,
+            -1.010207859e-8,
+            3.8180255e-12
+          ],
+          "reference": "CuO(cr): Crystal. King,1973 p56."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1400 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CuO(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/NaOH/solid",
+      "species_id": "NaOH",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 100.0,
+          "t_max_k": 298.15,
+          "coefficients": [
+            20083.29119,
+            -771.467716,
+            8.69417109,
+            0.00385088334,
+            -3.61049854e-6,
+            0.0,
+            0.0
+          ],
+          "reference": "NaOH(a): Alpha. Gurvich,1996b."
+        },
+        {
+          "t_min_k": 298.15,
+          "t_max_k": 514.0,
+          "coefficients": [
+            1048215.71,
+            0.0,
+            -95.92892425,
+            0.6189564989,
+            -0.001367212259,
+            1.067453163e-6,
+            0.0
+          ],
+          "reference": "NaOH(a): Alpha. Gurvich,1996b."
+        },
+        {
+          "t_min_k": 514.0,
+          "t_max_k": 568.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            9.621733572,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "NaOH(b): Beta.  Gurvich,1996b."
+        },
+        {
+          "t_min_k": 568.0,
+          "t_max_k": 594.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            10.34336359,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "NaOH(c): Gamma. Gurvich,1996b."
+        }
+      ],
+      "boundary": "Tabulated for 100 to 594 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records NaOH(a), NaOH(b), NaOH(c), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records NaOH(a), NaOH(b), NaOH(c) (4 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Cl2/gas",
+      "species_id": "Cl2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            34628.1517,
+            -554.712652,
+            6.20758937,
+            -0.002989632078,
+            3.17302729e-6,
+            -1.793629562e-9,
+            4.26004359e-13
+          ],
+          "reference": "CL2: Ref-Elm. Gurvich,1989 pt1 p177 pt2 p88."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            6092569.42,
+            -19496.27662,
+            28.54535795,
+            -0.01449968764,
+            4.46389077e-6,
+            -6.35852586e-10,
+            3.32736029e-14
+          ],
+          "reference": "CL2: Ref-Elm. Gurvich,1989 pt1 p177 pt2 p88."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CL2 (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Na2CO3/solid",
+      "species_id": "Na2CO3",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 623.0,
+          "coefficients": [
+            -2240230.091,
+            34260.4663,
+            -206.152052,
+            0.716872043,
+            -0.001253560327,
+            1.178136083e-6,
+            -4.52696241e-10
+          ],
+          "reference": "Na2CO3(a): Alpha,monoclinic. Gurvich,1982 pt1 p356 pt2 p390."
+        },
+        {
+          "t_min_k": 623.0,
+          "t_max_k": 752.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            7.711578914,
+            0.0194363829,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Na2CO3(b): Beta,monoclinic. Gurvich,1982 pt1 p356 pt2 p390."
+        },
+        {
+          "t_min_k": 752.0,
+          "t_max_k": 1131.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            4.430327223,
+            0.01645316441,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Na2CO3(c): Gamma,hexagonal. Gurvich,1982 pt1 p356 pt2 p390."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1131 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records Na2CO3(a), Na2CO3(b), Na2CO3(c), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Na2CO3(a), Na2CO3(b), Na2CO3(c) (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/CO2/gas",
+      "species_id": "CO2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            49436.5054,
+            -626.411601,
+            5.30172524,
+            0.002503813816,
+            -2.127308728e-7,
+            -7.68998878e-10,
+            2.849677801e-13
+          ],
+          "reference": "CO2: Gurvich,1991 pt1 p27 pt2 p24."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            117696.2419,
+            -1788.791477,
+            8.29152319,
+            -0.0000922315678,
+            4.86367688e-9,
+            -1.891053312e-12,
+            6.33003659e-16
+          ],
+          "reference": "CO2: Gurvich,1991 pt1 p27 pt2 p24."
+        },
+        {
+          "t_min_k": 6000.0,
+          "t_max_k": 20000.0,
+          "coefficients": [
+            -1544423287.0,
+            1016847.056,
+            -256.140523,
+            0.0336940108,
+            -2.181184337e-6,
+            6.99142084e-11,
+            -8.8423515e-16
+          ],
+          "reference": "CO2: Gurvich,1991 pt1 p27 pt2 p24."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 20000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CO2 (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/KCl/solid",
+      "species_id": "KCl",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            1179895.024,
+            -22178.24961,
+            173.093063,
+            -0.654543415,
+            0.001415897824,
+            -1.598259237e-6,
+            7.38753415e-10
+          ],
+          "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1044.0,
+          "coefficients": [
+            288.8789664,
+            0.0,
+            5.28708855,
+            0.00400409216,
+            -4.34344901e-6,
+            2.753186288e-9,
+            0.0
+          ],
+          "reference": "KCL(cr): Cubic. Gurvich,1982 pt1 p390 pt2 p419."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1044 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records KCL(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/CaCO3/solid",
+      "species_id": "CaCO3",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -13298624.25,
+            250051.7168,
+            -1907.177167,
+            7.61666627,
+            -0.0165587086,
+            0.00001879382277,
+            -8.72071327e-9
+          ],
+          "reference": "CaCO3(cr): Hexagonal Gurvich,1996a pt1 p483 pt2 p376."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1603.0,
+          "coefficients": [
+            -258355.5736,
+            0.0,
+            11.97256363,
+            0.003263812299,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "CaCO3(cr): Hexagonal Gurvich,1996a pt1 p483 pt2 p376."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1603 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CaCO3(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/CaO/solid",
+      "species_id": "CaO",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -4775526.94,
+            90377.1142,
+            -694.432081,
+            2.802477174,
+            -0.00612940322,
+            6.9821678e-6,
+            -3.24754384e-9
+          ],
+          "reference": "CaO(cr): Cubic Gurvich,1996a pt1 p442 pt2 p348."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 3172.0,
+          "coefficients": [
+            -145937.644,
+            0.0,
+            7.174205094,
+            -0.001959947129,
+            1.291116374e-6,
+            -2.077091735e-10,
+            0.0
+          ],
+          "reference": "CaO(cr): Cubic Gurvich,1996a pt1 p442 pt2 p348."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 3172 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CaO(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Mg/solid",
+      "species_id": "Mg",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 100.0,
+          "t_max_k": 298.15,
+          "coefficients": [
+            -5412.225134,
+            0.0,
+            1.458173723,
+            0.01330204666,
+            -0.00004098858502,
+            4.754339101e-8,
+            0.0
+          ],
+          "reference": "Mg(cr): Hexagonal. Ref-Elm. Alcock,1993."
+        },
+        {
+          "t_min_k": 298.15,
+          "t_max_k": 923.0,
+          "coefficients": [
+            -28600.60304,
+            0.0,
+            3.398877384,
+            -0.0007243962663,
+            1.405254188e-6,
+            0.0,
+            0.0
+          ],
+          "reference": "Mg(cr): Hexagonal. Ref-Elm. Alcock,1993."
+        }
+      ],
+      "boundary": "Tabulated for 100 to 923 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Mg(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Cu/solid",
+      "species_id": "Cu",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1358.0,
+          "coefficients": [
+            -24557.75109,
+            164.8069205,
+            2.080947143,
+            0.002639078305,
+            -2.714101362e-6,
+            1.402864982e-9,
+            -9.72432164e-14
+          ],
+          "reference": "Cu(cr): Cubic. Ref-Elm.Cox,1989 p226."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1358 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Cu(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Zn/solid",
+      "species_id": "Zn",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 692.73,
+          "coefficients": [
+            370208.038,
+            -5915.4755,
+            39.5950036,
+            -0.1143735885,
+            0.0001934363797,
+            -1.675385126e-7,
+            6.07818994e-11
+          ],
+          "reference": "Zn(cr): Crystal. Ref-Elm. Cox,1989 p221."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 692.73 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Zn(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Ag/solid",
+      "species_id": "Ag",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1235.08,
+          "coefficients": [
+            -70992.3647,
+            725.478802,
+            0.106651838,
+            0.00552954155,
+            -4.42559085e-6,
+            2.09166812e-9,
+            -3.88892446e-13
+          ],
+          "reference": "Ag(cr): Cubic. Ref-Elm. Cox,1989 p228."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1235.08 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Ag(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Fe/solid",
+      "species_id": "Fe",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            13504.90931,
+            -780.380625,
+            9.44017147,
+            -0.02521767704,
+            0.0000535017051,
+            -5.09909473e-8,
+            1.993862728e-11
+          ],
+          "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 800.0,
+          "coefficients": [
+            3543032.74,
+            -24471.50531,
+            65.6102093,
+            -0.0704392968,
+            0.0000318105287,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
+        },
+        {
+          "t_min_k": 800.0,
+          "t_max_k": 1042.0,
+          "coefficients": [
+            2661026334.0,
+            -7846827.97,
+            -728.921228,
+            26.13888297,
+            -0.0349474214,
+            0.00001763752622,
+            -2.907723254e-9
+          ],
+          "reference": "Fe(a): Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221."
+        },
+        {
+          "t_min_k": 1042.0,
+          "t_max_k": 1184.0,
+          "coefficients": [
+            248192305.2,
+            0.0,
+            -559.434909,
+            0.327170494,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe(a): Alpha. Ref-Elm.Above Lambda trans. Chase,1998 pp1221-5."
+        },
+        {
+          "t_min_k": 1184.0,
+          "t_max_k": 1665.0,
+          "coefficients": [
+            1442428576.0,
+            -5335491.34,
+            8052.828,
+            -6.30308963,
+            0.002677273007,
+            -5.75004553e-7,
+            4.71861196e-11
+          ],
+          "reference": "Fe(c): Gamma. Ref-Elm. Chase,1998 pp1221-5."
+        },
+        {
+          "t_min_k": 1665.0,
+          "t_max_k": 1809.0,
+          "coefficients": [
+            -345019003.0,
+            0.0,
+            705.750152,
+            -0.544297789,
+            0.0001190040139,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe(d): Delta. Ref-Elm. Chase,1998 pp1221-5."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1809 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records Fe(a), Fe(c), Fe(d), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Fe(a), Fe(c), Fe(d) (6 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/MgO/solid",
+      "species_id": "MgO",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -898078.457,
+            17712.45421,
+            -144.9325747,
+            0.63975911,
+            -0.0014583468,
+            1.715467374e-6,
+            -8.18348237e-10
+          ],
+          "reference": "MgO(cr): Cubic Gurvich,1996a pt1 p397 pt2 p317."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 3100.0,
+          "coefficients": [
+            -116952.1716,
+            0.0,
+            5.510366817,
+            0.001085932905,
+            -4.866191754e-7,
+            1.253230798e-10,
+            0.0
+          ],
+          "reference": "MgO(cr): Cubic Gurvich,1996a pt1 p397 pt2 p317."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 3100 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records MgO(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/C/solid",
+      "species_id": "C",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 600.0,
+          "coefficients": [
+            113285.676,
+            -1980.421677,
+            13.65384188,
+            -0.0463609644,
+            0.0001021333011,
+            -1.082893179e-7,
+            4.47225886e-11
+          ],
+          "reference": "C(gr): Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002."
+        },
+        {
+          "t_min_k": 600.0,
+          "t_max_k": 2000.0,
+          "coefficients": [
+            335600.441,
+            -2596.528368,
+            6.94884191,
+            -0.00348483609,
+            1.844192445e-6,
+            -5.05520596e-10,
+            5.75063901e-14
+          ],
+          "reference": "C(gr): Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002."
+        },
+        {
+          "t_min_k": 2000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            202310.5106,
+            -1138.235908,
+            3.7002795,
+            -0.0001833807727,
+            6.34368325e-8,
+            -7.06858948e-12,
+            3.33543598e-16
+          ],
+          "reference": "C(gr): Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records C(gr) (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/O2/gas",
+      "species_id": "O2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -34255.6342,
+            484.700097,
+            1.119010961,
+            0.00429388924,
+            -6.83630052e-7,
+            -2.0233727e-9,
+            1.039040018e-12
+          ],
+          "reference": "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            -1037939.022,
+            2344.830282,
+            1.819732036,
+            0.001267847582,
+            -2.188067988e-7,
+            2.053719572e-11,
+            -8.19346705e-16
+          ],
+          "reference": "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
+        },
+        {
+          "t_min_k": 6000.0,
+          "t_max_k": 20000.0,
+          "coefficients": [
+            497529430.0,
+            -286610.6874,
+            66.9035225,
+            -0.00616995902,
+            3.016396027e-7,
+            -7.4214166e-12,
+            7.27817577e-17
+          ],
+          "reference": "O2: Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 20000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records O2 (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/N2/gas",
+      "species_id": "N2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            22103.71497,
+            -381.846182,
+            6.08273836,
+            -0.00853091441,
+            0.00001384646189,
+            -9.62579362e-9,
+            2.519705809e-12
+          ],
+          "reference": "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            587712.406,
+            -2239.249073,
+            6.06694922,
+            -0.00061396855,
+            1.491806679e-7,
+            -1.923105485e-11,
+            1.061954386e-15
+          ],
+          "reference": "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207."
+        },
+        {
+          "t_min_k": 6000.0,
+          "t_max_k": 20000.0,
+          "coefficients": [
+            831013916.0,
+            -642073.354,
+            202.0264635,
+            -0.03065092046,
+            2.486903333e-6,
+            -9.70595411e-11,
+            1.437538881e-15
+          ],
+          "reference": "N2: Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 20000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records N2 (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/H2/gas",
+      "species_id": "H2",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            40783.2321,
+            -800.918604,
+            8.21470201,
+            -0.01269714457,
+            0.00001753605076,
+            -1.20286027e-8,
+            3.36809349e-12
+          ],
+          "reference": "H2: Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            560812.801,
+            -837.150474,
+            2.975364532,
+            0.001252249124,
+            -3.74071619e-7,
+            5.9366252e-11,
+            -3.6069941e-15
+          ],
+          "reference": "H2: Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31."
+        },
+        {
+          "t_min_k": 6000.0,
+          "t_max_k": 20000.0,
+          "coefficients": [
+            496688412.0,
+            -314754.7149,
+            79.8412188,
+            -0.00841478921,
+            4.75324835e-7,
+            -1.371873492e-11,
+            1.605461756e-16
+          ],
+          "reference": "H2: Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 20000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2 (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Pb/solid",
+      "species_id": "Pb",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 600.65,
+          "coefficients": [
+            -614967.014,
+            10657.1806,
+            -71.2989894,
+            0.2668406702,
+            -0.000518201732,
+            5.23866509e-7,
+            -2.151645616e-10
+          ],
+          "reference": "Pb(cr): Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 600.65 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Pb(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Al/solid",
+      "species_id": "Al",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 933.61,
+          "coefficients": [
+            -62518.1143,
+            634.393435,
+            -0.713188382,
+            0.0108872528,
+            -0.0000145874182,
+            9.96116088e-9,
+            -1.77492801e-12
+          ],
+          "reference": "AL(cr): Cubic. Ref-Elm. Cox,1989 p217."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 933.61 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records AL(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Fe(OH)3/solid",
+      "species_id": "Fe(OH)3",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 298.15,
+          "t_max_k": 1500.0,
+          "coefficients": [
+            -74182.8469,
+            49.1536151,
+            6.3516127,
+            0.02730299149,
+            -0.00002006100982,
+            7.51152641e-9,
+            -1.262038044e-12
+          ],
+          "reference": "Fe(OH)3(cr): Crystal. Chase,1998 p1231."
+        }
+      ],
+      "boundary": "Tabulated for 298.15 to 1500 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Fe(OH)3(cr) (1 temperature interval), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Fe(OH)2/solid",
+      "species_id": "Fe(OH)2",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 298.15,
+          "t_max_k": 800.0,
+          "coefficients": [
+            424092.604,
+            -5246.0135,
+            35.6407814,
+            -0.0577728535,
+            0.0000833416255,
+            -5.35340428e-8,
+            1.183994084e-11
+          ],
+          "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
+        },
+        {
+          "t_min_k": 800.0,
+          "t_max_k": 1500.0,
+          "coefficients": [
+            8260012.74,
+            -35848.4862,
+            66.3148213,
+            -0.02947893247,
+            4.57266967e-6,
+            1.317544528e-9,
+            -2.977356578e-13
+          ],
+          "reference": "Fe(OH)2(cr): Crystal. Chase,1998 p1229."
+        }
+      ],
+      "boundary": "Tabulated for 298.15 to 1500 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Fe(OH)2(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Mg(OH)2/solid",
+      "species_id": "Mg(OH)2",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 500.0,
+          "coefficients": [
+            -640145.184,
+            8358.13999,
+            -39.711454,
+            0.1231927219,
+            -0.0000964780065,
+            0.0,
+            0.0
+          ],
+          "reference": "Mg(OH)2(cr): Hexagonal. Gurvich,1996a pt1 p405 pt2 p323."
+        },
+        {
+          "t_min_k": 500.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -5543828.43,
+            37008.6861,
+            -90.8862334,
+            0.1431689186,
+            -0.0000951396524,
+            2.532586546e-8,
+            0.0
+          ],
+          "reference": "Mg(OH)2(cr): Hexagonal. Gurvich,1996a pt1 p405 pt2 p323."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Mg(OH)2(cr) (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Fe2O3/solid",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 298.15,
+          "t_max_k": 600.0,
+          "coefficients": [
+            -2713211.885,
+            23230.47773,
+            -67.6570177,
+            0.1306052231,
+            -0.0000697068812,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe2O3(cr): Hematite below Curie pt. Pankratz,1983 p158."
+        },
+        {
+          "t_min_k": 600.0,
+          "t_max_k": 960.0,
+          "coefficients": [
+            333349251.0,
+            -1859961.832,
+            3885.13819,
+            -3.56259948,
+            0.001231055904,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe2O3(cr): Hematite below Curie pt. Pankratz,1983 p158."
+        },
+        {
+          "t_min_k": 960.0,
+          "t_max_k": 1800.0,
+          "coefficients": [
+            -28440090.66,
+            125378.645,
+            -211.9080355,
+            0.2221481558,
+            -0.0001206765164,
+            3.48073805e-8,
+            -4.16529786e-12
+          ],
+          "reference": "Fe2O3(cr): Hematite above Curie pt. Pankratz,1983 p158."
+        },
+        {
+          "t_min_k": 1800.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            17.1143988,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Fe2O3(cr): Hematite above Curie pt. Pankratz,1983 p158."
+        }
+      ],
+      "boundary": "Tabulated for 298.15 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Fe2O3(cr) (4 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/SiO2/solid",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 848.0,
+          "coefficients": [
+            -577689.55,
+            7214.66111,
+            -31.45730294,
+            0.0741217715,
+            -8.67007782e-6,
+            -1.080461312e-7,
+            8.31632491e-11
+          ],
+          "reference": "SiO2(a-qz): Alpha-quartz,hexagonal. Gurvich,1991 pt1 p250 pt2 p228."
+        },
+        {
+          "t_min_k": 848.0,
+          "t_max_k": 1200.0,
+          "coefficients": [
+            23176.35074,
+            0.0,
+            7.026511484,
+            0.001241925261,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "SiO2(b-qz): Beta-quartz,hexagonal. Gurvich,1991 pt1 p250 pt2 p228."
+        },
+        {
+          "t_min_k": 1200.0,
+          "t_max_k": 1996.0,
+          "coefficients": [
+            -535641.9079,
+            0.0,
+            9.331036946,
+            -0.0007306503931,
+            3.339944266e-7,
+            0.0,
+            0.0
+          ],
+          "reference": "SiO2(b-crt): Beta-cristobalite,cubic. Gurvich,1991 pt1 p250 pt2 p228."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1996 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records SiO2(a-qz), SiO2(b-qz), SiO2(b-crt), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records SiO2(a-qz), SiO2(b-qz), SiO2(b-crt) (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/Na2SO4/solid",
+      "species_id": "Na2SO4",
+      "phase": "solid",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 458.0,
+          "coefficients": [
+            -868904.382,
+            14490.12038,
+            -90.8757695,
+            0.362191993,
+            -0.000559287085,
+            3.46342113e-7,
+            0.0
+          ],
+          "reference": "Na2SO4(V): Rhombic. Gurvich,1982 pt1 p346 pt2 p384."
+        },
+        {
+          "t_min_k": 458.0,
+          "t_max_k": 514.0,
+          "coefficients": [
+            -145504.6659,
+            0.0,
+            13.08904554,
+            0.01323950539,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reference": "Na2SO4(IV): Rhombic. Gurvich,1982 pt1 p346 pt2 p384."
+        },
+        {
+          "t_min_k": 514.0,
+          "t_max_k": 1157.0,
+          "coefficients": [
+            0.0,
+            0.0,
+            25.03069934,
+            -0.01581223668,
+            0.00001591831629,
+            0.0,
+            0.0
+          ],
+          "reference": "Na2SO4(I): Hexagonal. Gurvich,1982 pt1 p346 pt2 p384."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 1157 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense. The intervals concatenate the successive records Na2SO4(V), Na2SO4(IV), Na2SO4(I), which are different crystal or magnetic forms of the same phase; the enthalpy of the transitions between them is NOT included in this curve and nothing on this bench claims it.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records Na2SO4(V), Na2SO4(IV), Na2SO4(I) (3 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/methane/gas",
+      "species_id": "methane",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -176685.0998,
+            2786.18102,
+            -12.0257785,
+            0.0391761929,
+            -0.0000361905443,
+            2.026853043e-8,
+            -4.97670549e-12
+          ],
+          "reference": "CH4: Gurvich,1991 pt1 p44 pt2 p36."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            3730042.76,
+            -13835.01485,
+            20.49107091,
+            -0.001961974759,
+            4.72731304e-7,
+            -3.72881469e-11,
+            1.623737207e-15
+          ],
+          "reference": "CH4: Gurvich,1991 pt1 p44 pt2 p36."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CH4 (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/propane/gas",
+      "species_id": "propane",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -243314.4337,
+            4656.27081,
+            -29.39466091,
+            0.1188952745,
+            -0.0001376308269,
+            8.81482391e-8,
+            -2.342987994e-11
+          ],
+          "reference": "C3H8: Hf:TRC(10/85) w1350. Chao,1973."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            6420731.68,
+            -26597.91134,
+            45.3435684,
+            -0.00502066392,
+            9.47121694e-7,
+            -9.57540523e-11,
+            4.00967288e-15
+          ],
+          "reference": "C3H8: Hf:TRC(10/85) w1350. Chao,1973."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records C3H8 (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/butane/gas",
+      "species_id": "butane",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 300.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            -317587.254,
+            6176.33182,
+            -38.9156212,
+            0.1584654284,
+            -0.0001860050159,
+            1.199676349e-7,
+            -3.20167055e-11
+          ],
+          "reference": "C4H10,n-butane: Hf:TRC(10/85) w1350. Chen,1975."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            7682322.45,
+            -32560.5151,
+            57.3673275,
+            -0.00619791681,
+            1.180186048e-6,
+            -1.221893698e-10,
+            5.25063525e-15
+          ],
+          "reference": "C4H10,n-butane: Hf:TRC(10/85) w1350. Chen,1975."
+        }
+      ],
+      "boundary": "Tabulated for 300 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records C4H10,n-butane (2 temperature intervals), unchanged in value and in order"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity-polynomial/CO/gas",
+      "species_id": "CO",
+      "phase": "gas",
+      "form": "nasa9",
+      "unit": {
+        "symbol": "J/(mol.K)",
+        "dimension": "molar_heat_capacity"
+      },
+      "intervals": [
+        {
+          "t_min_k": 200.0,
+          "t_max_k": 1000.0,
+          "coefficients": [
+            14890.45326,
+            -292.2285939,
+            5.72452717,
+            -0.00817623503,
+            0.00001456903469,
+            -1.087746302e-8,
+            3.027941827e-12
+          ],
+          "reference": "CO: Gurvich,1979 pt1 p25 pt2 p29."
+        },
+        {
+          "t_min_k": 1000.0,
+          "t_max_k": 6000.0,
+          "coefficients": [
+            461919.725,
+            -1944.704863,
+            5.91671418,
+            -0.000566428283,
+            1.39881454e-7,
+            -1.787680361e-11,
+            9.62093557e-16
+          ],
+          "reference": "CO: Gurvich,1979 pt1 p25 pt2 p29."
+        },
+        {
+          "t_min_k": 6000.0,
+          "t_max_k": 20000.0,
+          "coefficients": [
+            886866296.0,
+            -750037.784,
+            249.5474979,
+            -0.039563511,
+            3.29777208e-6,
+            -1.318409933e-10,
+            1.998937948e-15
+          ],
+          "reference": "CO: Gurvich,1979 pt1 p25 pt2 p29."
+        }
+      ],
+      "boundary": "Tabulated for 200 to 20000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-thermo-inp-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records CO (3 temperature intervals), unchanged in value and in order"
         }
       }
     }
