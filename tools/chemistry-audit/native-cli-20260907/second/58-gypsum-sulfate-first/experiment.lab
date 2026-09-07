@@ -1,0 +1,6 @@
+# Does reversing calcium/sulfate feed order preserve gypsum yield?
+register lv3
+add v1 water 200mL
+add v1 Na2SO4 0.01mol
+add v1 CaCl2 0.01mol
+inspect

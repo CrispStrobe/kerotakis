@@ -1,0 +1,1795 @@
+{
+  "fleet": "87\u2013122",
+  "binary_sha256": "de475bc7a750b3bca24d68009a35e66c9a5be0124dd28aeca479554d6c71e6f2",
+  "checks": [
+    {
+      "check": "87: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "87: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "87: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "88: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "88: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "88: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "89: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "89: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "89: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "90: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "90: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "90: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "91: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "91: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "91: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "92: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "92: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "92: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "93: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "93: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "93: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "94: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "94: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "94: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "94: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.0001
+        },
+        "actual_mol_atoms": {
+          "Cl": 9.99999999999757e-05
+        }
+      }
+    },
+    {
+      "check": "95: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "95: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "95: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "96: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "96: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "96: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "97: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "97: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "97: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "97: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0019999999999997676
+        }
+      }
+    },
+    {
+      "check": "98: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "98: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "98: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "98: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0020000000000000126
+        }
+      }
+    },
+    {
+      "check": "99: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "99: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "99: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "99: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Zn": 0.002,
+          "Na": 0.004
+        },
+        "actual_mol_atoms": {
+          "Zn": 0.002000000000000366,
+          "Na": 0.0040000000000005725
+        }
+      }
+    },
+    {
+      "check": "100: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "100: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "100: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "100: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Zn": 0.002,
+          "Na": 0.004,
+          "Cl": 0.005
+        },
+        "actual_mol_atoms": {
+          "Zn": 0.002000000000000809,
+          "Na": 0.004000000000002215,
+          "Cl": 0.004999999999999777
+        }
+      }
+    },
+    {
+      "check": "101: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "101: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "101: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "101: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.003,
+          "Fe": 0.001,
+          "Na": 0.003
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.002999999999998848,
+          "Fe": 0.000999999999999886,
+          "Na": 0.002999999999998848
+        }
+      }
+    },
+    {
+      "check": "102: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "102: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "102: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "102: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.023,
+          "Fe": 0.001,
+          "Na": 0.003
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.022999999999998397,
+          "Fe": 0.0009999999999999564,
+          "Na": 0.0029999999999992706
+        }
+      }
+    },
+    {
+      "check": "103: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "103: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "103: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "103: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.001,
+          "Cl": 0.002,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.0009999999999999853,
+          "Cl": 0.002000000000000007,
+          "Na": 0.002000000000000007
+        }
+      }
+    },
+    {
+      "check": "104: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "104: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "104: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "104: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.001,
+          "Cl": 0.002,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.000999999999999915,
+          "Cl": 0.0019999999999996266,
+          "Na": 0.0019999999999996266
+        }
+      }
+    },
+    {
+      "check": "105: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "105: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "105: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "105: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "K": 0.001
+        },
+        "actual_mol_atoms": {
+          "K": 0.0010000000010989966
+        }
+      }
+    },
+    {
+      "check": "106: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "106: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "106: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "106: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "K": 0.001
+        },
+        "actual_mol_atoms": {
+          "K": 0.0010000000010989966
+        }
+      }
+    },
+    {
+      "check": "107: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "107: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "107: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "107: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "K": 0.001
+        },
+        "actual_mol_atoms": {
+          "K": 0.0009999999981859
+        }
+      }
+    },
+    {
+      "check": "108: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "108: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "108: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "108: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "K": 0.001
+        },
+        "actual_mol_atoms": {
+          "K": 0.0010000000016485904
+        }
+      }
+    },
+    {
+      "check": "109: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "109: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "109: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "109: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Zn": 0.004,
+          "Cu": 0.004
+        },
+        "actual_mol_atoms": {
+          "Zn": 0.003999999999999271,
+          "Cu": 0.004000000001243905
+        }
+      }
+    },
+    {
+      "check": "110: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "110: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "110: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "110: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Zn": 0.008
+        },
+        "actual_mol_atoms": {
+          "Zn": 0.007999999999998541
+        }
+      }
+    },
+    {
+      "check": "111: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "111: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "111: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "111: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.001,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0009999999949924202,
+          "Na": 0.001999999999773469
+        }
+      }
+    },
+    {
+      "check": "112: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "112: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "112: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "112: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.01,
+          "Na": 0.02
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.010000000000074448,
+          "Na": 0.020000000000003515
+        }
+      }
+    },
+    {
+      "check": "113: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "113: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "113: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "113: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.001,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0009999999922636201,
+          "Na": 0.001999999999672767
+        }
+      }
+    },
+    {
+      "check": "114: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "114: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "114: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "114: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.0001,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Cl": 9.999999996932883e-05,
+          "Na": 0.0019999999999695643
+        }
+      }
+    },
+    {
+      "check": "115: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "115: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "115: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "115: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.003
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0030000000001575615
+        }
+      }
+    },
+    {
+      "check": "116: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "116: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "116: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "116: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.001,
+          "Na": 0.002
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0009999999949924202,
+          "Na": 0.001999999999773469
+        }
+      }
+    },
+    {
+      "check": "117: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "117: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "117: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "118: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "118: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "118: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "119: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "119: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "119: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "119: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.002,
+          "K": 0.001,
+          "Na": 0.001
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0019999999999995026,
+          "K": 0.0010000000000000505,
+          "Na": 0.0010000000000000505
+        }
+      }
+    },
+    {
+      "check": "120: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "120: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "120: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "120: nonvolatile element conservation",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.008,
+          "K": 0.008
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.007999999999998056,
+          "K": 0.007999999999998056
+        }
+      }
+    },
+    {
+      "check": "121: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "121: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "121: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "122: complete execution without solver failure",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "122: finite nonnegative material",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "122: every output species has a composition",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "87: three-component cut conservation/enrichment/disclosure",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "receiver_mol": {
+          "water": 0.5024483893510502,
+          "methanol": 0.13864435224692426,
+          "isopropanol": 0.05890725840202508
+        },
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "88: three-component cut conservation/enrichment/disclosure",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "receiver_mol": {
+          "water": 0.5024483893510502,
+          "methanol": 0.13864435224692426,
+          "isopropanol": 0.05890725840202508
+        },
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "89: three-component cut conservation/enrichment/disclosure",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "receiver_mol": {
+          "water": 5.024483893510508,
+          "methanol": 1.3864435224692397,
+          "isopropanol": 0.5890725840202514
+        },
+        "model": "Ideal-liquid Raoult/Rayleigh approximation with constant-latent Clausius-Clapeyron pressures, bounded within 40 K of every normal boiling point. USCG CHRIS June 1999 fields 9.2/9.3/9.12 for additional solvents; existing water/ethanol latent-reference data. Activity coefficients, azeotropes and dissolved-solute boiling shifts are not predicted. Dissolved solids without registered volatility are treated as nonvolatile. Stage enrichment uses a total-reflux composition cascade as a separation approximation, not a literal operating column. Reported energy counts only withdrawn condensate latent heat, excluding reflux/reboiler circulation and sensible heating. Sensible condensate mixing uses the source temperature."
+      }
+    },
+    {
+      "check": "87/88: componentwise cut order/scale invariance",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "water": [
+          0.5024483893510502,
+          0.5024483893510502
+        ],
+        "methanol": [
+          0.13864435224692426,
+          0.13864435224692426
+        ],
+        "isopropanol": [
+          0.05890725840202508,
+          0.05890725840202508
+        ]
+      }
+    },
+    {
+      "check": "87/89: componentwise cut order/scale invariance",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "water": [
+          0.5024483893510502,
+          0.5024483893510509
+        ],
+        "methanol": [
+          0.13864435224692426,
+          0.13864435224692398
+        ],
+        "isopropanol": [
+          0.05890725840202508,
+          0.05890725840202514
+        ]
+      }
+    },
+    {
+      "check": "90/92: latent-budget identity and pure-component boiling limit",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "budget_kj": 3,
+        "computed_from_condensate_kj": 2.999999999999999,
+        "reported_kj": 3.0000000000000004,
+        "pure_temperature_K": 337.70000000000005,
+        "reference_boiling_K": 337.7
+      }
+    },
+    {
+      "check": "92: pure-component cut conserves supplied methanol",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "source": 0.30000000000000154,
+        "receiver": 0.09999999999999849
+      }
+    },
+    {
+      "check": "91: unsupported aqueous volatile is atomically withheld",
+      "kind": "expected-model-boundary",
+      "passed": false,
+      "evidence": {
+        "diagnostics": [
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "vessel": 0,
+            "what": "distillation needs reviewed vapour-pressure/latent-heat properties for NH3; no component was transferred"
+          }
+        ],
+        "changed_physical_fields": [
+          "contents",
+          "temperature",
+          "solute_charge"
+        ]
+      }
+    },
+    {
+      "check": "93: dilute strong-acid law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 3.704598416144,
+        "ideal_concentration_pH": 3.6989700043360187
+      }
+    },
+    {
+      "check": "94: dilute strong-acid law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 3.704598415367,
+        "ideal_concentration_pH": 3.6989700043360187
+      }
+    },
+    {
+      "check": "93/94: acid identity control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        3.704598416144,
+        3.704598415367
+      ]
+    },
+    {
+      "check": "95: sealed bromine inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "Br_mol_atoms": 0.0009999998348487707,
+        "pH": 2.423850029517
+      }
+    },
+    {
+      "check": "96: sealed bromine inventory",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "Br_mol_atoms": 0.0009999998485800646,
+        "pH": 2.423849930344
+      }
+    },
+    {
+      "check": "95/96: headspace uptake control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "small_headspace_aqueous_Br": 0.0009999998348487707,
+        "large_headspace_aqueous_Br": 0.0009999998485800646
+      }
+    },
+    {
+      "check": "97/98: finite-gas neutralization order and thermal path",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "97": {
+          "pH": 6.99415797486,
+          "temperature_K": 298.40523828251145
+        },
+        "98": {
+          "pH": 6.994157883941,
+          "temperature_K": 298.40523828261274
+        }
+      }
+    },
+    {
+      "check": "99/100: precipitation capacity and acid reversal",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "before_acid": {
+          "metal_mol_atoms": 0.001997746926733,
+          "phase_metal_mol_atoms": {
+            "Zn(OH)2": 0.001997746926733
+          }
+        },
+        "after_acid": {
+          "metal_mol_atoms": 0,
+          "phase_metal_mol_atoms": {}
+        },
+        "scope": "all solid phases; no assumed hydroxide/oxide/polymorph identity"
+      }
+    },
+    {
+      "check": "101/102: precipitation capacity and acid reversal",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "before_acid": {
+          "metal_mol_atoms": 0.0009999882327886,
+          "phase_metal_mol_atoms": {
+            "Fe(OH)3": 0.0009999882327886
+          }
+        },
+        "after_acid": {
+          "metal_mol_atoms": 0,
+          "phase_metal_mol_atoms": {}
+        },
+        "scope": "all solid phases; no assumed hydroxide/oxide/polymorph identity"
+      }
+    },
+    {
+      "check": "103/104: carbonate liquid-feed dilution control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "103": {
+          "metal_mol_atoms": 0.0009557085781081,
+          "phase_metal_mol_atoms": {
+            "CaCO3": 0.0009557085781081
+          }
+        },
+        "104": {
+          "metal_mol_atoms": 0.0006185790251261,
+          "phase_metal_mol_atoms": {
+            "CaCO3": 0.0006185790251261
+          }
+        }
+      }
+    },
+    {
+      "check": "105: Faraday charge and both electrode products",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12,
+        "generated_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        },
+        "accounting": "sum electrode production events, independent of final gas location"
+      }
+    },
+    {
+      "check": "105: electrolysis material ledger including external gas exchange",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "inventory_change_mol_atoms": {
+          "H": -0.00012437123588071586,
+          "O": -6.218561794035793e-05,
+          "N": 1.0989902564373377e-12,
+          "K": 1.0989902564373377e-12
+        },
+        "net_external_out_mol_atoms": {
+          "H": 0.00012437123587941276,
+          "O": 6.218561793970638e-05,
+          "N": 0.0,
+          "K": 0.0
+        },
+        "external_flows": [
+          {
+            "event": "gas_evolved",
+            "moles": 6.218561793970638e-05,
+            "species": "H2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 3.109280896985319e-05,
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "accounting": "final minus pre-electrolysis contents plus evolved minus absorbed; all vessels and phases"
+      }
+    },
+    {
+      "check": "106: Faraday charge and both electrode products",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12,
+        "generated_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        },
+        "accounting": "sum electrode production events, independent of final gas location"
+      }
+    },
+    {
+      "check": "106: electrolysis material ledger including external gas exchange",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "inventory_change_mol_atoms": {
+          "H": -0.00012437123588071586,
+          "O": -6.218561794035793e-05,
+          "N": 1.0989902564373377e-12,
+          "K": 1.0989902564373377e-12
+        },
+        "net_external_out_mol_atoms": {
+          "H": 0.00012437123587941276,
+          "O": 6.218561793970638e-05,
+          "N": 0.0,
+          "K": 0.0
+        },
+        "external_flows": [
+          {
+            "event": "gas_evolved",
+            "moles": 6.218561793970638e-05,
+            "species": "H2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 3.109280896985319e-05,
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "accounting": "final minus pre-electrolysis contents plus evolved minus absorbed; all vessels and phases"
+      }
+    },
+    {
+      "check": "107: Faraday charge and both electrode products",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 24,
+        "generated_mol": {
+          "O2": 6.218561793970638e-05,
+          "H2": 0.00012437123587941276
+        },
+        "accounting": "sum electrode production events, independent of final gas location"
+      }
+    },
+    {
+      "check": "107: electrolysis material ledger including external gas exchange",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "inventory_change_mol_atoms": {
+          "H": -0.000248742471757879,
+          "O": -0.0001243712358789395,
+          "N": -1.8141063738014163e-12,
+          "K": -1.8141063738014163e-12
+        },
+        "net_external_out_mol_atoms": {
+          "H": 0.0002487424717588255,
+          "O": 0.00012437123587941276,
+          "N": 0.0,
+          "K": 0.0
+        },
+        "external_flows": [
+          {
+            "event": "gas_evolved",
+            "moles": 0.00012437123587941276,
+            "species": "H2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 6.218561793970638e-05,
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "accounting": "final minus pre-electrolysis contents plus evolved minus absorbed; all vessels and phases"
+      }
+    },
+    {
+      "check": "108: Faraday charge and both electrode products",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "charge_C": 12,
+        "generated_mol": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        },
+        "accounting": "sum electrode production events, independent of final gas location"
+      }
+    },
+    {
+      "check": "108: electrolysis material ledger including external gas exchange",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "inventory_change_mol_atoms": {
+          "H": -0.00012437123587716314,
+          "O": -6.218561793858157e-05,
+          "N": 1.6485840470537028e-12,
+          "K": 1.6485840470537028e-12
+        },
+        "net_external_out_mol_atoms": {
+          "H": 0.00012437123587941276,
+          "O": 6.218561793970638e-05,
+          "N": 0.0,
+          "K": 0.0
+        },
+        "external_flows": [
+          {
+            "event": "gas_evolved",
+            "moles": 3.109280896985319e-05,
+            "species": "H2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 1.5546404484926594e-05,
+            "species": "O2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 3.109280896985319e-05,
+            "species": "H2",
+            "vessel": 0
+          },
+          {
+            "event": "gas_evolved",
+            "moles": 1.5546404484926594e-05,
+            "species": "O2",
+            "vessel": 0
+          }
+        ],
+        "accounting": "final minus pre-electrolysis contents plus evolved minus absorbed; all vessels and phases"
+      }
+    },
+    {
+      "check": "105\u2013108: equal/split/doubled charge controls",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "105": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        },
+        "106": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        },
+        "107": {
+          "O2": 6.218561793970638e-05,
+          "H2": 0.00012437123587941276
+        },
+        "108": {
+          "O2": 3.109280896985319e-05,
+          "H2": 6.218561793970638e-05
+        }
+      }
+    },
+    {
+      "check": "109: automatic electrode orientation is operand invariant",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "anode": 0,
+          "cathode": 1,
+          "equation": "Zn + Cu+2 \u2192 Zn+2 + Cu",
+          "event": "cell_voltage",
+          "notation": "Zn | Zn+2 \u2016 Cu+2 | Cu",
+          "standard_volts": 1.1037,
+          "volts": 1.1041115593740387
+        },
+        {
+          "anode": 0,
+          "cathode": 1,
+          "equation": "Zn + Cu+2 \u2192 Zn+2 + Cu",
+          "event": "cell_voltage",
+          "notation": "Zn | Zn+2 \u2016 Cu+2 | Cu",
+          "standard_volts": 1.1037,
+          "volts": 1.1041115593740387
+        }
+      ]
+    },
+    {
+      "check": "110: identical half-cells have no driving voltage",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "a": 0,
+          "b": 1,
+          "event": "no_cell",
+          "why": "both vessels present the same Zn | Zn+2 electrode at the same activity: a cell of two identical half-cells reads 0 V"
+        }
+      ]
+    },
+    {
+      "check": "111: finite kinetic acid capacity and actual progress",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": 2.261999629628553e-05,
+        "acid_capacity_mol": 0.0005,
+        "S_mol": 2.261999629628553e-05
+      }
+    },
+    {
+      "check": "112: finite kinetic acid capacity and actual progress",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": 0.00022619996297874333,
+        "acid_capacity_mol": 0.005,
+        "S_mol": 0.00022619996297874333
+      }
+    },
+    {
+      "check": "113: finite kinetic acid capacity and actual progress",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": 2.2619961301400052e-05,
+        "acid_capacity_mol": 0.0005,
+        "S_mol": 2.2619961301400052e-05
+      }
+    },
+    {
+      "check": "114: finite kinetic acid capacity and actual progress",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": 4.957150164188715e-05,
+        "acid_capacity_mol": 5e-05,
+        "S_mol": 4.957150164188715e-05
+      }
+    },
+    {
+      "check": "116: finite kinetic acid capacity and actual progress",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "extent_mol": 2.261999629628553e-05,
+        "acid_capacity_mol": 0.0005,
+        "S_mol": 2.261999629628553e-05
+      }
+    },
+    {
+      "check": "111/112: intensive kinetic scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        2.261999629628553e-05,
+        2.2619996297874334e-05
+      ]
+    },
+    {
+      "check": "111/113: time-partition stability screen",
+      "kind": "approximation-stability",
+      "passed": true,
+      "evidence": {
+        "single_step": 2.261999629628553e-05,
+        "five_steps": 2.2619961301400052e-05,
+        "relative_budget": 0.01,
+        "scope": "predeclared convergence screen, not exact semigroup identity with refreshed activity/temperature"
+      }
+    },
+    {
+      "check": "115: buffered proton-consuming rate is withheld explicitly",
+      "kind": "expected-model-boundary",
+      "passed": true,
+      "evidence": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "thiosulfate-acid: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir"
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "Na2S2O3 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "check": "117/118: three-way water heat conservation and associativity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "energy_balance_K": 298.59267374944665,
+        "left_K": 298.5926703439986,
+        "right_K": 298.59266992019616
+      }
+    },
+    {
+      "check": "119: three-feed residual strong-acid law",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "pH": 2.806725853323,
+        "ideal_concentration_pH": 2.7781512503836434
+      }
+    },
+    {
+      "check": "120: serial aliquot fractions compose multiplicatively",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "0": 0.004499999999998906,
+        "1": 0.001999999999999514,
+        "2": 0.0014999999999996353
+      }
+    },
+    {
+      "check": "121: four-component mass-action equation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "scaled_extent_mol": 0.005932822485149083,
+        "nominal_feed_Q_after_extent": 4.0,
+        "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+      }
+    },
+    {
+      "check": "122: four-component mass-action equation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "scaled_extent_mol": 0.005932822485149081,
+        "nominal_feed_Q_after_extent": 3.9999999999999973,
+        "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled"
+      }
+    },
+    {
+      "check": "121/122: equilibrium extent scale control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "121": 0.005932822485149083,
+        "122": 0.0005932822485149082
+      }
+    }
+  ],
+  "passed": 173,
+  "unmet": 1
+}

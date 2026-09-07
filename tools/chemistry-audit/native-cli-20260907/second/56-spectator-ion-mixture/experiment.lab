@@ -1,0 +1,7 @@
+# Does soluble KCl plus sodium nitrate remain a neutral ionic mixture?
+register lv3
+add v1 water 500mL
+add v1 KCl 0.005mol
+add v1 NaNO3 0.005mol
+measure v1 ph
+inspect

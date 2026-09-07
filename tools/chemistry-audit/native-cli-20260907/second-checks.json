@@ -1,0 +1,1105 @@
+{
+  "batch": "51\u201386",
+  "binary_sha256": "de475bc7a750b3bca24d68009a35e66c9a5be0124dd28aeca479554d6c71e6f2",
+  "checks": [
+    {
+      "check": "51: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "51: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "51: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.005
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.004999999999998785
+        }
+      }
+    },
+    {
+      "check": "52: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "52: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "52: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.011
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.011000000007172763
+        }
+      }
+    },
+    {
+      "check": "53: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "53: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "53: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.01,
+          "Na": 0.001
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.010000000006523414,
+          "Na": 0.0010000000006523415
+        }
+      }
+    },
+    {
+      "check": "54: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "54: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "54: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.005,
+          "S": 0.005,
+          "K": 0.005
+        },
+        "actual_mol_atoms": {
+          "Na": 0.004999999999998785,
+          "S": 0.004999999999998785,
+          "K": 0.004999999999998785
+        }
+      }
+    },
+    {
+      "check": "55: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "55: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "55: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Br": 0.003,
+          "K": 0.003
+        },
+        "actual_mol_atoms": {
+          "Br": 0.0030000000000002676,
+          "K": 0.0029999999999997693
+        }
+      }
+    },
+    {
+      "check": "56: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "56: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "56: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.005,
+          "K": 0.005,
+          "Na": 0.005
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.004999999999998785,
+          "K": 0.004999999999998785,
+          "Na": 0.004999999999998785
+        }
+      }
+    },
+    {
+      "check": "57: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "57: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "57: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.01,
+          "Cl": 0.02,
+          "Na": 0.02,
+          "S": 0.01
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.009999999999998848,
+          "Cl": 0.019999999999987358,
+          "Na": 0.020000000000007276,
+          "S": 0.009999999999998848
+        }
+      }
+    },
+    {
+      "check": "58: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "58: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "58: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.02,
+          "S": 0.01,
+          "Ca": 0.01,
+          "Cl": 0.02
+        },
+        "actual_mol_atoms": {
+          "Na": 0.019999999999988465,
+          "S": 0.009999999999997128,
+          "Ca": 0.009999999999999119,
+          "Cl": 0.019999999999988465
+        }
+      }
+    },
+    {
+      "check": "59: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "59: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "59: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.003,
+          "S": 0.003,
+          "Na": 0.006
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.0029999999999992216,
+          "S": 0.002999999999999253,
+          "Na": 0.005999999999998506
+        }
+      }
+    },
+    {
+      "check": "60: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "60: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "60: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.003,
+          "S": 0.003,
+          "Na": 0.006,
+          "Cl": 0.006
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.0030000000000003474,
+          "S": 0.0030000000000003474,
+          "Na": 0.005999999999997703,
+          "Cl": 0.005999999999997703
+        }
+      }
+    },
+    {
+      "check": "61: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "61: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "61: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.002,
+          "Cl": 0.004
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.002000000000104149,
+          "Cl": 0.0040000000057632155
+        }
+      }
+    },
+    {
+      "check": "62: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "62: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "62: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.002
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.001999999999994396
+        }
+      }
+    },
+    {
+      "check": "63: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "63: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "64: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "64: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "64: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Si": 0.005,
+          "Cl": 0.003,
+          "K": 0.003
+        },
+        "actual_mol_atoms": {
+          "Si": 0.005,
+          "Cl": 0.0029999999999992706,
+          "K": 0.0029999999999992706
+        }
+      }
+    },
+    {
+      "check": "65: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "65: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "65: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.002,
+          "S": 0.002,
+          "Cl": 0.004,
+          "Na": 0.004
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.001999999999999464,
+          "S": 0.001999999999999464,
+          "Cl": 0.00400000000000182,
+          "Na": 0.00400000000000182
+        }
+      }
+    },
+    {
+      "check": "66: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "66: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "66: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Mg": 0.002,
+          "S": 0.002,
+          "Cl": 0.004,
+          "Na": 0.004
+        },
+        "actual_mol_atoms": {
+          "Mg": 0.001999999999999464,
+          "S": 0.001999999999999464,
+          "Cl": 0.00400000000000182,
+          "Na": 0.00400000000000182
+        }
+      }
+    },
+    {
+      "check": "67: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "67: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "67: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.005,
+          "K": 0.005
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0049999999999997815,
+          "K": 0.0049999999999997815
+        }
+      }
+    },
+    {
+      "check": "68: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "68: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "69: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "69: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "70: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "70: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "71: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "71: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "71: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Na": 0.003
+        },
+        "actual_mol_atoms": {
+          "Na": 0.0029999999999992706
+        }
+      }
+    },
+    {
+      "check": "72: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "72: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "72: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "K": 0.006
+        },
+        "actual_mol_atoms": {
+          "K": 0.0059999999999987
+        }
+      }
+    },
+    {
+      "check": "73: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "73: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "73: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "P": 0.004,
+          "Na": 0.006,
+          "Cl": 0.0002
+        },
+        "actual_mol_atoms": {
+          "P": 0.003999999997660219,
+          "Na": 0.00599999999648609,
+          "Cl": 0.00019999999988303582
+        }
+      }
+    },
+    {
+      "check": "74: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "74: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "74: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "P": 0.004,
+          "Na": 0.0062
+        },
+        "actual_mol_atoms": {
+          "P": 0.003999999997660218,
+          "Na": 0.006199999996369125
+        }
+      }
+    },
+    {
+      "check": "75: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "75: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "76: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "76: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "77: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "77: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "78: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "78: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "79: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "79: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "80: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "80: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "81: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "81: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "81: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Cl": 0.003,
+          "K": 0.003
+        },
+        "actual_mol_atoms": {
+          "Cl": 0.0029999999999992706,
+          "K": 0.0029999999999992706
+        }
+      }
+    },
+    {
+      "check": "82: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "82: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "83: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "83: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "84: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "84: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "85: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "85: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "85: nonvolatile elements conserved across all vessels",
+      "passed": true,
+      "evidence": {
+        "expected_mol_atoms": {
+          "Ca": 0.01,
+          "Cl": 0.02,
+          "Na": 0.02,
+          "S": 0.01
+        },
+        "actual_mol_atoms": {
+          "Ca": 0.009999999999998446,
+          "Cl": 0.019999999999992902,
+          "Na": 0.019999999999992902,
+          "S": 0.009999999999998446
+        }
+      }
+    },
+    {
+      "check": "86: complete execution without solver failure",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "solver_failures": [],
+        "stderr": ""
+      }
+    },
+    {
+      "check": "86: finite nonnegative final inventory",
+      "passed": true,
+      "evidence": {}
+    },
+    {
+      "check": "51: ammonium hydrolysis is acidic",
+      "passed": true,
+      "evidence": [
+        5.663193023725
+      ]
+    },
+    {
+      "check": "52/53: ammonium buffer opposite small responses",
+      "passed": true,
+      "evidence": {
+        "acid": [
+          9.305638569136,
+          9.208663657974
+        ],
+        "base": [
+          9.305638569136,
+          9.40316803997
+        ]
+      }
+    },
+    {
+      "check": "73/74: phosphate buffer opposite small responses",
+      "passed": true,
+      "evidence": {
+        "acid": [
+          7.003477762612,
+          6.917600672917
+        ],
+        "base": [
+          7.003477762612,
+          7.086842704251
+        ]
+      }
+    },
+    {
+      "check": "54: bisulfate proton is neutralised",
+      "passed": true,
+      "evidence": [
+        2.195995426112,
+        7.076979741651
+      ]
+    },
+    {
+      "check": "55: near-neutral final solution",
+      "passed": true,
+      "evidence": [
+        6.991154254818
+      ]
+    },
+    {
+      "check": "56: near-neutral final solution",
+      "passed": true,
+      "evidence": [
+        6.994991179827
+      ]
+    },
+    {
+      "check": "68: near-neutral final solution",
+      "passed": true,
+      "evidence": [
+        6.999766304197
+      ]
+    },
+    {
+      "check": "57/58/85: gypsum order and dilution controls",
+      "passed": true,
+      "evidence": {
+        "57": 0.005606058688587,
+        "58": 0.00560561550747,
+        "85": 0
+      }
+    },
+    {
+      "check": "59/60: acid reverses magnesium precipitation",
+      "passed": true,
+      "evidence": {
+        "59": 0.002940250754923,
+        "60": 0
+      }
+    },
+    {
+      "check": "61/62: acid consumes chalk relative to control",
+      "passed": true,
+      "evidence": {
+        "61": 0,
+        "62": 0.001962770847065
+      }
+    },
+    {
+      "check": "63: dissolved glucose passes filter",
+      "passed": true,
+      "evidence": {
+        "receiver_mol": 0.005
+      }
+    },
+    {
+      "check": "64: filter separates silica and potassium",
+      "passed": true,
+      "evidence": {
+        "retained_silica": 0.00494008388256441,
+        "passed_potassium": 0.0029999999999992706
+      }
+    },
+    {
+      "check": "65/66: fractional MIX operand invariance",
+      "passed": true,
+      "evidence": {
+        "65": {
+          "ph": 6.956105376602,
+          "Mg_mol": 0.0004999999999998286
+        },
+        "66": {
+          "ph": 6.956105376603,
+          "Mg_mol": 0.0004999999999998286
+        }
+      }
+    },
+    {
+      "check": "69: downward titration refines target",
+      "passed": true,
+      "evidence": [
+        7.000097835658
+      ]
+    },
+    {
+      "check": "70: downward titration refines target",
+      "passed": true,
+      "evidence": [
+        5.000036043404
+      ]
+    },
+    {
+      "check": "71: organic-acid neutralisation is monotone",
+      "passed": true,
+      "evidence": [
+        2.798984439143,
+        3.830847810364
+      ]
+    },
+    {
+      "check": "72: organic-acid neutralisation is monotone",
+      "passed": true,
+      "evidence": [
+        2.722038322448,
+        3.888442729402,
+        5.327458606691,
+        8.888746617429
+      ]
+    },
+    {
+      "check": "75/76: thermal MIX is intermediate and order invariant",
+      "passed": true,
+      "evidence": {
+        "75": 299.7497499114677,
+        "76": 299.7497499114677
+      }
+    },
+    {
+      "check": "77: equilibrium is an explicitly bounded model",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.004648162415120036,
+          "name": "esterification",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "78: equilibrium is an explicitly bounded model",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0046454153310721835,
+          "name": "esterification",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "79: equilibrium is an explicitly bounded model",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": -0.003333333333333335,
+          "name": "esterification",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "79/80: requested reverse reaction differs from passive waiting",
+      "passed": true,
+      "evidence": {
+        "79": {
+          "ester": 0.006666666666666665,
+          "ethanol": 0.003333333333333335
+        },
+        "80": {
+          "ester": 0.01,
+          "ethanol": 0
+        }
+      }
+    },
+    {
+      "check": "80: passive hydrolysis discloses its missing rate/condition model",
+      "passed": true,
+      "evidence": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "vessel": 0,
+          "what": "alkaline-ester-hydrolysis v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 323.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        }
+      ]
+    },
+    {
+      "check": "81/82: ionic conductivity exceeds nonionic control",
+      "passed": true,
+      "evidence": {
+        "81": [
+          1427.2243980923126
+        ],
+        "82": [
+          0.05481053325427032
+        ]
+      }
+    },
+    {
+      "check": "83: alcohol distillation enriches and conserves",
+      "passed": true,
+      "evidence": {
+        "receiver_alcohol": 0.03496746254561826,
+        "receiver_water": 0.3850325374543818,
+        "remaining_alcohol": 0.16503253745438176
+      }
+    },
+    {
+      "check": "84: alcohol distillation enriches and conserves",
+      "passed": true,
+      "evidence": {
+        "receiver_alcohol": 0.05471737658388319,
+        "receiver_water": 0.36528262341611684,
+        "remaining_alcohol": 0.1452826234161168
+      }
+    },
+    {
+      "check": "86: ammonium nitrate dissolution cools",
+      "passed": true,
+      "evidence": 297.84061218333625
+    }
+  ],
+  "passed": 121,
+  "unmet": 0
+}

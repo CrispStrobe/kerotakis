@@ -1,0 +1,7 @@
+# Can coarse HCl titration refine a downward pH crossing for KOH?
+register lv3
+add v1 water 300mL
+add v1 KOH 0.0023mol
+titrate v1 HCl 0.1M 7mL until ph 7
+measure v1 ph
+inspect

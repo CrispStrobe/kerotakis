@@ -1,0 +1,6 @@
+# Does waiting avoid silently assuming ester hydrolysis kinetics?
+register lv3
+add v1 water 0.01mol
+add v1 ethyl_acetate 0.01mol
+wait 1h
+inspect

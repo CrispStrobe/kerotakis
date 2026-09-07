@@ -78,3 +78,16 @@ The combined source requires fresh CI, including workspace tests, catalog
 lint, provenance, and the experiment checks. Cases 87–122 remain designed but
 not executed at this checkpoint. Recheck main/head identities and the final
 CI conclusions immediately before any PR merge; never force an unresolved PR.
+
+## Subsequent native CLI discovery
+
+The CLI replay has now executed cases 87–122: 173/174 checks pass, with the one
+atomic-distillation refusal failure retained in `native-cli-20260907`. The
+runner now carries an explicit unchanged-operation disposition and skips
+post-operation solvers for the refused transfer, preserving its diagnostic.
+Both focused refusal/success-control tests pass; rebuilt CLI replay is next.
+
+CI also exposed absent per-step guidance for the two new lessons. English and
+German guidance is added, and the ten selected audit guides now reflect finite
+acid and documented model limits instead of obsolete yields/precision claims.
+All ten step-prose tests pass and all 94 paced scripts/530 sentences validate.

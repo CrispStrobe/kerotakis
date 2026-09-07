@@ -1,0 +1,6 @@
+# Does sugar alone remain unchanged over ten minutes?
+register lv3
+add v1 water 100mL
+add v1 table_sugar 5g
+wait 600s
+inspect

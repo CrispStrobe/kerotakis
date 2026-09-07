@@ -1,0 +1,8 @@
+# Does one equivalent of KOH remove the bisulfate acidic proton?
+register lv3
+add v1 water 500mL
+add v1 NaHSO4 0.005mol
+measure v1 ph
+add v1 KOH 0.005mol
+measure v1 ph
+inspect

@@ -1,0 +1,6 @@
+# Does a dilute finite HBr dose obey strong-acid concentration scaling?
+register lv3
+add v1 water 500mL
+add v1 HBr 0.0001mol
+measure v1 ph
+inspect

@@ -1,0 +1,7 @@
+# Does a third alcohol's distillation conserve molecules across both vessels?
+register lv3
+add v1 water 4mol
+add v1 methanol 0.2mol
+new
+distil v1 v2 0.1
+inspect

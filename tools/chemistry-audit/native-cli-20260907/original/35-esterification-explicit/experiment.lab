@@ -1,0 +1,7 @@
+# What yield and confidence does an explicitly requested esterification claim?
+register lv3
+add v1 water 100mL
+add v1 CH3COOH 0.02mol
+add v1 ethanol 0.02mol
+react v1 esterification
+inspect

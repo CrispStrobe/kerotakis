@@ -1,0 +1,12 @@
+# Does a tricarboxylic acid respond monotonically to successive equivalent doses?
+register lv3
+add v1 water 300mL
+add v1 citric_acid 0.002mol
+measure v1 ph
+add v1 KOH 0.002mol
+measure v1 ph
+add v1 KOH 0.002mol
+measure v1 ph
+add v1 KOH 0.002mol
+measure v1 ph
+inspect

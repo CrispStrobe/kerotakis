@@ -1,0 +1,6 @@
+# Does an automatic titration reach the strong-acid endpoint within one increment?
+register lv3
+add v1 water 200mL
+add v1 HCl 0.002mol
+titrate v1 NaOH 0.1M 1mL until ph 7
+inspect

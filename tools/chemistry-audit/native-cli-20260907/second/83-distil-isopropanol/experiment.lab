@@ -1,0 +1,7 @@
+# Does a second alcohol's volatility enrich a dilute receiver?
+register lv3
+add v1 water 4mol
+add v1 isopropanol 0.2mol
+new
+distil v1 v2 0.1
+inspect

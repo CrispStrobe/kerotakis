@@ -1,0 +1,1015 @@
+{
+  "scope": "Native redox-element aqueous totals versus formula-counted aqueous portions; separate ligand pools may require a narrower comparison.",
+  "registry": {
+    "path": "/mnt/volume1/kero-experiment-audit/data/registry/registry-source-v1.json",
+    "sha256": "43f858992a05358d543767021e457693a1cf724c904f6d9a7adb6bc7f6a25cc1"
+  },
+  "inputs": [
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/100-zinc-acid-reversal/stdout.ndjson",
+      "sha256": "bcf3c4eba2bfd569853aa64dc937bdde33dd5d2444af79886a69e5d488482211"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/101-ferric-hydroxide/stdout.ndjson",
+      "sha256": "9b22f671250753ba8ff8d37a39a1d10025e570c74323a4941577a0fd83b7af60"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/102-ferric-acid-reversal/stdout.ndjson",
+      "sha256": "2eec0a07650cb8e36a934b3aa201859a968aafb4f4af59fdda6a493ff15f3196"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/103-carbonate-liquid-feeds/stdout.ndjson",
+      "sha256": "4c2b5e3c672c72e3d8a0a1f2777e9837b317fe90db0c158f4b9d2758662a3ed9"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/104-carbonate-dilution-control/stdout.ndjson",
+      "sha256": "356c73517cbede6fc8343da4c0b28c5251bb03cc2ea58bab21bacf54918eb602"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/105-nitrate-electrolysis/stdout.ndjson",
+      "sha256": "49eeb04b3912279998e1a0d1d1351b864118835b203da3ae7cade50baa608d05"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/106-electrolysis-equal-charge/stdout.ndjson",
+      "sha256": "fa169b06a2c2d27db029a5e091b51e19e2374b3ece4212bd161150e6d1165411"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/107-electrolysis-double-charge/stdout.ndjson",
+      "sha256": "c6e360ee6ca76f49f91b60354d15f25ca7aa09a3b097f9b3c468aa5a47fa9cac"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/108-electrolysis-split-charge/stdout.ndjson",
+      "sha256": "bcd24726d70636dbbcd9a218b0805cfc1c63878bb5a234ea64626927092e11de"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "sha256": "46580548ba47f1e1171a49591eac35800c1b8a4e5dd8fd8f6cfaffd1fa4c6a1d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "sha256": "6baf8529b74c90092d1d50042e595e950c02afc67b8b56fff5b011aa23384fbd"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/111-finite-acid-reference/stdout.ndjson",
+      "sha256": "09bcdf3ef33fd57990c78c1ecd6bcf54f4dd97d831047a0d7b8627bfac06bb79"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/112-finite-acid-scaled/stdout.ndjson",
+      "sha256": "c87240bb13d916c9b9ad7bf85a34d13b0380290fd4993f887d0554281720a0ce"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/113-finite-acid-partitioned-time/stdout.ndjson",
+      "sha256": "61d3945e84afb9b040b9413cfcda28905e365178d796af8c6d8a16ce93c10cea"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/114-near-exhausted-acid/stdout.ndjson",
+      "sha256": "4f0b3dea658fb71acb2d4501feeb11196c233c663f734e0ce34f00ce769d738e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/115-buffered-kinetics-boundary/stdout.ndjson",
+      "sha256": "71fc034cc4e85c7a76ce8084f464eb0579d65fd8d6e4df9986934c8d6a62bd87"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/116-nonacid-donor-control/stdout.ndjson",
+      "sha256": "d05808712ccb7dcef0c7d6d4b5edee8c6d955042fd5b8a9230b2ed1ad0b1855e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/117-thermal-three-way-left/stdout.ndjson",
+      "sha256": "b716b3ea1d60605f986fe3ebefed437fb889dc4bb596cfafdabf0110485b7c33"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/118-thermal-three-way-right/stdout.ndjson",
+      "sha256": "6751e5ae5750b8df0c9fdc89b9c4e6c6420bb91435e7430040965af31a25375d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "sha256": "63ed6c7dd0055a1598f4381f788201f49d5d5a8561e9701e878efdc61386d21d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/120-serial-aliquot-ledger/stdout.ndjson",
+      "sha256": "37a205e3d2d4acf08859168528006ab1e0f1eb9e12f8f052a02c4cd55d26145f"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/121-four-component-equilibrium/stdout.ndjson",
+      "sha256": "eebae6c55643ba87f674fc4f3bf86def262c2fae23166b7598ac2d5931bc62c9"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/122-four-component-equilibrium-scale/stdout.ndjson",
+      "sha256": "e23463b074e96ff085bb23d9dd4c4da05d9429b66a72c8a3592c7879b16b5da3"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/87-ternary-still/stdout.ndjson",
+      "sha256": "1ff8685ee9001a942c67f94ea1421e9511c9bd8f76093c4251dd644f08eba464"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/88-ternary-still-feed-order/stdout.ndjson",
+      "sha256": "e4cfeff1f8891ed3405cb14290b30aa1a68759619180e7e2a3fd308517f42ebe"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/89-ternary-still-scale/stdout.ndjson",
+      "sha256": "f99375ca0aa4a7a7d5485b538196e904bb4f1699b8e7a1b4f5abfe27fdd0f276"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/90-ternary-latent-budget/stdout.ndjson",
+      "sha256": "094f40b16f55c4c6ea90627b56af912821488d8259dcab6d036c3dda17b1d44e"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/91-ammonia-still-boundary/stdout.ndjson",
+      "sha256": "7649046754857923af7520ce89393db228992071e78174a263ebe48538f89e6d"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/92-pure-methanol-still/stdout.ndjson",
+      "sha256": "5a3f380a07ab45ab69957514881ebe2f26551a90faaff2775f17f64737d8f7ba"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/93-dilute-hbr/stdout.ndjson",
+      "sha256": "8b15c06716569eb332e37e8b58932ff44e48d52292f2a477359248105bdfd23c"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/94-matched-hcl/stdout.ndjson",
+      "sha256": "bdc081da31d275b2ce9bb6c81f1b26389c93bf9416a4489466820732b22efecf"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/95-hbr-small-headspace/stdout.ndjson",
+      "sha256": "1b83f23161df5ec1106a5f980a30dfe75d0639993b765dcb3ad10e41251f537b"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/96-hbr-large-headspace/stdout.ndjson",
+      "sha256": "43da162fa419cd34a6d84ec77d84d99d59c076a4419f052b187e4f55a0d761d8"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/97-hbr-base-first/stdout.ndjson",
+      "sha256": "af8dc00c94449ede04d5d3a4b9cbca850c5cd25848f344eb2e4808d5a02dc551"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/98-hbr-acid-first/stdout.ndjson",
+      "sha256": "4495d9686a25a7143a520b4cb2e7f93b0fde468f0fe3e249e129f40c592f4cd8"
+    },
+    {
+      "path": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/99-zinc-hydroxide/stdout.ndjson",
+      "sha256": "75b5c2e260a209ba7cbcb1b9bbfec063fc80887ec3a03800bb0a0f8128e48662"
+    }
+  ],
+  "absolute_tolerance_mol": 1e-08,
+  "relative_tolerance": 1e-06,
+  "rows_checked": 224,
+  "comparisons_checked": 69,
+  "comparisons_passed": 69,
+  "states_observed": [
+    {
+      "element": "Cu",
+      "oxidation": 2
+    },
+    {
+      "element": "Fe",
+      "oxidation": 3
+    },
+    {
+      "element": "N",
+      "oxidation": -3
+    },
+    {
+      "element": "N",
+      "oxidation": 5
+    },
+    {
+      "element": "S",
+      "oxidation": 6
+    }
+  ],
+  "maximum_absolute_error_mol": 4.336808689942018e-19,
+  "comparisons": [
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/100-zinc-acid-reversal/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999771,
+      "aqueous_inventory_moles": 0.001999999999999771,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999772e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/100-zinc-acid-reversal/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0019999999999999875,
+      "aqueous_inventory_moles": 0.0019999999999999875,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999988e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/100-zinc-acid-reversal/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0020000000000002104,
+      "aqueous_inventory_moles": 0.0020000000000002104,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.200000000000021e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/100-zinc-acid-reversal/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0020000000000002104,
+      "aqueous_inventory_moles": 0.0020000000000002104,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.200000000000021e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/101-ferric-hydroxide/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/101-ferric-hydroxide/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 1.176721128597021e-08,
+      "aqueous_inventory_moles": 1.176721128597021e-08,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000011767211286e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/101-ferric-hydroxide/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 1.176721128597021e-08,
+      "aqueous_inventory_moles": 1.176721128597021e-08,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000011767211286e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/102-ferric-acid-reversal/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/102-ferric-acid-reversal/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 1.176721128597021e-08,
+      "aqueous_inventory_moles": 1.176721128597021e-08,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0000011767211286e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/102-ferric-acid-reversal/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/102-ferric-acid-reversal/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "Fe",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/105-nitrate-electrolysis/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000000000063,
+      "aqueous_inventory_moles": 0.0010000000000000063,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000006e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/105-nitrate-electrolysis/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000010989966,
+      "aqueous_inventory_moles": 0.0010000000010989966,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000001098996e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/105-nitrate-electrolysis/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000010989966,
+      "aqueous_inventory_moles": 0.0010000000010989966,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000001098996e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/106-electrolysis-equal-charge/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000000000063,
+      "aqueous_inventory_moles": 0.0010000000000000063,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000006e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/106-electrolysis-equal-charge/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000010989966,
+      "aqueous_inventory_moles": 0.0010000000010989966,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000001098996e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/106-electrolysis-equal-charge/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000010989966,
+      "aqueous_inventory_moles": 0.0010000000010989966,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000001098996e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/107-electrolysis-double-charge/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000000000063,
+      "aqueous_inventory_moles": 0.0010000000000000063,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000006e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/107-electrolysis-double-charge/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0009999999981859,
+      "aqueous_inventory_moles": 0.0009999999981859,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.09999999981859e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/107-electrolysis-double-charge/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0009999999981859,
+      "aqueous_inventory_moles": 0.0009999999981859,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.09999999981859e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/108-electrolysis-split-charge/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000000000063,
+      "aqueous_inventory_moles": 0.0010000000000000063,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000000006e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/108-electrolysis-split-charge/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000005495656,
+      "aqueous_inventory_moles": 0.0010000000005495656,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1000000000549566e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/108-electrolysis-split-charge/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000016485904,
+      "aqueous_inventory_moles": 0.0010000000016485904,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.100000000164859e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/108-electrolysis-split-charge/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.0010000000016485904,
+      "aqueous_inventory_moles": 0.0010000000016485904,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.100000000164859e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0030000000000006887,
+      "aqueous_inventory_moles": 0.0030000000000006887,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.3000000000000689e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 1,
+      "element": "Cu",
+      "native_moles": 0.0029893786677013204,
+      "aqueous_inventory_moles": 0.0029893786677013204,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2989378667701321e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029964595559016337,
+      "aqueous_inventory_moles": 0.0029964595559016337,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2996459555901634e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 1,
+      "element": "Cu",
+      "native_moles": 0.0029893786685733096,
+      "aqueous_inventory_moles": 0.0029893786685733096,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2989378668573309e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029964595570242656,
+      "aqueous_inventory_moles": 0.0029964595570242656,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2996459557024265e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 1,
+      "element": "Cu",
+      "native_moles": 0.0029893786685733096,
+      "aqueous_inventory_moles": 0.0029893786685733096,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2989378668573309e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029964595570242656,
+      "aqueous_inventory_moles": 0.0029964595570242656,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2996459557024265e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 1,
+      "element": "Cu",
+      "native_moles": 0.0029893786685733096,
+      "aqueous_inventory_moles": 0.0029893786685733096,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2989378668573309e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029964595570242656,
+      "aqueous_inventory_moles": 0.0029964595570242656,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2996459557024265e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 10,
+      "step": 9,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 10,
+      "step": 9,
+      "vessel": 1,
+      "element": "Cu",
+      "native_moles": 0.0029893786685733096,
+      "aqueous_inventory_moles": 0.0029893786685733096,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2989378668573309e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/109-cell-operand-reversal/stdout.ndjson",
+      "line": 10,
+      "step": 9,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029964595570242656,
+      "aqueous_inventory_moles": 0.0029964595570242656,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2996459557024265e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0030000000000006887,
+      "aqueous_inventory_moles": 0.0030000000000006887,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.3000000000000689e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 6,
+      "step": 5,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0030000000000006887,
+      "aqueous_inventory_moles": 0.0030000000000006887,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.3000000000000689e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 7,
+      "step": 6,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/110-identical-half-cells/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 1,
+      "element": "S",
+      "native_moles": 0.0029999999999992706,
+      "aqueous_inventory_moles": 0.0029999999999992706,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999271e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 8,
+      "step": 7,
+      "vessel": 2,
+      "element": "N",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 9,
+      "step": 8,
+      "vessel": 2,
+      "element": "N",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 10,
+      "step": 9,
+      "vessel": 2,
+      "element": "N",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 11,
+      "step": 10,
+      "vessel": 2,
+      "element": "N",
+      "native_moles": 0.0009999999999999564,
+      "aqueous_inventory_moles": 0.0009999999999999564,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.0999999999999956e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 12,
+      "step": 11,
+      "vessel": 4,
+      "element": "N",
+      "native_moles": 0.0010000000000000505,
+      "aqueous_inventory_moles": 0.0010000000000000505,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.100000000000005e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 13,
+      "step": 12,
+      "vessel": 4,
+      "element": "N",
+      "native_moles": 0.0010000000000000505,
+      "aqueous_inventory_moles": 0.0010000000000000505,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.100000000000005e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/119-three-feed-acid-ledger/stdout.ndjson",
+      "line": 14,
+      "step": 13,
+      "vessel": 4,
+      "element": "N",
+      "native_moles": 0.0010000000000000505,
+      "aqueous_inventory_moles": 0.0010000000000000505,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.100000000000005e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/91-ammonia-still-boundary/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.002999999999999852,
+      "aqueous_inventory_moles": 0.002999999999999852,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999852e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/91-ammonia-still-boundary/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.002999999999999852,
+      "aqueous_inventory_moles": 0.002999999999999852,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.2999999999999852e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/91-ammonia-still-boundary/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.002999999972576812,
+      "aqueous_inventory_moles": 0.0029999999725768126,
+      "absolute_error_mol": 4.336808689942018e-19,
+      "tolerance_mol": 1.2999999972576813e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/91-ammonia-still-boundary/stdout.ndjson",
+      "line": 5,
+      "step": 4,
+      "vessel": 0,
+      "element": "N",
+      "native_moles": 0.002999999972576812,
+      "aqueous_inventory_moles": 0.0029999999725768126,
+      "absolute_error_mol": 4.336808689942018e-19,
+      "tolerance_mol": 1.2999999972576813e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/99-zinc-hydroxide/stdout.ndjson",
+      "line": 2,
+      "step": 1,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.001999999999999771,
+      "aqueous_inventory_moles": 0.001999999999999771,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999772e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/99-zinc-hydroxide/stdout.ndjson",
+      "line": 3,
+      "step": 2,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0019999999999999875,
+      "aqueous_inventory_moles": 0.0019999999999999875,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999988e-08,
+      "passed": true
+    },
+    {
+      "file": "/mnt/volume1/kero-experiment-audit/tools/chemistry-audit/native-cli-20260907/third/99-zinc-hydroxide/stdout.ndjson",
+      "line": 4,
+      "step": 3,
+      "vessel": 0,
+      "element": "S",
+      "native_moles": 0.0019999999999999875,
+      "aqueous_inventory_moles": 0.0019999999999999875,
+      "absolute_error_mol": 0.0,
+      "tolerance_mol": 1.1999999999999988e-08,
+      "passed": true
+    }
+  ],
+  "mismatches": [],
+  "invalid_comparisons": [],
+  "internal_alias_leaks": [],
+  "passed": true
+}

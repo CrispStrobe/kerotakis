@@ -1,0 +1,8 @@
+# Does filtration retain silica while passing dissolved KCl?
+register lv3
+add v1 water 300mL
+add v1 SiO2 0.005mol
+add v1 KCl 0.003mol
+new
+filter v1 v2
+inspect

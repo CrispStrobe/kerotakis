@@ -1,0 +1,13 @@
+diff --git a/crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs b/crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs
+index 397bdab8..d11b3240 100644
+--- a/crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs
++++ b/crates/kerotakis-phreeqc/tests/mix_redox_boundary.rs
+@@ -16,7 +16,7 @@ fn solution(id: usize, solutes: &[(&str, f64)]) -> Vessel {
+     vessel
+         .contents
+         .extend(solutes.iter().map(|(species, moles)| Portion {
+-            species: SpeciesId::new(*species),
++            species: SpeciesId::new(species),
+             moles: Moles(*moles),
+             phase: Phase::Aqueous,
+         }));

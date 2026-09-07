@@ -1,0 +1,10 @@
+# Does fractional solution MIX conserve all vessel inventories?
+register lv3
+add v1 water 200mL
+add v1 MgSO4 0.002mol
+new
+add v2 water 400mL
+add v2 NaCl 0.004mol
+new
+mix v1 0.25 v2 0.75 into v3
+inspect

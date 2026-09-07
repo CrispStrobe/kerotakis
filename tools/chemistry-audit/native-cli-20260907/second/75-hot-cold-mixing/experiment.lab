@@ -1,0 +1,11 @@
+# Does mixing warm and cool water give an intermediate temperature?
+register lv3
+add v1 water 200mL
+heat v1 8kJ
+new
+add v2 water 400mL
+cool v2 4kJ
+new
+mix v1 1 v2 1 into v3
+measure v3 temp
+inspect

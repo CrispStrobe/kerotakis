@@ -1,0 +1,6 @@
+# Does tenfold more solvent reduce the calcium carbonate solid amount from the same feeds?
+register lv3
+add v1 water 3L
+add v1 CaCl2 0.001mol
+add v1 Na2CO3 0.001mol
+inspect

@@ -1,0 +1,8 @@
+# Follow-up: does a trace acetate forcing the extended database change copper/ammonia predictions?
+register lv3
+add v1 water 100mL
+add v1 NaOAc 0.000000001mol
+add v1 CuSO4 0.001mol
+add v1 NH3 0.02mol
+look v1
+inspect

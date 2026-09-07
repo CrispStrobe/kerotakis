@@ -24,6 +24,15 @@ use crate::vessel::{
     ObjectComponent, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
 };
 
+/// Whether applying an operator permits subsequent physical-state mutation.
+/// Explicit atomic refusals keep their diagnostics/log entry but must not
+/// turn an unchanged vessel into another equilibrium or contact-history step.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ApplyDisposition {
+    Reequilibrate,
+    Unchanged,
+}
+
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
 
@@ -724,7 +733,16 @@ impl Bench {
                 .map(|v| (*vessel, v.temperature, v.enthalpy().0)),
             _ => None,
         };
-        let mut events = self.apply(&op, screen)?;
+        let mut disposition = ApplyDisposition::Reequilibrate;
+        let mut events = self.apply(&op, screen, &mut disposition)?;
+        if disposition == ApplyDisposition::Unchanged {
+            self.log.push(LogEntry {
+                step: self.log.len(),
+                operator: op,
+                events: events.clone(),
+            });
+            return Ok(events);
+        }
         if matches!(&op, Operator::Wait { seconds } if *seconds > 0.0) {
             for vessel in &self.vessels {
                 events.extend(solver.time_boundaries(vessel));
@@ -1378,6 +1396,7 @@ impl Bench {
         &mut self,
         op: &Operator,
         screen: &dyn SafetyScreen,
+        disposition: &mut ApplyDisposition,
     ) -> Result<Vec<Event>, BenchError> {
         let mut events = Vec::new();
         if !matches!(op, Operator::Impact { .. } | Operator::RemoveVessel { .. }) {
@@ -2820,6 +2839,7 @@ impl Bench {
                 let src = self.vessel_mut(*from)?;
                 match crate::volatility::additional_solvent_cut(src, take, *stages) {
                     Err(what) => {
+                        *disposition = ApplyDisposition::Unchanged;
                         events.push(Event::NotYetModeled {
                             cause: crate::ops::NotModelledCause::ModelBoundary,
                             vessel: *from,

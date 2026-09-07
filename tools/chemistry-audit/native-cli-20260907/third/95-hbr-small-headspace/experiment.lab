@@ -1,0 +1,8 @@
+# Does finite HBr uptake conserve bromine in a small sealed headspace?
+register lv3
+add v1 water 250mL
+seal v1 50mL
+add v1 HBr 0.001mol
+measure v1 ph
+measure v1 pressure
+inspect
