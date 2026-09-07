@@ -35,6 +35,10 @@ appearances or changes scientific behavior.
 - **HISTORY.md** — what landed and what was learned, newest first.
 - **`tests/coverage/curiosity-v1/README.md`** — the corpus refresh log. It is a
   test artefact, not a planning file; leave it alone.
+- **`docs/CURIOSITY-COVERAGE.md`** — the standing analysis of that corpus: the
+  current numbers, which side of each expectation mismatch is wrong, and the
+  ranked work. Read it before planning off the mismatch count, which mixes
+  seven populations that mean different things.
 
 ## Localisation is modular by design
 
