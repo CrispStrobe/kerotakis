@@ -1,142 +1,180 @@
-# Chemistry audit history and continuation
+# Chemistry audit history
 
-## 2026-09-07 — repair rebuilt CI failures on audit branch only
+This file is the sole narrative record of completed audit work. Raw scripts,
+JSON, NDJSON, stderr, hashes and test logs remain in their evidence directories.
+Counts describe the recorded revision and declared model domain, not universal
+experimental accuracy.
 
-Run34118803477 failed preflight, both native jobs, German-render checks and the
-source-export job. Diagnosed two codex key-order mismatches, registry numeric
-spellings/provenance ordering, two stale diagnostic assertions and a leaf-node
-journal selector incompatible with vessel chips. Applied narrow patches; no
-equations, tolerances, runtime dependencies or reserved UI files changed.
+## 2026-09-07 — PR #504 CI repair
 
-Preserved113 catalog entries,179 registry identities,37 Cp records, every
-existing scientific artifact and diagnostic regression. Web204 tests and six
-Chromium selector controls pass; formatting/syntax/diff checks pass. Both
-platforms' generated golden artifacts corroborate the snapshot corrections.
-Failed CI already passed the six new diagnostic regressions and1280-mixture
-grid, but later CLI fleets did not run. Rebuilt native/export/browser validation
-remains CI-owned. Explicit lease push only; no merge. See MERGE-REVIEW for exact
-failure mapping, retained evidence and verification limits.
+Run 34118803477 tested audit head `cc6bcccf` through merge commit `3825363777`.
+Five jobs failed for four causes:
 
-## 2026-09-07 11:51 UTC — delegated conflict resolution
+- Full preflight found two German summary keys serialized after provenance rather
+  than beside summary. Only key position changed; 113 entries stayed identical.
+- Native Linux and macOS found registry number-token formatting drift and two
+  assertions tied to obsolete diagnostic prose. Golden values were unchanged.
+  The organic refusal now checks typed unavailable reaction capacity, vessel,
+  tolerance and unchanged inventory. The apatite check now requires the curated
+  temperature threshold and explicit non-rate disclaimer.
+- German rendering still localized the vessel but its test searched leaf text
+  for an obsolete `v1:` prefix. The selector now reads the vessel-specific feed
+  row while retaining German-species and decimal-comma assertions.
+- Registry export preserved all fields but rebase serialization reordered three
+  calcium-phosphate provenance records and a NASA heat-capacity source. Exporter
+  order and serde number spellings were restored record-by-record.
 
-Rebased only audit PR #504 with merge topology preserved, from old common base
-4762a550 onto fetched main9084c03e. Backup retains oldhead58416bcf. Three conflicts
-were resolved field/record-wise: registry source, registry golden, element coverage.
-The combined179 identities retain both audit analytical basis and main calcium-
-phosphate/Cp data. No conflicting file was replaced wholesale.
+Commit `5338e3e6982015aae2ef619162ba922598a458d7` was pushed with an explicit
+lease. Semantic checks retain 113 catalog entries, 179 registry identities and
+37 heat-capacity polynomial records. Both platforms' generated snapshots agree;
+204 focused web tests, six browser-selector controls, Rust formatting, JavaScript
+syntax, workflow lint and diff checks passed locally. No local full build or PR
+merge was performed. Rebuilt CI remained pending at this checkpoint.
 
-Preservation checks retain all113 catalog IDs/scripts, all audit evidence and
-diagnostic tests. Incoming catalog count assertions/prose were reconciled to113
-entries/167 used concepts. Post-rebase web204 tests, actionlint and whitespace
-checks pass; Rust/CLI/sixth-fleet validation remains CI-owned. Explicit leasepush
-only; reserved branches untouched; no PR merge. Full details in MERGE-REVIEW.
+The failed run itself passed six new React diagnostic regressions and the
+1,280-mixture organic-equilibrium grid. It stopped native workflow progress
+before later CLI fleets, so it did not validate the sixth fleet.
 
-## 2026-09-07 11:33 UTC — generic diagnostic repair and corpus integration
+## 2026-09-07 — safe rebase onto current main
 
-Implemented typed outcome distinctions for curated React diagnostics and six
-regressions. Final-source tests/CLI build remain pending: local compilation
-was cancelled safely under full-swap starvation, with owned PIDs verified gone.
-No numerical conversion law or tolerance changed. CI owns compiled validation.
+The audit branch was rebased with merge topology preserved from base `4762a550`
+onto `9084c03e`. Backup branch
+`backup/audit-504-before-main-sync-20260907-1139` retains old head `58416bcf`.
 
-Three preserved catalog lessons now have EN/DE guidance, labels and reviewed
-generated export/core snapshot additions. Native replay13/37 and web199 tests
-pass. Cached engine-free snapshot execution established only the three new
-records; it does not validate the newly edited React branch. Fifth native
-inventory213/213 comparisons pass. Fifth and sixth fleets are wired into CI;
-sixth24cases/66checks are frozen but not run. Next app candidates and integration
-restrictions are recorded in MERGE-REVIEW/INTEGRATOR-HANDOFF/SIXTH-BATCH.
+Conflicts in registry source, registry golden and element coverage were resolved
+by stable identity and field, never wholesale file selection. Eight audit aqueous
+identities and three main calcium-phosphate identities coexist. Hydroxide retains
+the corrected 17.007 g/mol mass and the new heat-capacity field. Hydrogen and
+oxygen coverage counts incorporate both parents. The reconciled head before the
+CI repair was `cc6bcccf`.
 
-## 2026-09-07 11:08 UTC — fifth fleet passes with diagnostic caveat
+Preservation checks proved 113 unique catalog IDs and scripts, all audit tests
+and evidence, 28 model records, 189 defined concepts, 179 registry identities
+and 37 heat-capacity curves survived. Focused web tests passed 204/204.
 
-Fifth fleet completed: 36 runs, 119/119 unchanged checks, no solver failures.
-Total case time 477.525 seconds. Repeated ester equilibrium preserves correct
-state but emits a misleading missing-reactants explanation; both reactants
-are still present. Organic-rich aqueous speciation remains explicitly withheld.
-Timing inspection found fresh per-case processes, two eager aqueous engines
-per process, and substantial host scheduling contention; no performance fix
-is claimed. See MERGE-REVIEW and fifth-batch-1 for public evidence.
+## 2026-09-07 — catalog and diagnostic additions
 
-## 2026-09-07 11:02 UTC — execution started and first private checks passed
+Three original lessons were added with English/German prose, guidance, prediction
+diagnosis, labels and snapshots:
 
-Started the frozen 36-case fifth fleet on the existing native CLI; 15 cases
-completed at this checkpoint, full analysis pending with the execution agent.
-Three private original analogues also ran: 12/12 declared checks pass, zero
-solver failures, with root raw-output cross-checks. Private evidence remains
-separate from public audit data. No source-endpoint validation or general model
-fix is implied. See MERGE-REVIEW for running process ownership and remaining work.
+- `three-components-one-cut`;
+- `equal-charge-different-clocks`;
+- `grouping-does-not-change-water-heat`.
 
-## 2026-09-07 10:54 UTC — intermediate research inspection
+A 13-entry selected-catalog replay passed 37 checks. Snapshot review accepted
+only the three computed additions and no changes to existing lessons.
 
-Root checked actual private inventories, schema/gap references and selected code
-evidence. Reviewers were steered toward explicit variant identities, completed
-page coverage and concrete independent numerical/control checks. Exact research
-findings remain private. No additional chemistry execution or production fix is
-claimed; catalog verification, fifth-fleet replay and safe integration remain.
+Curated organic reaction diagnostics were separated into model error, nonfinite
+result, absent forward/reverse capacity and supported zero-extent equilibrium.
+A valid equilibrium no-op preserves inventory and reports its model boundary;
+it is not mislabeled as missing reactants. No experiment-ID dispatch, numerical
+law or tolerance was added.
 
-## 2026-09-07 10:38 UTC — catalog, frozen fleet and private research
+The finite-acid thiosulfate network now consumes represented acid equivalents,
+conserves atoms and distinguishes initial rate from accumulated yield. Titration
+commits only an accepted refined trial. Declined operations preserve full state.
+Native engine construction fails closed instead of silently substituting a
+reduced stack. Output sequence numbers are independent from mutation indices.
 
-Three original catalog lessons are authored locally but still require root
-runtime/export verification. Fifth fleet has 36 frozen scripts and 119 checks;
-no execution or scientific pass is claimed yet. Latest pushed audit commit is
-`a375f29d`; PR #504 remains unmerged pending combined validation.
+## Recorded experiment fleets
 
-External research has moved entirely outside the public worktree into separate
-private version control. Manual review and library triage are delegated with
-explicit partial-coverage, variant-preservation, model-gap, hazard, provenance
-and predeclared-check contracts. Exact source research is not recorded here
-or published with app content. Remaining work and ownership are in MERGE-REVIEW.
+| Fleet | Cases | Frozen checks | Result |
+| --- | ---: | ---: | --- |
+| Initial and second | 1–86 | 164 | Passed on their recorded native CLI |
+| Third | 87–122 | 174 | First run exposed mutating refused distillation; clean repaired replay passed 174/174 |
+| Fourth | 123–158 | 108 | Passed 108/108; native inventory passed 49/49 |
+| Fifth | 159–194 | 119 | Passed 119/119; native inventory passed 213/213 comparisons over 226 rows |
 
-## 2026-09-07 09:38 UTC — clean replay and fourth fleet
+Across cases 1–194, 565 frozen checks passed on their recorded revisions after
+the preserved third-fleet failure was repaired and replayed. These are model-law,
+conservation and matched-control screens, not empirical certification.
 
-The third fleet now passes all 174 checks across 36 runs, and 69 native
-inventory comparisons, on the repaired CLI. The earlier timeout run remains
-preserved; no assertion was waived. A fourth independently designed fleet
-(123–158) then completed with 108/108 scientific checks and 49/49 native
-inventory comparisons. Four fleets now cover 158 distinct cases with 446
-passing scientific checks at their recorded revisions.
+The third-fleet failure showed that unsupported ammonia distillation returned a
+refusal and then re-equilibrated the source. A typed unchanged-operation result
+fixed the generic runner. An intermediate rebuilt replay suffered four timeouts
+under heavy host contention; its missing outputs remain failures. A later clean
+36-case replay passed all 174 checks and 69 native-inventory comparisons.
 
-Reviewed stale CI assertions were updated without altering numerical chemistry
-criteria. CLI provenance integration tests pass locally; three repaired native
-test files await CI after a resource-starved local build was stopped safely.
-The fourth fleet is wired into CI and its generator/analyzer/model limits were
-hashed before interpreting output. See `FOURTH-BATCH.md` and `fourth-batch-1`.
+The fourth fleet covered multicomponent distillation, unequal neutralization,
+precipitation/reversal, sealed gas, asymmetric ester equilibrium and buffer
+controls. All 36 processes exited without solver failure. Expectations and
+binary identity were frozen before interpretation.
 
-Current cross-branch failures include integrator-owned counts and source/schema
-snapshot synchronization, documented in `INTEGRATOR-HANDOFF.md` and
-`CI-SNAPSHOT-REVIEW.md`. Reserved files remain untouched. PR #504 is unmerged;
-fresh combined CI is still required. Catalog candidates are recommendations,
-not app changes: ternary cuts, equal/split charge, and three-water heat grouping.
+The fifth fleet covered unequal precipitation, zinc hydroxide/acid reversal,
+diprotic titration, sealed electrolysis, three-feed fractional mixing and repeated
+organic equilibrium. All 36 processes exited successfully. Twelve organic-rich
+aqueous-domain warnings were legitimate. Case 192 exposed the misleading
+zero-extent diagnostic subsequently fixed generically.
 
-## 2026-09-07 — native CLI and integration checkpoint
+## Earlier implementation and validation
 
-Audit branch only: `audit/chemistry-experiments-20260906`; PR #504 remains
-unmerged. See `MERGE-REVIEW.md` for the current ownership boundary and CI
-poll timestamp; do not edit the parallel integrator's branches or planning.
+The audit repaired conserved aqueous H/O reconstruction, analytical acid/base
+bookkeeping, native MIX reconstruction, unresolved material mass, condensed
+phase identity, pure-water characterization, small adiabatic temperature state,
+bounded reversible ester equilibrium, optical concentration ownership, dissolved
+gas alias ownership, and atomic refusal for unrepresentable solver states.
 
-The native CLI was built independently of browser/mobile targets. Earlier
-fleets pass 86 runs/164 scientific checks, and the selected catalog passes
-10 runs/30 checks. Native PHREEQC provenance is present. Engine-free core
-snapshots test a different, deliberately reduced harness.
+A recorded full workspace gate at its pinned source passed 2,036 Rust tests with
+two ignored. Parameterized regressions included 2,560 aqueous cases, 1,280 ester
+mixtures and 36 titrations. Later edits require their own CI; the old gate is not
+evidence for the current head.
 
-The next designed 36 experiments ran with 173/174 checks passing. They exposed
-a genuine atomic-refusal bug: declined distillation still invoked solvers and
-changed the source state. A typed unchanged-operation disposition repairs this;
-two focused refusal/success-control tests pass. Original failed evidence stays
-in `native-cli-20260907`.
+The native CLI was built separately from browser and mobile targets. Its first
+recorded checkpoint ran 50 original cases, 36 second-fleet cases, ten selected
+catalog entries and the third fleet. Source, lock and binary hashes accompany
+each recorder output. A CLI binary never proves the status of source edited after
+its build.
 
-The rebuilt CLI replay suffered four startup timeouts amid severe shared-host
-contention. Its complete evidence is in `native-cli-refusal-fixed-20260907`;
-32 runs completed, 155 checks passed, ten lacked required outputs. Do not call
-this a clean replay or remove the missing-output failures.
+Fast-redox probes showed the CLI displacement wrapper did not delegate native
+MIX. Direct and mixed scripts therefore reached ordinary equilibrium. The bounded
+fix declines native MIX before mutation when coupled redox requires the ordinary
+equilibrium owner; direct trait regressions include an uncoupled positive control.
 
-Native CLI initialization no longer silently substitutes a reduced stack on
-PHREEQC failure. Constructor-failure and successful native-provenance tests
-both pass. Optional explanation-engine failures are diagnosed separately.
-New lesson guidance is present in English/German, and obsolete precision/yield
-claims in the selected repaired guides were reconciled to model boundaries.
+## Snapshot and integration reviews
 
-Continuation plan: resolve current CI chemistry/provenance failures, coordinate
-overlapping catalog/readme/snapshot integration, rerun the fixed fleet cleanly,
-and require fresh combined CI before merge. CI run 34096877766 failed; no full
-pass is claimed. New imports retain the stated permissive-data restrictions;
-the repository's existing AGPL license has not been changed.
+An earlier combined CI snapshot review found Linux and macOS byte-identical.
+Registry drift consisted only of the newly serialized heat-capacity-polynomial
+field; codex drift consisted of identified German fields. Both were reconciled
+field-by-field against their production sources. No unrelated upstream catalog
+file was copied wholesale.
+
+Stale cross-branch catalog counts were reconciled to 113 entries and 167 used
+concepts while preserving 189 defined concepts. The audit never modified the
+integrator's GUI003, KIDS, readout, discovery or main-synchronization branches.
+
+## Preservation decisions recorded on 2026-09-07
+
+The review retained every raw fleet as regression evidence. Durable production
+tests cover
+neutralization order, buffer versus blank, open/sealed/regulated gas boundaries,
+refined titration, forward/reverse equilibrium, analytical inventory, native
+versus optical concentration, fractional transfer and atomic refusal.
+
+Catalog cards were judged most useful when conceptually distinct. The three
+entries listed above were retained; repeated equilibrium and minor parameter
+variations were classified primarily as regression material.
+
+## Evidence locations
+
+The principal immutable evidence directories are `iteration-3`,
+`native-cli-20260907`, `native-cli-refusal-fixed-20260907`,
+`native-cli-validation-20260907`, `fourth-batch-1`,
+`fifth-batch-1` and `catalog-preserved-1`. Their machine-readable summaries and
+hash records supersede the removed per-directory narrative Markdown.
+
+## Research, safety and licensing
+
+External source research was moved to separate private storage. Exact URLs, OCR,
+manual text, source mappings and source-specific gaps were never added to this
+public branch. Source availability was not treated as reuse permission.
+
+No new GPL, LGPL, non-commercial dependency or restricted data was introduced.
+No source procedure, branded name, figure or table was vendored. Original virtual
+experiments use existing reviewed runtime inputs and standard-library analysis.
+Hazardous source concepts remain non-operational gaps.
+
+Known limitations retained throughout the audit include mixed-solvent ionic
+activity, physical gas-transfer and uncatalyzed reaction rates, nucleation,
+surface and geometry effects, calibrated detection thresholds, complete copper-
+ammine and iron-thiocyanate spectra/thermodynamics, and exact household-mixture
+composition. Passing equilibrium or inventory checks does not close those gaps.

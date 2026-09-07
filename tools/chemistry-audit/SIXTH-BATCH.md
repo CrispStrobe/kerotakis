@@ -1,45 +1,64 @@
-# Sixth original fleet: 195–218
+# Sixth fleet contract: cases 195–218
 
-Twenty-four independently authored virtual controls, frozen before execution. No source-manual recipes, copied empirical outputs or experiment-specific production behavior. Execute only with the rebuilt CLI containing the explicit equilibrium no-op diagnostic. The shared recorder still starts one isolated process per case; do not concatenate experiments into a shared bench to improve timing.
+Status: frozen, not validated on the repaired PR head. Do not edit expectations
+after execution. Run only after PR #504 CI passes and a fresh CLI is tied to its
+source revision and SHA-256.
 
-## Preservation review of the fifth fleet
+## Coverage
 
-The existing `limiting-reagent` entry in codex/quantitative.toml already contrasts unequal silver/chloride feeds, and `silver-chloride-precipitation` plus the aqueous solubility/complexation entries cover related silver chemistry. Therefore fifth cases 159–164 are valuable regressions, not a compelling duplicate lesson. Existing `equal-charge-different-clocks` makes fifth equal-charge electrolysis variants principally additional sealed-boundary verification.
+| Cases | Family | Independent question |
+| --- | --- | --- |
+| 195–200 | Descending acid titration | Endpoint capacity, concentration, predose, solvent and extensive controls |
+| 201–206 | Conductivity | Blank, charged/neutral solute, dose and intensive scaling |
+| 207–212 | Dry sealed gas energy | Owned gas, headspace, partitioned dose, extensive scale and energy round trip |
+| 213–218 | Explicit organic equilibrium no-op | Forward/reverse approach, scale, low water and repeated requests |
 
-Two stronger candidates merit original app authoring after root's integration review:
+All 24 scripts must produce complete JSON, a final bench, finite nonnegative
+registered inventory and no solver failure. Missing output fails all applicable
+checks. No exact experiment ID may influence runtime behavior.
 
-- Diprotic capacity and known predose, fifth 171–176: acid molecules are not acid equivalents; a measured prior neutralization subtracts from remaining demand. Distinct from existing `endpoint-is-not-a-full-drop`, which teaches numerical final-step refinement. Prefer combining baseline and predose, not another coarse-step demonstration.
-- Hydroxide-limited zinc precipitation and acid reversal, fifth 165–170: the base supplies two equivalents per precipitated metal, and later acidity can undo the solid. This offers a different limiting-capacity lesson from existing 1:1 silver precipitation. Describe total solid metal rather than hardcoding a hydroxide polymorph. Root should check its in-progress entries before adding another ID.
+## Frozen checks
 
-Repeated ester equilibrium (192) is chiefly a regression and diagnostic improvement; existing `equilibrium-can-run-backward` already provides the stronger conceptual introduction. Three-salt grouping adds multicomponent native coverage but overlaps `grouping-does-not-change-water-heat` in pedagogical structure.
+- Titration: delivered HCl equals initial NaOH minus predose within `2e-7 mol`
+  plus `0.002` relative; endpoint pH is within `0.02` of 7. Na and Cl close
+  within `1e-8 mol` plus `1e-6` relative.
+- Conductivity: report finite nonnegative aqueous µS/cm. Electrolytes exceed the
+  blank by `0.01 µS/cm`; dose ordering is qualitative. Extensive scaling agrees
+  within `0.01 µS/cm` plus `1e-4` relative. Neutral glucose changes the blank by
+  less than 1% of the matched nitrate excess signal.
+- Dry gas: use actual retained gas, temperature and headspace in `P=nRT/V`, with
+  `R=8314.46261815324 Pa L mol⁻¹ K⁻¹`; pressure tolerance is `0.001 Pa` plus
+  `1e-6` relative. N/O/H inventory closes within `1e-10 mol` plus `1e-6`
+  relative. Temperature controls use `0.002 K` plus `1e-6` relative. Sealing
+  traps atmosphere, so total gas is not the supplied nitrogen alone.
+- Ester equilibrium: apply signed extent to the molecular inventory immediately
+  before `react`; require `|Q-4| < 1e-4`. Each supported equilibrium request
+  emits `org_reacted` with a nonempty boundary. Later extents are below `1e-8
+  mol`; post-first and final phase/species inventories agree within `1e-8 mol`
+  plus `1e-6` relative, with whole-vessel C/H/O conservation.
 
-## New coverage
+These checks cover declared model behavior, not thermostat accuracy, nonideal
+mixed-solvent activity, catalyst kinetics, electrode behavior, heat loss or
+instrument calibration.
 
-| Cases | Question / distinct control |
-|---|---|
-|195–200|Descending titration with acid: trial refinement, concentration, predose, solvent and extensive controls|
-|201–206|An actual conductivity readout: explicit blank, charged versus neutral solute, dose and intensive scaling|
-|207–212|Small-energy dry sealed gas: headspace, partitioned dose, extensive scale and reversible energy round trip|
-|213–218|Explicit no-op diagnostics after forward/reverse equilibrium, extensive scale, low water and repeated requests|
+## Execution
 
-These families test boundaries not established by merely rerunning the fifth input values. The balanced-quotient case has nominal Q=4, but checks use the actual molecular inventory immediately before `react`, not an assumption that analytical feed equals free molecular amount. It is valid for the first equilibrium solve to adjust a changed molecular state. Every later request must explicitly report the supported family with negligible extent and preserve material state. No check matches exact explanatory prose.
-
-## Frozen independent checks and tolerances
-
-- All 24 cases require successful complete JSON observations, finite nonnegative formula-mapped inventory, matching final state and no solver failure. Missing streams cannot pass.
-- Descending pH endpoint: delivered HCl equals initial NaOH minus HCl predose, tolerance `2e-7 mol + 0.002 relative`; endpoint pH within 0.02 of 7. This is dilute strong-acid/base capacity, not a source burette calibration or exact neutral-temperature claim. Na/Cl conservation independently includes titrant delivery; default inventory tolerance `1e-8 mol + 1e-6 relative`.
-- Conductivity must explicitly use the aqueous µS/cm unit and finite nonnegative values. Electrolyte contrasts exceed blank by 0.01 µS/cm; dose ordering is qualitative, not linear concentration fitting. Extensive scaling tolerance `0.01 µS/cm + 1e-4 relative`. Neutral glucose's blank shift must be less than 1% of the matched dilute nitrate excess signal. Domain: dilute neutral glucose and dilute 1:1 salts, same initial temperature; no concentrated-solution accuracy claim. The existing model includes a concentration correction; this is not a claim of a pure limiting-law implementation.
-- Dry gas: actual retained gas amount, pressure, temperature and headspace must obey `P=nRT/V`, R=8314.46261815324 Pa L mol⁻¹ K⁻¹; pressure tolerance `0.001 Pa + 1e-6 relative`. N/O/H inventory after the gas loading but before heating is retained, `1e-10 mol + 1e-6 relative`. Sealing introduces atmosphere, so do not equate total gas with the supplied nitrogen alone. Small-dose temperature partition/extensive controls allow 0.002 K + 1e-6 relative; round trip allows 0.002 K plus default relative tolerance. No heat-capacity table is imported, and no real heat-loss or sensor-rate claim is made.
-- Ester: signed reaction extents applied to the actual pre-react molecular inventory must give Q=4 within `1e-4`. Every requested equilibrium operation must emit an `org_reacted` result with a nonempty boundary; subsequent extents below `1e-8 mol`. Post-first-reaction versus final species/phase inventories agree within `1e-8 mol + 1e-6 relative`, with whole-vessel C/H/O conservation. These are ideal-equilibrium checks, not catalyst kinetics, reaction-time predictions or real nonideal activity validation.
-
-No output-fitted bounds. Each failed check remains unmet with evidence, including unsupported/refused descending behavior if discovered. Model limitations must not be relabeled scientific passes. Bench log counters are excluded from no-op physics comparison; temperature and pressure are also checked with 0.002 K / 0.001 Pa absolute plus 1e-6 relative tolerances.
-
-## Commands
+Use a new output directory. The analyzer refuses to overwrite its report.
+Do not use the existing `target/debug/kero`: it predates the current repairs.
+Set `AUDIT_REBUILT_CLI` to the absolute path of the explicitly supplied rebuilt
+binary. Before execution, record its source revision and SHA-256 and separately
+record SHA-256 values for `sixth_batch.py`, `analyse_sixth.py` and this contract
+in the new run's preflight manifest.
 
 ```sh
 python tools/chemistry-audit/analyse_sixth.py --self-test
-python tools/chemistry-audit/sixth_batch.py --out tools/chemistry-audit/sixth-batch-1
-python tools/chemistry-audit/analyse_sixth.py tools/chemistry-audit/sixth-batch-1 --out tools/chemistry-audit/sixth-batch-1/law-checks.json
+python tools/chemistry-audit/sixth_batch.py \
+  --binary "$AUDIT_REBUILT_CLI" \
+  --out tools/chemistry-audit/sixth-batch-1
+python tools/chemistry-audit/analyse_sixth.py \
+  tools/chemistry-audit/sixth-batch-1 \
+  --out tools/chemistry-audit/sixth-batch-1/law-checks.json
 ```
 
-Authoring verification: 24 unique scripts; empty-output negative control rejects all 66 checks. No CLI experiment execution or builds during authoring.
+Before interpreting output, verify every preflight hash and the binary's source
+revision. Preserve every failure and use a different directory for any replay.

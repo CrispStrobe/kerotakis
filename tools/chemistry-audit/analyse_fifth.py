@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent fifth-fleet laws; tolerances frozen in FIFTH-BATCH.md."""
+"""Independent fifth-fleet laws; completed contract summarized in HISTORY.md."""
 import argparse
 import json
 import math
