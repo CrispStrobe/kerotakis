@@ -2362,6 +2362,8 @@
   "{material} changed by {grams} g as water crossed the membrane": "",
   "the flame quit at {percent}% oxygen after burning {moles} mol": "",
   "{gap} K below the temperature {fuel} lights itself at": "",
+  "{fuel} did not catch: {gap} K short of the temperature it burns at": "",
+  "nothing ignited": "",
   "{nuclide} spiked at {activity} Bq": "",
   "settled at {celsius} °C": "",
   "settled at {celsius} °C — the exhaust's temperature; the vessel holds nothing": "",
