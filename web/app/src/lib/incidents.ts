@@ -18,6 +18,18 @@ export function incidentEffects(effects: Record<number, Effect[]>, now = Date.no
 /** Durable, animation-independent evidence for the exported lab notebook. */
 export function incidentNotebookEvidence(event: EngineEvent): string | null {
   const tag = String(event.event ?? "");
+  // `discarded` is here for the same reason the other three are: matter
+  // left a vessel and is now somewhere else on the bench. A disposal is
+  // the one of the four the reader MEANT to do, which is exactly why the
+  // notebook has to record it — an experiment that ends "and then we
+  // threw it away" is missing the line that says how much of what.
+  if (tag === "discarded") {
+    return t("Evidence: vessel v{vessel} was emptied into the waste — {grams} g ({moles} mol), still held and still weighed by the bench.", {
+      vessel: Number(event.vessel ?? 0) + 1,
+      grams: Number(event.grams_total ?? 0).toFixed(3),
+      moles: Number(event.moles_total ?? 0).toFixed(3),
+    });
+  }
   if (tag !== "spill_created" && tag !== "container_broken" && tag !== "spill_recovered") return null;
   const destination = event.destination && typeof event.destination === "object"
     ? event.destination as Record<string, unknown>

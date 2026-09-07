@@ -609,6 +609,98 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 fraction * 100.0
             ),
         },
+        Event::Discarded {
+            vessel,
+            moles_total,
+            grams_total,
+            species,
+            materials,
+            ..
+        } => {
+            // The per-species lines are the point of the evidence
+            // registers here: "you threw it away" is a sentence, "you threw
+            // 0.050 mol of sulfuric acid away" is a claim about a bin that
+            // somebody may later pour something else into.
+            let breakdown = |precision: usize| -> String {
+                species
+                    .iter()
+                    .map(|portion| {
+                        locale.fill(
+                            "event.discarded.line",
+                            "  {vessel} → waste: {moles} mol {species} ({phase})",
+                            &[
+                                ("vessel", &vessel.to_string()),
+                                (
+                                    "moles",
+                                    &locale.number(format!("{:.*}", precision, portion.moles.0)),
+                                ),
+                                ("species", species_name(locale, &portion.species)),
+                                (
+                                    "phase",
+                                    locale
+                                        .lookup(phase_key(portion.phase))
+                                        .unwrap_or(match portion.phase {
+                                            Phase::Aqueous => "aqueous",
+                                            Phase::Liquid => "liquid",
+                                            Phase::Solid => "solid",
+                                            Phase::Gas => "gas",
+                                        }),
+                                ),
+                            ],
+                        )
+                    })
+                    .chain(materials.iter().map(|material| {
+                        locale.fill(
+                            "event.discarded.line-material",
+                            "  {vessel} → waste: {material} (unresolved)",
+                            &[("vessel", &vessel.to_string()), ("material", material)],
+                        )
+                    }))
+                    .collect::<Vec<_>>()
+                    .join("\n")
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.discarded.lv1",
+                    "You empty {vessel} into the waste container. The vessel is left standing, empty and still warm.",
+                    &[("vessel", &vessel.to_string())],
+                ),
+                2 => {
+                    let head = locale.fill(
+                        "event.discarded.lv2",
+                        "{vessel} → waste: {grams} g ({moles} mol) discarded",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("grams", &locale.number(format!("{grams_total:.3}"))),
+                            ("moles", &locale.number(format!("{:.3}", moles_total.0))),
+                        ],
+                    );
+                    let lines = breakdown(3);
+                    if lines.is_empty() {
+                        head
+                    } else {
+                        format!("{head}\n{lines}")
+                    }
+                }
+                _ => {
+                    let head = locale.fill(
+                        "event.discarded.lv3",
+                        "{vessel} → waste: {grams} g ({moles} mol) discarded. Nothing is destroyed — the waste ledger holds it, weighs it, and the incompatibility screen sees the whole bin, so what is already in there decides whether the next disposal is allowed",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("grams", &locale.number(format!("{grams_total:.6}"))),
+                            ("moles", &locale.number(format!("{:.6}", moles_total.0))),
+                        ],
+                    );
+                    let lines = breakdown(6);
+                    if lines.is_empty() {
+                        head
+                    } else {
+                        format!("{head}\n{lines}")
+                    }
+                }
+            }
+        }
         Event::SpillHazard {
             destination,
             severity,

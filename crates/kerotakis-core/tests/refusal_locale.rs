@@ -82,6 +82,12 @@ fn one_of_each() -> Vec<(BenchError, &'static str)> {
             "vessel v2 is not empty — transfer or dispose of its contents first",
         ),
         (
+            BenchError::VesselSealed(VesselId(1)),
+            "vessel v2 is closed — open v2 first, then discard it. Tipping a sealed vessel \
+             into the waste would empty a container that is still holding its own \
+             atmosphere, and the gas has to go somewhere you can see",
+        ),
+        (
             BenchError::LastVessel,
             "the last vessel must stay on the bench",
         ),

@@ -34,6 +34,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "dehydrated",
     "did_not_ignite",
     "diluted",
+    "discarded",
     "dissolved",
     "dissolved_in_solvent",
     "distilled",
@@ -1408,6 +1409,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // KID-12: a quest can claim that the jar put the flame out.
         E::FlameStarved { fuel, .. } => ("flame_starved", Some(fuel.0.as_str())),
         E::HazardWarning { .. } => ("hazard_warning", None),
+        E::Discarded { .. } => ("discarded", None),
         E::SpillCreated { .. } => ("spill_created", None),
         E::ContainerBroken { .. } => ("container_broken", None),
         E::CollisionWithstood { .. } => ("collision_withstood", None),

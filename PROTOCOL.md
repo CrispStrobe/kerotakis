@@ -153,6 +153,44 @@ discard matter or claim breakage before that chemistry-owned operator/event
 semantics lands. Replay persists the proposal seed; visual randomness may use
 it, chemistry amounts may not.
 
+### Disposal (`discard`) and the waste ledger
+
+`SpillDestination` has a fourth member, `{ "surface": "waste" }`, and it is
+the odd one out: the other three are places matter ENDED UP, this is a place
+it was PUT. `discard <vessel>` is the deliberate operation — the bench had no
+way to empty one vessel, so `remove` refused anything that was not already
+empty, `drain`/`decant` wanted a receiving vessel, and a UI's disposal control
+could only offer to clear the whole bench. It moves every condensed portion
+and every unresolved material in the vessel into that one shared compartment
+and emits `Discarded { vessel, into, moles_total, grams_total, species[],
+materials[] }`, where `species[]` is `{ species, moles, phase }` ordered
+largest-first (a total order, so the rendered evidence is identical on every
+host). Additive, like every other event: a client that does not know the tag
+ignores it.
+
+Three properties are the point, and all three are checked on both hosts:
+
+- **Nothing is destroyed.** The matter is in `Bench.spills` under the waste
+  destination, where `ConservedLedger` still weighs it and `RecoverSpill` can
+  still pour it back. `Operator::Spill` remains what it always was — the
+  record of an accident — and is still not a way to make matter disappear.
+- **The bin is screened as one mixture.** The safety screen assesses the
+  *combined* waste before anything moves, so acid poured into a bin that
+  already holds bleach is the incompatibility matrix's business. Unlike a
+  spill, which has already happened by the time the screen sees it, a veto
+  here REFUSES: `SafetyVeto` is emitted, no `Discarded` is, and the vessel is
+  left full.
+- **A closed vessel is refused, not quietly opened.** A sealed or
+  pressure-controlled vessel answers "open v1 first"; an open one has its
+  headspace vented as `GasEvolved`, exactly as `open` does. Temperature,
+  boundary, and apparatus state (sorbent beds, exchangers, material objects)
+  are untouched — a disposal empties a vessel, it does not tidy the bench.
+
+`Bench.spills` is not yet on the `bench` field of `step`/`run_script`, which
+carries `{ vessels }` on both hosts. A UI can therefore show that a disposal
+happened but not what the bin now holds; exposing the compartments is the
+obvious additive next step and is deliberately not done here.
+
 A versioned, per-vessel *render model*, derived engine-side from state +
 `appearance`/`spectrum` so native and web paint identically and golden tests
 can pin frames. The serde types in `scene.rs` are authoritative; the shape

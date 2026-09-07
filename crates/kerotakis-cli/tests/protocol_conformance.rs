@@ -128,3 +128,85 @@ fn every_lesson_step_carries_the_protocol_shapes() {
         }
     }
 }
+
+/// The disposal verb on the wire, native half (BRD-073 / the waste ledger).
+///
+/// `discard v1` is the one operation a learner performs expecting the
+/// matter to be gone, so it is the one that most needs to prove it is
+/// not. The event has to say what left the vessel and where it went, and
+/// it has to say the same thing here as it does in the browser — the
+/// wasm half of this assertion is in `tools/test-protocol-conformance.mjs`
+/// over the SAME fixture, which is the only way "native and wasm agree"
+/// is a check rather than a hope.
+#[test]
+fn a_discard_reports_the_same_disposal_the_browser_reports() {
+    let fixture = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tools/fixtures/discard-parity.lab");
+    let out = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args(["run", &fixture.to_string_lossy(), "--json"])
+        .output()
+        .expect("kero runs");
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8(out.stdout).expect("utf8");
+
+    let mut discarded = None;
+    for line in stdout.lines() {
+        let step: serde_json::Value = serde_json::from_str(line).expect("JSON");
+        for event in step["events"].as_array().into_iter().flatten() {
+            if event["event"] == "discarded" {
+                assert!(discarded.is_none(), "one discard, one event");
+                discarded = Some(event.clone());
+            }
+        }
+    }
+    let event = discarded.expect("the discard reported itself");
+
+    assert_eq!(event["vessel"], 0);
+    assert_eq!(
+        event["into"]["surface"], "waste",
+        "the disposal has to name the bin it went into: {event}"
+    );
+
+    let grams = event["grams_total"]
+        .as_f64()
+        .expect("grams_total is a number");
+    let moles = event["moles_total"]
+        .as_f64()
+        .expect("moles_total is a number");
+    assert!(
+        (95.0..=105.0).contains(&grams),
+        "100 mL of water is about 100 g, not {grams} g"
+    );
+    assert!(
+        (5.2..=5.9).contains(&moles),
+        "100 g of water is about 5.55 mol, not {moles} mol"
+    );
+
+    let species = event["species"].as_array().expect("the per-species ledger");
+    assert!(
+        species.iter().any(|portion| portion["species"] == "water"),
+        "the ledger does not say what it swallowed: {event}"
+    );
+    let summed: f64 = species
+        .iter()
+        .filter_map(|portion| portion["moles"].as_f64())
+        .sum();
+    assert!(
+        (summed - moles).abs() < 1e-9,
+        "the per-species lines do not add up: {summed} vs {moles}"
+    );
+    // Largest first, on every host, so the rendered evidence lines cannot
+    // come out in a different order in the browser.
+    let amounts: Vec<f64> = species
+        .iter()
+        .filter_map(|portion| portion["moles"].as_f64())
+        .collect();
+    assert!(
+        amounts.windows(2).all(|pair| pair[0] >= pair[1]),
+        "the ledger is not ordered: {amounts:?}"
+    );
+}
