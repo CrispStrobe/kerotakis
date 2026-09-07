@@ -1211,8 +1211,12 @@
        hover peek. All that is left at the screen edge is one small floating
        chevron, and the bench takes every pixel the panel gave up. Pressing
        the chevron brings the panel back as a normal column that pushes the
-       stage aside, exactly as it was before. A panel that reappeared under
-       the pointer was the bug — it hovered over the experiment and there
+       stage aside, exactly as it was before. Each chevron points the way
+       its panel is about to travel: the heading's sends the lane out to
+       its edge (`‹` on the shelf, `›` on the journal), and the floating
+       one that replaces it points back inwards (`›` on the left edge, `‹`
+       on the right), so the two read as one lane sliding away and back.
+       A panel that reappeared under the pointer was the bug — it hovered over the experiment and there
        was no way to keep it away. Below the phone breakpoint the tabs still
        give each pane the whole screen, so the collapsed state is ignored
        there and the chevron never shows. -->
@@ -1224,7 +1228,7 @@
         aria-label={t("open supply cabinet")}
         title={t("open supply cabinet")}
         onclick={() => setPanelCollapsed("cabinet", false)}
-      ><span aria-hidden="true">‹</span></button>
+      ><span aria-hidden="true">›</span></button>
     {/if}
     <div class="pane-body">
       <div class="pane-heading">
@@ -1458,7 +1462,7 @@
         aria-label={t("open lab journal")}
         title={t("open lab journal")}
         onclick={() => setPanelCollapsed("journal", false)}
-      ><span aria-hidden="true">›</span></button>
+      ><span aria-hidden="true">‹</span></button>
     {/if}
     <div class="pane-body">
       <div class="pane-heading journal-heading">
