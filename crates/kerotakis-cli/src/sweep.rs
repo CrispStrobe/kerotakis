@@ -86,8 +86,9 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
         }
     }
 
-    // Conservation, allowing for what an open vessel legitimately vents and
-    // for matter deliberately added by this step.
+    // Conservation, allowing for what an open vessel legitimately vents or
+    // takes up from the room, and for matter deliberately added by this
+    // step.
     //
     // Hydrogen and oxygen are excluded, and that exclusion is an admission
     // rather than a convenience: the aqueous input ends in `pH 7 charge`,
@@ -102,6 +103,15 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
     for e in events {
         let (species, moles, sign) = match e {
             Event::GasEvolved { species, moles, .. } => (species, moles.0, -1.0),
+            // EXP-57: an open vessel is open in BOTH directions. Room air
+            // delivering carbon dioxide across the liquid surface adds
+            // matter to the vessel for the same reason venting removes it,
+            // and the event carries how much. Booking only the outward
+            // half would have declared every open beaker on the bench
+            // non-conserving the moment it was left to stand: 340 sweep
+            // states did exactly that, all of them "C: 0 → 0, drift 9e-9",
+            // which is `k_L*A*K_H*p_air` over the state's own wait.
+            Event::GasAbsorbed { species, moles, .. } => (species, moles.0, 1.0),
             Event::Added { species, moles, .. } => (species, moles.0, 1.0),
             // Evaporation and filtration remove matter on purpose; the
             // event carries what left.
